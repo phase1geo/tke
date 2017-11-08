@@ -2,7 +2,8 @@ lappend auto_path [pwd]
 
 package require ctext 6.0
 
-pack [ctext .t -matchaudit 1 -wrap none -xscrollcommand {.hb set} -yscrollcommand {.vb set}] -fill both -expand yes
+pack [ctext .t -matchaudit 1 -wrap none -matchchar 1 -xscrollcommand {.hb set} -yscrollcommand {.vb set}] \
+  -fill both -expand yes
 ttk::scrollbar .vb -orient vertical   -command {.t yview}
 ttk::scrollbar .hb -orient horizontal -command {.t xview}
 
@@ -18,7 +19,7 @@ ctext::initialize .t
 ctext::addHighlightClass    .t keywords "red"
 ctext::addHighlightKeywords .t {proc set variable puts for while if expr return namespace incr list lreplace lindex linsert lassign lset lappend string append foreach switch default break continue llength upvar uplevel after source file package event} class keywords
 # ctext::setContextPatterns   .t bcomment comment "" {{{/\*} {\*/}}} "grey"
-ctext::setContextPatterns   .t lcomment comment "" {{{^\s*#} {$}} {{;#} {$}}} "grey"
+ctext::setContextPatterns   .t lcomment comment "" {{{^\s*#} {$}} {{;#} {$}}} "blue"
 ctext::setBrackets          .t "" {curly square paren double} "green"
 
 source model.tcl
@@ -26,15 +27,19 @@ source utils.tcl
 
 set utils::main_tid [thread::id]
 
+proc set_debug {value} {
+  thread::send -async $ctext::model_tid [list model::set_debug .t $value]
+}
+
 proc show_serial {} {
-  puts [tsv::get serial .t]
+  thread::send -async $ctext::model_tid [list model::debug_show_serial .t]
 }
 
 proc show_tree {} {
-  model::load_all .t
-  model::debug_show_tree
-  model::destroy .t
+  thread::send -async $ctext::model_tid [list model::debug_show_tree .t]
 }
+
+# set_debug 1
 
 set f [open ctext.tcl r]
 set contents [read $f]

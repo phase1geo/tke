@@ -21,6 +21,7 @@ namespace eval ctext {
   variable right_click 3
   variable this_dir    ""
   variable tpool       ""
+  variable model_tid   ""
 
   if {[tk windowingsystem] eq "aqua"} {
     set right_click 2
@@ -34,15 +35,28 @@ namespace eval ctext {
   proc initialize {{min 5} {max 15}} {
 
     variable tpool
+    variable model_tid
     variable this_dir
 
     if {$tpool eq ""} {
+
+      # Create the syntax highlighting pool
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
         source [file join %s model.tcl]
         set utils::main_tid %s
       } $this_dir $this_dir $this_dir [thread::id]]]
+
+      # Create the modeling thread
+      set model_tid [thread::create [format {
+        source [file join %s utils.tcl]
+        source [file join %s parsers.tcl]
+        source [file join %s model.tcl]
+        set utils::main_tid %s
+        thread::wait
+      } $this_dir $this_dir $this_dir [thread::id]]]
+
     }
 
   }
@@ -52,9 +66,13 @@ namespace eval ctext {
   proc destroy {} {
 
     variable tpool
+    variable model_tid
 
     # Release the thread pool
     tpool::release $tpool
+
+    # Release the modeling thread
+    thread::release $model_tid
 
   }
 
@@ -65,6 +83,7 @@ namespace eval ctext {
     variable data
     variable right_click
     variable tpool
+    variable model_tid
 
     # Make sure that we are initialized if we have not been already
     initialize
@@ -213,7 +232,9 @@ namespace eval ctext {
     tsv::set contexts $win [list]
     tsv::set brackets $win [list]
     tsv::set indents  $win [list]
-    tpool::post $tpool [list model::create $win]
+
+    # Create the model
+    thread::send -async $model_tid [list model::create $win]
 
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
@@ -622,7 +643,7 @@ namespace eval ctext {
     lappend argTable {1 true yes} -matchaudit {
       set data($win,config,-matchaudit) 1
       $win tag configure missing -background $data($win,config,-matchaudit_bg)
-      render $win missing [model::get_mismatched $win] 0
+      thread::send -async $model_tid [list parsers::render_mismatched [thread::id] $win]
       break
     }
 
@@ -1274,6 +1295,7 @@ namespace eval ctext {
   proc command_configure {win args} {
 
     variable data
+    variable model_tid
 
     if {[llength $args] == 0} {
       set res [$win._t configure]
@@ -1380,6 +1402,7 @@ namespace eval ctext {
 
     variable data
     variable tpool
+    variable model_tid
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
@@ -1412,8 +1435,11 @@ namespace eval ctext {
       lappend ranges $startPos $endPos
     }
 
-    lappend ids [tpool::post $tpool [list model::delete $win $ranges]]
-    lappend ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
+    # Cause the model to handle the deletion
+    thread::send -async $model_tid [list model::delete $win $ranges]
+
+    # Update the undo information
+    set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
 
     while {[llength $ids]} {
       tpool::wait $tpool $ids ids
@@ -1597,6 +1623,7 @@ namespace eval ctext {
   proc command_fastinsert {win args} {
 
     variable data
+    variable model_tid
 
     set i 0
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
@@ -1620,7 +1647,7 @@ namespace eval ctext {
     set endPos [$win._t index "$startPos+${chars}c"]
 
     # Update the model with the insertion
-    tpool::post $tpool [list model::insert $win $startPos $endPos]
+    thread::send -async $model_tid [list model::insert $win $startPos $endPos]
 
     if {$opts(-undo)} {
       undo_insert $win $startPos $chars $cursor
@@ -1715,6 +1742,7 @@ namespace eval ctext {
 
     variable data
     variable tpool
+    variable model_tid
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
@@ -1747,8 +1775,11 @@ namespace eval ctext {
       lappend inserts $insPos
     }
 
-    lappend ids [tpool::post $tpool [list model::insert $win $ranges]]
-    lappend ids [tpool::post $tpool [list ctext::undo_insert $win $inserts $chars $cursors]]
+    # Update the model
+    thread::send -async $model_tid [list model::insert $win $ranges]
+
+    # Update the undo buffer
+    set ids [tpool::post $tpool [list ctext::undo_insert $win $inserts $chars $cursors]]
 
     while {[llength $ids]} {
       tpool::wait $tpool $ids ids
@@ -2367,41 +2398,22 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Checks to see if the current character contains a matching bracket
+  # and highlights the matching bracket.
   proc matchBracket {win} {
 
     variable data
-
-    # Remove the match cursor
-    catch { $win tag remove matchchar 1.0 end }
+    variable model_tid
 
     # If we are in block cursor mode, use the previous character
     if {![$win cget -blockcursor] && [$win compare insert != "insert linestart"]} {
-      set pos "insert-1c"
+      set pos [$win._t index "insert-1c"]
     } else {
-      set pos insert
+      set pos [$win._t index insert]
     }
 
-    # If the current character is escaped, ignore the character
-    if {[isEscaped $win $pos]} {
-      return
-    }
-
-    # Get the current language
-    set lang [getLang $win $pos]
-
-    switch -- [$win get $pos] {
-      "\}" { matchPair  $win $lang $pos curlyL }
-      "\{" { matchPair  $win $lang $pos curlyR }
-      "\]" { matchPair  $win $lang $pos squareL }
-      "\[" { matchPair  $win $lang $pos squareR }
-      "\)" { matchPair  $win $lang $pos parenL }
-      "\(" { matchPair  $win $lang $pos parenR }
-      "\>" { matchPair  $win $lang $pos angledL }
-      "\<" { matchPair  $win $lang $pos angledR }
-      "\"" { matchQuote $win $lang $pos comstr0d double }
-      "'"  { matchQuote $win $lang $pos comstr0s single }
-      "`"  { matchQuote $win $lang $pos comstr0b btick }
-    }
+    # Render the matching character
+    thread::send -async $model_tid [list parsers::render_match_char [thread::id] $win $pos]
 
   }
 
@@ -2509,134 +2521,6 @@ namespace eval ctext {
     }
 
     return ""
-
-  }
-
-  ######################################################################
-  proc matchPair {win lang pos type} {
-
-    variable data
-
-    if {![info exists data($win,config,matchChar,$lang,[string range $type 0 end-1])] || \
-         [inCommentString $win $pos]} {
-      return
-    }
-
-    if {[set pos [getMatchBracket $win $type [$win index $pos]]] ne ""} {
-      $win tag add matchchar $pos
-    }
-
-  }
-
-  ######################################################################
-  proc matchQuote {win lang pos tag type} {
-
-    variable data
-
-    if {![info exists data($win,config,matchChar,$lang,$type)]} {
-      return
-    }
-
-    # Get the actual tag to check for
-    set tag [lsearch -inline [$win tag names $pos] _$tag*]
-
-    lassign [$win tag nextrange $tag $pos] first last
-
-    if {$first eq [$win index $pos]} {
-      if {[$win compare $last != end]} {
-        $win tag add matchchar "$last-1c"
-      }
-    } else {
-      lassign [$win tag prevrange $tag $pos] first last
-      if {$first ne ""} {
-        $win tag add matchchar $first
-      }
-    }
-
-  }
-
-  ######################################################################
-  proc checkAllBrackets {win {str ""}} {
-
-    variable data
-
-    return
-
-    # If the mismcatching char option is cleared, don't continue
-    if {!$data($win,config,-matchaudit)} {
-      return
-    }
-
-    # We don't have support for bracket auditing in embedded languages as of yet
-    set lang ""
-
-    # If a string was supplied, only perform bracket check for brackets found in string
-    if {$str ne ""} {
-      if {[info exists data($win,config,matchChar,$lang,curly)]  && ([string map {\{ {} \} {} \\ {}} $str] ne $str)} { checkBracketType $win curly }
-      if {[info exists data($win,config,matchChar,$lang,square)] && ([string map {\[ {} \] {} \\ {}} $str] ne $str)} { checkBracketType $win square }
-      if {[info exists data($win,config,matchChar,$lang,paren)]  && ([string map {( {} ) {} \\ {}}   $str] ne $str)} { checkBracketType $win paren }
-      if {[info exists data($win,config,matchChar,$lang,angled)] && ([string map {< {} > {} \\ {}}   $str] ne $str)} { checkBracketType $win angled }
-
-    # Otherwise, check all of the brackets
-    } else {
-      foreach type [list square curly paren angled] {
-        if {[info exists data($win,config,matchChar,$lang,$type)]} {
-          checkBracketType $win $type
-        }
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Checks the given bracket type to make sure that it has a match.  Highlights
-  # any mismatched brackets using the "missing:*" color that is configured
-  # for this widget.
-  proc checkBracketType {win stype} {
-
-    variable data
-
-    # Clear missing
-    $win._t tag remove missing:$stype 1.0 end
-
-    set count   0
-    set other   ${stype}R
-    set olist   [lassign [$win.t tag ranges _$other] ofirst olast]
-    set missing [list]
-
-    # Perform count for all code containing left stypes
-    foreach {sfirst slast} [$win.t tag ranges _${stype}L] {
-      while {($ofirst ne "") && [$win.t compare $sfirst > $ofirst]} {
-        if {[incr count -[$win._t count -chars $ofirst $olast]] < 0} {
-          lappend missing "$olast+${count}c" $olast
-          set count 0
-        }
-        set olist [lassign $olist ofirst olast]
-      }
-      if {$count == 0} {
-        set start $sfirst
-      }
-      incr count [$win._t count -chars $sfirst $slast]
-    }
-
-    # Perform count for all right types after the above code
-    while {$ofirst ne ""} {
-      if {[incr count -[$win._t count -chars $ofirst $olast]] < 0} {
-        lappend missing "$olast+${count}c" $olast
-        set count 0
-      }
-      set olist [lassign $olist ofirst olast]
-    }
-
-    # Highlight all brackets that are missing right stypes
-    while {$count > 0} {
-      lappend missing $start "$start+1c"
-      set start [getNextBracket $win ${stype}L $start]
-      incr count -1
-    }
-
-    # Highlight all brackets that are missing left stypes
-    catch { $win._t tag add missing:$stype {*}$missing }
 
   }
 
@@ -3129,6 +3013,7 @@ namespace eval ctext {
 
     variable data
     variable tpool
+    variable model_tid
 
     if {![winfo exists $win]} {
       return
@@ -3151,9 +3036,7 @@ namespace eval ctext {
     set startlist [array get data $win,highlight,charstart,class,,*]
 
     # Perform bracket parsing
-    lappend jobids [tpool::post $tpool \
-      [list parsers::markers $tpool $tid $win $str $linestart $lineend] \
-    ]
+    thread::send -async $model_tid [list parsers::markers $tpool $tid $win $str $linestart $lineend]
 
     # Perform keyword/startchars parsing
     lappend jobids [tpool::post $tpool \

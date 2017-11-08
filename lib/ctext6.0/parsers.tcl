@@ -286,6 +286,9 @@ namespace eval parsers {
   # Store all file markers in a model for fast processing.
   proc markers {tpool tid txt str linestart lineend} {
 
+    utils::log -nonewline "markers: "
+    utils::log [time {
+
     lassign [split $linestart .] srow scol
 
     set tags [list]
@@ -295,10 +298,9 @@ namespace eval parsers {
     contexts $txt $str $srow tags
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
-    if {[llength $tags] || [tsv::get changed $txt]} {
-      tsv::set changed $txt 0
-      # render_contexts $tid $txt [tsv::get serial $txt] $linestart $lineend $tags
-      tpool::post $tpool [list parsers::render_contexts $tid $txt [tsv::get serial $txt] $linestart $lineend $tags]
+    if {[llength $tags]} {
+      render_contexts $tid $txt $linestart $lineend $tags
+      # tpool::post $tpool [list parsers::render_contexts $tid $txt [tsv::get serial $txt] $linestart $lineend $tags]
     }
 
     # Add indentation and bracket markers to the tags list
@@ -306,22 +308,26 @@ namespace eval parsers {
     brackets    $txt $str $srow tags
 
     # Update the model
-    if {[model::update $tid $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
+    if {[model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
     
       # Highlight mismatching brackets
-      render $tid $txt missing [model::get_mismatched $txt] 1
+      render_mismatched $tid $txt
       
     }
+
+    }]
 
   }
 
   ######################################################################
   # Handles rendering any contexts that we have (i.e., strings, comments,
   # embedded language blocks, etc.)
-  proc render_contexts {tid txt serial linestart lineend tags} {
+  proc render_contexts {tid txt linestart lineend tags} {
+
+    variable data
 
     # Get the list of context tags to render
-    model::get_context_tags serial $linestart $lineend tags
+    model::get_context_tags $txt $linestart $lineend tags
 
     # Create the context stack structure
     ::struct::stack context
@@ -356,6 +362,25 @@ namespace eval parsers {
 
     # Destroy the stack
     context destroy
+
+  }
+
+  ######################################################################
+  # Highlights the mismatched brackets.
+  proc render_mismatched {tid win} {
+
+    render $tid $win missing [model::get_mismatched $win] 1
+
+  }
+
+  ######################################################################
+  # Highlights the matching character.
+  proc render_match_char {tid win tindex} {
+
+    # Get the matching character
+    if {[model::get_match_char $win tindex]} {
+      render $tid $win matchchar {*}$tindex
+    }
 
   }
 

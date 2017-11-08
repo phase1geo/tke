@@ -16,7 +16,7 @@ namespace eval utils {
       set msg [lindex $args 0]
     }
 
-    thread::send -async $main_tid [list ctext::thread_log [thread::id] $nl $msg]
+    thread::send $main_tid [list ctext::thread_log [thread::id] $nl $msg]
 
   }
 
