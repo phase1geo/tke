@@ -451,9 +451,6 @@ namespace eval model {
       $data($win,tree) delete $child
     }
 
-    utils::log "After tree delete, size: [$data($win,tree) size]"
-    utils::log [utils::stacktrace]
-
     set current root
     set i       0
     set lescape [list 0 0]
@@ -696,11 +693,8 @@ namespace eval model {
     # Get the serial index to search for
     lassign [find_serial_index data($win,serial) $tindex] index matches
 
-    utils::log "In get_match_char, index: $index, matches: $matches"
-    
     if {$matches} {
       set node [lindex $data($win,serial) $index 4]
-      utils::log "  node: $node"
       if {[$data($win,tree) keyexists $node left] && ([$data($win,tree) get $node left] == $index)} {
         if {[$data($win,tree) keyexists $node right]} {
           set tindex [nindex_to_tindices $win [$data($win,tree) get $node right]]
