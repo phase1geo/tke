@@ -9,7 +9,7 @@
           for the marker modeller.
 */
 
-#include <list>
+#include <vector>
 
 /*! Text widget index */
 typedef struct {
@@ -18,6 +18,56 @@ typedef struct {
 } tindex;
 
 /*! Serial list index return value */
+class sindex {
+
+  private:
+
+    int  _index;
+    bool _matches;
+
+  public:
+
+    /*! Default constructor */
+    sindex() : _index( -1 ), _matches( false ) {}
+
+    /*! Default constructor */
+    sindex( int index, bool matches ) : _index( index ), _matches( matches ) {}
+
+    /*! Copy constructor */
+    sindex( const sindex & si ) : _index( si._index ), _matches( si._index ) {}
+
+    /*! Destructor */
+    ~sindex() {}
+
+    /*! \return Returns the stored index */
+    int index() const { return( _index ); }
+
+    /*! \return Returns the stored matches value */
+    int matches() const { return( _matches ); }
+
+    /*!
+     Assignment operator.
+
+     \return Returns a reference to this class
+    */
+    sindex & operator=( const sindex & si ) {
+      _index   = si._index;
+      _matches = si._matches;
+      return( *this );
+    }
+
+    /*! \return Returns true if the two sindices are the same */
+    bool operator==( const sindex & si ) {
+      return( (_index == si._index) && (_matches == si._matches) );
+    }
+
+    /*! \return Returns true if the two sindices are the different */
+    bool operator!=( const sindex & si ) {
+      return( !(*this == si) );
+    }
+
+};
+
 typedef struct {
   int  index;
   bool matches;
@@ -92,6 +142,8 @@ class position {
 
 };
 
+class serial_item;
+
 /*!
  Tree node.
 */
@@ -99,11 +151,13 @@ class tnode {
 
   private:
 
-    serial_item* _left;    /*!< Index of serial item on the left side */
-    serial_item* _right;   /*!< Index of serial item on the right side */
-    int          _type;    /*!< Item type */
-    bool         _hidden;  /*!< Hidden indicator */
-    bool         _comstr;  /*!< Set to true if the type is a comment/string indicator */
+    tnode*              _parent;    /*!< Pointer to parent node */
+    std::vector<tnode*> _children;  /*!< Pointer to children of this node */
+    serial_item*        _left;      /*!< Index of serial item on the left side */
+    serial_item*        _right;     /*!< Index of serial item on the right side */
+    int                 _type;      /*!< Item type */
+    bool                _hidden;    /*!< Hidden indicator */
+    bool                _comstr;    /*!< Set to true if the type is a comment/string indicator */
 
   public:
 
@@ -120,7 +174,10 @@ class tnode {
       _comstr( node._comstr ) {}
 
     /*! Destructor */
-    ~tnode() {}
+    ~tnode();
+
+    /*! Recursively destroys all nodes under this node including itself */
+    void destroy();
 
     /*! Returns true if this node is incomplete */
     bool incomplete() const { return( (_left == 0) || (_right == 0) ); }
@@ -130,6 +187,12 @@ class tnode {
 
     /*! Sets the right pointer in the node to the given item */
     void right( serial_item* item ) { _right = item; }
+
+    /*! \return Returns a reference to the parent node */
+    tnode & parent() { return( *_parent ); }
+
+    /*! \return Returns the children nodes of this node */
+    std::vector<tnode*> & children() { return( _children ); }
 
 };
 
@@ -162,6 +225,7 @@ class serial_item {
       int      tag
     ) : _type( type ),
         _side( side ),
+	_pos( pos ),
         _iscontext( iscontext ),
         _node( 0 ),
         _context( context ),
@@ -187,11 +251,9 @@ class serial_item {
 /*!
  Implementation of the serial list
 */
-class serial {
+class serial : public std::vector<serial_item*> {
 
   private:
-
-    std::list<serial_item*> _list;  /*!< Serial list */
 
     /*!
      Adjusts the serial list positions for the given ranges.
@@ -215,25 +277,16 @@ class serial {
     void insert( const std::vector<tindex> & ranges );
 
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
-    void delete( const std::vector<tindex> & ranges );
+    void remove( const std::vector<tindex> & ranges );
 
     /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
     void replace( const std::vector<tindex> & ranges );
 
-    /*! Appends an item to the end of this list */
-    void append( const serial_item & element ) { _list.push_back( new serial_item( element ) ); }
-
     /*! \return Returns the index of the text widget position in this list. */
-    int get_index( const tindex & index ) const;
+    sindex get_index( const tindex & index ) const;
 
     /*! Updates the serial list with the given list. */
-    void update( const tindex & linestart, const tindex & lineend, const std::list<serial_item*> & elements );
-
-    /*! \return Returns the size of the list */
-    int size() const { return( _list.size() ); }
-
-    /*! \return Returns the serial item at the given index */
-    serial_item & get_item( int index ) { return( *(_list[index]) ); }
+    void update( const tindex & linestart, const tindex & lineend, const std::vector<serial_item*> & elements );
 
 };
 
@@ -249,7 +302,7 @@ class tree {
   public:
  
     /*! Default constructor */
-    tree() : _tree( new tnode() );
+    tree() : _tree( new tnode( 0, false ) ) {}
 
     /*! Destructor */
     ~tree();

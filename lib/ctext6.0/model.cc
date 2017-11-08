@@ -45,8 +45,8 @@ void serial::adjust(
 ) {
 
   /* If we are inserting text at the end, there's nothing left to do here */
-  if {start.index == end.index} {
-    return
+  if( start.index == end.index ) {
+    return;
   }
 
   int col_diff    = to.col - from.col;
@@ -58,33 +58,33 @@ void serial::adjust(
    modify the starting column.
   */
   if( start.matches ) {
-    _list[start_index++]->adjust_first( from.col, to.col, col_diff );
+    (*this)[start_index++]->adjust_first( from.col, to.col, col_diff );
   }
 
   /* Perform the adjustment */
   for( int i=start_index; i<end.index; i++ ) {
-    _list[i]->adjust( from.row, row_diff, col_diff );
+    (*this)[i]->adjust( from.row, row_diff, col_diff );
   }
 
 }
 
 sindex serial::get_index(
   const tindex & index
-) {
+) const {
 
   sindex retval;
-  int    len = _list.size();
+  int    len = size();
 
   /* Most of the time matches will be false */
   retval.matches = false;
 
   /* If the item will be the first item, return it */
-  if( (len == 0) || (_list[0]->compare( index ) == -1) ) {
+  if( (len == 0) || ((*this)[0]->pos().compare( index ) == -1) ) {
     retval.index = 0;
     return( retval );
 
   /* If the item will be the last item, return it */
-  } else if( _list[len-1]->compare( index ) == 1 ) {
+  } else if( (*this)[len-1]->pos().compare( index ) == 1 ) {
     retval.index = len;
     return( retval );
 
@@ -93,9 +93,9 @@ sindex serial::get_index(
     int start = 0;
     int end   = len;
     int mid   = end;
-    while( (end - start) > 0} {
+    while( (end - start) > 0 ) {
       mid = int( (end - start) / 2 ) + start;
-      switch( _list[mid]->compare( index ) ) {
+      switch( (*this)[mid]->pos().compare( index ) ) {
         case -1 :
           end = mid;
           break;
@@ -126,7 +126,7 @@ void serial::insert(
 
   sindex last;
 
-  last.index   = _list.size();
+  last.index   = size();
   last.matches = true;
 
   for( int i=0; i<ranges.size(); i+=2 ) {
@@ -135,22 +135,22 @@ void serial::insert(
     sindex index = get_index( ranges[i] );
 
     /* Adjust the indices */
-    adjust_indices( ranges[i], ranges[i+1], index, last );
+    adjust( ranges[i], ranges[i+1], index, last );
 
     /* Save the last index */
-    last = start;
+    last = index;
 
   }
 
 }
 
-void serial::delete(
+void serial::remove(
   const vector<tindex> & ranges
 ) {
 
   sindex last;
 
-  last.index   = _list.size();
+  last.index   = size();
   last.matches = true;
 
   for( int i=0; i<ranges.size(); i+=2 ) {
@@ -162,7 +162,7 @@ void serial::delete(
     adjust( ranges[i+1], ranges[i], end, last );
 
     if( start != end ) {
-      _list.erase( (_list.begin() + start.index), (_list.begin() + (end.index - 1)) );
+      erase( (begin() + start.index), (begin() + (end.index - 1)) );
     }
 
     last = start;
@@ -177,7 +177,7 @@ void serial::replace(
 
   sindex last;
 
-  last.index   = _list.size();
+  last.index   = size();
   last.matches = true;
 
   for( int i=0; i<ranges.size(); i+=3 ) {
@@ -190,7 +190,7 @@ void serial::replace(
 
     /* Delete the range of items in the serial list */
     if( start != end ) {
-      _list.erase( (_list.begin() + start.index), (_list.begin() + (end.index - 1)) );
+      erase( (begin() + start.index), (begin() + (end.index - 1)) );
     }
 
     last = start;
@@ -200,9 +200,9 @@ void serial::replace(
 }
 
 bool serial::update(
-  const tindex             & linestart,
-  const tindex             & lineend,
-  const list<serial_item*> & elements
+  const tindex               & linestart,
+  const tindex               & lineend,
+  const vector<serial_item*> & elements
 ) {
 
   sindex start_index = get_index( linestart );
@@ -212,11 +212,11 @@ bool serial::update(
 
     /* Delete the range */
     if( start_index != end_index ) {
-      _list.erase( (_list.begin() + start_index.index), (_list.begin() + end_index.index) );
+      erase( (begin() + start_index.index), (begin() + end_index.index) );
     }
 
     /* Insert the given list */
-    _list.splice( (_list.begin() + start_index.index), elements );
+    insert( (begin() + start_index.index), elements.begin(), elements.end() );
 
     return( true );
 
@@ -227,6 +227,26 @@ bool serial::update(
 }
 
 /* -------------------------------------------------------------- */
+
+void tnode::destroy() {
+
+  for( vector<tnode*>::iterator it=_children.begin(); it!=_children.end(); it++ ) {
+    (*it)->destroy();
+    delete **it;
+  }
+
+}
+
+/* -------------------------------------------------------------- */
+
+tree::~tree() {
+
+  /* Destroy the tree */
+  _tree->destroy();
+
+  delete _tree;
+
+}
 
 void tree::insert_item(
   tnode*            & current,
