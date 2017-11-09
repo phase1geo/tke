@@ -6,6 +6,8 @@ package require Tk
 package require Thread
 package provide ctext 6.0
 
+load ./mymodule.so
+
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
 rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
 proc ::tk::TextSetCursor {w pos args} {

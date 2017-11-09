@@ -1,7 +1,7 @@
-all: model
+all: model.so
 
-model : model.h model.cc
-	gcc model.cc
+model.so : model.h model.cc
+	g++ model.cc cpptcl/cpptcl.cc -g -fPIC -shared -o model.so -I/usr/include/tcl8.6 -I/usr/include/boost
 
 clean :
-	rm -rf model.o
+	rm -rf model.so
