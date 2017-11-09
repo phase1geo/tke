@@ -6,9 +6,52 @@
 
 #include "model.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 using namespace Tcl;
+
+int get_side( std::string name ) {
+
+  static map<string,int> side_values;
+
+  if( side_values.size() == 0 ) {
+    side_values.insert( make_pair( "none",  0 ) );
+    side_values.insert( make_pair( "left",  1 ) );
+    side_values.insert( make_pair( "right", 2 ) );
+    side_values.insert( make_pair( "any",   3 ) );
+  }
+
+  map<string,int>::iterator it = side_values.find( name );
+
+  if( it == side_values.end() ) {
+    return( -1 );
+  } else {
+    return( it->second );
+  }
+
+}
+
+std::string get_side( int value ) {
+
+  static map<int,std::string> side_names;
+
+  if( side_names.size() == 0 ) {
+    side_names.insert( make_pair( 0, "none" ) );
+    side_names.insert( make_pair( 1, "left" ) );
+    side_names.insert( make_pair( 2, "right" ) );
+    side_names.insert( make_pair( 3, "any" ) );
+  }
+
+  map<int,string>::iterator it = side_names.find( value );
+
+  if( it == side_names.end() ) {
+    return( "" );
+  } else {
+    return( it->second );
+  }
+
+}
 
 position::position( object item ) {
 
@@ -88,16 +131,30 @@ serial_item::serial_item(
 
   interpreter i( item.get_interp(), false );
 
-  cout << "serial_item constructor, length: " << item.length( i ) << endl;
-
   if( item.length( i ) == 5 ) {
     _type      = types::staticObject().get( item.at( i, 0 ).get<string>( i ) );
-    _side      = item.at( i, 1 ).get<int>( i );
+    _side      = get_side( item.at( i, 1 ).get<string>( i ) );
     _pos       = position( item.at( i, 2 ) );
     _iscontext = item.at( i, 3 ).get<bool>( i );
     _node      = 0;
     _context   = types::staticObject().get( item.at( i, 4 ).get<string>( i ) );
   }
+
+}
+
+string serial_item::to_string() const {
+
+  ostringstream oss;
+  string        context = types::staticObject().get( _context );
+
+  if( context.empty() || (context.find( " " ) != string::npos) ) {
+    context.insert( 0, "{" );
+    context.append( "}" );
+  }
+    
+  oss << "{" << types::staticObject().get( _type ) << " " << get_side( _side ) << " " << _pos.to_string() << " " << _iscontext << " " << context << "}";
+
+  return( oss.str() );
 
 }
 
@@ -263,11 +320,27 @@ void serial::append(
 
   int size = item.length( interp );
 
-  cout << "Appending to serial, size: " << size << endl;
-
   for( int i=0; i<size; i++ ) {
     push_back( new serial_item( item.at( interp, i ) ) );
   }
+
+}
+
+string serial::to_string() const {
+
+  ostringstream oss;
+  bool          first = true;
+
+  for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
+    if( !first ) {
+      oss << " ";
+    } else {
+      first = false;
+    }
+    oss << (*it)->to_string();
+  }
+
+  return( oss.str() );
 
 }
 
@@ -284,12 +357,16 @@ bool serial::update(
 
     /* Delete the range */
     if( start_index != end_index ) {
+      for( vector<serial_item*>::iterator it=(begin() + start_index.index()); it!=(begin() + end_index.index()); it++ ) { delete *it; }
       erase( (begin() + start_index.index()), (begin() + end_index.index()) );
     }
 
     /* Insert the given list */
-    vector<serial_item*>::insert( (begin() + start_index.index()), elements->begin(), elements->end() );
-
+    int i = start_index.index();
+    for( vector<serial_item*>::iterator it=elements->begin(); it!=elements->end(); it++ ) {
+      vector<serial_item*>::insert( (begin() + i++), new serial_item( **it ) );
+    }
+      
     return( true );
 
   }
@@ -300,20 +377,20 @@ bool serial::update(
 
 /* -------------------------------------------------------------- */
 
-void tnode::destroy() {
+void tnode::clear() {
 
   for( vector<tnode*>::iterator it=_children.begin(); it!=_children.end(); it++ ) {
-    (*it)->destroy();
     delete *it;
   }
+
+  /* Clear the children list */
+  _children.clear();
 
 }
 
 void tnode::get_mismatched(
   object & mismatched
 ) const {
-
-  cout << "Evaluating tnode: " << this << endl;
 
   /* If we are mismatched, update the object */
   if( incomplete() ) {
@@ -331,13 +408,75 @@ void tnode::get_mismatched(
 
 }
 
+int tnode::index() const {
+
+  int i = 0;
+
+  for( vector<tnode*>::const_iterator it=_parent->_children.begin(); it!=_parent->_children.end(); it++ ) {
+    if( *it == this ) {
+      return( i );
+    }
+    i++;
+  }
+
+  return( -1 );
+
+}
+
+int tnode::depth() const {
+
+  if( isroot() ) {
+    return( 0 );
+  } else {
+    return( _parent->depth() + 1 );
+  }
+
+}
+
+string tnode::to_string() const {
+
+  if( isroot() ) {
+    return( "(root)" );
+  }
+
+  ostringstream oss;
+
+  oss << "(" << ((_left  == 0) ? "??" : _left->pos().to_string())
+      << "-" << ((_right == 0) ? "??" : _right->pos().to_string())
+      << " {" << types::staticObject().get( _type ) << "})";
+
+  return( oss.str() );
+
+}
+
+string tnode::tree_string() const {
+
+  ostringstream oss;
+  int           width = 30;
+
+  if( !isroot() && (index() > 0) ) {
+    oss << setfill(' ') << setw(width * (depth() + 1)) << to_string();
+  } else {
+    oss << setfill(' ') << setw(width) << to_string();
+  }
+
+  if( _children.size() == 0 ) {
+    oss << endl;
+  } else {
+    for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
+      oss << (*it)->tree_string();
+    }
+  }
+
+  return( oss.str() );
+
+}
+
 /* -------------------------------------------------------------- */
 
 tree::~tree() {
 
   /* Destroy the tree */
-  _tree->destroy();
-
   delete _tree;
 
 }
@@ -350,27 +489,21 @@ void tree::insert_item(
 
   tnode* node;
 
-  cout << "In insert_item, item pos: " << item.pos().to_string() << endl;
-
   /* Calculate the starting index and if it is escaped, skip the insertion */
   if( item.pos().compare( lescape ) == 0 ) {
     return;
   }
 
-  cout << "HERE!" << endl;
-
   /* If the current node is root, add a new node as a child */
   if( current == _tree ) {
-    cout << "We are root!, side: " << item.side() << endl;
     switch( item.side() ) {
-      case 0 :  insert_none( current, lescape, item );  break;
+      case 0 :  insert_none(       current, lescape, item );  break;
       case 1 :  insert_root_left(  current, lescape, item );  break;
       case 2 :  insert_root_right( current, lescape, item );  break;
       case 3 :  insert_root_any(   current, lescape, item );  break;
     }
 
   } else if( !current->comstr() || (current->type() == item.type()) || (item.side() == 0) ) {
-    cout << "HERE B" << endl;
     switch( item.side() ) {
       case 0 :  insert_none(  current, lescape, item );  break;
       case 1 :  insert_left(  current, lescape, item );  break;
@@ -494,8 +627,6 @@ void tree::add_child_node(
 
   tnode* n = new tnode( item.type(), types::staticObject().comstr( item.type() ) );
 
-  cout << "Adding child node: " << n << endl;
-
   /* Initialize the node */
   if( left ) {
     n->left( &item );
@@ -517,8 +648,6 @@ void tree::update(
 
   tnode* current = _tree;
   tindex lescape = {0, 0};
-
-  cout << "Updating tree (size: " << sl.size() << ")" << endl;
 
   for( int i=0; i<sl.size(); i++ ) {
     insert_item( current, lescape, *(sl[i]) );
@@ -569,11 +698,14 @@ CPPTCL_MODULE(Model, i) {
 
   /* Define the serial class */
   i.class_<serial>("serial")
-    .def("append", &serial::append);
+    .def("append", &serial::append)
+    .def("show",   &serial::to_string);
 
   /* Define the model class */
   i.class_<model>("model")
-    .def("update", &model::update)
+    .def("update",     &model::update)
+    .def("showserial", &model::show_serial)
+    .def("showtree",   &model::show_tree)
     .def("mismatched", &model::get_mismatched);
 
   /* Add functions */

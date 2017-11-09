@@ -56,6 +56,7 @@ class types {
     /*! Adds the given name/value pairing to the class */
     void add( std::string name, int value ) {
       _types.insert( std::make_pair( name, value ) );
+      _names.insert( std::make_pair( value, name ) );
     }
 
     /*! Retrieves the integer value of the given string name */
@@ -92,12 +93,19 @@ class types {
 
 };
 
+/*! Adds the specified type and value to the singleton class */
 inline void add_type(
   std::string name,
   int         value
 ) {
   types::staticObject().add( name, value );
 }
+
+/*! \return Returns the side value for the given name */
+int get_side( std::string name );
+
+/*! \return Returns the side name for the given value */
+std::string get_side( int value );
 
 /*! Serial list index return value */
 class sindex {
@@ -263,10 +271,10 @@ class tnode {
       _comstr( node._comstr ) {}
 
     /*! Destructor */
-    ~tnode();
+    ~tnode() { clear(); }
 
     /*! Recursively destroys all nodes under this node including itself */
-    void destroy();
+    void clear();
 
     /*! \return Returns true if the node does not contain a matching set */
     bool incomplete() const { return( (_type != -1) && ((_left == 0) || (_right == 0)) ); }
@@ -278,7 +286,10 @@ class tnode {
     void right( serial_item* item ) { _right = item; }
 
     /*! Adds the node to the end of the list of children */
-    void add_child( tnode* child ) { _children.push_back( child ); }
+    void add_child( tnode* child ) {
+      _children.push_back( child );
+      child->_parent = this;
+    }
 
     /*! \return Returns a reference to the parent node */
     tnode* parent() { return( _parent ); }
@@ -286,11 +297,26 @@ class tnode {
     /*! \return Returns the children nodes of this node */
     std::vector<tnode*> & children() { return( _children ); }
 
+    /*! \return Returns true if this node is the root node */
+    bool isroot() const { return( _type == -1 ); }
+
     /*! \return Returns the type of the node */
     int type() const { return( _type ); }
 
     /*! \return Returns the stored comstr value */
     bool comstr() const { return( _comstr ); }
+
+    /*! \return Returns the index of the node in the parent */
+    int index() const;
+
+    /*! \return Returns the depth of the node in the tree */
+    int depth() const;
+
+    /*! \return Returns a string representation of this node and all children nodes */
+    std::string to_string() const;
+
+    /*! \return Recursively returns string version of the subtree */
+    std::string tree_string() const;
 
     /*! Adds this node and all children nodes that are mismatched to the object list */
     void get_mismatched( Tcl::object & mismatched ) const;
@@ -356,6 +382,9 @@ class serial_item {
     /*! \return Returns a constant version of the stored position */
     const position & const_pos() const { return( _pos ); }
 
+    /*! \return Returns a human-readable version of this element */
+    std::string to_string() const;
+
     /*! \return */
     void append_tindices( Tcl::object items );
 
@@ -400,6 +429,9 @@ class serial : public std::vector<serial_item*> {
 
     /*! \return Returns the index of the text widget position in this list. */
     sindex get_index( const tindex & index ) const;
+
+    /*! \return Returns a stringified version of the serial list */
+    std::string to_string() const;
 
     /*! Updates the serial list with the given list. */
     bool update(
@@ -512,6 +544,9 @@ class tree {
     /*! Updates the serial list */
     void update( serial & sl );
 
+    /*! \return Returns a graphical view of the stored string */
+    std::string tree_string() const { return( _tree->tree_string() ); }
+
     /*! Searches the tree for mismatched nodes. */
     void get_mismatched( Tcl::object & mismatched ) const { _tree->get_mismatched( mismatched ); }
 
@@ -538,8 +573,15 @@ class model {
     /*! Updates the model with the given tag information */
     bool update( Tcl::object linestart, Tcl::object lineend, serial* elements );   
 
+    /*! \return Returns a human-readable representation of the stored serial list */
+    std::string show_serial() const { return( _serial.to_string() ); }
+
+    /*! \return Returns a graphical representation of the stored tree */
+    std::string show_tree() const { return( _tree.tree_string() ); }
+
     /*! \return Returns the list of mismatched indices */
     Tcl::object get_mismatched() const;
+
 };
 
 #endif
