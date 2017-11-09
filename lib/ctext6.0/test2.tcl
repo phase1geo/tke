@@ -50,6 +50,10 @@ puts "serial: [$m showserial]"
 puts "Tree:"
 puts [$m showtree]
 
+puts -nonewline "depth: [$m depth 1.0 curly], time: "
+puts [time { $m depth 5.5 curly }]
+
+
 # Delete the serial
 $s -delete
 
