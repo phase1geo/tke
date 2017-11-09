@@ -310,7 +310,9 @@ class tnode {
     int index() const;
 
     /*! \return Returns the depth of the node in the tree */
-    int depth() const;
+    int depth(
+      int type = -1  /*!< If set to a type value, returns the depth of the given type (otherwise, tree depth is used) */
+    ) const;
 
     /*! \return Returns a string representation of this node and all children nodes */
     std::string to_string() const;
@@ -382,6 +384,9 @@ class serial_item {
     /*! \return Returns a constant version of the stored position */
     const position & const_pos() const { return( _pos ); }
 
+    /*! \return Returns a pointer to the associated node in the tree */
+    tnode* node() const { return( _node ); }
+
     /*! \return Returns a human-readable version of this element */
     std::string to_string() const;
 
@@ -429,6 +434,9 @@ class serial : public std::vector<serial_item*> {
 
     /*! \return Returns the index of the text widget position in this list. */
     sindex get_index( const tindex & index ) const;
+
+    /*! \return Returns the pointer to the node containing the given index */
+    tnode* find_node( const tindex & index ) const;
 
     /*! \return Returns a stringified version of the serial list */
     std::string to_string() const;
@@ -562,6 +570,14 @@ class model {
     serial _serial;  /*!< Serial list structure */
     tree   _tree;    /*!< Tree structure */
 
+    /*!
+     Converts the given object to a vector of text indices.
+    */
+    void object_to_ranges(
+      Tcl::object,
+      std::vector<tindex> & vec
+    );
+
   public:
 
     /*! Default constructor */
@@ -569,6 +585,27 @@ class model {
 
     /*! Destructor */
     ~model() {}
+
+    /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
+    void insert( Tcl::object ranges ) {
+      std::vector<tindex> vec;
+      object_to_ranges( ranges, vec );
+      _serial.insert( vec );
+    }
+
+    /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
+    void remove( Tcl::object ranges ) {
+      std::vector<tindex> vec;
+      object_to_ranges( ranges, vec );
+      _serial.remove( vec );
+    }
+
+    /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
+    void replace( Tcl::object ranges ) {
+      std::vector<tindex> vec;
+      object_to_ranges( ranges, vec );
+      _serial.replace( vec );
+    }
 
     /*! Updates the model with the given tag information */
     bool update( Tcl::object linestart, Tcl::object lineend, serial* elements );   
@@ -581,6 +618,9 @@ class model {
 
     /*! \return Returns the list of mismatched indices */
     Tcl::object get_mismatched() const;
+
+    /*! \return Returns the depth of the given item in the tree */
+    int get_depth( Tcl::object index, Tcl::object type );
 
 };
 

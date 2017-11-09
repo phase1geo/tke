@@ -11,6 +11,36 @@
 using namespace std;
 using namespace Tcl;
 
+static tindex object_to_tindex( const object & obj ) {
+
+  interpreter i( obj.get_interp(), false );
+  string      value  = obj.get<string>( i );
+  int         period = value.find( "." );
+  tindex ti;
+
+  if( period == string::npos ) {
+    /* Throw an error */
+    return( ti );
+  }
+
+  /* Populate the tindex */
+  ti.row = atoi( value.substr( 0, (period + 1) ).c_str() );
+  ti.col = atoi( value.substr( (period + 1) ).c_str() );
+
+  return( ti );
+
+}
+
+static string tindex_to_string( const tindex & ti ) {
+
+  ostringstream oss;
+ 
+  oss << ti.row << "." << ti.col;
+
+  return( oss.str() );
+
+}
+
 int get_side( std::string name ) {
 
   static map<string,int> side_values;
@@ -242,6 +272,48 @@ sindex serial::get_index(
 
 }
 
+tnode* serial::find_node(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+  tnode* a;
+  tnode* b;
+
+  /* If the index exceeds the list size, return 0 */
+  if( si.index() == size() ) {
+    return( 0 );
+  }
+
+  /* Find the exact match or the closest on the right */
+  if( (b = (*this)[si.index()]->node()) == 0 ) {
+    int i = si.index() + 1;
+    while( (i < size()) && ((b = (*this)[i]->node()) == 0) ) { i++; }
+    if( i == size() ) {
+      return( 0 );
+    }
+  } else if( si.matches() ) {
+    return( b );
+  }
+    
+  /* Find the closest on the left */
+  int i = si.index() - 1;
+  while( (i >= 0) && ((a = (*this)[i]->node()) == 0) ) { i--; }
+  if( i == -1 ) {
+    return( 0 );
+  }
+   
+  /* Figure out which node to return */
+  if( (a == b) || (b->parent() == a) ) {
+    return( a );
+  } else if( a->parent() == b ) {
+    return( b );
+  } else {
+    return( a->parent() );
+  }
+
+}
+
 void serial::insert(
   const vector<tindex> & ranges
 ) {
@@ -423,12 +495,14 @@ int tnode::index() const {
 
 }
 
-int tnode::depth() const {
+int tnode::depth(
+  int type
+) const {
 
   if( isroot() ) {
     return( 0 );
   } else {
-    return( _parent->depth() + 1 );
+    return( _parent->depth() + (((type == -1) || (_type == type)) ? 1 : 0) );
   }
 
 }
@@ -566,6 +640,7 @@ void tree::insert_right(
 
   if( current->type() == item.type() ) {
     current->right( &item );
+    item.set_node( current );
     current = current->parent();
 
   } else {
@@ -576,6 +651,7 @@ void tree::insert_right(
     while( (tn = current->parent()) != _tree ) {
       if( tn->type() == item.type() ) {
         tn->right( &item );
+        item.set_node( tn );
         current = current->parent();
         return;
       } 
@@ -657,6 +733,20 @@ void tree::update(
 
 /* -------------------------------------------------------------- */
 
+void model::object_to_ranges(
+  object ranges,
+  vector<tindex> & vec
+) {
+
+  interpreter i( ranges.get_interp(), false );
+  int         size = ranges.length( i );
+
+  for( int j=0; j<size; j++ ) {
+    vec.push_back( object_to_tindex( ranges.at( i, j ) ) );
+  }
+   
+}
+
 bool model::update(
   object  linestart,
   object  lineend,
@@ -692,21 +782,49 @@ object model::get_mismatched() const {
 
 }
 
+int model::get_depth(
+  object index,
+  object type
+) {
+
+  interpreter i( index.get_interp(), false );
+  tindex      ti = object_to_tindex( index );
+  int         typ;
+  tnode*      node;
+
+  if( type.get<string>( i ).empty() ) {
+    typ = -1;
+  } else {
+    typ = types::staticObject().get( type.get<string>( i ) );
+  }
+
+  if( (node = _serial.find_node( ti )) == 0 ) {
+    return( 0 );
+  } else {
+    return( node->depth( typ ) );
+  }
+
+}
+
 /* -------------------------------------------------------------- */
 
 CPPTCL_MODULE(Model, i) {
 
   /* Define the serial class */
   i.class_<serial>("serial")
-    .def("append", &serial::append)
-    .def("show",   &serial::to_string);
+    .def( "append", &serial::append )
+    .def( "show",   &serial::to_string );
 
   /* Define the model class */
   i.class_<model>("model")
-    .def("update",     &model::update)
-    .def("showserial", &model::show_serial)
-    .def("showtree",   &model::show_tree)
-    .def("mismatched", &model::get_mismatched);
+    .def( "insert",     &model::insert )
+    .def( "delete",     &model::remove )
+    .def( "replace",    &model::replace )
+    .def( "update",     &model::update )
+    .def( "showserial", &model::show_serial )
+    .def( "showtree",   &model::show_tree )
+    .def( "mismatched", &model::get_mismatched)
+    .def( "depth",      &model::get_depth );
 
   /* Add functions */
   i.def("add_type", add_type );
