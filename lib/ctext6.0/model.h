@@ -311,7 +311,8 @@ class tnode {
 
     /*! \return Returns the depth of the node in the tree */
     int depth(
-      int type = -1  /*!< If set to a type value, returns the depth of the given type (otherwise, tree depth is used) */
+      int type = -1  /*!< If set to a type value, returns the depth of the given type
+                          (otherwise, tree depth is used). */
     ) const;
 
     /*! \return Returns a string representation of this node and all children nodes */
@@ -322,6 +323,12 @@ class tnode {
 
     /*! Adds this node and all children nodes that are mismatched to the object list */
     void get_mismatched( Tcl::object & mismatched ) const;
+
+    /*! \return Returns the position of the matching position */
+    bool get_match_pos(
+      const serial_item*   si,
+      position           & pos
+    ) const;
 
 };
 
@@ -618,6 +625,12 @@ class model {
 
     /*! \return Returns the list of mismatched indices */
     Tcl::object get_mismatched() const;
+
+    /*!
+     \return Returns the character range of the matching char if found; otherwise,
+             outputs the empty string.
+    */
+    Tcl::object get_match_char( Tcl::object ti );
 
     /*! \return Returns the depth of the given item in the tree */
     int get_depth( Tcl::object index, Tcl::object type );

@@ -53,6 +53,11 @@ puts [$m showtree]
 puts -nonewline "depth: [$m depth 1.0 curly], time: "
 puts [time { $m depth 5.5 curly }]
 
+puts -nonewline "matching pos (5.3): [$m matchindex 5.3], time: "
+puts [time { $m matchindex 5.3 }]
+puts "matching pos (5.10): [$m matchindex 5.10]"
+puts "matching pos (5.1):  [$m matchindex 5.1]"
+puts "matching pos (2.10): [$m matchindex 2.10]"
 
 # Delete the serial
 $s -delete
