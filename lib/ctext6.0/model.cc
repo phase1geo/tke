@@ -5,8 +5,6 @@
 */
 
 #include "model.h"
-#include <iostream>
-#include <iomanip>
 
 using namespace std;
 using namespace Tcl;
@@ -137,6 +135,7 @@ string position::to_string() const {
 void position::adjust_first(
   int from_col,
   int to_col,
+  int row_diff,
   int col_diff
 ) {
 
@@ -144,6 +143,7 @@ void position::adjust_first(
     _scol = to_col;
   }
 
+  _row  += row_diff;
   _ecol += col_diff;
 
 }
@@ -157,9 +157,9 @@ void position::adjust(
   if( from_row == _row ) {
     _scol += col_diff;
     _ecol += col_diff;
-  } else {
-    _row += row_diff;
   }
+
+  _row += row_diff;
 
 }
 
@@ -230,7 +230,7 @@ void serial::adjust(
    modify the starting column.
   */
   if( start.matches() ) {
-    (*this)[start_index++]->adjust_first( from.col, to.col, col_diff );
+    (*this)[start_index++]->adjust_first( from.col, to.col, row_diff, col_diff );
   }
 
   /* Perform the adjustment */
@@ -353,14 +353,16 @@ void serial::remove(
 
   for( int i=0; i<ranges.size(); i+=2 ) {
 
-    sindex start = get_index( ranges[i] );
-    sindex end   = get_index( ranges[i+1] );
+    sindex start     = get_index( ranges[i] );
+    sindex end       = get_index( ranges[i+1] );
+    int    end_index = end.index() + ((!end.matches() || ((*this)[end.index()]->pos().start_col() == ranges[i+1].col)) ? 0 : 1);
 
     /* Adjust the list */
     adjust( ranges[i+1], ranges[i], end, last );
 
     if( start != end ) {
-      erase( (begin() + start.index()), (begin() + (end.index() - 1)) );
+      for( vector<serial_item*>::iterator it=(begin() + start.index()); it!=(begin() + end_index); it++ ) { delete *it; }
+      erase( (begin() + start.index()), (begin() + end_index) );
     }
 
     last = start;
@@ -377,15 +379,17 @@ void serial::replace(
 
   for( int i=0; i<ranges.size(); i+=3 ) {
 
-    sindex start = get_index( ranges[i] );
-    sindex end   = get_index( ranges[i+1] );
+    sindex start     = get_index( ranges[i] );
+    sindex end       = get_index( ranges[i+1] );
+    int    end_index = end.index() + ((!end.matches() || ((*this)[end.index()]->pos().start_col() == ranges[i+1].col)) ? 0 : 1);
 
     /* Adjust the list */
-    adjust( ranges[i], ranges[i+2], end, last );
+    adjust( ranges[i+1], ranges[i+2], end, last );
 
     /* Delete the range of items in the serial list */
     if( start != end ) {
-      erase( (begin() + start.index()), (begin() + (end.index() - 1)) );
+      for( vector<serial_item*>::iterator it=(begin() + start.index()); it!=(begin() + end_index); it++ ) { delete *it; }
+      erase( (begin() + start.index()), (begin() + end_index) );
     }
 
     last = start;
@@ -411,15 +415,10 @@ void serial::append(
 string serial::to_string() const {
 
   ostringstream oss;
-  bool          first = true;
+  int           index = 0;
 
   for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
-    if( !first ) {
-      oss << " ";
-    } else {
-      first = false;
-    }
-    oss << (*it)->to_string();
+    oss << index++ << ": " << (*it)->to_string() << endl;
   }
 
   return( oss.str() );
@@ -748,7 +747,8 @@ void tree::insert_none(
 ) {
 
   if( item.type() == types::staticObject().get( "escape" ) ) {
-    lescape.col++;
+    lescape.row = item.pos().row();
+    lescape.col = item.pos().start_col() + 1;
   }
 
 }
@@ -918,17 +918,17 @@ CPPTCL_MODULE(Model, i) {
 
   /* Define the model class */
   i.class_<model>("model")
-    .def( "insert",     &model::insert )
-    .def( "delete",     &model::remove )
-    .def( "replace",    &model::replace )
-    .def( "update",     &model::update )
-    .def( "showserial", &model::show_serial )
-    .def( "showtree",   &model::show_tree )
-    .def( "mismatched", &model::get_mismatched )
-    .def( "matchindex", &model::get_match_char )
-    .def( "depth",      &model::get_depth )
+    .def( "insert",      &model::insert )
+    .def( "delete",      &model::remove )
+    .def( "replace",     &model::replace )
+    .def( "update",      &model::update )
+    .def( "showserial",  &model::show_serial )
+    .def( "showtree",    &model::show_tree )
+    .def( "mismatched",  &model::get_mismatched )
+    .def( "matchindex",  &model::get_match_char )
+    .def( "depth",       &model::get_depth )
     .def( "getcontexts", &model::get_context_items )
-    .def( "isescaped",  &model::is_escaped );
+    .def( "isescaped",   &model::is_escaped );
 
   /* Add functions */
   i.def("add_type", add_type );

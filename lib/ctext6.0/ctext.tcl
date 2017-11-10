@@ -52,8 +52,8 @@ namespace eval ctext {
       set model_tid [thread::create [format {
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
-        source [file join %s model2.tcl]
         set utils::main_tid %s
+        source [file join %s model2.tcl]
         thread::wait
       } $this_dir $this_dir $this_dir [thread::id]]]
 
