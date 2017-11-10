@@ -50,6 +50,7 @@ class types {
       for( std::map<int,type_data>::const_iterator it=t._data.begin(); it!=t._data.end(); it++ ) {
         _data.insert( std::make_pair( (*it).first, (*it).second ) );
       }
+      return( *this );
     }
 
   public:
