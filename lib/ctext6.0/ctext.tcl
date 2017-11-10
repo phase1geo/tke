@@ -6,8 +6,6 @@ package require Tk
 package require Thread
 package provide ctext 6.0
 
-load ./mymodule.so
-
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
 rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
 proc ::tk::TextSetCursor {w pos args} {
@@ -46,7 +44,7 @@ namespace eval ctext {
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
-        source [file join %s model.tcl]
+        source [file join %s model2.tcl]
         set utils::main_tid %s
       } $this_dir $this_dir $this_dir [thread::id]]]
 
@@ -54,7 +52,7 @@ namespace eval ctext {
       set model_tid [thread::create [format {
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
-        source [file join %s model.tcl]
+        source [file join %s model2.tcl]
         set utils::main_tid %s
         thread::wait
       } $this_dir $this_dir $this_dir [thread::id]]]
@@ -2592,6 +2590,7 @@ namespace eval ctext {
   proc setContextPatterns {win type tag lang patterns {fg "grey"} {bg ""}} {
 
     variable data
+    variable model_tid
 
     if {[llength $patterns] > 0} {
 
@@ -2602,11 +2601,12 @@ namespace eval ctext {
       set i [llength $tags]
       foreach pattern $patterns {
         if {[llength $pattern] == 1} {
-          lappend tags $type:$i any   [lindex $pattern 0] $lang _$tag
+          lappend tags $type:$i any   [lindex $pattern 0] $lang
         } else {
-          lappend tags $type:$i left  [lindex $pattern 0] $lang _$tag
-          lappend tags $type:$i right [lindex $pattern 1] $lang _$tag
+          lappend tags $type:$i left  [lindex $pattern 0] $lang
+          lappend tags $type:$i right [lindex $pattern 1] $lang
         }
+        thread::send -async $model_tid [list model::add_types $win $type:$i 1 _$tag]
         incr i
       }
 
@@ -2627,7 +2627,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given indentation patterns for parsing purposes.
-  proc setIndentation {twin lang patterns} {
+  proc setIndentation {win lang patterns} {
 
     # Get the indentation tags
     set tags [tsv::get indents $win]
@@ -2636,6 +2636,7 @@ namespace eval ctext {
     foreach pattern $patterns {
       lappend tags indent:$i left  [lindex $pattern 0] $lang
       lappend tags indent:$i right [lindex $pattern 1] $lang
+      thread::send -async $model_tid [list model::add_types $win $type:$i 0]
       incr i
     }
 
@@ -2648,6 +2649,8 @@ namespace eval ctext {
   # Adds the given brackets for parsing purposes.
   proc setBrackets {win lang types {fg "green"} {bg ""}} {
 
+    variable model_tid
+
     array set btag_types {
       curly  {curly  left {\{} "%s" curly  right {\}} "%s"}
       square {square left {\[} "%s" square right {\]} "%s"}
@@ -2655,12 +2658,12 @@ namespace eval ctext {
       angled {angled left <    "%s" angled right >    "%s"}
     }
     array set ctag_types {
-      double  {double  any {\"}     "%s" _string}
-      single  {single  any '        "%s" _string}
-      btick   {btick   any `        "%s" _string}
-      tdouble {tdouble any {\"\"\"} "%s" _string}
-      tsingle {tsingle any '''      "%s" _string}
-      tbtick  {tbtick  any ```      "%s" _string}
+      double  {double  any {\"}     "%s"}
+      single  {single  any '        "%s"}
+      btick   {btick   any `        "%s"}
+      tdouble {tdouble any {\"\"\"} "%s"}
+      tsingle {tsingle any '''      "%s"}
+      tbtick  {tbtick  any ```      "%s"}
     }
 
     # Get the brackets
@@ -2670,10 +2673,12 @@ namespace eval ctext {
     foreach type $types {
       if {[info exists btag_types($type)]} {
         lappend btags {*}[format $btag_types($type) $lang $lang]
+        thread::send -async $model_tid [list model::add_types $win $type 0]
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         $win._t tag configure _string -foreground $fg -background $bg
         $win._t tag lower     _string sel
+        thread::send -async $model_tid [list model::add_types $win $type 1 _string]
       }
     }
 
@@ -2974,7 +2979,7 @@ namespace eval ctext {
   # Renders the given tag with the specified ranges in the given widget.
   proc render {win tag ranges clear_all} {
 
-    # puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
+    puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
 
     if {$clear_all} {
       $win._t tag remove $tag 1.0 end

@@ -205,17 +205,17 @@ namespace eval parsers {
     set lines    [split $str \n]
     set found    0
 
-    foreach {type side pattern ctx tag} $patterns {
+    foreach {type side pattern ctx} $patterns {
 
       # If the pattern is the EOL character, just get our indices from the left side
       if {$pattern eq "\$"} {
         if {$found > 0} {
           set lrow 0
           foreach tag [lrange $tags end-[expr $found - 1] end] {
-            lassign $tag type side pos dummy1 dummy2 ctx ttag
+            lassign $tag type side pos dummy1 dummy2 ctx
             if {[set row [lindex $pos 0]] == $lrow} { continue }
             set col [string length [lindex $lines [expr $row - 1]]]
-            lappend tags [list $type right [list $row [list $col $col]] 1 {} $ctx $ttag]
+            lappend tags [list $type right [list $row [list $col $col]] 1 $ctx]
             set lrow $row
           }
         }
@@ -228,7 +228,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $type $side [list $srow $indices] 1 {} $ctx $tag]
+          lappend tags [list $type $side [list $srow $indices] 1 $ctx]
           set start $endpos
           incr found
         }
@@ -252,7 +252,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list indent $side [list $srow $indices] 0 {} $ctx]
+          lappend tags [list indent $side [list $srow $indices] 0 $ctx]
           set start $endpos
         }
         incr srow
@@ -273,7 +273,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side [list $srow $indices] 0 {} $ctx]
+          lappend tags [list $tag $side [list $srow $indices] 0 $ctx]
           set start $endpos
         }
         incr srow
@@ -285,6 +285,8 @@ namespace eval parsers {
   ######################################################################
   # Store all file markers in a model for fast processing.
   proc markers {tpool tid txt str linestart lineend} {
+
+    utils::log "In markers..."
 
     lassign [split $linestart .] srow scol
 
@@ -333,18 +335,19 @@ namespace eval parsers {
     # Create the non-overlapping ranges for each of the context tags
     array set ranges {}
     foreach tag $tags {
-      lassign $tag   type side index dummy1 dummy2 ctx tag
+      lassign $tag   type side index dummy1 dummy2 ctx
       lassign $index row cols
       if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ([lindex $cols 0] - 1)))} {
+        set tagname [model::get_tagname $txt $type]
         set current [context peek]
         if {($current eq $ctx) && (($side eq "any") || ($side eq "left"))} {
           context push $type
-          lappend ranges($tag) $row.[lindex $cols 0]
+          lappend ranges($tagname) $row.[lindex $cols 0]
         } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
           context pop
-          lappend ranges($tag) $row.[expr [lindex $cols 1] + 1]
+          lappend ranges($tagname) $row.[expr [lindex $cols 1] + 1]
         } elseif {![info exists ranges($tag)]} {
-          set ranges($tag) [list]
+          set ranges($tagname) [list]
         }
       }
       lassign [list $type $row [lindex $cols 0]] ltype lrow lcol

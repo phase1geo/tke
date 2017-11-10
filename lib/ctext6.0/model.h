@@ -25,20 +25,30 @@ class types {
 
   private:
 
+    class type_data {
+      public:
+        std::string name;
+        bool        comstr;
+        type_data( std::string n, bool cs ) : name( n ), comstr( cs ) {}
+        type_data( const type_data & td ) : name( td.name ), comstr( td.comstr ) {}
+        ~type_data() {}
+    };
+
     std::map<std::string,int> _types;  /*!< Mapping of type string to integer values */
-    std::map<int,std::string> _names;  /*!< Mapping of type integer to string values */
-    std::string               _empty;
+    std::map<int,type_data>   _data;   /*!< Mapping of type integer to string values and comstr info */
+    std::string               _empty;  /*!< Used when we need to return a reference to the empty string */
+    int                       _id;     /*!< Unique identifier */
 
     /*! Default constructor */
-    types() : _empty( "" ) {}
+    types() : _empty( "" ), _id( 0 ) {}
 
     /*! Assignment operator */
     types & operator=( const types & t ) {
       for( std::map<std::string,int>::const_iterator it=t._types.begin(); it!=t._types.end(); it++ ) {
         _types.insert( std::make_pair( (*it).first, (*it).second ) );
       }
-      for( std::map<int,std::string>::const_iterator it=t._names.begin(); it!=t._names.end(); it++ ) {
-        _names.insert( std::make_pair( (*it).first, (*it).second ) );
+      for( std::map<int,type_data>::const_iterator it=t._data.begin(); it!=t._data.end(); it++ ) {
+        _data.insert( std::make_pair( (*it).first, (*it).second ) );
       }
     }
 
@@ -54,9 +64,12 @@ class types {
     }
 
     /*! Adds the given name/value pairing to the class */
-    void add( std::string name, int value ) {
-      _types.insert( std::make_pair( name, value ) );
-      _names.insert( std::make_pair( value, name ) );
+    void add( std::string name, bool comstr ) {
+      if( get( name ) == -1 ) {
+        _types.insert( std::make_pair( name, _id ) );
+        _data.insert(  std::make_pair( _id, type_data( name, comstr ) ) );
+        _id++;
+      }
     }
 
     /*! Retrieves the integer value of the given string name */
@@ -70,25 +83,20 @@ class types {
 
     /*! Retrieves the string name of the given integer type value */
     const std::string & get( int value ) const {
-      std::map<int,std::string>::const_iterator it = _names.find( value );
-      if( it == _names.end() ) {
+      std::map<int,type_data>::const_iterator it = _data.find( value );
+      if( it == _data.end() ) {
         return( _empty );
       }
-      return( it->second );
+      return( it->second.name );
     }
 
     /*! \return Returns true if the given type is a comment or string type */
     bool comstr( int value ) const {
-
-      return( (get( "bcomment" ) == value) ||
-              (get( "lcomment" ) == value) ||
-              (get( "double" )   == value) ||
-              (get( "single" )   == value) ||
-              (get( "btick" )    == value) ||
-              (get( "tdouble" )  == value) ||
-              (get( "tsingle" )  == value) ||
-              (get( "tbtick" )   == value) );
-
+      std::map<int,type_data>::const_iterator it = _data.find( value );
+      if( it == _data.end() ) {
+        return( false );
+      }
+      return( it->second.comstr );
     }
 
 };
@@ -96,9 +104,9 @@ class types {
 /*! Adds the specified type and value to the singleton class */
 inline void add_type(
   std::string name,
-  int         value
+  bool        comstr
 ) {
-  types::staticObject().add( name, value );
+  types::staticObject().add( name, comstr );
 }
 
 /*! \return Returns the side value for the given name */
@@ -231,11 +239,17 @@ class position {
       return( (index.row < _row) ? -1 : 1 );
     }
 
+    /*! \return Returns the first column text index */
+    std::string to_index() const;
+
     /*! \return Returns a Tcl object containing a list of the text widget indices */
     void to_pair( Tcl::object & pair ) const;
 
     /*! \return Returns the position as a string */
     std::string to_string() const;
+
+    /*! \return Returns the starting column */
+    int start_col() const { return( _scol ); }
 
 };
 
@@ -385,6 +399,9 @@ class serial_item {
     /*! \return Returns the stored type */
     int type() const { return( _type ); }
 
+    /*! \return Returns the stored context indicator */
+    bool iscontext() const { return( _iscontext ); }
+
     /*! \return Returns the stored position information */
     position & pos() { return( _pos ); }
 
@@ -448,11 +465,17 @@ class serial : public std::vector<serial_item*> {
     /*! \return Returns a stringified version of the serial list */
     std::string to_string() const;
 
+    /*! \return Returns true if the given index is immediately preceded by an escape */
+    bool is_escaped( const tindex & ti ) const;
+
+    /*! \return Returns the list of contextual items in the list as a new list */
+    void get_context_items( serial & items ) const;
+
     /*! Updates the serial list with the given list. */
     bool update(
       const tindex & linestart,
       const tindex & lineend,
-      serial*        elements
+      serial       & elements
     );
 
 };
@@ -615,7 +638,11 @@ class model {
     }
 
     /*! Updates the model with the given tag information */
-    bool update( Tcl::object linestart, Tcl::object lineend, serial* elements );   
+    bool update(
+      Tcl::object linestart,
+      Tcl::object lineend,
+      Tcl::object elements
+    );
 
     /*! \return Returns a human-readable representation of the stored serial list */
     std::string show_serial() const { return( _serial.to_string() ); }
@@ -634,6 +661,16 @@ class model {
 
     /*! \return Returns the depth of the given item in the tree */
     int get_depth( Tcl::object index, Tcl::object type );
+
+    /*! \return Returns the list of context tags */
+    std::string get_context_items(
+      Tcl::object linestart,
+      Tcl::object lineend,
+      Tcl::object tags
+    ) const;
+
+    /*! \return Returns true if the given text index is immediately preceded by an escape */
+    bool is_escaped( Tcl::object ti ) const;
 
 };
 
