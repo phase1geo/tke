@@ -22,11 +22,6 @@ ctext::addHighlightKeywords .t {proc set variable puts for while if expr return 
 ctext::setContextPatterns   .t lcomment comment "" {{{^\s*#} {$}} {{;#} {$}}} "blue"
 ctext::setBrackets          .t "" {curly square paren double} "green"
 
-source model.tcl
-source utils.tcl
-
-set utils::main_tid [thread::id]
-
 proc set_debug {value} {
   thread::send -async $ctext::model_tid [list model::set_debug .t $value]
 }

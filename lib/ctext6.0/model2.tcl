@@ -29,9 +29,10 @@ package require Thread
 
 # TBD - We need to enhance this
 switch -glob $tcl_platform(os) {
-  CYG*    { load -lazy ./model.dll }
-  Darwin  { load -lazy ./model.dylib }
-  default { load -lazy ./model.so }
+  Darwin  { load -lazy [file join [file dirname [info script]] model.dylib] }
+  *Win* -
+  CYG*    { load -lazy [file join [file dirname [info script]] model.dll] }
+  default { load -lazy [file join [file dirname [info script]] model.so] }
 }
 
 namespace eval model {

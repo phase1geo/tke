@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <iostream>
+#include <iomanip>
 
 #include "cpptcl/cpptcl.h"
 
@@ -155,6 +157,13 @@ class sindex {
       return( *this );
     }
 
+    /*! \return Returns a string version of this instance */
+    std::string to_string() const {
+      std::ostringstream oss;
+      oss << _index << "/" << _matches;
+      return( oss.str() );
+    }
+
     /*! \return Returns true if the two sindices are the same */
     bool operator==( const sindex & si ) {
       return( (_index == si._index) && (_matches == si._matches) );
@@ -210,6 +219,7 @@ class position {
     void adjust_first(
       int from_col,
       int to_col,
+      int row_diff,
       int col_diff
     );
 
@@ -248,6 +258,9 @@ class position {
 
     /*! \return Returns the position as a string */
     std::string to_string() const;
+
+    /*! \return Returns the stored row */
+    int row() const { return( _row ); }
 
     /*! \return Returns the starting column */
     int start_col() const { return( _scol ); }
@@ -386,7 +399,9 @@ class serial_item {
     ~serial_item() {}
 
     /*! Adjust the item when it is the first in the range of items to adjust */
-    void adjust_first( int from_col, int to_col, int col_diff ) { _pos.adjust_first( from_col, to_col, col_diff ); }
+    void adjust_first( int from_col, int to_col, int row_diff, int col_diff ) {
+      _pos.adjust_first( from_col, to_col, row_diff, col_diff );
+    }
 
     /*! Adjusts the positional information */
     void adjust( int from_row, int row_diff, int col_diff ) { _pos.adjust( from_row, row_diff, col_diff ); }
