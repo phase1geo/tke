@@ -480,6 +480,25 @@ void tnode::get_mismatched(
 
 }
 
+bool tnode::get_match_pos(
+  const serial_item*   si,
+  position           & pos
+) const {
+
+  if( _left && (_left == si) ) {
+    if( _right ) {
+      pos = _right->pos();
+      return( true );
+    }
+  } else if( _left ) {
+    pos = _left->pos();
+    return( true );
+  }
+
+  return( false );
+
+}
+
 int tnode::index() const {
 
   int i = 0;
@@ -806,6 +825,48 @@ int model::get_depth(
 
 }
 
+object model::get_match_char(
+  object ti
+) {
+
+  sindex si = _serial.get_index( object_to_tindex( ti ) );
+  object retval;
+
+  if( si.matches() ) {
+    serial_item* sitem = _serial[si.index()];
+    position     pos;
+    if( sitem->node()->get_match_pos( sitem, pos ) ) {
+      pos.to_pair( retval );
+    }
+  }
+
+  return( retval );
+
+}
+
+object model::get_context_tags(
+  object linestart,
+  object lineend,
+  object tags
+) {
+
+  serial items;
+  _serial.get_context_items( items );
+
+  if( items.size() ) {
+    sindex si = items.get_index( object_to_tindex( linestart ) );
+    sindex ei = items.get_index( object_to_tindex( lineend ) );
+    if( si != ei ) {
+      items.replace( si.index(), ((ei.index() + (ei.matches() ? 1 : 0)) - 1), FOOBAR );
+    } else {
+      items.insert( si.index(), FOOBAR );
+    }
+  }
+
+  return( items );
+
+}
+
 /* -------------------------------------------------------------- */
 
 CPPTCL_MODULE(Model, i) {
@@ -823,7 +884,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "update",     &model::update )
     .def( "showserial", &model::show_serial )
     .def( "showtree",   &model::show_tree )
-    .def( "mismatched", &model::get_mismatched)
+    .def( "mismatched", &model::get_mismatched )
+    .def( "matchindex", &model::get_match_char )
     .def( "depth",      &model::get_depth );
 
   /* Add functions */
