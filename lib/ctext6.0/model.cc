@@ -98,6 +98,16 @@ position::position( object item ) {
 
 }
 
+string position::to_index() const {
+
+  ostringstream oss;
+
+  oss << _row << "." << _scol;
+
+  return( oss.str() );
+
+}
+
 void position::to_pair(
   object & pair
 ) const {
@@ -118,7 +128,7 @@ string position::to_string() const {
 
   ostringstream oss;
 
-  oss << _row << "." << _scol;
+  oss << "{" << _row << " {" << _scol << " " << _ecol << "}}";
 
   return( oss.str() );
 
@@ -419,13 +429,13 @@ string serial::to_string() const {
 bool serial::update(
   const tindex & linestart,
   const tindex & lineend,
-  serial*        elements
+  serial       & elements
 ) {
 
   sindex start_index = get_index( linestart );
   sindex end_index   = get_index( lineend );
 
-  if( elements->size() ) {
+  if( elements.size() ) {
 
     /* Delete the range */
     if( start_index != end_index ) {
@@ -435,7 +445,7 @@ bool serial::update(
 
     /* Insert the given list */
     int i = start_index.index();
-    for( vector<serial_item*>::iterator it=elements->begin(); it!=elements->end(); it++ ) {
+    for( vector<serial_item*>::iterator it=elements.begin(); it!=elements.end(); it++ ) {
       vector<serial_item*>::insert( (begin() + i++), new serial_item( **it ) );
     }
       
@@ -444,6 +454,35 @@ bool serial::update(
   }
 
   return( false );
+
+}
+
+void serial::get_context_items(
+  serial & items
+) const {
+
+  for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
+    if( (*it)->iscontext() ) {
+      items.push_back( new serial_item( **it ) );
+    }
+  }
+
+}
+
+bool serial::is_escaped(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+
+  if( (ti.col == 0) || (si.index() == 0) || (si.matches() && (ti.col != (*this)[si.index()]->pos().start_col())) ) {
+    return( false );
+  }
+
+  serial_item* prev_item = (*this)[si.index()-1];
+
+  return( (prev_item->type() == types::staticObject().get( "escape" )) &&
+          ((prev_item->pos().start_col() + 1) == ti.col) );
 
 }
 
@@ -534,8 +573,8 @@ string tnode::to_string() const {
 
   ostringstream oss;
 
-  oss << "(" << ((_left  == 0) ? "??" : _left->pos().to_string())
-      << "-" << ((_right == 0) ? "??" : _right->pos().to_string())
+  oss << "(" << ((_left  == 0) ? "??" : _left->pos().to_index())
+      << "-" << ((_right == 0) ? "??" : _right->pos().to_index())
       << " {" << types::staticObject().get( _type ) << "})";
 
   return( oss.str() );
@@ -767,22 +806,20 @@ void model::object_to_ranges(
 }
 
 bool model::update(
-  object  linestart,
-  object  lineend,
-  serial* elements
+  object linestart,
+  object lineend,
+  object elements
 ) {
 
-  interpreter i( linestart.get_interp(), false );
-  tindex      lstart;
-  tindex      lend;
+  interpreter i( elements.get_interp(), false );
+  tindex lstart = object_to_tindex( linestart );
+  tindex lend   = object_to_tindex( lineend );
+  serial elems;
 
-  lstart.row = linestart.at( i, 0 ).get<int>( i );
-  lstart.col = linestart.at( i, 1 ).get<int>( i );
-  lend.row   = lineend.at( i, 0 ).get<int>( i );
-  lend.col   = lineend.at( i, 1 ).get<int>( i );
+  elems.append( elements );
 
   /* Update the serial list */
-  if( _serial.update( lstart, lend, elements ) ) {
+  if( _serial.update( lstart, lend, elems ) ) {
     _tree.update( _serial );
     return( true );
   }
@@ -844,26 +881,29 @@ object model::get_match_char(
 
 }
 
-object model::get_context_tags(
+string model::get_context_items(
   object linestart,
   object lineend,
   object tags
-) {
+) const {
 
-  serial items;
-  _serial.get_context_items( items );
+  serial citems;
+  serial titems;
 
-  if( items.size() ) {
-    sindex si = items.get_index( object_to_tindex( linestart ) );
-    sindex ei = items.get_index( object_to_tindex( lineend ) );
-    if( si != ei ) {
-      items.replace( si.index(), ((ei.index() + (ei.matches() ? 1 : 0)) - 1), FOOBAR );
-    } else {
-      items.insert( si.index(), FOOBAR );
-    }
-  }
+  _serial.get_context_items( citems );
 
-  return( items );
+  titems.append( tags );
+  citems.update( object_to_tindex( linestart ), object_to_tindex( lineend ), titems );
+
+  return( citems.to_string() );
+
+}
+
+bool model::is_escaped(
+  object ti
+) const {
+
+  return( _serial.is_escaped( object_to_tindex( ti ) ) );
 
 }
 
@@ -874,7 +914,7 @@ CPPTCL_MODULE(Model, i) {
   /* Define the serial class */
   i.class_<serial>("serial")
     .def( "append", &serial::append )
-    .def( "show",   &serial::to_string );
+    .def( "get",    &serial::to_string );
 
   /* Define the model class */
   i.class_<model>("model")
@@ -886,13 +926,12 @@ CPPTCL_MODULE(Model, i) {
     .def( "showtree",   &model::show_tree )
     .def( "mismatched", &model::get_mismatched )
     .def( "matchindex", &model::get_match_char )
-    .def( "depth",      &model::get_depth );
+    .def( "depth",      &model::get_depth )
+    .def( "getcontexts", &model::get_context_items )
+    .def( "isescaped",  &model::is_escaped );
 
   /* Add functions */
   i.def("add_type", add_type );
-
- // i.def("makePerson", makePerson, factory("Person"));
- // i.def("killPerson", killPerson, sink(1));
 
 }
 
