@@ -36,8 +36,8 @@ proc show_tree {} {
 
 # set_debug 1
 
-# set f [open ctext.tcl r]
-set f [open utils.tcl r]
+set f [open ctext.tcl r]
+# set f [open utils.tcl r]
 set contents [read $f]
 close $f
 puts [time { .t insert end $contents }]

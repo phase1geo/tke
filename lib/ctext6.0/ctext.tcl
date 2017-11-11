@@ -52,8 +52,8 @@ namespace eval ctext {
       set model_tid [thread::create [format {
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
-        set utils::main_tid %s
         source [file join %s model2.tcl]
+        set utils::main_tid %s
         thread::wait
       } $this_dir $this_dir $this_dir [thread::id]]]
 
@@ -2404,6 +2404,9 @@ namespace eval ctext {
 
     variable data
     variable model_tid
+
+    # Clear the matchchar tag
+    catch { $win._t tag remove matchchar 1.0 end }
 
     # If we are in block cursor mode, use the previous character
     if {![$win cget -blockcursor] && [$win compare insert != "insert linestart"]} {

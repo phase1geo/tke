@@ -415,6 +415,24 @@ void serial::append(
 string serial::to_string() const {
 
   ostringstream oss;
+  bool          first = true;
+
+  for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
+    if( first ) {
+      first = false;
+    } else {
+      oss << " ";
+    }
+    oss << (*it)->to_string();
+  }
+  
+  return( oss.str() );
+
+}
+
+string serial::show() const {
+
+  ostringstream oss;
   int           index = 0;
 
   for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
@@ -782,6 +800,9 @@ void tree::update(
 
   tnode* current = _tree;
   tindex lescape = {0, 0};
+
+  /* Clear the tree */
+  _tree->clear();
 
   for( int i=0; i<sl.size(); i++ ) {
     insert_item( current, lescape, *(sl[i]) );
