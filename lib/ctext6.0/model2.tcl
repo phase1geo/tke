@@ -184,9 +184,13 @@ namespace eval model {
 
     variable data
 
-    utils::log "In update, linestart: $linestart, lineend: $lineend, elements: $elements"
+    # utils::log "In update, linestart: $linestart, lineend: $lineend, elements: $elements"
 
-    return [$data($win,model) update $linestart $lineend $elements]
+    set ctime [time { set changed [$data($win,model) update $linestart $lineend $elements] }]
+
+    utils::log "update time: $ctime"
+   
+    return $changed
     
   }
 
@@ -195,7 +199,7 @@ namespace eval model {
   proc get_mismatched {win} {
 
     variable data
-    
+
     return [$data($win,model) mismatched]
 
   }

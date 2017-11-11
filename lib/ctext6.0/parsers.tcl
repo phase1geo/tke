@@ -377,7 +377,7 @@ namespace eval parsers {
 
     # Get the matching character
     if {[model::get_match_char $win tindex]} {
-      render $tid $win matchchar {*}$tindex
+      render $tid $win matchchar $tindex 0
     }
 
   }

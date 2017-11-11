@@ -481,6 +481,9 @@ class serial : public std::vector<serial_item*> {
     /*! \return Returns a stringified version of the serial list */
     std::string to_string() const;
 
+    /*! \return Returns a human-readable version of the serial list */
+    std::string show() const;
+
     /*! \return Returns true if the given index is immediately preceded by an escape */
     bool is_escaped( const tindex & ti ) const;
 
@@ -661,7 +664,7 @@ class model {
     );
 
     /*! \return Returns a human-readable representation of the stored serial list */
-    std::string show_serial() const { return( _serial.to_string() ); }
+    std::string show_serial() const { return( _serial.show() ); }
 
     /*! \return Returns a graphical representation of the stored tree */
     std::string show_tree() const { return( _tree.tree_string() ); }
