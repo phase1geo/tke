@@ -10,10 +10,12 @@
 */
 
 #include <vector>
+#include <queue>
 #include <string>
 #include <map>
 #include <iostream>
 #include <iomanip>
+#include <thread>
 
 #include "cpptcl/cpptcl.h"
 
@@ -59,7 +61,7 @@ class types {
 
     /*! Destructor */
     ~types() {}
-  
+
     /*! Calling point for the class */
     static types & staticObject() {
       static types t;
@@ -204,7 +206,7 @@ class position {
       _scol( pos._scol ),
       _ecol( pos._ecol ) {}
 
-    /*! Destructor */ 
+    /*! Destructor */
     ~position() {}
 
     /*! Assignment operator */
@@ -234,8 +236,8 @@ class position {
     void incr_col() {
       _scol++;
       _ecol++;
-    } 
-    
+    }
+
     /*!
      \return Returns a value of -1 if the given row/col pair is less than the position, 0 if
              the row/col pair is within the position, or 1 if the row/col pair is greater than
@@ -591,7 +593,7 @@ class tree {
     );
 
   public:
- 
+
     /*! Default constructor */
     tree() : _tree( new tnode( -1, false ) ) {}
 
@@ -630,7 +632,7 @@ class model {
   public:
 
     /*! Default constructor */
-    model() {} // : _serial(), _tree() {}
+    model() {}
 
     /*! Destructor */
     ~model() {}
@@ -663,6 +665,9 @@ class model {
       Tcl::object elements
     );
 
+    /*! Update the tree with the contents of the serial list */
+    void update_tree() { _tree.update( _serial ); }
+
     /*! \return Returns a human-readable representation of the stored serial list */
     std::string show_serial() const { return( _serial.show() ); }
 
@@ -690,6 +695,113 @@ class model {
 
     /*! \return Returns true if the given text index is immediately preceded by an escape */
     bool is_escaped( Tcl::object ti ) const;
+
+};
+
+enum {
+  REQUEST_INSERT = 0,
+  REQUEST_DELETE,
+  REQUEST_REPLACE,
+  REQUEST_UPDATE,
+  REQUEST_SHOWSERIAL,
+  REQUEST_SHOWTREE,
+  REQUEST_MISMATCHED,
+  REQUEST_MATCHINDEX,
+  REQUEST_DEPTH,
+  REQUEST_GETCONTEXTS,
+  REQUEST_ISESCAPED,
+  REQUEST_NUM
+};
+
+class request {
+
+  private:
+
+    void*       _inst;     /*!< Instance pointer */
+    int         _command;  /*!< Command to execute */
+    Tcl::object _args;     /*!< Arguments to pass to the command */
+    bool        _block;    /*!< Specifies that this command requires the
+                                model to be updated prior to its execution */
+
+  public:
+
+    /*! Default contructor */
+    request(
+      void*         inst,
+      int           command,
+      Tcl::object & args,
+      bool          block
+    ) : _inst   ( inst ),
+        _command( command ),
+        _args   ( args ),
+        _block  ( block ) {}
+
+    /*! Copy constructor */
+    request( const request & req ) :
+      _inst   ( req._inst ),
+      _command( req._command ),
+      _args   ( req._args ),
+      _block  ( req._block ) {}
+
+    /*! Destructor */
+    ~request() {}
+
+    /*! Executes the request */
+    Tcl::object execute(
+      bool & update_needed
+    ) const;
+
+    /*! \return Returns true if this command requires the model to be
+                up-to-date before we are run */
+    bool block() const { return( _block ); }
+
+};
+
+class mailbox {
+
+  private:
+
+    model                _model;          /*!< Model instance to use */
+    std::queue<request*> _requests;       /*!< FIFO of requests */
+    bool                 _thread_active;  /*!< Set to true when a thread is currently active */
+
+  public:
+
+    /*! Default constructor */
+    mailbox() : _thread_active( false ) {}
+
+    /*! Destructor */
+    ~mailbox() {}
+
+    /*! Adds a request to the mailbox */
+    void request(
+      int                 cmd,
+      const Tcl::object & args,
+      bool                block
+    );
+
+    /*! Execute items from the requests queue */
+    void execute();
+
+    void insert( Tcl::object ranges );
+    void remove( Tcl::object ranges );
+    void replace( Tcl::object ranges );
+    bool update(
+      Tcl::object linestart,
+      Tcl::object lineend,
+      Tcl::object elements
+    );
+    std::string show_serial() const;
+    std::string show_tree() const;
+    Tcl::object get_mismatched() const;
+    Tcl::object get_match_char( Tcl::object ti );
+    int get_depth( Tcl::object index, Tcl::object type );
+    bool is_escaped( Tcl::object ti ) const;
+    std::string get_context_items(
+      Tcl::object linestart,
+      Tcl::object lineend,
+      Tcl::object tags
+    ) const;
 
 };
 

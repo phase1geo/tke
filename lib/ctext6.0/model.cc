@@ -32,7 +32,7 @@ static tindex object_to_tindex( const object & obj ) {
 static string tindex_to_string( const tindex & ti ) {
 
   ostringstream oss;
- 
+
   oss << ti.row << "." << ti.col;
 
   return( oss.str() );
@@ -90,7 +90,7 @@ position::position( object item ) {
     object cols = item.at( i, 1 );
     if( cols.length( i ) == 2 ) {
       _scol = cols.at( i, 0 ).get<int>( i );
-      _ecol = cols.at( i, 1 ).get<int>( i ); 
+      _ecol = cols.at( i, 1 ).get<int>( i );
     }
   }
 
@@ -191,7 +191,7 @@ string serial_item::to_string() const {
     context.insert( 0, "{" );
     context.append( "}" );
   }
-    
+
   oss << "{" << types::staticObject().get( _type ) << " " << get_side( _side ) << " " << _pos.to_string() << " " << _iscontext << " " << context << "}";
 
   return( oss.str() );
@@ -278,7 +278,7 @@ sindex serial::get_index(
       }
     }
     return( sindex( end, false ) );
-  } 
+  }
 
 }
 
@@ -305,14 +305,14 @@ tnode* serial::find_node(
   } else if( si.matches() ) {
     return( b );
   }
-    
+
   /* Find the closest on the left */
   int i = si.index() - 1;
   while( (i >= 0) && ((a = (*this)[i]->node()) == 0) ) { i--; }
   if( i == -1 ) {
     return( 0 );
   }
-   
+
   /* Figure out which node to return */
   if( (a == b) || (b->parent() == a) ) {
     return( a );
@@ -425,7 +425,7 @@ string serial::to_string() const {
     }
     oss << (*it)->to_string();
   }
-  
+
   return( oss.str() );
 
 }
@@ -465,7 +465,7 @@ bool serial::update(
     for( vector<serial_item*>::iterator it=elements.begin(); it!=elements.end(); it++ ) {
       vector<serial_item*>::insert( (begin() + i++), new serial_item( **it ) );
     }
-      
+
     return( true );
 
   }
@@ -668,7 +668,7 @@ void tree::insert_root_left(
   tindex      & lescape,
   serial_item & item
 ) {
-  
+
   add_child_node( current, true, item );
 
 }
@@ -729,7 +729,7 @@ void tree::insert_right(
         item.set_node( tn );
         current = current->parent();
         return;
-      } 
+      }
     }
 
     /*
@@ -823,7 +823,7 @@ void model::object_to_ranges(
   for( int j=0; j<size; j++ ) {
     vec.push_back( object_to_tindex( ranges.at( i, j ) ) );
   }
-   
+
 }
 
 bool model::update(
@@ -841,7 +841,7 @@ bool model::update(
 
   /* Update the serial list */
   if( _serial.update( lstart, lend, elems ) ) {
-    _tree.update( _serial );
+    // _tree.update( _serial );
     return( true );
   }
 
@@ -930,6 +930,197 @@ bool model::is_escaped(
 
 /* -------------------------------------------------------------- */
 
+Tcl::object request::execute(
+  bool & update_needed
+) {
+
+  interpreter i( _args.get_interp(), false );
+
+  switch( _command ) {
+    case REQUEST_INSERT     :  (model*)_inst->insert( _args );  break;
+    case REQUEST_DELETE     :  (model*)_inst->remove( _args );  break;
+    case REQUEST_REPLACE    :  (model*)_inst->replace( _args );  break;
+    case REQUEST_UPDATE     :
+      if( (model*)_inst->update( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) ) {
+        update_needed = true;
+      }
+      break;
+    case REQUEST_SHOWSERIAL :  (model*)_inst->show_serial();  break;
+    case REQUEST_SHOWTREE   :  (model*)_inst->show_tree();  break;
+    case REQUEST_MISMATCHED :  (model*)_inst->get_mismatched();  break;
+    case REQUEST_MATCHINDEX :
+      return( (model*)_inst->get_match_char( _args ) );
+      break;
+    case REQUEST_DEPTH :
+      return( (model*)_inst->get_depth( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_GETCONTEXTS :
+      return( (model*)_inst->get_context_items( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      break;
+    case REQUEST_ISESCAPED :
+      return( (model*)_inst->is_escaped( _args ) );
+      break;
+    default :
+      throw runtime_error( "Unknown command" );
+  }
+
+  return( 0 );
+
+}
+
+/* -------------------------------------------------------------- */
+
+static void model_execute(
+  mailbox & mbox
+) {
+
+  mbox.execute();
+
+}
+
+void mailbox::add_request(
+  int                 command,
+  const Tcl::object & args,
+  bool                block
+) {
+
+  /* Create the request and add it to the fifo */
+  _requests.push_back( new request( inst, command, args, block ) );
+
+  /* If the processing thread is currently running, start it now */
+  if( !_thread_active ) {
+    _thread_active = true;
+    thread( mailbox_execute, *this ).detach();
+  }
+
+}
+
+void mailbox::execute() {
+
+  bool update_needed = false;
+
+  while( !_requests.empty() && !_requests.front()->block() ) {
+    _requests.front()->execute( _model, update_needed );
+  }
+
+  /* If the serial list was updated while executing, update the tree */
+  if( update_needed ) {
+    m.update_tree();
+  }
+
+  /* Specify that we are no longer running */
+  _thread_active = false;
+
+}
+
+void mailbox::insert(
+  object ranges
+) {
+
+  add_request( REQUEST_INSERT, ranges, false );
+
+}
+
+void mailbox::remove(
+  object ranges
+) {
+
+  add_request( REQUEST_DELETE, ranges, false );
+
+}
+
+void mailbox::replace(
+  object ranges
+) {
+
+  add_request( REQUEST_REPLACE, ranges, false );
+
+}
+
+void mailbox::update(
+  object linestart,
+  object lineend,
+  object elements
+) {
+
+  interpreter i( linestart.get_interp(), false ):
+  object      args
+
+  args.append( i, linestart );
+  args.append( i, lineend );
+  args.append( i, elements );
+
+  add_request( REQUEST_UPDATE, args, false );
+
+}
+
+void mailbox::show_serial() {
+
+  object none;
+
+  add_request( REQUEST_SHOWSERIAL, none, false );
+
+}
+
+void mailbox::show_tree() {
+
+  object none;
+
+  add_request( REQUEST_SHOWTREE, none, true );
+
+}
+
+void mailbox::get_mismatched() {
+
+  object none;
+
+  add_request( REQUEST_MISMATCHED, none, true );
+
+}
+
+void mailbox::get_match_char(
+  object ti
+) {
+
+  add_request( REQUEST_MATCHCHAR, ti, true );
+
+}
+
+void mailbox::get_depth(
+  object ti
+) {
+
+  add_request( REQUEST_DEPTH, ti, true );
+
+}
+
+void mailbox::is_escaped(
+  object ti
+) {
+
+  add_request( REQUEST_ISESCAPED, ti, false );
+
+}
+
+void mailbox::get_context_items() {
+  object linestart,
+  object lineend,
+  object tags
+) {
+
+  interpreter i( linestart.get_interp(), false );
+  object      args;
+
+  args.append( i, linestart );
+  args.append( i, lineend );
+  args.append( i, tags );
+
+  add_request( REQUEST_GETCONTEXTS, args, false );
+
+}
+
+/* -------------------------------------------------------------- */
+
 CPPTCL_MODULE(Model, i) {
 
   /* Define the serial class */
@@ -938,18 +1129,18 @@ CPPTCL_MODULE(Model, i) {
     .def( "get",    &serial::to_string );
 
   /* Define the model class */
-  i.class_<model>("model")
-    .def( "insert",      &model::insert )
-    .def( "delete",      &model::remove )
-    .def( "replace",     &model::replace )
-    .def( "update",      &model::update )
-    .def( "showserial",  &model::show_serial )
-    .def( "showtree",    &model::show_tree )
-    .def( "mismatched",  &model::get_mismatched )
-    .def( "matchindex",  &model::get_match_char )
-    .def( "depth",       &model::get_depth )
-    .def( "getcontexts", &model::get_context_items )
-    .def( "isescaped",   &model::is_escaped );
+  i.class_<mailbox>("model")
+    .def( "insert",      &mailbox::insert )
+    .def( "delete",      &mailbox::remove )
+    .def( "replace",     &mailbox::replace )
+    .def( "update",      &mailbox::update )
+    .def( "showserial",  &mailbox::show_serial )
+    .def( "showtree",    &mailbox::show_tree )
+    .def( "mismatched",  &mailbox::get_mismatched )
+    .def( "matchindex",  &mailbox::get_match_char )
+    .def( "depth",       &mailbox::get_depth )
+    .def( "getcontexts", &mailbox::get_context_items )
+    .def( "isescaped",   &mailbox::is_escaped );
 
   /* Add functions */
   i.def("add_type", add_type );
