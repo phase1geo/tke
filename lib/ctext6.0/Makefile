@@ -4,7 +4,7 @@ DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-
 all: model.so
 
 model.so : model.h model.cc
-	g++ model.cc cpptcl/cpptcl.cc -g -fPIC -shared -o model.so -I/usr/include/tcl8.6 -I/usr/include/boost
+	g++ model.cc cpptcl/cpptcl.cc -g -fPIC -std=gnu++11 -shared -o model.so -I/usr/include/tcl8.6 -I/usr/include/boost
 
 model.dll : model.h model.cc
 	g++ model.cc cpptcl/cpptcl.cc -g -shared -o model.dll -I/usr/include/tcl8.6 -I/usr/include/boost $(DLLOPTS)
