@@ -33,6 +33,7 @@ lappend items [list "curly" right [list 5 [list 5 5]] 0 ""]
 lappend items [list "curly" right [list 5 [list 10 10]] 0 ""]
 
 # Update the model
+puts -nonewline "update, time: "
 puts [time {
 $m update [list 1 0] [list 10 5] [lsort -dictionary -index 2 $items]
 }]
@@ -55,21 +56,11 @@ puts "matching pos (2.10): [$m matchindex 2.10]"
 
 puts "5.10 escaped: [$m isescaped 5.10], 4.2 escaped: [$m isescaped 4.2], 4.1 escaped: [$m isescaped 4.1], 4.3 escaped: [$m isescaped 4.3]"
 
-puts -nonewline "Inserting, time: "
-puts [time { $m insert {5.0 5.5} }]
-puts [$m showserial]
-
-puts -nonewline "Deleting, time: "
-puts [time { $m delete {5.0 5.5} }]
-puts [$m showserial]
-
-puts -nonewline "Inserting, time: "
-puts [time { $m insert {5.0 6.5} }]
-puts [$m showserial]
-
-puts -nonewline "Replacing, time: "
-puts [time { $m replace {5.0 6.5 5.5} }]
-puts [$m showserial]
+$m insert {5.0 5.5}
+$m delete {5.0 5.5}
+$m insert {5.0 6.5}
+$m replace {5.0 6.5 5.5}
+puts [time {$m showtree}]
 
 # Delete the model
 $m -delete

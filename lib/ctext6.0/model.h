@@ -12,6 +12,7 @@
 #include <vector>
 #include <queue>
 #include <string>
+#include <stack>
 #include <map>
 #include <iostream>
 #include <iomanip>
@@ -253,7 +254,9 @@ class position {
     }
 
     /*! \return Returns the first column text index */
-    std::string to_index() const;
+    std::string to_index(
+      bool first_col = true
+    ) const;
 
     /*! \return Returns a Tcl object containing a list of the text widget indices */
     void to_pair( Tcl::object & pair ) const;
@@ -708,7 +711,7 @@ enum {
   REQUEST_MISMATCHED,
   REQUEST_MATCHINDEX,
   REQUEST_DEPTH,
-  REQUEST_GETCONTEXTS,
+  REQUEST_RENDERCONTEXTS,
   REQUEST_ISESCAPED,
   REQUEST_NUM
 };
@@ -717,43 +720,42 @@ class request {
 
   private:
 
-    void*       _inst;     /*!< Instance pointer */
     int         _command;  /*!< Command to execute */
     Tcl::object _args;     /*!< Arguments to pass to the command */
-    bool        _block;    /*!< Specifies that this command requires the
-                                model to be updated prior to its execution */
+    bool        _result;   /*!< Specifies that this command requires a result to be returned */
+    bool        _tree;     /*!< Specifies that this command requires the tree be up-to-date prior to processing */
 
   public:
 
     /*! Default contructor */
     request(
-      void*         inst,
-      int           command,
-      Tcl::object & args,
-      bool          block
-    ) : _inst   ( inst ),
-        _command( command ),
+      int                 command,
+      const Tcl::object & args,
+      bool                result,
+      bool                tree
+    ) : _command( command ),
         _args   ( args ),
-        _block  ( block ) {}
+        _result ( result ),
+        _tree   ( tree ) {}
 
     /*! Copy constructor */
     request( const request & req ) :
-      _inst   ( req._inst ),
       _command( req._command ),
       _args   ( req._args ),
-      _block  ( req._block ) {}
+      _result ( req._result ),
+      _tree   ( req._tree ) {}
 
     /*! Destructor */
     ~request() {}
 
     /*! Executes the request */
     Tcl::object execute(
-      bool & update_needed
+      model & inst,
+      bool  & update_needed
     ) const;
 
-    /*! \return Returns true if this command requires the model to be
-                up-to-date before we are run */
-    bool block() const { return( _block ); }
+    bool result() const { return( _result ); }
+    bool tree() const { return( _tree ); }
 
 };
 
@@ -761,47 +763,59 @@ class mailbox {
 
   private:
 
+    std::string          _win;            /*!< Tcl identifier for this instance */
     model                _model;          /*!< Model instance to use */
     std::queue<request*> _requests;       /*!< FIFO of requests */
-    bool                 _thread_active;  /*!< Set to true when a thread is currently active */
+    std::thread          _th;             /*!< Active thread */
+    Tcl::object          _result;         /*!< Stores the last returned result */
+    bool                 _update_needed;  /*!< Set to true when a tree update is eventually needed */
+
+    /*! Adds the specified request to the mailbox queue */
+    void add_request(
+      int                 command,
+      const Tcl::object & args,
+      bool                result,
+      bool                tree
+    );
 
   public:
 
     /*! Default constructor */
-    mailbox() : _thread_active( false ) {}
+    mailbox(
+      const std::string & win
+    ) : _win( win ), _update_needed( false ) {}
 
     /*! Destructor */
-    ~mailbox() {}
-
-    /*! Adds a request to the mailbox */
-    void request(
-      int                 cmd,
-      const Tcl::object & args,
-      bool                block
-    );
+    ~mailbox();
 
     /*! Execute items from the requests queue */
     void execute();
 
+    /*! \return Returns the last calculated result */
+    Tcl::object & result() {
+      if( _th.joinable() ) { _th.join(); }
+      return( _result );
+    }
+
     void insert( Tcl::object ranges );
     void remove( Tcl::object ranges );
     void replace( Tcl::object ranges );
-    bool update(
+    void update(
       Tcl::object linestart,
       Tcl::object lineend,
       Tcl::object elements
     );
-    std::string show_serial() const;
-    std::string show_tree() const;
-    Tcl::object get_mismatched() const;
+    Tcl::object show_serial();
+    Tcl::object show_tree();
+    Tcl::object get_mismatched();
     Tcl::object get_match_char( Tcl::object ti );
-    int get_depth( Tcl::object index, Tcl::object type );
-    bool is_escaped( Tcl::object ti ) const;
-    std::string get_context_items(
+    Tcl::object get_depth( Tcl::object index, Tcl::object type );
+    Tcl::object is_escaped( Tcl::object ti );
+    Tcl::object render_contexts(
       Tcl::object linestart,
       Tcl::object lineend,
       Tcl::object tags
-    ) const;
+    );
 
 };
 
