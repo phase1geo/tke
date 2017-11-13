@@ -21,7 +21,6 @@ namespace eval ctext {
   variable right_click 3
   variable this_dir    ""
   variable tpool       ""
-  variable model_tid   ""
 
   if {[tk windowingsystem] eq "aqua"} {
     set right_click 2
@@ -35,7 +34,6 @@ namespace eval ctext {
   proc initialize {{min 5} {max 15}} {
 
     variable tpool
-    variable model_tid
     variable this_dir
 
     if {$tpool eq ""} {
@@ -49,13 +47,13 @@ namespace eval ctext {
       } $this_dir $this_dir $this_dir [thread::id]]]
 
       # Create the modeling thread
-      set model_tid [thread::create [format {
-        source [file join %s utils.tcl]
-        source [file join %s parsers.tcl]
-        source [file join %s model2.tcl]
-        set utils::main_tid %s
-        thread::wait
-      } $this_dir $this_dir $this_dir [thread::id]]]
+#      set model_tid [thread::create [format {
+#        source [file join %s utils.tcl]
+#        source [file join %s parsers.tcl]
+#        source [file join %s model2.tcl]
+#        set utils::main_tid %s
+#        thread::wait
+#      } $this_dir $this_dir $this_dir [thread::id]]]
 
     }
 
@@ -66,13 +64,9 @@ namespace eval ctext {
   proc destroy {} {
 
     variable tpool
-    variable model_tid
 
     # Release the thread pool
     tpool::release $tpool
-
-    # Release the modeling thread
-    thread::release $model_tid
 
   }
 
@@ -83,7 +77,6 @@ namespace eval ctext {
     variable data
     variable right_click
     variable tpool
-    variable model_tid
 
     # Make sure that we are initialized if we have not been already
     initialize
@@ -234,7 +227,7 @@ namespace eval ctext {
     tsv::set indents  $win [list]
 
     # Create the model
-    thread::send -async $model_tid [list model::create $win]
+    model::create $win
 
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
