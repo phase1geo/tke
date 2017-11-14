@@ -34,8 +34,14 @@ class types {
       public:
         std::string name;
         bool        comstr;
-        type_data( std::string n, bool cs ) : name( n ), comstr( cs ) {}
-        type_data( const type_data & td ) : name( td.name ), comstr( td.comstr ) {}
+        std::string tagname;
+        type_data(
+          const std::string & n,
+          bool                cs,
+          const std::string & tn )
+          : name( n ), comstr( cs ), tagname( tn ) {}
+        type_data( const type_data & td )
+          : name( td.name ), comstr( td.comstr ), tagname( td.tagname ) {}
         ~type_data() {}
     };
 
@@ -70,10 +76,14 @@ class types {
     }
 
     /*! Adds the given name/value pairing to the class */
-    void add( std::string name, bool comstr ) {
+    void add(
+      const std::string & name,
+      bool                comstr,
+      const std::string & tagname
+    ) {
       if( get( name ) == -1 ) {
         _types.insert( std::make_pair( name, _id ) );
-        _data.insert(  std::make_pair( _id, type_data( name, comstr ) ) );
+        _data.insert(  std::make_pair( _id, type_data( name, comstr, tagname ) ) );
         _id++;
       }
     }
@@ -105,14 +115,24 @@ class types {
       return( it->second.comstr );
     }
 
+    /*! \return Returns the tagname associated with the given type */
+    std::string tagname( int value ) const {
+      std::map<int,type_data>::const_iterator it = _data.find( value );
+      if( it == _data.end() ) {
+        return( "" );
+      }
+      return( it->second.tagname );
+    }
+
 };
 
 /*! Adds the specified type and value to the singleton class */
 inline void add_type(
-  std::string name,
-  bool        comstr
+  const std::string & name,
+  bool                comstr,
+  const std::string & tagname
 ) {
-  types::staticObject().add( name, comstr );
+  types::staticObject().add( name, comstr, tagname );
 }
 
 /*! \return Returns the side value for the given name */
@@ -392,7 +412,7 @@ class serial_item {
       int      context
     ) : _type( type ),
         _side( side ),
-	_pos( pos ),
+        _pos( pos ),
         _iscontext( iscontext ),
         _node( 0 ),
         _context( context ) {}
@@ -422,6 +442,9 @@ class serial_item {
 
     /*! \return Returns the stored context indicator */
     bool iscontext() const { return( _iscontext ); }
+
+    /*! \return Returns the context that this item is valid within */
+    int context() const { return( _context ); }
 
     /*! \return Returns the stored position information */
     position & pos() { return( _pos ); }
@@ -621,8 +644,9 @@ class model {
 
   private:
 
-    serial _serial;  /*!< Serial list structure */
-    tree   _tree;    /*!< Tree structure */
+    serial      _serial;  /*!< Serial list structure */
+    tree        _tree;    /*!< Tree structure */
+    std::string _win;     /*!< Name of this model */
 
     /*!
      Converts the given object to a vector of text indices.
@@ -632,10 +656,20 @@ class model {
       std::vector<tindex> & vec
     );
 
+    /*!
+     Adds the given tag index to the list.
+    */
+    void add_tag_index(
+      Tcl::interpreter                  & i,
+      std::map<std::string,Tcl::object> & ranges,
+      const std::string                 & tag,
+      const std::string                 & index
+    );
+
   public:
 
     /*! Default constructor */
-    model() {}
+    model( const std::string & win ) : _win( win ) {}
 
     /*! Destructor */
     ~model() {}
@@ -689,12 +723,15 @@ class model {
     /*! \return Returns the depth of the given item in the tree */
     int get_depth( Tcl::object index, Tcl::object type );
 
-    /*! \return Returns the list of context tags */
-    std::string get_context_items(
+    /*!
+     Handles rendering all of the contexts in the given list as well
+     as what is stored in the model.
+    */
+    void render_contexts(
       Tcl::object linestart,
       Tcl::object lineend,
       Tcl::object tags
-    ) const;
+    );
 
     /*! \return Returns true if the given text index is immediately preceded by an escape */
     bool is_escaped( Tcl::object ti ) const;
@@ -763,12 +800,12 @@ class mailbox {
 
   private:
 
-    std::string          _win;            /*!< Tcl identifier for this instance */
     model                _model;          /*!< Model instance to use */
     std::queue<request*> _requests;       /*!< FIFO of requests */
     std::thread          _th;             /*!< Active thread */
     Tcl::object          _result;         /*!< Stores the last returned result */
     bool                 _update_needed;  /*!< Set to true when a tree update is eventually needed */
+    bool                 _thread_active;  /*!< Set to true while the thread is checking queue status */
 
     /*! Adds the specified request to the mailbox queue */
     void add_request(
@@ -783,7 +820,7 @@ class mailbox {
     /*! Default constructor */
     mailbox(
       const std::string & win
-    ) : _win( win ), _update_needed( false ) {}
+    ) : _model( win ), _update_needed( false ), _thread_active( false ) {}
 
     /*! Destructor */
     ~mailbox();
@@ -811,7 +848,7 @@ class mailbox {
     Tcl::object get_match_char( Tcl::object ti );
     Tcl::object get_depth( Tcl::object index, Tcl::object type );
     Tcl::object is_escaped( Tcl::object ti );
-    Tcl::object render_contexts(
+    void render_contexts(
       Tcl::object linestart,
       Tcl::object lineend,
       Tcl::object tags

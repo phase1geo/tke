@@ -433,7 +433,7 @@ namespace eval model {
       utils::log "serial: $data($win,serial)"
       utils::log "---------------------------------------------"
     }
-    
+
     return $updated
 
   }
@@ -644,7 +644,7 @@ namespace eval model {
   proc get_mismatched {win} {
 
     variable data
-    
+
     # Find all of the nodes that are mismatched and create a list of them
     set ranges [list]
     foreach node [$data($win,tree) descendants root filter model::mismatched] {
@@ -738,7 +738,7 @@ namespace eval model {
 
     # Get the serial index to search for
     lassign [find_serial_index data($win,serial) $tindex] index matches
-    
+
     # Get the node on the right
     if {[set b [lindex $data($win,serial) $index 4]] eq ""} {
       if {[set i [lsearch -start $index -index 4 -not $data($win,serial) ""]] == -1} {

@@ -3,17 +3,21 @@ switch -glob $tcl_platform(os) {
   Darwin  { load -lazy ./model.dylib }
   default { load -lazy ./model.so }
 }
-  
+
 # Add types to model
-foreach type [list "bcomment" "lcomment" "double" "single" "btick" ""] {
-  add_type $type 1
+foreach {type tag} [list "bcomment" "comment" \
+                         "lcomment" "comment" \
+                         "double"   "string" \
+                         "single"   "string" \
+                         "btick"    "string"] {
+  add_type $type 1 $tag
 }
 foreach type [list "curly" "escape"] {
-  add_type $type 0
+  add_type $type 0 $tag
 }
 
 # Create model itself
-set m [model]
+set m [model m]
 
 # Add the element to the intermediate serial list
 lappend items [list "bcomment" left [list 1 [list 1 2]] 1 ""]
