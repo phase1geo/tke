@@ -26,41 +26,101 @@ typedef struct {
   int col;
 } tindex;
 
+class type_data {
+  
+  private:
+  
+    std::string _name;
+    std::string _tagname;
+    bool        _comstr;
+    bool        _matching;
+    
+    /*! Copy constructor */
+    type_data(
+      const type_data & td
+    ) {}
+    
+    /*! Assignment operator */
+    type_data & operator=( const type_data & td ) {
+      return( *this );
+    }
+    
+    void set_internals() {
+      _comstr   = (_name.substr(0,9) == "bcomment:") ||
+                  (_name.substr(0,9) == "lcomment:") ||
+                  (_name == "double")   ||
+                  (_name == "single")   ||
+                  (_name == "btick")    ||
+                  (_name == "tdouble")  ||
+                  (_name == "tsingle")  ||
+                  (_name == "tbtick");
+      _matching = (_name == "curly")  ||
+                  (_name == "square") ||
+                  (_name == "paren")  ||
+                  (_name == "angled") ||
+                  (_name == "double") ||
+                  (_name == "single") ||
+                  (_name == "btick");
+    }
+    
+  public:
+  
+    /*! Default constructor */
+    type_data(
+      const std::string & name
+    ) : _name( name ), _tagname( "" ) {
+      set_internals();
+    }
+  
+    /*! Default constructor */
+    type_data(
+      const std::string & name,
+      const std::string & tagname
+    ) : _name( name ), _tagname( tagname ) {
+      set_internals();
+    }
+    
+    /*! Destructor */
+    ~type_data() {}
+    
+    /*! Returns the string name of the type */
+    const std::string & name() const { return( _name ); }
+    
+    /*! Equality operator */
+    bool operator==( const type_data & td ) const {
+      return( _name == td._name );
+    }
+    
+    /*! Inequality operator */
+    bool operator!=( const type_data & td ) const {
+      return( !(*this == td) );
+    }
+    
+    /*! \return Returns true if the type is a comment/string */
+    bool comstr() const { return( _comstr ); }
+      
+    /*! \return Returns true if the type should be matched */
+    bool matching() const { return( _matching ); }
+    
+    /*! \return Returns the associated tagname */
+    const std::string & tagname() const { return( _tagname ); }
+    
+};
+ 
 class types {
 
   private:
 
-    class type_data {
-      public:
-        std::string name;
-        bool        comstr;
-        std::string tagname;
-        type_data(
-          const std::string & n,
-          bool                cs,
-          const std::string & tn )
-          : name( n ), comstr( cs ), tagname( tn ) {}
-        type_data( const type_data & td )
-          : name( td.name ), comstr( td.comstr ), tagname( td.tagname ) {}
-        ~type_data() {}
-    };
-
-    std::map<std::string,int> _types;  /*!< Mapping of type string to integer values */
-    std::map<int,type_data>   _data;   /*!< Mapping of type integer to string values and comstr info */
-    std::string               _empty;  /*!< Used when we need to return a reference to the empty string */
-    int                       _id;     /*!< Unique identifier */
+    std::vector<type_data*> _types;  /*!< Mapping of type string to integer values */
 
     /*! Default constructor */
-    types() : _empty( "" ), _id( 0 ) {}
+    types() {}
+    
+    /*! Copy constructor */
+    types( const types & t ) {}
 
     /*! Assignment operator */
     types & operator=( const types & t ) {
-      for( std::map<std::string,int>::const_iterator it=t._types.begin(); it!=t._types.end(); it++ ) {
-        _types.insert( std::make_pair( (*it).first, (*it).second ) );
-      }
-      for( std::map<int,type_data>::const_iterator it=t._data.begin(); it!=t._data.end(); it++ ) {
-        _data.insert( std::make_pair( (*it).first, (*it).second ) );
-      }
       return( *this );
     }
 
@@ -75,65 +135,41 @@ class types {
       return( t );
     }
 
-    /*! Adds the given name/value pairing to the class */
+    /*! Adds the given type to the types list */
+    void add( const std::string & name ) {
+      if( get( name ) == 0 ) {
+        _types.push_back( new type_data( name ) );
+      }
+    }
+    
+    /*! Adds the given type to the types list */
     void add(
       const std::string & name,
-      bool                comstr,
       const std::string & tagname
     ) {
-      if( get( name ) == -1 ) {
-        std::cout << "Adding type, name: " << name << ", id: " << _id << ", tagname: " << tagname << std::endl;
-        _types.insert( std::make_pair( name, _id ) );
-        _data.insert(  std::make_pair( _id, type_data( name, comstr, tagname ) ) );
-        _id++;
+      if( get( name ) == 0 ) {
+        _types.push_back( new type_data( name, tagname ) );
       }
     }
 
     /*! Retrieves the integer value of the given string name */
-    int get( const std::string & name ) const {
-      std::map<std::string,int>::const_iterator it = _types.find( name );
-      if( it == _types.end() ) {
-        return( -1 );
+    const type_data* get( const std::string & name ) const {
+      for( std::vector<type_data*>::const_iterator it=_types.begin(); it!=_types.end(); it++ ) {
+        if( (*it)->name() == name ) {
+          return( (*it) );
+        }
       }
-      return( it->second );
+      return( 0 );
     }
-
-    /*! Retrieves the string name of the given integer type value */
-    const std::string & get( int value ) const {
-      std::map<int,type_data>::const_iterator it = _data.find( value );
-      if( it == _data.end() ) {
-        return( _empty );
-      }
-      return( it->second.name );
-    }
-
-    /*! \return Returns true if the given type is a comment or string type */
-    bool comstr( int value ) const {
-      std::map<int,type_data>::const_iterator it = _data.find( value );
-      if( it == _data.end() ) {
-        return( false );
-      }
-      return( it->second.comstr );
-    }
-
-    /*! \return Returns the tagname associated with the given type */
-    std::string tagname( int value ) const {
-      std::map<int,type_data>::const_iterator it = _data.find( value );
-      if( it == _data.end() ) {
-        return( "" );
-      }
-      return( it->second.tagname );
-    }
-
+    
 };
 
 /*! Adds the specified type and value to the singleton class */
 inline void add_type(
   const std::string & name,
-  bool                comstr,
-  const std::string & tagname
+  const std::string & tagname = ""
 ) {
-  types::staticObject().add( name, comstr, tagname );
+  types::staticObject().add( name, tagname );
 }
 
 /*! \return Returns the side value for the given name */
@@ -306,23 +342,21 @@ class tnode {
     std::vector<tnode*> _children;  /*!< Pointer to children of this node */
     serial_item*        _left;      /*!< Index of serial item on the left side */
     serial_item*        _right;     /*!< Index of serial item on the right side */
-    int                 _type;      /*!< Item type */
+    const type_data*    _type;      /*!< Item type */
     bool                _hidden;    /*!< Hidden indicator */
-    bool                _comstr;    /*!< Set to true if the type is a comment/string indicator */
 
   public:
 
     /*! Default constructor */
-    tnode( int type, bool comstr ) :
-      _left( 0 ), _right( 0 ), _type( type ), _hidden( false ), _comstr( comstr ) {}
+    tnode( const type_data* type ) :
+      _left( 0 ), _right( 0 ), _type( type ), _hidden( false ) {}
 
     /*! Copy constructor */
     tnode( const tnode & node ) :
-      _left  ( node._left ),
-      _right ( node._right ),
-      _type  ( node._type ),
-      _hidden( node._hidden ),
-      _comstr( node._comstr ) {}
+      _left    ( node._left ),
+      _right   ( node._right ),
+      _type    ( node._type ),
+      _hidden  ( node._hidden ) {}
 
     /*! Destructor */
     ~tnode() { clear(); }
@@ -331,7 +365,7 @@ class tnode {
     void clear();
 
     /*! \return Returns true if the node does not contain a matching set */
-    bool incomplete() const { return( (_type != -1) && ((_left == 0) || (_right == 0)) ); }
+    bool incomplete() const { return( (_type != 0) && ((_left == 0) || (_right == 0)) ); }
 
     /*! Sets the left pointer in the node to the given item */
     void left( serial_item* item ) { _left = item; }
@@ -352,22 +386,19 @@ class tnode {
     std::vector<tnode*> & children() { return( _children ); }
 
     /*! \return Returns true if this node is the root node */
-    bool isroot() const { return( _type == -1 ); }
+    bool isroot() const { return( _parent == 0 ); }
 
     /*! \return Returns the type of the node */
-    int type() const { return( _type ); }
-
-    /*! \return Returns the stored comstr value */
-    bool comstr() const { return( _comstr ); }
+    const type_data* type() const { return( _type ); }
 
     /*! \return Returns the index of the node in the parent */
     int index() const;
 
-    /*! \return Returns the depth of the node in the tree */
-    int depth(
-      int type = -1  /*!< If set to a type value, returns the depth of the given type
-                          (otherwise, tree depth is used). */
-    ) const;
+    /*! \return Returns the depth of the node in the tree with the matching type */
+    int depth() const;
+
+    /*! \return Returns the depth of the node in the tree with the matching type */
+    int depth( const type_data* type ) const;
 
     /*! \return Returns a string representation of this node and all children nodes */
     std::string to_string() const;
@@ -393,12 +424,12 @@ class serial_item {
 
   private:
 
-    int      _type;       /*!< Item type */
-    int      _side;       /*!< Side that the item represents of a pair (0 = none, 1 = left, 2 = right, 3 = any) */
-    position _pos;        /*!< Text widget position */
-    bool     _iscontext;  /*!< Set to true if this item is a part of a context */
-    tnode*   _node;       /*!< Pointer to the tree node associated with this item */
-    int      _context;    /*!< Context that this item is only valid in */
+    const type_data* _type;       /*!< Item type */
+    int              _side;       /*!< Side that the item represents of a pair (0 = none, 1 = left, 2 = right, 3 = any) */
+    position         _pos;        /*!< Text widget position */
+    bool             _iscontext;  /*!< Set to true if this item is a part of a context */
+    tnode*           _node;       /*!< Pointer to the tree node associated with this item */
+    const type_data* _context;    /*!< Context that this item is only valid in */
 
   public:
 
@@ -406,11 +437,11 @@ class serial_item {
      Default constructor.
     */
     serial_item(
-      int      type,
-      int      side,
-      position pos,
-      bool     iscontext,
-      int      context
+      const type_data* type,
+      int              side,
+      position         pos,
+      bool             iscontext,
+      const type_data* context
     ) : _type( type ),
         _side( side ),
         _pos( pos ),
@@ -420,6 +451,9 @@ class serial_item {
 
     /*! Constructor from a Tcl object */
     serial_item( Tcl::object item );
+    
+    /*! Copy constructor */
+    serial_item( const serial_item & si );
 
     /*! Destructor */
     ~serial_item() {}
@@ -439,13 +473,13 @@ class serial_item {
     int side() const { return( _side ); }
 
     /*! \return Returns the stored type */
-    int type() const { return( _type ); }
+    const type_data* type() const { return( _type ); }
 
     /*! \return Returns the stored context indicator */
     bool iscontext() const { return( _iscontext ); }
 
     /*! \return Returns the context that this item is valid within */
-    int context() const { return( _context ); }
+    const type_data* context() const { return( _context ); }
 
     /*! \return Returns the stored position information */
     position & pos() { return( _pos ); }
@@ -622,7 +656,7 @@ class tree {
   public:
 
     /*! Default constructor */
-    tree() : _tree( new tnode( -1, false ) ) {}
+    tree() : _tree( new tnode( 0 ) ) {}
 
     /*! Destructor */
     ~tree();
