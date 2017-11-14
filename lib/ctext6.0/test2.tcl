@@ -1,4 +1,5 @@
 switch -glob $tcl_platform(os) {
+  *Win*   -
   CYG*    { load -lazy ./model.dll }
   Darwin  { load -lazy ./model.dylib }
   default { load -lazy ./model.so }

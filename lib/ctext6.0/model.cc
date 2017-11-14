@@ -169,7 +169,9 @@ void position::adjust(
 
 serial_item::serial_item(
   object item
-) {
+) : _type    ( 0 ),
+    _context ( 0 )
+{
 
   interpreter i( item.get_interp(), false );
 
@@ -184,17 +186,27 @@ serial_item::serial_item(
 
 }
 
+serial_item::serial_item(
+  const serial_item & si
+) : _type      ( si._type ),
+    _side      ( si._side ),
+    _pos       ( si._pos ),
+    _iscontext ( si._iscontext ),
+    _node      ( si._node ),
+    _context   ( si._context )
+{}
+      
 string serial_item::to_string() const {
 
   ostringstream oss;
-  string        context = types::staticObject().get( _context );
+  string        context( _context ? _context->name() : "" );
 
   if( context.empty() || (context.find( " " ) != string::npos) ) {
     context.insert( 0, "{" );
     context.append( "}" );
   }
 
-  oss << "{" << types::staticObject().get( _type ) << " " << get_side( _side ) << " " << _pos.to_string() << " " << _iscontext << " " << context << "}";
+  oss << "{" << _type->name() << " " << get_side( _side ) << " " << _pos.to_string() << " " << _iscontext << " " << context << "}";
 
   return( oss.str() );
 
@@ -572,14 +584,24 @@ int tnode::index() const {
 
 }
 
+int tnode::depth() const {
+  
+  if( isroot() ) {
+    return( 0 );
+  } else {
+    return( _parent->depth() + 1 );
+  }
+  
+}
+
 int tnode::depth(
-  int type
+  const type_data* type
 ) const {
 
   if( isroot() ) {
     return( 0 );
   } else {
-    return( _parent->depth() + (((type == -1) || (_type == type)) ? 1 : 0) );
+    return( _parent->depth() + ((_type == type) ? 1 : 0) );
   }
 
 }
@@ -594,7 +616,7 @@ string tnode::to_string() const {
 
   oss << "(" << ((_left  == 0) ? "??" : _left->pos().to_index())
       << "-" << ((_right == 0) ? "??" : _right->pos().to_index())
-      << " {" << types::staticObject().get( _type ) << "})";
+      << " {" <<  _type->name() << "})";
 
   return( oss.str() );
 
@@ -654,7 +676,7 @@ void tree::insert_item(
       case 3 :  insert_root_any(   current, lescape, item );  break;
     }
 
-  } else if( !current->comstr() || (current->type() == item.type()) || (item.side() == 0) ) {
+  } else if( !current->type()->comstr() || (current->type() == item.type()) || (item.side() == 0) ) {
     switch( item.side() ) {
       case 0 :  insert_none(  current, lescape, item );  break;
       case 1 :  insert_left(  current, lescape, item );  break;
@@ -779,7 +801,7 @@ void tree::add_child_node(
   serial_item & item
 ) {
 
-  tnode* n = new tnode( item.type(), types::staticObject().comstr( item.type() ) );
+  tnode* n = new tnode( item.type() );
 
   /* Initialize the node */
   if( left ) {
@@ -867,20 +889,16 @@ int model::get_depth(
 ) {
 
   interpreter i( index.get_interp(), false );
-  tindex      ti = object_to_tindex( index );
-  int         typ;
   tnode*      node;
-
-  if( type.get<string>( i ).empty() ) {
-    typ = -1;
-  } else {
-    typ = types::staticObject().get( type.get<string>( i ) );
-  }
+  tindex      ti       = object_to_tindex( index );
+  string      type_str = type.get<string>( i );
 
   if( (node = _serial.find_node( ti )) == 0 ) {
     return( 0 );
+  } else if( type_str.empty() ) {
+    return( node->depth() );
   } else {
-    return( node->depth( typ ) );
+    return( node->depth( types::staticObject().get( type_str ) ) );
   }
 
 }
@@ -895,7 +913,7 @@ object model::get_match_char(
   if( si.matches() ) {
     serial_item* sitem = _serial[si.index()];
     position     pos;
-    if( sitem->node()->get_match_pos( sitem, pos ) ) {
+    if( sitem->type()->matching() && sitem->node()->get_match_pos( sitem, pos ) ) {
       pos.to_pair( retval );
     }
   }
@@ -927,15 +945,15 @@ object model::render_contexts (
   object tags
 ) {
 
-  interpreter        i( linestart.get_interp(), false );
-  serial             citems;
-  serial             titems;
-  std::stack<int>    context;
-  int                ltype  = types::staticObject().get( "" );
-  int                escape = types::staticObject().get( "escape" );
-  int                lrow   = 0;
-  int                lcol   = 0;
-  map<string,object> ranges;
+  interpreter                  i( linestart.get_interp(), false );
+  serial                       citems;
+  serial                       titems;
+  std::stack<const type_data*> context;
+  const type_data*             ltype  = types::staticObject().get( "" );
+  const type_data*             escape = types::staticObject().get( "escape" );
+  int                          lrow   = 0;
+  int                          lcol   = 0;
+  map<string,object>           ranges;
 
   context.push( ltype );
 
@@ -949,7 +967,7 @@ object model::render_contexts (
   /* Create the non-overlapping ranges for each of the context tags */
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {
     if( ((*it)->type() != escape) && ((ltype != escape) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_col() - 1))) ) {
-      const string & tagname = types::staticObject().tagname( (*it)->type() );
+      const string & tagname = (*it)->type()->tagname();
       if( (context.top() == (*it)->context()) && ((*it)->side() & 1) ) {
         context.push( (*it)->type() );
         add_tag_index( i, ranges, tagname, (*it)->pos().to_index( true ) );
