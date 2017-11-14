@@ -2964,7 +2964,7 @@ namespace eval ctext {
   # Renders the given tag with the specified ranges in the given widget.
   proc render {win tag ranges clear_all} {
 
-    puts "In render, tag: $tag, ranges: [llength $ranges], clear_all: $clear_all"
+    # puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
 
     if {$clear_all} {
       $win._t tag remove $tag 1.0 end

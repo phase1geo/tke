@@ -214,7 +214,7 @@ namespace eval parsers {
           foreach tag [lrange $tags end-[expr $found - 1] end] {
             lassign $tag type side pos dummy1 dummy2 ctx
             if {[set row [lindex $pos 0]] == $lrow} { continue }
-            set col [string length [lindex $lines [expr $row - 1]]]
+            set col [string length [lindex $lines [expr $row - $startrow]]]
             lappend tags [list $type right [list $row [list $col $col]] 1 $ctx]
             set lrow $row
           }
@@ -224,10 +224,16 @@ namespace eval parsers {
 
       set srow  $startrow
       set found 0
+      set trim  [expr {[string index $pattern 0] eq "^"}]
       foreach line $lines {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
+          if {$trim} {
+            set str  [string range $line {*}$indices]
+            set diff [expr [string length $str] - [string length [string trimleft $str]]]
+            lset indices 0 [expr [lindex $indices 0] + $diff]
+          }
           lappend tags [list $type $side [list $srow $indices] 1 $ctx]
           set start $endpos
           incr found
@@ -296,7 +302,7 @@ namespace eval parsers {
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags]} {
-      model::render_contexts $txt $linestart $lineend $tags
+      thread::send -async $utils::main_tid [list model::render_contexts $txt $linestart $lineend $tags]
     }
 
     # Add indentation and bracket markers to the tags list
@@ -304,12 +310,11 @@ namespace eval parsers {
     brackets    $txt $str $srow tags
 
     # Update the model
-    if {[model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
+    thread::send -async $utils::main_tid [list model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]
 
-      # Highlight mismatching brackets
-      render_mismatched $txt
-
-    }
+    #if {[model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
+      # render_mismatched $txt
+    #}
 
   }
 
