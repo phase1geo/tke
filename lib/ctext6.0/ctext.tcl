@@ -6,6 +6,12 @@ package require Tk
 package require Thread
 package provide ctext 6.0
 
+source [file join [file dirname [info script]] utils.tcl]
+source [file join [file dirname [info script]] model2.tcl]
+source [file join [file dirname [info script]] parsers.tcl]
+
+set utils::main_tid [thread::id]
+
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
 rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
 proc ::tk::TextSetCursor {w pos args} {
@@ -45,15 +51,6 @@ namespace eval ctext {
         source [file join %s model2.tcl]
         set utils::main_tid %s
       } $this_dir $this_dir $this_dir [thread::id]]]
-
-      # Create the modeling thread
-#      set model_tid [thread::create [format {
-#        source [file join %s utils.tcl]
-#        source [file join %s parsers.tcl]
-#        source [file join %s model2.tcl]
-#        set utils::main_tid %s
-#        thread::wait
-#      } $this_dir $this_dir $this_dir [thread::id]]]
 
     }
 
@@ -636,7 +633,7 @@ namespace eval ctext {
     lappend argTable {1 true yes} -matchaudit {
       set data($win,config,-matchaudit) 1
       $win tag configure missing -background $data($win,config,-matchaudit_bg)
-      thread::send -async $model_tid [list parsers::render_mismatched [thread::id] $win]
+      parsers::render_mismatched $win
       break
     }
 
@@ -1288,7 +1285,6 @@ namespace eval ctext {
   proc command_configure {win args} {
 
     variable data
-    variable model_tid
 
     if {[llength $args] == 0} {
       set res [$win._t configure]
@@ -1395,7 +1391,6 @@ namespace eval ctext {
 
     variable data
     variable tpool
-    variable model_tid
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
@@ -1429,7 +1424,7 @@ namespace eval ctext {
     }
 
     # Cause the model to handle the deletion
-    thread::send -async $model_tid [list model::delete $win $ranges]
+    model::delete $win $ranges
 
     # Update the undo information
     set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
@@ -1616,7 +1611,6 @@ namespace eval ctext {
   proc command_fastinsert {win args} {
 
     variable data
-    variable model_tid
 
     set i 0
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
@@ -1640,7 +1634,7 @@ namespace eval ctext {
     set endPos [$win._t index "$startPos+${chars}c"]
 
     # Update the model with the insertion
-    thread::send -async $model_tid [list model::insert $win $startPos $endPos]
+    model::insert $win $startPos $endPos
 
     if {$opts(-undo)} {
       undo_insert $win $startPos $chars $cursor
@@ -1735,7 +1729,6 @@ namespace eval ctext {
 
     variable data
     variable tpool
-    variable model_tid
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
@@ -1769,7 +1762,7 @@ namespace eval ctext {
     }
 
     # Update the model
-    thread::send -async $model_tid [list model::insert $win $ranges]
+    model::insert $win $ranges
 
     # Update the undo buffer
     set ids [tpool::post $tpool [list ctext::undo_insert $win $inserts $chars $cursors]]
@@ -2396,7 +2389,6 @@ namespace eval ctext {
   proc matchBracket {win} {
 
     variable data
-    variable model_tid
 
     # Clear the matchchar tag
     catch { $win._t tag remove matchchar 1.0 end }
@@ -2409,7 +2401,7 @@ namespace eval ctext {
     }
 
     # Render the matching character
-    thread::send -async $model_tid [list parsers::render_match_char [thread::id] $win $pos]
+    parsers::render_match_char $win $pos
 
   }
 
@@ -2586,7 +2578,6 @@ namespace eval ctext {
   proc setContextPatterns {win type tag lang patterns {fg "grey"} {bg ""}} {
 
     variable data
-    variable model_tid
 
     if {[llength $patterns] > 0} {
 
@@ -2602,7 +2593,7 @@ namespace eval ctext {
           lappend tags $type:$i left  [lindex $pattern 0] $lang
           lappend tags $type:$i right [lindex $pattern 1] $lang
         }
-        thread::send -async $model_tid [list model::add_types $win $type:$i 1 _$tag]
+        model::add_types $win $type:$i 1 _$tag
         incr i
       }
 
@@ -2632,7 +2623,7 @@ namespace eval ctext {
     foreach pattern $patterns {
       lappend tags indent:$i left  [lindex $pattern 0] $lang
       lappend tags indent:$i right [lindex $pattern 1] $lang
-      thread::send -async $model_tid [list model::add_types $win $type:$i 0]
+      model::add_types $win $type:$i 0
       incr i
     }
 
@@ -2644,8 +2635,6 @@ namespace eval ctext {
   ######################################################################
   # Adds the given brackets for parsing purposes.
   proc setBrackets {win lang types {fg "green"} {bg ""}} {
-
-    variable model_tid
 
     array set btag_types {
       curly  {curly  left {\{} "%s" curly  right {\}} "%s"}
@@ -2669,12 +2658,12 @@ namespace eval ctext {
     foreach type $types {
       if {[info exists btag_types($type)]} {
         lappend btags {*}[format $btag_types($type) $lang $lang]
-        thread::send -async $model_tid [list model::add_types $win $type 0]
+        model::add_types $win $type 0
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         $win._t tag configure _string -foreground $fg -background $bg
         $win._t tag lower     _string sel
-        thread::send -async $model_tid [list model::add_types $win $type 1 _string]
+        model::add_types $win $type 1 _string
       }
     }
 
@@ -2975,7 +2964,7 @@ namespace eval ctext {
   # Renders the given tag with the specified ranges in the given widget.
   proc render {win tag ranges clear_all} {
 
-    puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
+    puts "In render, tag: $tag, ranges: [llength $ranges], clear_all: $clear_all"
 
     if {$clear_all} {
       $win._t tag remove $tag 1.0 end
@@ -3016,7 +3005,6 @@ namespace eval ctext {
 
     variable data
     variable tpool
-    variable model_tid
 
     if {![winfo exists $win]} {
       return
@@ -3034,16 +3022,22 @@ namespace eval ctext {
     set lineend   [$win._t index "$end lineend"]
     set startrow  [lindex [split $linestart .] 0]
     set str       [$win._t get $linestart $lineend]
-    set tid       [thread::id]
     set namelist  [array get data $win,highlight,keyword,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
 
     # Perform bracket parsing
-    thread::send -async $model_tid [list parsers::markers $tpool $tid $win $str $linestart $lineend]
+    lappend jobids [tpool::post $tpool \
+      [list parsers::markers $win $str $linestart $lineend] \
+    ]
+
+    # Mark the prewhite space
+    lappend jobids [tpool::post $tpool \
+      [list parsers::prewhite $win $str $startrow] \
+    ]
 
     # Perform keyword/startchars parsing
     lappend jobids [tpool::post $tpool \
-      [list parsers::keywords_startchars $tid $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
+      [list parsers::keywords_startchars $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
     ]
 
     # Handle regular expression parsing
@@ -3053,12 +3047,12 @@ namespace eval ctext {
         lassign $data($win,highlight,$name) re re_opts
         if {$type eq "class"} {
           lappend jobids [tpool::post $tpool \
-            [list parsers::regexp_class $tid $win $str $startrow $re $value] \
+            [list parsers::regexp_class $win $str $startrow $re $value] \
           ]
         } else {
           # TBD - Need to add command
           lappend jobids [tpool::post $tpool \
-            [list parsers::regexp_command $tid $win $str $startrow $re $value $ins] \
+            [list parsers::regexp_command $win $str $startrow $re $value $ins] \
           ]
         }
       }

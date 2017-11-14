@@ -44,9 +44,9 @@ namespace eval parsers {
 
   ######################################################################
   # Renders the given tag with the specified ranges.
-  proc render {tid txt tag ranges clear_all} {
+  proc render {txt tag ranges clear_all} {
 
-    thread::send -async $tid [list ctext::render $txt $tag $ranges $clear_all]
+    thread::send -async $utils::main_tid [list ctext::render $txt $tag $ranges $clear_all]
 
   }
 
@@ -63,7 +63,7 @@ namespace eval parsers {
   # Parses the given string for keywords and names that start with a
   # given character.  Runs within a thread which calls the main application
   # thread to render the highlighting.
-  proc keywords_startchars {tid txt str startrow wordslist startlist pattern nocase} {
+  proc keywords_startchars {txt str startrow wordslist startlist pattern nocase} {
 
     array set words  $wordslist
     array set starts $startlist
@@ -90,7 +90,7 @@ namespace eval parsers {
 
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
-      render $tid $txt $tag $ranges 0
+      render $txt $tag $ranges 0
     }
 
   }
@@ -99,7 +99,7 @@ namespace eval parsers {
   # Parses the given string for a single regular expression which is
   # handled as a class.  Runs within a thread which calls the main
   # application thread to render the highlighting.
-  proc regexp_class {tid txt str startrow pattern tag} {
+  proc regexp_class {txt str startrow pattern tag} {
 
     set ranges [list]
 
@@ -115,7 +115,7 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    render $tid $txt $tag $ranges 0
+    render $txt $tag $ranges 0
 
   }
 
@@ -123,7 +123,7 @@ namespace eval parsers {
   # Parses the given string for a single regular expression which calls
   # a handling command for further processing.  Runs within a thread which
   # calls the main application thread to render the highlighting.
-  proc regexp_command {tid txt str startrow pattern cmd ins} {
+  proc regexp_command {txt str startrow pattern cmd ins} {
 
     array set tags [list]
 
@@ -145,7 +145,7 @@ namespace eval parsers {
 
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
-      render $tid $txt $tag $ranges 0
+      render $txt $tag $ranges 0
     }
 
   }
@@ -176,7 +176,7 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the whitespace found at the beginning of each line.
-  proc prewhite {tid txt str startrow} {
+  proc prewhite {txt str startrow} {
 
     set ranges [list]
 
@@ -191,7 +191,7 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    render $tid $txt _prewhite $ranges 0
+    render $txt _prewhite $ranges 0
 
   }
 
@@ -284,9 +284,7 @@ namespace eval parsers {
 
   ######################################################################
   # Store all file markers in a model for fast processing.
-  proc markers {tpool tid txt str linestart lineend} {
-
-    utils::log "In markers..."
+  proc markers {txt str linestart lineend} {
 
     lassign [split $linestart .] srow scol
 
@@ -298,8 +296,7 @@ namespace eval parsers {
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags]} {
-      render_contexts $tid $txt $linestart $lineend $tags
-      # tpool::post $tpool [list parsers::render_contexts $tid $txt [tsv::get serial $txt] $linestart $lineend $tags]
+      model::render_contexts $txt $linestart $lineend $tags
     }
 
     # Add indentation and bracket markers to the tags list
@@ -308,76 +305,29 @@ namespace eval parsers {
 
     # Update the model
     if {[model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
-    
+
       # Highlight mismatching brackets
-      render_mismatched $tid $txt
-      
+      render_mismatched $txt
+
     }
-
-  }
-
-  ######################################################################
-  # Handles rendering any contexts that we have (i.e., strings, comments,
-  # embedded language blocks, etc.)
-  proc render_contexts {tid txt linestart lineend tags} {
-
-    variable data
-
-    # Get the list of context tags to render
-    model::get_context_tags $txt $linestart $lineend tags
-
-    # Create the context stack structure
-    ::struct::stack context
-
-    context push ""
-    lassign {"" 0 0} ltype lrow lcol
-
-    # Create the non-overlapping ranges for each of the context tags
-    array set ranges {}
-    foreach tag $tags {
-      lassign $tag   type side index dummy1 dummy2 ctx
-      lassign $index row cols
-      if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ([lindex $cols 0] - 1)))} {
-        set tagname [model::get_tagname $txt $type]
-        set current [context peek]
-        if {($current eq $ctx) && (($side eq "any") || ($side eq "left"))} {
-          context push $type
-          lappend ranges($tagname) $row.[lindex $cols 0]
-        } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
-          context pop
-          lappend ranges($tagname) $row.[expr [lindex $cols 1] + 1]
-        } elseif {![info exists ranges($tag)]} {
-          set ranges($tagname) [list]
-        }
-      }
-      lassign [list $type $row [lindex $cols 0]] ltype lrow lcol
-    }
-
-    # Render the tags
-    foreach tag [array names ranges] {
-      render $tid $txt $tag $ranges($tag) 1
-    }
-
-    # Destroy the stack
-    context destroy
 
   }
 
   ######################################################################
   # Highlights the mismatched brackets.
-  proc render_mismatched {tid win} {
+  proc render_mismatched {win} {
 
-    render $tid $win missing [model::get_mismatched $win] 1
+    render $win missing [model::get_mismatched $win] 1
 
   }
 
   ######################################################################
   # Highlights the matching character.
-  proc render_match_char {tid win tindex} {
+  proc render_match_char {win tindex} {
 
     # Get the matching character
     if {[model::get_match_char $win tindex]} {
-      render $tid $win matchchar $tindex 0
+      render $win matchchar $tindex 0
     }
 
   }

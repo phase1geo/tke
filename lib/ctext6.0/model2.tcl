@@ -45,11 +45,12 @@ namespace eval model {
 
     variable data
 
-    set data($win,model) [model]
+    set data($win,model) [model $win]
     set data($win,debug) 0
 
     # Add the escape type
-    add_type "escape" 0
+    add_type ""       1 ""
+    add_type "escape" 0 ""
 
   }
 
@@ -103,13 +104,8 @@ namespace eval model {
   # Adds the given types to the model.
   proc add_types {win types comstr {tagname ""}} {
 
-    variable data
-
     foreach type $types {
-      add_type $type $comstr
-      if {$tagname ne ""} {
-        set data($win,tags,$type) $tagname
-      }
+      add_type $type $comstr $tagname
     }
 
   }
@@ -167,13 +163,13 @@ namespace eval model {
   ######################################################################
   # Temporarily merge the current serial list with the tags
   # so that we can figure out which contexts to serially highlight
-  proc get_context_tags {win linestart lineend ptags} {
+  proc render_contexts {win linestart lineend tags} {
 
     variable data
 
-    upvar $ptags tags
+    utils::log "In render_contexts, win: $win"
 
-    set tags [$data($win,model) getcontexts $linestart $lineend [lsort -dictionary -index 2 $tags]]
+    $data($win,model) rendercontexts $linestart $lineend [lsort -dictionary -index 2 $tags]
 
   }
 
@@ -189,9 +185,9 @@ namespace eval model {
     set ctime [time { set changed [$data($win,model) update $linestart $lineend $elements] }]
 
     utils::log "update time: $ctime"
-   
+
     return $changed
-    
+
   }
 
   ######################################################################
@@ -225,7 +221,9 @@ namespace eval model {
 
     upvar $ptindex tindex
 
-    return [expr {[set tindex [$data($win,model) matchindex $tindex]] ne ""}]
+    set tindex [$data($win,model) matchindex $tindex]
+
+    return [expr {$tindex ne ""}]
 
   }
 

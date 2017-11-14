@@ -913,10 +913,10 @@ void model::add_tag_index(
 
   map<string,object>::iterator it = ranges.find( tag );
 
-  if( it == ranges::npos ) {
+  if( it == ranges.end() ) {
     ranges.insert( make_pair( tag, (object)index ) );
   } else {
-    it->second.append( i, index );
+    it->second.append( i, (object)index );
   }
 
 }
@@ -926,6 +926,8 @@ void model::render_contexts (
   object lineend,
   object tags
 ) {
+
+  cout << "In render_contexts" << endl;
 
   interpreter        i( linestart.get_interp(), false );
   serial             citems;
@@ -945,11 +947,11 @@ void model::render_contexts (
   /* Merge the context items with the tags */
   titems.append( tags );
   citems.update( object_to_tindex( linestart ), object_to_tindex( lineend ), titems );
-  
+
   /* Create the non-overlapping ranges for each of the context tags */
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {
-    if( ((*it)->type() != escape) && ((ltype != escape) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_row() - 1))) ) {
-      string tagname = get_tagname( (*it)->type() );
+    if( ((*it)->type() != escape) && ((ltype != escape) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_col() - 1))) ) {
+      const string & tagname = types::staticObject().tagname( (*it)->type() );
       if( (context.top() == (*it)->context()) && ((*it)->side() & 1) ) {
         context.push( (*it)->type() );
         add_tag_index( i, ranges, tagname, (*it)->pos().to_index( true ) );
@@ -958,12 +960,12 @@ void model::render_contexts (
         add_tag_index( i, ranges, tagname, (*it)->pos().to_index( false ) );
       } else {
         map<string,object>::iterator it = ranges.find( tagname );
-        if( it == ranges.npos() ) {
-          ranges.insert( make_pair( tagname, object() );
+        if( it == ranges.end() ) {
+          ranges.insert( make_pair( tagname, object() ) );
         }
       }
     }
-    ltype = type;
+    ltype = (*it)->type();
     lrow  = (*it)->pos().row();
     lcol  = (*it)->pos().start_col();
   }
@@ -971,11 +973,12 @@ void model::render_contexts (
   /* Render the ranges */
   for( map<string,object>::iterator it=ranges.begin(); it!=ranges.end(); it++ ) {
     ostringstream oss;
-    object cmd = "thread::send -async $model::main_tid [list ctext::render" );
-    cmd.append( i, _win );
-    cmd.append( i, it->first );
+    object cmd( "thread::send -async $utils::main_tid [list ctext::render" );
+    cmd.append( i, (object)_win );
+    cmd.append( i, (object)(it->first) );
     cmd.append( i, it->second );
-    cmd.append( i, "1]" );
+    cmd.append( i, (object)"1]" );
+    cout << "Executing command: " << cmd.get<string>( i ) << endl;
     i.eval( cmd );
   }
 
@@ -1030,6 +1033,7 @@ object request::execute(
       break;
     default :
       throw runtime_error( "Unknown command" );
+      break;
   }
 
   return( (object)0 );
@@ -1066,7 +1070,11 @@ void mailbox::add_request(
   _requests.push( new request( command, args, result, tree ) );
 
   /* If the processing thread is currently running, start it now */
-  if( !_th.joinable() ) {
+  if( !_th.joinable() || !_thread_active ) {
+    if( _th.joinable() ) {
+      _th.join();
+    }
+    _thread_active = true;
     _th = thread( mailbox_execute, std::ref( *this ) );
   }
 
@@ -1077,24 +1085,27 @@ void mailbox::execute() {
   bool pause = false;
   int  count = 0;
 
-  while( !_requests.empty() && !pause ) {
-    if( _update_needed && _requests.front()->tree() ) {
-      _model.update_tree();
-      _update_needed = false;
+  do {
+
+    /* Service pending requests */
+    while( !_requests.empty() && !pause ) {
+      if( _update_needed && _requests.front()->tree() ) {
+        _model.update_tree();
+        _update_needed = false;
+      }
+      _result = _requests.front()->execute( _model, _update_needed );
+      pause   = _requests.front()->result();
+      delete _requests.front();
+      _requests.pop();
+      count++;
     }
-    _result = _requests.front()->execute( _model, _update_needed );
-    pause   = _requests.front()->result();
-    delete _requests.front();
-    _requests.pop();
-    count++;
-  }
 
-  cout << "Execute, update_needed: " << _update_needed << ", count: " << count << endl;
+    /* Update the tree if we need to and we were not paused */
+    if( !pause && _update_needed ) {
+      _model.update_tree();
+    }
 
-  /* Update the tree if we need to and we were not paused */
-  if( !pause && _update_needed ) {
-    _model.update_tree();
-  }
+  } while( _thread_active = (!_requests.empty() && !pause) );
 
 }
 
@@ -1206,7 +1217,7 @@ object mailbox::is_escaped(
 
 }
 
-object mailbox::render_contexts(
+void mailbox::render_contexts(
   object linestart,
   object lineend,
   object tags
@@ -1221,8 +1232,6 @@ object mailbox::render_contexts(
 
   add_request( REQUEST_RENDERCONTEXTS, args, false, false );
 
-  return( result() );
-
 }
 
 /* -------------------------------------------------------------- */
@@ -1235,18 +1244,18 @@ CPPTCL_MODULE(Model, i) {
     .def( "get",    &serial::to_string );
 
   /* Define the model class */
-  i.class_<mailbox>("model")
-    .def( "insert",      &mailbox::insert )
-    .def( "delete",      &mailbox::remove )
-    .def( "replace",     &mailbox::replace )
-    .def( "update",      &mailbox::update )
-    .def( "showserial",  &mailbox::show_serial )
-    .def( "showtree",    &mailbox::show_tree )
-    .def( "mismatched",  &mailbox::get_mismatched )
-    .def( "matchindex",  &mailbox::get_match_char )
-    .def( "depth",       &mailbox::get_depth )
-    .def( "getcontexts", &mailbox::get_context_items )
-    .def( "isescaped",   &mailbox::is_escaped );
+  i.class_<mailbox>("model", init<const string &>())
+    .def( "insert",         &mailbox::insert )
+    .def( "delete",         &mailbox::remove )
+    .def( "replace",        &mailbox::replace )
+    .def( "update",         &mailbox::update )
+    .def( "showserial",     &mailbox::show_serial )
+    .def( "showtree",       &mailbox::show_tree )
+    .def( "mismatched",     &mailbox::get_mismatched )
+    .def( "matchindex",     &mailbox::get_match_char )
+    .def( "depth",          &mailbox::get_depth )
+    .def( "rendercontexts", &mailbox::render_contexts )
+    .def( "isescaped",      &mailbox::is_escaped );
 
   /* Add functions */
   i.def("add_type", add_type );
