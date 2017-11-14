@@ -82,6 +82,7 @@ class types {
       const std::string & tagname
     ) {
       if( get( name ) == -1 ) {
+        std::cout << "Adding type, name: " << name << ", id: " << _id << ", tagname: " << tagname << std::endl;
         _types.insert( std::make_pair( name, _id ) );
         _data.insert(  std::make_pair( _id, type_data( name, comstr, tagname ) ) );
         _id++;
@@ -727,7 +728,7 @@ class model {
      Handles rendering all of the contexts in the given list as well
      as what is stored in the model.
     */
-    void render_contexts(
+    Tcl::object render_contexts(
       Tcl::object linestart,
       Tcl::object lineend,
       Tcl::object tags
@@ -848,7 +849,7 @@ class mailbox {
     Tcl::object get_match_char( Tcl::object ti );
     Tcl::object get_depth( Tcl::object index, Tcl::object type );
     Tcl::object is_escaped( Tcl::object ti );
-    void render_contexts(
+    Tcl::object render_contexts(
       Tcl::object linestart,
       Tcl::object lineend,
       Tcl::object tags

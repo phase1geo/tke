@@ -167,9 +167,9 @@ namespace eval model {
 
     variable data
 
-    utils::log "In render_contexts, win: $win"
-
-    $data($win,model) rendercontexts $linestart $lineend [lsort -dictionary -index 2 $tags]
+    foreach {tag ranges} [$data($win,model) rendercontexts $linestart $lineend [lsort -dictionary -index 2 $tags]] {
+      ctext::render $win $tag $ranges 1
+    }
 
   }
 
@@ -180,11 +180,7 @@ namespace eval model {
 
     variable data
 
-    # utils::log "In update, linestart: $linestart, lineend: $lineend, elements: $elements"
-
-    set ctime [time { set changed [$data($win,model) update $linestart $lineend $elements] }]
-
-    utils::log "update time: $ctime"
+    set changed [$data($win,model) update $linestart $lineend $elements]
 
     return $changed
 

@@ -102,7 +102,7 @@ string position::to_index(
 
   ostringstream oss;
 
-  oss << _row << "." << (first_col ? _scol : _ecol);
+  oss << _row << "." << (first_col ? _scol : (_ecol + 1));
 
   return( oss.str() );
 
@@ -921,13 +921,11 @@ void model::add_tag_index(
 
 }
 
-void model::render_contexts (
+object model::render_contexts (
   object linestart,
   object lineend,
   object tags
 ) {
-
-  cout << "In render_contexts" << endl;
 
   interpreter        i( linestart.get_interp(), false );
   serial             citems;
@@ -971,16 +969,13 @@ void model::render_contexts (
   }
 
   /* Render the ranges */
+  object result;
   for( map<string,object>::iterator it=ranges.begin(); it!=ranges.end(); it++ ) {
-    ostringstream oss;
-    object cmd( "thread::send -async $utils::main_tid [list ctext::render" );
-    cmd.append( i, (object)_win );
-    cmd.append( i, (object)(it->first) );
-    cmd.append( i, it->second );
-    cmd.append( i, (object)"1]" );
-    cout << "Executing command: " << cmd.get<string>( i ) << endl;
-    i.eval( cmd );
+    result.append( i, (object)it->first );
+    result.append( i, it->second );
   }
+
+  return( result );
 
 }
 
@@ -1026,7 +1021,7 @@ object request::execute(
       return( (object)inst.get_depth( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
     case REQUEST_RENDERCONTEXTS :
-      inst.render_contexts( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      return( inst.render_contexts( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_ISESCAPED :
       return( (object)inst.is_escaped( _args ) );
@@ -1217,7 +1212,7 @@ object mailbox::is_escaped(
 
 }
 
-void mailbox::render_contexts(
+object mailbox::render_contexts(
   object linestart,
   object lineend,
   object tags
@@ -1230,7 +1225,9 @@ void mailbox::render_contexts(
   args.append( i, lineend );
   args.append( i, tags );
 
-  add_request( REQUEST_RENDERCONTEXTS, args, false, false );
+  add_request( REQUEST_RENDERCONTEXTS, args, true, false );
+
+  return( result() );
 
 }
 
