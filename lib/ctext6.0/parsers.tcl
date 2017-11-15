@@ -63,13 +63,13 @@ namespace eval parsers {
   # Parses the given string for keywords and names that start with a
   # given character.  Runs within a thread which calls the main application
   # thread to render the highlighting.
-  proc keywords_startchars {txt str startrow wordslist startlist pattern nocase} {
+  proc keywords_startchars {txt str startrow wordslist startlist pattern case_sensitive} {
 
     array set words  $wordslist
     array set starts $startlist
     array set tags   [list]
 
-    set transform [expr {$nocase ? "string tolower" : "nochange"}]
+    set transform [expr {$case_sensitive ? "nochange" : "string tolower"}]
 
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
