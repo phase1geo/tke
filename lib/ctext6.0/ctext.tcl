@@ -2593,7 +2593,7 @@ namespace eval ctext {
           lappend tags $type:$i left  [lindex $pattern 0] $lang
           lappend tags $type:$i right [lindex $pattern 1] $lang
         }
-        model::add_types $win $type:$i 1 _$tag
+        model::add_types $win $type:$i _$tag
         incr i
       }
 
@@ -2623,7 +2623,7 @@ namespace eval ctext {
     foreach pattern $patterns {
       lappend tags indent:$i left  [lindex $pattern 0] $lang
       lappend tags indent:$i right [lindex $pattern 1] $lang
-      model::add_types $win $type:$i 0
+      model::add_types $win $type:$i
       incr i
     }
 
@@ -2658,12 +2658,12 @@ namespace eval ctext {
     foreach type $types {
       if {[info exists btag_types($type)]} {
         lappend btags {*}[format $btag_types($type) $lang $lang]
-        model::add_types $win $type 0
+        model::add_types $win $type
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         $win._t tag configure _string -foreground $fg -background $bg
         $win._t tag lower     _string sel
-        model::add_types $win $type 1 _string
+        model::add_types $win $type _string
       }
     }
 
