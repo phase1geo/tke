@@ -1118,7 +1118,7 @@ void mailbox::execute() {
       _model.update_tree();
     }
 
-  } while( _thread_active = (!_requests.empty() && !pause) );
+  } while( (_thread_active = (!_requests.empty() && !pause)) );
 
 }
 
