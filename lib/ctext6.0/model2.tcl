@@ -102,10 +102,10 @@ namespace eval model {
 
   ######################################################################
   # Adds the given types to the model.
-  proc add_types {win types comstr {tagname ""}} {
+  proc add_types {win types {tagname ""}} {
 
     foreach type $types {
-      add_type $type $comstr $tagname
+      add_type $type $tagname
     }
 
   }

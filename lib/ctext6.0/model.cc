@@ -195,7 +195,7 @@ serial_item::serial_item(
     _node      ( si._node ),
     _context   ( si._context )
 {}
-      
+
 string serial_item::to_string() const {
 
   ostringstream oss;
@@ -585,13 +585,13 @@ int tnode::index() const {
 }
 
 int tnode::depth() const {
-  
+
   if( isroot() ) {
     return( 0 );
   } else {
     return( _parent->depth() + 1 );
   }
-  
+
 }
 
 int tnode::depth(
@@ -939,7 +939,7 @@ void model::add_tag_index(
 
 }
 
-object model::render_contexts (
+object model::render_contexts(
   object linestart,
   object lineend,
   object tags
