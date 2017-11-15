@@ -19,6 +19,7 @@
 #include <thread>
 
 #include "cpptcl/cpptcl.h"
+#include "linemap.h"
 
 /*! Text widget index */
 typedef struct {
@@ -681,6 +682,7 @@ class model {
 
     serial      _serial;  /*!< Serial list structure */
     tree        _tree;    /*!< Tree structure */
+    linemap     _linemap; /*!< Line map structure */
     std::string _win;     /*!< Name of this model */
 
     /*!
