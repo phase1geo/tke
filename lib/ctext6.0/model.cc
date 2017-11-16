@@ -9,36 +9,6 @@
 using namespace std;
 using namespace Tcl;
 
-static tindex object_to_tindex( const object & obj ) {
-
-  interpreter i( obj.get_interp(), false );
-  string      value  = obj.get<string>( i );
-  int         period = value.find( "." );
-  tindex ti;
-
-  if( period == string::npos ) {
-    /* Throw an error */
-    return( ti );
-  }
-
-  /* Populate the tindex */
-  ti.row = atoi( value.substr( 0, (period + 1) ).c_str() );
-  ti.col = atoi( value.substr( (period + 1) ).c_str() );
-
-  return( ti );
-
-}
-
-static string tindex_to_string( const tindex & ti ) {
-
-  ostringstream oss;
-
-  oss << ti.row << "." << ti.col;
-
-  return( oss.str() );
-
-}
-
 int get_side( std::string name ) {
 
   static map<string,int> side_values;
@@ -1044,6 +1014,21 @@ object request::execute(
     case REQUEST_ISESCAPED :
       return( (object)inst.is_escaped( _args ) );
       break;
+    case REQUEST_RENDERLINEMAP :
+      return( inst.render_linemap( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_SETMARKER :
+      inst.set_marker( _args.at( i, 0 ), _args.at( i, 1 ) );
+      break;
+    case REQUEST_GUTTERCREATE :
+      inst.gutter_create( _args.at( i, 0 ), _args.at( i, 1 ) );
+      break;
+    case REQUEST_GUTTERSET :
+      inst.gutter_set( _args.at( i, 0 ), _args.at( i, 1 ) );
+      break;
+    case REQUEST_GUTTERNAMES :
+      return( inst.gutter_names() );
+      break;
     default :
       throw runtime_error( "Unknown command" );
       break;
@@ -1249,6 +1234,78 @@ object mailbox::render_contexts(
 
 }
 
+object mailbox::render_linemap(
+  object first_row,
+  object last_row
+) {
+
+  interpreter i( first_row.get_interp(), false );
+  object      args;
+
+  args.append( i, first_row );
+  args.append( i, last_row );
+
+  add_request( REQUEST_RENDERLINEMAP, args, true, false );
+
+  return( result() );
+
+}
+
+void mailbox::set_marker(
+  object row,
+  object name
+) {
+
+  interpreter i( row.get_interp(), false );
+  object      args;
+
+  args.append( i, row );
+  args.append( i, name );
+
+  add_request( REQUEST_SETMARKER, args, false, false );
+
+}
+
+void mailbox::gutter_create(
+  object name,
+  object opts
+) {
+
+  interpreter i( name.get_interp(), false );
+  object      args;
+
+  args.append( i, name );
+  args.append( i, opts );
+
+  add_request( REQUEST_GUTTERCREATE, args, false, false );
+
+}
+
+void mailbox::gutter_set(
+  object name,
+  object values
+) {
+
+  interpreter i( name.get_interp(), false );
+  object      args;
+
+  args.append( i, name );
+  args.append( i, values );
+
+  add_request( REQUEST_GUTTERSET, args, false, false );
+
+}
+
+object mailbox::gutter_names() {
+
+  object args;
+
+  add_request( REQUEST_GUTTERNAMES, args, true, false );
+
+  return( result() );
+
+}
+
 /* -------------------------------------------------------------- */
 
 CPPTCL_MODULE(Model, i) {
@@ -1270,7 +1327,12 @@ CPPTCL_MODULE(Model, i) {
     .def( "matchindex",     &mailbox::get_match_char )
     .def( "depth",          &mailbox::get_depth )
     .def( "rendercontexts", &mailbox::render_contexts )
-    .def( "isescaped",      &mailbox::is_escaped );
+    .def( "isescaped",      &mailbox::is_escaped )
+    .def( "renderlinemap",  &mailbox::render_linemap )
+    .def( "setmarker",      &mailbox::set_marker )
+    .def( "guttercreate",   &mailbox::gutter_create )
+    .def( "gutterset",      &mailbox::gutter_set )
+    .def( "gutternames",    &mailbox::gutter_names );
 
   /* Add functions */
   i.def("add_type", add_type );
