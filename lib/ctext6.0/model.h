@@ -19,33 +19,28 @@
 #include <thread>
 
 #include "cpptcl/cpptcl.h"
+#include "utils.h"
 #include "linemap.h"
 
-/*! Text widget index */
-typedef struct {
-  int row;
-  int col;
-} tindex;
-
 class type_data {
-  
+
   private:
-  
+
     std::string _name;
     std::string _tagname;
     bool        _comstr;
     bool        _matching;
-    
+
     /*! Copy constructor */
     type_data(
       const type_data & td
     ) {}
-    
+
     /*! Assignment operator */
     type_data & operator=( const type_data & td ) {
       return( *this );
     }
-    
+
     void set_internals() {
       _comstr   = (_name.substr(0,9) == "bcomment:") ||
                   (_name.substr(0,9) == "lcomment:") ||
@@ -63,16 +58,16 @@ class type_data {
                   (_name == "single") ||
                   (_name == "btick");
     }
-    
+
   public:
-  
+
     /*! Default constructor */
     type_data(
       const std::string & name
     ) : _name( name ), _tagname( "" ) {
       set_internals();
     }
-  
+
     /*! Default constructor */
     type_data(
       const std::string & name,
@@ -80,34 +75,34 @@ class type_data {
     ) : _name( name ), _tagname( tagname ) {
       set_internals();
     }
-    
+
     /*! Destructor */
     ~type_data() {}
-    
+
     /*! Returns the string name of the type */
     const std::string & name() const { return( _name ); }
-    
+
     /*! Equality operator */
     bool operator==( const type_data & td ) const {
       return( _name == td._name );
     }
-    
+
     /*! Inequality operator */
     bool operator!=( const type_data & td ) const {
       return( !(*this == td) );
     }
-    
+
     /*! \return Returns true if the type is a comment/string */
     bool comstr() const { return( _comstr ); }
-      
+
     /*! \return Returns true if the type should be matched */
     bool matching() const { return( _matching ); }
-    
+
     /*! \return Returns the associated tagname */
     const std::string & tagname() const { return( _tagname ); }
-    
+
 };
- 
+
 class types {
 
   private:
@@ -116,7 +111,7 @@ class types {
 
     /*! Default constructor */
     types() {}
-    
+
     /*! Copy constructor */
     types( const types & t ) {}
 
@@ -142,7 +137,7 @@ class types {
         _types.push_back( new type_data( name ) );
       }
     }
-    
+
     /*! Adds the given type to the types list */
     void add(
       const std::string & name,
@@ -162,7 +157,7 @@ class types {
       }
       return( 0 );
     }
-    
+
 };
 
 /*! Adds the specified type and value to the singleton class */
@@ -452,7 +447,7 @@ class serial_item {
 
     /*! Constructor from a Tcl object */
     serial_item( Tcl::object item );
-    
+
     /*! Copy constructor */
     serial_item( const serial_item & si );
 
@@ -716,6 +711,7 @@ class model {
       std::vector<tindex> vec;
       object_to_ranges( ranges, vec );
       _serial.insert( vec );
+      _linemap.insert( vec );
     }
 
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
@@ -723,6 +719,7 @@ class model {
       std::vector<tindex> vec;
       object_to_ranges( ranges, vec );
       _serial.remove( vec );
+      _linemap.remove( vec );
     }
 
     /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
@@ -730,6 +727,7 @@ class model {
       std::vector<tindex> vec;
       object_to_ranges( ranges, vec );
       _serial.replace( vec );
+      _linemap.replace( vec );
     }
 
     /*! Updates the model with the given tag information */
@@ -773,6 +771,45 @@ class model {
     /*! \return Returns true if the given text index is immediately preceded by an escape */
     bool is_escaped( Tcl::object ti ) const;
 
+    /*!
+     Handles rendering the currently viewable linemap.
+    */
+    Tcl::object render_linemap(
+      Tcl::object first_row,
+      Tcl::object last_row
+    ) const {
+      return( _linemap.render( first_row, last_row ) );
+    }
+
+    /*! Adds a marker to the linemap with the given name for the given line */
+    void set_marker(
+      Tcl::object row,
+      Tcl::object name
+    ) {
+      _linemap.set_marker( row, name );
+    }
+
+    /*! Creates a new gutter column in the linemap gutter */
+    void gutter_create(
+      Tcl::object name,
+      Tcl::object values
+    ) {
+      _linemap.create( name, values );
+    }
+
+    /*! Sets rows for a given gutter column to the specified values */
+    void gutter_set(
+      Tcl::object name,
+      Tcl::object values
+    ) {
+      _linemap.set( name, values );
+    }
+
+    /*! \return Returns a Tcl list of all stored gutter names */
+    Tcl::object gutter_names() const {
+      return( _linemap.names() );
+    }
+
 };
 
 enum {
@@ -787,6 +824,11 @@ enum {
   REQUEST_DEPTH,
   REQUEST_RENDERCONTEXTS,
   REQUEST_ISESCAPED,
+  REQUEST_RENDERLINEMAP,
+  REQUEST_SETMARKER,
+  REQUEST_GUTTERCREATE,
+  REQUEST_GUTTERSET,
+  REQUEST_GUTTERNAMES,
   REQUEST_NUM
 };
 
@@ -890,6 +932,23 @@ class mailbox {
       Tcl::object lineend,
       Tcl::object tags
     );
+    Tcl::object render_linemap(
+      Tcl::object first_row,
+      Tcl::object last_row
+    );
+    void set_marker(
+      Tcl::object row,
+      Tcl::object name
+    );
+    void gutter_create(
+      Tcl::object name,
+      Tcl::object values
+    );
+    void gutter_set(
+      Tcl::object name,
+      Tcl::object values
+    );
+    Tcl::object gutter_names();
 
 };
 

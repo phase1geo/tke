@@ -10,6 +10,10 @@
 
 #include <vector>
 #include <map>
+#include <iostream>
+
+#include "cpptcl/cpptcl.h"
+#include "utils.h"
 
 class linemap_colopts;
 class linemap_col;
@@ -21,20 +25,24 @@ class linemap_row {
 
   private:
 
-    int                           _row;     /*!< Specifies the row number associated with this instance */
-    std::string                   _marker;  /*!< Specifies the name of the marker */
-    std::vector<linemap_colopts*> _items;   /*!< Fully populated list of items for the given row */
+    int                                 _row;     /*!< Specifies the row number associated with this instance */
+    std::string                         _marker;  /*!< Specifies the name of the marker */
+    std::vector<const linemap_colopts*> _items;   /*!< Fully populated list of items for the given row */
 
   public:
 
     /*! Default constructor */
-    linemap_row( int row ) : _row( row ), _marker( "" ) {}
+    linemap_row( int row, int cols ) : _row( row ), _marker( "" ) {
+      for( int i=0; i<cols; i++ ) {
+        _items.push_back( 0 );
+      }
+    }
 
     /*! Destructor */
-    ~linemap_row();
+    ~linemap_row() {}
 
     /*! Add a column at the given position */
-    void add_column( int pos ) { _items.insert( (_items.begin() + pos), 0 ); }
+    void add_column() { _items.push_back( 0 ); }
 
     /*! Remove the given column from the gutter */
     void remove_column( int pos ) { _items.erase( _items.begin() + pos ); }
@@ -46,18 +54,18 @@ class linemap_row {
     void increment( int value ) { _row += value; }
 
     /*! Sets the marker with the given name */
-    void marker( const std::string & name ) { _marker = name; }
+    void set_marker( const std::string & name ) { _marker = name; }
 
     /*! Sets the given gutter item in the given column to the given value */
-    void set_value( int col, linemap_colopts* value ) { _items[col] = value; }
+    void set_value( int col, const linemap_colopts* value ) { _items[col] = value; }
 
     /*! \return Returns the name of the marker stored on this line (or the empty string if no marker exists) */
     const std::string & marker() const { return( _marker ); }
 
     /*! \return Returns the Tcl list required for rendering */
     Tcl::object render(
-      Tcl::interpreter                 & interp,
-      const std::vector<linemap_cols*> & cols
+      Tcl::interpreter                & interp,
+      const std::vector<linemap_col*> & cols
     ) const;
 
 };
@@ -76,54 +84,19 @@ class linemap_colopts {
   public:
 
     /*! Default constructor */
-    linemap_colopts() _symbol( "" ), _color( "" ) {}
+    linemap_colopts() : _symbol( "" ), _color( "" ) {}
+
+    /*! Constructor */
+    linemap_colopts( Tcl::object opts );
 
     /*! Destructor */
     ~linemap_colopts() {}
 
-    /*! Sets the symbol to the given value */
-    void symbol( const std::string & symbol ) { _symbol = symbol; }
+    /*! Configures the structure with the given options */
+    void configure( Tcl::object opts );
 
-    /*! \return Returns the stored symbol */
-    const std::string & symbol() const { return( _symbol ); }
-
-    /*! Sets the color to the given value */
-    void color( const std::string & color ) { _color = color; }
-
-    /*! \return Returns the stored color */
-    const std::string & color() const { return( _color ); }
-
-    /*!
-     Adds the given binding to the binding list.  If command is set to
-     the empty string, removes the given binding event.
-    */
-    void add_binding(
-      const std::string & event,
-      const std::string & command
-    ) {
-      std::map<std::string,std::string>::iterator it = _bindings.find( event );
-      if( it == _bindings.end() ) {
-        if( command != "" ) {
-          _bindings.insert( std::make_pair( event, command ) );
-        }
-      } else {
-        if( command == "" ) {
-          _bindings.erase( it );
-        } else {
-          it->second = command;
-        }
-      }
-    }
-
-    /*! \return Returns the command associated with the given event binding */
-    std::string get_binding( const std::string & event ) const {
-      std::map<std::string,std::string>::const_iterator it = _bindings.find( event );
-      if( it == _bindings.end() ) {
-        return( "" );
-      } else {
-        return( it->second );
-      }
-    }
+    /*! \return Returns the stored value for the given option name */
+    Tcl::object cget( Tcl::object name_obj ) const;
 
     /*! \return Returns a rendered version of this instance */
     Tcl::object render( Tcl::interpreter & interp ) const;
@@ -145,16 +118,15 @@ class linemap_col {
 
     /*! Default constructor */
     linemap_col(
-      const std::string & name
-    ) : _name( name ), _hidden( false ) {}
+      Tcl::object name,
+      Tcl::object opts
+    );
 
     /*! Destructor */
     ~linemap_col();
 
-    /*! Equality operator */
-    bool operator==( const std::string & name ) const {
-      return( _name == name );
-    }
+    /*! \return Returns the name of the column */
+    const std::string & name() const { return( _name ); }
 
     /*! Set the hidden state of the given column */
     void hidden( bool value ) { _hidden = value; }
@@ -163,7 +135,7 @@ class linemap_col {
     bool hidden() const { return( _hidden ); }
 
     /*! \return Returns the pointer to the colopts structure for the given value */
-    linemap_colopts* get_value( const std::string & value );
+    const linemap_colopts* get_value( const std::string & value ) const;
 
 };
 
@@ -191,24 +163,50 @@ class linemap {
     /*! Destructor */
     ~linemap();
 
-    /*! Sets the given gutter item to the given value */
-    void set_item(
-      const std::string & name,
-      int                 row,
-      const std::string & value
+    /*! Sets the marker indicator associated with the given line to the given value */
+    void set_marker(
+      Tcl::object row,
+      Tcl::object value
     );
 
     /*! \return Returns the row number for the given marker name if it exists; otherwise,
                 returns 0. */
     int marker_row( const std::string & name ) const;
 
-    /*! \return Returns the total number of gutters in the linemap */
-    int num_gutters() const { return( _cols.size() ); }
+    /*! Called when text is inserted into the buffer */
+    void insert(
+      const std::vector<tindex> & ranges
+    );
+
+    /*! Called when text is deleted from the buffer */
+    void remove(
+      const std::vector<tindex> & ranges
+    );
+
+    /*! Called when text is replaced in the buffer */
+    void replace(
+      const std::vector<tindex> & ranges
+    );
+
+    /*! Creates a new gutter, inserting it at the end of the list */
+    void create(
+      Tcl::object name,
+      Tcl::object values
+    );
+
+    /*! Sets one or more lines for the given gutter column */
+    void set(
+      Tcl::object name,
+      Tcl::object values
+    );
+
+    /*! \return Returns the gutter names */
+    Tcl::object names() const;
 
     /*! Renders the linemap for the given range */
     Tcl::object render(
-      int first_row,
-      int last_row
+      Tcl::object first_row,
+      Tcl::object last_row
     ) const;
 
 };
