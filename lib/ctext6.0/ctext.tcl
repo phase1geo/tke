@@ -2070,56 +2070,19 @@ namespace eval ctext {
     set args [lassign $args subcmd]
     switch -glob $subcmd {
       create {
-        set value_list  [lassign $args gutter_name]
-        set gutter_tags [list]
-        foreach {name opts} $value_list {
-          array set sym_opts $opts
-          set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
-          set gutter_tag "gutter:$gutter_name:$name:$sym"
-          if {[info exists sym_opts(-fg)]} {
-            set data($win,gutterfg,$gutter_tag) $sym_opts(-fg)
-          }
-          if {[info exists sym_opts(-onenter)]} {
-            $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
-          }
-          if {[info exists sym_opts(-onleave)]} {
-            $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onleave)]
-          }
-          if {[info exists sym_opts(-onclick)]} {
-            $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
-          }
-          if {[info exists sym_opts(-onshiftclick)]} {
-            $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onshiftclick)]
-          }
-          if {[info exists sym_opts(-oncontrolclick)]} {
-            $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-oncontrolclick)]
-          }
-          lappend gutter_tags $gutter_tag
-          array unset sym_opts
-        }
-        lappend data($win,config,gutters) [list $gutter_name $gutter_tags 0]
+        model::guttercreate $win {*}$args
         linemapUpdate $win 1
       }
       destroy {
-        set gutter_name [lindex $args 0]
-        if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
-          set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
-          array unset data $win,gutterfg,gutter:$gutter_name:*
-          linemapUpdate $win 1
-        }
+        model::gutterdestroy $win {*}$args
+        linemapUpdate $win 1
       }
       hide {
-        set gutter_name [lindex $args 0]
-        if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          if {[llength $args] == 1} {
-            return [lindex $data($win,config,gutters) $index 2]
-          } else {
-            lset data($win,config,gutters) $index 2 [lindex $args 1]
-            linemapUpdate $win 1
-          }
-        } elseif {[llength $args] == 1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
+        if {[llength $args] == 1} {
+          return [$m gutterhide $win {*}$args]
+        } else {
+          $m gutterhide $win {*}$args
+          linemapUpdate $win 1
         }
       }
       del* {
@@ -2143,29 +2106,8 @@ namespace eval ctext {
         }
       }
       set {
-        set args [lassign $args gutter_name]
-        set update_needed 0
-        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          foreach {name line_nums} $args {
-            if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
-              foreach line_num $line_nums {
-                if {[set curr_tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-                  if {$curr_tag ne $gutter_tag} {
-                    $win._t tag delete $curr_tag
-                    $win._t tag add $gutter_tag $line_num.0
-                    set update_needed 1
-                  }
-                } else {
-                  $win._t tag add $gutter_tag $line_num.0
-                  set update_needed 1
-                }
-              }
-            }
-          }
-        }
-        if {$update_needed} {
-          linemapUpdate $win 1
-        }
+        model::gutterset $win {*}$args
+        linemapUpdate $win 1
       }
       get {
         if {[llength $args] == 1} {
@@ -2326,24 +2268,9 @@ namespace eval ctext {
         }
       }
       names {
-        set names [list]
-        foreach gutter $data($win,config,gutters) {
-          lappend names [lindex $gutter 0]
-        }
-        return $names
+        return [model::gutternames $win]
       }
     }
-
-  }
-
-  ######################################################################
-  proc execute_gutter_cmd {win y cmd} {
-
-    # Get the line of the text widget
-    set line [lindex [split [$win.t index @0,$y] .] 0]
-
-    # Execute the command
-    uplevel #0 [list {*}$cmd $win $line]
 
   }
 
@@ -3176,6 +3103,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Updates the linemap area to match the text widget.
   proc linemapUpdate {win {forceUpdate 0}} {
 
     variable data
@@ -3194,165 +3122,35 @@ namespace eval ctext {
     set last          [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
     set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
     set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
-    set gutter_width  [llength [lsearch -index 2 -all -inline $data($win,config,gutters) 0]]
-
-    if {[$win._t compare "@0,0 linestart" != @0,0]} {
-      incr first
-    }
-
+    set gutterx       [expr $linenum_width * $data($win,fontwidth) + 1]
+    set marker        $data($win,config,-linemap_mark_color)
+    set normal        $data($win,config,-linemapfg)
+    set font          $data($win,config,-font)
+    set fontwidth     $data($win,fontwidth)
+    set descent       $data($win,fontdescent)
+    set y             1
+    
     $win.l delete all
 
-    if {$data($win,config,-diff_mode)} {
-      linemapDiffUpdate $win $first $last $linenum_width
-      set full_width [expr ($linenum_width * 2) + 1 + $gutter_width]
-    } elseif {$data($win,config,-linemap)} {
-      linemapLineUpdate $win $first $last $linenum_width
-      set full_width [expr $linenum_width + $gutter_width]
-    } elseif {$gutter_width > 0} {
-      linemapGutterUpdate $win $first $last $linenum_width
-      set full_width [expr $data($win,config,-linemap_markable) + $gutter_width]
-    } elseif {$data($win,config,-linemap_markable)} {
-      linemapMarkUpdate $win $first $last
-      set full_width 1
+    foreach line [model::render_linemap $win $first $last] {
+      lassign $line lnum fill gutters
+      lassign [$win._t dlineinfo $lnum.0] x y w h b
+      set x $gutterx
+      set y [expr $y + $b + $descent]
+      $win.l create text 1 $y -anchor sw -text $lnum -fill $fill -font $font
+      foreach gutter $gutters {
+        lassign $gutter sym fill bindings
+        set item [$win.l create text $x $y -text $sym -fill $fill -font $font]
+        foreach {event command} $bindings {
+          $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
+        }
+        incr x $fontwidth
+      }
     }
 
     # Resize the linemap window, if necessary
     if {[$win.l cget -width] != (($full_width * $data($win,fontwidth)) + 2)} {
       $win.l configure -width [expr ($full_width * $data($win,fontwidth)) + 2]
-    }
-
-  }
-
-  ######################################################################
-  proc linemapUpdateGutter {win ptags x y} {
-
-    variable data
-
-    upvar $ptags tags
-
-    set index     0
-    set fontwidth $data($win,fontwidth)
-    set font      $data($win,config,-font)
-    set fill      $data($win,config,-linemapfg)
-
-    foreach gutter_data $data($win,config,gutters) {
-      if {[lindex $gutter_data 2]} { continue }
-      foreach gutter_tag [lsearch -inline -all -glob $tags gutter:[lindex $gutter_data 0]:*] {
-        lassign [split $gutter_tag :] dummy dummy gutter_symname gutter_sym
-        if {$gutter_sym ne ""} {
-          set color [expr {[info exists data($win,gutterfg,$gutter_tag)] ? $data($win,gutterfg,$gutter_tag) : $fill}]
-          $win.l create text [expr $x + ($index * $fontwidth)] $y -anchor sw -text $gutter_sym -fill $color -font $font -tags $gutter_tag
-        }
-      }
-      incr index
-    }
-
-  }
-
-  ######################################################################
-  proc linemapDiffUpdate {win first last linenum_width} {
-
-    variable data
-
-    set normal  $data($win,config,-linemapfg)
-    set lmark   $data($win,config,-linemap_mark_color)
-    set font    $data($win,config,-font)
-    set linebx  [expr (($linenum_width + 1) * $data($win,fontwidth)) + 1]
-    set gutterx [expr $linebx + (($linenum_width * $data($win,fontwidth)) + 1)]
-    set descent $data($win,fontdescent)
-
-    # Calculate the starting line numbers for both files
-    array set currline {A 0 B 0}
-    foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first.0] diff:*] {
-      lassign [split $diff_tag :] dummy index type start
-      set currline($index) [expr $start - 1]
-      if {$type eq "S"} {
-        incr currline($index) [$win count -lines [lindex [$win tag ranges $diff_tag] 0] $first.0]
-      }
-    }
-
-    for {set line $first} {$line <= $last} {incr line} {
-      if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-      lassign [$win._t dlineinfo $line.0] x y w h b
-      set ltags  [$win._t tag names $line.0]
-      set y      [expr $y + $b + $descent]
-      set lineA  [expr {([lsearch -glob $ltags diff:A:S:*] != -1) ? [incr currline(A)] : ""}]
-      set lineB  [expr {([lsearch -glob $ltags diff:B:S:*] != -1) ? [incr currline(B)] : ""}]
-      set marked [expr {[lsearch -glob $ltags lmark*] != -1}]
-      set fill   [expr {$marked ? $lmark : $normal}]
-      $win.l create text 1 $y -anchor sw -text [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] -fill $fill -font $font
-      linemapUpdateGutter $win ltags $gutterx $y
-    }
-
-  }
-
-  ######################################################################
-  proc linemapLineUpdate {win first last linenum_width} {
-
-    variable data
-
-    set abs     [expr {$data($win,config,-linemap_type) eq "absolute"}]
-    set curr    [lindex [split [$win.t index insert] .] 0]
-    set lmark   $data($win,config,-linemap_mark_color)
-    set normal  $data($win,config,-linemapfg)
-    set font    $data($win,config,-font)
-    set gutterx [expr $linenum_width * $data($win,fontwidth) + 1]
-    set descent $data($win,fontdescent)
-
-    for {set line $first} {$line <= $last} {incr line} {
-      if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-      lassign [$win._t dlineinfo $line.0] x y w h b
-      set ltags   [$win.t tag names $line.0]
-      set linenum [expr $abs ? $line : abs( $line - $curr )]
-      set marked  [expr {[lsearch -glob $ltags lmark*] != -1}]
-      set fill    [expr {$marked ? $lmark : $normal}]
-      set y       [expr $y + $b + $descent]
-      $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $linenum] -fill $fill -font $font
-      linemapUpdateGutter $win ltags $gutterx $y
-    }
-
-  }
-
-  ######################################################################
-  proc linemapGutterUpdate {win first last linenum_width} {
-
-    variable data
-
-    set gutterx [expr {$data($win,config,-linemap_markable) ? ($data($win,fontwidth) + 2) : 1}]
-    set fill    $data($win,config,-linemap_mark_color)
-    set font    $data($win,config,-font)
-    set descent $data($win,fontdescent)
-
-    for {set line $first} {$line <= $last} {incr line} {
-      if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-      lassign [$win._t dlineinfo $line.0] x y w h b
-      set ltags [$win.t tag names $line.0]
-      set y     [expr $y + $b + $descent]
-      if {[lsearch -glob $ltags lmark*] != -1} {
-        $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font
-      }
-      linemapUpdateGutter $win ltags $gutterx $y
-    }
-
-  }
-
-  ######################################################################
-  proc linemapMarkUpdate {win first last} {
-
-    variable data
-
-    set fill    $data($win,config,-linemap_mark_color)
-    set font    $data($win,config,-font)
-    set descent $data($win,fontdescent)
-
-    for {set line $first} {$line <= $last} {incr line} {
-      if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-      lassign [$win._t dlineinfo $line.0] x y w h b
-      set ltags [$win.t tag names $line.0]
-      set y     [expr $y + $b + $descent]
-      if {[lsearch -glob $ltags lmark*] != -1} {
-        $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font
-      }
     }
 
   }

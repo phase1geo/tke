@@ -1023,6 +1023,12 @@ object request::execute(
     case REQUEST_GUTTERCREATE :
       inst.gutter_create( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
+    case REQUEST_GUTTERDESTROY :
+      inst.gutter_destroy( _args );
+      break;
+    case REQUEST_GUTTERHIDE :
+      return( (object)inst.gutter_hide( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
     case REQUEST_GUTTERSET :
       inst.gutter_set( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
@@ -1281,6 +1287,31 @@ void mailbox::gutter_create(
 
 }
 
+void mailbox::gutter_destroy(
+  object name
+) {
+  
+  add_request( REQUEST_GUTTERDESTROY, name, false, false );
+  
+}
+
+object mailbox::gutter_hide(
+  object name,
+  object value
+) {
+  
+  interpreter i( name.get_interp(), false );
+  object      args;
+  
+  args.append( i, name );
+  args.append( i, value );
+  
+  add_request( REQUEST_GUTTERHIDE, args, true, false );
+  
+  return( result() );
+  
+}
+
 void mailbox::gutter_set(
   object name,
   object values
@@ -1331,6 +1362,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "renderlinemap",  &mailbox::render_linemap )
     .def( "setmarker",      &mailbox::set_marker )
     .def( "guttercreate",   &mailbox::gutter_create )
+    .def( "gutterdestroy",  &mailbox::gutter_destroy )
+    .def( "gutterhide",     &mailbox::gutter_hide )
     .def( "gutterset",      &mailbox::gutter_set )
     .def( "gutternames",    &mailbox::gutter_names );
 

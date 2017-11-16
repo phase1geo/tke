@@ -796,6 +796,22 @@ class model {
     ) {
       _linemap.create( name, values );
     }
+    
+    /*! Destroys the given gutter item */
+    void gutter_destroy( Tcl::object name ) {
+      _linemap.destroy( name );
+    }
+    
+    /*!
+     Causes a gutter to be hidden/shown or returns the current hidden state
+     of the gutter.
+    */
+    bool gutter_hide(
+      Tcl::object name,
+      Tcl::object value
+    ) {
+      _linemap.hide( name, value );
+    }
 
     /*! Sets rows for a given gutter column to the specified values */
     void gutter_set(
@@ -827,6 +843,8 @@ enum {
   REQUEST_RENDERLINEMAP,
   REQUEST_SETMARKER,
   REQUEST_GUTTERCREATE,
+  REQUEST_GUTTERDESTROY,
+  REQUEST_GUTTERHIDE,
   REQUEST_GUTTERSET,
   REQUEST_GUTTERNAMES,
   REQUEST_NUM
@@ -943,6 +961,11 @@ class mailbox {
     void gutter_create(
       Tcl::object name,
       Tcl::object values
+    );
+    void gutter_destroy( Tcl::object name );
+    Tcl::object gutter_hide(
+      Tcl::object name,
+      Tcl::object value
     );
     void gutter_set(
       Tcl::object name,

@@ -223,4 +223,55 @@ namespace eval model {
 
   }
 
+  ######################################################################
+  # Creates a new gutter.
+  proc guttercreate {win name args} {
+  
+    variable data
+
+    $data($win,model) guttercreate $name $args
+
+  }
+
+  ######################################################################
+  # Destroys the given gutter.
+  proc gutterdestroy {win name} {
+    
+    variable data
+    
+    $data($win,model) gutterdestroy $name
+    
+  }
+  
+  ######################################################################
+  # Sets the hidden state of the given gutter if a value is supplied;
+  # otherwise, returns the hidden state.
+  proc gutterhide {win name {value ""}} {
+
+    variable data
+
+    return [$data($win,model) gutterhide $name $value]
+
+  }
+
+  ######################################################################
+  # Set the gutter with the given value/lines.
+  proc gutterset {win name args} {
+
+    variable data
+
+    $data($win,model) gutterset $name $args
+
+  }
+
+  ######################################################################
+  # Returns the gutter names stored in the linemap.
+  proc gutternames {win} {
+
+    variable data
+
+    return [$data($win,model) gutternames]
+
+  }
+
 }
