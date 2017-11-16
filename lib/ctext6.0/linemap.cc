@@ -29,6 +29,7 @@ object linemap_row::render(
     }
   }
 
+  result.append( interp, (object)_row );
   result.append( interp, (object)(_marker != "") );
   result.append( interp, row );
 
@@ -61,19 +62,24 @@ void linemap_colopts::configure( Tcl::object opts ) {
       _symbol = value;
     } else if( name == "-fg" ) {
       _color = value;
-    } else if( (name == "-onenter") || (name == "-onleave") ||
-               (name == "-onclick") || (name == "-onshiftclick") ||
-               (name == "-oncontrolclick") ) {
-      map<string,string>::iterator it = _bindings.find( name );
+    } else {
+      string event;
+      if( name == "-onenter" )             { event = "Enter"; }
+      else if( name == "-onleave" )        { event = "Leave"; }
+      else if( name == "-onclick" )        { event = "Button-1"; }
+      else if( name == "-onshiftclick" )   { event = "Shift-Button-1"; }
+      else if( name == "-oncontrolclick" ) { event = "Control-Button-1"; }
+      else {
+        throw runtime_error( "Illegal gutter option " + name );
+      }
+      map<string,string>::iterator it = _bindings.find( event );
       if( it == _bindings.end() ) {
-        _bindings.insert( make_pair( name, value ) );
+        _bindings.insert( make_pair( event, value ) );
       } else if( value == "" ) {
         _bindings.erase( it );
       } else {
         it->second = value;
       }
-    } else {
-      throw runtime_error( "Illegal gutter option " + name );
     }
   }
 
@@ -91,17 +97,20 @@ Tcl::object linemap_colopts::cget(
   } else if( name == "-color" ) {
     return( (object)_color );
   } else {
-    if( (name == "-onenter") || (name == "-onleave") ||
-        (name == "-onclick") || (name == "-onshiftclick") ||
-        (name == "-oncontrolclick") ) {
-      map<string,string>::const_iterator it = _bindings.find( name );
-      if( it == _bindings.end() ) {
-        return( (object)"" );
-      } else {
-        return( (object)(it->second) );
-      }
-    } else {
+    string event;
+    if( name == "-onenter" )             { event = "Enter"; }
+    else if( name == "-onleave" )        { event = "Leave"; }
+    else if( name == "-onclick" )        { event = "Button-1"; }
+    else if( name == "-onshiftclick" )   { event = "Shift-Button-1"; }
+    else if( name == "-oncontrolclick" ) { event = "Control-Button-1"; }
+    else {
       throw runtime_error( "Illegal gutter option name " + name );
+    }
+    map<string,string>::const_iterator it = _bindings.find( event );
+    if( it == _bindings.end() ) {
+      return( (object)"" );
+    } else {
+      return( (object)(it->second) );
     }
   }
 
@@ -115,10 +124,8 @@ Tcl::object linemap_colopts::render(
   object bindings;
 
   for( map<string,string>::const_iterator it=_bindings.begin(); it!=_bindings.end(); it++ ) {
-    object binding;
-    binding.append( interp, (object)it->first );
-    binding.append( interp, (object)it->second );
-    bindings.append( interp, binding );
+    bindings.append( interp, (object)it->first );
+    bindings.append( interp, (object)it->second );
   }
 
   result.append( interp, (object)_symbol );
@@ -215,8 +222,10 @@ int linemap::get_row_index( int row ) const {
       mid = int( (end - start) / 2 ) + start;
       if( row < _rows[mid]->row() ) {
         end = mid;
-      } else if( (row == _rows[mid]->row()) || (start == mid) ) {
+      } else if( row == _rows[mid]->row() ) {
         return( mid );
+      } else if( start == mid ) {
+        return( (row > _rows[mid]->row()) ? (mid + 1) : mid );
       } else {
         start = mid;
       }
@@ -247,7 +256,7 @@ void linemap::set_marker(
   int         row    = row_obj.get<int>( i );
   string      value  = value_obj.get<string>( i );
   int         rindex = get_row_index( row );
-
+  
   /* Add the row if it does not exist */
   if( (rindex == _rows.size()) || (_rows[rindex]->row() != row) ) {
     _rows.insert( (_rows.begin() + rindex), new linemap_row( row, _cols.size() ) );
@@ -274,13 +283,13 @@ int linemap::marker_row(
 void linemap::insert(
   const vector<tindex> & ranges
 ) {
-
+  
   for( int i=0; i<ranges.size(); i+=2 ) {
 
     tindex spos = ranges[i];
     tindex epos = ranges[i+1];
     int    diff = epos.row - spos.row;
-
+    
     if( diff == 0 ) {
       continue;
     }
@@ -369,12 +378,24 @@ object linemap::render(
   int         last  = last_row.get<int>( i );
   int         index = get_row_index( first );
   object      result;
-
+  object      cols;
+  
+  /* Create a template for rows that are not stored */
+  for( int j=0; j<_cols.size(); j++ ) {
+    if( !_cols[j]->hidden() ) {
+      cols.append( i, (object)"" );
+    }
+  }
+  
   for( int row=first; row<=last; row++ ) {
     if( (index < _rows.size()) && (_rows[index]->row() == row) ) {
       result.append( i, _rows[index++]->render( i, _cols ) );
     } else {
-      result.append( i, (object)"" );
+      object rowobj;
+      rowobj.append( i, (object)row );
+      rowobj.append( i, (object)0 );
+      rowobj.append( i, cols );
+      result.append( i, rowobj );
     }
   }
 
@@ -397,6 +418,52 @@ void linemap::create(
 
 }
 
+void linemap::destroy(
+  object name
+) {
+  
+  interpreter i( name.get_interp(), false );
+  int         col = get_col_index( name.get<string>( i ) );
+  
+  /* If the gutter name cannot be found, just return */
+  if( col == -1 ) {
+    return;
+  }
+  
+  /* Delete the gutter column */
+  delete _cols[col];
+  _cols.erase( _cols.begin() + col );
+  
+  /* Remove the column from each row */
+  for( vector<linemap_row*>::iterator it=_rows.begin(); it!=_rows.end(); it++ ) {
+    (*it)->remove_column( col );
+  }
+  
+}
+
+bool linemap::hide(
+  object name_obj,
+  object value_obj
+) {
+
+  interpreter interp( name_obj.get_interp(), false );
+  int         col   = get_col_index( name_obj.get<string>( interp ) );
+  string      value = value_obj.get<string>( interp );
+
+  if( col == -1 ) {
+    return( false );
+  }
+
+  if( value == "" ) {
+    return( _cols[col]->hidden() );
+  } else {
+    _cols[col]->hidden( value_obj.get<bool>( interp ) );
+  }
+
+  return( false );
+
+}
+
 void linemap::set(
   Tcl::object name_obj,
   Tcl::object values
@@ -409,7 +476,7 @@ void linemap::set(
   if( col == -1 ) {
     return;
   }
-
+  
   for( int i=0; i<values.length( interp ); i+=2 ) {
     string value = values.at( interp, (i + 0) ).get<string>( interp );
     object rows  = values.at( interp, (i + 1) );

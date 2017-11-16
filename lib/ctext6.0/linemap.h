@@ -51,7 +51,9 @@ class linemap_row {
     int row() const { return( _row ); }
 
     /*! Increments the row number by the given amount */
-    void increment( int value ) { _row += value; }
+    void increment( int value ) {
+      _row += value;
+    }
 
     /*! Sets the marker with the given name */
     void set_marker( const std::string & name ) { _marker = name; }
@@ -192,6 +194,22 @@ class linemap {
     void create(
       Tcl::object name,
       Tcl::object values
+    );
+    
+    /*! Destroys a gutter */
+    void destroy(
+      Tcl::object name
+    );
+    
+    /*!
+     If value is not the empty string, sets the hidden state to the given value.
+     
+     \return Returns the current hidden state of the given gutter if value is
+             set to the empty string; otherwise, returns false.
+    */
+    bool hide(
+      Tcl::object name,
+      Tcl::object value
     );
 
     /*! Sets one or more lines for the given gutter column */
