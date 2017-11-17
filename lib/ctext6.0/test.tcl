@@ -2,7 +2,7 @@ lappend auto_path [pwd]
 
 package require ctext 6.0
 
-pack [ctext .t -matchaudit 1 -wrap none -matchchar 1 -xscrollcommand {.hb set} -yscrollcommand {.vb set}] \
+pack [ctext .t -matchaudit 1 -linemap_type relative -wrap none -matchchar 1 -xscrollcommand {.hb set} -yscrollcommand {.vb set}] \
   -fill both -expand yes
 ttk::scrollbar .vb -orient vertical   -command {.t yview}
 ttk::scrollbar .hb -orient horizontal -command {.t xview}
@@ -39,8 +39,8 @@ proc show_tree {} {
 
 # set_debug 1
 
-set f [open ctext.tcl r]
-# set f [open utils.tcl r]
+# set f [open ctext.tcl r]
+set f [open utils.tcl r]
 # set f [open ../menus.tcl r]
 set contents [read $f]
 close $f

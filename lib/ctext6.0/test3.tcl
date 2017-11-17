@@ -7,8 +7,10 @@ switch -glob $tcl_platform(os) {
 
 proc render {m first last} {
 
+  set ins 3
+
   puts -nonewline "render time: "
-  puts [time { set render [$m renderlinemap $first $last] }]
+  puts [time { set render [$m renderlinemap $first $last $ins] }]
 
   foreach line $render {
     puts $line

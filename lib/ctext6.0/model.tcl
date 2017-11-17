@@ -280,7 +280,17 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) gutterset $name $args
+    $data($win,model) gutterset $name {*}$args
+
+  }
+
+  ######################################################################
+  # Unsets a single line or all lines in a given range within a gutter.
+  proc gutterunset {win name args} {
+
+    variable data
+
+    $data($win,model) gutterunset $name {*}$args
 
   }
 

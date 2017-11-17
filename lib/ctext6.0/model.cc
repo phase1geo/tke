@@ -1035,6 +1035,9 @@ object request::execute(
     case REQUEST_GUTTERSET :
       inst.gutter_set( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
+    case REQUEST_GUTTERUNSET :
+      inst.gutter_unset( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      break;
     case REQUEST_GUTTERCGET :
       return( inst.gutter_cget( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
@@ -1346,6 +1349,23 @@ void mailbox::gutter_set(
 
 }
 
+void mailbox::gutter_unset(
+  object name,
+  object first,
+  object last
+) {
+
+  interpreter i( name.get_interp(), false );
+  object      args;
+
+  args.append( i, name );
+  args.append( i, first );
+  args.append( i, last );
+
+  add_request( REQUEST_GUTTERUNSET, args, false, false );
+
+}
+
 object mailbox::gutter_cget(
   object name,
   object sym,
@@ -1423,6 +1443,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "gutterdestroy",   &mailbox::gutter_destroy )
     .def( "gutterhide",      &mailbox::gutter_hide )
     .def( "gutterset",       &mailbox::gutter_set )
+    .def( "gutterunset",     &mailbox::gutter_unset )
     .def( "guttercget",      &mailbox::gutter_cget )
     .def( "gutterconfigure", &mailbox::gutter_configure )
     .def( "gutternames",     &mailbox::gutter_names );
