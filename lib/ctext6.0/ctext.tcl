@@ -2159,112 +2159,14 @@ namespace eval ctext {
         }
       }
       cget {
-        lassign $args gutter_name sym_name opt
-        if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
-        if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] eq ""} {
-          return -code error "Unknown symbol ($sym_name) specified"
-        }
-        switch $opt {
-          -symbol         { return [lindex [split $gutter_tag :] 3] }
-          -fg             { return [expr {[info exists data($win,gutterfg,$gutter_tag)] ? $data($win,gutterfg,$gutter_tag) : ""}] }
-          -onenter        { return [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1] }
-          -onleave        { return [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1] }
-          -onclick        { return [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1] }
-          -onshiftclick   { return [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1] }
-          -oncontrolclick { return [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1] }
-          default         {
-            return -code error "Unknown gutter option ($opt) specified"
-          }
-        }
+        return [model::guttercget $win {*}$args]
       }
       conf* {
-        set args [lassign $args gutter_name]
-        if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
         if {[llength $args] < 2} {
-          if {[llength $args] == 0} {
-            set match_tag "gutter:$gutter_name:*"
-          } else {
-            set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
-          }
-          foreach gutter_tag [lsearch -inline -all -glob [lindex $data($win,config,gutters) $index 1] $match_tag] {
-            lassign [split $gutter_tag :] dummy1 dummy2 symname sym
-            set symopts [list]
-            if {$sym ne ""} {
-              lappend symopts -symbol $sym
-            }
-            if {[info exists data($win,gutterfg,$gutter_tag)]} {
-              lappend symopts -fg $data($win,gutterfg,$gutter_tag)
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
-              lappend symopts -onenter $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
-              lappend symopts -onleave $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
-              lappend symopts -onclick $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1]] ne ""} {
-              lappend symopts -onshiftclick $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1]] ne ""} {
-              lappend symopts -oncontrolclick $cmd
-            }
-            lappend gutters $symname $symopts
-          }
-          return $gutters
+          return [model::gutterconfigure $win {*}$args]
         } else {
-          set args          [lassign $args symname]
-          set update_needed 0
-          if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] eq ""} {
-            return -code error "Unable to find gutter symbol name ($symname)"
-          }
-          foreach {opt value} $args {
-            switch -glob $opt {
-              -sym* {
-                set ranges [$win._t tag ranges $gutter_tag]
-                set opts   [$win._t tag configure $gutter_tag]
-                $win._t tag delete $gutter_tag
-                set gutter_tag "gutter:$gutter_name:$symname:$value"
-                $win._t tag configure $gutter_tag {*}$opts
-                $win._t tag add       $gutter_tag {*}$ranges
-                set update_needed 1
-              }
-              -fg {
-                if {$value ne ""} {
-                  set data($win,gutterfg,$gutter_tag) $value
-                } else {
-                  array unset data $win,gutterfg,$gutter_tag
-                }
-                set update_needed 1
-              }
-              -onenter {
-                $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -onleave {
-                $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -onclick {
-                $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -onshiftclick {
-                $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -oncontrolclick {
-                $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              default {
-                return -code error "Unknown gutter option ($opt) specified"
-              }
-            }
-          }
-          if {$update_needed} {
-            linemapUpdate $win 1
-          }
+          model::gutterconfigure $win {*}$args
+          linemapUpdate $win 1
         }
       }
       names {
@@ -3129,7 +3031,7 @@ namespace eval ctext {
     set fontwidth     $data($win,fontwidth)
     set descent       $data($win,fontdescent)
     set y             1
-    
+
     $win.l delete all
 
     foreach line [model::render_linemap $win $first $last] {

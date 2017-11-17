@@ -1032,6 +1032,12 @@ object request::execute(
     case REQUEST_GUTTERSET :
       inst.gutter_set( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
+    case REQUEST_GUTTERCGET :
+      return( inst.gutter_cget( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
+      break;
+    case REQUEST_GUTTERCONFIGURE :
+      return( inst.gutter_configure( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
+      break;
     case REQUEST_GUTTERNAMES :
       return( inst.gutter_names() );
       break;
@@ -1290,26 +1296,26 @@ void mailbox::gutter_create(
 void mailbox::gutter_destroy(
   object name
 ) {
-  
+
   add_request( REQUEST_GUTTERDESTROY, name, false, false );
-  
+
 }
 
 object mailbox::gutter_hide(
   object name,
   object value
 ) {
-  
+
   interpreter i( name.get_interp(), false );
   object      args;
-  
+
   args.append( i, name );
   args.append( i, value );
-  
+
   add_request( REQUEST_GUTTERHIDE, args, true, false );
-  
+
   return( result() );
-  
+
 }
 
 void mailbox::gutter_set(
@@ -1324,6 +1330,44 @@ void mailbox::gutter_set(
   args.append( i, values );
 
   add_request( REQUEST_GUTTERSET, args, false, false );
+
+}
+
+object mailbox::gutter_cget(
+  object name,
+  object sym,
+  object opt
+) {
+
+  interpreter i( name.get_interp(), false );
+  object      args;
+
+  args.append( i, name );
+  args.append( i, sym );
+  args.append( i, opt );
+
+  add_request( REQUEST_GUTTERCGET, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::gutter_configure(
+  object name,
+  object sym,
+  object opts
+) {
+
+  interpreter i( name.get_interp(), false );
+  object      args;
+
+  args.append( i, name );
+  args.append( i, sym );
+  args.append( i, opts );
+
+  add_request( REQUEST_GUTTERCONFIGURE, args, true, false );
+
+  return( result() );
 
 }
 
@@ -1348,24 +1392,26 @@ CPPTCL_MODULE(Model, i) {
 
   /* Define the model class */
   i.class_<mailbox>("model", init<const string &>())
-    .def( "insert",         &mailbox::insert )
-    .def( "delete",         &mailbox::remove )
-    .def( "replace",        &mailbox::replace )
-    .def( "update",         &mailbox::update )
-    .def( "showserial",     &mailbox::show_serial )
-    .def( "showtree",       &mailbox::show_tree )
-    .def( "mismatched",     &mailbox::get_mismatched )
-    .def( "matchindex",     &mailbox::get_match_char )
-    .def( "depth",          &mailbox::get_depth )
-    .def( "rendercontexts", &mailbox::render_contexts )
-    .def( "isescaped",      &mailbox::is_escaped )
-    .def( "renderlinemap",  &mailbox::render_linemap )
-    .def( "setmarker",      &mailbox::set_marker )
-    .def( "guttercreate",   &mailbox::gutter_create )
-    .def( "gutterdestroy",  &mailbox::gutter_destroy )
-    .def( "gutterhide",     &mailbox::gutter_hide )
-    .def( "gutterset",      &mailbox::gutter_set )
-    .def( "gutternames",    &mailbox::gutter_names );
+    .def( "insert",          &mailbox::insert )
+    .def( "delete",          &mailbox::remove )
+    .def( "replace",         &mailbox::replace )
+    .def( "update",          &mailbox::update )
+    .def( "showserial",      &mailbox::show_serial )
+    .def( "showtree",        &mailbox::show_tree )
+    .def( "mismatched",      &mailbox::get_mismatched )
+    .def( "matchindex",      &mailbox::get_match_char )
+    .def( "depth",           &mailbox::get_depth )
+    .def( "rendercontexts",  &mailbox::render_contexts )
+    .def( "isescaped",       &mailbox::is_escaped )
+    .def( "renderlinemap",   &mailbox::render_linemap )
+    .def( "setmarker",       &mailbox::set_marker )
+    .def( "guttercreate",    &mailbox::gutter_create )
+    .def( "gutterdestroy",   &mailbox::gutter_destroy )
+    .def( "gutterhide",      &mailbox::gutter_hide )
+    .def( "gutterset",       &mailbox::gutter_set )
+    .def( "guttercget",      &mailbox::gutter_cget )
+    .def( "gutterconfigure", &mailbox::gutter_configure )
+    .def( "gutternames",     &mailbox::gutter_names );
 
   /* Add functions */
   i.def("add_type", add_type );

@@ -226,7 +226,7 @@ namespace eval model {
   ######################################################################
   # Creates a new gutter.
   proc guttercreate {win name args} {
-  
+
     variable data
 
     $data($win,model) guttercreate $name $args
@@ -236,13 +236,13 @@ namespace eval model {
   ######################################################################
   # Destroys the given gutter.
   proc gutterdestroy {win name} {
-    
+
     variable data
-    
+
     $data($win,model) gutterdestroy $name
-    
+
   }
-  
+
   ######################################################################
   # Sets the hidden state of the given gutter if a value is supplied;
   # otherwise, returns the hidden state.
@@ -261,6 +261,26 @@ namespace eval model {
     variable data
 
     $data($win,model) gutterset $name $args
+
+  }
+
+  ######################################################################
+  # Returns the gutter symbol option value.
+  proc guttercget {win name sym opt} {
+
+    variable data
+
+    return [$data($win,model) guttercget $name $sym $opt]
+
+  }
+
+  ######################################################################
+  # Sets the value of the specified gutter symbol options.
+  proc gutterconfigure {win name {sym ""} args} {
+
+    variable data
+
+    return [$data($win,model) gutterconfigure $name $sym $args]
 
   }
 

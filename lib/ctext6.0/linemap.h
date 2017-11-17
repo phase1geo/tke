@@ -97,8 +97,11 @@ class linemap_colopts {
     /*! Configures the structure with the given options */
     void configure( Tcl::object opts );
 
+    /*! \return Returns a Tcl list containing all of the option value pairs */
+    Tcl::object configure() const;
+
     /*! \return Returns the stored value for the given option name */
-    Tcl::object cget( Tcl::object name_obj ) const;
+    Tcl::object cget( const std::string & opt ) const;
 
     /*! \return Returns a rendered version of this instance */
     Tcl::object render( Tcl::interpreter & interp ) const;
@@ -138,6 +141,18 @@ class linemap_col {
 
     /*! \return Returns the pointer to the colopts structure for the given value */
     const linemap_colopts* get_value( const std::string & value ) const;
+
+    /*! \return Returns the value of the option for the given symbol */
+    Tcl::object cget(
+      const std::string & sym,
+      const std::string & opt
+    ) const;
+
+    /*! Sets the symbol option to the given value */
+    Tcl::object configure(
+      const std::string & sym,
+      Tcl::object         opts
+    );
 
 };
 
@@ -195,15 +210,15 @@ class linemap {
       Tcl::object name,
       Tcl::object values
     );
-    
+
     /*! Destroys a gutter */
     void destroy(
       Tcl::object name
     );
-    
+
     /*!
      If value is not the empty string, sets the hidden state to the given value.
-     
+
      \return Returns the current hidden state of the given gutter if value is
              set to the empty string; otherwise, returns false.
     */
@@ -216,6 +231,23 @@ class linemap {
     void set(
       Tcl::object name,
       Tcl::object values
+    );
+
+    /*! \return Returns the current value for the given symbol's option */
+    Tcl::object cget(
+      Tcl::object name,
+      Tcl::object symbol,
+      Tcl::object option
+    ) const;
+
+    /*!
+     Allows the user to set one or more symbol options or returns the
+     current values in a Tcl list
+    */
+    Tcl::object configure(
+      Tcl::object name,
+      Tcl::object symbol,
+      Tcl::object opts
     );
 
     /*! \return Returns the gutter names */
