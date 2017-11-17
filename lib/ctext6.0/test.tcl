@@ -22,6 +22,9 @@ ctext::addHighlightKeywords .t {proc set variable puts for while if expr return 
 ctext::setContextPatterns   .t lcomment comment "" {{{^\s*#} {$}} {{;#} {$}}} "blue"
 ctext::setBrackets          .t "" {curly square paren double} "green"
 
+# Create a gutter
+.t gutter create foo {a {-symbol a} b {-symbol b}}
+
 proc set_debug {value} {
   thread::send -async $ctext::model_tid [list model::set_debug .t $value]
 }
@@ -36,8 +39,8 @@ proc show_tree {} {
 
 # set_debug 1
 
-# set f [open ctext.tcl r]
-set f [open utils.tcl r]
+set f [open ctext.tcl r]
+# set f [open utils.tcl r]
 # set f [open ../menus.tcl r]
 set contents [read $f]
 close $f
