@@ -105,4 +105,33 @@ puts [time { $m gutterdestroy foo }]
 
 render $m 1 20
 
+puts -nonewline "A gutterget time: "
+puts -nonewline [time { set value [$m gutterget bar ""] }]
+puts ", value: $value"
+
+puts -nonewline "B gutterget time: "
+puts -nonewline [time { set value [$m gutterget bro ""] }]
+puts ", value: $value"
+
+puts -nonewline "C gutterget time: "
+puts -nonewline [time { set value [$m gutterget bar c] }]
+puts ", value: $value"
+
+puts -nonewline "D gutterget time: "
+puts -nonewline [time { set value [$m gutterget bar e] }]
+puts ", value: $value"
+
+puts -nonewline "E gutterget time: "
+puts -nonewline [time { set value [$m gutterget bar 5] }]
+puts ", value: $value"
+
+puts -nonewline "F gutterget time: "
+puts -nonewline [time { set value [$m gutterget bar 15] }]
+puts ", value: $value"
+
+puts -nonewline "gutterdelete time: "
+puts [time { $m gutterdelete bar d }]
+
+render $m 1 20
+
 $m -delete

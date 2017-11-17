@@ -2088,24 +2088,8 @@ namespace eval ctext {
         }
       }
       del* {
-        lassign $args gutter_name sym_list
-        set update_needed 0
-        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
-        foreach symname $sym_list {
-          set gutters [lindex $data($win,config,gutters) $gutter_index 1]
-          if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
-            $win._t tag delete [lindex $gutters $index]
-            set gutters [lreplace $gutters $index $index]
-            array unset data $win,gutterfg,gutter:$gutter_name:$symname:*
-            lset data($win,config,gutters) $gutter_index 1 $gutters
-            set update_needed 1
-          }
-        }
-        if {$update_needed} {
-          linemapUpdate $win 1
-        }
+        model::gutterdelete $win {*}$args
+        linemapUpdate $win 1
       }
       set {
         model::gutterset $win {*}$args
@@ -2116,38 +2100,7 @@ namespace eval ctext {
         linemapUpdate $win 1
       }
       get {
-        if {[llength $args] == 1} {
-          set gutter_name [lindex $args 0]
-          set symbols     [list]
-          if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
-              set lines [list]
-              foreach {first last} [$win._t tag ranges $gutter_tag] {
-                lappend lines [lindex [split $first .] 0]
-              }
-              lappend symbols [lindex [split $gutter_tag :] 2] $lines
-            }
-          }
-          return $symbols
-        } elseif {[llength $args] == 2} {
-          set gutter_name [lindex $args 0]
-          if {[string is integer [lindex $args 1]]} {
-            set line_num [lindex $args 1]
-            if {[set tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-              return [lindex [split $tag :] 2]
-            } else {
-              return ""
-            }
-          } else {
-            set lines [list]
-            if {[set tag [lsearch -inline -glob [$win._t tag names] gutter:$gutter_name:[lindex $args 1]:*]] ne ""} {
-              foreach {first last} [$win._t tag ranges $tag] {
-                lappend lines [lindex [split $first .] 0]
-              }
-            }
-            return $lines
-          }
-        }
+        return [model::gutterget $win {*}$args]
       }
       cget {
         return [model::guttercget $win {*}$args]

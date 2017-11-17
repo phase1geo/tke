@@ -273,6 +273,16 @@ namespace eval model {
     return [$data($win,model) gutterhide $name $value]
 
   }
+  
+  ######################################################################
+  # Deletes one or more symbols from the given gutter.
+  proc gutterdelete {win name syms} {
+    
+    variable data
+    
+    $data($win,model) gutterdelete $name $syms
+    
+  }
 
   ######################################################################
   # Set the gutter with the given value/lines.
@@ -294,6 +304,21 @@ namespace eval model {
 
   }
 
+  ######################################################################
+  # Retrieves the specified gutter information.  If value not specified,
+  # returns each stored gutter symbol with a list of all lines set to the
+  # symbol.  If value is an integer, returns the symbol stored at the given
+  # line (or the empty string if nothing is set).  If value is a symbol
+  # name, returns all lines containing that symbol.  Any errors results
+  # in an empty string being returned.
+  proc gutterget {win name {value ""}} {
+    
+    variable data
+    
+    return [$data($win,model) gutterget $name $value]
+    
+  }
+  
   ######################################################################
   # Returns the gutter symbol option value.
   proc guttercget {win name sym opt} {

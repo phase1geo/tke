@@ -1032,11 +1032,17 @@ object request::execute(
     case REQUEST_GUTTERHIDE :
       return( (object)inst.gutter_hide( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
+    case REQUEST_GUTTERDELETE :
+      inst.gutter_delete( _args.at( i, 0 ), _args.at( i, 1 ) );
+      break;
     case REQUEST_GUTTERSET :
       inst.gutter_set( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
     case REQUEST_GUTTERUNSET :
       inst.gutter_unset( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      break;
+    case REQUEST_GUTTERGET :
+      return( inst.gutter_get( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_GUTTERCGET :
       return( inst.gutter_cget( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
@@ -1334,6 +1340,21 @@ object mailbox::gutter_hide(
 
 }
 
+void mailbox::gutter_delete(
+  object name,
+  object syms
+) {
+  
+  interpreter i( name.get_interp(), false );
+  object      args;
+  
+  args.append( i, name );
+  args.append( i, syms );
+  
+  add_request( REQUEST_GUTTERDELETE, args, false, false );
+  
+}
+
 void mailbox::gutter_set(
   object name,
   object values
@@ -1364,6 +1385,31 @@ void mailbox::gutter_unset(
 
   add_request( REQUEST_GUTTERUNSET, args, false, false );
 
+}
+
+object mailbox::gutter_get(
+  object name,
+  object value
+) {
+  
+  interpreter i( name.get_interp(), false );
+  string      val = value.get<string>( i );
+  object      args;
+  
+  args.append( i, name );
+  args.append( i, value );
+  
+  if( val == "" ) {
+    args.append( i, (object)false );
+  } else {
+    string cmd = "string is int " + val;
+    args.append( i, i.eval( cmd ) );
+  }
+  
+  add_request( REQUEST_GUTTERGET, args, true, false );
+  
+  return( result() );
+  
 }
 
 object mailbox::gutter_cget(
@@ -1442,8 +1488,10 @@ CPPTCL_MODULE(Model, i) {
     .def( "guttercreate",    &mailbox::gutter_create )
     .def( "gutterdestroy",   &mailbox::gutter_destroy )
     .def( "gutterhide",      &mailbox::gutter_hide )
+    .def( "gutterdelete",    &mailbox::gutter_delete )
     .def( "gutterset",       &mailbox::gutter_set )
     .def( "gutterunset",     &mailbox::gutter_unset )
+    .def( "gutterget",       &mailbox::gutter_get )
     .def( "guttercget",      &mailbox::gutter_cget )
     .def( "gutterconfigure", &mailbox::gutter_configure )
     .def( "gutternames",     &mailbox::gutter_names );

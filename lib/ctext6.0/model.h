@@ -819,6 +819,14 @@ class model {
     ) {
       _linemap.hide( name, value );
     }
+    
+    /*! Deletes one or more symbols from the given buffer */
+    void gutter_delete(
+      Tcl::object name,
+      Tcl::object syms
+    ) {
+      _linemap.delete_symbols( name, syms );
+    }
 
     /*! Sets rows for a given gutter column to the specified values */
     void gutter_set(
@@ -838,6 +846,15 @@ class model {
       Tcl::object last
     ) {
       _linemap.unset( name, first, last );
+    }
+    
+    /*! \return Returns the gutter line information */
+    Tcl::object gutter_get(
+      Tcl::object name,
+      Tcl::object value,
+      Tcl::object valueisint
+    ) const {
+      return( _linemap.get( name, value, valueisint ) );
     }
 
     /*! \return Returns the value of the gutter symbol option */
@@ -886,8 +903,10 @@ enum {
   REQUEST_GUTTERCREATE,
   REQUEST_GUTTERDESTROY,
   REQUEST_GUTTERHIDE,
+  REQUEST_GUTTERDELETE,
   REQUEST_GUTTERSET,
   REQUEST_GUTTERUNSET,
+  REQUEST_GUTTERGET,
   REQUEST_GUTTERCGET,
   REQUEST_GUTTERCONFIGURE,
   REQUEST_GUTTERNAMES,
@@ -1014,6 +1033,10 @@ class mailbox {
       Tcl::object name,
       Tcl::object value
     );
+    void gutter_delete(
+      Tcl::object name,
+      Tcl::object syms
+    );
     void gutter_set(
       Tcl::object name,
       Tcl::object values
@@ -1022,6 +1045,10 @@ class mailbox {
       Tcl::object name_obj,
       Tcl::object first_obj,
       Tcl::object last_obj
+    );
+    Tcl::object gutter_get(
+      Tcl::object name,
+      Tcl::object value
     );
     Tcl::object gutter_cget(
       Tcl::object name,
