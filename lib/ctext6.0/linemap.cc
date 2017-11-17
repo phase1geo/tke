@@ -197,6 +197,16 @@ linemap_col::~linemap_col() {
 
 }
 
+void linemap_col::symbols(
+  vector<string> & syms
+) const {
+  
+  for( map<string,linemap_colopts*>::const_iterator it=_opts.begin(); it!=_opts.end(); it++ ) {
+    syms.push_back( it->first );
+  }
+  
+}
+
 const linemap_colopts* linemap_col::get_value(
   const string & sym
 ) const {
@@ -209,6 +219,19 @@ const linemap_colopts* linemap_col::get_value(
     return( it->second );
   }
 
+}
+
+void linemap_col::clear_value(
+  const std::string & sym
+) {
+  
+  map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
+  
+  if( it != _opts.end() ) {
+    delete it->second;
+    _opts.erase( it );
+  }
+  
 }
 
 object linemap_col::cget(
@@ -549,6 +572,32 @@ bool linemap::hide(
 
 }
 
+void linemap::delete_symbols(
+  Tcl::object name,
+  Tcl::object syms
+) {
+  
+  interpreter interp( name.get_interp(), false );
+  int         col = get_col_index( name.get<string>( interp ) );
+  
+  /* Return immediately if we could not find the gutter */
+  if( col == -1 ) {
+    return;
+  }
+  
+  for( int i=0; i<syms.length( interp ); i++ ) {
+    string sym = syms.at( interp, i ).get<string>( interp );
+    const linemap_colopts* value = _cols[col]->get_value( sym );
+    if( value ) {
+      for( int j=0; j<_rows.size(); j++ ) {
+        _rows[j]->clear_value( col, value );
+      }
+    }
+    _cols[col]->clear_value( sym );
+  }
+  
+}
+
 void linemap::set(
   Tcl::object name_obj,
   Tcl::object values
@@ -606,6 +655,73 @@ void linemap::unset(
     }
   }
 
+}
+
+object linemap::get(
+  object name,
+  object value,
+  object valueisint
+) const {
+  
+  interpreter interp( name.get_interp(), false );
+  int         col = get_col_index( name.get<string>( interp ) );
+  object      result;
+  
+  /* If we could not find the gutter, return the empty string */
+  if( col == -1 ) {
+    return( (object)"" );
+  }
+  
+  string                 val = value.get<string>( interp );
+  const linemap_colopts* symbol;
+  
+  if( val.empty() ) {
+    
+    vector<string> syms;
+    _cols[col]->symbols( syms );
+    
+    for( vector<string>::iterator it=syms.begin(); it!=syms.end(); it++ ) {
+      object lines;
+      symbol = _cols[col]->get_value( *it );
+      for( int i=0; i<_rows.size(); i++ ) {
+        if( _rows[i]->get_value( col ) == symbol ) {
+          lines.append( interp, (object)_rows[i]->row() );
+        }
+      }
+      result.append( interp, (object)(*it) );
+      result.append( interp, lines );
+    }
+    
+  } else if( (symbol = _cols[col]->get_value( val )) ) {
+    
+    for( int i=0; i<_rows.size(); i++ ) {
+      if( _rows[i]->get_value( col ) == symbol ) {
+        result.append( interp, (object)_rows[i]->row() );
+      }
+    }
+    
+  } else if( valueisint.get<bool>( interp ) ){
+    
+    try {
+      vector<string> syms;
+      int            row   = value.get<int>( interp );
+      int            index = get_row_index( row );
+    
+      if( (index < _rows.size()) && (_rows[index]->row() == row) ) {
+        symbol = _rows[index]->get_value( col );
+        _cols[col]->symbols( syms );
+        for( vector<string>::iterator it=syms.begin(); it!=syms.end(); it++ ) {
+          if( _cols[col]->get_value( *it ) == symbol ) {
+            return( (object)(*it) );
+          }
+        }
+      }
+    } catch( exception & e ) {}
+    
+  }
+  
+  return( result );
+  
 }
 
 object linemap::cget(

@@ -60,6 +60,16 @@ class linemap_row {
 
     /*! Sets the given gutter item in the given column to the given value */
     void set_value( int col, const linemap_colopts* value ) { _items[col] = value; }
+    
+    /*! \return Returns the stored value */
+    const linemap_colopts* get_value( int col ) const { return( _items[col] ); }
+    
+    /*! Clears the value if it matches the given value */
+    void clear_value( int col, const linemap_colopts* value ) {
+      if( _items[col] == value ) {
+        _items[col] = 0;
+      }
+    }
 
     /*! \return Returns the name of the marker stored on this line (or the empty string if no marker exists) */
     const std::string & marker() const { return( _marker ); }
@@ -132,6 +142,9 @@ class linemap_col {
 
     /*! \return Returns the name of the column */
     const std::string & name() const { return( _name ); }
+    
+    /*! \return Returns the list of symbols in the gutter */
+    void symbols( std::vector<std::string> & syms ) const;
 
     /*! Set the hidden state of the given column */
     void hidden( bool value ) { _hidden = value; }
@@ -141,7 +154,10 @@ class linemap_col {
 
     /*! \return Returns the pointer to the colopts structure for the given value */
     const linemap_colopts* get_value( const std::string & value ) const;
-
+    
+    /*! Clears the given value from the list */
+    void clear_value( const std::string & value );
+    
     /*! \return Returns the value of the option for the given symbol */
     Tcl::object cget(
       const std::string & sym,
@@ -229,6 +245,12 @@ class linemap {
       Tcl::object name,
       Tcl::object value
     );
+    
+    /*! Deletes the symbols from the gutter */
+    void delete_symbols(
+      Tcl::object name,
+      Tcl::object syms
+    );
 
     /*! Sets one or more lines for the given gutter column */
     void set(
@@ -242,6 +264,13 @@ class linemap {
       Tcl::object first,
       Tcl::object last
     );
+    
+    /*! \return Returns the gutter symbol location information */
+    Tcl::object get(
+      Tcl::object name,
+      Tcl::object value,
+      Tcl::object valueisint
+    ) const;
 
     /*! \return Returns the current value for the given symbol's option */
     Tcl::object cget(
