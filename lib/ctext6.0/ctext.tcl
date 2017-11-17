@@ -7,7 +7,7 @@ package require Thread
 package provide ctext 6.0
 
 source [file join [file dirname [info script]] utils.tcl]
-source [file join [file dirname [info script]] model2.tcl]
+source [file join [file dirname [info script]] model.tcl]
 source [file join [file dirname [info script]] parsers.tcl]
 
 set utils::main_tid [thread::id]
@@ -48,7 +48,7 @@ namespace eval ctext {
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
-        source [file join %s model2.tcl]
+        source [file join %s model.tcl]
         set utils::main_tid %s
       } $this_dir $this_dir $this_dir [thread::id]]]
 
