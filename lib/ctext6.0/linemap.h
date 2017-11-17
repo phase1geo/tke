@@ -236,6 +236,13 @@ class linemap {
       Tcl::object values
     );
 
+    /*! Unsets the identified gutter for a single entry or a range */
+    void unset(
+      Tcl::object name,
+      Tcl::object first,
+      Tcl::object last
+    );
+
     /*! \return Returns the current value for the given symbol's option */
     Tcl::object cget(
       Tcl::object name,

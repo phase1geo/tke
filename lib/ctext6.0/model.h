@@ -828,6 +828,18 @@ class model {
       _linemap.set( name, values );
     }
 
+    /*!
+     Unsets a specific row (if last is the empty string) or a range of
+     rows.
+    */
+    void gutter_unset(
+      Tcl::object name,
+      Tcl::object first,
+      Tcl::object last
+    ) {
+      _linemap.unset( name, first, last );
+    }
+
     /*! \return Returns the value of the gutter symbol option */
     Tcl::object gutter_cget(
       Tcl::object name,
@@ -875,6 +887,7 @@ enum {
   REQUEST_GUTTERDESTROY,
   REQUEST_GUTTERHIDE,
   REQUEST_GUTTERSET,
+  REQUEST_GUTTERUNSET,
   REQUEST_GUTTERCGET,
   REQUEST_GUTTERCONFIGURE,
   REQUEST_GUTTERNAMES,
@@ -1004,6 +1017,11 @@ class mailbox {
     void gutter_set(
       Tcl::object name,
       Tcl::object values
+    );
+    void gutter_unset(
+      Tcl::object name_obj,
+      Tcl::object first_obj,
+      Tcl::object last_obj
     );
     Tcl::object gutter_cget(
       Tcl::object name,

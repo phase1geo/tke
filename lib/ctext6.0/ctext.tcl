@@ -227,7 +227,7 @@ namespace eval ctext {
     model::create $win
 
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
-    bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
+    bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win 1]
     bind $win.l <Button-$right_click> [list ctext::linemapToggleMark $win %x %y]
     bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                   [list event generate $win.t <4>]
@@ -1282,6 +1282,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Configures the widget.
   proc command_configure {win args} {
 
     variable data
@@ -2110,6 +2111,10 @@ namespace eval ctext {
         model::gutterset $win {*}$args
         linemapUpdate $win 1
       }
+      unset {
+        model::gutterunset $win {*}$args
+        linemapUpdate $win 1
+      }
       get {
         if {[llength $args] == 1} {
           set gutter_name [lindex $args 0]
@@ -2142,21 +2147,6 @@ namespace eval ctext {
             }
             return $lines
           }
-        }
-      }
-      clear {
-        set last [lassign $args gutter_name first]
-        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          if {$last eq ""} {
-            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
-              $win._t tag remove $gutter_tag $first.0
-            }
-          } else {
-            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
-              $win._t tag remove $gutter_tag $first.0 [$win._t index $last.0+1c]
-            }
-          }
-          linemapUpdate $win 1
         }
       }
       cget {
@@ -3040,8 +3030,13 @@ namespace eval ctext {
     set descent       $data($win,fontdescent)
     set full_width    $gutterx
     set y             1
+    set colormap      [list %m $marker %n $normal]
+    set ins           [lindex [split [$win._t index insert] .] 0]
 
-    set colormap [list %m $marker %n $normal]
+    # If we are displaying absolute line numbers, set the insertion row to 0
+    if {$data($win,config,-linemap_type) eq "absolute"} {
+      set ins 0
+    }
 
     # Clear the canvas
     $win.l delete all
@@ -3052,7 +3047,7 @@ namespace eval ctext {
       lassign [$win._t dlineinfo $lnum.0] x y w h b
       set x $gutterx
       set y [expr $y + $b + $descent]
-      $win.l create text 1 $y -anchor sw -text $lnum -fill $fill -font $font
+      $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font
       foreach gutter $gutters {
         lassign $gutter sym fill bindings
         set item [$win.l create text $x $y -text $sym -fill $fill -font $font]

@@ -578,6 +578,36 @@ void linemap::set(
 
 }
 
+void linemap::unset(
+  Tcl::object name_obj,
+  Tcl::object first_obj,
+  Tcl::object last_obj
+) {
+
+  interpreter interp( name_obj.get_interp(), false );
+  int         col   = get_col_index( name_obj.get<string>( interp ) );
+
+  /* If the column name doesn't exist, return immediately */
+  if( col == -1 ) {
+    return;
+  }
+
+  int first = first_obj.get<int>( interp );
+  int index = get_row_index( first );
+
+  if( last_obj.get<string>( interp ) == "" ) {
+    if( _rows[index]->row() == first ) {
+      _rows[index]->set_value( col, 0 );
+    }
+  } else {
+    int last_index = get_row_index( last_obj.get<int>( interp ) );
+    for( int i=index; i<=last_index; i++ ) {
+      _rows[i]->set_value( col, 0 );
+    }
+  }
+
+}
+
 object linemap::cget(
   object name,
   object symbol,
