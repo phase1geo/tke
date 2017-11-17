@@ -294,4 +294,14 @@ namespace eval model {
 
   }
 
+  ######################################################################
+  # Returns the linemap information for rendering purposes.
+  proc render_linemap {win first last} {
+
+    variable data
+
+    return [$data($win,model) renderlinemap $first $last]
+
+  }
+
 }
