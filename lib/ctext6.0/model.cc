@@ -1020,6 +1020,9 @@ object request::execute(
     case REQUEST_SETMARKER :
       inst.set_marker( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
+    case REQUEST_GETMARKER :
+      return( inst.get_marker( _args.at( i, 0 ) ) );
+      break;
     case REQUEST_GUTTERCREATE :
       inst.gutter_create( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
@@ -1278,6 +1281,16 @@ void mailbox::set_marker(
 
 }
 
+object mailbox::get_marker(
+  object row
+) {
+
+  add_request( REQUEST_GETMARKER, row, true, false );
+
+  return( result() );
+
+}
+
 void mailbox::gutter_create(
   object name,
   object opts
@@ -1405,6 +1418,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "isescaped",       &mailbox::is_escaped )
     .def( "renderlinemap",   &mailbox::render_linemap )
     .def( "setmarker",       &mailbox::set_marker )
+    .def( "getmarker",       &mailbox::get_marker )
     .def( "guttercreate",    &mailbox::gutter_create )
     .def( "gutterdestroy",   &mailbox::gutter_destroy )
     .def( "gutterhide",      &mailbox::gutter_hide )

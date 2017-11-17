@@ -30,7 +30,7 @@ object linemap_row::render(
   }
 
   result.append( interp, (object)_row );
-  result.append( interp, (object)(_marker != "") );
+  result.append( interp, (object)((_marker == "") ? "%n" : "%m") );
   result.append( interp, row );
 
   return( result );
@@ -165,6 +165,11 @@ linemap_col::linemap_col(
 ) : _hidden( false ) {
 
   interpreter interp( name.get_interp(), false );
+
+  /* Check the option length */
+  if( opts.length( interp ) % 2 ) {
+    throw runtime_error( "Initializing gutter with odd number of options" );
+  }
 
   /* Save the name of the new gutter */
   _name = name.get<string>( interp );
@@ -330,6 +335,22 @@ void linemap::set_marker(
 
 }
 
+Tcl::object linemap::get_marker(
+  object row_obj
+) const {
+
+  interpreter i( row_obj.get_interp(), false );
+  int         row   = row_obj.get<int>( i );
+  int         index = get_row_index( row );
+
+  if( (index == _rows.size()) ||(_rows[index]->row() != row) ) {
+    return( (object)"" );
+  } else {
+    return( (object)(_rows[index]->marker()) );
+  }
+
+}
+
 int linemap::marker_row(
   const std::string & name
 ) const {
@@ -457,7 +478,7 @@ object linemap::render(
     } else {
       object rowobj;
       rowobj.append( i, (object)row );
-      rowobj.append( i, (object)0 );
+      rowobj.append( i, (object)"%n" );
       rowobj.append( i, cols );
       result.append( i, rowobj );
     }
@@ -585,8 +606,6 @@ object linemap::configure(
 
   interpreter i( name.get_interp(), false );
   int         col = get_col_index( name.get<string>( i ) );
-
-  cout << "In linemap::configure, col: " << col << endl;
 
   if( col == -1 ) {
     return( (object)"" );

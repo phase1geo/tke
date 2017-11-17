@@ -186,6 +186,9 @@ class linemap {
       Tcl::object value
     );
 
+    /*! \return Returns the marker name stored at the given row */
+    Tcl::object get_marker( Tcl::object row ) const;
+
     /*! \return Returns the row number for the given marker name if it exists; otherwise,
                 returns 0. */
     int marker_row( const std::string & name ) const;

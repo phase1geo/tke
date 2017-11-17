@@ -2063,6 +2063,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Process the gutter command.
   proc command_gutter {win args} {
 
     variable data
@@ -2079,9 +2080,9 @@ namespace eval ctext {
       }
       hide {
         if {[llength $args] == 1} {
-          return [$m gutterhide $win {*}$args]
+          return [model::gutterhide $win {*}$args]
         } else {
-          $m gutterhide $win {*}$args
+          model::gutterhide $win {*}$args
           linemapUpdate $win 1
         }
       }
@@ -2926,6 +2927,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Toggles the bookmark indicator in the linemap.
   proc linemapToggleMark {win x y} {
 
     variable data
@@ -2934,15 +2936,16 @@ namespace eval ctext {
       return
     }
 
-    set tline [lindex [split [set tmarkChar [$win.t index @0,$y]] .] 0]
+    set row [lindex [split [$win._t index @0,$y] .] 0]
 
-    if {[set lmark [lsearch -inline -glob [$win.t tag names $tline.0] lmark*]] ne ""} {
-      $win.t tag delete $lmark
-      set type unmarked
-    } else {
+    # Toggle the bookmark
+    if {[model::get_marker $win $row] eq ""} {
       set lmark "lmark[incr data($win,linemap,id)]"
-      $win.t tag add $lmark $tmarkChar [$win.t index "$tmarkChar lineend"]
+      model::set_marker $win $row $lmark
       set type marked
+    } else {
+      model::set_marker $win $row ""
+      set type unmarked
     }
 
     # Update the linemap
@@ -2952,39 +2955,44 @@ namespace eval ctext {
     # the mark.
     set cmd $data($win,config,-linemap_mark_command)
     if {[string length $cmd] && ![uplevel #0 [linsert $cmd end $win $type $lmark]]} {
-      $win.t tag delete $lmark
+      model::set_marker $win $row ""
       linemapUpdate $win 1
     }
 
   }
 
   ######################################################################
-  proc linemapSetMark {win line} {
+  # Sets the bookmark for the given line to an automatic name or the
+  # provided name.
+  proc linemapSetMark {win line {name ""}} {
 
     variable data
 
-    if {[lsearch -inline -glob [$win.t tag names $line.0] lmark*] eq ""} {
-      set lmark "lmark[incr data($win,linemap,id)]"
-      $win.t tag add $lmark $line.0
-      linemapUpdate $win 1
-      return $lmark
+    # If the user did not provide a name, create one
+    if {$name eq ""} {
+      set name "lmark[incr data($win,linemap,id)]"
     }
 
-    return ""
+    # Set the marker and update the linemap
+    model::set_marker $win $line $name
+    linemapUpdate $win 1
+
+    return $name
 
   }
 
   ######################################################################
+  # Clears the linemap marker if it is set.
   proc linemapClearMark {win line} {
 
-    if {[set lmark [lsearch -inline -glob [$win.t tag names $line.0] lmark*]] ne ""} {
-      $win.t tag delete $lmark
-      linemapUpdate $win 1
-    }
+    # Clear the marker and update the linemap
+    model::set_marker $win $line ""
+    linemapUpdate $win 1
 
   }
 
   ######################################################################
+  # Indicates the a linemap update is needed based on text changes.
   proc linemapUpdateNeeded {win} {
 
     variable data
@@ -3030,11 +3038,16 @@ namespace eval ctext {
     set font          $data($win,config,-font)
     set fontwidth     $data($win,fontwidth)
     set descent       $data($win,fontdescent)
+    set full_width    $gutterx
     set y             1
 
+    set colormap [list %m $marker %n $normal]
+
+    # Clear the canvas
     $win.l delete all
 
-    foreach line [model::render_linemap $win $first $last] {
+    # Draw the linemap
+    foreach line [string map $colormap [model::render_linemap $win $first $last]] {
       lassign $line lnum fill gutters
       lassign [$win._t dlineinfo $lnum.0] x y w h b
       set x $gutterx
@@ -3046,13 +3059,13 @@ namespace eval ctext {
         foreach {event command} $bindings {
           $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
         }
-        incr x $fontwidth
+        set full_width [incr x $fontwidth]
       }
     }
 
     # Resize the linemap window, if necessary
-    if {[$win.l cget -width] != (($full_width * $data($win,fontwidth)) + 2)} {
-      $win.l configure -width [expr ($full_width * $data($win,fontwidth)) + 2]
+    if {[$win.l cget -width] != [incr full_width]} {
+      $win.l configure -width $full_width
     }
 
   }

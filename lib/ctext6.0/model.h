@@ -789,6 +789,13 @@ class model {
       _linemap.set_marker( row, name );
     }
 
+    /*! \return Returns the name of the marker stored at the given row */
+    Tcl::object get_marker(
+      Tcl::object row
+    ) const {
+      return( _linemap.get_marker( row ) );
+    }
+
     /*! Creates a new gutter column in the linemap gutter */
     void gutter_create(
       Tcl::object name,
@@ -863,6 +870,7 @@ enum {
   REQUEST_ISESCAPED,
   REQUEST_RENDERLINEMAP,
   REQUEST_SETMARKER,
+  REQUEST_GETMARKER,
   REQUEST_GUTTERCREATE,
   REQUEST_GUTTERDESTROY,
   REQUEST_GUTTERHIDE,
@@ -980,6 +988,9 @@ class mailbox {
     void set_marker(
       Tcl::object row,
       Tcl::object name
+    );
+    Tcl::object get_marker(
+      Tcl::object row
     );
     void gutter_create(
       Tcl::object name,

@@ -224,12 +224,32 @@ namespace eval model {
   }
 
   ######################################################################
+  # Set the marker for the given line to the specified value.
+  proc set_marker {win line name} {
+
+    variable data
+
+    $data($win,model) setmarker $line $name
+
+  }
+
+  ######################################################################
+  # Returns the marker name stored at the given line.
+  proc get_marker {win line} {
+
+    variable data
+
+    return [$data($win,model) getmarker $line]
+
+  }
+
+  ######################################################################
   # Creates a new gutter.
   proc guttercreate {win name args} {
 
     variable data
 
-    $data($win,model) guttercreate $name $args
+    $data($win,model) guttercreate $name {*}$args
 
   }
 
