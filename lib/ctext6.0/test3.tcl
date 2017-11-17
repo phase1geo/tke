@@ -41,6 +41,18 @@ puts [time { $m guttercreate goo {e {-symbol e -fg red -onclick clicky -onenter 
 
 render $m 1 10
 
+puts -nonewline "gutterconfigure time: "
+puts -nonewline [time { set value [$m gutterconfigure bar "" ""] }]
+puts ", value: $value"
+
+puts -nonewline "gutterconfigure time: "
+puts -nonewline [time { set value [$m gutterconfigure bar d ""] }]
+puts ", value: $value"
+
+puts -nonewline "guttercget time: "
+puts -nonewline [time { set value [$m guttercget goo e -onclick] }]
+puts ", value: $value"
+
 puts -nonewline "gutterhide time: "
 puts [time { $m gutterhide bar 1 }]
 

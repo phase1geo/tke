@@ -85,12 +85,33 @@ void linemap_colopts::configure( Tcl::object opts ) {
 
 }
 
-Tcl::object linemap_colopts::cget(
-  Tcl::object name_obj
-) const {
+Tcl::object linemap_colopts::configure() const {
 
-  interpreter interp( name_obj.get_interp(), false );
-  string      name = name_obj.get<string>( interp );
+  object      result;
+  interpreter i( result.get_interp(), false );
+
+  result.append( i, (object)"-symbol" );
+  result.append( i, (object)_symbol );
+  result.append( i, (object)"-fg" );
+  result.append( i, (object)_color );
+  result.append( i, (object)"-onenter" );
+  result.append( i, cget( "-onenter" ) );
+  result.append( i, (object)"-onleave" );
+  result.append( i, cget( "-onleave" ) );
+  result.append( i, (object)"-onclick" );
+  result.append( i, cget( "-onclick" ) );
+  result.append( i, (object)"-onshiftclick" );
+  result.append( i, cget( "-onshiftclick" ) );
+  result.append( i, (object)"-oncontrolclick" );
+  result.append( i, cget( "-oncontrolclick" ) );
+
+  return( result );
+
+}
+
+Tcl::object linemap_colopts::cget(
+  const string & name
+) const {
 
   if( name == "-symbol" ) {
     return( (object)_symbol );
@@ -172,15 +193,58 @@ linemap_col::~linemap_col() {
 }
 
 const linemap_colopts* linemap_col::get_value(
-  const std::string & value
+  const string & sym
 ) const {
 
-  map<string,linemap_colopts*>::const_iterator it = _opts.find( value );
+  map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
 
   if( it == _opts.end() ) {
     return( 0 );
   } else {
     return( it->second );
+  }
+
+}
+
+object linemap_col::cget(
+  const string & sym,
+  const string & opt
+) const {
+
+  map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
+
+  if( it == _opts.end() ) {
+    return( (object)"" );
+  } else {
+    return( (object)(it->second->cget( opt )) );
+  }
+
+}
+
+object linemap_col::configure(
+  const string & sym,
+  object         opts
+) {
+
+  interpreter i( opts.get_interp(), false );
+
+  if( sym.empty() ) {
+    object result;
+    for( map<string,linemap_colopts*>::iterator it=_opts.begin(); it!=_opts.end(); it++ ) {
+      result.append( i, (object)it->first );
+      result.append( i, it->second->configure() );
+    }
+    return( result );
+  } else {
+    map<string,linemap_colopts*>::iterator it = _opts.find( sym );
+    if( it == _opts.end() ) {
+      return( (object)"" );
+    } else if( opts.get<string>( i ).empty() ) {
+      return( it->second->configure() );
+    } else {
+      it->second->configure( opts );
+      return( (object)"" );
+    }
   }
 
 }
@@ -256,7 +320,7 @@ void linemap::set_marker(
   int         row    = row_obj.get<int>( i );
   string      value  = value_obj.get<string>( i );
   int         rindex = get_row_index( row );
-  
+
   /* Add the row if it does not exist */
   if( (rindex == _rows.size()) || (_rows[rindex]->row() != row) ) {
     _rows.insert( (_rows.begin() + rindex), new linemap_row( row, _cols.size() ) );
@@ -283,13 +347,13 @@ int linemap::marker_row(
 void linemap::insert(
   const vector<tindex> & ranges
 ) {
-  
+
   for( int i=0; i<ranges.size(); i+=2 ) {
 
     tindex spos = ranges[i];
     tindex epos = ranges[i+1];
     int    diff = epos.row - spos.row;
-    
+
     if( diff == 0 ) {
       continue;
     }
@@ -379,14 +443,14 @@ object linemap::render(
   int         index = get_row_index( first );
   object      result;
   object      cols;
-  
+
   /* Create a template for rows that are not stored */
   for( int j=0; j<_cols.size(); j++ ) {
     if( !_cols[j]->hidden() ) {
       cols.append( i, (object)"" );
     }
   }
-  
+
   for( int row=first; row<=last; row++ ) {
     if( (index < _rows.size()) && (_rows[index]->row() == row) ) {
       result.append( i, _rows[index++]->render( i, _cols ) );
@@ -421,24 +485,24 @@ void linemap::create(
 void linemap::destroy(
   object name
 ) {
-  
+
   interpreter i( name.get_interp(), false );
   int         col = get_col_index( name.get<string>( i ) );
-  
+
   /* If the gutter name cannot be found, just return */
   if( col == -1 ) {
     return;
   }
-  
+
   /* Delete the gutter column */
   delete _cols[col];
   _cols.erase( _cols.begin() + col );
-  
+
   /* Remove the column from each row */
   for( vector<linemap_row*>::iterator it=_rows.begin(); it!=_rows.end(); it++ ) {
     (*it)->remove_column( col );
   }
-  
+
 }
 
 bool linemap::hide(
@@ -476,7 +540,7 @@ void linemap::set(
   if( col == -1 ) {
     return;
   }
-  
+
   for( int i=0; i<values.length( interp ); i+=2 ) {
     string value = values.at( interp, (i + 0) ).get<string>( interp );
     object rows  = values.at( interp, (i + 1) );
@@ -490,6 +554,45 @@ void linemap::set(
       _rows[index]->set_value( col, colopts );
     }
   }
+
+}
+
+object linemap::cget(
+  object name,
+  object symbol,
+  object option
+) const {
+
+  interpreter i( name.get_interp(), false );
+  int         col = get_col_index( name.get<string>( i ) );
+  string      opt = option.get<string>( i );
+  object      result;
+
+  if( col == -1 ) {
+    return( (object)"" );
+  }
+
+  /* Get the options */
+  return( _cols[col]->cget( symbol.get<string>( i ), option.get<string>( i ) ) );
+
+}
+
+object linemap::configure(
+  object name,
+  object symbol,
+  object opts
+) {
+
+  interpreter i( name.get_interp(), false );
+  int         col = get_col_index( name.get<string>( i ) );
+
+  cout << "In linemap::configure, col: " << col << endl;
+
+  if( col == -1 ) {
+    return( (object)"" );
+  }
+
+  return( _cols[col]->configure( symbol.get<string>( i ), opts ) );
 
 }
 

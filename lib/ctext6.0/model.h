@@ -796,12 +796,12 @@ class model {
     ) {
       _linemap.create( name, values );
     }
-    
+
     /*! Destroys the given gutter item */
     void gutter_destroy( Tcl::object name ) {
       _linemap.destroy( name );
     }
-    
+
     /*!
      Causes a gutter to be hidden/shown or returns the current hidden state
      of the gutter.
@@ -819,6 +819,27 @@ class model {
       Tcl::object values
     ) {
       _linemap.set( name, values );
+    }
+
+    /*! \return Returns the value of the gutter symbol option */
+    Tcl::object gutter_cget(
+      Tcl::object name,
+      Tcl::object sym,
+      Tcl::object opt
+    ) const {
+      return( _linemap.cget( name, sym, opt ) );
+    }
+
+    /*!
+     Configures one or more gutter symbol options or returns the
+     current values
+    */
+    Tcl::object gutter_configure(
+      Tcl::object name,
+      Tcl::object sym,
+      Tcl::object opts
+    ) {
+      return( _linemap.configure( name, sym, opts ) );
     }
 
     /*! \return Returns a Tcl list of all stored gutter names */
@@ -846,6 +867,8 @@ enum {
   REQUEST_GUTTERDESTROY,
   REQUEST_GUTTERHIDE,
   REQUEST_GUTTERSET,
+  REQUEST_GUTTERCGET,
+  REQUEST_GUTTERCONFIGURE,
   REQUEST_GUTTERNAMES,
   REQUEST_NUM
 };
@@ -970,6 +993,16 @@ class mailbox {
     void gutter_set(
       Tcl::object name,
       Tcl::object values
+    );
+    Tcl::object gutter_cget(
+      Tcl::object name,
+      Tcl::object sym,
+      Tcl::object opt
+    );
+    Tcl::object gutter_configure(
+      Tcl::object name,
+      Tcl::object sym,
+      Tcl::object opts
     );
     Tcl::object gutter_names();
 
