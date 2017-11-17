@@ -3050,7 +3050,7 @@ namespace eval ctext {
       $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font
       foreach gutter $gutters {
         lassign $gutter sym fill bindings
-        set item [$win.l create text $x $y -text $sym -fill $fill -font $font]
+        set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font]
         foreach {event command} $bindings {
           $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
         }
