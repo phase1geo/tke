@@ -176,7 +176,7 @@ linemap_col::linemap_col(
 
   /* Save the various options */
   for( int i=0; i<opts.length( interp ); i+=2 ) {
-    string           optname = opts.at( interp, i ).get<string>( interp );
+    string           optname  = opts.at( interp, i ).get<string>( interp );
     linemap_colopts* optvalue = new linemap_colopts( opts.at( interp, (i + 1) ) );
     map<string,linemap_colopts*>::iterator it = _opts.find( optname );
     if( it == _opts.end() ) {
@@ -200,11 +200,11 @@ linemap_col::~linemap_col() {
 void linemap_col::symbols(
   vector<string> & syms
 ) const {
-  
+
   for( map<string,linemap_colopts*>::const_iterator it=_opts.begin(); it!=_opts.end(); it++ ) {
     syms.push_back( it->first );
   }
-  
+
 }
 
 const linemap_colopts* linemap_col::get_value(
@@ -224,14 +224,14 @@ const linemap_colopts* linemap_col::get_value(
 void linemap_col::clear_value(
   const std::string & sym
 ) {
-  
+
   map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
-  
+
   if( it != _opts.end() ) {
     delete it->second;
     _opts.erase( it );
   }
-  
+
 }
 
 object linemap_col::cget(
@@ -403,7 +403,9 @@ void linemap::insert(
     }
 
     /* Increment the rows by the number of newlines */
-    int sindex = get_row_index( spos.row );
+    int sindex = get_row_index( spos.row + ((spos.col > 0) ? 1 : 0) );
+
+    /* Increment the row counts by one */
     for( int i=sindex; i<_rows.size(); i++ ) {
       _rows[i]->increment( diff );
     }
@@ -428,8 +430,9 @@ void linemap::remove(
     }
 
     /* Calculate the starting and ending indices to remove */
-    int sindex = get_row_index( spos.row + ((spos.col > 0) ? 1 : 0) );
-    int eindex = get_row_index( epos.row );
+    int adjust = (spos.col > 0) ? 1 : 0;
+    int sindex = get_row_index( spos.row + adjust );
+    int eindex = get_row_index( epos.row + adjust );
 
     /* Remove the entries */
     for( int i=sindex; i<eindex; i++ ) { delete _rows[i]; }
@@ -576,15 +579,15 @@ void linemap::delete_symbols(
   Tcl::object name,
   Tcl::object syms
 ) {
-  
+
   interpreter interp( name.get_interp(), false );
   int         col = get_col_index( name.get<string>( interp ) );
-  
+
   /* Return immediately if we could not find the gutter */
   if( col == -1 ) {
     return;
   }
-  
+
   for( int i=0; i<syms.length( interp ); i++ ) {
     string sym = syms.at( interp, i ).get<string>( interp );
     const linemap_colopts* value = _cols[col]->get_value( sym );
@@ -595,7 +598,7 @@ void linemap::delete_symbols(
     }
     _cols[col]->clear_value( sym );
   }
-  
+
 }
 
 void linemap::set(
@@ -662,24 +665,24 @@ object linemap::get(
   object value,
   object valueisint
 ) const {
-  
+
   interpreter interp( name.get_interp(), false );
   int         col = get_col_index( name.get<string>( interp ) );
   object      result;
-  
+
   /* If we could not find the gutter, return the empty string */
   if( col == -1 ) {
     return( (object)"" );
   }
-  
+
   string                 val = value.get<string>( interp );
   const linemap_colopts* symbol;
-  
+
   if( val.empty() ) {
-    
+
     vector<string> syms;
     _cols[col]->symbols( syms );
-    
+
     for( vector<string>::iterator it=syms.begin(); it!=syms.end(); it++ ) {
       object lines;
       symbol = _cols[col]->get_value( *it );
@@ -691,22 +694,22 @@ object linemap::get(
       result.append( interp, (object)(*it) );
       result.append( interp, lines );
     }
-    
+
   } else if( (symbol = _cols[col]->get_value( val )) ) {
-    
+
     for( int i=0; i<_rows.size(); i++ ) {
       if( _rows[i]->get_value( col ) == symbol ) {
         result.append( interp, (object)_rows[i]->row() );
       }
     }
-    
+
   } else if( valueisint.get<bool>( interp ) ){
-    
+
     try {
       vector<string> syms;
       int            row   = value.get<int>( interp );
       int            index = get_row_index( row );
-    
+
       if( (index < _rows.size()) && (_rows[index]->row() == row) ) {
         symbol = _rows[index]->get_value( col );
         _cols[col]->symbols( syms );
@@ -717,11 +720,11 @@ object linemap::get(
         }
       }
     } catch( exception & e ) {}
-    
+
   }
-  
+
   return( result );
-  
+
 }
 
 object linemap::cget(
