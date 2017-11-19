@@ -6,8 +6,11 @@
 
 #include "undo.h"
 
+using namespace std;
+using namespace Tcl;
+
 void undo_change::render(
-  object result
+  object & result
 ) const {
 
   interpreter i( result.get_interp(), false );
@@ -36,36 +39,37 @@ void undo_change::render(
 
 /* --------------------------------------------------- */
 
-void undo_group::render(
-  object & result
-) {
+object undo_group::render() {
 
+  object      result;
   interpreter i( result.get_interp(), false );
   undo_group  tmp = *this;
 
   /* Clear ourselves */
-  clear();
+  clear_group();
 
   /*
    Move all of the items from the copied list back to ourselves, inverting
    the data in the process.
   */
-  while( tmp.top() ) {
-    tmp.top()->render( result );
-    tmp.top()->invert_type();
-    push( tmp.top() );
-    tmp.pop();
+  while( tmp.back() ) {
+    tmp.back()->render( result );
+    tmp.back()->invert_type();
+    push_back( tmp.back() );
+    tmp.pop_back();
   }
+
+  return( result );
 
 }
 
 void undo_group::cursor_history(
-  object result
+  object & result
 ) const {
 
   interpreter i( result.get_interp(), false );
 
-  for( stack<undo_change*>::const_iterator it=begin(); it!=end(); it++ ) {
+  for( vector<undo_change*>::const_reverse_iterator it=rbegin(); it!=rend(); it++ ) {
     result.append( i, (object)tindex_to_string( (*it)->cursor() ) );
   }
 
@@ -77,7 +81,7 @@ object undo_buffer::cursor_history() const {
 
   object result;
 
-  for( stack<undo_group*>::const_iterator it=begin(); it!=end(); it++ ) {
+  for( vector<undo_group*>::const_reverse_iterator it=rbegin(); it!=rend(); it++ ) {
     (*it)->cursor_history( result );
   }
 
@@ -106,18 +110,18 @@ void undo_manager::add_change(
   /* If we don't have a current change group, create it now */
   if( _uncommitted == 0 ) {
     _uncommitted = new undo_group();
-    _redo.clear();
+    _redo_buffer.clear_buffer();
   }
   
   /* Add the change to the list */
-  _uncommitted->push( new undo_change( type, spos, epos, text, cur, multi ) );
+  _uncommitted->push_back( new undo_change( type, spos, epos, text, cur, multi ) );
   
 }
 
 void undo_manager::add_separator() {
 
   if( _uncommitted ) {
-    _undo_buffer.push( _uncommitted );
+    _undo_buffer.push_back( _uncommitted );
     _uncommitted = 0;
   }
 
@@ -133,18 +137,16 @@ object undo_manager::undo() {
   }
  
   /* Only act on the undo buffer if there is something in it */
-  if( _undo_buffer.top() ) {
+  if( _undo_buffer.back() ) {
 
-    result = _undo_buffer.top()->render();
-
-    /* Invert all of the types */
-    _undo_buffer.front()->invert_types();
+    /* Render the undo result */
+    result = _undo_buffer.back()->render();
 
     /* Push the undo buffer changes to the redo buffer */
-    _redo_buffer.push( _undo_buffer.top() );
+    _redo_buffer.push_back( _undo_buffer.back() );
 
     /* Pop the undo buffer */
-    _undo_buffer.pop();
+    _undo_buffer.pop_back();
     
   }
   
@@ -156,19 +158,16 @@ object undo_manager::redo() {
   
   object result;
 
-  if( _redo_buffer.top() ) {
+  if( _redo_buffer.back() ) {
 
     /* Generate the redo result */
-    result = _redo_buffer.front()->render();
-
-    /* Invert all of the types */
-    _redo_buffer.front()->invert_types();
+    result = _redo_buffer.back()->render();
 
     /* Push the redo buffer changes to the undo buffer */
-    _undo_buffer.push( _redo_buffer.front() );
+    _undo_buffer.push_back( _redo_buffer.back() );
 
     /* Remove the top-most entry from the redo buffer */
-    _redo_buffer.pop();
+    _redo_buffer.pop_back();
 
   }
 
