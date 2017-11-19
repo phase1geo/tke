@@ -9,7 +9,6 @@
 */
 
 #include <vector>
-#include <stack>
 
 #include "cpptcl/cpptcl.h"
 #include "utils.h"
@@ -83,7 +82,7 @@ class undo_change {
 /*!
  A group of changes.
 */
-class undo_group : public std::stack<undo_change*> {
+class undo_group : public std::vector<undo_change*> {
   
   public:
     
@@ -92,27 +91,24 @@ class undo_group : public std::stack<undo_change*> {
     
     /*! Copy constructor */
     undo_group( const undo_group & ug ) {
-      for( std::stack<undo_change*>::iterator it=ug.begin(); it!=ug.end(); it++ ) {
-        if( ug.type() == UNDO_TYPE_INSERT ) {
-          push( new insert_change( *it ) );
-        } else {
-          push( new delete_change( *it ) );
-        }
+      for( std::vector<undo_change*>::const_iterator it=ug.begin(); it!=ug.end(); it++ ) {
+        push_back( new undo_change( **it ) );
       }
     }
     
     /*! Destructor */
-    ~undo_group() { clear(); }
+    ~undo_group() { clear_group(); }
 
     /*! Clear all of the memory associated with this group */
-    void clear() {
-      for( std::stack<undo_change*>::iterator it=begin(); it!=end(); it++ ) {
+    void clear_group() {
+      for( std::vector<undo_change*>::iterator it=begin(); it!=end(); it++ ) {
         delete *it;
       }
+      clear();
     }
 
     /*! Renders the commands required for the undo/redo operation for the group */
-    void render( Tcl::object & result ) const;
+    Tcl::object render();
     
     /*! Generates a list of all stored cursor positions in the group */
     void cursor_history( Tcl::object & result ) const;
@@ -122,7 +118,7 @@ class undo_group : public std::stack<undo_change*> {
 /*!
  Represents an undo/redo buffer.
 */
-class undo_buffer : public std::stack<undo_group*> {
+class undo_buffer : public std::vector<undo_group*> {
   
   public:
     
@@ -131,14 +127,15 @@ class undo_buffer : public std::stack<undo_group*> {
     
     /*! Destructor */
     ~undo_buffer() {
-      clear();
+      clear_buffer();
     }
     
     /*! Deallocates all memory associated with the buffer */
-    void clear() {
-      for( std::stack<undo_group*>::iterator it=begin(); it!=end(); it++ ) {
+    void clear_buffer() {
+      for( std::vector<undo_group*>::iterator it=begin(); it!=end(); it++ ) {
         delete *it;
       }
+      clear();
     }
 
     /*! \return Returns the history of cursor positions from the buffer */
@@ -170,12 +167,12 @@ class undo_manager {
   public:
     
     /*! Default constructor */
-    undo_manager() : _group( 0 ) {}
+    undo_manager() : _uncommitted( 0 ) {}
     
     /*! Destructor */
     ~undo_manager() {
-      if( _group ) {
-        delete _group;
+      if( _uncommitted ) {
+        delete _uncommitted;
       }
     }
 
