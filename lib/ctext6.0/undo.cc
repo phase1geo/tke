@@ -174,10 +174,4 @@ object undo_manager::redo() {
   return( result );
 
 }
-    
-object undo_manager::cursor_history() const {
-  
-  return( _undo_buffer.cursor_history() );
-  
-}
 

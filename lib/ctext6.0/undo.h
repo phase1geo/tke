@@ -208,7 +208,19 @@ class undo_manager {
     Tcl::object redo();
     
     /*! Retrieves the cursor history in a list */
-    Tcl::object cursor_history() const;
+    Tcl::object cursor_history() const {
+      return( _undo_buffer.cursor_history() );
+    }
+
+    /*! \return Returns true if the undo buffer is empty */
+    Tcl::object undo_empty() const {
+      return( (Tcl::object)((_uncommitted == 0) && _undo_buffer.empty()) );
+    }
+
+    /*! \return Returns true if the redo buffer is empty */
+    Tcl::object redo_empty() const {
+      return( (Tcl::object)_redo_buffer.empty() );
+    }
     
 };
 
