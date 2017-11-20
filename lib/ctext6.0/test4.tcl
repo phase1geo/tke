@@ -11,5 +11,9 @@ puts -nonewline "undoable time: "
 puts -nonewline [time { set value [$m undoable] }]
 puts ", value: $value"
 
+puts -nonewline "redoable time: "
+puts -nonewline [time { set value [$m redoable] }]
+puts ", value: $value"
+
 $m -delete
 

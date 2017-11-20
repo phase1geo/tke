@@ -1153,26 +1153,53 @@ void mailbox::execute() {
 }
 
 void mailbox::insert(
-  object ranges
+  object ranges,
+  object str,
+  object cursor
 ) {
+  
+  interpreter i( ranges.get_interp(), false );
+  object      args;
+  
+  args.append( i, ranges );
+  args.append( i, str );
+  args.append( i, cursor );
 
-  add_request( REQUEST_INSERT, ranges, false, false );
+  add_request( REQUEST_INSERT, args, false, false );
 
 }
 
 void mailbox::remove(
   object ranges
+  object str,
+  object cursor
 ) {
 
-  add_request( REQUEST_DELETE, ranges, false, false );
+  interpreter i( ranges.get_interp(), false );
+  object      args;
+  
+  args.append( i, ranges );
+  args.append( i, str );
+  args.append( i, cursor );
+
+  add_request( REQUEST_DELETE, args, false, false );
 
 }
 
 void mailbox::replace(
   object ranges
+  object str,
+  object cursor
 ) {
 
-  add_request( REQUEST_REPLACE, ranges, false, false );
+  interpreter i( ranges.get_interp(), false );
+  object      args;
+  
+  args.append( i, ranges );
+  args.append( i, str );
+  args.append( i, cursor );
+
+  add_request( REQUEST_REPLACE, args, false, false );
 
 }
 
