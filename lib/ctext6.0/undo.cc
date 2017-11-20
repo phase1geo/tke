@@ -125,8 +125,8 @@ object undo_buffer::cursor_history() const {
 
 void undo_manager::add_change(
   int    type,
-  object startpos,
-  object endpos,
+  tindex startpos,
+  tindex endpos,
   object str,
   object cursor,
   object mcursor
@@ -153,6 +153,34 @@ void undo_manager::add_change(
     _uncommitted->push_back( new undo_change( change ) );
   }
 
+}
+
+void undo_manager::add_insertion(
+  const vector<tindex> & ranges,
+  Tcl::object            str,
+  Tcl::object            cursor
+) {
+  
+  interpreter interp( str.get_interp(), false );
+  string      txt       = str.get<string>( interp );
+  tindex      cursorpos = object_to_tindex( cursor );
+  bool        mcursor   = ranges.size() > 2;
+  
+  for( int i=0; i<ranges.size(); i+=2 ) {
+    add_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], txt, cursorpos, mcursor );
+  }
+  
+}
+
+void undo_manager::add_deletion(
+  const vector<tindex> & ranges,
+  Tcl::object            strs,
+  Tcl::object            cursor
+) {
+  
+  interpreter interp( strs.get_interp(), false );
+  tindex      cursorpos = object_to_tindex( cursor );
+  
 }
 
 void undo_manager::add_separator() {

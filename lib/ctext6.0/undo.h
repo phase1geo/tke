@@ -184,25 +184,28 @@ class undo_manager {
 
     /*! Adds an insertion entry into the buffer */
     void add_insertion(
-      Tcl::object startpos,
-      Tcl::object endpos,
+      const std::vector<tindex> & ranges,
       Tcl::object str,
-      Tcl::object cursor,
-      Tcl::object mcursor
+      Tcl::object cursor
     ) {
       add_change( UNDO_TYPE_INSERT, startpos, endpos, str, cursor, mcursor );
     }
 
     /*! Adds an insertion entry into the buffer */
     void add_deletion(
-      Tcl::object startpos,
-      Tcl::object endpos,
-      Tcl::object str,
-      Tcl::object cursor,
-      Tcl::object mcursor
+      const std::vector<tindex> & ranges,
+      Tcl::object strs,
+      Tcl::object cursor
     ) {
       add_change( UNDO_TYPE_DELETE, startpos, endpos, str, cursor, mcursor );
     }
+    
+    /*! Adds the equivalent of a replacement entry into the buffer */
+    void add_replacement(
+      const std::vector<tindex> & ranges,
+      Tcl::object str,
+      Tcl::object cursor
+    );
 
     /*! Commits the current change to the undo buffer */
     void add_separator();

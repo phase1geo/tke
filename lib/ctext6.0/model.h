@@ -709,27 +709,42 @@ class model {
     ~model() {}
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
-    void insert( Tcl::object ranges ) {
+    void insert(
+      Tcl::object ranges,
+      Tcl::object str,
+      Tcl::object cursor
+    ) {
       std::vector<tindex> vec;
       object_to_ranges( ranges, vec );
       _serial.insert( vec );
       _linemap.insert( vec );
+      _undo_buffer.add_insertion( vec, str, cursor, (vec.size() > 2) );
     }
 
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
-    void remove( Tcl::object ranges ) {
+    void remove(
+      Tcl::object ranges,
+      Tcl::object strs,
+      Tcl::object cursor
+    ) {
       std::vector<tindex> vec;
       object_to_ranges( ranges, vec );
       _serial.remove( vec );
       _linemap.remove( vec );
+      _undo_buffer.add_deletion( vec, strs, cursor, (vec.size() > 2) );
     }
 
     /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
-    void replace( Tcl::object ranges ) {
+    void replace(
+      Tcl::object ranges
+      Tcl::object str,
+      Tcl::object cursor
+    ) {
       std::vector<tindex> vec;
       object_to_ranges( ranges, vec );
       _serial.replace( vec );
       _linemap.replace( vec );
+      _undo_buffer.add_replacement( vec, str, cursor, (vec.size() > 3) );
     }
 
     /*! Updates the model with the given tag information */
@@ -1038,9 +1053,21 @@ class mailbox {
       return( _result );
     }
 
-    void insert( Tcl::object ranges );
-    void remove( Tcl::object ranges );
-    void replace( Tcl::object ranges );
+    void insert(
+      Tcl::object ranges,
+      Tcl::object str,
+      Tcl::object cursor
+    );
+    void remove(
+      Tcl::object ranges,
+      Tcl::object strs,
+      Tcl::object cursor
+    );
+    void replace(
+      Tcl::object ranges,
+      Tcl::object str,
+      Tcl::object cursor
+    );
     void update(
       Tcl::object linestart,
       Tcl::object lineend,
