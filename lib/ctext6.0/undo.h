@@ -26,7 +26,7 @@ enum {
  Interface class for undo changes.
 */
 class undo_change {
-  
+
   private:
 
     int         _type;      /*!< Specifies the change type */
@@ -37,7 +37,7 @@ class undo_change {
     bool        _mcursor;   /*!< Set to true if we are part of a multicursor group */
 
   public:
-    
+
     /*! Default constructor */
     undo_change(
       int                 type,
@@ -52,7 +52,7 @@ class undo_change {
         _str      ( str ),
         _cursor   ( cursor ),
         _mcursor  ( mcursor ) {}
-    
+
     /*! Copy constructor */
     undo_change(
       const undo_change & uc
@@ -62,7 +62,7 @@ class undo_change {
         _str      ( uc._str ),
         _cursor   ( uc._cursor ),
         _mcursor  ( uc._mcursor ) {}
-  
+
     /*! Destructor */
     ~undo_change() {}
 
@@ -76,26 +76,32 @@ class undo_change {
 
     /*! \return Returns the stored cursor position */
     const tindex & cursor() const { return( _cursor ); }
-    
+
+    /*!
+     \return Returns true if the merge was successful; otherwise,
+             returns false.
+    */
+    bool merge( const undo_change & uc );
+
 };
 
 /*!
  A group of changes.
 */
 class undo_group : public std::vector<undo_change*> {
-  
+
   public:
-    
+
     /*! Default constructor */
     undo_group() {}
-    
+
     /*! Copy constructor */
     undo_group( const undo_group & ug ) {
       for( std::vector<undo_change*>::const_iterator it=ug.begin(); it!=ug.end(); it++ ) {
         push_back( new undo_change( **it ) );
       }
     }
-    
+
     /*! Destructor */
     ~undo_group() { clear_group(); }
 
@@ -109,7 +115,7 @@ class undo_group : public std::vector<undo_change*> {
 
     /*! Renders the commands required for the undo/redo operation for the group */
     Tcl::object render();
-    
+
     /*! Generates a list of all stored cursor positions in the group */
     void cursor_history( Tcl::object & result ) const;
 
@@ -119,17 +125,17 @@ class undo_group : public std::vector<undo_change*> {
  Represents an undo/redo buffer.
 */
 class undo_buffer : public std::vector<undo_group*> {
-  
+
   public:
-    
+
     /*! Constructor */
     undo_buffer() {}
-    
+
     /*! Destructor */
     ~undo_buffer() {
       clear_buffer();
     }
-    
+
     /*! Deallocates all memory associated with the buffer */
     void clear_buffer() {
       for( std::vector<undo_group*>::iterator it=begin(); it!=end(); it++ ) {
@@ -147,13 +153,13 @@ class undo_buffer : public std::vector<undo_group*> {
  Main class that manages the undo buffer.
 */
 class undo_manager {
-  
+
   private:
-    
+
     undo_buffer _undo_buffer;  /*!< Undo buffer */
     undo_buffer _redo_buffer;  /*!< Redo buffer */
     undo_group* _uncommitted;  /*!< Uncommitted group */
-    
+
     /*! Add insertion change */
     void add_change(
       int type,
@@ -163,12 +169,12 @@ class undo_manager {
       Tcl::object cursor,
       Tcl::object mcursor
     );
-    
+
   public:
-    
+
     /*! Default constructor */
     undo_manager() : _uncommitted( 0 ) {}
-    
+
     /*! Destructor */
     ~undo_manager() {
       if( _uncommitted ) {
@@ -186,7 +192,7 @@ class undo_manager {
     ) {
       add_change( UNDO_TYPE_INSERT, startpos, endpos, str, cursor, mcursor );
     }
-    
+
     /*! Adds an insertion entry into the buffer */
     void add_deletion(
       Tcl::object startpos,
@@ -197,31 +203,34 @@ class undo_manager {
     ) {
       add_change( UNDO_TYPE_DELETE, startpos, endpos, str, cursor, mcursor );
     }
-    
+
     /*! Commits the current change to the undo buffer */
     void add_separator();
-    
+
     /*! Retrieves the last change */
     Tcl::object undo();
-    
+
     /*! Undoes the last undo */
     Tcl::object redo();
-    
+
     /*! Retrieves the cursor history in a list */
     Tcl::object cursor_history() const {
       return( _undo_buffer.cursor_history() );
     }
 
     /*! \return Returns true if the undo buffer is empty */
-    Tcl::object undo_empty() const {
-      return( (Tcl::object)((_uncommitted == 0) && _undo_buffer.empty()) );
+    Tcl::object undoable() const {
+      return( (Tcl::object)((_uncommitted != 0) || !_undo_buffer.empty()) );
     }
 
     /*! \return Returns true if the redo buffer is empty */
-    Tcl::object redo_empty() const {
-      return( (Tcl::object)_redo_buffer.empty() );
+    Tcl::object redoable() const {
+      return( (Tcl::object)(!_redo_buffer.empty()) );
     }
-    
+
+    /*! Resets the undo/redo buffer */
+    void reset();
+
 };
 
 #endif
