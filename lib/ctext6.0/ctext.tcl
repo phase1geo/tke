@@ -137,11 +137,6 @@ namespace eval ctext {
     set data($win,config,csl_tag_pair)            [list]
     set data($win,config,langs)                   [list {}]
     set data($win,config,gutters)                 [list]
-    set data($win,config,undo_hist)               [list]
-    set data($win,config,undo_hist_size)          0
-    set data($win,config,undo_sep_last)           -1
-    set data($win,config,undo_sep_next)           -1
-    set data($win,config,undo_sep_size)           0
     set data($win,config,redo_hist)               [list]
 
     set data($win,config,ctextFlags) {
@@ -565,7 +560,7 @@ namespace eval ctext {
         return -code error "-maxundo argument must be an integer value"
       }
       set data($win,config,-maxundo) $value
-      undo_manage $win
+      model::set_max_undo $win $value
       break
     }
 
@@ -840,249 +835,17 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Debugging procedure only
-  proc undo_display {win} {
-
-    variable data
-
-    puts "Undo History (size: $data($win,config,undo_hist_size), sep_size: $data($win,config,undo_sep_size)):"
-
-    for {set i 0} {$i < $data($win,config,undo_hist_size)} {incr i} {
-      puts -nonewline "  [lindex $data($win,config,undo_hist) $i] "
-      if {$data($win,config,undo_sep_next) == $i} {
-        puts -nonewline " sep_next"
-      }
-      if {$data($win,config,undo_sep_last) == $i} {
-        puts -nonewline " sep_last"
-      }
-      puts ""
-    }
-
-  }
-
-  ######################################################################
-  proc undo_separator {win} {
-
-    variable data
-
-    # puts "START undo_separator"
-    # undo_display $win
-
-    # If a separator is being added (and it was not already added), add it
-    if {![lindex $data($win,config,undo_hist) end 4]} {
-
-      # Set the separator
-      lset data($win,config,undo_hist) end 4 -1
-
-      # Get the last index of the undo history list
-      set last_index [expr $data($win,config,undo_hist_size) - 1]
-
-      # Add the separator
-      if {$data($win,config,undo_sep_next) == -1} {
-        set data($win,config,undo_sep_next) $last_index
-      } else {
-        lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 [expr $last_index - $data($win,config,undo_sep_last)]
-      }
-
-      # Set the last separator index
-      set data($win,config,undo_sep_last) $last_index
-
-      # Increment the separator size
-      incr data($win,config,undo_sep_size)
-
-    }
-
-    # If the number of separators exceeds the maximum length, shorten the undo history list
-    undo_manage $win
-
-    # puts "END undo_separator"
-    # undo_display $win
-
-  }
-
-  ######################################################################
-  proc undo_manage {win} {
-
-    variable data
-
-    # If we need to make the undo history list shorter
-    if {($data($win,config,-maxundo) > 0) && ([set to_remove [expr $data($win,config,undo_sep_size) - $data($win,config,-maxundo)]] > 0)} {
-
-      # Get the separators to remove
-      set index $data($win,config,undo_sep_next)
-      for {set i 1} {$i < $to_remove} {incr i} {
-        incr index [lindex $data($win,config,undo_hist) $index 4]
-      }
-
-      # Set the next separator index
-      set data($win,config,undo_sep_next) [expr [lindex $data($win,config,undo_hist) $index 4] - 1]
-
-      # Reset the last separator index
-      set data($win,config,undo_sep_last) [expr $data($win,config,undo_sep_last) - ($index + 1)]
-
-      # Set the separator size
-      incr data($win,config,undo_sep_size) [expr 0 - $to_remove]
-
-      # Shorten the undo history list
-      set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) 0 $index]
-
-      # Set the undo history size
-      incr data($win,config,undo_hist_size) [expr 0 - ($index + 1)]
-
-    }
-
-  }
-
-  ######################################################################
-  # Adds an insertion to the undo buffer.  We also will combine insertion
-  # elements, if possible, to make the undo buffer more efficient.
-  proc undo_insert {win starts ends cursors} {
-
-    variable data
-
-    if {!$data($win,config,-undo)} {
-      return
-    }
-
-    # Combine elements, if possible
-    if {[llength $data($win,config,undo_hist)] > 0} {
-      lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 hcursor sep
-      if {$sep == 0} {
-        if {($cmd eq "d") && ($val2 eq $starts)} {
-          lset data($win,config,undo_hist) end 2 $ends
-          set data($win,config,redo_hist) [list]
-          return
-        }
-      }
-    }
-
-    # Add to the undo history
-    lappend data($win,config,undo_hist) [list d $starts $ends $cursors 0]
-    incr data($win,config,undo_hist_size)
-
-    # Clear the redo history
-    set data($win,config,redo_hist) [list]
-
-  }
-
-  ######################################################################
-  # Adds an deletion to the undo buffer.  We also will combine deletion
-  # elements, if possible, to make the undo buffer more efficient.
-  proc undo_delete {win starts ends strs cursors} {
-
-    variable data
-
-    if {!$data($win,config,-undo)} {
-      return
-    }
-
-    # Combine elements, if possible
-    if {[llength $data($win,config,undo_hist)] > 0} {
-      lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
-      if {$sep == 0} {
-        if {$cmd eq "i"} {
-          if {$val1 eq $ends} {
-            lset data($win,config,undo_hist) end 1 $starts
-            lset data($win,config,undo_hist) end 2 [lmap str $strs [format {$str%s} $val2]]
-            set data($win,config,redo_hist) [list]
-            return
-          } elseif {$val1 == $start_pos} {
-            lset data($win,config,undo_hist) end 2 [lmap str $strs [format {%s$str} $val2]]
-            set data($win,config,redo_hist) [list]
-            return
-          }
-        } elseif {($cmd eq "d") && ($val2 eq $ends)} {
-          lset data($win,config,undo_hist) end 2 $starts
-          lset data($win,config,redo_hist) [list]
-          return
-        }
-      }
-    }
-
-    # Add to the undo history
-    lappend data($win,config,undo_hist) [list i $starts $strs $cursors 0]
-    incr data($win,config,undo_hist_size)
-
-    # Clear the redo history
-    set data($win,config,redo_hist) [list]
-
-  }
-
-  ######################################################################
-  # Retrieves the cursor position history from the undo buffer.
-  proc undo_get_cursor_hist {win} {
-
-    variable data
-
-    set cursors [list]
-
-    if {[set index $data($win,config,undo_sep_next)] != -1} {
-
-      set sep 0
-
-      while {$sep != -1} {
-        lassign [lindex $data($win,config,undo_hist) $index] cmd val1 val2 cursor sep
-        lappend cursors $cursor
-        incr index $sep
-      }
-
-    }
-
-    return $cursors
-
-  }
-
-  ######################################################################
   # Performs a single undo operation from the undo buffer and adjusts the
   # buffers accordingly.
   proc undo {win} {
 
-    variable data
+    # Get the undo information and execute the returned commands
+    foreach cmd [model::undo $win] {
+      $win._t {*}$cmd
+    }
 
-    # puts "START undo"
-    # undo_display $win
-
-    if {[llength $data($win,config,undo_hist)] > 0} {
-
-      set i           0
-      set last_cursor 1.0
-      set insert      0
-      set ranges      [list]
-      set do_tags     [list]
-      set changed     ""
-
-      foreach element [lreverse $data($win,config,undo_hist)] {
-
-        lassign $element cmd val1 val2 cursor sep
-
-        if {($i > 0) && $sep} {
-          break
-        }
-
-        switch $cmd {
-          i {
-            $win._t insert $val1 $val2
-            append changed $val2
-            set val2 [$win index "$val1+[string length $val2]c"]
-            set_rmargin $win $val1 $val2
-            lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
-            set insert 1
-          }
-          d {
-            set str [$win get $val1 $val2]
-            append changed $str
-            $win._t delete $val1 $val2
-            lappend data($win,config,redo_hist) [list i $val1 $str $cursor $sep]
-          }
-        }
-
-        $win._t tag add hl [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
-
-        set last_cursor $cursor
-
-        incr i
-
-      }
+    # TBD
+    if {0} {
 
       # Get the list of affected lines that need to be re-highlighted
       set ranges [$win._t tag ranges hl]
@@ -1093,26 +856,10 @@ namespace eval ctext {
         highlightAll $win $ranges $insert 0 0
       }
 
-      set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
-      incr data($win,config,undo_hist_size) [expr 0 - $i]
-
-      # Set the last sep of the undo_hist list to -1 to indicate the end of the list
-      if {$data($win,config,undo_hist_size) > 0} {
-        lset data($win,config,undo_hist) end 4 -1
-      }
-
-      # Update undo separator info
-      set data($win,config,undo_sep_next) [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
-      set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
-      incr data($win,config,undo_sep_size) -1
-
       ::tk::TextSetCursor $win.t $last_cursor
       modified $win 1 [list undo $ranges ""]
 
     }
-
-    # puts "END undo"
-    # undo_display $win
 
   }
 
@@ -1123,49 +870,13 @@ namespace eval ctext {
 
     variable data
 
-    if {[llength $data($win,config,redo_hist)] > 0} {
+    # Get the undo information and execute the returned commands
+    foreach cmd [model::redo $win] {
+      $win._t {*}$cmd
+    }
 
-      set i       0
-      set insert  0
-      set ranges  [list]
-      set changed ""
-
-      foreach element [lreverse $data($win,config,redo_hist)] {
-
-        lassign $element cmd val1 val2 cursor sep
-
-        switch $cmd {
-          i {
-            $win._t insert $val1 $val2
-            append changed $val2
-            set val2 [$win index "$val1+[string length $val2]c"]
-            set_rmargin $win $val1 $val2
-            lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
-            if {$cursor != $val2} {
-              set cursor $val2
-            }
-            set insert 1
-          }
-          d {
-            set str [$win get $val1 $val2]
-            append changed $str
-            $win._t delete $val1 $val2
-            lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
-            if {$cursor != $val1} {
-              set cursor $val1
-            }
-          }
-        }
-
-        $win._t tag add hl [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
-
-        incr i
-
-        if {$sep} {
-          break
-        }
-
-      }
+    # TBD
+    if {0} {
 
       # Get the list of affected lines that need to be re-highlighted
       set ranges [$win._t tag ranges hl]
@@ -1175,20 +886,6 @@ namespace eval ctext {
       if {[llength $ranges] > 0} {
         highlightAll $win $ranges $insert 0 0
       }
-
-      set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
-
-      # Set the sep field of the last separator field to match the number of elements added to
-      # the undo_hist list.
-      if {$data($win,config,undo_sep_last) >= 0} {
-        lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 $i
-      }
-
-      # Update undo separator structures
-      incr data($win,config,undo_hist_size) $i
-      set data($win,config,undo_sep_next) [expr ($data($win,config,undo_sep_next) == -1) ? [expr $data($win,config,undo_hist_size) - 1] : $data($win,config,undo_sep_next)]
-      set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
-      incr data($win,config,undo_sep_size)
 
       ::tk::TextSetCursor $win.t $cursor
       modified $win 1 [list redo $ranges ""]
@@ -2008,6 +1705,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs the edit command.
   proc command_edit {win args} {
 
     variable data
@@ -2028,33 +1726,26 @@ namespace eval ctext {
         }
       }
       undo {
-        undo $win
+        model::undo $win
       }
       redo {
-        redo $win
+        model::redo $win
       }
       undoable {
-        return [expr $data($win,config,undo_hist_size) > 0]
+        return [model::undoable $win]
       }
       redoable {
-        return [expr [llength $data($win,config,redo_hist)] > 0]
+        return [model::redoable $win]
       }
       separator {
-        if {[llength $data($win,config,undo_hist)] > 0} {
-          undo_separator $win
-        }
+        model::add_separator $win
       }
       reset {
-        set data($win,config,undo_hist)      [list]
-        set data($win,config,undo_hist_size) 0
-        set data($win,config,undo_sep_next)  -1
-        set data($win,config,undo_sep_last)  -1
-        set data($win,config,undo_sep_size)  0
-        set data($win,config,redo_hist)      [list]
-        set data($win,config,modified)       false
+        model::undo_reset $win
+        set data($win,config,modified) false
       }
       cursorhist {
-        return [undo_get_cursor_hist $win]
+        return [model::cursor_history $win]
       }
       default {
         return [uplevel 1 [linsert $args 0 $win._t $cmd]]

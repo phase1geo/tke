@@ -21,6 +21,7 @@
 #include "cpptcl/cpptcl.h"
 #include "utils.h"
 #include "linemap.h"
+#include "undo.h"
 
 class type_data {
 
@@ -675,10 +676,11 @@ class model {
 
   private:
 
-    serial      _serial;  /*!< Serial list structure */
-    tree        _tree;    /*!< Tree structure */
-    linemap     _linemap; /*!< Line map structure */
-    std::string _win;     /*!< Name of this model */
+    serial       _serial;       /*!< Serial list structure */
+    tree         _tree;         /*!< Tree structure */
+    linemap      _linemap;      /*!< Line map structure */
+    undo_manager _undo_buffer;  /*!< Undo buffer */
+    std::string  _win;          /*!< Name of this model */
 
     /*!
      Converts the given object to a vector of text indices.
@@ -819,7 +821,7 @@ class model {
     ) {
       _linemap.hide( name, value );
     }
-    
+
     /*! Deletes one or more symbols from the given buffer */
     void gutter_delete(
       Tcl::object name,
@@ -847,7 +849,7 @@ class model {
     ) {
       _linemap.unset( name, first, last );
     }
-    
+
     /*! \return Returns the gutter line information */
     Tcl::object gutter_get(
       Tcl::object name,
@@ -883,6 +885,41 @@ class model {
       return( _linemap.names() );
     }
 
+    /*! \return Returns commands to execute an undo operation */
+    Tcl::object undo() {
+      return( _undo_buffer.undo() );
+    }
+
+    /*! \return Returns commands to execute a redo operation */
+    Tcl::object redo() {
+      return( _undo_buffer.redo() );
+    }
+
+    /*! \return Returns true if an undo operation is possible */
+    Tcl::object undoable() const {
+      return( _undo_buffer.undoable() );
+    }
+
+    /*! \return Returns true if a redo operation is possible */
+    Tcl::object redoable() const {
+      return( _undo_buffer.redoable() );
+    }
+
+    /*! Adds an undo separator if you can be made. */
+    void undo_separator() {
+      _undo_buffer.add_separator();
+    }
+
+    /*! Resets the undo buffer */
+    void undo_reset() {
+      _undo_buffer.reset();
+    }
+
+    /*! \return Returns the full cursor history from the undo buffer */
+    Tcl::object cursor_history() const {
+      return( _undo_buffer.cursor_history() );
+    }
+
 };
 
 enum {
@@ -910,6 +947,13 @@ enum {
   REQUEST_GUTTERCGET,
   REQUEST_GUTTERCONFIGURE,
   REQUEST_GUTTERNAMES,
+  REQUEST_UNDO,
+  REQUEST_REDO,
+  REQUEST_UNDOABLE,
+  REQUEST_REDOABLE,
+  REQUEST_UNDOSEPARATOR,
+  REQUEST_UNDORESET,
+  REQUEST_CURSORHIST,
   REQUEST_NUM
 };
 
@@ -1061,6 +1105,13 @@ class mailbox {
       Tcl::object opts
     );
     Tcl::object gutter_names();
+    Tcl::object undo();
+    Tcl::object redo();
+    Tcl::object undoable();
+    Tcl::object redoable();
+    void undo_separator();
+    void undo_reset();
+    Tcl::object cursor_history();
 
 };
 

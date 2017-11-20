@@ -37,6 +37,38 @@ void undo_change::render(
 
 }
 
+bool undo_change::merge(
+  const undo_change & uc
+) {
+
+  if( _type == UNDO_TYPE_INSERT ) {
+    if( (uc._type == UNDO_TYPE_INSERT) &&
+        (((_endpos.row == uc._startpos.row) && (_endpos.col == uc._startpos.col)) ||
+         (((_endpos.row + 1) == uc._startpos.row) && (uc._startpos.col == 0) && (_str.back() == '\n'))) ) {
+      _endpos.col = uc._endpos.col;
+      _str       += uc._str;
+      return( true );
+    } else if( (uc._type == UNDO_TYPE_DELETE) &&
+               ((_endpos.row == uc._endpos.row) && (_endpos.col == uc._endpos.col)) &&
+               ((_startpos.row < uc._startpos.row) || ((_startpos.row == uc._startpos.row) && (_startpos.col < uc._startpos.col))) ) {
+      int index = 0;
+      int start = 0;
+      _str.substr( 0, (_str.size() - uc._str.size()) );
+      _endpos = _startpos;
+      while( (index = _str.find( "\n", start )) != string::npos ) {
+        _endpos.row++;
+        _endpos.col = 0;
+        start = index + 1;
+      }
+      _endpos.col += (_str.size() - index);
+      return( true );
+    }
+  }
+
+  return( false );
+
+}
+
 /* --------------------------------------------------- */
 
 object undo_group::render() {
@@ -99,23 +131,28 @@ void undo_manager::add_change(
   object cursor,
   object mcursor
 ) {
-  
+
   interpreter interp( startpos.get_interp(), false );
   tindex      spos  = object_to_tindex( startpos );
   tindex      epos  = object_to_tindex( endpos );
   string      text  = str.get<string>( interp );
   tindex      cur   = object_to_tindex( cursor );
   bool        multi = mcursor.get<bool>( interp );
-  
+  undo_change change( type, spos, epos, text, cur, multi );
+
   /* If we don't have a current change group, create it now */
   if( _uncommitted == 0 ) {
     _uncommitted = new undo_group();
+    _uncommitted->push_back( new undo_change( change ) );
     _redo_buffer.clear_buffer();
+
+  /* Attempt to merge -- if unsucessful, add it to the back */
+  } else if( !_uncommitted->back()->merge( change ) ) {
+    _undo_buffer.push_back( _uncommitted );
+    _uncommitted = new undo_group();
+    _uncommitted->push_back( new undo_change( change ) );
   }
-  
-  /* Add the change to the list */
-  _uncommitted->push_back( new undo_change( type, spos, epos, text, cur, multi ) );
-  
+
 }
 
 void undo_manager::add_separator() {
@@ -128,14 +165,14 @@ void undo_manager::add_separator() {
 }
 
 object undo_manager::undo() {
-  
+
   object result;
-  
+
   /* If we have uncommited changes, commit them now */
   if( _uncommitted ) {
     add_separator();
   }
- 
+
   /* Only act on the undo buffer if there is something in it */
   if( _undo_buffer.back() ) {
 
@@ -147,15 +184,15 @@ object undo_manager::undo() {
 
     /* Pop the undo buffer */
     _undo_buffer.pop_back();
-    
+
   }
-  
+
   return( result );
-  
+
 }
-    
+
 object undo_manager::redo() {
-  
+
   object result;
 
   if( _redo_buffer.back() ) {
@@ -172,6 +209,18 @@ object undo_manager::redo() {
   }
 
   return( result );
+
+}
+
+void undo_manager::reset() {
+
+  if( _uncommitted ) {
+    delete _uncommitted;
+    _uncommitted = 0;
+  }
+
+  _undo_buffer.clear_buffer();
+  _redo_buffer.clear_buffer();
 
 }
 

@@ -359,4 +359,74 @@ namespace eval model {
 
   }
 
+  ######################################################################
+  # Adds an undo separator.
+  proc add_separator {win} {
+
+    variable data
+
+    $data($win,model) undoseparator
+
+  }
+
+  ######################################################################
+  # Performs a single undo operation.
+  proc undo {win} {
+
+    variable data
+
+    return [$data($win,model) undo]
+
+  }
+
+  ######################################################################
+  # Performs a single redo operation.
+  proc redo {win} {
+
+    variable data
+
+    return [$data($win,model) redo]
+
+  }
+
+  ######################################################################
+  # Returns the cursor history.
+  proc cursor_history {win} {
+
+    variable data
+
+    return [$data($win,model) cursorhistory]
+
+  }
+
+  ######################################################################
+  # Returns true if there is something in the undo buffer.
+  proc undoable {win} {
+
+    variable data
+
+    return [$data($win,model) undoable]
+
+  }
+
+  ######################################################################
+  # Returns true if there is something in the redo buffer.
+  proc redoable {win} {
+
+    variable data
+
+    return [$data($win,model) redoable]
+
+  }
+
+  ######################################################################
+  # Resets the undo buffer.
+  proc undo_reset {win} {
+
+    variable data
+
+    $data($win,model) undoreset
+
+  }
+
 }

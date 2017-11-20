@@ -1053,6 +1053,27 @@ object request::execute(
     case REQUEST_GUTTERNAMES :
       return( inst.gutter_names() );
       break;
+    case REQUEST_UNDO :
+      return( inst.undo() );
+      break;
+    case REQUEST_REDO :
+      return( inst.redo() );
+      break;
+    case REQUEST_UNDOABLE :
+      return( inst.undoable() );
+      break;
+    case REQUEST_REDOABLE :
+      return( inst.redoable() );
+      break;
+    case REQUEST_UNDOSEPARATOR :
+      inst.undo_separator();
+      break;
+    case REQUEST_UNDORESET :
+      inst.undo_reset();
+      break;
+    case REQUEST_CURSORHIST :
+      return( inst.cursor_history() );
+      break;
     default :
       throw runtime_error( "Unknown command" );
       break;
@@ -1344,15 +1365,15 @@ void mailbox::gutter_delete(
   object name,
   object syms
 ) {
-  
+
   interpreter i( name.get_interp(), false );
   object      args;
-  
+
   args.append( i, name );
   args.append( i, syms );
-  
+
   add_request( REQUEST_GUTTERDELETE, args, false, false );
-  
+
 }
 
 void mailbox::gutter_set(
@@ -1391,25 +1412,25 @@ object mailbox::gutter_get(
   object name,
   object value
 ) {
-  
+
   interpreter i( name.get_interp(), false );
   string      val = value.get<string>( i );
   object      args;
-  
+
   args.append( i, name );
   args.append( i, value );
-  
+
   if( val == "" ) {
     args.append( i, (object)false );
   } else {
     string cmd = "string is int " + val;
     args.append( i, i.eval( cmd ) );
   }
-  
+
   add_request( REQUEST_GUTTERGET, args, true, false );
-  
+
   return( result() );
-  
+
 }
 
 object mailbox::gutter_cget(
@@ -1460,6 +1481,72 @@ object mailbox::gutter_names() {
 
 }
 
+object mailbox::undo() {
+
+  object args;
+
+  add_request( REQUEST_UNDO, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::redo() {
+
+  object args;
+
+  add_request( REQUEST_REDO, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::undoable() {
+
+  object args;
+
+  add_request( REQUEST_UNDOABLE, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::redoable() {
+
+  object args;
+
+  add_request( REQUEST_REDOABLE, args, true, false );
+
+  return( result() );
+
+}
+
+void mailbox::undo_separator() {
+
+  object args;
+
+  add_request( REQUEST_UNDOSEPARATOR, args, false, false );
+
+}
+
+void mailbox::undo_reset() {
+
+  object args;
+
+  add_request( REQUEST_UNDORESET, args, false, false );
+
+}
+
+object mailbox::cursor_history() {
+
+  object args;
+
+  add_request( REQUEST_CURSORHIST, args, true, false );
+
+  return( result() );
+
+}
+
 /* -------------------------------------------------------------- */
 
 CPPTCL_MODULE(Model, i) {
@@ -1494,7 +1581,14 @@ CPPTCL_MODULE(Model, i) {
     .def( "gutterget",       &mailbox::gutter_get )
     .def( "guttercget",      &mailbox::gutter_cget )
     .def( "gutterconfigure", &mailbox::gutter_configure )
-    .def( "gutternames",     &mailbox::gutter_names );
+    .def( "gutternames",     &mailbox::gutter_names )
+    .def( "undo",            &mailbox::undo )
+    .def( "redo",            &mailbox::redo )
+    .def( "undoable",        &mailbox::undoable )
+    .def( "redoable",        &mailbox::redoable )
+    .def( "undoseparator",   &mailbox::undo_separator )
+    .def( "cursorhistory",   &mailbox::cursor_history )
+    .def( "undoreset",       &mailbox::undo_reset );
 
   /* Add functions */
   i.def("add_type", add_type );
