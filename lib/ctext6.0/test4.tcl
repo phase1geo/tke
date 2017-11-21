@@ -15,5 +15,8 @@ puts -nonewline "redoable time: "
 puts -nonewline [time { set value [$m redoable] }]
 puts ", value: $value"
 
+puts -nonewline "insert time: "
+puts [time { $m insert 1.0 "This is good" 1.0 }]
+
 $m -delete
 

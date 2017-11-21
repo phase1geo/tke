@@ -1096,6 +1096,7 @@ namespace eval ctext {
     }
 
     set ranges [list]
+    set cursor [$win._t index insert]
 
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
@@ -1122,7 +1123,7 @@ namespace eval ctext {
     }
 
     # Cause the model to handle the deletion
-    model::delete $win $ranges
+    model::delete $win $ranges $strs $cursor
 
     # Update the undo information
     set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
@@ -1436,19 +1437,17 @@ namespace eval ctext {
     lassign $args insertPos content tags
 
     set ranges  [list]
-    set inserts [list]
     set chars   [string length $content]
     set tags    [list {*}$tags lmargin rmargin]
+    set cursor  [$win._t index insert]
 
     # Insert the text
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
         $win._t insert $startPos $content $tags
-        lappend inserts $startPos
         lappend ranges  $startPos [$win._t index "$startPos+${chars}c"]
       }
     } else {
-      set cursors [$win._t index insert]
       if {$insertPos eq "end"} {
         set insPos [$win._t index $insertPos-1c]
       } else {
@@ -1456,18 +1455,10 @@ namespace eval ctext {
       }
       $win._t insert $insertPos $content $tags
       lappend ranges  $insPos [$win._t index "$insPos+${chars}c"]
-      lappend inserts $insPos
     }
 
     # Update the model
-    model::insert $win $ranges
-
-    # Update the undo buffer
-    set ids [tpool::post $tpool [list ctext::undo_insert $win $inserts $chars $cursors]]
-
-    while {[llength $ids]} {
-      tpool::wait $tpool $ids ids
-    }
+    model::insert $win $ranges $content $cursor
 
     # Highlight text and bracket auditing
     highlightAll $win $ranges 1 1
@@ -1477,49 +1468,49 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs a text replace for a single or multiple cursors, performing
+  # syntax highlighting and other functions.
   proc command_replace {win args} {
 
     variable data
-
-    if {[llength $args] < 3} {
-      return -code error "please use at least 3 arguments to $win replace"
-    }
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
       set args [lassign $args dummy moddata]
     }
 
-    set startPos [$win._t index [lindex $args 0]]
-    set endPos   [$win._t index [lindex $args 1]]
-    set dat      ""
-    foreach {chars taglist} [lrange $args 2 end] {
-      append dat $chars
+    lassign $args startPos endPos content tags
+
+    set ranges [list]
+    set cursor [$win._t index insert]
+    set chars  [string length $content]
+
+    # Insert the text
+    if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
+      foreach {endPos startPos} [lreverse $cursors] {
+        lappend strs [$win._t get $startPos $endPos]
+        $win._t replace $startPos $endPos $content $tags
+        lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
+      }
+    } else {
+      set startPos [$win._t index $startPos]
+      set endPos   [$win._t index $endPos]
+      lappend strs [$win._t get $startPos $endPos]
+      $win._t replace $startPos $endPos $content $tags
+      lappend ranges  $startPos $endPos [$win._t index "$insPos+${chars}c"]
     }
-    set datlen   [string length $dat]
-    set deldata  [$win._t get $startPos $endPos]
-    set cursor   [$win._t index insert]
 
-    undo_delete            $win $startPos $endPos
-    set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
+    # Update the model
+    model::replace $win $ranges $strs $content $cursor
 
-    # Perform the text replacement
-    $win._t replace {*}$args
-
-    undo_insert $win $startPos $datlen $cursor
-
-    set lineStart [$win._t index "$startPos linestart"]
-    set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
-
-    set_rmargin $win $startPos "$startPos+${datlen}c"
-
-    highlightAll $win [list $lineStart $lineEnd] 1 1
-    modified     $win 1 [list replace [list $startPos $endPos] $moddata]
+    # Highlight text and bracket auditing
+    highlightAll $win $ranges 1 1
+    modified     $win 1 [list replace $ranges $moddata]
     event generate $win.t <<CursorChanged>>
-
   }
 
   ######################################################################
+  # Handles a paste operation.
   proc command_paste {win args} {
 
     variable data
@@ -1532,6 +1523,7 @@ namespace eval ctext {
     set insertPos [$win._t index insert]
     set datalen   [string length [clipboard get]]
 
+    model::insert $win $ranges
     undo_insert $win $insertPos $datalen [$win._t index insert]
 
     tk_textPaste $win
