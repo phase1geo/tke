@@ -7,11 +7,33 @@ pack [ctext .t -matchaudit 1 -wrap none -matchchar 1 -xscrollcommand {.hb set} -
 ttk::scrollbar .vb -orient vertical   -command {.t yview}
 ttk::scrollbar .hb -orient horizontal -command {.t xview}
 
+ttk::frame .bf
+pack [ttk::button .bf.undo -text "Undo" -command {
+  ctext::undo .t
+} -state disabled] -side left -padx 2 -pady 2
+pack [ttk::button .bf.redo -text "Redo" -command {
+  ctext::redo .t
+} -state disabled] -side left -padx 2 -pady 2
+
+bind .t <<Modified>> {
+  if {[.t undoable]} {
+    .bf.undo configure -state normal
+  } else {
+    .bf.undo configure -state disabled
+  }
+  if {[.t redoable]} {
+    .bf.redo configure -state normal
+  } else {
+    .bf.redo configure -state disabled
+  }
+}
+
 grid rowconfigure . 0 -weight 1
 grid columnconfigure . 0 -weight 1
 grid .t  -row 0 -column 0 -sticky news
 grid .vb -row 0 -column 1 -sticky ns
 grid .hb -row 1 -column 0 -sticky ew
+grid .bf -row 2 -column 0 -sticky ew -column 2
 
 # Initialize the ctext widget
 ctext::initialize .t

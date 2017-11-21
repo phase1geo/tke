@@ -9,6 +9,7 @@
 */
 
 #include <vector>
+#include <iostream>
 
 #include "cpptcl/cpptcl.h"
 #include "utils.h"
