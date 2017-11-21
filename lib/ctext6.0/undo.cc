@@ -16,23 +16,26 @@ void undo_change::render(
   interpreter i( result.get_interp(), false );
   object      item1, item2;
 
+  item2.append( i, (object)"tag" );
+  item2.append( i, (object)"add" );
+  item2.append( i, (object)"hl" );
+  
   /* Render the insertion/deletion command */
-  if( _type == UNDO_TYPE_INSERT ) {
+  if( _type == UNDO_TYPE_DELETE ) {
     item1.append( i, (object)"insert" );
     item1.append( i, (object)tindex_to_string( _startpos ) );
     item1.append( i, (object)_str );
+    item2.append( i, (object)(tindex_to_string( _startpos ) + " linestart") );
+    item2.append( i, (object)(tindex_to_string( _endpos )   + " lineend" ) );
   } else {
     item1.append( i, (object)"delete" );
     item1.append( i, (object)tindex_to_string( _startpos ) );
     item1.append( i, (object)tindex_to_string( _endpos ) );
+    item2.append( i, (object)(tindex_to_string( _startpos ) + " linestart") );
+    item2.append( i, (object)(tindex_to_string( _startpos ) + " lineend" ) );
   }
+  
   result.append( i, item1 );
-
-  /* Render the cursor positioning */
-  item2.append( i, (object)"mark" );
-  item2.append( i, (object)"set" );
-  item2.append( i, (object)"insert" );
-  item2.append( i, (object)tindex_to_string( _cursor ) );
   result.append( i, item2 );
 
 }
@@ -40,27 +43,34 @@ void undo_change::render(
 bool undo_change::merge(
   const undo_change & uc
 ) {
-
+  
   if( _type == UNDO_TYPE_INSERT ) {
     if( (uc._type == UNDO_TYPE_INSERT) &&
         (((_endpos.row == uc._startpos.row) && (_endpos.col == uc._startpos.col)) ||
          (((_endpos.row + 1) == uc._startpos.row) && (uc._startpos.col == 0) && (_str.back() == '\n'))) ) {
-      _endpos.col = uc._endpos.col;
-      _str       += uc._str;
+      _endpos = uc._endpos;
+      _str   += uc._str;
       return( true );
     } else if( (uc._type == UNDO_TYPE_DELETE) &&
                ((_endpos.row == uc._endpos.row) && (_endpos.col == uc._endpos.col)) &&
                ((_startpos.row < uc._startpos.row) || ((_startpos.row == uc._startpos.row) && (_startpos.col < uc._startpos.col))) ) {
       int index = 0;
       int start = 0;
-      _str.substr( 0, (_str.size() - uc._str.size()) );
+      _str    = _str.substr( 0, (_str.size() - uc._str.size()) );
       _endpos = _startpos;
       while( (index = _str.find( "\n", start )) != string::npos ) {
         _endpos.row++;
         _endpos.col = 0;
         start = index + 1;
       }
-      _endpos.col += (_str.size() - index);
+      _endpos.col += (_str.size() - start);
+      return( true );
+    }
+  } else if( _type == UNDO_TYPE_DELETE ) {
+    if( (uc._type == UNDO_TYPE_DELETE) &&
+        ((_startpos.row == uc._endpos.row) && (_startpos.col == uc._endpos.col)) ) {
+      _startpos = uc._startpos;
+      _str      = uc._str + _str;
       return( true );
     }
   }
@@ -74,22 +84,30 @@ bool undo_change::merge(
 object undo_group::render() {
 
   object      result;
+  object      item1, item2;
   interpreter i( result.get_interp(), false );
-  undo_group  tmp = *this;
-
+  undo_group  tmp( *this );
+  tindex      last_cursor;
+  
   /* Clear ourselves */
   clear_group();
-
+  
   /*
    Move all of the items from the copied list back to ourselves, inverting
    the data in the process.
   */
-  while( tmp.back() ) {
-    tmp.back()->render( result );
+  while( tmp.size() ) {
+    tmp.back()->render( item1 );
     tmp.back()->invert_type();
+    last_cursor = tmp.back()->cursor();
     push_back( tmp.back() );
     tmp.pop_back();
   }
+  
+  item2.assign( (object)tindex_to_string( last_cursor ) );
+  
+  result.append( i, item1 );
+  result.append( i, item2 );
 
   return( result );
 
@@ -207,12 +225,12 @@ void undo_manager::add_replacement(
   /* Handle multiple cursors */
   for( i=0, j=0; i<size; i+=3, j++ ) {
     add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
-    add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), false );
+    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), false );
   }
 
   /* Handle the last change */
   add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
-  add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), true );
+  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), true );
 
 }
 

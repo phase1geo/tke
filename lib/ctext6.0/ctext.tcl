@@ -227,7 +227,7 @@ namespace eval ctext {
     bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                   [list event generate $win.t <4>]
     bind $win.l <5>                   [list event generate $win.t <5>]
-    bind $win <Destroy> [list ctext::event:Destroy $win %W]
+    bind $win   <Destroy>             [list ctext::event:Destroy $win %W]
 
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
@@ -839,27 +839,23 @@ namespace eval ctext {
   # buffers accordingly.
   proc undo {win} {
 
+    lassign [model::undo $win] cmds cursor
+
     # Get the undo information and execute the returned commands
-    foreach cmd [model::undo $win] {
+    foreach cmd $cmds range $ranges {
       $win._t {*}$cmd
     }
+    
+    # Get the lines that have changed
+    set ranges [$win._t tag ranges hl]
+    $win._t tag delete hl
 
-    # TBD
-    if {0} {
-
-      # Get the list of affected lines that need to be re-highlighted
-      set ranges [$win._t tag ranges hl]
-      $win._t tag delete hl
-
-      # Perform the highlight
-      if {[llength $ranges] > 0} {
-        highlightAll $win $ranges $insert 0 0
-      }
-
-      ::tk::TextSetCursor $win.t $last_cursor
-      modified $win 1 [list undo $ranges ""]
-
-    }
+    # Highlight text and bracket auditing
+    highlightAll $win $ranges 0 0
+    
+    # Set the cursor and let other know that the text widget was modified
+    ::tk::TextSetCursor $win.t $cursor
+    modified $win 1 [list undo $ranges ""]
 
   }
 
@@ -870,27 +866,23 @@ namespace eval ctext {
 
     variable data
 
+    lassign [model::redo $win] cmds cursor
+
     # Get the undo information and execute the returned commands
-    foreach cmd [model::redo $win] {
+    foreach cmd $cmds {
       $win._t {*}$cmd
     }
 
-    # TBD
-    if {0} {
+    # Get the lines that have changed
+    set ranges [$win._t tag ranges hl]
+    $win._t tag delete hl
 
-      # Get the list of affected lines that need to be re-highlighted
-      set ranges [$win._t tag ranges hl]
-      $win._t tag delete hl
-
-      # Highlight the code
-      if {[llength $ranges] > 0} {
-        highlightAll $win $ranges $insert 0 0
-      }
-
-      ::tk::TextSetCursor $win.t $cursor
-      modified $win 1 [list redo $ranges ""]
-
-    }
+    # Highlight text and bracket auditing
+    highlightAll $win $ranges 0 0
+    
+    # Set the cursor and let other know that the text widget was modified
+    ::tk::TextSetCursor $win.t $cursor
+    modified $win 1 [list redo $ranges ""]
 
   }
 
@@ -930,6 +922,8 @@ namespace eval ctext {
       gutter      { return [command_gutter      $win {*}$args] }
       highlight   { return [command_highlight   $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
+      marker      { return [command_marker      $win {*}$args] }
+      mcursor     { return [command_mcursor     $win {*}$args] }
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
@@ -1464,6 +1458,44 @@ namespace eval ctext {
     highlightAll $win $ranges 1 1
     modified     $win 1 [list insert $ranges $moddata]
     event generate $win.t <<CursorChanged>>
+
+  }
+
+  ######################################################################
+  # Allows the users to interact with the linemap bookmarks.
+  proc command_marker {win args} {
+
+    variable data
+
+    switch [lindex $args 0] {
+      set   { linemapSetMark   $win {*}$args] }
+      clear { linemapClearMark $win [lindex $args 1] }
+      default {
+        return -code error "Illegal ctext marker command ([lindex $args 0])"
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Allows the users to interact with multicursor support within the widget.
+  proc command_mcursor {win args} {
+
+    variable data
+
+    switch [lindex $args 0] {
+      add {
+        foreach index [lrange $args 1 end] {
+          $win._t tag add mcursor $index
+        }
+      }
+      remove {
+        $win._t tag remove mcursor {*}[lrange $args 1 end]
+      }
+      default {
+        return -code error "Illegal ctext mcursor command ([lindex $args 0])"
+      }
+    }
 
   }
 
