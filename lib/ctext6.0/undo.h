@@ -156,24 +156,21 @@ class undo_manager {
 
   private:
 
-    undo_buffer _undo_buffer;  /*!< Undo buffer */
-    undo_buffer _redo_buffer;  /*!< Redo buffer */
-    undo_group* _uncommitted;  /*!< Uncommitted group */
+    undo_buffer _undo_buffer;    /*!< Undo buffer */
+    undo_buffer _redo_buffer;    /*!< Redo buffer */
+    undo_group* _uncommitted;    /*!< Uncommitted group */
+    bool        _auto_separate;  /*!< Configuration option */
 
     /*! Add insertion change */
     void add_change(
-      int type,
-      Tcl::object startpos,
-      Tcl::object endpos,
-      Tcl::object str,
-      Tcl::object cursor,
-      Tcl::object mcursor
+      const undo_change & change,
+      bool                stop_separate
     );
 
   public:
 
     /*! Default constructor */
-    undo_manager() : _uncommitted( 0 ) {}
+    undo_manager() : _uncommitted( 0 ), _auto_separate( true ) {}
 
     /*! Destructor */
     ~undo_manager() {
@@ -182,28 +179,31 @@ class undo_manager {
       }
     }
 
+    /*! Sets the auto_separate value */
+    void auto_separate( bool value ) { _auto_separate = value; }
+
+    /*! \return Returns the current auto-separate option */
+    Tcl::object auto_separate() const { return( (Tcl::object)_auto_separate ); }
+
     /*! Adds an insertion entry into the buffer */
     void add_insertion(
       const std::vector<tindex> & ranges,
       Tcl::object str,
       Tcl::object cursor
-    ) {
-      add_change( UNDO_TYPE_INSERT, startpos, endpos, str, cursor, mcursor );
-    }
+    );
 
     /*! Adds an insertion entry into the buffer */
     void add_deletion(
       const std::vector<tindex> & ranges,
       Tcl::object strs,
       Tcl::object cursor
-    ) {
-      add_change( UNDO_TYPE_DELETE, startpos, endpos, str, cursor, mcursor );
-    }
-    
+    );
+
     /*! Adds the equivalent of a replacement entry into the buffer */
     void add_replacement(
       const std::vector<tindex> & ranges,
-      Tcl::object str,
+      Tcl::object dstrs,
+      Tcl::object istr,
       Tcl::object cursor
     );
 

@@ -124,21 +124,9 @@ object undo_buffer::cursor_history() const {
 /* --------------------------------------------------- */
 
 void undo_manager::add_change(
-  int    type,
-  tindex startpos,
-  tindex endpos,
-  object str,
-  object cursor,
-  object mcursor
+  const undo_change & change,
+  bool                stop_separate
 ) {
-
-  interpreter interp( startpos.get_interp(), false );
-  tindex      spos  = object_to_tindex( startpos );
-  tindex      epos  = object_to_tindex( endpos );
-  string      text  = str.get<string>( interp );
-  tindex      cur   = object_to_tindex( cursor );
-  bool        multi = mcursor.get<bool>( interp );
-  undo_change change( type, spos, epos, text, cur, multi );
 
   /* If we don't have a current change group, create it now */
   if( _uncommitted == 0 ) {
@@ -148,8 +136,10 @@ void undo_manager::add_change(
 
   /* Attempt to merge -- if unsucessful, add it to the back */
   } else if( !_uncommitted->back()->merge( change ) ) {
-    _undo_buffer.push_back( _uncommitted );
-    _uncommitted = new undo_group();
+    if( _auto_separate && !stop_separate ) {
+      _undo_buffer.push_back( _uncommitted );
+      _uncommitted = new undo_group();
+    }
     _uncommitted->push_back( new undo_change( change ) );
   }
 
@@ -157,30 +147,73 @@ void undo_manager::add_change(
 
 void undo_manager::add_insertion(
   const vector<tindex> & ranges,
-  Tcl::object            str,
-  Tcl::object            cursor
+  object                 str,
+  object                 cursor
 ) {
-  
+
   interpreter interp( str.get_interp(), false );
-  string      txt       = str.get<string>( interp );
+  string      istr      = str.get<string>( interp );
   tindex      cursorpos = object_to_tindex( cursor );
   bool        mcursor   = ranges.size() > 2;
-  
-  for( int i=0; i<ranges.size(); i+=2 ) {
-    add_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], txt, cursorpos, mcursor );
+  int         size      = ranges.size() - 2;
+  int         i;
+
+  /* Handle multiple cursors if we have any */
+  for( i=0; i<size; i+=2 ) {
+    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), false );
   }
-  
+
+  /* Handle the last range */
+  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), true );
+
 }
 
 void undo_manager::add_deletion(
   const vector<tindex> & ranges,
-  Tcl::object            strs,
-  Tcl::object            cursor
+  object                 strs,
+  object                 cursor
 ) {
-  
+
   interpreter interp( strs.get_interp(), false );
   tindex      cursorpos = object_to_tindex( cursor );
-  
+  bool        mcursor   = ranges.size() > 2;
+  int         size      = ranges.size() - 2;
+  int         i, j;
+
+  /* Handle multiple cursors if we have any */
+  for( i=0, j=0; i<size; i+=2, j++ ) {
+    add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), false );
+  }
+
+  /* Handle the last change */
+  add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
+
+}
+
+void undo_manager::add_replacement(
+  const vector<tindex> & ranges,
+  object                 dstrs,
+  object                 istr,
+  object                 cursor
+) {
+
+  interpreter interp( dstrs.get_interp(), false );
+  string      ins_str   = istr.get<string>( interp );
+  tindex      cursorpos = object_to_tindex( cursor );
+  bool        mcursor   = ranges.size() > 3;
+  int         size      = ranges.size() - 3;
+  int         i, j;
+
+  /* Handle multiple cursors */
+  for( i=0, j=0; i<size; i+=3, j++ ) {
+    add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
+    add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), false );
+  }
+
+  /* Handle the last change */
+  add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
+  add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), true );
+
 }
 
 void undo_manager::add_separator() {

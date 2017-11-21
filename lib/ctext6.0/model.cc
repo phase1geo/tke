@@ -985,9 +985,15 @@ object request::execute(
   interpreter i( _args.get_interp(), false );
 
   switch( _command ) {
-    case REQUEST_INSERT     :  inst.insert( _args );  break;
-    case REQUEST_DELETE     :  inst.remove( _args );  break;
-    case REQUEST_REPLACE    :  inst.replace( _args );  break;
+    case REQUEST_INSERT     :
+      inst.insert( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      break;
+    case REQUEST_DELETE     :
+      inst.remove( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      break;
+    case REQUEST_REPLACE    :
+      inst.replace( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ), _args.at( i, 3 ) );
+      break;
     case REQUEST_UPDATE     :
       if( inst.update( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) ) {
         update_needed = true;
@@ -1157,10 +1163,10 @@ void mailbox::insert(
   object str,
   object cursor
 ) {
-  
+
   interpreter i( ranges.get_interp(), false );
   object      args;
-  
+
   args.append( i, ranges );
   args.append( i, str );
   args.append( i, cursor );
@@ -1170,16 +1176,16 @@ void mailbox::insert(
 }
 
 void mailbox::remove(
-  object ranges
-  object str,
+  object ranges,
+  object strs,
   object cursor
 ) {
 
   interpreter i( ranges.get_interp(), false );
   object      args;
-  
+
   args.append( i, ranges );
-  args.append( i, str );
+  args.append( i, strs );
   args.append( i, cursor );
 
   add_request( REQUEST_DELETE, args, false, false );
@@ -1187,16 +1193,18 @@ void mailbox::remove(
 }
 
 void mailbox::replace(
-  object ranges
-  object str,
+  object ranges,
+  object dstrs,
+  object istr,
   object cursor
 ) {
 
   interpreter i( ranges.get_interp(), false );
   object      args;
-  
+
   args.append( i, ranges );
-  args.append( i, str );
+  args.append( i, dstrs );
+  args.append( i, istr );
   args.append( i, cursor );
 
   add_request( REQUEST_REPLACE, args, false, false );

@@ -132,31 +132,31 @@ namespace eval model {
 
   ######################################################################
   # Inserts the given items into the tree.
-  proc insert {win ranges} {
+  proc insert {win ranges str cursor} {
 
     variable data
 
-    $data($win,model) insert $ranges
+    $data($win,model) insert $ranges $str $cursor
 
   }
 
   ######################################################################
   # Deletes the given text range and updates the model.
-  proc delete {win ranges} {
+  proc delete {win ranges strs cursor} {
 
     variable data
 
-    $data($win,model) delete $ranges
+    $data($win,model) delete $ranges $strs $cursor
 
   }
 
   ######################################################################
   # Update the model with the replacement information.
-  proc replace {win ranges} {
+  proc replace {win ranges dstrs istr cursor} {
 
     variable data
 
-    $data($win,model) replace $ranges
+    $data($win,model) replace $ranges $dstrs $istr $cursor
 
   }
 
