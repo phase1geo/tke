@@ -1,7 +1,15 @@
-DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive -L/usr/lib/x86_64-linux-gnu -ltcl8.6
-CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC
+MAKEFLAGS = -j4
 
-SRCS = cpptcl.cc \
+DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive -L/usr/lib/x86_64-linux-gnu -ltcl8.6
+
+ifeq ($(findstring $(MAKECMDGOALS),../model.dll),$(MAKECMDGOALS))
+# CPPFLAGS = -IC:\ActiveTcl\include -I/usr/include/boost -I ../include -I../cpptcl -std=c++11 -MD
+CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC
+else
+CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC -MD
+endif
+
+SRCS = ../cpptcl/cpptcl.cc \
        linemap.cc \
        linemap_col.cc \
        linemap_colopts.cc \
@@ -21,7 +29,10 @@ SRCS = cpptcl.cc \
        undo_group.cc \
        undo_manager.cc
 
+DEPS = $(SRCS:.cc=.d)
 OBJS = $(SRCS:.cc=.o)
+
+-include $(DEPS)
 
 all: ../model.so
 
