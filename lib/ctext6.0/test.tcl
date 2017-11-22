@@ -16,12 +16,12 @@ pack [ttk::button .bf.redo -text "Redo" -command {
 } -state disabled] -side left -padx 2 -pady 2
 
 bind .t <<Modified>> {
-  if {[.t undoable]} {
+  if {[.t edit undoable]} {
     .bf.undo configure -state normal
   } else {
     .bf.undo configure -state disabled
   }
-  if {[.t redoable]} {
+  if {[.t edit redoable]} {
     .bf.redo configure -state normal
   } else {
     .bf.redo configure -state disabled
@@ -33,7 +33,7 @@ grid columnconfigure . 0 -weight 1
 grid .t  -row 0 -column 0 -sticky news
 grid .vb -row 0 -column 1 -sticky ns
 grid .hb -row 1 -column 0 -sticky ew
-grid .bf -row 2 -column 0 -sticky ew -column 2
+grid .bf -row 2 -column 0 -sticky ew -columnspan 2
 
 # Initialize the ctext widget
 ctext::initialize .t

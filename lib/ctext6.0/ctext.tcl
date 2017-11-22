@@ -842,7 +842,7 @@ namespace eval ctext {
     lassign [model::undo $win] cmds cursor
 
     # Get the undo information and execute the returned commands
-    foreach cmd $cmds range $ranges {
+    foreach cmd $cmds {
       $win._t {*}$cmd
     }
     

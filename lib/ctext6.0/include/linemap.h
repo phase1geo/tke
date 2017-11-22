@@ -1,0 +1,150 @@
+#ifndef __LINEMAP_H__
+#define __LINEMAP_H__
+
+/*!
+ \file     linemap.h
+ \author   Trevor Williams (phase1geo@gmail.com)
+ \date     11/15/2017
+ \brief    Contains classes for handling the text widget linemap items.
+*/
+
+#include <vector>
+#include <iostream>
+
+#include "cpptcl.h"
+#include "tindex.h"
+#include "linemap_row.h"
+#include "linemap_col.h"
+
+/*!
+ Tracks the state of the linemap.
+*/
+class linemap {
+
+  private:
+
+    std::vector<linemap_row*> _rows;
+    std::vector<linemap_col*> _cols;
+
+    /*! \return Returns the row index that is at or after the given row number */
+    int get_row_index( int row ) const;
+
+    /*! \return Returns the index of the column */
+    int get_col_index( const std::string & name ) const;
+
+  public:
+
+    /*! Default constructor */
+    linemap() {}
+
+    /*! Destructor */
+    ~linemap();
+
+    /*! Sets the marker indicator associated with the given line to the given value */
+    void set_marker(
+      const Tcl::object & row,
+      const Tcl::object & value
+    );
+
+    /*! \return Returns the marker name stored at the given row */
+    Tcl::object get_marker(
+      const Tcl::object & row
+    ) const;
+
+    /*! \return Returns the row number for the given marker name if it exists; otherwise,
+                returns 0. */
+    int marker_row( const std::string & name ) const;
+
+    /*! Called when text is inserted into the buffer */
+    void insert(
+      const std::vector<tindex> & ranges
+    );
+
+    /*! Called when text is deleted from the buffer */
+    void remove(
+      const std::vector<tindex> & ranges
+    );
+
+    /*! Called when text is replaced in the buffer */
+    void replace(
+      const std::vector<tindex> & ranges
+    );
+
+    /*! Creates a new gutter, inserting it at the end of the list */
+    void create(
+      const Tcl::object & name,
+      const Tcl::object & values
+    );
+
+    /*! Destroys a gutter */
+    void destroy(
+      const Tcl::object & name
+    );
+
+    /*!
+     If value is not the empty string, sets the hidden state to the given value.
+
+     \return Returns the current hidden state of the given gutter if value is
+             set to the empty string; otherwise, returns false.
+    */
+    bool hide(
+      const Tcl::object & name,
+      const Tcl::object & value
+    );
+    
+    /*! Deletes the symbols from the gutter */
+    void delete_symbols(
+      const Tcl::object & name,
+      const Tcl::object & syms
+    );
+
+    /*! Sets one or more lines for the given gutter column */
+    void set(
+      const Tcl::object & name,
+      const Tcl::object & values
+    );
+
+    /*! Unsets the identified gutter for a single entry or a range */
+    void unset(
+      const Tcl::object & name,
+      const Tcl::object & first,
+      const Tcl::object & last
+    );
+    
+    /*! \return Returns the gutter symbol location information */
+    Tcl::object get(
+      const Tcl::object & name,
+      const Tcl::object & value,
+      const Tcl::object & valueisint
+    ) const;
+
+    /*! \return Returns the current value for the given symbol's option */
+    Tcl::object cget(
+      const Tcl::object & name,
+      const Tcl::object & symbol,
+      const Tcl::object & option
+    ) const;
+
+    /*!
+     Allows the user to set one or more symbol options or returns the
+     current values in a Tcl list
+    */
+    Tcl::object configure(
+      const Tcl::object & name,
+      const Tcl::object & symbol,
+      const Tcl::object & opts
+    );
+
+    /*! \return Returns the gutter names */
+    Tcl::object names() const;
+
+    /*! Renders the linemap for the given range */
+    Tcl::object render(
+      const Tcl::object & first_row,
+      const Tcl::object & last_row
+    ) const;
+
+};
+
+#endif
+
