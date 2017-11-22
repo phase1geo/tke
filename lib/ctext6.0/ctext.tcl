@@ -125,6 +125,7 @@ namespace eval ctext {
     set data($win,config,-matchchar_fg)           $data($win,config,-bg)
     set data($win,config,-matchaudit)             0
     set data($win,config,-matchaudit_bg)          "red"
+    set data($win,config,-foldstate)              "none"  ;# none, manual, indent and syntax supported
     set data($win,config,re_opts)                 ""
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
@@ -144,7 +145,7 @@ namespace eval ctext {
       -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor -highlightcolor -folding
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
-      -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin
+      -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
     }
 
     # Set args
@@ -638,6 +639,17 @@ namespace eval ctext {
         $win tag configure missing -background $value
       }
       break
+    }
+
+    lappend argTable {any} -foldstate {
+      if {[lsearch {none manual indent syntax} $value] == -1} {
+        return -code error "Illegal -foldstate value set"
+      }
+      if {[set data($win,config,-foldstate) $value] ne "none"} {
+        enable_folding $win
+      } else {
+        disable_folding $win
+      }
     }
 
     set data($win,config,argTable) $argTable
@@ -2782,6 +2794,184 @@ namespace eval ctext {
     event generate $win <<Modified>> -data $dat
 
     return $value
+
+  }
+
+  ######################################################################
+  # Called when the -foldstate variable is set to a non-"none" value.
+  proc enable_folding {win} {
+
+    variable data
+
+    set open_color  $data($win,config,-fg)
+    set close_color $data($win,config,-fg)  ;# TBD - This should come from theme
+
+    $win gutter create folding \
+      open   [list -symbol \u25be -fg $open_color -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
+      close  [list -symbol \u25b8 -fg $close_color -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
+      eopen  [list -symbol \u25be -fg $open_color -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
+      eclose [list -symbol \u25b8 -fg $close_color -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
+      end    [list -symbol \u221f -fg $open_color]
+
+    # Configure the _folded tag to hide code
+    $win._t tag configure _folded -elide 1
+
+    # Add the fold information to the gutter
+    # TBD
+
+  }
+
+  ######################################################################
+  # Called when the -foldstate variable is set to a "none" value.
+  proc disable_folding {win} {
+
+    # Remove all folded text
+    $win._t tag remove _folded 1.0 end
+
+    # Remove the gutter
+    $win gutter destroy folding
+
+  }
+
+  ######################################################################
+  # Opens a folded line, showing its contents.
+  proc open_fold {depth win line} {
+
+    variable data
+
+    array set map {
+      close  open
+      open   open
+      eclose eopen
+      eopen  eopen
+    }
+
+    # Get the fold range
+    lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
+
+    foreach tline [concat $belows $aboves] {
+      set type [$win gutter get folding $tline]
+      $win gutter clear folding $tline
+      $win gutter set folding $map($type) $tline
+    }
+
+    # Remove the folded tag
+    $win._t tag remove _folded $startpos $endpos
+
+    # Close all of the previous folds
+    if {$depth > 0} {
+      foreach tline [::struct::set intersect $aboves $closed] {
+        close_fold 1 $txt $tline
+      }
+    }
+
+    return $endpos
+
+  }
+
+  ######################################################################
+  # Closes a folded line, hiding its contents.
+  proc close_fold {depth win line} {
+
+    array set map {
+      open   close
+      close  close
+      eopen  eclose
+      eclose eclose
+    }
+
+    # Get the fold range
+    lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
+
+    # Replace the open/eopen symbol with the close/eclose symbol
+    foreach line $belows {
+      set type [$win gutter get folding $line]
+      $win gutter clear folding $line
+      $win gutter set folding $map($type) $line
+    }
+
+    # Hide the text
+    $win._t tag add _folded $startpos $endpos
+
+    return $endpos
+
+  }
+
+  ######################################################################
+  # Returns the folding information for the given line.
+  proc get_fold_range {win line depth} {
+
+    variable data
+
+    if {$data($win,config,-foldstate) eq "indent"} {
+      return [get_fold_range_indent $win $line $depth]
+    } else {
+      return [get_fold_range_other $win $line $depth]
+    }
+
+  }
+
+  ######################################################################
+  # Returns the folding information for the given line when we are in
+  # indent folding state.
+  proc get_fold_range_indent {win line depth} {
+
+    set count  0
+    set aboves [list]
+    set belows [list]
+    set closed [list]
+
+    set start_chars [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]]
+    set next_line   $line.0
+    set final       [lindex [split [$txt index end] .] 0].0
+    set all_chars   [list]
+
+    while {[set range [$txt tag nextrange _prewhite $next_line]] ne ""} {
+      set chars [$txt count -chars {*}$range]
+      set tline [lindex [split [lindex $range 0] .] 0]
+      set state [fold_state $txt $tline]
+      if {($state eq "close") || ($state eq "eclose")} {
+        lappend closed $tline
+      }
+      if {($chars > $start_chars) || ($all_chars eq [list])} {
+        if {($state ne "none") && ($state ne "end")} {
+          lappend all_chars [list $tline $chars]
+        }
+      } else {
+        set final $tline.0
+        break
+      }
+      set next_line [lindex $range 1]
+    }
+
+    set last $start_chars
+    foreach {tline chars} [concat {*}[lsort -integer -index 1 $all_chars]] {
+      incr count [expr $chars != $last]
+      if {$count < $depth} {
+        lappend belows $tline
+      } else {
+        lappend aboves $tline
+      }
+      set last $chars
+    }
+
+    return [list [expr $line + 1].0 $final $belows $aboves $closed]
+
+  }
+
+  ######################################################################
+  # Returns the folding information for the given line when we are in
+  # indent folding state.
+  proc get_fold_range_other {win line depth} {
+
+    set count  0
+    set aboves [list]
+    set belows [list]
+    set closed [list]
+
+    # TBD
+    
+    return [list [expr $line + 1].0 [lindex [split [$win index end] .] 0].0 $belows $aboves $closed]
 
   }
 
