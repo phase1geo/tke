@@ -9,276 +9,6 @@
 using namespace std;
 using namespace Tcl;
 
-/* -------------------------------------------------------------- */
-
-object linemap_row::render(
-  interpreter                & interp,
-  const vector<linemap_col*> & cols
-) const {
-
-  object result;
-
-  object row;
-  for( int i=0; i<_items.size(); i++ ) {
-    if( cols[i] && !cols[i]->hidden() ) {
-      if( _items[i] ) {
-        row.append( interp, _items[i]->render( interp ) );
-      } else {
-        row.append( interp, (object)"" );
-      }
-    }
-  }
-
-  result.append( interp, (object)_row );
-  result.append( interp, (object)((_marker == "") ? "%n" : "%m") );
-  result.append( interp, row );
-
-  return( result );
-
-}
-
-/* -------------------------------------------------------------- */
-
-linemap_colopts::linemap_colopts( Tcl::object opts ) : _symbol( "" ), _color( "" ) {
-
-  interpreter interp( opts.get_interp(), false );
-
-  configure( opts );
-
-}
-
-void linemap_colopts::configure( Tcl::object opts ) {
-
-  interpreter interp( opts.get_interp(), false );
-
-  if( opts.length( interp ) % 2 ) {
-    throw runtime_error( "Gutter create value not called with option/value pairs" );
-  }
-
-  for( int i=0; i<opts.length( interp ); i+=2 ) {
-    string name  = opts.at( interp, (i + 0) ).get<string>( interp );
-    string value = opts.at( interp, (i + 1) ).get<string>( interp );
-    if( name == "-symbol" ) {
-      _symbol = value;
-    } else if( name == "-fg" ) {
-      _color = value;
-    } else {
-      string event;
-      if( name == "-onenter" )             { event = "Enter"; }
-      else if( name == "-onleave" )        { event = "Leave"; }
-      else if( name == "-onclick" )        { event = "Button-1"; }
-      else if( name == "-onshiftclick" )   { event = "Shift-Button-1"; }
-      else if( name == "-oncontrolclick" ) { event = "Control-Button-1"; }
-      else {
-        throw runtime_error( "Illegal gutter option " + name );
-      }
-      map<string,string>::iterator it = _bindings.find( event );
-      if( it == _bindings.end() ) {
-        _bindings.insert( make_pair( event, value ) );
-      } else if( value == "" ) {
-        _bindings.erase( it );
-      } else {
-        it->second = value;
-      }
-    }
-  }
-
-}
-
-Tcl::object linemap_colopts::configure() const {
-
-  object      result;
-  interpreter i( result.get_interp(), false );
-
-  result.append( i, (object)"-symbol" );
-  result.append( i, (object)_symbol );
-  result.append( i, (object)"-fg" );
-  result.append( i, (object)_color );
-  result.append( i, (object)"-onenter" );
-  result.append( i, cget( "-onenter" ) );
-  result.append( i, (object)"-onleave" );
-  result.append( i, cget( "-onleave" ) );
-  result.append( i, (object)"-onclick" );
-  result.append( i, cget( "-onclick" ) );
-  result.append( i, (object)"-onshiftclick" );
-  result.append( i, cget( "-onshiftclick" ) );
-  result.append( i, (object)"-oncontrolclick" );
-  result.append( i, cget( "-oncontrolclick" ) );
-
-  return( result );
-
-}
-
-Tcl::object linemap_colopts::cget(
-  const string & name
-) const {
-
-  if( name == "-symbol" ) {
-    return( (object)_symbol );
-  } else if( name == "-color" ) {
-    return( (object)_color );
-  } else {
-    string event;
-    if( name == "-onenter" )             { event = "Enter"; }
-    else if( name == "-onleave" )        { event = "Leave"; }
-    else if( name == "-onclick" )        { event = "Button-1"; }
-    else if( name == "-onshiftclick" )   { event = "Shift-Button-1"; }
-    else if( name == "-oncontrolclick" ) { event = "Control-Button-1"; }
-    else {
-      throw runtime_error( "Illegal gutter option name " + name );
-    }
-    map<string,string>::const_iterator it = _bindings.find( event );
-    if( it == _bindings.end() ) {
-      return( (object)"" );
-    } else {
-      return( (object)(it->second) );
-    }
-  }
-
-}
-
-Tcl::object linemap_colopts::render(
-  Tcl::interpreter & interp
-) const {
-
-  object result;
-  object bindings;
-
-  for( map<string,string>::const_iterator it=_bindings.begin(); it!=_bindings.end(); it++ ) {
-    bindings.append( interp, (object)it->first );
-    bindings.append( interp, (object)it->second );
-  }
-
-  result.append( interp, (object)_symbol );
-  result.append( interp, (object)_color );
-  result.append( interp, bindings );
-
-  return( result );
-
-}
-
-/* -------------------------------------------------------------- */
-
-linemap_col::linemap_col(
-  Tcl::object name,
-  Tcl::object opts
-) : _hidden( false ) {
-
-  interpreter interp( name.get_interp(), false );
-
-  /* Check the option length */
-  if( opts.length( interp ) % 2 ) {
-    throw runtime_error( "Initializing gutter with odd number of options" );
-  }
-
-  /* Save the name of the new gutter */
-  _name = name.get<string>( interp );
-
-  /* Save the various options */
-  for( int i=0; i<opts.length( interp ); i+=2 ) {
-    string           optname  = opts.at( interp, i ).get<string>( interp );
-    linemap_colopts* optvalue = new linemap_colopts( opts.at( interp, (i + 1) ) );
-    map<string,linemap_colopts*>::iterator it = _opts.find( optname );
-    if( it == _opts.end() ) {
-      _opts.insert( make_pair( optname, optvalue ) );
-    } else {
-      delete it->second;
-      it->second = optvalue;
-    }
-  }
-
-}
-
-linemap_col::~linemap_col() {
-
-  for( map<string,linemap_colopts*>::iterator it=_opts.begin(); it!=_opts.end(); it++ ) {
-    delete it->second;
-  }
-
-}
-
-void linemap_col::symbols(
-  vector<string> & syms
-) const {
-
-  for( map<string,linemap_colopts*>::const_iterator it=_opts.begin(); it!=_opts.end(); it++ ) {
-    syms.push_back( it->first );
-  }
-
-}
-
-const linemap_colopts* linemap_col::get_value(
-  const string & sym
-) const {
-
-  map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
-
-  if( it == _opts.end() ) {
-    return( 0 );
-  } else {
-    return( it->second );
-  }
-
-}
-
-void linemap_col::clear_value(
-  const std::string & sym
-) {
-
-  map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
-
-  if( it != _opts.end() ) {
-    delete it->second;
-    _opts.erase( it );
-  }
-
-}
-
-object linemap_col::cget(
-  const string & sym,
-  const string & opt
-) const {
-
-  map<string,linemap_colopts*>::const_iterator it = _opts.find( sym );
-
-  if( it == _opts.end() ) {
-    return( (object)"" );
-  } else {
-    return( (object)(it->second->cget( opt )) );
-  }
-
-}
-
-object linemap_col::configure(
-  const string & sym,
-  object         opts
-) {
-
-  interpreter i( opts.get_interp(), false );
-
-  if( sym.empty() ) {
-    object result;
-    for( map<string,linemap_colopts*>::iterator it=_opts.begin(); it!=_opts.end(); it++ ) {
-      result.append( i, (object)it->first );
-      result.append( i, it->second->configure() );
-    }
-    return( result );
-  } else {
-    map<string,linemap_colopts*>::iterator it = _opts.find( sym );
-    if( it == _opts.end() ) {
-      return( (object)"" );
-    } else if( opts.get<string>( i ).empty() ) {
-      return( it->second->configure() );
-    } else {
-      it->second->configure( opts );
-      return( (object)"" );
-    }
-  }
-
-}
-
-/* -------------------------------------------------------------- */
-
 linemap::~linemap() {
 
   /* Deallocate the rows */
@@ -293,7 +23,9 @@ linemap::~linemap() {
 
 }
 
-int linemap::get_row_index( int row ) const {
+int linemap::get_row_index(
+  int row
+) const {
 
   int len = _rows.size();
 
@@ -327,7 +59,9 @@ int linemap::get_row_index( int row ) const {
 
 }
 
-int linemap::get_col_index( const std::string & name ) const {
+int linemap::get_col_index(
+  const std::string & name
+) const {
 
   for( int i=0; i<_cols.size(); i++ ) {
     if( _cols[i]->name() == name ) {
@@ -340,8 +74,8 @@ int linemap::get_col_index( const std::string & name ) const {
 }
 
 void linemap::set_marker(
-  object row_obj,
-  object value_obj
+  const object & row_obj,
+  const object & value_obj
 ) {
 
   interpreter i( row_obj.get_interp(), false );
@@ -359,7 +93,7 @@ void linemap::set_marker(
 }
 
 Tcl::object linemap::get_marker(
-  object row_obj
+  const object & row_obj
 ) const {
 
   interpreter i( row_obj.get_interp(), false );
@@ -396,14 +130,14 @@ void linemap::insert(
 
     tindex spos = ranges[i];
     tindex epos = ranges[i+1];
-    int    diff = epos.row - spos.row;
+    int    diff = epos.row() - spos.row();
 
     if( diff == 0 ) {
       continue;
     }
 
     /* Increment the rows by the number of newlines */
-    int sindex = get_row_index( spos.row + ((spos.col > 0) ? 1 : 0) );
+    int sindex = get_row_index( spos.row() + ((spos.col() > 0) ? 1 : 0) );
 
     /* Increment the row counts by one */
     for( int i=sindex; i<_rows.size(); i++ ) {
@@ -422,7 +156,7 @@ void linemap::remove(
 
     tindex spos = ranges[i];
     tindex epos = ranges[i+1];
-    int    diff = spos.row - epos.row;
+    int    diff = spos.row() - epos.row();
 
     /* If line numbers have not changed, return immediately */
     if( diff == 0 ) {
@@ -430,9 +164,9 @@ void linemap::remove(
     }
 
     /* Calculate the starting and ending indices to remove */
-    int adjust = (spos.col > 0) ? 1 : 0;
-    int sindex = get_row_index( spos.row + adjust );
-    int eindex = get_row_index( epos.row + adjust );
+    int adjust = (spos.col() > 0) ? 1 : 0;
+    int sindex = get_row_index( spos.row() + adjust );
+    int eindex = get_row_index( epos.row() + adjust );
 
     /* Remove the entries */
     for( int i=sindex; i<eindex; i++ ) { delete _rows[i]; }
@@ -456,15 +190,15 @@ void linemap::replace(
     tindex spos = ranges[i];
     tindex epos = ranges[i+1];
     tindex npos = ranges[i+2];
-    int    diff = (spos.row - epos.row) + (npos.row - spos.row);
+    int    diff = (spos.row() - epos.row()) + (npos.row() - spos.row());
 
     if( diff == 0 ) {
       continue;
     }
 
     /* Calculate the starting and ending indices to remove */
-    int sindex = get_row_index( spos.row + ((spos.col > 0) ? 1 : 0) );
-    int eindex = get_row_index( epos.row );
+    int sindex = get_row_index( spos.row() + ((spos.col() > 0) ? 1 : 0) );
+    int eindex = get_row_index( epos.row() );
 
     /* Remove the entries */
     for( int i=sindex; i<eindex; i++ ) { delete _rows[i]; }
@@ -480,8 +214,8 @@ void linemap::replace(
 }
 
 object linemap::render(
-  object first_row,
-  object last_row
+  const object & first_row,
+  const object & last_row
 ) const {
 
   interpreter i( first_row.get_interp(), false );
@@ -515,8 +249,8 @@ object linemap::render(
 }
 
 void linemap::create(
-  object name,
-  object values
+  const object & name,
+  const object & values
 ) {
 
   /* Add the new column to the list of columns */
@@ -530,7 +264,7 @@ void linemap::create(
 }
 
 void linemap::destroy(
-  object name
+  const object & name
 ) {
 
   interpreter i( name.get_interp(), false );
@@ -553,8 +287,8 @@ void linemap::destroy(
 }
 
 bool linemap::hide(
-  object name_obj,
-  object value_obj
+  const object & name_obj,
+  const object & value_obj
 ) {
 
   interpreter interp( name_obj.get_interp(), false );
@@ -576,8 +310,8 @@ bool linemap::hide(
 }
 
 void linemap::delete_symbols(
-  Tcl::object name,
-  Tcl::object syms
+  const object & name,
+  const object & syms
 ) {
 
   interpreter interp( name.get_interp(), false );
@@ -602,8 +336,8 @@ void linemap::delete_symbols(
 }
 
 void linemap::set(
-  Tcl::object name_obj,
-  Tcl::object values
+  const object & name_obj,
+  const object & values
 ) {
 
   interpreter interp( name_obj.get_interp(), false );
@@ -631,9 +365,9 @@ void linemap::set(
 }
 
 void linemap::unset(
-  Tcl::object name_obj,
-  Tcl::object first_obj,
-  Tcl::object last_obj
+  const object & name_obj,
+  const object & first_obj,
+  const object & last_obj
 ) {
 
   interpreter interp( name_obj.get_interp(), false );
@@ -661,9 +395,9 @@ void linemap::unset(
 }
 
 object linemap::get(
-  object name,
-  object value,
-  object valueisint
+  const object & name,
+  const object & value,
+  const object & valueisint
 ) const {
 
   interpreter interp( name.get_interp(), false );
@@ -728,9 +462,9 @@ object linemap::get(
 }
 
 object linemap::cget(
-  object name,
-  object symbol,
-  object option
+  const object & name,
+  const object & symbol,
+  const object & option
 ) const {
 
   interpreter i( name.get_interp(), false );
@@ -748,9 +482,9 @@ object linemap::cget(
 }
 
 object linemap::configure(
-  object name,
-  object symbol,
-  object opts
+  const object & name,
+  const object & symbol,
+  const object & opts
 ) {
 
   interpreter i( name.get_interp(), false );
