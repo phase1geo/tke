@@ -126,7 +126,7 @@ void mailbox::replace(
   args.append( i, dstrs );
   args.append( i, istr );
   args.append( i, cursor );
-  
+
   add_request( REQUEST_REPLACE, args, false, false );
 
 }
@@ -492,6 +492,14 @@ void mailbox::undo_reset() {
 
 }
 
+void mailbox::auto_separate(
+  const Tcl::object & value
+) {
+
+  add_request( REQUEST_AUTOSEPARATE, value, false, false );
+
+}
+
 object mailbox::cursor_history() {
 
   object args;
@@ -538,7 +546,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "redoable",        &mailbox::redoable )
     .def( "undoseparator",   &mailbox::undo_separator )
     .def( "cursorhistory",   &mailbox::cursor_history )
-    .def( "undoreset",       &mailbox::undo_reset );
+    .def( "undoreset",       &mailbox::undo_reset )
+    .def( "autoseparate",    &mailbox::auto_separate );
 
   /* Add functions */
   i.def("add_type", add_type );

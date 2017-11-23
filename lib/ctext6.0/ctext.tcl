@@ -567,11 +567,13 @@ namespace eval ctext {
 
     lappend argTable {0 false no} -autoseparators {
       set data($win,config,-autoseparators) 0
+      model::auto_separate $win 0
       break
     }
 
     lappend argTable {1 true yes} -autoseparators {
       set data($win,config,-autoseparators) 1
+      model::auto_separate $win 1
       break
     }
 
@@ -857,14 +859,14 @@ namespace eval ctext {
     foreach cmd $cmds {
       $win._t {*}$cmd
     }
-    
+
     # Get the lines that have changed
     set ranges [$win._t tag ranges hl]
     $win._t tag delete hl
 
     # Highlight text and bracket auditing
     highlightAll $win $ranges 0 0
-    
+
     # Set the cursor and let other know that the text widget was modified
     ::tk::TextSetCursor $win.t $cursor
     modified $win 1 [list undo $ranges ""]
@@ -891,7 +893,7 @@ namespace eval ctext {
 
     # Highlight text and bracket auditing
     highlightAll $win $ranges 0 0
-    
+
     # Set the cursor and let other know that the text widget was modified
     ::tk::TextSetCursor $win.t $cursor
     modified $win 1 [list redo $ranges ""]
@@ -1102,7 +1104,6 @@ namespace eval ctext {
     }
 
     set ranges [list]
-    set cursor [$win._t index insert]
 
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
@@ -1129,7 +1130,7 @@ namespace eval ctext {
     }
 
     # Cause the model to handle the deletion
-    model::delete $win $ranges $strs $cursor
+    model::delete $win $ranges $strs [$win index insert]
 
     # Update the undo information
     set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
@@ -1762,10 +1763,10 @@ namespace eval ctext {
         }
       }
       undo {
-        model::undo $win
+        undo $win
       }
       redo {
-        model::redo $win
+        redo $win
       }
       undoable {
         return [model::undoable $win]
@@ -2971,7 +2972,7 @@ namespace eval ctext {
     set closed [list]
 
     # TBD
-    
+
     return [list [expr $line + 1].0 [lindex [split [$win index end] .] 0].0 $belows $aboves $closed]
 
   }

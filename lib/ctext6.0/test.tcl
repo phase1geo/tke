@@ -2,6 +2,8 @@ lappend auto_path [pwd]
 
 package require ctext 6.0
 
+set auto_separate 1
+
 pack [ctext .t -matchaudit 1 -wrap none -matchchar 1 -xscrollcommand {.hb set} -yscrollcommand {.vb set}] \
   -fill both -expand yes
 ttk::scrollbar .vb -orient vertical   -command {.t yview}
@@ -10,10 +12,15 @@ ttk::scrollbar .hb -orient horizontal -command {.t xview}
 ttk::frame .bf
 pack [ttk::button .bf.undo -text "Undo" -command {
   ctext::undo .t
+  focus .t.t
 } -state disabled] -side left -padx 2 -pady 2
 pack [ttk::button .bf.redo -text "Redo" -command {
   ctext::redo .t
+  focus .t.t
 } -state disabled] -side left -padx 2 -pady 2
+pack [ttk::checkbutton .bf.auto -text "Auto-separate" -variable auto_separate -command {
+  .t configure -autoseparators $auto_separate
+}] -side right -padx 2 -pady 2
 
 bind .t <<Modified>> {
   if {[.t edit undoable]} {

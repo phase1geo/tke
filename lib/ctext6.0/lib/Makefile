@@ -4,9 +4,9 @@ DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-
 
 ifeq ($(findstring $(MAKECMDGOALS),../model.dll),$(MAKECMDGOALS))
 # CPPFLAGS = -IC:\ActiveTcl\include -I/usr/include/boost -I ../include -I../cpptcl -std=c++11 -MD
-CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC -MD
+CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
 else
-CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC -MD
+CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
 endif
 
 SRCS = ../cpptcl/cpptcl.cc \
@@ -32,8 +32,6 @@ SRCS = ../cpptcl/cpptcl.cc \
 DEPS = $(SRCS:.cc=.d)
 OBJS = $(SRCS:.cc=.o)
 
--include $(DEPS)
-
 all: ../model.so
 
 ../model.so : $(OBJS)
@@ -45,5 +43,7 @@ all: ../model.so
 ../model.dylib : $(OBJS)
 	g++ $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost -L/usr/lib/x86_64-linux-gnu -ltcl8.6
 
+-include $(DEPS)
+
 clean :
-	rm -rf $(OBJS)
+	rm -rf *.o *.d
