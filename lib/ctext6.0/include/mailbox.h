@@ -195,6 +195,11 @@ class mailbox {
 
     void undo_reset();
 
+    /*! Sets the auto-separate feature to the given boolean value */
+    void auto_separate(
+      const Tcl::object & value
+    );
+
     Tcl::object cursor_history();
 
 };

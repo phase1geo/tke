@@ -50,10 +50,17 @@ class undo_manager {
     }
 
     /*! Sets the auto_separate value */
-    void auto_separate( bool value ) { _auto_separate = value; }
+    void auto_separate(
+      const Tcl::object & value
+    ) {
+      Tcl::interpreter i( value.get_interp(), false );
+      _auto_separate = value.get<bool>( i );
+    }
 
     /*! \return Returns the current auto-separate option */
-    Tcl::object auto_separate() const { return( (Tcl::object)_auto_separate ); }
+    Tcl::object auto_separate() const {
+      return( (Tcl::object)_auto_separate );
+    }
 
     /*! Adds an insertion entry into the buffer */
     void add_insertion(

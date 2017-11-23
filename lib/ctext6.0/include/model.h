@@ -301,6 +301,11 @@ class model {
       _undo_buffer.reset();
     }
 
+    /*! Sets the auto-separate feature to the specified value */
+    void auto_separate( const Tcl::object & value ) {
+      _undo_buffer.auto_separate( value );
+    }
+
     /*! \return Returns the full cursor history from the undo buffer */
     Tcl::object cursor_history() const {
       return( _undo_buffer.cursor_history() );

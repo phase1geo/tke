@@ -109,6 +109,9 @@ object request::execute(
     case REQUEST_UNDORESET :
       inst.undo_reset();
       break;
+    case REQUEST_AUTOSEPARATE :
+      inst.auto_separate( _args.at( i, 0 ) );
+      break;
     case REQUEST_CURSORHIST :
       return( inst.cursor_history() );
       break;

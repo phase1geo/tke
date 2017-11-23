@@ -50,6 +50,16 @@ class undo_group : public std::vector<undo_change*> {
       linemap & lmap
     );
 
+    /*! Returns the first cursor position of this change group */
+    const tindex & first_cursor() const {
+      return( front()->cursor() );
+    }
+
+    /*! Returns the last cursor position of this change group */
+    const tindex & last_cursor() const {
+      return( back()->cursor() );
+    }
+
     /*! Generates a list of all stored cursor positions in the group */
     void cursor_history( Tcl::object & result ) const;
 

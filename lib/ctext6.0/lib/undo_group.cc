@@ -15,10 +15,8 @@ object undo_group::render(
 ) {
 
   object      result;
-  object      item1, item2;
   interpreter i( result.get_interp(), false );
   undo_group  tmp( *this );
-  tindex      last_cursor;
 
   /* Clear ourselves */
   clear_group();
@@ -28,17 +26,11 @@ object undo_group::render(
    the data in the process.
   */
   while( tmp.size() ) {
-    tmp.back()->render( item1, ser, lmap );
+    tmp.back()->render( result, ser, lmap );
     tmp.back()->invert_type();
-    last_cursor = tmp.back()->cursor();
     push_back( tmp.back() );
     tmp.pop_back();
   }
-
-  item2.assign( (object)last_cursor.to_string() );
-
-  result.append( i, item1 );
-  result.append( i, item2 );
 
   return( result );
 

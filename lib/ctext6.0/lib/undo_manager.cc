@@ -22,6 +22,7 @@ void undo_manager::add_change(
 
   /* Attempt to merge -- if unsucessful, add it to the back */
   } else if( !_uncommitted->back()->merge( change ) ) {
+    cout << "auto_separate: " << _auto_separate << ", stop_separate: " << stop_separate << endl;
     if( _auto_separate && !stop_separate ) {
       _undo_buffer.push_back( _uncommitted );
       _uncommitted = new undo_group();
@@ -46,11 +47,11 @@ void undo_manager::add_insertion(
 
   /* Handle multiple cursors if we have any */
   for( i=0; i<size; i+=2 ) {
-    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), false );
+    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), true );
   }
 
   /* Handle the last range */
-  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), true );
+  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), false );
 
 }
 
@@ -68,11 +69,11 @@ void undo_manager::add_deletion(
 
   /* Handle multiple cursors if we have any */
   for( i=0, j=0; i<size; i+=2, j++ ) {
-    add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), false );
+    add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
   }
 
   /* Handle the last change */
-  add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
+  add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), false );
 
 }
 
@@ -93,12 +94,12 @@ void undo_manager::add_replacement(
   /* Handle multiple cursors */
   for( i=0, j=0; i<size; i+=3, j++ ) {
     add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
-    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), false );
+    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), true );
   }
 
   /* Handle the last change */
   add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
-  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), true );
+  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), false );
 
 }
 
@@ -116,7 +117,8 @@ object undo_manager::undo(
   linemap & lmap
 ) {
 
-  object result;
+  object      result;
+  interpreter interp( result.get_interp(), false );
 
   /* If we have uncommited changes, commit them now */
   if( _uncommitted ) {
@@ -127,13 +129,19 @@ object undo_manager::undo(
   if( _undo_buffer.back() ) {
 
     /* Render the undo result */
-    result = _undo_buffer.back()->render( ser, lmap );
+    result.append( interp, _undo_buffer.back()->render( ser, lmap ) );
 
     /* Push the undo buffer changes to the redo buffer */
     _redo_buffer.push_back( _undo_buffer.back() );
 
     /* Pop the undo buffer */
     _undo_buffer.pop_back();
+
+    if( _undo_buffer.size() ) {
+      result.append( interp, (object)_undo_buffer.back()->last_cursor().to_string() );
+    } else {
+      result.append( interp, (object)tindex( 1, 0 ).to_string() );
+    }
 
   }
 
@@ -146,12 +154,16 @@ object undo_manager::redo(
   linemap & lmap
 ) {
 
-  object result;
+  object      result;
+  interpreter interp( result.get_interp(), false );
 
   if( _redo_buffer.back() ) {
 
+    tindex cursor( _redo_buffer.back()->first_cursor() );
+
     /* Generate the redo result */
-    result = _redo_buffer.back()->render( ser, lmap );
+    result.append( interp, _redo_buffer.back()->render( ser, lmap ) );
+    result.append( interp, (object)cursor.to_string() );
 
     /* Push the redo buffer changes to the undo buffer */
     _undo_buffer.push_back( _redo_buffer.back() );

@@ -429,4 +429,14 @@ namespace eval model {
 
   }
 
+  ######################################################################
+  # Sets the auto-separators feature to the given value.
+  proc auto_separate {win value} {
+
+    variable data
+
+    $data($win,model) autoseparate $value
+
+  }
+
 }
