@@ -205,7 +205,7 @@ class model {
       const Tcl::object & name,
       const Tcl::object & value
     ) {
-      _linemap.hide( name, value );
+      return( _linemap.hide( name, value ) );
     }
 
     /*! Deletes one or more symbols from the given buffer */
