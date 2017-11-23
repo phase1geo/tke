@@ -4,7 +4,7 @@ DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-
 
 ifeq ($(findstring $(MAKECMDGOALS),../model.dll),$(MAKECMDGOALS))
 # CPPFLAGS = -IC:\ActiveTcl\include -I/usr/include/boost -I ../include -I../cpptcl -std=c++11 -MD
-CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC
+CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC -MD
 else
 CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -fPIC -MD
 endif

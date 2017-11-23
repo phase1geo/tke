@@ -2187,6 +2187,11 @@ namespace eval ctext {
     variable data
     variable range_cache
 
+    # If we don't have any lineranges, return
+    if {$lineranges eq ""} {
+      return
+    }
+
     # Delete all of the tags not associated with comments and strings that we created
     foreach tag [$win._t tag names] {
       if {[string index $tag 0] eq "_"} {
@@ -2506,11 +2511,7 @@ namespace eval ctext {
     variable data
     variable tpool
 
-    if {![winfo exists $win]} {
-      return
-    }
-
-    if {!$data($win,config,-highlight)} {
+    if {![winfo exists $win] || !$data($win,config,-highlight) || ($ranges eq "")} {
       return
     }
 

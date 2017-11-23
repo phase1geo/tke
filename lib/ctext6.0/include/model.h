@@ -32,6 +32,7 @@ class model {
     linemap      _linemap;      /*!< Line map structure */
     undo_manager _undo_buffer;  /*!< Undo buffer */
     std::string  _win;          /*!< Name of this model */
+    bool         _edited;       /*!< Set to false until after the model is changed */
 
     /*!
      Converts the given object to a vector of text indices.
@@ -54,7 +55,7 @@ class model {
   public:
 
     /*! Default constructor */
-    model( const std::string & win ) : _win( win ) {}
+    model( const std::string & win ) : _win( win ), _edited( false ) {}
 
     /*! Destructor */
     ~model() {}
@@ -69,7 +70,10 @@ class model {
       object_to_ranges( ranges, vec );
       _serial.insert( vec );
       _linemap.insert( vec );
-      _undo_buffer.add_insertion( vec, str, cursor );
+      if( _edited ) {
+        _undo_buffer.add_insertion( vec, str, cursor );
+      }
+      _edited = true;
     }
 
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
@@ -82,7 +86,10 @@ class model {
       object_to_ranges( ranges, vec );
       _serial.remove( vec );
       _linemap.remove( vec );
-      _undo_buffer.add_deletion( vec, strs, cursor );
+      if( _edited ) {
+        _undo_buffer.add_deletion( vec, strs, cursor );
+      }
+      _edited = true;
     }
 
     /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
@@ -96,7 +103,10 @@ class model {
       object_to_ranges( ranges, vec );
       _serial.replace( vec );
       _linemap.replace( vec );
-      _undo_buffer.add_replacement( vec, dstrs, istr, cursor );
+      if( _edited ) {
+        _undo_buffer.add_replacement( vec, dstrs, istr, cursor );
+      }
+      _edited = true;
     }
 
     /*! Updates the model with the given tag information */
