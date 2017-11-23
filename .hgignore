@@ -4,3 +4,5 @@ syntax: glob
 *.d
 *.exe.stackdump
 *.dll.a
+lib/ctext6.0/model.dylib.dSYM/Contents/Info.plist
+lib/ctext6.0/model.dylib.dSYM/Contents/Resources/DWARF/model.dylib
