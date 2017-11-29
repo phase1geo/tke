@@ -91,7 +91,7 @@ class linemap {
       const Tcl::object & name,
       const Tcl::object & value
     );
-    
+
     /*! Deletes the symbols from the gutter */
     void delete_symbols(
       const Tcl::object & name,
@@ -104,19 +104,32 @@ class linemap {
       const Tcl::object & values
     );
 
+    /*! Sets the line number to the given name */
+    void set(
+      const std::string & name,
+      const std::string & value,
+      int                 row
+    );
+
     /*! Unsets the identified gutter for a single entry or a range */
     void unset(
       const Tcl::object & name,
       const Tcl::object & first,
       const Tcl::object & last
     );
-    
+
     /*! \return Returns the gutter symbol location information */
     Tcl::object get(
       const Tcl::object & name,
       const Tcl::object & value,
       const Tcl::object & valueisint
     ) const;
+
+    /*! \return Returns the value stored at the given line number */
+    const std::string & get(
+      const std::string & name,
+      int                 row
+    );
 
     /*! \return Returns the current value for the given symbol's option */
     Tcl::object cget(

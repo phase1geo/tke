@@ -16,6 +16,7 @@
 #include "tnode.h"
 #include "serial_item.h"
 #include "serial.h"
+#include "linemap.h"
 
 class tnode;
 
@@ -110,6 +111,34 @@ class tree {
       serial_item & item
     );
 
+    /*!
+     Sets the linemap folding gutter line to the appropriate value when adding an
+     indent character.
+    */
+    void folds_set_indent(
+      linemap & lmap,
+      int       line,
+      int       depth
+    );
+
+    /*!
+     Sets the linemap folding gutter line to the appropriate value when adding
+     an unindent character.
+    */
+    void folds_set_unindent(
+      linemap & lmap,
+      int       line
+    );
+
+    /*!
+     Helper method to the add_folds method.
+    */
+    void add_folds_helper(
+      linemap & lmap,
+      tnode*    node,
+      int       depth
+    );
+
   public:
 
     /*! Default constructor */
@@ -118,8 +147,11 @@ class tree {
     /*! Destructor */
     ~tree();
 
-    /*! Updates the serial list */
+    /*! Updates from the serial list */
     void update( serial & sl );
+
+    /*! Updates the passed linemap with the given fold information */
+    void add_folds( linemap & lmap );
 
     /*! \return Returns a graphical view of the stored string */
     std::string tree_string() const { return( _tree->tree_string() ); }

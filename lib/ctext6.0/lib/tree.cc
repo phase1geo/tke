@@ -196,3 +196,68 @@ void tree::update(
 
 }
 
+void tree::folds_set_indent(
+  linemap & lmap,
+  int       line,
+  int       depth
+) {
+
+  const string & line_type = lmap.get( "folding", line );
+
+  if( line_type == "" ) {
+    lmap.set( "folding", "open", line );
+  } else if( line_type == "close" ) {
+    lmap.set( "folding", "eopen", line );
+  }
+
+}
+
+void tree::folds_set_unindent(
+  linemap & lmap,
+  int       line
+) {
+
+  const string & line_type = lmap.get( "folding", line );
+
+  if( line_type == "" ) {
+    lmap.set( "folding", "close", line );
+  } else if( line_type == "open" ) {
+    lmap.set( "folding", "eclose", line );
+  }
+
+}
+
+void tree::add_folds_helper(
+  linemap & lmap,
+  tnode*    node,
+  int       depth
+) {
+
+  vector<tnode*> & children = node->children();
+
+  /* If the node is an indent type, set the indent/unindent in the linemap */
+  if( (node->type()->name() == "indent") && node->left() ) {
+    folds_set_indent( lmap, node->left()->const_pos().row(), ++depth );
+    if( node->right() ) {
+      folds_set_unindent( lmap, node->right()->const_pos().row() );
+    }
+  }
+
+  /* Do the same for all children */
+  for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
+    add_folds_helper( lmap, *it, depth );
+  }
+
+}
+
+void tree::add_folds(
+  linemap & lmap
+) {
+
+  vector<tnode*> & children = _tree->children();
+
+  for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
+    add_folds_helper( lmap, *it, 0 );
+  }
+
+}

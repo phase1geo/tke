@@ -59,8 +59,14 @@ class tnode {
     /*! Sets the left pointer in the node to the given item */
     void left( serial_item* item ) { _left = item; }
 
+    /*! \return Returns the pointer to the serial item on the left */
+    const serial_item* left() const { return( _left ); }
+
     /*! Sets the right pointer in the node to the given item */
     void right( serial_item* item ) { _right = item; }
+
+    /*! \return Returns the pointer to the serial item on the right */
+    const serial_item* right() const { return( _right ); }
 
     /*! Adds the node to the end of the list of children */
     void add_child( tnode* child ) {
