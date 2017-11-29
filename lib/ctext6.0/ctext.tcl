@@ -2788,6 +2788,9 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Called whenever the contents of the associated text widget change,
+  # allowing external code listening to the widget's <<Modified>> event
+  # to be invoked.
   proc modified {win value {dat ""}} {
 
     variable data
@@ -2809,9 +2812,9 @@ namespace eval ctext {
     set close_color $data($win,config,-fg)  ;# TBD - This should come from theme
 
     $win gutter create folding \
-      open   [list -symbol \u25be -fg $open_color -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
+      open   [list -symbol \u25be -fg $open_color  -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
       close  [list -symbol \u25b8 -fg $close_color -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
-      eopen  [list -symbol \u25be -fg $open_color -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
+      eopen  [list -symbol \u25be -fg $open_color  -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
       eclose [list -symbol \u25b8 -fg $close_color -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
       end    [list -symbol \u221f -fg $open_color]
 

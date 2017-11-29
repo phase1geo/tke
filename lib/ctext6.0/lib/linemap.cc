@@ -60,7 +60,7 @@ int linemap::get_row_index(
 }
 
 int linemap::get_col_index(
-  const std::string & name
+  const string & name
 ) const {
 
   for( int i=0; i<_cols.size(); i++ ) {
@@ -364,6 +364,29 @@ void linemap::set(
 
 }
 
+void linemap::set(
+  const string & name,
+  const string & value,
+  int            row
+) {
+
+  int col = get_col_index( name );
+
+  if( col == -1 ) {
+    return;
+  }
+
+  const linemap_colopts* colopts = _cols[col]->get_value( value );
+  int                    index   = get_row_index( row );
+
+  if( (index == _rows.size()) || (_rows[index]->row() != row) ) {
+    _rows.insert( (_rows.begin() + index), new linemap_row( row, _cols.size() ) );
+  }
+
+  _rows[index]->set_value( col, colopts );
+
+}
+
 void linemap::unset(
   const object & name_obj,
   const object & first_obj,
@@ -458,6 +481,38 @@ object linemap::get(
   }
 
   return( result );
+
+}
+
+const string & linemap::get(
+  const string & name,
+  int            row
+) {
+
+  int col = get_col_index( name );
+
+  /* If we could not find the gutter, return the empty string */
+  if( col == -1 ) {
+    throw runtime_error( "Unable to find gutter" );
+  }
+
+  try {
+
+    const linemap_colopts* symbol;
+    vector<string>         syms;
+    int                    index = get_row_index( row );
+
+    if( (index < _rows.size()) && (_rows[index]->row() == row) ) {
+      symbol = _rows[index]->get_value( col );
+      _cols[col]->symbols( syms );
+      for( vector<string>::iterator it=syms.begin(); it!=syms.end(); it++ ) {
+        if( _cols[col]->get_value( *it ) == symbol ) {
+          return( *it );
+        }
+      }
+    }
+
+  } catch( exception & e ) {}
 
 }
 
