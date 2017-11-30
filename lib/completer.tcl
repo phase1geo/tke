@@ -151,10 +151,6 @@ namespace eval completer {
   # This is called when a closing character is detected.
   proc skip_closing {txtt type} {
 
-    puts -nonewline "In skip_closing, type: $type, time: "
-    puts -nonewline [time { set value [$txtt is $type insert] }]
-    puts ", value: $value"
-
     return [$txtt is $type insert]
 
   }

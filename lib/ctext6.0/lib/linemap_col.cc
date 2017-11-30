@@ -16,8 +16,6 @@ linemap_col::linemap_col(
 
   interpreter interp( name.get_interp(), false );
 
-  cout << "opts: " << opts.get<string>( interp ) << endl;
-
   /* Check the option length */
   if( opts.length( interp ) % 2 ) {
     throw runtime_error( "Initializing gutter with odd number of options" );
