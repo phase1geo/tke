@@ -842,9 +842,7 @@ namespace eval ctext {
   # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
   proc isEscaped {win index} {
 
-    set names [$win tag names $index-1c]
-
-    return [expr {[string map {_escape {}} $names] ne $names}]
+    return [model::is_escaped $win $index]
 
   }
 
@@ -917,12 +915,10 @@ namespace eval ctext {
       delete      { return [command_delete      $win {*}$args] }
       diff        { return [command_diff        $win {*}$args] }
       edit        { return [command_edit        $win {*}$args] }
-      fastdelete  { return [command_fastdelete  $win {*}$args] }
-      fastinsert  { return [command_fastinsert  $win {*}$args] }
-      fastreplace { return [command_fastreplace $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
       highlight   { return [command_highlight   $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
+      is          { return [command_is          $win {*}$args] }
       marker      { return [command_marker      $win {*}$args] }
       mcursor     { return [command_mcursor     $win {*}$args] }
       replace     { return [command_replace     $win {*}$args] }
@@ -1085,10 +1081,14 @@ namespace eval ctext {
     variable data
     variable tpool
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -moddata   {}
+      -highlight 0
     }
+    array set opts [lrange $args 0 [expr $i - 1]]
 
     set ranges [list]
 
@@ -1101,7 +1101,7 @@ namespace eval ctext {
         lappend ranges $startPos $endPos
       }
     } else {
-      lassign $args startPos endPos
+      lassign [lrange $args $i end] startPos endPos
       set cursors  [$win._t index insert]
       set startPos [$win._t index $startPos]
       if {$endPos eq ""} {
@@ -1126,13 +1126,18 @@ namespace eval ctext {
       tpool::wait $tpool $ids ids
     }
 
-    highlightAll $win $ranges 0 1
-    modified     $win 1 [list delete $ranges $moddata]
+    if {$opts(-highlight)} {
+      highlightAll $win $ranges 0 1
+    }
+
+    modified     $win 1 [list delete $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
 
   ######################################################################
+  # Allows external code to program difference information for rendering
+  # purposes.
   proc command_diff {win args} {
 
     variable data
@@ -1260,117 +1265,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc command_fastdelete {win args} {
-
-    variable data
-
-    set moddata   [list]
-    set do_update 1
-    set do_undo   1
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata" { set args [lassign $args dummy moddata] }
-        "-update"  { set args [lassign $args dummy do_update] }
-        "-undo"    { set args [lassign $args dummy do_undo] }
-      }
-    }
-
-    if {$do_undo} {
-      undo_delete $win $startPos $endPos
-    }
-
-    $win._t delete {*}$args
-
-    if {$do_update} {
-      modified $win 1 [list delete [list $startPos $endPos] $moddata]
-      event generate $win.t <<CursorChanged>>
-    }
-
-  }
-
-  ######################################################################
-  # Performs a text insertion without performing immediate text highlighting.
-  proc command_fastinsert {win args} {
-
-    variable data
-
-    set i 0
-    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
-
-    array set opts {
-      -moddata {}
-      -update  1
-      -undo    1
-    }
-    array set opts [lrange $args 0 [expr $i - 1]]
-
-    lassign [lrange $args $i end] startPos content tags
-
-    set startPos [$win._t index $startPos]
-    set chars    [string length $content]
-    set tags     [list {*}$tags lmargin rmargin]
-    set cursor   [$win._t index insert]
-
-    $win._t insert $startPos $content $tags
-
-    set endPos [$win._t index "$startPos+${chars}c"]
-
-    # Update the model with the insertion
-    model::insert $win [list $startPos $endPos] $content $cursor
-
-    if {$opts(-update)} {
-      modified $win 1 [list insert [list $startPos $endPos] $opts(-moddata)]
-      event generate $win.t <<CursorChanged>>
-    }
-
-  }
-
-  ######################################################################
-  # Performs a text replacement without performing immediate text
-  # highlighting.
-  proc command_fastreplace {win args} {
-
-    variable data
-
-    set i 0
-    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
-
-    array set opts {
-      -moddata {}
-      -update  1
-      -undo    1
-    }
-    array set opts [lrange $args 0 [expr $i - 1]]
-
-    lassign [lrange $args $i end] startPos endPos content tags
-
-    set startPos [$win._t index $startPos]
-    set endPos   [$win._t index $endPos]
-    set datlen   [string length $content]
-    set tags     [list {*}$tags lmargin rmargin]
-    set cursor   [$win._t index insert]
-
-    if {$opts(-undo)} {
-      undo_delete $win $startPos $endPos
-    }
-
-    set gtags [handleReplaceDeleteAt0 $win $startPos $endPos]
-
-    # Perform the text replacement
-    $win._t replace $startPos $endPos $content $tags
-
-    if {$opts(-undo)} {
-      undo_insert $win $startPos $datlen $cursor
-    }
-
-    if {$opts(-update)} {
-      modified $win 1 [list replace [list $startPos $endPos] $opts(-moddata)]
-      event generate $win.t <<CursorChanged>>
-    }
-
-  }
-
-  ######################################################################
   # Performs text highlighting on the given ranges.
   proc command_highlight {win args} {
 
@@ -1406,12 +1300,16 @@ namespace eval ctext {
     variable data
     variable tpool
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
-    }
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
-    lassign $args insertPos content tags
+    array set opts {
+      -moddata   {}
+      -highlight 1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] insertPos content tags
 
     set ranges  [list]
     set chars   [string length $content]
@@ -1438,9 +1336,37 @@ namespace eval ctext {
     model::insert $win $ranges $content $cursor
 
     # Highlight text and bracket auditing
-    highlightAll $win $ranges 1 1
-    modified     $win 1 [list insert $ranges $moddata]
+    if {$opts(-highlight)} {
+      highlightAll $win $ranges 1 1
+    }
+
+    modified       $win 1 [list insert $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
+
+  }
+
+  ######################################################################
+  # Allows code to examine the contents of a given index.
+  proc command_is {win args} {
+
+    lassign $args type index
+
+    set index [$win._t index $index]
+
+    switch $type {
+      escaped { return [model::is_escaped $win $index] }
+      curly   { return [model::is_index $win curly   $index] }
+      square  { return [model::is_index $win square  $index] }
+      paren   { return [model::is_index $win paren   $index] }
+      angled  { return [model::is_index $win angled  $index] }
+      double  { return [model::is_index $win double  $index] }
+      single  { return [model::is_index $win single  $index] }
+      btick   { return [model::is_index $win btick   $index] }
+      tdouble { return [model::is_index $win tdouble $index] }
+      tsingle { return [model::is_index $win tsingle $index] }
+      tbtick  { return [model::is_index $win tbtick  $index] }
+      default { return -code error "Unsupported is type ($type) specified" }
+    }
 
   }
 
@@ -1489,12 +1415,16 @@ namespace eval ctext {
 
     variable data
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
-    }
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
-    lassign $args startPos endPos content tags
+    array set opts {
+      -moddata   {}
+      -highlight 1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] startPos endPos content tags
 
     set ranges [list]
     set cursor [$win._t index insert]
@@ -1519,8 +1449,10 @@ namespace eval ctext {
     model::replace $win $ranges $strs $content $cursor
 
     # Highlight text and bracket auditing
-    highlightAll $win $ranges 1 1
-    modified     $win 1 [list replace $ranges $moddata]
+    if {$opts(-highlight)} {
+      highlightAll $win $ranges 1 1
+    }
+    modified     $win 1 [list replace $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
   }
 

@@ -70,6 +70,12 @@ class serial : public std::vector<serial_item*> {
     /*! \return Returns true if the given index is immediately preceded by an escape */
     bool is_escaped( const tindex & ti ) const;
 
+    /*! \return Returns true if the given index contains the given type */
+    bool is_index(
+      const std::string & type,
+      const tindex      & ti
+    ) const;
+
     /*! \return Returns the list of contextual items in the list as a new list */
     void get_context_items( serial & items ) const;
 

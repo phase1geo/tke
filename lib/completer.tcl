@@ -110,7 +110,6 @@ namespace eval completer {
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Text]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] postcomp$txt]
     bindtags $txt.t [linsert [bindtags $txt.t] $text_index precomp$txt]
 
     # Make sure that the complete array is initialized for the text widget
@@ -152,7 +151,11 @@ namespace eval completer {
   # This is called when a closing character is detected.
   proc skip_closing {txtt type} {
 
-    return [expr [lsearch [$txtt tag names insert] _${type}R] != -1]
+    puts -nonewline "In skip_closing, type: $type, time: "
+    puts -nonewline [time { set value [$txtt is $type insert] }]
+    puts ", value: $value"
+
+    return [$txtt is $type insert]
 
   }
 
@@ -164,7 +167,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],square) && \
         ![ctext::inComment $txtt "insert-1c"] && \
-        ![ctext::isEscaped $txtt insert]} {
+        ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -173,7 +176,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert "\]"
+          $txtt insert -highlight 0 insert "\]"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -191,7 +194,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],curly) && \
         ![ctext::inComment $txtt "insert-1c"] && \
-        ![ctext::isEscaped $txtt insert]} {
+        ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt curly]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -200,7 +203,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert "\}"
+          $txtt insert -highlight 0 insert "\}"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -218,7 +221,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],angled) && \
         ![ctext::inComment $txtt "insert-1c"] && \
-        ![ctext::isEscaped $txtt insert]} {
+        ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt angled]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -227,7 +230,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert ">"
+          $txtt insert -highlight 0 insert ">"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -245,7 +248,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],paren) && \
         ![ctext::inComment $txtt "insert-1c"] && \
-        ![ctext::isEscaped $txtt insert]} {
+        ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt paren]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -254,7 +257,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert ")"
+          $txtt insert -highlight 0 insert ")"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -272,7 +275,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],double)} {
       if {[ctext::inDoubleQuote $txtt insert]} {
-        if {([$txtt get insert] eq "\"") && ![ctext::isEscaped $txtt insert]} {
+        if {([$txtt get insert] eq "\"") && ![$txtt is escaped insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
           return 1
         }
@@ -281,7 +284,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![ctext::inCommentString $txtt "insert-1c"]} {
-          $txtt fastinsert insert "\""
+          $txtt insert -highlight 0 insert "\""
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -299,7 +302,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],single)} {
       if {[ctext::inSingleQuote $txtt insert]} {
-        if {([$txtt get insert] eq "'") && ![ctext::isEscaped $txtt insert]} {
+        if {([$txtt get insert] eq "'") && ![$txtt is escaped insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
           return 1
         }
@@ -308,7 +311,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![ctext::inCommentString $txtt "insert-1c"]} {
-          $txtt fastinsert insert "'"
+          $txtt insert -highlight 0 insert "'"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -326,7 +329,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],btick)} {
       if {[ctext::inBackTick $txtt insert]} {
-        if {([$txtt get insert] eq "`") && ![ctext::isEscaped $txtt insert]} {
+        if {([$txtt get insert] eq "`") && ![$txtt is escaped insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
           return 1
         }
@@ -335,7 +338,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![ctext::inCommentString $txtt "insert-1c"]} {
-          $txtt fastinsert insert "`"
+          $txtt insert -highlight 0 insert "`"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -351,48 +354,48 @@ namespace eval completer {
 
     variable complete
 
-    if {![ctext::inComment $txtt insert-2c] && ![ctext::isEscaped $txtt insert-1c]} {
+    if {![ctext::inComment $txtt insert-2c] && ![$txtt is escaped insert-1c]} {
       set lang [ctext::getLang $txtt insert]
       switch [$txtt get insert-1c insert+1c] {
         "\[\]" {
           if {$complete($txtt,$lang,square)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "\{\}" {
           if {$complete($txtt,$lang,curly)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "<>" {
           if {$complete($txtt,$lang,angled)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "()" {
           if {$complete($txtt,$lang,paren)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "\"\"" {
           if {$complete($txtt,$lang,double)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "''" {
           if {$complete($txtt,$lang,single)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "``" {
           if {$complete($txtt,$lang,btick)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }

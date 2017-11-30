@@ -262,6 +262,8 @@ bool serial::update(
   sindex start_index = get_index( linestart );
   sindex end_index   = get_index( lineend );
 
+  cout << "In serial::update, elements: " << elements.to_string() << endl;
+
   if( elements.size() ) {
 
     /* Delete the range */
@@ -310,6 +312,25 @@ bool serial::is_escaped(
 
   return( (prev_item->type() == types::staticObject().get( "escape" )) &&
           ((prev_item->pos().start_col() + 1) == ti.col()) );
+
+}
+
+bool serial::is_index(
+  const string & type,
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+
+  cout << "In is_index, ti: " << ti.to_string() << ", si: " << si.to_string() << endl;
+  cout << "  serial: " << to_string() << endl;
+
+  if( si.matches() ) {
+    cout << "  type: " << (*this)[si.index()]->type()->name() << endl;
+    return( (*this)[si.index()]->type() == types::staticObject().get( type ) );
+  }
+
+  return( false );
 
 }
 

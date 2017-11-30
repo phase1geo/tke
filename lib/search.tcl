@@ -323,7 +323,7 @@ namespace eval search {
       if {[llength $do_tags] == 0} {
         ctext::comments_chars_deleted $txt $startpos $endpos do_tags
       }
-      $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+      $txt replace -highlight 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
       if {[llength $do_tags] == 0} {
         ctext::comments_do_tag $txt $startpos $rendpos do_tags
       }

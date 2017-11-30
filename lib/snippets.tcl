@@ -404,7 +404,7 @@ namespace eval snippets {
     # Delete all text that is tagged with a snippet tag
     foreach tabstop [lsearch -inline -all -glob [$txtt tag names] snippet_*] {
       foreach {start end} [$txtt tag ranges $tabstop] {
-        $txtt fastdelete $start $end
+        $txtt delete $start $end
       }
       $txtt tag delete $tabstop
     }
@@ -446,7 +446,7 @@ namespace eval snippets {
         set tabvals($txtt,$index) [$txtt get $tabstart($txtt) insert]
         foreach {endpos startpos} [lreverse [$txtt tag ranges snippet_mirror_$index]] {
           set str [parse_snippet $txtt [$txtt get $startpos $endpos]]
-          $txtt fastdelete $startpos $endpos
+          $txtt delete $startpos $endpos
           $txtt insert $startpos {*}$str
         }
       }
@@ -461,12 +461,12 @@ namespace eval snippets {
         $txtt tag add sel {*}$range
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
-        $txtt fastdelete {*}$range
+        $txtt delete {*}$range
         ::tk::TextSetCursor $txtt [lindex $range 0]
         $txtt tag delete snippet_mark_$tabpoints($txtt)
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
-        $txtt fastdelete {*}$range
+        $txtt delete {*}$range
         ::tk::TextSetCursor $txtt [lindex $range 0]
         $txtt tag delete snippet_mark_0
         set tabstart($txtt) [lindex $range 0]

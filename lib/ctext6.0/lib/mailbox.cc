@@ -215,6 +215,23 @@ object mailbox::is_escaped(
 
 }
 
+object mailbox::is_index(
+  const object & type,
+  const object & ti
+) {
+
+  interpreter i( type.get_interp(), false );
+  object      args;
+
+  args.append( i, type );
+  args.append( i, ti );
+
+  add_request( REQUEST_ISINDEX, args, true, false );
+
+  return( result() );
+
+}
+
 object mailbox::render_contexts(
   const object & linestart,
   const object & lineend,
@@ -527,6 +544,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "depth",           &mailbox::get_depth )
     .def( "rendercontexts",  &mailbox::render_contexts )
     .def( "isescaped",       &mailbox::is_escaped )
+    .def( "isindex",         &mailbox::is_index )
     .def( "renderlinemap",   &mailbox::render_linemap )
     .def( "setmarker",       &mailbox::set_marker )
     .def( "getmarker",       &mailbox::get_marker )

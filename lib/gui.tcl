@@ -1846,11 +1846,8 @@ namespace eval gui {
       # Delete any dspace characters
       vim::remove_dspace $txt
 
-      # Insert the file contents
-      $txt fastinsert end $contents
-
-      # Highlight text and add update code folds
-      $txt highlight -block 0 1.0 end
+      # Insert the file contents and highlight
+      $txt insert end $contents
       $txt see 1.0
 
       # Add any previous markers saved for this text widget

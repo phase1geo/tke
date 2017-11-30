@@ -1119,7 +1119,7 @@ namespace eval vim {
     # If the current cursor is on a dummy space, remove it
     set tags [$txtt tag names insert]
     if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
-      $txtt fastdelete -update 0 -undo 0 insert
+      [winfo parent $txtt]._t delete insert
     }
 
   }
@@ -1442,7 +1442,7 @@ namespace eval vim {
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
-      $txtt fastinsert -update 0 -undo 0 insert " " dspace
+      [winfo parent $txtt]._t insert insert " " dspace
       $txtt mark set insert "insert-1c"
       gui::update_position [winfo parent $txtt]
 
@@ -1479,7 +1479,7 @@ namespace eval vim {
 
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
       if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
-        $w fastdelete -update 0 -undo 0 $startpos $endpos
+        $w._t delete $startpos $endpos
       }
     }
 

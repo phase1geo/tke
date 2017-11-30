@@ -52,6 +52,9 @@ object request::execute(
     case REQUEST_ISESCAPED :
       return( (object)inst.is_escaped( _args ) );
       break;
+    case REQUEST_ISINDEX :
+      return( (object)inst.is_index( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
     case REQUEST_RENDERLINEMAP :
       return( inst.render_linemap( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
