@@ -18,11 +18,8 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 reindent {{switch case default} {select case default}}
 

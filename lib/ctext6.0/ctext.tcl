@@ -901,19 +901,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Returns the tags that are used by the gutter (including linemark
-  # information) for the given text position.
-  proc getGutterTags {win pos} {
-
-    set alltags [$win tag names $pos]
-    set tags    [lsearch -inline -all -glob $alltags gutter:*]
-    lappend tags {*}[lsearch -inline -all -glob $alltags lmark*]
-
-    return $tags
-
-  }
-
-  ######################################################################
   # This procedure is the main command handler when the ctext widget is
   # used as a command.  This basically just calls the associated command
   # procedure and returns its result to the caller.
@@ -1288,20 +1275,9 @@ namespace eval ctext {
       }
     }
 
-    if {[llength $args] == 1} {
-      set startPos [$win._t index [lindex $args 0]]
-      set endPos   [$win._t index "$startPos+1c"]
-      linemapCheckOnDelete $win $startPos
-    } else {
-      set startPos [$win._t index [lindex $args 0]]
-      set endPos   [$win._t index [lindex $args 1]]
-      linemapCheckOnDelete $win $startPos $endPos
-    }
-
     if {$do_undo} {
       undo_delete $win $startPos $endPos
     }
-    handleDeleteAt0 $win $startPos $endPos
 
     $win._t delete {*}$args
 
@@ -1340,12 +1316,7 @@ namespace eval ctext {
     set endPos [$win._t index "$startPos+${chars}c"]
 
     # Update the model with the insertion
-    model::insert $win $startPos $endPos
-
-    if {$opts(-undo)} {
-      undo_insert $win $startPos $chars $cursor
-    }
-    handleInsertAt0 $win._t $startPos $chars
+    model::insert $win [list $startPos $endPos] $content $cursor
 
     if {$opts(-update)} {
       modified $win 1 [list insert [list $startPos $endPos] $opts(-moddata)]
@@ -1411,7 +1382,6 @@ namespace eval ctext {
     array set opts {
       -moddata  {}
       -insert   0
-      -dotags   {}
       -modified 0
       -block    1
     }
@@ -1422,7 +1392,7 @@ namespace eval ctext {
       lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
     }
 
-    highlightAll $win $ranges $opts(-insert) $opts(-block) $opts(-dotags)
+    highlightAll $win $ranges $opts(-insert) $opts(-block)
     modified     $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
 
   }
@@ -1566,14 +1536,15 @@ namespace eval ctext {
     }
 
     set insertPos [$win._t index insert]
-    set datalen   [string length [clipboard get]]
+    set content   [clipboard get]
+    set datalen   [string length $content]
 
-    model::insert $win $ranges
-    undo_insert $win $insertPos $datalen [$win._t index insert]
+    # model::insert $win $ranges $content $cursor
+    # undo_insert $win $insertPos $datalen [$win._t index insert]
 
     tk_textPaste $win
 
-    handleInsertAt0 $win._t $insertPos $datalen
+    # handleInsertAt0 $win._t $insertPos $datalen
     modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
     event generate $win.t <<CursorChanged>>
 
@@ -2122,10 +2093,12 @@ namespace eval ctext {
 
     set i [llength $tags]
     foreach pattern $patterns {
-      lappend tags indent:$i left  [lindex $pattern 0] $lang
-      lappend tags indent:$i right [lindex $pattern 1] $lang
-      model::add_types $win $type:$i
-      incr i
+      if {[lsearch [list curly paren square angled] $pattern] == -1} {
+        lappend tags indent:$i left  [lindex $pattern 0] $lang
+        lappend tags indent:$i right [lindex $pattern 1] $lang
+        model::add_types $win indent:$i
+        incr i
+      }
     }
 
     # Save the context data
@@ -2570,35 +2543,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Called when the given lines are about to be deleted.  Allows the linemap_mark_command call to
-  # be made when this occurs.
-  proc linemapCheckOnDelete {win startpos {endpos ""}} {
-
-    variable data
-
-    if {$data($win,config,-linemap_mark_command) ne ""} {
-
-      if {$endpos eq ""} {
-        set endpos $startpos
-      }
-
-      if {[lindex [split $startpos .] 1] == 0} {
-        if {[set lmark [lsearch -inline -glob [$win._t tag names $startpos] lmark*]] ne ""} {
-          uplevel #0 [list {*}$data($win,config,-linemap_mark_command) $win unmarked $lmark]
-        }
-      }
-
-      while {[$win._t compare [set startpos [$win._t index "$startpos+1l linestart"]] < $endpos]} {
-        if {[set lmark [lsearch -inline -glob [$win._t tag names $startpos] lmark*]] ne ""} {
-          uplevel #0 [list {*}$data($win,config,-linemap_mark_command) $win unmarked $lmark]
-        }
-      }
-
-    }
-
-  }
-
-  ######################################################################
   # Toggles the bookmark indicator in the linemap.
   proc linemapToggleMark {win x y} {
 
@@ -2616,15 +2560,15 @@ namespace eval ctext {
       model::set_marker $win $row $lmark
       set type marked
     } else {
-      model::set_marker $win $row ""
+      set lmark ""
+      model::set_marker $win $row $lmark
       set type unmarked
     }
 
     # Update the linemap
     linemapUpdate $win 1
 
-    # Call the mark command, if one exists.  If it returns a value of 0, remove
-    # the mark.
+    # Call the mark command, if one exists.  If it returns a value of 0, remove the mark.
     set cmd $data($win,config,-linemap_mark_command)
     if {[string length $cmd] && ![uplevel #0 [linsert $cmd end $win $type $lmark]]} {
       model::set_marker $win $row ""

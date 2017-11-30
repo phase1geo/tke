@@ -21,11 +21,8 @@ casesensitive
 delimiters
 {[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
 
-indent
-{<[^/>](.*?[^/])?>}
-
-unindent
-{</.+?>}
+indentation
+{{<[^/>](.*?[^/])?> </.+?>}}
 
 icomment {{<!--} {-->}}
 

@@ -413,7 +413,7 @@ namespace eval syntax {
     }
 
     # Set default indent/unindent strings
-    indent::set_indent_expressions $txt.t {} {} {}
+    indent::set_indent_expressions $txt.t
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -466,7 +466,6 @@ namespace eval syntax {
         set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix $lang_ns
 
         # Add the comments, strings and indentations
-        ctext::clearCommentStringPatterns $txt
         ctext::setContextPatterns $txt bcomment comment {} $lang_array(bcomments) $theme(comments)
         ctext::setContextPatterns $txt lcomment comment {} $lang_array(lcomments) $theme(comments)
         ctext::setContextPatterns $txt string   comment {} $lang_array(lcomments) $theme(comments)
@@ -489,7 +488,7 @@ namespace eval syntax {
         ctext::addHighlightKeywords $txt FIXME class fixme
 
         # Set the indent/unindent regular expressions
-        indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
+        indent::set_indent_expressions $txt.t $lang_array(indentation)
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
@@ -593,7 +592,7 @@ namespace eval syntax {
       ctext::addHighlightKeywords $txt FIXME class fixme $language
 
       # Set the indent/unindent regular expressions
-      indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1
+      indent::set_indent_expressions $txt.t $lang_array(indentation)
 
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)

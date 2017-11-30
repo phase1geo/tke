@@ -9,11 +9,8 @@ embedded
 matchcharsallowed
 {curly square paren double}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{#}}
 

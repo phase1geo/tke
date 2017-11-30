@@ -14,13 +14,14 @@ matchcharsallowed
 casesensitive
 {0}
 
-indent
-{begin case switch pro function}
-
-unindent
-{endelse endfor endforeach endif endrep endwhile end endcase endswitch}
-
-reindent {}
+indentation
+{
+  {begin {(end|endif|endelse|endfor|endforeach|endrep|endwhile)}}
+  {case endcase} 
+  {switch endswitch} 
+  {pro end} 
+  {function end}
+}
 
 icomment {{;}}
 

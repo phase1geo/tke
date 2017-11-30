@@ -18,11 +18,15 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{begin {loop\s} {case\s} then}
-
-unindent
-{end.*;}
+indentation
+{
+  {begin   {end\s+\S+;}}
+  {loop    {end\s+loop;}}
+  {record  {end\s+record;}}
+  {case    {end\s+case;}}
+  {package {end\s+\S+;}}
+  {then    {(end\s+if;|else|elsif)}}
+}
 
 reindent {}
 

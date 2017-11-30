@@ -18,11 +18,8 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{begin}
-
-unindent
-{end}
+indentation
+{{begin end}}
 
 icomment {}
 

@@ -19,10 +19,11 @@ casesensitive
 {1}
 
 indent
-{\{ then do}
-
-unindent
-{\} end}
+{
+  {\{ \}}
+  {do end}
+  {then {(elseif|else|end)}}
+}
 
 icomment {{--}}
 

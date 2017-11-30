@@ -15,13 +15,8 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
-
-reindent {}
+indentation
+{{curly}}
 
 icomment {{//}}
 

@@ -24,7 +24,7 @@ casesensitive
 {1}
 
 indentation
-{{\{ \}}}
+{{curly}}
 
 icomment {{#}}
 

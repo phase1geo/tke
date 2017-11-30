@@ -4,11 +4,8 @@ filepatterns
 matchcharsallowed
 {curly double single}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{#}}
 
