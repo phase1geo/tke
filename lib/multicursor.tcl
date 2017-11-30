@@ -41,10 +41,6 @@ namespace eval multicursor {
     bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
     bind mcursor$txt <Mod2-Button-1>              [list multicursor::handle_alt_button1 %W %x %y]
     bind mcursor$txt <Mod2-Button-$::right_click> [list multicursor::handle_alt_button3 %W %x %y]
-    bind mcursor$txt <Key-Delete>                 "if {\[multicursor::handle_delete %W\]} { break }"
-    bind mcursor$txt <Key-BackSpace>              "if {\[multicursor::handle_backspace %W\]} { break }"
-    bind mcursor$txt <Return>                     "if {\[multicursor::handle_return %W\]} { break }"
-    bind mcursor$txt <Any-KeyPress>               "if {\[multicursor::handle_keypress %W %A %K\]} { break }"
     bind mcursor$txt <Escape>                     [list multicursor::handle_escape %W]
     bind mcursor$txt <Button-1>                   [list multicursor::disable %W]
 
@@ -100,60 +96,6 @@ namespace eval multicursor {
   proc handle_alt_button3 {W x y} {
 
     add_cursors $W [$W index @$x,$y]
-
-  }
-
-  ######################################################################
-  # Handles a delete key event in multicursor mode.
-  proc handle_delete {W} {
-
-    if {![vim::in_vim_mode $W] && [multicursor::delete $W [list char -dir next] ""]} {
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Handles a backspace key event in multicursor mode.
-  proc handle_backspace {W} {
-
-    if {![vim::in_vim_mode $W] && [multicursor::delete $W [list char -dir prev] ""]} {
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Handles a return key event in multicursor mode.
-  proc handle_return {W} {
-
-    if {![vim::in_vim_mode $W] && [multicursor::insert $W "\n" indent::newline]} {
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Handles a keypress event in multicursor mode.
-  proc handle_keypress {W A K} {
-
-    if {([string compare -length 5 $K "Shift"]   != 0) && \
-        ([string compare -length 7 $K "Control"] != 0) && \
-        ![vim::in_vim_mode $W]} {
-      if {[string length $A] == 0} {
-        multicursor::disable $W
-      } elseif {[string is print $A] && [multicursor::insert $W $A indent::check_indent]} {
-        return 1
-      }
-    }
-
-    return 0
 
   }
 
@@ -364,7 +306,7 @@ namespace eval multicursor {
     $txtt tag remove mcursor 1.0 end
     foreach {new_start start} [lreverse $new_ranges] {
       if {[$txtt compare "$new_start linestart" == "$new_start lineend"]} {
-        $txtt fastinsert -update 0 -undo 0 "$new_start lineend" " " dspace
+        [winfo parent $txtt]._t insert "$new_start lineend" " " dspace
       }
       adjust_set_and_view $txtt $start $new_start
     }

@@ -157,6 +157,12 @@ class model {
       const Tcl::object & ti
     ) const;
 
+    /*! \return Returns true if the given text index contains the given type */
+    bool is_index(
+      const Tcl::object & type,
+      const Tcl::object & ti
+    ) const;
+
     /*!
      Handles rendering the currently viewable linemap.
     */

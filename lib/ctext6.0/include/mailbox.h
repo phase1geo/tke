@@ -114,6 +114,12 @@ class mailbox {
       const Tcl::object & ti
     );
 
+    /*! \return Returns true if the given text index contains the given type */
+    Tcl::object is_index(
+      const Tcl::object & type,
+      const Tcl::object & ti
+    );
+
     Tcl::object render_contexts(
       const Tcl::object & linestart,
       const Tcl::object & lineend,

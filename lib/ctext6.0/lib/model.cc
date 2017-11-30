@@ -181,3 +181,13 @@ bool model::is_escaped(
 
 }
 
+bool model::is_index(
+  const object & type,
+  const object & ti
+) const {
+
+  interpreter interp( type.get_interp(), false );
+
+  return( _serial.is_index( type.get<string>( interp ), tindex( ti ) ) );
+
+}

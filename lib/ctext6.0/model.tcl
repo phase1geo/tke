@@ -131,6 +131,16 @@ namespace eval model {
   }
 
   ######################################################################
+  # Returns true if the given index contains the given information.
+  proc is_index {win type tindex} {
+
+    variable data
+
+    return [$data($win,model) isindex $type $tindex]
+
+  }
+
+  ######################################################################
   # Inserts the given items into the tree.
   proc insert {win ranges str cursor} {
 
