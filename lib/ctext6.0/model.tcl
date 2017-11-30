@@ -259,7 +259,9 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) guttercreate $name {*}$args
+    puts "In guttercreate, win: $win, name: $name, args: $args"
+
+    $data($win,model) guttercreate $name $args
 
   }
 
