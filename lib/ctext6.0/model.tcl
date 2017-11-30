@@ -259,8 +259,6 @@ namespace eval model {
 
     variable data
 
-    puts "In guttercreate, win: $win, name: $name, args: $args"
-
     $data($win,model) guttercreate $name $args
 
   }
@@ -298,11 +296,11 @@ namespace eval model {
 
   ######################################################################
   # Set the gutter with the given value/lines.
-  proc gutterset {win name args} {
+  proc gutterset {win name values} {
 
     variable data
 
-    $data($win,model) gutterset $name {*}$args
+    $data($win,model) gutterset $name $values
 
   }
 

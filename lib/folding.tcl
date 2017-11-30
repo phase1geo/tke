@@ -116,7 +116,7 @@ namespace eval folding {
 
     if {[set enable($txt) $value]} {
       enable_folding $txt
-      add_folds $txt 1.0 end
+      # add_folds $txt 1.0 end
     } else {
       disable_folding $txt
     }

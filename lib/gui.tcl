@@ -4960,13 +4960,6 @@ namespace eval gui {
 
     }
 
-    # Update the folding gutter
-    if {[lindex $data 2] ne "ignore"} {
-      foreach {startpos endpos} [lindex $data 1] {
-        folding::add_folds $txt $startpos $endpos
-      }
-    }
-
   }
 
   ######################################################################

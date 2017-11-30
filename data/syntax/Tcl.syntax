@@ -28,7 +28,7 @@ indentation
 
 icomment {{#}}
 
-lcomments {{^[ \t]*#} {;#}}
+lcomments {{{^[ \t]*#}} {;#}}
 
 strings {{"}}
 
