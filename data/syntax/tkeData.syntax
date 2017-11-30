@@ -10,11 +10,8 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{#}}
 

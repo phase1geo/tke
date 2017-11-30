@@ -18,11 +18,16 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{if while else do}
-
-unindent
-{end continue do enddo}
+indentation
+{
+  {structure  {end\s+structure}}
+  {subroutine end}
+  {record     end}
+  {do         {(continue|end)}}
+  {then       {(else|end\s+if)}}
+  {map        {end\s+map}}
+  {union      {end\s+union}}
+}
 
 icomment {{^\*\s}}
 

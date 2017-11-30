@@ -13,13 +13,15 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{class implement interface if foreach try}
-
-unindent
-{end}
-
-reindent {}
+indentation
+{
+  {class end}
+  {implement end}
+  {interface end}
+  {if        end}
+  {foreach   end}
+  {try       end}
+}
 
 icomment {{%}}
 

@@ -200,7 +200,7 @@ namespace eval indent {
 
     variable indent_exprs
 
-    return [expr {$indent_exprs($txt.t,indent) ne ""}]
+    return [expr {$indent_exprs($txt.t,indentation) ne ""}]
 
   }
 
@@ -684,25 +684,15 @@ namespace eval indent {
 
   ######################################################################
   # Sets the indentation expressions for the given text widget.
-  proc set_indent_expressions {txtt indent unindent reindent {add 0}} {
+  proc set_indent_expressions {txtt {indentation ""}} {
 
     variable indent_exprs
 
-    # If we are adding the given indentation expressions
-    if {$add} {
-      lappend indent   {*}[split $indent_exprs($txtt,indent) |]
-      lappend unindent {*}[split $indent_exprs($txtt,unindent) |]
-      lappend reindent {*}[split $indent_exprs($txtt,reindent) |]
-    }
-
-    # Set the indentation expressions
-    set indent_exprs($txtt,indent)   [join $indent |]
-    set indent_exprs($txtt,unindent) [join $unindent |]
-    set indent_exprs($txtt,reindent) [join $reindent |]
+    set indent_exprs($txtt,indentation) $indentation
 
     # Set the default indentation mode
     if {[preferences::get Editor/EnableAutoIndent]} {
-      if {$indent ne ""} {
+      if {$indentation ne ""} {
         set indent_exprs($txtt,mode) "IND+"
       } else {
         set indent_exprs($txtt,mode) "IND"

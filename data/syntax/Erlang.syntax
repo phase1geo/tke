@@ -18,14 +18,6 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-
-unindent
-{}
-
-reindent {}
-
 icomment {{%}}
 
 lcomments {{%}}

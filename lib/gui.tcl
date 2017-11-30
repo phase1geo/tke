@@ -1857,7 +1857,7 @@ namespace eval gui {
       markers::tagify $tab
 
       # Check brackets
-      ctext::checkAllBrackets $txt
+      # ctext::checkAllBrackets $txt
 
       # Change the text to unmodified
       $txt edit reset
