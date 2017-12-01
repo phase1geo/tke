@@ -15,9 +15,9 @@ indentation
 
 icomment {{;}}
 
-lcomments {{^\s*;}}
+comments {{{^\s*;} {$}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

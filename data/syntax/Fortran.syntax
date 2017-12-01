@@ -31,9 +31,9 @@ indentation
 
 icomment {{^\*\s}}
 
-lcomments {{^(c|\*)\s}}
+comments {{{^(c|\*)\s} {$}}}
 
-strings {{'}}
+strings {single}
 
 keywords
 {

@@ -48,11 +48,9 @@ unindent {
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"}}
+strings {double}
 
 keywords
 {

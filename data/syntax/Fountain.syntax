@@ -23,7 +23,7 @@ matchcharsallowed
   paren
 }
 
-bcomments {{{/\*} {\*/}} {{\[\[} {\]\]}}}
+comments {{{/\*} {\*/}} {{\[\[} {\]\]}}}
 
 advanced {
   HighlightClass bold          none           {bold}

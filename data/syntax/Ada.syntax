@@ -32,11 +32,9 @@ reindent {}
 
 icomment {{--}}
 
-lcomments {{^[ \t]*--}}
+comments {{{^[ \t]*--} {$}}}
 
-bcomments {}
-
-strings {{"}}
+strings {double}
 
 keywords
 {

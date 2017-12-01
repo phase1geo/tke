@@ -25,9 +25,9 @@ reindent {
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

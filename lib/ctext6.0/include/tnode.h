@@ -38,10 +38,11 @@ class tnode {
 
     /*! Default constructor */
     tnode( const type_data* type ) :
-      _left( 0 ), _right( 0 ), _type( type ), _hidden( false ) {}
+      _parent( 0 ), _left( 0 ), _right( 0 ), _type( type ), _hidden( false ) {}
 
     /*! Copy constructor */
     tnode( const tnode & node ) :
+      _parent  ( 0 ),
       _left    ( node._left ),
       _right   ( node._right ),
       _type    ( node._type ),

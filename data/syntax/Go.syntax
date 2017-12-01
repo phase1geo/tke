@@ -25,11 +25,9 @@ reindent {{switch case default} {select case default}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"} {`}}
+strings {double btick}
 
 keywords
 {

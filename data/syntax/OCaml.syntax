@@ -21,9 +21,9 @@ casesensitive
 indentation
 {{begin end}}
 
-bcomments {{{\(\*} {\*\)}}}
+comments {{{\(\*} {\*\)}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

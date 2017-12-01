@@ -9,7 +9,7 @@ indentation
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
 keywords {
   name author email version include trust_required description

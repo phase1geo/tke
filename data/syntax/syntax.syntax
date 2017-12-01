@@ -37,9 +37,7 @@ reindent {}
 
 icomment {{#}}
 
-lcomments {{^[ \t]*#}}
-
-bcomments {}
+comments {{{^[ \t]*#} {$}}}
 
 nestedcomments {0}
 

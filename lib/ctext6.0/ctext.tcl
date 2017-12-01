@@ -1988,11 +1988,24 @@ namespace eval ctext {
       # Get the context tags
       set tags [tsv::get contexts $win]
 
+      array set strings {
+        double  \"
+        single  '
+        btick   `
+        tdouble \"\"\"
+        tsingle '''
+        tbtick  ```
+      }
+
       # Add the tag patterns
       set i [llength $tags]
       foreach pattern $patterns {
         if {[llength $pattern] == 1} {
-          lappend tags $type:$i any   [lindex $pattern 0] $lang
+          if {[info exists strings([lindex $pattern 0])]} {
+            lappend tags $type:$i any $strings([lindex $pattern 0]) $lang
+          } else {
+            lappend tags $type:$i any [lindex $pattern 0] $lang
+          }
         } else {
           lappend tags $type:$i left  [lindex $pattern 0] $lang
           lappend tags $type:$i right [lindex $pattern 1] $lang
