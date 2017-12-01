@@ -20,9 +20,9 @@ casesensitive
 
 icomment {{'}}
 
-lcomments {{'}}
+comments {{' {$}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

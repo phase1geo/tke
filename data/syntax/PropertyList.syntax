@@ -23,9 +23,9 @@ indentation
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}}}
+comments {{{<!--} {-->}}}
 
-strings {{"}}
+strings {double}
 
 keywords {
 }

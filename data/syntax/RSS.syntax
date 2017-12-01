@@ -20,9 +20,9 @@ indentation
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+comments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

@@ -12,9 +12,9 @@ casesensitive
 
 icomment {{NB\.}}
 
-lcomments {{NB\.}}
+comments {{{NB\.} {$}}}
 
-strings {{'}}
+strings {single}
 
 keywords {
   do

@@ -22,7 +22,7 @@ indentation
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
 keywords
 {

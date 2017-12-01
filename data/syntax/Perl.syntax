@@ -23,11 +23,9 @@ indentation
 
 icomment {{#}}
 
-lcomments {{(^|[^\$])#}}
+comments {{{^=} {=cut}} {{(^|[^\$])#} {$}}}
 
-bcomments {{{^=} {=cut}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

@@ -43,8 +43,7 @@ namespace eval syntax {
     indentation        {}
     reindentation      {}
     icomment           {}
-    lcomments          {}
-    bcomments          {}
+    comments           {}
     nestedcomments     0
     strings            {}
     keywords           {}
@@ -80,10 +79,13 @@ namespace eval syntax {
     # Load the tke_home syntax files
     set sfiles [concat $sfiles [glob -nocomplain -directory [file join $::tke_home syntax] *.syntax]]
 
+    catch {
     # Get the syntax information from all of the files in the user's syntax directory.
     foreach sfile $sfiles {
       add_syntax $sfile
     }
+    } rc
+    puts "sfile: $sfile, rc: $rc"
 
     # Create the association filename
     set assoc_file [file join $::tke_home lang_assoc.tkedat]
@@ -466,9 +468,8 @@ namespace eval syntax {
         set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix $lang_ns
 
         # Add the comments, strings and indentations
-        ctext::setContextPatterns $txt bcomment comment {} $lang_array(bcomments) $theme(comments)
-        ctext::setContextPatterns $txt lcomment comment {} $lang_array(lcomments) $theme(comments)
-        ctext::setContextPatterns $txt string   comment {} $lang_array(lcomments) $theme(comments)
+        ctext::setContextPatterns $txt comment comment {} $lang_array(comments) $theme(comments)
+        ctext::setContextPatterns $txt string  string  {} $lang_array(strings)  $theme(comments)
         ctext::setIndentation     $txt {} $lang_array(indentation)
         ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) $theme(strings)
 
@@ -573,11 +574,10 @@ namespace eval syntax {
       set_language_section $txt precompile $lang_array(precompile) $language
 
       # Add the comments, strings and indentations
-      ctext::setContextPatterns $txt $language $lang_array(bcomments) $theme(comments)
-      ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments) $theme(comments)
-      ctext::setStringPatterns       $txt $language $lang_array(strings)   $theme(strings)
-      ctext::setIndentation          $txt $language [list $embed_start {*}$lang_array(indent)]   indent
-      ctext::setIndentation          $txt $language [list $embed_end   {*}$lang_array(unindent)] unindent
+      ctext::setContextPatterns $txt comment comment $language $lang_array(comments) $theme(comments)
+      ctext::setContextPatterns $txt string  string  $language $lang_array(comments) $theme(comments)
+      ctext::setIndentation     $txt $language [list $embed_start {*}$lang_array(indent)]   indent
+      ctext::setIndentation     $txt $language [list $embed_end   {*}$lang_array(unindent)] unindent
 
       set reindentStarts [list]
       set reindents      [list]

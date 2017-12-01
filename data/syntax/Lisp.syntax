@@ -23,9 +23,9 @@ indentation
 
 icomment {{;}}
 
-lcomments {{^[ \t]*;}}
+comments {{{^[ \t]*;} {$}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

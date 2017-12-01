@@ -25,9 +25,9 @@ indentation
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+comments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 keywords {
   abbrev abstract accel acknowledgements acronym address affiliation alt anchor annotation answer

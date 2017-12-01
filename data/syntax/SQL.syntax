@@ -15,11 +15,9 @@ casesensitive
 
 icomment {{--}}
 
-lcomments {{--}}
+comments {{{/\*} {\*/}} {{--} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{'}}
+strings {single}
 
 keywords
 {

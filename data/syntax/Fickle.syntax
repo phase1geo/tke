@@ -19,9 +19,9 @@ indentation
 
 icomment {{#}}
 
-lcomments {{^[ \t]*#} {;#}}
+comments {{{^[ \t]*#} {$}} {{;#} {$}}}
 
-strings {{"}}
+strings {double}
 
 numbers
 {
