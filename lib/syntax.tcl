@@ -79,13 +79,10 @@ namespace eval syntax {
     # Load the tke_home syntax files
     set sfiles [concat $sfiles [glob -nocomplain -directory [file join $::tke_home syntax] *.syntax]]
 
-    catch {
     # Get the syntax information from all of the files in the user's syntax directory.
     foreach sfile $sfiles {
       add_syntax $sfile
     }
-    } rc
-    puts "sfile: $sfile, rc: $rc"
 
     # Create the association filename
     set assoc_file [file join $::tke_home lang_assoc.tkedat]
