@@ -29,7 +29,9 @@ object request::execute(
     case REQUEST_UPDATE     :
       if( inst.update( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) ) {
         update_needed = true;
+        return( (object)true );
       }
+      return( (object)false );
       break;
     case REQUEST_SHOWSERIAL :
       return( (object)inst.show_serial() );
@@ -117,6 +119,9 @@ object request::execute(
       break;
     case REQUEST_CURSORHIST :
       return( inst.cursor_history() );
+      break;
+    case REQUEST_INDENTLINESTART :
+      return( inst.indent_line_start( _args.at( i, 0 ) ) );
       break;
     default :
       throw runtime_error( "Unknown command" );

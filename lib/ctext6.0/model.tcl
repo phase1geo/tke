@@ -190,9 +190,9 @@ namespace eval model {
 
     variable data
 
-    set changed [$data($win,model) update $linestart $lineend $elements]
-
-    return $changed
+    if {[$data($win,model) update $linestart $lineend $elements]} {
+      parsers::render_mismatched $win
+    }
 
   }
 
@@ -446,6 +446,17 @@ namespace eval model {
     variable data
 
     $data($win,model) autoseparate $value
+
+  }
+
+  ######################################################################
+  # Returns the line number containing the starting character that the
+  # given index is a part of.
+  proc indent_line_start {win index} {
+
+    variable data
+
+    return [$data($win,model) indentlinestart $index]
 
   }
 

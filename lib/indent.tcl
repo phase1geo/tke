@@ -170,7 +170,7 @@ namespace eval indent {
     set indent_exprs($txt.t,mode) $indent_mode_map($mode)
 
     # Set the text widget's indent mode
-    folding::add_folds $txt 1.0 end
+    # folding::add_folds $txt 1.0 end
 
     # Update the menu button
     $gui::widgets(info_indent) configure -text $mode
@@ -381,36 +381,13 @@ namespace eval indent {
       }
     }
 
-    # Find an ending bracket on the current line
-    set win_type       "none"
-    set startpos(none) "$index linestart"
-    foreach type [list curlyR parenR squareR angledR] {
-      if {([lassign [$txtt tag prevrange _$type $index] startpos($type)] ne "") && \
-          [$txtt compare $startpos($type) >= "$index linestart"] && \
-          [$txtt compare $startpos($type) >= $startpos($win_type)]} {
-        set win_type $type
-      }
-    }
+    # Get the starting line number from the text model
+    set index [model::indent_line_start [winfo parent $txtt] $index].0
 
-    # If we could not find a right bracket, we have found the line that we are looking for
-    if {$win_type eq "none"} {
-      if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-        return [string range [$txtt get {*}[$txtt tag nextrange _prewhite "$index linestart"]] 0 end-1]
-      } else {
-        return ""
-      }
-
-    # Otherwise, jump the insertion cursor to the line containing the matching bracket and
-    # do the search again.
+    if {[lsearch [$txtt tag names $index] _prewhite] != -1} {
+      return [string range [$txtt get {*}[$txtt tag nextrange _prewhite $index]] 0 end-1]
     } else {
-      array set other_type [list curlyR curlyL parenR parenL squareR squareL angledR angledL]
-      if {[set match_index [ctext::getMatchBracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]] ne ""} {
-        return [get_start_of_line $txtt $match_index]
-      } elseif {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-        return [string range [$txtt get {*}[$txtt tag nextrange _prewhite "$index linestart"]] 0 end-1]
-      } else {
-        return ""
-      }
+      return ""
     }
 
   }
