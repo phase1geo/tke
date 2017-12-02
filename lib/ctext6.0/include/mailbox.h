@@ -83,7 +83,7 @@ class mailbox {
     );
 
     /*! Updates model information */
-    void update(
+    Tcl::object update(
       const Tcl::object & linestart,
       const Tcl::object & lineend,
       const Tcl::object & elements
@@ -208,7 +208,14 @@ class mailbox {
 
     Tcl::object cursor_history();
 
+    /*!
+     \return Returns the line number containing the first line that the indent
+     marker is a part of.
+    */
+    Tcl::object indent_line_start(
+      Tcl::object indent_index
+    );
+
 };
 
 #endif
-

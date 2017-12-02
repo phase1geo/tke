@@ -40,12 +40,7 @@ bool model::update(
   elems.append( elements );
 
   /* Update the serial list */
-  if( _serial.update( lstart, lend, elems ) ) {
-    // _tree.update( _serial );
-    return( true );
-  }
-
-  return( false );
+  return( _serial.update( lstart, lend, elems ) );
 
 }
 
@@ -189,5 +184,26 @@ bool model::is_index(
   interpreter interp( type.get_interp(), false );
 
   return( _serial.is_index( type.get<string>( interp ), tindex( ti ) ) );
+
+}
+
+object model::indent_line_start(
+  const object & indent_index
+) const {
+
+  tindex ti( indent_index );
+  int    row = ti.row();
+  tnode* node;
+
+  if( node = _serial.find_node( tindex( ti ) ) ) {
+    int              index    = node->index() - 1;
+    vector<tnode*> & siblings = node->parent()->children();
+    while( (index >= 0) && (siblings[index]->right()->const_pos().row() == row) ) {
+      row = siblings[index]->left()->const_pos().row();
+      index--;
+    }
+  }
+
+  return( (object)row );
 
 }

@@ -466,7 +466,7 @@ namespace eval syntax {
 
         # Add the comments, strings and indentations
         ctext::setContextPatterns $txt comment comment {} $lang_array(comments) $theme(comments)
-        ctext::setContextPatterns $txt string  string  {} $lang_array(strings)  $theme(comments)
+        # ctext::setContextPatterns $txt string  string  {} $lang_array(strings)  $theme(comments)
         ctext::setIndentation     $txt {} $lang_array(indentation)
         ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) $theme(strings)
 
@@ -572,7 +572,7 @@ namespace eval syntax {
 
       # Add the comments, strings and indentations
       ctext::setContextPatterns $txt comment comment $language $lang_array(comments) $theme(comments)
-      ctext::setContextPatterns $txt string  string  $language $lang_array(comments) $theme(comments)
+      # ctext::setContextPatterns $txt string  string  $language $lang_array(comments) $theme(comments)
       ctext::setIndentation     $txt $language [list $embed_start {*}$lang_array(indent)]   indent
       ctext::setIndentation     $txt $language [list $embed_end   {*}$lang_array(unindent)] unindent
 

@@ -317,6 +317,11 @@ class model {
       return( _undo_buffer.cursor_history() );
     }
 
+    /*! \return Returns the the starting line containing the given indent marker */
+    Tcl::object indent_line_start(
+      const Tcl::object & indent_index
+    ) const;
+
 };
 
 #endif

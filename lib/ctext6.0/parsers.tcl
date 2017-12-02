@@ -312,10 +312,6 @@ namespace eval parsers {
     # Update the model
     thread::send -async $utils::main_tid [list model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]
 
-    #if {[model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
-      # render_mismatched $txt
-    #}
-
   }
 
   ######################################################################

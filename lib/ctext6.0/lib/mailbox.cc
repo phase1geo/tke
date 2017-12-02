@@ -131,7 +131,7 @@ void mailbox::replace(
 
 }
 
-void mailbox::update(
+object mailbox::update(
   const object & linestart,
   const object & lineend,
   const object & elements
@@ -145,6 +145,8 @@ void mailbox::update(
   args.append( i, elements );
 
   add_request( REQUEST_UPDATE, args, false, false );
+
+  return( result() );
 
 }
 
@@ -527,6 +529,16 @@ object mailbox::cursor_history() {
 
 }
 
+object mailbox::indent_line_start(
+  object indent_index
+) {
+
+  add_request( REQUEST_INDENTLINESTART, indent_index, true, true );
+
+  return( result() );
+
+}
+
 /* -------------------------------------------------------------- */
 
 CPPTCL_MODULE(Model, i) {
@@ -565,10 +577,10 @@ CPPTCL_MODULE(Model, i) {
     .def( "undoseparator",   &mailbox::undo_separator )
     .def( "cursorhistory",   &mailbox::cursor_history )
     .def( "undoreset",       &mailbox::undo_reset )
-    .def( "autoseparate",    &mailbox::auto_separate );
+    .def( "autoseparate",    &mailbox::auto_separate )
+    .def( "indentlinestart", &mailbox::indent_line_start );
 
   /* Add functions */
   i.def("add_type", add_type );
 
 }
-
