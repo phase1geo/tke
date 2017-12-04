@@ -2612,8 +2612,6 @@ namespace eval ctext {
       set ins 0
     }
 
-    puts "HERE 1"
-
     # Clear the canvas
     $win.l delete all
 
@@ -2707,8 +2705,10 @@ namespace eval ctext {
 
     variable data
 
-    set open_color  $data($win,config,-fg)
-    set close_color $data($win,config,-fg)  ;# TBD - This should come from theme
+    puts "In enable_folding!!!"
+
+    set open_color  "white"
+    set close_color "blue"
 
     $win gutter create folding \
       open   [list -symbol \u25be -fg $open_color  -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \

@@ -701,7 +701,8 @@ namespace eval gui {
     set enable [preferences::get View/EnableCodeFolding]
 
     foreach txt [get_all_texts] {
-      folding::set_fold_enable $txt $enable
+      $txt configure -foldstate $enable
+      # folding::set_fold_enable $txt $enable
     }
 
   }

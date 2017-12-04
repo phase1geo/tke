@@ -535,15 +535,17 @@ object linemap::get(
 
 }
 
-const string & linemap::get(
+string linemap::get(
   const string & name,
   int            row
 ) {
 
-  int col = get_col_index( name );
+  string result( "" );
+  int    col = get_col_index( name );
 
   /* If we could not find the gutter, return the empty string */
   if( col == -1 ) {
+    cout << "What!?!, name: " << name << endl;
     throw runtime_error( "Unable to find gutter" );
   }
 
@@ -553,8 +555,11 @@ const string & linemap::get(
     vector<string>         syms;
     int                    index = get_row_index( row );
 
+    cout << "index: " << index << ", size: " << _rows.size() << endl;
+
     if( (index < _rows.size()) && (_rows[index]->row() == row) ) {
       symbol = _rows[index]->get_value( col );
+      cout << "  symbol: " << symbol << endl;
       _cols[col]->symbols( syms );
       for( vector<string>::iterator it=syms.begin(); it!=syms.end(); it++ ) {
         if( _cols[col]->get_value( *it ) == symbol ) {
@@ -563,7 +568,13 @@ const string & linemap::get(
       }
     }
 
-  } catch( exception & e ) {}
+    cout << "HERE :(" << endl;
+
+  } catch( exception & e ) {
+    cout << "Hit exception, e: " << e.what() << endl;
+  }
+
+  return( result );
 
 }
 

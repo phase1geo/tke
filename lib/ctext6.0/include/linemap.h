@@ -136,7 +136,7 @@ class linemap {
     ) const;
 
     /*! \return Returns the value stored at the given line number */
-    const std::string & get(
+    std::string get(
       const std::string & name,
       int                 row
     );

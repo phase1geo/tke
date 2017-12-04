@@ -2956,9 +2956,11 @@ namespace eval menus {
 
     # Set the fold enable value
     if {$value eq ""} {
-      folding::set_fold_enable $txt $code_folding
+      $txt configure -foldstate $code_folding
+      # folding::set_fold_enable $txt $code_folding
     } else {
-      folding::set_fold_enable $txt [set code_folding $value]
+      $txt configure -foldstate [set code_folding $value]
+      # folding::set_fold_enable $txt [set code_folding $value]
     }
 
   }
