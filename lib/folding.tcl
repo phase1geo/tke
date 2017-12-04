@@ -94,7 +94,8 @@ namespace eval folding {
   proc initialize {txt} {
 
     # Set the fold enable
-    set_fold_enable $txt [preferences::get View/EnableCodeFolding]
+    $txt configure -foldstate [get_method $txt]
+    # set_fold_enable $txt [preferences::get View/EnableCodeFolding]
 
   }
 
