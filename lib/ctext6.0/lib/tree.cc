@@ -202,11 +202,7 @@ void tree::folds_set_indent(
   int       depth
 ) {
 
-  cout << "In folds_set_indent, line: " << line << ", depth: " << depth << endl;
-
   string line_type = lmap.get( "folding", line );
-
-  cout << "  line_type: " << line_type << endl;
 
   if( line_type == "" ) {
     lmap.set( "folding", "open", line );
@@ -239,8 +235,6 @@ void tree::add_folds_helper(
 
   vector<tnode*> & children = node->children();
 
-  cout << "In add_folds_helper, name: " << node->type()->name() << endl;
-
   /* If the node is an indent type, set the indent/unindent in the linemap */
   if( (node->type()->name() == "curly") && node->left() ) {
     folds_set_indent( lmap, node->left()->const_pos().row(), ++depth );
@@ -259,8 +253,6 @@ void tree::add_folds_helper(
 void tree::add_folds(
   linemap & lmap
 ) {
-
-  cout << "In add_folds..." << endl;
 
   vector<tnode*> & children = _tree->children();
 
