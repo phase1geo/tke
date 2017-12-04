@@ -1117,7 +1117,7 @@ namespace eval ctext {
     }
 
     # Cause the model to handle the deletion
-    model::delete $win $ranges $strs [$win index insert]
+    model::delete $win $ranges $strs [$win index insert] $data($win,config,-linemap_mark_command)
 
     # Update the undo information
     set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
@@ -1377,8 +1377,10 @@ namespace eval ctext {
     variable data
 
     switch [lindex $args 0] {
-      set   { linemapSetMark   $win {*}$args] }
-      clear { linemapClearMark $win [lindex $args 1] }
+      set     { linemapSetMark $win {*}$args] }
+      getname { return [model::get_marker_name $win [lindex $args 1]] }
+      getline { return [model::get_marker_line $win [lindex $args 1]] }
+      clear   { linemapClearMark $win [lindex $args 1] }
       default {
         return -code error "Illegal ctext marker command ([lindex $args 0])"
       }
@@ -1446,7 +1448,7 @@ namespace eval ctext {
     }
 
     # Update the model
-    model::replace $win $ranges $strs $content $cursor
+    model::replace $win $ranges $strs $content $cursor $data($win,config,-linemap_mark_command)
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
@@ -2500,7 +2502,7 @@ namespace eval ctext {
     set row [lindex [split [$win._t index @0,$y] .] 0]
 
     # Toggle the bookmark
-    if {[model::get_marker $win $row] eq ""} {
+    if {[model::get_marker_name $win $row] eq ""} {
       set lmark "lmark[incr data($win,linemap,id)]"
       model::set_marker $win $row $lmark
       set type marked
@@ -2592,8 +2594,9 @@ namespace eval ctext {
     set first         [lindex [split [$win.t index @0,0] .] 0]
     set last          [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
     set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
-    set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
-    set gutterx       [expr $linenum_width * $data($win,fontwidth) + 1]
+    set linenum       $data($win,config,-linemap)
+    set linenum_width [expr $linenum ? max( $data($win,config,-linemap_minwidth), $line_width ) : 1]
+    set gutterx       [expr ($linenum_width * $data($win,fontwidth)) + 1]
     set marker        $data($win,config,-linemap_mark_color)
     set normal        $data($win,config,-linemapfg)
     set font          $data($win,config,-font)
@@ -2618,7 +2621,11 @@ namespace eval ctext {
       lassign [$win._t dlineinfo $lnum.0] x y w h b
       set x $gutterx
       set y [expr $y + $b + $descent]
-      $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font
+      if {$linenum} {
+        $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font
+      } elseif {$fill == $marker} {
+        $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font
+      }
       foreach gutter $gutters {
         lassign $gutter sym fill bindings
         set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font]

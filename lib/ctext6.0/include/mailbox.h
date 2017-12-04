@@ -68,14 +68,14 @@ class mailbox {
     );
 
     /*! Handles a text deletion */
-    void remove(
+    Tcl::object remove(
       const Tcl::object & ranges,
       const Tcl::object & strs,
       const Tcl::object & cursor
     );
 
     /*! Handles a text replacement */
-    void replace(
+    Tcl::object replace(
       const Tcl::object & ranges,
       const Tcl::object & dstrs,
       const Tcl::object & istr,
@@ -136,8 +136,12 @@ class mailbox {
       const Tcl::object & name
     );
 
-    Tcl::object get_marker(
+    Tcl::object get_marker_name(
       const Tcl::object & row
+    );
+
+    Tcl::object get_marker_line(
+      const Tcl::object & name
     );
 
     void gutter_create(

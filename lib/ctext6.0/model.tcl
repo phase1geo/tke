@@ -152,21 +152,33 @@ namespace eval model {
 
   ######################################################################
   # Deletes the given text range and updates the model.
-  proc delete {win ranges strs cursor} {
+  proc delete {win ranges strs cursor mark_command} {
 
     variable data
 
-    $data($win,model) delete $ranges $strs $cursor
+    set markers [$data($win,model) delete $ranges $strs $cursor]
+
+    if {$mark_command ne ""} {
+      foreach marker $markers {
+        uplevel #0 [list {*}$mark_command $win unmarked $marker]
+      }
+    }
 
   }
 
   ######################################################################
   # Update the model with the replacement information.
-  proc replace {win ranges dstrs istr cursor} {
+  proc replace {win ranges dstrs istr cursor mark_command} {
 
     variable data
 
-    $data($win,model) replace $ranges $dstrs $istr $cursor
+    set markers [$data($win,model) replace $ranges $dstrs $istr $cursor]
+
+    if {$mark_command ne ""} {
+      foreach marker $markers {
+        uplevel #0 [list {*}$mark_command $win unmarked $marker]
+      }
+    }
 
   }
 
@@ -245,11 +257,22 @@ namespace eval model {
 
   ######################################################################
   # Returns the marker name stored at the given line.
-  proc get_marker {win line} {
+  proc get_marker_name {win line} {
 
     variable data
 
-    return [$data($win,model) getmarker $line]
+    return [$data($win,model) getmarkername $line]
+
+  }
+
+  ######################################################################
+  # Returns the line number of the marker with the given name.  If name
+  # is not found, a value of 0 is returned.
+  proc get_marker_line {win name} {
+
+    variable data
+
+    return [$data($win,model) getmarkerline $name]
 
   }
 

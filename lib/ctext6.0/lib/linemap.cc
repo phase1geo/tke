@@ -92,7 +92,7 @@ void linemap::set_marker(
 
 }
 
-Tcl::object linemap::get_marker(
+Tcl::object linemap::get_marker_name(
   const object & row_obj
 ) const {
 
@@ -105,6 +105,24 @@ Tcl::object linemap::get_marker(
   } else {
     return( (object)(_rows[index]->marker()) );
   }
+
+}
+
+Tcl::object linemap::get_marker_line(
+  const object & name_obj
+) const {
+
+  interpreter i( name_obj.get_interp(), false );
+  string      name = name_obj.get<string>( i );
+
+  /* Find the marker name */
+  for( vector<linemap_row*>::const_iterator it=_rows.begin(); it!=_rows.end(); it++ ) {
+    if( (*it)->marker() == name ) {
+      return( (object)(*it)->row() );
+    }
+  }
+
+  return( (object)0 );
 
 }
 
@@ -148,9 +166,12 @@ void linemap::insert(
 
 }
 
-void linemap::remove(
+object linemap::remove(
   const vector<tindex> & ranges
 ) {
+
+  object      result;
+  interpreter interp( result.get_interp(), false );
 
   for( int i=0; i<ranges.size(); i+=2 ) {
 
@@ -169,7 +190,10 @@ void linemap::remove(
     int eindex = get_row_index( epos.row() + adjust );
 
     /* Remove the entries */
-    for( int i=sindex; i<eindex; i++ ) { delete _rows[i]; }
+    for( int i=sindex; i<eindex; i++ ) {
+      result.append( interp, (object)_rows[i]->marker() );
+      delete _rows[i];
+    }
     _rows.erase( (_rows.begin() + sindex), (_rows.begin() + eindex) );
 
     /* Adjust */
@@ -179,11 +203,16 @@ void linemap::remove(
 
   }
 
+  return( result );
+
 }
 
-void linemap::replace(
+object linemap::replace(
   const vector<tindex> & ranges
 ) {
+
+  object      result;
+  interpreter interp( result.get_interp(), false );
 
   for( int i=0; i<ranges.size(); i+=3 ) {
 
@@ -201,7 +230,10 @@ void linemap::replace(
     int eindex = get_row_index( epos.row() );
 
     /* Remove the entries */
-    for( int i=sindex; i<eindex; i++ ) { delete _rows[i]; }
+    for( int i=sindex; i<eindex; i++ ) {
+      result.append( interp, (object)_rows[i]->marker() );
+      delete _rows[i];
+    }
     _rows.erase( (_rows.begin() + sindex), (_rows.begin() + eindex) );
 
     /* Adjust */
@@ -210,6 +242,8 @@ void linemap::replace(
     }
 
   }
+
+  return( result );
 
 }
 

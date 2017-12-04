@@ -77,36 +77,40 @@ class model {
     }
 
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
-    void remove(
+    Tcl::object remove(
       const Tcl::object & ranges,
       const Tcl::object & strs,
       const Tcl::object & cursor
     ) {
       std::vector<tindex> vec;
+      Tcl::object         result;
       object_to_ranges( ranges, vec );
       _serial.remove( vec );
-      _linemap.remove( vec );
+      result = _linemap.remove( vec );
       if( _edited ) {
         _undo_buffer.add_deletion( vec, strs, cursor );
       }
       _edited = true;
+      return( result );
     }
 
     /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
-    void replace(
+    Tcl::object replace(
       const Tcl::object & ranges,
       const Tcl::object & dstrs,
       const Tcl::object & istr,
       const Tcl::object & cursor
     ) {
       std::vector<tindex> vec;
+      Tcl::object         result;
       object_to_ranges( ranges, vec );
       _serial.replace( vec );
-      _linemap.replace( vec );
+      result = _linemap.replace( vec );
       if( _edited ) {
         _undo_buffer.add_replacement( vec, dstrs, istr, cursor );
       }
       _edited = true;
+      return( result );
     }
 
     /*! Updates the model with the given tag information */
@@ -182,10 +186,17 @@ class model {
     }
 
     /*! \return Returns the name of the marker stored at the given row */
-    Tcl::object get_marker(
+    Tcl::object get_marker_name(
       const Tcl::object & row
     ) const {
-      return( _linemap.get_marker( row ) );
+      return( _linemap.get_marker_name( row ) );
+    }
+
+    /*! \return Returns the line containing the marker with the given name */
+    Tcl::object get_marker_line(
+      const Tcl::object & name
+    ) const {
+      return( _linemap.get_marker_line( name ) );
     }
 
     /*! Creates a new gutter column in the linemap gutter */
