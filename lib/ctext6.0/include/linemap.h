@@ -47,8 +47,13 @@ class linemap {
     );
 
     /*! \return Returns the marker name stored at the given row */
-    Tcl::object get_marker(
+    Tcl::object get_marker_name(
       const Tcl::object & row
+    ) const;
+
+    /*! \return Returns the line number containing the marker with the given name */
+    Tcl::object get_marker_line(
+      const Tcl::object & name
     ) const;
 
     /*! \return Returns the row number for the given marker name if it exists; otherwise,
@@ -61,12 +66,12 @@ class linemap {
     );
 
     /*! Called when text is deleted from the buffer */
-    void remove(
+    Tcl::object remove(
       const std::vector<tindex> & ranges
     );
 
     /*! Called when text is replaced in the buffer */
-    void replace(
+    Tcl::object replace(
       const std::vector<tindex> & ranges
     );
 

@@ -153,6 +153,7 @@ namespace eval scroller {
         }
         $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
         $data($win,canvas) itemconfigure $data($win,slider) -fill $data($win,slider_fg)
+        update_markers $win
       }
 
       configure {

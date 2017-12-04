@@ -95,7 +95,7 @@ void mailbox::insert(
 
 }
 
-void mailbox::remove(
+object mailbox::remove(
   const object & ranges,
   const object & strs,
   const object & cursor
@@ -108,11 +108,13 @@ void mailbox::remove(
   args.append( i, strs );
   args.append( i, cursor );
 
-  add_request( REQUEST_DELETE, args, false, false );
+  add_request( REQUEST_DELETE, args, true, false );
+
+  return( result() );
 
 }
 
-void mailbox::replace(
+object mailbox::replace(
   const object & ranges,
   const object & dstrs,
   const object & istr,
@@ -127,7 +129,9 @@ void mailbox::replace(
   args.append( i, istr );
   args.append( i, cursor );
 
-  add_request( REQUEST_REPLACE, args, false, false );
+  add_request( REQUEST_REPLACE, args, true, false );
+
+  return( result() );
 
 }
 
@@ -285,11 +289,21 @@ void mailbox::set_marker(
 
 }
 
-object mailbox::get_marker(
+object mailbox::get_marker_name(
   const object & row
 ) {
 
-  add_request( REQUEST_GETMARKER, row, true, false );
+  add_request( REQUEST_GETMARKERNAME, row, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::get_marker_line(
+  const object & name
+) {
+
+  add_request( REQUEST_GETMARKERLINE, name, true, false );
 
   return( result() );
 
@@ -559,7 +573,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "isindex",         &mailbox::is_index )
     .def( "renderlinemap",   &mailbox::render_linemap )
     .def( "setmarker",       &mailbox::set_marker )
-    .def( "getmarker",       &mailbox::get_marker )
+    .def( "getmarkername",   &mailbox::get_marker_name )
+    .def( "getmarkerline",   &mailbox::get_marker_line )
     .def( "guttercreate",    &mailbox::gutter_create )
     .def( "gutterdestroy",   &mailbox::gutter_destroy )
     .def( "gutterhide",      &mailbox::gutter_hide )

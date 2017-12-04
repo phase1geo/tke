@@ -148,8 +148,8 @@ namespace eval markers {
 
     if {$type eq "line"} {
       return $value
-    } elseif {[set index [lindex [$txt tag ranges $value] 0]] ne ""} {
-      return [lindex [split $index .] 0]
+    } elseif {[set line [$txt marker getline $value]] != 0} {
+      return $line
     } else {
       return ""
     }

@@ -21,10 +21,10 @@ object request::execute(
       inst.insert( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
       break;
     case REQUEST_DELETE     :
-      inst.remove( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      return( inst.remove( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_REPLACE    :
-      inst.replace( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ), _args.at( i, 3 ) );
+      return( inst.replace( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ), _args.at( i, 3 ) ) );
       break;
     case REQUEST_UPDATE     :
       if( inst.update( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) ) {
@@ -63,8 +63,11 @@ object request::execute(
     case REQUEST_SETMARKER :
       inst.set_marker( _args.at( i, 0 ), _args.at( i, 1 ) );
       break;
-    case REQUEST_GETMARKER :
-      return( inst.get_marker( _args.at( i, 0 ) ) );
+    case REQUEST_GETMARKERNAME :
+      return( inst.get_marker_name( _args.at( i, 0 ) ) );
+      break;
+    case REQUEST_GETMARKERLINE :
+      return( inst.get_marker_line( _args.at( i, 0 ) ) );
       break;
     case REQUEST_GUTTERCREATE :
       inst.gutter_create( _args.at( i, 0 ), _args.at( i, 1 ) );
