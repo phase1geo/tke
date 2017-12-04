@@ -121,7 +121,10 @@ class model {
     );
 
     /*! Update the tree with the contents of the serial list */
-    void update_tree() { _tree.update( _serial ); }
+    void update_tree() {
+      _tree.update( _serial );
+      _tree.add_folds( _linemap );
+    }
 
     /*! \return Returns a human-readable representation of the stored serial list */
     std::string show_serial() const { return( _serial.show() ); }

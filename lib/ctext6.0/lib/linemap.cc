@@ -451,6 +451,23 @@ void linemap::unset(
 
 }
 
+void linemap::clear(
+  const string & name
+) {
+
+  int col = get_col_index( name );
+
+  if( col == -1 ) {
+    return;
+  }
+
+  /* Clear all rows */
+  for( vector<linemap_row*>::iterator it=_rows.begin(); it!=_rows.end(); it++ ) {
+    (*it)->set_value( col, 0 );
+  }
+
+}
+
 object linemap::get(
   const object & name,
   const object & value,
