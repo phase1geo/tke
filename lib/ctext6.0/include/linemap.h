@@ -123,6 +123,11 @@ class linemap {
       const Tcl::object & last
     );
 
+    /*! Clears all elements in the given gutter */
+    void clear(
+      const std::string & name
+    );
+
     /*! \return Returns the gutter symbol location information */
     Tcl::object get(
       const Tcl::object & name,

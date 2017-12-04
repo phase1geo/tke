@@ -2612,6 +2612,8 @@ namespace eval ctext {
       set ins 0
     }
 
+    puts "HERE 1"
+
     # Clear the canvas
     $win.l delete all
 
@@ -2628,6 +2630,7 @@ namespace eval ctext {
       }
       foreach gutter $gutters {
         lassign $gutter sym fill bindings
+        puts "sym: $sym, fill: $fill, bindings: $bindings, x: $x, y: $y"
         set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font]
         foreach {event command} $bindings {
           $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
