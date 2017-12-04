@@ -659,6 +659,7 @@ set auto_index(::gui::handle_notebook_motion) [list source [file join $dir gui.t
 set auto_index(::gui::set_tab_tooltip) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::clear_tab_tooltip) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::adjust_insert_tab_index) [list source [file join $dir gui.tcl]]
+set auto_index(::gui::get_folding_method) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::insert_tab) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::show_split_pane) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::handle_destroy_txt) [list source [file join $dir gui.tcl]]

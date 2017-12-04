@@ -4073,6 +4073,24 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Returns the indentation method based on the values of enable and the
+  # current indentation mode.
+  proc get_folding_method {txt} {
+
+    if {[preferences::get View/EnableCodeFolding]} {
+      switch [indent::get_indent_mode $txt] {
+        "OFF"   { return "manual" }
+        "IND"   { return "indent" }
+        "IND+"  { return [expr {[indent::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
+        default { return "none" }
+      }
+    } else {
+      return "none"
+    }
+
+  }
+
+  ######################################################################
   # Inserts a new tab into the editor tab notebook.
   # Options:
   #   -diff (0 | 1)         Specifies if this tab is a difference view.  Default is 0.
@@ -4290,7 +4308,7 @@ namespace eval gui {
     # Snippet bindings must go after syntax language setting
     if {!$opts(-diff)} {
       snippets::add_bindings $txt
-      folding::initialize $txt
+      $txt configure -foldstate [get_folding_method $txt]
     }
 
     # Add any gutters
@@ -4409,7 +4427,7 @@ namespace eval gui {
     snippets::add_bindings $txt2
 
     # Apply code foldings
-    folding::initialize $txt2
+    $txt configure -foldstate [get_folding_method $txt2]
 
     # Give the text widget the focus
     set_txt_focus $txt2

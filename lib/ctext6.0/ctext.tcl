@@ -2628,7 +2628,6 @@ namespace eval ctext {
       }
       foreach gutter $gutters {
         lassign $gutter sym fill bindings
-        puts "sym: $sym, fill: $fill, bindings: $bindings, x: $x, y: $y"
         set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font]
         foreach {event command} $bindings {
           $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
@@ -2705,16 +2704,14 @@ namespace eval ctext {
 
     variable data
 
-    puts "In enable_folding!!!"
-
     set open_color  "white"
     set close_color "blue"
 
     $win gutter create folding \
-      open   [list -symbol \u25be -fg $open_color  -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
-      close  [list -symbol \u25b8 -fg $close_color -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
-      eopen  [list -symbol \u25be -fg $open_color  -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
-      eclose [list -symbol \u25b8 -fg $close_color -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
+      open   [list -symbol \u25be -fg $open_color  -onclick [list ctext::close_fold 1] -onshiftclick [list ctext::close_fold 0]] \
+      close  [list -symbol \u25b8 -fg $close_color -onclick [list ctext::open_fold  1] -onshiftclick [list ctext::open_fold  0]] \
+      eopen  [list -symbol \u25be -fg $open_color  -onclick [list ctext::close_fold 1] -onshiftclick [list ctext::close_fold 0]] \
+      eclose [list -symbol \u25b8 -fg $close_color -onclick [list ctext::open_fold  1] -onshiftclick [list ctext::open_fold  0]] \
       end    [list -symbol \u221f -fg $open_color]
 
     # Configure the _folded tag to hide code
