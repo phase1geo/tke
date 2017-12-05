@@ -113,6 +113,15 @@ class tnode {
       position           & pos
     ) const;
 
+    /*! Returns a Tcl list containing the position of the start and end indices as well
+     as a list of all start/end indices below the parent.
+    */
+    void get_foldings(
+      Tcl::interpreter & interp,
+      Tcl::object      & result,
+      int                depth = 1
+    ) const;
+
 };
 
 #endif
