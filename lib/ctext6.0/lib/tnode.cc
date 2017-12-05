@@ -61,6 +61,26 @@ bool tnode::get_match_pos(
 
 }
 
+void tnode::get_foldings(
+  interpreter & interp,
+  Tcl::object & result,
+  int           depth
+) const {
+
+  if( _left && _right && _type && (_type->tagname() == "curly") ) {
+    result.append( interp, (object)(_left->pos().row() + 1) );
+    result.append( interp, (object)(_right->pos().row() - 1) );
+    depth--;
+  }
+
+  if( depth >= 0 ) {
+    for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
+      get_foldings( interp, result, (depth - 1) );
+    }
+  }
+
+}
+
 int tnode::index() const {
 
   int i = 0;

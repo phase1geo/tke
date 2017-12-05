@@ -612,13 +612,13 @@ namespace eval ctext {
 
     lappend argTable {any} -matchchar_fg {
       set data($win,config,-matchchar_fg) $value
-      $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+      $win tag configure matchchar -foreground $data($win,config,-matchchar_fg)
       break
     }
 
     lappend argTable {any} -matchchar_bg {
       set data($win,config,-matchchar_bg) $value
-      $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+      $win tag configure matchchar -background $data($win,config,-matchchar_bg)
       break
     }
 
@@ -2783,6 +2783,8 @@ namespace eval ctext {
 
     # Get the fold range
     lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
+
+    puts "startpos: $startpos, endpos: $endpos, belows: $belows"
 
     # Replace the open/eopen symbol with the close/eclose symbol
     foreach line $belows {

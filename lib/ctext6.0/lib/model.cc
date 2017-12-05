@@ -93,6 +93,26 @@ object model::get_match_char(
 
 }
 
+object model::get_foldings(
+  const object & ti
+) {
+
+  interpreter interp( ti.get_interp(), false );
+  sindex      si = _serial.get_index( tindex( ti ) );
+  object      retval;
+
+  if( si.matches() ) {
+    serial_item* sitem = _serial[si.index()];
+    position     pos;
+    if( sitem->type()->matching() ) {
+      sitem->node()->get_foldings( sitem, retval );
+    }
+  }
+
+  return( retval );
+
+}
+
 void model::add_tag_index(
   interpreter        & i,
   map<string,object> & ranges,
