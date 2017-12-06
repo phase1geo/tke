@@ -212,6 +212,12 @@ class mailbox {
 
     Tcl::object cursor_history();
 
+    /*! \return Returns folding information for the given line */
+    Tcl::object get_fold_info(
+      Tcl::object startline,
+      Tcl::object depth
+    );
+
     /*!
      \return Returns the line number containing the first line that the indent
      marker is a part of.

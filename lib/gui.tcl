@@ -4427,7 +4427,7 @@ namespace eval gui {
     snippets::add_bindings $txt2
 
     # Apply code foldings
-    $txt configure -foldstate [get_folding_method $txt2]
+    $txt2 configure -foldstate [get_folding_method $txt2]
 
     # Give the text widget the focus
     set_txt_focus $txt2

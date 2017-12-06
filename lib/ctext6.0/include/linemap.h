@@ -9,6 +9,7 @@
 */
 
 #include <vector>
+#include <map>
 #include <iostream>
 
 #include "cpptcl.h"
@@ -25,6 +26,7 @@ class linemap {
 
     std::vector<linemap_row*> _rows;
     std::vector<linemap_col*> _cols;
+    std::map<std::string,int> _fold_increment;
 
     /*! \return Returns the row index that is at or after the given row number */
     int get_row_index( int row ) const;
@@ -35,7 +37,7 @@ class linemap {
   public:
 
     /*! Default constructor */
-    linemap() {}
+    linemap();
 
     /*! Destructor */
     ~linemap();
@@ -165,6 +167,12 @@ class linemap {
     Tcl::object render(
       const Tcl::object & first_row,
       const Tcl::object & last_row
+    ) const;
+
+    /*! \return Returns the fold information for a given range */
+    Tcl::object get_fold_info(
+      Tcl::object startline,
+      Tcl::object depth_obj
     ) const;
 
 };

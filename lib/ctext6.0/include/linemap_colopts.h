@@ -48,6 +48,9 @@ class linemap_colopts {
     /*! \return Returns a rendered version of this instance */
     Tcl::object render( Tcl::interpreter & interp ) const;
 
+    /*! \return Returns the stored symbol value */
+    const std::string & symbol() const { return( _symbol ); }
+
 };
 
 #endif

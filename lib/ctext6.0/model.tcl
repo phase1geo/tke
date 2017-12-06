@@ -473,6 +473,17 @@ namespace eval model {
   }
 
   ######################################################################
+  # Returns folding information for a given line.  This is a Tcl list
+  # where the first element is the line number to 
+  proc get_fold_info {win line depth} {
+
+    variable data
+
+    return [$data($win,model) getfoldinfo $line $depth]
+
+  }
+
+  ######################################################################
   # Returns the line number containing the starting character that the
   # given index is a part of.
   proc indent_line_start {win index} {

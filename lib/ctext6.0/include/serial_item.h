@@ -92,6 +92,9 @@ class serial_item {
     /*! \return Returns a pointer to the associated node in the tree */
     tnode* node() const { return( _node ); }
 
+    /*! \return Returns a constant pointer to the stored node */
+    const tnode* const_node() const { return( _node ); }
+
     /*! \return Returns a human-readable version of this element */
     std::string to_string() const;
 
