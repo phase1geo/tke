@@ -2590,8 +2590,8 @@ namespace eval ctext {
       return
     }
 
-    set first         [lindex [split [$win.t index @0,0] .] 0]
-    set last          [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
+    set first         [lindex [split [$win._t index @0,0] .] 0]
+    set last          [lindex [split [$win._t index @0,[winfo height $win.t]] .] 0]
     set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
     set linenum       $data($win,config,-linemap)
     set linenum_width [expr $linenum ? max( $data($win,config,-linemap_minwidth), $line_width ) : 1]
@@ -2617,6 +2617,7 @@ namespace eval ctext {
     # Draw the linemap
     foreach line [string map $colormap [model::render_linemap $win $first $last]] {
       lassign $line lnum fill gutters
+      if {[$win._t count -displaychars $lnum.0 [expr $lnum + 1].0] == 0} { continue }
       lassign [$win._t dlineinfo $lnum.0] x y w h b
       set x $gutterx
       set y [expr $y + $b + $descent]
