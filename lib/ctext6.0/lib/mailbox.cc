@@ -543,6 +543,23 @@ object mailbox::cursor_history() {
 
 }
 
+object mailbox::get_fold_info(
+  object line,
+  object depth
+) {
+
+  interpreter i( line.get_interp(), false );
+  object      args;
+
+  args.append( i, line );
+  args.append( i, depth );
+
+  add_request( REQUEST_GETFOLDINFO, args, true, false );
+
+  return( result() );
+
+}
+
 object mailbox::indent_line_start(
   object indent_index
 ) {
@@ -593,6 +610,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "cursorhistory",   &mailbox::cursor_history )
     .def( "undoreset",       &mailbox::undo_reset )
     .def( "autoseparate",    &mailbox::auto_separate )
+    .def( "getfoldinfo",     &mailbox::get_fold_info )
     .def( "indentlinestart", &mailbox::indent_line_start );
 
   /* Add functions */

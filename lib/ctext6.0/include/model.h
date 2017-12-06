@@ -331,6 +331,14 @@ class model {
       return( _undo_buffer.cursor_history() );
     }
 
+    /*!
+     \return Returns information about folding information.
+    */
+    Tcl::object get_fold_info(
+      const Tcl::object & startline,
+      const Tcl::object & depth
+    ) const;
+
     /*! \return Returns the the starting line containing the given indent marker */
     Tcl::object indent_line_start(
       const Tcl::object & indent_index

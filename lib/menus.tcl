@@ -2721,8 +2721,9 @@ namespace eval menus {
 
     # Get the current text widget
     set txt          [gui::current_txt]
-    set state        [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
-    set code_folding [folding::get_enable $txt]
+    set line         [lindex [split [$txt index insert] .] 0]
+    set state        [$txt gutter get folding $line]
+    set code_folding [expr {[$txt cget -foldstate] ne "none"}]
     set sel_state    [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
 
     if {[folding::get_method $txt] eq "manual"} {
@@ -2954,6 +2955,8 @@ namespace eval menus {
     # Get the current text widget
     set txt [gui::current_txt]
 
+    gui::get_folding_method
+  proc get_folding_method {txt} {
     # Set the fold enable value
     if {$value eq ""} {
       $txt configure -foldstate $code_folding

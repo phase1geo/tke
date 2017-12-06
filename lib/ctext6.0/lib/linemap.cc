@@ -9,6 +9,16 @@
 using namespace std;
 using namespace Tcl;
 
+linemap::linemap() {
+
+  _fold_increment.insert( make_pair( "end", -1 ) );
+  _fold_increment.insert( make_pair( "open", 1 ) );
+  _fold_increment.insert( make_pair( "close", 1 ) );
+  _fold_increment.insert( make_pair( "eopen", -1 ) );
+  _fold_increment.insert( make_pair( "eclose", -1 ) );
+
+}
+
 linemap::~linemap() {
 
   /* Deallocate the rows */
@@ -620,3 +630,61 @@ object linemap::names() const {
 
 }
 
+object linemap::get_fold_info(
+  object startline,
+  object depth_obj
+) const {
+
+  interpreter interp( startline.get_interp(), false );
+  int    col   = get_col_index( "folding" );
+  int    row   = get_row_index( startline.get<int>( interp ) );
+  int    depth = depth_obj.get<int>( interp );
+  int    rows  = _rows.size();
+  int    count = 0;
+  object endline;
+  object belows;
+  object aboves;
+  object closed;
+  object result;
+
+  if( col == -1 ) {
+    return( (object)"" );
+  }
+
+  for( int i=row; i<rows; i++ ) {
+    const linemap_colopts* value = _rows[i]->get_value( col );
+    if( value != 0 ) {
+      const string & tag  = value->symbol();
+      object         line = (object)_rows[i]->row();
+      int            inc  = _fold_increment.find( tag )->second;
+      if( tag != "end" ) {
+        if( count < depth ) {
+          belows.append( interp, line );
+        } else {
+          aboves.append( interp, line );
+        }
+        if( (tag == "close") || (tag == "eclose") ) {
+          closed.append( interp, line );
+        }
+      }
+      if( (count += inc) == 0 ) {
+        endline = line;
+        break;
+      } else if( count < 0 ) {
+        count = 0;
+      } else if( (tag == "eopen") || (tag == "eclose") ) {
+        count++;
+      }
+    }
+  }
+
+  /* Create the return list */
+  result.append( interp, startline );
+  result.append( interp, endline );
+  result.append( interp, belows );
+  result.append( interp, aboves );
+  result.append( interp, closed );
+
+  return( result );
+
+}

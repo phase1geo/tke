@@ -93,26 +93,6 @@ object model::get_match_char(
 
 }
 
-object model::get_foldings(
-  const object & ti
-) {
-
-  interpreter interp( ti.get_interp(), false );
-  sindex      si = _serial.get_index( tindex( ti ) );
-  object      retval;
-
-  if( si.matches() ) {
-    serial_item* sitem = _serial[si.index()];
-    position     pos;
-    if( sitem->type()->matching() ) {
-      sitem->node()->get_foldings( sitem, retval );
-    }
-  }
-
-  return( retval );
-
-}
-
 void model::add_tag_index(
   interpreter        & i,
   map<string,object> & ranges,
@@ -204,6 +184,15 @@ bool model::is_index(
   interpreter interp( type.get_interp(), false );
 
   return( _serial.is_index( type.get<string>( interp ), tindex( ti ) ) );
+
+}
+
+object model::get_fold_info(
+  const object & startline,
+  const object & depth
+) const {
+
+  return( _linemap.get_fold_info( startline, depth ) );
 
 }
 

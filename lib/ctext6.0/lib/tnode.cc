@@ -61,13 +61,13 @@ bool tnode::get_match_pos(
 
 }
 
-void tnode::get_foldings(
+void tnode::get_fold_info(
   interpreter & interp,
   Tcl::object & result,
   int           depth
 ) const {
 
-  if( _left && _right && _type && (_type->tagname() == "curly") ) {
+  if( _left && _right && _type && (_type->name() == "curly") ) {
     result.append( interp, (object)(_left->pos().row() + 1) );
     result.append( interp, (object)(_right->pos().row() - 1) );
     depth--;
@@ -75,7 +75,7 @@ void tnode::get_foldings(
 
   if( depth >= 0 ) {
     for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
-      get_foldings( interp, result, (depth - 1) );
+      get_fold_info( interp, result, (depth - 1) );
     }
   }
 

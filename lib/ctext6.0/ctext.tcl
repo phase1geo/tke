@@ -925,7 +925,6 @@ namespace eval ctext {
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
       tag         { return [command_tag         $win {*}$args] }
-      language    { return [command_language    $win {*}$args] }
       default     { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
     }
 
@@ -2750,14 +2749,15 @@ namespace eval ctext {
     # Get the fold range
     lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
 
+    # Adjust the linemap folding symbols
     foreach tline [concat $belows $aboves] {
-      set type [$win gutter get folding $tline]
-      $win gutter clear folding $tline
-      $win gutter set folding $map($type) $tline
+      set type [$txt gutter get folding $line]
+      $txt gutter clear folding $tline
+      $txt gutter set folding $map($type) $tline
     }
 
     # Remove the folded tag
-    $win._t tag remove _folded $startpos $endpos
+    $txt tag remove _folded $startpos $endpos
 
     # Close all of the previous folds
     if {$depth > 0} {
@@ -2784,7 +2784,8 @@ namespace eval ctext {
     # Get the fold range
     lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
 
-    puts "startpos: $startpos, endpos: $endpos, belows: $belows"
+    # Add the folded tag
+    $win._t tag add _folded $startpos $endpos
 
     # Replace the open/eopen symbol with the close/eclose symbol
     foreach line $belows {
@@ -2792,9 +2793,6 @@ namespace eval ctext {
       $win gutter clear folding $line
       $win gutter set folding $map($type) $line
     }
-
-    # Hide the text
-    $win._t tag add _folded $startpos $endpos
 
     return $endpos
 
@@ -2867,14 +2865,17 @@ namespace eval ctext {
   # indent folding state.
   proc get_fold_range_other {win line depth} {
 
-    set count  0
-    set aboves [list]
-    set belows [list]
-    set closed [list]
+    # Get the information from the linemap model (this should be much faster than processing
+    # this information ourselves
+    lassign [model::get_fold_info $win $line $depth] startline endline belows aboves closed
 
-    # TBD
+    if {$endline eq ""} {
+      set endline "end"
+    } else {
+      append endline ".0"
+    }
 
-    return [list [expr $line + 1].0 [lindex [split [$win index end] .] 0].0 $belows $aboves $closed]
+    return [list [expr $startline + 1].0 $endline $belows $aboves $closed]
 
   }
 
