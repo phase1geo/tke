@@ -126,6 +126,12 @@ object request::execute(
     case REQUEST_CURSORHIST :
       return( inst.cursor_history() );
       break;
+    case REQUEST_FOLDOPEN :
+      return( inst.open_fold( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_FOLDCLOSE :
+      return( inst.close_fold( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
     case REQUEST_GETFOLDINFO :
       return( inst.get_fold_info( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;

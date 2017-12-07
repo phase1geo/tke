@@ -217,6 +217,16 @@ class mailbox {
 
     Tcl::object cursor_history();
 
+    Tcl::object open_fold(
+      Tcl::object startline,
+      Tcl::object depth
+    );
+
+    Tcl::object close_fold(
+      Tcl::object startline,
+      Tcl::object depth
+    );
+
     /*! \return Returns folding information for the given line */
     Tcl::object get_fold_info(
       Tcl::object startline,
