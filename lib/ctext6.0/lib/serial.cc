@@ -328,3 +328,24 @@ bool serial::is_index(
 
 }
 
+object serial::get_comment_markers(
+  const Tcl::object & ranges
+) const {
+
+  interpreter interp( ranges.get_interp(), false );
+  object      result;
+  int         size = ranges.length( interp );
+
+  for( int i=0; i<size; i+=2 ) {
+    sindex start = get_index( tindex( ranges.at( interp, (i + 0) ) ) );
+    sindex end   = get_index( tindex( ranges.at( interp, (i + 1) ) ) );
+    for( int j=start.index(); j<end.index(); j++ ) {
+      string name( (*this)[j]->type()->name() );
+      if(  (name.substr( 0, 9 ) == "bcomment:") ||
+          ((name.substr( 0, 9 ) == "lcomment:") && ((*this)[j]->side() == 1)) ) {
+        (*this)[j]->const_pos().to_pair( result );
+      }
+    }
+  }
+
+}

@@ -644,14 +644,18 @@ namespace eval ctext {
     }
 
     lappend argTable {any} -foldstate {
-      if {[lsearch {none manual indent syntax} $value] == -1} {
-        return -code error "Illegal -foldstate value set"
+      array set states {none 0 manual 1 indent 1 syntax 1}
+      if {![info exists states($value)]} {
+        return -code error "Illegal -foldstate value set ($value)"
       }
-      if {[set data($win,config,-foldstate) $value] ne "none"} {
-        enable_folding $win
-      } else {
-        disable_folding $win
+      if {$states($data($win,config,-foldstate)) != $states($value)} {
+        if {$states($value)} {
+          enable_folding $win
+        } else {
+          disable_folding $win
+        }
       }
+      set data($win,config,-foldstate) $value
     }
 
     set data($win,config,argTable) $argTable
@@ -843,6 +847,15 @@ namespace eval ctext {
   proc isEscaped {win index} {
 
     return [model::is_escaped $win $index]
+
+  }
+
+  ######################################################################
+  # Returns a Tcl list containing the indices of all comment markers
+  # in the specified ranges.
+  proc getCommentMarkers {win ranges} {
+
+    return [model::get_comment_markers $win $ranges]
 
   }
 
@@ -1724,7 +1737,7 @@ namespace eval ctext {
         linemapUpdate $win 1
       }
       set {
-        model::gutterset $win {*}$args
+        model::gutterset $win [lindex $args 0] [lrange $args 1 end]
         linemapUpdate $win 1
       }
       unset {
@@ -2752,20 +2765,23 @@ namespace eval ctext {
 
     # Adjust the linemap folding symbols
     foreach tline [concat $belows $aboves] {
-      set type [$txt gutter get folding $line]
-      $txt gutter clear folding $tline
-      $txt gutter set folding $map($type) $tline
+      set type [$win gutter get folding $line]
+      $win gutter clear folding $tline
+      $win gutter set folding $map($type) $tline
     }
 
     # Remove the folded tag
-    $txt tag remove _folded $startpos $endpos
+    $win._t tag remove _folded $startpos $endpos
 
     # Close all of the previous folds
     if {$depth > 0} {
       foreach tline [::struct::set intersect $aboves $closed] {
-        close_fold 1 $txt $tline
+        close_fold 1 $win $tline
       }
     }
+
+    # Update the linemap
+    linemapUpdate $win
 
     return $endpos
 
@@ -2823,15 +2839,15 @@ namespace eval ctext {
     set belows [list]
     set closed [list]
 
-    set start_chars [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]]
+    set start_chars [$win._t count -chars {*}[$win._t tag nextrange _prewhite $line.0]]
     set next_line   $line.0
-    set final       [lindex [split [$txt index end] .] 0].0
+    set final       [lindex [split [$win._t index end] .] 0].0
     set all_chars   [list]
 
-    while {[set range [$txt tag nextrange _prewhite $next_line]] ne ""} {
-      set chars [$txt count -chars {*}$range]
+    while {[set range [$win._t tag nextrange _prewhite $next_line]] ne ""} {
+      set chars [$win._t count -chars {*}$range]
       set tline [lindex [split [lindex $range 0] .] 0]
-      set state [fold_state $txt $tline]
+      set state [fold_state $win $tline]
       if {($state eq "close") || ($state eq "eclose")} {
         lappend closed $tline
       }

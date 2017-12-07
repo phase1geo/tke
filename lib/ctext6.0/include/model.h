@@ -170,6 +170,13 @@ class model {
       const Tcl::object & ti
     ) const;
 
+    /*! \return Returns comment marker positions in a Tcl list */
+    Tcl::object get_comment_markers(
+      const Tcl::object & ranges
+    ) const {
+      return( _serial.get_comment_markers( ranges ) );
+    }
+
     /*!
      Handles rendering the currently viewable linemap.
     */

@@ -2955,16 +2955,13 @@ namespace eval menus {
     # Get the current text widget
     set txt [gui::current_txt]
 
-    gui::get_folding_method
-  proc get_folding_method {txt} {
-    # Set the fold enable value
-    if {$value eq ""} {
-      $txt configure -foldstate $code_folding
-      # folding::set_fold_enable $txt $code_folding
-    } else {
-      $txt configure -foldstate [set code_folding $value]
-      # folding::set_fold_enable $txt [set code_folding $value]
+    # If the user specified a value, set it
+    if {$value ne ""} {
+      set code_folding $value
     }
+
+    # Set the fold enable value
+    $txt configure -foldstate [gui::get_folding_method $txt $code_folding]
 
   }
 

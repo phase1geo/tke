@@ -207,7 +207,7 @@ void tree::folds_set_indent(
   if( line_type == "" ) {
     lmap.set( "folding", "open", line );
   } else if( line_type == "end" ) {
-    lmap.set( "folding", "eopen", line );
+    lmap.set( "folding", "", line );
   }
 
 }
@@ -222,7 +222,7 @@ void tree::folds_set_unindent(
   if( line_type == "" ) {
     lmap.set( "folding", "end", line );
   } else if( line_type == "open" ) {
-    lmap.set( "folding", "eopen", line );
+    lmap.set( "folding", "", line );
   }
 
 }

@@ -21,6 +21,7 @@ class linemap_colopts {
 
   private:
 
+    std::string                       _name;
     std::string                       _symbol;
     std::string                       _color;
     std::map<std::string,std::string> _bindings;
@@ -28,16 +29,23 @@ class linemap_colopts {
   public:
 
     /*! Default constructor */
-    linemap_colopts() : _symbol( "" ), _color( "" ) {}
+    linemap_colopts(
+      const std::string & name
+    ) : _name( name ), _symbol( "" ), _color( "" ) {}
 
     /*! Constructor */
-    linemap_colopts( Tcl::object opts );
+    linemap_colopts(
+      const std::string & name,
+      const Tcl::object & opts
+    );
 
     /*! Destructor */
     ~linemap_colopts() {}
 
     /*! Configures the structure with the given options */
-    void configure( Tcl::object opts );
+    void configure(
+      const Tcl::object & opts
+    );
 
     /*! \return Returns a Tcl list containing all of the option value pairs */
     Tcl::object configure() const;
@@ -49,7 +57,7 @@ class linemap_colopts {
     Tcl::object render( Tcl::interpreter & interp ) const;
 
     /*! \return Returns the stored symbol value */
-    const std::string & symbol() const { return( _symbol ); }
+    const std::string & name() const { return( _name ); }
 
 };
 

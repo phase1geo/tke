@@ -701,8 +701,7 @@ namespace eval gui {
     set enable [preferences::get View/EnableCodeFolding]
 
     foreach txt [get_all_texts] {
-      $txt configure -foldstate $enable
-      # folding::set_fold_enable $txt $enable
+      $txt configure -foldstate [get_folding_method $txt $enable]
     }
 
   }
@@ -4075,9 +4074,13 @@ namespace eval gui {
   ######################################################################
   # Returns the indentation method based on the values of enable and the
   # current indentation mode.
-  proc get_folding_method {txt} {
+  proc get_folding_method {txt {enable ""}} {
 
-    if {[preferences::get View/EnableCodeFolding]} {
+    if {$enable eq ""} {
+      set enable [preferences::get View/EnableCodeFolding]
+    }
+
+    if {$enable} {
       switch [indent::get_indent_mode $txt] {
         "OFF"   { return "manual" }
         "IND"   { return "indent" }

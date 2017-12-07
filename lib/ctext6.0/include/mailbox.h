@@ -120,6 +120,11 @@ class mailbox {
       const Tcl::object & ti
     );
 
+    /*! \return Returns a Tcl list containing the indices of all comment markers in the specified ranges */
+    Tcl::object get_comment_markers(
+      const Tcl::object & ranges
+    );
+
     Tcl::object render_contexts(
       const Tcl::object & linestart,
       const Tcl::object & lineend,

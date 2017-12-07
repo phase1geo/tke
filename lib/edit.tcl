@@ -940,7 +940,7 @@ namespace eval edit {
     set selected [$txt tag ranges sel]
 
     # Get the comment syntax
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
+    lassign [syntax::get_comments $txt] icomment
 
     # Insert comment lines/blocks
     foreach {endpos startpos} [lreverse $selected] {
@@ -992,25 +992,13 @@ namespace eval edit {
     # Get the selection ranges
     set selected [$txt tag ranges sel]
 
-    # Get the comment syntax
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
-
-    # Get the comment syntax to remove
-    set comments [join [eval concat $lcomments $bcomments] |]
-
     # Strip out comment syntax
-    foreach {endpos startpos} [lreverse $selected] {
-      set linestart $startpos
-      foreach line [split [$txt get $startpos $endpos] \n] {
-        if {[regexp -indices -- "($comments)+?" $line -> com]} {
-          set delstart [$txt index "$linestart+[lindex $com 0]c"]
-          set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
-          $txt delete $delstart $delend
-        }
-        set linestart [$txt index "$linestart+1l linestart"]
-        incr i
-      }
+    foreach {endpos startpos} [lreverse [set ranges [ctext::getCommentMarkers $txt $selected]]] {
+      $txt delete -highlight 0 $endpos $startpos
     }
+
+    # Re-highlight the widget
+    $txt highlight $ranges
 
     # Create a separator
     $txt edit separator
@@ -1110,23 +1098,13 @@ namespace eval edit {
 
     set retval 0
 
-    # Get the comment syntax
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
-
-    # Get the comment syntax to remove
-    set comments [join [eval concat $lcomments $bcomments] |]
-
-    set linestart $startpos
-    foreach line [split [$txt get $startpos $endpos] \n] {
-      if {[regexp -indices -- "($comments)+?" $line -> com]} {
-        set delstart [$txt index "$linestart+[lindex $com 0]c"]
-        set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
-        $txt delete $delstart $delend
-        set retval 1
-      }
-      set linestart [$txt index "$linestart+1l linestart"]
-      incr i
+    foreach {epos spos} [lreverse [set ranges [ctext::getCommentMarkers $txt [list $startpos $endpos]]]] {
+      $txt delete -highlight 0 $spos $epos
+      set retval 1
     }
+
+    # Perform syntax highlighting
+    $txt highlight $ranges
 
     return $retval
 
