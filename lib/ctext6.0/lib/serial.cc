@@ -348,4 +348,6 @@ object serial::get_comment_markers(
     }
   }
 
+  return( result );
+
 }
