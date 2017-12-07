@@ -49,26 +49,6 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Returns the indentation method based on the values of enable and the
-  # current indentation mode.
-  proc get_method {txt} {
-
-    variable enable
-
-    if {[info exists enable($txt)] && $enable($txt)} {
-      switch [indent::get_indent_mode $txt] {
-        "OFF"   { return "manual" }
-        "IND"   { return "indent" }
-        "IND+"  { return [expr {[indent::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
-        default { return "none" }
-      }
-    } else {
-      return "none"
-    }
-
-  }
-
-  ######################################################################
   # Returns true if the given position contains a fold point.
   proc fold_state {txt line} {
 
@@ -90,41 +70,6 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Adds the bindings necessary for code folding to work.
-  proc initialize {txt} {
-
-    # Set the fold enable
-    $txt configure -foldstate [get_method $txt]
-    # set_fold_enable $txt [preferences::get View/EnableCodeFolding]
-
-  }
-
-  ######################################################################
-  # Called whenever the text widget is destroyed.
-  proc handle_destroy_txt {txt} {
-
-    variable enable
-
-    unset -nocomplain enable($txt)
-
-  }
-
-  ######################################################################
-  # Set the fold enable to the given type.
-  proc set_fold_enable {txt value} {
-
-    variable enable
-
-    if {[set enable($txt) $value]} {
-      enable_folding $txt
-      # add_folds $txt 1.0 end
-    } else {
-      disable_folding $txt
-    }
-
-  }
-
-  ######################################################################
   # Sets the value of the Vim foldenable indicator to the given boolean
   # value.  Updates the UI state accordingly.
   proc set_vim_foldenable {txt value} {
@@ -138,38 +83,6 @@ namespace eval folding {
         $txt gutter hide folding 1
       }
     }
-
-  }
-
-  ######################################################################
-  # Disables code folding in the given text widget.
-  proc disable_folding {txt} {
-
-    # Remove all folded text
-    $txt tag remove _folded 1.0 end
-
-    # Remove the gutter
-    $txt gutter destroy folding
-
-  }
-
-  ######################################################################
-  # Enables code folding in the current text widget.
-  proc enable_folding {txt} {
-
-    # Add the folding gutter
-    $txt gutter create folding \
-      open   [list -symbol \u25be -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
-      close  [list -symbol \u25b8 -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
-      eopen  [list -symbol \u25be -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
-      eclose [list -symbol \u25b8 -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
-      end    [list -symbol \u221f]
-
-    # Restart the folding
-    restart $txt
-
-    # Update the closed marker color
-    update_closed $txt
 
   }
 
@@ -267,101 +180,6 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Returns the gutter information in sorted order.
-  proc get_gutter_info {txt} {
-
-    set data [list]
-
-    foreach tag [list open close eopen eclose end] {
-      foreach tline [$txt gutter get folding $tag] {
-        lappend data [list $tline $tag]
-      }
-    }
-
-    return [lsort -integer -index 0 $data]
-
-  }
-
-  ######################################################################
-  # Returns the starting and ending positions of the range to fold.
-  proc get_fold_range {txt line depth} {
-
-    set count  0
-    set aboves [list]
-    set belows [list]
-    set closed [list]
-
-    if {[get_method $txt] eq "indent"} {
-
-      set start_chars [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]]
-      set next_line   $line.0
-      set final       [lindex [split [$txt index end] .] 0].0
-      set all_chars   [list]
-
-      while {[set range [$txt tag nextrange _prewhite $next_line]] ne ""} {
-        set chars [$txt count -chars {*}$range]
-        set tline [lindex [split [lindex $range 0] .] 0]
-        set state [fold_state $txt $tline]
-        if {($state eq "close") || ($state eq "eclose")} {
-          lappend closed $tline
-        }
-        if {($chars > $start_chars) || ($all_chars eq [list])} {
-          if {($state ne "none") && ($state ne "end")} {
-            lappend all_chars [list $tline $chars]
-          }
-        } else {
-          set final $tline.0
-          break
-        }
-        set next_line [lindex $range 1]
-      }
-
-      set last $start_chars
-      foreach {tline chars} [concat {*}[lsort -integer -index 1 $all_chars]] {
-        incr count [expr $chars != $last]
-        if {$count < $depth} {
-          lappend belows $tline
-        } else {
-          lappend aboves $tline
-        }
-        set last $chars
-      }
-
-      return [list [expr $line + 1].0 $final $belows $aboves $closed]
-
-    } else {
-
-      array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
-
-      set index [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
-
-      foreach {tline tag} [concat {*}[lrange $data $index end]] {
-        if {$tag ne "end"} {
-          if {$count < $depth} {
-            lappend belows $tline
-          } else {
-            lappend aboves $tline
-          }
-          if {($tag eq "close") || ($tag eq "eclose")} {
-            lappend closed $tline
-          }
-        }
-        if {[incr count $inc($tag)] == 0} {
-          return [list [expr $line + 1].0 $tline.0 $belows $aboves $closed]
-        } elseif {$count < 0} {
-          set count 0
-        } elseif {($tag eq "eopen") || ($tag eq "eclose")} {
-          incr count
-        }
-      }
-
-      return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
-
-    }
-
-  }
-
-  ######################################################################
   # Returns the line number of the highest level folding marker that contains
   # the given line.
   proc show_line {txt line} {
@@ -386,18 +204,6 @@ namespace eval folding {
         }
         set count 1
       }
-    }
-
-  }
-
-  ######################################################################
-  # Restores the eliding based on the stored values within the given text
-  # widget.
-  proc restore_folds {txt} {
-
-    foreach line [$txt gutter get folding close] {
-      lassign [get_fold_range $txt $line 1] startpos endpos
-      $txt tag add _folded $startpos $endpos
     }
 
   }
@@ -596,39 +402,6 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Closes a fold, hiding the contents.
-  proc close_fold {depth txt line} {
-
-    # If foldenable is 0, return immediately
-    if {![get_vim_foldenable $txt]} {
-      return $retval
-    }
-
-    array set map {
-      open   close
-      close  close
-      eopen  eclose
-      eclose eclose
-    }
-
-    # Get the fold range
-    lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
-
-    # Replace the open/eopen symbol with the close/eclose symbol
-    foreach line $belows {
-      set type [$txt gutter get folding $line]
-      $txt gutter clear folding $line
-      $txt gutter set folding $map($type) $line
-    }
-
-    # Hide the text
-    $txt tag add _folded $startpos $endpos
-
-    return $endpos
-
-  }
-
-  ######################################################################
   # Close all folds in the given range.
   proc close_folds_in_range {txt startline endline depth} {
 
@@ -687,45 +460,6 @@ namespace eval folding {
       $txt tag add _folded {*}$ranges
 
     }
-
-  }
-
-  ######################################################################
-  # Opens a fold, showing the contents.
-  proc open_fold {depth txt line} {
-
-    # If foldenable is 0, return immediately
-    if {![get_vim_foldenable $txt]} {
-      return $retval
-    }
-
-    array set map {
-      close  open
-      open   open
-      eclose eopen
-      eopen  eopen
-    }
-
-    # Get the fold range
-    lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
-
-    foreach tline [concat $belows $aboves] {
-      set type [$txt gutter get folding $line]
-      $txt gutter clear folding $tline
-      $txt gutter set folding $map($type) $tline
-    }
-
-    # Remove the folded tag
-    $txt tag remove _folded $startpos $endpos
-
-    # Close all of the previous folds
-    if {$depth > 0} {
-      foreach tline [::struct::set intersect $aboves $closed] {
-        close_fold 1 $txt $tline
-      }
-    }
-
-    return $endpos
 
   }
 
@@ -793,14 +527,6 @@ namespace eval folding {
       ::tk::TextSetCursor $txt [lindex $data $index].0
       vim::adjust_insert $txt.t
     }
-
-  }
-
-  ######################################################################
-  # Returns true if the specified index exists within a fold.
-  proc is_folded {txt index} {
-
-    return [expr [lsearch -exact [$txt tag names $index] _folded] != -1]
 
   }
 

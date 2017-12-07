@@ -339,6 +339,30 @@ class model {
     }
 
     /*!
+     Opens all folds to the given depth, starting at the given startline.
+
+     \return Returns the list of ranges to un-elide.
+    */
+    Tcl::object open_fold(
+      const Tcl::object & startline,
+      const Tcl::object & depth
+    ) {
+      return( _linemap.open_fold( startline, depth ) );
+    }
+
+    /*!
+     Closes all folds to the given depth, starting at the given startline.
+
+     \return Returns the list of ranges to elide.
+    */
+    Tcl::object close_fold(
+      const Tcl::object & startline,
+      const Tcl::object & depth
+    ) {
+      return( _linemap.close_fold( startline, depth ) );
+    }
+
+    /*!
      \return Returns information about folding information.
     */
     Tcl::object get_fold_info(

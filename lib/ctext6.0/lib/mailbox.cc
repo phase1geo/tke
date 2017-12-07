@@ -553,6 +553,40 @@ object mailbox::cursor_history() {
 
 }
 
+object mailbox::open_fold(
+  object startline,
+  object depth
+) {
+
+  interpreter i( startline.get_interp(), false );
+  object      args;
+
+  args.append( i, startline );
+  args.append( i, depth );
+
+  add_request( REQUEST_FOLDOPEN, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::close_fold(
+  object startline,
+  object depth
+) {
+
+  interpreter i( startline.get_interp(), false );
+  object      args;
+
+  args.append( i, startline );
+  args.append( i, depth );
+
+  add_request( REQUEST_FOLDCLOSE, args, true, false );
+
+  return( result() );
+
+}
+
 object mailbox::get_fold_info(
   object line,
   object depth
@@ -621,6 +655,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "cursorhistory",   &mailbox::cursor_history )
     .def( "undoreset",       &mailbox::undo_reset )
     .def( "autoseparate",    &mailbox::auto_separate )
+    .def( "foldopen",        &mailbox::open_fold )
+    .def( "foldclose",       &mailbox::close_fold )
     .def( "getfoldinfo",     &mailbox::get_fold_info )
     .def( "indentlinestart", &mailbox::indent_line_start );
 

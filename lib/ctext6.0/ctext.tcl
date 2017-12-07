@@ -1367,6 +1367,7 @@ namespace eval ctext {
 
     switch $type {
       escaped { return [model::is_escaped $win $index] }
+      folded  { return [expr [lsearch -exact [$win tag names $index] _folded] != -1] }
       curly   { return [model::is_index $win curly   $index] }
       square  { return [model::is_index $win square  $index] }
       paren   { return [model::is_index $win paren   $index] }
@@ -2751,39 +2752,11 @@ namespace eval ctext {
   # Opens a folded line, showing its contents.
   proc open_fold {depth win line} {
 
-    variable data
-
-    array set map {
-      close  open
-      open   open
-      eclose eopen
-      eopen  eopen
-    }
-
-    # Get the fold range
-    lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
-
-    # Adjust the linemap folding symbols
-    foreach tline [concat $belows $aboves] {
-      set type [$win gutter get folding $line]
-      $win gutter clear folding $tline
-      $win gutter set folding $map($type) $tline
-    }
-
-    # Remove the folded tag
-    $win._t tag remove _folded $startpos $endpos
-
-    # Close all of the previous folds
-    if {$depth > 0} {
-      foreach tline [::struct::set intersect $aboves $closed] {
-        close_fold 1 $win $tline
-      }
-    }
+    # Adjust the linemap and remove the elided tag from the returned index ranges
+    $win._t tag remove _folded [model::open_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
 
     # Update the linemap
     linemapUpdate $win
-
-    return $endpos
 
   }
 
@@ -2791,27 +2764,11 @@ namespace eval ctext {
   # Closes a folded line, hiding its contents.
   proc close_fold {depth win line} {
 
-    array set map {
-      open   close
-      close  close
-      eopen  eclose
-      eclose eclose
-    }
+    # Adjust the linemap and remove the elided tag from the returned index ranges
+    $win._t tag add _folded [model::close_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
 
-    # Get the fold range
-    lassign [get_fold_range $win $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
-
-    # Add the folded tag
-    $win._t tag add _folded $startpos $endpos
-
-    # Replace the open/eopen symbol with the close/eclose symbol
-    foreach line $belows {
-      set type [$win gutter get folding $line]
-      $win gutter clear folding $line
-      $win gutter set folding $map($type) $line
-    }
-
-    return $endpos
+    # Update the linemap
+    linemapUpdate $win
 
   }
 

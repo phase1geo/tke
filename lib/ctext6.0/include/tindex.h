@@ -57,6 +57,13 @@ class tindex {
     /*! \return Returns the column associated with this index */
     int col() const { return( _col ); }
 
+    /*! Adjusts the row by the given amount */
+    void inc_row( int value ) {
+      if( (_row += value) < 1 ) {
+        _row = 1;
+      }
+    }
+
     /*! Equality operator */
     bool operator==( const tindex & ti ) {
       return( (_row == ti._row) && (_col == ti._col) );

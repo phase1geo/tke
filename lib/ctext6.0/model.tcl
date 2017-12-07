@@ -484,6 +484,26 @@ namespace eval model {
   }
 
   ######################################################################
+  # Opens the given fold and all descendents to the given depth.
+  proc open_fold {win line depth} {
+
+    variable data
+
+    return [$data($win,model) foldopen $line $depth]
+
+  }
+
+  ######################################################################
+  # Closes the given fold and all descendents to the given depth.
+  proc close_fold {win line depth} {
+
+    variable data
+
+    return [$data($win,model) foldclose $line $depth]
+
+  }
+
+  ######################################################################
   # Returns folding information for a given line.  This is a Tcl list
   # where the first element is the line number to 
   proc get_fold_info {win line depth} {
