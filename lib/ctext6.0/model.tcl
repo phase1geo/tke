@@ -141,6 +141,17 @@ namespace eval model {
   }
 
   ######################################################################
+  # Returns a list containing the indices of all comment markers in
+  # the specified ranges.
+  proc get_comment_markers {win ranges} {
+
+    variable data
+
+    return [$data($win,model) getcommentmarkers $ranges
+
+  }
+
+  ######################################################################
   # Inserts the given items into the tree.
   proc insert {win ranges str cursor} {
 

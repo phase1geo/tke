@@ -488,14 +488,18 @@ namespace eval syntax {
         # Set the indent/unindent regular expressions
         indent::set_indent_expressions $txt.t $lang_array(indentation)
 
+        # Set the foldstate
+        $txt configure -foldstate [gui::get_folding_method $txt]
+
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
         completer::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
 
+        # Handle embedded syntaxes
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
-            ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end $theme(embedded)
+            ctext::setContextPatterns $txt $sublang $sublang "" [list $embed_start $embed_end] "" $theme(embedded)
             add_sublanguage $txt $sublang $cmd_prefix "" $embed_start $embed_end
           } else {
             add_sublanguage $txt $sublang $cmd_prefix "" {} {}
@@ -573,9 +577,9 @@ namespace eval syntax {
       # Add the comments, strings and indentations
       ctext::setContextPatterns $txt comment comment $language $lang_array(comments) $theme(comments)
       # ctext::setContextPatterns $txt string  string  $language $lang_array(comments) $theme(comments)
-      ctext::setIndentation     $txt $language [list $embed_start {*}$lang_array(indent)]   indent
-      ctext::setIndentation     $txt $language [list $embed_end   {*}$lang_array(unindent)] unindent
+      ctext::setIndentation $txt $language [list [list $embed_start $embed_end] {*}$lang_array(indentation)]
 
+      if {0} {
       set reindentStarts [list]
       set reindents      [list]
       foreach reindent $lang_array(reindent) {
@@ -584,6 +588,7 @@ namespace eval syntax {
       }
       ctext::setIndentation $txt $language $reindentStarts reindentStart
       ctext::setIndentation $txt $language $reindents      reindent
+      }
 
       # Add the FIXME
       ctext::addHighlightKeywords $txt FIXME class fixme $language
@@ -936,7 +941,7 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Retrieves the value of lcomment in the current syntax.
+  # Retrieves the value of comment in the current syntax.
   proc get_comments {txt} {
 
     variable langs
@@ -944,10 +949,10 @@ namespace eval syntax {
 
     # Get the current language
     if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
-      return [list [list] [list] [list]]
+      return [list [list] [list]]
     } else {
       array set lang_array $langs($language)
-      return [list $lang_array(icomment) $lang_array(lcomments) $lang_array(bcomments)]
+      return [list $lang_array(icomment) $lang_array(comments)]
     }
 
   }

@@ -9,7 +9,10 @@
 using namespace std;
 using namespace Tcl;
 
-linemap_colopts::linemap_colopts( Tcl::object opts ) : _symbol( "" ), _color( "" ) {
+linemap_colopts::linemap_colopts(
+  const string & name,
+  const object & opts
+) : _name( name ), _symbol( "" ), _color( "" ) {
 
   interpreter interp( opts.get_interp(), false );
 
@@ -17,7 +20,9 @@ linemap_colopts::linemap_colopts( Tcl::object opts ) : _symbol( "" ), _color( ""
 
 }
 
-void linemap_colopts::configure( Tcl::object opts ) {
+void linemap_colopts::configure(
+  const object & opts
+) {
 
   interpreter interp( opts.get_interp(), false );
 
@@ -55,7 +60,7 @@ void linemap_colopts::configure( Tcl::object opts ) {
 
 }
 
-Tcl::object linemap_colopts::configure() const {
+object linemap_colopts::configure() const {
 
   object      result;
   interpreter i( result.get_interp(), false );
@@ -79,7 +84,7 @@ Tcl::object linemap_colopts::configure() const {
 
 }
 
-Tcl::object linemap_colopts::cget(
+object linemap_colopts::cget(
   const string & name
 ) const {
 
@@ -107,8 +112,8 @@ Tcl::object linemap_colopts::cget(
 
 }
 
-Tcl::object linemap_colopts::render(
-  Tcl::interpreter & interp
+object linemap_colopts::render(
+  interpreter & interp
 ) const {
 
   object result;

@@ -27,7 +27,7 @@ linemap_col::linemap_col(
   /* Save the various options */
   for( int i=0; i<opts.length( interp ); i+=2 ) {
     string           optname  = opts.at( interp, i ).get<string>( interp );
-    linemap_colopts* optvalue = new linemap_colopts( opts.at( interp, (i + 1) ) );
+    linemap_colopts* optvalue = new linemap_colopts( optname, opts.at( interp, (i + 1) ) );
     map<string,linemap_colopts*>::iterator it = _opts.find( optname );
     if( it == _opts.end() ) {
       _opts.insert( make_pair( optname, optvalue ) );

@@ -76,6 +76,11 @@ class serial : public std::vector<serial_item*> {
       const tindex      & ti
     ) const;
 
+    /*! \return Returns all comment markers in the specified ranges */
+    Tcl::object get_comment_markers(
+      const Tcl::object & ranges
+    ) const;
+
     /*! \return Returns the list of contextual items in the list as a new list */
     void get_context_items( serial & items ) const;
 

@@ -22,7 +22,6 @@ void undo_manager::add_change(
 
   /* Attempt to merge -- if unsucessful, add it to the back */
   } else if( !_uncommitted->back()->merge( change ) ) {
-    cout << "auto_separate: " << _auto_separate << ", stop_separate: " << stop_separate << endl;
     if( _auto_separate && !stop_separate ) {
       _undo_buffer.push_back( _uncommitted );
       _uncommitted = new undo_group();

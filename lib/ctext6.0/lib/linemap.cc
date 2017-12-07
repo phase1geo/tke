@@ -555,7 +555,7 @@ string linemap::get(
 
   /* If we could not find the gutter, return the empty string */
   if( col == -1 ) {
-    throw runtime_error( "Unable to find gutter" );
+    return( "" );
   }
 
   try {
@@ -654,7 +654,7 @@ object linemap::get_fold_info(
   for( int i=row; i<rows; i++ ) {
     const linemap_colopts* value = _rows[i]->get_value( col );
     if( value != 0 ) {
-      const string & tag  = value->symbol();
+      const string & tag  = value->name();
       object         line = (object)_rows[i]->row();
       int            inc  = _fold_increment.find( tag )->second;
       if( tag != "end" ) {

@@ -238,6 +238,16 @@ object mailbox::is_index(
 
 }
 
+object mailbox::get_comment_markers(
+  const object & ranges
+) {
+
+  add_request( REQUEST_GETCOMMENTMARKERS, ranges, true, false );
+
+  return( result() );
+
+}
+
 object mailbox::render_contexts(
   const object & linestart,
   const object & lineend,
@@ -588,6 +598,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "rendercontexts",  &mailbox::render_contexts )
     .def( "isescaped",       &mailbox::is_escaped )
     .def( "isindex",         &mailbox::is_index )
+    .def( "getcommentmarkers", &mailbox::get_comment_markers )
     .def( "renderlinemap",   &mailbox::render_linemap )
     .def( "setmarker",       &mailbox::set_marker )
     .def( "getmarkername",   &mailbox::get_marker_name )
