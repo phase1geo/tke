@@ -204,7 +204,7 @@ object model::indent_line_start(
   int    row = ti.row();
   tnode* node;
 
-  if( node = _serial.find_node( tindex( ti ) ) ) {
+  if( (node = _serial.find_node( tindex( ti ) )) ) {
     int              index    = node->index() - 1;
     vector<tnode*> & siblings = node->parent()->children();
     while( (index >= 0) && (siblings[index]->right()->const_pos().row() == row) ) {
