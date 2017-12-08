@@ -1732,11 +1732,18 @@ namespace eval ctext {
               if {[lindex $args 0] eq "all"} {
                 return [fold_delete_range $win 1.0 end]
               } else {
-                return [fold_delete $win [lindex $args 0]]
+                return [fold_delete $win [lindex $args 0] 1]
               }
             }
             2 {
               return [fold_delete_range $win {*}$args]
+            }
+            3 {
+              array set opts {
+                -depth 1
+              }
+              array set opts [lrange $args 1 end]
+              return [fold_delete $win [lindex $args 0] $opts(-depth)]
             }
             default {
               return -code error "Incorrect number of arguments to ctext fold delete command"
@@ -2882,14 +2889,21 @@ namespace eval ctext {
   ######################################################################
   # Deletes the fold starting at the given line.  Returns 1 if a fold
   # was deleted.
-  proc fold_delete {win line} {
+  proc fold_delete {win line depth} {
+    
+    variable data
+
+    # If the foldstate is something other than manual, exit immediately
+    if {$data($win,config,-foldstate) ne "manual"} {
+      return 0
+    }
 
     set range ""
-
-    # Open all folds
-    fold_open_range $win 1.0 end
-
-    if {[model::fold_delete $win $line range]} {
+    if {$depth == 0} {
+      set depth 100000
+    }
+    
+    if {[model::fold_delete $win $line $depth range]} {
       if {$range ne ""} {
         $win._t tag remove _folded {*}$range
       }
@@ -2905,6 +2919,13 @@ namespace eval ctext {
   # Delete all foldes in the given range.  Return 1 if at least one fold
   # was removed.
   proc fold_delete_range {win startpos endpos} {
+    
+    variable data
+
+    # If the foldstate is something other than manual, exit immediately
+    if {$data($win,config,-foldstate) ne "manual"} {
+      return 0
+    }
 
     set startline [lindex [split [$win._t index $startpos] .] 0]
     set endline   [lindex [split [$win._t index $endpos]   .] 0]
@@ -2968,9 +2989,21 @@ namespace eval ctext {
   ######################################################################
   # Display the specified line, opening all ancestor folds.
   proc fold_show_line {win line} {
+    
+    set update_needed 0
 
-    if {[set ranges [model::fold_show_line $win $line]] ne ""} {
-      $win._t tag remove _folded {*}$ranges
+    foreach sline [model::fold_show_line $win $line] {
+      set ranges [list]
+      if {[model::fold_open $win $sline 1 ranges]} {
+        $win._t tag remove _folded {*}$ranges
+        set update_needed 1
+      }
+      if {[lsearch [$win._t tag names $sline.0] _folded] == -1} {
+        break
+      }
+    }
+    
+    if {$update_needed} {
       linemapUpdate $win
     }
 

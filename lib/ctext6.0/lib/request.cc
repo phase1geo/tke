@@ -127,7 +127,7 @@ object request::execute(
       return( inst.cursor_history() );
       break;
     case REQUEST_FOLDDELETE :
-      return( inst.fold_delete( _args.at( i, 0 ) ) );
+      return( inst.fold_delete( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
     case REQUEST_FOLDDELETERANGE :
       return( inst.fold_delete_range( _args.at( i, 0 ), _args.at( i, 1 ) ) );
@@ -149,9 +149,6 @@ object request::execute(
       break;
     case REQUEST_FOLDFIND :
       return( inst.fold_find( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
-      break;
-    case REQUEST_GETFOLDINFO :
-      return( inst.get_fold_info( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
     case REQUEST_INDENTLINESTART :
       return( inst.indent_line_start( _args.at( i, 0 ) ) );

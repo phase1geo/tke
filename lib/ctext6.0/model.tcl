@@ -147,7 +147,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) getcommentmarkers $ranges
+    return [$data($win,model) getcommentmarkers $ranges]
 
   }
 

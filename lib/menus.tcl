@@ -2986,7 +2986,7 @@ namespace eval menus {
 
     switch $type {
       current {
-        $txt fold delete [lindex [split [$txt index insert] .] 0]
+        $txt fold delete [lindex [split [$txt index insert] .] 0] -depth 1
       }
       all {
         $txt fold delete all
