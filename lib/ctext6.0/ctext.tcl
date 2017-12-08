@@ -2753,7 +2753,7 @@ namespace eval ctext {
   proc open_fold {depth win line} {
 
     # Adjust the linemap and remove the elided tag from the returned index ranges
-    $win._t tag remove _folded [model::open_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
+    $win._t tag remove _folded {*}[model::open_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
 
     # Update the linemap
     linemapUpdate $win
@@ -2765,7 +2765,7 @@ namespace eval ctext {
   proc close_fold {depth win line} {
 
     # Adjust the linemap and remove the elided tag from the returned index ranges
-    $win._t tag add _folded [model::close_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
+    $win._t tag add _folded {*}[model::close_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
 
     # Update the linemap
     linemapUpdate $win
