@@ -26,7 +26,7 @@ class linemap {
 
     std::vector<linemap_row*> _rows;
     std::vector<linemap_col*> _cols;
-    std::map<std::string,int> _fold_increment;
+    std::map<std::string,int> _tag_map;
 
     /*! \return Returns the row index that is at or after the given row number */
     int get_row_index( int row ) const;
@@ -170,7 +170,8 @@ class linemap {
     ) const;
 
     Tcl::object fold_delete(
-      const Tcl::object & line
+      const Tcl::object & line,
+      const Tcl::object & depth
     );
 
     Tcl::object fold_delete_range(
@@ -217,12 +218,6 @@ class linemap {
       const Tcl::object & dir,
       const Tcl::object & num
     );
-
-    /*! \return Returns the fold information for a given range */
-    Tcl::object get_fold_info(
-      Tcl::object startline,
-      Tcl::object depth_obj
-    ) const;
 
 };
 

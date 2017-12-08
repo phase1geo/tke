@@ -344,9 +344,10 @@ class model {
      \return Returns the text range to close the fold indicator.
     */
     Tcl::object fold_delete(
-      const Tcl::object & line
+      const Tcl::object & line,
+      const Tcl::object & depth
     ) {
-      return( _linemap.fold_delete( line ) );
+      return( _linemap.fold_delete( line, depth ) );
     }
 
     Tcl::object fold_delete_range(
@@ -407,14 +408,6 @@ class model {
     ) {
       return( _linemap.fold_find( startline, dir, num ) );
     }
-
-    /*!
-     \return Returns information about folding information.
-    */
-    Tcl::object get_fold_info(
-      const Tcl::object & startline,
-      const Tcl::object & depth
-    ) const;
 
     /*! \return Returns the the starting line containing the given indent marker */
     Tcl::object indent_line_start(

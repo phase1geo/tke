@@ -187,15 +187,6 @@ bool model::is_index(
 
 }
 
-object model::get_fold_info(
-  const object & startline,
-  const object & depth
-) const {
-
-  return( _linemap.get_fold_info( startline, depth ) );
-
-}
-
 object model::indent_line_start(
   const object & indent_index
 ) const {
