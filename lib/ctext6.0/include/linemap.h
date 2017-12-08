@@ -169,14 +169,32 @@ class linemap {
       const Tcl::object & last_row
     ) const;
 
+    Tcl::object fold_delete(
+      const Tcl::object & line
+    );
+
+    Tcl::object fold_delete_range(
+      const Tcl::object & startline,
+      const Tcl::object & endline
+    );
+
     /*!
      Opens the given fold for the specified depth.
 
      \return Returns a Tcl list containing indices that need to be un-elided.
     */
-    Tcl::object open_fold(
+    Tcl::object fold_open(
       const Tcl::object & startline,
       const Tcl::object & depth_obj
+    );
+
+    Tcl::object fold_open_range(
+      const Tcl::object & startline,
+      const Tcl::object & endline
+    );
+
+    Tcl::object fold_show_line(
+      const Tcl::object & line
     );
 
     /*!
@@ -184,9 +202,20 @@ class linemap {
 
      \return Returns a Tcl list containing indices that need to be elided.
     */
-    Tcl::object close_fold(
+    Tcl::object fold_close(
       const Tcl::object & startline,
       const Tcl::object & depth_obj
+    );
+
+    Tcl::object fold_close_range(
+      const Tcl::object & startline,
+      const Tcl::object & endline
+    );
+
+    Tcl::object fold_find(
+      const Tcl::object & startline,
+      const Tcl::object & dir,
+      const Tcl::object & num
     );
 
     /*! \return Returns the fold information for a given range */

@@ -630,7 +630,37 @@ object linemap::names() const {
 
 }
 
-object linemap::open_fold(
+object linemap::fold_delete(
+  const object & line
+) {
+
+  interpreter interp( line.get_interp(), false );
+  int         dline = line.get<int>( interp );
+  object      result;
+
+  /* TBD */
+
+  return( result );
+
+}
+
+object linemap::fold_delete_range(
+  const object & startline,
+  const object & endline
+) {
+
+  interpreter interp( startline.get_interp(), false );
+  int         sline = startline.get<int>( interp );
+  int         eline = endline.get<int>( interp );
+  object      result;
+
+  /* TBD */
+
+  return( result );
+
+}
+
+object linemap::fold_open(
   const object & startline,
   const object & depth_obj
 ) {
@@ -674,7 +704,7 @@ object linemap::open_fold(
             result.append( interp, (object)line.to_string() );
             close_count = count;
           }
-        } else if( (tag == "end") && (close_count == (count + inc)) ) { 
+        } else if( (tag == "end") && (close_count == (count + inc)) ) {
           result.append( interp, (object)line.to_string() );
           close_count = 0;
         }
@@ -696,7 +726,37 @@ object linemap::open_fold(
 
 }
 
-object linemap::close_fold(
+object linemap::fold_open_range(
+  const object & startline,
+  const object & endline
+) {
+
+  interpreter interp( startline.get_interp(), false );
+  int         sline = startline.get<int>( interp );
+  int         eline = endline.get<int>( interp );
+  object      result;
+
+  /* TBD */
+
+  return( result );
+
+}
+
+object linemap::fold_show_line(
+  const object & line
+) {
+
+  interpreter interp( line.get_interp(), false );
+  int         sline = line.get<int>( interp );
+  object      result;
+
+  /* TBD */
+
+  return( result );
+
+}
+
+object linemap::fold_close(
   const object & startline,
   const object & depth_obj
 ) {
@@ -745,6 +805,78 @@ object linemap::close_fold(
   }
 
   result.append( interp, (object)"end" );
+
+  return( result );
+
+}
+
+object linemap::fold_close_range(
+  const object & startline,
+  const object & endline
+) {
+
+  interpreter interp( startline.get_interp(), false );
+  int         sline = startline.get<int>( interp );
+  int         eline = endline.get<int>( interp );
+  int         col   = get_col_index( "folding" );
+  object      result;
+
+  if( col == -1 ) {
+    result.append( interp, (object)false );
+    result.append( interp, (object)"" );
+    return( result );
+  }
+
+  /* TBD */
+
+  return( result );
+
+}
+
+object linemap::fold_find(
+  const object & startline,
+  const object & dir_obj,
+  const object & num_obj
+) {
+
+  interpreter interp( startline.get_interp(), false );
+  int         row   = get_row_index( startline.get<int>( interp ) );
+  bool        next  = (dir_obj.get<string>( interp ) == "next");
+  int         num   = num_obj.get<int>( interp );
+  int         col   = get_col_index( "folding" );
+  object      result;
+
+  if( col == -1 ) {
+    return( result );
+  }
+
+  if( next ) {
+    for( int i=(row + 1); i<_rows.size(); i++ ) {
+      const linemap_colopts* value = _rows[i]->get_value( col );
+      if( value != 0 ) {
+        const string & tag = value->name();
+        if( tag != "end" ) {
+          if( --num == 0 ) {
+            result.append( interp, (object)_rows[i]->row() );
+            return( result );
+          }
+        }
+      }
+    }
+  } else {
+    for( int i=(row - 1); i>=0; i-- ) {
+      const linemap_colopts* value = _rows[i]->get_value( col );
+      if( value != 0 ) {
+        const string & tag = value->name();
+        if( tag != "end" ) {
+          if( --num == 0 ) {
+            result.append( interp, (object)_rows[i]->row() );
+            return( result );
+          }
+        }
+      }
+    }
+  }
 
   return( result );
 

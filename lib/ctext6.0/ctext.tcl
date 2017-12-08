@@ -650,9 +650,9 @@ namespace eval ctext {
       }
       if {$states($data($win,config,-foldstate)) != $states($value)} {
         if {$states($value)} {
-          enable_folding $win
+          fold_enable $win
         } else {
-          disable_folding $win
+          fold_disable $win
         }
       }
       set data($win,config,-foldstate) $value
@@ -928,6 +928,7 @@ namespace eval ctext {
       delete      { return [command_delete      $win {*}$args] }
       diff        { return [command_diff        $win {*}$args] }
       edit        { return [command_edit        $win {*}$args] }
+      fold        { return [command_fold        $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
       highlight   { return [command_highlight   $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
@@ -1704,6 +1705,102 @@ namespace eval ctext {
       }
       default {
         return [uplevel 1 [linsert $args 0 $win._t $cmd]]
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Manipulates the code folding gutter contents.
+  proc command_fold {win args} {
+
+    variable data
+
+    set args [lassign $args subcmd]
+
+    switch $subcmd {
+      add {
+        if {$data($win,config,-foldstate) eq "manual"} {
+          return [fold_add $win {*}$args]
+        }
+        return 0
+      }
+      delete {
+        if {$data($win,config,-foldstate) eq "manual"} {
+          switch [llength $args] {
+            1 {
+              if {[lindex $args 0] eq "all"} {
+                return [fold_delete_range $win 1.0 end]
+              } else {
+                return [fold_delete $win [lindex $args 0]]
+              }
+            }
+            2 {
+              return [fold_delete_range $win {*}$args]
+            }
+            default {
+              return -code error "Incorrect number of arguments to ctext fold delete command"
+            }
+          }
+          return 1
+        }
+        return 0
+      }
+      open {
+        switch [llength $args] {
+          1 {
+            if {[llength $args 0] eq "all"} {
+              fold_open_range $win 1.0 end
+            } else {
+              fold_show_line $win [lindex $args 0]
+            }
+          }
+          2 {
+            # TBD - Check line to see if it contains a close/eclose
+            fold_open [lindex $args 1] $win [lindex $args 0]
+          }
+          3 {
+            return [fold_open_range $win {*}$args]
+          }
+          default {
+            return -code error "Incorrect number of arguments to ctext fold open command"
+          }
+        }
+      }
+      close {
+        switch [llength $args] {
+          1 {
+            if {[llength $args 0] eq "all"} {
+              fold_close_range $win 1.0 end
+            } else {
+              return -code error "Incorrect call to fold close"
+            }
+          }
+          2 {
+            # TBD - We might want to check to see if the given line contains
+            #       an open or eopen symbol
+            fold_close [lindex $args 1] $win [lindex $args 0]
+          }
+          3 {
+            # TBD - Close all folds in the given range to the specified depth
+            return [fold_close_range $win {*}$args]
+          }
+          default {
+            return -code error "Incorrect number of arguments to ctext fold close command"
+          }
+        }
+      }
+      find {
+        if {[llength $args] < 2} {
+          return -code error "Incorrect number of arguments to ctext fold find"
+        }
+        if {[lsearch [list next prev] [lindex $args 1]] == -1} {
+          return -code error "Unknown fold find direction ([lindex $args 0])"
+        }
+        return [fold_find $win {*}$args]
+      }
+      default {
+        return -code error "Unknown fold subcommand ($subcmd)"
       }
     }
 
@@ -2713,8 +2810,12 @@ namespace eval ctext {
   }
 
   ######################################################################
+  #                            CODE FOLDING                            #
+  ######################################################################
+
+  ######################################################################
   # Called when the -foldstate variable is set to a non-"none" value.
-  proc enable_folding {win} {
+  proc fold_enable {win} {
 
     variable data
 
@@ -2722,10 +2823,10 @@ namespace eval ctext {
     set close_color "blue"
 
     $win gutter create folding \
-      open   [list -symbol \u25be -fg $open_color  -onclick [list ctext::close_fold 1] -onshiftclick [list ctext::close_fold 0]] \
-      close  [list -symbol \u25b8 -fg $close_color -onclick [list ctext::open_fold  1] -onshiftclick [list ctext::open_fold  0]] \
-      eopen  [list -symbol \u25be -fg $open_color  -onclick [list ctext::close_fold 1] -onshiftclick [list ctext::close_fold 0]] \
-      eclose [list -symbol \u25b8 -fg $close_color -onclick [list ctext::open_fold  1] -onshiftclick [list ctext::open_fold  0]] \
+      open   [list -symbol \u25be -fg $open_color  -onclick [list ctext::fold_close 1] -onshiftclick [list ctext::fold_close 0]] \
+      close  [list -symbol \u25b8 -fg $close_color -onclick [list ctext::fold_open  1] -onshiftclick [list ctext::fold_open  0]] \
+      eopen  [list -symbol \u25be -fg $open_color  -onclick [list ctext::fold_close 1] -onshiftclick [list ctext::fold_close 0]] \
+      eclose [list -symbol \u25b8 -fg $close_color -onclick [list ctext::fold_open  1] -onshiftclick [list ctext::fold_open  0]] \
       end    [list -symbol \u221f -fg $open_color]
 
     # Configure the _folded tag to hide code
@@ -2738,7 +2839,7 @@ namespace eval ctext {
 
   ######################################################################
   # Called when the -foldstate variable is set to a "none" value.
-  proc disable_folding {win} {
+  proc fold_disable {win} {
 
     # Remove all folded text
     $win._t tag remove _folded 1.0 end
@@ -2749,40 +2850,180 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Opens a folded line, showing its contents.
-  proc open_fold {depth win line} {
+  # Adds folds at the given positions.
+  proc fold_add {win args} {
 
-    # Adjust the linemap and remove the elided tag from the returned index ranges
-    $win._t tag remove _folded {*}[model::open_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
+    # If there are no ranges to add, just return immediately
+    if {[llength $args] == 0} {
+      return 0
+    }
+
+    set startlines [list]
+    set endlines   [list]
+    set ranges     [list]
+
+    foreach {startpos endpos} $args {
+      lappend startlines [set startline [lindex [split [$win._t index $startpos] .] 0]]
+      lappend endlines   [set endline   [lindex [split [$win._t index $endpos]   .] 0]]
+      lappend ranges     [expr $startline + 1].0 $endline.0
+    }
+
+    $win gutter set folding open $startline
+    $win gutter set folding end  $endline
+    $win._t tag add _folded {*}$ranges
 
     # Update the linemap
     linemapUpdate $win
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Deletes the fold starting at the given line.  Returns 1 if a fold
+  # was deleted.
+  proc fold_delete {win line} {
+
+    set range ""
+
+    # Open all folds
+    fold_open_range $win 1.0 end
+
+    if {[model::fold_delete $win $line range]} {
+      if {$range ne ""} {
+        $win._t tag remove _folded {*}$range
+      }
+      linemapUpdate $win
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Delete all foldes in the given range.  Return 1 if at least one fold
+  # was removed.
+  proc fold_delete_range {win startpos endpos} {
+
+    set startline [lindex [split [$win._t index $startpos] .] 0]
+    set endline   [lindex [split [$win._t index $endpos]   .] 0]
+    set ranges    ""
+
+    if {[model::fold_delete_range $win $startline $endline ranges] ne ""} {
+      if {$ranges ne ""} {
+        $win._t tag remove _folded {*}$ranges
+      }
+      linemapUpdate $win
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Opens a folded line, showing its contents.
+  proc fold_open {depth win line} {
+
+    set ranges ""
+    if {$depth == 0} {
+      set depth 100000
+    }
+
+    # Adjust the linemap and remove the elided tag from the returned index ranges
+    if {[model::fold_open $win $line $depth ranges]} {
+      if {$ranges ne ""} {
+        $win._t tag remove _folded {*}$ranges
+      }
+      linemapUpdate $win
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Opens any closed folds that start within the given range.
+  proc fold_open_range {win startpos endpos} {
+
+    set startline [lindex [split [$win._t index $startpos] .] 0]
+    set endline   [lindex [split [$win._t index $endpos]   .] 0]
+    set ranges    ""
+
+    # Adjust the linemap and remove the elided tag from the returned ranges
+    if {[model::fold_open_range $win $startline $endline ranges]} {
+      if {$ranges ne ""} {
+        $win._t tag remove _folded {*}$ranges
+      }
+      linemapUpdate $win
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Display the specified line, opening all ancestor folds.
+  proc fold_show_line {win line} {
+
+    if {[set ranges [model::fold_show_line $win $line]] ne ""} {
+      $win._t tag remove _folded {*}$ranges
+      linemapUpdate $win
+    }
 
   }
 
   ######################################################################
   # Closes a folded line, hiding its contents.
-  proc close_fold {depth win line} {
+  proc fold_close {depth win line} {
+
+    set ranges ""
+    if {$depth == 0} {
+      set depth 100000
+    }
 
     # Adjust the linemap and remove the elided tag from the returned index ranges
-    $win._t tag add _folded {*}[model::close_fold $win $line [expr ($depth == 0) ? 100000 : $depth]]
+    if {[model::fold_close $win $line $depth ranges]} {
+      if {$ranges ne ""} {
+        $win._t tag add _folded {*}$ranges
+      }
+      linemapUpdate $win
+      return 1
+    }
 
-    # Update the linemap
-    linemapUpdate $win
+    return 0
 
   }
 
   ######################################################################
-  # Returns the folding information for the given line.
-  proc get_fold_range {win line depth} {
+  # Close any opened tags that begin in the specified range.
+  proc fold_close_range {win startpos endpos} {
 
-    variable data
+    set startline [lindex [split [$win._t index $startpos] .] 0]
+    set endline   [lindex [split [$win._t index $endpos]   .] 0]
+    set ranges    ""
 
-    if {$data($win,config,-foldstate) eq "indent"} {
-      return [get_fold_range_indent $win $line $depth]
-    } else {
-      return [get_fold_range_other $win $line $depth]
+    # Adjust the linemap and remove the elided tag from the returned ranges
+    if {[model::fold_close_range $win $startline $endline ranges]} {
+      if {$ranges ne ""} {
+        $win._t tag add _folded {*}$ranges
+      }
+      linemapUpdate $win
+      return 1
     }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Sets the view and cursor to the num'th next or previous folding tag.
+  proc fold_find {win startline dir {num 1}} {
+
+    return [model::fold_find $win $startline $dir $num]
 
   }
 
