@@ -2726,7 +2726,7 @@ namespace eval menus {
     set code_folding [expr {[$txt cget -foldstate] ne "none"}]
     set sel_state    [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
 
-    if {[folding::get_method $txt] eq "manual"} {
+    if {[$txt cget -foldstate] eq "manual"} {
       $mb entryconfigure [msgcat::mc "Create Fold From Selection"] -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Selected Folds"]      -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Current Fold"]        -state normal
@@ -2969,7 +2969,9 @@ namespace eval menus {
   # Create a fold for the selected code and close the fold.
   proc add_fold_from_selection {} {
 
-    folding::close_selected [gui::current_txt]
+    set txt [gui::current_txt]
+
+    $txt fold add {*}[$txt tag ranges sel]
 
   }
 
@@ -2983,13 +2985,17 @@ namespace eval menus {
     set txt [gui::current_txt]
 
     switch $type {
-      current  { folding::delete_fold $txt [lindex [split [$txt index insert] .] 0] }
-      all      { folding::delete_all_folds $txt }
+      current {
+        $txt fold delete [lindex [split [$txt index insert] .] 0]
+      }
+      all {
+        $txt fold delete all
+      }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          folding::delete_folds_in_range $txt $startline $endline
+          $txt fold delete $startline $endline
         }
       }
     }
@@ -3007,13 +3013,17 @@ namespace eval menus {
     set txt [gui::current_txt]
 
     switch $type {
-      current  { folding::close_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
-      all      { folding::close_all_folds $txt }
+      current {
+        $txt fold close [lindex [split [$txt index insert] .] 0] $depth
+      }
+      all {
+        $txt fold close all
+      }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          folding::close_folds_in_range $txt $startline $endline $depth
+          $txt fold close $startline $endline $depth
         }
       }
     }
@@ -3031,14 +3041,20 @@ namespace eval menus {
     set txt [gui::current_txt]
 
     switch $type {
-      current  { folding::open_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
-      all      { folding::open_all_folds $txt }
-      show     { folding::show_line $txt [lindex [split [$txt index insert] .] 0] }
+      current  {
+        $txt fold open [lindex [split [$txt index insert] .] 0] $depth
+      }
+      all      {
+        $txt fold open all
+      }
+      show     {
+        $txt fold open [lindex [split [$txt index insert] .] 0]
+      }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          folding::open_folds_in_range $txt $startline $endline $depth
+          $txt fold open $startline $endline $depth
         }
       }
     }
@@ -3050,7 +3066,9 @@ namespace eval menus {
   # cursor position.
   proc jump_to_fold {dir} {
 
-    folding::jump_to [gui::current_txt] $dir
+    set txt [gui::current_txt]
+
+    $txt fold jump $dir
 
   }
 

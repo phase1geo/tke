@@ -126,11 +126,29 @@ object request::execute(
     case REQUEST_CURSORHIST :
       return( inst.cursor_history() );
       break;
+    case REQUEST_FOLDDELETE :
+      return( inst.fold_delete( _args.at( i, 0 ) ) );
+      break;
+    case REQUEST_FOLDDELETERANGE :
+      return( inst.fold_delete_range( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
     case REQUEST_FOLDOPEN :
-      return( inst.open_fold( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      return( inst.fold_open( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_FOLDOPENRANGE :
+      return( inst.fold_open_range( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_FOLDSHOWLINE :
+      return( inst.fold_show_line( _args.at( i, 0 ) ) );
       break;
     case REQUEST_FOLDCLOSE :
-      return( inst.close_fold( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      return( inst.fold_close( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_FOLDCLOSERANGE :
+      return( inst.fold_close_range( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      break;
+    case REQUEST_FOLDFIND :
+      return( inst.fold_find( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_GETFOLDINFO :
       return( inst.get_fold_info( _args.at( i, 0 ), _args.at( i, 1 ) ) );

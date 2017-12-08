@@ -591,7 +591,7 @@ namespace eval vim {
 
     # Set the current folding method
     if {[info exists map($val)]} {
-      folding::set_fold_method [gui::current_txt] $val
+      [gui::current_txt] configure -foldstate $val
     } else {
       gui::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
     }
@@ -2157,10 +2157,10 @@ namespace eval vim {
     # Move the insertion cursor down one line
     switch $operator($txtt) {
       "folding" {
-        folding::jump_to [winfo parent $txtt] next [get_number $txtt]
+        [winfo parent $txtt] fold jumpto next [get_number $txtt]
       }
       "folding:range" {
-        folding::close_range [winfo parent $txtt] insert "insert+[get_number $txtt] display lines"
+        [winfo parent $txtt] fold close insert "insert+[get_number $txtt] display lines" 0
       }
       default {
         return [do_operation $txtt [list down -num [get_number $txtt] -column vim::column($txtt)]]
@@ -2203,10 +2203,10 @@ namespace eval vim {
     # Move the insertion cursor up one line
     switch $operator($txtt) {
       "folding" {
-        folding::jump_to [winfo parent $txtt] prev [get_number $txtt]
+        [winfo parent $txtt] fold jumpto prev [get_number $txtt]
       }
       "folding:range" {
-        folding::close_range [winfo parent $txtt] [edit::get_index $txtt up -num [get_number $txtt] -column vim::column($txtt)] insert
+        [winfo parent $txtt] fold close [edit::get_index $txtt up -num [get_number $txtt] -column vim::column($txtt)] insert 0
         ::tk::TextSetCursor $txtt "insert-1 display lines"
         adjust_insert $txtt
       }

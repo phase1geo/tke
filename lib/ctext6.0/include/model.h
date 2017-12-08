@@ -339,15 +339,46 @@ class model {
     }
 
     /*!
+     Deletes the fold specified at the given line.
+
+     \return Returns the text range to close the fold indicator.
+    */
+    Tcl::object fold_delete(
+      const Tcl::object & line
+    ) {
+      return( _linemap.fold_delete( line ) );
+    }
+
+    Tcl::object fold_delete_range(
+      const Tcl::object & startline,
+      const Tcl::object & endline
+    ) {
+      return( _linemap.fold_delete_range( startline, endline ) );
+    }
+
+    /*!
      Opens all folds to the given depth, starting at the given startline.
 
      \return Returns the list of ranges to un-elide.
     */
-    Tcl::object open_fold(
+    Tcl::object fold_open(
       const Tcl::object & startline,
       const Tcl::object & depth
     ) {
-      return( _linemap.open_fold( startline, depth ) );
+      return( _linemap.fold_open( startline, depth ) );
+    }
+
+    Tcl::object fold_open_range(
+      const Tcl::object & startline,
+      const Tcl::object & endline
+    ) {
+      return( _linemap.fold_open_range( startline, endline ) );
+    }
+
+    Tcl::object fold_show_line(
+      const Tcl::object & line
+    ) {
+      return( _linemap.fold_show_line( line ) );
     }
 
     /*!
@@ -355,11 +386,26 @@ class model {
 
      \return Returns the list of ranges to elide.
     */
-    Tcl::object close_fold(
+    Tcl::object fold_close(
       const Tcl::object & startline,
       const Tcl::object & depth
     ) {
-      return( _linemap.close_fold( startline, depth ) );
+      return( _linemap.fold_close( startline, depth ) );
+    }
+
+    Tcl::object fold_close_range(
+      const Tcl::object & startline,
+      const Tcl::object & endline
+    ) {
+      return( _linemap.fold_close_range( startline, endline ) );
+    }
+
+    Tcl::object fold_find(
+      const Tcl::object & startline,
+      const Tcl::object & dir,
+      const Tcl::object & num
+    ) {
+      return( _linemap.fold_find( startline, dir, num ) );
     }
 
     /*!

@@ -484,33 +484,107 @@ namespace eval model {
   }
 
   ######################################################################
-  # Opens the given fold and all descendents to the given depth.
-  proc open_fold {win line depth} {
+  # Deletes the fold found on the given line.
+  proc fold_delete {win line prange} {
+
+    upvar $prange range
 
     variable data
 
-    return [$data($win,model) foldopen $line $depth]
+    lassign [$data($win,model) folddelete $line] retval range
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Deletes all folds that begin within the startline and endline range.
+  proc fold_delete_range {win startline endline pranges} {
+
+    upvar $pranges ranges
+
+    variable data
+
+    lassign [$data($win,model) folddeleterange $startline $endline] retval ranges
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Opens the given fold and all descendents to the given depth.
+  proc fold_open {win line depth pranges} {
+
+    upvar $pranges ranges
+
+    variable data
+
+    lassign [$data($win,model) foldopen $line $depth] retval ranges
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Opens all closed folds that begin within the specified range.
+  proc fold_open_range {win startline endline pranges} {
+
+    upvar $pranges ranges
+
+    variable data
+
+    lassign [$data($win,model) foldopenrange $startline $endline] retval ranges
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Opens all folds to reveal the given line.
+  proc fold_show_line {win line} {
+
+    variable data
+
+    return [$data($win,model) foldshowline $line]
 
   }
 
   ######################################################################
   # Closes the given fold and all descendents to the given depth.
-  proc close_fold {win line depth} {
+  proc fold_close {win line depth pranges} {
+
+    upvar $pranges ranges
 
     variable data
 
-    return [$data($win,model) foldclose $line $depth]
+    lassign [$data($win,model) foldclose $line $depth] retval ranges
+
+    return $retval
 
   }
 
   ######################################################################
-  # Returns folding information for a given line.  This is a Tcl list
-  # where the first element is the line number to 
-  proc get_fold_info {win line depth} {
+  # Closes all open folds found within the given startline and endline
+  # range.
+  proc fold_close_range {win startline endline pranges} {
+
+    upvar $pranges ranges
 
     variable data
 
-    return [$data($win,model) getfoldinfo $line $depth]
+    lassign [$data($win,model) foldcloserange $startline $endline] retval ranges
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Finds the num'th next/previous fold marker in the given direction.
+  proc fold_find {win startline dir num} {
+
+    variable data
+
+    return [$data($win,model) foldfind $startline $dir $num]
 
   }
 

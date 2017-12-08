@@ -553,7 +553,34 @@ object mailbox::cursor_history() {
 
 }
 
-object mailbox::open_fold(
+object mailbox::fold_delete(
+  object line
+) {
+
+  add_request( REQUEST_FOLDDELETE, line, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::fold_delete_range(
+  object startline,
+  object endline
+) {
+
+  interpreter i( startline.get_interp(), false );
+  object      args;
+
+  args.append( i, startline );
+  args.append( i, endline );
+
+  add_request( REQUEST_FOLDDELETERANGE, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::fold_open(
   object startline,
   object depth
 ) {
@@ -570,7 +597,34 @@ object mailbox::open_fold(
 
 }
 
-object mailbox::close_fold(
+object mailbox::fold_open_range(
+  object startline,
+  object endline
+) {
+
+  interpreter i( startline.get_interp(), false );
+  object      args;
+
+  args.append( i, startline );
+  args.append( i, endline );
+
+  add_request( REQUEST_FOLDOPENRANGE, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::fold_show_line(
+  object line
+) {
+
+  add_request( REQUEST_FOLDSHOWLINE, line, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::fold_close(
   object startline,
   object depth
 ) {
@@ -582,6 +636,42 @@ object mailbox::close_fold(
   args.append( i, depth );
 
   add_request( REQUEST_FOLDCLOSE, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::fold_close_range(
+  object startline,
+  object endline
+) {
+
+  interpreter i( startline.get_interp(), false );
+  object      args;
+
+  args.append( i, startline );
+  args.append( i, endline );
+
+  add_request( REQUEST_FOLDCLOSERANGE, args, true, false );
+
+  return( result() );
+
+}
+
+object mailbox::fold_find(
+  object startline,
+  object dir,
+  object num
+) {
+
+  interpreter i( startline.get_interp(), false );
+  object      args;
+
+  args.append( i, startline );
+  args.append( i, dir );
+  args.append( i, num );
+
+  add_request( REQUEST_FOLDFIND, args, true, false );
 
   return( result() );
 
@@ -655,8 +745,14 @@ CPPTCL_MODULE(Model, i) {
     .def( "cursorhistory",   &mailbox::cursor_history )
     .def( "undoreset",       &mailbox::undo_reset )
     .def( "autoseparate",    &mailbox::auto_separate )
-    .def( "foldopen",        &mailbox::open_fold )
-    .def( "foldclose",       &mailbox::close_fold )
+    .def( "folddelete",      &mailbox::fold_delete )
+    .def( "folddeleterange", &mailbox::fold_delete_range )
+    .def( "foldopen",        &mailbox::fold_open )
+    .def( "foldopenrange",   &mailbox::fold_open_range )
+    .def( "foldshowline",    &mailbox::fold_show_line )
+    .def( "foldclose",       &mailbox::fold_close )
+    .def( "foldcloserange",  &mailbox::fold_close_range )
+    .def( "foldfind",        &mailbox::fold_find )
     .def( "getfoldinfo",     &mailbox::get_fold_info )
     .def( "indentlinestart", &mailbox::indent_line_start );
 
