@@ -640,12 +640,12 @@ object linemap::fold_delete(
   bool        retval = false;
   object      ranges;
   object      result;
-  
+
   if( col == -1 ) {
     result.append( interp, (object)false );
     return( result );
   }
-  
+
   tindex line( startline.get<int>( interp ), 0 );
   int    row         = get_row_index( line.row() );
   int    rows        = _rows.size();
@@ -688,7 +688,7 @@ object linemap::fold_delete(
       }
     }
   }
-  
+
   result.append( interp, (object)retval );
   result.append( interp, ranges );
 
@@ -706,7 +706,7 @@ object linemap::fold_delete_range(
   bool        retval = false;
   object      ranges;
   object      result;
-  
+
   if( col == -1 ) {
     result.append( interp, (object)false );
     return( result );
@@ -742,13 +742,13 @@ object linemap::fold_delete_range(
       }
     }
   }
-  
+
   ranges.append( interp, (object)sline.to_string() );
   ranges.append( interp, (object)eline.to_string() );
-  
+
   result.append( interp, (object)retval );
   result.append( interp, ranges );
-  
+
   return( result );
 
 }
@@ -821,7 +821,7 @@ object linemap::fold_open(
   if( count != 0 ) {
     ranges.append( interp, (object)"end" );
   }
-  
+
   result.append( interp, (object)retval );
   result.append( interp, ranges );
 
@@ -854,7 +854,7 @@ object linemap::fold_open_range(
   const linemap_colopts* open_value  = _cols[col]->get_value( "open" );
   const linemap_colopts* eopen_value = _cols[col]->get_value( "eopen" );
   int                    counts[5]   = {1, 1, -1, -1, -1};
-  
+
   for( int i=row; i<rows; i++ ) {
     const linemap_colopts* value = _rows[i]->get_value( col );
     if( value != 0 ) {
@@ -870,7 +870,8 @@ object linemap::fold_open_range(
         _rows[i]->set_value( col, eopen_value );
       }
       if( (count += inc) == 0 ) {
-        eline = line;
+        eline  = line;
+        retval = true;
       } else if( count < 0 ) {
         count = 0;
       } else if( (tag == "eopen") || (tag == "eclose") ) {
@@ -881,7 +882,7 @@ object linemap::fold_open_range(
 
   ranges.append( interp, (object)sline.to_string() );
   ranges.append( interp, (object)eline.to_string() );
-  
+
   result.append( interp, (object)retval );
   result.append( interp, ranges );
 
@@ -900,11 +901,11 @@ object linemap::fold_show_line(
   if( col == -1 ) {
     return( result );
   }
-  
+
   int row       = get_row_index( line.get<int>( interp ) );
   int count     = 1;
   int counts[5] = {-1, -1, 0, 0, 1};
-  
+
   for( int i=(row - 1); i>=0; i-- ) {
     const linemap_colopts* value = _rows[i]->get_value( col );
     if( value != 0 ) {
@@ -964,7 +965,7 @@ object linemap::fold_close(
       }
       if( (count += inc) == 0 ) {
         ranges.append( interp, (object)line.to_string() );
-        retval = false;
+        retval = true;
         break;
       } else if( count < 0 ) {
         count = 0;
@@ -974,7 +975,11 @@ object linemap::fold_close(
     }
   }
 
-  result.append( interp, (object)"end" );
+  if( count != 0 ) {
+    ranges.append( interp, (object)"end" );
+  }
+
+  result.append( interp, (object)retval );
   result.append( interp, ranges );
 
   return( result );
@@ -1040,7 +1045,7 @@ object linemap::fold_close_range(
   if( count != 0 ) {
     ranges.append( interp, (object)"end" );
   }
-  
+
   result.append( interp, (object)retval );
   result.append( interp, ranges );
 
@@ -1055,7 +1060,8 @@ object linemap::fold_find(
 ) {
 
   interpreter interp( startline.get_interp(), false );
-  int         row   = get_row_index( startline.get<int>( interp ) );
+  int         sline = startline.get<int>( interp );
+  int         row   = get_row_index( sline );
   bool        next  = (dir_obj.get<string>( interp ) == "next");
   int         num   = num_obj.get<int>( interp );
   int         col   = get_col_index( "folding" );
@@ -1066,9 +1072,9 @@ object linemap::fold_find(
   }
 
   if( next ) {
-    for( int i=(row + 1); i<_rows.size(); i++ ) {
+    for( int i=row; i<_rows.size(); i++ ) {
       const linemap_colopts* value = _rows[i]->get_value( col );
-      if( value != 0 ) {
+      if( (value != 0) && (sline < _rows[i]->row()) ) {
         const string & tag = value->name();
         if( tag != "end" ) {
           if( --num == 0 ) {
@@ -1079,9 +1085,9 @@ object linemap::fold_find(
       }
     }
   } else {
-    for( int i=(row - 1); i>=0; i-- ) {
+    for( int i=row; i>=0; i-- ) {
       const linemap_colopts* value = _rows[i]->get_value( col );
-      if( value != 0 ) {
+      if( (value != 0) && (_rows[i]->row() < sline) ) {
         const string & tag = value->name();
         if( tag != "end" ) {
           if( --num == 0 ) {
