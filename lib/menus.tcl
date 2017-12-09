@@ -2545,7 +2545,8 @@ namespace eval menus {
 
     $mb.foldPopup add cascade -label [msgcat::mc "Close Current Fold"] -menu [make_menu $mb.fcloseCurrPopup -tearoff 0]
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Close Selected Folds"] -menu [make_menu $mb.fcloseSelPopup -tearoff 0]
+    $mb.foldPopup add command -label [msgcat::mc "Close Selected Folds"] -command [list menus::close_folds selected]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds"]] [list menus::close_folds selected]
 
     $mb.foldPopup add command -label [msgcat::mc "Close All Folds"] -command [list menus::close_folds all]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Close all folds"]] [list menus::close_folds all]
@@ -2554,7 +2555,8 @@ namespace eval menus {
 
     $mb.foldPopup add cascade -label [msgcat::mc "Open Current Fold"] -menu [make_menu $mb.fopenCurrPopup -tearoff 0]
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Open Selected Folds"] -menu [make_menu $mb.fopenSelPopup -tearoff 0]
+    $mb.foldPopup add command -label [msgcat::mc "Open Selected Folds"] -command [list menus::open_folds selected]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds"]] [list menus::open_folds selected]
 
     $mb.foldPopup add command -label [msgcat::mc "Open All Folds"] -command [list menus::open_folds all]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Open all folds"]] [list menus::open_folds all]
@@ -2579,26 +2581,12 @@ namespace eval menus {
     launcher::register [make_menu_cmd "View" [msgcat::mc "Close fold at current line - one level"]]  [list menus::close_folds current 1]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Close fold at current line - all levels"]] [list menus::close_folds current 0]
 
-    # Setup the folding close selected popup menu
-    $mb.fcloseSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds selected 1]
-    $mb.fcloseSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds selected 0]
-
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds - one level"]]  [list menus::close_folds selected 1]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds - all levels"]] [list menus::close_folds selected 0]
-
     # Setup the folding open current popup menu
     $mb.fopenCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds current 1]
     $mb.fopenCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds current 0]
 
     launcher::register [make_menu_cmd "View" [msgcat::mc "Open fold at current line - one level"]]  [list menus::open_folds current 1]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Open fold at current line - all levels"]] [list menus::open_folds current 0]
-
-    # Setup the folding open selected popup menu
-    $mb.fopenSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds selected 1]
-    $mb.fopenSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds selected 0]
-
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds - one level"]]  [list menus::open_folds selected 1]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds - all levels"]] [list menus::open_folds selected 0]
 
   }
 
@@ -3023,7 +3011,7 @@ namespace eval menus {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          $txt fold close $startline $endline $depth
+          $txt fold close $startline $endline
         }
       }
     }
@@ -3068,7 +3056,10 @@ namespace eval menus {
 
     set txt [gui::current_txt]
 
-    $txt fold jump $dir
+    if {[set line [$txt fold find insert $dir]] ne ""} {
+      tk::TextSetCursor $txt.t $line.0
+      vim::adjust_insert $txt.t
+    }
 
   }
 
