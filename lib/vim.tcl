@@ -310,19 +310,19 @@ namespace eval vim {
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            folding::open_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
+            $txt fold open $from $to ;# [expr {$full_depth ne ""}]
 
           # Handle code fold closing in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldc(lose)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            folding::close_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
+            $txt fold close $from $to  ;# [expr {$full_depth ne ""}]
 
           # Handling code folding
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)fo(ld)?$} $value -> from to]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            folding::close_range $txt $from $to
+            $txt fold add $from $to
 
           # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
@@ -575,7 +575,9 @@ namespace eval vim {
   # Perform a fold_all or unfold_all command call.
   proc do_set_foldenable {val} {
 
-    folding::set_vim_foldenable [gui::current_txt] $val
+    set txt [gui::current_txt]
+
+    $txt configure -foldstate [gui::get_folding_method $txt $val]
 
   }
 
@@ -2114,7 +2116,8 @@ namespace eval vim {
       }
       "folding" {
         if {![in_visual_mode $txtt]} {
-          folding::set_vim_foldenable [winfo parent $txtt] [expr [folding::get_vim_foldenable [winfo parent $txtt]] ^ 1]
+          set enable [expr {[string match [[winfo parent $txtt] cget -foldstate] "none"] ? 1 : 0}]
+          $txt configure -foldstate [gui::get_folding_method $txt $enable]
         }
       }
       default {
@@ -2309,7 +2312,8 @@ namespace eval vim {
     variable motion
 
     if {$operator($txtt) eq "folding"} {
-      if {![folding::close_selected [winfo parent $txtt]]} {
+      set txt [winfo parent $txtt]
+      if {![$txt fold close {*}[$txt tag ranges sel]]} {
         set operator($txtt) "folding:range"
         return 1
       }
@@ -2344,9 +2348,10 @@ namespace eval vim {
     variable motion
 
     if {$operator($txtt) eq "folding"} {
-      if {![folding::close_selected [winfo parent $txtt]]} {
+      set txt [winfo parent $txtt]
+      if {![$txt fold close {*}[$txt tag ranges sel]]} {
         if {[set num [get_number $txtt]] > 1} {
-          folding::close_range [winfo parent $txtt] insert "insert+[expr $num - 1] display lines"
+          $txt fold add insert "insert+[expr $num - 1] display lines"
         }
       }
     } else {
@@ -2519,7 +2524,7 @@ namespace eval vim {
         return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
       }
       "folding" {
-        folding::close_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+        [winfo parent $txtt] fold close [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
       }
     }
 
@@ -2544,7 +2549,7 @@ namespace eval vim {
       }
       return 1
     } elseif {$operator($txtt) eq "folding"} {
-      folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      [winfo parent $txtt] fold close [lindex [split [$txtt index insert] .] 0] 0
     }
 
     return 0
@@ -2637,7 +2642,7 @@ namespace eval vim {
         return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart]
       }
       "folding" {
-        folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+        [winfo parent $txtt] fold delete [lindex [split [$txtt index insert] .] 0]
       }
     }
 
@@ -2663,7 +2668,7 @@ namespace eval vim {
         }
       }
       "folding" {
-        folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+        [winfo parent $txtt] fold delete [lindex [split [$txtt index insert] .] 0] 1
       }
     }
 
@@ -2693,7 +2698,7 @@ namespace eval vim {
           return 1
         }
         "folding" {
-          folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
+          [winfo parent $txtt] fold toggle [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
         }
         default {
           set motion($txtt) "a"
@@ -2725,7 +2730,7 @@ namespace eval vim {
           return 1
         }
         "folding" {
-          folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+          [winfo parent $txtt] fold toggle [lindex [split [$txtt index insert] .] 0] 0
         }
       }
     }
@@ -3037,7 +3042,7 @@ namespace eval vim {
           return 1
         }
         "folding" {
-          folding::open_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+          [winfo parent $txtt] fold open [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
         }
       }
     }
@@ -3062,7 +3067,7 @@ namespace eval vim {
           return 1
         }
         "folding" {
-          folding::open_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+          [winfo parent $txtt] fold open [lindex [split [$txtt index insert] .] 0] 0
         }
       }
     }
@@ -3137,7 +3142,8 @@ namespace eval vim {
           }
         }
         "folding" {
-          folding::set_vim_foldenable [winfo parent $txtt] 0
+          set txt [winfo parent $txtt]
+          $txt configure -foldstate [gui::get_folding_method $txt 0]
         }
         default {
           return [do_operation $txtt [list numberend -adjust "+1c"]]
@@ -3173,7 +3179,8 @@ namespace eval vim {
           }
         }
         "folding" {
-          folding::set_vim_foldenable [winfo parent $txtt] 1
+          set txt [winfo parent $txtt]
+          $txt configure -foldstate [gui::get_folding_method $txt 1]
         }
         default {
           return [do_operation $txtt numberstart]
@@ -3218,7 +3225,7 @@ namespace eval vim {
           return 1
         }
         "folding" {
-          folding::open_all_folds [winfo parent $txtt]
+          [winfo parent $txtt] fold open all
         }
       }
     }
@@ -3245,7 +3252,7 @@ namespace eval vim {
           }
         }
         "folding" {
-          folding::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+          [winfo parent $txtt] fold open [lindex [split [$txtt index insert] .] 0]
         }
         default {
           set motion($txtt) "v"
@@ -3739,7 +3746,7 @@ namespace eval vim {
     variable operator
 
     if {$operator($txtt) eq "folding"} {
-      folding::close_all_folds [winfo parent $txtt]
+      [winfo parent $txtt] fold close all
     } else {
       return [do_operation $txtt screenmid]
     }
@@ -4011,7 +4018,7 @@ namespace eval vim {
         }
       }
       "folding" {
-        folding::delete_all_folds [winfo parent $txtt]
+        [winfo parent $txtt] fold delete all
       }
       default {
         if {$motion($txtt) eq ""} {

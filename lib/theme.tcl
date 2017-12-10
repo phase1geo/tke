@@ -1006,7 +1006,6 @@ namespace eval theme {
       gui::update_theme $txt
       syntax::set_language $txt [syntax::get_language $txt] -highlight 0
       scroller::update_markers [winfo parent $txt].vb
-      folding::update_closed $txt
     }
 
   }
@@ -1021,7 +1020,6 @@ namespace eval theme {
     foreach txt $widgets(syntax_split) {
       gui::update_theme $txt
       scroller::update_markers [winfo parent $txt].vb
-      folding::update_closed $txt
     }
 
   }

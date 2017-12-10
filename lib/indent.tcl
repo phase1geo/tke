@@ -170,7 +170,7 @@ namespace eval indent {
     set indent_exprs($txt.t,mode) $indent_mode_map($mode)
 
     # Set the text widget's indent mode
-    # folding::add_folds $txt 1.0 end
+    $txt configure -foldstate [gui::get_folding_method $txt]
 
     # Update the menu button
     $gui::widgets(info_indent) configure -text $mode

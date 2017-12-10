@@ -5387,7 +5387,10 @@ namespace eval gui {
     set_current_tab $tabbar $tab
 
     # Make sure that the cursor is visible
-    folding::show_line $txt.t [lindex [split $pos .] 0]
+    if {[set line [$txt fold find $pos $dir]] ne ""} {
+      tk::TextSetCursor $txt.t $line.0
+      vim::adjust_insert $txt.t
+    }
 
     # Make the line viewable
     ::tk::TextSetCursor $txt.t $pos
@@ -5409,7 +5412,10 @@ namespace eval gui {
     set pos [markers::get_index $tab $name]
 
     # Make sure that the cursor is visible
-    folding::show_line $txt.t [lindex [split $pos .] 0]
+    if {[set line [$txt fold find $pos $dir]] ne ""} {
+      tk::TextSetCursor $txt.t $line.0
+      vim::adjust_insert $txt.t
+    }
 
     # Make the line viewable
     ::tk::TextSetCursor $txt.t $pos
