@@ -523,7 +523,6 @@ namespace eval syntax {
     # Re-highlight
     if {$opts(-highlight)} {
       $txt highlight 1.0 end
-      folding::restart $txt
     }
 
     # Set the menubutton text

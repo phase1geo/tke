@@ -1793,6 +1793,15 @@ namespace eval ctext {
           }
         }
       }
+      toggle {
+        switch [llength $args] {
+          1 -
+          2 { fold_toggle $win {*}$args }
+          default {
+            return -code error "Incorrect number of arguments to ctext fold toggle command"
+          }
+        }
+      }
       find {
         if {[llength $args] < 2} {
           return -code error "Incorrect number of arguments to ctext fold find"
@@ -3045,6 +3054,19 @@ namespace eval ctext {
     }
 
     return 0
+
+  }
+
+  ######################################################################
+  # Toggles the current fold.
+  proc fold_toggle {win line {depth 1}} {
+
+    switch [$win gutter get folding $line] {
+      open   -
+      eopen  { fold_close $depth $txt $line }
+      close  -
+      eclose { fold_open $depth $txt $line }
+    }
 
   }
 
