@@ -2898,8 +2898,17 @@ namespace eval ctext {
 
     variable data
 
+    puts "In fold_delete, foldstate: $data($win,config,-foldstate)"
+
     # If the foldstate is something other than manual, exit immediately
     if {$data($win,config,-foldstate) ne "manual"} {
+      return 0
+    }
+
+    set state [$win gutter get folding $line]
+
+    # If the current state is not open/close, return with false immediately
+    if {($state ne "open") && ($state ne "close")} {
       return 0
     }
 
@@ -2908,13 +2917,17 @@ namespace eval ctext {
       set depth 100000
     }
 
+    puts "  Performing fold_delete, line: $line, depth: $depth"
+
     if {[model::fold_delete $win $line $depth range]} {
+      puts "    HERE!"
       if {$range ne ""} {
         $win._t tag remove _folded {*}$range
       }
       linemapUpdate $win
       return 1
     }
+    puts "    HERE :("
 
     return 0
 
@@ -2951,6 +2964,13 @@ namespace eval ctext {
   ######################################################################
   # Opens a folded line, showing its contents.
   proc fold_open {depth win line} {
+
+    set state [$win gutter get folding $line]
+
+    # If the current state is not closed, return with false immediately
+    if {($state ne "close") && ($state ne "eclose")} {
+      return 0
+    }
 
     set ranges ""
     if {$depth == 0} {
@@ -3018,6 +3038,13 @@ namespace eval ctext {
   # Closes a folded line, hiding its contents.
   proc fold_close {depth win line} {
 
+    set state [$win gutter get folding $line]
+
+    # If the current state is not open, return with false immediately
+    if {($state ne "open") && ($state ne "eopen")} {
+      return 0
+    }
+
     set ranges ""
     if {$depth == 0} {
       set depth 100000
@@ -3063,9 +3090,9 @@ namespace eval ctext {
 
     switch [$win gutter get folding $line] {
       open   -
-      eopen  { fold_close $depth $txt $line }
+      eopen  { fold_close $depth $win $line }
       close  -
-      eclose { fold_open $depth $txt $line }
+      eclose { fold_open $depth $win $line }
     }
 
   }
