@@ -35,13 +35,13 @@ OBJS = $(SRCS:.cc=.o)
 all: ../model.so
 
 ../model.so : $(OBJS)
-	g++ $(OBJS) -g -fPIC -std=gnu++11 -shared -o ../model.so -I/usr/include/tcl8.6 -I/usr/include/boost
+	$(CXX) $(OBJS) -g -fPIC -std=gnu++11 -shared -o ../model.so -I/usr/include/tcl8.6 -I/usr/include/boost
 
 ../model.dll : $(OBJS)
-	g++ $(OBJS) -g -std=gnu++11 -shared -o ../model.dll -I/usr/include/tcl8.6 -I/usr/include/boost $(DLLOPTS)
+	$(CXX) $(OBJS) -g -std=gnu++11 -shared -o ../model.dll -I/usr/include/tcl8.6 -I/usr/include/boost $(DLLOPTS)
 
 ../model.dylib : $(OBJS)
-	g++ $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost -L/usr/lib/x86_64-linux-gnu -ltcl8.6
+	$(CXX) $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost -L/usr/lib/x86_64-linux-gnu -ltcl8.6
 
 -include $(DEPS)
 
