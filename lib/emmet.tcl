@@ -1188,7 +1188,7 @@ namespace eval emmet {
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
-      if {([$txt get "$num_start-1c"] eq "-") && ![ctext::isEscaped $txt "$num_start-1c"]} {
+      if {([$txt get "$num_start-1c"] eq "-") && ![$txt is escaped "$num_start-1c"]} {
         set num_start "$num_start-1c"
       }
     }

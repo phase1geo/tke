@@ -19,7 +19,7 @@ tindex::tindex(
 
   /* If the period cannot be found, throw an error */
   if( period == string::npos ) {
-    throw runtime_error( "Specified index is not in a.b format" );
+    throw runtime_error( "Specified index is not in a.b format (" + value + ")" );
   }
 
   /* Populate the tindex */
