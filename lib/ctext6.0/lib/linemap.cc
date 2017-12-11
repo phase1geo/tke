@@ -685,6 +685,7 @@ object linemap::fold_delete(
         }
       }
       if( (count += inc) == 0 ) {
+        _rows[i]->set_value( col, 0 );
         ranges.append( interp, (object)line.to_string() );
         retval = true;
         break;
