@@ -606,7 +606,8 @@ object mailbox::fold_open(
 
 object mailbox::fold_open_range(
   object startline,
-  object endline
+  object endline,
+  object depth
 ) {
 
   interpreter i( startline.get_interp(), false );
@@ -614,6 +615,7 @@ object mailbox::fold_open_range(
 
   args.append( i, startline );
   args.append( i, endline );
+  args.append( i, depth );
 
   add_request( REQUEST_FOLDOPENRANGE, args, true, false );
 
@@ -650,7 +652,8 @@ object mailbox::fold_close(
 
 object mailbox::fold_close_range(
   object startline,
-  object endline
+  object endline,
+  object depth
 ) {
 
   interpreter i( startline.get_interp(), false );
@@ -658,6 +661,7 @@ object mailbox::fold_close_range(
 
   args.append( i, startline );
   args.append( i, endline );
+  args.append( i, depth );
 
   add_request( REQUEST_FOLDCLOSERANGE, args, true, false );
 

@@ -485,13 +485,15 @@ namespace eval model {
 
   ######################################################################
   # Deletes the fold found on the given line.
-  proc fold_delete {win line prange} {
+  proc fold_delete {win line depth prange} {
 
     upvar $prange range
 
     variable data
 
-    lassign [$data($win,model) folddelete $line] retval range
+    lassign [$data($win,model) folddelete $line $depth] retval range
+
+    puts "In fold_delete, line: $line, depth: $depth, retval: $retval, range: $range"
 
     return $retval
 
@@ -527,13 +529,13 @@ namespace eval model {
 
   ######################################################################
   # Opens all closed folds that begin within the specified range.
-  proc fold_open_range {win startline endline pranges} {
+  proc fold_open_range {win startline endline depth pranges} {
 
     upvar $pranges ranges
 
     variable data
 
-    lassign [$data($win,model) foldopenrange $startline $endline] retval ranges
+    lassign [$data($win,model) foldopenrange $startline $endline $depth] retval ranges
 
     return $retval
 
@@ -566,13 +568,13 @@ namespace eval model {
   ######################################################################
   # Closes all open folds found within the given startline and endline
   # range.
-  proc fold_close_range {win startline endline pranges} {
+  proc fold_close_range {win startline endline depth pranges} {
 
     upvar $pranges ranges
 
     variable data
 
-    lassign [$data($win,model) foldcloserange $startline $endline] retval ranges
+    lassign [$data($win,model) foldcloserange $startline $endline $depth] retval ranges
 
     return $retval
 

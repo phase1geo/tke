@@ -110,7 +110,7 @@ void tree::insert_right(
     tnode* tn = current;
 
     /* Check to see if the matching left already exists */
-    while( (tn = current->parent()) != _tree ) {
+    while( (tn = tn->parent()) != _tree ) {
       if( tn->type() == item.type() ) {
         tn->right( &item );
         item.set_node( tn );

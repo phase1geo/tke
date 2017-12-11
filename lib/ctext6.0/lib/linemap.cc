@@ -635,6 +635,8 @@ object linemap::fold_delete(
   const object & depth_obj
 ) {
 
+  cout << "In linemap::fold_delete" << endl;
+
   interpreter interp( startline.get_interp(), false );
   int         col    = get_col_index( "folding" );
   bool        retval = false;
@@ -645,6 +647,8 @@ object linemap::fold_delete(
     result.append( interp, (object)false );
     return( result );
   }
+
+  cout << "HERE!" << endl;
 
   tindex line( startline.get<int>( interp ), 0 );
   int    row         = get_row_index( line.row() );
@@ -657,30 +661,33 @@ object linemap::fold_delete(
   line.inc_row( 1 );
   ranges.append( interp, (object)line.to_string() );
 
+  cout << "  row: " << row << ", depth: " << depth << endl;
+
   for( int i=row; i<rows; i++ ) {
     const linemap_colopts* value = _rows[i]->get_value( col );
     if( value != 0 ) {
       const string & tag = value->name();
       int            inc = counts[_tag_map.find( tag )->second];
       tindex         line( _rows[i]->row(), 0 );
+      cout << "    i: " << i << ", count: " << count << endl;
       if( count < depth ) {
         _rows[i]->set_value( col, 0 );
       } else {
         if( (tag == "close") || (tag == "eclose") ) {
           if( close_count == 0 ) {
             line.inc_row( 1 );
-            result.append( interp, (object)line.to_string() );
+            ranges.append( interp, (object)line.to_string() );
             close_count = count;
           }
         } else if( (tag == "end") && (close_count == (count + inc)) ) {
-          result.append( interp, (object)line.to_string() );
+          ranges.append( interp, (object)line.to_string() );
           close_count = 0;
         }
       }
       if( (count += inc) == 0 ) {
         ranges.append( interp, (object)line.to_string() );
         retval = true;
-        return( result );
+        break;
       } else if( count < 0 ) {
         count = 0;
       } else if( (tag == "eopen") || (tag == "eclose") ) {
@@ -831,7 +838,8 @@ object linemap::fold_open(
 
 object linemap::fold_open_range(
   const object & startline,
-  const object & endline
+  const object & endline,
+  const object & depth_obj
 ) {
 
   interpreter interp( startline.get_interp(), false );
@@ -847,6 +855,7 @@ object linemap::fold_open_range(
 
   tindex                 sline( startline.get<int>( interp ), 0 );
   tindex                 eline( endline.get<int>( interp ), 0 );
+  int                    depth       = depth_obj.get<int>( interp );
   int                    row         = get_row_index( sline.row() );
   int                    rows        = _rows.size();
   int                    count       = 0;
@@ -864,13 +873,30 @@ object linemap::fold_open_range(
       const string & tag = value->name();
       int            inc = counts[_tag_map.find( tag )->second];
       tindex         line( _rows[i]->row(), 0 );
-      if( tag == "close" ) {
-        _rows[i]->set_value( col, open_value );
-      } else if( tag == "eclose" ) {
-        _rows[i]->set_value( col, eopen_value );
+      if( count < depth ) {
+        if( tag == "close" ) {
+          _rows[i]->set_value( col, open_value );
+        } else if( tag == "eclose" ) {
+          _rows[i]->set_value( col, eopen_value );
+        }
+        if( count == 0 ) {
+          line.inc_row( 1 );
+          ranges.append( interp, (object)line.to_string() );
+        }
+      } else {
+        if( (tag == "close") || (tag == "eclose") ) {
+          if( close_count == 0 ) {
+            line.inc_row( 1 );
+            ranges.append( interp, (object)line.to_string() );
+            close_count = count;
+          }
+        } else if( (tag == "end") && (close_count == (count + inc)) ) {
+          ranges.append( interp, (object)line.to_string() );
+          close_count = 0;
+        }
       }
       if( (count += inc) == 0 ) {
-        eline  = line;
+        ranges.append( interp, (object)line.to_string() );
         retval = true;
       } else if( count < 0 ) {
         count = 0;
@@ -879,9 +905,6 @@ object linemap::fold_open_range(
       }
     }
   }
-
-  ranges.append( interp, (object)sline.to_string() );
-  ranges.append( interp, (object)eline.to_string() );
 
   result.append( interp, (object)retval );
   result.append( interp, ranges );
@@ -988,7 +1011,8 @@ object linemap::fold_close(
 
 object linemap::fold_close_range(
   const object & startline,
-  const object & endline
+  const object & endline,
+  const object & depth_obj
 ) {
 
   interpreter interp( startline.get_interp(), false );
@@ -1004,6 +1028,7 @@ object linemap::fold_close_range(
 
   tindex                 sline( startline.get<int>( interp ), 0 );
   tindex                 eline( endline.get<int>( interp ), 0 );
+  int                    depth        = depth_obj.get<int>( interp );
   int                    row          = get_row_index( sline.row() );
   int                    rows         = _rows.size();
   int                    count        = 0;
@@ -1020,7 +1045,7 @@ object linemap::fold_close_range(
       const string & tag = value->name();
       int            inc = counts[_tag_map.find( tag )->second];
       tindex         line( _rows[i]->row(), 0 );
-      if( (tag == "open") || (tag == "eopen") ) {
+      if( count < depth ) {
         if( tag == "open" ) {
           _rows[i]->set_value( col, close_value );
         } else if( tag == "eopen" ) {

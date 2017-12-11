@@ -1757,7 +1757,7 @@ namespace eval ctext {
         switch [llength $args] {
           1 {
             if {[lindex $args 0] eq "all"} {
-              fold_open_range $win 1.0 end
+              fold_open_range $win 1.0 end 0
             } else {
               fold_show_line $win [lindex $args 0]
             }
@@ -1777,7 +1777,7 @@ namespace eval ctext {
         switch [llength $args] {
           1 {
             if {[lindex $args 0] eq "all"} {
-              fold_close_range $win 1.0 end
+              fold_close_range $win 1.0 end 0
             } else {
               return -code error "Incorrect call to fold close"
             }
@@ -2992,14 +2992,18 @@ namespace eval ctext {
 
   ######################################################################
   # Opens any closed folds that start within the given range.
-  proc fold_open_range {win startpos endpos} {
+  proc fold_open_range {win startpos endpos depth} {
 
     set startline [lindex [split [$win._t index $startpos] .] 0]
     set endline   [lindex [split [$win._t index $endpos]   .] 0]
     set ranges    ""
 
+    if {$depth == 0} {
+      set depth 100000
+    }
+
     # Adjust the linemap and remove the elided tag from the returned ranges
-    if {[model::fold_open_range $win $startline $endline ranges]} {
+    if {[model::fold_open_range $win $startline $endline $depth ranges]} {
       if {$ranges ne ""} {
         $win._t tag remove _folded {*}$ranges
       }
@@ -3065,14 +3069,18 @@ namespace eval ctext {
 
   ######################################################################
   # Close any opened tags that begin in the specified range.
-  proc fold_close_range {win startpos endpos} {
+  proc fold_close_range {win startpos endpos depth} {
 
     set startline [lindex [split [$win._t index $startpos] .] 0]
     set endline   [lindex [split [$win._t index $endpos]   .] 0]
     set ranges    ""
 
+    if {$depth == 0} {
+      set depth 100000
+    }
+
     # Adjust the linemap and remove the elided tag from the returned ranges
-    if {[model::fold_close_range $win $startline $endline ranges]} {
+    if {[model::fold_close_range $win $startline $endline $depth ranges]} {
       if {$ranges ne ""} {
         $win._t tag add _folded {*}$ranges
       }

@@ -3009,9 +3009,7 @@ namespace eval menus {
       }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
-          set startline [lindex [split $startpos .] 0]
-          set endline   [lindex [split $endpos   .] 0]
-          $txt fold close $startline $endline
+          $txt fold close $startpos $endpos 1
         }
       }
     }
@@ -3040,9 +3038,7 @@ namespace eval menus {
       }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
-          set startline [lindex [split $startpos .] 0]
-          set endline   [lindex [split $endpos   .] 0]
-          $txt fold open $startline $endline $depth
+          $txt fold open $startpos $endpos $depth
         }
       }
     }
