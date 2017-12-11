@@ -24,11 +24,13 @@ namespace eval ::tablelist {
     #
     # Public variables:
     #
-    variable version	5.18
+    variable version	6.0
     variable library
-
-    set library	[DIR]
-
+    if {$tcl_version >= 8.4} {
+	set library	[file normalize [DIR]]
+    } else {
+	set library	[DIR]			;# no "file normalize" yet
+    }
     variable scalingpct	[scalingPercentage]
 
     #
@@ -44,7 +46,8 @@ namespace eval ::tablelist {
     #
     # Helper procedures used in binding scripts:
     #
-    namespace export	convEventFields getTablelistPath getTablelistColumn
+    namespace export	convEventFields getTablelistPath getTablelistColumn \
+			delaySashPosUpdates
 
     #
     # Register various widgets for interactive cell editing:
