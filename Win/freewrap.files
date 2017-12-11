@@ -162,9 +162,6 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext W
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit cursorhist.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit redoable.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit undoable.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getLang.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getMatchBracket.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getNextBracket - getPrevBracket.md
@@ -478,25 +475,35 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/bitmap.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/cliphist.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/commit.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/completer.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/BUGS
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ChangeLog
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext.man
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext_scroll_test.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext_tcl.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext_test.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext_test_c.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext_test_interactive.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/ctext_test_ws.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/function_finder.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/install.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/LICENSE
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/long_test_script
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/pkgIndex.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/README
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/REGRESSION
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/test.c
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext/TODO
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/CHANGES
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/CREDITS
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/callpolicies.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/classes.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/compiling.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/errors.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/freefun.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/goodies.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/index.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/objects.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/doc/quickstart.html
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/examples/.example5.cc.swp
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/examples/Makefile
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/LICENSE
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/README
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/test/Makefile
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/cpptcl/test/test2.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/ctext.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/lib/Makefile
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/libmodel.dll.a
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/model.dll
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/model.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/parsers.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/test.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/test2.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/test3.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/test4.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ctext6.0/utils.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/diff.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/edit.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/emmet.tcl
@@ -572,10 +579,8 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/ipanel.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/lang.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/launcher.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/logger.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/expect/libexpect5.45.dylib
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/expect/license.terms
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/expect/pkgIndex.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/libtkdnd2.8.dylib
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/pkgIndex.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_compat.tcl
@@ -699,26 +704,27 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/specl/lib/utils.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/specl/pkgIndex.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/startup.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/syntax.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/CHANGES.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/COPYRIGHT.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/pkgIndex.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/README.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/mwutil.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/pencil.cur
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/repair.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistBind.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistConfig.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistEdit.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistImages.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistMove.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistSort.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistThemes.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistUtil.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistWidget.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tclIndex
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/tablelist.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/tablelistPublic.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/tablelist_tile.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/CHANGES.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/COPYRIGHT.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/README.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/mwutil.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/pencil.cur
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/repair.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistBind.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistConfig.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistEdit.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistImages.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistMove.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistSort.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistThemes.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistUtil.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tablelistWidget.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/scripts/tclIndex
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/tablelist.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/tablelistPublic.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist6.0/tablelist_tile.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tclIndex
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/templates.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/test.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/theme.tcl
