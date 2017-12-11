@@ -78,7 +78,7 @@ switch -glob $tcl_platform(os) {
 }
 
 package require -exact ctext 6.0
-package require -exact tablelist 5.18
+package require -exact tablelist 6.0
 package require tooltip
 package require msgcat
 package require tokenentry
