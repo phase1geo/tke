@@ -5434,7 +5434,7 @@ namespace eval gui {
     set txt [current_txt]
 
     # If we are escaped or in a comment/string, we should not match
-    if {[ctext::isEscaped $txt insert] || [ctext::inCommentString $txt insert]} {
+    if {[$txt is escaped insert] || [ctext::inCommentString $txt insert]} {
       return
     }
 
@@ -5467,7 +5467,7 @@ namespace eval gui {
   # otherwise, returns -1.
   proc find_match_pair {txt str1 str2 dir {startpos insert}} {
 
-    if {[ctext::isEscaped $txt $startpos] || [ctext::inCommentString $txt $startpos]} {
+    if {[$txt is escaped $startpos] || [ctext::inCommentString $txt $startpos]} {
       return -1
     }
 
@@ -5503,7 +5503,7 @@ namespace eval gui {
         set pos $found
       }
 
-      if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
+      if {[$txt is escaped $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
         continue
       } elseif {[string equal $char [subst $str2]]} {
         incr count
@@ -5525,7 +5525,7 @@ namespace eval gui {
 
     set last_found ""
 
-    if {[ctext::isEscaped $txt $startpos]} {
+    if {[$txt is escaped $startpos]} {
       return -1
     }
 
@@ -5545,7 +5545,7 @@ namespace eval gui {
       set last_found $found
       set startpos   [expr {($dir eq "-backwards") ? $found : [$txt index "$found+1c"]}]
 
-      if {[ctext::isEscaped $txt $last_found]} {
+      if {[$txt is escaped $last_found]} {
         continue
       }
 

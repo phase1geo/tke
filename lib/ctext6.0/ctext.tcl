@@ -843,14 +843,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
-  proc isEscaped {win index} {
-
-    return [model::is_escaped $win $index]
-
-  }
-
-  ######################################################################
   # Returns a Tcl list containing the indices of all comment markers
   # in the specified ranges.
   proc getCommentMarkers {win ranges} {
@@ -1562,23 +1554,23 @@ namespace eval ctext {
         if {[string map [list $tag {}] $indent_tags] ne $indent_tags} {
           if {$subcmd eq "nextrange"} {
             lassign [$win._t tag nextrange ${tag}0 {*}$args0] s0 e0
-            while {($s0 ne "") && ([inCommentString $win $s0] || [isEscaped $win $s0])} {
+            while {($s0 ne "") && ([inCommentString $win $s0] || [model::is_escaped $win $s0])} {
               lset args0 0 $e0
               lassign [$win._t tag nextrange ${tag}0 {*}$args0] s0 e0
             }
             lassign [$win._t tag nextrange ${tag}1 {*}$args1] s1 e1
-            while {($s1 ne "") && ([inCommentString $win $s1] || [isEscaped $win $s1])} {
+            while {($s1 ne "") && ([inCommentString $win $s1] || [model::is_escaped $win $s1])} {
               lset args1 0 $e1
               lassign [$win._t tag nextrange ${tag}0 {*}$args1] s1 e1
             }
           } else {
             lassign [$win._t tag prevrange ${tag}0 {*}$args0] s0 e0
-            while {($s0 ne "") && ([inCommentString $win $s0] || [isEscaped $win $s0])} {
+            while {($s0 ne "") && ([inCommentString $win $s0] || [model::is_escaped $win $s0])} {
               lset args0 0 $s0
               lassign [$win._t tag prevrange ${tag}0 {*}$args0] s0 e0
             }
             lassign [$win._t tag prevrange ${tag}1 {*}$args1] s1 e1
-            while {($s1 ne "") && ([inCommentString $win $s1] || [isEscaped $win $s1])} {
+            while {($s1 ne "") && ([inCommentString $win $s1] || [model::is_escaped $win $s1])} {
               lset args1 0 $s1
               lassign [$win._t tag prevrange ${tag}0 {*}$args1] s1 e1
             }
@@ -1609,23 +1601,23 @@ namespace eval ctext {
         } elseif {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
           if {$subcmd eq "nextrange"} {
             lassign [$win._t tag nextrange $tag {*}$args0] s e
-            while {($s ne "") && ([inCommentString $win $s] || ([isEscaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
+            while {($s ne "") && ([inCommentString $win $s] || ([model::is_escaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
               lset args0 0 $e
               lassign [$win._t tag nextrange $tag {*}$args0] s e
             }
           } else {
             lassign [$win._t tag prevrange $tag {*}$args0] s e
-            if {($s ne "") && ![inCommentString $win $s] && [isEscaped $win $s] && [$win._t compare "$s+1c" == [lindex $args0 0]]} {
+            if {($s ne "") && ![inCommentString $win $s] && [model::is_escaped $win $s] && [$win._t compare "$s+1c" == [lindex $args0 0]]} {
               lassign [$win._t tag prevrange $tag $s {*}[lrange $args0 1 end]] s e
             }
-            while {($s ne "") && ([inCommentString $win $s] || ([isEscaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
+            while {($s ne "") && ([inCommentString $win $s] || ([model::is_escaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
               lset args0 0 $s
               lassign [$win._t tag prevrange $tag {*}$args0] s e
             }
           }
           if {$s eq ""} {
             return ""
-          } elseif {[isEscaped $win $s]} {
+          } elseif {[model::is_escaped $win $s]} {
             return [list [$win._t index "$s+1c"] $e]
           } else {
             return [list $s $e]
@@ -1642,7 +1634,7 @@ namespace eval ctext {
             set range_cache($win,$tag) [list]
             foreach {s e} [$win._t tag ranges $tag] {
               if {![inCommentString $win $s]} {
-                if {![isEscaped $win $s] || ([set s [$win._t index "$s+1c"]] ne $e)} {
+                if {![model::is_escaped $win $s] || ([set s [$win._t index "$s+1c"]] ne $e)} {
                   lappend range_cache($win,$tag) $s $e
                 }
               }
