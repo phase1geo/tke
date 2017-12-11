@@ -310,13 +310,13 @@ namespace eval vim {
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            $txt fold open $from $to ;# [expr {$full_depth ne ""}]
+            $txt fold open $from $to [expr {$full_depth ne ""}]
 
           # Handle code fold closing in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldc(lose)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            $txt fold close $from $to  ;# [expr {$full_depth ne ""}]
+            $txt fold close $from $to [expr {$full_depth ne ""}]
 
           # Handling code folding
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)fo(ld)?$} $value -> from to]} {
@@ -2313,7 +2313,7 @@ namespace eval vim {
 
     if {$operator($txtt) eq "folding"} {
       set txt [winfo parent $txtt]
-      if {![$txt fold close {*}[$txt tag ranges sel]]} {
+      if {![$txt fold close {*}[$txt tag ranges sel] 0]} {
         set operator($txtt) "folding:range"
         return 1
       }
@@ -2349,7 +2349,7 @@ namespace eval vim {
 
     if {$operator($txtt) eq "folding"} {
       set txt [winfo parent $txtt]
-      if {![$txt fold close {*}[$txt tag ranges sel]]} {
+      if {![$txt fold close {*}[$txt tag ranges sel] 0]} {
         if {[set num [get_number $txtt]] > 1} {
           $txt fold add insert "insert+[expr $num - 1] display lines"
         }

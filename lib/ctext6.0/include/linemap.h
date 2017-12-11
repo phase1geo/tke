@@ -191,7 +191,8 @@ class linemap {
 
     Tcl::object fold_open_range(
       const Tcl::object & startline,
-      const Tcl::object & endline
+      const Tcl::object & endline,
+      const Tcl::object & depth_obj
     );
 
     Tcl::object fold_show_line(
@@ -210,7 +211,8 @@ class linemap {
 
     Tcl::object fold_close_range(
       const Tcl::object & startline,
-      const Tcl::object & endline
+      const Tcl::object & endline,
+      const Tcl::object & depth_obj
     );
 
     Tcl::object fold_find(

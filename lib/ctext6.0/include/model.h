@@ -371,9 +371,10 @@ class model {
 
     Tcl::object fold_open_range(
       const Tcl::object & startline,
-      const Tcl::object & endline
+      const Tcl::object & endline,
+      const Tcl::object & depth
     ) {
-      return( _linemap.fold_open_range( startline, endline ) );
+      return( _linemap.fold_open_range( startline, endline, depth ) );
     }
 
     Tcl::object fold_show_line(
@@ -396,9 +397,10 @@ class model {
 
     Tcl::object fold_close_range(
       const Tcl::object & startline,
-      const Tcl::object & endline
+      const Tcl::object & endline,
+      const Tcl::object & depth
     ) {
-      return( _linemap.fold_close_range( startline, endline ) );
+      return( _linemap.fold_close_range( startline, endline, depth ) );
     }
 
     Tcl::object fold_find(

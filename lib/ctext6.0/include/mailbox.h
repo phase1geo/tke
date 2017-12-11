@@ -234,7 +234,8 @@ class mailbox {
 
     Tcl::object fold_open_range(
       Tcl::object startline,
-      Tcl::object endline
+      Tcl::object endline,
+      Tcl::object depth
     );
 
     Tcl::object fold_show_line(
@@ -248,7 +249,8 @@ class mailbox {
 
     Tcl::object fold_close_range(
       Tcl::object startline,
-      Tcl::object endline
+      Tcl::object endline,
+      Tcl::object depth
     );
 
     Tcl::object fold_find(

@@ -136,7 +136,7 @@ object request::execute(
       return( inst.fold_open( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
     case REQUEST_FOLDOPENRANGE :
-      return( inst.fold_open_range( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      return( inst.fold_open_range( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_FOLDSHOWLINE :
       return( inst.fold_show_line( _args.at( i, 0 ) ) );
@@ -145,7 +145,7 @@ object request::execute(
       return( inst.fold_close( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
     case REQUEST_FOLDCLOSERANGE :
-      return( inst.fold_close_range( _args.at( i, 0 ), _args.at( i, 1 ) ) );
+      return( inst.fold_close_range( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_FOLDFIND :
       return( inst.fold_find( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
