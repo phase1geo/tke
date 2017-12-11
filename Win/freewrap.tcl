@@ -50,7 +50,7 @@ proc get_files {parent} {
   set files [list]
 
   foreach fname [glob -nocomplain -directory $parent *] {
-    if {[file isfile $fname]} {
+    if {[file isfile $fname] && ([lsearch [list .o .d .cc .h .dylib .so] [file extension $fname]] == -1)} {
       lappend files $fname
     } elseif {[file isdirectory $fname]} {
       lappend files {*}[get_files $fname]
@@ -83,7 +83,7 @@ proc create_freewrap_files {} {
   lappend files {*}[get_files [file join $::tke_dir Win binit]]
 
   # Remove excluded directories
-  foreach exclude [list doc/html lib/tke.tcl] {
+  foreach exclude [list doc/html lib/ctext5.0 lib/tke.tcl] {
     set files [lsearch -inline -not -all $files [file join $::tke_dir $exclude]*]
   }
 

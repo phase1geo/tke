@@ -6,9 +6,9 @@ package require Tk
 package require Thread
 package provide ctext 6.0
 
-source [file join [file dirname [info script]] utils.tcl]
-source [file join [file dirname [info script]] model.tcl]
-source [file join [file dirname [info script]] parsers.tcl]
+source [file join [ctext::DIR] utils.tcl]
+source [file join [ctext::DIR] model.tcl]
+source [file join [ctext::DIR] parsers.tcl]
 
 set utils::main_tid [thread::id]
 
@@ -25,22 +25,17 @@ namespace eval ctext {
   array set data {}
 
   variable right_click 3
-  variable this_dir    ""
   variable tpool       ""
 
   if {[tk windowingsystem] eq "aqua"} {
     set right_click 2
   }
 
-  # We need to set this while we are sourcing the file
-  set this_dir [file dirname [file normalize [info script]]]
-
   ######################################################################
   # Initialize the namespace for threading.
   proc initialize {{min 5} {max 15}} {
 
     variable tpool
-    variable this_dir
 
     if {$tpool eq ""} {
 
@@ -50,7 +45,7 @@ namespace eval ctext {
         source [file join %s parsers.tcl]
         source [file join %s model.tcl]
         set utils::main_tid %s
-      } $this_dir $this_dir $this_dir [thread::id]]]
+      } [DIR] [DIR] [DIR] [thread::id]]]
 
     }
 

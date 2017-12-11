@@ -27,12 +27,14 @@
 
 package require Thread
 
+puts "DIR: [ctext::DIR]"
+
 # TBD - We need to enhance this
 switch -glob $tcl_platform(os) {
-  Darwin  { load -lazy [file join [file dirname [info script]] model.dylib] }
+  Darwin  { load -lazy [file join [ctext::DIR] model.dylib] }
   *Win* -
-  CYG*    { load -lazy [file join [file dirname [info script]] model.dll] }
-  default { load -lazy [file join [file dirname [info script]] model.so] }
+  CYG*    { load -lazy [file join [ctext::DIR] model.dll] }
+  default { load -lazy [file join [ctext::DIR] model.so] }
 }
 
 namespace eval model {
