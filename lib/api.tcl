@@ -481,75 +481,6 @@ namespace eval api {
   namespace eval edit {
 
     ######################################################################
-    ## \return Returns the text widget index based on the given input
-    #  parameters.
-    #
-    #  \param txt       Pathname of text widget to get index of.
-    #  \param position  The specifies the visible cursor position to lookup.  The
-    #                   values that can be used for this option are as follows:
-    #    - left       Index num characters left of the starting position, staying on the same line.
-    #    - right      Index num characters right of the starting position, staying on the same line.
-    #    - up         Index above the starting position, remaining in the same
-    #                 column, if possible.
-    #    - down       Index below the starting position, remaining in the same
-    #                 column, if possible.
-    #    - first      Index of the first line/column in the buffer.
-    #    - last       Index of the last line/column in the buffer.
-    #    - char       Index of the a specified character before or after the starting
-    #                 position.
-    #    - dchar      Index of num'th character before or after the starting
-    #                 position.
-    #    - findchar   Index of a specified character before or after the starting
-    #                 position.
-    #    - firstchar  Index of first non-whitespace character of the line specified
-    #                 by startpos.
-    #    - lastchar   Index of last non-whitespace character of the line specified
-    #                 by startpos.
-    #    - wordstart  Index of the first character of the word containing startpos.
-    #    - wordend    Index of the last character+1 of the word containing startpos.
-    #    - WORDstart  Index of the first character of the WORD containing startpos.
-    #    - WORDend    Index of the last character+1 of the WORD containing startpos.
-    #    - column     Index of the character in the line containing startpos at the
-    #                 num'th position.
-    #    - linenum    Index of the first non-whitespace character on the given line.
-    #    - linestart  Index of the beginning of the line containing startpos.
-    #    - lineend    Index of the ending of the line containing startpos.
-    #    - dispstart  Index of the first character that is displayed in the line
-    #                 containing startpos.
-    #    - dispmid    Index of the middle-most character that is displayed in the
-    #                 line containing startpos.
-    #    - dispend    Index of the last character that is displayed in the line
-    #                 containing startpos.
-    #    - screentop  Index of the start of the first line that is displayed in
-    #                 the buffer.
-    #    - screenmid  Index of the start of the middle-most line that is displayed
-    #                 in the buffer.
-    #    - screenbot  Index of the start of the last line that is displayed in
-    #                 the buffer.
-    #    - numberstart  First numerical character of the word containing startpos.
-    #    - numberend    Last numerical character of the word containing startpos.
-    #    - spacestart   First whitespace character of the whitespace containing startpos.
-    #    - spaceend     Last whitespace character of the whitespace containing startpos.
-    #  \param args  Modifier arguments based on position value.
-    #    -dir        Specifies direction from starting position (values are "next"
-    #                or "prev").  Defaults to "next".
-    #    -startpos   Specifies the starting index of calculation.  Defaults to "insert".
-    #    -num        Specifies the number to apply.  Defaults to 1.
-    #    -char       Used with "findchar" position type.  Specifies the character
-    #                to find.
-    #    -exclusive  If set to 1, returns character position before calculated
-    #                index.  Defaults to 0.
-    #    -column     Specifies the name of a variable containing the column to
-    #                use for "up" and "down" positions.
-    #    -adjust     Adjusts the calculated index by the given value before
-    #                returning the result.
-    proc get_index {interp pname txt position args} {
-
-      return [edit::get_index $txt $position {*}$args]
-
-    }
-
-    ######################################################################
     ## Deletes all characters between startpos and endpos-1, inclusive.
     #
     #  \param txt       Pathname of text widget to delete text from.
@@ -729,15 +660,13 @@ namespace eval api {
     }
 
     ######################################################################
-    ## Moves the cursor to the given cursor position.  The value of position
-    #  and args are the same as those of the \ref api::edit::get_index.
+    ## Moves the cursor to the given cursor position.
     #
-    #  \param txt       Text widget to change the cursor of.
-    #  \param position  Position to move the cursor to (see \ref api::edit::get_index)
-    #  \param args      List of arguments based on position value (see \ref api::edit::get_index)
-    proc move_cursor {interp pname txt position args} {
+    #  \param txt   Text widget to change the cursor of.
+    #  \param spec  Index specification.
+    proc move_cursor {interp pname txt ispec} {
 
-      edit::move_cursor $txt $position {*}$args
+      edit::move_cursor $txt $ispec
 
     }
 

@@ -243,7 +243,7 @@ namespace eval edit {
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "lineend"
     } else {
-      set endpos [get_index $txtt lineend -num $num]+1c
+      set endpos [$txtt index [list lineend -num $num]]+1c
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get insert $endpos]
@@ -280,7 +280,7 @@ namespace eval edit {
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt firstchar
     } else {
-      set firstchar [get_index $txtt firstchar]
+      set firstchar [$txtt index firstchar]
       if {[$txtt compare $firstchar < insert]} {
         if {$copy} {
           clipboard clear
@@ -775,7 +775,7 @@ namespace eval edit {
           }
         }
         sentence {
-          set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
+          set startpos [$txtt index [list $type -dir prev -startpos [lindex $selected 0]]]
           regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
           regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
           if {$cbetween eq ""} {
@@ -798,7 +798,7 @@ namespace eval edit {
           }
         }
         paragraph {
-          set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
+          set startpos [$txtt index [list $type -dir prev -startpos [lindex $selected 0]]]
           regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
           $txtt insert [lindex $selected end] $between$str
           $txtt delete $startpos [lindex $selected 0]
@@ -848,8 +848,8 @@ namespace eval edit {
           }
         }
         sentence {
-          set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
-          set endpos   [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+          set startpos [$txtt index [list $type -dir prev -startpos [lindex $selected 0]]]
+          set endpos   [$txtt index [list $type -dir next -startpos "[lindex $selected end]+1 display chars"]]
           regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
           regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
           regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected end] $endpos] -> astr abetween
@@ -876,7 +876,7 @@ namespace eval edit {
           }
         }
         paragraph {
-          set endpos [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+          set endpos [$txtt index [list $type -dir next -startpos "[lindex $selected end]+1 display chars"]]
           set str [string trimright [$txtt get [lindex $selected end] $endpos]]
           regexp {(\s*)$} [$txtt get {*}$selected] -> between
           $txtt delete [lindex $selected end] $endpos
@@ -1150,7 +1150,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_indent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
+      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
       return 1
     }
 
@@ -1165,7 +1165,7 @@ namespace eval edit {
 
     if {![indent_selected $txtt]} {
       do_indent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
+      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
     }
 
   }
@@ -1179,7 +1179,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_unindent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
+      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
       return 1
     }
 
@@ -1194,7 +1194,7 @@ namespace eval edit {
 
     if {![unindent_selected $txtt]} {
       do_unindent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
+      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
     }
 
   }
@@ -1279,670 +1279,6 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Returns the index of the character located num chars in the direction
-  # specified from the starting index.
-  proc get_char {txt dir {num 1} {start insert}} {
-
-    if {$dir eq "next"} {
-
-      while {($num > 0) && [$txt compare $start < end-2c]} {
-        if {[set line_chars [$txt count -displaychars $start "$start lineend"]] == 0} {
-          set start [$txt index "$start+1 display lines"]
-          set start "$start linestart"
-          incr num -1
-        } elseif {$line_chars <= $num} {
-          set start [$txt index "$start+1 display lines"]
-          set start "$start linestart"
-          incr num -$line_chars
-        } else {
-          set start "$start+$num display chars"
-          set num 0
-        }
-      }
-
-      return [$txt index $start]
-
-    } else {
-
-      set first 1
-      while {($num > 0) && [$txt compare $start > 1.0]} {
-        if {([set line_chars [$txt count -displaychars "$start linestart" $start]] == 0) && !$first} {
-          if {[incr num -1] > 0} {
-            set start [$txt index "$start-1 display lines"]
-            set start "$start lineend"
-          }
-        } elseif {$line_chars < $num} {
-          set start [$txt index "$start-1 display lines"]
-          set start "$start lineend"
-          incr num -$line_chars
-        } else {
-          set start "$start-$num display chars"
-          set num 0
-        }
-        set first 0
-      }
-
-      return [$txt index $start]
-
-    }
-
-  }
-
-  ######################################################################
-  # Returns the index of the beginning next/previous word.  If num is
-  # given a value > 1, the procedure will return the beginning index of
-  # the next/previous num'th word.  If no word was found, return the index
-  # of the current word.
-  proc get_wordstart {txt dir {num 1} {start insert} {exclusive 0}} {
-
-    # If the direction is 'next', search forward
-    if {$dir eq "next"} {
-
-      # Get the end of the current word (this will be the beginning of the next word)
-      set curr_index [$txt index "$start display wordend"]
-      set last_index $curr_index
-
-      # This works around a text issue with wordend
-      if {[$txt count -displaychars $curr_index "$curr_index+1c"] == 0} {
-        set curr_index [$txt index "$curr_index display wordend"]
-      }
-
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return $curr_index
-      }
-
-      # Use a brute-force method of finding the next word
-      while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index]]} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index display wordstart"]
-          }
-        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"] && $exclusive} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index display wordstart"]
-          }
-        } elseif {!$exclusive && ([string first "\n" [$txt get $last_index $curr_index]] != -1) && ($num == 1)} {
-          return $curr_index
-        }
-        set last_index $curr_index
-        set curr_index [$txt index "$curr_index display wordend"]
-      }
-
-      return [$txt index "$curr_index display wordstart"]
-
-    } else {
-
-      # Get the index of the current word
-      set curr_index [$txt index "$start display wordstart"]
-
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return $curr_index
-      }
-
-      while {[$txt compare $curr_index > 1.0]} {
-        if {(![string is space [$txt get $curr_index]] || [$txt compare "$curr_index linestart" == "$curr_index lineend"]) && \
-             [$txt compare $curr_index != $start]} {
-          if {[incr num -1] == 0} {
-            return $curr_index
-          }
-        }
-        set curr_index [$txt index "$curr_index-1 display chars wordstart"]
-      }
-
-      return $curr_index
-
-    }
-
-  }
-
-  ######################################################################
-  # Returns the index of the ending next/previous word.  If num is
-  # given a value > 1, the procedure will return the beginning index of
-  # the next/previous num'th word.  If no word was found, return the index
-  # of the current word.
-  proc get_wordend {txt dir {num 1} {start insert} {exclusive 0}} {
-
-    if {$dir eq "next"} {
-
-      set curr_index [$txt index "$start display wordend"]
-      set last_index $curr_index
-
-      while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index-1c]] && ([$txt compare "$curr_index-1c" != $start] || ($exclusive == 0))} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index-1c"]
-          }
-        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"] && $exclusive} {
-          if {[incr num -1] == 0} {
-            return $curr_index
-          }
-        } elseif {([string first "\n" [$txt get $last_index $curr_index]] != -1) && !$exclusive && ($num == 1)} {
-          return $curr_index
-        }
-        set last_index $curr_index
-        set curr_index [$txt index "$curr_index display wordend"]
-      }
-
-      return [$txt index "$curr_index display wordend"]
-
-    } else {
-
-      # Get the index of the current wordstart
-      set curr_index [$txt index "$start display wordstart"]
-
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return [$txt index "$curr_index-1c"]
-      }
-
-      while {[$txt compare $curr_index > 1.0]} {
-        if {![string is space [$txt get $curr_index-1c]]} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index-1c"]
-          }
-        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"]} {
-          if {[incr num -1] == 0} {
-            return $curr_index
-          }
-        }
-        set curr_index [$txt index "$curr_index-1 display chars wordstart"]
-      }
-
-      return $curr_index
-
-    }
-
-  }
-
-  ######################################################################
-  # Returns the index of the start of a Vim WORD (any character that is
-  # preceded by whitespace, the first character of a line, or an empty
-  # line.
-  proc get_WORDstart {txtt dir {num 1} {start insert} {exclusive 0}} {
-
-    if {$dir eq "next"} {
-      set diropt   "-forwards"
-      set startpos $start
-      set endpos   "end"
-      set suffix   "+1c"
-    } else {
-      set diropt   "-backwards"
-      set startpos "$start-1c"
-      set endpos   "1.0"
-      set suffix   ""
-    }
-
-    while {[set index [$txtt search $diropt -regexp -- {\s\S|\n\n} $startpos $endpos]] ne ""} {
-      if {[incr num -1] == 0} {
-        return [$txtt index $index+1c]
-      }
-      set startpos "$index$suffix"
-    }
-
-    return $start
-
-  }
-
-  ######################################################################
-  # Returns the index of the end of a Vim WORD (any character that is
-  # succeeded by whitespace, the last character of a line or an empty line.
-  proc get_WORDend {txtt dir {num 1} {start insert} {exclusive 0}} {
-
-    if {$dir eq "next"} {
-      set diropt   "-forwards"
-      set startpos "$start+1c"
-      set endpos   "end"
-      set suffix   "+1c"
-    } else {
-      set diropt   "-backwards"
-      set startpos $start
-      set endpos   "1.0"
-      set suffix   ""
-    }
-
-    while {[set index [$txtt search $diropt -regexp -- {\S\s|\n\n} $startpos $endpos]] ne ""} {
-      if {[$txtt get $index] eq "\n"} {
-        if {[incr num -1] == 0} {
-          return [$txtt index $index+1c]
-        }
-      } else {
-        if {[incr num -1] == 0} {
-          return [$txtt index $index]
-        }
-      }
-      set startpos "$index$suffix"
-    }
-
-    return $start
-
-  }
-
-  ######################################################################
-  # Returns the starting index of the given character.
-  proc find_char {txtt dir char num startpos exclusive} {
-
-    # Perform the character search
-    if {$dir eq "next"} {
-      set indices [$txtt search -all -- $char "$startpos+1c" "$startpos lineend"]
-      if {[set index [lindex $indices [expr $num - 1]]] eq ""} {
-        set index "insert"
-      } elseif {$exclusive} {
-        set index "$index-1c"
-      }
-    } else {
-      set indices [$txtt search -all -- $char "$startpos linestart" insert]
-      if {[set index [lindex $indices end-[expr $num - 1]]] eq ""} {
-        set index "insert"
-      } elseif {$exclusive} {
-        set index "$index+1c"
-      }
-    }
-
-    return $index
-
-  }
-
-  ######################################################################
-  # Returns the exclusive position of the given character search.
-  proc between_char {txtt dir char {startpos "insert"}} {
-
-    array set pairs {
-      \{ {\\\} L}
-      \} {\\\{ R}
-      \( {\\\) L}
-      \) {\\\( R}
-      \[ {\\\] L}
-      \] {\\\[ R}
-      <  {> L}
-      >  {< R}
-    }
-
-    # Get the matching character
-    if {[info exists pairs($char)]} {
-      if {[lindex $pairs($char) 1] eq "R"} {
-        if {$dir eq "prev"} {
-          set index [gui::find_match_pair $txtt [lindex $pairs($char) 0] \\$char -backwards]
-        } else {
-          set index [gui::find_match_pair $txtt \\$char [lindex $pairs($char) 0] -forwards]
-        }
-      } else {
-        if {$dir eq "prev"} {
-          set index [gui::find_match_pair $txtt \\$char [lindex $pairs($char) 0] -backwards]
-        } else {
-          set index [gui::find_match_pair $txtt [lindex $pairs($char) 0] \\$char -forwards]
-        }
-      }
-    } else {
-      if {$dir eq "prev"} {
-        set index [gui::find_match_char $txtt $char -backwards]
-      } else {
-        set index [gui::find_match_char $txtt $char -forwards]
-      }
-    }
-
-    if {$index == -1} {
-      return [expr {($dir eq "prev") ? 1.0 : "end-1c"}]
-    } else {
-      return [expr {($dir eq "prev") ? "$index+1c" : $index}]
-    }
-
-  }
-
-  ######################################################################
-  # Gets the previous or next sentence as defined by the Vim specification.
-  proc get_sentence {txtt dir num {startpos "insert"}} {
-
-    variable patterns
-
-    # Search for the end of the previous sentence
-    set index    [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]
-    set beginpos "1.0"
-    set endpos   "end-1c"
-
-    # If the startpos is within a comment block and the found index lies outside of that
-    # block, set the sentence starting point on the first non-whitespace character within the
-    # comment block.
-    if {[set comment [ctext::commentCharRanges [winfo parent $txtt] $startpos]] ne ""} {
-      lassign [lrange $comment 1 2] beginpos endpos
-      if {($index ne "") && [$txtt compare $index < [lindex $comment 1]]} {
-        set index ""
-      }
-
-    # If the end of the found sentence is within a comment block, set the beginning position
-    # to the end of that comment and clear the index.
-    } elseif {($index ne "") && ([set comment [ctext::commentCharRanges [winfo parent $txtt] $index]] ne "")} {
-      set beginpos [lindex $comment end]
-      set index    ""
-    }
-
-    if {$dir eq "next"} {
-
-      # If we could not find the end of a previous sentence, find the first
-      # non-whitespace character in the file and if it is after the startpos,
-      # return the index.
-      if {($index eq "") && ([set index [$txtt search -forwards -count lengths -regexp -- {\S} $beginpos $endpos]] ne "")} {
-        if {[$txtt compare $index > $startpos] && ([incr num -1] == 0)} {
-          return $index
-        }
-        set index ""
-      }
-
-      # If the insertion cursor is just before the beginning of the sentence.
-      if {($index ne "") && [$txtt compare $startpos < "$index+[expr [lindex $lengths 0] - 1]c"]} {
-        set startpos $index
-      }
-
-      while {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos $endpos]] ne ""} {
-        set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
-        if {[incr num -1] == 0} {
-          return $startpos
-        }
-      }
-
-      return $endpos
-
-    } else {
-
-      # If the insertion cursor is between sentences, adjust the starting position
-      if {($index ne "") && [$txtt compare $startpos <= "$index+[expr [lindex $lengths 0] - 1]c"]} {
-        set startpos $index
-      }
-
-      while {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos-1c $beginpos]] ne ""} {
-        set startpos $index
-        if {[incr num -1] == 0} {
-          return [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
-        }
-      }
-
-      if {([incr num -1] == 0) && \
-          ([set index [$txtt search -forwards -regexp -- {\S} $beginpos $endpos]] ne "") && \
-          ([$txtt compare $index < $startpos])} {
-        return $index
-      } else {
-        return $beginpos
-      }
-
-    }
-
-  }
-
-  ######################################################################
-  # Find the next or previous paragraph.
-  proc get_paragraph {txtt dir num {start insert}} {
-
-    if {$dir eq "next"} {
-
-      set nl 0
-      while {[$txtt compare $start < end-1c]} {
-        if {([$txtt get "$start linestart" "$start lineend"] eq "") || \
-            ([lsearch [$txtt tag names $start] dspace] != -1)} {
-          set nl 1
-        } elseif {$nl && ([incr num -1] == 0)} {
-          return "$start linestart"
-        } else {
-          set nl 0
-        }
-        set start [$txtt index "$start+1 display lines"]
-      }
-
-      return [$txtt index end-1c]
-
-    } else {
-
-      set last_start "end"
-
-      # If the start position is in the first column adjust the starting
-      # line to the line above to avoid matching ourselves
-      if {[$txtt compare $start == "$start linestart"]} {
-        set last_start $start
-        set start      [$txtt index "$start-1 display lines"]
-      }
-
-      set nl 1
-      while {[$txtt compare $start < $last_start]} {
-        if {([$txtt get "$start linestart" "$start lineend"] ne "") && \
-            ([lsearch [$txtt tag names $start] dspace] == -1)} {
-          set nl 0
-        } elseif {!$nl && ([incr num -1] == 0)} {
-          return [$txtt index "$start+1 display lines linestart"]
-        } else {
-          set nl 1
-        }
-        set last_start $start
-        set start      [$txtt index "$start-1 display lines"]
-      }
-
-      if {(([$txtt get "$start linestart" "$start lineend"] eq "") || \
-           ([lsearch [$txtt tag names $start] dspace] != -1)) && !$nl && \
-          ([incr num -1] == 0)} {
-        return [$txtt index "$start+1 display lines linestart"]
-      } else {
-        return 1.0
-      }
-
-    }
-
-  }
-
-  ######################################################################
-  # Returns the index of the requested permission.
-  # - left       Move the cursor to the left on the current line
-  # - right      Move the cursor to the right on the current line
-  # - first      First line in file
-  # - last       Last line in file
-  # - nextchar   Next character
-  # - prevchar   Previous character
-  # - firstchar  First character of the line
-  # - lastchar   Last character of the line
-  # - nextword   Beginning of next word
-  # - prevword   Beginning of previous word
-  # - nextfirst  Beginning of first word in next line
-  # - prevfirst  Beginning of first word in previous line
-  # - column     Move the cursor to the specified column in the current line
-  # - linestart  Start of current line
-  # - lineend    End of current line
-  # - screentop  Top of current screen
-  # - screenmid  Middle of current screen
-  # - screenbot  Bottom of current screen
-  proc get_index {txtt position args} {
-
-    variable patterns
-
-    array set opts {
-      -dir         "next"
-      -startpos    "insert"
-      -num         1
-      -char        ""
-      -exclusive   0
-      -column      ""
-      -adjust      ""
-      -forceadjust ""
-    }
-    array set opts $args
-
-    # Create a default index to use
-    set index $opts(-startpos)
-
-    # Get the new cursor position
-    switch $position {
-      left        {
-        if {[$txtt compare "$opts(-startpos) display linestart" > "$opts(-startpos)-$opts(-num) display chars"]} {
-          set index "$opts(-startpos) display linestart"
-        } else {
-          set index "$opts(-startpos)-$opts(-num) display chars"
-        }
-      }
-      right       {
-        if {[$txtt compare "$opts(-startpos) display lineend" < "$opts(-startpos)+$opts(-num) display chars"]} {
-          set index "$opts(-startpos) display lineend"
-        } else {
-          set index "$opts(-startpos)+$opts(-num) display chars"
-        }
-      }
-      up          {
-        if {[set $opts(-column)] eq ""} {
-          set $opts(-column) [lindex [split [$txtt index $opts(-startpos)] .] 1]
-        }
-        set index $opts(-startpos)
-        for {set i 0} {$i < $opts(-num)} {incr i} {
-          set index [$txtt index "$index linestart-1 display lines"]
-        }
-        set index [lindex [split $index .] 0].[set $opts(-column)]
-      }
-      down        {
-        if {[set $opts(-column)] eq ""} {
-          set $opts(-column) [lindex [split [$txtt index $opts(-startpos)] .] 1]
-        }
-        set index $opts(-startpos)
-        for {set i 0} {$i < $opts(-num)} {incr i} {
-          if {[$txtt compare [set index [$txtt index "$index lineend+1 display lines"]] == end]} {
-            set index [$txtt index "end-1c"]
-            break
-          }
-        }
-        set index [lindex [split $index .] 0].[set $opts(-column)]
-      }
-      first       {
-        if {[$txtt get -displaychars 1.0] eq ""} {
-          set index "1.0+1 display chars"
-        } else {
-          set index "1.0"
-        }
-      }
-      last          { set index "end" }
-      char          { set index [get_char $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      dchar         {
-        if {$opts(-dir) eq "next"} {
-          set index "$opts(-startpos)+$opts(-num) display chars"
-        } else {
-          set index "$opts(-startpos)-$opts(-num) display chars"
-        }
-      }
-      findchar      { set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
-      betweenchar   { set index [between_char $txtt $opts(-dir) $opts(-char) $opts(-startpos)] }
-      firstchar     {
-        if {$opts(-num) == 0} {
-          set index $opts(-startpos)
-        } elseif {$opts(-dir) eq "next"} {
-          if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
-            set index [$txtt index "$index-1 display lines"]
-          }
-        } else {
-          set index [$txtt index "$opts(-startpos)-$opts(-num) display lines"]
-        }
-        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
-        } else {
-          set index "$index lineend"
-        }
-      }
-      lastchar      {
-        set line  [expr [lindex [split [$txtt index $opts(-startpos)] .] 0] + ($opts(-num) - 1)]
-        set index "$line.0+[string length [string trimright [$txtt get $line.0 $line.end]]]c"
-      }
-      wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
-      wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
-      WORDstart     { set index [get_WORDstart $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
-      WORDend       { set index [get_WORDend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
-      column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
-      linenum       {
-        if {[lsearch [$txtt tag names "$opts(-num).0"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$opts(-num).0"] 1]-1c
-        } else {
-          set index "$opts(-num).0 lineend"
-        }
-      }
-      linestart     {
-        if {$opts(-num) > 1} {
-          if {[$txtt compare [set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines linestart"]] == end]} {
-            set index "end"
-          } else {
-            set index "$index+1 display chars"
-          }
-        } else {
-          set index [$txtt index "$opts(-startpos) linestart+1 display chars"]
-        }
-        if {[$txtt compare "$index-1 display chars" >= "$index linestart"]} {
-          set index "$index-1 display chars"
-        }
-      }
-      lineend       {
-        if {$opts(-num) == 1} {
-          set index "$opts(-startpos) lineend"
-        } else {
-          set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines"]
-          set index "$index lineend"
-        }
-      }
-      dispstart     { set index "@0,[lindex [$txtt bbox $opts(-startpos)] 1]" }
-      dispmid       { set index "@[expr [winfo width $txtt] / 2],[lindex [$txtt bbox $opts(-startpos)] 1]" }
-      dispend       { set index "@[winfo width $txtt],[lindex [$txtt bbox $opts(-startpos)] 0]" }
-      sentence      { set index [get_sentence  $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      paragraph     { set index [get_paragraph $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      screentop     { set index "@0,0" }
-      screenmid     { set index "@0,[expr [winfo height $txtt] / 2]" }
-      screenbot     { set index "@0,[winfo height $txtt]" }
-      numberstart   {
-        if {[regexp $patterns(pnumber) [$txtt get "$opts(-startpos) linestart" $opts(-startpos)] match]} {
-          set index "$opts(-startpos)-[string length $match]c"
-        }
-      }
-      numberend     {
-        if {[regexp $patterns(nnumber) [$txtt get $opts(-startpos) "$opts(-startpos) lineend"] match]} {
-          set index "$opts(-startpos)+[expr [string length $match] - 1]c"
-        }
-      }
-      spacestart    {
-        if {[regexp $patterns(pspace) [$txtt get "$opts(-startpos) linestart" $opts(-startpos)] match]} {
-          set index "$opts(-startpos)-[string length $match]c"
-        }
-      }
-      spaceend      {
-        if {[regexp $patterns(nspace) [$txtt get $opts(-startpos) "$opts(-startpos) lineend"] match]} {
-          set index "$opts(-startpos)+[expr [string length $match] - 1]c"
-        }
-      }
-      tagstart      {
-        set insert [$txtt index insert]
-        while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
-          if {[incr opts(-num) -1] == 0} {
-            set index [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
-            break
-          } else {
-            $txtt mark set insert "[lindex $ranges 0]-1c"
-          }
-        }
-        $txtt mark set insert $insert
-      }
-      tagend        {
-        set insert [$txtt index insert]
-        while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
-          if {[incr opts(-num) -1] == 0} {
-            set index [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
-            break
-          } else {
-            $txtt mark set insert "[lindex $ranges 0]-1c"
-          }
-        }
-        $txtt mark set insert $insert
-      }
-    }
-
-    # Make any necessary adjustments, if needed
-    if {$opts(-forceadjust) ne ""} {
-      set index [$txtt index "$index$opts(-forceadjust)"]
-    } elseif {($index ne $opts(-startpos)) && ($opts(-adjust) ne "")} {
-      set index [$txtt index "$index$opts(-adjust)"]
-    }
-
-    return $index
-
-  }
-
-  ######################################################################
   # Handles word/WORD range motions.
   proc get_range_word {txtt type num inner adjust {cursor insert}} {
 
@@ -1950,9 +1286,9 @@ namespace eval edit {
 
       # Get the starting position of the selection
       if {[string is space [$txtt get $cursor]]} {
-        set startpos [get_index $txtt spacestart -dir prev -startpos "$cursor+1c"]
+        set startpos [$txtt index [list spacestart -dir prev -startpos "$cursor+1c"]]
       } else {
-        set startpos [get_index $txtt ${type}start -dir prev -startpos "$cursor+1c"]
+        set startpos [$txtt index [list ${type}start -dir prev -startpos "$cursor+1c"]]
       }
 
       # Count spaces and non-spaces
@@ -1960,33 +1296,33 @@ namespace eval edit {
       for {set i 0} {$i < $num} {incr i} {
         set endpos [$txtt index "$endpos+1c"]
         if {[string is space [$txtt get $endpos]]} {
-          set endpos [get_index $txtt spaceend -dir next -startpos $endpos]
+          set endpos [$txtt index [list spaceend -dir next -startpos $endpos]]
         } else {
-          set endpos [get_index $txtt ${type}end -dir next -startpos $endpos]
+          set endpos [$txtt index ${type}end -dir next -startpos $endpos]]
         }
       }
 
     } else {
 
-      set endpos [get_index $txtt ${type}end -dir next -num $num -startpos [expr {($type eq "word") ? $cursor : "$cursor-1c"}]]
+      set endpos [$txtt index [list ${type}end -dir next -num $num -startpos [expr {($type eq "word") ? $cursor : "$cursor-1c"}]]]
 
       # If the cursor is within a space, make the startpos be the start of the space
       if {[string is space [$txtt get $cursor]]} {
-        set startpos [get_index $txtt spacestart -dir prev -startpos "$cursor+1c"]
+        set startpos [$txtt index [list spacestart -dir prev -startpos "$cursor+1c"]]
 
       # Otherwise, the insertion cursor is within a word, if the character following
       # the end of the word is a space, the start is the start of the word while the end is
       # the whitspace after the word.
       } elseif {[$txtt compare "$endpos+1c" < "$endpos lineend"] && [string is space [$txtt get "$endpos+1c"]]} {
-        set startpos [get_index $txtt ${type}start -dir prev -startpos "$cursor+1c"]
-        set endpos   [get_index $txtt spaceend -dir next -startpos "$endpos+1c"]
+        set startpos [$txtt index [list ${type}start -dir prev -startpos "$cursor+1c"]]
+        set endpos   [$txtt index [list spaceend -dir next -startpos "$endpos+1c"]]
 
       # Otherwise, set the start of the selection to the be the start of the preceding
       # whitespace.
       } else {
-        set startpos [get_index $txtt ${type}start -dir prev -startpos "$cursor+1c"]
+        set startpos [$txtt index [list ${type}start -dir prev -startpos "$cursor+1c"]]
         if {[$txtt compare $startpos > "$startpos linestart"] && [string is space [$txtt get "$startpos-1c"]]} {
-          set startpos [get_index $txtt spacestart -dir prev -startpos "$startpos-1c"]
+          set startpos [$txtt index [list spacestart -dir prev -startpos "$startpos-1c"]]
         }
       }
 
@@ -2001,9 +1337,9 @@ namespace eval edit {
   proc get_range_WORD {txtt num inner adjust {cursor insert}} {
 
     if {[string is space [$txtt get $cursor]]} {
-      set pos_list [list [get_index $txtt spacestart -dir prev -startpos "$cursor+1c"] [get_index $txtt spaceend -dir next -adjust "-1c"]]
+      set pos_list [list [$txtt index [list spacestart -dir prev -startpos "$cursor+1c"]] [$txtt index [list spaceend -dir next -adjust "-1c"]]]
     } else {
-      set pos_list [list [get_index $txtt $start -dir prev -startpos "$cursor+1c"] [get_index $txtt $end -dir next -num $num]]
+      set pos_list [list [$txtt index [list $start -dir prev -startpos "$cursor+1c"]] [$txtt index [list $end -dir next -num $num]]]
     }
 
     if {!$inner} {
@@ -2028,7 +1364,7 @@ namespace eval edit {
   # Returns a range the is split by sentences.
   proc get_range_sentences {txtt type num inner adjust {cursor insert}} {
 
-    set pos_list [list [get_index $txtt $type -dir prev -startpos "$cursor+1c"] [get_index $txtt $type -dir next -num $num]]
+    set pos_list [list [$txtt index [list $type -dir prev -startpos "$cursor+1c"]] [$txtt index [list $type -dir next -num $num]]]
 
     if {$inner} {
       set str  [$txtt get {*}$pos_list]
@@ -2131,10 +1467,10 @@ namespace eval edit {
 
     } else {
 
-      set pos1 [$txtt index [edit::get_index $txtt {*}$pos1args -startpos $cursor]]
+      set pos1 [$txtt index [list {*}$pos1args -startpos $cursor]]
 
       if {$pos2args ne ""} {
-        set pos2 [$txtt index [edit::get_index $txtt {*}$pos2args -startpos $cursor]]
+        set pos2 [$txtt index [list {*}$pos2args -startpos $cursor]]
       } else {
         set pos2 [$txtt index $cursor]
       }
@@ -2151,7 +1487,7 @@ namespace eval edit {
   proc move_cursor {txtt position args} {
 
     # Get the index to move to
-    set index [get_index $txtt $position {*}$args]
+    set index [$txtt index [list $position {*}$args]]
 
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index
