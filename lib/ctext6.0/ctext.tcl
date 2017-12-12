@@ -1355,19 +1355,26 @@ namespace eval ctext {
     set index [$win._t index $index]
 
     switch $type {
-      escaped { return [model::is_escaped $win $index] }
-      folded  { return [expr [lsearch -exact [$win tag names $index] _folded] != -1] }
-      curly   { return [model::is_index $win curly   $index] }
-      square  { return [model::is_index $win square  $index] }
-      paren   { return [model::is_index $win paren   $index] }
-      angled  { return [model::is_index $win angled  $index] }
-      double  { return [model::is_index $win double  $index] }
-      single  { return [model::is_index $win single  $index] }
-      btick   { return [model::is_index $win btick   $index] }
-      tdouble { return [model::is_index $win tdouble $index] }
-      tsingle { return [model::is_index $win tsingle $index] }
-      tbtick  { return [model::is_index $win tbtick  $index] }
-      default { return -code error "Unsupported is type ($type) specified" }
+      escaped   { return [model::is_escaped $win $index] }
+      folded    { return [expr [lsearch -exact [$win tag names $index] _folded] != -1] }
+      curly     { return [model::is_index $win curly     $index] }
+      square    { return [model::is_index $win square    $index] }
+      paren     { return [model::is_index $win paren     $index] }
+      angled    { return [model::is_index $win angled    $index] }
+      double    { return [model::is_index $win double    $index] }
+      single    { return [model::is_index $win single    $index] }
+      btick     { return [model::is_index $win btick     $index] }
+      tdouble   { return [model::is_index $win tdouble   $index] }
+      tsingle   { return [model::is_index $win tsingle   $index] }
+      tbtick    { return [model::is_index $win tbtick    $index] }
+      indouble  { return [model::is_index $win indouble  $index] }
+      insingle  { return [model::is_index $win insingle  $index] }
+      inbtick   { return [model::is_index $win inbtick   $index] }
+      incomment { return [model::is_index $win incomment $index] }
+      instring  { return [model::is_index $win instring  $index] }
+      default   {
+        return -code error "Unsupported is type ($type) specified"
+      }
     }
 
   }
@@ -1379,7 +1386,7 @@ namespace eval ctext {
     variable data
 
     switch [lindex $args 0] {
-      set     { linemapSetMark $win {*}$args] }
+      set     { linemapSetMark $win {*}$args }
       getname { return [model::get_marker_name $win [lindex $args 1]] }
       getline { return [model::get_marker_line $win [lindex $args 1]] }
       clear   { linemapClearMark $win [lindex $args 1] }
