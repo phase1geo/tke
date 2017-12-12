@@ -156,6 +156,12 @@ class tree {
     /*! \return Returns a graphical view of the stored string */
     std::string tree_string() const { return( _tree->tree_string() ); }
 
+    /*! \return Returns true if the given index is within the given type */
+    bool is_index_in(
+      const std::string & type,
+      const tindex      & index
+    ) const;
+
     /*! Searches the tree for mismatched nodes. */
     void get_mismatched(
       Tcl::object & mismatched
