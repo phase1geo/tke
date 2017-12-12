@@ -41,11 +41,12 @@ namespace eval ctext {
 
       # Create the syntax highlighting pool
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
+        namespace eval ctext { proc DIR {} { return %s } }
         source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
         source [file join %s model.tcl]
         set utils::main_tid %s
-      } [DIR] [DIR] [DIR] [thread::id]]]
+      } [DIR] [DIR] [DIR] [DIR] [thread::id]]]
 
     }
 

@@ -1705,12 +1705,7 @@ namespace eval vim {
   # Perform text replacement.
   proc do_replace {txtt char} {
 
-    if {[multicursor::enabled $txtt]} {
-      multicursor::replace $txtt $char indent::check_indent
-    } else {
-      $txtt replace insert "insert+1c" $char
-      $txtt highlight "insert linestart" "insert lineend"
-    }
+    $txtt replace insert "insert+1c" $char
 
   }
 
@@ -1752,17 +1747,13 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
-          set copy [expr [lsearch [list spacestart spaceend] [lindex $eposargs 0]] == -1]
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] $copy 1
-        }
+        set copy [expr [lsearch [list spacestart spaceend] [lindex $eposargs 0]] == -1]
+        edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] $copy 1
         command_mode $txtt
         return 1
       }
       "change" {
-        if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] 0 0
-        }
+        edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] 0 0
         edit_mode $txtt
         set operator($txtt)   ""
         set motion($txtt)     ""
@@ -2813,7 +2804,7 @@ namespace eval vim {
         set clip [string replace $clip $nl_index $nl_index]
       }
       $txtt insert "insert lineend" [string repeat "\n$clip" $num]
-      multicursor::paste $txtt "insert+1l linestart"
+      multicursor::paste $txtt paste "insert+1l linestart"
       ::tk::TextSetCursor $txtt "insert+1l linestart"
       edit::move_cursor $txtt firstchar -num 0
     } else {
@@ -2985,6 +2976,7 @@ namespace eval vim {
       command_mode $txtt
       return 1
     } else {
+      puts "Setting operator to delete"
       set_operator $txtt "delete" {x}
       return [do_operation $txtt [list right -num [get_number $txtt]]]
     }
@@ -3308,7 +3300,7 @@ namespace eval vim {
       "" {
         if {$mode($txtt) eq "command"} {
           if {$operator($txtt) eq ""} {
-            multicursor::add_cursor $txtt [$txtt index insert]
+            $txtt mcursor add [$txtt index insert]
           } else {
             return [do_operation $txtt [list spaceend -adjust "+1c"]]
           }
