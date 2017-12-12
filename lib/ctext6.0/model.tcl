@@ -27,8 +27,6 @@
 
 package require Thread
 
-puts "DIR: [ctext::DIR]"
-
 # TBD - We need to enhance this
 switch -glob $tcl_platform(os) {
   Darwin  { load -lazy [file join [ctext::DIR] model.dylib] }
