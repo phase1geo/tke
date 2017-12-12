@@ -182,13 +182,8 @@ bool model::is_index(
 ) const {
 
   interpreter interp( type.get_interp(), false );
-  string      typ = type.get<string>( interp );
 
-  if( typ.substr( 0, 2 ) == "in" ) {
-    return( _tree.is_index_in( typ.substr( 2 ), tindex( ti ) ) );
-  } else {
-    return( _serial.is_index( typ, tindex( ti ) ) );
-  }
+  return( _serial.is_index( type.get<string>( interp ), tindex( ti ) ) );
 
 }
 

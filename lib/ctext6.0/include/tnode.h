@@ -122,6 +122,13 @@ class tnode {
       int                depth = 1
     ) const;
 
+    /*!
+     \return Returns true if the given type is found in the ancestoral tree.
+    */
+    bool is_in_type(
+      const std::string & type
+    ) const;
+
 };
 
 #endif

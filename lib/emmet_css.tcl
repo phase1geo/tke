@@ -1114,7 +1114,7 @@ namespace eval emmet_css {
     
     # Find the first non-commented, non-whitespace character
     set start $start_index
-    while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [ctext::inComment $txt $start_index]} {
+    while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [$txt is incomment $start_index]} {
       set comment_tag [lsearch -inline [$txt tag names $start] _comstr*]
       set start [lindex [$txt tag prevrange $comment_tag $start+1c] 1]
     }
@@ -1447,7 +1447,7 @@ namespace eval emmet_css {
   # Toggles comment of ruleset or property.
   proc toggle_comment {txt} {
 
-    if {[ctext::inBlockComment $txt insert]} {
+    if {[$txt is inblockcomment insert]} {
 
       set tag [lsearch -inline [$txt tag names insert] _comstr1c*]
       lassign [$txt tag prevrange $tag "insert+1c"] startpos endpos
