@@ -196,6 +196,22 @@ void tree::update(
 
 }
 
+bool tree:is_index_in(
+  const string & type,
+  const tindex & index
+) const {
+
+  sindex si = get_index( ti );
+
+  if( si.matches() ) {
+    return( (*this)[si.index()]->type() == types::staticObject().get( type ) );
+  }
+
+  return( false );
+  FOOBAR
+
+}
+
 void tree::folds_set_indent(
   linemap & lmap,
   int       line,

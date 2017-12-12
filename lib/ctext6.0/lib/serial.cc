@@ -320,9 +320,7 @@ bool serial::is_index(
 
   sindex si = get_index( ti );
 
-  if( type.substr( 0, 2 ) == "in" ) {
-    return( (*this)[si.index()]->type() == types::staticObject().get( type.substr( 2 ) ) );
-  } else if( si.matches() ) {
+  if( si.matches() ) {
     return( (*this)[si.index()]->type() == types::staticObject().get( type ) );
   }
 
