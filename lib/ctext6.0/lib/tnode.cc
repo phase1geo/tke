@@ -157,3 +157,16 @@ string tnode::tree_string() const {
 
 }
 
+bool tnode::is_in_type(
+  const string & type
+) const {
+
+  if( isroot() ) {
+    return( false );
+  } else if( type == "commentstring" ) {
+    return( _type->comstr() || _parent->is_in_type( type ) );
+  } else {
+    return( (_type->name().compare( 0, type.size(), type ) == 0) || (_type->tagname() == type) || _parent->is_in_type( type ) );
+  }
+
+}

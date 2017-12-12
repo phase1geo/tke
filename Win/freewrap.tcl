@@ -50,7 +50,7 @@ proc get_files {parent} {
   set files [list]
 
   foreach fname [glob -nocomplain -directory $parent *] {
-    if {[file isfile $fname] && ([lsearch [list .o .d .cc .h .dylib .so] [file extension $fname]] == -1)} {
+    if {[file isfile $fname] && ([lsearch [list .o .d .cc .h .so .dylib] [file extension $fname]] == -1)} {
       lappend files $fname
     } elseif {[file isdirectory $fname]} {
       lappend files {*}[get_files $fname]
@@ -83,7 +83,7 @@ proc create_freewrap_files {} {
   lappend files {*}[get_files [file join $::tke_dir Win binit]]
 
   # Remove excluded directories
-  foreach exclude [list doc/html lib/ctext5.0 lib/tke.tcl] {
+  foreach exclude [list doc/html lib/tke.tcl] {
     set files [lsearch -inline -not -all $files [file join $::tke_dir $exclude]*]
   }
 
@@ -109,7 +109,7 @@ proc set_auto_path {} {
 
   set new_auto_path $::auto_path
 
-  foreach pkg [list Tclx] {
+  foreach pkg [list] {
     if {![find_package $pkg]} {
       error "Unable to find package $pkg in auto_path"
     }
@@ -143,7 +143,9 @@ if {[file exists tke.exe]} {
 puts -nonewline "Running freewrap...  "
 flush stdout
 
-if {$::tcl_platform(platform) eq "windows"} {
+if {($::tcl_platform(platform) eq "windows") || [string match CYG* $::tcl_platform(os)]} {
+
+  puts "[file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1"
 
   # Generate the TKE executable using freewrap
   if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
