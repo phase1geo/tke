@@ -1773,34 +1773,22 @@ namespace eval vim {
         return 1
       }
       "swap" {
-        if {![multicursor::toggle_case $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index [$txtt index [list {*}$opts(-cursor)]]]
-        }
+        $txtt replace -transform edit::convert_case_toggle $sposargs $eposargs
         command_mode $txtt
         return 1
       }
       "upper" {
-        if {![multicursor::upper_case $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index [$txtt index [list {*}$opts(-cursor)]]]
-        }
+        $txtt replace -transform edit::convert_to_upper_case $sposargs $eposargs 
         command_mode $txtt
         return 1
       }
       "lower" {
-        if {![multicursor::lower_case $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index [$txtt index [list {*}$opts(-cursor)]]]
-        }
+        $txtt replace -transform edit::convert_to_lower_case $sposargs $eposargs 
         command_mode $txtt
         return 1
       }
       "rot13" {
-        if {![multicursor::rot13 $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index [$txtt index [list {*}$opts(-cursor)]]]
-        }
+        $txtt replace -transform edit::convert_to_rot13 $sposargs $eposargs
         command_mode $txtt
         return 1
       }
@@ -2976,7 +2964,6 @@ namespace eval vim {
       command_mode $txtt
       return 1
     } else {
-      puts "Setting operator to delete"
       set_operator $txtt "delete" {x}
       return [do_operation $txtt [list right -num [get_number $txtt]]]
     }
@@ -3325,7 +3312,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
-        multicursor::add_cursors $txtt [$txtt index insert]
+        $txtt mcursor addcolumn [$txtt index insert]
       } else {
         return [do_operation $txtt spacestart]
       }

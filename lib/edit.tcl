@@ -464,10 +464,7 @@ namespace eval edit {
 
   ######################################################################
   # Converts a character-by-character case inversion of the given text.
-  proc convert_case_toggle {txtt startpos endpos} {
-
-    # Get the string
-    set str [$txtt get $startpos $endpos]
+  proc convert_case_toggle {str} {
 
     # Adjust the string so that we don't add an extra new line
     if {[string index $str end] eq "\n"} {
@@ -482,65 +479,47 @@ namespace eval edit {
       append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
     }
 
-    $txtt replace $startpos "$startpos+${strlen}c" $newstr
+    return $newstr
 
   }
 
   ######################################################################
   # Converts the case to the given type on a word basis.
-  proc convert_case_to_title {txtt startpos endpos} {
+  proc convert_case_to_title {str} {
 
-    set i 0
-    foreach index [$txtt search -all -count lengths -regexp -- {\w+} $startpos $endpos] {
-      set endpos   [$txtt index "$index+[lindex $lengths $i]c"]
-      set word     [$txtt get $index $endpos]
-      $txtt replace $index $endpos [string totitle $word]
-      incr i
+    set start 0
+    foreach index [regexp -indices -start $start {\w+} $str indices] {
+      set str   [string replace $str {*}$indices [string totitle [string range $str {*}$indices]]]
+      set start [expr [lindex $indices 1] + 1]
     }
 
-    # Set the cursor
-    ::tk::TextSetCursor $txtt $startpos
+    return $str
 
   }
 
   ######################################################################
   # Converts the given string
-  proc convert_to_lower_case {txtt startpos endpos} {
+  proc convert_to_lower_case {str} {
 
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Substitute the text
-    $txtt replace $startpos "$startpos+[string length $str]c" [string tolower $str]
+    return [string tolower $str]
 
   }
 
   ######################################################################
   # Converts the given string
-  proc convert_to_upper_case {txtt startpos endpos} {
+  proc convert_to_upper_case {str} {
 
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Substitute the text
-    $txtt replace $startpos "$startpos+[string length $str]c" [string toupper $str]
+    return [string toupper $str]
 
   }
 
   ######################################################################
   # Converts the text to rot13.
-  proc convert_to_rot13 {txtt startpos endpos} {
+  proc convert_to_rot13 {str} {
 
     variable rot13_map
 
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Perform the substitution
-    $txtt replace $startpos "$startpos+[string length $str]c" [string map $rot13_map $str]
-
-    # Set the cursor
-    ::tk::TextSetCursor $txtt $startpos
+    return [string map $rot13_map $str]
 
   }
 
