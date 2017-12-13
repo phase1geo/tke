@@ -1095,16 +1095,21 @@ namespace eval ctext {
     set ranges [list]
 
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
-      set endPos [lindex $args [expr $i + 1]]
-      foreach {dummy startPos} [lreverse $cursors] {
+      set endSpec [lindex $args [expr $i + 1]]
+      set ispec   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
+      foreach {endPos startPos} [lreverse $cursors] {
+        if {$ispec} {
+          set endPos [$win index [list {*}$endSpec -startpos $startPos]]
+        }
         lappend strs   [$win._t get $startPos $endPos]
         lappend starts $startPos
-        if {$endPos eq ""} {
-          lappend ends $dummy
-        } else {
-          lappend ends [$win index $endPos]
-        }
+        lappend ends   $endPos
         $win._t delete $startPos $endPos
+        if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
+          $win._t tag add mcursor $startPos-1c
+        } else {
+          $win._t tag add mcursor $startPos
+        }
         lappend ranges $startPos $endPos
       }
     } else {
@@ -1302,7 +1307,7 @@ namespace eval ctext {
   # Returns the index associated with the given value.
   proc command_index {win value} {
 
-    if {[set procs [info procs ctext::getindex_[lindex $value 0]]] ne ""} {
+    if {[set procs [info procs getindex_[lindex $value 0]]] ne ""} {
 
       array set opts {
         -startpos    "insert"
@@ -1447,7 +1452,39 @@ namespace eval ctext {
       add {
         foreach index [lrange $args 1 end] {
           $win._t tag add mcursor $index
+          set data($win,mcursor_anchor) $index
         }
+      }
+      addcolumn {
+        if {[llength $args] != 2} {
+          return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
+        }
+        if {[info exists data($win,mcursor_anchor)]} {
+          set index [lindex $args 1]
+          lassign [split $data($win,mcursor_anchor) .] anchor_row col
+          set row [lindex [split $index .] 0]
+          if {$row < $anchor_row} {
+            for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
+              $win._t tag add mcursor $i.$col
+            }
+          } else {
+            for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
+              $win._t tag add mcursor $i.$col
+            }
+          }
+          set data($win,mcursor_anchor) $index
+        }
+      }
+      disable {
+        $win._t tag delete mcursor
+        unset -nocomplain data($win,mcursor_anchor)
+      }
+      get {
+        set indices [list]
+        foreach {startpos endpos} [$win._t tag ranges mcursor] {
+          lappend indices $starpos
+        }
+        return $indices
       }
       remove {
         $win._t tag remove mcursor {*}[lrange $args 1 end]
@@ -1456,6 +1493,14 @@ namespace eval ctext {
         return -code error "Illegal ctext mcursor command ([lindex $args 0])"
       }
     }
+
+  }
+
+  ######################################################################
+  # Returns the given string.
+  proc no_transform {str dummy} {
+   
+    return $str
 
   }
 
@@ -1472,10 +1517,17 @@ namespace eval ctext {
     array set opts {
       -moddata   {}
       -highlight 1
+      -str       ""
+      -transform ""
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    lassign [lrange $args $i end] startPos endPos content tags
+    lassign [lrange $args $i end] startPos endPos tags
+
+    # Setup the transform callback
+    if {$opts(-transform) eq ""} {
+      set opts(-transform) [list ctext::no_transform $opts(-str)]
+    }
 
     set ranges [list]
     set cursor [$win._t index insert]
@@ -1483,16 +1535,25 @@ namespace eval ctext {
 
     # Insert the text
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
+      set endSpec [lindex $args [expr $i + 1]]
+      set ispec   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
-        lappend strs [$win._t get $startPos $endPos]
-        $win._t replace $startPos $endPos $content $tags
+        if {$ispec} {
+          set endPos [$win index [list {*}$endSpec -startpos $startPos]]
+        }
+        set old_content [$win._t get $startPos $endPos]
+        set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
+        lappend strs $old_content
+        $win._t replace $startPos $endPos $new_content $tags
         lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
       }
     } else {
-      set startPos [$win._t index $startPos]
-      set endPos   [$win._t index $endPos]
-      lappend strs [$win._t get $startPos $endPos]
-      $win._t replace $startPos $endPos $content $tags
+      set startPos    [$win._t index $startPos]
+      set endPos      [$win index $endPos]
+      set old_content [$win._t get $startPos $endPos]
+      set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
+      lappend strs $old_content
+      $win._t replace $startPos $endPos $new_content $tags
       lappend ranges  $startPos $endPos [$win._t index "$insPos+${chars}c"]
     }
 
@@ -1503,8 +1564,10 @@ namespace eval ctext {
     if {$opts(-highlight)} {
       highlightAll $win $ranges 1 1
     }
+
     modified     $win 1 [list replace $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
+
   }
 
   ######################################################################
@@ -2549,6 +2612,11 @@ namespace eval ctext {
 
     # puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
 
+    # If the window no longer exists, return immediately
+    if {![winfo exists $win]} {
+      return
+    }
+
     if {$clear_all} {
       $win._t tag remove $tag 1.0 end
     }
@@ -2564,6 +2632,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Handle any bindings on the given tag.
   proc handle_tag {win class startpos endpos cmd} {
 
     variable data
@@ -2933,8 +3002,6 @@ namespace eval ctext {
 
     variable data
 
-    puts "In fold_delete, foldstate: $data($win,config,-foldstate)"
-
     # If the foldstate is something other than manual, exit immediately
     if {$data($win,config,-foldstate) ne "manual"} {
       return 0
@@ -2952,17 +3019,13 @@ namespace eval ctext {
       set depth 100000
     }
 
-    puts "  Performing fold_delete, line: $line, depth: $depth"
-
     if {[model::fold_delete $win $line $depth range]} {
-      puts "    HERE!"
       if {$range ne ""} {
         $win._t tag remove _folded {*}$range
       }
       linemapUpdate $win
       return 1
     }
-    puts "    HERE :("
 
     return 0
 
@@ -3439,6 +3502,8 @@ namespace eval ctext {
       }
     }
 
+    return $index
+
   }
 
   ######################################################################
@@ -3551,13 +3616,14 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    set num $opts(-num)
+    set start $opts(-startpos)
+    set num   $opts(-num)
 
     # If the direction is 'next', search forward
     if {$opts(-dir) eq "next"} {
 
       # Get the end of the current word (this will be the beginning of the next word)
-      set curr_index [$win._t index "$opts(-start) display wordend"]
+      set curr_index [$win._t index "$start display wordend"]
       set last_index $curr_index
 
       # This works around a text issue with wordend
@@ -3627,11 +3693,12 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    set num $opts(-num)
+    set start $opts(-startpos)
+    set num   $opts(-num)
 
     if {$opts(-dir) eq "next"} {
 
-      set curr_index [$win._t index "$opts(-startpos) display wordend"]
+      set curr_index [$win._t index "$start display wordend"]
       set last_index $curr_index
 
       while {[$win._t compare $curr_index < end]} {
@@ -3768,8 +3835,9 @@ namespace eval ctext {
       -startpos "insert"
       -num      1
     }
+    array set opts $optlist
 
-    return [lindex [split [$win._t index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
+    return [lindex [split [$win._t index $opts(-startpos)] .] 0].[expr $opts(-num) - 1]
 
   }
 
@@ -3859,7 +3927,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    return "@[expr [winfo width $win._t] / 2],[lindex [$win._t bbox $opts(-startpos)] 1]"
+    return "@[expr [winfo width $win] / 2],[lindex [$win._t bbox $opts(-startpos)] 1]"
 
   }
 
@@ -3872,7 +3940,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    return "@[winfo width $win._t],[lindex [$win._t bbox $opts(-startpos)] 0]"
+    return "@[winfo width $win],[lindex [$win._t bbox $opts(-startpos)] 0]"
 
   }
 
@@ -3912,7 +3980,6 @@ namespace eval ctext {
 
     if {$opts(-dir) eq "next"} {
 
-      # If we could not find the end of a previous sentence, find the first
       # non-whitespace character in the file and if it is after the startpos,
       # return the index.
       if {($index eq "") && ([set index [$win._t search -forwards -count lengths -regexp -- {\S} $beginpos $endpos]] ne "")} {
@@ -3927,8 +3994,8 @@ namespace eval ctext {
         set opts(-startpos) $index
       }
 
-      while {[set index [$win._t search -forwards -count lengths -regexp -- $pattern $startpos $endpos]] ne ""} {
-        set startpos [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
+      while {[set index [$win._t search -forwards -count lengths -regexp -- $pattern $opts(-startpos) $endpos]] ne ""} {
+        set opts(-startpos) [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
         if {[incr num -1] == 0} {
           return $opts(-startpos)
         }
@@ -3940,7 +4007,7 @@ namespace eval ctext {
 
       # If the insertion cursor is between sentences, adjust the starting position
       if {($index ne "") && [$win._t compare $opts(-startpos) <= "$index+[expr [lindex $lengths 0] - 1]c"]} {
-        set startpos $index
+        set opts(-startpos) $index
       }
 
       while {[set index [$win._t search -backwards -count lengths -regexp -- $pattern $opts(-startpos)-1c $beginpos]] ne ""} {
@@ -4042,7 +4109,7 @@ namespace eval ctext {
   # Transforms a screenmid specification into a text index.
   proc getindex_screenmid {win optlist} {
 
-    return "@0,[expr [winfo height $win._t] / 2]"
+    return "@0,[expr [winfo height $win] / 2]"
 
   }
 
@@ -4050,7 +4117,7 @@ namespace eval ctext {
   # Transforms a screenbot specification into a text index.
   proc getindex_screenbot {win optlist} {
 
-    return "@0,[winfo height $win._t]"
+    return "@0,[winfo height $win]"
 
   }
 

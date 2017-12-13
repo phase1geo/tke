@@ -730,7 +730,7 @@ namespace eval motion {
     vim::adjust_insert $txtt
 
     # Close the fold
-    folding::close_all_folds [winfo parent $txtt]
+    [winfo parent $txtt] fold close all
 
     # Move up/down
     do_test $txtt 0 j      4.0
