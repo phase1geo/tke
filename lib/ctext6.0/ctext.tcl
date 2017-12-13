@@ -1095,21 +1095,26 @@ namespace eval ctext {
     set ranges [list]
 
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
-      foreach {endPos startPos} [lreverse $cursors] {
+      set endPos [lindex $args [expr $i + 1]]
+      foreach {dummy startPos} [lreverse $cursors] {
         lappend strs   [$win._t get $startPos $endPos]
         lappend starts $startPos
-        lappend ends   $endPos
+        if {$endPos eq ""} {
+          lappend ends $dummy
+        } else {
+          lappend ends [$win index $endPos]
+        }
         $win._t delete $startPos $endPos
         lappend ranges $startPos $endPos
       }
     } else {
       lassign [lrange $args $i end] startPos endPos
       set cursors  [$win._t index insert]
-      set startPos [$win._t index $startPos]
+      set startPos [$win index $startPos]
       if {$endPos eq ""} {
         set endPos [$win._t index "$startPos+1c"]
       } else {
-        set endPos [$win._t index $endPos]
+        set endPos [$win index $endPos]
       }
       lappend strs   [$win._t get $startPos $endPos]
       lappend starts $startPos
