@@ -258,7 +258,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list indent $side [list $srow $indices] 0 $ctx]
+          lappend tags [list $tag $side [list $srow $indices] 0 $ctx]
           set start $endpos
         }
         incr srow

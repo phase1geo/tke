@@ -17,6 +17,13 @@ tree::~tree() {
 
 }
 
+void tree::clear() {
+
+  /* Clear the tree */
+  _tree->clear();
+
+}
+
 void tree::insert_item(
   tnode*      & current,
   tindex      & lescape,
@@ -228,15 +235,16 @@ void tree::folds_set_unindent(
 }
 
 void tree::add_folds_helper(
-  linemap & lmap,
-  tnode*    node,
-  int       depth
+  linemap                & lmap,
+  tnode*                   node,
+  int                      depth,
+  const map<string,bool> & fold_types
 ) {
 
   vector<tnode*> & children = node->children();
 
   /* If the node is an indent type, set the indent/unindent in the linemap */
-  if( (node->type()->name() == "curly") && node->left() ) {
+  if( (fold_types.find( node->type()->name() ) != fold_types.end()) && node->left() ) {
     folds_set_indent( lmap, node->left()->const_pos().row(), ++depth );
     if( node->right() ) {
       folds_set_unindent( lmap, node->right()->const_pos().row() );
@@ -245,13 +253,14 @@ void tree::add_folds_helper(
 
   /* Do the same for all children */
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
-    add_folds_helper( lmap, *it, depth );
+    add_folds_helper( lmap, *it, depth, fold_types );
   }
 
 }
 
 void tree::add_folds(
-  linemap & lmap
+  linemap                & lmap,
+  const map<string,bool> & fold_types
 ) {
 
   vector<tnode*> & children = _tree->children();
@@ -260,7 +269,7 @@ void tree::add_folds(
   lmap.clear( "folding" );
 
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
-    add_folds_helper( lmap, *it, 0 );
+    add_folds_helper( lmap, *it, 0, fold_types );
   }
 
 }

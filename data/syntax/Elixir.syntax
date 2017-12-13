@@ -19,7 +19,7 @@ casesensitive
 indentation
 {{fn end} {{do(?!:)} {\)}} {\( \)}}
 
-reindent {
+reindentation {
   {{do(?!:)} after catch else rescue}
 }
 

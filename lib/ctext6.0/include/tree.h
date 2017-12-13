@@ -134,9 +134,10 @@ class tree {
      Helper method to the add_folds method.
     */
     void add_folds_helper(
-      linemap & lmap,
-      tnode*    node,
-      int       depth
+      linemap                          & lmap,
+      tnode*                             node,
+      int                                depth,
+      const std::map<std::string,bool> & fold_types
     );
 
   public:
@@ -147,11 +148,17 @@ class tree {
     /*! Destructor */
     ~tree();
 
+    /*! Clears the model for reuse */
+    void clear();
+
     /*! Updates from the serial list */
     void update( serial & sl );
 
     /*! Updates the passed linemap with the given fold information */
-    void add_folds( linemap & lmap );
+    void add_folds(
+      linemap                          & lmap,
+      const std::map<std::string,bool> & fold_types
+    );
 
     /*! \return Returns a graphical view of the stored string */
     std::string tree_string() const { return( _tree->tree_string() ); }

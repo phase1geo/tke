@@ -12,6 +12,15 @@
 using namespace std;
 using namespace Tcl;
 
+void model::clear() {
+
+  _serial.clear();
+  _tree.clear();
+  _linemap.clear( "folding" );
+  _fold_types.clear();
+
+}
+
 void model::object_to_ranges(
   const object   & ranges,
   vector<tindex> & vec

@@ -114,14 +114,14 @@ namespace eval ctext {
     set data($win,config,-diff_mode)              0
     set data($win,config,-diffsubbg)              "pink"
     set data($win,config,-diffaddbg)              "light green"
-    set data($win,config,-folding)                0
+    set data($win,config,-foldstate)              "none"  ;# none, manual, indent and syntax supported
     set data($win,config,-delimiters)             {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     set data($win,config,-matchchar)              0
     set data($win,config,-matchchar_bg)           $data($win,config,-fg)
     set data($win,config,-matchchar_fg)           $data($win,config,-bg)
     set data($win,config,-matchaudit)             0
     set data($win,config,-matchaudit_bg)          "red"
-    set data($win,config,-foldstate)              "none"  ;# none, manual, indent and syntax supported
+    set data($win,config,-theme)                  [list]
     set data($win,config,re_opts)                 ""
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
@@ -138,7 +138,7 @@ namespace eval ctext {
 
     set data($win,config,ctextFlags) {
       -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg -font -linemap_mark_command
-      -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor -highlightcolor -folding
+      -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor -highlightcolor
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
@@ -197,7 +197,7 @@ namespace eval ctext {
     grid $win.t -row 0 -column 2 -sticky news
 
     # Hide the linemap and separator if we are specified to do so
-    if {!$data($win,config,-linemap) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
+    if {!$data($win,config,-linemap) && !$data($win,config,-linemap_markable) && ($data($win,config,-foldstate) eq "none")} {
       grid remove $win.l
       grid remove $win.f
     }
@@ -307,6 +307,9 @@ namespace eval ctext {
 
     array unset data $win,config,*
 
+    # Destroy the memory associated with the model
+    model::destroy $win
+
   }
 
   ######################################################################
@@ -330,7 +333,7 @@ namespace eval ctext {
 
     lappend argTable {0 false no} -linemap {
       set data($win,config,-linemap) 0
-      if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
+      if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && ($data($win,config,-foldstate) eq "none")} {
         catch {
           grid remove $win.l
           grid remove $win.f
@@ -343,29 +346,6 @@ namespace eval ctext {
 
     lappend argTable any -linemap_mark_command {
       set data($win,config,-linemap_mark_command) $value
-      break
-    }
-
-    lappend argTable {1 true yes} -folding {
-      set data($win,config,-folding) 1
-      catch {
-        grid $win.l
-        grid $win.f
-      }
-      set update_linemap 1
-      break
-    }
-
-    lappend argTable {0 false no} -folding {
-      set data($win,config,-folding) 0
-      if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-linemap)} {
-        catch {
-          grid remove $win.l
-          grid remove $win.f
-        }
-      } else {
-        set update_linemap 1
-      }
       break
     }
 
@@ -652,6 +632,17 @@ namespace eval ctext {
         }
       }
       set data($win,config,-foldstate) $value
+      if {$value ne "none"} {
+        catch {
+          grid $win.l
+          grid $win.f
+        }
+      } elseif {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable)} {
+        catch {
+          grid remove $win.l
+          grid remove $win.f
+        }
+      }
     }
 
     set data($win,config,argTable) $argTable
@@ -2263,12 +2254,43 @@ namespace eval ctext {
       if {[lsearch [list curly paren square angled] $pattern] == -1} {
         lappend tags indent:$i left  [lindex $pattern 0] $lang
         lappend tags indent:$i right [lindex $pattern 1] $lang
+        lappend fold_types indent:$i
         model::add_types $win indent:$i
         incr i
+      } else {
+        lappend fold_types $pattern
       }
     }
 
+    # Add the given fold types
+    model::fold_add_types $win $fold_types
+
     # Save the context data
+    tsv::set indents $win $tags
+
+  }
+
+  ######################################################################
+  # Adds the given reindentation patterns for parsing purposes.
+  proc setReindentation {win lang patterns} {
+
+    # Get the indentation tags
+    set tags [tsv::get indents $win]
+
+    set i [llength $tags]
+    foreach pattern $patterns {
+      lappend tags reindentStart:$i none [lindex $pattern 0] $lang
+      foreach subpattern [lrange $pattern 1 end] {
+        lappend tags reindent:$i none $subpattern $lang
+      }
+      lappend fold_types reindentStart:$i reindent:$i
+      incr i
+    }
+
+    # Add the given fold types
+    model::fold_add_types $win $fold_types
+
+    # Save the indentation tags
     tsv::set indents $win $tags
 
   }
@@ -2575,6 +2597,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Clears the widget of all previous set highlighting information.
   proc clearHighlightClasses {win} {
 
     variable data
@@ -2590,6 +2613,9 @@ namespace eval ctext {
         }
       }
     }
+
+    # Clear all information stored in the model
+    model::clear $win
 
   }
 

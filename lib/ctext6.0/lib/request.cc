@@ -126,6 +126,9 @@ object request::execute(
     case REQUEST_CURSORHIST :
       return( inst.cursor_history() );
       break;
+    case REQUEST_FOLDADDTYPES :
+      inst.fold_add_types( _args.at( i, 0 ) );
+      break;
     case REQUEST_FOLDDELETE :
       return( inst.fold_delete( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;

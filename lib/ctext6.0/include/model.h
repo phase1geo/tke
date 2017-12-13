@@ -27,12 +27,13 @@ class model {
 
   private:
 
-    serial       _serial;       /*!< Serial list structure */
-    tree         _tree;         /*!< Tree structure */
-    linemap      _linemap;      /*!< Line map structure */
-    undo_manager _undo_buffer;  /*!< Undo buffer */
-    std::string  _win;          /*!< Name of this model */
-    bool         _edited;       /*!< Set to false until after the model is changed */
+    serial                     _serial;       /*!< Serial list structure */
+    tree                       _tree;         /*!< Tree structure */
+    linemap                    _linemap;      /*!< Line map structure */
+    undo_manager               _undo_buffer;  /*!< Undo buffer */
+    std::string                _win;          /*!< Name of this model */
+    bool                       _edited;       /*!< Set to false until after the model is changed */
+    std::map<std::string,bool> _fold_types;   /*!< Hash table of marker types that are folds */
 
     /*!
      Converts the given object to a vector of text indices.
@@ -59,6 +60,9 @@ class model {
 
     /*! Destructor */
     ~model() {}
+
+    /*! Clears the model contents */
+    void clear();
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
     void insert(
@@ -123,7 +127,20 @@ class model {
     /*! Update the tree with the contents of the serial list */
     void update_tree() {
       _tree.update( _serial );
-      _tree.add_folds( _linemap );
+      if( _fold_types.size() > 0 ) {
+        _tree.add_folds( _linemap, _fold_types );
+      }
+    }
+
+    /*! Adds the given types to the list of fold types */
+    void fold_add_types(
+      const Tcl::object & types
+    ) {
+      Tcl::interpreter interp( types.get_interp(), false );
+      int              length = types.length( interp );
+      for( int i=0; i<length; i++ ) {
+        _fold_types.insert( std::make_pair( types.at( interp, i ).get<std::string>( interp ), true ) );
+      }
     }
 
     /*! \return Returns a human-readable representation of the stored serial list */
