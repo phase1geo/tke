@@ -24,7 +24,7 @@ casesensitive
 indentation
 {{curly}}
 
-reindent
+reindentation
 {{switch case default} {class public protected private}}
 
 icomment {{//}}

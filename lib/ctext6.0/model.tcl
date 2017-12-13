@@ -69,6 +69,16 @@ namespace eval model {
   }
 
   ######################################################################
+  # Clears the data stored in the model for reuse.
+  proc clear {win} {
+
+    variable data
+
+    $data($win,model) clear
+
+  }
+
+  ######################################################################
   # Sets the debug variable and save it for future purposes
   proc set_debug {win value} {
 
@@ -484,6 +494,16 @@ namespace eval model {
   }
 
   ######################################################################
+  # Sets the fold types in the model.
+  proc fold_add_types {win types} {
+
+    variable data
+
+    $data($win,model) foldaddtypes $types
+
+  }
+
+  ######################################################################
   # Deletes the fold found on the given line.
   proc fold_delete {win line depth prange} {
 
@@ -492,8 +512,6 @@ namespace eval model {
     variable data
 
     lassign [$data($win,model) folddelete $line $depth] retval range
-
-    puts "In fold_delete, line: $line, depth: $depth, retval: $retval, range: $range"
 
     return $retval
 

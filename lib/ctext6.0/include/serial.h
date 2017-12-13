@@ -43,6 +43,9 @@ class serial : public std::vector<serial_item*> {
     /*! Destructor */
     ~serial();
 
+    /*! Clears the contents for reuse */
+    void clear();
+
     /*!< Adds the given item to the end of the list */
     void append( Tcl::object item );
 

@@ -51,6 +51,9 @@ class mailbox {
     /*! Destructor */
     ~mailbox();
 
+    /*! Clears the entire mailbox */
+    void clear();
+
     /*! Execute items from the requests queue */
     void execute();
 
@@ -216,6 +219,10 @@ class mailbox {
     );
 
     Tcl::object cursor_history();
+
+    void fold_add_types(
+      Tcl::object types
+    );
 
     Tcl::object fold_delete(
       Tcl::object startline,

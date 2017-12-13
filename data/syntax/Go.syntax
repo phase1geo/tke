@@ -21,7 +21,8 @@ casesensitive
 indentation
 {{curly}}
 
-reindent {{switch case default} {select case default}}
+reindentation
+{{switch case default} {select case default}}
 
 icomment {{//}}
 

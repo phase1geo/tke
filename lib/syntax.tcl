@@ -468,18 +468,8 @@ namespace eval syntax {
         ctext::setContextPatterns $txt comment comment {} $lang_array(comments) $theme(comments)
         # ctext::setContextPatterns $txt string  string  {} $lang_array(strings)  $theme(comments)
         ctext::setIndentation     $txt {} $lang_array(indentation)
+        ctext::setReindentation   $txt {} $lang_array(reindentation)
         ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) $theme(strings)
-
-        if {0} {
-        set reindentStarts [list]
-        set reindents      [list]
-        foreach reindent $lang_array(reindent) {
-          lappend reindentStarts [lindex $reindent 0]
-          lappend reindents      {*}[lrange $reindent 1 end]
-        }
-        ctext::setIndentation $txt {} $reindentStarts reindentStart
-        ctext::setIndentation $txt {} $reindents      reindent
-        }
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
@@ -576,18 +566,8 @@ namespace eval syntax {
       # Add the comments, strings and indentations
       ctext::setContextPatterns $txt comment comment $language $lang_array(comments) $theme(comments)
       # ctext::setContextPatterns $txt string  string  $language $lang_array(comments) $theme(comments)
-      ctext::setIndentation $txt $language [list [list $embed_start $embed_end] {*}$lang_array(indentation)]
-
-      if {0} {
-      set reindentStarts [list]
-      set reindents      [list]
-      foreach reindent $lang_array(reindent) {
-        lappend reindentStarts [lindex $reindent 0]
-        lappend reindents      {*}[lrange $reindent 1 end]
-      }
-      ctext::setIndentation $txt $language $reindentStarts reindentStart
-      ctext::setIndentation $txt $language $reindents      reindent
-      }
+      ctext::setIndentation   $txt $language [list [list $embed_start $embed_end] {*}$lang_array(indentation)]
+      ctext::setReindentation $txt $language $lang_array(reindentation)
 
       # Add the FIXME
       ctext::addHighlightKeywords $txt FIXME class fixme $language

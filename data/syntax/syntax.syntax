@@ -33,7 +33,8 @@ casesensitive
 indentation
 {{curly}}
 
-reindent {}
+reindentation
+{}
 
 icomment {{#}}
 

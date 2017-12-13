@@ -19,6 +19,17 @@ serial::~serial() {
 
 }
 
+void serial::clear() {
+
+  /* Deallocate memory */
+  for( vector<serial_item*>::iterator it=begin(); it!=end(); it++ ) {
+    delete *it;
+  }
+
+  clear();
+
+}
+
 void serial::adjust(
   const tindex & from,
   const tindex & to,

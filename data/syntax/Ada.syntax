@@ -28,8 +28,6 @@ indentation
   {then    {(end\s+if;|else|elsif)}}
 }
 
-reindent {}
-
 icomment {{--}}
 
 comments {{{^[ \t]*--} {$}}}

@@ -28,6 +28,18 @@ mailbox::~mailbox() {
 
 }
 
+void mailbox::clear() {
+
+  /* Wait for the thread to complete */
+  if( _th.joinable() ) {
+    _th.join();
+  }
+
+  /* Clear the model */
+  _model.clear();
+
+}
+
 void mailbox::add_request(
   int            command,
   const object & args,
@@ -553,6 +565,14 @@ object mailbox::cursor_history() {
 
 }
 
+void mailbox::fold_add_types(
+  object types
+) {
+
+  add_request( REQUEST_FOLDADDTYPES, types, false, false );
+
+}
+
 object mailbox::fold_delete(
   object line,
   object depth
@@ -704,6 +724,7 @@ CPPTCL_MODULE(Model, i) {
 
   /* Define the model class */
   i.class_<mailbox>("model", init<const string &>())
+    .def( "clear",           &mailbox::clear )
     .def( "insert",          &mailbox::insert )
     .def( "delete",          &mailbox::remove )
     .def( "replace",         &mailbox::replace )
@@ -739,6 +760,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "cursorhistory",   &mailbox::cursor_history )
     .def( "undoreset",       &mailbox::undo_reset )
     .def( "autoseparate",    &mailbox::auto_separate )
+    .def( "foldaddtypes",    &mailbox::fold_add_types )
     .def( "folddelete",      &mailbox::fold_delete )
     .def( "folddeleterange", &mailbox::fold_delete_range )
     .def( "foldopen",        &mailbox::fold_open )
