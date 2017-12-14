@@ -708,6 +708,22 @@ object mailbox::fold_find(
 
 }
 
+void mailbox::fold_indent_update(
+  object ranges
+) {
+
+  add_request( REQUEST_FOLDINDENTUPDATE, ranges, false, false );
+
+}
+
+void mailbox::fold_syntax_update() {
+
+  object args;
+
+  add_request( REQUEST_FOLDSYNTAXUPDATE, args, false, true );
+
+}
+
 object mailbox::indent_line_start(
   object indent_index
 ) {
@@ -724,52 +740,54 @@ CPPTCL_MODULE(Model, i) {
 
   /* Define the model class */
   i.class_<mailbox>("model", init<const string &>())
-    .def( "clear",           &mailbox::clear )
-    .def( "insert",          &mailbox::insert )
-    .def( "delete",          &mailbox::remove )
-    .def( "replace",         &mailbox::replace )
-    .def( "update",          &mailbox::update )
-    .def( "showserial",      &mailbox::show_serial )
-    .def( "showtree",        &mailbox::show_tree )
-    .def( "mismatched",      &mailbox::get_mismatched )
-    .def( "matchindex",      &mailbox::get_match_char )
-    .def( "depth",           &mailbox::get_depth )
-    .def( "rendercontexts",  &mailbox::render_contexts )
-    .def( "isescaped",       &mailbox::is_escaped )
-    .def( "isindex",         &mailbox::is_index )
+    .def( "clear",            &mailbox::clear )
+    .def( "insert",           &mailbox::insert )
+    .def( "delete",           &mailbox::remove )
+    .def( "replace",          &mailbox::replace )
+    .def( "update",           &mailbox::update )
+    .def( "showserial",       &mailbox::show_serial )
+    .def( "showtree",         &mailbox::show_tree )
+    .def( "mismatched",       &mailbox::get_mismatched )
+    .def( "matchindex",       &mailbox::get_match_char )
+    .def( "depth",            &mailbox::get_depth )
+    .def( "rendercontexts",   &mailbox::render_contexts )
+    .def( "isescaped",        &mailbox::is_escaped )
+    .def( "isindex",          &mailbox::is_index )
     .def( "getcommentmarkers", &mailbox::get_comment_markers )
-    .def( "renderlinemap",   &mailbox::render_linemap )
-    .def( "setmarker",       &mailbox::set_marker )
-    .def( "getmarkername",   &mailbox::get_marker_name )
-    .def( "getmarkerline",   &mailbox::get_marker_line )
-    .def( "guttercreate",    &mailbox::gutter_create )
-    .def( "gutterdestroy",   &mailbox::gutter_destroy )
-    .def( "gutterhide",      &mailbox::gutter_hide )
-    .def( "gutterdelete",    &mailbox::gutter_delete )
-    .def( "gutterset",       &mailbox::gutter_set )
-    .def( "gutterunset",     &mailbox::gutter_unset )
-    .def( "gutterget",       &mailbox::gutter_get )
-    .def( "guttercget",      &mailbox::gutter_cget )
-    .def( "gutterconfigure", &mailbox::gutter_configure )
-    .def( "gutternames",     &mailbox::gutter_names )
-    .def( "undo",            &mailbox::undo )
-    .def( "redo",            &mailbox::redo )
-    .def( "undoable",        &mailbox::undoable )
-    .def( "redoable",        &mailbox::redoable )
-    .def( "undoseparator",   &mailbox::undo_separator )
-    .def( "cursorhistory",   &mailbox::cursor_history )
-    .def( "undoreset",       &mailbox::undo_reset )
-    .def( "autoseparate",    &mailbox::auto_separate )
-    .def( "foldaddtypes",    &mailbox::fold_add_types )
-    .def( "folddelete",      &mailbox::fold_delete )
-    .def( "folddeleterange", &mailbox::fold_delete_range )
-    .def( "foldopen",        &mailbox::fold_open )
-    .def( "foldopenrange",   &mailbox::fold_open_range )
-    .def( "foldshowline",    &mailbox::fold_show_line )
-    .def( "foldclose",       &mailbox::fold_close )
-    .def( "foldcloserange",  &mailbox::fold_close_range )
-    .def( "foldfind",        &mailbox::fold_find )
-    .def( "indentlinestart", &mailbox::indent_line_start );
+    .def( "renderlinemap",    &mailbox::render_linemap )
+    .def( "setmarker",        &mailbox::set_marker )
+    .def( "getmarkername",    &mailbox::get_marker_name )
+    .def( "getmarkerline",    &mailbox::get_marker_line )
+    .def( "guttercreate",     &mailbox::gutter_create )
+    .def( "gutterdestroy",    &mailbox::gutter_destroy )
+    .def( "gutterhide",       &mailbox::gutter_hide )
+    .def( "gutterdelete",     &mailbox::gutter_delete )
+    .def( "gutterset",        &mailbox::gutter_set )
+    .def( "gutterunset",      &mailbox::gutter_unset )
+    .def( "gutterget",        &mailbox::gutter_get )
+    .def( "guttercget",       &mailbox::gutter_cget )
+    .def( "gutterconfigure",  &mailbox::gutter_configure )
+    .def( "gutternames",      &mailbox::gutter_names )
+    .def( "undo",             &mailbox::undo )
+    .def( "redo",             &mailbox::redo )
+    .def( "undoable",         &mailbox::undoable )
+    .def( "redoable",         &mailbox::redoable )
+    .def( "undoseparator",    &mailbox::undo_separator )
+    .def( "cursorhistory",    &mailbox::cursor_history )
+    .def( "undoreset",        &mailbox::undo_reset )
+    .def( "autoseparate",     &mailbox::auto_separate )
+    .def( "foldaddtypes",     &mailbox::fold_add_types )
+    .def( "folddelete",       &mailbox::fold_delete )
+    .def( "folddeleterange",  &mailbox::fold_delete_range )
+    .def( "foldopen",         &mailbox::fold_open )
+    .def( "foldopenrange",    &mailbox::fold_open_range )
+    .def( "foldshowline",     &mailbox::fold_show_line )
+    .def( "foldclose",        &mailbox::fold_close )
+    .def( "foldcloserange",   &mailbox::fold_close_range )
+    .def( "foldfind",         &mailbox::fold_find )
+    .def( "foldindentupdate", &mailbox::fold_indent_update )
+    .def( "foldsyntaxupdate", &mailbox::fold_syntax_update )
+    .def( "indentlinestart",  &mailbox::indent_line_start );
 
   /* Add functions */
   i.def("add_type", add_type );

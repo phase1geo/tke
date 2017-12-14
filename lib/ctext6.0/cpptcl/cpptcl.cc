@@ -7,6 +7,7 @@
 // warranty, and with no claim as to its suitability for any purpose.
 //
 
+#include <assert.h>
 #include "cpptcl.h"
 #include <map>
 #include <sstream>
@@ -776,6 +777,7 @@ object object::at(interpreter &i, size_t index) const
      }
      if (o == NULL)
      {
+          assert( 0 );
           throw tcl_error("Index out of range.");
      }
 

@@ -428,6 +428,17 @@ class model {
       return( _linemap.fold_find( startline, dir, num ) );
     }
 
+    void fold_indent_update(
+      const Tcl::object & ranges
+    ) {
+      _linemap.fold_indent_update( ranges );
+    }
+
+    /*! Update the linemap with the fold information based on syntax */
+    void fold_syntax_update() {
+      _tree.add_folds( _linemap, _fold_types );
+    }
+
     /*! \return Returns the the starting line containing the given indent marker */
     Tcl::object indent_line_start(
       const Tcl::object & indent_index
