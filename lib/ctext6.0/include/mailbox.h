@@ -12,7 +12,12 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#include "mingw.thread.h"
+#else
 #include <thread>
+#endif
 
 #include "cpptcl.h"
 #include "model.h"
