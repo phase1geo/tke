@@ -633,11 +633,12 @@ namespace eval ctext {
           }
         }
         set data($win,config,-foldstate) $value
-        $win gutter clear folding
+        $win gutter unset folding 1 [lindex [split [$win._t index end] .] 0]
         switch $value {
           indent { model::fold_indent_update $win }
           syntax { model::fold_syntax_update $win }
         }
+        linemapUpdate $win 1
       }
       if {$value ne "none"} {
         catch {
@@ -2674,6 +2675,7 @@ namespace eval ctext {
     # If we need indentation based code folding, do that now.
     if {$data($win,config,-foldstate) eq "indent"} {
       model::fold_indent_update $win
+      linemapUpdate $win 1
     }
 
   }
@@ -2994,11 +2996,6 @@ namespace eval ctext {
 
     # Configure the _folded tag to hide code
     $win._t tag configure _folded -elide 1
-
-    # Add the fold information to the gutter
-    if {$data($win,config,-foldstate) eq "indent"} {
-      model::fold_indent_update $win [$win._t tag ranges _prewhite]
-    }
 
   }
 
