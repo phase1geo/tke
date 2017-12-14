@@ -454,7 +454,7 @@ void linemap::unset(
     }
   } else {
     int last_index = get_row_index( last_obj.get<int>( interp ) );
-    for( int i=index; i<=last_index; i++ ) {
+    for( int i=index; i<=((last_index == _rows.size()) ? (last_index - 1) : last_index); i++ ) {
       _rows[i]->set_value( col, 0 );
     }
   }
