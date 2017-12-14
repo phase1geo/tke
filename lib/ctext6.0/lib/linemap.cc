@@ -635,8 +635,6 @@ object linemap::fold_delete(
   const object & depth_obj
 ) {
 
-  cout << "In linemap::fold_delete" << endl;
-
   interpreter interp( startline.get_interp(), false );
   int         col    = get_col_index( "folding" );
   bool        retval = false;
@@ -647,8 +645,6 @@ object linemap::fold_delete(
     result.append( interp, (object)false );
     return( result );
   }
-
-  cout << "HERE!" << endl;
 
   tindex line( startline.get<int>( interp ), 0 );
   int    row         = get_row_index( line.row() );
@@ -661,15 +657,12 @@ object linemap::fold_delete(
   line.inc_row( 1 );
   ranges.append( interp, (object)line.to_string() );
 
-  cout << "  row: " << row << ", depth: " << depth << endl;
-
   for( int i=row; i<rows; i++ ) {
     const linemap_colopts* value = _rows[i]->get_value( col );
     if( value != 0 ) {
       const string & tag = value->name();
       int            inc = counts[_tag_map.find( tag )->second];
       tindex         line( _rows[i]->row(), 0 );
-      cout << "    i: " << i << ", count: " << count << endl;
       if( count < depth ) {
         _rows[i]->set_value( col, 0 );
       } else {
@@ -1126,6 +1119,43 @@ object linemap::fold_find(
   }
 
   return( result );
+
+}
+
+void linemap::fold_indent_update(
+  const object & ranges
+) {
+
+  interpreter interp( ranges.get_interp(), false );
+  int         col = get_col_index( "folding" );
+
+  if( col == -1 ) {
+    return;
+  }
+
+  const linemap_colopts* open  = _cols[col]->get_value( "open" );
+  const linemap_colopts* eopen = _cols[col]->get_value( "eopen" );
+  const linemap_colopts* end   = _cols[col]->get_value( "end" );
+  int                    len   = ranges.length( interp );
+  tindex                 last( 1, 0 );
+
+  for( int i=0; i<len; i+=2 ) {
+    tindex ti( ranges.at( interp, (i + 1) ) );
+    if( (ti.col() != last.col()) && (ti.row() != last.row()) ) {
+      const linemap_colopts* val   = (ti.col() > last.col()) ? open : end;
+      int                    row   = (val == open) ? last.row() : ti.row();
+      int                    index = get_row_index( row );
+      if( (index == _rows.size()) || (_rows[index]->row() != row) ) {
+        _rows.insert( (_rows.begin() + index), new linemap_row( row, _cols.size() ) );
+        _rows[index]->set_value( col, val );
+      } else if( (val == open) && (_rows[index]->get_value( col ) == end) ) {
+        _rows[index]->set_value( col, eopen );
+      } else {
+        _rows[index]->set_value( col, val );
+      }
+    }
+    last = ti;
+  }
 
 }
 

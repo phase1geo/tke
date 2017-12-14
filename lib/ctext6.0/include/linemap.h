@@ -221,6 +221,10 @@ class linemap {
       const Tcl::object & num
     );
 
+    void fold_indent_update(
+      const Tcl::object & ranges
+    );
+
 };
 
 #endif

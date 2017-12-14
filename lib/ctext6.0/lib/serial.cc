@@ -26,7 +26,7 @@ void serial::clear() {
     delete *it;
   }
 
-  clear();
+  vector<serial_item*>::clear();
 
 }
 

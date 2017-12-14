@@ -624,14 +624,21 @@ namespace eval ctext {
       if {![info exists states($value)]} {
         return -code error "Illegal -foldstate value set ($value)"
       }
-      if {$states($data($win,config,-foldstate)) != $states($value)} {
-        if {$states($value)} {
-          fold_enable $win
-        } else {
-          fold_disable $win
+      if {$data($win,config,-foldstate) ne $value} {
+        if {$states($data($win,config,-foldstate)) != $states($value)} {
+          if {$states($value)} {
+            fold_enable $win
+          } else {
+            fold_disable $win
+          }
+        }
+        set data($win,config,-foldstate) $value
+        $win gutter clear folding
+        switch $value {
+          indent { model::fold_indent_update $win }
+          syntax { model::fold_syntax_update $win }
         }
       }
-      set data($win,config,-foldstate) $value
       if {$value ne "none"} {
         catch {
           grid $win.l
@@ -2247,9 +2254,10 @@ namespace eval ctext {
   proc setIndentation {win lang patterns} {
 
     # Get the indentation tags
-    set tags [tsv::get indents $win]
+    set tags       [tsv::get indents $win]
+    set fold_types [list]
+    set i          [llength $tags]
 
-    set i [llength $tags]
     foreach pattern $patterns {
       if {[lsearch [list curly paren square angled] $pattern] == -1} {
         lappend tags indent:$i left  [lindex $pattern 0] $lang
@@ -2283,12 +2291,8 @@ namespace eval ctext {
       foreach subpattern [lrange $pattern 1 end] {
         lappend tags reindent:$i none $subpattern $lang
       }
-      lappend fold_types reindentStart:$i reindent:$i
       incr i
     }
-
-    # Add the given fold types
-    model::fold_add_types $win $fold_types
 
     # Save the indentation tags
     tsv::set indents $win $tags
@@ -2658,6 +2662,23 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Renders the prewhite tags and, if needed, updates the linemap
+  # with the indentation information.
+  proc render_prewhite {win ranges} {
+
+    variable data
+
+    # Render the tags
+    render $win _prewhite $ranges 0
+
+    # If we need indentation based code folding, do that now.
+    if {$data($win,config,-foldstate) eq "indent"} {
+      model::fold_indent_update $win
+    }
+
+  }
+
+  ######################################################################
   # Handle any bindings on the given tag.
   proc handle_tag {win class startpos endpos cmd} {
 
@@ -2975,7 +2996,9 @@ namespace eval ctext {
     $win._t tag configure _folded -elide 1
 
     # Add the fold information to the gutter
-    # TBD
+    if {$data($win,config,-foldstate) eq "indent"} {
+      model::fold_indent_update $win [$win._t tag ranges _prewhite]
+    }
 
   }
 
@@ -3236,73 +3259,6 @@ namespace eval ctext {
     set startline [lindex [split [$win._t index $start] .] 0]
 
     return [model::fold_find $win $startline $dir $num]
-
-  }
-
-  ######################################################################
-  # Returns the folding information for the given line when we are in
-  # indent folding state.
-  proc get_fold_range_indent {win line depth} {
-
-    set count  0
-    set aboves [list]
-    set belows [list]
-    set closed [list]
-
-    set start_chars [$win._t count -chars {*}[$win._t tag nextrange _prewhite $line.0]]
-    set next_line   $line.0
-    set final       [lindex [split [$win._t index end] .] 0].0
-    set all_chars   [list]
-
-    while {[set range [$win._t tag nextrange _prewhite $next_line]] ne ""} {
-      set chars [$win._t count -chars {*}$range]
-      set tline [lindex [split [lindex $range 0] .] 0]
-      set state [fold_state $win $tline]
-      if {($state eq "close") || ($state eq "eclose")} {
-        lappend closed $tline
-      }
-      if {($chars > $start_chars) || ($all_chars eq [list])} {
-        if {($state ne "none") && ($state ne "end")} {
-          lappend all_chars [list $tline $chars]
-        }
-      } else {
-        set final $tline.0
-        break
-      }
-      set next_line [lindex $range 1]
-    }
-
-    set last $start_chars
-    foreach {tline chars} [concat {*}[lsort -integer -index 1 $all_chars]] {
-      incr count [expr $chars != $last]
-      if {$count < $depth} {
-        lappend belows $tline
-      } else {
-        lappend aboves $tline
-      }
-      set last $chars
-    }
-
-    return [list [expr $line + 1].0 $final $belows $aboves $closed]
-
-  }
-
-  ######################################################################
-  # Returns the folding information for the given line when we are in
-  # indent folding state.
-  proc get_fold_range_other {win line depth} {
-
-    # Get the information from the linemap model (this should be much faster than processing
-    # this information ourselves
-    lassign [model::get_fold_info $win $line $depth] startline endline belows aboves closed
-
-    if {$endline eq ""} {
-      set endline "end"
-    } else {
-      append endline ".0"
-    }
-
-    return [list [expr $startline + 1].0 $endline $belows $aboves $closed]
 
   }
 

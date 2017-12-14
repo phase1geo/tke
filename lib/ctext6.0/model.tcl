@@ -499,7 +499,9 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) foldaddtypes $types
+    if {$types ne ""} {
+      $data($win,model) foldaddtypes $types
+    }
 
   }
 
@@ -605,6 +607,30 @@ namespace eval model {
     variable data
 
     return [$data($win,model) foldfind $startline $dir $num]
+
+  }
+
+  ######################################################################
+  # Updates the linemap folding gutter to match the file based on indentation
+  # folding.
+  proc fold_indent_update {win} {
+
+    variable data
+
+    if {[set ranges [$win._t tag ranges _prewhite]] ne ""} {
+      $data($win,model) foldindentupdate $ranges
+    }
+
+  }
+
+  ######################################################################
+  # Updates the linemap folding gutter to match the file based on syntax
+  # folding.
+  proc fold_syntax_update {win} {
+
+    variable data
+
+    $data($win,model) foldsyntaxupdate
 
   }
 

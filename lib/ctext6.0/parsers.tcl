@@ -191,7 +191,39 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    render $txt _prewhite $ranges 0
+    thread::send -async $utils::main_tid [list ctext::render_prewhite $txt $ranges]
+
+  }
+
+  ######################################################################
+  proc do_indent_update {txt} {
+
+    model::
+    set state  [list "" "open" "end" "eopen"]
+    set last   0
+    set states [list]
+
+    foreach {startpos endpos} [$txt tag ranges _prewhite] {
+      lassign [split $endpos .] row col
+      set indent [expr {$col > $last}]
+      set undent [expr {$col < $last}]
+      lappend states [lindex $state [expr (($col < $last) ? 2 : 0) + (($col > $last) ? 1 : 0)]
+      set last $col
+    }
+
+     if {[lsearch [$txt tag names $line.0] _prewhite] != -1} {
+          set prev 0
+          set curr 0
+          set next 0
+          catch { set prev [$txt count -chars {*}[$txt tag prevrange _prewhite $line.0]] }
+          catch { set curr [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]] }
+          catch { set next [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0+1c]] }
+          set indent_cnt   [expr $curr < $next]
+          set unindent_cnt [expr $curr < $prev]
+          if {$indent_cnt && $unindent_cnt} {
+            return "eopen"
+          }
+        }
 
   }
 
