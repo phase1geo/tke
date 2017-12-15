@@ -61,26 +61,6 @@ bool tnode::get_match_pos(
 
 }
 
-void tnode::get_fold_info(
-  interpreter & interp,
-  Tcl::object & result,
-  int           depth
-) const {
-
-  if( _left && _right && _type && (_type->name() == "curly") ) {
-    result.append( interp, (object)(_left->pos().row() + 1) );
-    result.append( interp, (object)(_right->pos().row() - 1) );
-    depth--;
-  }
-
-  if( depth >= 0 ) {
-    for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
-      get_fold_info( interp, result, (depth - 1) );
-    }
-  }
-
-}
-
 int tnode::index() const {
 
   int i = 0;
@@ -168,5 +148,30 @@ bool tnode::is_in_type(
   } else {
     return( (_type->name().compare( 0, type.size(), type ) == 0) || (_type->tagname() == type) || _parent->is_in_type( type ) );
   }
+
+}
+
+const tnode* tnode::get_node_containing(
+  const tindex & ti
+) const {
+
+  /* If the text index lies within this tnode, continue */
+  if( _left && (_left->const_pos().compare( ti ) >= 0) && _right && (_right->const_pos().compare( ti ) <= 0) ) {
+
+    const tnode* node;
+
+    /* Check to see if any of the children contain the text index */
+    for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
+      if( (node = get_node_containing( ti )) ) {
+        return( node );
+      }
+    }
+
+    /* Otherwise, return ourselves */
+    return( this );
+
+  }
+
+  return( 0 );
 
 }

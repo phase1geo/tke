@@ -630,7 +630,9 @@ namespace eval model {
 
     variable data
 
+    puts "Calling foldsyntaxupdate!"
     $data($win,model) foldsyntaxupdate
+    puts "DONE!"
 
   }
 
