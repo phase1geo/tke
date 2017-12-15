@@ -1,6 +1,7 @@
 MAKEFLAGS = -j4
 
-DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive -LC:/Tcl/lib -ltcl86
+DLLOPTS   = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive -LC:/Tcl/lib -ltcl86
+DYLIBOPTS = -F/Library/Frameworks -framework Tcl
 
 $(info $(findstring $(MAKECMDGOALS),../model.dll))
 
@@ -43,7 +44,7 @@ all: ../model.so
 	$(CXX) $(OBJS) -g -std=gnu++11 -shared -o ../model.dll -Ic:/Tcl/include/tcl8.6 -Ic:/Boost/include/boost-1_65_1 $(DLLOPTS)
 
 ../model.dylib : $(OBJS)
-	$(CXX) $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost -L/usr/lib/x86_64-linux-gnu -ltcl8.6
+	$(CXX) $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost $(DYLIBOPTS)
 
 -include $(DEPS)
 
