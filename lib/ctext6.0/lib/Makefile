@@ -2,7 +2,9 @@ MAKEFLAGS = -j4
 
 DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive -LC:/Tcl/lib -ltcl86
 
-ifeq ($(findstring $(MAKECMDGOALS),../model.dll),$(MAKECMDGOALS))
+$(info $(findstring $(MAKECMDGOALS),../model.dll))
+
+ifneq ($(findstring $(MAKECMDGOALS),../model.dll),)
 CPPFLAGS = -Ic:/Tcl/include/tcl8.6 -Ic:/Boost/include/boost-1_65_1 -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
 CXX      = c:/MinGW/bin/g++
 else

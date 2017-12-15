@@ -273,3 +273,22 @@ void tree::add_folds(
   }
 
 }
+
+bool tree::is_in_index(
+  const std::string & type,
+  const tindex      & ti
+) const {
+
+  const tnode*           node;
+  const vector<tnode*> & children = node->const_children();
+
+  for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
+    if( (node = (*it)->get_node_containing( ti )) ) {
+      return( node->is_in_type( type ) );
+    }
+  }
+
+  return( false );
+
+}
+

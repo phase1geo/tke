@@ -81,6 +81,9 @@ class tnode {
     /*! \return Returns the children nodes of this node */
     std::vector<tnode*> & children() { return( _children ); }
 
+    /*! \return Returns a const version of the children nodes vector */
+    const std::vector<tnode*> & const_children() const { return( _children ); }
+
     /*! \return Returns true if this node is the root node */
     bool isroot() const { return( _parent == 0 ); }
 
@@ -113,20 +116,18 @@ class tnode {
       position           & pos
     ) const;
 
-    /*! Returns a Tcl list containing the position of the start and end indices as well
-     as a list of all start/end indices below the parent.
-    */
-    void get_fold_info(
-      Tcl::interpreter & interp,
-      Tcl::object      & result,
-      int                depth = 1
-    ) const;
-
     /*!
      \return Returns true if the given type is found in the ancestoral tree.
     */
     bool is_in_type(
       const std::string & type
+    ) const;
+
+    /*!
+     \return Returns pointer to the lowest level tnode that contains the given text index.
+    */
+    const tnode* get_node_containing(
+      const tindex & ti
     ) const;
 
 };
