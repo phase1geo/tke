@@ -86,7 +86,7 @@ class mailbox {
     Tcl::object replace(
       const Tcl::object & ranges,
       const Tcl::object & dstrs,
-      const Tcl::object & istr,
+      const Tcl::object & istrs,
       const Tcl::object & cursor
     );
 

@@ -102,7 +102,7 @@ class model {
     Tcl::object replace(
       const Tcl::object & ranges,
       const Tcl::object & dstrs,
-      const Tcl::object & istr,
+      const Tcl::object & istrs,
       const Tcl::object & cursor
     ) {
       std::vector<tindex> vec;
@@ -111,7 +111,7 @@ class model {
       _serial.replace( vec );
       result = _linemap.replace( vec );
       if( _edited ) {
-        _undo_buffer.add_replacement( vec, dstrs, istr, cursor );
+        _undo_buffer.add_replacement( vec, dstrs, istrs, cursor );
       }
       _edited = true;
       return( result );

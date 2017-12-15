@@ -479,7 +479,6 @@ namespace eval syntax {
         indent::set_indent_expressions $txt.t $lang_array(indentation)
 
         # Set the foldstate
-        puts "Setting the foldstate to [gui::get_folding_method $txt]"
         $txt configure -foldstate [gui::get_folding_method $txt]
 
         # Set the completer options for the given language

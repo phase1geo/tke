@@ -189,11 +189,11 @@ namespace eval model {
 
   ######################################################################
   # Update the model with the replacement information.
-  proc replace {win ranges dstrs istr cursor mark_command} {
+  proc replace {win ranges dstrs istrs cursor mark_command} {
 
     variable data
 
-    set markers [$data($win,model) replace $ranges $dstrs $istr $cursor]
+    set markers [$data($win,model) replace $ranges $dstrs $istrs $cursor]
 
     if {$mark_command ne ""} {
       foreach marker $markers {
@@ -630,9 +630,7 @@ namespace eval model {
 
     variable data
 
-    puts "Calling foldsyntaxupdate!"
     $data($win,model) foldsyntaxupdate
-    puts "DONE!"
 
   }
 

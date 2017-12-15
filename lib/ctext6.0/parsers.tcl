@@ -196,38 +196,6 @@ namespace eval parsers {
   }
 
   ######################################################################
-  proc do_indent_update {txt} {
-
-    model::
-    set state  [list "" "open" "end" "eopen"]
-    set last   0
-    set states [list]
-
-    foreach {startpos endpos} [$txt tag ranges _prewhite] {
-      lassign [split $endpos .] row col
-      set indent [expr {$col > $last}]
-      set undent [expr {$col < $last}]
-      lappend states [lindex $state [expr (($col < $last) ? 2 : 0) + (($col > $last) ? 1 : 0)]
-      set last $col
-    }
-
-     if {[lsearch [$txt tag names $line.0] _prewhite] != -1} {
-          set prev 0
-          set curr 0
-          set next 0
-          catch { set prev [$txt count -chars {*}[$txt tag prevrange _prewhite $line.0]] }
-          catch { set curr [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]] }
-          catch { set next [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0+1c]] }
-          set indent_cnt   [expr $curr < $next]
-          set unindent_cnt [expr $curr < $prev]
-          if {$indent_cnt && $unindent_cnt} {
-            return "eopen"
-          }
-        }
-
-  }
-
-  ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
   proc contexts {txt str startrow ptags} {
 
@@ -237,7 +205,7 @@ namespace eval parsers {
     set lines    [split $str \n]
     set found    0
 
-    foreach {type side pattern ctx} $patterns {
+    foreach {type side pattern once ctx} $patterns {
 
       # If the pattern is the EOL character, just get our indices from the left side
       if {$pattern eq "\$"} {
@@ -269,6 +237,10 @@ namespace eval parsers {
           lappend tags [list $type $side [list $srow $indices] 1 $ctx]
           set start $endpos
           incr found
+          if {$once} {
+            puts "Breaking, start: $start, line: $line"
+            break
+          }
         }
         incr srow
       }

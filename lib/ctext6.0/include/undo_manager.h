@@ -80,7 +80,7 @@ class undo_manager {
     void add_replacement(
       const std::vector<tindex> & ranges,
       const Tcl::object & dstrs,
-      const Tcl::object & istr,
+      const Tcl::object & istrs,
       const Tcl::object & cursor
     );
 

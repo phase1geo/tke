@@ -162,7 +162,7 @@ const tnode* tnode::get_node_containing(
 
     /* Check to see if any of the children contain the text index */
     for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
-      if( (node = get_node_containing( ti )) ) {
+      if( (node = (*it)->get_node_containing( ti )) ) {
         return( node );
       }
     }

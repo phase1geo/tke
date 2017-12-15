@@ -280,10 +280,14 @@ bool tree::is_in_index(
 ) const {
 
   const tnode*           node;
-  const vector<tnode*> & children = node->const_children();
+  const vector<tnode*> & children = _tree->const_children();
 
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
     if( (node = (*it)->get_node_containing( ti )) ) {
+      cout << "node type: " << node->type()->name()
+           << ", left: " << node->left()->const_pos().to_string()
+           << "< right: " << node->right()->const_pos().to_string()
+           << endl;
       return( node->is_in_type( type ) );
     }
   }
