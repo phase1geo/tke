@@ -79,13 +79,12 @@ void undo_manager::add_deletion(
 void undo_manager::add_replacement(
   const vector<tindex> & ranges,
   const object         & dstrs,
-  const object         & istr,
+  const object         & istrs,
   const object         & cursor
 ) {
 
   interpreter interp( dstrs.get_interp(), false );
   tindex      cursorpos( cursor );
-  string      ins_str = istr.get<string>( interp );
   bool        mcursor = ranges.size() > 3;
   int         size    = ranges.size() - 3;
   int         i, j;
@@ -93,12 +92,12 @@ void undo_manager::add_replacement(
   /* Handle multiple cursors */
   for( i=0, j=0; i<size; i+=3, j++ ) {
     add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
-    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), true );
+    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], istrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
   }
 
   /* Handle the last change */
   add_change( undo_change( UNDO_TYPE_DELETE, ranges[i], ranges[i+1], dstrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
-  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], ins_str, cursorpos, mcursor ), false );
+  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+2], istrs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), false );
 
 }
 

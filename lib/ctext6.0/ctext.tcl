@@ -1530,7 +1530,6 @@ namespace eval ctext {
 
     set ranges [list]
     set cursor [$win._t index insert]
-    set chars  [string length $content]
 
     # Insert the text
     if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
@@ -1542,7 +1541,9 @@ namespace eval ctext {
         }
         set old_content [$win._t get $startPos $endPos]
         set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
-        lappend strs $old_content
+        set chars       [string length $new_content]
+        lappend dstrs $old_content
+        lappend istrs $new_content
         $win._t replace $startPos $endPos $new_content $tags
         lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
       }
@@ -1551,20 +1552,22 @@ namespace eval ctext {
       set endPos      [$win index $endPos]
       set old_content [$win._t get $startPos $endPos]
       set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
-      lappend strs $old_content
+      set chars       [string length $new_content]
+      lappend dstrs $old_content
+      lappend istrs $new_content
       $win._t replace $startPos $endPos $new_content $tags
-      lappend ranges  $startPos $endPos [$win._t index "$insPos+${chars}c"]
+      lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
     }
 
     # Update the model
-    model::replace $win $ranges $strs $content $cursor $data($win,config,-linemap_mark_command)
+    model::replace $win $ranges $dstrs $istrs $cursor $data($win,config,-linemap_mark_command)
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
       highlightAll $win $ranges 1 1
     }
 
-    modified     $win 1 [list replace $ranges $opts(-moddata)]
+    modified $win 1 [list replace $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -2223,13 +2226,14 @@ namespace eval ctext {
       foreach pattern $patterns {
         if {[llength $pattern] == 1} {
           if {[info exists strings([lindex $pattern 0])]} {
-            lappend tags $type:$i any $strings([lindex $pattern 0]) $lang
+            lappend tags $type:$i any $strings([lindex $pattern 0]) 0 $lang
           } else {
-            lappend tags $type:$i any [lindex $pattern 0] $lang
+            lappend tags $type:$i any [lindex $pattern 0] 0 $lang
           }
         } else {
-          lappend tags $type:$i left  [lindex $pattern 0] $lang
-          lappend tags $type:$i right [lindex $pattern 1] $lang
+          set once [expr {[lindex $pattern 1] eq "\$"}]
+          lappend tags $type:$i left  [lindex $pattern 0] $once $lang
+          lappend tags $type:$i right [lindex $pattern 1] $once $lang
         }
         model::add_types $win $type:$i _$tag
         incr i
