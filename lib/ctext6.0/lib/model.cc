@@ -125,7 +125,14 @@ object model::render_contexts(
   const object & tags
 ) {
 
-  interpreter                  i( linestart.get_interp(), false );
+  interpreter i( linestart.get_interp(), false );
+  object      result;
+
+  /* If the tags list is empty and no context chars were previously removed, return with the empty list */
+  if( !_serial.context_removed() && (tags.length( i ) == 0) ) {
+    return( result );
+  }
+
   serial                       citems;
   serial                       titems;
   std::stack<const type_data*> context;
@@ -167,7 +174,6 @@ object model::render_contexts(
   }
 
   /* Render the ranges */
-  object result;
   for( map<string,object>::iterator it=ranges.begin(); it!=ranges.end(); it++ ) {
     result.append( i, (object)it->first );
     result.append( i, it->second );
