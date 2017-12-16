@@ -1433,10 +1433,20 @@ namespace eval ctext {
     variable data
 
     switch [lindex $args 0] {
-      set     { linemapSetMark $win {*}$args }
+      set {
+        if {![string is integer [lindex $args 1]] || ([lindex $args 1] < 1)} {
+          return -code error "First argument to ctext marker set is not a valid line number ([lindex $args 1])"
+        }
+        return [linemapSetMark $win {*}[lrange $args 1 end]]
+      }
       getname { return [model::get_marker_name $win [lindex $args 1]] }
       getline { return [model::get_marker_line $win [lindex $args 1]] }
-      clear   { linemapClearMark $win [lindex $args 1] }
+      clear   {
+        if {![string is integer [lindex $args 1]] || ([lindex $args 1] < 1)} {
+          return -code error "First argument to ctext marker clear is not a valid line number ([lindex $args 1])"
+        }
+        linemapClearMark $win [lindex $args 1]
+      }
       default {
         return -code error "Illegal ctext marker command ([lindex $args 0])"
       }
