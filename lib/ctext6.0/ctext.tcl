@@ -121,8 +121,8 @@ namespace eval ctext {
     set data($win,config,-matchchar_fg)           $data($win,config,-bg)
     set data($win,config,-matchaudit)             0
     set data($win,config,-matchaudit_bg)          "red"
+    set data($win,config,-classes)                [list]
     set data($win,config,-theme)                  [list]
-    set data($win,config,re_opts)                 ""
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -142,6 +142,7 @@ namespace eval ctext {
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
+      -classes -theme
     }
 
     # Set args
@@ -323,6 +324,37 @@ namespace eval ctext {
     variable data
 
     set argTable [list]
+
+    lappend argTable any -classes {
+      if {[llength $data($win,config,-classes)]} {
+        $win._t tag delete {*}$data($win,config,-classes)
+        set data($win,config,-classes) [list]
+      }
+      foreach class $value {
+        $win._t tag configure _$class
+        $win._t tag lower _$class sel
+      }
+      set data($win,config,-classes) $value
+    }
+
+    lappend argTable any -theme {
+      foreach {class clopts} $value {
+        if {[lsearch $data($win,config,-classes) _$class] != -1} {
+          array set opts {
+            -foreground ""
+            -background ""
+            -fontopts   ""
+          }
+          array set opts $opts
+          set tagopts [list]
+          if {$opts(-foreground) ne ""} { lappend tagopts -foreground $opts(-foreground) }
+          if {$opts(-background) ne ""} { lappend tagopts -background $opts(-background) }
+          if {$opts(-fontopts)   ne ""} { ctext::add_font_opts $win $opts(-fontopts) tagopts }
+          $win._t tag configure _$class {*}$tagopts
+        }
+      }
+      set data($win,config,-theme) $value
+    }
 
     lappend argTable {1 true yes} -linemap {
       set data($win,config,-linemap) 1
@@ -2408,7 +2440,10 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc add_font_opt {win class modifiers popts} {
+  # Create a fontname (if one does not already exist) and configure it
+  # with the given modifiers.  Returns the list of options that should
+  # be applied to the tag
+  proc add_font_opts {win modifiers popts} {
 
     variable data
 
@@ -2421,7 +2456,6 @@ namespace eval ctext {
       array set tag_opts  [list]
 
       set lsize       ""
-      set click       0
       set superscript 0
       set subscript   0
       set name_list   [list 0 0 0 0 0 0]
@@ -2438,7 +2472,6 @@ namespace eval ctext {
           "h3"          { set font_opts(-size) [expr $font_opts(-size) + 4]; set lsize "3" }
           "h2"          { set font_opts(-size) [expr $font_opts(-size) + 5]; set lsize "2" }
           "h1"          { set font_opts(-size) [expr $font_opts(-size) + 6]; set lsize "1" }
-          "click"       { set click 1 }
           "superscript" {
             set lsize              "super"
             set size               [expr $font_opts(-size) - 2]
@@ -2463,37 +2496,7 @@ namespace eval ctext {
 
       lappend opts -font $fontname {*}[array get tag_opts] {*}[array get line_opts]
 
-      if {$click} {
-        set data($win,highlight,click,$class) $opts
-      }
-
     }
-
-  }
-
-  ######################################################################
-  proc addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
-
-    variable data
-
-    set opts [list]
-
-    if {$fgcolor ne ""} {
-      lappend opts -foreground $fgcolor
-    }
-    if {$bgcolor ne ""} {
-      lappend opts -background $bgcolor
-    }
-    if {$font_opts ne ""} {
-      add_font_opt $win $class $font_opts opts
-    }
-
-    if {[llength $opts] > 0} {
-      $win tag configure _$class {*}$opts
-      $win tag lower _$class sel
-    }
-
-    set data($win,classes,_$class) 1
 
   }
 
@@ -2542,13 +2545,11 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc addSearchClass {win class fgcolor bgcolor modifiers str} {
+  proc highlightSearch {win class fgcolor bgcolor modifiers str} {
 
     variable data
 
     addHighlightClass $win $class $fgcolor $bgcolor $modifiers
-
-    set data($win,highlight,searchword,class,$str) _$class
 
     # Perform the search
     set i 0
