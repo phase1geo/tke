@@ -52,7 +52,6 @@ namespace eval gui {
 
   array set widgets         {}
   array set tab_tip         {}
-  array set line_sel_anchor {}
   array set txt_current     {}
   array set cursor_hist     {}
   array set synced          {}
@@ -4177,9 +4176,6 @@ namespace eval gui {
     bind Ctext  <<Modified>>          [list gui::text_changed %W %d]
     bind $txt.t <FocusIn>             [list +gui::handle_txt_focus %W]
     bind $txt.t <<CursorChanged>>     [list +gui::update_position $txt]
-    bind $txt.l <ButtonPress-1>       [list gui::select_line %W %x %y]
-    bind $txt.l <B1-Motion>           [list gui::select_lines %W %x %y]
-    bind $txt.l <Shift-ButtonPress-1> [list gui::select_lines %W %x %y]
     bind $txt   <<Selection>>         [list gui::selection_changed $txt]
     bind $txt   <Motion>              [list gui::clear_tab_tooltip $tb]
     bind Text   <<Cut>>               ""
@@ -4392,13 +4388,10 @@ namespace eval gui {
     theme::register_widget $pw.tf2.vb text_scrollbar
     theme::register_widget $pw.tf2.hb text_scrollbar
 
-    bind $txt2.t <FocusIn>             [list +gui::handle_txt_focus %W]
-    bind $txt2.t <<CursorChanged>>     [list +gui::update_position $txt2]
-    bind $txt2.l <ButtonPress-1>       [list gui::select_line %W %x %y]
-    bind $txt2.l <B1-Motion>           [list gui::select_lines %W %x %y]
-    bind $txt2.l <Shift-ButtonPress-1> [list gui::select_lines %W %x %y]
-    bind $txt2   <<Selection>>         [list gui::selection_changed $txt2]
-    bind $txt2   <Motion>              [list gui::clear_tab_tooltip $tabbar]
+    bind $txt2.t <FocusIn>         [list +gui::handle_txt_focus %W]
+    bind $txt2.t <<CursorChanged>> [list +gui::update_position $txt2]
+    bind $txt2   <<Selection>>     [list gui::selection_changed $txt2]
+    bind $txt2   <Motion>          [list gui::clear_tab_tooltip $tabbar]
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
@@ -4441,7 +4434,6 @@ namespace eval gui {
   # Called when the given text widget is destroyed.
   proc handle_destroy_txt {txt} {
 
-    variable line_sel_anchor
     variable txt_current
     variable cursor_hist
     variable be_after_id
@@ -4449,7 +4441,6 @@ namespace eval gui {
 
     set tab [join [lrange [split $txt .] 0 end-3] .]
 
-    catch { unset line_sel_anchor($txt.l) }
     catch { unset txt_current($tab) }
     catch { array unset cursor_hist $txt,* }
 
@@ -4999,75 +4990,6 @@ namespace eval gui {
       $sentry insert end [$txt get {*}$range]
 
     }
-
-  }
-
-  ######################################################################
-  # Selects the given line in the text widget.
-  proc select_line {w x y} {
-
-    variable line_sel_anchor
-
-    # Get the parent window
-    set txt [winfo parent $w]
-
-    # Get the current line from the line sidebar
-    set index [$txt index @$x,$y]
-
-    # We will only select the line if we clicked in the line number area
-    if {[expr [lindex [split $index .] 1] >= ([$w cget -width] - [llength [$txt gutter names]])]} {
-      return
-    }
-
-    # Select the corresponding line in the text widget
-    $txt tag remove sel 1.0 end
-    $txt tag add sel "$index linestart" "$index lineend"
-
-    $txt mark set insert "$index lineend"
-    vim::adjust_insert $txt.t
-
-    # Save the selected line to the anchor
-    set line_sel_anchor($w) $index
-
-  }
-
-  ######################################################################
-  # Selects all lines between the anchored line and the current line,
-  # inclusive.
-  proc select_lines {w x y} {
-
-    variable line_sel_anchor
-
-    # Get the parent window
-    set txt [winfo parent $w]
-
-    # Get the current line from the line sidebar
-    set index [$txt index @$x,$y]
-
-    # We will only select the line if we clicked in the line number area
-    if {[expr [lindex [split $index .] 1] >= ([$w cget -width] - [llength [$txt gutter names]])]} {
-      return
-    }
-
-    # Remove the current selection
-    $txt tag remove sel 1.0 end
-
-    # If the anchor has not been set, set it now
-    if {![info exists line_sel_anchor($w)]} {
-      set line_sel_anchor($w) $index
-    }
-
-    # Add the selection between the anchor and this line, inclusive
-    if {[$txt compare $index < $line_sel_anchor($w)]} {
-      $txt tag add sel "$index linestart" "$line_sel_anchor($w) lineend"
-      $txt mark set insert "$line_sel_anchor($w) lineend"
-    } else {
-      $txt tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
-      $txt mark set insert "$index lineend"
-    }
-
-    # Make sure that the insertion cursor is handled properly when in Vim mode
-    vim::adjust_insert $txt.t
 
   }
 
