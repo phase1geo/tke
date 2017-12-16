@@ -304,9 +304,7 @@ namespace eval parsers {
     contexts $txt $str $srow tags
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
-    if {[llength $tags]} {
-      thread::send -async $utils::main_tid [list model::render_contexts $txt $linestart $lineend $tags]
-    }
+    thread::send -async $utils::main_tid [list model::render_contexts $txt $linestart $lineend $tags]
 
     # Add indentation and bracket markers to the tags list
     indentation $txt $str $srow tags

@@ -1090,7 +1090,7 @@ namespace eval ctext {
 
     array set opts {
       -moddata   {}
-      -highlight 0
+      -highlight 1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -1144,7 +1144,7 @@ namespace eval ctext {
       highlightAll $win $ranges 0 1
     }
 
-    modified     $win 1 [list delete $ranges $opts(-moddata)]
+    modified $win 1 [list delete $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -2296,6 +2296,7 @@ namespace eval ctext {
     set i [llength $tags]
     foreach pattern $patterns {
       lappend tags reindentStart:$i none [lindex $pattern 0] $lang
+      model::add_types $win reindentStart:$i reindent:$i
       foreach subpattern [lrange $pattern 1 end] {
         lappend tags reindent:$i none $subpattern $lang
       }

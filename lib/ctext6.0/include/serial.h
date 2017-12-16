@@ -25,6 +25,9 @@ class serial : public std::vector<serial_item*> {
 
   private:
 
+    bool _context_removed;  /*!< Indicates if a context character was removed since the last
+                                 call to context_removed() */
+
     /*!
      Adjusts the serial list positions for the given ranges.
     */
@@ -38,7 +41,7 @@ class serial : public std::vector<serial_item*> {
   public:
 
     /*! Default constructor */
-    serial() {}
+    serial() : _context_removed( false ) {}
 
     /*! Destructor */
     ~serial();
@@ -83,6 +86,13 @@ class serial : public std::vector<serial_item*> {
     Tcl::object get_comment_markers(
       const Tcl::object & ranges
     ) const;
+
+    /*! \return Returns true if a context character was recently removed */
+    bool context_removed() {
+      bool retval = _context_removed;
+      _context_removed = false;
+      return( retval );
+    }
 
     /*! \return Returns the list of contextual items in the list as a new list */
     void get_context_items( serial & items ) const;

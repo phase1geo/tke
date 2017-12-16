@@ -124,7 +124,7 @@ object undo_manager::undo(
   }
 
   /* Only act on the undo buffer if there is something in it */
-  if( _undo_buffer.back() ) {
+  if( _undo_buffer.size() > 0 ) {
 
     /* Render the undo result */
     result.append( interp, _undo_buffer.back()->render( ser, lmap ) );

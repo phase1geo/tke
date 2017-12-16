@@ -182,7 +182,10 @@ void serial::remove(
     adjust( ranges[i+1], ranges[i], end, last );
 
     if( start != end ) {
-      for( vector<serial_item*>::iterator it=(begin() + start.index()); it!=(begin() + end_index); it++ ) { delete *it; }
+      for( vector<serial_item*>::iterator it=(begin() + start.index()); it!=(begin() + end_index); it++ ) {
+        _context_removed |= (*it)->iscontext();
+        delete *it;
+      }
       erase( (begin() + start.index()), (begin() + end_index) );
     }
 
@@ -209,7 +212,10 @@ void serial::replace(
 
     /* Delete the range of items in the serial list */
     if( start != end ) {
-      for( vector<serial_item*>::iterator it=(begin() + start.index()); it!=(begin() + end_index); it++ ) { delete *it; }
+      for( vector<serial_item*>::iterator it=(begin() + start.index()); it!=(begin() + end_index); it++ ) {
+        _context_removed |= (*it)->iscontext();
+        delete *it;
+      }
       erase( (begin() + start.index()), (begin() + end_index) );
     }
 
