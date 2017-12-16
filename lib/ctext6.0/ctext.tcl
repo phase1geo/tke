@@ -224,6 +224,9 @@ namespace eval ctext {
     bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                   [list event generate $win.t <4>]
     bind $win.l <5>                   [list event generate $win.t <5>]
+    bind $win.l <ButtonPress-1>       [list ctext::selectLines $win %x %y 1]
+    bind $win.l <B1-Motion>           [list ctext::selectLines $win %x %y 0]
+    bind $win.l <Shift-ButtonPress-1> [list ctext::selectLines $win %x %y 0]
     bind $win   <Destroy>             [list ctext::event:Destroy $win %W]
 
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
@@ -2315,12 +2318,12 @@ namespace eval ctext {
       angled {angled left <    "%s" angled right >    "%s"}
     }
     array set ctag_types {
-      double  {double  any {\"}     "%s"}
-      single  {single  any '        "%s"}
-      btick   {btick   any `        "%s"}
-      tdouble {tdouble any {\"\"\"} "%s"}
-      tsingle {tsingle any '''      "%s"}
-      tbtick  {tbtick  any ```      "%s"}
+      double  {double  any {\"}     0 "%s"}
+      single  {single  any '        0 "%s"}
+      btick   {btick   any `        0 "%s"}
+      tdouble {tdouble any {\"\"\"} 0 "%s"}
+      tsingle {tsingle any '''      0 "%s"}
+      tbtick  {tbtick  any ```      0 "%s"}
     }
 
     # Get the brackets
@@ -2902,13 +2905,13 @@ namespace eval ctext {
       set x $gutterx
       set y [expr $y + $b + $descent]
       if {$linenum} {
-        $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font
+        $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font -tags lnum
       } elseif {$fill == $marker} {
-        $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font
+        $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font -tags lnum
       }
       foreach gutter $gutters {
         lassign $gutter sym fill bindings
-        set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font]
+        set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font -tags sym]
         foreach {event command} $bindings {
           $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
         }
@@ -2975,6 +2978,42 @@ namespace eval ctext {
     event generate $win <<Modified>> -data $dat
 
     return $value
+
+  }
+
+  ######################################################################
+  # Selects the given line in the text widget.
+  proc selectLines {win x y start} {
+
+    variable data
+
+    # If the cursor is not on a line number, return immediately
+    if {[lsearch [$win.l itemcget [$win.l find closest $x $y] -tags] lnum] == -1} {
+      return
+    }
+
+    # Get the current line from the line sidebar
+    set index [$win._t index @0,$y]
+
+    # Select the corresponding line in the text widget
+    $win._t tag remove sel 1.0 end
+
+    # If the anchor has not been set, set it now
+    if {![info exists data($win,line_sel_anchor)] || $start} {
+      set data($win,line_sel_anchor) $index
+    }
+
+    # Add the selection between the anchor and this line, inclusive
+    if {[$win._t compare $index < $data($win,line_sel_anchor)]} {
+      $win._t tag add sel "$index linestart" "$data($win,line_sel_anchor) lineend"
+      $win._t mark set insert "$data($win,line_sel_anchor) lineend"
+    } else {
+      $win._t tag add sel "$data($win,line_sel_anchor) linestart" "$index lineend"
+      $win._t mark set insert "$index lineend"
+    }
+
+    # Adjust the insertion
+    # vim::adjust_insert $win.t
 
   }
 

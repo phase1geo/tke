@@ -238,7 +238,6 @@ namespace eval parsers {
           set start $endpos
           incr found
           if {$once} {
-            puts "Breaking, start: $start, line: $line"
             break
           }
         }
