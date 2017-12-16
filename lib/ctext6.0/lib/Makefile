@@ -1,11 +1,12 @@
 MAKEFLAGS = -j4
 
-DLLOPTS = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive -LC:/Tcl/lib -ltcl86
+# DLLOPTS   = -Wl,--out-implib=libmodel.dll.a -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--no-whole-archive C:/ActiveTcl/lib/tcl86t.lib
+DLLOPTS   = -LC:/MinGW/msys/1.0/local/lib -ltcl86
 
-$(info $(findstring $(MAKECMDGOALS),../model.dll))
+DYLIBOPTS = -F/Library/Frameworks -framework Tcl
 
 ifneq ($(findstring $(MAKECMDGOALS),../model.dll),)
-CPPFLAGS = -Ic:/Tcl/include/tcl8.6 -Ic:/Boost/include/boost-1_65_1 -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
+CPPFLAGS = -Ic:/MinGW/msys/1.0/local/include -Ic:/Boost/include/boost-1_65_1 -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
 CXX      = c:/MinGW/bin/g++
 else
 CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
@@ -43,9 +44,9 @@ all: ../model.so
 	$(CXX) $(OBJS) -g -std=gnu++11 -shared -o ../model.dll -Ic:/Tcl/include/tcl8.6 -Ic:/Boost/include/boost-1_65_1 $(DLLOPTS)
 
 ../model.dylib : $(OBJS)
-	$(CXX) $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost -L/usr/lib/x86_64-linux-gnu -ltcl8.6
+	$(CXX) $(OBJS) -g -fPIC -dynamiclib -o ../model.dylib -I/usr/include/tcl8.6 -I/usr/include/boost $(DYLIBOPTS)
 
 -include $(DEPS)
 
 clean :
-	rm -rf *.o *.d
+	rm *.o *.d
