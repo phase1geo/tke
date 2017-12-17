@@ -2501,12 +2501,29 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Verifies that the specified class is valid for the given text widget.
+  proc checkHighlightClass {win class} {
+
+    variable data
+
+    array set classes $data($win,config,-classes)
+
+    if {![info exists classes($class)]} {
+      return -code error "Unspecified highlight class specified in [dict get [info frame -1] proc]"
+    }
+
+  }
+
+  ######################################################################
+  # Adds a list of keywords that will be highlighted with the specified
+  # class.
   proc addHighlightKeywords {win keywords type value {lang ""}} {
 
     variable data
 
     if {$type eq "class"} {
       set value _$value
+      checkHighlightClass $win $value
     }
 
     foreach word $keywords {
@@ -2516,12 +2533,15 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Adds a regular expression that will be highlighted with the
+  # specified class.
   proc addHighlightRegexp {win re type value {lang ""}} {
 
     variable data
 
     if {$type eq "class"} {
       set value _$value
+      checkHighlightClass $win $value
     }
 
     lappend data($win,highlight,regexps) "regexp,$type,$lang,$value"
@@ -2538,6 +2558,7 @@ namespace eval ctext {
 
     if {$type eq "class"} {
       set value _$value
+      checkHighlightClass $win $value
     }
 
     set data($win,highlight,charstart,$type,$lang,$char) $value
@@ -2545,40 +2566,17 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc highlightSearch {win class fgcolor bgcolor modifiers str} {
+  # Performs the specified search within the text, highlighting all
+  # matching strings with the given class type.
+  proc highlightSearch {win class str {opts ""}} {
 
     variable data
 
-    addHighlightClass $win $class $fgcolor $bgcolor $modifiers
+    checkHighlightClass $win $class
 
     # Perform the search
     set i 0
-    foreach res [$win._t search -count lengths -all -- $str 1.0 end] {
-    set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
-      $win._t tag add _$class $res $wordEnd
-      incr i
-    }
-
-  }
-
-  ######################################################################
-  proc addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_opts ""}} {
-
-    variable data
-
-    addHighlightClass $win $class $fgcolor $bgcolor $modifiers
-
-    if {$re_opts eq ""} {
-      set re_opts $data($win,config,re_opts)
-    }
-
-    lappend data($win,highlight,regexps) "searchregexp,class,,_$class"
-
-    set data($win,highlight,searchregexp,class,,_$class) [list $re $re_opts]
-
-    # Perform the search
-    set i 0
-    foreach res [$win._t search -count lengths -regexp -all {*}$re_opts -- $re 1.0 end] {
+    foreach res [$win._t search -count lengths {*}$opts -all -- $str 1.0 end] {
       set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
       $win._t tag add _$class $res $wordEnd
       incr i
@@ -2587,36 +2585,22 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc deleteHighlightClass {win classToDelete} {
+  # Deletes the given highlight class.
+  proc deleteHighlightClass {win class} {
 
     variable data
 
-    if {![info exists data($win,classes,_$classToDelete)]} {
-      return -code error "$classToDelete doesn't exist"
-    }
+    # Verify that the specified highlight class exists
+    checkHighlightClass $win $class
 
+    # Remove the class from the list of regexps, if it exists
     if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$classToDelete]] != -1} {
       set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
     }
 
     array unset data $win,highlight,*,class,_$classToDelete
-    unset data($win,classes,_$classToDelete)
 
     $win tag delete _$classToDelete 1.0 end
-
-  }
-
-  ######################################################################
-  proc getHighlightClasses {win} {
-
-    variable data
-
-    set classes [list]
-    foreach class [array names data $win,classes,*] {
-      lappend classes [string range [lindex [split $class ,] 2] 1 end]
-    }
-
-    return $classes
 
   }
 
@@ -2627,7 +2611,6 @@ namespace eval ctext {
     variable data
 
     array unset data $win,highlight,*
-    array unset data $win,classes,*
 
     # Delete the associated tags
     if {[winfo exists $win]} {
@@ -2659,8 +2642,6 @@ namespace eval ctext {
   ######################################################################
   # Renders the given tag with the specified ranges in the given widget.
   proc render {win tag ranges clear_all} {
-
-    # puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
 
     # If the window no longer exists, return immediately
     if {![winfo exists $win]} {
