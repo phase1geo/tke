@@ -1001,10 +1001,8 @@ namespace eval theme {
 
     variable widgets
 
-    puts "-----------------"
     # Update all of the syntax and scrollers
     foreach txt $widgets(syntax) {
-      puts "Updating gui theme, txt: $txt"
       gui::update_theme $txt
       scroller::update_markers [winfo parent $txt].vb
     }

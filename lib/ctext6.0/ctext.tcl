@@ -2517,8 +2517,6 @@ namespace eval ctext {
 
     # Configure the class tag and make it lower than the sel tag
     $win tag configure _$class
-    puts "Setting class _$class, names: [$win tag names]"
-    puts [utils::stacktrace]
     $win tag lower _$class sel
 
     # Save the class name and options
