@@ -5909,7 +5909,8 @@ namespace eval gui {
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
-      -matchaudit_bg $theme(attention)
+      -matchaudit_bg $theme(attention) -theme [array get theme] \
+      -foldopencolor $theme(line_number) -foldclosecolor $theme(closed_fold)
 
     # If the bird's eye view exists, update it
     get_info $txt txt beye

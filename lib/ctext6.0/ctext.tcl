@@ -115,6 +115,8 @@ namespace eval ctext {
     set data($win,config,-diffsubbg)              "pink"
     set data($win,config,-diffaddbg)              "light green"
     set data($win,config,-foldstate)              "none"  ;# none, manual, indent and syntax supported
+    set data($win,config,-foldopencolor)          $data($win,config,-fg)
+    set data($win,config,-foldclosecolor)         "orange"
     set data($win,config,-delimiters)             {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     set data($win,config,-matchchar)              0
     set data($win,config,-matchchar_bg)           $data($win,config,-fg)
@@ -142,7 +144,7 @@ namespace eval ctext {
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
-      -classes -theme
+      -foldopencolor -foldclosecolor -classes -theme
     }
 
     # Set args
@@ -325,35 +327,12 @@ namespace eval ctext {
 
     set argTable [list]
 
-    lappend argTable any -classes {
-      if {[llength $data($win,config,-classes)]} {
-        $win._t tag delete {*}$data($win,config,-classes)
-        set data($win,config,-classes) [list]
-      }
-      foreach class $value {
-        $win._t tag configure _$class
-        $win._t tag lower _$class sel
-      }
-      set data($win,config,-classes) $value
-    }
-
     lappend argTable any -theme {
-      foreach {class clopts} $value {
-        if {[lsearch $data($win,config,-classes) _$class] != -1} {
-          array set opts {
-            -foreground ""
-            -background ""
-            -fontopts   ""
-          }
-          array set opts $opts
-          set tagopts [list]
-          if {$opts(-foreground) ne ""} { lappend tagopts -foreground $opts(-foreground) }
-          if {$opts(-background) ne ""} { lappend tagopts -background $opts(-background) }
-          if {$opts(-fontopts)   ne ""} { ctext::add_font_opts $win $opts(-fontopts) tagopts }
-          $win._t tag configure _$class {*}$tagopts
-        }
-      }
       set data($win,config,-theme) $value
+      foreach key [array names data $win,classopts,*] {
+        lassign [split $key ,] dummy1 dummy2 class
+        applyClassTheme $win $class
+      }
     }
 
     lappend argTable {1 true yes} -linemap {
@@ -686,6 +665,19 @@ namespace eval ctext {
           grid remove $win.f
         }
       }
+    }
+
+    lappend argTable {any} -foldopencolor {
+      set data($win,config,-foldopencolor) $value
+      $win gutter configure folding open  -fg $value
+      $win gutter configure folding eopen -fg $value
+      $win gutter configure folding end   -fg $value
+    }
+
+    lappend argTable {any} -foldclosecolor {
+      set data($win,config,-foldclosecolor) $value
+      $win gutter configure folding close  -fg $value
+      $win gutter configure folding eclose -fg $value
     }
 
     set data($win,config,argTable) $argTable
@@ -1543,7 +1535,7 @@ namespace eval ctext {
   ######################################################################
   # Returns the given string.
   proc no_transform {str dummy} {
-   
+
     return $str
 
   }
@@ -2248,7 +2240,7 @@ namespace eval ctext {
   ######################################################################
   # Adds the given context patterns for parsing purposes.  If the patterns
   # list is empty, deletes the given context tags.
-  proc setContextPatterns {win type tag lang patterns {fg "grey"} {bg ""}} {
+  proc setContextPatterns {win type tag lang patterns args} {
 
     variable data
 
@@ -2288,8 +2280,7 @@ namespace eval ctext {
       tsv::set contexts $win $tags
 
       # Handle the comment colorization
-      $win tag configure _$tag -foreground $fg -background $bg
-      $win tag lower     _$tag sel
+      addHighlightClass $win $tag {*}$args
 
     } else {
 
@@ -2352,7 +2343,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given brackets for parsing purposes.
-  proc setBrackets {win lang types {fg "green"} {bg ""}} {
+  proc setBrackets {win lang types args} {
 
     array set btag_types {
       curly  {curly  left {\{} "%s" curly  right {\}} "%s"}
@@ -2379,8 +2370,7 @@ namespace eval ctext {
         model::add_types $win $type
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
-        $win._t tag configure _string -foreground $fg -background $bg
-        $win._t tag lower     _string sel
+        addHighlightClass $win string {*}$args
         model::add_types $win $type _string
       }
     }
@@ -2506,11 +2496,80 @@ namespace eval ctext {
 
     variable data
 
-    array set classes $data($win,config,-classes)
-
-    if {![info exists classes($class)]} {
+    if {![info exists data($win,classopts,$class)]} {
       return -code error "Unspecified highlight class specified in [dict get [info frame -1] proc]"
     }
+
+  }
+
+  ######################################################################
+  # Adds a highlight class with rendering information.
+  proc addHighlightClass {win class args} {
+
+    variable data
+
+    array set opts {
+      -fgtheme  ""
+      -bgtheme  ""
+      -fontopts ""
+    }
+    array set opts $args
+
+    # Configure the class tag and make it lower than the sel tag
+    $win tag configure _$class
+    puts "Setting class _$class, names: [$win tag names]"
+    puts [utils::stacktrace]
+    $win tag lower _$class sel
+
+    # Save the class name and options
+    set data($win,classopts,$class) [array get opts]
+
+    # Apply the class theming information
+    applyClassTheme $win $class
+
+  }
+
+  ######################################################################
+  # Delete the highlight classes.
+  proc deleteHighlightClasses {win} {
+
+    variable data
+
+    set classes [list]
+
+    foreach key [array names data $win,classopts,*] {
+      lassign [split $key ,] dummy1 dummy2 class
+      lappend classes _$class
+    }
+
+    catch { $win tag delete {*}$classes }
+
+  }
+
+  ######################################################################
+  # Updates the theming information for the given class.
+  proc applyClassTheme {win class} {
+
+    variable data
+
+    array set opts   $data($win,classopts,$class)
+    array set themes $data($win,config,-theme)
+
+    set tag_opts [list]
+
+    if {([set fgtheme $opts(-fgtheme)] ne "") && [info exists themes($fgtheme)]} {
+      lappend tag_opts -foreground $themes($fgtheme)
+    }
+
+    if {([set bgtheme $opts(-bgtheme)] ne "") && [info exists themes($bgtheme)]} {
+      lappend tag_opts -background $themes($bgtheme)
+    }
+
+    if {$opts(-fontopts) ne ""} {
+      add_font_opt $win $class $opts(-fontopts) tag_opts
+    }
+
+    catch { $win tag configure _$class {*}$tag_opts }
 
   }
 
@@ -2522,8 +2581,8 @@ namespace eval ctext {
     variable data
 
     if {$type eq "class"} {
-      set value _$value
       checkHighlightClass $win $value
+      set value _$value
     }
 
     foreach word $keywords {
@@ -2540,8 +2599,8 @@ namespace eval ctext {
     variable data
 
     if {$type eq "class"} {
-      set value _$value
       checkHighlightClass $win $value
+      set value _$value
     }
 
     lappend data($win,highlight,regexps) "regexp,$type,$lang,$value"
@@ -2557,8 +2616,8 @@ namespace eval ctext {
     variable data
 
     if {$type eq "class"} {
-      set value _$value
       checkHighlightClass $win $value
+      set value _$value
     }
 
     set data($win,highlight,charstart,$type,$lang,$char) $value
@@ -3020,8 +3079,8 @@ namespace eval ctext {
 
     variable data
 
-    set open_color  "white"
-    set close_color "blue"
+    set open_color  $data($win,config,-foldopencolor)
+    set close_color $data($win,config,-foldclosecolor)
 
     $win gutter create folding \
       open   [list -symbol \u25be -fg $open_color  -onclick [list ctext::fold_close 1] -onshiftclick [list ctext::fold_close 0]] \
@@ -3298,7 +3357,7 @@ namespace eval ctext {
   ######################################################################
   # INDICES TRANSFORMATIONS                                            #
   ######################################################################
-  
+
   ######################################################################
   # Transforms a left index specification into a text index.
   proc getindex_left {win optlist} {
