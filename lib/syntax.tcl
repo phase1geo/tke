@@ -401,14 +401,11 @@ namespace eval syntax {
     }
     array set opts $args
 
-    # Get the current syntax theme
-    array set theme [theme::get_syntax_colors]
-
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
-      ctext::clearHighlightClasses $txt
-      ctext::setContextPatterns    $txt {} comment {} {}
-      ctext::setAutoMatchChars     $txt {} {}
+      ctext::deleteHighlightClasses $txt
+      ctext::setContextPatterns     $txt {} comment {} {}
+      ctext::setAutoMatchChars      $txt {} {}
     }
 
     # Set default indent/unindent strings
@@ -448,7 +445,7 @@ namespace eval syntax {
         }
 
         # Add the language keywords
-        ctext::addHighlightClass $txt keywords $theme(keywords)
+        ctext::addHighlightClass $txt keywords -fgtheme keywords
         ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
 
         # Add the rest of the sections
@@ -465,14 +462,14 @@ namespace eval syntax {
         set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix $lang_ns
 
         # Add the comments, strings and indentations
-        ctext::setContextPatterns $txt comment comment {} $lang_array(comments) $theme(comments)
-        # ctext::setContextPatterns $txt string  string  {} $lang_array(strings)  $theme(comments)
+        ctext::setContextPatterns $txt comment comment {} $lang_array(comments) -fgtheme comments
+        # ctext::setContextPatterns $txt string  string  {} $lang_array(strings) -fgtheme comments
         ctext::setIndentation     $txt {} $lang_array(indentation)
         ctext::setReindentation   $txt {} $lang_array(reindentation)
-        ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) $theme(strings)
+        ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) -fgtheme strings
 
         # Add the FIXME
-        ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
+        ctext::addHighlightClass $txt fixme -fgtheme miscellaneous1
         ctext::addHighlightKeywords $txt FIXME class fixme
 
         # Set the indent/unindent regular expressions
@@ -489,7 +486,7 @@ namespace eval syntax {
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
-            ctext::setContextPatterns $txt $sublang $sublang "" [list $embed_start $embed_end] "" $theme(embedded)
+            ctext::setContextPatterns $txt $sublang $sublang "" [list $embed_start $embed_end] -bgtheme embedded
             add_sublanguage $txt $sublang $cmd_prefix "" $embed_start $embed_end
           } else {
             add_sublanguage $txt $sublang $cmd_prefix "" {} {}
@@ -556,16 +553,13 @@ namespace eval syntax {
 
     if {$embed_start ne ""} {
 
-      # Get the current syntax theme
-      array set theme [theme::get_syntax_colors]
-
       # Add the rest of the sections
       set_language_section $txt numbers    $lang_array(numbers) $language
       set_language_section $txt precompile $lang_array(precompile) $language
 
       # Add the comments, strings and indentations
-      ctext::setContextPatterns $txt comment comment $language $lang_array(comments) $theme(comments)
-      # ctext::setContextPatterns $txt string  string  $language $lang_array(comments) $theme(comments)
+      ctext::setContextPatterns $txt comment comment $language $lang_array(comments) -fgtheme comments
+      # ctext::setContextPatterns $txt string  string  $language $lang_array(comments) -fgtheme comments
       ctext::setIndentation   $txt $language [list [list $embed_start $embed_end] {*}$lang_array(indentation)]
       ctext::setReindentation $txt $language $lang_array(reindentation)
 
@@ -598,11 +592,7 @@ namespace eval syntax {
   # Adds syntax highlighting for a given type
   proc set_language_section {txt section section_list lang {cmd_prefix ""} {lang_ns ""}} {
 
-    variable theme
     variable meta_tags
-
-    # Get the current syntax theme
-    array set theme [theme::get_syntax_colors]
 
     switch $section {
       "advanced" -
@@ -614,9 +604,9 @@ namespace eval syntax {
               if {$section eq "advanced"} {
                 set section_list [lassign $section_list name color modifiers]
                 switch $color {
-                  none        { ctext::addHighlightClass $txt $name "" "" $modifiers }
-                  highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
-                  default     { ctext::addHighlightClass $txt $name $theme($color) "" $modifiers }
+                  none        { ctext::addHighlightClass $txt $name -fontopts $modifiers }
+                  highlighter { ctext::addHighlightClass $txt $name -fgtheme background -bgtheme highlighter -fontopts $modifiers }
+                  default     { ctext::addHighlightClass $txt $name -fgtheme $color -fontopts $modifiers }
                 }
                 if {[lsearch {meta readmeta} $color] != -1} {
                   lappend meta_tags($txt) $name
@@ -677,7 +667,7 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            ctext::addHighlightClass $txt $class $theme(background) $theme($section) $modifiers
+            ctext::addHighlightClass $txt $class -fgtheme background -bgtheme $section -fontopts $modifiers
             ctext::add$type $txt $syntax class $class $lang
           }
         }
@@ -689,7 +679,7 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            ctext::addHighlightClass $txt $class $theme($section) "" $modifiers
+            ctext::addHighlightClass $txt $class -fgtheme $section -fontopts $modifiers
             ctext::add$type $txt $syntax class $class $lang
           }
         }
@@ -704,11 +694,9 @@ namespace eval syntax {
 
     variable meta_tags
 
-    set all_tags [ctext::getHighlightClasses $txt]
-
     if {[info exists meta_tags($txt)]} {
       foreach tag $meta_tags($txt) {
-        if {[lsearch $all_tags $tag] != -1} {
+        if {![catch { ctext::checkHighlightClass $txt $tag }]} {
           return 1
         }
       }
