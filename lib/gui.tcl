@@ -468,6 +468,8 @@ namespace eval gui {
     trace variable preferences::prefs(View/EnableCodeFolding)              w gui::handle_code_folding
     trace variable preferences::prefs(Appearance/CursorWidth)              w gui::handle_cursor_width
     trace variable preferences::prefs(Appearance/ExtraLineSpacing)         w gui::handle_extra_line_spacing
+    trace variable preferences::prefs(Editor/SpacesPerTab)                 w gui::handle_spaces_per_tab
+    trace variable preferences::prefs(Editor/IndentSpaces)                 w gui::handle_indent_spaces
 
     # Create general UI bindings
     bind all <Control-plus>  [list gui::handle_font_change 1]
@@ -732,6 +734,33 @@ namespace eval gui {
 
   }
 
+  ######################################################################
+  # Sets the tabstop value to match the value of Editor/SpacesPerTab and
+  # updates all text widgets to match, cleaning up any non-existent windows
+  # along the way.
+  proc handle_spaces_per_tab {name1 name2 op} {
+
+    set tabstop [preferences::get Editor/SpacesPerTab]
+
+    foreach txt [get_all_texts] {
+      $txt configure -tabstop $tabstop
+    }
+
+  }
+
+  ######################################################################
+  # Sets the shiftwidth value to match the value of Editor/IndentSpaces.
+  # Updates all text widgets to match, cleaning up any non-existent
+  # windows along the way.
+  proc handle_indent_spaces {name1 name2 op} {
+
+    set shiftwidth [preferences::get Editor/IndentSpaces]
+
+    foreach txt [get_all_texts] {
+      $txt configure -shiftwidth [preferences::get Editor/IndentSpaces]
+    }
+
+  }
   ######################################################################
   # Sets the auto_cwd variable to the given boolean value.
   proc set_auto_cwd {value} {
@@ -4152,6 +4181,7 @@ namespace eval gui {
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
+      -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
       -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
     scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command [list gui::yview $tab $txt] \
@@ -4373,6 +4403,7 @@ namespace eval gui {
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange -peer $txt \
+      -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
       -xscrollcommand "$pw.tf2.hb set" \
       -yscrollcommand "$pw.tf2.vb set"
     scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt2 xview"

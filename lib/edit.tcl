@@ -1094,7 +1094,7 @@ namespace eval edit {
   proc do_indent {txtt startpos endpos} {
 
     # Get the indent spacing
-    set indent_str [string repeat " " [indent::get_shiftwidth $txtt]]
+    set indent_str [string repeat " " [$txtt cget -shiftwidth]]
 
     while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
       $txtt insert "$startpos linestart" $indent_str
@@ -1108,7 +1108,7 @@ namespace eval edit {
   proc do_unindent {txtt startpos endpos} {
 
     # Get the indent spacing
-    set unindent_str [string repeat " " [indent::get_shiftwidth $txtt]]
+    set unindent_str [string repeat " " [$txtt cget -shiftwidth]]
     set unindent_len [string length $unindent_str]
 
     while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {

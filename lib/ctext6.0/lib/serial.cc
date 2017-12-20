@@ -368,3 +368,114 @@ object serial::get_comment_markers(
   return( result );
 
 }
+
+int serial::nextindex(
+  const sindex &   start,
+  const type_data* type
+) const {
+
+  int sz = size();
+
+  for( int i=start.index(); i<sz; i++ ) {
+    if( (*this)[i]->type() == type ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::nextindex(
+  const sindex &   start,
+  const sindex &   end,
+  const type_data* type
+) const {
+
+  for( int i=start.index(); i<end.index(); i++ ) {
+    if( (*this)[i]->type() == type ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::previndex(
+  const sindex &   start,
+  const type_data* type
+) const {
+
+  for( int i=(start.matches() ? (start.index()-1) : start.index()); i>=0; i-- ) {
+    if( (*this)[i]->type() == type ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::previndex(
+  const sindex &   start,
+  const sindex &   end,
+  const type_data* type
+) const {
+
+  for( int i=(start.matches() ? (start.index()-1) : start.index()); i>=end.index(); i-- ) {
+    if( (*this)[i]->type() == type ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+bool serial::is_unindent_after_reindent (
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+  int    rs, ri;
+
+  if( (rs = previndex( si, types::staticObject().get( "reindentStart" ) )) != -1 ) {
+    
+    /* If the starting reindent is also an indent, return 1 (TBD - Not sure if this is relevant) */
+    // if {[lsearch [$txtt tag names $spos] _indent*] != -1} {
+    //  return 2
+    //}
+
+    /* Get the starting position of the previous reindent string */
+    if( ((ri = previndex( si, types::staticObject().get( "reindent" ) )) != -1) && (ri > rs) ) {
+
+      int index;
+
+      /* Find the indent symbol that is just after the reindentStart symbol */
+      return( ((index = nextindex( sindex( rs, true ), types::staticObject().get( "indent" ))) != -1) && (index < ri) );
+
+    }
+
+  }
+
+  return( false );
+
+}
+
+bool serial::line_contains_indentation(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+  sindex se = get_index( tindex( ti.row(), 0 ) );
+  int    ii, ui;
+
+  if( (ii = previndex( si, se, types::staticObject().get( "indent" ) ) ) != -1 ) {
+    return( ((ui = previndex( si, se, types::staticObject().get( "unindent" ) )) == -1) || (ii > ui) );
+  }
+
+  return( previndex( si, se, types::staticObject().get( "reindent" )) != -1 );
+
+}
+
