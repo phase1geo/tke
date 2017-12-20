@@ -9,6 +9,7 @@ package provide ctext 6.0
 source [file join [ctext::DIR] utils.tcl]
 source [file join [ctext::DIR] model.tcl]
 source [file join [ctext::DIR] parsers.tcl]
+source [file join [ctext::DIR] indent.tcl]
 
 set utils::main_tid [thread::id]
 
@@ -125,6 +126,8 @@ namespace eval ctext {
     set data($win,config,-matchaudit_bg)          "red"
     set data($win,config,-classes)                [list]
     set data($win,config,-theme)                  [list]
+    set data($win,config,-shiftwidth)             2
+    set data($win,config,-tabstop)                2
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -144,7 +147,7 @@ namespace eval ctext {
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
-      -foldopencolor -foldclosecolor -classes -theme
+      -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop
     }
 
     # Set args
@@ -678,6 +681,21 @@ namespace eval ctext {
       set data($win,config,-foldclosecolor) $value
       $win gutter configure folding close  -fg $value
       $win gutter configure folding eclose -fg $value
+    }
+
+    lappend argTable {any} -shiftwidth {
+      if {![string is integer $value]} {
+        return -code error "Shiftwidth set to a non-integer value"
+      }
+      set data($win,config,-shiftwidth) $value
+    }
+
+    lappend argTable {any} -tabstop {
+      if {![string is integer $value]} {
+        return -code error "Tabstop set to a non-integer value"
+      }
+      set data($win,config,-tabstop) $value
+      $win._t configure -tabs [list [expr $value * [font measure [$win._t cget -font] 0]] left]
     }
 
     set data($win,config,argTable) $argTable
@@ -3066,6 +3084,12 @@ namespace eval ctext {
     # vim::adjust_insert $win.t
 
   }
+
+  ######################################################################
+  #                          AUTO-INDENTATION                          #
+  ######################################################################
+
+  FOOBAR
 
   ######################################################################
   #                            CODE FOLDING                            #

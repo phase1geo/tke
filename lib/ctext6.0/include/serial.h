@@ -38,6 +38,62 @@ class serial : public std::vector<serial_item*> {
       const sindex & end
     );
 
+    /*!
+     \return Returns the index of the next serial_item that matches the given type, starting
+             at index 'start'.  If no matching item is found, a value of -1 is returned.
+    */
+    int nextindex(
+      const sindex &   start,
+      const type_data* type
+    ) const;
+
+    /*!
+     \return Returns the index of the next serial_item that matches the given type, starting
+             at index 'start' and stopping at index 'end'.  If no matching item is found, a
+             value of -1 is returned.
+    */
+    int nextindex(
+      const sindex &    start,
+      const sindex &    end,
+      const type_data* type
+    ) const;
+
+    /*!
+     \return Returns the index of the previous serial_item that matches the given type,
+             starting at index 'start'.  If no matching item is found, a value of -1 is
+             returned.
+    */
+    int previndex(
+      const sindex &   start,
+      const type_data* type
+    ) const;
+
+    /*!
+     \return Returns the index of the previous serial_item that matches the given type,
+             starting at index 'start' and stopping at index 'end'.  If no matching item
+             is found, a value of -1 is returned.
+    */
+    int previndex(
+      const sindex &   start,
+      const sindex &   end,
+      const type_data* type
+    ) const;
+
+    /*!
+     \return Returns true if the reindent mark at index should be treated as an unindent.
+    */
+    bool is_unindent_after_reindent (
+      const tindex & ti
+    ) const;
+
+    /*!
+     \return Returns true if the line containing the given text index should cause the
+             following line to be indented.
+    */
+    bool line_contains_indentation(
+      const tindex & ti
+    ) const;
+
   public:
 
     /*! Default constructor */
