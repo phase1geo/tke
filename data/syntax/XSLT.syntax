@@ -89,5 +89,5 @@ advanced
 {
   HighlightClass attribute miscellaneous2 {}
 
-  HighlightRegexp {\S+=} syntax::get_xml_attribute
+  HighlightRegexp {(\S+)=} syntax::get_xml_attribute
 }

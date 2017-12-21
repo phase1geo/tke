@@ -621,7 +621,7 @@ namespace eval syntax {
                   set params       $body
                   set section_list [lassign $section_list body]
                 } else {
-                  set params [list txt startpos endpos ins]
+                  set params [list txt str varlist ins]
                 }
                 if {$lang_ns ne ""} {
                   namespace eval $lang_ns [list proc $name $params [subst -nocommands -novariables $body]]
@@ -943,10 +943,12 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for syntax-file symbols.
-  proc get_syntax_symbol {txt startpos endpos ins} {
+  proc get_syntax_symbol {txt str varlist ins} {
 
-    if {[lindex [split $startpos .] 1] == 0} {
-      return [list symbols: $startpos $endpos [list]]
+    array set vars $varlist
+
+    if {[lindex $vars(0) 0] == 0} {
+      return [list symbols: {*}$vars(0)]
     }
 
     return ""
@@ -956,11 +958,12 @@ namespace eval syntax {
   ######################################################################
   # Returns the information for symbols that are preceded by the word
   # specified with startpos/endpos.
-  proc get_prefixed_symbol {txt startpos endpos ins} {
+  proc get_prefixed_symbol {txt str varlist ins} {
 
-    set type [$txt get $startpos $endpos]
-    if {[set startpos [$txt search -count lengths -regexp -- {[a-zA-Z0-9_:]+} $endpos]] ne ""} {
-      return [list symbols:$type $startpos [$txt index "$startpos+[lindex $lengths 0]c"] [list]]
+    array set vars $varlist
+
+    if {[regexp -indices -start [expr [lindex $vars(0) 1] + 1] {[a-zA-Z0-9_:]+} $str name]} {
+      return [list symbols:[string range $str {*}$vars(0)] {*}$name]
     }
 
     return ""
@@ -968,42 +971,22 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # XML tag check.
-  proc check_xml_tag {tag} {
-
-    return 1
-
-  }
-
-  ######################################################################
   # Parses an XML tag.
-  proc get_xml_tag {txt startpos endpos ins {tag_check syntax::tag_good}} {
+  proc get_xml_tag {txt str varlist ins} {
 
-    set indices [lassign [$txt search -all -count lengths -regexp -- {[^/=\s]+} $startpos $endpos] tag_start]
-    set retval  [list]
+    array set vars $varlist
 
-    if {$tag_start ne ""} {
-      set tag_end [$txt index "$tag_start+[lindex $lengths 0]c"]
-      if {[uplevel #0 [list $tag_check [$txt get $tag_start $tag_end]]]} {
-        lappend retval [list tag $tag_start $tag_end [list]]
-        set ilen [llength $indices]
-        for {set i 1} {$i < $ilen} {incr i} {
-          set attr_start [lindex $indices $i]
-          set attr_end   [$txt index "$attr_start+[lindex $lengths $i]c"]
-          lappend retval [list attribute $attr_start $attr_end [list]]
-        }
-      }
-    }
-
-    return [list $retval ""]
+    return [list [list [list tag {*}$vars(1)]] ""]
 
   }
 
   ######################################################################
   # Returns the XML attribute to highlight.
-  proc get_xml_attribute {txt startpos endpos ins} {
+  proc get_xml_attribute {txt str varlist ins} {
 
-    return [list [list [list attribute $startpos [$txt index "$endpos-1c"] [list]]] ""]
+    array set vars $varlist
+
+    return [list [list [list attribute {*}$vars(1)]] ""]
 
   }
 
