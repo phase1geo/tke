@@ -34,7 +34,7 @@ punctuation
 advanced {
   HighlightClass key keywords {}
 
-  HighlightRegexp {\S+\s*:} keyword
+  HighlightRegexp {(\S+)\s*:} keyword
 
   HighlightProc keyword {
     if {[regexp {(\\S+)\\s*:} [$txt get $startpos $endpos] -> str]} {
