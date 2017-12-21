@@ -2647,7 +2647,8 @@ namespace eval ctext {
 
     variable data
 
-    checkHighlightClass $win $class
+    # Theme the highlight class
+    applyClassTheme $win $class
 
     # Perform the search
     set i 0
@@ -2669,13 +2670,13 @@ namespace eval ctext {
     checkHighlightClass $win $class
 
     # Remove the class from the list of regexps, if it exists
-    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$classToDelete]] != -1} {
+    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$class]] != -1} {
       set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
     }
 
-    array unset data $win,highlight,*,class,_$classToDelete
+    array unset data $win,highlight,*,class,_$class
 
-    $win tag delete _$classToDelete 1.0 end
+    $win tag delete _$class 1.0 end
 
   }
 
@@ -3084,12 +3085,6 @@ namespace eval ctext {
     # vim::adjust_insert $win.t
 
   }
-
-  ######################################################################
-  #                          AUTO-INDENTATION                          #
-  ######################################################################
-
-  FOOBAR
 
   ######################################################################
   #                            CODE FOLDING                            #
