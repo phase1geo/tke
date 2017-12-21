@@ -297,7 +297,9 @@ namespace eval indent {
   ######################################################################
   # Called whenever we delete whitespace such that all characters between
   # the beginning of the line and the given index are entirely whitespace.
-  proc handle_backspace {win dstr} {
+  #
+  # DONE!
+  proc handle_backspace {win startpos endpos} {
 
     # If the auto-indent feature was disabled, return immediately
     if {[$win cget -foldstate] eq "none"} {
@@ -321,12 +323,13 @@ namespace eval indent {
 
       # Calculate the new indentation
       set shiftwidth   [$txtt cget -shiftwidth]
-      set tab_count    [expr [string length $space] / $shiftwidth]
-      set indent_space [string repeat " " [expr $tab_count * $shiftwidth]]
+      set space_len    [string length $space]
+      set tab_count    [expr $space_len / $shiftwidth]
+      set remove_chars [expr $space_len - ($tab_count * $shiftwidth)]
 
       # Replace the whitespace with the appropriate amount of indentation space
-      if {$indent_space ne $space} {
-        $win replace -highlight 0 "$index linestart" $index $indent_space
+      if {$remove_chars > 0} {
+        $win delete -highlight 0 "$index-${remove_chars}c" $index
       }
 
     }
