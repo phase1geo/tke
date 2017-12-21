@@ -2525,17 +2525,24 @@ namespace eval ctext {
   proc addHighlightClass {win class args} {
 
     variable data
+    variable right_click
 
     array set opts {
       -fgtheme  ""
       -bgtheme  ""
       -fontopts ""
+      -clickcmd ""
     }
     array set opts $args
 
     # Configure the class tag and make it lower than the sel tag
     $win tag configure _$class
     $win tag lower _$class sel
+
+    # If there is a command associated with the class, bind it to the right-click button
+    if {$opts(-clickcmd) ne ""} {
+      $win tag bind <Button-$right_click> [list {*}$opts(-clickcmd) $win]
+    }
 
     # Save the class name and options
     set data($win,classopts,$class) [array get opts]
@@ -2757,26 +2764,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Handle any bindings on the given tag.
-  proc handle_tag {win class startpos endpos cmd} {
-
-    variable data
-    variable right_click
-
-    # Add the tag and possible binding
-    if {[info exists data($win,highlight,click,$class)]} {
-      set tag _$class[incr data($win,highlight,click_index)]
-      $win tag add       $tag $startpos $endpos
-      $win tag configure $tag {*}$data($win,highlight,click,$class)
-      $win tag bind      $tag <Button-$right_click> [list {*}$cmd $tag]
-      return ""
-    }
-
-    return [list _$class $startpos $endpos]
-
-  }
-
-  ######################################################################
   # Performs all of the syntax highlighting.
   proc highlight {win ranges ins {block 1}} {
 
@@ -2839,6 +2826,10 @@ namespace eval ctext {
     }
 
   }
+
+  ######################################################################
+  #                              LINEMAP                               #
+  ######################################################################
 
   ######################################################################
   # Toggles the bookmark indicator in the linemap.

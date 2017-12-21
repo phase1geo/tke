@@ -130,14 +130,18 @@ namespace eval parsers {
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
       set start 0
-      while {[regexp -indices -start $start $pattern $line var(0) dummy var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)]} {
-        if {![catch { {*}$cmd [list $line] [array get var] [list] $ins } retval] && ([llength $retval] == 2)} {
+      array unset var
+      while {[regexp -indices -start $start $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)]} {
+        if {![catch { thread::send $utils::main_tid [list {*}$cmd $txt [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
           foreach sub [lindex $retval 0] {
-            if {([llength $sub] == 4) && ([set ret [handle_tag $win {*}$sub]] ne "")} {
-              lappend tags([lindex $ret 0]) $startrow.[lindex $ret 1] $startrow.[lindex $ret 2]
+            if {[llength $sub] == 3} {
+              lappend tags(_[lindex $sub 0]) $startrow.[lindex $sub 1] $startrow.[expr [lindex $sub 2] + 1]
             }
           }
-          set start [expr {([lindex $retval 1] ne "") ? [lindex $retval 1] : ([lindex $var[0] 1] + 1)}]
+          set start [expr {([lindex $retval 1] ne "") ? [lindex $retval 1] : ([lindex $var(0) 1] + 1)}]
+        } else {
+          utils::log "rc: $retval"
+          set start [expr {[lindex $var(0) 1] + 1}]
         }
       }
       incr startrow

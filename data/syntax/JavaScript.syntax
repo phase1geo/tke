@@ -80,5 +80,5 @@ advanced
   HighlightClass tag       miscellaneous3 {}
   HighlightClass attribute miscellaneous2 {}
 
-  HighlightRegexp {<.*?>} syntax::get_xml_tag
+  HighlightRegexp {<([^>\s]+)} syntax::get_xml_tag
 }
