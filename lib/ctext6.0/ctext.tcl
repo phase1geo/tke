@@ -86,6 +86,7 @@ namespace eval ctext {
     set data($win,config,-bg)                     [$tmp cget -background]
     set data($win,config,-font)                   [$tmp cget -font]
     set data($win,config,-relief)                 [$tmp cget -relief]
+    set data($win,config,-insertwidth)            [$tmp cget -insertwidth]
     set data($win,config,-unhighlightcolor)       [$win cget -bg]
     ::destroy $tmp
     set data($win,config,-xscrollcommand)         ""
@@ -144,7 +145,7 @@ namespace eval ctext {
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
-      -foldopencolor -foldclosecolor -classes -theme
+      -foldopencolor -foldclosecolor -classes -theme -insertwidth
     }
 
     # Set args
@@ -327,6 +328,16 @@ namespace eval ctext {
 
     set argTable [list]
 
+    lappend argTable any -insertwidth {
+      if {![string is integer $value] || ($value < 0)} {
+        return -code error "ctext -insertwidth value must be an positive integer value"
+      }
+      set data($win,config,-insertwidth) $value
+      if {[$win._t cget -insertwidth] > 0} {
+        $win._t configure -insertwidth $value
+      }
+    }
+    
     lappend argTable any -theme {
       set data($win,config,-theme) $value
       foreach key [array names data $win,classopts,*] {
@@ -681,71 +692,6 @@ namespace eval ctext {
     }
 
     set data($win,config,argTable) $argTable
-
-  }
-
-  ######################################################################
-  proc inCommentStringHelper {win index pattern} {
-
-    set names [$win tag names $index]
-
-    return [expr {[string map [list $pattern {}] $names] ne $names}]
-
-  }
-
-  ######################################################################
-  proc inLineComment {win index} {
-
-    return [inCommentStringHelper $win $index _comstr1l]
-
-  }
-
-  ######################################################################
-  proc inBlockComment {win index} {
-
-    return [inCommentStringHelper $win $index _comstr1c]
-
-  }
-
-  ######################################################################
-  proc inComment {win index} {
-
-    return [inCommentStringHelper $win $index _comstr1]
-
-  }
-
-  ######################################################################
-  proc inBackTick {win index} {
-
-    return [inCommentStringHelper $win $index _comstr0b]
-
-  }
-
-  ######################################################################
-  proc inSingleQuote {win index} {
-
-    return [inCommentStringHelper $win $index _comstr0s]
-
-  }
-
-  ######################################################################
-  proc inDoubleQuote {win index} {
-
-    return [inCommentStringHelper $win $index _comstr0d]
-
-  }
-
-  ######################################################################
-  proc inString {win index} {
-
-    return [inCommentStringHelper $win $index _comstr0]
-
-  }
-
-  ######################################################################
-  proc inCommentString {win index} {
-
-    return [inCommentStringHelper $win $index _comstr]
 
   }
 
@@ -4316,7 +4262,123 @@ namespace eval ctext {
     }
 
   }
+  
+  ######################################################################
+  #                          CURSOR HANDLING                           #
+  ######################################################################
+  
+  ######################################################################
+  # Set the current mode to multicursor move mode.
+  proc multicursor_move {win value} {
+    
+    variable data
 
+    if {$value} {
+      
+      # Effectively make the insertion cursor disappear
+      $win._t configure -blockcursor 0 -insertwidth 0
+
+      # Make the multicursors look like the normal cursor
+      $win._t tag configure mcursor -background [$win._t cget -insertbackground]
+      
+    } else {
+      
+      # Make the insertion cursor come back
+      $win._t configure -blockcursor 0 -insertwidth $data($win,config,-insertwidth)
+      
+      # Remove the background color
+      $win._t tag configure mcursor -background ""
+      
+    }
+
+  }
+  
+  ######################################################################
+  # Returns true if the given text editor is currently in "block cursor"
+  # mode.
+  proc is_block_cursor {win} {
+    
+    return [expr {[$win._t cget -blockcursor] || ([$win._t tag ranges mcursor] ne "")}]
+    
+  }
+
+  ######################################################################
+  # Adjust the insertion marker so that it never is allowed to sit on
+  # the lineend spot.
+  proc adjust_insert {win} {
+
+    variable mode
+
+    # If we are not running in Vim mode, don't continue
+    if {![in_vim_mode $txtt]} {
+      return
+    }
+
+    # Remove any existing dspace characters
+    remove_dspace [winfo parent $txtt]
+
+    # If the current line contains nothing, add a dummy space so that the
+    # block cursor doesn't look dumb.
+    if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
+      [winfo parent $txtt]._t insert insert " " dspace
+      $txtt mark set insert "insert-1c"
+      gui::update_position [winfo parent $txtt]
+
+    # Make sure that lineend is never the insertion point
+    } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
+      $txtt mark set insert "insert-1 display chars"
+      gui::update_position [winfo parent $txtt]
+    }
+
+    # Adjust the selection (if we are in visual mode)
+    if {[in_visual_mode $txtt]} {
+      adjust_select $txtt 0 insert
+    }
+
+  }
+  
+  ######################################################################
+  # Removes dspace characters.
+  proc remove_dspace {w} {
+
+    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
+      if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
+        $w._t delete $startpos $endpos
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Removes the dspace tag from the current index (if it is set).
+  proc cleanup_dspace {w} {
+
+    if {[lsearch [$w tag names insert] dspace] != -1} {
+      $w tag remove dspace insert
+    }
+
+  }
+
+  ######################################################################
+  # Returns the contents of the given text widget without the injected
+  # dspaces.
+  proc get_cleaned_content {txt} {
+
+    set str ""
+    set last_startpos 1.0
+
+    # Remove any dspace characters
+    foreach {startpos endpos} [$txt tag ranges dspace] {
+      append str [$txt get $last_startpos $startpos]
+      set last_startpos $endpos
+    }
+
+    append str [$txt get $last_startpos "end-1c"]
+
+    return $str
+
+  }
+  
 }
 
 ######################################################################
