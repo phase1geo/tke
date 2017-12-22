@@ -32,15 +32,13 @@ punctuation
 }
 
 advanced {
-  HighlightClass key keywords {}
+  HighlightClass key {-fgtheme keywords}
 
-  HighlightRegexp {\S+\s*:} keyword
+  HighlightRegexp {(\S+)\s*:} keyword
 
   HighlightProc keyword {
-    if {[regexp {(\\S+)\\s*:} [$txt get $startpos $endpos] -> str]} {
-      return [list [list [list key $startpos [$txt index "$startpos+[string length $str]c"] [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list key {*}$vars(1)]] ""]
   } HighlightEndProc
 
 }

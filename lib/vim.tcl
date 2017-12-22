@@ -728,7 +728,7 @@ namespace eval vim {
   proc do_set_shiftwidth {val} {
 
     if {[string is integer $val]} {
-      indent::set_shiftwidth [gui::current_txt].t $val
+      [gui::current_txt] configure -shiftwidth $val
     } else {
       gui::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
     }
@@ -768,7 +768,7 @@ namespace eval vim {
   proc do_set_tabstop {val} {
 
     if {[string is integer $val]} {
-      indent::set_tabstop [gui::current_txt].t $val
+      [gui::current_txt] configure -tabstop $val
     } else {
       gui::set_info_message [msgcat::mc "Tabstop value is not an integer"]
     }

@@ -26,117 +26,124 @@ matchcharsallowed
 comments {{{/\*} {\*/}} {{\[\[} {\]\]}}}
 
 advanced {
-  HighlightClass bold          none           {bold}
-  HighlightClass italics       none           {italics}
-  HighlightClass underline     none           {underline}
-  HighlightClass grey          meta           {}
-  HighlightClass heading       miscellaneous2 {h1}
-  HighlightClass section1      punctuation    {h1}
-  HighlightClass section2      punctuation    {h2}
-  HighlightClass section3      punctuation    {h3}
-  HighlightClass section4      punctuation    {h4}
-  HighlightClass section5      punctuation    {h5}
-  HighlightClass section6      punctuation    {h6}
-  HighlightClass number        numbers        {}
-  HighlightClass lyrics        miscellaneous3 {}
-  HighlightClass parenthetical miscellaneous1 {}
-  HighlightClass character     keywords       {}
-  HighlightClass pcharacter    none           {}
+  HighlightClass bold          {-fontopts bold}
+  HighlightClass italics       {-fontopts italics}
+  HighlightClass underline     {-fontopts underline}
+  HighlightClass meta          {-fgtheme meta}
+  HighlightClass heading       {-fgtheme miscellaneous2 -fontopts h1}
+  HighlightClass section1      {-fgtheme punctuation    -fontopts h1}
+  HighlightClass section2      {-fgtheme punctuation    -fontopts h2}
+  HighlightClass section3      {-fgtheme punctuation    -fontopts h3}
+  HighlightClass section4      {-fgtheme punctuation    -fontopts h4}
+  HighlightClass section5      {-fgtheme punctuation    -fontopts h5}
+  HighlightClass section6      {-fgtheme punctuation    -fontopts h6}
+  HighlightClass number        {-fgtheme numbers}
+  HighlightClass lyrics        {-fgtheme miscellaneous3}
+  HighlightClass parenthetical {-fgtheme miscellaneous1}
+  HighlightClass character     {-fgtheme keywords}
+  HighlightClass pcharacter    {}
 
-  HighlightRegexp {(?i)^\s*(int|ext|est|int\./ext|int/ext|i/e|\.).*$} scene_heading
+  HighlightRegexp {(?i)^\s*(int|ext|est|int\./ext|int/ext|i/e|\.)(.*)$} scene_heading
   HighlightRegexp {^\s*~.*$}                                          lyrics
   HighlightRegexp {\(.+?\)}                                           parenthetical
-  HighlightRegexp {(\*{2})(?=\S).+?\1}                                bold
-  HighlightRegexp {(\*)(?=\S).+?\1}                                   italics
-  HighlightRegexp {(_)(?=\S).+?\1}                                    underline
+  HighlightRegexp {(\*{2})((?=\S).+?)(\1)}                            bold
+  HighlightRegexp {(\*)((?=\S).+?)(\1)}                               italics
+  HighlightRegexp {(_)((?=\S).+?)(\1)}                                underline
   HighlightRegexp {^\s*([A-Z][A-Z0-9 ]+|\@[^\(]+)}                    character
-  HighlightRegexp {^#.*$}                                             section
-  HighlightRegexp {^=.*$}                                             synopses
-  HighlightRegexp {>.+?<}                                             center
+  HighlightRegexp {^(#{1,6}).*$}                                      section
+  HighlightRegexp {^(=)(.*)$}                                         synopses
+  HighlightRegexp {(>).+?(<)}                                         center
   HighlightRegexp {^\s*\S}                                            check_character
 
   HighlightProc scene_heading {
-    if {[regexp -indices {#.+?#} [$txt get $startpos $endpos] all]} {
-      return [list [list [list heading $startpos $endpos [list]] \
-                         [list number  [$txt index "$startpos+[lindex $all 0]c"] [$txt index "$startpos+[expr [lindex $all 1] + 1]c"] [list]]] ""]
+    array set vars $varlist
+    if {[regexp -indices {#.+?#} [string range $str {*}$vars(2)] all]} {
+      return [list [list [list heading {*}$vars(0)] \
+                         [list number  {*}$vars(2)]] ""]
     } else {
-      return [list [list [list heading $startpos $endpos [list]]] ""]
+      return [list [list [list heading {*}$vars(0)]] ""]
     }
   } HighlightEndProc
 
   HighlightProc lyrics {
-    return [list [list [list lyrics $startpos $endpos [list]]] ""]
+    array set vars $varlist
+    return [list [list [list lyrics {*}$vars(0)]] ""]
   } HighlightEndProc
 
   HighlightProc parenthetical {
-    return [list [list [list parenthetical $startpos $endpos [list]]] ""]
+    array set vars $varlist
+    return [list [list [list parenthetical {*}$vars(0)]] ""]
   } HighlightEndProc
 
   HighlightProc character {
-    if {[string trim [$txt get "$endpos-1l linestart" "$endpos-1l lineend"]] eq ""} {
-      if {[string trim [$txt get "$endpos+1l linestart" "$endpos+1l lineend"]] ne ""} {
-        return [list [list [list character $startpos $endpos [list]]] ""]
+    array set vars $varlist
+    if {[string trim [$txt get "$row.0-1l linestart" "$row.0-1l lineend"]] eq ""} {
+      if {[string trim [$txt get "$row.0+1l linestart" "$row.0+1l lineend"]] ne ""} {
+        return [list [list [list character {*}$vars(0)]] ""]
       } else {
-        $txt tag add _pcharacter $startpos $endpos
+        $txt tag add _pcharacter $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
       }
     }
     return ""
   } HighlightEndProc
 
   HighlightProc check_character {
-    if {[set epos [lassign [$txt tag prevrange _pcharacter $startpos "$endpos-1l linestart"] spos]] ne ""} {
+    if {[set epos [lassign [$txt tag prevrange _pcharacter $startpos "$row.0-1l linestart"] spos]] ne ""} {
       $txt tag remove _pcharacter $spos $epos
-      return [list [list [list character $spos $epos [list]]] ""]
+      return [list [list [list character [lindex [split $spos .] 1] [expr [lindex [split $epos .] 1] - 1]]] ""]
     }
     return ""
   } HighlightEndProc
 
   HighlightProc bold {
-    return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
-                       [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
-                       [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]] \
-                       [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
-                       [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
+    array set vars $varlist
+    return [list [list [list bold        {*}$vars(2)] \
+                       [list boldmarkers {*}$vars(1)] \
+                       [list boldmarkers {*}$vars(4)] \
+                       [list grey        {*}$vars(1)] \
+                       [list grey        {*}$vars(4)]] ""]
   } HighlightEndProc
 
   HighlightProc italics {
-    if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
-        ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
-      return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                         [list grey    $startpos [$txt index "$startpos+1c"] [list]] \
-                         [list grey    [$txt index "$endpos-1c"] $endpos [list]]] ""]
+    array set vars $varlist
+    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _boldmarkers] == -1) && \
+        ([lsearch [$txt tag names $row.[lindex $vars(4) 0] _boldmarkers] == -1)} {
+      return [list [list [list italics {*}$vars(2)] \
+                         [list grey    {*}$vars(1)] \
+                         [list grey    {*}$vars(4)]] ""]
     } else {
-      return [list [list] [$txt index "$startpos+2c"]]
+      return [list [list] [lindex $vars(2) 0]]
     }
   } HighlightEndProc
 
   HighlightProc underline {
-    return [list [list [list underline [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                       [list grey      $startpos [$txt index "$startpos+1c"] [list]] \
-                       [list grey      [$txt index "$endpos-1c"] $endpos [list]]] ""]
+    array set vars $varlist
+    return [list [list [list underline {*}$vars(2)] \
+                       [list grey      {*}$vars(1)] \
+                       [list grey      {*}$vars(4)]] ""]
   } HighlightEndProc
 
   HighlightProc section {
-    if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
-      set num [string length $hashes]
-      return [list [list [list section$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]] \
-                         [list grey        $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    set num [string range $str {*}$vars(1)]
+    return [list [list [list section$num {*}$vars(2)] \
+                       [list grey        {*}$vars(1)]] ""]
   } HighlightEndProc
 
   HighlightProc synopses {
-    if {[regexp {={3}$} [$txt get $startpos $endpos]]} {
-      return [list [list [list grey $startpos $endpos [list]]] ""]
+    array set vars $varlist
+    if {[string range $str end-3 end] eq "==="} {
+      return [list [list [list grey {*}$vars(0)]] ""]
     } else {
-      return [list [list [list section6 [$txt index "$startpos+1c"] $endpos [list]] \
-                         [list grey     $startpos [$txt index "$startpos+1c"] [list]]] ""]
+      return [list [list [list section6 {*}$vars(2)] \
+                         [list grey     {*}$vars(1)]] ""]
     }
   } HighlightEndProc
 
   HighlightProc center {
-    return [list [list [list grey $startpos [$txt index "$startpos+1c"] [list]] \
-                       [list grey [$txt index "$endpos-1c"] $endpos [list]]] [$txt index "$startpos+1c"]]
+    array set vars $varlist
+    return [list [list [list grey {*}$vars(1)] \
+                       [list grey {*}$vars(2)]] ""]
   } HighlightEndProc
 
 }

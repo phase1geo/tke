@@ -39,16 +39,3 @@ punctuation
   HighlightRegexp {[][\{\}\(\),.=><:;!#|+*/-]} {}
 }
 
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}
-
-highlighter {}
-
-meta {}
-
-advanced {}

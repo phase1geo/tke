@@ -28,217 +28,193 @@ casesensitive
 {1}
 
 advanced {
-  HighlightClass bold    keywords       {bold}
-  HighlightClass italics keywords       {italics}
-  HighlightClass super   numbers        {superscript}
-  HighlightClass sub     numbers        {subscript}
-  HighlightClass h1      miscellaneous2 {h1}
-  HighlightClass h2      miscellaneous2 {h2}
-  HighlightClass h3      miscellaneous2 {h3}
-  HighlightClass h4      miscellaneous2 {h4}
-  HighlightClass h5      miscellaneous2 {h5}
-  HighlightClass h6      miscellaneous2 {h6}
-  HighlightClass quote   punctuation    {}
-  HighlightClass link    miscellaneous1 {underline click}
-  HighlightClass code    precompile     {code}
-  HighlightClass ccode   precompile     {code}
-  HighlightClass strike  none           {overstrike}
-  HighlightClass hilite  highlighter    {}
-  HighlightClass grey    meta           {}
-  HighlightClass ref     readmeta       {}
-  HighlightClass check   none           {click}
 
-  HighlightRegexp {``.+?``}                        ccode
-  HighlightRegexp {`.+?`}                          code
-  HighlightRegexp {^#.*?$}                         header
-  HighlightRegexp {^>.*?$}                         quote
-  HighlightRegexp {([*_]{2})(?=\S).+?\1}           bold
-  HighlightRegexp {([*_])(?=\S).+?\1}              italics
-  HighlightRegexp {!?\[[^\]]+\](\s*\[.*?\]|\(.*?\))} link
-  HighlightRegexp {^\s*\[.+?\]:\s+\S+}             linkref
-  HighlightRegexp {([~|]{2})(?=\S).+?\1}           overstrike
-  HighlightRegexp {(~)(?=\S).+?\1}                 subscript
-  HighlightRegexp {(\^)(?=\S).+?\1}                superscript
-  HighlightRegexp {([=:]{2})(?=\S).+?\1}           highlight
-  HighlightRegexp {\[[ xX]\]}                      checkbox
-  HighlightRegexp {.*?$}                           list_check
+  HighlightClass bold    {-fgtheme keywords       -fontopts bold}
+  HighlightClass italics {-fgtheme keywords       -fontopts italics}
+  HighlightClass super   {-fgtheme numbers        -fontopts superscript}
+  HighlightClass sub     {-fgtheme numbers        -fontopts subscript}
+  HighlightClass h1      {-fgtheme miscellaneous2 -fontopts h1}
+  HighlightClass h2      {-fgtheme miscellaneous2 -fontopts h2}
+  HighlightClass h3      {-fgtheme miscellaneous2 -fontopts h3}
+  HighlightClass h4      {-fgtheme miscellaneous2 -fontopts h4}
+  HighlightClass h5      {-fgtheme miscellaneous2 -fontopts h5}
+  HighlightClass h6      {-fgtheme miscellaneous2 -fontopts h6}
+  HighlightClass quote   {-fgtheme punctuation}
+  HighlightClass ref     {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_reflink_click}
+  HighlightClass url     {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_urllink_click}
+  HighlightClass code    {-fgtheme precompile     -fontopts code}
+  HighlightClass ccode   {-fgtheme precompile     -fontopts code}
+  HighlightClass strike  {-fontopts overstrike}
+  HighlightClass hilite  {-fgtheme background -bgtheme highlighter}
+  HighlightClass meta    {-fgtheme meta}
+  HighlightClass check   {-clickcmd syntax::markdown::handle_checkbox_click}
+
+  HighlightRegexp {(``)(.+?)(``)}                          ccode
+  HighlightRegexp {(`)(.+?)(`)}                            code
+  HighlightRegexp {^(#{1,6})(.*?)$}                        header
+  HighlightRegexp {^(>)(.*?)$}                             quote
+  HighlightRegexp {([*_]{2})((?=\S).+?)(\1)}               bold
+  HighlightRegexp {([*_])((?=\S).+?)(\1)}                  italics
+  HighlightRegexp {(!?\[)([^\]]+)(\]\s*\[)(.*?)(\])}       reflink
+  HighlightRegexp {(!?\[)([^\]]+)(\]\()(\S+)(\s+.*?)(\)}   urllink
+  HighlightRegexp {^\s*\[(.+?)\]:\s+(\S+)}                 linkref
+  HighlightRegexp {([~|]{2})((?=\S).+?)(\1)}               overstrike
+  HighlightRegexp {(~)((?=\S).+?)(\1)}                     subscript
+  HighlightRegexp {(\^)((?=\S).+?)(\1)}                    superscript
+  HighlightRegexp {([=:]{2})((?=\S).+?)(\1)}               highlight
+  HighlightRegexp {\[[ xX]\]}                              checkbox
+  HighlightRegexp {.*?$}                                   list_check
 
   HighlightProc ccode {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
-      $txt tag remove _code $startpos $endpos
-      return [list [list [list ccode       [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
-                         [list codemarkers $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list codemarkers [$txt index "$endpos-2c"] $endpos [list]]] ""]
-                         [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    $txt tag remove _code $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+    return [list [list [list ccode       {*}$vars(2)] \
+                       [list codemarkers {*}$vars(1)] \
+                       [list codemarkers {*}$vars(3)] \
+                       [list meta        {*}$vars(1)] \
+                       [list meta        {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc code {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
-      if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
-          ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
-        return [list [list [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
-                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
-      } else {
-        return [list [list] [$txt index "$startpos+2c"]]
-      }
+    array set vars $varlist
+    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _codemarkers] == -1) && \
+        ([lsearch [$txt tag names $row.[lindex $vars(0) 1] _codemarkers] == -1)} {
+      return [list [list [list code {*}$vars(2)] \
+                         [list meta {*}$vars(1)] \
+                         [list meta {*}$vars(3)]] ""]
+    } else {
+      return [list [list] [lindex $vars(2) 0]]
     }
-    return ""
   } HighlightEndProc
 
   HighlightProc header {
-    if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
-      set num [string length $hashes]
-      return [list [list [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]] \
-                         [list grey  $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    set num [string length [string range $str {*}$vars(1)]]
+    return [list [list [list h$num {*}$vars(2)] \
+                       [list meta  {*}$vars(1)]] ""]
   } HighlightEndProc
 
   HighlightProc quote {
-    if {![ctext::isEscaped $txt $startpos]} {
-      return [list [list [list quote [$txt index "$startpos+1c"] $endpos [list]] \
-                         [list grey  $startpos [$txt index "$startpos+1c"] [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list quote {*}$vars(2)] \
+                       [list meta  {*}$vars(1)]] ""]
   } HighlightEndProc
 
   HighlightProc bold {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
-      $txt tag remove _italics $startpos $endpos
-      return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
-                         [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]] \
-                         [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    $txt tag remove _italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+    return [list [list [list bold        {*}$vars(2)] \
+                       [list boldmarkers {*}$vars(1)] \
+                       [list boldmarkers {*}$vars(4)] \
+                       [list meta        {*}$vars(1)] \
+                       [list meta        {*}$vars(4)]] ""]
   } HighlightEndProc
 
   HighlightProc italics {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
-      if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
-          ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
-        return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                           [list grey    $startpos [$txt index "$startpos+1c"] [list]] \
-                           [list grey    [$txt index "$endpos-1c"] $endpos [list]]] ""]
-      } else {
-        return [list [list] [$txt index "$startpos+2c"]]
-      }
+    array set vars $varlist
+    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0]] _boldmarkers] == -1) && \
+        ([lsearch [$txt tag names $row.[lindex $vars(0) 1]] _boldmarkers] == -1)} {
+      return [list [list [list italics {*}$vars(2)] \
+                         [list meta    {*}$vars(1)] \
+                         [list meta    {*}$vars(4)]] ""]
+    } else {
+      return [list [list] [lindex $vars(2) 0]]
     }
-    return ""
   } HighlightEndProc
 
   HighlightProc overstrike {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
-      return [list [list [list strike        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
-                         [list strikemarkers $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list strikemarkers [$txt index "$endpos-2c"] $endpos [list]] \
-                         [list grey          $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list grey          [$txt index "$endpos-2c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list strike        {*}$vars(2)] \
+                       [list strikemarkers {*}$vars(1)] \
+                       [list strikemarkers {*}$vars(4)] \
+                       [list meta          {*}$vars(1)] \
+                       [list meta          {*}$vars(4)]] ""]
   } HighlightEndProc
 
   HighlightProc highlight {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
-      return [list [list [list hilite [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
-                         [list grey   $startpos [$txt index "$startpos+2c"] [list]] \
-                         [list grey   [$txt index "$endpos-2c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list hilite {*}$vars(2)] \
+                       [list meta   {*}$vars(1)] \
+                       [list meta   {*}$vars(4)]] ""]
   } HighlightEndProc
 
   HighlightProc subscript {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
-      if {([lsearch [$txt tag names $startpos]    _strikemarkers] == -1) && \
-          ([lsearch [$txt tag names "$endpos-1c"] _strikemarkers] == -1)} {
-        return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
-                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
-      } else {
-        return [list [list] [$txt index "$startpos+2c"]]
-      }
+    array set vars $varlist
+    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _strikemarkers] == -1) && \
+        ([lsearch [$txt tag names $row.[lindex $vars(0) 1] _strikemarkers] == -1)} {
+      return [list [list [list sub  {*}$vars(2)] \
+                         [list meta {*}$vars(1)] \
+                         [list meta {*}$vars(4)]] ""]
+    } else {
+      return [list [list] [lindex $vars(2) 0]]
     }
-    return ""
   } HighlightEndProc
 
   HighlightProc superscript {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
-      return [list [list [list super [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
-                         [list grey  $startpos [$txt index "$startpos+1c"] [list]] \
-                         [list grey  [$txt index "$endpos-1c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list super {*}$vars(2)] \
+                       [list meta  {*}$vars(1)] \
+                       [list meta  {*}$vars(4)]] ""]
   } HighlightEndProc
 
-  HighlightProc link {
-    if {![ctext::isEscaped $txt $startpos]} {
-      if {[regexp {^(!)?\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> img label ref space linkref url]} {
-        set cmd        ""
-        set startchars [expr {($img eq "") ? 1 : 2}]
-        if {[string index [string trim $ref] 0] eq "\\["} {
-          if {$linkref eq ""} {
-            set cmd "syntax::markdown::handle_reflink_click $txt [string tolower $label]"
-          } else {
-            set cmd "syntax::markdown::handle_reflink_click $txt [string tolower $linkref]"
-          }
-        } elseif {$cmd eq ""} {
-          set cmd "utils::open_file_externally [lindex $url 0]"
-        }
-        set start2a [expr $startchars + [string length $label]]
-        set start2b [expr $startchars + [string length $label] + 1 + [string length $space] + 1]
-        return [list [list [list link [$txt index "$startpos+${startchars}c"] [$txt index "$startpos+[expr [string length $label] + $startchars]c"] $cmd] \
-                           [list grey $startpos [$txt index "$startpos+${startchars}c"] [list]] \
-                           [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
-                           [list ref  [$txt index "$startpos+${start2b}c"] [$txt index "$endpos-1c"] [list]] \
-                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
-      }
-    }
-    return ""
+  HighlightProc reflink {
+    array set vars $varlist
+    return [list [list [list link {*}$vars(2)] \
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)] \
+                       [list ref  {*}$vars(4)] \
+                       [list meta {*}$vars(5)]] ""]
+  } HighlightEndProc
+
+  HighlightProc urllink {
+    array set vars $varlist
+    return [list [list [list link {*}$vars(2)] \
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)] \
+                       [list url  {*}$vars(4)] \
+                       [list meta {*}$vars(6)]] ""]
   } HighlightEndProc
 
   HighlightProc linkref {
     variable linkrefs
-    if {![ctext::isEscaped $txt $startpos]} {
-      if {[regexp {^\\s*\\[(.+?)\\]:\\s+(\\S+)} [$txt get $startpos $endpos] -> linkref url]} {
-        set linkrefs($txt,[string tolower $linkref]) $url
-      }
-    }
+    array set vars $varlist
+    set linkref [string tolower [string range {*}$vars(1)]]
+    set url     [string range {*}$vars(2)]
+    set linkrefs($txt,$linkref) $url
     return ""
   } HighlightEndProc
 
-  HighlightProc handle_reflink_click {txt ref tag} {
+  HighlightProc checkbox {
+    array set vars $varlist
+    return [list [list [list check {*}$vars(0)]] ""]
+  } HighlightEndProc
+
+  HighlightProc handle_urllink_click {txt startpos endpos} {
+    utils::open_file_externally [$txt get $startpos $endpos]
+  } HighlightEndProc
+
+  HighlightProc handle_reflink_click {txt startpos endpos} {
     variable linkrefs
-    if {[info exists linkrefs($txt,$ref)]} {
+    if {[info exists linkrefs($txt,[string tolower [$txt get $startpos $endpos]])]} {
       utils::open_file_externally $linkrefs($txt,$ref)
     }
   } HighlightEndProc
 
-  HighlightProc checkbox {
-    set cmd [list syntax::markdown::handle_checkbox_click $txt]
-    return [list [list [list check $startpos $endpos $cmd]] ""]
-  } HighlightEndProc
-
-  HighlightProc handle_checkbox_click {txt tag} {
-    lassign [$txt tag ranges $tag] startpos endpos
+  HighlightProc handle_checkbox_click {txt startpos endpos} {
     $txt replace "$startpos+1c" "$startpos+2c" [expr {([$txt get "$startpos+1c"] eq " ") ? "x" : " "}]
   } HighlightEndProc
 
   HighlightProc list_check {
-    if {[$txt compare $endpos < insert] && $ins} {
+    if {[$txt compare $row.[expr [lindex $vars(0) 1] + 1] < insert] && $ins} {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
         if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
-            $txt fastreplace "insert-1l linestart" insert "\n"
+            $txt replace -highlight 0 "insert-1l linestart" insert "\n"
           } elseif {![regexp {^\\s*([+*>-]|(\\d+)\\.|\\[[ xX]\\])} [$txt get insert "insert lineend"]]} {
             if {($num ne "")} {
-              $txt fastinsert insert "[expr $num + 1]. "
+              $txt insert -highlight 0 insert "[expr $num + 1]. "
             } else {
-              $txt fastinsert insert "$match "
+              $txt insert -highlight 0 insert "$match "
             }
           }
         }

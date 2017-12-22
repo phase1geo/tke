@@ -44,5 +44,5 @@ miscellaneous2 {
 }
 
 miscellaneous3 {
-  HighlightRegexp {$\([^\)]*\)} {}
+  HighlightRegexp {\$\([^\)]*\)} {}
 }
