@@ -1,7 +1,3 @@
-# by george peter Staplin
-# See also the README for a list of contributors
-# RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
-
 package require Tk
 package require Thread
 package provide ctext 6.0
@@ -4252,8 +4248,8 @@ namespace eval ctext {
 
     variable mode
 
-    # If we are not running in Vim mode, don't continue
-    if {![in_vim_mode $txtt]} {
+    # If we are not running in block cursor mode, don't continue
+    if {![is_block_cursor $win]} {
       return
     }
 
@@ -4262,30 +4258,25 @@ namespace eval ctext {
 
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
-    if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
-      [winfo parent $txtt]._t insert insert " " dspace
+    if {[$win._t compare "insert linestart" == "insert lineend"]} {
+      $win._t insert insert " " dspace
       $txtt mark set insert "insert-1c"
-      gui::update_position [winfo parent $txtt]
 
     # Make sure that lineend is never the insertion point
-    } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-      $txtt mark set insert "insert-1 display chars"
-      gui::update_position [winfo parent $txtt]
-    }
-
-    # Adjust the selection (if we are in visual mode)
-    if {[in_visual_mode $txtt]} {
-      adjust_select $txtt 0 insert
+    } elseif {[$win._t compare insert == "insert lineend"]} {
+      $win._t mark set insert "insert-1 display chars"
     }
 
   }
   
   ######################################################################
   # Removes dspace characters.
-  proc remove_dspace {w} {
+  proc remove_dspace {win} {
 
-    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-      if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
+    set mcursors [lmap {startpos endpos} [$win._t tag ranges mcursor] { [list $startpos $endpos] }
+
+    foreach {startpos endpos} [$w tag ranges dspace] {
+      if {[lsearch -index 0 $mcursors $startpos] == -1} {
         $w._t delete $startpos $endpos
       }
     }
@@ -4294,29 +4285,27 @@ namespace eval ctext {
 
   ######################################################################
   # Removes the dspace tag from the current index (if it is set).
-  proc cleanup_dspace {w} {
+  proc cleanup_dspace {win} {
 
-    if {[lsearch [$w tag names insert] dspace] != -1} {
-      $w tag remove dspace insert
-    }
+    $win._t tag remove dspace insert
 
   }
 
   ######################################################################
   # Returns the contents of the given text widget without the injected
   # dspaces.
-  proc get_cleaned_content {txt} {
+  proc get_cleaned_content {win} {
 
     set str ""
     set last_startpos 1.0
 
     # Remove any dspace characters
-    foreach {startpos endpos} [$txt tag ranges dspace] {
-      append str [$txt get $last_startpos $startpos]
+    foreach {startpos endpos} [$win._t tag ranges dspace] {
+      append str [$win._t get $last_startpos $startpos]
       set last_startpos $endpos
     }
 
-    append str [$txt get $last_startpos "end-1c"]
+    append str [$win._t get $last_startpos "end-1c"]
 
     return $str
 

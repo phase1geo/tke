@@ -1871,9 +1871,6 @@ namespace eval gui {
         $txt configure -state normal
       }
 
-      # Delete any dspace characters
-      vim::remove_dspace $txt
-
       # Insert the file contents and highlight
       $txt insert end $contents
       $txt see 1.0
