@@ -9,6 +9,7 @@ package provide ctext 6.0
 source [file join [ctext::DIR] utils.tcl]
 source [file join [ctext::DIR] model.tcl]
 source [file join [ctext::DIR] parsers.tcl]
+source [file join [ctext::DIR] indent.tcl]
 
 set utils::main_tid [thread::id]
 
@@ -126,6 +127,8 @@ namespace eval ctext {
     set data($win,config,-matchaudit_bg)          "red"
     set data($win,config,-classes)                [list]
     set data($win,config,-theme)                  [list]
+    set data($win,config,-shiftwidth)             2
+    set data($win,config,-tabstop)                2
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -145,7 +148,7 @@ namespace eval ctext {
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
-      -foldopencolor -foldclosecolor -classes -theme -insertwidth
+      -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
     }
 
     # Set args
@@ -691,6 +694,21 @@ namespace eval ctext {
       $win gutter configure folding eclose -fg $value
     }
 
+    lappend argTable {any} -shiftwidth {
+      if {![string is integer $value]} {
+        return -code error "Shiftwidth set to a non-integer value"
+      }
+      set data($win,config,-shiftwidth) $value
+    }
+
+    lappend argTable {any} -tabstop {
+      if {![string is integer $value]} {
+        return -code error "Tabstop set to a non-integer value"
+      }
+      set data($win,config,-tabstop) $value
+      $win._t configure -tabs [list [expr $value * [font measure [$win._t cget -font] 0]] left]
+    }
+
     set data($win,config,argTable) $argTable
 
   }
@@ -1008,17 +1026,33 @@ namespace eval ctext {
 
     variable data
 
-    # Get the start and end indices
-    if {![catch {$win.t index sel.first} start_index]} {
-      set end_index [$win.t index sel.last]
-    } else {
-      set start_index [$win.t index "insert linestart"]
-      set end_index   [$win.t index "insert+1l linestart"]
+    # Clear the clipboard
+    clipboard clear -display $win.t
+
+    # Collect the text ranges to get
+    if {[set ranges [$win._t tag ranges sel]] eq ""} {
+      if {[set cursors [$win._t tag ranges mcursor]] eq ""} {
+        set cursors [$win._t index insert]
+      }
+      foreach cursor $cursors {
+        set startpos [$win._t index "$cursor linestart"]
+        set endpos   [$win._t index "$cursor lineend"]
+        if {[lindex $ranges end] ne $endpos} {
+          lappend ranges $startpos $endpos
+        }
+      }
     }
 
-    # Clear and copy the data to the clipboard
-    clipboard clear  -displayof $win.t
-    clipboard append -displayof $win.t [$win.t get $start_index $end_index]
+    # Collect the text
+    set first 1
+    foreach {startpos endpos} $ranges {
+      if {$first} {
+        set first 0
+      } else {
+        clipboard append -displayof $win.t "\n"
+      }
+      clipboard append -displayof $win.t [$win._t get $startpos $endpos]
+    }
 
   }
 
@@ -1031,20 +1065,39 @@ namespace eval ctext {
 
     variable data
 
-    # Get the start and end indices
-    if {![catch {$win.t index sel.first} start_index]} {
-      set end_index [$win.t index sel.last]
-    } else {
-      set start_index [$win.t index "insert linestart"]
-      set end_index   [$win.t index "insert+1l linestart"]
+    # Clear the clipboard
+    clipboard clear -displayof $win.t
+
+    # Collect the text ranges to get
+    if {[set ranges [$win._t tag ranges sel]] eq ""} {
+      if {[set cursors [$win._t tag ranges mcursor]] eq ""} {
+        set cursors [$win._t index insert]
+      }
+      foreach cursor $cursors {
+        set startpos [$win._t index "$cursor linestart"]
+        set endpos   [$win._t index "$cursor lineend"]
+        if {[lindex $ranges end] ne $endpos} {
+          lappend ranges $startpos $endpos
+        }
+      }
     }
 
-    # Clear and copy the data to the clipboard
-    clipboard clear  -displayof $win.t
-    clipboard append -displayof $win.t [$win.t get $start_index $end_index]
+    # Collect the text
+    set first 1
+    foreach {startpos endpos} $ranges {
+      if {$first} {
+        set first 0
+      } else {
+        clipboard append -displayof $win.t "\n"
+      }
+      clipboard append -displayof $win.t [$win._t get $startpos $endpos]
+    }
 
     # Delete the text
-    $win delete $start_index $end_index
+    foreach {endpos startpos} [lreverse $ranges] {
+      # TBD
+      $win delete $startpos $endpos
+    }
 
   }
 
@@ -1559,29 +1612,14 @@ namespace eval ctext {
   # Handles a paste operation.
   proc command_paste {win args} {
 
-    variable data
-
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
-    }
-
-    set insertPos [$win._t index insert]
-    set content   [clipboard get]
-    set datalen   [string length $content]
-
-    # model::insert $win $ranges $content $cursor
-    # undo_insert $win $insertPos $datalen [$win._t index insert]
-
-    tk_textPaste $win
-
-    # handleInsertAt0 $win._t $insertPos $datalen
-    modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
-    event generate $win.t <<CursorChanged>>
+    # Allow pasting to be multicursor aware
+    command_insert $win {*}$args insert [clipboard get]
 
   }
 
   ######################################################################
+  # Supports the text peer names command, making sure that the returned name
+  # does not contain any hidden path informtion.
   proc command_peer {win args} {
 
     variable data
@@ -1636,105 +1674,6 @@ namespace eval ctext {
           $win._t tag raise $tag {*}$args
         }
         return
-      }
-      nextrange -
-      prevrange {
-        set args0        [set args1 [lassign $args subcmd tag]]
-        set indent_tags  [list _indent _unindent _reindent _reindentStart]
-        set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
-        if {[string map [list $tag {}] $indent_tags] ne $indent_tags} {
-          if {$subcmd eq "nextrange"} {
-            lassign [$win._t tag nextrange ${tag}0 {*}$args0] s0 e0
-            while {($s0 ne "") && ([inCommentString $win $s0] || [model::is_escaped $win $s0])} {
-              lset args0 0 $e0
-              lassign [$win._t tag nextrange ${tag}0 {*}$args0] s0 e0
-            }
-            lassign [$win._t tag nextrange ${tag}1 {*}$args1] s1 e1
-            while {($s1 ne "") && ([inCommentString $win $s1] || [model::is_escaped $win $s1])} {
-              lset args1 0 $e1
-              lassign [$win._t tag nextrange ${tag}0 {*}$args1] s1 e1
-            }
-          } else {
-            lassign [$win._t tag prevrange ${tag}0 {*}$args0] s0 e0
-            while {($s0 ne "") && ([inCommentString $win $s0] || [model::is_escaped $win $s0])} {
-              lset args0 0 $s0
-              lassign [$win._t tag prevrange ${tag}0 {*}$args0] s0 e0
-            }
-            lassign [$win._t tag prevrange ${tag}1 {*}$args1] s1 e1
-            while {($s1 ne "") && ([inCommentString $win $s1] || [model::is_escaped $win $s1])} {
-              lset args1 0 $s1
-              lassign [$win._t tag prevrange ${tag}0 {*}$args1] s1 e1
-            }
-          }
-          if {$s0 eq ""} {
-            if {$s1 eq ""} {
-              return ""
-            } else {
-              return [list $s1 $e1]
-            }
-          } else {
-            if {$s1 eq ""} {
-              return [list $s0 $e0]
-            } elseif {$subcmd eq "nextrange"} {
-              if {[$win._t compare $s0 < $s1]} {
-                return [list $s0 $e0]
-              } else {
-                return [list $s1 $e1]
-              }
-            } else {
-              if {[$win._t compare $s0 > $s1]} {
-                return [list $s0 $e0]
-              } else {
-                return [list $s1 $e1]
-              }
-            }
-          }
-        } elseif {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
-          if {$subcmd eq "nextrange"} {
-            lassign [$win._t tag nextrange $tag {*}$args0] s e
-            while {($s ne "") && ([inCommentString $win $s] || ([model::is_escaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
-              lset args0 0 $e
-              lassign [$win._t tag nextrange $tag {*}$args0] s e
-            }
-          } else {
-            lassign [$win._t tag prevrange $tag {*}$args0] s e
-            if {($s ne "") && ![inCommentString $win $s] && [model::is_escaped $win $s] && [$win._t compare "$s+1c" == [lindex $args0 0]]} {
-              lassign [$win._t tag prevrange $tag $s {*}[lrange $args0 1 end]] s e
-            }
-            while {($s ne "") && ([inCommentString $win $s] || ([model::is_escaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
-              lset args0 0 $s
-              lassign [$win._t tag prevrange $tag {*}$args0] s e
-            }
-          }
-          if {$s eq ""} {
-            return ""
-          } elseif {[model::is_escaped $win $s]} {
-            return [list [$win._t index "$s+1c"] $e]
-          } else {
-            return [list $s $e]
-          }
-        } else {
-          return [$win._t tag $subcmd $tag {*}$args0]
-        }
-      }
-      ranges {
-        set tag          [lindex $args 1]
-        set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
-        if {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
-          if {![info exists range_cache($win,$tag)]} {
-            set range_cache($win,$tag) [list]
-            foreach {s e} [$win._t tag ranges $tag] {
-              if {![inCommentString $win $s]} {
-                if {![model::is_escaped $win $s] || ([set s [$win._t index "$s+1c"]] ne $e)} {
-                  lappend range_cache($win,$tag) $s $e
-                }
-              }
-            }
-          }
-          return $range_cache($win,$tag)
-        } else {
-          return [$win._t tag ranges $tag]
-        }
       }
       default {
         return [$win._t tag {*}$args]
@@ -2453,11 +2392,13 @@ namespace eval ctext {
   proc addHighlightClass {win class args} {
 
     variable data
+    variable right_click
 
     array set opts {
       -fgtheme  ""
       -bgtheme  ""
       -fontopts ""
+      -clickcmd ""
     }
     array set opts $args
 
@@ -2465,11 +2406,28 @@ namespace eval ctext {
     $win tag configure _$class
     $win tag lower _$class sel
 
+    # If there is a command associated with the class, bind it to the right-click button
+    if {$opts(-clickcmd) ne ""} {
+      $win tag bind <Button-$right_click> [list ctext::handleClickCommand $win _$class $opts(-clickcmd)]
+    }
+
     # Save the class name and options
     set data($win,classopts,$class) [array get opts]
 
     # Apply the class theming information
     applyClassTheme $win $class
+
+  }
+
+  ######################################################################
+  # Call the given command on click.
+  proc handleClickCommand {win tag command} {
+
+    # Get the clicked text range
+    lassign [$win._t tag prevrange $tag [$win._t index current+1c]] startpos endpos
+
+    # Call the command
+    uplevel #0 [list {*}$command $win $startpos $endpos]
 
   }
 
@@ -2575,7 +2533,8 @@ namespace eval ctext {
 
     variable data
 
-    checkHighlightClass $win $class
+    # Theme the highlight class
+    applyClassTheme $win $class
 
     # Perform the search
     set i 0
@@ -2597,13 +2556,13 @@ namespace eval ctext {
     checkHighlightClass $win $class
 
     # Remove the class from the list of regexps, if it exists
-    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$classToDelete]] != -1} {
+    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$class]] != -1} {
       set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
     }
 
-    array unset data $win,highlight,*,class,_$classToDelete
+    array unset data $win,highlight,*,class,_$class
 
-    $win tag delete _$classToDelete 1.0 end
+    $win tag delete _$class 1.0 end
 
   }
 
@@ -2684,26 +2643,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Handle any bindings on the given tag.
-  proc handle_tag {win class startpos endpos cmd} {
-
-    variable data
-    variable right_click
-
-    # Add the tag and possible binding
-    if {[info exists data($win,highlight,click,$class)]} {
-      set tag _$class[incr data($win,highlight,click_index)]
-      $win tag add       $tag $startpos $endpos
-      $win tag configure $tag {*}$data($win,highlight,click,$class)
-      $win tag bind      $tag <Button-$right_click> [list {*}$cmd $tag]
-      return ""
-    }
-
-    return [list _$class $startpos $endpos]
-
-  }
-
-  ######################################################################
   # Performs all of the syntax highlighting.
   proc highlight {win ranges ins {block 1}} {
 
@@ -2766,6 +2705,10 @@ namespace eval ctext {
     }
 
   }
+
+  ######################################################################
+  #                              LINEMAP                               #
+  ######################################################################
 
   ######################################################################
   # Toggles the bookmark indicator in the linemap.

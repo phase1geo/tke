@@ -43,15 +43,15 @@ namespace eval indent {
   # Sets the tabstop value to match the value of Editor/SpacesPerTab and
   # updates all text widgets to match, cleaning up any non-existent windows
   # along the way.
+  #
+  # TBD - This procedure needs to be moved to gui.tcl
   proc handle_spaces_per_tab {name1 name2 op} {
 
     variable tabstops
 
     foreach txtt [array names tabstops] {
       if {[winfo exists $txtt]} {
-        set_tabstop $txtt [preferences::get Editor/SpacesPerTab]
-      } else {
-        unset tabstops($txtt)
+        $txtt configure -tabstop [preferences::get Editor/SpacesPerTab]
       }
     }
 
@@ -61,13 +61,15 @@ namespace eval indent {
   # Sets the shiftwidth value to match the value of Editor/IndentSpaces.
   # Updates all text widgets to match, cleaning up any non-existent
   # windows along the way.
+  #
+  # TBD - This procedure needs to be moved to gui.tcl
   proc handle_indent_spaces {name1 name2 op} {
 
     variable shiftwidths
 
     foreach txtt [array names shiftwidths] {
       if {[winfo exists $txtt]} {
-        set_shiftwidth $txtt [preferences::get Editor/IndentSpaces]
+        set_shiftwidth $txtt configure -shiftwidth [preferences::get Editor/IndentSpaces]
       } else {
         unset shiftwidths($txtt)
       }
