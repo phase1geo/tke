@@ -31,7 +31,7 @@ punctuation
 }
 
 advanced {
-  HighlightClass var keywords {}
+  HighlightClass var {-fgtheme keywords}
 
   HighlightRegexp {^\s*(\w+)\s*=} handle_variable
 

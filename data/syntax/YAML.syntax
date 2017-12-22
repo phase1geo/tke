@@ -32,7 +32,7 @@ punctuation
 }
 
 advanced {
-  HighlightClass key keywords {}
+  HighlightClass key {-fgtheme keywords}
 
   HighlightRegexp {(\S+)\s*:} keyword
 

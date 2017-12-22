@@ -2541,7 +2541,7 @@ namespace eval ctext {
 
     # If there is a command associated with the class, bind it to the right-click button
     if {$opts(-clickcmd) ne ""} {
-      $win tag bind <Button-$right_click> [list {*}$opts(-clickcmd) $win]
+      $win tag bind <Button-$right_click> [list ctext::handleClickCommand $win _$class $opts(-clickcmd)]
     }
 
     # Save the class name and options
@@ -2549,6 +2549,18 @@ namespace eval ctext {
 
     # Apply the class theming information
     applyClassTheme $win $class
+
+  }
+
+  ######################################################################
+  # Call the given command on click.
+  proc handleClickCommand {win tag command} {
+
+    # Get the clicked text range
+    lassign [$win._t tag prevrange $tag [$win._t index current+1c]] startpos endpos
+
+    # Call the command
+    uplevel #0 [list {*}$command $win $startpos $endpos]
 
   }
 

@@ -53,8 +53,8 @@ punctuation
 
 advanced
 {
-  HighlightClass tag       keywords       {}
-  HighlightClass attribute miscellaneous2 {}
+  HighlightClass tag       {-fgtheme keywords}
+  HighlightClass attribute {-fgtheme miscellaneous2}
 
   HighlightRegexp {<([^>\s]+)} syntax::get_xml_tag
   HighlightRegexp {(\S+)=}     syntax::get_xml_attribute
