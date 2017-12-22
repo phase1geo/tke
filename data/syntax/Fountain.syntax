@@ -26,22 +26,22 @@ matchcharsallowed
 comments {{{/\*} {\*/}} {{\[\[} {\]\]}}}
 
 advanced {
-  HighlightClass bold          none           {bold}
-  HighlightClass italics       none           {italics}
-  HighlightClass underline     none           {underline}
-  HighlightClass grey          meta           {}
-  HighlightClass heading       miscellaneous2 {h1}
-  HighlightClass section1      punctuation    {h1}
-  HighlightClass section2      punctuation    {h2}
-  HighlightClass section3      punctuation    {h3}
-  HighlightClass section4      punctuation    {h4}
-  HighlightClass section5      punctuation    {h5}
-  HighlightClass section6      punctuation    {h6}
-  HighlightClass number        numbers        {}
-  HighlightClass lyrics        miscellaneous3 {}
-  HighlightClass parenthetical miscellaneous1 {}
-  HighlightClass character     keywords       {}
-  HighlightClass pcharacter    none           {}
+  HighlightClass bold          {-fontopts bold}
+  HighlightClass italics       {-fontopts italics}
+  HighlightClass underline     {-fontopts underline}
+  HighlightClass meta          {-fgtheme meta}
+  HighlightClass heading       {-fgtheme miscellaneous2 -fontopts h1}
+  HighlightClass section1      {-fgtheme punctuation    -fontopts h1}
+  HighlightClass section2      {-fgtheme punctuation    -fontopts h2}
+  HighlightClass section3      {-fgtheme punctuation    -fontopts h3}
+  HighlightClass section4      {-fgtheme punctuation    -fontopts h4}
+  HighlightClass section5      {-fgtheme punctuation    -fontopts h5}
+  HighlightClass section6      {-fgtheme punctuation    -fontopts h6}
+  HighlightClass number        {-fgtheme numbers}
+  HighlightClass lyrics        {-fgtheme miscellaneous3}
+  HighlightClass parenthetical {-fgtheme miscellaneous1}
+  HighlightClass character     {-fgtheme keywords}
+  HighlightClass pcharacter    {}
 
   HighlightRegexp {(?i)^\s*(int|ext|est|int\./ext|int/ext|i/e|\.)(.*)$} scene_heading
   HighlightRegexp {^\s*~.*$}                                          lyrics

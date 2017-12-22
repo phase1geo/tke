@@ -10,11 +10,12 @@ casesensitive
 {1}
 
 advanced {
-  HighlightClass add     miscellaneous1 {}
-  HighlightClass del     miscellaneous2 {overstrike}
-  HighlightClass comm    comments       {}
-  HighlightClass hilite  highlighter    {}
-  HighlightClass grey    meta           {}
+
+  HighlightClass add    {-fgtheme miscellaneous1}
+  HighlightClass del    {-fgtheme miscellaneous2 -fontopts {overstrike}}
+  HighlightClass comm   {-fgtheme comments}
+  HighlightClass hilite {-fgtheme background -bgtheme highlighter}
+  HighlightClass meta   {-fgtheme meta}
 
   HighlightRegexp {(\{\+\+)(.+?)(\+\+\})}      addition
   HighlightRegexp {(\{\-\-)(.+?)(\-\-\})}      deletion
@@ -25,42 +26,38 @@ advanced {
   HighlightProc addition {
     array set vars $varlist
     return [list [list [list add  {*}$vars(2)] \
-                       [list grey {*}$vars(1)] \
-                       [list grey {*}$vars(3)]] ""]
-    }
-    return ""
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc deletion {
     array set vars $varlist
     return [list [list [list del  {*}$vars(2)] \
-                       [list grey {*}$vars(1)] \
-                       [list grey {*}$vars(3)]] ""]
-    }
-    return ""
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc substitution {
     array set vars $varlist
     return [list [list [list del  {*}$vars(2)] \
                        [list add  {*}$vars(4)] \
-                       [list grey {*}$vars(1)] \
-                       [list grey {*}$vars(3)] \
-                       [list grey {*}$vars(5)]] ""]
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)] \
+                       [list meta {*}$vars(5)]] ""]
   } HighlightEndProc
 
   HighlightProc comment {
     array set vars $varlist
     return [list [list [list comm {*}$vars(2)] \
-                       [list grey {*}$vars(1)] \
-                       [list grey {*}$vars(3)]] ""]
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc highlight {
     array set vars $varlist
     return [list [list [list hilite {*}$vars(2)] \
-                       [list grey   {*}$vars(1)] \
-                       [list grey   {*}$vars(3)]] ""]
+                       [list meta   {*}$vars(1)] \
+                       [list meta   {*}$vars(3)]] ""]
   } HighlightEndProc
 
 }

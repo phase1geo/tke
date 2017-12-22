@@ -77,8 +77,8 @@ miscellaneous1 {
 
 advanced
 {
-  HighlightClass tag       miscellaneous3 {}
-  HighlightClass attribute miscellaneous2 {}
+  HighlightClass tag       {-fgtheme miscellaneous3}
+  HighlightClass attribute {-fgtheme miscellaneous2}
 
   HighlightRegexp {<([^>\s]+)} syntax::get_xml_tag
 }

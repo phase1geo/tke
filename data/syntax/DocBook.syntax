@@ -75,7 +75,7 @@ punctuation
 
 advanced
 {
-  HighlightClass attribute miscellaneous2 {}
+  HighlightClass attribute {-fgtheme miscellaneous2}
 
   HighlightRegexp {(\S+)=} syntax::get_xml_attribute
 }
