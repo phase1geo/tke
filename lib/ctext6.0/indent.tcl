@@ -163,7 +163,7 @@ namespace eval indent {
   # DONE!
   proc get_match_indent {txtt index} {
 
-    if {[set indent [model::get_match_char [winfo parent $txtt] $index]] ne ""} {
+    if {[set indent [ctext::model::get_match_char [winfo parent $txtt] $index]] ne ""} {
       return [lindex $indent 0]
     }
 
@@ -188,7 +188,7 @@ namespace eval indent {
     }
 
     # Get the starting line number from the text model
-    set index [model::indent_line_start [winfo parent $txtt] $index].0
+    set index [ctext::model::indent_line_start [winfo parent $txtt] $index].0
 
     if {[lsearch [$txtt tag names $index] _prewhite] != -1} {
       return [string range [$txtt get {*}[$txtt tag nextrange _prewhite $index]] 0 end-1]
@@ -474,8 +474,8 @@ namespace eval indent {
 
     # Populate the menu with the available languages
     foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
-      $mnu add radiobutton -label $lbl -variable indent::current_indent \
-        -value $mode -command [list indent::set_indent_mode $mode]
+      $mnu add radiobutton -label $lbl -variable ctext::indent::current_indent \
+        -value $mode -command [list ctext::indent::set_indent_mode $mode]
     }
 
     return $mnu

@@ -2,13 +2,6 @@ package require Tk
 package require Thread
 package provide ctext 6.0
 
-source [file join [ctext::DIR] utils.tcl]
-source [file join [ctext::DIR] model.tcl]
-source [file join [ctext::DIR] parsers.tcl]
-source [file join [ctext::DIR] indent.tcl]
-
-set utils::main_tid [thread::id]
-
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
 rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
 proc ::tk::TextSetCursor {w pos args} {
@@ -18,6 +11,13 @@ proc ::tk::TextSetCursor {w pos args} {
 }
 
 namespace eval ctext {
+
+  source [file join [DIR] utils.tcl]
+  source [file join [DIR] model.tcl]
+  source [file join [DIR] parsers.tcl]
+  source [file join [DIR] indent.tcl]
+
+  set utils::main_tid [thread::id]
 
   array set data {}
 
@@ -38,11 +38,13 @@ namespace eval ctext {
 
       # Create the syntax highlighting pool
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
-        namespace eval ctext { proc DIR {} { return %s } }
-        source [file join %s utils.tcl]
-        source [file join %s parsers.tcl]
-        source [file join %s model.tcl]
-        set utils::main_tid %s
+        namespace eval ctext {
+          proc DIR {} { return %s }
+          source [file join %s utils.tcl]
+          source [file join %s parsers.tcl]
+          source [file join %s model.tcl]
+          set utils::main_tid %s
+        }
       } [DIR] [DIR] [DIR] [DIR] [thread::id]]]
 
     }
@@ -219,7 +221,7 @@ namespace eval ctext {
     tsv::set indents  $win [list]
 
     # Create the model
-    model::create $win
+    ctext::model::create $win
 
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win 1]
@@ -314,7 +316,7 @@ namespace eval ctext {
     array unset data $win,config,*
 
     # Destroy the memory associated with the model
-    model::destroy $win
+    ctext::model::destroy $win
 
   }
 
@@ -561,19 +563,19 @@ namespace eval ctext {
         return -code error "-maxundo argument must be an integer value"
       }
       set data($win,config,-maxundo) $value
-      model::set_max_undo $win $value
+      ctext::model::set_max_undo $win $value
       break
     }
 
     lappend argTable {0 false no} -autoseparators {
       set data($win,config,-autoseparators) 0
-      model::auto_separate $win 0
+      ctext::model::auto_separate $win 0
       break
     }
 
     lappend argTable {1 true yes} -autoseparators {
       set data($win,config,-autoseparators) 1
-      model::auto_separate $win 1
+      ctext::model::auto_separate $win 1
       break
     }
 
@@ -631,7 +633,7 @@ namespace eval ctext {
     lappend argTable {1 true yes} -matchaudit {
       set data($win,config,-matchaudit) 1
       $win tag configure missing -background $data($win,config,-matchaudit_bg)
-      parsers::render_mismatched $win
+      ctext::parsers::render_mismatched $win
       break
     }
 
@@ -659,8 +661,8 @@ namespace eval ctext {
         set data($win,config,-foldstate) $value
         $win gutter unset folding 1 [lindex [split [$win._t index end] .] 0]
         switch $value {
-          indent { model::fold_indent_update $win }
-          syntax { model::fold_syntax_update $win }
+          indent { ctext::model::fold_indent_update $win }
+          syntax { ctext::model::fold_syntax_update $win }
         }
         linemapUpdate $win 1
       }
@@ -829,7 +831,7 @@ namespace eval ctext {
   # in the specified ranges.
   proc getCommentMarkers {win ranges} {
 
-    return [model::get_comment_markers $win $ranges]
+    return [ctext::model::get_comment_markers $win $ranges]
 
   }
 
@@ -838,7 +840,7 @@ namespace eval ctext {
   # buffers accordingly.
   proc undo {win} {
 
-    lassign [model::undo $win] cmds cursor
+    lassign [ctext::model::undo $win] cmds cursor
 
     # Get the undo information and execute the returned commands
     foreach cmd $cmds {
@@ -865,7 +867,7 @@ namespace eval ctext {
 
     variable data
 
-    lassign [model::redo $win] cmds cursor
+    lassign [ctext::model::redo $win] cmds cursor
 
     # Get the undo information and execute the returned commands
     foreach cmd $cmds {
@@ -1150,7 +1152,7 @@ namespace eval ctext {
     }
 
     # Cause the model to handle the deletion
-    model::delete $win $ranges $strs [$win index insert] $data($win,config,-linemap_mark_command)
+    ctext::model::delete $win $ranges $strs [$win index insert] $data($win,config,-linemap_mark_command)
 
     # Update the undo information
     set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
@@ -1397,7 +1399,7 @@ namespace eval ctext {
     }
 
     # Update the model
-    model::insert $win $ranges $content $cursor
+    ctext::model::insert $win $ranges $content $cursor
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
@@ -1418,26 +1420,26 @@ namespace eval ctext {
     set index [$win._t index $index]
 
     switch $type {
-      escaped         { return [model::is_escaped $win $index] }
+      escaped         { return [ctext::model::is_escaped $win $index] }
       folded          { return [expr [lsearch -exact [$win tag names $index] _folded] != -1] }
-      curly           { return [model::is_index $win curly       $index] }
-      square          { return [model::is_index $win square      $index] }
-      paren           { return [model::is_index $win paren       $index] }
-      angled          { return [model::is_index $win angled      $index] }
-      double          { return [model::is_index $win double      $index] }
-      single          { return [model::is_index $win single      $index] }
-      btick           { return [model::is_index $win btick       $index] }
-      tdouble         { return [model::is_index $win tdouble     $index] }
-      tsingle         { return [model::is_index $win tsingle     $index] }
-      tbtick          { return [model::is_index $win tbtick      $index] }
-      indouble        { return [model::is_index $win indouble    $index] }
-      insingle        { return [model::is_index $win insingle    $index] }
-      inbtick         { return [model::is_index $win inbtick     $index] }
-      inblockcomment  { return [model::is_index $win inbcomment: $index] }
-      inlinecomment   { return [model::is_index $win inlcomment: $index] }
-      incomment       { return [model::is_index $win incomment   $index] }
-      instring        { return [model::is_index $win instring    $index] }
-      incommentstring { return [model::is_index $win incomstr    $index] }
+      curly           { return [ctext::model::is_index $win curly       $index] }
+      square          { return [ctext::model::is_index $win square      $index] }
+      paren           { return [ctext::model::is_index $win paren       $index] }
+      angled          { return [ctext::model::is_index $win angled      $index] }
+      double          { return [ctext::model::is_index $win double      $index] }
+      single          { return [ctext::model::is_index $win single      $index] }
+      btick           { return [ctext::model::is_index $win btick       $index] }
+      tdouble         { return [ctext::model::is_index $win tdouble     $index] }
+      tsingle         { return [ctext::model::is_index $win tsingle     $index] }
+      tbtick          { return [ctext::model::is_index $win tbtick      $index] }
+      indouble        { return [ctext::model::is_index $win indouble    $index] }
+      insingle        { return [ctext::model::is_index $win insingle    $index] }
+      inbtick         { return [ctext::model::is_index $win inbtick     $index] }
+      inblockcomment  { return [ctext::model::is_index $win inbcomment: $index] }
+      inlinecomment   { return [ctext::model::is_index $win inlcomment: $index] }
+      incomment       { return [ctext::model::is_index $win incomment   $index] }
+      instring        { return [ctext::model::is_index $win instring    $index] }
+      incommentstring { return [ctext::model::is_index $win incomstr    $index] }
       default         {
         return -code error "Unsupported is type ($type) specified"
       }
@@ -1458,8 +1460,8 @@ namespace eval ctext {
         }
         return [linemapSetMark $win {*}[lrange $args 1 end]]
       }
-      getname { return [model::get_marker_name $win [lindex $args 1]] }
-      getline { return [model::get_marker_line $win [lindex $args 1]] }
+      getname { return [ctext::model::get_marker_name $win [lindex $args 1]] }
+      getline { return [ctext::model::get_marker_line $win [lindex $args 1]] }
       clear   {
         if {![string is integer [lindex $args 1]] || ([lindex $args 1] < 1)} {
           return -code error "First argument to ctext marker clear is not a valid line number ([lindex $args 1])"
@@ -1592,7 +1594,7 @@ namespace eval ctext {
     }
 
     # Update the model
-    model::replace $win $ranges $dstrs $istrs $cursor $data($win,config,-linemap_mark_command)
+    ctext::model::replace $win $ranges $dstrs $istrs $cursor $data($win,config,-linemap_mark_command)
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
@@ -1706,20 +1708,20 @@ namespace eval ctext {
         redo $win
       }
       undoable {
-        return [model::undoable $win]
+        return [ctext::model::undoable $win]
       }
       redoable {
-        return [model::redoable $win]
+        return [ctext::model::redoable $win]
       }
       separator {
-        model::add_separator $win
+        ctext::model::add_separator $win
       }
       reset {
-        model::undo_reset $win
+        ctext::model::undo_reset $win
         set data($win,config,modified) false
       }
       cursorhist {
-        return [model::cursor_history $win]
+        return [ctext::model::cursor_history $win]
       }
       default {
         return [uplevel 1 [linsert $args 0 $win._t $cmd]]
@@ -1845,49 +1847,49 @@ namespace eval ctext {
     set args [lassign $args subcmd]
     switch -glob $subcmd {
       create {
-        model::guttercreate $win {*}$args
+        ctext::model::guttercreate $win {*}$args
         linemapUpdate $win 1
       }
       destroy {
-        model::gutterdestroy $win {*}$args
+        ctext::model::gutterdestroy $win {*}$args
         linemapUpdate $win 1
       }
       hide {
         if {[llength $args] == 1} {
-          return [model::gutterhide $win {*}$args]
+          return [ctext::model::gutterhide $win {*}$args]
         } else {
-          model::gutterhide $win {*}$args
+          ctext::model::gutterhide $win {*}$args
           linemapUpdate $win 1
         }
       }
       del* {
-        model::gutterdelete $win {*}$args
+        ctext::model::gutterdelete $win {*}$args
         linemapUpdate $win 1
       }
       set {
-        model::gutterset $win [lindex $args 0] [lrange $args 1 end]
+        ctext::model::gutterset $win [lindex $args 0] [lrange $args 1 end]
         linemapUpdate $win 1
       }
       unset {
-        model::gutterunset $win {*}$args
+        ctext::model::gutterunset $win {*}$args
         linemapUpdate $win 1
       }
       get {
-        return [model::gutterget $win {*}$args]
+        return [ctext::model::gutterget $win {*}$args]
       }
       cget {
-        return [model::guttercget $win {*}$args]
+        return [ctext::model::guttercget $win {*}$args]
       }
       conf* {
         if {[llength $args] < 2} {
-          return [model::gutterconfigure $win {*}$args]
+          return [ctext::model::gutterconfigure $win {*}$args]
         } else {
-          model::gutterconfigure $win {*}$args
+          ctext::model::gutterconfigure $win {*}$args
           linemapUpdate $win 1
         }
       }
       names {
-        return [model::gutternames $win]
+        return [ctext::model::gutternames $win]
       }
     }
 
@@ -1947,7 +1949,7 @@ namespace eval ctext {
     }
 
     # Render the matching character
-    parsers::render_match_char $win $pos
+    ctext::parsers::render_match_char $win $pos
 
   }
 
@@ -2153,7 +2155,7 @@ namespace eval ctext {
           lappend tags $type:$i left  [lindex $pattern 0] $once $lang
           lappend tags $type:$i right [lindex $pattern 1] $once $lang
         }
-        model::add_types $win $type:$i _$tag
+        ctext::model::add_types $win $type:$i _$tag
         incr i
       }
 
@@ -2185,7 +2187,7 @@ namespace eval ctext {
         lappend tags indent:$i left  [lindex $pattern 0] $lang
         lappend tags indent:$i right [lindex $pattern 1] $lang
         lappend fold_types indent:$i
-        model::add_types $win indent:$i
+        ctext::model::add_types $win indent:$i
         incr i
       } else {
         lappend fold_types $pattern
@@ -2193,7 +2195,7 @@ namespace eval ctext {
     }
 
     # Add the given fold types
-    model::fold_add_types $win $fold_types
+    ctext::model::fold_add_types $win $fold_types
 
     # Save the context data
     tsv::set indents $win $tags
@@ -2210,7 +2212,7 @@ namespace eval ctext {
     set i [llength $tags]
     foreach pattern $patterns {
       lappend tags reindentStart:$i none [lindex $pattern 0] $lang
-      model::add_types $win reindentStart:$i reindent:$i
+      ctext::model::add_types $win reindentStart:$i reindent:$i
       foreach subpattern [lrange $pattern 1 end] {
         lappend tags reindent:$i none $subpattern $lang
       }
@@ -2248,11 +2250,11 @@ namespace eval ctext {
     foreach type $types {
       if {[info exists btag_types($type)]} {
         lappend btags {*}[format $btag_types($type) $lang $lang]
-        model::add_types $win $type
+        ctext::model::add_types $win $type
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         addHighlightClass $win string {*}$args
-        model::add_types $win $type _string
+        ctext::model::add_types $win $type _string
       }
     }
 
@@ -2580,7 +2582,7 @@ namespace eval ctext {
     }
 
     # Clear all information stored in the model
-    model::clear $win
+    ctext::model::clear $win
 
   }
 
@@ -2632,7 +2634,7 @@ namespace eval ctext {
 
     # If we need indentation based code folding, do that now.
     if {$data($win,config,-foldstate) eq "indent"} {
-      model::fold_indent_update $win
+      ctext::model::fold_indent_update $win
       linemapUpdate $win 1
     }
 
@@ -2662,17 +2664,17 @@ namespace eval ctext {
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
-      [list parsers::markers $win $str $linestart $lineend] \
+      [list ctext::parsers::markers $win $str $linestart $lineend] \
     ]
 
     # Mark the prewhite space
     lappend jobids [tpool::post $tpool \
-      [list parsers::prewhite $win $str $startrow] \
+      [list ctext::parsers::prewhite $win $str $startrow] \
     ]
 
     # Perform keyword/startchars parsing
     lappend jobids [tpool::post $tpool \
-      [list parsers::keywords_startchars $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
+      [list ctext::parsers::keywords_startchars $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
     ]
 
     # Handle regular expression parsing
@@ -2682,12 +2684,12 @@ namespace eval ctext {
         lassign $data($win,highlight,$name) re re_opts
         if {$type eq "class"} {
           lappend jobids [tpool::post $tpool \
-            [list parsers::regexp_class $win $str $startrow $re $value] \
+            [list ctext::parsers::regexp_class $win $str $startrow $re $value] \
           ]
         } else {
           # TBD - Need to add command
           lappend jobids [tpool::post $tpool \
-            [list parsers::regexp_command $win $str $startrow $re $value $ins] \
+            [list ctext::parsers::regexp_command $win $str $startrow $re $value $ins] \
           ]
         }
       }
@@ -2719,13 +2721,13 @@ namespace eval ctext {
     set row [lindex [split [$win._t index @0,$y] .] 0]
 
     # Toggle the bookmark
-    if {[model::get_marker_name $win $row] eq ""} {
+    if {[ctext::model::get_marker_name $win $row] eq ""} {
       set lmark "lmark[incr data($win,linemap,id)]"
-      model::set_marker $win $row $lmark
+      ctext::model::set_marker $win $row $lmark
       set type marked
     } else {
       set lmark ""
-      model::set_marker $win $row $lmark
+      ctext::model::set_marker $win $row $lmark
       set type unmarked
     }
 
@@ -2735,7 +2737,7 @@ namespace eval ctext {
     # Call the mark command, if one exists.  If it returns a value of 0, remove the mark.
     set cmd $data($win,config,-linemap_mark_command)
     if {[string length $cmd] && ![uplevel #0 [linsert $cmd end $win $type $lmark]]} {
-      model::set_marker $win $row ""
+      ctext::model::set_marker $win $row ""
       linemapUpdate $win 1
     }
 
@@ -2754,7 +2756,7 @@ namespace eval ctext {
     }
 
     # Set the marker and update the linemap
-    model::set_marker $win $line $name
+    ctext::model::set_marker $win $line $name
     linemapUpdate $win 1
 
     return $name
@@ -2766,7 +2768,7 @@ namespace eval ctext {
   proc linemapClearMark {win line} {
 
     # Clear the marker and update the linemap
-    model::set_marker $win $line ""
+    ctext::model::set_marker $win $line ""
     linemapUpdate $win 1
 
   }
@@ -2833,7 +2835,7 @@ namespace eval ctext {
     $win.l delete all
 
     # Draw the linemap
-    foreach line [string map $colormap [model::render_linemap $win $first $last]] {
+    foreach line [string map $colormap [ctext::model::render_linemap $win $first $last]] {
       lassign $line lnum fill gutters
       if {[$win._t count -displaychars $lnum.0 [expr $lnum + 1].0] == 0} { continue }
       lassign [$win._t dlineinfo $lnum.0] x y w h b
@@ -3043,7 +3045,7 @@ namespace eval ctext {
       set depth 100000
     }
 
-    if {[model::fold_delete $win $line $depth range]} {
+    if {[ctext::model::fold_delete $win $line $depth range]} {
       if {$range ne ""} {
         $win._t tag remove _folded {*}$range
       }
@@ -3071,7 +3073,7 @@ namespace eval ctext {
     set endline   [lindex [split [$win._t index $endpos]   .] 0]
     set ranges    ""
 
-    if {[model::fold_delete_range $win $startline $endline ranges] ne ""} {
+    if {[ctext::model::fold_delete_range $win $startline $endline ranges] ne ""} {
       if {$ranges ne ""} {
         $win._t tag remove _folded {*}$ranges
       }
@@ -3100,7 +3102,7 @@ namespace eval ctext {
     }
 
     # Adjust the linemap and remove the elided tag from the returned index ranges
-    if {[model::fold_open $win $line $depth ranges]} {
+    if {[ctext::model::fold_open $win $line $depth ranges]} {
       if {$ranges ne ""} {
         $win._t tag remove _folded {*}$ranges
       }
@@ -3125,7 +3127,7 @@ namespace eval ctext {
     }
 
     # Adjust the linemap and remove the elided tag from the returned ranges
-    if {[model::fold_open_range $win $startline $endline $depth ranges]} {
+    if {[ctext::model::fold_open_range $win $startline $endline $depth ranges]} {
       if {$ranges ne ""} {
         $win._t tag remove _folded {*}$ranges
       }
@@ -3143,9 +3145,9 @@ namespace eval ctext {
 
     set update_needed 0
 
-    foreach sline [model::fold_show_line $win $line] {
+    foreach sline [ctext::model::fold_show_line $win $line] {
       set ranges [list]
-      if {[model::fold_open $win $sline 1 ranges]} {
+      if {[ctext::model::fold_open $win $sline 1 ranges]} {
         $win._t tag remove _folded {*}$ranges
         set update_needed 1
       }
@@ -3177,7 +3179,7 @@ namespace eval ctext {
     }
 
     # Adjust the linemap and remove the elided tag from the returned index ranges
-    if {[model::fold_close $win $line $depth ranges]} {
+    if {[ctext::model::fold_close $win $line $depth ranges]} {
       if {$ranges ne ""} {
         $win._t tag add _folded {*}$ranges
       }
@@ -3202,7 +3204,7 @@ namespace eval ctext {
     }
 
     # Adjust the linemap and remove the elided tag from the returned ranges
-    if {[model::fold_close_range $win $startline $endline $depth ranges]} {
+    if {[ctext::model::fold_close_range $win $startline $endline $depth ranges]} {
       if {$ranges ne ""} {
         $win._t tag add _folded {*}$ranges
       }
@@ -3233,7 +3235,7 @@ namespace eval ctext {
 
     set startline [lindex [split [$win._t index $start] .] 0]
 
-    return [model::fold_find $win $startline $dir $num]
+    return [ctext::model::fold_find $win $startline $dir $num]
 
   }
 

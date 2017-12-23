@@ -46,7 +46,7 @@ namespace eval parsers {
   # Renders the given tag with the specified ranges.
   proc render {txt tag ranges clear_all} {
 
-    thread::send -async $utils::main_tid [list ctext::render $txt $tag $ranges $clear_all]
+    thread::send -async $ctext::utils::main_tid [list ctext::render $txt $tag $ranges $clear_all]
 
   }
 
@@ -132,7 +132,7 @@ namespace eval parsers {
       set start 0
       array unset var
       while {[regexp -indices -start $start $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)]} {
-        if {![catch { thread::send $utils::main_tid [list {*}$cmd $txt $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
+        if {![catch { thread::send $ctext::utils::main_tid [list {*}$cmd $txt $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
           foreach sub [lindex $retval 0] {
             if {[llength $sub] == 3} {
               lappend tags(_[lindex $sub 0]) $startrow.[lindex $sub 1] $startrow.[expr [lindex $sub 2] + 1]
@@ -194,7 +194,7 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    thread::send -async $utils::main_tid [list ctext::render_prewhite $txt $ranges]
+    thread::send -async $ctext::utils::main_tid [list ctext::render_prewhite $txt $ranges]
 
   }
 
@@ -307,14 +307,14 @@ namespace eval parsers {
     contexts $txt $str $srow tags
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
-    thread::send -async $utils::main_tid [list model::render_contexts $txt $linestart $lineend $tags]
+    thread::send -async $ctext::utils::main_tid [list ctext::model::render_contexts $txt $linestart $lineend $tags]
 
     # Add indentation and bracket markers to the tags list
     indentation $txt $str $srow tags
     brackets    $txt $str $srow tags
 
     # Update the model
-    thread::send -async $utils::main_tid [list model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]
+    thread::send -async $ctext::utils::main_tid [list ctext::model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]
 
   }
 
@@ -322,7 +322,7 @@ namespace eval parsers {
   # Highlights the mismatched brackets.
   proc render_mismatched {win} {
 
-    render $win missing [model::get_mismatched $win] 1
+    render $win missing [ctext::model::get_mismatched $win] 1
 
   }
 
@@ -331,7 +331,7 @@ namespace eval parsers {
   proc render_match_char {win tindex} {
 
     # Get the matching character
-    if {[model::get_match_char $win tindex]} {
+    if {[ctext::model::get_match_char $win tindex]} {
       render $win matchchar $tindex 0
     }
 
