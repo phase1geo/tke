@@ -94,8 +94,8 @@ namespace eval model {
 
     variable data
 
-    utils::log "$msg:"
-    utils::log [$data($win,model) showserial]
+    ctext::utils::log "$msg:"
+    ctext::utils::log [$data($win,model) showserial]
 
   }
 
@@ -105,8 +105,8 @@ namespace eval model {
 
     variable data
 
-    utils::log "$msg:"
-    utils::log [$data($win,model) showtree]
+    ctext::utils::log "$msg:"
+    ctext::utils::log [$data($win,model) showtree]
 
   }
 
@@ -224,7 +224,7 @@ namespace eval model {
     variable data
 
     if {[$data($win,model) update $linestart $lineend $elements]} {
-      parsers::render_mismatched $win
+      ctext::parsers::render_mismatched $win
     }
 
   }
