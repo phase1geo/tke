@@ -2,14 +2,6 @@ package require Tk
 package require Thread
 package provide ctext 6.0
 
-# Override the tk::TextSetCursor to add a <<CursorChanged>> event
-rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
-proc ::tk::TextSetCursor {w pos args} {
-  set ins [$w index insert]
-  ::tk::TextSetCursorOrig $w $pos
-  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
-}
-
 namespace eval ctext {
 
   source [file join [DIR] utils.tcl]
@@ -338,7 +330,7 @@ namespace eval ctext {
         $win._t configure -insertwidth $value
       }
     }
-    
+
     lappend argTable any -theme {
       set data($win,config,-theme) $value
       foreach key [array names data $win,classopts,*] {
@@ -855,7 +847,7 @@ namespace eval ctext {
     highlightAll $win $ranges 0 0
 
     # Set the cursor and let other know that the text widget was modified
-    ::tk::TextSetCursor $win.t $cursor
+    $win cursor set $cursor
     modified $win 1 [list undo $ranges ""]
 
   }
@@ -882,7 +874,7 @@ namespace eval ctext {
     highlightAll $win $ranges 0 0
 
     # Set the cursor and let other know that the text widget was modified
-    ::tk::TextSetCursor $win.t $cursor
+    $win cursor set $cursor
     modified $win 1 [list redo $ranges ""]
 
   }
@@ -900,6 +892,7 @@ namespace eval ctext {
       cget        { return [command_cget        $win {*}$args] }
       conf*       { return [command_configure   $win {*}$args] }
       copy        { return [command_copy        $win {*}$args] }
+      cursor      { return [command_cursor      $win {*}$args] }
       cut         { return [command_cut         $win {*}$args] }
       delete      { return [command_delete      $win {*}$args] }
       diff        { return [command_diff        $win {*}$args] }
@@ -911,7 +904,7 @@ namespace eval ctext {
       insert      { return [command_insert      $win {*}$args] }
       is          { return [command_is          $win {*}$args] }
       marker      { return [command_marker      $win {*}$args] }
-      mcursor     { return [command_mcursor     $win {*}$args] }
+      matchchar   { return [command_matchchar   $win {*}$args] }
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
@@ -1050,6 +1043,74 @@ namespace eval ctext {
         clipboard append -displayof $win.t "\n"
       }
       clipboard append -displayof $win.t [$win._t get $startpos $endpos]
+    }
+
+  }
+
+  ######################################################################
+  # Allows the users to interact with multicursor support within the widget.
+  proc command_cursor {win args} {
+
+    variable data
+
+    switch [lindex $args 0] {
+      add {
+        foreach index [lrange $args 1 end] {
+          $win._t tag add mcursor $index
+          set data($win,mcursor_anchor) $index
+        }
+      }
+      addcolumn {
+        if {[llength $args] != 2} {
+          return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
+        }
+        if {[info exists data($win,mcursor_anchor)]} {
+          set index [lindex $args 1]
+          lassign [split $data($win,mcursor_anchor) .] anchor_row col
+          set row [lindex [split $index .] 0]
+          if {$row < $anchor_row} {
+            for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
+              $win._t tag add mcursor $i.$col
+            }
+          } else {
+            for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
+              $win._t tag add mcursor $i.$col
+            }
+          }
+          set data($win,mcursor_anchor) $index
+        }
+      }
+      disable {
+        $win._t tag delete mcursor
+        unset -nocomplain data($win,mcursor_anchor)
+      }
+      set {
+        if {[llength [lindex $args 1]] == 1} {
+          set ins [$win._t index insert]
+          $win._t mark set insert [lindex $args 1]
+          $win._t see [lindex $args 1]
+          adjust_insert $win
+          event generate $win <<CursorChanged>> -data [list $ins {*}[lrange $args 2 end]]
+        } else {
+          $win._t tag remove mcursor $win 1.0 end
+          foreach index [lindex $args 1] {
+            $win._t tag add mcursor $win $index
+          }
+        }
+      }
+      get {
+        set indices [list]
+        foreach {startpos endpos} [$win._t tag ranges mcursor] {
+          lappend indices $starpos
+        }
+        return $indices
+      }
+      remove {
+        $win._t tag remove mcursor {*}[lrange $args 1 end]
+      }
+      default {
+        return -code error "Illegal ctext mcursor command ([lindex $args 0])"
+      }
     }
 
   }
@@ -1476,58 +1537,27 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Allows the users to interact with multicursor support within the widget.
-  proc command_mcursor {win args} {
+  # Returns the index of the character that matches the character at the
+  # received index.
+  proc command_matchchar {win args} {
 
-    variable data
-
-    switch [lindex $args 0] {
-      add {
-        foreach index [lrange $args 1 end] {
-          $win._t tag add mcursor $index
-          set data($win,mcursor_anchor) $index
-        }
-      }
-      addcolumn {
-        if {[llength $args] != 2} {
-          return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
-        }
-        if {[info exists data($win,mcursor_anchor)]} {
-          set index [lindex $args 1]
-          lassign [split $data($win,mcursor_anchor) .] anchor_row col
-          set row [lindex [split $index .] 0]
-          if {$row < $anchor_row} {
-            for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
-              $win._t tag add mcursor $i.$col
-            }
-          } else {
-            for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
-              $win._t tag add mcursor $i.$col
-            }
-          }
-          set data($win,mcursor_anchor) $index
-        }
-      }
-      disable {
-        $win._t tag delete mcursor
-        unset -nocomplain data($win,mcursor_anchor)
-      }
-      get {
-        set indices [list]
-        foreach {startpos endpos} [$win._t tag ranges mcursor] {
-          lappend indices $starpos
-        }
-        return $indices
-      }
-      remove {
-        $win._t tag remove mcursor {*}[lrange $args 1 end]
-      }
-      default {
-        return -code error "Illegal ctext mcursor command ([lindex $args 0])"
-      }
+    if {[llength $args] != 1} {
+      return -code error "ctext matchchar must be called with an index"
     }
 
+    # Get the absolute value of the index
+    set index [$win index [lindex $args 0]]
+
+    # Ask the model for a matching character.  If one is found, return it;
+    # otherwise, return the empty string
+    if {[model::get_match_char $win index]} {
+      return $index
+    }
+
+    return ""
+
   }
+
 
   ######################################################################
   # Returns the given string.
@@ -1985,82 +2015,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Returns the index of the matching bracket type where 'type' is the
-  # type of bracket to find.  For example, if the current bracket is
-  # a left square bracket, call this procedure as:
-  #   getMatchBracket $txt squareR
-  proc getMatchBracket {win stype {index insert}} {
-
-    set count 1
-
-    if {[string index $stype end] eq "R"} {
-
-      set otype [string range $stype 0 end-1]L
-
-      lassign [$win tag nextrange _$stype "$index+1c"] sfirst slast
-      lassign [$win tag prevrange _$otype $index]      ofirst olast
-      set ofirst "$index+1c"
-
-      if {($olast eq "") || [$win compare $olast < $index]} {
-        lassign [$win tag nextrange _$otype $index] dummy olast
-      }
-
-      while {($olast ne "") && ($slast ne "")} {
-        if {[$win compare $slast < $olast]} {
-          if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
-            return "$slast-[expr 1 - $count]c"
-          }
-          lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
-        } else {
-          incr count [$win count -chars $ofirst $olast]
-          lassign [$win tag nextrange _$otype "$olast+1c"] ofirst olast
-        }
-      }
-
-      while {$slast ne ""} {
-        if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
-          return "$slast-[expr 1 - $count]c"
-        }
-        lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
-      }
-
-    } else {
-
-      set otype [string range $stype 0 end-1]R
-
-      lassign [$win tag prevrange _$stype $index] sfirst slast
-      lassign [$win tag prevrange _$otype $index] ofirst olast
-
-      if {($olast ne "") && [$win compare $olast >= $index]} {
-        set olast $index
-      }
-
-      while {($ofirst ne "") && ($sfirst ne "")} {
-        if {[$win compare $sfirst > $ofirst]} {
-          if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
-            return "$sfirst+[expr 0 - $count]c"
-          }
-          lassign [$win tag prevrange _$stype $sfirst] sfirst slast
-        } else {
-          incr count [$win count -chars $ofirst $olast]
-          lassign [$win tag prevrange _$otype $ofirst] ofirst olast
-        }
-      }
-
-      while {$sfirst ne ""} {
-        if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
-          return "$sfirst+[expr 0 - $count]c"
-        }
-        lassign [$win tag prevrange _$stype $sfirst] sfirst slast
-      }
-
-    }
-
-    return ""
-
-  }
-
-  ######################################################################
   # Places the cursor on the next or previous mismatching bracket and
   # makes it visible in the editing window.  If the -check option is
   # set, returns 0 to indicate that the given option is invalid; otherwise,
@@ -2101,8 +2055,7 @@ namespace eval ctext {
     # Make sure that the current bracket is in view
     if {[lsearch [$win._t tag names $index] missing:*] != -1} {
       if {!$opts(-check)} {
-        ::tk::TextSetCursor $win.t $index
-        $win._t see $index
+        $win cursor set $index
       }
       return 1
     }
@@ -2949,9 +2902,6 @@ namespace eval ctext {
       $win._t mark set insert "$index lineend"
     }
 
-    # Adjust the insertion
-    # vim::adjust_insert $win.t
-
   }
 
   ######################################################################
@@ -3466,6 +3416,43 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns the index of the matching character; otherwise, if one
+  # is not found, returns -1.
+  proc find_match_char {win char dir startpos} {
+
+    set last_found ""
+
+    if {[$win is escaped $startpos]} {
+      return -1
+    }
+
+    if {$dir eq "-forwards"} {
+      set startpos [$win._t index "$startpos+1c"]
+      set endpos   "end"
+    } else {
+      set endpos   "1.0"
+    }
+
+    while {1} {
+
+      if {[set found [$win._t search $dir $char $startpos $endpos]] eq ""} {
+        return -1
+      }
+
+      set last_found $found
+      set startpos   [expr {($dir eq "-backwards") ? $found : [$win._t index "$found+1c"]}]
+
+      if {[$win is escaped $last_found]} {
+        continue
+      }
+
+      return $last_found
+
+    }
+
+  }
+
+  ######################################################################
   # TBD
   proc getindex_betweenchar {win optlist} {
 
@@ -3504,9 +3491,9 @@ namespace eval ctext {
       }
     } else {
       if {$dir eq "prev"} {
-        set index [gui::find_match_char $win._t $char -backwards]
+        set index [find_match_char $win $char -backwards $opts(-startpos)]
       } else {
-        set index [gui::find_match_char $win._t $char -forwards]
+        set index [find_match_char $win $char -forwards  $opts(-startpos)]
       }
     }
 
@@ -4203,44 +4190,44 @@ namespace eval ctext {
     }
 
   }
-  
+
   ######################################################################
   #                          CURSOR HANDLING                           #
   ######################################################################
-  
+
   ######################################################################
   # Set the current mode to multicursor move mode.
   proc multicursor_move {win value} {
-    
+
     variable data
 
     if {$value} {
-      
+
       # Effectively make the insertion cursor disappear
       $win._t configure -blockcursor 0 -insertwidth 0
 
       # Make the multicursors look like the normal cursor
       $win._t tag configure mcursor -background [$win._t cget -insertbackground]
-      
+
     } else {
-      
+
       # Make the insertion cursor come back
       $win._t configure -blockcursor 0 -insertwidth $data($win,config,-insertwidth)
-      
+
       # Remove the background color
       $win._t tag configure mcursor -background ""
-      
+
     }
 
   }
-  
+
   ######################################################################
   # Returns true if the given text editor is currently in "block cursor"
   # mode.
   proc is_block_cursor {win} {
-    
+
     return [expr {[$win._t cget -blockcursor] || ([$win._t tag ranges mcursor] ne "")}]
-    
+
   }
 
   ######################################################################
@@ -4270,7 +4257,7 @@ namespace eval ctext {
     }
 
   }
-  
+
   ######################################################################
   # Removes dspace characters.
   proc remove_dspace {win} {
@@ -4312,7 +4299,7 @@ namespace eval ctext {
     return $str
 
   }
-  
+
 }
 
 ######################################################################

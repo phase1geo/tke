@@ -111,7 +111,7 @@ namespace eval multicursor {
 
       # Otherwise, position the insertion cursor on the first multicursor position
       } else {
-        ::tk::TextSetCursor $W $first
+        $W cursor set $first
       }
 
     }

@@ -292,7 +292,6 @@ namespace eval vim {
             clipboard append [$txt get $from $to]
             if {$cmd eq "d"} {
               $txt delete $from $to
-              adjust_insert $txt.t
             }
             cliphist::add_from_clipboard
 
@@ -995,9 +994,7 @@ namespace eval vim {
 
     set current [$W index @$x,$y]
     $W mark set [utils::text_anchor $W] $current
-    ::tk::TextSetCursor $W $current
-
-    adjust_insert $W
+    $W cursor set $current
 
     focus $W
 
@@ -1010,9 +1007,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    ::tk::TextSetCursor $W [$W index "$current wordstart"]
-
-    adjust_insert $W
+    $W cursor set [$W index "$current wordstart"]
 
     $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
 
@@ -1027,9 +1022,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    ::tk::TextSetCursor $W $current
-
-    adjust_insert $W
+    $W cursor set $current
 
     # Add the selection
     set anchor [utils::text_anchor $W]
@@ -1159,7 +1152,7 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         multicursor::move $txtt left
       } else {
-        ::tk::TextSetCursor $txtt "insert-1c"
+        [winfo parent $txtt] cursor set "insert-1c"
       }
     }
 
@@ -1174,9 +1167,6 @@ namespace eval vim {
 
     # Reset the states
     reset_state $txtt 0
-
-    # Adjust the insertion marker
-    adjust_insert $txtt
 
   }
 
@@ -1235,7 +1225,7 @@ namespace eval vim {
       if {$last_selection($txtt) ne ""} {
         lassign $last_selection($txtt) vmode sel
         set mode($txtt) $vmode
-        ::tk::TextSetCursor $txtt "[lindex $sel 1]-1c"
+        [winfo parent $txtt] cursor set "[lindex $sel 1]-1c"
         $txtt tag remove sel 1.0
         $txtt tag add sel {*}$sel
       }
@@ -1423,41 +1413,6 @@ namespace eval vim {
     set recording(events)      [list]
     set recording($reg,num)    ""
     set recording($reg,events) [list]
-
-  }
-
-  ######################################################################
-  # Adjust the insertion marker so that it never is allowed to sit on
-  # the lineend spot.
-  proc adjust_insert {txtt} {
-
-    variable mode
-
-    # If we are not running in Vim mode, don't continue
-    if {![in_vim_mode $txtt]} {
-      return
-    }
-
-    # Remove any existing dspace characters
-    remove_dspace [winfo parent $txtt]
-
-    # If the current line contains nothing, add a dummy space so that the
-    # block cursor doesn't look dumb.
-    if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
-      [winfo parent $txtt]._t insert insert " " dspace
-      $txtt mark set insert "insert-1c"
-      gui::update_position [winfo parent $txtt]
-
-    # Make sure that lineend is never the insertion point
-    } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-      $txtt mark set insert "insert-1 display chars"
-      gui::update_position [winfo parent $txtt]
-    }
-
-    # Adjust the selection (if we are in visual mode)
-    if {[in_visual_mode $txtt]} {
-      adjust_select $txtt 0 insert
-    }
 
   }
 
@@ -1734,14 +1689,12 @@ namespace eval vim {
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
           if {$spos ne ""} {
-            ::tk::TextSetCursor $txtt $spos
+            $txtt cursor set $spos
             visual_mode $txtt char
-            ::tk::TextSetCursor $txtt $epos
-            vim::adjust_insert $txtt
+            $txtt cursor set $epos
           }
         } else {
-          ::tk::TextSetCursor $txtt [$txtt index [list {*}$eposargs]]
-          vim::adjust_insert $txtt
+          $txtt cursor set [$txtt index [list {*}$eposargs]]
         }
         reset_state $txtt 0
         return 1
@@ -1766,9 +1719,8 @@ namespace eval vim {
         clipboard clear
         clipboard append [$txtt get $startpos $endpos]
         if {$opts(-cursor) ne ""} {
-          ::tk::TextSetCursor $txtt [$txtt index [list {*}$opts(-cursor)]]
+          $txtt cursor set [list {*}$opts(-cursor)]
         }
-        vim::adjust_insert $txtt
         command_mode $txtt
         return 1
       }
@@ -1796,7 +1748,7 @@ namespace eval vim {
         if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           indent::format_text $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+          [winfo parent $txtt] cursor set [list firstchar -num 0 -startpos $startpos]
         }
         command_mode $txtt
         return 1
@@ -1805,7 +1757,7 @@ namespace eval vim {
         if {![multicursor::shift $txtt left $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           edit::unindent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+          [winfo parent $txtt] cursor set [list firstchar -num 0 -startpos $startpos]
         }
         command_mode $txtt
         return 1
@@ -1814,7 +1766,7 @@ namespace eval vim {
         if {![multicursor::shift $txtt right $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           edit::indent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+          [winfo parent $txtt] cursor set [list firstchar -num 0 -startpos $startpos]
         }
         command_mode $txtt
         return 1
@@ -2065,7 +2017,10 @@ namespace eval vim {
     variable multiplier
 
     if {$multiplier($txtt) eq ""} {
-      gui::show_match_pair
+      set txt [winfo parent $txtt]
+      if {[set index [$txt matchchar insert]] ne ""} {
+        $txt cursor set $index
+      }
     } else {
       set lines [lindex [split [$txtt index end] .] 0]
       set line  [expr int( ($multiplier($txtt) * $lines + 99) / 100 )]
@@ -2119,7 +2074,7 @@ namespace eval vim {
     variable operator
 
     if {$operator($txtt) eq ""} {
-      ::tk::TextSetCursor $txtt "insert linestart"
+      [winfo parent $txtt] cursor set [list "insert linestart"]
       edit_mode $txtt
       record_start $txtt "I"
       return 1
@@ -2185,12 +2140,11 @@ namespace eval vim {
     # Move the insertion cursor up one line
     switch $operator($txtt) {
       "folding" {
-        [winfo parent $txtt] fold jumpto prev [get_number $txtt]
+        $txtt fold jumpto prev [get_number $txtt]
       }
       "folding:range" {
-        [winfo parent $txtt] fold close [$txtt index [list up -num [get_number $txtt] -column vim::column($txtt)]] insert 0
-        ::tk::TextSetCursor $txtt "insert-1 display lines"
-        adjust_insert $txtt
+        $txtt fold close [$txtt index [list up -num [get_number $txtt] -column vim::column($txtt)]] insert 0
+        $txtt cursor set [list "insert-1 display lines"]
       }
       default {
         return [do_operation $txtt [list up -num [get_number $txtt] -column vim::column($txtt)]]
@@ -2671,7 +2625,7 @@ namespace eval vim {
             multicursor::move $txtt right
           }
           cleanup_dspace $txtt
-          ::tk::TextSetCursor $txtt "insert+1c"
+          [winfo parent $txtt] cursor set "insert+1c"
           edit_mode $txtt
           record_start $txtt "a"
           return 1
@@ -2703,7 +2657,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          ::tk::TextSetCursor $txtt "insert lineend"
+          [winfo parent $txtt] cursor set [list "insert lineend"]
           edit_mode $txtt
           record_start $txtt "A"
           return 1
@@ -2732,7 +2686,7 @@ namespace eval vim {
           foreach {start end} $ranges {
             clipboard append [$txtt get $start $end]
           }
-          ::tk::TextSetCursor $txtt $start
+          [winfo parent $txtt] cursor set $start
           command_mode $txtt
         } else {
           set_operator $txtt "yank" {y}
@@ -2793,15 +2747,14 @@ namespace eval vim {
       }
       $txtt insert "insert lineend" [string repeat "\n$clip" $num]
       multicursor::paste $txtt paste "insert+1l linestart"
-      ::tk::TextSetCursor $txtt "insert+1l linestart"
+      $txtt cursor set [list "insert+1l linestart"]
       edit::move_cursor $txtt firstchar -num 0
     } else {
       set clip [string repeat $clip $num]
       $txtt insert "insert+1c" $clip
       multicursor::paste $txtt "insert+1c"
-      ::tk::TextSetCursor $txtt "insert+[string length $clip]c"
+      $txtt cursor set "insert+[string length $clip]c"
     }
-    adjust_insert $txtt
 
     # Create a separator
     $txtt edit separator
@@ -2847,14 +2800,13 @@ namespace eval vim {
       set startpos [$txtt index "insert linestart"]
       $txtt insert "insert linestart" [string repeat "$clip\n" $num]
       multicursor::paste $txtt $startpos
-      ::tk::TextSetCursor $txtt $startpos
+      $txtt cursor set $startpos
       edit::move_cursor $txtt firstchar -num 0
     } else {
       $txtt insert insert [string repeat $clip $num]
       multicursor::paste $txtt insert
-      ::tk::TextSetCursor $txtt "insert-1c"
+      $txtt cursor set "insert-1c"
     }
-    adjust_insert $txtt
 
     # Create separator
     $txtt edit separator
@@ -2881,9 +2833,6 @@ namespace eval vim {
     # Perform the undo operation
     catch { $txtt edit undo }
 
-    # Adjusts the insertion cursor
-    adjust_insert $txtt
-
   }
 
   ######################################################################
@@ -2892,9 +2841,6 @@ namespace eval vim {
 
     # Performs the redo operation
     catch { $txtt edit redo }
-
-    # Adjusts the insertion cursor
-    adjust_insert $txtt
 
   }
 
@@ -3617,7 +3563,7 @@ namespace eval vim {
           foreach {endpos startpos} [lreverse $selected] {
             indent::format_text $txtt $startpos $endpos
           }
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos]]
+          [winfo parent $txtt] cursor set [$txtt index [list firstchar -startpos $startpos]]
           command_mode $txtt
         } else {
           set_operator $txtt "format" {equal}

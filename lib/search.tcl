@@ -167,7 +167,7 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      ::tk::TextSetCursor $txt.t $startpos
+      $txt cursor set $startpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
@@ -194,7 +194,7 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      ::tk::TextSetCursor $txt.t $startpos
+      $txt cursor set $startpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
@@ -335,10 +335,7 @@ namespace eval search {
       $txt highlight -dotags $do_tags -insert 1 -modified {*}[lreverse $ranges]
 
       # Set the insertion cursor to the last match and make that line visible
-      ::tk::TextSetCursor $txt [lindex $indices 0]
-
-      # Make sure that the insertion cursor is valid
-      vim::adjust_insert $txt
+      $txt cursor set [lindex $indices 0]
 
       # Specify the number of substitutions that we did
       gui::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
@@ -463,7 +460,7 @@ namespace eval search {
 
     # Make sure that the beginning of the inserted text is in view
     $txt see end
-    ::tk::TextSetCursor $txt $last_line
+    $txt cursor set $last_line
 
     # Change the state back to disabled
     $txt configure -state disabled
@@ -549,8 +546,7 @@ namespace eval search {
     gui::add_file end [string trim $fname]
 
     # Jump to the line and set the cursor to the beginning of the line
-    set txt [gui::current_txt]
-    ::tk::TextSetCursor $txt $linenum.0
+    [gui::current_txt] cursor set $linenum.0
 
   }
 

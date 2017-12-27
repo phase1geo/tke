@@ -1288,12 +1288,12 @@ namespace eval emmet_css {
       if {$dir eq "next"} {
 
         if {$select} {
-          ::tk::TextSetCursor $txt $value_end
+          $txt cursor set $value_end
           $txt tag add sel $value_start $value_end
           return 1
         } elseif {$selected eq [list $value_start $value_end]} {
           if {[lindex $fnargs 0] != -1} {
-            ::tk::TextSetCursor $txt $fnargs_end
+            $txt cursor set $fnargs_end
             $txt tag add sel $fnargs_start $fnargs_end
             return 1
           }
@@ -1316,7 +1316,7 @@ namespace eval emmet_css {
         if {([lindex $fnargs 0] != -1) && ($selected ne "")} {
           if {[$txt compare $fnargs_start == [lindex $selected 0]] && \
               [$txt compare $fnargs_end   == [lindex $selected 1]]} {
-            ::tk::TextSetCursor $txt $value_end
+            $txt cursor set $value_end
             $txt tag add sel $value_start $value_end
             return 1
           } elseif {$select || \
@@ -1325,13 +1325,13 @@ namespace eval emmet_css {
             if {[select_property_value $txt $dir [expr $depth + 1] $selected $fnargs_start $fnargs_end]} {
               return 1
             } else {
-              ::tk::TextSetCursor $txt $fnargs_end
+              $txt cursor set $fnargs_end
               $txt tag add sel $fnargs_start $fnargs_end
               return 1
             }
           }
         } elseif {$select} {
-          ::tk::TextSetCursor $txt $value_end
+          $txt cursor set $value_end
           $txt tag add sel $value_start $value_end
           return 1
         } elseif {$selected eq [list $value_start $value_end]} {
@@ -1345,7 +1345,7 @@ namespace eval emmet_css {
     if {$select} {
       return 0
     } else {
-      ::tk::TextSetCursor $txt $endpos
+      $txt cursor set $endpos
       $txt tag add sel $startpos $endpos
       return 1
     }
@@ -1375,7 +1375,7 @@ namespace eval emmet_css {
         lassign [get_selector $txt $ruleset] selector_start selector_end
 
         if {[$txt compare insert <= $selector_start]} {
-          ::tk::TextSetCursor $txt.t $selector_end
+          $txt cursor set $selector_end
           $txt tag add sel $selector_start $selector_end
           return
 
@@ -1385,11 +1385,11 @@ namespace eval emmet_css {
               continue
             }
             if {[$txt compare insert < [lindex $prop 2]]} {
-              ::tk::TextSetCursor $txt [lindex $prop 3]
+              $txt cursor set [lindex $prop 3]
               $txt tag add sel [lindex $prop 0] [lindex $prop 3]
               return
             } elseif {($selected eq [list [lindex $prop 0] [lindex $prop 3]]) || ($selected eq "")} {
-              ::tk::TextSetCursor $txt [lindex $prop 3]
+              $txt cursor set [lindex $prop 3]
               $txt tag add sel [lindex $prop 2] [lindex $prop 3]
               return
             } elseif {[select_property_value $txt next 0 $selected {*}[lrange $prop 2 3]]} {
@@ -1413,13 +1413,13 @@ namespace eval emmet_css {
           }
           if {($selected eq [list [lindex $prop 2] [$txt index [lindex $prop 3]]]) || \
               (($selected eq "") && [$txt compare insert > [lindex $prop 0]])} {
-            ::tk::TextSetCursor $txt [lindex $prop 3]
+            $txt cursor set [lindex $prop 3]
             $txt tag add sel [lindex $prop 0] [lindex $prop 3]
             return
           } elseif {[select_property_value $txt prev 0 $selected {*}[lrange $prop 2 3]]} {
             return
           } elseif {[$txt compare insert > [lindex $prop 2]]} {
-            ::tk::TextSetCursor $txt [lindex $prop 3]
+            $txt cursor set [lindex $prop 3]
             $txt tag add sel [lindex $prop 2] [lindex $prop 3]
             return
           }
@@ -1429,7 +1429,7 @@ namespace eval emmet_css {
 
         if {(($selected ne [list $selector_start $selector_end]) && [$txt compare insert > [lindex $ruleset 0]]) || \
             ($selected eq [list [lindex $prop 0] [lindex $prop 3]])} {
-          ::tk::TextSetCursor $txt $selector_end
+          $txt cursor set $selector_end
           $txt tag add sel $selector_start $selector_end
           return
         }

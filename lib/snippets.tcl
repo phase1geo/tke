@@ -196,7 +196,7 @@ namespace eval snippets {
             return 1
           }
         } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
-          ::tk::TextSetCursor $txtt $index
+          $txtt cursor set $index
           return 1
         }
       }
@@ -301,9 +301,6 @@ namespace eval snippets {
       }
 
     }
-
-    # Adjust the cursor, if necessary
-    vim::adjust_insert $txtt
 
     # Create a separator
     $txtt edit separator
@@ -457,17 +454,17 @@ namespace eval snippets {
       # Find the current tab point tag
       if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {
         $txtt tag delete snippet_sel_$tabpoints($txtt)
-        ::tk::TextSetCursor $txtt [lindex $range 1]
+        $txtt cursor set [lindex $range 1]
         $txtt tag add sel {*}$range
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
         $txtt delete {*}$range
-        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt cursor set [lindex $range 0]
         $txtt tag delete snippet_mark_$tabpoints($txtt)
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
         $txtt delete {*}$range
-        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt cursor set [lindex $range 0]
         $txtt tag delete snippet_mark_0
         set tabstart($txtt) [lindex $range 0]
       }

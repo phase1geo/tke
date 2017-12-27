@@ -123,7 +123,7 @@ namespace eval select {
       set index [expr {$anchorend ? 0 : "end"}]
 
       # Clear the current selection and set the cursor
-      ::tk::TextSetCursor $txtt [lindex $ranges $index]
+      $txtt cursor set [lindex $ranges $index]
 
       # Add the selection
       $txtt tag add sel {*}$ranges
@@ -692,7 +692,7 @@ namespace eval select {
     set data($txtt,dont_close) 1
     set index                  [expr {($data($txtt,anchorend) == 0) ? 0 : "end"}]
     set data($txtt,anchor)     [lindex $range $index]
-    ::tk::TextSetCursor $txtt $cursor
+    $txtt cursor set $cursor
     foreach {startpos endpos} $range {
       $txtt tag add sel $startpos $endpos
     }
@@ -1036,14 +1036,15 @@ namespace eval select {
   proc get_bracket_type {txtt startpos} {
 
     set type ""
+    set txt  [winfo parent $txtt]
 
     # If we are within a comment, return
-    if {[ctext::inComment $txtt $startpos]} {
+    if {[$txt is incomment $startpos]} {
       return comment
-    } elseif {[ctext::inString $txtt $startpos]} {
-      if {[ctext::inSingleQuote $txtt $startpos]} {
+    } elseif {[$txt is instring $startpos]} {
+      if {[$txt is insingle $startpos]} {
         set type single
-      } elseif {[ctext::inDoubleQuote $txtt $startpos]} {
+      } elseif {[$txt is indouble $startpos]} {
         set type double
       } else {
         set type btick

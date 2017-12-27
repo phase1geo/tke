@@ -273,8 +273,7 @@ namespace eval vim {
     set txtt [initialize].t
 
     $txtt insert end "\n\n"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     # Put the buffer into insertion mode
     enter $txtt i
@@ -298,8 +297,7 @@ namespace eval vim {
     }
 
     # Move the cursor to line to and repeat with the . key
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Repeat the last insert
     enter $txtt period
