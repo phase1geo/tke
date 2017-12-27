@@ -282,7 +282,7 @@ namespace eval indent {
 
     # If we need to restore the insertion cursor, do it now
     if {$restore_insert ne ""} {
-      ::tk::TextSetCursor $txtt $restore_insert
+      [winfo parent $txtt] cursor set $restore_insert
     }
 
     # If autoseparators are called for, add it now

@@ -1682,11 +1682,6 @@ namespace eval gui {
       # Get the current text widget
       get_info $tab tab txt tabbar
 
-      # Perform an insertion adjust, if necessary
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
-      }
-
       # Change the tab text
       $tabbar tab $tab -text " [file tail $name]"
 
@@ -1878,24 +1873,16 @@ namespace eval gui {
       # Add any previous markers saved for this text widget
       markers::tagify $tab
 
-      # Check brackets
-      # ctext::checkAllBrackets $txt
-
       # Change the text to unmodified
       $txt edit reset
       files::set_info $tab tab modified 0
 
       # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt.t $cursor
+      $txt cursor set $cursor
 
       # Set the yview
       $txt xview moveto $xview
       $txt yview moveto $yview
-
-      # Perform an insertion adjust, if necessary
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
-      }
 
       # Add the file to the list of recently opened files
       add_to_recently_opened $fname
@@ -1993,10 +1980,7 @@ namespace eval gui {
       files::set_info $file_index fileindex modified 0
 
       # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt.t $insert_index
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
-      }
+      $txt cursor set $insert_index
 
       # If a diff command was specified, run and parse it now
       if {$diff} {
@@ -5338,15 +5322,11 @@ namespace eval gui {
 
     # Make sure that the cursor is visible
     if {[set line [$txt fold find $pos $dir]] ne ""} {
-      tk::TextSetCursor $txt.t $line.0
-      vim::adjust_insert $txt.t
+      $txt cursor set $line.0
     }
 
     # Make the line viewable
-    ::tk::TextSetCursor $txt.t $pos
-
-    # Adjust the insert
-    vim::adjust_insert $txt.t
+    $txt cursor set $pos
 
   }
 
@@ -5363,15 +5343,11 @@ namespace eval gui {
 
     # Make sure that the cursor is visible
     if {[set line [$txt fold find $pos $dir]] ne ""} {
-      tk::TextSetCursor $txt.t $line.0
-      vim::adjust_insert $txt.t
+      $txt cursor set $line.0
     }
 
     # Make the line viewable
-    ::tk::TextSetCursor $txt.t $pos
-
-    # Adjust the insert
-    vim::adjust_insert $txt.t
+    $txt cursor set $pos
 
   }
 
@@ -5407,100 +5383,7 @@ namespace eval gui {
 
     # Change the insertion cursor to the matching character
     if {$index != -1} {
-      ::tk::TextSetCursor $txt.t $index
-    }
-
-  }
-
-  ######################################################################
-  # Finds the matching bracket type and returns it's index if found;
-  # otherwise, returns -1.
-  proc find_match_pair {txt str1 str2 dir {startpos insert}} {
-
-    if {[$txt is escaped $startpos] || [ctext::inCommentString $txt $startpos]} {
-      return -1
-    }
-
-    set search_re "[set str1]|[set str2]"
-    set count     1
-    set pos       [$txt index [expr {($dir eq "-forwards") ? "$startpos+1c" : $startpos}]]
-
-    # Calculate the endpos
-    if {[set incomstr [ctext::inCommentStringRange $txt $pos srange]]} {
-      if {$dir eq "-forwards"} {
-        set endpos [lindex $srange 1]
-      } else {
-        set endpos [lindex $srange 0]
-      }
-    } else {
-      if {$dir eq "-forwards"} {
-        set endpos "end"
-      } else {
-        set endpos "1.0"
-      }
-    }
-
-    while {1} {
-
-      if {[set found [$txt search $dir -regexp -- $search_re $pos $endpos]] eq ""} {
-        return -1
-      }
-
-      set char [$txt get $found]
-      if {$dir eq "-forwards"} {
-        set pos "$found+1c"
-      } else {
-        set pos $found
-      }
-
-      if {[$txt is escaped $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
-        continue
-      } elseif {[string equal $char [subst $str2]]} {
-        incr count
-      } elseif {[string equal $char [subst $str1]]} {
-        incr count -1
-        if {$count == 0} {
-          return $found
-        }
-      }
-
-    }
-
-  }
-
-  ######################################################################
-  # Returns the index of the matching character; otherwise, if one
-  # is not found, returns -1.
-  proc find_match_char {txt char dir {startpos insert}} {
-
-    set last_found ""
-
-    if {[$txt is escaped $startpos]} {
-      return -1
-    }
-
-    if {$dir eq "-forwards"} {
-      set startpos [$txt index "$startpos+1c"]
-      set endpos   "end"
-    } else {
-      set endpos   "1.0"
-    }
-
-    while {1} {
-
-      if {[set found [$txt search $dir $char $startpos $endpos]] eq ""} {
-        return -1
-      }
-
-      set last_found $found
-      set startpos   [expr {($dir eq "-backwards") ? $found : [$txt index "$found+1c"]}]
-
-      if {[$txt is escaped $last_found]} {
-        continue
-      }
-
-      return $last_found
-
+      $txt cursor set $index
     }
 
   }
@@ -5734,10 +5617,7 @@ namespace eval gui {
       if {[expr abs( $index_line - $last_line ) >= $diff]} {
         if {$jump} {
           set cursor_hist($txt,index) $index
-          ::tk::TextSetCursor $txt.t "$cursor linestart"
-          if {[vim::in_vim_mode $txt.t]} {
-            vim::adjust_insert $txt.t
-          }
+          $txt cursor set [list "$cursor linestart"]
         }
         return 1
       }

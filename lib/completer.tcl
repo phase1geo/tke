@@ -166,7 +166,7 @@ namespace eval completer {
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } else {
@@ -174,7 +174,7 @@ namespace eval completer {
         if {[add_closing $txtt]} {
           $txtt insert -highlight 0 insert "\]"
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 
@@ -193,7 +193,7 @@ namespace eval completer {
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt curly]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } else {
@@ -201,7 +201,7 @@ namespace eval completer {
         if {[add_closing $txtt]} {
           $txtt insert -highlight 0 insert "\}"
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 
@@ -220,7 +220,7 @@ namespace eval completer {
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt angled]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } else {
@@ -228,7 +228,7 @@ namespace eval completer {
         if {[add_closing $txtt]} {
           $txtt insert -highlight 0 insert ">"
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 
@@ -243,11 +243,11 @@ namespace eval completer {
     variable complete
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],paren) && \
-        ![ctext::inComment $txtt "insert-1c"] && \
+        ![$txtt is incomment "insert-1c"] && \
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt paren]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } else {
@@ -255,7 +255,7 @@ namespace eval completer {
         if {[add_closing $txtt]} {
           $txtt insert -highlight 0 insert ")"
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 
@@ -272,7 +272,7 @@ namespace eval completer {
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],double)} {
       if {[$txtt is indouble insert]} {
         if {([$txtt get insert] eq "\"") && ![$txtt is escaped insert]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } elseif {[$txtt is indouble end-1c]} {
@@ -282,7 +282,7 @@ namespace eval completer {
         if {![$txtt is incomment "insert-1c"] && [$txtt is instring "insert-1c"]} {
           $txtt insert -highlight 0 insert "\""
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 
@@ -299,7 +299,7 @@ namespace eval completer {
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],single)} {
       if {[$txtt is insingle insert]} {
         if {([$txtt get insert] eq "'") && ![$txtt is escaped insert]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } elseif {[$txtt is single end-1c]} {
@@ -309,7 +309,7 @@ namespace eval completer {
         if {![$txtt is incomment "insert-1c"] && ![$txtt is instring "insert-1c"]} {
           $txtt insert -highlight 0 insert "'"
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 
@@ -326,7 +326,7 @@ namespace eval completer {
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],btick)} {
       if {[$txtt is inbtick insert]} {
         if {([$txtt get insert] eq "`") && ![$txtt is escaped insert]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor set "insert+1c"
           return 1
         }
       } elseif {[$txtt is inbtick end-1c]} {
@@ -336,7 +336,7 @@ namespace eval completer {
         if {![$txtt is incomment "insert-1c"] && ![$txtt is instring "insert-1c"]} {
           $txtt insert -highlight 0 insert "`"
         }
-        ::tk::TextSetCursor $txtt $ins
+        $txtt cursor set $ins
       }
     }
 

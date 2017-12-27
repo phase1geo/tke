@@ -88,8 +88,7 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {slash} {"line" 1 0} {2.10 2.14 3.10 3.14 4.10 4.14} {2.10}
 
@@ -113,8 +112,7 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {question} {"this" 0 0} {2.0 2.4 3.0 3.4 4.0 4.4} {4.0}
 
@@ -138,8 +136,7 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     set matches [list 2.0 2.4 3.0 3.4 4.0 4.4]
 

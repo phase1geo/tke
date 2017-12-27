@@ -50,9 +50,9 @@ namespace eval edit {
       multicursor::move $txtt up
     } elseif {[$txtt compare "insert linestart" == 1.0]} {
       $txtt insert "insert linestart" "\n"
-      ::tk::TextSetCursor $txtt "insert-1l"
+      $txtt cursor set "insert-1l"
     } else {
-      ::tk::TextSetCursor $txtt "insert-1l lineend"
+      $txtt cursor set [list "insert-1l lineend"]
       $txtt insert "insert lineend" "\n"
     }
 
@@ -74,7 +74,7 @@ namespace eval edit {
     if {[multicursor::enabled $txtt]} {
       multicursor::move $txtt down
     } else {
-      ::tk::TextSetCursor $txtt "insert lineend"
+      $txtt cursor set [list "insert lineend"]
       $txtt insert "insert lineend" "\n"
     }
 
@@ -101,9 +101,6 @@ namespace eval edit {
 
     # Insert the file contents beneath the current insertion line
     $txt insert "insert lineend" "\n$contents"
-
-    # Adjust the insertion point, if necessary
-    vim::adjust_insert $txt
 
   }
 
@@ -188,11 +185,6 @@ namespace eval edit {
     # Position the cursor at the beginning of the first word
     move_cursor $txtt firstchar
 
-    # Adjust the insertion cursor
-    if {$copy} {
-      vim::adjust_insert $txtt
-    }
-
   }
 
   ######################################################################
@@ -226,11 +218,8 @@ namespace eval edit {
     $txtt delete $startpos $endpos
 
     # Adjust the insertion cursor if this was a delete and not a change
-    if {$adjust} {
-      if {$insertpos ne ""} {
-        $txtt mark set insert $insertpos
-      }
-      vim::adjust_insert $txtt
+    if {$adjust && ($insertpos ne "")} {
+      $txtt cursor set $insertpos
     }
 
   }
@@ -249,9 +238,6 @@ namespace eval edit {
         clipboard append [$txtt get insert $endpos]
       }
       $txtt delete insert $endpos
-      if {$copy} {
-        vim::adjust_insert $txtt
-      }
     }
 
   }
@@ -293,9 +279,6 @@ namespace eval edit {
           clipboard append [$txtt get insert $firstchar]
         }
         $txtt delete insert $firstchar
-        if {$copy} {
-          vim::adjust_insert $txtt
-        }
       }
     }
 
@@ -315,9 +298,6 @@ namespace eval edit {
         clipboard append [$txtt get insert "insert+[string length $match]c"]
       }
       $txtt delete insert "insert+[string length $match]c"
-      if {$copy} {
-        vim::adjust_insert $txtt
-      }
     }
 
   }
@@ -382,9 +362,6 @@ namespace eval edit {
         clipboard append [$txtt get insert $index]
       }
       $txtt delete insert $index
-      if {$copy && $inclusive} {
-        vim::adjust_insert $txtt
-      }
     }
 
   }
@@ -532,7 +509,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $ranges] {
         convert_case_toggle $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt $startpos
+      $txtt cursor set $startpos
       return 1
     }
 
@@ -546,7 +523,7 @@ namespace eval edit {
 
     if {![transform_toggle_case_selected $txtt]} {
       convert_case_toggle $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+      $txtt cursor set $cursorpos
     }
 
   }
@@ -560,7 +537,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $ranges] {
         convert_to_lower_case $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt $startpos
+      $txtt cursor set $startpos
       return 1
     }
 
@@ -574,7 +551,7 @@ namespace eval edit {
 
     if {![transform_to_lower_case_selected $txtt]} {
       convert_to_lower_case $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+      $txtt cursor set $cursorpos
     }
 
   }
@@ -588,7 +565,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $ranges] {
         convert_to_upper_case $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt $startpos
+      $txtt cursor set $startpos
       return 1
     }
 
@@ -602,7 +579,7 @@ namespace eval edit {
 
     if {![transform_to_upper_case_selected $txtt]} {
       convert_to_upper_case $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+      $txtt cursor set $cursorpos
     }
 
   }
@@ -616,7 +593,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $ranges] {
         convert_to_rot13 $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt $startpos
+      $txtt cursor set $startpos
       return 1
     }
 
@@ -630,7 +607,7 @@ namespace eval edit {
 
     if {![transform_to_rot13_selected $txtt]} {
       convert_to_rot13 $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+      $txtt cursor set $cursorpos
     }
 
   }
@@ -643,11 +620,11 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
       }
-      ::tk::TextSetCursor $txtt $startpos
+      $txtt cursor set $startpos
     } else {
       set str [$txtt get "insert wordstart" "insert wordend"]
       convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+      $txtt cursor set $cursorpos
     }
 
   }
@@ -717,7 +694,7 @@ namespace eval edit {
     if {$deleted} {
 
       # Set the insertion cursor and make it viewable
-      ::tk::TextSetCursor $txtt $index
+      $txtt cursor set $index
 
       # Create a separator
       $txtt edit separator
@@ -1129,7 +1106,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_indent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
       return 1
     }
 
@@ -1144,7 +1121,7 @@ namespace eval edit {
 
     if {![indent_selected $txtt]} {
       do_indent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
     }
 
   }
@@ -1158,7 +1135,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_unindent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
       return 1
     }
 
@@ -1173,7 +1150,7 @@ namespace eval edit {
 
     if {![unindent_selected $txtt]} {
       do_unindent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
     }
 
   }
@@ -1250,10 +1227,7 @@ namespace eval edit {
   proc jump_to_line {txt linenum} {
 
     # Set the insertion cursor to the given line number
-    ::tk::TextSetCursor $txt $linenum
-
-    # Adjust the insertion cursor
-    vim::adjust_insert $txt
+    $txt cursor set $linenum
 
   }
 
@@ -1469,10 +1443,7 @@ namespace eval edit {
     set index [$txtt index [list $position {*}$args]]
 
     # Set the insertion position and make it visible
-    ::tk::TextSetCursor $txtt $index
-
-    # Adjust the insertion cursor in Vim mode
-    vim::adjust_insert $txtt
+    $txtt cursor set $index
 
   }
 
@@ -1484,9 +1455,6 @@ namespace eval edit {
 
     # Adjust the view
     eval [string map {%W $txtt} [bind Text <[string totitle $dir]>]]
-
-    # Adjust the insertion cursor in Vim mode
-    vim::adjust_insert $txtt
 
   }
 

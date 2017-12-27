@@ -88,8 +88,7 @@ namespace eval selectmode {
 
     $txtt insert end [set value "This is a line "]
     $txtt edit separator
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.5
+    $txtt cursor set 1.5
 
     # Make sure that our starting state is correct
     if {[$txtt tag ranges sel] ne [list]} {
@@ -212,8 +211,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "This is a single\nline.  Is (this)\ninteresting?"
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.5
+    $txtt cursor set 1.5
 
     # Enable selection mode
     select::set_select_mode $txtt 1
@@ -270,8 +268,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end [join [lrepeat 5 "This is a line."] \n]
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.5
+    $txtt cursor set 1.5
 
     select::set_select_mode $txtt 1
 
@@ -334,8 +331,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end [join [lrepeat 4 "This is a good line."] \n]
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.0
+    $txtt cursor set 1.0
 
     select::set_select_mode $txtt 1
 
@@ -374,8 +370,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end [join [lrepeat 4 "This is a line."] \n]
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.5
+    $txtt cursor set 1.5
 
     select::set_select_mode $txtt 1
 
@@ -418,8 +413,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end [join [lrepeat 4 "This is a line."] \n]
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.5
+    $txtt cursor set 1.5
 
     select::set_select_mode $txtt 1
 
@@ -462,8 +456,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "This is good.  This is fine.  This is okay.  This is nice."
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.0
+    $txtt cursor set 1.0
 
     select::set_select_mode $txtt 1
 
@@ -507,8 +500,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "This is\ngood.  A.\n\nThis is\nnice.  B.\n\nThis is\nokay.  C.\n\nThis is\nfine.  D."
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.5
+    $txtt cursor set 1.5
 
     select::set_select_mode $txtt 1
 
@@ -552,9 +544,8 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "{this is a {curly} {bracket}}"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.2
 
-    $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
     do_test $txtt 0  {}        {1.0 1.5}   0 word
@@ -604,9 +595,8 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "\[this is a \[square\] \[bracket\]\]"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.2
 
-    $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
     do_test $txtt 0  {}          {1.0 1.5}   0 word
@@ -659,9 +649,8 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "(this is a (paren) (bracket))"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.2
 
-    $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
     do_test $txtt 0  {}        {1.0 1.5}   0 word
@@ -713,9 +702,8 @@ namespace eval selectmode {
     syntax::set_language [winfo parent $txtt] HTML
 
     $txtt insert end "<this is a <angled> <bracket>>"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.2
 
-    $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
     do_test $txtt 0  {}   {1.0 1.5}   0 word
@@ -765,9 +753,8 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end "this is a \"double quote\" thing"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.12
 
-    $txtt mark set insert 1.12
     select::set_select_mode $txtt 1
 
     do_test $txtt 0 {}       {1.11 1.17} 0 word
@@ -793,9 +780,8 @@ namespace eval selectmode {
     syntax::set_language [winfo parent $txtt] "JavaScript"
 
     $txtt insert end "this is a 'single quote' thing"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.12
 
-    $txtt mark set insert 1.12
     select::set_select_mode $txtt 1
 
     do_test $txtt 0 {}         {1.11 1.17} 0 word
@@ -821,9 +807,8 @@ namespace eval selectmode {
     syntax::set_language [winfo parent $txtt] "JavaScript"
 
     $txtt insert end "this is a `back tick` thing"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.12
 
-    $txtt mark set insert 1.12
     select::set_select_mode $txtt 1
 
     do_test $txtt 0 {}        {1.11 1.15} 0 word
@@ -849,9 +834,8 @@ namespace eval selectmode {
     syntax::set_language [winfo parent $txtt] "JavaScript"
 
     $txtt insert end "this is a /* cool */ comment // like thing\n"
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.14
 
-    $txtt mark set insert 1.14
     select::set_select_mode $txtt 1
 
     do_test $txtt 0 {}         {1.13 1.17} 0 word
@@ -887,8 +871,7 @@ namespace eval selectmode {
     set txtt [initialize]
 
     $txtt insert end [join [lrepeat 9 "This is a line."] \n]
-    vim::adjust_insert $txtt
-    $txtt mark set insert 5.5
+    $txtt cursor set 5.5
 
     select::set_select_mode $txtt 1
 
@@ -946,8 +929,7 @@ namespace eval selectmode {
 
     $txtt insert end "<body>\n  <ul>\n    <li>Good <b>grief</b> sir</li>\n    <li>Nice</li>\n    <li>Okay</li>\n    <li>Fine</li>\n  </ul>\n"
     $txtt insert end "  <p></p>\n  <ul>\n    <li>Bad</li>\n    <li>Ugly</li>\n  </ul>\n  <br/>\n</body>"
-    vim::adjust_insert $txtt
-    $txtt mark set insert 1.1
+    $txtt cursor set 1.1
 
     select::set_select_mode $txtt 1
 
@@ -1025,9 +1007,7 @@ namespace eval selectmode {
     syntax::set_language [winfo parent $txtt] "HTML"
 
     $txtt insert end "<body><ul><li>Good</li><li>Bad</li></ul><br/></body>"
-    vim::adjust_insert $txtt
-
-    $txtt mark set insert 1.0
+    $txtt cursor set 1.0
 
     select::set_select_mode $txtt 1
 

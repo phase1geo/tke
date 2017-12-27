@@ -273,7 +273,7 @@ namespace eval dired {
         if {$vim_mode} {
           return 0
         } else {
-          tk::TextSetCursor $w insert-1displayindices
+          $w cursor set insert-1displayindices
           return 1
         }
       }
@@ -281,7 +281,7 @@ namespace eval dired {
         if {$vim_mode} {
           return 0
         } else {
-          tk::TextSetCursor $w [tk::TextUpDownLine $w 1]
+          $w cursor set [tk::TextUpDownLine $w 1]
           return 1
         }
       }
@@ -289,7 +289,7 @@ namespace eval dired {
         if {$vim_mode} {
           return 0
         } else {
-          tk::TextSetCursor $w [tk::TextUpDownLine $w -1]
+          $w cursor set [tk::TextUpDownLine $w -1]
           return 1
         }
       }
@@ -297,7 +297,7 @@ namespace eval dired {
         if {$vim_mode} {
           return 0
         } else {
-          tk::TextSetCursor $w insert+1displayindices
+          $w cursor set insert+1displayindices
           return 1
         }
       }

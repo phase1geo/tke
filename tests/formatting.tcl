@@ -88,8 +88,7 @@ namespace eval formatting {
 
       $txt delete 1.0 end
       $txt insert end "Make this formatted but not the rest"
-      $txt mark set insert 1.10
-      vim::adjust_insert $txt.t
+      $txt cursor set 1.10
       edit::format $txt.t [lindex $type 0]
 
       if {[lindex $type 2] eq ""} {

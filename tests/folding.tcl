@@ -613,8 +613,7 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Select line 3 and fold it with zf
     $txtt tag add sel 3.0 5.0
@@ -654,8 +653,7 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {z F} 2.0 {}
 
@@ -676,8 +674,7 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6"
-    $txtt mark set insert 3.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 3.0
 
     do_test $txtt 0 {2 z F}   3.0 {4}
     do_test $txtt 1 {k 3 z F} 2.0 {3 4 5}
@@ -700,8 +697,7 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6\nThis is line 7\nThis is line 8"
-    $txtt mark set insert 3.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 3.0
 
     do_test $txtt 0 {2 z F}     3.0 {4}
     do_test $txtt 1 {k 3 z F}   2.0 {3 4 5}
@@ -723,8 +719,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    if {1} {\n      set a 0\n    }\n  }\n}"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {}      2.0 {}
     do_test $txtt 1 {z c}   2.0 {3 4 5 6 7}
@@ -768,8 +763,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    set a 0\n  }\n  set b 0\n}"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {} 2.0 {}
     do_test $txtt 1 {z C} 2.0 {3 4 5 6}
@@ -794,19 +788,16 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    set a 0\n  }\n  set b 0\n}"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     do_test $txtt 0 {}    1.0 {}
     do_test $txtt 1 {z M} 1.0 {3 4 5 6}
 
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
     do_test $txtt 2 {z o} 2.0 {4}
     do_test $txtt 3 {z c} 2.0 {3 4 5 6}
 
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
     do_test $txtt 4 {z R} 1.0 {}
 
     # Cleanup
@@ -821,8 +812,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    if {1} {\n      set e 0\n    }\n  }\n}"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {}    2.0 {}
     do_test $txtt 1 {z c} 2.0 {3 4 5 6 7}
@@ -891,8 +881,7 @@ namespace eval folding {
     foreach var [list a b c d e] {
       $txtt insert end "\nif {$var} {\n  set $var 0\n}"
     }
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {}        2.0  {}
     do_test $txtt 1 {z c}     2.0  {3}

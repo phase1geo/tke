@@ -3053,8 +3053,7 @@ namespace eval menus {
     set txt [gui::current_txt]
 
     if {[set line [$txt fold find insert $dir]] ne ""} {
-      tk::TextSetCursor $txt.t $line.0
-      vim::adjust_insert $txt.t
+      $txt cursor set $line.0
     }
 
   }
