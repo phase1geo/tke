@@ -1111,12 +1111,6 @@ namespace eval vim {
     # Set the blockcursor to false
     $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
 
-    # If the current cursor is on a dummy space, remove it
-    set tags [$txtt tag names insert]
-    if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
-      [winfo parent $txtt]._t delete insert
-    }
-
   }
 
   ######################################################################
@@ -1431,48 +1425,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Removes dspace characters.
-  proc remove_dspace {w} {
-
-    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-      if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
-        $w._t delete $startpos $endpos
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Removes the dspace tag from the current index (if it is set).
-  proc cleanup_dspace {w} {
-
-    if {[lsearch [$w tag names insert] dspace] != -1} {
-      $w tag remove dspace insert
-    }
-
-  }
-
-  ######################################################################
-  # Returns the contents of the given text widget without the injected
-  # dspaces.
-  proc get_cleaned_content {txt} {
-
-    set str ""
-    set last_startpos 1.0
-
-    # Remove any dspace characters
-    foreach {startpos endpos} [$txt tag ranges dspace] {
-      append str [$txt get $last_startpos $startpos]
-      set last_startpos $endpos
-    }
-
-    append str [$txt get $last_startpos "end-1c"]
-
-    return $str
-
-  }
-
-  ######################################################################
   # Handles the escape-key when in Vim mode.
   proc handle_escape {txtt} {
 
@@ -1730,12 +1682,12 @@ namespace eval vim {
         return 1
       }
       "upper" {
-        $txtt replace -transform edit::convert_to_upper_case $sposargs $eposargs 
+        $txtt replace -transform edit::convert_to_upper_case $sposargs $eposargs
         command_mode $txtt
         return 1
       }
       "lower" {
-        $txtt replace -transform edit::convert_to_lower_case $sposargs $eposargs 
+        $txtt replace -transform edit::convert_to_lower_case $sposargs $eposargs
         command_mode $txtt
         return 1
       }
@@ -2019,7 +1971,7 @@ namespace eval vim {
     if {$multiplier($txtt) eq ""} {
       set txt [winfo parent $txtt]
       if {[set index [$txt matchchar insert]] ne ""} {
-        $txt cursor set $index
+        $txt cursor set [lindex $index 0]
       }
     } else {
       set lines [lindex [split [$txtt index end] .] 0]
@@ -2624,7 +2576,6 @@ namespace eval vim {
           if {[multicursor::enabled $txtt]} {
             multicursor::move $txtt right
           }
-          cleanup_dspace $txtt
           [winfo parent $txtt] cursor set "insert+1c"
           edit_mode $txtt
           record_start $txtt "a"

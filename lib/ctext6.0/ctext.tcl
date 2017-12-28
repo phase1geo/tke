@@ -119,6 +119,7 @@ namespace eval ctext {
     set data($win,config,-theme)                  [list]
     set data($win,config,-shiftwidth)             2
     set data($win,config,-tabstop)                2
+    set data($win,config,-blockcursor)            0
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -139,6 +140,7 @@ namespace eval ctext {
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
       -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
+      -blockcursor
     }
 
     # Set args
@@ -320,6 +322,22 @@ namespace eval ctext {
     variable data
 
     set argTable [list]
+
+    lappend argTable {1 true yes} -blockcursor {
+      set data($win,config,-blockcursor) 1
+      if {[$win._t compare "insert linestart" == "insert lineend"]} {
+        $win._t insert insert " " dspace
+      }
+      $win._t configure -blockcursor 1
+    }
+
+    lappend argTable {0 false no} -blockcursor {
+      set data($win,config,-blockcursor) 0
+      if {[$win._t tag ranges mcursor] eq ""} {
+        $win._t tag remove dspace 1.0 end
+      }
+      $win._t configure -blockcursor 0
+    }
 
     lappend argTable any -insertwidth {
       if {![string is integer $value] || ($value < 0)} {
@@ -1090,6 +1108,7 @@ namespace eval ctext {
           $win._t mark set insert [lindex $args 1]
           $win._t see [lindex $args 1]
           adjust_insert $win
+          linemapUpdate $win
           event generate $win <<CursorChanged>> -data [list $ins {*}[lrange $args 2 end]]
         } else {
           $win._t tag remove mcursor $win 1.0 end
@@ -1971,7 +1990,7 @@ namespace eval ctext {
     # Clear the matchchar tag
     catch { $win._t tag remove matchchar 1.0 end }
 
-    # If we are in block cursor mode, use the previous character
+    # If we are not in block cursor mode, use the previous character
     if {![$win cget -blockcursor] && [$win compare insert != "insert linestart"]} {
       set pos [$win._t index "insert-1c"]
     } else {
@@ -4243,13 +4262,13 @@ namespace eval ctext {
     }
 
     # Remove any existing dspace characters
-    remove_dspace [winfo parent $txtt]
+    remove_dspace $win
 
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$win._t compare "insert linestart" == "insert lineend"]} {
       $win._t insert insert " " dspace
-      $txtt mark set insert "insert-1c"
+      $win._t mark set insert "insert-1c"
 
     # Make sure that lineend is never the insertion point
     } elseif {[$win._t compare insert == "insert lineend"]} {
@@ -4262,11 +4281,11 @@ namespace eval ctext {
   # Removes dspace characters.
   proc remove_dspace {win} {
 
-    set mcursors [lmap {startpos endpos} [$win._t tag ranges mcursor] { [list $startpos $endpos] }
+    set mcursors [lmap {startpos endpos} [$win._t tag ranges mcursor] { [list $startpos $endpos] }]
 
-    foreach {startpos endpos} [$w tag ranges dspace] {
+    foreach {startpos endpos} [$win._t tag ranges dspace] {
       if {[lsearch -index 0 $mcursors $startpos] == -1} {
-        $w._t delete $startpos $endpos
+        $win._t delete $startpos $endpos
       }
     }
 
