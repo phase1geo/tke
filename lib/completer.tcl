@@ -162,7 +162,7 @@ namespace eval completer {
     variable complete
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],square) && \
-        ![ctext::inComment $txtt "insert-1c"] && \
+        ![$txtt is incomment "insert-1c"] && \
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
@@ -189,7 +189,7 @@ namespace eval completer {
     variable complete
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],curly) && \
-        ![ctext::inComment $txtt "insert-1c"] && \
+        ![$txtt is incomment "insert-1c"] && \
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt curly]} {
@@ -216,7 +216,7 @@ namespace eval completer {
     variable complete
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],angled) && \
-        ![ctext::inComment $txtt "insert-1c"] && \
+        ![$txtt is incomment "insert-1c"] && \
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt angled]} {
