@@ -93,7 +93,7 @@ object model::get_match_char(
   if( si.matches() ) {
     serial_item* sitem = _serial[si.index()];
     position     pos;
-    if( sitem->type()->matching() && sitem->node()->get_match_pos( sitem, pos ) ) {
+    if( sitem->type()->matching() && sitem->node() && sitem->node()->get_match_pos( sitem, pos ) ) {
       pos.to_pair( retval );
     }
   }

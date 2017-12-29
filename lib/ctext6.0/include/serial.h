@@ -160,6 +160,13 @@ class serial : public std::vector<serial_item*> {
       serial       & elements
     );
 
+    /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
+    Tcl::object indent_newline(
+      const Tcl::object & first_ti,
+      const Tcl::object & indent_space,
+      const Tcl::object & shift_width
+    ) const;
+
 };
 
 #endif

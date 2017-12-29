@@ -441,7 +441,7 @@ bool serial::is_unindent_after_reindent (
   int    rs, ri;
 
   if( (rs = previndex( si, types::staticObject().get( "reindentStart" ) )) != -1 ) {
-    
+
     /* If the starting reindent is also an indent, return 1 (TBD - Not sure if this is relevant) */
     // if {[lsearch [$txtt tag names $spos] _indent*] != -1} {
     //  return 2
@@ -476,6 +476,50 @@ bool serial::line_contains_indentation(
   }
 
   return( previndex( si, se, types::staticObject().get( "reindent" )) != -1 );
+
+}
+
+object serial::indent_newline(
+  const object & first_ti,
+  const object & indent_space,
+  const object & shift_width
+) const {
+
+  interpreter interp( first_ti.get_interp(), false );
+  tindex first( first_ti );
+  tindex linestart( first.row(), 0 );
+  tindex prev_lineend( (first.row() - 1), 1000000 );
+  int    space       = indent_space.get<int>( interp );
+  int    shift       = shift_width.get<int>( interp );
+  sindex first_index = get_index( first );
+
+  /* If the previous line indicates an indentation is required */
+  if( line_contains_indentation( prev_lineend ) ) {
+    space += shift;
+  }
+
+  /* If the first index matches a stored value, interrogate it */
+  if( first_index.matches() ) {
+
+    /*
+     Remove any leading whitespace and update indentation level
+     (if the first non-whitespace char is a closing bracket)
+    */
+    if( (*this)[first_index.index()]->type() == types::staticObject().get( "unindent" ) ) {
+      space -= shift;
+
+    /*
+     Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
+     indentation by one
+    */
+    } else if( ((*this)[first_index.index()]->type() == types::staticObject().get( "reindent" )) &&
+               is_unindent_after_reindent( first ) ) {
+      space -= shift;
+    }
+
+  }
+
+  return( (object)(space - first.col()) );
 
 }
 
