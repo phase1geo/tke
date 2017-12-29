@@ -162,6 +162,9 @@ object request::execute(
     case REQUEST_INDENTLINESTART :
       return( inst.indent_line_start( _args.at( i, 0 ) ) );
       break;
+    case REQUEST_INDENTNEWLINE :
+      return( inst.indent_newline( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
+      break;
     default :
       throw runtime_error( "Unknown command" );
       break;

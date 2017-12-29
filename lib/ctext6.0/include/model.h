@@ -444,6 +444,15 @@ class model {
       const Tcl::object & indent_index
     ) const;
 
+    /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
+    Tcl::object indent_newline(
+      const Tcl::object & first_ti,
+      const Tcl::object & indent_space,
+      const Tcl::object & shift_width
+    ) const {
+      return( _serial.indent_newline( first_ti, indent_space, shift_width ) );
+    }
+
 };
 
 #endif

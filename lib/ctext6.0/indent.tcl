@@ -191,9 +191,9 @@ namespace eval indent {
     set index [ctext::model::indent_line_start [winfo parent $txtt] $index].0
 
     if {[lsearch [$txtt tag names $index] _prewhite] != -1} {
-      return [string range [$txtt get {*}[$txtt tag nextrange _prewhite $index]] 0 end-1]
+      return [expr [string length [$txtt get {*}[$txtt tag nextrange _prewhite $index]]] - 1]
     } else {
-      return ""
+      return 0
     }
 
   }
@@ -216,81 +216,29 @@ namespace eval indent {
 
     # If we do not need smart indentation, use the previous space
     if {$indent_exprs($txtt,mode) eq "IND"} {
-
-      set indent_space [get_previous_indent_space $txtt $index]
-
-    # Otherwise, do smart indentation
+      set insert_space [get_previous_indent_space $txtt $index]
     } else {
-
-      # Get the current indentation level
-      set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
-
-      # If the previous line indicates an indentation is required,
-      if {[MODEL::line_contains_indentation $txtt "$index-1l lineend"]} {
-        append indent_space [string repeat " " [$txtt cget -shiftwidth]]
+      if {[lassign [$txtt tag nextrange _prewhite $index "$index lineend"] first_index] eq ""} {
+        set first_index [$txtt index "$index linestart"]
       }
-
+      set insert_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
+      set insert_space [model::line_newline [winfo parent $txtt] $first_index $insert_space [$txtt cget -shiftwidth]]
     }
 
-    # Create an index to restore the insertion cursor, if necessary
-    set restore_insert ""
-
-    # Remove any leading whitespace and update indentation level
-    # (if the first non-whitespace char is a closing bracket)
-    if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-
-      lassign [$txtt tag nextrange _prewhite "$index linestart"] startpos endpos
-
-      # If the first non-whitespace characters match an unindent pattern,
-      # lessen the indentation by one
-      if {[lsearch [$txtt tag names "$endpos-1c"] _unindent*] != -1} {
-        $txtt insert -highlight 0 insert "$indent_space\n"
-        set startpos [$txtt index $startpos+1l]
-        set endpos   [$txtt index $endpos+1l]
-        set restore_insert [$txtt index insert-1c]
-        if {$indent_exprs($txtt,mode) eq "IND+"} {
-          set indent_space [string range $indent_space [$txtt cget -shiftwidth] end]
-        }
-
-      # Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
-      # indentation by one
-      } elseif {([lsearch [$txtt tag names "$endpos-1c"] _reindent*] != -1) && [MODEL::is_unindent_after_reindent $txtt [lindex [$txtt tag prevrange _reindent $endpos] 0]]} {
-        # $txtt insert insert "$indent_space\n"
-        # set restore_insert [$txtt index insert-1c]
-        if {$indent_exprs($txtt,mode) eq "IND+"} {
-          set indent_space [string range $indent_space [$txtt get -shiftwidth] end]
-        }
-      }
-
-      # See if we are deleting a multicursor
-      set mcursor [lsearch [$txtt tag names $index] "mcursor"]
-
-      # Delete the whitespace
-      $txtt delete -highlight 0 $startpos "$endpos-1c"
-
-      # If the newline was from a multicursor, we need to re-add the tag since we have deleted it
-      if {$mcursor != -1} {
-        $txtt tag add mcursor $index
-      }
-
+    if {$insert_space == 0} {
+      return
     }
 
-    # Insert leading whitespace to match current indentation level
-    if {$indent_space ne ""} {
-      $txtt insert -highlight 0 "$index linestart" $indent_space
-    }
-
-    # If we need to restore the insertion cursor, do it now
-    if {$restore_insert ne ""} {
-      [winfo parent $txtt] cursor set $restore_insert
+    if {$indent_space < 0} {
+      $txtt delete -highlight 0 $index "$index+${insert_space}c"
+    } else {
+      $txtt insert -highlight 0 $index [string repeat " " $insert_space]
     }
 
     # If autoseparators are called for, add it now
     if {[$txtt cget -autoseparators]} {
       $txtt edit separator
     }
-
-    return [$txtt index "$index+[string length $indent_space]c"]
 
   }
 
@@ -343,9 +291,9 @@ namespace eval indent {
   proc get_previous_indent_space {txtt index} {
 
     if {[lindex [split $index .] 0] != 1) && ([set range [$txtt tag prevrange _prewhite "$index-1l lineend"]] ne "")} {
-      return [string range [$txtt get {*}$range] 0 end-1]
+      return [expr [string length [$txtt get {*}$range]] - 1]
     } else {
-      return ""
+      return 0
     }
 
   }

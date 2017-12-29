@@ -734,6 +734,25 @@ object mailbox::indent_line_start(
 
 }
 
+object mailbox::indent_newline(
+  object first_ti,
+  object indent_space,
+  object shift_width
+) {
+
+  interpreter i( first_ti.get_interp(), false );
+  object args;
+
+  args.append( i, first_ti );
+  args.append( i, indent_space );
+  args.append( i, shift_width );
+
+  add_request( REQUEST_INDENTNEWLINE, args, true, true );
+
+  return( result() );
+
+}
+
 /* -------------------------------------------------------------- */
 
 CPPTCL_MODULE(Model, i) {
@@ -787,7 +806,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "foldfind",         &mailbox::fold_find )
     .def( "foldindentupdate", &mailbox::fold_indent_update )
     .def( "foldsyntaxupdate", &mailbox::fold_syntax_update )
-    .def( "indentlinestart",  &mailbox::indent_line_start );
+    .def( "indentlinestart",  &mailbox::indent_line_start )
+    .def( "indentnewline",    &mailbox::indent_newline );
 
   /* Add functions */
   i.def("add_type", add_type );
