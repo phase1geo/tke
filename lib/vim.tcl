@@ -1637,7 +1637,7 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {$multicursor($txtt)} {
-          multicursor::move $txtt $eposargs
+          $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
           if {$spos ne ""} {
@@ -1646,7 +1646,7 @@ namespace eval vim {
             $txtt cursor set $epos
           }
         } else {
-          $txtt cursor set [$txtt index [list {*}$eposargs]]
+          $txtt cursor set $eposargs
         }
         reset_state $txtt 0
         return 1
@@ -3184,7 +3184,12 @@ namespace eval vim {
       "" {
         if {$mode($txtt) eq "command"} {
           if {$operator($txtt) eq ""} {
-            $txtt mcursor add [$txtt index insert]
+            puts "is insert mcursor: [$txtt is mcursor insert]"
+            if {[$txtt is mcursor insert]} {
+              $txtt cursor remove insert
+            } else {
+              $txtt cursor add insert
+            }
           } else {
             return [do_operation $txtt [list spaceend -adjust "+1c"]]
           }
@@ -3209,7 +3214,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
-        $txtt mcursor addcolumn [$txtt index insert]
+        $txtt cursor addcolumn [$txtt index insert]
       } else {
         return [do_operation $txtt spacestart]
       }
