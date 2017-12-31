@@ -1074,17 +1074,21 @@ namespace eval ctext {
     switch [lindex $args 0] {
       add {
         foreach index [lrange $args 1 end] {
+          set index [$win index $index]
           $win._t tag add mcursor $index
           set data($win,mcursor_anchor) $index
         }
       }
       addcolumn {
+        puts "In cursor addcolumn, win: $win, args: $args"
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
         }
+        puts "anchor exists: [info exists data($win,mcursor_anchor)]"
         if {[info exists data($win,mcursor_anchor)]} {
           set index [lindex $args 1]
           lassign [split $data($win,mcursor_anchor) .] anchor_row col
+          puts "index: $index, anchor_row: $anchor_row, col: $col"
           set row [lindex [split $index .] 0]
           if {$row < $anchor_row} {
             for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
@@ -1104,16 +1108,19 @@ namespace eval ctext {
       }
       set {
         if {[llength [lindex $args 1]] == 1} {
-          set ins [$win._t index insert]
-          $win._t mark set insert [lindex $args 1]
-          $win._t see [lindex $args 1]
+          set index [$win index [lindex $args 1]]
+          set ins   [$win._t index insert]
+          $win._t mark set insert $index
+          $win._t see $index
           adjust_insert $win
           linemapUpdate $win
           event generate $win <<CursorChanged>> -data [list $ins {*}[lrange $args 2 end]]
         } else {
           $win._t tag remove mcursor $win 1.0 end
           foreach index [lindex $args 1] {
+            set index [$win index $index]
             $win._t tag add mcursor $win $index
+            set data($win,mcursor_anchor) $index
           }
         }
       }
@@ -1125,7 +1132,41 @@ namespace eval ctext {
         return $indices
       }
       remove {
-        $win._t tag remove mcursor {*}[lrange $args 1 end]
+        set indices [list]
+        foreach index [lrange $args 1 end] {
+          lappend indices [$win index $index]
+        }
+        $win._t tag remove mcursor {*}$indices
+      }
+      move {
+        if {[llength $args] != 2} {
+          return -code error "Incorrect number of arguments to ctext cursor move command"
+        }
+        if {[info procs getindex_[lindex $args 1 0]] eq ""} {
+          return -code error "ctext cursor move command must be called with a relative index"
+        }
+        if {[set mcursors [$win._t tag ranges mcursor]] ne ""} {
+          $win._t tag remove mcursor 1.0 end
+          array set opts [lindex $]
+          foreach mcursor $mcursor {
+            $win._t tag add mcursor [$win index [list {*}[lindex $args 1] -startpos $mcursor]]
+          }
+        } else {
+          $win._t mark set insert [$win index [lindex $args 1]]
+        }
+      }
+      align {
+        if {[set mcursor [$win._t tag ranges mcursor]] ne ""} {
+          array set opts {
+            -text 1
+          }
+          array set opts [lrange $args 1 end]
+          if {$opts(-text)} {
+            align_with_text $win
+          } else {
+            align $win
+          }
+        }
       }
       default {
         return -code error "Illegal ctext mcursor command ([lindex $args 0])"
@@ -1497,11 +1538,12 @@ namespace eval ctext {
 
     lassign $args type index
 
-    set index [$win._t index $index]
+    set index [$win index $index]
 
     switch $type {
       escaped         { return [ctext::model::is_escaped $win $index] }
-      folded          { return [expr [lsearch -exact [$win tag names $index] _folded] != -1] }
+      folded          { return [expr [lsearch -exact [$win._t tag names $index] _folded] != -1] }
+      mcursor         { return [expr [lsearch -exact [$win._t tag names $index] mcursor] != -1] }
       curly           { return [ctext::model::is_index $win curly       $index] }
       square          { return [ctext::model::is_index $win square      $index] }
       paren           { return [ctext::model::is_index $win paren       $index] }
@@ -4316,6 +4358,71 @@ namespace eval ctext {
     append str [$win._t get $last_startpos "end-1c"]
 
     return $str
+
+  }
+
+  ######################################################################
+  #                       MULTICURSOR ALIGNMENT                        #
+  ######################################################################
+
+  ######################################################################
+  # Aligns all multicursors to each other, aligning them to the cursor
+  # that is closest to the start of its line.
+  proc align {win} {
+
+    set last_row -1
+    set min_col  1000000
+    set rows     [list]
+
+    # Find the cursor that is closest to the start of its line
+    foreach {start end} [$win._t tag ranges mcursor] {
+      lassign [split $start .] row col
+      if {$row ne $last_row} {
+        set last_row $row
+        if {$col < $min_col} {
+          set min_col $col
+        }
+        lappend rows $row
+      }
+    }
+
+    if {[llength $rows] > 0} {
+      foreach row $rows {
+        lappend cursors $row.$min_col $row.[expr $min_col + 1]
+      }
+      $win._t tag remove mcursor 1.0 end
+      $win._t tag add mcursor {*}$cursors
+    }
+
+  }
+
+  ######################################################################
+  # Aligns all of the cursors by inserting spaces prior to each cursor
+  # that is less than the one in the highest column position.  If multiple
+  # cursors exist on the same line, the cursor in the lowest column position
+  # is used.
+  proc align_with_text {win} {
+
+    set last_row -1
+    set max_col  0
+    set cursors  [list]
+
+    # Find the cursor position to align to and the cursors to align
+    foreach {start end} [$win._t tag ranges mcursor] {
+      lassign [split $start .] row col
+      if {$row ne $last_row} {
+        set last_row $row
+        if {$col > $max_col} {
+          set max_col $col
+        }
+        lappend cursors [list $row $col]
+      }
+    }
+
+    # Insert spaces to align all columns
+    foreach cursor $cursors {
+      $win._t insert [join $cursor .] [string repeat " " [expr $max_col - [lindex $cursor 1]]]
+    }
 
   }
 

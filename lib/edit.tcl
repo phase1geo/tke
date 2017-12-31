@@ -1187,26 +1187,13 @@ namespace eval edit {
   ######################################################################
   # Aligns the current cursors such that all cursors will be aligned to
   # the cursor closest to the start of its line.
-  proc align_cursors {} {
+  proc align_cursors {args} {
 
     # Get the current text widget
     set txt [gui::current_txt]
 
     # Align multicursors only
-    multicursor::align $txt
-
-  }
-
-  ######################################################################
-  # Aligns the current cursors, keeping each multicursor locked to its
-  # text.
-  proc align_cursors_and_text {} {
-
-    # Get the current text widget
-    set txt [gui::current_txt]
-
-    # Align multicursors
-    multicursor::align_with_text $txt
+    $txt cursor align {*}$args
 
   }
 
