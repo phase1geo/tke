@@ -190,11 +190,20 @@ namespace eval syntax {
 
   ######################################################################
   # Returns a list of all supported languages.
-  proc get_all_languages {} {
+  proc get_all_languages {args} {
 
     variable langs
 
-    return [array names langs]
+    array set opts {
+      -internal 1
+    }
+    array set opts $args
+
+    if {$opts(-internal)} {
+      return [array names langs]
+    } else {
+      return [::struct::set difference [array names langs] [list syntax snippets tkeData tkeTheme PluginTcl PluginHeader]]
+    }
 
   }
 
@@ -249,7 +258,8 @@ namespace eval syntax {
 
     foreach lang [array names langs] {
       array set lang_array $langs($lang)
-      set patterns $lang_array(filepatterns)
+      set patterns  $lang_array(filepatterns)
+      set epatterns [list]
       set excluded 0
       if {[info exists overrides($lang)]} {
         set exclude_patterns [list]
@@ -853,6 +863,28 @@ namespace eval syntax {
     } else {
       array set lang_array $langs($language)
       return $lang_array(extensions)
+    }
+
+  }
+
+  ######################################################################
+  # Returns the file patterns from the syntax file for the specified
+  # language (or for the language associated with the current editor if
+  # not specified).
+  proc get_file_patterns {{language ""}} {
+
+    variable langs
+    variable curr_lang
+
+    if {$language eq ""} {
+      set language $curr_lang([gui::current_txt])
+    }
+
+    if {$language eq [msgcat::mc "None"]} {
+      return [list]
+    } else {
+      array set lang_array $langs($language)
+      return $lang_array(filepatterns)
     }
 
   }

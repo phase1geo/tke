@@ -1538,7 +1538,7 @@ namespace eval pref_ui {
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Languages"]]
 
     set widgets(lang_table) [tablelist::tablelist $c.tl \
-      -columns [list 0 [msgcat::mc "Enabled"] 0 [msgcat::mc "Language"] 0 [msgcat::mc "Extensions"]] \
+      -columns [list 0 [msgcat::mc "Enabled"] 0 [msgcat::mc "Language"] 0 [msgcat::mc "File Patterns"]] \
       -stretch all -exportselection 1 -showseparators 1 \
       -height 25 -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
@@ -1800,19 +1800,19 @@ namespace eval pref_ui {
     array set orides $prefs(General/LanguagePatternOverrides)
 
     # Add all of the languages
-    foreach lang [lsort [syntax::get_all_languages]] {
-      set enabled    [expr [lsearch $dis_langs $lang] == -1]
-      set extensions [syntax::get_extensions $lang]
+    foreach lang [lsort [syntax::get_all_languages -internal 0]] {
+      set enabled  [expr [lsearch $dis_langs $lang] == -1]
+      set patterns [syntax::get_file_patterns $lang]
       if {[info exists orides($lang)]} {
-        foreach ext $orides($lang) {
-          if {[string index $ext 0] eq "+"} {
-            lappend extensions [string range $ext 1 end]
-          } elseif {[set index [lsearch $extensions [string range $ext 1 end]]] != -1} {
-            set extensions [lreplace $extensions $index $index]
+        foreach pattern $orides($lang) {
+          if {[string index $pattern 0] eq "+"} {
+            lappend patterns [string range $pattern 1 end]
+          } elseif {[set index [lsearch -exact $patterns [string range $pattern 1 end]]] != -1} {
+            set patterns [lreplace $patterns $index $index]
           }
         }
       }
-      set row [$widgets(lang_table) insert end [list $enabled $lang $extensions]]
+      set row [$widgets(lang_table) insert end [list $enabled $lang $patterns]]
       if {$enabled} {
         $widgets(lang_table) cellconfigure $row,enabled -image pref_checked
       } else {
@@ -1853,17 +1853,17 @@ namespace eval pref_ui {
 
     variable prefs
 
-    set lang [$tbl cellcget $row,lang -text]
-    set exts [syntax::get_extensions $lang]
+    set lang     [$tbl cellcget $row,lang -text]
+    set patterns [syntax::get_file_patterns $lang]
 
     set lang_oride [list]
-    foreach ext $exts {
-      if {[lsearch -exact $value $ext] == -1} {
-        lappend lang_oride "-$ext"
+    foreach pattern $patterns {
+      if {[lsearch -exact $value $pattern] == -1} {
+        lappend lang_oride "-$pattern"
       }
     }
     foreach val $value {
-      if {[lsearch -exact $exts $val] == -1} {
+      if {[lsearch -exact $patterns $val] == -1} {
         lappend lang_oride "+$val"
       }
     }

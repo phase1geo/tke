@@ -2480,7 +2480,7 @@ namespace eval ctext {
     }
 
     if {$opts(-fontopts) ne ""} {
-      add_font_opt $win $class $opts(-fontopts) tag_opts
+      add_font_opts $win $opts(-fontopts) tag_opts
     }
 
     catch { $win tag configure _$class {*}$tag_opts }
