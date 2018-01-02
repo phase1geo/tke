@@ -333,7 +333,7 @@ namespace eval ctext {
 
     lappend argTable {0 false no} -blockcursor {
       set data($win,config,-blockcursor) 0
-      if {[$win._t tag ranges mcursor] eq ""} {
+      if {[$win._t tag ranges _mcursor] eq ""} {
         $win._t tag remove dspace 1.0 end
       }
       $win._t configure -blockcursor 0
@@ -591,7 +591,7 @@ namespace eval ctext {
 
     lappend argTable {any} -diffsubbg {
       set data($win,config,-diffsubbg) $value
-      foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:B:D:*] {
+      foreach tag [lsearch -inline -all -glob [$win._t tag names] _diff:B:D:*] {
         $win._t tag configure $tag -background $value
       }
       break
@@ -599,7 +599,7 @@ namespace eval ctext {
 
     lappend argTable {any} -diffaddbg {
       set data($win,config,-diffaddbg) $value
-      foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:A:D:*] {
+      foreach tag [lsearch -inline -all -glob [$win._t tag names] _diff:A:D:*] {
         $win._t tag configure $tag -background $value
       }
       break
@@ -1040,7 +1040,7 @@ namespace eval ctext {
 
     # Collect the text ranges to get
     if {[set ranges [$win._t tag ranges sel]] eq ""} {
-      if {[set cursors [$win._t tag ranges mcursor]] eq ""} {
+      if {[set cursors [$win._t tag ranges _mcursor]] eq ""} {
         set cursors [$win._t index insert]
       }
       foreach cursor $cursors {
@@ -1075,35 +1075,32 @@ namespace eval ctext {
       add {
         foreach index [lrange $args 1 end] {
           set index [$win index $index]
-          $win._t tag add mcursor $index
+          $win._t tag add _mcursor $index
           set data($win,mcursor_anchor) $index
         }
       }
       addcolumn {
-        puts "In cursor addcolumn, win: $win, args: $args"
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
         }
-        puts "anchor exists: [info exists data($win,mcursor_anchor)]"
         if {[info exists data($win,mcursor_anchor)]} {
           set index [lindex $args 1]
           lassign [split $data($win,mcursor_anchor) .] anchor_row col
-          puts "index: $index, anchor_row: $anchor_row, col: $col"
           set row [lindex [split $index .] 0]
           if {$row < $anchor_row} {
             for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
-              $win._t tag add mcursor $i.$col
+              $win._t tag add _mcursor $i.$col
             }
           } else {
             for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
-              $win._t tag add mcursor $i.$col
+              $win._t tag add _mcursor $i.$col
             }
           }
           set data($win,mcursor_anchor) $index
         }
       }
       disable {
-        $win._t tag delete mcursor
+        $win._t tag delete _mcursor
         unset -nocomplain data($win,mcursor_anchor)
       }
       set {
@@ -1116,17 +1113,17 @@ namespace eval ctext {
           linemapUpdate $win
           event generate $win <<CursorChanged>> -data [list $ins {*}[lrange $args 2 end]]
         } else {
-          $win._t tag remove mcursor $win 1.0 end
+          $win._t tag remove _mcursor $win 1.0 end
           foreach index [lindex $args 1] {
             set index [$win index $index]
-            $win._t tag add mcursor $win $index
+            $win._t tag add _mcursor $win $index
             set data($win,mcursor_anchor) $index
           }
         }
       }
       get {
         set indices [list]
-        foreach {startpos endpos} [$win._t tag ranges mcursor] {
+        foreach {startpos endpos} [$win._t tag ranges _mcursor] {
           lappend indices $starpos
         }
         return $indices
@@ -1136,7 +1133,7 @@ namespace eval ctext {
         foreach index [lrange $args 1 end] {
           lappend indices [$win index $index]
         }
-        $win._t tag remove mcursor {*}$indices
+        $win._t tag remove _mcursor {*}$indices
       }
       move {
         if {[llength $args] != 2} {
@@ -1145,18 +1142,18 @@ namespace eval ctext {
         if {[info procs getindex_[lindex $args 1 0]] eq ""} {
           return -code error "ctext cursor move command must be called with a relative index"
         }
-        if {[set mcursors [$win._t tag ranges mcursor]] ne ""} {
-          $win._t tag remove mcursor 1.0 end
+        if {[set mcursors [$win._t tag ranges _mcursor]] ne ""} {
+          $win._t tag remove _mcursor 1.0 end
           array set opts [lindex $]
           foreach mcursor $mcursor {
-            $win._t tag add mcursor [$win index [list {*}[lindex $args 1] -startpos $mcursor]]
+            $win._t tag add _mcursor [$win index [list {*}[lindex $args 1] -startpos $mcursor]]
           }
         } else {
           $win._t mark set insert [$win index [lindex $args 1]]
         }
       }
       align {
-        if {[set mcursor [$win._t tag ranges mcursor]] ne ""} {
+        if {[set mcursor [$win._t tag ranges _mcursor]] ne ""} {
           array set opts {
             -text 1
           }
@@ -1189,7 +1186,7 @@ namespace eval ctext {
 
     # Collect the text ranges to get
     if {[set ranges [$win._t tag ranges sel]] eq ""} {
-      if {[set cursors [$win._t tag ranges mcursor]] eq ""} {
+      if {[set cursors [$win._t tag ranges _mcursor]] eq ""} {
         set cursors [$win._t index insert]
       }
       foreach cursor $cursors {
@@ -1238,7 +1235,7 @@ namespace eval ctext {
 
     set ranges [list]
 
-    if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       set endSpec [lindex $args [expr $i + 1]]
       set ispec   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
@@ -1250,9 +1247,9 @@ namespace eval ctext {
         lappend ends   $endPos
         $win._t delete $startPos $endPos
         if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
-          $win._t tag add mcursor $startPos-1c
+          $win._t tag add _mcursor $startPos-1c
         } else {
-          $win._t tag add mcursor $startPos
+          $win._t tag add _mcursor $startPos
         }
         lappend ranges $startPos $endPos
       }
@@ -1311,7 +1308,7 @@ namespace eval ctext {
         lassign $args tline count
 
         # Get the current diff:A tag
-        set tag [lsearch -inline -glob [$win._t tag names $tline.0] diff:A:*]
+        set tag [lsearch -inline -glob [$win._t tag names $tline.0] _diff:A:*]
 
         # Get the beginning and ending position
         lassign [$win._t tag ranges $tag] start_pos end_pos
@@ -1324,12 +1321,12 @@ namespace eval ctext {
 
         # Add new tags
         set pos [$win._t index "$tline.0+${count}l linestart"]
-        $win._t tag add diff:A:D:$fline $tline.0 $pos
-        $win._t tag add diff:A:S:$fline $pos $end_pos
+        $win._t tag add _diff:A:D:$fline $tline.0 $pos
+        $win._t tag add _diff:A:S:$fline $pos $end_pos
 
         # Colorize the *D* tag
-        $win._t tag configure diff:A:D:$fline -background $data($win,config,-diffaddbg)
-        $win._t tag lower diff:A:D:$fline
+        $win._t tag configure _diff:A:D:$fline -background $data($win,config,-diffaddbg)
+        $win._t tag lower _diff:A:D:$fline
       }
       line {
         if {[llength $args] != 2} {
@@ -1338,7 +1335,7 @@ namespace eval ctext {
         if {[set type_index [lsearch [list add sub] [lindex $args 1]]] == -1} {
           return -code error "diff line second argument must be add or sub"
         }
-        set tag [lsearch -inline -glob [$win._t tag names [lindex $args 0].0] diff:[lindex [list B A] $type_index]:*]
+        set tag [lsearch -inline -glob [$win._t tag names [lindex $args 0].0] _diff:[lindex [list B A] $type_index]:*]
         lassign [split $tag :] dummy index type line
         if {$type eq "S"} {
           incr line [$win._t count -lines [lindex [$win._t tag ranges $tag] 0] [lindex $args 0].0]
@@ -1354,27 +1351,27 @@ namespace eval ctext {
         }
         set ranges [list]
         if {[lsearch [list add both] [lindex $args 0]] != -1} {
-          foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:A:D:*] {
+          foreach tag [lsearch -inline -all -glob [$win._t tag names] _diff:A:D:*] {
             lappend ranges {*}[$win._t tag ranges $tag]
           }
         }
         if {[lsearch [list sub both] [lindex $args 0]] != -1} {
-          foreach tag [lsearch -inline -all -glob [$win._t tag names] diff:B:D:*] {
+          foreach tag [lsearch -inline -all -glob [$win._t tag names] _diff:B:D:*] {
             lappend ranges {*}[$win._t tag ranges $tag]
           }
         }
         return [lsort -dictionary $ranges]
       }
       reset {
-        foreach name [lsearch -inline -all -glob [$win._t tag names] diff:*] {
+        foreach name [lsearch -inline -all -glob [$win._t tag names] _diff:*] {
           lassign [split $name :] dummy which type
           if {($which eq "B") && ($type eq "D") && ([llength [set ranges [$win._t tag ranges $name]]] > 0)} {
             $win._t delete {*}$ranges
           }
           $win._t tag delete $name
         }
-        $win._t tag add diff:A:S:1 1.0 end
-        $win._t tag add diff:B:S:1 1.0 end
+        $win._t tag add _diff:A:S:1 1.0 end
+        $win._t tag add _diff:B:S:1 1.0 end
       }
       sub {
         if {[llength $args] != 3} {
@@ -1384,8 +1381,8 @@ namespace eval ctext {
         lassign $args tline count str
 
         # Get the current diff: tags
-        set tagA [lsearch -inline -glob [$win._t tag names $tline.0] diff:A:*]
-        set tagB [lsearch -inline -glob [$win._t tag names $tline.0] diff:B:*]
+        set tagA [lsearch -inline -glob [$win._t tag names $tline.0] _diff:A:*]
+        set tagB [lsearch -inline -glob [$win._t tag names $tline.0] _diff:B:*]
 
         # Get the beginning and ending positions
         lassign [$win._t tag ranges $tagA] start_posA end_posA
@@ -1408,12 +1405,12 @@ namespace eval ctext {
         # Add the tags
         $win._t tag add $tagA $start_posA [$win._t index "$end_posA+${count}l linestart"]
         $win._t tag add $tagB $start_posB $tline.0
-        $win._t tag add diff:B:D:$fline $tline.0 $pos
-        $win._t tag add diff:B:S:$fline $pos [$win._t index "$end_posB+${count}l linestart"]
+        $win._t tag add _diff:B:D:$fline $tline.0 $pos
+        $win._t tag add _diff:B:S:$fline $pos [$win._t index "$end_posB+${count}l linestart"]
 
         # Colorize the *D* tag
-        $win._t tag configure diff:B:D:$fline -background $data($win,config,-diffsubbg)
-        $win._t tag lower diff:B:D:$fline
+        $win._t tag configure _diff:B:D:$fline -background $data($win,config,-diffsubbg)
+        $win._t tag lower _diff:B:D:$fline
       }
     }
     linemapUpdate $win 1
@@ -1504,7 +1501,7 @@ namespace eval ctext {
     set cursor  [$win._t index insert]
 
     # Insert the text
-    if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
         $win._t insert $startPos $content $tags
         lappend ranges  $startPos [$win._t index "$startPos+${chars}c"]
@@ -1536,14 +1533,18 @@ namespace eval ctext {
   # Allows code to examine the contents of a given index.
   proc command_is {win args} {
 
-    lassign $args type index
+    if {[llength $args] < 2} {
+      return -code error "Incorrect arguments passed to ctext is command"
+    }
+
+    lassign $args type index class
 
     set index [$win index $index]
 
     switch $type {
       escaped         { return [ctext::model::is_escaped $win $index] }
       folded          { return [expr [lsearch -exact [$win._t tag names $index] _folded] != -1] }
-      mcursor         { return [expr [lsearch -exact [$win._t tag names $index] mcursor] != -1] }
+      mcursor         { return [expr [lsearch -exact [$win._t tag names $index] _mcursor] != -1] }
       curly           { return [ctext::model::is_index $win curly       $index] }
       square          { return [ctext::model::is_index $win square      $index] }
       paren           { return [ctext::model::is_index $win paren       $index] }
@@ -1562,6 +1563,7 @@ namespace eval ctext {
       incomment       { return [ctext::model::is_index $win incomment   $index] }
       instring        { return [ctext::model::is_index $win instring    $index] }
       incommentstring { return [ctext::model::is_index $win incomstr    $index] }
+      inclass         { return [expr [lsearch -exact [$win._t tag names $index] _$class] != -1] }
       default         {
         return -code error "Unsupported is type ($type) specified"
       }
@@ -1657,7 +1659,7 @@ namespace eval ctext {
     set cursor [$win._t index insert]
 
     # Insert the text
-    if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       set endSpec [lindex $args [expr $i + 1]]
       set ispec   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
@@ -1734,38 +1736,27 @@ namespace eval ctext {
   # that it won't be placed lower than an embedded language tag.
   proc command_tag {win args} {
 
-    variable range_cache
+    set args [lassign $args subcmd tag]
 
     switch [lindex $args 0] {
-      lower {
-        set args [lassign $args subcmd tag]
-        if {($tag ne "") && ([string range $tag 0 5] eq "_Lang=")} {
-          $win._t tag lower $tag {*}$args
-        } elseif {[string range $tag 0 5] eq "_Lang:"} {
-          if {[set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang=*] end]] ne ""} {
-            $win._t tag raise $tag $lowest
-          } else {
-            $win._t tag lower $tag {*}$args
-          }
-        } else {
+      names {
+        return [lsearch -not -inline -all -glob [$win._t tag names {*}$tag] _*]
+      }
+      default {
+        if {[string index $tag 0] eq "_"} {
+          return -code error "ctext tags may not begin with an underscore"
+        }
+        if {$subcmd eq "lower"} {
           set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang:*] end]
           if {($lowest ne "") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
             $win._t tag raise $tag $lowest
           } else {
             $win._t tag lower $tag {*}$args
           }
+          return
+        } else {
+          return [$win._t tag $subcmd $tag {*}$args]
         }
-        return
-      }
-      raise {
-        set args [lassign $args subcmd tag]
-        if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
-          $win._t tag raise $tag {*}$args
-        }
-        return
-      }
-      default {
-        return [$win._t tag {*}$args]
       }
     }
 
@@ -2290,7 +2281,6 @@ namespace eval ctext {
   proc highlightAll {win lineranges ins block} {
 
     variable data
-    variable range_cache
 
     # If we don't have any lineranges, return
     if {$lineranges eq ""} {
@@ -2298,10 +2288,8 @@ namespace eval ctext {
     }
 
     # Delete all of the tags not associated with comments and strings that we created
-    foreach tag [$win._t tag names] {
-      if {[string index $tag 0] eq "_"} {
-        $win._t tag remove $tag {*}$lineranges
-      }
+    foreach tag [lsearch -inline -all -glob [$win._t tag names] __*] {
+      $win._t tag remove $tag {*}$lineranges
     }
 
     highlight $win $lineranges $ins $block
@@ -2415,8 +2403,8 @@ namespace eval ctext {
     array set opts $args
 
     # Configure the class tag and make it lower than the sel tag
-    $win tag configure _$class
-    $win tag lower _$class sel
+    $win._t tag configure __$class
+    $win._t tag lower __$class sel
 
     # If there is a command associated with the class, bind it to the right-click button
     if {$opts(-clickcmd) ne ""} {
@@ -4268,7 +4256,7 @@ namespace eval ctext {
       $win._t configure -blockcursor 0 -insertwidth 0
 
       # Make the multicursors look like the normal cursor
-      $win._t tag configure mcursor -background [$win._t cget -insertbackground]
+      $win._t tag configure _mcursor -background [$win._t cget -insertbackground]
 
     } else {
 
@@ -4276,7 +4264,7 @@ namespace eval ctext {
       $win._t configure -blockcursor 0 -insertwidth $data($win,config,-insertwidth)
 
       # Remove the background color
-      $win._t tag configure mcursor -background ""
+      $win._t tag configure _mcursor -background ""
 
     }
 
@@ -4287,7 +4275,7 @@ namespace eval ctext {
   # mode.
   proc is_block_cursor {win} {
 
-    return [expr {[$win._t cget -blockcursor] || ([$win._t tag ranges mcursor] ne "")}]
+    return [expr {[$win._t cget -blockcursor] || ([$win._t tag ranges _mcursor] ne "")}]
 
   }
 
@@ -4323,7 +4311,7 @@ namespace eval ctext {
   # Removes dspace characters.
   proc remove_dspace {win} {
 
-    set mcursors [lmap {startpos endpos} [$win._t tag ranges mcursor] { [list $startpos $endpos] }]
+    set mcursors [lmap {startpos endpos} [$win._t tag ranges _mcursor] { [list $startpos $endpos] }]
 
     foreach {startpos endpos} [$win._t tag ranges dspace] {
       if {[lsearch -index 0 $mcursors $startpos] == -1} {
@@ -4375,7 +4363,7 @@ namespace eval ctext {
     set rows     [list]
 
     # Find the cursor that is closest to the start of its line
-    foreach {start end} [$win._t tag ranges mcursor] {
+    foreach {start end} [$win._t tag ranges _mcursor] {
       lassign [split $start .] row col
       if {$row ne $last_row} {
         set last_row $row
@@ -4390,8 +4378,8 @@ namespace eval ctext {
       foreach row $rows {
         lappend cursors $row.$min_col $row.[expr $min_col + 1]
       }
-      $win._t tag remove mcursor 1.0 end
-      $win._t tag add mcursor {*}$cursors
+      $win._t tag remove _mcursor 1.0 end
+      $win._t tag add _mcursor {*}$cursors
     }
 
   }
@@ -4408,7 +4396,7 @@ namespace eval ctext {
     set cursors  [list]
 
     # Find the cursor position to align to and the cursors to align
-    foreach {start end} [$win._t tag ranges mcursor] {
+    foreach {start end} [$win._t tag ranges _mcursor] {
       lassign [split $start .] row col
       if {$row ne $last_row} {
         set last_row $row
