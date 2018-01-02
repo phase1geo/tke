@@ -1107,7 +1107,7 @@ namespace eval ctext {
         unset -nocomplain data($win,mcursor_anchor)
       }
       set {
-        if {[llength [lindex $args 1]] == 1} {
+        if {([llength [lindex $args 1]] == 1) || ([info procs getindex_[lindex $args 1 0]] ne "")} {
           set index [$win index [lindex $args 1]]
           set ins   [$win._t index insert]
           $win._t mark set insert $index
