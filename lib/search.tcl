@@ -717,6 +717,22 @@ namespace eval search {
   }
 
   ######################################################################
+  # Highlights all of the words that match the current word.
+  proc find_current_word {txt} {
+
+    # Get the current word
+    if {[string trim [set word [$txt get {*}[edit::get_range $txt.t {word 1} {} "i" 0]]]] ne ""} {
+      catch { $txt syntax delete search }
+      $txt syntax addclass search -fgtheme search_foreground -bgtheme search_background
+      $txt syntax search search $word
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Loads the given session data.
   proc load_session {session_data} {
 
