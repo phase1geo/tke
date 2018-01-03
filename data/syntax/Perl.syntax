@@ -54,7 +54,7 @@ punctuation
 
 miscellaneous1
 {
-  HighlightWithOnlyCharStart \$ {}
-  HighlightWithOnlyCharStart \@ {}
-  HighlightWithOnlyCharStart \% {}
+  HighlightCharStart \$ {}
+  HighlightCharStart \@ {}
+  HighlightCharStart \% {}
 }

@@ -1688,7 +1688,6 @@ namespace eval gui {
       # Add the file's directory to the sidebar and highlight it
       if {$opts(-sidebar)} {
         sidebar::add_directory [file normalize [file dirname $name]] -remote $opts(-remote)
-        # sidebar::highlight_filename $name 0
       }
 
       # Make this tab the currently displayed tab
@@ -3719,7 +3718,7 @@ namespace eval gui {
   # multicursor mode.
   proc insert_numbers {txt} {
 
-    if {[multicursor::enabled $txt]} {
+    if {[llength [$txt cursor get]] > 1} {
 
       set var1 ""
 
@@ -3727,7 +3726,7 @@ namespace eval gui {
       if {[get_user_response [msgcat::mc "Starting number:"] var1]} {
 
         # Insert the numbers (if not successful, output an error to the user)
-        if {![multicursor::insert_numbers $txt $var1]} {
+        if {![edit::insert_numbers $txt $var1]} {
           set_info_message [msgcat::mc "Unable to successfully parse number string"]
         }
 
@@ -4303,10 +4302,9 @@ namespace eval gui {
 
     # Add the text bindings
     if {!$opts(-diff)} {
-      indent::add_bindings      $txt
-      vim::set_vim_mode         $txt
-      multicursor::add_bindings $txt
-      completer::add_bindings   $txt
+      indent::add_bindings    $txt
+      vim::set_vim_mode       $txt
+      completer::add_bindings $txt
     }
     select::add $txt $tab.sb
     plugins::handle_text_bindings $txt $opts(-tags)
@@ -4423,7 +4421,6 @@ namespace eval gui {
     # Add the text bindings
     indent::add_bindings          $txt2
     vim::set_vim_mode             $txt2
-    multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
     plugins::handle_text_bindings $txt2 {}
     make_drop_target              $txt2 text
@@ -4899,11 +4896,7 @@ namespace eval gui {
       format_dropped_data $txt data cursor
 
       # Insert the data
-      if {[multicursor::enabled $txt.t]} {
-        multicursor::insert $txt.t $data
-      } else {
-        $txt insert insert $data
-      }
+      $txt insert insert $data
 
       # If we need to adjust the cursor(s) do it now.
       if {$cursor != 0} {
@@ -4921,11 +4914,7 @@ namespace eval gui {
           }
         }
       }
-      if {[multicursor::enabled $txt.t]} {
-        multicursor::insert $txt.t $str
-      } else {
-        $txt insert "insert lineend" $str
-      }
+      $txt insert "insert lineend" $str
     }
 
   }
@@ -5197,15 +5186,8 @@ namespace eval gui {
     set txt [current_txt]
 
     set proclist [list]
-    foreach tag [$txt tag names] {
-      if {[string range $tag 0 8] eq "_symbols:"} {
-        if {[set type [string range $tag 9 end]] ne ""} {
-          append type ": "
-        }
-        foreach {startpos endpos} [$txt tag ranges $tag] {
-          lappend proclist "$type[$txt get $startpos $endpos]" $startpos
-        }
-      }
+    foreach {startpos endpos} [$txt syntax ranges symbols] {
+      lappend proclist [$txt get $startpos $endpos] $startpos
     }
 
     return $proclist

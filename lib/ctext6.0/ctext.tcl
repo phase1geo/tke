@@ -120,6 +120,7 @@ namespace eval ctext {
     set data($win,config,-shiftwidth)             2
     set data($win,config,-tabstop)                2
     set data($win,config,-blockcursor)            0
+    set data($win,config,-mousesetsmcursor)       1
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -132,6 +133,7 @@ namespace eval ctext {
     set data($win,config,langs)                   [list {}]
     set data($win,config,gutters)                 [list]
     set data($win,config,redo_hist)               [list]
+    set data($win,config,movemode)                0
 
     set data($win,config,ctextFlags) {
       -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg -font -linemap_mark_command
@@ -140,7 +142,7 @@ namespace eval ctext {
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
       -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
-      -blockcursor
+      -blockcursor -mousesetsmcursor
     }
 
     # Set args
@@ -203,10 +205,10 @@ namespace eval ctext {
 
     # If -matchchar is set, create the tag
     if {$data($win,config,-matchchar)} {
-      $win.t tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+      $win.t tag configure _matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     }
     if {$data($win,config,-matchaudit)} {
-      $win.t tag configure missing -background $data($win,config,-matchaudit_bg)
+      $win.t tag configure _missing -background $data($win,config,-matchaudit_bg)
     }
 
     # Initialize shared memory
@@ -217,16 +219,24 @@ namespace eval ctext {
     # Create the model
     ctext::model::create $win
 
-    bind $win.t <Configure>           [list ctext::linemapUpdate $win]
-    bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win 1]
-    bind $win.l <Button-$right_click> [list ctext::linemapToggleMark $win %x %y]
-    bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
-    bind $win.l <4>                   [list event generate $win.t <4>]
-    bind $win.l <5>                   [list event generate $win.t <5>]
-    bind $win.l <ButtonPress-1>       [list ctext::selectLines $win %x %y 1]
-    bind $win.l <B1-Motion>           [list ctext::selectLines $win %x %y 0]
-    bind $win.l <Shift-ButtonPress-1> [list ctext::selectLines $win %x %y 0]
-    bind $win   <Destroy>             [list ctext::event:Destroy $win %W]
+    bind $win.t <Configure>                [list ctext::linemapUpdate $win]
+    bind $win.t <<CursorChanged>>          [list ctext::linemapUpdate $win 1]
+    bind $win.t <Key-Up>                   [list $win cursor move up]
+    bind $win.t <Key-Down>                 [list $win cursor move down]
+    bind $win.t <Key-Left>                 [list $win cursor move left]
+    bind $win.t <Key-Right>                [list $win cursor move right]
+    bind $win.t <Key-Home>                 [list $win cursor move linestart]
+    bind $win.t <Key-End>                  [list $win cursor move lineend]
+    bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
+    bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
+    bind $win.l <Button-$right_click>      [list ctext::linemapToggleMark $win %x %y]
+    bind $win.l <MouseWheel>               [list event generate $win.t <MouseWheel> -delta %D]
+    bind $win.l <4>                        [list event generate $win.t <4>]
+    bind $win.l <5>                        [list event generate $win.t <5>]
+    bind $win.l <ButtonPress-1>            [list ctext::selectLines $win %x %y 1]
+    bind $win.l <B1-Motion>                [list ctext::selectLines $win %x %y 0]
+    bind $win.l <Shift-ButtonPress-1>      [list ctext::selectLines $win %x %y 0]
+    bind $win   <Destroy>                  [list ctext::event:Destroy $win %W]
 
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
@@ -339,12 +349,32 @@ namespace eval ctext {
       $win._t configure -blockcursor 0
     }
 
+    lappend argTable {1 true yes} -mousesetsmcursor {
+      set data($win,config,-mousesetmcursor) 1
+      if {[$win._t tag ranges _mcursor] ne ""} {
+        $win._t configure -insertwidth 0
+      } else {
+        $win._t configure -insertwidth $data($win,config,-insertwidth)
+      }
+    }
+
+    lappend argTable {0 false no} -mousesetsmcursor {
+      set data($win,config,-mousesetmcursor) 0
+      if {[$win._t tag ranges _mcursor] ne ""} {
+        if {$data($win,config,movemode)} {
+          $win._t configure -insertwidth 0
+        } else {
+          $win._t configure -insertwidth $data($win,config,-insertwidth)
+        }
+      }
+    }
+
     lappend argTable any -insertwidth {
       if {![string is integer $value] || ($value < 0)} {
         return -code error "ctext -insertwidth value must be an positive integer value"
       }
       set data($win,config,-insertwidth) $value
-      if {[$win._t cget -insertwidth] > 0} {
+      if {$data($win,config,movemode) == 0} {
         $win._t configure -insertwidth $value
       }
     }
@@ -461,7 +491,7 @@ namespace eval ctext {
           set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $data($win,config,-warnwidth)]]]
           place $win.t.w -x $newx -relheight 1.0
           adjust_rmargin $win
-          $win tag configure lmargin -lmargin1 $value -lmargin2 $value
+          $win._t tag configure lmargin -lmargin1 $value -lmargin2 $value
         }
       } else {
         return -code error "Error: -lmargin option must be an integer value greater or equal to zero"
@@ -612,45 +642,45 @@ namespace eval ctext {
 
     lappend argTable {0 false no} -matchchar {
       set data($win,config,-matchchar) 0
-      catch { $win tag delete matchchar }
+      catch { $win._t tag delete _matchchar }
       break
     }
 
     lappend argTable {1 true yes} -matchchar {
       set data($win,config,-matchchar) 1
-      $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+      $win._t tag configure _matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
       break
     }
 
     lappend argTable {any} -matchchar_fg {
       set data($win,config,-matchchar_fg) $value
-      $win tag configure matchchar -foreground $data($win,config,-matchchar_fg)
+      $win._t tag configure _matchchar -foreground $data($win,config,-matchchar_fg)
       break
     }
 
     lappend argTable {any} -matchchar_bg {
       set data($win,config,-matchchar_bg) $value
-      $win tag configure matchchar -background $data($win,config,-matchchar_bg)
+      $win._t tag configure _matchchar -background $data($win,config,-matchchar_bg)
       break
     }
 
     lappend argTable {0 false no} -matchaudit {
       set data($win,config,-matchaudit) 0
-      catch { $win tag remove missing 1.0 end }
+      catch { $win._t tag remove _missing 1.0 end }
       break
     }
 
     lappend argTable {1 true yes} -matchaudit {
       set data($win,config,-matchaudit) 1
-      $win tag configure missing -background $data($win,config,-matchaudit_bg)
+      $win._t tag configure _missing -background $data($win,config,-matchaudit_bg)
       ctext::parsers::render_mismatched $win
       break
     }
 
     lappend argTable {any} -matchaudit_bg {
       set data($win,config,-matchaudit_bg) $value
-      if {[lsearch [$win tag names] missing] != -1} {
-        $win tag configure missing -background $value
+      if {[lsearch [$win._t tag names] _missing] != -1} {
+        $win._t tag configure _missing -background $value
       }
       break
     }
@@ -917,7 +947,6 @@ namespace eval ctext {
       edit        { return [command_edit        $win {*}$args] }
       fold        { return [command_fold        $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
-      highlight   { return [command_highlight   $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
       is          { return [command_is          $win {*}$args] }
@@ -926,6 +955,7 @@ namespace eval ctext {
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
+      syntax      { return [command_syntax      $win {*}$args] }
       tag         { return [command_tag         $win {*}$args] }
       default     { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
     }
@@ -1073,6 +1103,9 @@ namespace eval ctext {
 
     switch [lindex $args 0] {
       add {
+        if {([$win._t tag ranges _mcursor] eq "") && $data($win,config,-mousesetsmcursor)} {
+          $win._t configure -insertwidth 0
+        } 
         foreach index [lrange $args 1 end] {
           set index [$win index $index]
           $win._t tag add _mcursor $index
@@ -1100,6 +1133,9 @@ namespace eval ctext {
         }
       }
       disable {
+        if {$data($win,config,-mousesetsmcursor)} {
+          $win._t configure -insertwidth $data($win,config,-insertwidth)
+        }
         $win._t tag delete _mcursor
         unset -nocomplain data($win,mcursor_anchor)
       }
@@ -1124,7 +1160,7 @@ namespace eval ctext {
       get {
         set indices [list]
         foreach {startpos endpos} [$win._t tag ranges _mcursor] {
-          lappend indices $starpos
+          lappend indices $startpos
         }
         return $indices
       }
@@ -1134,6 +1170,9 @@ namespace eval ctext {
           lappend indices [$win index $index]
         }
         $win._t tag remove _mcursor {*}$indices
+        if {([$win._t tag ranges _mcursor] eq "") && $data($win,config,-mousesetsmcursor)} {
+          $win._t configure -insertwidth $data($win,config,-insertwidth)
+        }
       }
       move {
         if {[llength $args] != 2} {
@@ -1419,28 +1458,53 @@ namespace eval ctext {
 
   ######################################################################
   # Performs text highlighting on the given ranges.
-  proc command_highlight {win args} {
+  proc command_syntax {win args} {
 
     variable data
 
-    set i 0
-    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+    set args [lassign $args subcmd]
 
-    array set opts {
-      -moddata  {}
-      -insert   0
-      -modified 0
-      -block    1
+    switch $subcmd {
+      addclass     { addHighlightClass     $win {*}$args }
+      addwords     { addHighlightKeywords  $win {*}$args }
+      addregexp    { addHighlightRegexp    $win {*}$args }
+      addcharstart { addHighlightCharStart $win {*}$args }
+      search       { highlightSearch       $win {*}$args }
+      delete       {
+        if {[llength $args] == 0} {
+          deleteHighlightClasses $win
+        } else {
+          deleteHighlightClass $win {*}$args
+        }
+      }
+      clear     { clearHighlightClasses $win }
+      nextrange { return [nextHighlightClassItem $win {*}$args] }
+      prevrange { return [prevHighlightClassItem $win {*}$args] }
+      ranges    { return [$win._t tag ranges __[lindex $args 0]] }
+      highlight {
+        set i 0
+        while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+        array set opts {
+          -moddata  {}
+          -insert   0
+          -modified 0
+          -block    1
+        }
+        array set opts [lrange $args 0 [expr $i - 1]]
+
+        set ranges [list]
+        foreach {start end} [lrange $args $i end] {
+          lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
+        }
+
+        highlightAll $win $ranges $opts(-insert) $opts(-block)
+        modified     $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
+      }
+      default {
+        return -code error "Unknown ctext highlight subcommand ($subcmd)"
+      }
     }
-    array set opts [lrange $args 0 [expr $i - 1]]
-
-    set ranges [list]
-    foreach {start end} [lrange $args $i end] {
-      lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
-    }
-
-    highlightAll $win $ranges $opts(-insert) $opts(-block)
-    modified     $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
 
   }
 
@@ -1563,7 +1627,7 @@ namespace eval ctext {
       incomment       { return [ctext::model::is_index $win incomment   $index] }
       instring        { return [ctext::model::is_index $win instring    $index] }
       incommentstring { return [ctext::model::is_index $win incomstr    $index] }
-      inclass         { return [expr [lsearch -exact [$win._t tag names $index] _$class] != -1] }
+      inclass         { return [expr [lsearch -exact [$win._t tag names $index] __$class] != -1] }
       default         {
         return -code error "Unsupported is type ($type) specified"
       }
@@ -1738,9 +1802,13 @@ namespace eval ctext {
 
     set args [lassign $args subcmd tag]
 
-    switch [lindex $args 0] {
+    switch $subcmd {
       names {
-        return [lsearch -not -inline -all -glob [$win._t tag names {*}$tag] _*]
+        if {$tag eq ""} {
+          return [lsearch -not -inline -all -glob [$win._t tag names] _*]
+        } else {
+          return [lsearch -not -inline -all -glob [$win._t tag names $tag] _*]
+        }
       }
       default {
         if {[string index $tag 0] eq "_"} {
@@ -2001,7 +2069,7 @@ namespace eval ctext {
     catch { array unset data $win,config,matchChar,$lang,* }
 
     # Remove the brackets
-    catch { $win._t tag delete missing }
+    catch { $win._t tag delete _missing }
 
     # Set the matchChars
     foreach matchChar $matchChars {
@@ -2009,7 +2077,7 @@ namespace eval ctext {
     }
 
     # Set the bracket auditing tags
-    $win._t tag configure missing -background $data($win,config,-matchaudit_bg)
+    $win._t tag configure _missing -background $data($win,config,-matchaudit_bg)
 
   }
 
@@ -2021,7 +2089,7 @@ namespace eval ctext {
     variable data
 
     # Clear the matchchar tag
-    catch { $win._t tag remove matchchar 1.0 end }
+    catch { $win._t tag remove _matchchar 1.0 end }
 
     # If we are not in block cursor mode, use the previous character
     if {![$win cget -blockcursor] && [$win compare insert != "insert linestart"]} {
@@ -2039,14 +2107,14 @@ namespace eval ctext {
   # Returns the index of the bracket type previous to the given index.
   proc getPrevBracket {win stype {index insert}} {
 
-    lassign [$win tag prevrange _$stype $index] first last
+    lassign [$win._t tag prevrange __$stype $index] first last
 
     if {$last eq ""} {
       return ""
-    } elseif {[$win compare $last < $index]} {
-      return [$win index "$last-1c"]
+    } elseif {[$win._t compare $last < $index]} {
+      return [$win._t index "$last-1c"]
     } else {
-      return [$win index "$index-1c"]
+      return [$win._t index "$index-1c"]
     }
 
   }
@@ -2055,12 +2123,12 @@ namespace eval ctext {
   # Returns the index of the bracket type after the given index.
   proc getNextBracket {win stype {index insert}} {
 
-    lassign [$win tag prevrange _$stype "$index+1c"] first last
+    lassign [$win._t tag prevrange __$stype "$index+1c"] first last
 
-    if {($last ne "") && [$win compare "$index+1c" < $last]} {
-      return [$win index "$index+1c"]
+    if {($last ne "") && [$win._t compare "$index+1c" < $last]} {
+      return [$win._t index "$index+1c"]
     } else {
-      lassign [$win tag nextrange _$stype "$index+1c"] first last
+      lassign [$win._t tag nextrange __$stype "$index+1c"] first last
       return $first
     }
 
@@ -2089,7 +2157,7 @@ namespace eval ctext {
     if {$dir eq "next"} {
       set index end
       foreach type [list square curly paren angled] {
-        lassign [$win._t tag nextrange missing:$type "insert+1c"] first
+        lassign [$win._t tag nextrange _missing:$type "insert+1c"] first
         if {($first ne "") && [$win._t compare $first < $index]} {
           set index $first
         }
@@ -2097,7 +2165,7 @@ namespace eval ctext {
     } else {
       set index 1.0
       foreach type [list square curly paren angled] {
-        lassign [$win._t tag prevrange missing:$type insert] first
+        lassign [$win._t tag prevrange _missing:$type insert] first
         if {($first ne "") && [$win._t compare $first > $index]} {
           set index $first
         }
@@ -2105,7 +2173,7 @@ namespace eval ctext {
     }
 
     # Make sure that the current bracket is in view
-    if {[lsearch [$win._t tag names $index] missing:*] != -1} {
+    if {[lsearch [$win._t tag names $index] _missing:*] != -1} {
       if {!$opts(-check)} {
         $win cursor set $index
       }
@@ -2160,7 +2228,7 @@ namespace eval ctext {
           lappend tags $type:$i left  [lindex $pattern 0] $once $lang
           lappend tags $type:$i right [lindex $pattern 1] $once $lang
         }
-        ctext::model::add_types $win $type:$i _$tag
+        ctext::model::add_types $win $type:$i __$tag
         incr i
       }
 
@@ -2172,7 +2240,7 @@ namespace eval ctext {
 
     } else {
 
-      catch { $win tag delete _$tag }
+      catch { $win tag delete __$tag }
 
     }
 
@@ -2408,7 +2476,7 @@ namespace eval ctext {
 
     # If there is a command associated with the class, bind it to the right-click button
     if {$opts(-clickcmd) ne ""} {
-      $win tag bind <Button-$right_click> [list ctext::handleClickCommand $win _$class $opts(-clickcmd)]
+      $win tag bind __$class <Button-$right_click> [list ctext::handleClickCommand $win __$class $opts(-clickcmd)]
     }
 
     # Save the class name and options
@@ -2435,16 +2503,7 @@ namespace eval ctext {
   # Delete the highlight classes.
   proc deleteHighlightClasses {win} {
 
-    variable data
-
-    set classes [list]
-
-    foreach key [array names data $win,classopts,*] {
-      lassign [split $key ,] dummy1 dummy2 class
-      lappend classes _$class
-    }
-
-    catch { $win tag delete {*}$classes }
+    catch { $win._t tag delete {*}[lsearch -inline -all -glob [$win._t tag names] __*] }
 
   }
 
@@ -2471,24 +2530,24 @@ namespace eval ctext {
       add_font_opts $win $opts(-fontopts) tag_opts
     }
 
-    catch { $win tag configure _$class {*}$tag_opts }
+    catch { $win._t tag configure __$class {*}$tag_opts }
 
   }
 
   ######################################################################
   # Adds a list of keywords that will be highlighted with the specified
   # class.
-  proc addHighlightKeywords {win keywords type value {lang ""}} {
+  proc addHighlightKeywords {win type value keywords {lang ""}} {
 
     variable data
 
     if {$type eq "class"} {
       checkHighlightClass $win $value
-      set value _$value
+      set value __$value
     }
 
     foreach word $keywords {
-      set data($win,highlight,keyword,$type,$lang,$word) $value
+      set data($win,highlight,word,$type,$lang,$word) $value
     }
 
   }
@@ -2496,13 +2555,13 @@ namespace eval ctext {
   ######################################################################
   # Adds a regular expression that will be highlighted with the
   # specified class.
-  proc addHighlightRegexp {win re type value {lang ""}} {
+  proc addHighlightRegexp {win type value re {lang ""}} {
 
     variable data
 
     if {$type eq "class"} {
       checkHighlightClass $win $value
-      set value _$value
+      set value __$value
     }
 
     lappend data($win,highlight,regexps) "regexp,$type,$lang,$value"
@@ -2513,13 +2572,13 @@ namespace eval ctext {
 
   ######################################################################
   # For things like $blah
-  proc addHighlightWithOnlyCharStart {win char type value {lang ""}} {
+  proc addHighlightCharStart {win type value char {lang ""}} {
 
     variable data
 
     if {$type eq "class"} {
       checkHighlightClass $win $value
-      set value _$value
+      set value __$value
     }
 
     set data($win,highlight,charstart,$type,$lang,$char) $value
@@ -2540,7 +2599,7 @@ namespace eval ctext {
     set i 0
     foreach res [$win._t search -count lengths {*}$opts -all -- $str 1.0 end] {
       set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
-      $win._t tag add _$class $res $wordEnd
+      $win._t tag add __$class $res $wordEnd
       incr i
     }
 
@@ -2556,13 +2615,13 @@ namespace eval ctext {
     checkHighlightClass $win $class
 
     # Remove the class from the list of regexps, if it exists
-    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$class]] != -1} {
+    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,*,__$class]] != -1} {
       set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
     }
 
-    array unset data $win,highlight,*,class,_$class
+    array unset data $win,highlight,*,class,__$class
 
-    $win tag delete _$class 1.0 end
+    $win tag delete __$class 1.0 end
 
   }
 
@@ -2585,6 +2644,28 @@ namespace eval ctext {
 
     # Clear all information stored in the model
     ctext::model::clear $win
+
+  }
+
+  ######################################################################
+  # Returns the index range of the next highlighted class type starting
+  # at the given index (or the current insertion index if not specified).
+  proc nextHighlightClassItem {win class {index insert}} {
+
+    variable data
+
+    return [$win._t tag nextrange __$class $index]
+
+  }
+
+  ######################################################################
+  # Returns the index range of the next highlighted class type starting
+  # at the given index (or the current insertion index if not specified).
+  proc prevHighlightClassItem {win class {index insert}} {
+
+    variable data
+
+    return [$win._t tag prevrange __$class $index]
 
   }
 
@@ -2661,7 +2742,7 @@ namespace eval ctext {
     set lineend   [$win._t index "$end lineend"]
     set startrow  [lindex [split $linestart .] 0]
     set str       [$win._t get $linestart $lineend]
-    set namelist  [array get data $win,highlight,keyword,class,,*]
+    set namelist  [array get data $win,highlight,word,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
 
     # Perform bracket parsing
@@ -2879,8 +2960,8 @@ namespace eval ctext {
   ######################################################################
   proc set_rmargin {win startpos endpos} {
 
-    $win tag add rmargin $startpos $endpos
-    $win tag add lmargin $startpos $endpos
+    $win._t tag add rmargin $startpos $endpos
+    $win._t tag add lmargin $startpos $endpos
 
   }
 
@@ -2889,7 +2970,7 @@ namespace eval ctext {
 
     # If the warning width indicator is absent, remove rmargin and return
     if {[lsearch [place slaves $win.t] $win.t.w] == -1} {
-      $win tag configure rmargin -rmargin ""
+      $win._t tag configure rmargin -rmargin ""
       return
     }
 
@@ -2898,9 +2979,9 @@ namespace eval ctext {
 
     # Set the rmargin
     if {$rmargin > 0} {
-      $win tag configure rmargin -rmargin $rmargin
+      $win._t tag configure rmargin -rmargin $rmargin
     } else {
-      $win tag configure rmargin -rmargin ""
+      $win._t tag configure rmargin -rmargin ""
     }
 
   }
@@ -4311,7 +4392,7 @@ namespace eval ctext {
   # Removes dspace characters.
   proc remove_dspace {win} {
 
-    set mcursors [lmap {startpos endpos} [$win._t tag ranges _mcursor] { [list $startpos $endpos] }]
+    set mcursors [lmap {startpos endpos} [$win._t tag ranges _mcursor] {list $startpos $endpos}]
 
     foreach {startpos endpos} [$win._t tag ranges dspace] {
       if {[lsearch -index 0 $mcursors $startpos] == -1} {

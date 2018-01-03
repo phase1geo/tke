@@ -78,8 +78,8 @@ namespace eval parsers {
         set word   [{*}$transform [string range $line {*}$indices]]
         set first  [string index $word 0]
         set endpos [expr [lindex $indices 1] + 1]
-        if {[info exists words($txt,highlight,keyword,class,,$word)]} {
-          lappend tags($words($txt,highlight,keyword,class,,$word)) $startrow.[lindex $indices 0] $startrow.$endpos
+        if {[info exists words($txt,highlight,word,class,,$word)]} {
+          lappend tags($words($txt,highlight,word,class,,$word)) $startrow.[lindex $indices 0] $startrow.$endpos
         } elseif {[info exists starts($txt,highlight,charstart,class,,$first)]} {
           lappend tags($starts($txt,highlight,charstart,class,,$first)) $startrow.[lindex $indices 0] $startrow.$endpos
         }
@@ -322,7 +322,7 @@ namespace eval parsers {
   # Highlights the mismatched brackets.
   proc render_mismatched {win} {
 
-    render $win missing [ctext::model::get_mismatched $win] 1
+    render $win _missing [ctext::model::get_mismatched $win] 1
 
   }
 
@@ -332,7 +332,7 @@ namespace eval parsers {
 
     # Get the matching character
     if {[ctext::model::get_match_char $win tindex]} {
-      render $win matchchar $tindex 0
+      render $win _matchchar $tindex 0
     }
 
   }

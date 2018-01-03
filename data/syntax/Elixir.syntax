@@ -55,7 +55,7 @@ symbols
 numbers {
   HighlightKeywords {true false} {}
   HighlightRegexp {\m([0-9_]+|0b[01_]+|0o[0-7_]+|0x[0-9a-fA-F_]+|[0-9_]+\.[0-9_]+[eE]-?[0-9]+)} {}
-  HighlightWithOnlyCharStart {:} {}
+  HighlightCharStart {:} {}
 }
 
 punctuation
@@ -64,7 +64,7 @@ punctuation
 }
 
 miscellaneous1 {
-  HighlightWithOnlyCharStart {@} {}
+  HighlightCharStart {@} {}
 }
 
 miscellaneous2 {

@@ -72,8 +72,9 @@ namespace eval search {
       find_clear
 
       # Create a highlight class for the given search string
-      ctext::addHighlightClass $txt search -fgtheme search_foreground -bgtheme search_background
-      ctext::highlightSearch $txt search $str $search_opts
+      $txt syntax addclass search -fgtheme search_foreground -bgtheme search_background
+      $txt syntax search search $str $search_opts
+
     }
 
   }
@@ -137,7 +138,7 @@ namespace eval search {
     set txt [gui::current_txt]
 
     # Clear the highlight class
-    catch { ctext::deleteHighlightClass $txt search }
+    catch { $txt syntax delete search }
 
   }
 
@@ -157,11 +158,11 @@ namespace eval search {
     set wrapped 0
 
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag nextrange _search "insert+1c"] startpos endpos
+    lassign [$txt syntax nextrange search "insert+1c"] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag nextrange _search 1.0] startpos endpos
+      lassign [$txt syntax nextrange search 1.0] startpos endpos
       set wrapped 1
     }
 
@@ -184,11 +185,11 @@ namespace eval search {
     set wrapped 0
 
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag prevrange _search insert] startpos endpos
+    lassign [$txt syntax prevrange search insert] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag prevrange _search end] startpos endpos
+      lassign [$txt syntax prevrange search end] startpos endpos
       set wrapped 1
     }
 
@@ -223,7 +224,7 @@ namespace eval search {
     }
 
     # Add the search term to the selection
-    $txt tag add sel {*}[$txt tag prevrange _search "insert+1c"]
+    $txt tag add sel {*}[$txt syntax prevrange search "insert+1c"]
 
   }
 

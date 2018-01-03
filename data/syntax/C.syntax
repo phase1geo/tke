@@ -50,7 +50,7 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart {#} {}
+  HighlightCharStart {#} {}
 }
 
 miscellaneous1 {
