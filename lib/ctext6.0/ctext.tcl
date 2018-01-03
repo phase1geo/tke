@@ -120,7 +120,7 @@ namespace eval ctext {
     set data($win,config,-shiftwidth)             2
     set data($win,config,-tabstop)                2
     set data($win,config,-blockcursor)            0
-    set data($win,config,-mousesetsmcursor)       1
+    set data($win,config,-multimove)              1
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -133,7 +133,6 @@ namespace eval ctext {
     set data($win,config,langs)                   [list {}]
     set data($win,config,gutters)                 [list]
     set data($win,config,redo_hist)               [list]
-    set data($win,config,movemode)                0
 
     set data($win,config,ctextFlags) {
       -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg -font -linemap_mark_command
@@ -142,7 +141,7 @@ namespace eval ctext {
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
       -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
-      -blockcursor -mousesetsmcursor
+      -blockcursor -multimove
     }
 
     # Set args
@@ -221,12 +220,13 @@ namespace eval ctext {
 
     bind $win.t <Configure>                [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>          [list ctext::linemapUpdate $win 1]
-    bind $win.t <Key-Up>                   [list $win cursor move up]
-    bind $win.t <Key-Down>                 [list $win cursor move down]
-    bind $win.t <Key-Left>                 [list $win cursor move left]
-    bind $win.t <Key-Right>                [list $win cursor move right]
-    bind $win.t <Key-Home>                 [list $win cursor move linestart]
-    bind $win.t <Key-End>                  [list $win cursor move lineend]
+    bind $win.t <Key-Up>                   "$win cursor move up; break"
+    bind $win.t <Key-Down>                 "$win cursor move down; break"
+    bind $win.t <Key-Left>                 "$win cursor move left; break"
+    bind $win.t <Key-Right>                "$win cursor move right; break"
+    bind $win.t <Key-Home>                 "$win cursor move linestart; break"
+    bind $win.t <Key-End>                  "$win cursor move lineend; break"
+    bind $win.t <Escape>                   "$win cursor disable"
     bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
     bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
     bind $win.l <Button-$right_click>      [list ctext::linemapToggleMark $win %x %y]
@@ -338,7 +338,7 @@ namespace eval ctext {
       if {[$win._t compare "insert linestart" == "insert lineend"]} {
         $win._t insert insert " " dspace
       }
-      $win._t configure -blockcursor 1
+      update_cursor $win
     }
 
     lappend argTable {0 false no} -blockcursor {
@@ -346,27 +346,17 @@ namespace eval ctext {
       if {[$win._t tag ranges _mcursor] eq ""} {
         $win._t tag remove dspace 1.0 end
       }
-      $win._t configure -blockcursor 0
+      update_cursor $win
     }
 
-    lappend argTable {1 true yes} -mousesetsmcursor {
-      set data($win,config,-mousesetmcursor) 1
-      if {[$win._t tag ranges _mcursor] ne ""} {
-        $win._t configure -insertwidth 0
-      } else {
-        $win._t configure -insertwidth $data($win,config,-insertwidth)
-      }
+    lappend argTable {1 true yes} -multimove {
+      set data($win,config,-multimove) 1
+      update_cursor $win
     }
 
-    lappend argTable {0 false no} -mousesetsmcursor {
-      set data($win,config,-mousesetmcursor) 0
-      if {[$win._t tag ranges _mcursor] ne ""} {
-        if {$data($win,config,movemode)} {
-          $win._t configure -insertwidth 0
-        } else {
-          $win._t configure -insertwidth $data($win,config,-insertwidth)
-        }
-      }
+    lappend argTable {0 false no} -multimove {
+      set data($win,config,-multimove) 0
+      update_cursor $win
     }
 
     lappend argTable any -insertwidth {
@@ -374,9 +364,7 @@ namespace eval ctext {
         return -code error "ctext -insertwidth value must be an positive integer value"
       }
       set data($win,config,-insertwidth) $value
-      if {$data($win,config,movemode) == 0} {
-        $win._t configure -insertwidth $value
-      }
+      update_cursor $win
     }
 
     lappend argTable any -theme {
@@ -1103,14 +1091,12 @@ namespace eval ctext {
 
     switch [lindex $args 0] {
       add {
-        if {([$win._t tag ranges _mcursor] eq "") && $data($win,config,-mousesetsmcursor)} {
-          $win._t configure -insertwidth 0
-        } 
         foreach index [lrange $args 1 end] {
           set index [$win index $index]
           $win._t tag add _mcursor $index
           set data($win,mcursor_anchor) $index
         }
+        update_cursor $win
       }
       addcolumn {
         if {[llength $args] != 2} {
@@ -1133,11 +1119,9 @@ namespace eval ctext {
         }
       }
       disable {
-        if {$data($win,config,-mousesetsmcursor)} {
-          $win._t configure -insertwidth $data($win,config,-insertwidth)
-        }
         $win._t tag delete _mcursor
         unset -nocomplain data($win,mcursor_anchor)
+        update_cursor $win
       }
       set {
         if {([llength [lindex $args 1]] == 1) || ([info procs getindex_[lindex $args 1 0]] ne "")} {
@@ -1156,6 +1140,7 @@ namespace eval ctext {
             set data($win,mcursor_anchor) $index
           }
         }
+        update_cursor $win
       }
       get {
         set indices [list]
@@ -1170,9 +1155,7 @@ namespace eval ctext {
           lappend indices [$win index $index]
         }
         $win._t tag remove _mcursor {*}$indices
-        if {([$win._t tag ranges _mcursor] eq "") && $data($win,config,-mousesetsmcursor)} {
-          $win._t configure -insertwidth $data($win,config,-insertwidth)
-        }
+        update_cursor $win
       }
       move {
         if {[llength $args] != 2} {
@@ -1181,11 +1164,10 @@ namespace eval ctext {
         if {[info procs getindex_[lindex $args 1 0]] eq ""} {
           return -code error "ctext cursor move command must be called with a relative index"
         }
-        if {[set mcursors [$win._t tag ranges _mcursor]] ne ""} {
+        if {([set mcursors [$win._t tag ranges _mcursor]] ne "") && $data($win,config,-multimove)} {
           $win._t tag remove _mcursor 1.0 end
-          array set opts [lindex $]
-          foreach mcursor $mcursor {
-            $win._t tag add _mcursor [$win index [list {*}[lindex $args 1] -startpos $mcursor]]
+          foreach {startpos endpos} $mcursors {
+            $win._t tag add _mcursor [$win index [list {*}[lindex $args 1] -startpos $startpos]]
           }
         } else {
           $win._t mark set insert [$win index [lindex $args 1]]
@@ -4327,25 +4309,25 @@ namespace eval ctext {
 
   ######################################################################
   # Set the current mode to multicursor move mode.
-  proc multicursor_move {win value} {
+  proc update_cursor {win} {
 
     variable data
 
-    if {$value} {
+    if {([$win._t tag ranges _mcursor] eq "") || ($data($win,config,-multimove) == 0)} {
+
+      # Make the insertion cursor come back
+      $win._t configure -blockcursor $data($win,config,-blockcursor) -insertwidth $data($win,config,-insertwidth)
+
+      # Remove the background color
+      $win._t tag configure _mcursor -background ""
+
+    } else {
 
       # Effectively make the insertion cursor disappear
       $win._t configure -blockcursor 0 -insertwidth 0
 
       # Make the multicursors look like the normal cursor
       $win._t tag configure _mcursor -background [$win._t cget -insertbackground]
-
-    } else {
-
-      # Make the insertion cursor come back
-      $win._t configure -blockcursor 0 -insertwidth $data($win,config,-insertwidth)
-
-      # Remove the background color
-      $win._t tag configure _mcursor -background ""
 
     }
 

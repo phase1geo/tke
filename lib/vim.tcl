@@ -36,7 +36,6 @@ namespace eval vim {
   array set select_anchors  {}
   array set last_selection  {}
   array set modeline        {}
-  array set multicursor     {}
 
   array set multiplier      {}
   array set operator        {}
@@ -92,9 +91,7 @@ namespace eval vim {
   # Returns true if we are currently in multi-cursor move mode.
   proc in_multimove {txtt} {
 
-    variable multicursor
-
-    return [expr {[in_vim_mode $txtt] && (([get_edit_mode $txtt] ne "") || $multicursor($txtt))}]
+    return [expr {[in_vim_mode $txtt] && (([get_edit_mode $txtt] ne "") || [$txtt cget -multimove])}]
 
   }
 
@@ -139,7 +136,6 @@ namespace eval vim {
 
     variable mode
     variable recording
-    variable multicursor
 
     if {[preferences::get Editor/VimMode]} {
       set record ""
@@ -153,7 +149,7 @@ namespace eval vim {
           "visual:line"  { return "VISUAL LINE MODE$record"}
           "visual:block" { return "VISUAL BLOCK MODE$record"}
           default        {
-            if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
+            if {[$txt cget -multimove]} {
               return "MULTIMOVE MODE"
             } else {
               return "COMMAND MODE$record"
@@ -911,7 +907,6 @@ namespace eval vim {
     variable column
     variable select_anchors
     variable modeline
-    variable multicursor
     variable recording
     variable operator
     variable motion
@@ -927,7 +922,6 @@ namespace eval vim {
     set column($txt.t)           ""
     set select_anchors($txt.t)   [list]
     set modeline($txt.t)         1
-    set multicursor($txt.t)      0
     set operator($txt.t)         ""
     set motion($txt.t)           ""
 
@@ -1100,13 +1094,12 @@ namespace eval vim {
   proc edit_mode {txtt} {
 
     variable mode
-    variable multicursor
 
     # Set the mode to the edit mode
     set mode($txtt) "edit"
 
     # Clear the multicursor mode (since we are not moving multicursors around)
-    # TBD - disable_multicursor $txtt
+    disable_multicursor $txtt
 
     # Set the blockcursor to false
     $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
@@ -1131,7 +1124,6 @@ namespace eval vim {
   proc command_mode {txtt} {
 
     variable mode
-    variable multicursor
 
     # If we are coming from visual mode, clear the selection and the anchors
     if {[$txtt tag ranges sel] ne ""} {
@@ -1153,7 +1145,7 @@ namespace eval vim {
     set mode($txtt) "command"
 
     # Clear multicursor mode
-    # TBD - disable_multicursor $txtt
+    disable_multicursor $txtt
 
     # Reset the states
     reset_state $txtt 0
@@ -1165,15 +1157,9 @@ namespace eval vim {
   proc multicursor_mode {txtt} {
 
     variable mode
-    variable multicursor
 
-    set multicursor($txtt) 1
-
-    # Effectively make the insertion cursor disappear
-    # TBD - $txtt configure -blockcursor 0 -insertwidth 0
-
-    # Make the multicursors look like the normal cursor
-    # TBD - $txtt tag configure _mcursor -background [$txtt cget -insertbackground]
+    # Indicate that multimove is enabled
+    $txtt configure -multimove 1
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1185,15 +1171,9 @@ namespace eval vim {
   proc disable_multicursor {txtt} {
 
     variable mode
-    variable multicursor
-
-    set multicursor($txtt) 0
 
     # Restore the insertion cursor width
-    $txtt configure -blockcursor [expr {$mode($txtt) ne "edit"}] -insertwidth [preferences::get Appearance/CursorWidth]
-
-    # Make the multicursors look like normal
-    $txtt tag configure _mcursor -background ""
+    $txtt configure -blockcursor [expr {$mode($txtt) ne "edit"}] -multimove 0
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1206,7 +1186,6 @@ namespace eval vim {
 
     variable mode
     variable select_anchors
-    variable multicursor
     variable seltype
     variable last_selection
 
@@ -1229,7 +1208,7 @@ namespace eval vim {
     $txtt tag remove sel 1.0 end
 
     # Initialize the select range
-    if {$multicursor($txtt)} {
+    if {[$txtt cget -multimove]} {
       set select_anchors($txtt) [list]
       foreach index [$txtt cursor get] {
         lappend select_anchors($txtt) $index
@@ -1426,7 +1405,6 @@ namespace eval vim {
 
     variable mode
     variable recording
-    variable multicursor
 
     if {$mode($txtt) ne "command"} {
 
@@ -1453,7 +1431,7 @@ namespace eval vim {
     }
 
     # Clear the multicursor indicator
-    # TBD - disable_multicursor $txtt
+    disable_multicursor $txtt
 
     return 1
 
@@ -1622,7 +1600,6 @@ namespace eval vim {
     variable motion
     variable multiplier
     variable number
-    variable multicursor
 
     array set opts {
       -cursor "none"
@@ -1632,7 +1609,7 @@ namespace eval vim {
 
     switch $operator($txtt) {
       "" {
-        if {$multicursor($txtt)} {
+        if {[$txtt cget -multimove]} {
           $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
@@ -2080,7 +2057,6 @@ namespace eval vim {
   proc handle_k {txtt} {
 
     variable column
-    variable multicursor
     variable operator
 
     set num [get_number $txtt]
