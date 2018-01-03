@@ -42,7 +42,7 @@ namespace eval edit {
   # Inserts the line above the current line in the given editor.
   proc insert_line_above_current {txtt} {
 
-    # If we are operating in Vim mode,
+    # If we are operating in Vim mode, switch to edit mode
     vim::edit_mode $txtt
 
     # Create the new line

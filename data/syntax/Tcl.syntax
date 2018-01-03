@@ -77,11 +77,11 @@ miscellaneous1
 
 miscellaneous2
 {
-  HighlightWithOnlyCharStart - {}
+  HighlightCharStart - {}
 }
 
 miscellaneous3
 {
   HighlightRegexp {\m(\.[a-zA-Z0-9\_\-]+)+} {}
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }

@@ -1106,7 +1106,7 @@ namespace eval vim {
     set mode($txtt) "edit"
 
     # Clear the multicursor mode (since we are not moving multicursors around)
-    disable_multicursor $txtt
+    # TBD - disable_multicursor $txtt
 
     # Set the blockcursor to false
     $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
@@ -1143,11 +1143,7 @@ namespace eval vim {
     # one character.
     if {(($mode($txtt) eq "edit") || ([string compare -length 7 $mode($txtt) "replace"] == 0)) && \
         ([$txtt index insert] ne [$txtt index "insert linestart"])} {
-      if {[multicursor::enabled $txtt]} {
-        multicursor::move $txtt left
-      } else {
-        [winfo parent $txtt] cursor set "insert-1c"
-      }
+      [winfo parent $txtt] cursor set left
     }
 
     # Set the blockcursor to true
@@ -1157,7 +1153,7 @@ namespace eval vim {
     set mode($txtt) "command"
 
     # Clear multicursor mode
-    disable_multicursor $txtt
+    # TBD - disable_multicursor $txtt
 
     # Reset the states
     reset_state $txtt 0
@@ -1174,10 +1170,10 @@ namespace eval vim {
     set multicursor($txtt) 1
 
     # Effectively make the insertion cursor disappear
-    $txtt configure -blockcursor 0 -insertwidth 0
+    # TBD - $txtt configure -blockcursor 0 -insertwidth 0
 
     # Make the multicursors look like the normal cursor
-    $txtt tag configure mcursor -background [$txtt cget -insertbackground]
+    # TBD - $txtt tag configure _mcursor -background [$txtt cget -insertbackground]
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1197,7 +1193,7 @@ namespace eval vim {
     $txtt configure -blockcursor [expr {$mode($txtt) ne "edit"}] -insertwidth [preferences::get Appearance/CursorWidth]
 
     # Make the multicursors look like normal
-    $txtt tag configure mcursor -background ""
+    $txtt tag configure _mcursor -background ""
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1235,8 +1231,8 @@ namespace eval vim {
     # Initialize the select range
     if {$multicursor($txtt)} {
       set select_anchors($txtt) [list]
-      foreach {start end} [$txtt tag ranges mcursor] {
-        lappend select_anchors($txtt) $start
+      foreach index [$txtt cursor get] {
+        lappend select_anchors($txtt) $index
       }
     } else {
       set select_anchors($txtt) [$txtt index insert]
@@ -1457,7 +1453,7 @@ namespace eval vim {
     }
 
     # Clear the multicursor indicator
-    disable_multicursor $txtt
+    # TBD - disable_multicursor $txtt
 
     return 1
 
@@ -1948,9 +1944,9 @@ namespace eval vim {
       set end_index [$txtt index insert]
       if {$start_index != $end_index} {
         if {[$txtt compare $start_index < $end_index]} {
-          $txtt highlight $start_index $end_index
+          $txtt syntax highlight $start_index $end_index
         } else {
-          $txtt highlight $end_index $start_index
+          $txtt syntax highlight $end_index $start_index
         }
       }
       reset_state $txtt 0
@@ -2207,9 +2203,9 @@ namespace eval vim {
         set motion($txtt) "f"
         return 1
       } elseif {$motion($txtt) eq "g"} {
-        if {[multicursor::enabled $txtt]} {
-          foreach {startpos endpos} [$txtt tag ranges mcursor] {
-            if {[file exists [set fname [get_filename $txtt $startpos]]]} {
+        if {[set mcursors [$txtt cursor get]] ne ""} {
+          foreach index $mcursors {
+            if {[file exists [set fname [get_filename $txtt $index]]]} {
               gui::add_file end $fname
             }
           }
@@ -2573,10 +2569,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          if {[multicursor::enabled $txtt]} {
-            multicursor::move $txtt right
-          }
-          [winfo parent $txtt] cursor set "insert+1c"
+          $txtt cursor set right
           edit_mode $txtt
           record_start $txtt "a"
           return 1
@@ -2698,8 +2691,8 @@ namespace eval vim {
       }
       $txtt insert "insert lineend" [string repeat "\n$clip" $num]
       multicursor::paste $txtt paste "insert+1l linestart"
-      $txtt cursor set [list "insert+1l linestart"]
-      edit::move_cursor $txtt firstchar -num 0
+      $txtt cursor set  [list "insert+1l linestart"]
+      $txtt cursor move [list firstchar -num 0]
     } else {
       set clip [string repeat $clip $num]
       $txtt insert "insert+1c" $clip
@@ -2752,7 +2745,7 @@ namespace eval vim {
       $txtt insert "insert linestart" [string repeat "$clip\n" $num]
       multicursor::paste $txtt $startpos
       $txtt cursor set $startpos
-      edit::move_cursor $txtt firstchar -num 0
+      $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt insert insert [string repeat $clip $num]
       multicursor::paste $txtt insert
@@ -2985,7 +2978,7 @@ namespace eval vim {
 
     variable motion
 
-    if {[multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] ne ""} {
       multicursor_mode $txtt
     } elseif {$motion($txtt) eq "g"} {
       return [do_operation $txtt dispmid]
@@ -3184,7 +3177,6 @@ namespace eval vim {
       "" {
         if {$mode($txtt) eq "command"} {
           if {$operator($txtt) eq ""} {
-            puts "is insert mcursor: [$txtt is mcursor insert]"
             if {[$txtt is mcursor insert]} {
               $txtt cursor remove insert
             } else {

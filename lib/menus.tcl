@@ -1642,7 +1642,7 @@ namespace eval menus {
 
     # Get the current text widget
     if {[set txt [gui::current_txt]] ne ""} {
-      if {[multicursor::enabled $txt]} {
+      if {[$txt cursor get] ne ""} {
         set mstate "normal"
       } else {
         set sstate "normal"
@@ -1680,7 +1680,7 @@ namespace eval menus {
 
     if {[set txt [gui::current_txt]] ne ""} {
       set tstate "normal"
-      if {[multicursor::enabled $txt]} {
+      if {[$txt cursor get] ne ""} {
         set mstate "normal"
       }
     }
@@ -1928,7 +1928,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
-    if {![multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] eq ""} {
       edit::move_cursor $txtt $modifier
     }
 
@@ -1943,7 +1943,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
-    if {![multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] eq ""} {
       edit::move_cursor_by_page $txtt $dir
     }
 
@@ -1957,7 +1957,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     # If we are in multicursor mode, move the cursors in the direction given by modifier
-    if {[multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] ne ""} {
       edit::move_cursors $txtt $modifier
     }
 

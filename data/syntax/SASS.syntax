@@ -39,10 +39,10 @@ punctuation
 }
 
 miscellaneous1 {
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }
 
 miscellaneous2 {
-  HighlightWithOnlyCharStart @ {}
+  HighlightCharStart @ {}
 }
 

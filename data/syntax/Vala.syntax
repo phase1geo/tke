@@ -67,6 +67,6 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart {#} {}
+  HighlightCharStart {#} {}
 }
 

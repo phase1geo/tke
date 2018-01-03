@@ -448,8 +448,8 @@ namespace eval syntax {
         }
 
         # Add the language keywords
-        ctext::addHighlightClass $txt keywords -fgtheme keywords
-        ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
+        $txt syntax addclass keywords -fgtheme keywords
+        $txt syntax addwords class keywords $lang_array(keywords)
 
         # Add the rest of the sections
         set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix $lang_ns
@@ -472,8 +472,8 @@ namespace eval syntax {
         ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) -fgtheme strings
 
         # Add the FIXME
-        ctext::addHighlightClass $txt fixme -fgtheme miscellaneous1
-        ctext::addHighlightKeywords $txt FIXME class fixme
+        $txt syntax addclass fixme -fgtheme miscellaneous1
+        $txt syntax addwords class fixme FIXME
 
         # Set the indent/unindent regular expressions
         indent::set_indent_expressions $txt.t $lang_array(indentation)
@@ -512,7 +512,7 @@ namespace eval syntax {
 
     # Re-highlight
     if {$opts(-highlight)} {
-      $txt highlight 1.0 end
+      $txt syntax highlight 1.0 end
     }
 
     # Set the menubutton text
@@ -541,7 +541,7 @@ namespace eval syntax {
     }
 
     # Add the keywords
-    ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords $language
+    $txt syntax addwords class keywords $lang_array(keywords) $language
 
     # Add the rest of the sections
     set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix $lang_ns
@@ -567,7 +567,7 @@ namespace eval syntax {
       ctext::setReindentation $txt $language $lang_array(reindentation)
 
       # Add the FIXME
-      ctext::addHighlightKeywords $txt FIXME class fixme $language
+      $txt syntax addwords class fixme FIXME $language
 
       # Set the indent/unindent regular expressions
       indent::set_indent_expressions $txt.t $lang_array(indentation)
@@ -592,6 +592,19 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Adds the given highlight type information to the ctext widget.
+  proc add_highlight_type {txt type valtype value syntax lang} {
+
+    switch $type {
+      HighlightKeywords  { $txt syntax addwords     $valtype $value $syntax $lang }
+      HighlightRegexp    { $txt syntax addregexp    $valtype $value $syntax $lang }
+      HighlightCharStart { $txt syntax addcharstart $valtype $value $syntax $lang }
+      default            { return -code error "Unknown syntax type $type" }
+    }
+
+  }
+
+  ######################################################################
   # Adds syntax highlighting for a given type
   proc set_language_section {txt section section_list lang {cmd_prefix ""} {lang_ns ""}} {
 
@@ -604,7 +617,7 @@ namespace eval syntax {
             "HighlightClass" {
               if {$section eq "advanced"} {
                 set section_list [lassign $section_list name modifiers]
-                ctext::addHighlightClass $txt $name {*}$modifiers
+                $txt syntax addclass $name {*}$modifiers
               }
             }
             "HighlightProc" {
@@ -630,14 +643,14 @@ namespace eval syntax {
               set section_list [lassign $section_list syntax command]
               if {$command ne ""} {
                 if {$cmd_prefix ne ""} {
-                  ctext::add$type $txt $syntax command "$cmd_prefix $command" $lang
+                  add_highlight_type $txt $type command "$cmd_prefix $command" $syntax $lang
                 } elseif {[string first :: $command] != -1} {
-                  ctext::add$type $txt $syntax command $command $lang
+                  add_highlight_type $txt $type command $command $syntax $lang
                 } else {
-                  ctext::add$type $txt $syntax command syntax::${lang_ns}::$command $lang
+                  add_highlight_type $txt $type command syntax::${lang_ns}::$command $syntax $lang
                 }
               } else {
-                ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
+                add_highlight_type $txt $type class [expr {($section eq "symbols") ? "symbols" : "none"}] $syntax $lang
               }
             }
             "TclBegin" {
@@ -660,8 +673,8 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            ctext::addHighlightClass $txt $class -fgtheme background -bgtheme $section -fontopts $modifiers
-            ctext::add$type $txt $syntax class $class $lang
+            $txt syntax addclass $class -fgtheme background -bgtheme $section -fontopts $modifiers
+            add_highlight_type $txt $type class $class $syntax $lang
           }
         }
       }
@@ -672,8 +685,8 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            ctext::addHighlightClass $txt $class -fgtheme $section -fontopts $modifiers
-            ctext::add$type $txt $syntax class $class $lang
+            $txt syntax addclass $class -fgtheme $section -fontopts $modifiers
+            add_highlight_type $txt $type class $class $syntax $lang
           }
         }
       }

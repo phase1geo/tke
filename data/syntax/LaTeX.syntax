@@ -33,7 +33,7 @@ punctuation
 }
 
 miscellaneous2 {
-  HighlightWithOnlyCharStart \\ {}
+  HighlightCharStart \\ {}
 }
 
 advanced {
