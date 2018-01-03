@@ -3612,12 +3612,9 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "command"} {
-      if {[string trim [set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" 0]]]] ne ""} {
-        catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
-        array set theme [theme::get_syntax_colors]
-        ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word
-        $txtt tag lower _search sel
-        search::find_next [winfo parent $txtt]
+      set txt [winfo parent $txtt]
+      if {[search::find_current_word $txt]} {
+        search::find_next $txt
       }
     }
 
