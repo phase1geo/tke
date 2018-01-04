@@ -40,7 +40,7 @@ namespace eval indent {
     if {[set endpos [lassign [$win._t tag nextrange _prewhite "$index linestart"] startpos]] ne ""} {
 
       # Get the unindent information from the model
-      if {[set data [[model::indent_check_unindent $win $endpos $index]]] ne ""} {
+      if {[set data [[ctext::model::indent_check_unindent $win $endpos $index]]] ne ""} {
 
         lassign $data data_index data_less
 
@@ -117,14 +117,14 @@ namespace eval indent {
         set first_index [$win._t index "$index linestart"]
       }
       set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
-      set insert_space [model::line_newline $win $first_index $insert_space [$win cget -shiftwidth]]
+      set insert_space [ctext::model::indent_newline $win $first_index $insert_space [$win cget -shiftwidth]]
     }
 
     if {$insert_space == 0} {
       return
     }
 
-    if {$indent_space < 0} {
+    if {$insert_space < 0} {
       $win delete -highlight 0 $index "$index+${insert_space}c"
     } else {
       $win insert -highlight 0 $index [string repeat " " $insert_space]
@@ -140,10 +140,10 @@ namespace eval indent {
   ######################################################################
   # Called whenever we delete whitespace such that all characters between
   # the beginning of the line and the given index are entirely whitespace.
-  proc backspace {win index} {
+  proc backspace {win index indent_mode} {
 
     # If the auto-indent feature was disabled, return immediately
-    if {[$win cget -indentmode] eq "OFF"} {
+    if {$indent_mode eq "OFF"} {
       return
     }
 
@@ -181,7 +181,7 @@ namespace eval indent {
   # Returns the whitespace of the previous (non-empty) line of text.
   proc get_previous_indent_space {win index} {
 
-    if {[lindex [split $index .] 0] != 1) && ([set range [$win._t tag prevrange _prewhite "$index-1l lineend"]] ne "")} {
+    if {([lindex [split $index .] 0] != 1) && ([set range [$win._t tag prevrange _prewhite "$index-1l lineend"]] ne "")} {
       return [expr [string length [$win._t get {*}$range]] - 1]
     } else {
       return 0
