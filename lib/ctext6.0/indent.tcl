@@ -40,7 +40,7 @@ namespace eval indent {
     if {[set endpos [lassign [$win._t tag nextrange _prewhite "$index linestart"] startpos]] ne ""} {
 
       # Get the unindent information from the model
-      if {[set data [[ctext::model::indent_check_unindent $win $endpos $index]]] ne ""} {
+      if {[set data [ctext::model::indent_check_unindent $win $endpos $index]] ne ""} {
 
         lassign $data data_index data_less
 
@@ -117,7 +117,9 @@ namespace eval indent {
         set first_index [$win._t index "$index linestart"]
       }
       set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
+      puts "1 insert_space: $insert_space"
       set insert_space [ctext::model::indent_newline $win $first_index $insert_space [$win cget -shiftwidth]]
+      puts "2 insert_space: $insert_space"
     }
 
     if {$insert_space == 0} {
