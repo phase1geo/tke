@@ -24,131 +24,32 @@
 
 namespace eval indent {
 
-  variable current_indent "IND+"
-
-  array set indent_exprs {}
-  array set indent_mode_map {
-    "OFF"  "OFF"
-    "IND"  "IND"
-    "IND+" "IND+"
-    "0"    "OFF"
-    "1"    "IND+"
-  }
-
-  ######################################################################
-  # Sets the indentation mode for the current text widget.
-  #
-  # TBD
-  proc set_indent_mode {mode} {
-
-    variable indent_exprs
-    variable indent_mode_map
-
-    # Get the current text widget
-    set txt [gui::current_txt]
-
-    # Set the current mode
-    set indent_exprs($txt.t,mode) $indent_mode_map($mode)
-
-    # Set the text widget's indent mode
-    $txt configure -foldstate [gui::get_folding_method $txt]
-
-    # Update the menu button
-    $gui::widgets(info_indent) configure -text $mode
-
-    # Set the focus back to the text widget
-    catch { gui::set_txt_focus [gui::last_txt_focus] }
-
-  }
-
-  ######################################################################
-  # Returns the value of the indentation mode for the given text widget.
-  #
-  # TBD
-  proc get_indent_mode {txt} {
-
-    variable indent_exprs
-
-    if {![info exists indent_exprs($txt.t,mode)]} {
-      return "OFF"
-    } else {
-      return $indent_exprs($txt.t,mode)
-    }
-
-  }
-
-  ######################################################################
-  # Returns true if auto-indentation is available; otherwise, returns false.
-  #
-  # TBD
-  proc is_auto_indent_available {txt} {
-
-    variable indent_exprs
-
-    return [expr {$indent_exprs($txt.t,indentation) ne ""}]
-
-  }
-
   ######################################################################
   # Checks the given text prior to the insertion marker to see if it
   # matches the unindent expressions.  Increment/decrement
   # accordingly.
-  proc check_unindent {txtt index} {
-
-    variable indent_exprs
+  proc check_unindent {win index indent_mode} {
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {$indent_exprs($txtt,mode) ne "IND+"} {
+    if {$indent_mode ne "IND+"} {
       return
     }
 
-    # If the current line contains an unindent expression, is not within a comment or string,
-    # and is preceded in the line by only whitespace, replace the whitespace with the proper
-    # indentation whitespace.
-    if {([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos >= $index]} {
+    # Get the whitespace at the beginning of the current line
+    if {[set endpos [lassign [$win._t tag nextrange _prewhite "$index linestart"] startpos]] ne ""} {
 
-      if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
+      # Get the unindent information from the model
+      if {[set data [[model::indent_check_unindent $win $endpos $index]]] ne ""} {
 
-        # Find the matching indentation index
-        if {[set tindex [get_match_indent $txtt $startpos]] ne ""} {
-          set indent_space [get_start_of_line $txtt $tindex]
-        } else {
-          set indent_space [get_start_of_line $txtt $index]
-        }
+        lassign $data data_index data_less
 
-        # Replace the whitespace with the appropriate amount of indentation space
-        if {$indent_space ne $space} {
-          $txtt replace -highlight 0 "$index linestart" $startpos $indent_space
-          return
-        }
+        # Get the whitespace at the beginning of the logical line
+        set indent_space [string range [get_start_of_line $win $data_index] [expr [$win cget -shiftwidth] * $data_less] end]
 
-      }
-
-    } elseif {(([set endpos [lassign [$txtt tag prevrange _reindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) && [set type [MODEL::is_unindent_after_reindent $txtt $startpos]]} {
-
-      if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
-
-        if {$type == 1} {
-
-          # Get the starting whitespace of the previous line
-          set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
-
-          # Check to see if the previous line contained a reindent
-          if {[$txtt compare "$index-1l linestart" > [lindex [$txtt tag prevrange _reindent "$index linestart"] 0]]} {
-            set indent_space [string range $indent_space [$txtt cget -shiftwidth] end]
-          }
-
-        } else {
-
-          # Set the indentation space to the same as the reindentStart line
-          set indent_space [get_start_of_line $txtt [lindex [$txtt tag prevrange _reindentStart $index] 0]]
-
-        }
-
-        # Replace the whitespace with the appropriate amount of indentation space
-        if {$indent_space ne $space} {
-          $txtt replace -highlight 0 "$index linestart" $startpos $indent_space
+        # If required, replace the starting whitespace with the updated whitespace
+        if {$indent_space ne [$win._t get $startpos $endpos]} {
+          $win replace -highlight 0 $startpos $endpos $indent_space
         }
 
       }
@@ -159,11 +60,9 @@ namespace eval indent {
 
   ######################################################################
   # Get the matching indentation marker.
-  #
-  # DONE!
-  proc get_match_indent {txtt index} {
+  proc get_match_indent {win index} {
 
-    if {[set indent [ctext::model::get_match_char [winfo parent $txtt] $index]] ne ""} {
+    if {[set indent [ctext::model::get_match_char $win $index]] ne ""} {
       return [lindex $indent 0]
     }
 
@@ -174,24 +73,22 @@ namespace eval indent {
   ######################################################################
   # Returns the whitespace found at the beginning of the specified logical
   # line.
-  #
-  # DONE!
-  proc get_start_of_line {txtt index} {
+  proc get_start_of_line {win index} {
 
     # Ignore whitespace
-    if {[lsearch [$txtt tag names "$index linestart"] _prewhite] == -1} {
-      if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
-        set index [$txtt index "[lindex $range 1] lineend"]
+    if {[lsearch [$win._t tag names "$index linestart"] _prewhite] == -1} {
+      if {[set range [$win._t tag prevrange _prewhite "$index lineend"]] ne ""} {
+        set index [$win._t index "[lindex $range 1] lineend"]
       } else {
         set index 1.0
       }
     }
 
     # Get the starting line number from the text model
-    set index [ctext::model::indent_line_start [winfo parent $txtt] $index].0
+    set index [ctext::model::indent_line_start $win $index].0
 
-    if {[lsearch [$txtt tag names $index] _prewhite] != -1} {
-      return [expr [string length [$txtt get {*}[$txtt tag nextrange _prewhite $index]]] - 1]
+    if {[lsearch [$win._t tag names $index] _prewhite] != -1} {
+      return [expr [string length [$win._t get {*}[$win._t tag nextrange _prewhite $index]]] - 1]
     } else {
       return 0
     }
@@ -201,28 +98,26 @@ namespace eval indent {
   ######################################################################
   # Handles a newline character.  Returns the character position of the
   # first line of non-space text.
-  proc newline {txtt index} {
-
-    variable indent_exprs
+  proc newline {win index indent_mode} {
 
     # If the auto-indent feature was disable, quit now
     # or the current language doesn't have an indent expression, quit now
-    if {$indent_exprs($txtt,mode) eq "OFF"} {
-      if {[$txtt cget -autoseparators]} {
-        $txtt edit separator
+    if {$indent_mode eq "OFF"} {
+      if {[$win cget -autoseparators]} {
+        $win edit separator
       }
       return
     }
 
     # If we do not need smart indentation, use the previous space
-    if {$indent_exprs($txtt,mode) eq "IND"} {
-      set insert_space [get_previous_indent_space $txtt $index]
+    if {$indent_mode eq "IND"} {
+      set insert_space [get_previous_indent_space $win $index]
     } else {
-      if {[lassign [$txtt tag nextrange _prewhite $index "$index lineend"] first_index] eq ""} {
-        set first_index [$txtt index "$index linestart"]
+      if {[lassign [$win._t tag nextrange _prewhite $index "$index lineend"] first_index] eq ""} {
+        set first_index [$win._t index "$index linestart"]
       }
-      set insert_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
-      set insert_space [model::line_newline [winfo parent $txtt] $first_index $insert_space [$txtt cget -shiftwidth]]
+      set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
+      set insert_space [model::line_newline $win $first_index $insert_space [$win cget -shiftwidth]]
     }
 
     if {$insert_space == 0} {
@@ -230,14 +125,14 @@ namespace eval indent {
     }
 
     if {$indent_space < 0} {
-      $txtt delete -highlight 0 $index "$index+${insert_space}c"
+      $win delete -highlight 0 $index "$index+${insert_space}c"
     } else {
-      $txtt insert -highlight 0 $index [string repeat " " $insert_space]
+      $win insert -highlight 0 $index [string repeat " " $insert_space]
     }
 
     # If autoseparators are called for, add it now
-    if {[$txtt cget -autoseparators]} {
-      $txtt edit separator
+    if {[$win cget -autoseparators]} {
+      $win edit separator
     }
 
   }
@@ -245,12 +140,10 @@ namespace eval indent {
   ######################################################################
   # Called whenever we delete whitespace such that all characters between
   # the beginning of the line and the given index are entirely whitespace.
-  #
-  # DONE!
-  proc handle_backspace {win startpos endpos} {
+  proc backspace {win index} {
 
     # If the auto-indent feature was disabled, return immediately
-    if {[$win cget -foldstate] eq "none"} {
+    if {[$win cget -indentmode] eq "OFF"} {
       return
     }
 
@@ -270,7 +163,7 @@ namespace eval indent {
     if {([string trim $space] eq "")} {
 
       # Calculate the new indentation
-      set shiftwidth   [$txtt cget -shiftwidth]
+      set shiftwidth   [$win cget -shiftwidth]
       set space_len    [string length $space]
       set tab_count    [expr $space_len / $shiftwidth]
       set remove_chars [expr $space_len - ($tab_count * $shiftwidth)]
@@ -286,12 +179,10 @@ namespace eval indent {
 
   ######################################################################
   # Returns the whitespace of the previous (non-empty) line of text.
-  #
-  # DONE!
-  proc get_previous_indent_space {txtt index} {
+  proc get_previous_indent_space {win index} {
 
-    if {[lindex [split $index .] 0] != 1) && ([set range [$txtt tag prevrange _prewhite "$index-1l lineend"]] ne "")} {
-      return [expr [string length [$txtt get {*}$range]] - 1]
+    if {[lindex [split $index .] 0] != 1) && ([set range [$win._t tag prevrange _prewhite "$index-1l lineend"]] ne "")} {
+      return [expr [string length [$win._t get {*}$range]] - 1]
     } else {
       return 0
     }
@@ -301,59 +192,59 @@ namespace eval indent {
   ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  proc format_text {txtt startpos endpos {add_separator 1}} {
-
-    variable indent_exprs
+  #
+  # TBD
+  proc format_text {win startpos endpos {add_separator 1}} {
 
     # Create a separator
     if {$add_separator} {
-      $txtt edit separator
+      $win edit separator
     }
 
     # If we are the first line containing non-whitespace, preserve the indentation
-    if {([$txtt tag prevrange _prewhite "$startpos linestart"] eq "") || \
-        ([string trim [$txtt get "$startpos linestart" $startpos]] ne "")} {
-      set curpos [$txtt index "$startpos+1l linestart"]
+    if {([$win._t tag prevrange _prewhite "$startpos linestart"] eq "") || \
+        ([string trim [$win._t get "$startpos linestart" $startpos]] ne "")} {
+      set curpos [$win._t index "$startpos+1l linestart"]
     } else {
-      set curpos [$txtt index "$startpos linestart"]
+      set curpos [$win._t index "$startpos linestart"]
     }
 
-    set endpos       [$txtt index $endpos]
+    set endpos       [$win._t index $endpos]
     set indent_space ""
-    set shiftwidth   [$txtt cget -shiftwidth]
+    set shiftwidth   [$win cget -shiftwidth]
 
-    while {[$txtt compare $curpos < $endpos]} {
+    while {[$win._t compare $curpos < $endpos]} {
 
       if {$curpos ne "1.0"} {
 
         # If the current line contains an unindent expression, is not within a comment or string,
         # and is preceded in the line by only whitespace, replace the whitespace with the proper
         # indentation whitespace.
-        if {[set epos [lassign [$txtt tag nextrange _unindent $curpos "$curpos lineend"] spos]] ne ""} {
-          if {[set tindex [get_match_indent $txtt $spos]] ne ""} {
-            if {[$txtt compare "$tindex linestart" == "$spos linestart"]} {
-              set indent_space [get_start_of_line $txtt "$tindex-1l lineend"]
-              if {[MODEL::line_contains_indentation $txtt "$tindex-1l lineend"]} {
+        if {[set epos [lassign [$win._t tag nextrange _unindent $curpos "$curpos lineend"] spos]] ne ""} {
+          if {[set tindex [get_match_indent $win $spos]] ne ""} {
+            if {[$win._t compare "$tindex linestart" == "$spos linestart"]} {
+              set indent_space [get_start_of_line $win "$tindex-1l lineend"]
+              if {[MODEL::line_contains_indentation $win "$tindex-1l lineend"]} {
                 append indent_space [string repeat " " $shiftwidth]
               }
             } else {
-              set indent_space [get_start_of_line $txtt $tindex]
+              set indent_space [get_start_of_line $win $tindex]
             }
           } else {
-            set indent_space [get_start_of_line $txtt $epos]
+            set indent_space [get_start_of_line $win $epos]
           }
 
-        } elseif {([set epos [lassign [$txtt tag nextrange _reindent $curpos "$curpos lineend"] spos]] ne "") && [MODEL::is_unindent_after_reindent $txtt $spos]} {
-          set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
-          if {[string trim [$txtt get "$curpos linestart" $spos]] eq ""} {
-            if {[$txtt compare "$curpos-1l linestart" > [lindex [$txtt tag prevrange _reindent "$curpos linestart"] 1]]} {
+        } elseif {([set epos [lassign [$win._t tag nextrange _reindent $curpos "$curpos lineend"] spos]] ne "") && [MODEL::is_unindent_after_reindent $win $spos]} {
+          set indent_space [get_start_of_line $win [$win._t index "$curpos-1l lineend"]]
+          if {[string trim [$win._t get "$curpos linestart" $spos]] eq ""} {
+            if {[$win._t compare "$curpos-1l linestart" > [lindex [$win._t tag prevrange _reindent "$curpos linestart"] 1]]} {
               set indent_space [string range $indent_space $shiftwidth end]
             }
           }
 
         } else {
-          set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
-          if {[MODEL::line_contains_indentation $txtt "$curpos-1l lineend"]} {
+          set indent_space [get_start_of_line $win [$win._t index "$curpos-1l lineend"]]
+          if {[MODEL::line_contains_indentation $win "$curpos-1l lineend"]} {
             append indent_space [string repeat " " $shiftwidth]
           }
         }
@@ -363,109 +254,25 @@ namespace eval indent {
       # Remove any leading whitespace and update indentation level
       # (if the first non-whitespace char is a closing bracket)
       set whitespace ""
-      if {[lsearch [$txtt tag names $curpos] _prewhite] != -1} {
-        set whitespace [string range [$txtt get {*}[$txtt tag nextrange _prewhite $curpos]] 0 end-1]
+      if {[lsearch [$win._t tag names $curpos] _prewhite] != -1} {
+        set whitespace [string range [$win._t get {*}[$win._t tag nextrange _prewhite $curpos]] 0 end-1]
       }
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
-        $txtt replace $curpos "$curpos+[string length $whitespace]c" $indent_space
+        $win replace -highlight 0 $curpos "$curpos+[string length $whitespace]c" $indent_space
       }
 
       # Adjust the startpos
-      set curpos [$txtt index "$curpos+1l linestart"]
+      set curpos [$win._t index "$curpos+1l linestart"]
 
     }
 
     # Create a separator
-    $txtt edit separator
+    $win edit separator
 
     # Perform syntax highlighting
-    [winfo parent $txtt] highlight $startpos $endpos
-
-  }
-
-  ######################################################################
-  # Sets the indentation expressions for the given text widget.
-  proc set_indent_expressions {txtt {indentation ""}} {
-
-    variable indent_exprs
-
-    set indent_exprs($txtt,indentation) $indentation
-
-    # Set the default indentation mode
-    if {[preferences::get Editor/EnableAutoIndent]} {
-      if {$indentation ne ""} {
-        set indent_exprs($txtt,mode) "IND+"
-      } else {
-        set indent_exprs($txtt,mode) "IND"
-      }
-    } else {
-      set indent_exprs($txtt,mode) "OFF"
-    }
-
-    # Update the state of the indentation widget
-    gui::update_indent_button
-
-  }
-
-  ######################################################################
-  # Repopulates the specified syntax selection menu.
-  #
-  # TBD - Put into gui.tcl
-  proc populate_indent_menu {mnu} {
-
-    variable langs
-
-    # Clear the menu
-    $mnu delete 0 end
-
-    # Populate the menu with the available languages
-    foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
-      $mnu add radiobutton -label $lbl -variable ctext::indent::current_indent \
-        -value $mode -command [list ctext::indent::set_indent_mode $mode]
-    }
-
-    return $mnu
-
-  }
-
-  ######################################################################
-  # Creates the menubutton to control the indentation mode for the current
-  # editor.
-  #
-  # TBD - Put into gui.tcl
-  proc create_menu {w} {
-
-    # Create the menubutton menu
-    set mnu [menu ${w}Menu -tearoff 0]
-
-    # Populate the indent menu
-    populate_indent_menu $mnu
-
-    # Register the menu
-    theme::register_widget $mnu menus
-
-    return $mnu
-
-  }
-
-  ######################################################################
-  # Updates the menubutton to match the current mode.
-  #
-  # TBD - Put into gui.tcl
-  proc update_button {w} {
-
-    variable indent_exprs
-    variable current_indent
-
-    # Get the current text widget
-    set txtt [gui::current_txt].t
-
-    # Configure the menubutton
-    if {[info exists indent_exprs($txtt,mode)]} {
-      $w configure -text [set current_indent $indent_exprs($txtt,mode)]
-    }
+    $win highlight $startpos $endpos
 
   }
 

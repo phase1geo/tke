@@ -49,6 +49,7 @@ namespace eval gui {
   variable synced_key       ""
   variable synced_txt       ""
   variable show_match_chars 0
+  variable current_indent   "IND+"
 
   array set widgets         {}
   array set tab_tip         {}
@@ -57,6 +58,14 @@ namespace eval gui {
   array set synced          {}
   array set be_after_id     {}
   array set be_ignore       {}
+
+  array set indent_mode_map {
+    "OFF"  "OFF"
+    "IND"  "IND"
+    "IND+" "IND+"
+    "0"    "OFF"
+    "1"    "IND+"
+  }
 
   #######################
   #  PUBLIC PROCEDURES  #
@@ -336,7 +345,7 @@ namespace eval gui {
     ttk::separator .if.s1 -orient vertical
     set widgets(info_msg)    [ttk::label .if.l2]
     ttk::separator .if.s2 -orient vertical
-    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_info_menu_popup .if.ind [indent::create_menu .if.ind]]]
+    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_info_menu_popup .if.ind [create_indent_menu .if.ind]]]
     ttk::separator .if.s3 -orient vertical
     set widgets(info_syntax) [ttk::button .if.syn -style BButton -command [list gui::handle_info_menu_popup .if.syn [syntax::create_menu .if.syn]]]
     ttk::label     .if.sp -text " "
@@ -702,7 +711,7 @@ namespace eval gui {
     set enable [preferences::get View/EnableCodeFolding]
 
     foreach txt [get_all_texts] {
-      $txt configure -foldstate [get_folding_method $txt $enable]
+      $txt configure -foldenable $enable
     }
 
   }
@@ -1063,7 +1072,7 @@ namespace eval gui {
 
         set finfo(tab)         $tabindex
         set finfo(language)    [syntax::get_language $txt]
-        set finfo(indent)      [indent::get_indent_mode $txt]
+        set finfo(indent)      [$txt cget -indentmode]
         set finfo(modified)    0
         set finfo(cursor)      [$txt index insert]
         set finfo(xview)       [lindex [$txt xview] 0]
@@ -1193,7 +1202,7 @@ namespace eval gui {
               syntax::set_language $txt $finfo(language)
             }
             if {[info exists finfo(indent)]} {
-              indent::set_indent_mode $finfo(indent)
+              set_indent_mode $finfo(indent)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               diff::set_session_data $txt $finfo(diffdata)
@@ -4080,28 +4089,6 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Returns the indentation method based on the values of enable and the
-  # current indentation mode.
-  proc get_folding_method {txt {enable ""}} {
-
-    if {$enable eq ""} {
-      set enable [preferences::get View/EnableCodeFolding]
-    }
-
-    if {$enable} {
-      switch [indent::get_indent_mode $txt] {
-        "OFF"   { return "manual" }
-        "IND"   { return "indent" }
-        "IND+"  { return [expr {[indent::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
-        default { return "none" }
-      }
-    } else {
-      return "none"
-    }
-
-  }
-
-  ######################################################################
   # Inserts a new tab into the editor tab notebook.
   # Options:
   #   -diff (0 | 1)         Specifies if this tab is a difference view.  Default is 0.
@@ -4302,7 +4289,6 @@ namespace eval gui {
 
     # Add the text bindings
     if {!$opts(-diff)} {
-      indent::add_bindings    $txt
       vim::set_vim_mode       $txt
       completer::add_bindings $txt
     }
@@ -4316,7 +4302,7 @@ namespace eval gui {
     # Snippet bindings must go after syntax language setting
     if {!$opts(-diff)} {
       snippets::add_bindings $txt
-      $txt configure -foldstate [get_folding_method $txt]
+      $txt configure -foldenable [preferences::get View/EnableCodeFolding]
     }
 
     # Add any gutters
@@ -4419,7 +4405,6 @@ namespace eval gui {
     vim::bind_command_entry $txt2 $tab.ve
 
     # Add the text bindings
-    indent::add_bindings          $txt2
     vim::set_vim_mode             $txt2
     completer::add_bindings       $txt2
     plugins::handle_text_bindings $txt2 {}
@@ -4432,7 +4417,7 @@ namespace eval gui {
     snippets::add_bindings $txt2
 
     # Apply code foldings
-    $txt2 configure -foldstate [get_folding_method $txt2]
+    $txt2 configure -foldenable [preferences::get View/EnableCodeFolding]
 
     # Give the text widget the focus
     set_txt_focus $txt2
@@ -5083,7 +5068,7 @@ namespace eval gui {
     snippets::reload_snippets
 
     # Update the indentation indicator
-    indent::update_button $widgets(info_indent)
+    update_indent_button $widgets(info_indent)
 
     # Set the syntax menubutton to the current language
     syntax::update_button $widgets(info_syntax)
@@ -5464,18 +5449,6 @@ namespace eval gui {
   }
 
   ######################################################################
-  # This is called by the indent namespace to update the indentation
-  # widget when the indent value changes internally (due to changing
-  # the current language.
-  proc update_indent_button {} {
-
-    variable widgets
-
-    indent::update_button $widgets(info_indent)
-
-  }
-
-  ######################################################################
   # Handles a text FocusIn event from the widget.
   proc handle_txt_focus {txtt} {
 
@@ -5815,6 +5788,85 @@ namespace eval gui {
         -inactiveselectbackground $background -selectbackground $background
 
     }
+
+  }
+
+  ######################################################################
+  # Sets the indentation mode for the current text widget.
+  proc set_indent_mode {mode} {
+
+    variable widgets
+    variable indent_mode_map
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Set the text widget's indent mode
+    $txt configure -indentmode $indent_mode_map($mode)
+
+    # Update the menu button
+    $widgets(info_indent) configure -text $mode
+
+    # Set the focus back to the text widget
+    catch { set_txt_focus [last_txt_focus] }
+
+  }
+
+  ######################################################################
+  # Repopulates the specified syntax selection menu.
+  proc populate_indent_menu {mnu} {
+
+    variable langs
+
+    # Clear the menu
+    $mnu delete 0 end
+
+    # Populate the menu with the available languages
+    foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
+      $mnu add radiobutton -label $lbl -variable gui::current_indent \
+                           -value $mode -command [list gui::set_indent_mode $mode]
+    }
+
+    return $mnu
+
+  }
+
+  ######################################################################
+  # Creates the menubutton to control the indentation mode for the current
+  # editor.
+  #
+  # TBD - Put into gui.tcl
+  proc create_indent_menu {} {
+
+    variable widgets
+
+    # Create the menubutton menu
+    set mnu [menu $widgets(info_indent)Menu -tearoff 0]
+
+    # Populate the indent menu
+    populate_indent_menu $mnu
+
+    # Register the menu
+    theme::register_widget $mnu menus
+
+    return $mnu
+
+  }
+
+  ######################################################################
+  # Updates the menubutton to match the current mode.
+  #
+  # TBD - Put into gui.tcl
+  proc update_indent_button {} {
+
+    variable widgets
+    variable current_indent
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Configure the menubutton
+    $widgets(info_indent) configure -text [set current_indent [$txt cget -indentmode]]
 
   }
 

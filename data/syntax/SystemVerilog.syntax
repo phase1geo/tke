@@ -41,11 +41,6 @@ indentation {
   {sequence  endsequence}
 }
 
-unindent {
-  end endtask endfunction endcase endmodule endgenerate endclass endclocking endgroup
-  endinterface endpackage endprogram endproperty endsequence
-}
-
 icomment {{//}}
 
 comments {{{/\*} {\*/}} {{//} {$}}}

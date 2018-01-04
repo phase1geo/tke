@@ -647,11 +647,21 @@ namespace eval model {
 
   ######################################################################
   # Checks for indentation needs after a newline is entered.
-  proc indent_newline {win index spaces shift_width} {
+  proc indent_newline {win first_line spaces shift_width} {
 
     variable data
 
     return [$data($win,model) indentnewline $first_line $spaces $shift_width]
+
+  }
+
+  ######################################################################
+  # Get information to handle an unindentation.
+  proc indent_check_unindent {win first_index curr_index} {
+
+    variable data
+
+    return [$data($win,model) indentcheckunindent $first_index $curr_index
 
   }
 

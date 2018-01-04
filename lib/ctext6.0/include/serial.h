@@ -167,6 +167,15 @@ class serial : public std::vector<serial_item*> {
       const Tcl::object & shift_width
     ) const;
 
+    /*! \return Returns a list containing two items: the index to start looking for the beginning
+                of the line and a value of 0 or 1 indicating the number of shiftwidths to remove
+                from the whitespace found at the beginning of the line.  If an empty string is
+                returned, no unindentation was found. */
+    Tcl::object indent_check_unindent(
+      const Tcl::object & first_ti,
+      const Tcl::object & curr_ti
+    ) const;
+
 };
 
 #endif

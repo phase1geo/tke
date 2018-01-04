@@ -2540,7 +2540,6 @@ namespace eval pref_ui {
     theme::register_widget $c.lf.f.vb text_scrollbar
     theme::register_widget $c.lf.f.hb text_scrollbar
 
-    indent::add_bindings $widgets(emmet_na_preview)
     syntax::set_language $widgets(emmet_na_preview) "HTML"
 
     # This is needed to keep the modified event from being handled by the editing buffers
@@ -2608,7 +2607,6 @@ namespace eval pref_ui {
     theme::register_widget $d.lf.f.vb text_scrollbar
     theme::register_widget $d.lf.f.hb text_scrollbar
 
-    indent::add_bindings $widgets(emmet_aa_preview)
     syntax::set_language $widgets(emmet_aa_preview) "HTML"
 
     # This is needed to keep the modified event from being handled by the editing buffers
@@ -3183,8 +3181,6 @@ namespace eval pref_ui {
     theme::register_widget $widgets(snippets_text) syntax
     theme::register_widget $w.sf.ef.tf.tf.vb text_scrollbar
     theme::register_widget $w.sf.ef.tf.tf.hb text_scrollbar
-
-    indent::add_bindings $widgets(snippets_text)
 
     set modifier [expr {([tk windowingsystem] eq "aqua") ? "Command" : "Control"}]
 

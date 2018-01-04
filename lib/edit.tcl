@@ -56,8 +56,6 @@ namespace eval edit {
       $txtt insert "insert lineend" "\n"
     }
 
-    indent::newline $txtt insert 1
-
   }
 
   ######################################################################
@@ -80,9 +78,6 @@ namespace eval edit {
 
     # Make sure the inserted text is seen
     $txtt see insert
-
-    # Perform the proper indentation
-    indent::newline $txtt insert 1
 
   }
 

@@ -523,3 +523,85 @@ object serial::indent_newline(
 
 }
 
+object serial::indent_check_unindent(
+  const object & first_ti,
+  const object & curr_ti
+) const {
+
+  interpreter interp( curr_ti.get_interp(), false );
+  tindex   first( first_ti );
+  tindex   curr( curr_ti );
+  position pos;
+  object   retval;
+  int      type;
+
+  /* If the cursor is at the beginning of the line, return immediately */
+  if( curr.col() == 0 ) {
+    return( retval );
+  }
+
+  sindex index = get_index( tindex( curr.row(), (curr.col() - 1) ) );
+
+  /* If we did not match something in the serial list, return immediately */
+  if( !index.matches() ) {
+    return( retval );
+  }
+
+  const serial_item* item = (*this)[index.index()];
+
+  /*
+   If the current line contains an unindent expression, is not within a comment or string,
+   and is preceded in the line by only whitespace, replace the whitespace with the proper
+   indentation whitespace.
+  */
+  if( item->type() == types::staticObject().get( "unindent" ) ) {
+
+    /* If the unindent is the first item on the line, continue */
+    if( first.col() == item->const_pos().start_col() ) {
+
+      /* Find the matching indentation index */
+      if( item->const_node()->get_match_pos( item, pos ) ) {
+        retval.append( interp, (object)pos.to_index() );
+        retval.append( interp, (object)0 );
+      } else {
+        retval.append( interp, curr_ti );
+        retval.append( interp, (object)0 );
+      }
+
+    }
+
+  /* If we just finished editing a reindentation which is not the first, we will also unindent */
+  } else if( (item->type() == types::staticObject().get( "reindent" )) &&
+             (type = is_unindent_after_reindent( item->const_pos().to_tindex() )) ) {
+
+    /* If the reindent is the first item on the line, continue */
+    if( first.col() == item->const_pos().start_col() ) {
+
+      if( type == 1 ) {
+
+        ostringstream oss;
+        bool reindent_not_in_prev_line = previndex( get_index( tindex( curr.row(), 0 ) ),
+                                                    get_index( tindex( (curr.row() - 1), 0 ) ),
+                                                    types::staticObject().get( "reindent" ) ) == -1;
+
+        oss << curr.to_string() << "-1l lineend";
+
+        retval.append( interp, (object)oss.str() );
+        retval.append( interp, (object)reindent_not_in_prev_line );
+
+      } else {
+
+        int reindent_start = previndex( index, types::staticObject().get( "reindentStart" ) );
+
+        retval.append( interp, (object)(*this)[reindent_start]->pos().to_index() ); 
+        retval.append( interp, (object)0 );
+
+      }
+
+    }
+
+  }
+
+  return( retval );
+
+}

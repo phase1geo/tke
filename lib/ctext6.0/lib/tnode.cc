@@ -175,3 +175,18 @@ const tnode* tnode::get_node_containing(
   return( 0 );
 
 }
+
+int tnode::get_line_start(
+  int row
+) const {
+
+  int                    idx      = index() - 1;
+  const vector<tnode*> & siblings = const_parent()->const_children();
+
+  while( (idx >= 0) && (siblings[idx]->right()->const_pos().row() == row) ) {
+    row = siblings[idx--]->left()->const_pos().row();
+  }
+
+  return( row );
+
+}

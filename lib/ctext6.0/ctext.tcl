@@ -106,7 +106,7 @@ namespace eval ctext {
     set data($win,config,-diff_mode)              0
     set data($win,config,-diffsubbg)              "pink"
     set data($win,config,-diffaddbg)              "light green"
-    set data($win,config,-foldstate)              "none"  ;# none, manual, indent and syntax supported
+    set data($win,config,-foldenable)             0
     set data($win,config,-foldopencolor)          $data($win,config,-fg)
     set data($win,config,-foldclosecolor)         "orange"
     set data($win,config,-delimiters)             {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
@@ -121,6 +121,7 @@ namespace eval ctext {
     set data($win,config,-tabstop)                2
     set data($win,config,-blockcursor)            0
     set data($win,config,-multimove)              1
+    set data($win,config,-indentmode)             "IND+"  ;# Can be "OFF", "IND" or "IND+"
     set data($win,config,win)                     $win
     set data($win,config,modified)                0
     set data($win,config,lastUpdate)              0
@@ -133,14 +134,15 @@ namespace eval ctext {
     set data($win,config,langs)                   [list {}]
     set data($win,config,gutters)                 [list]
     set data($win,config,redo_hist)               [list]
+    set data($win,config,foldstate)               "none"
 
     set data($win,config,ctextFlags) {
       -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg -font -linemap_mark_command
       -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor -highlightcolor
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
-      -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -foldstate
-      -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
+      -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -indentmode
+      -foldenable -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
       -blockcursor -multimove
     }
 
@@ -673,38 +675,19 @@ namespace eval ctext {
       break
     }
 
-    lappend argTable {any} -foldstate {
-      array set states {none 0 manual 1 indent 1 syntax 1}
-      if {![info exists states($value)]} {
-        return -code error "Illegal -foldstate value set ($value)"
-      }
-      if {$data($win,config,-foldstate) ne $value} {
-        if {$states($data($win,config,-foldstate)) != $states($value)} {
-          if {$states($value)} {
-            fold_enable $win
-          } else {
-            fold_disable $win
-          }
-        }
-        set data($win,config,-foldstate) $value
-        $win gutter unset folding 1 [lindex [split [$win._t index end] .] 0]
-        switch $value {
-          indent { ctext::model::fold_indent_update $win }
-          syntax { ctext::model::fold_syntax_update $win }
-        }
-        linemapUpdate $win 1
-      }
-      if {$value ne "none"} {
-        catch {
-          grid $win.l
-          grid $win.f
-        }
-      } elseif {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable)} {
-        catch {
-          grid remove $win.l
-          grid remove $win.f
-        }
-      }
+    lappend argTable {any} -indentmode {
+      set data($win,config,-indentmode) $value
+      update_fold_state $win
+    }
+
+    lappend argTable {1 true yes} -foldenable {
+      set data($win,config,-foldenable) 1
+      update_fold_state $win
+    }
+
+    lappend argTable {0 false no} -foldenable {
+      set data($win,config,-foldenable) 0
+      update_fold_state $win
     }
 
     lappend argTable {any} -foldopencolor {
@@ -736,6 +719,56 @@ namespace eval ctext {
     }
 
     set data($win,config,argTable) $argTable
+
+  }
+
+  ######################################################################
+  # Update the foldstate variable and text UI.
+  proc update_fold_state {win} {
+
+    variable data
+
+    # Calculate foldstate
+    set foldstate "none"
+    if {$data($win,config,-foldenable)} {
+      switch $data($win,config,-indentmode) {
+        "OFF"   { set foldstate "manual" }
+        "IND"   { set foldstate "indent" }
+        "IND+"  { set foldstate [expr {[tsv::llength indents $win] ? "syntax" : "indent"}] }
+      }
+    }
+
+    # Update the code folding linemap
+    array set states {none 0 manual 1 indent 1 syntax 1}
+    if {$data($win,config,foldstate) ne $foldstate} {
+      if {$states($data($win,config,foldstate)) != $states($foldstate)} {
+        if {$states($foldstate)} {
+          fold_enable $win
+        } else {
+          fold_disable $win
+        }
+      }
+      set data($win,config,foldstate) $foldstate
+      $win gutter unset folding 1 [lindex [split [$win._t index end] .] 0]
+      switch $foldstate {
+        indent { ctext::model::fold_indent_update $win }
+        syntax { ctext::model::fold_syntax_update $win }
+      }
+      linemapUpdate $win 1
+    }
+
+    # Make sure the linemap displays the code folding area appropriately
+    if {$foldstate ne "none"} {
+      catch {
+        grid $win.l
+        grid $win.f
+      }
+    } elseif {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable)} {
+      catch {
+        grid remove $win.l
+        grid remove $win.f
+      }
+    }
 
   }
 
@@ -1872,13 +1905,13 @@ namespace eval ctext {
 
     switch $subcmd {
       add {
-        if {$data($win,config,-foldstate) eq "manual"} {
+        if {$data($win,config,foldstate) eq "manual"} {
           return [fold_add $win {*}$args]
         }
         return 0
       }
       delete {
-        if {$data($win,config,-foldstate) eq "manual"} {
+        if {$data($win,config,foldstate) eq "manual"} {
           switch [llength $args] {
             1 {
               if {[lindex $args 0] eq "all"} {
@@ -2698,7 +2731,7 @@ namespace eval ctext {
     render $win _prewhite $ranges 0
 
     # If we need indentation based code folding, do that now.
-    if {$data($win,config,-foldstate) eq "indent"} {
+    if {$data($win,config,foldstate) eq "indent"} {
       ctext::model::fold_indent_update $win
       linemapUpdate $win 1
     }
@@ -2764,6 +2797,21 @@ namespace eval ctext {
     if {$block} {
       while {[llength $jobids]} {
         tpool::wait $tpool $jobids jobids
+      }
+    }
+
+    # Finally, perform indentation handling here
+    if {$ins} {
+      foreach {endpos startpos} $ranges {
+        if {[$win._t get $startpos] eq "\n"} {
+          ctext::indent::newline $win $startpos
+        } else {
+          ctext::indent::check_unindent $win $startpos
+        }
+      }
+    } else {
+      foreach {endpos startpos} $ranges {
+        ctext::indent::backspace $win $startpos
       }
     }
 
@@ -3021,7 +3069,7 @@ namespace eval ctext {
   ######################################################################
 
   ######################################################################
-  # Called when the -foldstate variable is set to a non-"none" value.
+  # Called when the foldstate variable is set to a non-"none" value.
   proc fold_enable {win} {
 
     variable data
@@ -3042,7 +3090,7 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Called when the -foldstate variable is set to a "none" value.
+  # Called when the foldstate variable is set to a "none" value.
   proc fold_disable {win} {
 
     # Remove all folded text
@@ -3091,7 +3139,7 @@ namespace eval ctext {
     variable data
 
     # If the foldstate is something other than manual, exit immediately
-    if {$data($win,config,-foldstate) ne "manual"} {
+    if {$data($win,config,foldstate) ne "manual"} {
       return 0
     }
 
@@ -3127,7 +3175,7 @@ namespace eval ctext {
     variable data
 
     # If the foldstate is something other than manual, exit immediately
-    if {$data($win,config,-foldstate) ne "manual"} {
+    if {$data($win,config,foldstate) ne "manual"} {
       return 0
     }
 

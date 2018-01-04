@@ -38,6 +38,16 @@ string position::to_index(
 
 }
 
+tindex position::to_tindex(
+  bool first_col
+) const {
+
+  tindex ti( _row, (first_col ? _scol : (_ecol + 1)) );
+
+  return( ti );
+
+}
+
 void position::to_pair(
   object & pair
 ) const {

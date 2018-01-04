@@ -453,6 +453,14 @@ class model {
       return( _serial.indent_newline( first_ti, indent_space, shift_width ) );
     }
 
+    /*! \return Returns information used to handle an unindent */
+    Tcl::object indent_check_unindent(
+      const Tcl::object & first_ti,
+      const Tcl::object & curr_ti
+    ) const {
+      return( _serial.indent_check_unindent( first_ti, curr_ti ) );
+    }
+
 };
 
 #endif

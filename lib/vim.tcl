@@ -521,11 +521,11 @@ namespace eval vim {
     }
 
     # Get the current mode
-    set curr [indent::get_indent_mode [gui::current_txt]]
+    set curr [[gui::current_txt] cget -indentmode]
 
     # If the indentation mode will change, set it to the new value
     if {$curr ne $newval($curr,$type,$value)} {
-      indent::set_indent_mode $newval($curr,$type,$value)
+      gui::set_indent_mode $newval($curr,$type,$value)
     }
 
   }
@@ -572,7 +572,7 @@ namespace eval vim {
 
     set txt [gui::current_txt]
 
-    $txt configure -foldstate [gui::get_folding_method $txt $val]
+    $txt configure -foldenable $val
 
   }
 
@@ -1976,7 +1976,7 @@ namespace eval vim {
       "folding" {
         if {![in_visual_mode $txtt]} {
           set enable [expr {[string match [[winfo parent $txtt] cget -foldstate] "none"] ? 1 : 0}]
-          $txt configure -foldstate [gui::get_folding_method $txt $enable]
+          $txt configure -foldenable $enable
         }
       }
       default {
@@ -2988,7 +2988,7 @@ namespace eval vim {
         }
         "folding" {
           set txt [winfo parent $txtt]
-          $txt configure -foldstate [gui::get_folding_method $txt 0]
+          $txt configure -foldenable 0
         }
         default {
           return [do_operation $txtt [list numberend -adjust "+1c"]]
@@ -3025,7 +3025,7 @@ namespace eval vim {
         }
         "folding" {
           set txt [winfo parent $txtt]
-          $txt configure -foldstate [gui::get_folding_method $txt 1]
+          $txt configure -foldenable 1
         }
         default {
           return [do_operation $txtt numberstart]

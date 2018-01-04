@@ -414,8 +414,8 @@ namespace eval syntax {
       ctext::setAutoMatchChars      $txt {} {}
     }
 
-    # Set default indent/unindent strings
-    indent::set_indent_expressions $txt.t
+    # Initialize the indentation expressions
+    set_indent_expressions $txt
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -476,10 +476,10 @@ namespace eval syntax {
         $txt syntax addwords class fixme FIXME
 
         # Set the indent/unindent regular expressions
-        indent::set_indent_expressions $txt.t $lang_array(indentation)
+        set_indent_expressions $txt $lang_array(indentation)
 
         # Set the foldstate
-        $txt configure -foldstate [gui::get_folding_method $txt]
+        $txt configure -foldenable [preferences::get View/EnableCodeFolding]
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
@@ -570,7 +570,7 @@ namespace eval syntax {
       $txt syntax addwords class fixme FIXME $language
 
       # Set the indent/unindent regular expressions
-      indent::set_indent_expressions $txt.t $lang_array(indentation)
+      set_indent_expressions $txt $lang_array(indentation)
 
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)
@@ -1020,6 +1020,26 @@ namespace eval syntax {
 
     # Write the association file
     catch { tkedat::write $assoc_file [array get associations] 0 }
+
+  }
+
+  ######################################################################
+  # Set the indentation expressions
+  proc set_indent_expressions {txt {indentation ""}} {
+
+    # Set the default indentation mode
+    if {[preferences::get Editor/EnableAutoIndent]} {
+      if {$indentation ne ""} {
+        $txt configure -indentmode "IND+"
+      } else {
+        $txt configure -indentmode "IND"
+      }
+    } else {
+      $txt configure -indentmode "OFF"
+    }
+
+    # Update the state of the indentation widget
+    gui::update_indent_button
 
   }
 

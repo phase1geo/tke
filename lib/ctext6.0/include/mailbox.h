@@ -292,6 +292,12 @@ class mailbox {
       Tcl::object shift_width
     );
 
+    /*! \return Returns information used to handle unindentations */
+    Tcl::object indent_check_unindent(
+      Tcl::object first_ti,
+      Tcl::object curr_ti
+    );
+
 };
 
 #endif
