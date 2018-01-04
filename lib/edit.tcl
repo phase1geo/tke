@@ -46,15 +46,8 @@ namespace eval edit {
     vim::edit_mode $txtt
 
     # Create the new line
-    if {[multicursor::enabled $txtt]} {
-      multicursor::move $txtt up
-    } elseif {[$txtt compare "insert linestart" == 1.0]} {
-      $txtt insert "insert linestart" "\n"
-      $txtt cursor set "insert-1l"
-    } else {
-      $txtt cursor set [list "insert-1l lineend"]
-      $txtt insert "insert lineend" "\n"
-    }
+    $txtt insert linestart "\n"
+    $txtt cursor move up
 
   }
 
@@ -69,12 +62,8 @@ namespace eval edit {
     set insert [$txtt index insert]
 
     # Add the line(s)
-    if {[multicursor::enabled $txtt]} {
-      multicursor::move $txtt down
-    } else {
-      $txtt cursor set [list "insert lineend"]
-      $txtt insert "insert lineend" "\n"
-    }
+    $txtt cursor move lineend
+    $txtt insert insert "\n"
 
     # Make sure the inserted text is seen
     $txtt see insert

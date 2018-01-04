@@ -2666,7 +2666,7 @@ namespace eval vim {
         set clip [string replace $clip $nl_index $nl_index]
       }
       $txtt insert "insert lineend" [string repeat "\n$clip" $num]
-      multicursor::paste $txtt paste "insert+1l linestart"
+      multicursor::paste $txtt "insert+1l linestart"
       $txtt cursor set  [list "insert+1l linestart"]
       $txtt cursor move [list firstchar -num 0]
     } else {

@@ -228,6 +228,7 @@ namespace eval ctext {
     bind $win.t <Key-Right>                "$win cursor move right; break"
     bind $win.t <Key-Home>                 "$win cursor move linestart; break"
     bind $win.t <Key-End>                  "$win cursor move lineend; break"
+    bind $win.t <Button-1>                 "$win cursor disable"
     bind $win.t <Escape>                   "$win cursor disable"
     bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
     bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
@@ -338,7 +339,7 @@ namespace eval ctext {
     lappend argTable {1 true yes} -blockcursor {
       set data($win,config,-blockcursor) 1
       if {[$win._t compare "insert linestart" == "insert lineend"]} {
-        $win._t insert insert " " dspace
+        $win._t insert insert " " _dspace
       }
       update_cursor $win
     }
@@ -346,7 +347,7 @@ namespace eval ctext {
     lappend argTable {0 false no} -blockcursor {
       set data($win,config,-blockcursor) 0
       if {[$win._t tag ranges _mcursor] eq ""} {
-        $win._t tag remove dspace 1.0 end
+        $win._t tag remove _dspace 1.0 end
       }
       update_cursor $win
     }
@@ -967,6 +968,7 @@ namespace eval ctext {
       diff        { return [command_diff        $win {*}$args] }
       edit        { return [command_edit        $win {*}$args] }
       fold        { return [command_fold        $win {*}$args] }
+      get         { return [command_get         $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
@@ -2001,6 +2003,37 @@ namespace eval ctext {
       }
     }
 
+  }
+
+  ######################################################################
+  # Process the get command, removing any dspace characters found in the
+  # specified range(s).
+  proc command_get {win args} {
+
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i }
+
+    set opts   [lrange $args 0 [expr $i - 1]]
+    set ranges [lrange $args $i end]
+
+    switch [llength $ranges] {
+      1 {
+        if {[lsearch [$win._t tag names [lindex $ranges 0]] _dspace] != -1} {
+          return "\n"
+        } else {
+          return [$win._t get {*}$opts [lindex $ranges 0]]
+        }
+      }
+      2       { return [get_cleaned_content $win {*}$ranges $opts] }
+      default {
+        set strs [list]
+        foreach {startpos endpos} $ranges {
+          lappend strs [get_cleaned_content $win $startpos $endpos $opts]
+        }
+        return $strs
+      }
+    }
+     
   }
 
   ######################################################################
@@ -3401,8 +3434,12 @@ namespace eval ctext {
     array set opts $optlist
 
     # If the user has specified a column variable, store the current column in that variable
-    if {[set $opts(-column)] eq ""} {
-      set $opts(-column) [lindex [split [$win._t index $opts(-startpos)] .] 1]
+    if {$opts(-column) ne ""} {
+      if {[set col [set $opts(-column)]] eq ""} {
+        set $opts(-column) [set col [lindex [split [$win._t index $opts(-startpos)] .] 1]]
+      }
+    } else {
+      set col [lindex [split [$win._t index $opts(-startpos)] .] 1]
     }
 
     set index $opts(-startpos)
@@ -3411,7 +3448,7 @@ namespace eval ctext {
       set index [$win._t index "$index linestart-1 display lines"]
     }
 
-    return [lindex [split $index .] 0].[set $opts(-column)]
+    return [lindex [split $index .] 0].$col
 
   }
 
@@ -3426,8 +3463,12 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    if {[set $opts(-column)] eq ""} {
-      set $opts(-column) [lindex [split [$win._t index $opts(-startpos)] .] 1]
+    if {$opts(-column) ne ""} {
+      if {[set col [set $opts(-column)]] eq ""} {
+        set $opts(-column) [set col [lindex [split [$win._t index $opts(-startpos)] .] 1]]
+      }
+    } else {
+      set col [lindex [split [$win._t index $opts(-startpos)] .] 1]
     }
 
     set index $opts(-startpos)
@@ -3439,7 +3480,7 @@ namespace eval ctext {
       }
     }
 
-    return [lindex [split $index .] 0].[set $opts(-column)]
+    return [lindex [split $index .] 0].$col
 
   }
 
@@ -4154,7 +4195,7 @@ namespace eval ctext {
       set nl 0
       while {[$win._t compare $start < end-1c]} {
         if {([$win._t get "$start linestart" "$start lineend"] eq "") || \
-            ([lsearch [$win._t tag names $start] dspace] != -1)} {
+            ([lsearch [$win._t tag names $start] _dspace] != -1)} {
           set nl 1
         } elseif {$nl && ([incr num -1] == 0)} {
           return "$start linestart"
@@ -4180,7 +4221,7 @@ namespace eval ctext {
       set nl 1
       while {[$win._t compare $start < $last_start]} {
         if {([$win._t get "$start linestart" "$start lineend"] ne "") && \
-            ([lsearch [$win._t tag names $start] dspace] == -1)} {
+            ([lsearch [$win._t tag names $start] _dspace] == -1)} {
           set nl 0
         } elseif {!$nl && ([incr num -1] == 0)} {
           return [$win._t index "$start+1 display lines linestart"]
@@ -4192,7 +4233,7 @@ namespace eval ctext {
       }
 
       if {(([$win._t get "$start linestart" "$start lineend"] eq "") || \
-           ([lsearch [$win._t tag names $start] dspace] != -1)) && !$nl && \
+           ([lsearch [$win._t tag names $start] _dspace] != -1)) && !$nl && \
           ([incr num -1] == 0)} {
         return [$win._t index "$start+1 display lines linestart"]
       } else {
@@ -4408,7 +4449,7 @@ namespace eval ctext {
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$win._t compare "insert linestart" == "insert lineend"]} {
-      $win._t insert insert " " dspace
+      $win._t insert insert " " _dspace
       $win._t mark set insert "insert-1c"
 
     # Make sure that lineend is never the insertion point
@@ -4424,7 +4465,7 @@ namespace eval ctext {
 
     set mcursors [lmap {startpos endpos} [$win._t tag ranges _mcursor] {list $startpos $endpos}]
 
-    foreach {startpos endpos} [$win._t tag ranges dspace] {
+    foreach {startpos endpos} [$win._t tag ranges _dspace] {
       if {[lsearch -index 0 $mcursors $startpos] == -1} {
         $win._t delete $startpos $endpos
       }
@@ -4436,25 +4477,29 @@ namespace eval ctext {
   # Removes the dspace tag from the current index (if it is set).
   proc cleanup_dspace {win} {
 
-    $win._t tag remove dspace insert
+    $win._t tag remove _dspace insert
 
   }
 
   ######################################################################
   # Returns the contents of the given text widget without the injected
   # dspaces.
-  proc get_cleaned_content {win} {
+  proc get_cleaned_content {win startpos endpos opts} {
 
-    set str ""
-    set last_startpos 1.0
+    set str      ""
+    set startpos [$win index $startpos]
+    set endpos   [$win index $endpos]
 
     # Remove any dspace characters
-    foreach {startpos endpos} [$win._t tag ranges dspace] {
-      append str [$win._t get $last_startpos $startpos]
-      set last_startpos $endpos
+    while {[set epos [lassign [$win._t tag nextrange _dspace $startpos $endpos] spos] ne ""} {
+      append str [$win._t get {*}$opts $startpos $spos]
+      set startpos $epos
+      if {$startpos eq $endpos} {
+        return "$str\n"
+      }
     }
 
-    append str [$win._t get $last_startpos "end-1c"]
+    append str [$win._t get {*}$opts $startpos $endpos]
 
     return $str
 

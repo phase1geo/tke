@@ -407,7 +407,7 @@ int serial::previndex(
   const type_data* type
 ) const {
 
-  for( int i=(start.matches() ? (start.index()-1) : start.index()); i>=0; i-- ) {
+  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=0; i-- ) {
     if( (*this)[i]->type() == type ) {
       return( i );
     }
@@ -423,7 +423,7 @@ int serial::previndex(
   const type_data* type
 ) const {
 
-  for( int i=(start.matches() ? (start.index()-1) : start.index()); i>=end.index(); i-- ) {
+  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=end.index(); i-- ) {
     if( (*this)[i]->type() == type ) {
       return( i );
     }

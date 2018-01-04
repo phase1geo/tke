@@ -39,8 +39,6 @@ namespace eval multicursor {
 
     # Create multicursor bindings
     bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
-    bind mcursor$txt <Mod2-Button-1>              [list multicursor::handle_alt_button1 %W %x %y]
-    bind mcursor$txt <Mod2-Button-$::right_click> [list multicursor::handle_alt_button3 %W %x %y]
     bind mcursor$txt <Escape>                     [list multicursor::handle_escape %W]
     bind mcursor$txt <Button-1>                   [list multicursor::disable %W]
 
