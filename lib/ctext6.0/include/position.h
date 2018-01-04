@@ -94,6 +94,11 @@ class position {
       bool first_col = true
     ) const;
 
+    /*! \return Returns the first or last position as a text index */
+    tindex to_tindex(
+      bool first_col = true
+    ) const;
+
     /*! \return Returns a Tcl object containing a list of the text widget indices */
     void to_pair( Tcl::object & pair ) const;
 

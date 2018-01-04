@@ -216,12 +216,7 @@ object model::indent_line_start(
   tnode* node;
 
   if( (node = _serial.find_node( tindex( ti ) )) ) {
-    int              index    = node->index() - 1;
-    vector<tnode*> & siblings = node->parent()->children();
-    while( (index >= 0) && (siblings[index]->right()->const_pos().row() == row) ) {
-      row = siblings[index]->left()->const_pos().row();
-      index--;
-    }
+    row = node->get_line_start( row );
   }
 
   return( (object)row );

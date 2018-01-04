@@ -78,6 +78,9 @@ class tnode {
     /*! \return Returns a reference to the parent node */
     tnode* parent() { return( _parent ); }
 
+    /*! \return Returns a constant reference to the parent node */
+    const tnode* const_parent() const { return( _parent ); }
+
     /*! \return Returns the children nodes of this node */
     std::vector<tnode*> & children() { return( _children ); }
 
@@ -128,6 +131,12 @@ class tnode {
     */
     const tnode* get_node_containing(
       const tindex & ti
+    ) const;
+
+    /*! \return Returns the row number of the line containing the first character of the
+                logical line that this node is a part of. */
+    int get_line_start(
+      int row
     ) const;
 
 };

@@ -1166,14 +1166,14 @@ namespace eval menus {
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode OFF]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode OFF]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list gui::set_indent_mode OFF]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list gui::set_indent_mode OFF]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode IND]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode IND]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list gui::set_indent_mode IND]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list gui::set_indent_mode IND]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode IND+]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode IND+]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list gui::set_indent_mode IND+]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list gui::set_indent_mode IND+]
 
     ######################
     # Populate cursor menu
@@ -1620,7 +1620,7 @@ namespace eval menus {
 
     # Set the indentation mode for the current editor
     if {[set txt [gui::current_txt]] ne ""} {
-      set indent_mode [indent::get_indent_mode $txt]
+      set indent_mode [$txt cget -indentmode]
       set state       "normal"
     }
 
@@ -2949,7 +2949,7 @@ namespace eval menus {
     }
 
     # Set the fold enable value
-    $txt configure -foldstate [gui::get_folding_method $txt $code_folding]
+    $txt configure -foldenable $code_folding
 
   }
 
