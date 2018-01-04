@@ -5068,7 +5068,7 @@ namespace eval gui {
     snippets::reload_snippets
 
     # Update the indentation indicator
-    update_indent_button $widgets(info_indent)
+    update_indent_button
 
     # Set the syntax menubutton to the current language
     syntax::update_button $widgets(info_syntax)
@@ -5834,14 +5834,10 @@ namespace eval gui {
   ######################################################################
   # Creates the menubutton to control the indentation mode for the current
   # editor.
-  #
-  # TBD - Put into gui.tcl
-  proc create_indent_menu {} {
-
-    variable widgets
+  proc create_indent_menu {w} {
 
     # Create the menubutton menu
-    set mnu [menu $widgets(info_indent)Menu -tearoff 0]
+    set mnu [menu ${w}Menu -tearoff 0]
 
     # Populate the indent menu
     populate_indent_menu $mnu
@@ -5855,18 +5851,15 @@ namespace eval gui {
 
   ######################################################################
   # Updates the menubutton to match the current mode.
-  #
-  # TBD - Put into gui.tcl
   proc update_indent_button {} {
 
     variable widgets
     variable current_indent
 
     # Get the current text widget
-    set txt [gui::current_txt]
-
-    # Configure the menubutton
-    $widgets(info_indent) configure -text [set current_indent [$txt cget -indentmode]]
+    if {[set txt [gui::current_txt]] ne ""} {
+      $widgets(info_indent) configure -text [set current_indent [$txt cget -indentmode]]
+    }
 
   }
 

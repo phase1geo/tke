@@ -1692,7 +1692,7 @@ namespace eval ctext {
 
     # Ask the model for a matching character.  If one is found, return it;
     # otherwise, return the empty string
-    if {[model::get_match_char $win index]} {
+    if {[ctext::model::get_match_char $win index]} {
       return $index
     }
 
@@ -2804,14 +2804,14 @@ namespace eval ctext {
     if {$ins} {
       foreach {endpos startpos} $ranges {
         if {[$win._t get $startpos] eq "\n"} {
-          ctext::indent::newline $win $startpos
+          ctext::indent::newline $win $startpos $data($win,config,-indentmode)
         } else {
-          ctext::indent::check_unindent $win $startpos
+          ctext::indent::check_unindent $win $startpos $data($win,config,-indentmode)
         }
       }
     } else {
       foreach {endpos startpos} $ranges {
-        ctext::indent::backspace $win $startpos
+        ctext::indent::backspace $win $startpos $data($win,config,-indentmode)
       }
     }
 

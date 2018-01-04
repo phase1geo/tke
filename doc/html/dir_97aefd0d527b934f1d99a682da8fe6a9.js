@@ -1,6 +1,5 @@
 var dir_97aefd0d527b934f1d99a682da8fe6a9 =
 [
-    [ "ctext", "dir_e196ed0cf7506b8e7c50ce2798d828dd.html", "dir_e196ed0cf7506b8e7c50ce2798d828dd" ],
     [ "api.tcl", "api_8tcl.html", "api_8tcl" ],
     [ "bgproc.tcl", "bgproc_8tcl.html", "bgproc_8tcl" ],
     [ "bindings.tcl", "bindings_8tcl.html", "bindings_8tcl" ],
@@ -15,11 +14,9 @@ var dir_97aefd0d527b934f1d99a682da8fe6a9 =
     [ "emmet_css.tcl", "emmet__css_8tcl.html", "emmet__css_8tcl" ],
     [ "favorites.tcl", "favorites_8tcl.html", "favorites_8tcl" ],
     [ "files.tcl", "files_8tcl.html", "files_8tcl" ],
-    [ "folding.tcl", "folding_8tcl.html", "folding_8tcl" ],
     [ "fontchooser.tcl", "fontchooser_8tcl.html", "fontchooser_8tcl" ],
     [ "ftp_wrapper.tcl", "ftp__wrapper_8tcl.html", "ftp__wrapper_8tcl" ],
     [ "gui.tcl", "gui_8tcl.html", "gui_8tcl" ],
-    [ "indent.tcl", "indent_8tcl.html", "indent_8tcl" ],
     [ "interpreter.tcl", "interpreter_8tcl.html", "interpreter_8tcl" ],
     [ "ipanel.tcl", "ipanel_8tcl.html", "ipanel_8tcl" ],
     [ "lang.tcl", "lang_8tcl.html", "lang_8tcl" ],

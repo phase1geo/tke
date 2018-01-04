@@ -21,15 +21,14 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "api_8tcl.html",
-"ctext_8tcl.html#ab0619f2468ec57293bab2eaa0a88b4e3",
-"emmet__css_8tcl.html#a6027629273d2c73dfdd30e2fde0a9e5b",
-"gui_8tcl.html#a9971c40a99500f4c3df488ba6eab2dd0",
-"menus_8tcl.html#a28f807f62b682859dfc8bc3a191988a0",
-"namespacemembers_func.html",
-"pref__ui_8tcl.html#af2869472f064d7d18e33fb0cc416159f",
-"share_8tcl.html#a11a38f6fb431d245a00d4c217de72e33",
-"templates_8tcl_source.html",
-"vim_8tcl.html#a22a3035be2472b156c64e1a63d58ec30"
+"edit_8tcl.html#a0496d64ca45e81c821c70a76ecbe4ebd",
+"gui_8tcl.html#a3f92b9af84ff56b1dac8e147f19daf9b",
+"launcher_8tcl.html#ab45db1b527689aec9f9ae8ae495aab8d",
+"namespacemembers_e.html",
+"pref__ui_8tcl.html#a9860b3f84559f4b72955fc521aee0f5a",
+"select_8tcl.html#ac04859708a25571dcc552b26a8f8f2d9",
+"syntax_8tcl.html#a383469d6b4e6daa348f15c1a62be9aa0",
+"utils_8tcl.html#aa80202a063e637943b8d62cd33c72465"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

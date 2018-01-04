@@ -8,7 +8,7 @@ var select_8tcl =
     [ "bracket_parent", "select_8tcl.html#aeab24e5a8e6c798a04d8fd48fe9e6b92", null ],
     [ "bracket_prev_sibling", "select_8tcl.html#a120a5264b92ae9847e702dd14547a156", null ],
     [ "clear_selection", "select_8tcl.html#a3f0e352d8dd564339cdb8a87febfc0e9", null ],
-    [ "create_list", "select_8tcl.html#abf2b1526fff9b006ee5b22e8b1565b01", null ],
+    [ "create_list", "select_8tcl.html#a73a8cc178a57ba4f0e94f7c8bfb49aba", null ],
     [ "get_bracket_type", "select_8tcl.html#aa3848acc56fa6a1be2fe3cb6c37583cd", null ],
     [ "get_type", "select_8tcl.html#afe5e20a7a89857ca5db2d1103dbf30f2", null ],
     [ "handle_a", "select_8tcl.html#ac04859708a25571dcc552b26a8f8f2d9", null ],
@@ -75,7 +75,7 @@ var select_8tcl =
     [ "quick_select", "select_8tcl.html#a62ca98fdb2636f692dc7038e9afe05df", null ],
     [ "release", "select_8tcl.html#a914076261521f407145c30775d98a074", null ],
     [ "set_select_mode", "select_8tcl.html#a354b4095a2b74018de2955b9314ef557", null ],
-    [ "set_type", "select_8tcl.html#ae79aa513b6c41647adf45ad190f7a635", null ],
+    [ "set_type", "select_8tcl.html#a52238aa7a6abc75205aa39d15625c27e", null ],
     [ "show_help", "select_8tcl.html#ae8e4b351774a267fe0033efbe532ba89", null ],
     [ "undo", "select_8tcl.html#a7c656420b93949fe8ea694bd5b08f90f", null ],
     [ "update_selection", "select_8tcl.html#a1737eff4b708e87b7974f6ae728807ad", null ]
