@@ -4950,6 +4950,7 @@ namespace eval gui {
       # Get file information
       get_info $txt txt tabbar tab fileindex readonly
 
+
       if {!$readonly && ([lindex $data 2] ne "ignore")} {
         set_current_modified 1
       }

@@ -9,6 +9,7 @@
 */
 
 #include <vector>
+#include <map>
 #include <string>
 #include <iostream>
 
@@ -53,9 +54,31 @@ class serial : public std::vector<serial_item*> {
              value of -1 is returned.
     */
     int nextindex(
-      const sindex &    start,
-      const sindex &    end,
+      const sindex &   start,
+      const sindex &   end,
       const type_data* type
+    ) const;
+
+    /*!
+     \return Returns the index of the next serial_item that matches the given type, starting
+             at index 'start' and stopping at index 'end'.  If no matching item is found, a
+             value of -1 is returned.
+    */
+    int nextindex(
+      const sindex                     & start,
+      const sindex                     & end,
+      int                                side,
+      const std::map<std::string,bool> & indent_types
+    ) const;
+
+    /*!
+     \return Returns the index of the next serial_item that matches the given type, starting
+             at index 'start'.  If no matching item is found, a value of -1 is returned.
+    */
+    int nextindex(
+      const sindex                     & start,
+      int                                side,
+      const std::map<std::string,bool> & indent_types
     ) const;
 
     /*!
@@ -80,10 +103,34 @@ class serial : public std::vector<serial_item*> {
     ) const;
 
     /*!
+     \return Returns the index of the previous serial_item that matches the given type,
+             starting at index 'start'.  If no matching item is found, a value of -1 is
+             returned.
+    */
+    int previndex(
+      const sindex                     & start,
+      int                                side,
+      const std::map<std::string,bool> & indent_types
+    ) const;
+
+    /*!
+     \return Returns the index of the previous serial_item that matches the given type,
+             starting at index 'start' and stopping at index 'end'.  If no matching item
+             is found, a value of -1 is returned.
+    */
+    int previndex(
+      const sindex                     & start,
+      const sindex                     & end,
+      int                                side,
+      const std::map<std::string,bool> & indent_types
+    ) const;
+
+    /*!
      \return Returns true if the reindent mark at index should be treated as an unindent.
     */
     bool is_unindent_after_reindent (
-      const tindex & ti
+      const tindex                     & ti,
+      const std::map<std::string,bool> & indent_types
     ) const;
 
     /*!
@@ -91,7 +138,8 @@ class serial : public std::vector<serial_item*> {
              following line to be indented.
     */
     bool line_contains_indentation(
-      const tindex & ti
+      const tindex                     & ti,
+      const std::map<std::string,bool> & indent_types
     ) const;
 
   public:
@@ -162,9 +210,10 @@ class serial : public std::vector<serial_item*> {
 
     /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
     Tcl::object indent_newline(
-      const Tcl::object & first_ti,
-      const Tcl::object & indent_space,
-      const Tcl::object & shift_width
+      const Tcl::object                & first_ti,
+      const Tcl::object                & indent_space,
+      const Tcl::object                & shift_width,
+      const std::map<std::string,bool> & indent_types
     ) const;
 
     /*! \return Returns a list containing two items: the index to start looking for the beginning
@@ -172,8 +221,9 @@ class serial : public std::vector<serial_item*> {
                 from the whitespace found at the beginning of the line.  If an empty string is
                 returned, no unindentation was found. */
     Tcl::object indent_check_unindent(
-      const Tcl::object & first_ti,
-      const Tcl::object & curr_ti
+      const Tcl::object                & first_ti,
+      const Tcl::object                & curr_ti,
+      const std::map<std::string,bool> & indent_types
     ) const;
 
 };

@@ -121,12 +121,12 @@ namespace eval indent {
     if {$indent_mode eq "IND"} {
       set insert_space [get_previous_indent_space $win $index]
     } else {
-      if {[lassign [$win._t tag nextrange _prewhite $index "$index lineend"] first_index] eq ""} {
+      if {[set first_index [lassign [$win._t tag nextrange _prewhite "$index linestart" "$index lineend"] unused]] eq ""} {
         set first_index [$win._t index "$index linestart"]
       }
       set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
-      puts "1 insert_space: $insert_space"
-      set insert_space [ctext::model::indent_newline $win $first_index $insert_space [$win cget -shiftwidth]]
+      puts "1 insert_space: $insert_space, first_index: $first_index"
+      set insert_space [ctext::model::indent_newline $win [$win._t index "$first_index-1c"] $insert_space [$win cget -shiftwidth]]
       puts "2 insert_space: $insert_space"
     }
 
