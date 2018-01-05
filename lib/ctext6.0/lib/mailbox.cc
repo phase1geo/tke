@@ -735,6 +735,7 @@ object mailbox::indent_line_start(
 }
 
 object mailbox::indent_newline(
+  object prev_ti,
   object first_ti,
   object indent_space,
   object shift_width
@@ -743,6 +744,7 @@ object mailbox::indent_newline(
   interpreter i( first_ti.get_interp(), false );
   object args;
 
+  args.append( i, prev_ti );
   args.append( i, first_ti );
   args.append( i, indent_space );
   args.append( i, shift_width );

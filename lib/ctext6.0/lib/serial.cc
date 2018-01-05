@@ -550,6 +550,7 @@ bool serial::line_contains_indentation(
 }
 
 object serial::indent_newline(
+  const object           & prev_ti,
   const object           & first_ti,
   const object           & indent_space,
   const object           & shift_width,
@@ -557,25 +558,24 @@ object serial::indent_newline(
 ) const {
 
   interpreter interp( first_ti.get_interp(), false );
+  tindex prev( prev_ti );
   tindex first( first_ti );
-  tindex linestart( first.row(), 0 );
-  tindex lineend( first.row(), 1000000 );
   int    space       = indent_space.get<int>( interp );
   int    shift       = shift_width.get<int>( interp );
   sindex first_index = get_index( first );
 
   /* If the previous line indicates an indentation is required */
-  if( line_contains_indentation( lineend, indent_types ) ) {
+  if( line_contains_indentation( prev, indent_types ) ) {
     cout << "Adding shift: " << shift << " to space: " << space << endl;
     space += shift;
   } else {
-    cout << "lineend: " << lineend.to_string() << " does not contain indentation" << endl;
+    cout << "prev: " << prev.to_string() << " does not contain indentation" << endl;
   }
 
   /* If the first index matches a stored value, interrogate it */
   if( first_index.matches() ) {
 
-    cout << "HERE" << endl;
+    cout << "HERE, space: " << space << endl;
 
     /*
      Remove any leading whitespace and update indentation level
@@ -583,6 +583,7 @@ object serial::indent_newline(
     */
     if( (*this)[first_index.index()]->matches_alias( get_side( "right" ), indent_types ) ) {
       space -= shift;
+      cout << "  Found unindent, space: " << space << endl;
 
     /*
      Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
@@ -591,6 +592,7 @@ object serial::indent_newline(
     } else if( ((*this)[first_index.index()]->type() == types::staticObject().get( "reindent" )) &&
                is_unindent_after_reindent( first, indent_types ) ) {
       space -= shift;
+      cout << "  Found reindent, space: " << space << endl;
     }
 
   }
@@ -662,8 +664,6 @@ object serial::indent_check_unindent(
         bool reindent_not_in_prev_line = previndex( get_index( tindex( curr.row(), 0 ) ),
                                                     get_index( tindex( (curr.row() - 1), 0 ) ),
                                                     types::staticObject().get( "reindent" ) ) == -1;
-
-        oss << curr.to_string() << "-1l lineend";
 
         retval.append( interp, (object)oss.str() );
         retval.append( interp, (object)reindent_not_in_prev_line );

@@ -446,11 +446,12 @@ class model {
 
     /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
     Tcl::object indent_newline(
+      const Tcl::object & prev_ti,
       const Tcl::object & first_ti,
       const Tcl::object & indent_space,
       const Tcl::object & shift_width
     ) const {
-      return( _serial.indent_newline( first_ti, indent_space, shift_width, _fold_types ) );
+      return( _serial.indent_newline( prev_ti, first_ti, indent_space, shift_width, _fold_types ) );
     }
 
     /*! \return Returns information used to handle an unindent */

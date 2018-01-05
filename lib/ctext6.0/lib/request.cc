@@ -163,7 +163,7 @@ object request::execute(
       return( inst.indent_line_start( _args.at( i, 0 ) ) );
       break;
     case REQUEST_INDENTNEWLINE :
-      return( inst.indent_newline( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
+      return( inst.indent_newline( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ), _args.at( i, 3 ) ) );
       break;
     case REQUEST_INDENTCHECKUNINDENT :
       return( inst.indent_check_unindent( _args.at( i, 0 ), _args.at( i, 1 ) ) );
