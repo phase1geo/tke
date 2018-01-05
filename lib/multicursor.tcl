@@ -31,34 +31,6 @@ namespace eval multicursor {
   array set copy_cursors {}
 
   ######################################################################
-  # Adds bindings for multicursor support to the supplied text widget.
-  proc add_bindings {txt} {
-
-    # Create tag for the multicursor stuff
-    $txt tag configure mcursor -underline 1
-
-    # Create multicursor bindings
-    bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
-    bind mcursor$txt <Escape>                     [list multicursor::handle_escape %W]
-    bind mcursor$txt <Button-1>                   [list multicursor::disable %W]
-
-    # Add the multicursor bindings to the text widget's bindtags
-    set all_index [lsearch -exact [bindtags $txt.t] all]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $all_index + 1] mcursor$txt]
-
-  }
-
-  ######################################################################
-  # Called when the specified text widget is destroyed.
-  proc handle_destroy_txt {txt} {
-
-    variable copy_cursors
-
-    array unset copy_cursors $txt.t,*
-
-  }
-
-  ######################################################################
   # Handles a selection of the widget in the multicursor mode.
   proc handle_selection {W} {
 
@@ -82,22 +54,6 @@ namespace eval multicursor {
   }
 
   ######################################################################
-  # Handles an Alt-Button-1 event when in multicursor mode.
-  proc handle_alt_button1 {W x y} {
-
-    add_cursor $W [$W index @$x,$y]
-
-  }
-
-  ######################################################################
-  # Handles an Alt-Button-3 event when in multicursor mode.
-  proc handle_alt_button3 {W x y} {
-
-    add_cursors $W [$W index @$x,$y]
-
-  }
-
-  ######################################################################
   # Handles an escape event in multicursor mode.
   proc handle_escape {W} {
 
@@ -111,81 +67,6 @@ namespace eval multicursor {
       } else {
         $W cursor set $first
       }
-
-    }
-
-  }
-
-  ######################################################################
-  # Returns 1 if multiple selections exist; otherwise, returns 0.
-  proc enabled {txtt} {
-
-    return [expr [llength [$txtt tag ranges mcursor]] > 0]
-
-  }
-
-  ######################################################################
-  # Disables the multicursor mode for the given text widget.
-  proc disable {txtt} {
-
-    variable cursor_anchor
-
-    # Clear the start positions value
-    $txtt tag remove mcursor 1.0 end
-
-    # Clear the current anchor
-    set cursor_anchor ""
-
-  }
-
-  ######################################################################
-  # Set a multicursor at the given index.
-  proc add_cursor {txtt index} {
-
-    variable cursor_anchor
-
-    if {[$txtt compare "$index lineend" == $index]} {
-      $txtt insert $index " "
-    }
-
-    if {[llength [set mcursors [lsearch -inline [$txtt tag names $index] mcursor*]]] == 0} {
-      $txtt tag add mcursor $index
-    } else {
-      $txtt tag remove mcursor $index
-    }
-
-    # Set the cursor anchor to the current index
-    set cursor_anchor $index
-
-  }
-
-  ######################################################################
-  # Set multicursors between the anchor and the current line.
-  proc add_cursors {txtt index} {
-
-    variable cursor_anchor
-
-    if {$cursor_anchor ne ""} {
-
-      # Get the anchor line and column
-      lassign [split [set orig_anchor $cursor_anchor] .] row col
-
-      # Get the current row
-      set curr_row [lindex [split $index .] 0]
-
-      # Set the cursor
-      if {$row < $curr_row} {
-        for {set i [expr $row + 1]} {$i <= $curr_row} {incr i} {
-          add_cursor $txtt $i.$col
-        }
-      } else {
-        for {set i $curr_row} {$i < $row} {incr i} {
-          add_cursor $txtt $i.$col
-        }
-      }
-
-      # Re-set the cursor anchor
-      set cursor_anchor $orig_anchor
 
     }
 
@@ -452,108 +333,6 @@ namespace eval multicursor {
       } else {
         foreach {start end} [$txtt tag ranges mcursor] {
           edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
-        }
-      }
-
-      return 1
-
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Parses the given number string with the format of:
-  #   (d|o|x)?<number>+
-  # Where d means to parse and insert decimal numbers, o means to parse
-  # and insert octal numbers, and x means to parse and insert hexidecimal
-  # numbers.  If d, o or x are not specified, d is assumed.
-  # Numbers will be inserted at each cursor location such that the first
-  # cursor will be replaced with the number specified by <number>+ and
-  # each successive cursor will have an incrementing value inserted
-  # at its location.
-  proc insert_numbers {txt numstr} {
-
-    variable selected
-
-    # If the number string is a decimal number without a preceding 'd' character, add it now
-    if {[set d_added [regexp {^[0-9]+([+-]\d*)?$} $numstr]]} {
-      set numstr "d$numstr"
-    }
-
-    # Parse the number string to verify that it's valid
-    if {[regexp -nocase {^(.*)(b[0-1]*|d[0-9]*|o[0-7]*|[xh][0-9a-fA-F]*)([+-]\d*)?$} $numstr -> prefix numstr increment]} {
-
-      # Get the cursors
-      set mcursors [lreverse [$txt tag ranges mcursor]]
-
-      # Get the last number
-      set num_mcursors [expr ([llength $mcursors] / 2)]
-
-      # If things were selected, delete their characters and re-add the multicursors
-      if {$selected} {
-        foreach {end start} $mcursors {
-          $txt delete $start $end
-          $txt tag add mcursor $start
-        }
-        set selected 0
-      }
-
-      # Get the number portion of the number string.  If one does not exist,
-      # default the number to 0.
-      if {[set num [string range $numstr 1 end]] eq ""} {
-        set num 0
-      }
-
-      # Initialize the value of increment if it was not specified by the user explicitly
-      if {$increment eq ""} {
-        set increment "+1"
-      } elseif {$increment eq "+"} {
-        set increment "+1"
-      } elseif {$increment eq "-"} {
-        set increment "-1"
-      }
-
-      # Calculate the num and increment values
-      if {[string index $increment 0] eq "+"} {
-        set increment [string range $increment 1 end]
-        set num       [expr $num + (($num_mcursors - 1) * $increment)]
-        set increment "-$increment"
-      } else {
-        set increment [string range $increment 1 end]
-        set num       [expr $num - (($num_mcursors - 1) * $increment)]
-        set increment "+$increment"
-      }
-
-      # Handle the value insertions
-      switch [string tolower [string index $numstr 0]] {
-        b {
-          foreach {end start} $mcursors {
-            set binRep [binary format c $num]
-            binary scan $binRep B* binStr
-            $txt insert $start [format "%s%s%s" $prefix [string trimleft [string range $binStr 0 end-1] 0] [string index $binStr end]]
-            incr num $increment
-          }
-        }
-        d {
-          foreach {end start} $mcursors {
-            $txt insert $start [format "%s%d" $prefix $num]
-            incr num $increment
-          }
-        }
-        o {
-          foreach {end start} $mcursors {
-            $txt insert $start [format "%s%o" $prefix $num]
-            incr num $increment
-          }
-        }
-        h -
-        x {
-          foreach {end start} $mcursors {
-            $txt insert $start [format "%s%x" $prefix $num]
-            incr num $increment
-          }
         }
       }
 

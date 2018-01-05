@@ -1183,13 +1183,121 @@ namespace eval edit {
 
   ######################################################################
   # Inserts an enumeration when in multicursor mode.
-  proc insert_enumeration {} {
+  proc enumerate {{txt ""}} {
 
     # Get the current text widget
-    set txt [gui::current_txt]
+    if {$txt eq ""} {
+      set txt [gui::current_txt]
+    }
 
-    # Perform the insertion
-    gui::insert_numbers $txt
+    # Only execute if we are in multicursor mode
+    if {[set num [llength [$txt cursor get]]] > 1} {
+
+      set var1 ""
+
+      # Get the number string from the user
+      if {[get_user_response [msgcat::mc "Starting number:"] var1]} {
+
+        # Insert the numbers (if not successful, output an error to the user)
+        if {![edit::insert_numbers $txt $num $var1]} {
+          set_info_message [msgcat::mc "Unable to successfully parse number string"]
+        }
+
+      }
+
+    # Otherwise, display an error message to the user
+    } else {
+      set_info_message [msgcat::mc "Must be in multicursor mode to insert numbers"]
+    }
+
+  }
+
+  ######################################################################
+  # Parses the given number string with the format of:
+  #   (d|o|x)?<number>+
+  # Where d means to parse and insert decimal numbers, o means to parse
+  # and insert octal numbers, and x means to parse and insert hexidecimal
+  # numbers.  If d, o or x are not specified, d is assumed.
+  # Numbers will be inserted at each cursor location such that the first
+  # cursor will be replaced with the number specified by <number>+ and
+  # each successive cursor will have an incrementing value inserted
+  # at its location.
+  proc insert_numbers {txt count numstr} {
+
+    # If the number string is a decimal number without a preceding 'd' character, add it now
+    if {[set d_added [regexp {^[0-9]+([+-]\d*)?$} $numstr]]} {
+      set numstr "d$numstr"
+    }
+
+    # Parse the number string to verify that it's valid
+    if {[regexp -nocase {^(.*)(b[0-1]*|d[0-9]*|o[0-7]*|[xh][0-9a-fA-F]*)([+-]\d*)?$} $numstr -> prefix numstr increment]} {
+
+      # Get the number portion of the number string.  If one does not exist,
+      # default the number to 0.
+      if {[set num [string range $numstr 1 end]] eq ""} {
+        set num 0
+      }
+
+      # Initialize the value of increment if it was not specified by the user explicitly
+      if {$increment eq ""} {
+        set increment "+1"
+      } elseif {$increment eq "+"} {
+        set increment "+1"
+      } elseif {$increment eq "-"} {
+        set increment "-1"
+      }
+
+      # Calculate the num and increment values
+      if {[string index $increment 0] eq "+"} {
+        set increment [string range $increment 1 end]
+        set num       [expr $num + (($num_mcursors - 1) * $increment)]
+        set increment "-$increment"
+      } else {
+        set increment [string range $increment 1 end]
+        set num       [expr $num - (($num_mcursors - 1) * $increment)]
+        set increment "+$increment"
+      }
+
+      # Get the list of values to insert
+      set values [list]
+      switch [string tolower [string index $numstr 0]] {
+        b {
+          for {set i 0} {$i < $count} {incr i} {
+            set binRep [binary format c $num]
+            binary scan $binRep B* binStr
+            lappend values [format "%s%s%s" $prefix [string trimleft [string range $binStr 0 end-1] 0] [string index $binStr end]]
+            incr num $increment
+          }
+        }
+        d {
+          for {set i 0} {$i < $count} {incr i} {
+            lappend values [format "%s%d" $prefix $num]
+            incr num $increment
+          }
+        }
+        o {
+          foreach {end start} $mcursors {
+            lappend values [format "%s%o" $prefix $num]
+            incr num $increment
+          }
+        }
+        h -
+        x {
+          foreach {end start} $mcursors {
+            lappend values [format "%s%x" $prefix $num]
+            incr num $increment
+          }
+        }
+      }
+
+      # Insert the list of values
+      $txt insertlist 1 insert $values
+
+      return 1
+
+    }
+
+    return 0
 
   }
 

@@ -60,7 +60,6 @@ namespace eval ctext {
 
     variable data
     variable right_click
-    variable tpool
 
     # Make sure that we are initialized if we have not been already
     initialize
@@ -222,6 +221,7 @@ namespace eval ctext {
 
     bind $win.t <Configure>                [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>          [list ctext::linemapUpdate $win 1]
+    bind $win.t <<Selection>>              [list ctext::event:Selection $win]
     bind $win.t <Key-Up>                   "$win cursor move up; break"
     bind $win.t <Key-Down>                 "$win cursor move down; break"
     bind $win.t <Key-Left>                 "$win cursor move left; break"
@@ -324,6 +324,21 @@ namespace eval ctext {
 
     # Destroy the memory associated with the model
     ctext::model::destroy $win
+
+  }
+
+  ######################################################################
+  # Handles a selection of the widget in the multicursor mode.
+  proc event:Selection {win} {
+
+    variable data
+
+    if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
+      $win._t tag remove _mcursor 1.0 end
+      foreach {start end} $sel {
+        $win._t tag add _mcursor $start
+      }
+    }
 
   }
 
@@ -972,6 +987,7 @@ namespace eval ctext {
       gutter      { return [command_gutter      $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
+      insertlist  { return [command_insertlist  $win {*}$args] }
       is          { return [command_is          $win {*}$args] }
       marker      { return [command_marker      $win {*}$args] }
       matchchar   { return [command_matchchar   $win {*}$args] }
@@ -1328,13 +1344,6 @@ namespace eval ctext {
     # Cause the model to handle the deletion
     ctext::model::delete $win $ranges $strs [$win index insert] $data($win,config,-linemap_mark_command)
 
-    # Update the undo information
-    set ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
-
-    while {[llength $ids]} {
-      tpool::wait $tpool $ids ids
-    }
-
     if {$opts(-highlight)} {
       highlightAll $win $ranges 0 1
     }
@@ -1563,7 +1572,6 @@ namespace eval ctext {
   proc command_insert {win args} {
 
     variable data
-    variable tpool
 
     set i 0
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
@@ -1607,6 +1615,51 @@ namespace eval ctext {
 
     modified       $win 1 [list insert $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
+
+  }
+
+  ######################################################################
+  # Inserts a list of text strings at each multicursor location and performs
+  # highlighting on that text.  Additionally, updates the undo buffer.
+  proc command_insertlist {win args} {
+
+    variable data
+
+    # Insert the text
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+
+      set i 0
+      while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+      array set opts {
+        -moddata   {}
+        -highlight 1
+      }
+      array set opts [lrange $args 0 [expr $i - 1]]
+
+      lassign [lrange $args $i end] contents
+
+      set ranges  [list]
+      set cursor  [$win._t index insert]
+
+      foreach {endPos startPos} [lreverse $cursors] content [lreverse $contents] {
+        lassign $content str tags
+        $win._t insert $startPos $str [list {*}$tags lmargin rmargin]
+        lappend ranges $startPos [$win._t index "$startPos+[string length $str]c"]
+      }
+
+      # Update the model
+      ctext::model::insert $win $ranges $content $cursor
+
+      # Highlight text and bracket auditing
+      if {$opts(-highlight)} {
+        highlightAll $win $ranges 1 1
+      }
+
+      modified       $win 1 [list insert $ranges $opts(-moddata)]
+      event generate $win.t <<CursorChanged>>
+
+    }
 
   }
 

@@ -80,6 +80,22 @@ class model {
       _edited = true;
     }
 
+    /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
+    void insertlist(
+      const Tcl::object & ranges,
+      const Tcl::object & strs,
+      const Tcl::object & cursor
+    ) {
+      std::vector<tindex> vec;
+      object_to_ranges( ranges, vec );
+      _serial.insert( vec );
+      _linemap.insert( vec );
+      if( _edited ) {
+        _undo_buffer.add_insertion_list( vec, strs, cursor );
+      }
+      _edited = true;
+    }
+
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
     Tcl::object remove(
       const Tcl::object & ranges,

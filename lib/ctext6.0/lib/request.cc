@@ -20,6 +20,9 @@ object request::execute(
     case REQUEST_INSERT     :
       inst.insert( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
       break;
+    case REQUEST_INSERTLIST :
+      inst.insertlist( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
+      break;
     case REQUEST_DELETE     :
       return( inst.remove( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;

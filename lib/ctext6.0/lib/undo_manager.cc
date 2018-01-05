@@ -38,10 +38,10 @@ void undo_manager::add_insertion(
 ) {
 
   interpreter interp( str.get_interp(), false );
-  string      istr      = str.get<string>( interp );
   tindex      cursorpos( cursor );
-  bool        mcursor   = ranges.size() > 2;
-  int         size      = ranges.size() - 2;
+  string      istr    = str.get<string>( interp );
+  bool        mcursor = ranges.size() > 2;
+  int         size    = ranges.size() - 2;
   int         i;
 
   /* Handle multiple cursors if we have any */
@@ -51,6 +51,28 @@ void undo_manager::add_insertion(
 
   /* Handle the last range */
   add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], istr, cursorpos, mcursor ), false );
+
+}
+
+void undo_manager::add_insertion_list(
+  const vector<tindex> & ranges,
+  const object         & strs,
+  const object         & cursor
+) {
+
+  interpreter interp( strs.get_interp(), false );
+  tindex      cursorpos( cursor );
+  bool        mcursor = ranges.size() > 2;
+  int         size    = ranges.size() - 2;
+  int         i, j;
+
+  /* Handle multiple cursors if we have any */
+  for( i=0, j=0; i<size; i+=2, j++ ) {
+    add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), true );
+  }
+
+  /* Handle the last range */
+  add_change( undo_change( UNDO_TYPE_INSERT, ranges[i], ranges[i+1], strs.at( interp, j ).get<string>( interp ), cursorpos, mcursor ), false );
 
 }
 
