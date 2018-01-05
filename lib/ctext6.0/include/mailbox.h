@@ -287,6 +287,7 @@ class mailbox {
 
     /*! \return Returns number of characters to insert/delete at beginning of line. */
     Tcl::object indent_newline(
+      Tcl::object prev_ti,
       Tcl::object first_ti,
       Tcl::object indent_space,
       Tcl::object shift_width

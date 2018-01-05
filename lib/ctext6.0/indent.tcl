@@ -117,16 +117,33 @@ namespace eval indent {
       return
     }
 
+    # Ignore whitespace
+    if {[lsearch [$win._t tag names "$index linestart"] _prewhite] == -1} {
+      if {[set range [$win._t tag prevrange _prewhite "$index lineend"]] ne ""} {
+        set prev_index [$win._t index "[lindex $range 1] lineend"]
+      } else {
+        set prev_index 1.0
+      }
+    } else {
+      set prev_index $index
+    }
+
+    set index [$win._t index "$index+1l linestart"]
+
+    puts "prev_index: $prev_index, index: $index"
+
     # If we do not need smart indentation, use the previous space
     if {$indent_mode eq "IND"} {
       set insert_space [get_previous_indent_space $win $index]
     } else {
-      if {[set first_index [lassign [$win._t tag nextrange _prewhite "$index linestart" "$index lineend"] unused]] eq ""} {
-        set first_index [$win._t index "$index linestart"]
+      if {[set first_index [lassign [$win._t tag nextrange _prewhite $index "$index lineend"] unused]] ne ""} {
+        set first_index [$win._t index "$first_index-1c"]
+      } else {
+        set first_index $index
       }
       set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
       puts "1 insert_space: $insert_space, first_index: $first_index"
-      set insert_space [ctext::model::indent_newline $win [$win._t index "$first_index-1c"] $insert_space [$win cget -shiftwidth]]
+      set insert_space [ctext::model::indent_newline $win $prev_index $first_index $insert_space [$win cget -shiftwidth]]
       puts "2 insert_space: $insert_space"
     }
 
