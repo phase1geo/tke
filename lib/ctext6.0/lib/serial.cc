@@ -402,6 +402,41 @@ int serial::nextindex(
 
 }
 
+int serial::nextindex(
+  const sindex           & start,
+  int                      side,
+  const map<string,bool> & indent_types
+) const {
+
+  int sz = size();
+
+  for( int i=start.index(); i<sz; i++ ) {
+    if( (*this)[i]->matches_alias( side, indent_types ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::nextindex(
+  const sindex           & start,
+  const sindex           & end,
+  int                      side,
+  const map<string,bool> & indent_types
+) const {
+
+  for( int i=start.index(); i<end.index(); i++ ) {
+    if( (*this)[i]->matches_alias( side, indent_types ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
 int serial::previndex(
   const sindex &   start,
   const type_data* type
@@ -433,8 +468,42 @@ int serial::previndex(
 
 }
 
+int serial::previndex(
+  const sindex           & start,
+  int                      side,
+  const map<string,bool> & indent_types
+) const {
+
+  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=0; i-- ) {
+    if( (*this)[i]->matches_alias( side, indent_types ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::previndex(
+  const sindex           & start,
+  const sindex           & end,
+  int                      side,
+  const map<string,bool> & indent_types
+) const {
+
+  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=end.index(); i-- ) {
+    if( (*this)[i]->matches_alias( side, indent_types ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
 bool serial::is_unindent_after_reindent (
-  const tindex & ti
+  const tindex           & ti,
+  const map<string,bool> & indent_types
 ) const {
 
   sindex si = get_index( ti );
@@ -453,7 +522,7 @@ bool serial::is_unindent_after_reindent (
       int index;
 
       /* Find the indent symbol that is just after the reindentStart symbol */
-      return( ((index = nextindex( sindex( rs, true ), types::staticObject().get( "indent" ))) != -1) && (index < ri) );
+      return( ((index = nextindex( sindex( rs, true ), get_side( "left" ), indent_types)) != -1) && (index < ri) );
 
     }
 
@@ -464,15 +533,16 @@ bool serial::is_unindent_after_reindent (
 }
 
 bool serial::line_contains_indentation(
-  const tindex & ti
+  const tindex           & ti,
+  const map<string,bool> & indent_types
 ) const {
 
   sindex si = get_index( ti );
   sindex se = get_index( tindex( ti.row(), 0 ) );
   int    ii, ui;
 
-  if( (ii = previndex( si, se, types::staticObject().get( "indent" ) ) ) != -1 ) {
-    return( ((ui = previndex( si, se, types::staticObject().get( "unindent" ) )) == -1) || (ii > ui) );
+  if( (ii = previndex( si, se, get_side( "left" ), indent_types ) ) != -1 ) {
+    return( ((ui = previndex( si, se, get_side( "right" ), indent_types )) == -1) || (ii > ui) );
   }
 
   return( previndex( si, se, types::staticObject().get( "reindent" )) != -1 );
@@ -480,35 +550,38 @@ bool serial::line_contains_indentation(
 }
 
 object serial::indent_newline(
-  const object & first_ti,
-  const object & indent_space,
-  const object & shift_width
+  const object           & first_ti,
+  const object           & indent_space,
+  const object           & shift_width,
+  const map<string,bool> & indent_types
 ) const {
 
   interpreter interp( first_ti.get_interp(), false );
   tindex first( first_ti );
   tindex linestart( first.row(), 0 );
-  tindex prev_lineend( (first.row() - 1), 1000000 );
+  tindex lineend( first.row(), 1000000 );
   int    space       = indent_space.get<int>( interp );
   int    shift       = shift_width.get<int>( interp );
   sindex first_index = get_index( first );
 
   /* If the previous line indicates an indentation is required */
-  if( line_contains_indentation( prev_lineend ) ) {
+  if( line_contains_indentation( lineend, indent_types ) ) {
     cout << "Adding shift: " << shift << " to space: " << space << endl;
     space += shift;
   } else {
-    cout << "prev_lineend: " << prev_lineend.to_string() << " does not contain indentation" << endl;
+    cout << "lineend: " << lineend.to_string() << " does not contain indentation" << endl;
   }
 
   /* If the first index matches a stored value, interrogate it */
   if( first_index.matches() ) {
 
+    cout << "HERE" << endl;
+
     /*
      Remove any leading whitespace and update indentation level
      (if the first non-whitespace char is a closing bracket)
     */
-    if( (*this)[first_index.index()]->type() == types::staticObject().get( "unindent" ) ) {
+    if( (*this)[first_index.index()]->matches_alias( get_side( "right" ), indent_types ) ) {
       space -= shift;
 
     /*
@@ -516,19 +589,22 @@ object serial::indent_newline(
      indentation by one
     */
     } else if( ((*this)[first_index.index()]->type() == types::staticObject().get( "reindent" )) &&
-               is_unindent_after_reindent( first ) ) {
+               is_unindent_after_reindent( first, indent_types ) ) {
       space -= shift;
     }
 
   }
+
+  cout << "space: " << space << ", first.col: " << first.col() << endl;
 
   return( (object)(space - first.col()) );
 
 }
 
 object serial::indent_check_unindent(
-  const object & first_ti,
-  const object & curr_ti
+  const object           & first_ti,
+  const object           & curr_ti,
+  const map<string,bool> & indent_types
 ) const {
 
   interpreter interp( curr_ti.get_interp(), false );
@@ -557,7 +633,7 @@ object serial::indent_check_unindent(
    and is preceded in the line by only whitespace, replace the whitespace with the proper
    indentation whitespace.
   */
-  if( item->type() == types::staticObject().get( "unindent" ) ) {
+  if( item->matches_alias( get_side( "right" ), indent_types ) ) {
 
     /* If the unindent is the first item on the line, continue */
     if( first.col() == item->const_pos().start_col() ) {
@@ -575,7 +651,7 @@ object serial::indent_check_unindent(
 
   /* If we just finished editing a reindentation which is not the first, we will also unindent */
   } else if( (item->type() == types::staticObject().get( "reindent" )) &&
-             (type = is_unindent_after_reindent( item->const_pos().to_tindex() )) ) {
+             (type = is_unindent_after_reindent( item->const_pos().to_tindex(), indent_types )) ) {
 
     /* If the reindent is the first item on the line, continue */
     if( first.col() == item->const_pos().start_col() ) {

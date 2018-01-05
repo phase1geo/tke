@@ -450,7 +450,7 @@ class model {
       const Tcl::object & indent_space,
       const Tcl::object & shift_width
     ) const {
-      return( _serial.indent_newline( first_ti, indent_space, shift_width ) );
+      return( _serial.indent_newline( first_ti, indent_space, shift_width, _fold_types ) );
     }
 
     /*! \return Returns information used to handle an unindent */
@@ -458,7 +458,7 @@ class model {
       const Tcl::object & first_ti,
       const Tcl::object & curr_ti
     ) const {
-      return( _serial.indent_check_unindent( first_ti, curr_ti ) );
+      return( _serial.indent_check_unindent( first_ti, curr_ti, _fold_types ) );
     }
 
 };

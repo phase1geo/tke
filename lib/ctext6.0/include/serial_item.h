@@ -98,6 +98,21 @@ class serial_item {
     /*! \return Returns a human-readable version of this element */
     std::string to_string() const;
 
+    /*! \return Returns true if this item matches the given alias and side */
+    bool matches_alias(
+      int                                side,
+      const std::map<std::string,bool> & aliases
+    ) const {
+      /*
+      std::cout << "_side: " << _side << ", aliases: ";
+      for( std::map<std::string,bool>::const_iterator it=aliases.begin(); it!=aliases.end(); it++ ) {
+        std::cout << it->first << " ";
+      }
+      std::cout << ", retval: " << ((_side & side) && (aliases.find( _type->name() ) != aliases.end())) << std::endl;
+      */
+      return( (_side & side) && (aliases.find( _type->name() ) != aliases.end()) );
+    }
+
 };
 
 #endif
