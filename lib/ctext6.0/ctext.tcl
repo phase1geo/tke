@@ -1594,7 +1594,7 @@ namespace eval ctext {
         set insPos [$win._t index $insertPos]
       }
       $win._t insert $insertPos $content $tags
-      lappend ranges  $insPos [$win._t index "$insPos+${chars}c"]
+      lappend ranges $insPos [$win._t index "$insPos+${chars}c"]
     }
 
     # Update the model
@@ -2033,7 +2033,7 @@ namespace eval ctext {
         return $strs
       }
     }
-     
+
   }
 
   ######################################################################
@@ -2835,7 +2835,7 @@ namespace eval ctext {
 
     # Finally, perform indentation handling here
     if {$ins} {
-      foreach {endpos startpos} $ranges {
+      foreach {endpos startpos} [lreverse $ranges] {
         if {[$win._t get $startpos] eq "\n"} {
           ctext::indent::newline $win $startpos $data($win,config,-indentmode)
         } else {
@@ -2843,7 +2843,7 @@ namespace eval ctext {
         }
       }
     } else {
-      foreach {endpos startpos} $ranges {
+      foreach {endpos startpos} [lreverse $ranges] {
         ctext::indent::backspace $win $startpos $data($win,config,-indentmode)
       }
     }
@@ -3411,10 +3411,13 @@ namespace eval ctext {
     array set opts {
       -startpos "insert"
       -num      1
+      -allowend 0
     }
     array set opts $optlist
 
-    if {[$win._t compare "$opts(-startpos) display lineend" < "$opts(-startpos)+$opts(-num) display chars"]} {
+    if {[lsearch [$win._t tag names $opts(-startpos)] _dspace] != -1} {
+      return $opts(-startpos)
+    } elseif {[$win._t compare "$opts(-startpos) display lineend" < "$opts(-startpos)+$opts(-num) display chars"] && !$opts(-allowend)} {
       return "$opts(-startpos) display lineend"
     } else {
       return "$opts(-startpos)+$opts(-num) display chars"
@@ -4491,7 +4494,7 @@ namespace eval ctext {
     set endpos   [$win index $endpos]
 
     # Remove any dspace characters
-    while {[set epos [lassign [$win._t tag nextrange _dspace $startpos $endpos] spos] ne ""} {
+    while {[set epos [lassign [$win._t tag nextrange _dspace $startpos $endpos] spos]] ne ""} {
       append str [$win._t get {*}$opts $startpos $spos]
       set startpos $epos
       if {$startpos eq $endpos} {
