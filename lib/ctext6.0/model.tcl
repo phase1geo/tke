@@ -661,7 +661,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) indentcheckunindent $first_index $curr_index
+    return [$data($win,model) indentcheckunindent $first_index $curr_index]
 
   }
 

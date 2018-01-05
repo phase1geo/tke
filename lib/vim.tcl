@@ -2545,7 +2545,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          $txtt cursor set right
+          $txtt cursor move [list right -allowend 1]
           edit_mode $txtt
           record_start $txtt "a"
           return 1

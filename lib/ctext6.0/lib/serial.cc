@@ -495,7 +495,10 @@ object serial::indent_newline(
 
   /* If the previous line indicates an indentation is required */
   if( line_contains_indentation( prev_lineend ) ) {
+    cout << "Adding shift: " << shift << " to space: " << space << endl;
     space += shift;
+  } else {
+    cout << "prev_lineend: " << prev_lineend.to_string() << " does not contain indentation" << endl;
   }
 
   /* If the first index matches a stored value, interrogate it */
@@ -593,7 +596,7 @@ object serial::indent_check_unindent(
 
         int reindent_start = previndex( index, types::staticObject().get( "reindentStart" ) );
 
-        retval.append( interp, (object)(*this)[reindent_start]->pos().to_index() ); 
+        retval.append( interp, (object)(*this)[reindent_start]->pos().to_index() );
         retval.append( interp, (object)0 );
 
       }
