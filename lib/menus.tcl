@@ -1266,8 +1266,8 @@ namespace eval menus {
 
     $mb.insertPopup add separator
 
-    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration]
+    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::enumerate]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::enumerate]
 
     #########################
     # Populate transform menu

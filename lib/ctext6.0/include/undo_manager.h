@@ -70,6 +70,13 @@ class undo_manager {
     );
 
     /*! Adds an insertion entry into the buffer */
+    void add_insertion_list(
+      const std::vector<tindex> & ranges,
+      const Tcl::object & strs,
+      const Tcl::object & cursor
+    );
+
+    /*! Adds an insertion entry into the buffer */
     void add_deletion(
       const std::vector<tindex> & ranges,
       const Tcl::object & strs,

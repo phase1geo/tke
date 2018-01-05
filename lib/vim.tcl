@@ -3203,7 +3203,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
-        gui::insert_numbers $txtt
+        edit::enumerate [winfo parent $txtt]
       }
       return 1
     }

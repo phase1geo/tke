@@ -107,6 +107,23 @@ void mailbox::insert(
 
 }
 
+void mailbox::insertlist(
+  const object & ranges,
+  const object & strs,
+  const object & cursor
+) {
+
+  interpreter i( ranges.get_interp(), false );
+  object      args;
+
+  args.append( i, ranges );
+  args.append( i, strs );
+  args.append( i, cursor );
+
+  add_request( REQUEST_INSERTLIST, args, false, false );
+
+}
+
 object mailbox::remove(
   const object & ranges,
   const object & strs,
@@ -780,6 +797,7 @@ CPPTCL_MODULE(Model, i) {
   i.class_<mailbox>("model", init<const string &>())
     .def( "clear",            &mailbox::clear )
     .def( "insert",           &mailbox::insert )
+    .def( "insertlist",       &mailbox::insertlist )
     .def( "delete",           &mailbox::remove )
     .def( "replace",          &mailbox::replace )
     .def( "update",           &mailbox::update )

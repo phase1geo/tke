@@ -75,6 +75,13 @@ class mailbox {
       const Tcl::object & cursor
     );
 
+    /*! Handles a text list insertion */
+    void insertlist(
+      const Tcl::object & ranges,
+      const Tcl::object & strs,
+      const Tcl::object & cursor
+    );
+
     /*! Handles a text deletion */
     Tcl::object remove(
       const Tcl::object & ranges,
