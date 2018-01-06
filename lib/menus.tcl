@@ -2097,7 +2097,7 @@ namespace eval menus {
   proc edit_format {type} {
 
     # Perform the editing
-    edit::format [gui::current_txt].t $type
+    edit::add_formatting [gui::current_txt].t $type
 
   }
 
@@ -2106,7 +2106,7 @@ namespace eval menus {
   proc edit_format_remove {} {
 
     # Unapply any formatting found in the selected text
-    edit::unformat [gui::current_txt].t
+    edit::remove_formatting [gui::current_txt].t
 
   }
 

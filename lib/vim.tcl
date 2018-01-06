@@ -3153,6 +3153,9 @@ namespace eval vim {
       "" {
         if {$mode($txtt) eq "command"} {
           if {$operator($txtt) eq ""} {
+            if {[$txtt cget -multimove]} {
+              return 1
+            }
             if {[$txtt is mcursor insert]} {
               $txtt cursor remove insert
             } else {
@@ -3182,6 +3185,9 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
+        if {[$txtt cget -multimove]} {
+          return 1
+        }
         $txtt cursor addcolumn [$txtt index insert]
       } else {
         return [do_operation $txtt spacestart]

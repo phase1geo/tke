@@ -698,7 +698,7 @@ namespace eval api {
     #   - ordered
     proc format {interp pname txt type} {
 
-      edit::format $txt $type
+      edit::add_formatting $txt $type
 
     }
 
@@ -708,7 +708,7 @@ namespace eval api {
     #  \param txt  Text widget to unformat.
     proc unformat {interp pname txt} {
 
-      edit::unformat $txt
+      edit::remove_formatting $txt
 
     }
 
