@@ -203,13 +203,14 @@ namespace eval ctext {
       grid remove $win.f
     }
 
-    # If -matchchar is set, create the tag
+    # Configure necessary tags
     if {$data($win,config,-matchchar)} {
       $win.t tag configure _matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     }
     if {$data($win,config,-matchaudit)} {
       $win.t tag configure _missing -background $data($win,config,-matchaudit_bg)
     }
+    $win.t tag configure _mcursor -underline 1
 
     # Initialize shared memory
     tsv::set contexts $win [list]
@@ -229,7 +230,7 @@ namespace eval ctext {
     bind $win.t <Key-Home>                 "$win cursor move linestart; break"
     bind $win.t <Key-End>                  "$win cursor move lineend; break"
     bind $win.t <Button-1>                 "$win cursor disable"
-    bind $win.t <Escape>                   "$win cursor disable"
+    bind $win.t <Escape>                   [list ctext::event:Escape $win]
     bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
     bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
     bind $win.l <Button-$right_click>      [list ctext::linemapToggleMark $win %x %y]
@@ -334,11 +335,19 @@ namespace eval ctext {
     variable data
 
     if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
-      $win._t tag remove _mcursor 1.0 end
+      clear_mcursors $win
       foreach {start end} $sel {
-        $win._t tag add _mcursor $start
+        set_mcursor $win $start
       }
     }
+
+  }
+
+  ######################################################################
+  # Handles a press of the Escape key.
+  proc event:Escape {win} {
+
+    $win cursor disable
 
   }
 
@@ -1143,8 +1152,7 @@ namespace eval ctext {
     switch [lindex $args 0] {
       add {
         foreach index [lrange $args 1 end] {
-          set index [$win index $index]
-          $win._t tag add _mcursor $index
+          set_mcursor $win [set index [$win index $index]]
           set data($win,mcursor_anchor) $index
         }
         update_cursor $win
@@ -1154,40 +1162,33 @@ namespace eval ctext {
           return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
         }
         if {[info exists data($win,mcursor_anchor)]} {
-          set index [lindex $args 1]
+          set index [$win index [lindex $args 1]]
           lassign [split $data($win,mcursor_anchor) .] anchor_row col
           set row [lindex [split $index .] 0]
           if {$row < $anchor_row} {
             for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
-              $win._t tag add _mcursor $i.$col
+              set_mcursor $win $i.$col
             }
           } else {
             for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
-              $win._t tag add _mcursor $i.$col
+              set_mcursor $win $i.$col
             }
           }
           set data($win,mcursor_anchor) $index
         }
       }
       disable {
-        $win._t tag delete _mcursor
+        clear_mcursors $win
         unset -nocomplain data($win,mcursor_anchor)
         update_cursor $win
       }
       set {
         if {([llength [lindex $args 1]] == 1) || ([info procs getindex_[lindex $args 1 0]] ne "")} {
-          set index [$win index [lindex $args 1]]
-          set ins   [$win._t index insert]
-          $win._t mark set insert $index
-          $win._t see $index
-          adjust_insert $win
-          linemapUpdate $win
-          event generate $win <<CursorChanged>> -data [list $ins {*}[lrange $args 2 end]]
+          set_cursor $win [$win index [lindex $args 1]]
         } else {
-          $win._t tag remove _mcursor $win 1.0 end
+          clear_mcursors $win
           foreach index [lindex $args 1] {
-            set index [$win index $index]
-            $win._t tag add _mcursor $win $index
+            set_mcursor $win $index
             set data($win,mcursor_anchor) $index
           }
         }
@@ -1201,11 +1202,9 @@ namespace eval ctext {
         return $indices
       }
       remove {
-        set indices [list]
         foreach index [lrange $args 1 end] {
-          lappend indices [$win index $index]
+          clear_mcursor $win [$win index $index]
         }
-        $win._t tag remove _mcursor {*}$indices
         update_cursor $win
       }
       move {
@@ -1216,12 +1215,13 @@ namespace eval ctext {
           return -code error "ctext cursor move command must be called with a relative index"
         }
         if {([set mcursors [$win._t tag ranges _mcursor]] ne "") && $data($win,config,-multimove)} {
-          $win._t tag remove _mcursor 1.0 end
+          clear_mcursors $win
           foreach {startpos endpos} $mcursors {
-            $win._t tag add _mcursor [$win index [list {*}[lindex $args 1] -startpos $startpos]]
+            set_mcursor $win [$win index [list {*}[lindex $args 1] -startpos $startpos]] $startpos
+            set data($win,mcursor_anchor) $startpos
           }
         } else {
-          $win._t mark set insert [$win index [lindex $args 1]]
+          set_cursor $win [$win index [lindex $args 1]]
         }
       }
       align {
@@ -2428,7 +2428,7 @@ namespace eval ctext {
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         addHighlightClass $win string {*}$args
-        ctext::model::add_types $win $type _string
+        ctext::model::add_types $win $type __string
       }
     }
 
@@ -3142,10 +3142,10 @@ namespace eval ctext {
     # Add the selection between the anchor and this line, inclusive
     if {[$win._t compare $index < $data($win,line_sel_anchor)]} {
       $win._t tag add sel "$index linestart" "$data($win,line_sel_anchor) lineend"
-      $win._t mark set insert "$data($win,line_sel_anchor) lineend"
+      $win cursor set "$data($win,line_sel_anchor) lineend"
     } else {
       $win._t tag add sel "$data($win,line_sel_anchor) linestart" "$index lineend"
-      $win._t mark set insert "$index lineend"
+      $win cursor set "$index lineend"
     }
 
   }
@@ -3438,6 +3438,19 @@ namespace eval ctext {
   ######################################################################
   # INDICES TRANSFORMATIONS                                            #
   ######################################################################
+
+  ######################################################################
+  # Returns the starting cursor position without modification.
+  proc getindex_cursor {win optlist} {
+
+    array set opts {
+      -startpos "insert"
+    }
+    array set opts $optlist
+
+    return $opts(-startpos)
+
+  }
 
   ######################################################################
   # Transforms a left index specification into a text index.
@@ -4488,14 +4501,110 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Sets the insertion cursor location.
+  proc set_cursor {win index args} {
+
+    # Grab the original insertion point
+    set ins [$win._t index insert]
+
+    # If the past insertion point was a dspace and not an mcursor, clear it
+    set tags [$win._t tag names $ins]
+    if {([lsearch $tags _dspace] != -1) && ([lsearch $tags _mcursor] == -1)} {
+      $win._t delete $ins
+    }
+
+    # Set the new insertion point
+    $win._t mark set insert $index
+    $win._t see $index
+
+    # If we are in block cursor mode, make sure the insertion cursor doesn't look stupid
+    if {![is_block_cursor $win]} {
+      return
+    }
+
+    if {[$win._t compare "$index linestart" == "$index lineend"]} {
+      $win._t insert $index " " _dspace
+      $win._t mark set insert $index
+ 
+    # If our cursor is going to fall 
+    } elseif {[$win._t compare $index == "$index lineend"]} {
+      $win._t mark set insert "$index-1 display chars"
+    }
+
+    # Make sure that the linemap is updated appropriately
+    linemapUpdate $win
+
+    # Let the world know of the cursor change
+    event generate $win.t <<CursorChanged>> -data [list $ins {*}$args]
+
+  }
+
+  ######################################################################
+  # Sets a single multicursor indicator at the given index, adjusting
+  # cursor as necessary so that it looks correct.
+  proc set_mcursor {win index {prev_index ""}} {
+
+    # If the current line contains nothing, add a dummy space so the
+    # mcursor doesn't look dumb.
+    if {[$win._t compare "$index linestart" == "$index lineend"]} {
+      $win._t insert $index " " [list _dspace _mcursor]
+
+    # Make sure that lineend is never the insertion point
+    } elseif {[$win._t compare $index == "$index lineend"]} {
+      $win._t tag add _mcursor "$index-1 display chars"
+
+    # Otherwise, just tag the given index
+    } else {
+      $win._t tag add _mcursor $index
+    }
+
+    # If the new cursor is going off screen and it was previously in view,
+    # make it viewable
+    if {($prev_index ne "") && ([$win._t bbox $prev_index] ne "") && ([$win._t bbox $index] eq "")} {
+      $win._t see $index
+    }
+
+  }
+
+  ######################################################################
+  # Clears a single mcursor from the editing buffer, deleting any dspace
+  # characters.
+  proc clear_mcursor {win index} {
+
+    variable data
+
+    # If the index lands on a dspace that is not the block insertion cursor, delete
+    # the index.
+    if {([lsearch [$win._t tag names $index] _dspace] != -1) && \
+        (!$data($win,config,-blockcursor) || [$win._t compare $index != insert])} {
+      $win._t delete $index
+
+    # Otherwise, just remove the mcursor indicator
+    } else {
+      $win._t tag remove _mcursor $index
+    }
+
+  }
+
+  ######################################################################
+  # Clears all of the mcursors in the editing buffer.
+  proc clear_mcursors {win} {
+
+    foreach {startpos endpos} [$win._t tag ranges _mcursor] {
+      clear_mcursor $win $startpos
+    }
+
+  }
+
+  ######################################################################
   # Adjust the insertion marker so that it never is allowed to sit on
   # the lineend spot.
-  proc adjust_insert {win} {
+  proc adjust_cursors {win index} {
 
     variable mode
 
     # If we are not running in block cursor mode, don't continue
-    if {![is_block_cursor $win]} {
+    if {![is_block_cursor $win] && ($index ne "insert")} {
       return
     }
 
@@ -4504,13 +4613,13 @@ namespace eval ctext {
 
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
-    if {[$win._t compare "insert linestart" == "insert lineend"]} {
-      $win._t insert insert " " _dspace
-      $win._t mark set insert "insert-1c"
+    if {[$win._t compare "$index linestart" == "$index lineend"]} {
+      $win._t insert $index " " _dspace
+      $win._t mark set $index "$index-1c"
 
     # Make sure that lineend is never the insertion point
-    } elseif {[$win._t compare insert == "insert lineend"]} {
-      $win._t mark set insert "insert-1 display chars"
+    } elseif {[$win._t compare $index == "$index lineend"]} {
+      $win._t mark set $index "$index-1 display chars"
     }
 
   }

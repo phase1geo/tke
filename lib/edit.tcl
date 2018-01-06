@@ -852,16 +852,16 @@ namespace eval edit {
   proc save_selection {txt from to overwrite fname} {
 
     if {!$overwrite && [file exists $fname]} {
-      gui::set_info_message [::format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
       return 0
     } else {
       if {[catch { open $fname w } rc]} {
-        gui::set_info_message [::format "%s %s" [msgcat::mc "Unable to write"] $fname]
+        gui::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
         return 0
       } else {
         puts $rc [$txt get $from $to]
         close $rc
-        gui::set_info_message [::format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
+        gui::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
       }
     }
 
@@ -1193,21 +1193,21 @@ namespace eval edit {
     # Only execute if we are in multicursor mode
     if {[set num [llength [$txt cursor get]]] > 1} {
 
-      set var1 ""
+      set var ""
 
       # Get the number string from the user
-      if {[get_user_response [msgcat::mc "Starting number:"] var1]} {
+      if {[gui::get_user_response [msgcat::mc "Starting number:"] var]} {
 
         # Insert the numbers (if not successful, output an error to the user)
-        if {![edit::insert_numbers $txt $num $var1]} {
-          set_info_message [msgcat::mc "Unable to successfully parse number string"]
+        if {![insert_numbers $txt $num $var]} {
+          gui::set_info_message [msgcat::mc "Unable to successfully parse number string"]
         }
 
       }
 
     # Otherwise, display an error message to the user
     } else {
-      set_info_message [msgcat::mc "Must be in multicursor mode to insert numbers"]
+      gui::set_info_message [msgcat::mc "Must be in multicursor mode to insert numbers"]
     }
 
   }
@@ -1247,15 +1247,17 @@ namespace eval edit {
         set increment "-1"
       }
 
+      if {0} {
       # Calculate the num and increment values
       if {[string index $increment 0] eq "+"} {
         set increment [string range $increment 1 end]
-        set num       [expr $num + (($num_mcursors - 1) * $increment)]
+        set num       [expr $num + (($count - 1) * $increment)]
         set increment "-$increment"
       } else {
         set increment [string range $increment 1 end]
-        set num       [expr $num - (($num_mcursors - 1) * $increment)]
+        set num       [expr $num - (($count - 1) * $increment)]
         set increment "+$increment"
+      }
       }
 
       # Get the list of values to insert
@@ -1276,14 +1278,14 @@ namespace eval edit {
           }
         }
         o {
-          foreach {end start} $mcursors {
+          for {set i 0} {$i < $count} {incr i} {
             lappend values [format "%s%o" $prefix $num]
             incr num $increment
           }
         }
         h -
         x {
-          foreach {end start} $mcursors {
+          for {set i 0} {$i < $count} {incr i} {
             lappend values [format "%s%x" $prefix $num]
             incr num $increment
           }
@@ -1291,7 +1293,7 @@ namespace eval edit {
       }
 
       # Insert the list of values
-      $txt insertlist 1 insert $values
+      $txt insertlist $values
 
       return 1
 
@@ -1551,7 +1553,7 @@ namespace eval edit {
 
   ######################################################################
   # Applies the specified formatting to the given text widget.
-  proc format {txtt type} {
+  proc add_formatting {txtt type} {
 
     # Get the range of lines to modify
     if {[set ranges [$txtt tag ranges sel]] eq ""} {
@@ -1658,7 +1660,7 @@ namespace eval edit {
   ######################################################################
   # Removes any applied text formatting found in the selection or (if no
   # text is currently selected the current line).
-  proc unformat {txtt} {
+  proc remove_formatting {txtt} {
 
     # Get the formatting information for the current text widget
     array set formatting [syntax::get_formatting [winfo parent $txtt]]
