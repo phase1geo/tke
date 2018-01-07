@@ -89,6 +89,15 @@ class position {
       return( (index.row() < _row) ? -1 : 1 );
     }
 
+    /*!
+     \return Returns true if the starting index matches the given text index.
+    */
+    bool matches_tindex(
+      const tindex & ti
+    ) const {
+      return( (_row == ti.row()) && (_scol == ti.col()) );
+    }
+
     /*! \return Returns the first column text index */
     std::string to_index(
       bool first_col = true

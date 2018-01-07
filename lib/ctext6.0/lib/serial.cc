@@ -369,14 +369,54 @@ object serial::get_comment_markers(
 
 }
 
+int serial::next_startindex(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+
+  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() + 1) );
+
+}
+
+int serial::next_endindex(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+
+  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() + 1) : si.index() );
+
+}
+
+int serial::prev_startindex(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+
+  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() - 1) : si.index() );
+
+}
+
+int serial::prev_endindex(
+  const tindex & ti
+) const {
+
+  sindex si = get_index( ti );
+
+  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() - 1) );
+
+}
+
 int serial::nextindex(
-  const sindex &   start,
+  const tindex &   start,
   const type_data* type
 ) const {
 
-  int sz = size();
+  int ei = size();
 
-  for( int i=start.index(); i<sz; i++ ) {
+  for( int i=next_startindex( start ); i<ei; i++ ) {
     if( (*this)[i]->type() == type ) {
       return( i );
     }
@@ -387,12 +427,14 @@ int serial::nextindex(
 }
 
 int serial::nextindex(
-  const sindex &   start,
-  const sindex &   end,
+  const tindex &   start,
+  const tindex &   end,
   const type_data* type
 ) const {
 
-  for( int i=start.index(); i<end.index(); i++ ) {
+  int ei = next_endindex( end );
+
+  for( int i=next_startindex( start ); i<ei; i++ ) {
     if( (*this)[i]->type() == type ) {
       return( i );
     }
@@ -403,14 +445,14 @@ int serial::nextindex(
 }
 
 int serial::nextindex(
-  const sindex           & start,
+  const tindex           & start,
   int                      side,
   const map<string,bool> & indent_types
 ) const {
 
-  int sz = size();
+  int ei = size();
 
-  for( int i=start.index(); i<sz; i++ ) {
+  for( int i=next_startindex( start ); i<ei; i++ ) {
     if( (*this)[i]->matches_alias( side, indent_types ) ) {
       return( i );
     }
@@ -421,13 +463,15 @@ int serial::nextindex(
 }
 
 int serial::nextindex(
-  const sindex           & start,
-  const sindex           & end,
+  const tindex           & start,
+  const tindex           & end,
   int                      side,
   const map<string,bool> & indent_types
 ) const {
 
-  for( int i=start.index(); i<end.index(); i++ ) {
+  int ei = next_endindex( end );
+
+  for( int i=next_startindex( start ); i<ei; i++ ) {
     if( (*this)[i]->matches_alias( side, indent_types ) ) {
       return( i );
     }
@@ -438,11 +482,11 @@ int serial::nextindex(
 }
 
 int serial::previndex(
-  const sindex &   start,
+  const tindex &   start,
   const type_data* type
 ) const {
 
-  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=0; i-- ) {
+  for( int i=prev_startindex( start ); i>=0; i-- ) {
     if( (*this)[i]->type() == type ) {
       return( i );
     }
@@ -453,12 +497,14 @@ int serial::previndex(
 }
 
 int serial::previndex(
-  const sindex &   start,
-  const sindex &   end,
+  const tindex &   start,
+  const tindex &   end,
   const type_data* type
 ) const {
 
-  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=end.index(); i-- ) {
+  int ei = prev_endindex( end );
+
+  for( int i=prev_startindex( start ); i>=ei; i-- ) {
     if( (*this)[i]->type() == type ) {
       return( i );
     }
@@ -469,12 +515,12 @@ int serial::previndex(
 }
 
 int serial::previndex(
-  const sindex           & start,
+  const tindex           & start,
   int                      side,
   const map<string,bool> & indent_types
 ) const {
 
-  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=0; i-- ) {
+  for( int i=prev_startindex( start ); i>=0; i-- ) {
     if( (*this)[i]->matches_alias( side, indent_types ) ) {
       return( i );
     }
@@ -485,13 +531,18 @@ int serial::previndex(
 }
 
 int serial::previndex(
-  const sindex           & start,
-  const sindex           & end,
+  const tindex           & start,
+  const tindex           & end,
   int                      side,
   const map<string,bool> & indent_types
 ) const {
 
-  for( int i=((start.matches() || (start.index() == size())) ? (start.index()-1) : start.index()); i>=end.index(); i-- ) {
+  int ei = prev_endindex( end );
+
+  cout << "In previndex, start: " << start.to_string() << ", end: " << end.to_string() << ", si: "
+       << prev_startindex( start ) << ", ei: " << ei << endl;
+
+  for( int i=prev_startindex( start ); i>=ei; i-- ) {
     if( (*this)[i]->matches_alias( side, indent_types ) ) {
       return( i );
     }
@@ -506,10 +557,9 @@ bool serial::is_unindent_after_reindent (
   const map<string,bool> & indent_types
 ) const {
 
-  sindex si = get_index( ti );
-  int    rs, ri;
+  int rs, ri;
 
-  if( (rs = previndex( si, types::staticObject().get( "reindentStart" ) )) != -1 ) {
+  if( (rs = previndex( ti, types::staticObject().get( "reindentStart" ) )) != -1 ) {
 
     /* If the starting reindent is also an indent, return 1 (TBD - Not sure if this is relevant) */
     // if {[lsearch [$txtt tag names $spos] _indent*] != -1} {
@@ -517,12 +567,12 @@ bool serial::is_unindent_after_reindent (
     //}
 
     /* Get the starting position of the previous reindent string */
-    if( ((ri = previndex( si, types::staticObject().get( "reindent" ) )) != -1) && (ri > rs) ) {
+    if( ((ri = previndex( ti, types::staticObject().get( "reindent" ) )) != -1) && (ri > rs) ) {
 
       int index;
 
       /* Find the indent symbol that is just after the reindentStart symbol */
-      return( ((index = nextindex( sindex( rs, true ), get_side( "left" ), indent_types)) != -1) && (index < ri) );
+      return( ((index = nextindex( (*this)[rs]->pos().to_tindex(), get_side( "left" ), indent_types)) != -1) && (index < ri) );
 
     }
 
@@ -537,15 +587,19 @@ bool serial::line_contains_indentation(
   const map<string,bool> & indent_types
 ) const {
 
-  sindex si = get_index( ti );
-  sindex se = get_index( tindex( ti.row(), 0 ) );
+  tindex te( ti.row(), 0 );
   int    ii, ui;
 
-  if( (ii = previndex( si, se, get_side( "left" ), indent_types ) ) != -1 ) {
-    return( ((ui = previndex( si, se, get_side( "right" ), indent_types )) == -1) || (ii > ui) );
+  cout << "In line_contains_indentation, ti: " << ti.to_string() << ", te: " << te.to_string() << endl;
+
+  if( (ii = previndex( ti, te, get_side( "left" ), indent_types ) ) != -1 ) {
+    ui = previndex( ti, te, get_side( "right" ), indent_types );
+    cout << "Found indent, ii: " << ii << " (" << (*this)[ii]->pos().to_index()
+         << "), uindent: " << ui << " (" << (*this)[ui]->pos().to_index() << endl;
+    return( ((ui = previndex( ti, te, get_side( "right" ), indent_types )) == -1) || (ii > ui) );
   }
 
-  return( previndex( si, se, types::staticObject().get( "reindent" )) != -1 );
+  return( previndex( ti, te, types::staticObject().get( "reindent" )) != -1 );
 
 }
 
@@ -621,7 +675,8 @@ object serial::indent_check_unindent(
     return( retval );
   }
 
-  sindex index = get_index( tindex( curr.row(), (curr.col() - 1) ) );
+  tindex ti( curr.row(), (curr.col() - 1) );
+  sindex index = get_index( ti );
 
   /* If we did not match something in the serial list, return immediately */
   if( !index.matches() ) {
@@ -661,8 +716,7 @@ object serial::indent_check_unindent(
       if( type == 1 ) {
 
         ostringstream oss;
-        bool reindent_not_in_prev_line = previndex( get_index( tindex( curr.row(), 0 ) ),
-                                                    get_index( tindex( (curr.row() - 1), 0 ) ),
+        bool reindent_not_in_prev_line = previndex( tindex( curr.row(), 0 ), tindex( (curr.row() - 1), 0 ),
                                                     types::staticObject().get( "reindent" ) ) == -1;
 
         retval.append( interp, (object)oss.str() );
@@ -670,7 +724,7 @@ object serial::indent_check_unindent(
 
       } else {
 
-        int reindent_start = previndex( index, types::staticObject().get( "reindentStart" ) );
+        int reindent_start = previndex( ti, types::staticObject().get( "reindentStart" ) );
 
         retval.append( interp, (object)(*this)[reindent_start]->pos().to_index() );
         retval.append( interp, (object)0 );

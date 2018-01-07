@@ -39,12 +39,32 @@ class serial : public std::vector<serial_item*> {
       const sindex & end
     );
 
+    /*! \return Returns the index to use for start within nextindex() calls. */
+    int next_startindex(
+      const tindex & ti
+    ) const;
+
+    /*! \return Returns the index to use for end within nextindex() calls. */
+    int next_endindex(
+      const tindex & ti
+    ) const;
+
+    /*! \return Returns the index to use for start within previndex() calls. */
+    int prev_startindex(
+      const tindex & ti
+    ) const;
+
+    /*! \return Returns the index to use for end within previndex() calls. */
+    int prev_endindex(
+      const tindex & ti
+    ) const;
+
     /*!
      \return Returns the index of the next serial_item that matches the given type, starting
              at index 'start'.  If no matching item is found, a value of -1 is returned.
     */
     int nextindex(
-      const sindex &   start,
+      const tindex &   start,
       const type_data* type
     ) const;
 
@@ -54,29 +74,29 @@ class serial : public std::vector<serial_item*> {
              value of -1 is returned.
     */
     int nextindex(
-      const sindex &   start,
-      const sindex &   end,
+      const tindex &   start,
+      const tindex &   end,
       const type_data* type
     ) const;
 
     /*!
      \return Returns the index of the next serial_item that matches the given type, starting
-             at index 'start' and stopping at index 'end'.  If no matching item is found, a
-             value of -1 is returned.
+             at index 'start'.  If no matching item is found, a value of -1 is returned.
     */
     int nextindex(
-      const sindex                     & start,
-      const sindex                     & end,
+      const tindex                     & start,
       int                                side,
       const std::map<std::string,bool> & indent_types
     ) const;
 
     /*!
      \return Returns the index of the next serial_item that matches the given type, starting
-             at index 'start'.  If no matching item is found, a value of -1 is returned.
+             at index 'start' and stopping at index 'end'.  If no matching item is found, a
+             value of -1 is returned.
     */
     int nextindex(
-      const sindex                     & start,
+      const tindex                     & start,
+      const tindex                     & end,
       int                                side,
       const std::map<std::string,bool> & indent_types
     ) const;
@@ -87,7 +107,7 @@ class serial : public std::vector<serial_item*> {
              returned.
     */
     int previndex(
-      const sindex &   start,
+      const tindex &   start,
       const type_data* type
     ) const;
 
@@ -97,8 +117,8 @@ class serial : public std::vector<serial_item*> {
              is found, a value of -1 is returned.
     */
     int previndex(
-      const sindex &   start,
-      const sindex &   end,
+      const tindex &   start,
+      const tindex &   end,
       const type_data* type
     ) const;
 
@@ -108,7 +128,7 @@ class serial : public std::vector<serial_item*> {
              returned.
     */
     int previndex(
-      const sindex                     & start,
+      const tindex                     & start,
       int                                side,
       const std::map<std::string,bool> & indent_types
     ) const;
@@ -119,8 +139,8 @@ class serial : public std::vector<serial_item*> {
              is found, a value of -1 is returned.
     */
     int previndex(
-      const sindex                     & start,
-      const sindex                     & end,
+      const tindex                     & start,
+      const tindex                     & end,
       int                                side,
       const std::map<std::string,bool> & indent_types
     ) const;
