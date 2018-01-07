@@ -152,8 +152,11 @@ namespace eval indent {
     }
 
     if {$insert_space < 0} {
+      puts -nonewline "Deleting from $index to "
+      puts [$win._t index "$index+{$insert_space}c"]
       $win delete -highlight 0 $index "$index+${insert_space}c"
     } else {
+      puts "Inserting at $index, spaces: $insert_space"
       $win insert -highlight 0 $index [string repeat " " $insert_space]
     }
 
