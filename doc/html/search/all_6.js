@@ -52,7 +52,7 @@ var searchData=
   ['flush_5fcommand',['flush_command',['../namespaceinterpreter.html#acfb65eca53b89c98fd412205c8756f0b',1,'interpreter']]],
   ['fontchooser',['fontchooser',['../namespacefontchooser.html',1,'fontchooser'],['../fontchooser_8tcl.html#a4de23714c81d006b9cfaed84770e072e',1,'fontchooserargs:&#160;fontchooser.tcl']]],
   ['fontchooser_2etcl',['fontchooser.tcl',['../fontchooser_8tcl.html',1,'']]],
-  ['format',['format',['../namespaceapi_1_1edit.html#ab94e10649c98f8baa34d3b991be6cde5',1,'api::edit::format()'],['../namespaceedit.html#ad05491b254b0ad95fca27034aa62047b',1,'edit::format()']]],
+  ['format',['format',['../namespaceapi_1_1edit.html#ab94e10649c98f8baa34d3b991be6cde5',1,'api::edit']]],
   ['format_5fcategory_5fvalue',['format_category_value',['../namespacethemer.html#a4b79e6f477560f78a36fe605f2ff53a6',1,'themer']]],
   ['format_5fcell',['format_cell',['../namespacebist.html#ab450ea9411f758f4f34f8771f3089cd9',1,'bist']]],
   ['format_5fdropped_5fdata',['format_dropped_data',['../namespacegui.html#ad86dc8cc8f23a4ff5520d1bfb473cec0',1,'gui']]],
