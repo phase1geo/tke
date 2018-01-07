@@ -7,7 +7,7 @@ var ipanel_8tcl =
     [ "insert_info_panel_plugins", "ipanel_8tcl.html#a5d01ef63367edc69dbb514c012a81109", null ],
     [ "is_viewable", "ipanel_8tcl.html#af24fe080c27143c490052372caa7976b", null ],
     [ "run_command", "ipanel_8tcl.html#af3afd2f1d51995d719f66096b54112d5", null ],
-    [ "update", "ipanel_8tcl.html#a6ba8e90a2807f2b79f7d5166bd295c56", null ],
+    [ "update", "ipanel_8tcl.html#a318767d641e209c47bd9a00a2732ef6a", null ],
     [ "update_attrs", "ipanel_8tcl.html#a32689d9215a69c3a142b174efdae70b3", null ],
     [ "update_checks", "ipanel_8tcl.html#abc60e97d879653483811bd6a5f4cbe41", null ],
     [ "update_counts", "ipanel_8tcl.html#a28c78783b68417f83e823246b2a25758", null ],
