@@ -1,4 +1,4 @@
-# TKE - Advanced Programmer's Editor
+      # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -183,22 +183,22 @@ namespace eval files {
     return [expr [get_index $fname $remote] != -1]
 
   }
-  
+
   ######################################################################
   # Counts the number of opened files in the given directory.
   proc num_opened {fname remote} {
-    
+
     variable files
     variable fields
-    
+
     set count 0
-    
+
     foreach index [lsearch -all -index $fields(fname) $files $fname*] {
       incr count [expr {[lindex $files $index $fields(remote)] eq $remote}]
     }
-    
+
     return $count
-    
+
   }
 
   ######################################################################
@@ -312,6 +312,8 @@ namespace eval files {
     variable files
     variable fields
 
+    puts "In files::add, fname: $fname, tab: $tab, args: $args"
+
     array set opts {
       -save_cmd ""
       -lock     0
@@ -329,9 +331,14 @@ namespace eval files {
       -yview    0
       -cursor   1.0
     }
+    puts "HERE -2"
     array set opts $args
 
+    puts "HERE -1"
+
     set file_info [lrepeat [array size fields] ""]
+
+    puts "HERE 0"
 
     lset file_info $fields(fname)    $fname
     lset file_info $fields(mtime)    ""
@@ -352,14 +359,20 @@ namespace eval files {
     lset file_info $fields(yview)    $opts(-yview)
     lset file_info $fields(cursor)   $opts(-cursor)
 
+    puts "HERE A"
+
     if {($opts(-remote) eq "") && !$opts(-buffer)} {
       lset file_info $fields(eol) [get_eol_translation $fname]
     } else {
       lset file_info $fields(eol) [get_eol_translation ""]
     }
 
+    puts "HERE B"
+
     # Add the file information to the files list
     lappend files $file_info
+
+    puts "HERE!!!"
 
   }
 
@@ -587,10 +600,10 @@ namespace eval files {
   ######################################################################
   # Move the given filename to the given directory.
   proc move_file {fname remote dir} {
-    
+
     variable files
     variable fields
-    
+
     # Create the new name
     set new_name [file join $dir [file tail $fname]]
 
@@ -607,10 +620,10 @@ namespace eval files {
         return -code error ""
       }
     }
-    
+
     # Find the matching file in the files list and change its filename to the new name
     if {[set index [get_index $fname $remote]] != -1} {
-      
+
       # Update the stored name to the new name and modification time
       lset files $index $fields(fname) $new_name
       lset files $index $fields(mtime) [modtime $index]

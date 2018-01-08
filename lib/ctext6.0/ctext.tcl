@@ -1,4 +1,4 @@
-package require Tk
+   package require Tk
 package require Thread
 package provide ctext 6.0
 
@@ -1605,6 +1605,9 @@ namespace eval ctext {
       lappend ranges $insPos [$win._t index "$insPos+${chars}c"]
     }
 
+    # Delete any dspace characters
+    catch { $win._t delete [$win._t tag ranges _dspace] }
+
     # Update the model
     ctext::model::insert $win $ranges $content $cursor
 
@@ -1647,6 +1650,9 @@ namespace eval ctext {
         $win._t insert $startPos $str [list {*}$tags lmargin rmargin]
         lappend ranges $startPos [$win._t index "$startPos+[string length $str]c"]
       }
+
+      # Delete any dspace characters
+      catch { $win._t delete [$win._t tag remove _dspace] }
 
       # Update the model
       ctext::model::insert $win $ranges $content $cursor
@@ -2381,17 +2387,22 @@ namespace eval ctext {
   proc setReindentation {win lang patterns} {
 
     # Get the indentation tags
-    set tags [tsv::get indents $win]
+    set tags       [tsv::get indents $win]
+    set fold_types [list]
+    set i          [llength $tags]
 
-    set i [llength $tags]
     foreach pattern $patterns {
       lappend tags reindentStart:$i none [lindex $pattern 0] $lang
-      ctext::model::add_types $win reindentStart:$i reindent:$i
+      ctext::model::add_types $win [list reindentStart:$i reindent:$i]
       foreach subpattern [lrange $pattern 1 end] {
         lappend tags reindent:$i none $subpattern $lang
       }
+      # lappend fold_types reindentStart:$i reindent:$i
       incr i
     }
+
+    # Add the given fold types
+    # ctext::model::fold_add_types $win $fold_types
 
     # Save the indentation tags
     tsv::set indents $win $tags
@@ -3109,6 +3120,9 @@ namespace eval ctext {
   proc modified {win value {dat ""}} {
 
     variable data
+
+    puts "In modified, win: $win"
+    puts [utils::stacktrace]
 
     set data($win,config,modified) $value
     event generate $win <<Modified>> -data $dat
@@ -4525,8 +4539,8 @@ namespace eval ctext {
     if {[$win._t compare "$index linestart" == "$index lineend"]} {
       $win._t insert $index " " _dspace
       $win._t mark set insert $index
- 
-    # If our cursor is going to fall 
+
+    # If our cursor is going to fall
     } elseif {[$win._t compare $index == "$index lineend"]} {
       $win._t mark set insert "$index-1 display chars"
     }
