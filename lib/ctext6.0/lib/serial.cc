@@ -375,7 +375,7 @@ int serial::next_startindex(
 
   sindex si = get_index( ti );
 
-  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() + 1) );
+  return( (!si.matches() || (*this)[si.index()]->pos().compare( ti )) ? si.index() : (si.index() + 1) );
 
 }
 
@@ -385,7 +385,7 @@ int serial::next_endindex(
 
   sindex si = get_index( ti );
 
-  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() + 1) : si.index() );
+  return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() + 1) : si.index() );
 
 }
 
@@ -395,7 +395,7 @@ int serial::prev_startindex(
 
   sindex si = get_index( ti );
 
-  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() - 1) : si.index() );
+  return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() - 1) : si.index() );
 
 }
 
@@ -405,7 +405,7 @@ int serial::prev_endindex(
 
   sindex si = get_index( ti );
 
-  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() - 1) );
+  return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() - 1) );
 
 }
 
@@ -538,9 +538,6 @@ int serial::previndex(
 ) const {
 
   int ei = prev_endindex( end );
-
-  cout << "In previndex, start: " << start.to_string() << ", end: " << end.to_string() << ", si: "
-       << prev_startindex( start ) << ", ei: " << ei << endl;
 
   for( int i=prev_startindex( start ); i>=ei; i-- ) {
     if( (*this)[i]->matches_alias( side, indent_types ) ) {
@@ -590,12 +587,7 @@ bool serial::line_contains_indentation(
   tindex te( ti.row(), 0 );
   int    ii, ui;
 
-  cout << "In line_contains_indentation, ti: " << ti.to_string() << ", te: " << te.to_string() << endl;
-
   if( (ii = previndex( ti, te, get_side( "left" ), indent_types ) ) != -1 ) {
-    ui = previndex( ti, te, get_side( "right" ), indent_types );
-    cout << "Found indent, ii: " << ii << " (" << (*this)[ii]->pos().to_index()
-         << "), uindent: " << ui << " (" << (*this)[ui]->pos().to_index() << endl;
     return( ((ui = previndex( ti, te, get_side( "right" ), indent_types )) == -1) || (ii > ui) );
   }
 
@@ -620,16 +612,11 @@ object serial::indent_newline(
 
   /* If the previous line indicates an indentation is required */
   if( line_contains_indentation( prev, indent_types ) ) {
-    cout << "Adding shift: " << shift << " to space: " << space << endl;
     space += shift;
-  } else {
-    cout << "prev: " << prev.to_string() << " does not contain indentation" << endl;
   }
 
   /* If the first index matches a stored value, interrogate it */
   if( first_index.matches() ) {
-
-    cout << "HERE, space: " << space << endl;
 
     /*
      Remove any leading whitespace and update indentation level
@@ -637,7 +624,6 @@ object serial::indent_newline(
     */
     if( (*this)[first_index.index()]->matches_alias( get_side( "right" ), indent_types ) ) {
       space -= shift;
-      cout << "  Found unindent, space: " << space << endl;
 
     /*
      Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
@@ -646,12 +632,9 @@ object serial::indent_newline(
     } else if( ((*this)[first_index.index()]->type() == types::staticObject().get( "reindent" )) &&
                is_unindent_after_reindent( first, indent_types ) ) {
       space -= shift;
-      cout << "  Found reindent, space: " << space << endl;
     }
 
   }
-
-  cout << "space: " << space << ", first.col: " << first.col() << endl;
 
   return( (object)(space - first.col()) );
 
