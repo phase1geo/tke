@@ -505,6 +505,7 @@ int serial::previndex(
   int ei = prev_endindex( end );
 
   for( int i=prev_startindex( start ); i>=ei; i-- ) {
+    cout << "previndex[" << i << "], type: " << (*this)[i]->type() << endl;
     if( (*this)[i]->type() == type ) {
       return( i );
     }
@@ -591,7 +592,8 @@ bool serial::line_contains_indentation(
     return( ((ui = previndex( ti, te, get_side( "right" ), indent_types )) == -1) || (ii > ui) );
   }
 
-  cout << "Checking reindent... " << previndex( ti, te, types::staticObject().get( "reindent" )) << endl;
+  cout << "Checking reindent... " << previndex( ti, te, types::staticObject().get( "reindent" ))
+       << ", reindent types: " << types::staticObject().get( "reindent" ) << endl;
 
   return( previndex( ti, te, types::staticObject().get( "reindent" )) != -1 );
 

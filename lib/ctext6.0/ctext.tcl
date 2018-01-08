@@ -1,4 +1,4 @@
-   package require Tk
+package require Tk
 package require Thread
 package provide ctext 6.0
 
@@ -1306,6 +1306,7 @@ namespace eval ctext {
     array set opts [lrange $args 0 [expr $i - 1]]
 
     set ranges [list]
+    set cursor [$win._t index insert]
 
     if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       set endSpec [lindex $args [expr $i + 1]]
@@ -1327,7 +1328,6 @@ namespace eval ctext {
       }
     } else {
       lassign [lrange $args $i end] startPos endPos
-      set cursors  [$win._t index insert]
       set startPos [$win index $startPos]
       if {$endPos eq ""} {
         set endPos [$win._t index "$startPos+1c"]
@@ -1342,7 +1342,7 @@ namespace eval ctext {
     }
 
     # Cause the model to handle the deletion
-    ctext::model::delete $win $ranges $strs [$win index insert] $data($win,config,-linemap_mark_command)
+    ctext::model::delete $win $ranges $strs $cursor $data($win,config,-linemap_mark_command)
 
     if {$opts(-highlight)} {
       highlightAll $win $ranges 0 1
@@ -1703,6 +1703,7 @@ namespace eval ctext {
       incomment       { return [ctext::model::is_index $win incomment   $index] }
       instring        { return [ctext::model::is_index $win instring    $index] }
       incommentstring { return [ctext::model::is_index $win incomstr    $index] }
+      intag           { return [ctext::model::is_index $win intag       $index] }
       inclass         { return [expr [lsearch -exact [$win._t tag names $index] __$class] != -1] }
       default         {
         return -code error "Unsupported is type ($type) specified"
@@ -2733,7 +2734,8 @@ namespace eval ctext {
 
     array unset data $win,highlight,*,class,__$class
 
-    $win tag delete __$class 1.0 end
+    # Finally, delete the class tag
+    $win._t tag delete __$class 1.0 end
 
   }
 

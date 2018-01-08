@@ -90,7 +90,20 @@ class type_data {
     /*! \return Returns the associated tagname */
     const std::string & tagname() const { return( _tagname ); }
 
+    /*! Output operator */
+    friend std::ostream & operator<<( std::ostream & os, const type_data* td );
+
 };
+
+inline std::ostream & operator<<( std::ostream & os, const type_data* td ) {
+
+  if( td ) {
+    os << "Tag: " << td->_name << "/" << td->_tagname << "/" << td->_comstr << "/" << td->_matching;
+  }
+
+  return( os );
+
+}
 
 #endif
 
