@@ -609,6 +609,8 @@ object serial::indent_newline(
   int    space       = indent_space.get<int>( interp );
   int    shift       = shift_width.get<int>( interp );
   sindex first_index = get_index( first );
+  bool   add_nl      = false;
+  object retval;
 
   /* If the previous line indicates an indentation is required */
   if( line_contains_indentation( prev, indent_types ) ) {
@@ -624,6 +626,7 @@ object serial::indent_newline(
     */
     if( (*this)[first_index.index()]->matches_alias( get_side( "right" ), indent_types ) ) {
       space -= shift;
+      add_nl = true;
 
     /*
      Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
@@ -636,7 +639,10 @@ object serial::indent_newline(
 
   }
 
-  return( (object)(space - first.col()) );
+  /* Construct the return value */
+  retval.append( interp, (object)(space - first.col()) );
+  retval.append( interp, (object)add_nl );
+  return( retval );
 
 }
 
