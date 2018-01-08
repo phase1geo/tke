@@ -150,18 +150,13 @@ object undo_manager::undo(
 
     /* Render the undo result */
     result.append( interp, _undo_buffer.back()->render( ser, lmap ) );
+    result.append( interp, (object)_undo_buffer.back()->first_cursor().to_string() );
 
     /* Push the undo buffer changes to the redo buffer */
     _redo_buffer.push_back( _undo_buffer.back() );
 
     /* Pop the undo buffer */
     _undo_buffer.pop_back();
-
-    if( _undo_buffer.size() ) {
-      result.append( interp, (object)_undo_buffer.back()->last_cursor().to_string() );
-    } else {
-      result.append( interp, (object)tindex( 1, 0 ).to_string() );
-    }
 
   }
 
