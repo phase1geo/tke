@@ -113,8 +113,6 @@ namespace eval indent {
 
     set index [$win._t index "$index+1l linestart"]
 
-    puts "prev_index: $prev_index, index: $index"
-
     # If we do not need smart indentation, use the previous space
     if {$indent_mode eq "IND"} {
       set insert_space [get_previous_indent_space $win $index]
@@ -125,9 +123,7 @@ namespace eval indent {
         set first_index $index
       }
       set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
-      puts "1 insert_space: $insert_space, first_index: $first_index"
       set insert_space [ctext::model::indent_newline $win $prev_index $first_index $insert_space [$win cget -shiftwidth]]
-      puts "2 insert_space: $insert_space"
     }
 
     if {$insert_space == 0} {
@@ -135,11 +131,8 @@ namespace eval indent {
     }
 
     if {$insert_space < 0} {
-      puts -nonewline "Deleting from $index to "
-      puts [$win._t index "$index+{$insert_space}c"]
       $win delete -highlight 0 $index "$index+${insert_space}c"
     } else {
-      puts "Inserting at $index, spaces: $insert_space"
       $win insert -highlight 0 $index [string repeat " " $insert_space]
     }
 
