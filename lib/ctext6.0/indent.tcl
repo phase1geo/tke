@@ -111,7 +111,8 @@ namespace eval indent {
       set prev_index $index
     }
 
-    set index [$win._t index "$index+1l linestart"]
+    set index  [$win._t index "$index+1l linestart"]
+    set nl_str ""
 
     # If we do not need smart indentation, use the previous space
     if {$indent_mode eq "IND"} {
@@ -123,17 +124,30 @@ namespace eval indent {
         set first_index $index
       }
       set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
-      set insert_space [ctext::model::indent_newline $win $prev_index $first_index $insert_space [$win cget -shiftwidth]]
+      lassign [ctext::model::indent_newline $win $prev_index $first_index $insert_space [$win cget -shiftwidth]] insert_space add_nl
+      if {$add_nl} {
+        set nl_str "[string repeat { } [expr $insert_space + [$win cget -shiftwidth]]]\n"
+      }
     }
 
-    if {$insert_space == 0} {
+    if {($insert_space == 0) && ($nl_str eq "")} {
       return
     }
 
     if {$insert_space < 0} {
-      $win delete -highlight 0 $index "$index+${insert_space}c"
+      if {$nl_str ne ""} {
+        $win replace -highlight 0 $index "$index+${insert_space}c" $nl_str
+        $win._t mark set insert "$index+[expr [string length $nl_str] - 1]c"
+      } else {
+        $win delete -highlight 0 $index "$index+${insert_space}c"
+      }
     } else {
-      $win insert -highlight 0 $index [string repeat " " $insert_space]
+      if {$nl_str ne ""} {
+        $win insert -highlight 0 $index "$nl_str[string repeat { } $insert_space]"
+        $win._t mark set insert "$index+[expr [string length $nl_str] - 1]c"
+      } else {
+        $win insert -highlight 0 $index [string repeat " " $insert_space]
+      }
     }
 
     # If autoseparators are called for, add it now
