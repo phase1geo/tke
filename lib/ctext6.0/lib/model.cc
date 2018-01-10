@@ -17,7 +17,7 @@ void model::clear() {
   _serial.clear();
   _tree.clear();
   _linemap.clear( "folding" );
-  _fold_types.clear();
+  _types.clear();
 
 }
 
@@ -46,7 +46,7 @@ bool model::update(
   tindex lend( lineend );
   serial elems;
 
-  elems.append( elements );
+  elems.append( elements, _types );
 
   /* Update the serial list */
   return( _serial.update( lstart, lend, elems ) );
@@ -78,7 +78,7 @@ int model::get_depth(
   } else if( type_str.empty() ) {
     return( node->depth() );
   } else {
-    return( node->depth( types::staticObject().get( type_str ) ) );
+    return( node->depth( _types.get( type_str ) ) );
   }
 
 }
@@ -93,7 +93,7 @@ object model::get_match_char(
   if( si.matches() ) {
     serial_item* sitem = _serial[si.index()];
     position     pos;
-    if( sitem->type()->matching() && sitem->node() && sitem->node()->get_match_pos( sitem, pos ) ) {
+    if( _types.is_matching( sitem->type() ) && sitem->node() && sitem->node()->get_match_pos( sitem, pos ) ) {
       pos.to_pair( retval );
     }
   }
@@ -136,8 +136,8 @@ object model::render_contexts(
   serial                       citems;
   serial                       titems;
   std::stack<const type_data*> context;
-  const type_data*             ltype  = types::staticObject().get( "" );
-  const type_data*             escape = types::staticObject().get( "escape" );
+  int                          ltype  = 0;
+  int                          escape = _types.get( "escape" );
   int                          lrow   = 0;
   int                          lcol   = 0;
   map<string,object>           ranges;
@@ -148,7 +148,7 @@ object model::render_contexts(
   _serial.get_context_items( citems );
 
   /* Merge the context items with the tags */
-  titems.append( tags );
+  titems.append( tags, _types );
   citems.update( tindex( linestart ), tindex( lineend ), titems );
 
   /* Create the non-overlapping ranges for each of the context tags */
@@ -187,7 +187,7 @@ bool model::is_escaped(
   const object & ti
 ) const {
 
-  return( _serial.is_escaped( tindex( ti ) ) );
+  return( _serial.is_escaped( tindex( ti ), _types ) );
 
 }
 
@@ -202,7 +202,7 @@ bool model::is_index(
   if( typ.substr( 0, 2 ) == "in" ) {
     return( _tree.is_in_index( typ.substr( 2 ), tindex( ti ) ) );
   } else {
-    return( _serial.is_index( type.get<string>( interp ), tindex( ti ) ) );
+    return( _serial.is_index( type.get<string>( interp ), tindex( ti ), _types ) );
   }
 
 }

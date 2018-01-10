@@ -28,7 +28,7 @@ icomment {{//}}
 
 comments {{{/\*} {\*/}} {{/\*\*} {\*/}} {{//} {$}}}
 
-strings {double single tsingle}
+strings {double singles}
 
 keywords
 {

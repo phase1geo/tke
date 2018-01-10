@@ -582,14 +582,6 @@ object mailbox::cursor_history() {
 
 }
 
-void mailbox::fold_add_types(
-  object types
-) {
-
-  add_request( REQUEST_FOLDADDTYPES, types, false, false );
-
-}
-
 object mailbox::fold_delete(
   object line,
   object depth
@@ -796,6 +788,7 @@ CPPTCL_MODULE(Model, i) {
   /* Define the model class */
   i.class_<mailbox>("model", init<const string &>())
     .def( "clear",            &mailbox::clear )
+    .def( "addtype",          &mailbox::add_type )
     .def( "insert",           &mailbox::insert )
     .def( "insertlist",       &mailbox::insertlist )
     .def( "delete",           &mailbox::remove )
@@ -832,7 +825,6 @@ CPPTCL_MODULE(Model, i) {
     .def( "cursorhistory",    &mailbox::cursor_history )
     .def( "undoreset",        &mailbox::undo_reset )
     .def( "autoseparate",     &mailbox::auto_separate )
-    .def( "foldaddtypes",     &mailbox::fold_add_types )
     .def( "folddelete",       &mailbox::fold_delete )
     .def( "folddeleterange",  &mailbox::fold_delete_range )
     .def( "foldopen",         &mailbox::fold_open )
@@ -846,8 +838,5 @@ CPPTCL_MODULE(Model, i) {
     .def( "indentlinestart",  &mailbox::indent_line_start )
     .def( "indentnewline",    &mailbox::indent_newline )
     .def( "indentcheckunindent", &mailbox::indent_check_unindent );
-
-  /* Add functions */
-  i.def("add_type", add_type );
 
 }

@@ -2320,6 +2320,9 @@ namespace eval ctext {
         tdouble \"\"\"
         tsingle '''
         tbtick  ```
+        doubles {(\"\"\"|\")}
+        singles {('''|')}
+        bticks  {(```|`)}
       }
 
       # Add the tag patterns
@@ -2328,15 +2331,17 @@ namespace eval ctext {
         if {[llength $pattern] == 1} {
           if {[info exists strings([lindex $pattern 0])]} {
             lappend tags $type:$i any $strings([lindex $pattern 0]) 0 $lang
+            ctext::model::add_type $win $type:$i __$tag 1 1 0 0 0
           } else {
             lappend tags $type:$i any [lindex $pattern 0] 0 $lang
+            ctext::model::add_type $win $type:$i __$tag 0 [expr {$type eq "comment"}] 0 0 0
           }
         } else {
           set once [expr {[lindex $pattern 1] eq "\$"}]
           lappend tags $type:$i left  [lindex $pattern 0] $once $lang
           lappend tags $type:$i right [lindex $pattern 1] $once $lang
+          ctext::model::add_type $win $type:$i __$tag 0 [expr {$type eq "comment"}] 0 0 0
         }
-        ctext::model::add_types $win $type:$i __$tag
         incr i
       }
 
@@ -2359,24 +2364,15 @@ namespace eval ctext {
   proc setIndentation {win lang patterns} {
 
     # Get the indentation tags
-    set tags       [tsv::get indents $win]
-    set fold_types [list]
-    set i          [llength $tags]
+    set tags [tsv::get indents $win]
+    set i    [llength $tags]
 
     foreach pattern $patterns {
-      if {[lsearch [list curly paren square angled] $pattern] == -1} {
-        lappend tags indent:$i left  [lindex $pattern 0] $lang
-        lappend tags indent:$i right [lindex $pattern 1] $lang
-        lappend fold_types indent:$i
-        ctext::model::add_types $win indent:$i
-        incr i
-      } else {
-        lappend fold_types $pattern
-      }
+      lappend tags indent:$i left  [lindex $pattern 0] $lang
+      lappend tags indent:$i right [lindex $pattern 1] $lang
+      ctext::model::add_type $win indent:$i "" 0 0 1 0 0
+      incr i
     }
-
-    # Add the given fold types
-    ctext::model::fold_add_types $win $fold_types
 
     # Save the context data
     tsv::set indents $win $tags
@@ -2388,22 +2384,18 @@ namespace eval ctext {
   proc setReindentation {win lang patterns} {
 
     # Get the indentation tags
-    set tags       [tsv::get indents $win]
-    set fold_types [list]
-    set i          [llength $tags]
+    set tags [tsv::get indents $win]
+    set i    [llength $tags]
 
     foreach pattern $patterns {
       lappend tags reindentStart:$i none [lindex $pattern 0] $lang
-      ctext::model::add_types $win [list reindentStart:$i reindent:$i]
       foreach subpattern [lrange $pattern 1 end] {
         lappend tags reindent:$i none $subpattern $lang
       }
-      # lappend fold_types reindentStart:$i reindent:$i
+      ctext::model::add_type $win reindent:$i      "" 0 0 0 1 0
+      ctext::model::add_type $win reindentStart:$i "" 0 0 0 0 1
       incr i
     }
-
-    # Add the given fold types
-    # ctext::model::fold_add_types $win $fold_types
 
     # Save the indentation tags
     tsv::set indents $win $tags
@@ -2421,12 +2413,15 @@ namespace eval ctext {
       angled {angled left <    "%s" angled right >    "%s"}
     }
     array set ctag_types {
-      double  {double  any {\"}     0 "%s"}
-      single  {single  any '        0 "%s"}
-      btick   {btick   any `        0 "%s"}
-      tdouble {tdouble any {\"\"\"} 0 "%s"}
-      tsingle {tsingle any '''      0 "%s"}
-      tbtick  {tbtick  any ```      0 "%s"}
+      double  {double  any {\"}          0 "%s"}
+      single  {single  any '             0 "%s"}
+      btick   {btick   any `             0 "%s"}
+      tdouble {tdouble any {\"\"\"}      0 "%s"}
+      tsingle {tsingle any '''           0 "%s"}
+      tbtick  {tbtick  any ```           0 "%s"}
+      doubles {doubles any {(\"\"\"|\")} 0 "%s"}
+      singles {singles any {('''|')}     0 "%s"}
+      bticks  {bticks  any {(```|`)}     0 "%s"}
     }
 
     # Get the brackets
@@ -2436,11 +2431,11 @@ namespace eval ctext {
     foreach type $types {
       if {[info exists btag_types($type)]} {
         lappend btags {*}[format $btag_types($type) $lang $lang]
-        ctext::model::add_types $win $type
+        ctext::model::add_type $win $type "" 1 0 0 0 0
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         addHighlightClass $win string {*}$args
-        ctext::model::add_types $win $type __string
+        ctext::model::add_type $win $type "__string" 0 1 0 0 0
       }
     }
 

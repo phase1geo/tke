@@ -32,8 +32,7 @@ namespace eval model {
     set data($win,debug) 0
 
     # Add the escape type
-    add_type ""       1 ""
-    add_type "escape" 0 ""
+    add_type $win "escape" 0 0 0 0 0
 
   }
 
@@ -95,11 +94,11 @@ namespace eval model {
 
   ######################################################################
   # Adds the given types to the model.
-  proc add_types {win types {tagname ""}} {
+  proc add_type {win name tagname matching comstr indent reindent reindentStart} {
 
-    foreach type $types {
-      add_type $type $tagname
-    }
+    variable data
+
+    $data($win,model) addtype [list $name $tagname $matching $comstr $indent $reindent $reindentStart]
 
   }
 
@@ -473,18 +472,6 @@ namespace eval model {
     variable data
 
     $data($win,model) autoseparate $value
-
-  }
-
-  ######################################################################
-  # Sets the fold types in the model.
-  proc fold_add_types {win types} {
-
-    variable data
-
-    if {$types ne ""} {
-      $data($win,model) foldaddtypes $types
-    }
 
   }
 

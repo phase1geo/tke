@@ -15,6 +15,7 @@
 #include <iostream>
 
 #include "cpptcl.h"
+#include "types.h"
 #include "serial.h"
 #include "tree.h"
 #include "linemap.h"
@@ -27,13 +28,13 @@ class model {
 
   private:
 
-    serial                     _serial;       /*!< Serial list structure */
-    tree                       _tree;         /*!< Tree structure */
-    linemap                    _linemap;      /*!< Line map structure */
-    undo_manager               _undo_buffer;  /*!< Undo buffer */
-    std::string                _win;          /*!< Name of this model */
-    bool                       _edited;       /*!< Set to false until after the model is changed */
-    std::map<std::string,bool> _fold_types;   /*!< Hash table of marker types that are folds */
+    types        _types;        /*!< Type information */
+    serial       _serial;       /*!< Serial list structure */
+    tree         _tree;         /*!< Tree structure */
+    linemap      _linemap;      /*!< Line map structure */
+    undo_manager _undo_buffer;  /*!< Undo buffer */
+    std::string  _win;          /*!< Name of this model */
+    bool         _edited;       /*!< Set to false until after the model is changed */
 
     /*!
      Converts the given object to a vector of text indices.
@@ -63,6 +64,20 @@ class model {
 
     /*! Clears the model contents */
     void clear();
+
+    /*! Adds a single type information to this model */
+    void add_type(
+      const Tcl::object & data
+    ) {
+      Tcl::interpreter interp( data.get_interp(), false );
+      _types.add( data.at( interp, 0 ).get<std::string>( interp ),
+                  data.at( interp, 1 ).get<std::string>( interp ),
+                  data.at( interp, 2 ).get<int>( interp ),
+                  data.at( interp, 3 ).get<int>( interp ),
+                  data.at( interp, 4 ).get<int>( interp ),
+                  data.at( interp, 5 ).get<int>( interp ),
+                  data.at( interp, 6 ).get<int>( interp ) );
+    }
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
     void insert(
@@ -142,21 +157,8 @@ class model {
 
     /*! Update the tree with the contents of the serial list */
     void update_tree() {
-      _tree.update( _serial );
-      if( _fold_types.size() > 0 ) {
-        _tree.add_folds( _linemap, _fold_types );
-      }
-    }
-
-    /*! Adds the given types to the list of fold types */
-    void fold_add_types(
-      const Tcl::object & types
-    ) {
-      Tcl::interpreter interp( types.get_interp(), false );
-      int              length = types.length( interp );
-      for( int i=0; i<length; i++ ) {
-        _fold_types.insert( std::make_pair( types.at( interp, i ).get<std::string>( interp ), true ) );
-      }
+      _tree.update( _serial, _types );
+      _tree.add_folds( _linemap, _types );
     }
 
     /*! \return Returns a human-readable representation of the stored serial list */
@@ -207,7 +209,7 @@ class model {
     Tcl::object get_comment_markers(
       const Tcl::object & ranges
     ) const {
-      return( _serial.get_comment_markers( ranges ) );
+      return( _serial.get_comment_markers( ranges, _types ) );
     }
 
     /*!
@@ -452,7 +454,7 @@ class model {
 
     /*! Update the linemap with the fold information based on syntax */
     void fold_syntax_update() {
-      _tree.add_folds( _linemap, _fold_types );
+      _tree.add_folds( _linemap, _types );
     }
 
     /*! \return Returns the the starting line containing the given indent marker */
@@ -467,7 +469,7 @@ class model {
       const Tcl::object & indent_space,
       const Tcl::object & shift_width
     ) const {
-      return( _serial.indent_newline( prev_ti, first_ti, indent_space, shift_width, _fold_types ) );
+      return( _serial.indent_newline( prev_ti, first_ti, indent_space, shift_width, _types ) );
     }
 
     /*! \return Returns information used to handle an unindent */
@@ -475,7 +477,7 @@ class model {
       const Tcl::object & first_ti,
       const Tcl::object & curr_ti
     ) const {
-      return( _serial.indent_check_unindent( first_ti, curr_ti, _fold_types ) );
+      return( _serial.indent_check_unindent( first_ti, curr_ti, _types ) );
     }
 
 };

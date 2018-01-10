@@ -11,7 +11,8 @@ using namespace std;
 using namespace Tcl;
 
 serial_item::serial_item(
-  const object & item
+  const object & item,
+  const types  & typs
 ) : _type    ( 0 ),
     _context ( 0 )
 {
@@ -19,12 +20,12 @@ serial_item::serial_item(
   interpreter i( item.get_interp(), false );
 
   if( item.length( i ) == 5 ) {
-    _type      = types::staticObject().get( item.at( i, 0 ).get<string>( i ) );
+    _type      = typs.get( item.at( i, 0 ).get<string>( i ) );
     _side      = get_side( item.at( i, 1 ).get<string>( i ) );
     _pos       = position( item.at( i, 2 ) );
     _iscontext = item.at( i, 3 ).get<bool>( i );
     _node      = 0;
-    _context   = types::staticObject().get( item.at( i, 4 ).get<string>( i ) );
+    _context   = typs.get( item.at( i, 4 ).get<string>( i ) );
   }
 
 }

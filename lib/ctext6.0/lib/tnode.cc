@@ -87,7 +87,7 @@ int tnode::depth() const {
 }
 
 int tnode::depth(
-  const type_data* type
+  int type
 ) const {
 
   if( isroot() ) {

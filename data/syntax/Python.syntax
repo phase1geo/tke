@@ -22,7 +22,7 @@ icomment {{#}}
 
 comments {{# {$}}}
 
-strings {double single tdouble}
+strings {doubles single}
 
 keywords
 {

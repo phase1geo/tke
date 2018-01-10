@@ -35,7 +35,8 @@ class tree {
     void insert_item(
       tnode*      & current,
       tindex      & lescape,
-      serial_item & item
+      serial_item & item,
+      const types & typs
     );
 
     /*!
@@ -99,7 +100,8 @@ class tree {
     void insert_none(
       tnode*      & current,
       tindex      & lescape,
-      serial_item & item
+      serial_item & item,
+      const types & typs
     );
 
     /*!
@@ -134,10 +136,10 @@ class tree {
      Helper method to the add_folds method.
     */
     void add_folds_helper(
-      linemap                          & lmap,
-      tnode*                             node,
-      int                                depth,
-      const std::map<std::string,bool> & fold_types
+      linemap     & lmap,
+      tnode*        node,
+      int           depth,
+      const types & typs
     );
 
   public:
@@ -152,12 +154,15 @@ class tree {
     void clear();
 
     /*! Updates from the serial list */
-    void update( serial & sl );
+    void update(
+      serial      & sl,
+      const types & typs
+    );
 
     /*! Updates the passed linemap with the given fold information */
     void add_folds(
-      linemap                          & lmap,
-      const std::map<std::string,bool> & fold_types
+      linemap     & lmap,
+      const types & typs
     );
 
     /*! \return Returns a graphical view of the stored string */

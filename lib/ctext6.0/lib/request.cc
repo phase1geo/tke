@@ -17,6 +17,9 @@ object request::execute(
   interpreter i( _args.get_interp(), false );
 
   switch( _command ) {
+    case REQUEST_ADDTYPE    :
+      inst.add_type( _args );
+      break;
     case REQUEST_INSERT     :
       inst.insert( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) );
       break;
@@ -128,9 +131,6 @@ object request::execute(
       break;
     case REQUEST_CURSORHIST :
       return( inst.cursor_history() );
-      break;
-    case REQUEST_FOLDADDTYPES :
-      inst.fold_add_types( _args.at( i, 0 ) );
       break;
     case REQUEST_FOLDDELETE :
       return( inst.fold_delete( _args.at( i, 0 ), _args.at( i, 1 ) ) );

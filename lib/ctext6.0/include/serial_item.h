@@ -26,12 +26,12 @@ class serial_item {
 
   private:
 
-    const type_data* _type;       /*!< Item type */
-    int              _side;       /*!< Side that the item represents of a pair (0 = none, 1 = left, 2 = right, 3 = any) */
-    position         _pos;        /*!< Text widget position */
-    bool             _iscontext;  /*!< Set to true if this item is a part of a context */
-    tnode*           _node;       /*!< Pointer to the tree node associated with this item */
-    const type_data* _context;    /*!< Context that this item is only valid in */
+    int      _type;       /*!< Item type */
+    int      _side;       /*!< Side that the item represents of a pair (0 = none, 1 = left, 2 = right, 3 = any) */
+    position _pos;        /*!< Text widget position */
+    bool     _iscontext;  /*!< Set to true if this item is a part of a context */
+    tnode*   _node;       /*!< Pointer to the tree node associated with this item */
+    int      _context;    /*!< Context that this item is only valid in */
 
   public:
 
@@ -39,11 +39,11 @@ class serial_item {
      Default constructor.
     */
     serial_item(
-      const type_data* type,
-      int              side,
-      position         pos,
-      bool             iscontext,
-      const type_data* context
+      int      type,
+      int      side,
+      position pos,
+      bool     iscontext,
+      int      context
     ) : _type( type ),
         _side( side ),
         _pos( pos ),
@@ -52,7 +52,10 @@ class serial_item {
         _context( context ) {}
 
     /*! Constructor from a Tcl object */
-    serial_item( const Tcl::object & item );
+    serial_item(
+      const Tcl::object & item,
+      const types       & typs
+    );
 
     /*! Copy constructor */
     serial_item( const serial_item & si );
@@ -75,13 +78,13 @@ class serial_item {
     int side() const { return( _side ); }
 
     /*! \return Returns the stored type */
-    const type_data* type() const { return( _type ); }
+    int type() const { return( _type ); }
 
     /*! \return Returns the stored context indicator */
     bool iscontext() const { return( _iscontext ); }
 
     /*! \return Returns the context that this item is valid within */
-    const type_data* context() const { return( _context ); }
+    int context() const { return( _context ); }
 
     /*! \return Returns the stored position information */
     position & pos() { return( _pos ); }
@@ -99,18 +102,11 @@ class serial_item {
     std::string to_string() const;
 
     /*! \return Returns true if this item matches the given alias and side */
-    bool matches_alias(
-      int                                side,
-      const std::map<std::string,bool> & aliases
+    bool matches_indent(
+      int           side,
+      const types & typs
     ) const {
-      /*
-      std::cout << "_side: " << _side << ", aliases: ";
-      for( std::map<std::string,bool>::const_iterator it=aliases.begin(); it!=aliases.end(); it++ ) {
-        std::cout << it->first << " ";
-      }
-      std::cout << ", retval: " << ((_side & side) && (aliases.find( _type->name() ) != aliases.end())) << std::endl;
-      */
-      return( (_side & side) && (aliases.find( _type->name() ) != aliases.end()) );
+      return( (_side & side) && typs.is_indent( _type ) );
     }
 
 };
