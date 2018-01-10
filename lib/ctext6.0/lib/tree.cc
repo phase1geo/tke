@@ -27,7 +27,8 @@ void tree::clear() {
 void tree::insert_item(
   tnode*      & current,
   tindex      & lescape,
-  serial_item & item
+  serial_item & item,
+  const types & typs
 ) {
 
   tnode* node;
@@ -40,7 +41,7 @@ void tree::insert_item(
   /* If the current node is root, add a new node as a child */
   if( current == _tree ) {
     switch( item.side() ) {
-      case 0 :  insert_none(       current, lescape, item );  break;
+      case 0 :  insert_none(       current, lescape, item, typs );  break;
       case 1 :  insert_root_left(  current, lescape, item );  break;
       case 2 :  insert_root_right( current, lescape, item );  break;
       case 3 :  insert_root_any(   current, lescape, item );  break;
@@ -48,7 +49,7 @@ void tree::insert_item(
 
   } else if( !current->type()->comstr() || (current->type() == item.type()) || (item.side() == 0) ) {
     switch( item.side() ) {
-      case 0 :  insert_none(  current, lescape, item );  break;
+      case 0 :  insert_none(  current, lescape, item, typs );  break;
       case 1 :  insert_left(  current, lescape, item );  break;
       case 2 :  insert_right( current, lescape, item );  break;
       case 3 :  insert_any(   current, lescape, item );  break;
@@ -155,10 +156,11 @@ void tree::insert_any(
 void tree::insert_none(
   tnode*      & current,
   tindex      & lescape,
-  serial_item & item
+  serial_item & item,
+  const types & typs
 ) {
 
-  if( item.type() == types::staticObject().get( "escape" ) ) {
+  if( item.type() == typs.get( "escape" ) ) {
     lescape = tindex( item.pos().row(), item.pos().start_col() + 1 );
   }
 
@@ -188,7 +190,8 @@ void tree::add_child_node(
 }
 
 void tree::update(
-  serial & sl
+  serial      & sl,
+  const types & typs
 ) {
 
   tnode* current = _tree;
@@ -198,7 +201,7 @@ void tree::update(
   _tree->clear();
 
   for( int i=0; i<sl.size(); i++ ) {
-    insert_item( current, lescape, *(sl[i]) );
+    insert_item( current, lescape, *(sl[i]), typs );
   }
 
 }
@@ -235,16 +238,16 @@ void tree::folds_set_unindent(
 }
 
 void tree::add_folds_helper(
-  linemap                & lmap,
-  tnode*                   node,
-  int                      depth,
-  const map<string,bool> & fold_types
+  linemap     & lmap,
+  tnode*        node,
+  int           depth,
+  const types & typs
 ) {
 
   vector<tnode*> & children = node->children();
 
   /* If the node is an indent type, set the indent/unindent in the linemap */
-  if( (fold_types.find( node->type()->name() ) != fold_types.end()) && node->left() ) {
+  if( (typs.is_indent( node->type() ) && node->left() ) {
     folds_set_indent( lmap, node->left()->const_pos().row(), ++depth );
     if( node->right() ) {
       folds_set_unindent( lmap, node->right()->const_pos().row() );
@@ -253,14 +256,14 @@ void tree::add_folds_helper(
 
   /* Do the same for all children */
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
-    add_folds_helper( lmap, *it, depth, fold_types );
+    add_folds_helper( lmap, *it, depth, typs );
   }
 
 }
 
 void tree::add_folds(
-  linemap                & lmap,
-  const map<string,bool> & fold_types
+  linemap     & lmap,
+  const types & typs
 ) {
 
   vector<tnode*> & children = _tree->children();
@@ -269,7 +272,7 @@ void tree::add_folds(
   lmap.clear( "folding" );
 
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
-    add_folds_helper( lmap, *it, 0, fold_types );
+    add_folds_helper( lmap, *it, 0, typs );
   }
 
 }

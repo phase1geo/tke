@@ -14,6 +14,7 @@
 #include <iostream>
 
 #include "cpptcl.h"
+#include "types.h"
 #include "tindex.h"
 #include "sindex.h"
 #include "serial.h"
@@ -83,10 +84,10 @@ class serial : public std::vector<serial_item*> {
      \return Returns the index of the next serial_item that matches the given type, starting
              at index 'start'.  If no matching item is found, a value of -1 is returned.
     */
-    int nextindex(
-      const tindex                     & start,
-      int                                side,
-      const std::map<std::string,bool> & indent_types
+    int nextindex_indent(
+      const tindex & start,
+      int            side,
+      const types  & indent_types
     ) const;
 
     /*!
@@ -94,11 +95,36 @@ class serial : public std::vector<serial_item*> {
              at index 'start' and stopping at index 'end'.  If no matching item is found, a
              value of -1 is returned.
     */
-    int nextindex(
-      const tindex                     & start,
-      const tindex                     & end,
-      int                                side,
-      const std::map<std::string,bool> & indent_types
+    int nextindex_indent(
+      const tindex & start,
+      const tindex & end,
+      int            side,
+      const types  & indent_types
+    ) const;
+
+    /*!
+     \return Returns the index of the previous reindentStart serial_item.
+    */
+    int previndex_reindentStart(
+      const tindex & start,
+      const types  & typs
+    ) const;
+
+    /*!
+     \return Returns the index of the previous reindentStart serial_item.
+    */
+    int previndex_reindent(
+      const tindex & start,
+      const types  & typs
+    ) const;
+
+    /*!
+     \return Returns the index of the previous reindentStart serial_item.
+    */
+    int previndex_reindent(
+      const tindex & start,
+      const tindex & end,
+      const types  & typs
     ) const;
 
     /*!
@@ -127,10 +153,10 @@ class serial : public std::vector<serial_item*> {
              starting at index 'start'.  If no matching item is found, a value of -1 is
              returned.
     */
-    int previndex(
-      const tindex                     & start,
-      int                                side,
-      const std::map<std::string,bool> & indent_types
+    int previndex_indent(
+      const tindex & start,
+      int            side,
+      const types  & typs
     ) const;
 
     /*!
@@ -138,19 +164,19 @@ class serial : public std::vector<serial_item*> {
              starting at index 'start' and stopping at index 'end'.  If no matching item
              is found, a value of -1 is returned.
     */
-    int previndex(
-      const tindex                     & start,
-      const tindex                     & end,
-      int                                side,
-      const std::map<std::string,bool> & indent_types
+    int previndex_indent(
+      const tindex & start,
+      const tindex & end,
+      int            side,
+      const types  & typs
     ) const;
 
     /*!
      \return Returns true if the reindent mark at index should be treated as an unindent.
     */
     bool is_unindent_after_reindent (
-      const tindex                     & ti,
-      const std::map<std::string,bool> & indent_types
+      const tindex & ti,
+      const types  & typs
     ) const;
 
     /*!
@@ -158,8 +184,8 @@ class serial : public std::vector<serial_item*> {
              following line to be indented.
     */
     bool line_contains_indentation(
-      const tindex                     & ti,
-      const std::map<std::string,bool> & indent_types
+      const tindex & ti,
+      const types  & typs
     ) const;
 
   public:
@@ -174,7 +200,7 @@ class serial : public std::vector<serial_item*> {
     void clear();
 
     /*!< Adds the given item to the end of the list */
-    void append( Tcl::object item );
+    void append( const Tcl::object & item, const types & typs );
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
     void insert( const std::vector<tindex> & ranges );
@@ -198,17 +224,22 @@ class serial : public std::vector<serial_item*> {
     std::string show() const;
 
     /*! \return Returns true if the given index is immediately preceded by an escape */
-    bool is_escaped( const tindex & ti ) const;
+    bool is_escaped(
+      const tindex & ti,
+      const types  & typs
+    ) const;
 
     /*! \return Returns true if the given index contains the given type */
     bool is_index(
       const std::string & type,
-      const tindex      & ti
+      const tindex      & ti,
+      const types       & typs
     ) const;
 
     /*! \return Returns all comment markers in the specified ranges */
     Tcl::object get_comment_markers(
-      const Tcl::object & ranges
+      const Tcl::object & ranges,
+      const types       & typs
     ) const;
 
     /*! \return Returns true if a context character was recently removed */
@@ -230,11 +261,11 @@ class serial : public std::vector<serial_item*> {
 
     /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
     Tcl::object indent_newline(
-      const Tcl::object                & prev_ti,
-      const Tcl::object                & first_ti,
-      const Tcl::object                & indent_space,
-      const Tcl::object                & shift_width,
-      const std::map<std::string,bool> & indent_types
+      const Tcl::object & prev_ti,
+      const Tcl::object & first_ti,
+      const Tcl::object & indent_space,
+      const Tcl::object & shift_width,
+      const types       & typs
     ) const;
 
     /*! \return Returns a list containing two items: the index to start looking for the beginning
@@ -242,9 +273,9 @@ class serial : public std::vector<serial_item*> {
                 from the whitespace found at the beginning of the line.  If an empty string is
                 returned, no unindentation was found. */
     Tcl::object indent_check_unindent(
-      const Tcl::object                & first_ti,
-      const Tcl::object                & curr_ti,
-      const std::map<std::string,bool> & indent_types
+      const Tcl::object & first_ti,
+      const Tcl::object & curr_ti,
+      const types       & typs
     ) const;
 
 };

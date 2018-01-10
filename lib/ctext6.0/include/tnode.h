@@ -31,13 +31,13 @@ class tnode {
     std::vector<tnode*> _children;  /*!< Pointer to children of this node */
     serial_item*        _left;      /*!< Index of serial item on the left side */
     serial_item*        _right;     /*!< Index of serial item on the right side */
-    const type_data*    _type;      /*!< Item type */
+    int                 _type;      /*!< Item type */
     bool                _hidden;    /*!< Hidden indicator */
 
   public:
 
     /*! Default constructor */
-    tnode( const type_data* type ) :
+    tnode( int type ) :
       _parent( 0 ), _left( 0 ), _right( 0 ), _type( type ), _hidden( false ) {}
 
     /*! Copy constructor */
@@ -91,7 +91,7 @@ class tnode {
     bool isroot() const { return( _parent == 0 ); }
 
     /*! \return Returns the type of the node */
-    const type_data* type() const { return( _type ); }
+    int type() const { return( _type ); }
 
     /*! \return Returns the index of the node in the parent */
     int index() const;
@@ -100,7 +100,7 @@ class tnode {
     int depth() const;
 
     /*! \return Returns the depth of the node in the tree with the matching type */
-    int depth( const type_data* type ) const;
+    int depth( int type ) const;
 
     /*! \return Returns a string representation of this node and all children nodes */
     std::string to_string() const;
