@@ -12,9 +12,9 @@
 #include <iostream>
 
 #include "cpptcl.h"
+#include "types.h"
 #include "tindex.h"
 #include "position.h"
-#include "type_data.h"
 #include "tnode.h"
 
 class tnode;

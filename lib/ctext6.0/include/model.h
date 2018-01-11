@@ -71,12 +71,7 @@ class model {
     ) {
       Tcl::interpreter interp( data.get_interp(), false );
       _types.add( data.at( interp, 0 ).get<std::string>( interp ),
-                  data.at( interp, 1 ).get<std::string>( interp ),
-                  data.at( interp, 2 ).get<int>( interp ),
-                  data.at( interp, 3 ).get<int>( interp ),
-                  data.at( interp, 4 ).get<int>( interp ),
-                  data.at( interp, 5 ).get<int>( interp ),
-                  data.at( interp, 6 ).get<int>( interp ) );
+                  data.at( interp, 1 ).get<std::string>( interp ) );
     }
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */

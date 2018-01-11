@@ -78,7 +78,7 @@ int model::get_depth(
   } else if( type_str.empty() ) {
     return( node->depth() );
   } else {
-    return( node->depth( _types.get( type_str ) ) );
+    return( node->depth( _types.type( type_str ) ) );
   }
 
 }
@@ -133,14 +133,14 @@ object model::render_contexts(
     return( result );
   }
 
-  serial                       citems;
-  serial                       titems;
-  std::stack<const type_data*> context;
-  int                          ltype  = 0;
-  int                          escape = _types.get( "escape" );
-  int                          lrow   = 0;
-  int                          lcol   = 0;
-  map<string,object>           ranges;
+  serial             citems;
+  serial             titems;
+  std::stack<int>    context;
+  int                ltype  = 0;
+  int                escape = _types.type( "escape" );
+  int                lrow   = 0;
+  int                lcol   = 0;
+  map<string,object> ranges;
 
   context.push( ltype );
 
@@ -154,17 +154,17 @@ object model::render_contexts(
   /* Create the non-overlapping ranges for each of the context tags */
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {
     if( ((*it)->type() != escape) && ((ltype != escape) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_col() - 1))) ) {
-      const string & tagname = (*it)->type()->tagname();
+      const string & tag = _types.tag( (*it)->type() );
       if( (context.top() == (*it)->context()) && ((*it)->side() & 1) ) {
         context.push( (*it)->type() );
-        add_tag_index( i, ranges, tagname, (*it)->pos().to_index( true ) );
+        add_tag_index( i, ranges, tag, (*it)->pos().to_index( true ) );
       } else if( (context.top() == (*it)->type()) && ((*it)->side() & 2) ) {
         context.pop();
-        add_tag_index( i, ranges, tagname, (*it)->pos().to_index( false ) );
+        add_tag_index( i, ranges, tag, (*it)->pos().to_index( false ) );
       } else {
-        map<string,object>::iterator it = ranges.find( tagname );
+        map<string,object>::iterator it = ranges.find( tag );
         if( it == ranges.end() ) {
-          ranges.insert( make_pair( tagname, object() ) );
+          ranges.insert( make_pair( tag, object() ) );
         }
       }
     }
@@ -200,9 +200,9 @@ bool model::is_index(
   string      typ = type.get<string>( interp );
 
   if( typ.substr( 0, 2 ) == "in" ) {
-    return( _tree.is_in_index( typ.substr( 2 ), tindex( ti ) ) );
+    return( _tree.is_in_index( typ.substr( 2 ), tindex( ti ), _types ) );
   } else {
-    return( _serial.is_index( type.get<string>( interp ), tindex( ti ), _types ) );
+    return( _serial.is_index( typ, tindex( ti ), _types ) );
   }
 
 }

@@ -327,8 +327,7 @@ bool serial::is_escaped(
 
   serial_item* prev_item = (*this)[si.index()-1];
 
-  return( (prev_item->type() == typs.get( "escape" )) &&
-          ((prev_item->pos().start_col() + 1) == ti.col()) );
+  return( (prev_item->type() == typs.type( "escape" )) && ((prev_item->pos().start_col() + 1) == ti.col()) );
 
 }
 
@@ -341,7 +340,7 @@ bool serial::is_index(
   sindex si = get_index( ti );
 
   if( si.matches() ) {
-    return( (*this)[si.index()]->type() == typs.get( type ) );
+    return( (*this)[si.index()]->type() == typs.type( type ) );
   }
 
   return( false );
@@ -361,9 +360,7 @@ object serial::get_comment_markers(
     sindex start = get_index( tindex( ranges.at( interp, (i + 0) ) ) );
     sindex end   = get_index( tindex( ranges.at( interp, (i + 1) ) ) );
     for( int j=start.index(); j<end.index(); j++ ) {
-      string name( (*this)[j]->type()->name() );
-      if(  (name.substr( 0, 9 ) == "bcomment:") ||
-          ((name.substr( 0, 9 ) == "lcomment:") && ((*this)[j]->side() == 1)) ) {
+      if( typs.is_comment( (*this)[j]->type() ) ) {
         (*this)[j]->const_pos().to_pair( result );
       }
     }
@@ -410,41 +407,6 @@ int serial::prev_endindex(
   sindex si = get_index( ti );
 
   return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() - 1) );
-
-}
-
-int serial::nextindex(
-  const tindex &   start,
-  const type_data* type
-) const {
-
-  int ei = size();
-
-  for( int i=next_startindex( start ); i<ei; i++ ) {
-    if( (*this)[i]->type() == type ) {
-      return( i );
-    }
-  }
-
-  return( -1 );
-
-}
-
-int serial::nextindex(
-  const tindex &   start,
-  const tindex &   end,
-  const type_data* type
-) const {
-
-  int ei = next_endindex( end );
-
-  for( int i=next_startindex( start ); i<ei; i++ ) {
-    if( (*this)[i]->type() == type ) {
-      return( i );
-    }
-  }
-
-  return( -1 );
 
 }
 

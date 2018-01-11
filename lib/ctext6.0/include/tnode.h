@@ -14,7 +14,7 @@
 #include <iostream>
 
 #include "cpptcl.h"
-#include "type_data.h"
+#include "types.h"
 #include "position.h"
 #include "serial_item.h"
 
@@ -123,7 +123,8 @@ class tnode {
      \return Returns true if the given type is found in the ancestoral tree.
     */
     bool is_in_type(
-      const std::string & type
+      const std::string & type,
+      const types       & typs
     ) const;
 
     /*!

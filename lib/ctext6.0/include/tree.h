@@ -178,7 +178,8 @@ class tree {
     /*! \return Returns true if the given text index is within the given type */
     bool is_in_index(
       const std::string & type,
-      const tindex      & ti
+      const tindex      & ti,
+      const types       & typs
     ) const;
 
 };

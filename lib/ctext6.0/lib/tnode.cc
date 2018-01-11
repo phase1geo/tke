@@ -108,7 +108,7 @@ string tnode::to_string() const {
 
   oss << "(" << ((_left  == 0) ? "??" : _left->pos().to_index())
       << "-" << ((_right == 0) ? "??" : _right->pos().to_index())
-      << " {" <<  _type->name() << "})";
+      << " " << hex << _type << ")";
 
   return( oss.str() );
 
@@ -138,15 +138,16 @@ string tnode::tree_string() const {
 }
 
 bool tnode::is_in_type(
-  const string & type
+  const string & type,
+  const types  & typs
 ) const {
 
   if( isroot() ) {
     return( false );
   } else if( type == "commentstring" ) {
-    return( _type->comstr() || _parent->is_in_type( type ) );
+    return( typs.is_comstr( _type ) || _parent->is_in_type( type, typs ) );
   } else {
-    return( (_type->name().compare( 0, type.size(), type ) == 0) || (_type->tagname() == type) || _parent->is_in_type( type ) );
+    return( (_type & typs.type( type )) || _parent->is_in_type( type, typs ) );
   }
 
 }
