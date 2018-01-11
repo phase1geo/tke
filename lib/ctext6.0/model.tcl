@@ -32,7 +32,7 @@ namespace eval model {
     set data($win,debug) 0
 
     # Add the escape type
-    add_type $win "escape" 0 0 0 0 0
+    add_type $win "escape"
 
   }
 
@@ -94,11 +94,11 @@ namespace eval model {
 
   ######################################################################
   # Adds the given types to the model.
-  proc add_type {win name tagname matching comstr indent reindent reindentStart} {
+  proc add_type {win name {tagname ""}} {
 
     variable data
 
-    $data($win,model) addtype [list $name $tagname $matching $comstr $indent $reindent $reindentStart]
+    $data($win,model) addtype [list $name $tagname]
 
   }
 

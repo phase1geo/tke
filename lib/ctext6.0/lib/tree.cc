@@ -47,7 +47,7 @@ void tree::insert_item(
       case 3 :  insert_root_any(   current, lescape, item );  break;
     }
 
-  } else if( !current->type()->comstr() || (current->type() == item.type()) || (item.side() == 0) ) {
+  } else if( !typs.is_comstr( current->type() ) || (current->type() == item.type()) || (item.side() == 0) ) {
     switch( item.side() ) {
       case 0 :  insert_none(  current, lescape, item, typs );  break;
       case 1 :  insert_left(  current, lescape, item );  break;
@@ -160,7 +160,7 @@ void tree::insert_none(
   const types & typs
 ) {
 
-  if( item.type() == typs.get( "escape" ) ) {
+  if( item.type() == typs.type( "escape" ) ) {
     lescape = tindex( item.pos().row(), item.pos().start_col() + 1 );
   }
 
@@ -247,7 +247,7 @@ void tree::add_folds_helper(
   vector<tnode*> & children = node->children();
 
   /* If the node is an indent type, set the indent/unindent in the linemap */
-  if( (typs.is_indent( node->type() ) && node->left() ) {
+  if( typs.is_indent( node->type() ) && node->left() ) {
     folds_set_indent( lmap, node->left()->const_pos().row(), ++depth );
     if( node->right() ) {
       folds_set_unindent( lmap, node->right()->const_pos().row() );
@@ -278,8 +278,9 @@ void tree::add_folds(
 }
 
 bool tree::is_in_index(
-  const std::string & type,
-  const tindex      & ti
+  const string & type,
+  const tindex & ti,
+  const types  & typs
 ) const {
 
   const tnode*           node;
@@ -287,7 +288,7 @@ bool tree::is_in_index(
 
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
     if( (node = (*it)->get_node_containing( ti )) ) {
-      return( node->is_in_type( type ) );
+      return( node->is_in_type( type, typs ) );
     }
   }
 

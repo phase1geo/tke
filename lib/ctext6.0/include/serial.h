@@ -64,26 +64,6 @@ class serial : public std::vector<serial_item*> {
      \return Returns the index of the next serial_item that matches the given type, starting
              at index 'start'.  If no matching item is found, a value of -1 is returned.
     */
-    int nextindex(
-      const tindex &   start,
-      const type_data* type
-    ) const;
-
-    /*!
-     \return Returns the index of the next serial_item that matches the given type, starting
-             at index 'start' and stopping at index 'end'.  If no matching item is found, a
-             value of -1 is returned.
-    */
-    int nextindex(
-      const tindex &   start,
-      const tindex &   end,
-      const type_data* type
-    ) const;
-
-    /*!
-     \return Returns the index of the next serial_item that matches the given type, starting
-             at index 'start'.  If no matching item is found, a value of -1 is returned.
-    */
     int nextindex_indent(
       const tindex & start,
       int            side,
@@ -99,7 +79,7 @@ class serial : public std::vector<serial_item*> {
       const tindex & start,
       const tindex & end,
       int            side,
-      const types  & indent_types
+      const types  & typs
     ) const;
 
     /*!
@@ -125,27 +105,6 @@ class serial : public std::vector<serial_item*> {
       const tindex & start,
       const tindex & end,
       const types  & typs
-    ) const;
-
-    /*!
-     \return Returns the index of the previous serial_item that matches the given type,
-             starting at index 'start'.  If no matching item is found, a value of -1 is
-             returned.
-    */
-    int previndex(
-      const tindex &   start,
-      const type_data* type
-    ) const;
-
-    /*!
-     \return Returns the index of the previous serial_item that matches the given type,
-             starting at index 'start' and stopping at index 'end'.  If no matching item
-             is found, a value of -1 is returned.
-    */
-    int previndex(
-      const tindex &   start,
-      const tindex &   end,
-      const type_data* type
     ) const;
 
     /*!

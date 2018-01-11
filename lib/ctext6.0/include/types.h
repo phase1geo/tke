@@ -13,8 +13,6 @@
 #include <string>
 #include <iostream>
 
-#include "type_data.h"
-
 /*!
  Singleton class containing type information.
 */
@@ -22,12 +20,15 @@ class types {
 
   private:
 
-    std::map<std::string,type_data*> _types;  /*!< Mapping of type string to integer values */
-    int                              _matching;
-    int                              _comstr;
-    int                              _indent;
-    int                              _reindent;
-    int                              _reindentStart;
+    std::map<std::string,int> _types;
+    std::map<int,std::string> _tags;
+    std::string               _empty;
+    int                       _bracket;
+    int                       _string;
+    int                       _comment;
+    int                       _indent;
+    int                       _reindent;
+    int                       _reindentStart;
 
     /*! Copy constructor */
     types( const types & t ) {}
@@ -37,37 +38,37 @@ class types {
       return( *this );
     }
 
-    void set_matching(
+    void set_internals(
       const std::string & name,
       int bitpos
     ) {
-      _matching |= ((name == "curly")  ||
-                    (name == "square") ||
-                    (name == "paren")  ||
-                    (name == "angled") ||
-                    (name == "double") ||
-                    (name == "single") ||
-                    (name == "btick")) ? (1 << bitpos) : 0;
-    }
-
-    void set_comstr(
-      const std::string & name,
-      int bitpos
-    ) {
-      _comstr |= ((name.substr(0,9) == "bcomment:") ||
-                  (name.substr(0,9) == "lcomment:") ||
-                  (name == "double")   ||
-                  (name == "single")   ||
-                  (name == "btick")    ||
-                  (name == "tdouble")  ||
-                  (name == "tsingle")  ||
-                  (name == "tbtick")) ? (1 << bitpos) : 0;
+      _bracket       |= ((name == "curly")   ||
+                         (name == "square")  ||
+                         (name == "paren")   ||
+                         (name == "angled")) ? (1 << bitpos) : 0;
+      _string        |= ((name == "double")   ||
+                         (name == "single")   ||
+                         (name == "btick")    ||
+                         (name == "tdouble")  ||
+                         (name == "tsingle")  ||
+                         (name == "tbtick")) ? (1 << bitpos) : 0;
+      _comment       |= (name.substr(0, 8) == "comment:")       ? (1 << bitpos) : 0;
+      _indent        |= (name.substr(0, 7) == "indent:")        ? (1 << bitpos) : 0;
+      _reindent      |= (name.substr(0, 9) == "reindent:")      ? (1 << bitpos) : 0;
+      _reindentStart |= (name.substr(0,14) == "reindentStart:") ? (1 << bitpos) : 0;
     }
 
   public:
 
     /*! Default constructor */
-    types() {}
+    types()
+    : _empty         ( "" ),
+      _bracket       ( 0 ),
+      _string        ( 0 ),
+      _comment       ( 0 ),
+      _indent        ( 0 ),
+      _reindent      ( 0 ),
+      _reindentStart ( 0 ) {}
 
     /*! Destructor */
     ~types() {
@@ -76,47 +77,55 @@ class types {
 
     /*! Clears the class for reuse */
     void clear() {
-      for( std::map<std::string,type_data*>::iterator it=_types.begin(); it!=_types.end(); it++ ) {
-        delete it->second;
-      }
       _types.clear();
+      _tags.clear();
+      _bracket       = 0;
+      _string        = 0;
+      _comment       = 0;
+      _indent        = 0;
+      _reindent      = 0;
+      _reindentStart = 0;
     }
 
     /*! Adds the given type to the types list */
     void add(
       const std::string & name,
-      const std::string & tagname,
-      int                 matching,
-      int                 comstr,
-      int                 indent,
-      int                 reindent,
-      int                 reindentStart
+      const std::string & tagname
     ) {
-      if( get( name ) == -1 ) {
+      if( type( name ) == -1 ) {
         int bitpos = _types.size();
-        _types.insert( make_pair( name, new type_data( (1 << bitpos), tagname ) ) );
-        _matching      |= (matching      << bitpos);
-        _comstr        |= (comstr        << bitpos);
-        _indent        |= (indent        << bitpos);
-        _reindent      |= (reindent      << bitpos);
-        _reindentStart |= (reindentStart << bitpos);
+        _types.insert( make_pair( name, (1 << bitpos) ) );
+        _tags.insert( make_pair( (1 << bitpos), tagname ) );
+        set_internals( name, bitpos );
       }
     }
 
     /*! Retrieves the integer value of the given string name */
-    int get( const std::string & name ) const {
-      std::map<std::string,type_data*>::const_iterator it = _types.find( name );
+    int type( const std::string & name ) const {
+      std::map<std::string,int>::const_iterator it = _types.find( name );
       if( it == _types.end() ) {
         return( -1 );
       }
-      return( it->second->type() );
+      return( it->second );
+    }
+
+    /*! \return Returns the tag associated with the given type */
+    const std::string & tag( int type ) const {
+      std::map<int,std::string>::const_iterator it = _tags.find( type );
+      if( it == _tags.end() ) {
+        return( _empty );
+      }
+      return( it->second );
     }
 
     /*! \return Returns true if the given type is one that should be matched */
-    bool is_matching( int type ) const { return( (type & _matching) != 0 ); }
+    bool is_matching( int type ) const { return( (type & (_bracket | _string)) != 0 ); }
 
     /*! \return Returns true if the given type is a comment or string */
-    bool is_comstr( int type ) const { return( (type & _comstr) != 0 ); }
+    bool is_comstr( int type ) const { return( (type & (_comment | _string)) != 0 ); }
+
+    /*! \return Returns true if the given type is a comment */
+    bool is_comment( int type ) const { return( (type & _comment) != 0 ); }
 
     /*! \return Returns true if the given type is an indent or unindent type */
     bool is_indent( int type ) const { return( (type & _indent) != 0 ); }

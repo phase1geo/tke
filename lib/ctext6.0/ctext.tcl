@@ -2331,16 +2331,16 @@ namespace eval ctext {
         if {[llength $pattern] == 1} {
           if {[info exists strings([lindex $pattern 0])]} {
             lappend tags $type:$i any $strings([lindex $pattern 0]) 0 $lang
-            ctext::model::add_type $win $type:$i __$tag 1 1 0 0 0
+            ctext::model::add_type $win $type:$i $tag
           } else {
             lappend tags $type:$i any [lindex $pattern 0] 0 $lang
-            ctext::model::add_type $win $type:$i __$tag 0 [expr {$type eq "comment"}] 0 0 0
+            ctext::model::add_type $win $type:$i $tag
           }
         } else {
           set once [expr {[lindex $pattern 1] eq "\$"}]
           lappend tags $type:$i left  [lindex $pattern 0] $once $lang
           lappend tags $type:$i right [lindex $pattern 1] $once $lang
-          ctext::model::add_type $win $type:$i __$tag 0 [expr {$type eq "comment"}] 0 0 0
+          ctext::model::add_type $win $type:$i $tag
         }
         incr i
       }
@@ -2370,7 +2370,7 @@ namespace eval ctext {
     foreach pattern $patterns {
       lappend tags indent:$i left  [lindex $pattern 0] $lang
       lappend tags indent:$i right [lindex $pattern 1] $lang
-      ctext::model::add_type $win indent:$i "" 0 0 1 0 0
+      ctext::model::add_type $win indent:$i ""
       incr i
     }
 
@@ -2392,8 +2392,8 @@ namespace eval ctext {
       foreach subpattern [lrange $pattern 1 end] {
         lappend tags reindent:$i none $subpattern $lang
       }
-      ctext::model::add_type $win reindent:$i      "" 0 0 0 1 0
-      ctext::model::add_type $win reindentStart:$i "" 0 0 0 0 1
+      ctext::model::add_type $win reindent:$i      ""
+      ctext::model::add_type $win reindentStart:$i ""
       incr i
     }
 
@@ -2431,11 +2431,11 @@ namespace eval ctext {
     foreach type $types {
       if {[info exists btag_types($type)]} {
         lappend btags {*}[format $btag_types($type) $lang $lang]
-        ctext::model::add_type $win $type "" 1 0 0 0 0
+        ctext::model::add_type $win $type ""
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         addHighlightClass $win string {*}$args
-        ctext::model::add_type $win $type "__string" 0 1 0 0 0
+        ctext::model::add_type $win $type "string"
       }
     }
 
