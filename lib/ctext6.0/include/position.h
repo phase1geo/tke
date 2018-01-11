@@ -54,6 +54,11 @@ class position {
       return( *this );
     }
 
+    /*! Equality operator */
+    bool operator==( const position & pos ) const {
+      return( (_row == pos._row) && (_scol == pos._scol) && (_ecol == pos._ecol) );
+    }
+
     /*! Adjust the item when it is the first in the range of items to adjust */
     void adjust_first(
       int from_col,

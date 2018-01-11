@@ -235,7 +235,10 @@ void serial::append(
   int size = item.length( interp );
 
   for( int i=0; i<size; i++ ) {
-    push_back( new serial_item( item.at( interp, i ), typs ) );
+    serial_item si( item.at( interp, i ), typs );
+    if( (i > 0) && !back()->merge( si ) ) {
+      push_back( new serial_item( si ) );
+    }
   }
 
 }
