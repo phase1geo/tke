@@ -40,6 +40,19 @@ serial_item::serial_item(
     _context   ( si._context )
 {}
 
+bool serial_item::merge(
+  const serial_item & si
+) {
+
+  if( _pos == si.const_pos() ) {
+    _type |= si.type();
+    return( true );
+  }
+
+  return( false );
+
+}
+
 string serial_item::to_string() const {
 
   ostringstream oss;

@@ -71,6 +71,9 @@ class serial_item {
     /*! Adjusts the positional information */
     void adjust( int from_row, int row_diff, int col_diff ) { _pos.adjust( from_row, row_diff, col_diff ); }
 
+    /*! \return Returns true if the given serial item was merged into this item */
+    bool merge( const serial_item & si );
+
     /*! Sets the node pointer to the given node */
     void set_node( tnode* node ) { _node = node; }
 
