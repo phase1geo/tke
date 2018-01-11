@@ -2558,7 +2558,7 @@ namespace eval ctext {
     variable data
 
     if {![info exists data($win,classopts,$class)]} {
-      return -code error "Unspecified highlight class specified in [dict get [info frame -1] proc]"
+      return -code error "Unspecified highlight class ($class) specified in [dict get [info frame -1] proc]"
     }
 
   }
