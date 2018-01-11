@@ -1,8 +1,8 @@
 # api.tcl
 msgcat::mcmset de {
 
-  "Argument list to api::add_file was not an even key/value pair"
-  "Argument Liste api::add_file war nicht ein noch Schlüssel / Wert-Paar"
+  #"Argument list to api::add_file was not an even key/value pair"
+  #"Argument-Liste für api::add_file war kein gültiges Key/Value Paar"
 
 }
 
@@ -10,7 +10,7 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Unable to run system command"
-  "Keine Systembefehl ausführen"
+  "Kann Systembefehl nicht ausführen"
 
 }
 
@@ -21,28 +21,28 @@ msgcat::mcmset de {
   "Bild zentrieren"
 
   "Flip image horizontally"
-  "Das Bild horizontal spiegeln."
+  "Bild horizontal spiegeln"
 
   "Flip image vertically"
-  "Das Bild vertikal spiegeln."
+  "Bild vertikal spiegeln"
 
   "Move image down"
-  "Bild verschieben"
+  "Bild nach unten verschieben"
 
   "Move image left"
-  "Bild linksbündig"
+  "Bild nach links verschieben"
 
   "Move image right"
-  "Bild rechts"
+  "Bild nach rechts verschieben"
 
   "Move image up"
-  "Bild verschieben"
+  "Bild nach oben verschieben"
 
   "Rotate image 90 degrees"
   "Bild um 90 Grad drehen"
 
   "Transform Tools"
-  "Transformiere Werkzeuge"
+  "Transformationswerkzeuge"
 
 }
 
@@ -50,16 +50,16 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "    End: "
-  "Ende:"
+  "    Ende: "
 
   "    Start: "
-  "Beginn:"
+  "    Start: "
 
   "Enter difference command"
-  "Geben Sie Befehl difference"
+  "Anderen Befehl eingeben"
 
   "Enter starting file"
-  "Geben Sie die Startdatei"
+  "Startdatei angeben"
 
   "Update"
   "Aktualisieren"
@@ -73,7 +73,7 @@ msgcat::mcmset de {
   "Datei erfolgreich geschrieben"
 
   "Filename already exists"
-  "Dateiname ist bereits vorhanden."
+  "Dateiname ist bereits vorhanden"
 
   "Image URL"
   "Bild URL"
@@ -87,10 +87,10 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Abbreviation"
-  "Abkürzung"
+  "Kurzbezeichnung"
 
   "Select File to Save"
-  "Wählen Sie die Datei zu speichern in"
+  "Wählen Sie die zu speichernde Datei"
 
 }
 
@@ -98,22 +98,22 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Delete tab?"
-  "Löschen Registerkarte?"
+  "Reiter löschen?"
 
   "Reload file?"
-  "Datei erneut laden"
+  "Datei neu laden?"
 
   "Unable to determine how to move to trash"
-  "Nicht in der Lage zu bestimmen, wie in den Papierkorb verschoben"
+  "Kann Papierkorb-Funktion nicht ermitteln"
 
   "Unable to determine platform"
-  "Nicht in der Lage zu bestimmen, Plattform"
+  "Kann Plattform nicht ermitteln"
 
   "Unable to write file"
   "Datei konnte nicht geschrieben werden"
 
   "Unable to write remote file"
-  "Datei konnte nicht geschrieben werden"
+  "Remote Datei konnte nicht geschrieben werden"
 
 }
 
@@ -124,19 +124,19 @@ msgcat::mcmset de {
   "Groß-und Kleinschreibung"
 
   "Close All Other Tabs"
-  "Andere Unterfenster schließen"
+  "Andere anderen Reiter schliessen"
 
   "Close All Tabs"
-  "Close All Tabs"
+  "Alle Reiter schliessen"
 
   "Close All Tabs In Pane"
-  "Schließen Sie alle Registerkarten im Bereich"
+  "Alle Reiter im Bereich schliessen"
 
   "Close Other Tabs In Pane"
-  "Schließen Sie andere Tabs im Bereich"
+  "Alle anderen Reiter im Bereich schliessen"
 
   "Close Tab"
-  "Tab schließen"
+  "Reiter schliessen"
 
   "Column"
   "Spalte"
@@ -145,28 +145,28 @@ msgcat::mcmset de {
   "Copyright"
 
   "Credits"
-  "Kredite"
+  "Danksagungen"
 
   "Developer"
   "Entwickler"
 
   "Email"
-  "E-Mail"
+  "Email"
 
   "Error"
   "Fehler"
 
   "Favorited"
-  "Favorit"
+  "Bevorzugt"
 
   "File already exists.  Use '!' to force an overwrite"
-  "Datei existiert bereits.  Verwendung '!' eine Überschreibung zu erzwingen"
+  "Datei existiert bereits.  Verwende '!' um zu überschreiben"
 
   "File index is out of range"
   "Datei-Index liegt außerhalb des Bereichs"
 
   "Hide Tab"
-  "Registerkarte \"
+  "Reiter verbergen"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Bild gefunden in Fill-in-Formulare, die die Form UI schließt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
@@ -178,61 +178,61 @@ msgcat::mcmset de {
   "Bild im Suchfeld nach vorherigen Übereinstimmung suchen angezeigt."
 
   "Image used in tab menus to indicate that the file is associated with a difference view."
-  "Bild in Registerkarte Menüs verwendet, um anzuzeigen, dass die Datei mit einem Unterschied Ansicht zugeordnet."
+  "Bild in Reiter Menüs verwendet, um anzuzeigen, dass die Datei mit einem Unterschied Ansicht zugeordnet."
 
   "Image used in tab menus to indicate that the file is locked."
-  "Bild in Registerkarte Menüs verwendet werden, um anzugeben, dass die Datei gesperrt ist."
+  "Bild in Reiter Menüs verwendet werden, um anzugeben, dass die Datei gesperrt ist."
 
   "Image used in tab menus to indicate that the file is readonly."
-  "Bild in Registerkarte Menüs verwendet, um anzuzeigen, dass die Datei schreibgeschützt."
+  "Bild in Reiter Menüs verwendet, um anzuzeigen, dass die Datei schreibgeschützt."
 
   "Image used in tab to indicate that the tab contains a difference view."
   "Bild im Register verwendet werden, um anzuzeigen, dass das Register enthält einen Unterschied sehen."
 
   "Image used in tab to indicate that the tab's file is readonly."
-  "Bild im Register verwendet, um anzuzeigen, dass die Akten der Registerkarte ist schreibgeschützt."
+  "Bild im Register verwendet, um anzuzeigen, dass die Akten der Reiter ist schreibgeschützt."
 
   "Image used in tab to indicate that the tab’s file is locked."
-  "Bild in Registerkarte verwendet, um anzugeben, dass die Registerkarte Datei gesperrt ist."
+  "Bild in Reiter verwendet, um anzugeben, dass die Reiter Datei gesperrt ist."
 
   "Image used in tab which, when clicked, closes the tab."
   "Bild in Register, die, wenn geklickt wird, schließt das Register verwendet."
 
   "Image used in the preferences window in the Advanced tab."
-  "Bild im Fenster \"
+  "Bild im Fenster"
 
   "Image used in the preferences window in the Appearance tab."
-  "Bild im Fenster \"
+  "Bild im Fenster"
 
   "Image used in the preferences window in the Documentation tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the Editor tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the Emmet tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the Find tab."
-  "Bild im Fenster \"
+  "Bild im Fenster"
 
   "Image used in the preferences window in the General tab."
-  "Bild im Fenster \"
+  "Bild im Fenster"
 
   "Image used in the preferences window in the Plugins tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the Shortcuts tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the Sidebar tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the Snippets tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild im Einstellungsfenster auf der Reiter"
 
   "Image used in the preferences window in the View tab."
-  "Bild im Fenster \"
+  "Bild im Fenster"
 
   "Image used in the preferences window to indicate that a table item is deselected."
   "Bild im Einstellungsfenster verwendet, um anzugeben, dass ein Tabellenelement deaktiviert ist."
@@ -244,13 +244,13 @@ msgcat::mcmset de {
   "Bild im Einstellungsfenster verwendet, um anzuzeigen, dass etwas wahr ist."
 
   "Images used in tab which will be displayed when the mouse enters the close button area"
-  "Bilder, die in der Registerkarte verwendet werden, die angezeigt wird, wenn die Maus in die Schaltfläche &quot;Schließen&quot; gelangt"
+  "Bilder, die in der Reiter verwendet werden, die angezeigt wird, wenn die Maus in die Schaltfläche &quot;Schliessen&quot; gelangt"
 
   "In"
   "In"
 
   "License"
-  "Lizenze"
+  "Lizenz"
 
   "Locked"
   "Lock"
@@ -259,10 +259,10 @@ msgcat::mcmset de {
   "Verschieben"
 
   "Must be in multicursor mode to insert numbers"
-  "Muss im multicursor-Modus um Zahlen einzusetzen sein."
+  "Muss im multicursor-Modus um Zahlen einzusetzen"
 
   "No write permissions.  Use '!' to force write."
-  "Keine Schreibrechte.  Verwendung '!' schreiben zu erzwingen."
+  "Keine Schreibrechte.  Verwende '!' um das Schreiben zu erzwingen"
 
   "Release Type"
   "Releasetyp"
@@ -271,7 +271,7 @@ msgcat::mcmset de {
   "Ersetzen"
 
   "Save request"
-  "Speichern Anfrage"
+  "Anfrage speichern"
 
   "Starting number:"
   "Startnummer:"
@@ -280,13 +280,13 @@ msgcat::mcmset de {
   "Tcl/Tk-Version"
 
   "Total Characters"
-  "Gesamt-Zeichen"
+  "Anzahl Zeichen"
 
   "Total Lines"
-  "Summenzeilen"
+  "Anzahl Zeilen"
 
   "Unable to successfully parse number string"
-  "Nicht in der Lage, Anzahl Zeichenfolge erfolgreich analysiert"
+  "Nummernfolge kann nicht analysiert werden"
 
   "for"
   "für"
@@ -297,22 +297,22 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Binary"
-  "Binär"
+  "Binary"
 
   "Close Panel"
-  "Schließen"
+  "Panel schliessen"
 
   "Counts"
   "Anzahl"
 
   "Modified"
-  "Geändert"
+  "Verändert"
 
   "No"
   "Nein"
 
   "Read Time"
-  "Ablesezeit"
+  "Lesezeit"
 
   "Update Info"
   "Informationen aktualisieren"
@@ -346,10 +346,10 @@ msgcat::mcmset de {
   "Absolute Zeilennummerierung"
 
   "Add Next Line"
-  "Nächste Zeile"
+  "Nächste Zeile hinzufügen"
 
   "Add Previous Line"
-  "Vorherige Zeile"
+  "Vorherige Zeile hinzufügen"
 
   "Add next line to selection"
   "Füge nächste Zeile zur Auswahl hinzu"
@@ -379,7 +379,7 @@ msgcat::mcmset de {
   "Alle Schwierigkeitsgrade"
 
   "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
-  "Alle Sprachen-spezifische Einstellungen für die aktuelle Sitzung gelöscht werden und die globalen Einstellungen werden für die angegebene Sprache angewendet werden."
+  "Alle Sprachen-spezifische Einstellungen für die aktuelle Session gelöscht werden und die globalen Einstellungen werden für die angegebene Sprache angewendet werden."
 
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Alle Sprachen-spezifische Einstellungen werden entfernt und die globalen Einstellungen werden für die angegebene Sprache angewendet werden."
@@ -403,7 +403,7 @@ msgcat::mcmset de {
   "Balance-Tag-paar nach außen verschieben"
 
   "Bold"
-  "Bold"
+  "Fett"
 
   "Bubble Down"
   "Blase nach unten"
@@ -430,37 +430,37 @@ msgcat::mcmset de {
   "Checkbox"
 
   "Classic Mac"
-  "Klassische Mac"
+  "Klassischer Mac"
 
   "Clear All"
-  "Alles löschen"
+  "Alle löschen"
 
   "Close All"
-  "Alle schließen"
+  "Alle schliessen"
 
   "Close All Folds"
-  "Schließen Sie alle Falten"
+  "Schliessen Sie alle Falten"
 
   "Close Current"
-  "Strom zu schließen"
+  "Schliesse aktuelle"
 
   "Close Current Fold"
-  "Schließen der aktuellen Fold"
+  "Schliessen der aktuellen Fold"
 
   "Close Selected Folds"
-  "Schließen ausgewählt Falten"
+  "Schliessen ausgewählt Falten"
 
   "Close all folds"
-  "Schließen Sie alle Falten"
+  "Schliessen Sie alle Falten"
 
   "Close all tabs"
-  "Schließen Sie alle Registerkarten"
+  "Alle Reiter schliessen"
 
   "Close current session"
-  "Aktuelle Sitzung schließen"
+  "Aktuelle Session beenden"
 
   "Close current tab"
-  "Aktuelle Registerkarte schließen"
+  "Aktuellen Reiter schliessen"
 
   "Close fold at current line - all levels"
   "Enge Falte an aktuelle Zeile - alle Stufen"
@@ -469,10 +469,10 @@ msgcat::mcmset de {
   "Enge Falte an aktuelle Zeile - eine Ebene"
 
   "Close selected folds - all levels"
-  "Schließen Sie ausgewählte Folds - alle Stufen"
+  "Schliessen Sie ausgewählte Folds - alle Stufen"
 
   "Close selected folds - one level"
-  "Ausgewählte Falten - eine Ebene zu schließen"
+  "Ausgewählte Falten - eine Ebene zu schliessen"
 
   "Code"
   "Code"
@@ -481,7 +481,7 @@ msgcat::mcmset de {
   "Befehl"
 
   "Command Result"
-  "Befehl-Ergebnis"
+  "Befehls-Ergebnis"
 
   "Convert case to lower"
   "Konvertieren Sie Fall zu niedrigeren"
@@ -511,7 +511,7 @@ msgcat::mcmset de {
   "Neues Plugin erstellen"
 
   "Current Bounded Text"
-  "Aktueller Begrenzter Text"
+  "Aktuelle umrahmter Text"
 
   "Current Paragraph"
   "Aktueller Absatz"
@@ -520,28 +520,28 @@ msgcat::mcmset de {
   "Aktueller Satz"
 
   "Cut"
-  "Schneiden"
+  "Ausschneiden"
 
   "Cut text"
-  "Text Ausschneiden"
+  "Text ausschneiden"
 
   "Decrement by 0.1"
-  "Dekrementieren von 0,1"
+  "Verringern um 0,1"
 
   "Decrement by 1"
-  "Dekrementieren von 1"
+  "Verringern um 1"
 
   "Decrement by 10"
-  "Dekrementieren von 10"
+  "Verringern um 10"
 
   "Decrement number by 0.1"
-  "Verringern der Anzahl von 0,1"
+  "Verringere Zahl um 0,1"
 
   "Decrement number by 1"
-  "Dekrement-Anzahl um 1"
+  "Verringere Zahl um 1"
 
   "Decrement number by 10"
-  "Verringern der Anzahl von 10"
+  "Verringern Anzahl um 10"
 
   "Delete All Folds"
   "Löschen Sie alle Falten"
@@ -553,10 +553,10 @@ msgcat::mcmset de {
   "Ausgewählte Löschen Falten"
 
   "Delete Session"
-  "Löschen sitzung?"
+  "Session löschen"
 
   "Delete User"
-  "Benutzer löschen"
+  "Nutzer löschen"
 
   "Delete all folds"
   "Löschen Sie alle Falten"
@@ -571,13 +571,13 @@ msgcat::mcmset de {
   "Falte an aktuelle Zeile löschen"
 
   "Delete language preferences?"
-  "Löschen Sie Spracheinstellungen?"
+  "Spracheinstellungen löschen?"
 
   "Delete session"
-  "Löschen sitzung?"
+  "Session löschen"
 
   "Delete session language preferences?"
-  "Löschen Spracheinstellungen Sitzung?"
+  "Spracheinstellungen der Session löschen?"
 
   "Delete template"
   "Vorlage löschen"
@@ -592,22 +592,22 @@ msgcat::mcmset de {
   "Zwei-Fenster scrollen Synchronisation deaktivieren"
 
   "Display Text Info"
-  "Anzeige-Text-Info"
+  "Text-Info anzeigen"
 
   "Display text information"
-  "Textinformationen anzeigen"
+  "Textinformation anzeigen"
 
   "Duplicate current file"
-  "Doppelte aktuelle Datei"
+  "Aktuelle Datei duplizieren"
 
   "Edit Custom Abbreviations"
-  "Bearbeiten von benutzerdefinierten Abkürzungen"
+  "Eigene Abkürzungen bearbeiten"
 
   "Edit Language"
-  "Sprachen bearbeiten"
+  "Sprache bearbeiten"
 
   "Edit Session"
-  "Sitzung zu bearbeiten"
+  "Session bearbeiten"
 
   "Edit User"
   "Benutzer bearbeiten"
@@ -619,10 +619,10 @@ msgcat::mcmset de {
   "Sprache-Schnipsel zu bearbeiten"
 
   "Edit session current language preferences"
-  "Aktuellen Spracheinstellungen Sitzung bearbeiten"
+  "Spracheinstellungen der aktuellen Session bearbeiten"
 
   "Edit session global preferences"
-  "Sitzung-globale Einstellungen bearbeiten"
+  "Globale Session Einstellungen bearbeiten"
 
   "Edit template"
   "Vorlage bearbeiten"
@@ -679,22 +679,22 @@ msgcat::mcmset de {
   "Exportieren von benutzerdefinierten Designs"
 
   "Export complete"
-  "Export abgeschlossen."
+  "Export abgeschlossen"
 
   "Export file contents"
-  "Inhalt der Datei exportieren"
+  "Dateiinhalte exportieren"
 
   "Favorite file"
   "Lieblings-file"
 
   "File Contents"
-  "Inhalt der Datei"
+  "Dateiinhalte"
 
   "Find In Files"
   "In Dateien suchen"
 
   "Find Matching Bracket"
-  "Finden Sie passende Halterung"
+  "Passende Klammer suchen"
 
   "Find Next"
   "Weitersuchen"
@@ -730,7 +730,7 @@ msgcat::mcmset de {
   "Format"
 
   "Format Text"
-  "Formatieren von Text"
+  "Text formatieren"
 
   "Format indentation for text"
   "Format-Einzugs für text"
@@ -739,7 +739,7 @@ msgcat::mcmset de {
   "Aus Zwischenablage"
 
   "Global"
-  "Globale Einstellungen"
+  "Global"
 
   "Go to Matching Pair"
   "Gehen Sie zu passenden paar"
@@ -793,7 +793,7 @@ msgcat::mcmset de {
   "Alle ausblenden"
 
   "Hide Current Tab"
-  "Aktuelle Registerkarte ausblenden"
+  "Aktuelle Reiter ausblenden"
 
   "Hide Line Numbers"
   "Ausblenden von Zeilennummern"
@@ -1006,7 +1006,7 @@ msgcat::mcmset de {
   "Sperren"
 
   "Lock file"
-  "Lock-Datei"
+  "Sperrdatei"
 
   "Lower Case"
   "Kleinb."
@@ -1150,19 +1150,19 @@ msgcat::mcmset de {
   "Offenen aktuelle Fold"
 
   "Open Directory"
-  "Open Directory"
+  "Verzeichnis öffnen"
 
   "Open Favorite"
-  "Offenen Favorit"
+  "Favorit öffnen"
 
   "Open File"
   "Datei öffnen"
 
   "Open Recent"
-  "Zuletzt geöffnet"
+  "Zuletzt verwendet"
 
   "Open Remote"
-  "Remote"
+  "Remote öffnen"
 
   "Open Selected Folds"
   "Open ausgewählt Falten"
@@ -1171,7 +1171,7 @@ msgcat::mcmset de {
   "Öffnen Sie alle Falten"
 
   "Open directory"
-  "Open Directory"
+  "Verzeichnis öffnen"
 
   "Open file"
   "Datei öffnen"
@@ -1204,13 +1204,13 @@ msgcat::mcmset de {
   "Einfügen"
 
   "Paste and Format"
-  "Einfügen und Format"
+  "Einfügen und formatieren"
 
   "Paste and format text from clipboard"
-  "Einfügen und Formatieren von Text aus der Zwischenablage"
+  "Text aus der Zwischenablage einfügen und formatieren"
 
   "Paste text from clipboard"
-  "Einfügen von Text aus der Zwischenablage"
+  "Text aus der Zwischenablage einfügen"
 
   "Plugin Developer Guide"
   "Handbuch für Plugin-Entwickler"
@@ -1234,16 +1234,16 @@ msgcat::mcmset de {
   "Beenden"
 
   "Quit application"
-  "Ja nein"
+  "Anwendung beenden"
 
   "Recent Directories"
   "Aktuelle Verzeichnisse"
 
   "Recent Files"
-  "Letzten Bestellungen"
+  "Aktuelle Dateien"
 
   "Redo"
-  "Redo"
+  "Wiederholen"
 
   "Reflect CSS Value"
   "CSS-Werte"
@@ -1261,7 +1261,7 @@ msgcat::mcmset de {
   "Neu laden"
 
   "Reload all plugins"
-  "Reload alle plugins"
+  "Plugins neu laden"
 
   "Reload snippets"
   "Reload-Ausschnitte"
@@ -1303,10 +1303,10 @@ msgcat::mcmset de {
   "Benennen Sie die aktuelle Datei"
 
   "Reopen File"
-  "Datei erneut öffnen"
+  "Datei erneut laden"
 
   "Reopen current file"
-  "Aktuelle Datei erneut öffnen"
+  "Aktuelle Datei erneut laden"
 
   "Replace Line With Script"
   "Ersetze die Zeile mit Skript"
@@ -1315,7 +1315,7 @@ msgcat::mcmset de {
   "Ersetze die Zeile mit Skript"
 
   "Restart"
-  "Neustarten"
+  "Neustart"
 
   "Run"
   "Durchlauf"
@@ -1327,10 +1327,10 @@ msgcat::mcmset de {
   "Alle speichern"
 
   "Save As Remote"
-  "Speichern als Fernbedienung"
+  "Speichern (entfernt)"
 
   "Save As Template"
-  "Vorlage speichern"
+  "Als Vorlage speichern"
 
   "Save Current"
   "Aktuelle Oberfläche speichern"
@@ -1339,28 +1339,28 @@ msgcat::mcmset de {
   "Auswahl speichern"
 
   "Save all files"
-  "Speichern Sie alle Dateien"
+  "Alle Dateien speichern"
 
   "Save current session"
-  "Speichern der aktuellen Sitzung"
+  "Aktuelle Session speichern"
 
   "Save file"
   "Datei speichern"
 
   "Save file as"
-  "Parzellendatei speichern als"
+  "Datei speichern unter"
 
   "Save file as remote file"
-  "Speichern Sie die Datei als remote-Datei"
+  "Datei speichern unter (entfernt)"
 
   "Save file as template"
-  "Vorlage als speichern"
+  "Datei als Vorlage speichern"
 
   "Save selected lines"
-  "Speichern der ausgewählte Zeilen."
+  "Gewählte Zeilen speichern"
 
   "Save sessions as"
-  "Speichern Sie Sitzungen als"
+  "Sesion speichern unter"
 
   "Search References"
   "Referenzen durchsuchen"
@@ -1381,19 +1381,19 @@ msgcat::mcmset de {
   "Wählen Sie aktuelle Match"
 
   "Select Mode"
-  "Modus wählen"
+  "Auswahlmodus"
 
   "Select Next Item"
-  "Als nächster Punkt auswählen"
+  "Nächstes Element wählen"
 
   "Select Previous Item"
-  "Vorheriges Element auswählen"
+  "Voriges Element wählen"
 
   "Select all find matches"
   "Wählen Sie alle zu finden"
 
   "Select all text"
-  "Alles auswählen"
+  "Ganzen Text wählen"
 
   "Select current bracketed text, strings or comment block"
   "Wählen Sie einen aktuellen Klammertext, Strings oder Kommentarblock aus"
@@ -1432,7 +1432,7 @@ msgcat::mcmset de {
   "Stellen Syntax"
 
   "Set Theme"
-  "Stellen Theme"
+  "Theme setzen"
 
   "Set current file line ending to CR for Classic Mac"
   "Festlegen der aktuellen Datei Zeilenende CR für Classic Mac"
@@ -1447,10 +1447,10 @@ msgcat::mcmset de {
   "Gedankenstrich Modus"
 
   "Show All Tabs"
-  "Tabs anzeigen"
+  "Alle Reiter zeigen"
 
   "Show Cursor"
-  "Cursor &anzeigen"
+  "Cursor anzeigen"
 
   "Show Diagnostic Logfile"
   "Diagnostische Logfile zeigen"
@@ -1477,13 +1477,13 @@ msgcat::mcmset de {
   "Anzeigen der markierten Zeile ändern"
 
   "Show Sidebar"
-  "Seitenleiste anzeigen"
+  "Seitenleiste zeigen"
 
   "Show Status Bar"
-  "Status einblenden"
+  "Statuszeile zeigen"
 
   "Show Tab Bar"
-  "Zeige Tab Bar"
+  "Reiter zeigen"
 
   "Show Tcl Console"
   "Tcl Konsole zeigen"
@@ -1492,13 +1492,13 @@ msgcat::mcmset de {
   "Tcl Konsole zeigen"
 
   "Show diagnostic logfile"
-  "Diagnostische Logfile zeigen"
+  "Diagnose Logfile zeigen"
 
   "Show file difference"
-  "Zeigen Datei Unterschied"
+  "Zeige Dateiunterschiede"
 
   "Show installed plugins"
-  "已安装的插件"
+  "Installierte Plugins zeigen"
 
   "Show last profiling report"
   "Anzeigen der letzten profiling Bericht"
@@ -1516,10 +1516,10 @@ msgcat::mcmset de {
   "Smart Gedankenstrich"
 
   "Sort Tabs"
-  "Tabs sortieren"
+  "Reiter sortieren"
 
   "Sort tabs"
-  "Sort tabs"
+  "Reiter sortieren"
 
   "Split/Join Tag"
   "Split/Join-Tag"
@@ -1549,13 +1549,13 @@ msgcat::mcmset de {
   "Hochstellen"
 
   "Switch To"
-  "Wechseln Sie zur"
+  "Wechseln zu"
 
   "Switch to session"
-  "Wechseln Sie zur Sitzung"
+  "Wechsle zu Session"
 
   "Tabs"
-  "TAB"
+  "Reiter"
 
   "Tips & Tricks"
   "Tipps & Tricks"
@@ -1585,7 +1585,7 @@ msgcat::mcmset de {
   "Toggle Tag/Regel Kommentar"
 
   "Tools"
-  "Instrument"
+  "Werkzeug"
 
   "Transform"
   "Transformieren"
@@ -1615,13 +1615,13 @@ msgcat::mcmset de {
   "Deinstallieren"
 
   "Uninstall plugin"
-  "Uninstall-Plugin"
+  "Plugin entfernen"
 
   "Unix"
   "Unix"
 
   "Unlock"
-  "Schalte"
+  "Entsperren"
 
   "Unlock file"
   "Datei entsperren"
@@ -1642,19 +1642,19 @@ msgcat::mcmset de {
   "Benutzerhandbuch"
 
   "View"
-  "Blick"
+  "Ansicht"
 
   "View tips & tricks articles"
-  "Anzeigen Tipps & tricks Artikel"
+  "Tipps & tricks Artikel anzeigen"
 
   "View user guide"
-  "Benutzerhandbuch"
+  "Benutzerhandbuch ansehen"
 
   "Vim Mode"
   "Vim-Modus"
 
   "Windows"
-  "Fenster"
+  "Windows"
 
   "Wrap With Abbreviation"
   "Wrap mit Abkürzung"
@@ -1663,7 +1663,7 @@ msgcat::mcmset de {
   "Verpacken Sie-Tag mit Emmet Abkürzung"
 
   "formatting"
-  "Formatisierung"
+  "Formatieren"
 
 }
 
@@ -1677,31 +1677,31 @@ msgcat::mcmset de {
   "Fehler"
 
   "ERROR:  Plugin name already exists"
-  "ERROR: Plugin Namen ist bereits vorhanden"
+  "ERROR:  Plugin Namen ist bereits vorhanden"
 
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
-  "ERROR: Plugin Name ist nicht gültig (nur alphanumerische Zeichen und Unterstriche sind erlaubt)"
+  "ERROR:  Plugin Name ist nicht gültig (nur alphanumerische Zeichen und Unterstriche sind erlaubt)"
 
   "ERROR:  Unable to create plugin directory"
-  "ERROR: Unable to Plugin-Verzeichnis erstellen"
+  "ERROR:  Unable to Plugin-Verzeichnis erstellen"
 
   "ERROR:  Unable to write plugin files"
-  "ERROR: Unable to Plugin-Dateien zu schreiben"
+  "ERROR:  Unable to Plugin-Dateien zu schreiben"
 
   "Enter plugin name"
   "Geben Sie Name des Plugins"
 
   "Grant"
-  "Grant"
+  "Zustimmung"
 
   "Grant permission?"
-  "Gewähre prmission?"
+  "Zustimmung erteilen?"
 
   "Plugin Errors"
   "Plugin Fehler"
 
   "Plugin Trust Requested"
-  "Plugin Vertrauen Fragt"
+  "Plugin Vertrauen gefragt"
 
   "Plugin installed"
   "Plugin installiert"
@@ -1736,7 +1736,7 @@ msgcat::mcmset de {
   "Sprachreferenz hinzufügen"
 
   "Additional space between lines"
-  "Zusätzlicher Abstand zwischen den Zeilen"
+  "Zusätzlicher Zeilenabstand"
 
   "Addons"
   "Erweiterungen"
@@ -1748,7 +1748,7 @@ msgcat::mcmset de {
   "Scrollen in der Tableiste zu ermöglichen"
 
   "Angled bracket"
-  "Winkelhalter"
+  "Eckige Klammer"
 
   "Append characters to search string if entered within"
   "Fügen Sie Zeichen, um die Zeichenfolge zu suchen, wenn innerhalb von"
@@ -1769,25 +1769,25 @@ msgcat::mcmset de {
   "Einfügen Sie automatisch Anbieterpräfixe"
 
   "Automatically load last session on start"
-  "Letzte Sitzung auf der Startseite automatisch laden"
+  "Beim Start letzte Session automatisch laden"
 
   "Automatically set the current working directory to the current tabs directory"
-  "Legen Sie automatisch das aktuelle Arbeitsverzeichnis in das aktuelle Verzeichnis der Registerkarten"
+  "Legen Sie automatisch das aktuelle Arbeitsverzeichnis in das aktuelle Verzeichnis der Reitern"
 
   "Backtick"
-  "` (Backtick)"
+  "Backtick"
 
   "Base Directory"
   "Basis-Verzeichnis"
 
   "Behaviors"
-  "Verhaltensweisen"
+  "Verhalten"
 
   "Bird's Eye View Font Size"
-  "Vogel Auge Ansicht Schriftgrad"
+  "Schriftgröße der Vogelperspektive"
 
   "Bird's Eye View Width"
-  "Vogel Auge Ansicht breite"
+  "Breite der Vogelperspeltive"
 
   "Buffer"
   "Puffer"
@@ -1796,7 +1796,7 @@ msgcat::mcmset de {
   "Farbe wählen"
 
   "Choose Logfile Directory"
-  "Wählen Sie Log-Datei-Verzeichnis"
+  "Logfile Verzeichnis wählen"
 
   "Clear"
   "Löschen"
@@ -1805,7 +1805,7 @@ msgcat::mcmset de {
   "Zwischenablage"
 
   "Clipboard History"
-  "Größe des Verlaufsspeichers"
+  "Verlauf der Zwischenablage"
 
   "Clipboard history depth"
   "Zwischenablage-Geschichte-Tiefe"
@@ -1823,40 +1823,40 @@ msgcat::mcmset de {
   "Befehl-Launcher-Vorschau"
 
   "Convert to lowercase"
-  "Konvertieren Sie in Kleinbuchstaben"
+  "In Kleinbuchstaben wandeln"
 
   "Convert to uppercase"
-  "Konvertieren Sie in Großbuchstaben"
+  "In Großbuchstaben wandeln"
 
   "Creator"
-  "Ersteller"
+  "Autor"
 
   "Curly bracket"
   "Geschweifte Klammer"
 
   "Current"
-  "Aktuelle"
+  "Aktuell"
 
   "Current Directory"
   "aktuelles Verzeichnis"
 
   "Current File Pathname"
-  "Aktuelle Datei-Pfad"
+  "Aktueller Datei-Pfad"
 
   "Current Filename"
-  "Aktuellen Dateinamen"
+  "Aktueller Dateiname"
 
   "Current Line Column"
-  "Spalte der aktuellen Zeile"
+  "Aktuellen Zeilenspalte"
 
   "Current Line Number"
-  "Aktuelle Anzahl"
+  "Aktuellen Zeilennummer"
 
   "Current editing buffer directory"
   "Aktuelle Bearbeitung Puffer-Verzeichnis"
 
   "Current working directory"
-  "Das aktuelle Arbeitsverzeichnis"
+  "Aktuelles Arbeitsverzeichnis"
 
   "Date"
   "Datum"
@@ -1865,19 +1865,19 @@ msgcat::mcmset de {
   "Markdown Export Standarderweiterung"
 
   "Default Theme Export Directory"
-  "Default Theme Exportverzeichnis"
+  "Standard Theme Exportverzeichnis"
 
   "Default theme"
-  "Standard-Thematik"
+  "Standard Theme"
 
   "Default unit for floating point values"
-  "Standard-Einheit für Gleitkommawerte"
+  "Standardeinheit für Gleitkomma-Werte"
 
   "Default unit for integer values"
   "Standardeinheit für Integer-Werte"
 
   "Delete snippet"
-  "Auszug (snippet) löschen"
+  "Snippet löschen"
 
   "Delete user bindings and use default?"
   "Löschen Sie Benutzer Bindungen und verwenden Standard?"
@@ -1889,7 +1889,7 @@ msgcat::mcmset de {
   "Angezeigte Informationen"
 
   "Double-quote"
-  "Doppeltes Anführungszeichen"
+  "Doppelte Anführungszeichen"
 
   "Editor"
   "Editor"
@@ -1898,7 +1898,7 @@ msgcat::mcmset de {
   "Vim-Modus aktivieren"
 
   "Enable auto-indentation"
-  "Aktivieren Sie Auto-Einzug"
+  "Auto-Einzug aktivieren"
 
   "Enable development mode"
   "Entwicklungsmodus aktivieren"
@@ -1907,7 +1907,7 @@ msgcat::mcmset de {
   "Aktivieren der Fuzzy-Suche"
 
   "Enable relative line numbering"
-  "Aktivieren Sie relative Zeilennummerierung"
+  "Relative Zeilennummerierung aktivieren"
 
   "Enabled"
   "Aktiviert"
@@ -1916,7 +1916,7 @@ msgcat::mcmset de {
   "Zeilenende Zeichen beim Speichern"
 
   "Exit the application after the last tab is closed"
-  "Beenden Sie die Anwendung nach dem letzten Tab schließen"
+  "Beenden der Anwendung beim Schliessen des letzten Reiters"
 
   "Export Settings"
   "Einstellungen exportieren"
@@ -1931,10 +1931,10 @@ msgcat::mcmset de {
   "Allgemeines"
 
   "Get More Themes"
-  "Erhalte mehr Themes"
+  "Weitere Themes erhalten"
 
   "Hide Patterns"
-  "Muster zu verstecken"
+  "Muster verstecken"
 
   "Hide binary files"
   "Binäre Dateien ausblenden"
@@ -1943,37 +1943,37 @@ msgcat::mcmset de {
   "Ausblenden"
 
   "Host"
-  "Serveradresse"
+  "Server"
 
   "Imported"
   "Importiert"
 
   "Indentation spaces"
-  "Einrückung Räume"
+  "Einrückung Abstände"
 
   "Info Panel"
-  "信息面板"
+  "Info Panel"
 
   "Insert unsorted files at the top of a manually sorted directory"
   "Unsortierte Dateien am oberen Rand ein manuell sortierten Verzeichnis einfügen"
 
   "Insertion cursor width"
-  "Einfügen-Cursor-breite"
+  "Einfügen-Cursor Breite"
 
   "Keep file information panel visible when sidebar doesn't have focus"
   "Bleiben Sie Datei-Info-Tafel sichtbar, wenn Seitenleiste nicht im Fokus"
 
   "Keyword"
-  "Suchbegriff"
+  "Schlüsselwort"
 
   "Languages"
   "Sprachen"
 
   "Last"
-  "Letzte"
+  "Zuletzt"
 
   "Last accessed"
-  "des letzten Zugriffs"
+  "Letzter Zugriff"
 
   "Line Wrapping Default"
   "Zeilenumbruch Standard"
@@ -1988,19 +1988,19 @@ msgcat::mcmset de {
   "Themes verwalten"
 
   "Manage theme visibility"
-  "Thema Sichtbarkeit zu verwalten"
+  "Sichtbarkeit der Themes verwalten"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximale rückgängig (eingestellt auf 0 für unbegrenzt)"
 
   "Menu Item"
-  "Menüelement"
+  "Menü Element"
 
   "Menu bindings"
-  "Menü-Bindungen"
+  "Menü Bindings"
 
   "Mounts"
-  "Halterungen"
+  "Mounts"
 
   "Node Aliases"
   "Aliase"
@@ -2012,10 +2012,10 @@ msgcat::mcmset de {
   "Profiler-Optionen"
 
   "Prompt user to save preference changes in global or named session"
-  "Fordern Sie Benutzer auf, Präferenz Änderungen im globalen oder benannte Sitzung speichern"
+  "Anwender fragen, ob Einstellungen in der globalen oder der benannten Session gespeichert werden sollen"
 
   "Properties"
-  "Immobilien"
+  "Werte"
 
   "Reading time words per minute"
   "Lesen von Zeitwörtern pro Minute"
@@ -2048,7 +2048,7 @@ msgcat::mcmset de {
   "Lineal-Spalte"
 
   "Save changes to current session?"
-  "Speichern Änderungen in der aktuellen Sitzung?"
+  "Änderungen in der aktuellen Session speichern?"
 
   "Save changes to global preferences?"
   "Speichern Änderungen an globalen Einstellungen?"
@@ -2063,7 +2063,7 @@ msgcat::mcmset de {
   "Wählen Sie Einstellungen teilen Verzeichnis"
 
   "Select a plugin"
-  "Wählen Sie eine plugin"
+  "Wähle eine Plugin"
 
   "Select default browsing directory"
   "Wählen Sie Standard-Verzeichnis durchsuchen"
@@ -2093,22 +2093,22 @@ msgcat::mcmset de {
   "Freigabe von Elementen"
 
   "Shortcut"
-  "Shortcut"
+  "Tastenkürzel"
 
   "Shortcuts"
-  "Tastaturbefehle"
+  "Tastenkürzel"
 
   "Show 'Find in Files' result in other pane"
-  "Zeigen Sie \"
+  "Zeigen Sie"
 
   "Show Move To Trash for local files/directories instead of Delete"
-  "Zeigen Sie auf Papierkorb verschieben für lokale Dateien/Verzeichnisse statt löschen"
+  "Zeige in Papierkorb verschieben für lokale Dateien/Verzeichnisse statt löschen"
 
   "Show Tcl console at startup"
   "Tcl Konsole beim Start anzeigen"
 
   "Show bird's eye view"
-  "Vogelperspektive"
+  "Vogelperspektive anzeigen"
 
   "Show diagnostic logfile at startup"
   "Diagnostischen Logfile beim Start anzeigen"
@@ -2120,13 +2120,13 @@ msgcat::mcmset de {
   "Dateiversionsinformationen Unterschied zeigen"
 
   "Show folders at top"
-  "Ordner an Spitze anzeigen"
+  "Ordner zu Beginn anzeigen"
 
   "Show hidden files"
   "Versteckte Dateien anzeigen"
 
   "Show language submenu"
-  "Untermenü Sprache zeigen"
+  "Sprach-Untermenü anzeigen"
 
   "Show menubar"
   "Menüleiste anzeigen"
@@ -2138,25 +2138,25 @@ msgcat::mcmset de {
   "Snippet Abschluss Zeichen"
 
   "Snippet Text"
-  "Snippet"
+  "Snippet Text"
 
   "Sort tabs alphabetically on open"
-  "Art Registerkarten alphabetisch auf Öffnen"
+  "Reitern beim Öffnen alphabetisch sortieren"
 
   "Sorting Column"
   "Spalte sortieren"
 
   "Space"
-  "abstand"
+  "Abstand"
 
   "Spaces per tab"
-  "Räume pro Registerkarte \"
+  "Abstand pro Reiter"
 
   "Square bracket"
   "Eckige Klammer"
 
   "Stable"
-  "Stabil"
+  "Stable"
 
   "Symbol between CSS property and value"
   "Symbol zwischen CSS-Eigenschaft und Wert"
@@ -2165,25 +2165,25 @@ msgcat::mcmset de {
   "Symbol am Ende der CSS-Eigenschaft"
 
   "Syntax Coloring"
-  "Syntax-Einfärbung"
+  "Syntax Einfärbung"
 
   "Tab"
   "Tab"
 
   "Tab Stop"
-  "Tabstopp"
+  "Tabstop"
 
   "This operation cannot be reversed."
-  "Diese Änderung kann nicht mehr rückgängig gemacht werden."
+  "Diese Änderung kann nicht ückgängig gemacht werden."
 
   "Time"
   "Zeit"
 
   "Update using release type"
-  "Update mit Abrufart"
+  "Update mit Release Typ"
 
   "Updates"
-  "Aktualisierungen"
+  "Updates"
 
   "Use Default"
   "Standard verwenden"
@@ -2236,7 +2236,7 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Close Connection"
-  "Verbindung schließen"
+  "Verbindung trennen"
 
   "Connection failed"
   "Verbindung fehlgeschlagen"
@@ -2245,7 +2245,7 @@ msgcat::mcmset de {
   "Verbindung übergeben"
 
   "Create New Folder"
-  "Neuen Artikel erstellen"
+  "Neues Verzeichnis erstellen"
 
   "Delete Connection"
   "Verbindungen löschen"
@@ -2254,10 +2254,10 @@ msgcat::mcmset de {
   "Gruppe Löschen"
 
   "Delete connection?"
-  "Verbindungen löschen"
+  "Verbindungen löschen?"
 
   "Delete group?"
-  "Gruppe löschen"
+  "Gruppe löschen?"
 
   "Edit Connection"
   "Verbindung bearbeiten"
@@ -2266,7 +2266,7 @@ msgcat::mcmset de {
   "Passwort eingeben"
 
   "Folder Name"
-  "Ordnername"
+  "Verzeichnisname"
 
   "Group"
   "Gruppe"
@@ -2275,7 +2275,7 @@ msgcat::mcmset de {
   "Gruppenname"
 
   "Group Name: "
-  "Gruppenname:"
+  "Gruppenname: "
 
   "Image used in remote file selector for the history back button."
   "Bild im remote-Datei-Selektor für die Geschichte zurück-Schaltfläche verwendet."
@@ -2299,7 +2299,7 @@ msgcat::mcmset de {
   "Neue Verbindung"
 
   "New Folder"
-  "Neuer Ordner"
+  "Neues Verzeichnis"
 
   "New Group"
   "Neue Gruppe"
@@ -2308,7 +2308,7 @@ msgcat::mcmset de {
   "Offene Verbindung"
 
   "Open Remote File"
-  "Remote Datei"
+  "Remote Datei öffnen"
 
   "Optional"
   "Optional"
@@ -2317,7 +2317,7 @@ msgcat::mcmset de {
   "Passwort"
 
   "Password: "
-  "Passwort:"
+  "Passwort: "
 
   "Port"
   "Port"
@@ -2332,13 +2332,13 @@ msgcat::mcmset de {
   "Speichern Sie die Datei aus der Ferne"
 
   "Server"
-  "服务器"
+  "Server"
 
   "Test Connection"
   "Verbindung testen"
 
   "Type"
-  "Tip"
+  "Typ"
 
   "Unable to connect to"
   "Verbindungsaufbau zu dieser Seite nicht möglich"
@@ -2367,7 +2367,7 @@ msgcat::mcmset de {
   "Suche gewickelt zum Ende der Datei"
 
   "substitutions done"
-  "Substitutionen durchgeführt"
+  "Ersetzungen ausgeführt"
 
 }
 
@@ -2375,19 +2375,19 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Add Selection Matches"
-  "Selektion hinzufügen"
+  "Treffer der Auswahl hinzufügen"
 
   "All To"
   "Alle zu"
 
   "Anchor"
-  "Moderator&#x0D;"
+  "Anker"
 
   "Angled Brackets"
-  "Spitzen Klammern"
+  "Eckige Klammern"
 
   "Backticks"
-  "einfache Anführungszeichen"
+  "Backticks"
 
   "Block"
   "Block"
@@ -2396,7 +2396,7 @@ msgcat::mcmset de {
   "Zeichen"
 
   "Child"
-  "Child"
+  "Kind"
 
   "Clear Selection"
   "Auswahl zurücksetzen"
@@ -2405,10 +2405,10 @@ msgcat::mcmset de {
   "Kommentar"
 
   "Curly Brackets"
-  "Klammer"
+  "Geschweifte Klammern"
 
   "Delete Selected Text"
-  "Ausgewählte löschen"
+  "Textauswahl löschen"
 
   "Double Quotes"
   "Doppelte Anführungszeichen"
@@ -2417,10 +2417,10 @@ msgcat::mcmset de {
   "Nach unten"
 
   "Exit Selection Mode"
-  "Auswahlmodus"
+  "Auswahlmodus beenden"
 
   "Invert Selected Text"
-  "Ausgewählten Text umkehren"
+  "Textauswahl umkehren"
 
   "Keep Selection"
   "Auswahl beibehalten"
@@ -2429,7 +2429,7 @@ msgcat::mcmset de {
   "Links"
 
   "Line To"
-  "Linie zu"
+  "Zeile zu"
 
   "Miscellaneous"
   "Sonstiges"
@@ -2474,7 +2474,7 @@ msgcat::mcmset de {
   "Nach links schieben"
 
   "Shift Right"
-  "Nach rechts"
+  "Shift rechts"
 
   "Shift Up"
   "Shift Up"
@@ -2486,16 +2486,16 @@ msgcat::mcmset de {
   "eckige Klammern"
 
   "Swap Anchor"
-  "Anker"
+  "Anker tauschen"
 
   "Toggle Help"
-  "Umschalten"
+  "Hilfe umschalten"
 
   "Toggle Quote Inclusion"
   "Toggle Zitateinschluss"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
-  "Typ '?' um Hilfe.  Drücken Sie die ESC-Taste um die Auswahlmodus zu verlassen"
+  "Tippe '?' für Hilfe.  Drücke die ESC-Taste um den Auswahlmodus zu verlassen"
 
   "Undo Last Change"
   "Letzte Änderung rückgängig machen"
@@ -2504,7 +2504,7 @@ msgcat::mcmset de {
   "Nach oben"
 
   "Word"
-  "Word"
+  "Wort"
 
   "matching instances"
   "passende Instanzen"
@@ -2515,10 +2515,10 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Save session?"
-  "Sitzung speichern Zugangsdaten?"
+  "Session speichern?"
 
   "Session state will be lost if not saved"
-  "Sitzungszustand verloren gehen, wenn nicht gespeichert werden"
+  "Der Stand der Session geht verloren, wird er nicht gespeichert"
 
 }
 
@@ -2552,37 +2552,37 @@ msgcat::mcmset de {
   "Übergeordnetes Verzeichnis hinzufügen"
 
   "By Name"
-  "Bei Name"
+  "Nach Name"
 
   "Close Directory Files"
-  "Enge Verzeichnisdateien"
+  "Verzeichnisdateien löschen"
 
   "Copy Pathname"
-  "Pfadnamen kopieren"
+  "Pfadname kopieren"
 
   "Decreasing"
   "Abnehmend"
 
   "Delete directories?"
-  "Löschen Sie die Verzeichnisse?"
+  "Verzeichnisse löschen?"
 
   "Delete directory?"
   "Verzeichnis löschen?"
 
   "Delete file?"
-  "Datei löschen"
+  "Datei löschen?"
 
   "Delete files?"
-  "Alle Dateien löschen"
+  "Dateien löschen?"
 
   "Directory Name:"
   "Verzeichnisnamen:"
 
   "Disconnect From Server"
-  "Trennen Sie vom Server"
+  "Serververbindung trennen"
 
   "Folder Name:"
-  "Ordnername"
+  "Verzeichnisname"
 
   "Hide"
   "Verbergen"
@@ -2627,22 +2627,22 @@ msgcat::mcmset de {
   "Neue Datei aus Vorlage"
 
   "Open Directory Files"
-  "Open Directory-Dateien"
+  "Verzeichnisdateien öffnen"
 
   "Refresh Directory Files"
-  "Aktualisieren Verzeichnis Files"
+  "Verzeichnisdateien aktualisieren"
 
   "Remove Parent from Sidebar"
-  "Entfernen Elternteil von Sidebar"
+  "Elternteil aus Sidebar entfernen"
 
   "Remove from Sidebar"
-  "Entfernen Sidebar"
+  "Aus Sidebar entfernen"
 
   "Show"
-  "Zeige"
+  "Zeigen"
 
   "Show Difference"
-  "Unterschied zu zeigen"
+  "Unterschied zeigen"
 
   "Show Directory Files"
   "Verzeichnisdateien anzeigen"
@@ -2654,7 +2654,7 @@ msgcat::mcmset de {
   "Sortierung"
 
   "Unable to duplicate file"
-  "Doppelte Datei konnte nicht"
+  "Datei konnte nicht dupliziert werden"
 
 }
 
@@ -2662,7 +2662,7 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Snippet: *"
-  "Snippet"
+  "Snippet: *"
 
 }
 
@@ -2670,13 +2670,13 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Change Directory"
-  "Change Directory"
+  "Verzeichnis wechseln"
 
   "Copies settings data from an existing directory to your home directory."
-  "Kopiert die Einstellungsdaten aus einem vorhandenen Verzeichnis auf Ihrem home-Verzeichnis."
+  "Kopiert Einstellungsdaten aus einem vorhandenen Verzeichnis in Ihr Home-Verzeichnis."
 
   "Copy settings from directory"
-  "Kopiereinstellungen aus Verzeichnis"
+  "Kopieret Einstellungen aus Verzeichnis"
 
   "Create settings locally"
   "Einstellungen vor Ort erstellen"
@@ -2685,10 +2685,10 @@ msgcat::mcmset de {
   "Schafft neue Informationen über Einstellungen und legt sie in Ihrem home-Verzeichnis"
 
   "Finish"
-  "Schlichten"
+  "Abschliessen"
 
   "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
-  "Benötigen Sie möchten Ihre Freigabeeinstellungen ändern Sie dazu in den Einstellungen unter der Registerkarte \"
+  "Benötigen Sie möchten Ihre Freigabeeinstellungen ändern Sie dazu in den Einstellungen unter der Reiter"
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Ausgewählten Elemente werden auf Ihrem lokalen home-Verzeichnis kopiert. Elemente, die nicht ausgewählt sind werden in Ihrem home-Verzeichnis erstellt werden."
@@ -2697,13 +2697,13 @@ msgcat::mcmset de {
   "Ausgewählten Elemente werden mit anderen Computern geteilt werden. Elemente, die nicht ausgewählt sind werden lokal gespeichert und nicht weitergegeben."
 
   "Select Settings Directory"
-  "Wählen Sie Einstellungen-Verzeichnis"
+  "Einstellungs-Verzeichnis wählen"
 
   "Settings"
   "Einstellungen"
 
   "Settings Options"
-  "Settings Optionen speichern"
+  "Einstellungsoptionen"
 
   "Setup Complete"
   "Setup abgeschlossen"
@@ -2743,19 +2743,19 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Delete template?"
-  "Template-Datei löschen"
+  "Vorlage löschen?"
 
   "Template"
   "Vorlage"
 
   "Template Name"
-  "Template Name"
+  "Vorlagenname"
 
   "deleted"
-  "Nachrichten gelöscht."
+  "gelöscht"
 
   "saved"
-  "opgeslagen"
+  "gespeichert"
 
   "will be permanently deleted"
   "wird dauerhaft gelöscht"
@@ -2832,13 +2832,13 @@ msgcat::mcmset de {
   "Hintergrundfarbe für die Datei-Informations-Panel verwenden."
 
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
-  "Hintergrundfarbe für alle anderen Registerkarten, die nicht die aktuelle / aktive Registerkarte in der Fensterleiste verwendet."
+  "Hintergrundfarbe für alle anderen Reitern, die nicht die aktuelle / aktive Reiter in der Fensterleiste verwendet."
 
   "Background color used for the current/active menu item."
   "Hintergrundfarbe für die aktuelle / aktive Menüpunkt verwendet."
 
   "Background color used for the current/active tab in the tabbar."
-  "Hintergrundfarbe für die aktuelle / aktive Registerkarte in der Fensterleiste verwendet."
+  "Hintergrundfarbe für die aktuelle / aktive Reiter in der Fensterleiste verwendet."
 
   "Background color used in highlighted text."
   "Hintergrundfarbe in markierten Text verwendet werden."
@@ -2982,7 +2982,7 @@ msgcat::mcmset de {
   "Vordergrund Textfarbe für ausgewählten Text zu verwenden."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
-  "Text Vordergrundfarbe für alle anderen Registerkarten, die nicht der Strom/aktiv-Registerkarte in der Tabbar sind."
+  "Text Vordergrundfarbe für alle anderen Reitern, die nicht der Strom/aktiv-Reiter in der Tabbar sind."
 
   "Foreground text color used for menus item that are disabled."
   "Vordergrund Textfarbe für Menüpunkt, die deaktiviert sind, verwendet."
@@ -2991,7 +2991,7 @@ msgcat::mcmset de {
   "Vordergrund Textfarbe für die aktuelle / aktive Menüpunkt verwendet."
 
   "Foreground text color used for the current/active tab in the tabbar."
-  "Text Vordergrundfarbe in der Tabbar der Strom/aktiv-Registerkarte."
+  "Text Vordergrundfarbe in der Tabbar der Strom/aktiv-Reiter."
 
   "Foreground text color used in menus."
   "Vordergrund Textfarbe in Menüs verwendet."
@@ -3012,10 +3012,10 @@ msgcat::mcmset de {
   "Maximale Dicke der Textlaufleisten, wenn sie aktiv sind."
 
   "Menu Options"
-  "Sprungmenü"
+  "Optionsmenü"
 
   "Menu relief value."
-  "Menu Entlastungswert."
+  "Menü Relief Wert."
 
   "Pixel height of the spacer between the command launcher entry field and the result list"
   "Höhe in Pixel der Abstandhalter zwischen Feld Befehl Launcher und die Ergebnisliste"
@@ -3024,7 +3024,7 @@ msgcat::mcmset de {
   "Pixel Höhe der Fensterleiste Widget."
 
   "Relief used in drawing the tabs."
-  "Relief in der Zeichnung die Registerkarten verwendet."
+  "Relief in der Zeichnung die Reitern verwendet."
 
   "Relief value of the sidebar area."
   "Relief Wert der Sidebar-Bereich."
@@ -3075,7 +3075,7 @@ msgcat::mcmset de {
   "Syntax Farben"
 
   "Tab Options"
-  "Registerkarte Optionen"
+  "Reiter Optionen"
 
   "Text Scrollbar Options"
   "Text Scrollbar Optionen"
@@ -3095,25 +3095,25 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "   Show Selected Option"
-  "Ausgewählte Option anzeigen"
+  "   Ausgewählte Option anzeigen"
 
   "   Show Selected Value"
-  "Ausgewählter Wert"
+  "   Ausgewählten Wert anzeigen"
 
   "Categories"
   "Kategorien"
 
   "Change Base Color"
-  "Farbe ändern"
+  "Basisfarbe ändern"
 
   "Choose Theme"
-  "Theme auswählen"
+  "Theme wählen"
 
   "Created By"
   "Erstellt von"
 
   "Custom Directory"
-  "Benutzerverzeichnis"
+  "Eigenes Verzeichnis"
 
   "Custom..."
   "Benutzerdefiniert..."
@@ -3143,7 +3143,7 @@ msgcat::mcmset de {
   "Bitmap-Daten exportieren"
 
   "Export Theme As"
-  "Export-Thema als"
+  "Export Theme unter"
 
   "GIF Photo"
   "GIF Foto"
@@ -3152,7 +3152,7 @@ msgcat::mcmset de {
   "Import"
 
   "Import BMP Data"
-  "Daten importieren"
+  "BMP Daten importieren"
 
   "Import BMP Mask"
   "Import BMP Mask"
@@ -3164,7 +3164,7 @@ msgcat::mcmset de {
   "Importfehler"
 
   "Import Theme File"
-  "Import Theme Datei"
+  "Theme Datei importieren"
 
   "Installation Directory"
   "Installationsverzeichnis"
@@ -3182,16 +3182,16 @@ msgcat::mcmset de {
   "Ausgabeverzeichnis"
 
   "Paste Theme Items"
-  "Einfügen von Design-Elementen"
+  "Theme Elemente einfügen"
 
   "Relief: "
-  "Entlastung:"
+  "Relief: "
 
   "Save As:"
-  "Speichern als"
+  "Speichern unter:"
 
   "Save theme changes?"
-  "Speichere das Thema Veränderungen?"
+  "Theme-Änderungen speichern?"
 
   "Select Directory"
   "Verzeichnis auswählen"
@@ -3203,46 +3203,46 @@ msgcat::mcmset de {
   "Katagorie anzeigen"
 
   "Show Color"
-  "Zeigen Sie Farbe"
+  "Farbe anzeigen"
 
   "Show Selected Option"
-  "Ausgewählte option"
+  "Ausgewählte Option anzeigen"
 
   "Show Selected Value"
-  "Ausgewählter Wert"
+  "Ausgewählten Wert anzeigen"
 
   "Swatch"
-  "Probe:"
+  "Probe"
 
   "Swatch Colors"
-  "Swatch Farben"
+  "Musterfarben"
 
   "Table Copy"
   "Tabelle kopieren"
 
   "Table Filters"
-  "Tabelle Filter"
+  "Tabellen Filter"
 
   "Table Search"
-  "Tabelle-Suche"
+  "Tabellen Suche"
 
   "The current theme has unsaved changes"
-  "Das aktuelle Thema hat nicht gespeicherte Änderungen"
+  "Das aktuelle Theme hat nicht gespeicherte Änderungen"
 
   "Theme Name"
-  "Theme-Name"
+  "Theme Name"
 
   "Tree Style: "
-  "Baum-Stil:"
+  "Baum-Stil: "
 
   "Two-Color Bitmap"
-  "Zwei-Farben-Bitmap"
+  "Zwei-Farben Bitmap"
 
   "User Directory"
-  "Benutzerverzeichnis"
+  "Nutzerverzeichnis"
 
   "Value: "
-  "Wert:"
+  "Wert: "
 
   "Website"
   "Webseite"
@@ -3256,10 +3256,10 @@ msgcat::mcmset de {
   "Batch benutzerdefiniertes Design Export erfolgreich abgeschlossen"
 
   "Theme"
-  "﻿Theme"
+  "Theme"
 
   "Theme:*"
-  "﻿Theme"
+  "Theme:*"
 
 }
 
@@ -3267,10 +3267,10 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Import TKE theme?"
-  "Import TKE Thema?"
+  "TKE Theme importieren?"
 
   "Import TextMate theme?"
-  "Importieren TextMate Thema?"
+  "TextMate Thema importieren?"
 
 }
 
@@ -3310,7 +3310,7 @@ msgcat::mcmset de {
   "TabStop-Wert ist keine Ganzzahl"
 
   "Unrecognized vim option"
-  "Nicht erkannte Vim-option"
+  "Unbekannte Vim-Option"
 
 }
 
@@ -3327,7 +3327,7 @@ msgcat::mcmset de {
   "Zurück"
 
   "Bird's Eye View"
-  "Ms Pacman"
+  "Vogelpersepktive"
 
   "Browse"
   "Durchsuchen"
@@ -3336,13 +3336,13 @@ msgcat::mcmset de {
   "Abbrechen"
 
   "Check for Update"
-  "Nach Update suchen"
+  "Nach Updates suchen"
 
   "Choose"
-  "Wählen Sie"
+  "Wählen"
 
   "Close"
-  "Schließen"
+  "Schliessen"
 
   "Copy"
   "Kopieren"
@@ -3354,49 +3354,49 @@ msgcat::mcmset de {
   "Aktuelle Zeile"
 
   "Current Word"
-  "Aktuelle Wort"
+  "Aktuelles Wort"
 
   "Cursor"
-  "Kursor"
+  "Cursor"
 
   "Delete"
   "Löschen"
 
   "Directory"
-  "Alle Nachrichten"
+  "Verzeichnis"
 
   "Duplicate"
-  "Duplikation"
+  "Duplizieren"
 
   "Edit"
   "Bearbeiten"
 
   "Enable code folding"
-  "Aktivieren Code-Faltung"
+  "Code-Faltung aktivieren"
 
   "Export"
-  "Exportieren"
+  "Export"
 
   "Favorite"
-  "Bevorzugte"
+  "Favorit"
 
   "File"
-  "Feile"
+  "Datei"
 
   "File Name:"
   "Dateiname:"
 
   "Find"
-  "Finden"
+  "Suchen"
 
   "Find next occurrence"
-  "Nächstes Vorkommen"
+  "Nächstes Vorkommen finden"
 
   "Find previous occurrence"
-  "Finden vorherige Vorkommen"
+  "Vorherige Vorkommen finden"
 
   "Image displayed in sidebar information panel for closing the panel"
-  "Bild im Sidebar-Info-Tafel für das Schließen des Panels angezeigt"
+  "Bild im Sidebar-Info-Tafel für das Schliessen des Panels angezeigt"
 
   "Image displayed in sidebar information panel for refreshing content"
   "Bild im Sidebar-Info-Tafel für erfrischende Inhalt angezeigt"
@@ -3414,13 +3414,13 @@ msgcat::mcmset de {
   "Sprachdokumentation"
 
   "Launcher"
-  "Launcher"
+  "Starter"
 
   "Line"
-  "Linie"
+  "Zeile"
 
   "Move To Trash"
-  "in den Papierkorb legen"
+  "in den Papierkorb verschieben"
 
   "Move to Other Pane"
   "Verschieben in andere Pane"
@@ -3444,25 +3444,25 @@ msgcat::mcmset de {
   "OK"
 
   "Open"
-  "Geöffnet"
+  "Öffnen"
 
   "Parenthesis"
   "Klammer"
 
   "Plugin"
-  "Plugin"
+  "Erweiterung"
 
   "Plugins"
-  "Plugins"
+  "Erweiterungen"
 
   "Preferences"
-  "Präferenzen"
+  "Einstellungen"
 
   "Preview"
   "Vorschau"
 
   "Rename"
-  "Benennen"
+  "Umbenennen"
 
   "Save"
   "Speichern"
@@ -3471,16 +3471,16 @@ msgcat::mcmset de {
   "Speichern unter"
 
   "Search"
-  "Suche"
+  "Suchen"
 
   "Sessions"
-  "zur Verfügung steht."
+  "Sessions"
 
   "Show in Sidebar"
-  "Show in Sidebar"
+  "In Sidebar anzeigen"
 
   "Show line numbers"
-  "zeilennummern zeilen nummern"
+  "Zeilennummern anzeigen"
 
   "Show marker map"
   "Marker anzeigen"
@@ -3489,37 +3489,37 @@ msgcat::mcmset de {
   "Sidebar anzeigen"
 
   "Show status bar"
-  "Statusleiste"
+  "Statusleiste anzeigen"
 
   "Show tab bar"
-  "Tab-Leiste anzeigen"
+  "Reiterleiste anzeigen"
 
   "Snippet"
   "Snippet"
 
   "Snippets"
-  "Snippet"
+  "Snippets"
 
   "Split View"
-  "Split anzeigen"
+  "Ansicht teilen"
 
   "TKE Updater"
   "TKE Updater"
 
   "Templates"
-  "Templates"
+  "Vorlagen"
 
   "Test"
-  "Prüfung"
+  "Prüfen"
 
   "Theme Editor"
-  "Motiv-Bearbeitung"
+  "Theme Editor"
 
   "Unable to rename file"
-  "Die Datei kann nicht umbenannt werden."
+  "Datei kann nicht umbenannt werden"
 
   "Unable to write"
-  "Datei konnte nicht geschrieben werden"
+  "Datei kann nicht geschrieben werden"
 
   "Unfavorite"
   "Unfavorite"
@@ -3528,7 +3528,7 @@ msgcat::mcmset de {
   "Wert"
 
   "Version"
-  "Neue Font-Awesome-Version aktivieren"
+  "Version"
 
 }
 

@@ -5760,9 +5760,11 @@ namespace eval gui {
   proc update_theme {txt} {
 
     # Get the current syntax theme
-    array set theme [theme::get_syntax_colors]
+    array set theme  [theme::get_syntax_colors]
+    array set ttheme [theme::get_category_options text_scrollbar 1]
 
-    [winfo parent $txt] configure -background $theme(background)
+    # Make sure that the bottom right corner of the editor matches the background color of the text scrollbars
+    [winfo parent $txt] configure -background $ttheme(-background)
 
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
