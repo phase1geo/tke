@@ -2597,7 +2597,7 @@ namespace eval ctext {
 
     # If there is a command associated with the class, bind it to the right-click button
     if {$opts(-clickcmd) ne ""} {
-      $win tag bind __$class <Button-$right_click> [list ctext::handleClickCommand $win __$class $opts(-clickcmd)]
+      $win._t tag bind __$class <Button-$right_click> [list ctext::handleClickCommand $win __$class $opts(-clickcmd)]
     }
 
     # Save the class name and options
