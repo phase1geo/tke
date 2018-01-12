@@ -19,28 +19,28 @@ namespace eval indent {
       return
     }
 
-    puts "In check_unindent"
-
     # Get the whitespace at the beginning of the current line
     if {[set endpos [lassign [$win._t tag nextrange _prewhite "$index linestart"] startpos]] ne ""} {
 
-      puts "  prewhite, startpos: $startpos, endpos: $endpos"
+      set endpos [$win._t index "$endpos-1c"]
 
       # Get the unindent information from the model
       if {[set data [ctext::model::indent_check_unindent $win $endpos $index]] ne ""} {
 
-        puts "    data: $data"
-
         lassign $data data_index data_less
 
         # Get the whitespace at the beginning of the logical line
-        set indent_space [string range [get_start_of_line $win $data_index] [expr [$win cget -shiftwidth] * $data_less] end]
+        set indent_spaces [expr [get_start_of_line $win [$win._t index $data_index]] - ([$win cget -shiftwidth] * $data_less)]
 
-        puts "    indent_space: $indent_space, prespace: ([$win._t get $startpos $endpos])"
+        if {$indent_spaces <= 0} {
+          set indent_space ""
+        } else {
+          set indent_space [string repeat " " $indent_spaces]
+        }
 
         # If required, replace the starting whitespace with the updated whitespace
         if {$indent_space ne [$win._t get $startpos $endpos]} {
-          $win replace -highlight 0 $startpos $endpos $indent_space
+          $win replace -highlight 0 -str $indent_space $startpos $endpos
         }
 
       }

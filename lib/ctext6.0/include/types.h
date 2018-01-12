@@ -92,7 +92,7 @@ class types {
       const std::string & name,
       const std::string & tagname
     ) {
-      if( type( name ) == -1 ) {
+      if( type( name ) == 0 ) {
         int bitpos = _types.size();
         _types.insert( make_pair( name, (1 << bitpos) ) );
         _tags.insert( make_pair( (1 << bitpos), tagname ) );
@@ -104,7 +104,7 @@ class types {
     int type( const std::string & name ) const {
       std::map<std::string,int>::const_iterator it = _types.find( name );
       if( it == _types.end() ) {
-        return( -1 );
+        return( 0 );
       }
       return( it->second );
     }
