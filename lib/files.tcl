@@ -312,8 +312,6 @@ namespace eval files {
     variable files
     variable fields
 
-    puts "In files::add, fname: $fname, tab: $tab, args: $args"
-
     array set opts {
       -save_cmd ""
       -lock     0
@@ -331,14 +329,9 @@ namespace eval files {
       -yview    0
       -cursor   1.0
     }
-    puts "HERE -2"
     array set opts $args
 
-    puts "HERE -1"
-
     set file_info [lrepeat [array size fields] ""]
-
-    puts "HERE 0"
 
     lset file_info $fields(fname)    $fname
     lset file_info $fields(mtime)    ""
@@ -359,20 +352,14 @@ namespace eval files {
     lset file_info $fields(yview)    $opts(-yview)
     lset file_info $fields(cursor)   $opts(-cursor)
 
-    puts "HERE A"
-
     if {($opts(-remote) eq "") && !$opts(-buffer)} {
       lset file_info $fields(eol) [get_eol_translation $fname]
     } else {
       lset file_info $fields(eol) [get_eol_translation ""]
     }
 
-    puts "HERE B"
-
     # Add the file information to the files list
     lappend files $file_info
-
-    puts "HERE!!!"
 
   }
 
@@ -397,7 +384,6 @@ namespace eval files {
     set fin [open $file rb]
     set header [dict create filename $file time [file mtime $file] comment "Created by Tclinfo patchlevel"]
     set fout [open $file.gz wb]
-    puts "fin: $fin, fout: $fout"
     zlib push gzip $fout -header $header
     fcopy $fin $fout
     close $fin

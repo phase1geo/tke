@@ -232,11 +232,11 @@ void serial::append(
 
   interpreter interp( item.get_interp(), false );
 
-  int size = item.length( interp );
+  int item_size = item.length( interp );
 
-  for( int i=0; i<size; i++ ) {
+  for( int i=0; i<item_size; i++ ) {
     serial_item si( item.at( interp, i ), typs );
-    if( (i > 0) && !back()->merge( si ) ) {
+    if( (i == 0) || !back()->merge( si ) ) {
       push_back( new serial_item( si ) );
     }
   }
@@ -689,6 +689,8 @@ object serial::indent_check_unindent(
 
         ostringstream oss;
         bool reindent_not_in_prev_line = previndex_reindent( tindex( curr.row(), 0 ), tindex( (curr.row() - 1), 0 ), typs ) == -1;
+
+        oss << (curr.row() - 1) << ".0 lineend";
 
         retval.append( interp, (object)oss.str() );
         retval.append( interp, (object)reindent_not_in_prev_line );

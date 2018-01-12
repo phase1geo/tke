@@ -1823,6 +1823,7 @@ namespace eval ctext {
       set chars       [string length $new_content]
       lappend dstrs $old_content
       lappend istrs $new_content
+      puts "$win._t replace $startPos $endPos ($new_content) $tags"
       $win._t replace $startPos $endPos $new_content $tags
       lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
     }
@@ -2363,13 +2364,25 @@ namespace eval ctext {
   # Adds the given indentation patterns for parsing purposes.
   proc setIndentation {win lang patterns} {
 
+    array set btag_types {
+      curly  {{\{} {\}}}
+      square {{\[} {\]}}
+      paren  {{\(} {\)}}
+      angled {< >}
+    }
+
     # Get the indentation tags
     set tags [tsv::get indents $win]
     set i    [llength $tags]
 
     foreach pattern $patterns {
-      lappend tags indent:$i left  [lindex $pattern 0] $lang
-      lappend tags indent:$i right [lindex $pattern 1] $lang
+      if {[info exists btag_types($pattern)]} {
+        lappend tags indent:$i left  [lindex $btag_types($pattern) 0] $lang
+        lappend tags indent:$i right [lindex $btag_types($pattern) 1] $lang
+      } else {
+        lappend tags indent:$i left  [lindex $pattern 0] $lang
+        lappend tags indent:$i right [lindex $pattern 1] $lang
+      }
       ctext::model::add_type $win indent:$i ""
       incr i
     }
@@ -3117,9 +3130,6 @@ namespace eval ctext {
   proc modified {win value {dat ""}} {
 
     variable data
-
-    puts "In modified, win: $win"
-    puts [utils::stacktrace]
 
     set data($win,config,modified) $value
     event generate $win <<Modified>> -data $dat

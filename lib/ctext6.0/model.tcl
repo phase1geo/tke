@@ -193,7 +193,7 @@ namespace eval model {
     variable data
 
     foreach {tag ranges} [$data($win,model) rendercontexts $linestart $lineend [lsort -dictionary -index 2 $tags]] {
-      ctext::render $win $tag $ranges 1
+      ctext::render $win __$tag $ranges 1
     }
 
   }
