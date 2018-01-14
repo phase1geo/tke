@@ -994,6 +994,7 @@ namespace eval ctext {
       fold        { return [command_fold        $win {*}$args] }
       get         { return [command_get         $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
+      indent      { return [command_indent      $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
       insertlist  { return [command_insertlist  $win {*}$args] }
@@ -1188,7 +1189,7 @@ namespace eval ctext {
         } else {
           clear_mcursors $win
           foreach index [lindex $args 1] {
-            set_mcursor $win $index
+            set_mcursor $win [$win index $index]
             set data($win,mcursor_anchor) $index
           }
         }
@@ -1531,6 +1532,35 @@ namespace eval ctext {
         return -code error "Unknown ctext highlight subcommand ($subcmd)"
       }
     }
+
+  }
+
+  ######################################################################
+  # Conforms the indentation of the specified range to match the indentation
+  # of the preceeding text.
+  proc command_indent {win args} {
+
+    # Parse the arguments
+    switch [llength $args] {
+      0 {
+        set startpos "1.0"
+        set endpos   [$win._t index end]
+      }
+      1 {
+        set startpos [$win index [lindex $args 0]]
+        set endpos   [$win._t index end]
+      }
+      2 {
+        set startpos [$win index [lindex $args 0]]
+        set endpos   [$win index [lindex $args 0]]
+      }
+      default {
+        return -code error "Incorrect arguments to ctext indent command"
+      }
+    }
+
+    # Format the text
+    ctext::indent::indent_format $win $startpos $endpos
 
   }
 

@@ -2928,7 +2928,7 @@ namespace eval gui {
       if {[paste]} {
 
         # Have the indent namespace format the clipboard contents
-        indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+        [current_txt] indent $insertpos "$insertpos+${cliplen}c"
 
       }
 
@@ -2972,12 +2972,12 @@ namespace eval gui {
     # If any text is selected, format it
     if {[llength [set selected [$txt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-        indent::format_text $txt.t $startpos $endpos
+        $txt indent $startpos $endpos
       }
 
     # Otherwise, select the full file
     } else {
-      indent::format_text $txt.t 1.0 end
+      $txt indent
     }
 
     # If the file is locked or readonly, clear the modified state and reset the text state

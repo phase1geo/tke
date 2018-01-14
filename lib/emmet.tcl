@@ -1029,7 +1029,7 @@ namespace eval emmet {
         $txt delete {*}[lrange $retval 0 1]
 
         # Just use the indentation algorithm
-        indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 0]+${count}l linestart" 0
+        $txt indent [lindex $retval 0] "[lindex $retval 0]+${count}l linestart"
 
       }
 

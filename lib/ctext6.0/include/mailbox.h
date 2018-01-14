@@ -307,6 +307,14 @@ class mailbox {
       Tcl::object curr_ti
     );
 
+    /*! \returns Returns a list used for indentation formatting. */
+    Tcl::object indent_format(
+      Tcl::object args
+    ) {
+      add_request( REQUEST_INDENTFORMAT, args, true, true );
+      return( result() );
+    }
+
 };
 
 #endif

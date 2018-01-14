@@ -292,7 +292,7 @@ namespace eval snippets {
         foreach {str tags} $result {
           incr datalen [string length $str]
         }
-        indent::format_text $txtt $insert "$insert+${datalen}c" 0
+        $txtt indent $insert "$insert+${datalen}c"
       }
 
       # Traverse the inserted snippet

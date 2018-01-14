@@ -1670,11 +1670,8 @@ namespace eval vim {
         return 1
       }
       "format" {
-        if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          indent::format_text $txtt $startpos $endpos
-          [winfo parent $txtt] cursor set [list firstchar -num 0 -startpos $startpos]
-        }
+        $txtt indent $sposargs $eposargs $opts(-object)]} {
+        $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1
       }
@@ -3491,9 +3488,9 @@ namespace eval vim {
       "" {
         if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
           foreach {endpos startpos} [lreverse $selected] {
-            indent::format_text $txtt $startpos $endpos
+            $txtt indent $startpos $endpos
           }
-          [winfo parent $txtt] cursor set [$txtt index [list firstchar -startpos $startpos]]
+          $txtt cursor set [$txtt index [list firstchar -startpos $startpos]]
           command_mode $txtt
         } else {
           set_operator $txtt "format" {equal}

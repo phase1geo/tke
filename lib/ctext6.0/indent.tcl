@@ -212,7 +212,7 @@ namespace eval indent {
   ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  proc format_text {win startpos endpos {add_separator 1}} {
+  proc indent_format {win startpos endpos {add_separator 1}} {
 
     # Create a separator
     if {$add_separator} {
@@ -230,7 +230,7 @@ namespace eval indent {
     set endpos     [$win._t index $endpos]
     set shiftwidth [$win cget -shiftwidth]
 
-    foreach {index check_index adjust} [ctext::model::format_text $win $startpos $endpos] {
+    foreach {index check_index adjust} [ctext::model::indent_format $win $startpos $endpos] {
 
       # Get the number of indentations to perform
       set indents      [expr [get_start_of_line $win $check_index] + $adjust]
