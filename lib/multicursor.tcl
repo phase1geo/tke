@@ -292,30 +292,6 @@ namespace eval multicursor {
   }
 
   ######################################################################
-  # Perform text indentation formatting for each multicursor line.
-  proc format_text {txtt eposargs sposargs object} {
-
-    if {[enabled [winfo parent $txtt]]} {
-
-      # If the motion is not supported, return now
-      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
-        return 1
-      }
-
-      foreach {start end} [$txtt tag ranges mcursor] {
-        indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
-        $txtt tag add mcursor $start
-      }
-
-      return 1
-
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
   # Perform a left or right indentation shift for each multicursor line.
   proc shift {txtt dir eposargs sposargs object } {
 

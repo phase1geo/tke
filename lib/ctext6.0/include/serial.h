@@ -83,6 +83,17 @@ class serial : public std::vector<serial_item*> {
     ) const;
 
     /*!
+     \return Returns the index of the next serial_item that is a reindent, starting at
+             index 'start' and stopping at index 'end'.  If no matching item is found, a
+             value of -1 is returned.
+    */
+    int nextindex_reindent(
+      const tindex & start,
+      const tindex & end,
+      const types  & typs
+    ) const;
+
+    /*!
      \return Returns the index of the previous reindentStart serial_item.
     */
     int previndex_reindentStart(
@@ -240,7 +251,7 @@ class serial : public std::vector<serial_item*> {
     /*!
      \return Returns a list in the form of:  index of line to format, index of line to get indentation of, indent adjust value.
     */
-    Tcl::object format_text(
+    Tcl::object indent_format(
       const Tcl::object & startpos,
       const Tcl::object & endpos,
       const types       & typs

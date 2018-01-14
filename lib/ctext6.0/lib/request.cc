@@ -171,6 +171,9 @@ object request::execute(
     case REQUEST_INDENTCHECKUNINDENT :
       return( inst.indent_check_unindent( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;
+    case REQUEST_INDENTFORMAT :
+      return( inst.indent_format( _args ) );
+      break;
     default :
       throw runtime_error( "Unknown command" );
       break;

@@ -638,11 +638,11 @@ namespace eval model {
   ######################################################################
   # Returns a list that is used by the indentation namespace to format
   # text.
-  proc format_text {win startpos endpos} {
+  proc indent_format {win startpos endpos} {
 
     variable data
 
-    return [$data($win,model) formattext $startpos $endpos
+    return [$data($win,model) indentformat [list $startpos $endpos]]
 
   }
 

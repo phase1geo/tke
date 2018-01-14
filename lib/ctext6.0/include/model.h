@@ -475,6 +475,14 @@ class model {
       return( _serial.indent_check_unindent( first_ti, curr_ti, _types ) );
     }
 
+    /*! \return Returns a list used by the indent formatting code */
+    Tcl::object indent_format(
+      const Tcl::object & args
+    ) const {
+      Tcl::interpreter i( args.get_interp(), false );
+      return( _serial.indent_format( args.at( i, 0 ), args.at( i, 1 ), _types ) );
+    }
+
 };
 
 #endif

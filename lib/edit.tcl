@@ -1624,7 +1624,7 @@ namespace eval edit {
                   }
                 }
                 if {[string first \n $newstr]} {
-                  indent::format_text $txtt "$start linestart" "$start linestart+[string length $newstr]c" 0
+                  $txtt indent "$start linestart" "$start linestart+[string length $newstr]c"
                 }
                 set last  $start
                 set start [$txtt index "$start+1l"]
@@ -1644,7 +1644,7 @@ namespace eval edit {
               }
             }
             if {[string first \n $newstr]} {
-              indent::format_text $txtt $start "$start+[string length $newstr]c" 0
+              $txtt indent $start "$start+[string length $newstr]c"
             }
           }
         }
