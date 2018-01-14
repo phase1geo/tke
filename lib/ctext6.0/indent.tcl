@@ -62,8 +62,8 @@ namespace eval indent {
   }
 
   ######################################################################
-  # Returns the whitespace found at the beginning of the specified logical
-  # line.
+  # Returns the amount of whitespace found at the beginning of the specified
+  # logical line.
   proc get_start_of_line {win index} {
 
     # Ignore whitespace
@@ -212,8 +212,6 @@ namespace eval indent {
   ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  #
-  # TBD
   proc format_text {win startpos endpos {add_separator 1}} {
 
     # Create a separator
@@ -224,75 +222,40 @@ namespace eval indent {
     # If we are the first line containing non-whitespace, preserve the indentation
     if {([$win._t tag prevrange _prewhite "$startpos linestart"] eq "") || \
         ([string trim [$win._t get "$startpos linestart" $startpos]] ne "")} {
-      set curpos [$win._t index "$startpos+1l linestart"]
+      set startpos [$win._t index "$startpos+1l linestart"]
     } else {
-      set curpos [$win._t index "$startpos linestart"]
+      set startpos [$win._t index "$startpos linestart"]
     }
 
-    set endpos       [$win._t index $endpos]
-    set indent_space ""
-    set shiftwidth   [$win cget -shiftwidth]
+    set endpos     [$win._t index $endpos]
+    set shiftwidth [$win cget -shiftwidth]
 
-    while {[$win._t compare $curpos < $endpos]} {
+    foreach {index check_index adjust} [ctext::model::format_text $win $startpos $endpos] {
 
-      if {$curpos ne "1.0"} {
+      # Get the number of indentations to perform
+      set indents      [expr [get_start_of_line $win $check_index] + $adjust]
+      set indent_space ""
+      set whitespace   ""
 
-        # If the current line contains an unindent expression, is not within a comment or string,
-        # and is preceded in the line by only whitespace, replace the whitespace with the proper
-        # indentation whitespace.
-        if {[set epos [lassign [$win._t tag nextrange _unindent $curpos "$curpos lineend"] spos]] ne ""} {
-          if {[set tindex [get_match_indent $win $spos]] ne ""} {
-            if {[$win._t compare "$tindex linestart" == "$spos linestart"]} {
-              set indent_space [get_start_of_line $win "$tindex-1l lineend"]
-              if {[MODEL::line_contains_indentation $win "$tindex-1l lineend"]} {
-                append indent_space [string repeat " " $shiftwidth]
-              }
-            } else {
-              set indent_space [get_start_of_line $win $tindex]
-            }
-          } else {
-            set indent_space [get_start_of_line $win $epos]
-          }
-
-        } elseif {([set epos [lassign [$win._t tag nextrange _reindent $curpos "$curpos lineend"] spos]] ne "") && [MODEL::is_unindent_after_reindent $win $spos]} {
-          set indent_space [get_start_of_line $win [$win._t index "$curpos-1l lineend"]]
-          if {[string trim [$win._t get "$curpos linestart" $spos]] eq ""} {
-            if {[$win._t compare "$curpos-1l linestart" > [lindex [$win._t tag prevrange _reindent "$curpos linestart"] 1]]} {
-              set indent_space [string range $indent_space $shiftwidth end]
-            }
-          }
-
-        } else {
-          set indent_space [get_start_of_line $win [$win._t index "$curpos-1l lineend"]]
-          if {[MODEL::line_contains_indentation $win "$curpos-1l lineend"]} {
-            append indent_space [string repeat " " $shiftwidth]
-          }
-        }
-
+      # Calculate the indentation space for the given line
+      if {$indents > 0} {
+        set indent_space [string repeat " " [expr $indents * $shiftwidth]]
       }
 
-      # Remove any leading whitespace and update indentation level
-      # (if the first non-whitespace char is a closing bracket)
-      set whitespace ""
-      if {[lsearch [$win._t tag names $curpos] _prewhite] != -1} {
-        set whitespace [string range [$win._t get {*}[$win._t tag nextrange _prewhite $curpos]] 0 end-1]
+      # Remove any leading whitespace and update indentation level (if the first non-whitespace char is a closing bracket)
+      if {[lsearch [$win._t tag names $index] _prewhite] != -1} {
+        set whitespace [string range [$win._t get {*}[$win._t tag nextrange _prewhite $index]] 0 end-1]
       }
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
-        $win replace -highlight 0 $curpos "$curpos+[string length $whitespace]c" $indent_space
+        $win replace -highlight 0 $index "$index+[string length $whitespace]c" $indent_space
       }
-
-      # Adjust the startpos
-      set curpos [$win._t index "$curpos+1l linestart"]
 
     }
 
     # Create a separator
     $win edit separator
-
-    # Perform syntax highlighting
-    $win highlight $startpos $endpos
 
   }
 

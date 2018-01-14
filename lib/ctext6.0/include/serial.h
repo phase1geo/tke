@@ -237,6 +237,15 @@ class serial : public std::vector<serial_item*> {
       const types       & typs
     ) const;
 
+    /*!
+     \return Returns a list in the form of:  index of line to format, index of line to get indentation of, indent adjust value.
+    */
+    Tcl::object format_text(
+      const Tcl::object & startpos,
+      const Tcl::object & endpos,
+      const types       & typs
+    ) const;
+
 };
 
 #endif
