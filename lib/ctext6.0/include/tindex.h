@@ -58,10 +58,23 @@ class tindex {
     int col() const { return( _col ); }
 
     /*! Adjusts the row by the given amount */
-    void inc_row( int value ) {
+    tindex & inc_row( int value ) {
       if( (_row += value) < 1 ) {
         _row = 1;
       }
+      return( *this );
+    }
+
+    /*! Adjusts the text index to be set to the start of the current line. */
+    tindex & linestart() {
+      _col = 0;
+      return( *this );
+    }
+
+    /*! Adjusts the text index to be set to the end of the current line. */
+    tindex & lineend() {
+      _col = 1000000;
+      return( *this );
     }
 
     /*! Equality operator */

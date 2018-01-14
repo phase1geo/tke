@@ -679,8 +679,7 @@ object serial::indent_check_unindent(
     }
 
   /* If we just finished editing a reindentation which is not the first, we will also unindent */
-  } else if( typs.is_reindent( item->type() ) &&
-             (type = is_unindent_after_reindent( item->const_pos().to_tindex(), typs )) ) {
+  } else if( typs.is_reindent( item->type() ) && (type = is_unindent_after_reindent( item->const_pos().to_tindex(), typs )) ) {
 
     /* If the reindent is the first item on the line, continue */
     if( first.col() == item->const_pos().start_col() ) {
@@ -705,6 +704,74 @@ object serial::indent_check_unindent(
       }
 
     }
+
+  }
+
+  return( retval );
+
+}
+
+object serial::format_text(
+  const object & startpos,
+  const object & endpos,
+  const types  & typs
+) const {
+
+  interpreter interp( startpos.get_interp(), false );
+  tindex      ti_cur( startpos );
+  tindex      ti_end( endpos );
+  int         index;
+  object      retval;
+
+  /* If the index is 1.0, increment it right away */
+  if( ti_cur == tindex( 1, 0 ) ) {
+    ti_cur.incr_row( 1 ).linestart();
+  }
+
+  while( ti_cur < ti_end ) {
+
+    /* Add to the return value */
+    retval.append( interp, (object)ti_cur.to_string() );
+
+    /*
+     If the current line contains an unindent expression, is not within a comment or string,
+     and is preceded in the line by only whitespace, replace the whitespace with the proper
+     indentation whitespace.
+    */
+    if( (index = nextindex_indent( ti_cur, tindex( ti_cur.row(), 1000000 ), get_side( "right" ), typs )) != -1 ) {
+
+      serial_item* sitem = (*this)[index];
+      position     pos;
+      if( sitem->const_node()->get_match_pos( sitem, pos ) ) {
+        if( pos.row() == sitem->const_pos().row() ) {
+          tindex ti( curpos );
+          retval.append( interp, (object)ti.incr_row( -1 ).lineend().to_string() );
+          retval.append( interp, (object)(line_contains_indentation( tindex( (pos.row() - 1), 1000000 ), typs ) ? 1 : 0) );
+        } else {
+          retval.append( interp, (object)pos.to_tindex( true ) );
+          retval.append( interp, (object)0 );
+        }
+      } else {
+        retval.append( interp, (object)sitem->const_pos().to_tindex( false ) );
+        retval.append( interp, (object)0 );
+      }
+
+    } else if( ((index = nextindex_reindent( ti_cur, tindex( ti_cur.row(), 1000000 ), typs )) != -1) &&
+               is_unindent_after_reindent( (*this)[index]->const_pos().to_index(), typs ) ) {
+        
+      tindex ti( curpos );
+      retval.append( interp, (object)ti.incr_row( -1 ).lineend() );
+      retval.append( interp, (object)((ti.linestart() > (*this)[previndex_reindent( curpos )) ? -1 : 0) );
+
+    } else {
+
+      tindex ti( curpos );
+      retval.append( interp, (object)ti.incr_row( -1 ).lineend() );
+      retval.append( interp, (object)(line_contains_indentation( ti, typs ) ? 1 : 0) );
+    }
+
+    # Adjust the current index
+    ti_cur.incr_row( 1 ).linestart();
 
   }
 
