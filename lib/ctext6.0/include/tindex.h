@@ -22,6 +22,8 @@ class tindex {
 
   public:
 
+    const int lend = 1000000;
+
     /*! Default constructor */
     tindex() : _row( 1 ), _col( 0 ) {}
 
@@ -40,7 +42,11 @@ class tindex {
     /*! Outputs a string version of the index */
     std::string to_string() const {
       std::ostringstream oss;
-      oss << _row << "." << _col;
+      if( _col == lend ) {
+        oss << _row << ".0 lineend";
+      } else {
+        oss << _row << "." << _col;
+      }
       return( oss.str() );
     }
 
@@ -73,7 +79,7 @@ class tindex {
 
     /*! Adjusts the text index to be set to the end of the current line. */
     tindex & lineend() {
-      _col = 1000000;
+      _col = lend;
       return( *this );
     }
 

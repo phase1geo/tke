@@ -63,13 +63,21 @@ bool tnode::get_match_pos(
 
 int tnode::index() const {
 
-  int i = 0;
+  if( _parent == 0 ) {
+ 
+    return( 0 );
 
-  for( vector<tnode*>::const_iterator it=_parent->_children.begin(); it!=_parent->_children.end(); it++ ) {
-    if( *it == this ) {
-      return( i );
+  } else {
+
+    int i = 0;
+
+    for( vector<tnode*>::const_iterator it=_parent->_children.begin(); it!=_parent->_children.end(); it++ ) {
+      if( *it == this ) {
+        return( i );
+      }
+      i++;
     }
-    i++;
+
   }
 
   return( -1 );

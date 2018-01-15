@@ -389,7 +389,7 @@ int serial::next_endindex(
 
   sindex si = get_index( ti );
 
-  return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() + 1) : si.index() );
+  return( (si.matches() && (*this)[si.index()]->pos().matches_tindex( ti )) ? (si.index() + 1) : si.index() );
 
 }
 
@@ -410,6 +410,24 @@ int serial::prev_endindex(
   sindex si = get_index( ti );
 
   return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() - 1) );
+
+}
+
+int serial::nextindex_firstchar(
+  const tindex & start,
+  const tindex & end,
+  const types  & typs
+) const {
+
+  int ei = next_endindex( end );
+
+  for( int i=next_startindex( start ); i<ei; i++ ) {
+    if( typs.is_firstchar( (*this)[i]->type() ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
 
 }
 
@@ -460,6 +478,21 @@ int serial::nextindex_reindent(
 
   for( int i=next_startindex( start ); i<ei; i++ ) {
     if( typs.is_reindent( (*this)[i]->type() ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::previndex_firstchar(
+  const tindex & start,
+  const types  & typs
+) const {
+
+  for( int i=prev_startindex( start ); i>=0; i-- ) {
+    if( typs.is_firstchar( (*this)[i]->type() ) ) {
       return( i );
     }
   }
@@ -578,6 +611,36 @@ bool serial::is_unindent_after_reindent (
   }
 
   return( false );
+
+}
+
+int serial::get_start_of_line(
+  const tindex & ti,
+  const types  & typs
+) {
+
+  /* Ignore whitespace */
+  int firstchar = previndex_firstchar( tindex( ti.row(), tindex::lend ), typs );
+
+  if( firstchar != -1 ) {
+
+    /* Get the starting line number from the text model */
+    tindex ti_first = (firstchar == -1) ? tindex( 1, 0 ) : (*this)[firstchar]->pos().to_tindex();
+    int    row      = ti_first.row();
+    tnode* node;
+
+    if( (node = find_node( tindex( ti ) )) ) {
+      row = node->get_line_start( row );
+    }
+
+    /* Return the column location of the firstchar in the current line */
+    if( (firstchar = nextindex_firstchar( tindex( row, 0 ), tindex( row, tindex::lend ), typs )) != -1 ) {
+      return( (*this)[firstchar]->pos().start_col() );
+    }
+
+  }
+
+  return( 0 );
 
 }
 

@@ -1552,7 +1552,7 @@ namespace eval ctext {
       }
       2 {
         set startpos [$win index [lindex $args 0]]
-        set endpos   [$win index [lindex $args 0]]
+        set endpos   [$win index [lindex $args 1]]
       }
       default {
         return -code error "Incorrect arguments to ctext indent command"

@@ -1670,7 +1670,7 @@ namespace eval vim {
         return 1
       }
       "format" {
-        $txtt indent $sposargs $eposargs $opts(-object)]} {
+        $txtt indent $sposargs $eposargs
         $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1

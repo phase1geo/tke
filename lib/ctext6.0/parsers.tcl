@@ -161,23 +161,18 @@ namespace eval parsers {
   }
 
   ######################################################################
-  # Tag all of the whitespace found at the beginning of each line.
-  proc prewhite {txt str startrow} {
+  # Tag all of the first characters found at the beginning of each line.
+  proc firstchar {txt str startrow ptags} {
 
-    set ranges [list]
+    upvar $ptags tags
 
     foreach line [split $str \n] {
       set start 0
-      while {[regexp -indices -start $start {^[ \t]*\S} $line indices]} {
-        set endpos [expr [lindex $indices 1] + 1]
-        lappend ranges $startrow.[lindex $indices 0] $startrow.$endpos
-        set start $endpos
+      if {[regexp -indices -start $start {^[ \t]*\S} $line indices]} {
+        lappend tags [list firstchar none [list $startrow [list [lindex $indices 1] [expr [lindex $indices 1] + 1]]] 0 {}]
       }
       incr startrow
     }
-
-    # Have the main application thread render the tag ranges
-    thread::send -async $ctext::utils::main_tid [list ctext::render_prewhite $txt $ranges]
 
   }
 
@@ -292,7 +287,8 @@ namespace eval parsers {
     # If we have any escapes or contexts found in the given string, re-render the contexts
     thread::send -async $ctext::utils::main_tid [list ctext::model::render_contexts $txt $linestart $lineend $tags]
 
-    # Add indentation and bracket markers to the tags list
+    # Add firstchar, indentation and bracket markers to the tags list
+    firstchar   $txt $str $srow tags
     indentation $txt $str $srow tags
     brackets    $txt $str $srow tags
 

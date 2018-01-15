@@ -23,6 +23,7 @@ class types {
     std::map<std::string,int> _types;
     std::map<int,std::string> _tags;
     std::string               _empty;
+    int                       _firstchar;
     int                       _bracket;
     int                       _string;
     int                       _comment;
@@ -42,6 +43,7 @@ class types {
       const std::string & name,
       int bitpos
     ) {
+      _firstchar     |= (name == "firstchar");
       _bracket       |= ((name == "curly")   ||
                          (name == "square")  ||
                          (name == "paren")   ||
@@ -63,6 +65,7 @@ class types {
     /*! Default constructor */
     types()
     : _empty         ( "" ),
+      _firstchar     ( 0 ),
       _bracket       ( 0 ),
       _string        ( 0 ),
       _comment       ( 0 ),
@@ -79,6 +82,7 @@ class types {
     void clear() {
       _types.clear();
       _tags.clear();
+      _firstchar     = 0;
       _bracket       = 0;
       _string        = 0;
       _comment       = 0;
@@ -117,6 +121,9 @@ class types {
       }
       return( it->second );
     }
+
+    /*! \return Returns true if the given type is the first character of the line */
+    bool is_firstchar( int type ) const { return( (type & _firstchar) != 0 ); }
 
     /*! \return Returns true if the given type is one that should be matched */
     bool is_matching( int type ) const { return( (type & (_bracket | _string)) != 0 ); }

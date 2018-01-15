@@ -62,31 +62,6 @@ namespace eval indent {
   }
 
   ######################################################################
-  # Returns the amount of whitespace found at the beginning of the specified
-  # logical line.
-  proc get_start_of_line {win index} {
-
-    # Ignore whitespace
-    if {[lsearch [$win._t tag names "$index linestart"] _prewhite] == -1} {
-      if {[set range [$win._t tag prevrange _prewhite "$index lineend"]] ne ""} {
-        set index [$win._t index "[lindex $range 1] lineend"]
-      } else {
-        set index 1.0
-      }
-    }
-
-    # Get the starting line number from the text model
-    set index [ctext::model::indent_line_start $win $index].0
-
-    if {[lsearch [$win._t tag names $index] _prewhite] != -1} {
-      return [expr [string length [$win._t get {*}[$win._t tag nextrange _prewhite $index]]] - 1]
-    } else {
-      return 0
-    }
-
-  }
-
-  ######################################################################
   # Handles a newline character.  Returns the character position of the
   # first line of non-space text.
   proc newline {win index indent_mode} {
@@ -214,6 +189,8 @@ namespace eval indent {
   # widget at the current insertion cursor.
   proc indent_format {win startpos endpos {add_separator 1}} {
 
+    puts "IN indent_format, startpos: $startpos, endpos: $endpos"
+
     # Create a separator
     if {$add_separator} {
       $win edit separator
@@ -232,14 +209,18 @@ namespace eval indent {
 
     foreach {index check_index adjust} [ctext::model::indent_format $win $startpos $endpos] {
 
+      puts "  index: $index, check_index: $check_index, adjust: $adjust"
+
       # Get the number of indentations to perform
-      set indents      [expr [get_start_of_line $win $check_index] + $adjust]
+      set indents      [expr [get_start_of_line $win $check_index] + ($adjust * $shiftwidth)]
       set indent_space ""
       set whitespace   ""
 
+      puts "    indents: $indents"
+
       # Calculate the indentation space for the given line
       if {$indents > 0} {
-        set indent_space [string repeat " " [expr $indents * $shiftwidth]]
+        set indent_space [string repeat " " $indents]
       }
 
       # Remove any leading whitespace and update indentation level (if the first non-whitespace char is a closing bracket)
@@ -247,9 +228,11 @@ namespace eval indent {
         set whitespace [string range [$win._t get {*}[$win._t tag nextrange _prewhite $index]] 0 end-1]
       }
 
+      puts "      index: $index, whitespace ($whitespace), indent_space ($indent_space)"
+
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
-        $win replace -highlight 0 $index "$index+[string length $whitespace]c" $indent_space
+        $win replace -highlight 0 -str $indent_space $index "$index+[string length $whitespace]c"
       }
 
     }
