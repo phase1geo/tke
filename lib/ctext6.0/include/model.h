@@ -157,7 +157,7 @@ class model {
     }
 
     /*! \return Returns a human-readable representation of the stored serial list */
-    std::string show_serial() const { return( _serial.show() ); }
+    std::string show_serial() const { return( _serial.show( _types ) ); }
 
     /*! \return Returns a graphical representation of the stored tree */
     std::string show_tree() const { return( _tree.tree_string() ); }
@@ -457,14 +457,26 @@ class model {
       const Tcl::object & indent_index
     ) const;
 
+    /*! \return Returns the number of spaces found before the previous, non-empty line */
+    Tcl::object indent_get_previous(
+      const Tcl::object & index
+    ) const {
+      return( _serial.indent_get_previous( index, _types ) );
+    }
+
+    /*! \return Returns the number of spaces that exist prior to the given index. */
+    Tcl::object indent_backspace(
+      const Tcl::object & index
+    ) const {
+      return( _serial.indent_backspace( index, _types ) );
+    }
+
     /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
     Tcl::object indent_newline(
-      const Tcl::object & prev_ti,
-      const Tcl::object & first_ti,
-      const Tcl::object & indent_space,
-      const Tcl::object & shift_width
+      const Tcl::object & args
     ) const {
-      return( _serial.indent_newline( prev_ti, first_ti, indent_space, shift_width, _types ) );
+      Tcl::interpreter i( args.get_interp(), false );
+      return( _serial.indent_newline( args.at( i, 0 ), args.at( i, 1 ), _types ) );
     }
 
     /*! \return Returns information used to handle an unindent */
@@ -480,7 +492,7 @@ class model {
       const Tcl::object & args
     ) const {
       Tcl::interpreter i( args.get_interp(), false );
-      return( _serial.indent_format( args.at( i, 0 ), args.at( i, 1 ), _types ) );
+      return( _serial.indent_format( args.at( i, 0 ), args.at( i, 1 ), args.at( i, 2 ), _types ) );
     }
 
 };

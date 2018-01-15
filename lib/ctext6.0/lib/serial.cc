@@ -243,7 +243,9 @@ void serial::append(
 
 }
 
-string serial::to_string() const {
+string serial::to_string(
+  const types & typs
+) const {
 
   ostringstream oss;
   bool          first = true;
@@ -254,20 +256,22 @@ string serial::to_string() const {
     } else {
       oss << " ";
     }
-    oss << (*it)->to_string();
+    oss << (*it)->to_string( typs );
   }
 
   return( oss.str() );
 
 }
 
-string serial::show() const {
+string serial::show(
+  const types & typs
+) const {
 
   ostringstream oss;
   int           index = 0;
 
   for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
-    oss << index++ << ": " << (*it)->to_string() << endl;
+    oss << index++ << ": " << (*it)->to_string( typs ) << endl;
   }
 
   return( oss.str() );
@@ -501,6 +505,23 @@ int serial::previndex_firstchar(
 
 }
 
+int serial::previndex_firstchar(
+  const tindex & start,
+  const tindex & end,
+  const types  & typs
+) const {
+
+  int ei = prev_endindex( end );
+
+  for( int i=prev_startindex( start ); i>=ei; i-- ) {
+    if( typs.is_firstchar( (*this)[i]->type() ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
 int serial::previndex_reindentStart(
   const tindex & start,
   const types  & typs
@@ -615,9 +636,10 @@ bool serial::is_unindent_after_reindent (
 }
 
 int serial::get_start_of_line(
-  const tindex & ti,
-  const types  & typs
-) {
+  const tindex       & ti,
+  const types        & typs,
+  const map<int,int> & indented
+) const {
 
   /* Ignore whitespace */
   int firstchar = previndex_firstchar( tindex( ti.row(), tindex::lend ), typs );
@@ -635,7 +657,12 @@ int serial::get_start_of_line(
 
     /* Return the column location of the firstchar in the current line */
     if( (firstchar = nextindex_firstchar( tindex( row, 0 ), tindex( row, tindex::lend ), typs )) != -1 ) {
-      return( (*this)[firstchar]->pos().start_col() );
+      map<int,int>::const_iterator it=indented.find( row );
+      if( it != indented.end() ) {
+        return( it->second );
+      } else {
+        return( (*this)[firstchar]->const_pos().start_col() );
+      }
     }
 
   }
@@ -649,7 +676,13 @@ bool serial::line_contains_indentation(
   const types  & typs
 ) const {
 
-  tindex te( ti.row(), 0 );
+  int last = previndex_firstchar( ti, typs );
+
+  if( last == -1 ) {
+    return false;
+  }
+
+  tindex te( (*this)[last]->pos().row(), 0 );
   int    ii, ui;
 
   if( (ii = previndex_indent( ti, te, get_side( "left" ), typs ) ) != -1 ) {
@@ -660,76 +693,125 @@ bool serial::line_contains_indentation(
 
 }
 
-object serial::indent_newline(
-  const object & prev_ti,
-  const object & first_ti,
-  const object & indent_space,
-  const object & shift_width,
+object serial::indent_get_previous(
+  const object & index,
   const types  & typs
 ) const {
 
-  interpreter interp( first_ti.get_interp(), false );
-  tindex prev( prev_ti );
-  tindex first( first_ti );
-  int    space       = indent_space.get<int>( interp );
-  int    shift       = shift_width.get<int>( interp );
-  sindex first_index = get_index( first );
-  bool   add_nl      = false;
-  object retval;
+  tindex ti( index );
+  int    firstchar;
 
-  /* If the previous line indicates an indentation is required */
-  if( line_contains_indentation( prev, typs ) ) {
-    space += shift;
+  if( (ti.row() > 1) && ((firstchar = previndex_firstchar( ti.inc_row( -1 ).lineend(), typs)) != -1) ) {
+    return( (object)(*this)[firstchar]->const_pos().start_col() );
+  } else {
+    return( (object)0 );
   }
 
-  /* If the first index matches a stored value, interrogate it */
-  if( first_index.matches() ) {
+}
+
+object serial::indent_backspace(
+  const object & index,
+  const types  & typs
+) const {
+
+  tindex ti( index );
+  int    firstchar = previndex_firstchar( ti, tindex( ti.row(), 0 ), typs );
+
+  if( firstchar != -1 ) {
+    if( (*this)[firstchar]->const_pos().start_col() == ti.col() ) {
+      return( (object)(*this)[firstchar]->const_pos().start_col() );
+    } else {
+      return( (object)-2 );
+    }
+  } else {
+    return( (object)-1 );
+  }
+
+}
+
+object serial::indent_newline(
+  const object & index,
+  const object & shiftwidth,
+  const types  & typs
+) const {
+
+  interpreter  interp( index.get_interp(), false );
+  tindex       ti( index );
+  tindex       prev( (ti.row() - 1), tindex::lend );
+  tindex       first( ti );
+  int          shiftw = shiftwidth.get<int>( interp );
+  bool         add_nl = false;
+  int          firstchar;
+  map<int,int> indented;
+  object       retval;
+
+  /* Get the current indentation level */
+  int indents = get_start_of_line( prev, typs, indented );
+  if( line_contains_indentation( prev, typs ) ) {
+    indents += shiftw;
+  }
+
+  cout << "ti: " << ti.to_string() << ", index: " << ti.to_string() << ", indents: " << indents << ", first: " << first.to_string() << endl;
+  cout << show( typs ) << endl;
+
+  /* Check for a first char in the current line */
+  if( (firstchar = nextindex_firstchar( ti, tindex( ti.row(), tindex::lend ), typs )) != -1 ) {
+
+    /* Get the first character index */
+    first = (*this)[firstchar]->const_pos().to_tindex();
+    cout << "  firstchar: " << firstchar << ", first: " << first.to_string() << endl;
 
     /*
      Remove any leading whitespace and update indentation level
      (if the first non-whitespace char is a closing bracket)
     */
-    if( (*this)[first_index.index()]->matches_indent( get_side( "right" ), typs ) ) {
-      space -= shift;
-      add_nl = true;
+    if( (*this)[firstchar]->matches_indent( get_side( "right" ), typs ) ) {
+      indents -= shiftw;
+      add_nl   = true;
 
     /*
      Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
      indentation by one
     */
-    } else if( typs.is_reindent( (*this)[first_index.index()]->type() ) && is_unindent_after_reindent( first, typs ) ) {
-      space -= shift;
+    } else if( typs.is_reindent( (*this)[firstchar]->type() ) && is_unindent_after_reindent( first, typs ) ) {
+      indents -= shiftw;
     }
 
   }
 
+  cout << "  first: " << first.to_string() << endl;
+
   /* Construct the return value */
-  retval.append( interp, (object)(space - first.col()) );
+  retval.append( interp, (object)(indents - first.col()) );
   retval.append( interp, (object)add_nl );
   return( retval );
 
 }
 
 object serial::indent_check_unindent(
-  const object & first_ti,
   const object & curr_ti,
+  const object & shiftwidth,
   const types  & typs
 ) const {
 
-  interpreter interp( curr_ti.get_interp(), false );
-  tindex   first( first_ti );
-  tindex   curr( curr_ti );
-  position pos;
-  object   retval;
-  int      type;
+  interpreter  interp( curr_ti.get_interp(), false );
+  int          firstchar;
+  tindex       curr( curr_ti );
+  int          shiftw = shiftwidth.get<int>( interp );
+  position     pos;
+  object       retval;
+  int          type;
+  map<int,int> indented;
 
-  /* If the cursor is at the beginning of the line, return immediately */
-  if( curr.col() == 0 ) {
+  /* If we do not have a non-empty character or the cursor is at the beginning of the line, return with an empty string */
+  if( (curr.col() == 0) || ((firstchar = nextindex_firstchar( tindex( curr.row(), 0 ), tindex( curr.row(), tindex::lend ), typs )) == -1) ) {
     return( retval );
   }
 
+  tindex first( (*this)[firstchar]->const_pos().to_tindex() );
   tindex ti( curr.row(), (curr.col() - 1) );
-  sindex index = get_index( ti );
+  sindex index   = get_index( ti );
+  int    indents = first.col();
 
   /* If we did not match something in the serial list, return immediately */
   if( !index.matches() ) {
@@ -750,11 +832,9 @@ object serial::indent_check_unindent(
 
       /* Find the matching indentation index */
       if( item->const_node()->get_match_pos( item, pos ) ) {
-        retval.append( interp, (object)pos.to_index() );
-        retval.append( interp, (object)0 );
+        indents = get_start_of_line( pos.to_tindex(), typs, indented );
       } else {
-        retval.append( interp, curr_ti );
-        retval.append( interp, (object)0 );
+        indents = get_start_of_line( curr_ti, typs, indented );
       }
 
     }
@@ -767,25 +847,25 @@ object serial::indent_check_unindent(
 
       if( type == 1 ) {
 
-        ostringstream oss;
-        bool reindent_not_in_prev_line = previndex_reindent( tindex( curr.row(), 0 ), tindex( (curr.row() - 1), 0 ), typs ) == -1;
-
-        oss << (curr.row() - 1) << ".0 lineend";
-
-        retval.append( interp, (object)oss.str() );
-        retval.append( interp, (object)reindent_not_in_prev_line );
+        indents = get_start_of_line( tindex( (curr.row() - 1), tindex::lend ), typs, indented );
+        if( previndex_reindent( tindex( curr.row(), 0 ), tindex( (curr.row() - 1), 0 ), typs ) == -1 ) {
+          indents -= shiftw;
+        }
 
       } else {
 
         int reindent_start = previndex_reindentStart( ti, typs );
-
-        retval.append( interp, (object)(*this)[reindent_start]->pos().to_index() );
-        retval.append( interp, (object)0 );
+        indents = get_start_of_line( (*this)[reindent_start]->const_pos().to_tindex(), typs, indented );
 
       }
 
     }
 
+  }
+
+  /* Only return a numerical value if the indentation differs from what currently exists */
+  if( indents != first.col() ) {
+    retval.append( interp, (object)indents );
   }
 
   return( retval );
@@ -795,60 +875,94 @@ object serial::indent_check_unindent(
 object serial::indent_format(
   const object & startpos,
   const object & endpos,
+  const object & shiftwidth,
   const types  & typs
 ) const {
 
-  interpreter interp( startpos.get_interp(), false );
-  tindex      ti_cur( startpos );
-  tindex      ti_end( endpos );
-  int         index;
-  object      retval;
+  interpreter  interp( startpos.get_interp(), false );
+  tindex       ti_cur( startpos );
+  tindex       ti_end( endpos );
+  int          startrow = ti_cur.row();
+  int          shiftw   = shiftwidth.get<int>( interp );
+  int          index;
+  object       retval;
+  map<int,int> indented;
 
-  /* If the index is 1.0, increment it right away */
-  if( ti_cur == tindex( 1, 0 ) ) {
+  /* If we are the first line containing non-whitespace, preserve the indentation */
+  if( (previndex_firstchar( tindex( ti_cur.row(), 0 ), typs ) == -1) || (ti_cur == tindex( 1, 0 )) ) {
     ti_cur.inc_row( 1 ).linestart();
+  } else {
+    ti_cur.linestart();
   }
 
   while( ti_cur < ti_end ) {
 
-    /* Add to the return value */
-    retval.append( interp, (object)ti_cur.to_string() );
+    /* Get the location of the first character of the current line */
+    int firstchar = nextindex_firstchar( ti_cur, tindex( ti_cur.row(), tindex::lend ), typs );
 
-    /*
-     If the current line contains an unindent expression, is not within a comment or string,
-     and is preceded in the line by only whitespace, replace the whitespace with the proper
-     indentation whitespace.
-    */
-    if( (index = nextindex_indent( ti_cur, tindex( ti_cur.row(), 1000000 ), get_side( "right" ), typs )) != -1 ) {
+    /* If the current line is an empty string, make sure that there isn't whitespace */
+    if( firstchar == -1 ) {
 
-      serial_item* sitem = (*this)[index];
-      position     pos;
-      if( sitem->const_node()->get_match_pos( sitem, pos ) ) {
-        if( pos.row() == sitem->const_pos().row() ) {
-          tindex ti( ti_cur );
-          retval.append( interp, (object)ti.inc_row( -1 ).lineend().to_string() );
-          retval.append( interp, (object)(line_contains_indentation( tindex( (pos.row() - 1), 1000000 ), typs ) ? 1 : 0) );
-        } else {
-          retval.append( interp, (object)pos.to_index( true ) );
-          retval.append( interp, (object)0 );
-        }
-      } else {
-        retval.append( interp, (object)sitem->const_pos().to_index( false ) );
-        retval.append( interp, (object)0 );
-      }
+      retval.append( interp, (object)ti_cur.to_string() );
+      retval.append( interp, (object)tindex( ti_cur.row(), tindex::lend ).to_string() );
+      retval.append( interp, (object)0 );
 
-    } else if( ((index = nextindex_reindent( ti_cur, tindex( ti_cur.row(), 1000000 ), typs )) != -1) &&
-               is_unindent_after_reindent( (*this)[index]->const_pos().to_tindex(), typs ) ) {
-        
-      tindex ti( ti_cur );
-      retval.append( interp, (object)ti.inc_row( -1 ).lineend().to_string() );
-      retval.append( interp, (object)((ti.linestart() > (*this)[previndex_reindent( ti_cur, typs )]->const_pos().to_tindex()) ? -1 : 0) );
+      indented.insert( make_pair( ti_cur.row(), 0 ) );
 
     } else {
 
-      tindex ti( ti_cur );
-      retval.append( interp, (object)ti.inc_row( -1 ).lineend().to_string() );
-      retval.append( interp, (object)(line_contains_indentation( ti, typs ) ? 1 : 0) );
+      int indents = 0;
+
+      /*
+       If the current line contains an unindent expression, is not within a comment or string,
+       and is preceded in the line by only whitespace, replace the whitespace with the proper
+       indentation whitespace.
+      */
+      if( (index = nextindex_indent( ti_cur, tindex( ti_cur.row(), tindex::lend ), get_side( "right" ), typs )) != -1 ) {
+
+        serial_item* sitem = (*this)[index];
+        position     pos;
+        if( sitem->const_node()->get_match_pos( sitem, pos ) ) {
+          tindex ti( pos.to_tindex() );
+          if( pos.row() == sitem->const_pos().row() ) {
+            indents = get_start_of_line( ti.inc_row( -1 ).lineend(), typs, indented );
+            if( line_contains_indentation( tindex( (pos.row() - 1), tindex::lend ), typs ) ) {
+              indents += shiftw;
+            }
+          } else {
+            indents = get_start_of_line( ti, typs, indented );
+          }
+        } else {
+          indents = get_start_of_line( sitem->const_pos().to_tindex( false ), typs, indented );
+        }
+
+      } else if( ((index = nextindex_reindent( ti_cur, tindex( ti_cur.row(), tindex::lend ), typs )) != -1) &&
+                 is_unindent_after_reindent( (*this)[index]->const_pos().to_tindex(), typs ) ) {
+
+        tindex ti( ti_cur );
+        indents = get_start_of_line( ti.inc_row( -1 ).lineend(), typs, indented );
+        if( (firstchar == index) && (ti.linestart() > (*this)[previndex_reindent( ti_cur, typs )]->const_pos().to_tindex()) ) {
+          indents -= shiftw;
+        }
+
+      } else {
+
+        tindex ti( ti_cur );
+        indents = get_start_of_line( ti.inc_row( -1 ).lineend(), typs, indented );
+        if( line_contains_indentation( ti, typs ) ) {
+          indents += shiftw;
+        }
+
+      }
+
+      /* Only worry about adjusting the indentation if we need to */
+      if( indents != (*this)[firstchar]->pos().start_col() ) {
+        retval.append( interp, (object)ti_cur.to_string() );
+        retval.append( interp, (object)(*this)[firstchar]->const_pos().to_tindex().to_string() );
+        retval.append( interp, (object)indents );
+        indented.insert( make_pair( ti_cur.row(), indents ) );
+      }
+
     }
 
     /* Adjust the current index */

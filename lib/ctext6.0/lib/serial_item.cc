@@ -53,11 +53,14 @@ bool serial_item::merge(
 
 }
 
-string serial_item::to_string() const {
+string serial_item::to_string(
+  const types & typs
+) const {
 
   ostringstream oss;
 
-  oss << "{" << _type << " " << get_side( _side ) << " " << _pos.to_string() << " " << _iscontext << " " << _context << "}";
+  oss << "{" << hex << _type << " (" << typs.names( _type ) << ") " << get_side( _side )
+      << " " << _pos.to_string() << " " << _iscontext << " " << _context << "}";
 
   return( oss.str() );
 

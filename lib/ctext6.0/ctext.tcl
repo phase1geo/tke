@@ -1853,7 +1853,6 @@ namespace eval ctext {
       set chars       [string length $new_content]
       lappend dstrs $old_content
       lappend istrs $new_content
-      puts "$win._t replace $startPos $endPos ($new_content) $tags"
       $win._t replace $startPos $endPos $new_content $tags
       lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
     }

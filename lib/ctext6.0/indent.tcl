@@ -19,31 +19,14 @@ namespace eval indent {
       return
     }
 
-    # Get the whitespace at the beginning of the current line
-    if {[set endpos [lassign [$win._t tag nextrange _prewhite "$index linestart"] startpos]] ne ""} {
+    # Get the unindent information from the model
+    if {[set indents [ctext::model::indent_check_unindent $win $index [$win cget -shiftwidth]]] ne ""} {
 
-      set endpos [$win._t index "$endpos-1c"]
+      # Get the whitespace at the beginning of the logical line
+      set indent_spaces [expr {($indents <= 0) ? "" : [string repeat " " $indents]}]
 
-      # Get the unindent information from the model
-      if {[set data [ctext::model::indent_check_unindent $win $endpos $index]] ne ""} {
-
-        lassign $data data_index data_less
-
-        # Get the whitespace at the beginning of the logical line
-        set indent_spaces [expr [get_start_of_line $win [$win._t index $data_index]] - ([$win cget -shiftwidth] * $data_less)]
-
-        if {$indent_spaces <= 0} {
-          set indent_space ""
-        } else {
-          set indent_space [string repeat " " $indent_spaces]
-        }
-
-        # If required, replace the starting whitespace with the updated whitespace
-        if {$indent_space ne [$win._t get $startpos $endpos]} {
-          $win replace -highlight 0 -str $indent_space $startpos $endpos
-        }
-
-      }
+      # Replace the starting whitespace with the updated whitespace
+      $win replace -highlight 0 -str $indent_space $startpos $endpos
 
     }
 
@@ -75,33 +58,18 @@ namespace eval indent {
       return
     }
 
-    # Ignore whitespace
-    if {[lsearch [$win._t tag names "$index linestart"] _prewhite] == -1} {
-      if {[set range [$win._t tag prevrange _prewhite "$index lineend"]] ne ""} {
-        set prev_index [$win._t index "[lindex $range 1] lineend"]
-      } else {
-        set prev_index 1.0
-      }
-    } else {
-      set prev_index $index
-    }
-
     set index  [$win._t index "$index+1l linestart"]
     set nl_str ""
 
     # If we do not need smart indentation, use the previous space
     if {$indent_mode eq "IND"} {
-      set insert_space [get_previous_indent_space $win $index]
+      set insert_space [ctext::model::indent_previous $win $index]
     } else {
-      if {[set first_index [lassign [$win._t tag nextrange _prewhite $index "$index lineend"] unused]] ne ""} {
-        set first_index [$win._t index "$first_index-1c"]
-      } else {
-        set first_index $index
-      }
-      set insert_space [get_start_of_line $win [$win._t index "$index-1l lineend"]]
-      lassign [ctext::model::indent_newline $win $prev_index $first_index $insert_space [$win cget -shiftwidth]] insert_space add_nl
+      set shiftwidth [$win cget -shiftwidth]
+      lassign [ctext::model::indent_newline $win $index $shiftwidth] insert_space add_nl
+      puts "insert_space: $insert_space, add_nl: $add_nl"
       if {$add_nl} {
-        set nl_str "[string repeat { } [expr $insert_space + [$win cget -shiftwidth]]]\n"
+        append nl_str [string repeat " " [expr $insert_space + $shiftwidth]] "\n"
       }
     }
 
@@ -143,15 +111,10 @@ namespace eval indent {
     }
 
     # Figure out the leading space
-    set space ""
-    if {[set endpos [lassign [$win._t tag prevrange _prewhite $index "$index linestart"] startpos]] ne ""} {
-      if {[$win._t compare $endpos == "$index+1c"]} {
-        set space [$win._t get $startpos $index]
-      } else {
-        return $index
-      }
-    } else {
-      set space [$win._t get "$index linestart" "$index lineend"]
+    switch [set spaces [ctext::model::indent_backspace $win $index]] {
+      -2      { return }
+      -1      { set space [$win._t get "$index linestart" "$index lineend"] }
+      default { set space [string repeat " " $spaces] }
     }
 
     # If the leading whitespace only consists of spaces, attempt to delete to the previous tab
@@ -173,67 +136,25 @@ namespace eval indent {
   }
 
   ######################################################################
-  # Returns the whitespace of the previous (non-empty) line of text.
-  proc get_previous_indent_space {win index} {
-
-    if {([lindex [split $index .] 0] != 1) && ([set range [$win._t tag prevrange _prewhite "$index-1l lineend"]] ne "")} {
-      return [expr [string length [$win._t get {*}$range]] - 1]
-    } else {
-      return 0
-    }
-
-  }
-
-  ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
   proc indent_format {win startpos endpos {add_separator 1}} {
-
-    puts "IN indent_format, startpos: $startpos, endpos: $endpos"
 
     # Create a separator
     if {$add_separator} {
       $win edit separator
     }
 
-    # If we are the first line containing non-whitespace, preserve the indentation
-    if {([$win._t tag prevrange _prewhite "$startpos linestart"] eq "") || \
-        ([string trim [$win._t get "$startpos linestart" $startpos]] ne "")} {
-      set startpos [$win._t index "$startpos+1l linestart"]
-    } else {
-      set startpos [$win._t index "$startpos linestart"]
-    }
-
     set endpos     [$win._t index $endpos]
     set shiftwidth [$win cget -shiftwidth]
 
-    foreach {index check_index adjust} [ctext::model::indent_format $win $startpos $endpos] {
-
-      puts "  index: $index, check_index: $check_index, adjust: $adjust"
+    foreach {spos epos indents} [ctext::model::indent_format $win $startpos $endpos $shiftwidth] {
 
       # Get the number of indentations to perform
-      set indents      [expr [get_start_of_line $win $check_index] + ($adjust * $shiftwidth)]
-      set indent_space ""
-      set whitespace   ""
+      set indent_space [expr {($indents > 0) ? [string repeat " " $indents] : ""}]
 
-      puts "    indents: $indents"
-
-      # Calculate the indentation space for the given line
-      if {$indents > 0} {
-        set indent_space [string repeat " " $indents]
-      }
-
-      # Remove any leading whitespace and update indentation level (if the first non-whitespace char is a closing bracket)
-      if {[lsearch [$win._t tag names $index] _prewhite] != -1} {
-        set whitespace [string range [$win._t get {*}[$win._t tag nextrange _prewhite $index]] 0 end-1]
-      }
-
-      puts "      index: $index, whitespace ($whitespace), indent_space ($indent_space)"
-
-      # Replace the leading whitespace with the calculated amount of indentation space
-      if {$whitespace ne $indent_space} {
-        $win replace -highlight 0 -str $indent_space $index "$index+[string length $whitespace]c"
-      }
+      # Replace the text
+      $win replace -highlight 0 -str $indent_space $spos $epos
 
     }
 

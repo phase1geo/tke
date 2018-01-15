@@ -743,27 +743,6 @@ object mailbox::indent_line_start(
 
 }
 
-object mailbox::indent_newline(
-  object prev_ti,
-  object first_ti,
-  object indent_space,
-  object shift_width
-) {
-
-  interpreter i( first_ti.get_interp(), false );
-  object args;
-
-  args.append( i, prev_ti );
-  args.append( i, first_ti );
-  args.append( i, indent_space );
-  args.append( i, shift_width );
-
-  add_request( REQUEST_INDENTNEWLINE, args, true, true );
-
-  return( result() );
-
-}
-
 object mailbox::indent_check_unindent(
   object first_ti,
   object curr_ti
@@ -836,6 +815,8 @@ CPPTCL_MODULE(Model, i) {
     .def( "foldindentupdate",    &mailbox::fold_indent_update )
     .def( "foldsyntaxupdate",    &mailbox::fold_syntax_update )
     .def( "indentlinestart",     &mailbox::indent_line_start )
+    .def( "indentprevious",      &mailbox::indent_get_previous )
+    .def( "indentbackspace",     &mailbox::indent_backspace )
     .def( "indentnewline",       &mailbox::indent_newline )
     .def( "indentcheckunindent", &mailbox::indent_check_unindent )
     .def( "indentformat",        &mailbox::indent_format );

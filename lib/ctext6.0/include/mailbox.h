@@ -293,13 +293,29 @@ class mailbox {
       Tcl::object indent_index
     );
 
+    /*! \return Returns the number of spaces found before the previous, non-empty line */
+    Tcl::object indent_get_previous(
+      Tcl::object index
+    ) {
+      add_request( REQUEST_INDENTPREVIOUS, index, true, false );
+      return( result() );
+    }
+
+    /*! \return Returns the number of spaces that precede the given index */
+    Tcl::object indent_backspace(
+      Tcl::object index
+    ) {
+      add_request( REQUEST_INDENTBACKSPACE, index, true, false );
+      return( result() );
+    }
+
     /*! \return Returns number of characters to insert/delete at beginning of line. */
     Tcl::object indent_newline(
-      Tcl::object prev_ti,
-      Tcl::object first_ti,
-      Tcl::object indent_space,
-      Tcl::object shift_width
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_INDENTNEWLINE, args, true, false );
+      return( result() );
+    }
 
     /*! \return Returns information used to handle unindentations */
     Tcl::object indent_check_unindent(

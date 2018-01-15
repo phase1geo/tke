@@ -31,8 +31,9 @@ namespace eval model {
     set data($win,model) [model $win]
     set data($win,debug) 0
 
-    # Add the escape type
+    # Add the escape and firstchar types
     add_type $win "escape"
+    add_type $win "firstchar"
 
   }
 
@@ -616,12 +617,33 @@ namespace eval model {
   }
 
   ######################################################################
-  # Checks for indentation needs after a newline is entered.
-  proc indent_newline {win prev_line first_line spaces shift_width} {
+  # Returns the whitespace (in number of spaces) found before the previous,
+  # non-empty line.
+  proc indent_previous {win index} {
 
     variable data
 
-    return [$data($win,model) indentnewline $prev_line $first_line $spaces $shift_width]
+    return [$data($win,model) indentprevious $index]
+
+  }
+
+  ######################################################################
+  # Returns the number of previous spaces exist before the given index.
+  proc indent_backspace {win index} {
+
+    variable data
+
+    return [$data($win,model) indentbackspace $index]
+
+  }
+
+  ######################################################################
+  # Checks for indentation needs after a newline is entered.
+  proc indent_newline {win index shift_width} {
+
+    variable data
+
+    return [$data($win,model) indentnewline [list $index $shift_width]]
 
   }
 
@@ -638,13 +660,11 @@ namespace eval model {
   ######################################################################
   # Returns a list that is used by the indentation namespace to format
   # text.
-  proc indent_format {win startpos endpos} {
+  proc indent_format {win startpos endpos shift_width} {
 
     variable data
 
-    puts -nonewline "indentformat, time: "
-    puts [time { $data($win,model) indentformat [list $startpos $endpos] }]
-    return [$data($win,model) indentformat [list $startpos $endpos]]
+    return [$data($win,model) indentformat [list $startpos $endpos $shift_width]]
 
   }
 
