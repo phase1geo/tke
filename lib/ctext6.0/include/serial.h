@@ -60,6 +60,12 @@ class serial : public std::vector<serial_item*> {
       const tindex & ti
     ) const;
 
+    int nextindex_firstchar(
+      const tindex & start,
+      const tindex & end,
+      const types  & typs
+    ) const;
+
     /*!
      \return Returns the index of the next serial_item that matches the given type, starting
              at index 'start'.  If no matching item is found, a value of -1 is returned.
@@ -88,6 +94,20 @@ class serial : public std::vector<serial_item*> {
              value of -1 is returned.
     */
     int nextindex_reindent(
+      const tindex & start,
+      const tindex & end,
+      const types  & typs
+    ) const;
+
+    int previndex_firstchar(
+      const tindex & start,
+      const types  & typs
+    ) const;
+
+    /*!
+     \return Returns the index of the previous firstchar serial_item in the given range
+    */
+    int previndex_firstchar(
       const tindex & start,
       const tindex & end,
       const types  & typs
@@ -150,6 +170,15 @@ class serial : public std::vector<serial_item*> {
     ) const;
 
     /*!
+     Returns the number of spaces that precede the specified logical line.
+    */
+    int get_start_of_line(
+      const tindex            & ti,
+      const types             & typs,
+      const std::map<int,int> & indented
+    ) const;
+
+    /*!
      \return Returns true if the line containing the given text index should cause the
              following line to be indented.
     */
@@ -188,10 +217,14 @@ class serial : public std::vector<serial_item*> {
     tnode* find_node( const tindex & index ) const;
 
     /*! \return Returns a stringified version of the serial list */
-    std::string to_string() const;
+    std::string to_string(
+      const types & typs
+    ) const;
 
     /*! \return Returns a human-readable version of the serial list */
-    std::string show() const;
+    std::string show(
+      const types & typs
+    ) const;
 
     /*! \return Returns true if the given index is immediately preceded by an escape */
     bool is_escaped(
@@ -229,11 +262,21 @@ class serial : public std::vector<serial_item*> {
       serial       & elements
     );
 
+    /*! \return Returns the number of spaces found before the previous line */
+    Tcl::object indent_get_previous(
+      const Tcl::object & index,
+      const types       & typs
+    ) const;
+
+    /*! \return Returns number of spaces preceding cursor */
+    Tcl::object indent_backspace(
+      const Tcl::object & index,
+      const types       & typs
+    ) const;
+
     /*! \return Returns the number of characters to insert/delete at the beginning of the line. */
     Tcl::object indent_newline(
-      const Tcl::object & prev_ti,
-      const Tcl::object & first_ti,
-      const Tcl::object & indent_space,
+      const Tcl::object & index,
       const Tcl::object & shift_width,
       const types       & typs
     ) const;
@@ -254,6 +297,7 @@ class serial : public std::vector<serial_item*> {
     Tcl::object indent_format(
       const Tcl::object & startpos,
       const Tcl::object & endpos,
+      const Tcl::object & shiftwidth,
       const types       & typs
     ) const;
 

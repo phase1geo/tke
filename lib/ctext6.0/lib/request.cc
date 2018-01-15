@@ -165,8 +165,14 @@ object request::execute(
     case REQUEST_INDENTLINESTART :
       return( inst.indent_line_start( _args.at( i, 0 ) ) );
       break;
+    case REQUEST_INDENTPREVIOUS :
+      return( inst.indent_get_previous( _args ) );
+      break;
+    case REQUEST_INDENTBACKSPACE :
+      return( inst.indent_backspace( _args ) );
+      break;
     case REQUEST_INDENTNEWLINE :
-      return( inst.indent_newline( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ), _args.at( i, 3 ) ) );
+      return( inst.indent_newline( _args ) );
       break;
     case REQUEST_INDENTCHECKUNINDENT :
       return( inst.indent_check_unindent( _args.at( i, 0 ), _args.at( i, 1 ) ) );

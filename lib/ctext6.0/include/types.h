@@ -43,7 +43,7 @@ class types {
       const std::string & name,
       int bitpos
     ) {
-      _firstchar     |= (name == "firstchar");
+      _firstchar     |= (name == "firstchar") ? (1 << bitpos) : 0;
       _bracket       |= ((name == "curly")   ||
                          (name == "square")  ||
                          (name == "paren")   ||
@@ -111,6 +111,20 @@ class types {
         return( 0 );
       }
       return( it->second );
+    }
+
+    /* \return Returns a string form of all type names that match the given type */
+    const std::string names( int type ) const {
+      std::string str;
+      for( std::map<std::string,int>::const_iterator it=_types.begin(); it!=_types.end(); it++ ) {
+        if( type & it->second ) {
+          if( !str.empty() ) {
+            str += "/";
+          }
+          str += it->first;
+        }
+      }
+      return( str );
     }
 
     /*! \return Returns the tag associated with the given type */

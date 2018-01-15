@@ -102,7 +102,9 @@ class serial_item {
     const tnode* const_node() const { return( _node ); }
 
     /*! \return Returns a human-readable version of this element */
-    std::string to_string() const;
+    std::string to_string(
+      const types & typs
+    ) const;
 
     /*! \return Returns true if this item matches the given alias and side */
     bool matches_indent(

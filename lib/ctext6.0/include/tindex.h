@@ -22,7 +22,7 @@ class tindex {
 
   public:
 
-    const int lend = 1000000;
+    static const int lend = 1000000;
 
     /*! Default constructor */
     tindex() : _row( 1 ), _col( 0 ) {}
