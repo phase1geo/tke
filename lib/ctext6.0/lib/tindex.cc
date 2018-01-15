@@ -24,7 +24,16 @@ tindex::tindex(
 
   /* Populate the tindex */
   _row = atoi( value.substr( 0, (period + 1) ).c_str() );
-  _col = atoi( value.substr( (period + 1) ).c_str() );
+
+  string col = value.substr( period + 1 );
+  
+  if( col.find( "start" ) != string ::npos ) {
+    _col = 0;
+  } else if( col.find( "end") != string::npos ) {
+    _col = 1000000;
+  } else {
+    _col = atoi( col.c_str() );
+  }
 
 }
 

@@ -642,6 +642,8 @@ namespace eval model {
 
     variable data
 
+    puts -nonewline "indentformat, time: "
+    puts [time { $data($win,model) indentformat [list $startpos $endpos] }]
     return [$data($win,model) indentformat [list $startpos $endpos]]
 
   }
