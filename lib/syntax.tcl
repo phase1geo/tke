@@ -698,7 +698,7 @@ namespace eval syntax {
   # Returns true if the given text widget contains meta characters.
   proc contains_meta_chars {txt} {
 
-    if {![catch { ctext::checkHighlightClass $txt meta }]} {
+    if {[$txt syntax ranges meta] ne ""} {
       return 1
     }
 
@@ -710,7 +710,7 @@ namespace eval syntax {
   # Sets the visibility of all meta tags to the given value.
   proc set_meta_visibility {txt value} {
 
-    catch { $txt tag configure _meta -elide [expr $value ^ 1] }
+    catch { $txt syntax configure meta -elide [expr $value ^ 1] }
 
   }
 

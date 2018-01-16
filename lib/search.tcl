@@ -147,7 +147,7 @@ namespace eval search {
   # otherwise, returns false.
   proc enable_find_view {txt} {
 
-    return [expr {[$txt tag ranges _search] ne ""}]
+    return [expr {[$txt syntax ranges search] ne ""}]
 
   }
 
@@ -210,7 +210,7 @@ namespace eval search {
   # search item.
   proc enable_select_current {txt} {
 
-    return [expr [lsearch [$txt tag names insert] _search] != -1]
+    return [$txt is inclass search insert]
 
   }
 
@@ -236,7 +236,7 @@ namespace eval search {
     $txt tag remove sel 1.0 end
 
     # Get the search ranges
-    if {[set ranges [$txt tag ranges _search]] ne ""} {
+    if {[set ranges [$txt syntax ranges search]] ne ""} {
 
       # Add the ranges to the selection
       $txt tag add sel {*}$ranges
