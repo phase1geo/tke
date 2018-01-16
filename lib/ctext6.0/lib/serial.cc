@@ -693,6 +693,35 @@ bool serial::line_contains_indentation(
 
 }
 
+object serial::get_firstchar(
+  const object & index,
+  const types  & typs
+) const {
+
+  tindex ti( index );
+  int    firstchar;
+
+  if( (firstchar = nextindex_firstchar( tindex( ti.row(), 0 ), tindex( ti.row(), tindex::lend ), typs )) == -1 ) {
+    return( (object)"" );
+  } else {
+    return( (object)(*this)[firstchar]->const_pos().to_tindex().to_string() );
+  }
+
+}
+
+void serial::get_all_firstchars(
+  vector<tindex> & positions,
+  const types    & typs
+) const {
+
+  for( vector<serial_item*>::const_iterator it=begin(); it!=end(); it++ ) {
+    if( typs.is_firstchar( (*it)->type() ) ) {
+      positions.push_back( (*it)->const_pos().to_tindex() );
+    }
+  }
+
+}
+
 object serial::indent_get_previous(
   const object & index,
   const types  & typs
@@ -751,15 +780,11 @@ object serial::indent_newline(
     indents += shiftw;
   }
 
-  cout << "ti: " << ti.to_string() << ", index: " << ti.to_string() << ", indents: " << indents << ", first: " << first.to_string() << endl;
-  cout << show( typs ) << endl;
-
   /* Check for a first char in the current line */
   if( (firstchar = nextindex_firstchar( ti, tindex( ti.row(), tindex::lend ), typs )) != -1 ) {
 
     /* Get the first character index */
     first = (*this)[firstchar]->const_pos().to_tindex();
-    cout << "  firstchar: " << firstchar << ", first: " << first.to_string() << endl;
 
     /*
      Remove any leading whitespace and update indentation level
@@ -779,11 +804,10 @@ object serial::indent_newline(
 
   }
 
-  cout << "  first: " << first.to_string() << endl;
-
   /* Construct the return value */
   retval.append( interp, (object)(indents - first.col()) );
   retval.append( interp, (object)add_nl );
+
   return( retval );
 
 }
@@ -865,6 +889,8 @@ object serial::indent_check_unindent(
 
   /* Only return a numerical value if the indentation differs from what currently exists */
   if( indents != first.col() ) {
+    retval.append( interp, (object)tindex( first.row(), 0 ).to_string() );
+    retval.append( interp, (object)first.to_string() );
     retval.append( interp, (object)indents );
   }
 

@@ -441,15 +441,22 @@ class model {
       return( _linemap.fold_find( startline, dir, num ) );
     }
 
-    void fold_indent_update(
-      const Tcl::object & ranges
-    ) {
-      _linemap.fold_indent_update( ranges );
+    void fold_indent_update() {
+      std::vector<tindex> firstchars;
+      _serial.get_all_firstchars( firstchars, _types );
+      _linemap.fold_indent_update( firstchars );
     }
 
     /*! Update the linemap with the fold information based on syntax */
     void fold_syntax_update() {
       _tree.add_folds( _linemap, _types );
+    }
+
+    /*! Returns the index of the first non-whitespace character found on the line containing index */
+    Tcl::object get_firstchar(
+      const Tcl::object & index
+    ) const {
+      return( _serial.get_firstchar( index, _types ) );
     }
 
     /*! \return Returns the the starting line containing the given indent marker */

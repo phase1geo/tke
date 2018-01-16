@@ -118,7 +118,7 @@
       <Scope>api</Scope>
     </TokenIdentifier>
     <Path>namespaceapi.html</Path>
-    <Anchor>af986a4bee016402e7118a63d9d15d999</Anchor>
+    <Anchor>af86365b4bffc6aac3899a20bcf382a6c</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -129,7 +129,7 @@
       <Scope>api</Scope>
     </TokenIdentifier>
     <Path>namespaceapi.html</Path>
-    <Anchor>a27ab4c1890f1671c03994c892e966d35</Anchor>
+    <Anchor>a9939e105adae875c1a666e9ce2edec65</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -140,7 +140,7 @@
       <Scope>api</Scope>
     </TokenIdentifier>
     <Path>namespaceapi.html</Path>
-    <Anchor>aa517a42355eb6cccae71569fa5273d32</Anchor>
+    <Anchor>a46ade28dfa546efab4945e22bf3b11fd</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -272,7 +272,7 @@
       <Scope>api::edit</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1edit.html</Path>
-    <Anchor>ac942f75d8b76ba826d60cf9861e2a72b</Anchor>
+    <Anchor>a637bfd6d1f923e114271987a505ba268</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -338,7 +338,7 @@
       <Scope>api::edit</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1edit.html</Path>
-    <Anchor>a15fd4188509b2bfd2dcb513c7649fde5</Anchor>
+    <Anchor>a664e64299003697490a9e564aa11fe77</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -349,7 +349,7 @@
       <Scope>api::edit</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1edit.html</Path>
-    <Anchor>a60f7309cf6238cfb14afb6767f73f01d</Anchor>
+    <Anchor>a1f0bac87f048b5557d633b4c82d7c06b</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -481,7 +481,7 @@
       <Scope>api::utils</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1utils.html</Path>
-    <Anchor>a8314b76c2b45a6f10caf4b9648a9980f</Anchor>
+    <Anchor>a70b0c8e15296575c5e2dcdd7b7f68bd1</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -591,7 +591,7 @@
       <Scope>bgproc</Scope>
     </TokenIdentifier>
     <Path>namespacebgproc.html</Path>
-    <Anchor>a10536dfd2292f544d88d5bb5d5ae1f5a</Anchor>
+    <Anchor>ae632a77a599bb15fd068e544e7e87c78</Anchor>
     <DeclaredIn>bgproc.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -679,7 +679,7 @@
       <Scope>bindings</Scope>
     </TokenIdentifier>
     <Path>namespacebindings.html</Path>
-    <Anchor>a6f9337bcd0eef4eca80c29039706b720</Anchor>
+    <Anchor>a63d3c42d8b98922e931e4b7d1c14f046</Anchor>
     <DeclaredIn>bindings.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -789,7 +789,7 @@
       <Scope>bist</Scope>
     </TokenIdentifier>
     <Path>namespacebist.html</Path>
-    <Anchor>a516c36e005e9b4a640d1d6947bd89c25</Anchor>
+    <Anchor>a76f5499f34c188c644153bccdd824830</Anchor>
     <DeclaredIn>bist.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1130,7 +1130,7 @@
       <Scope>bitmap</Scope>
     </TokenIdentifier>
     <Path>namespacebitmap.html</Path>
-    <Anchor>ae728a5666188614d76e710d32d424b68</Anchor>
+    <Anchor>aee61558584461d39b4772e16b6726a30</Anchor>
     <DeclaredIn>bitmap.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1185,7 +1185,7 @@
       <Scope>bitmap</Scope>
     </TokenIdentifier>
     <Path>namespacebitmap.html</Path>
-    <Anchor>a9a7e328f3c4d9c162631063876309339</Anchor>
+    <Anchor>aaac618cee944c91a21da9009d75b8c84</Anchor>
     <DeclaredIn>bitmap.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1614,7 +1614,7 @@
       <Scope>diff</Scope>
     </TokenIdentifier>
     <Path>namespacediff.html</Path>
-    <Anchor>a73d46c369df1b80792f78760e9a1847d</Anchor>
+    <Anchor>af532199654cbe352a01eb13e3505fd96</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2560,7 +2560,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a24eb3163a1ff73990e7da3e37fd74d57</Anchor>
+    <Anchor>a398097dc2eaa81ecc7f47a967563fca8</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2582,7 +2582,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a81105d286d1be1ffd64567d5642715e7</Anchor>
+    <Anchor>ad7b83b9419b2d0778db5b415c1ec741f</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2659,7 +2659,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a3710e197ac73e2f282868e4167cede69</Anchor>
+    <Anchor>ac51b8596c6478c48c8831d4e05ab62bc</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2670,7 +2670,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>acf7ec15ad7efb81e956948004726b3a0</Anchor>
+    <Anchor>a202603b27fc2e35f0bde04b00adfd6cd</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2769,7 +2769,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a533be2a6fd12b57894f6454f1c2b0978</Anchor>
+    <Anchor>abc8e22f9e89f0bd05305228c7addd9b5</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2791,7 +2791,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a08bd891af50296acb4feb3fbb88f2e5b</Anchor>
+    <Anchor>afe02592278a7facedf17d427892c4889</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2813,7 +2813,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a4cde3744f48203280281610fdf5c6e86</Anchor>
+    <Anchor>a3140483a969271990827289140381a20</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2835,7 +2835,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>aba38b2ea78126b29cae99e95253857dd</Anchor>
+    <Anchor>ad93e6ea4bb5940133bab7ff365b24aaa</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2846,7 +2846,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a35d42142ea4a7bd9b86c6125bb6b6071</Anchor>
+    <Anchor>a38a15f488e4433eec2538d908502ef84</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -2857,7 +2857,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a9199d64e96086903ac7b06c259991b2b</Anchor>
+    <Anchor>ae6b4c695228fc8021ba8448c3bac2b08</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3022,7 +3022,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>ad1b11c66041f119852b42dbabbcb60ec</Anchor>
+    <Anchor>a4c50c0e798e8280f37428f13349b2383</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3044,7 +3044,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>aeb4209b104cbf9e32f649a8602822ec1</Anchor>
+    <Anchor>a66f52c65fe631b1ca8879b4f0eac9cac</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3121,7 +3121,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a349f98f1d1eeb85f38328c3b044d901d</Anchor>
+    <Anchor>a3018300ec522a084c32ace8a02532108</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3132,7 +3132,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a46ba4204f98d2a758683510f4e0424b2</Anchor>
+    <Anchor>ad725796c8152d40d5b8a2677188bc021</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3143,7 +3143,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>ab8dcb35ac4f969b79cd0cc4f56353547</Anchor>
+    <Anchor>a586b15c463e3ac484800444bc55e9a91</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3154,7 +3154,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a00d86ac0ca86c9f7621fca0eb65d6de5</Anchor>
+    <Anchor>a2978fd6bd0c587184728e7c4cbbde73a</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3165,7 +3165,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a7e5a7c4d4e7d6764d82db185cf9d9403</Anchor>
+    <Anchor>a4dc310916df232c23dcdb454906baf04</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3176,7 +3176,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a93bd7e4ab5f2b13f7c75c67240a695d7</Anchor>
+    <Anchor>a9553a569a23b9a95bb41c1bd105ddb30</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -4045,7 +4045,7 @@
       <Scope>files</Scope>
     </TokenIdentifier>
     <Path>namespacefiles.html</Path>
-    <Anchor>a4a83ff20816ca00cc7f18e0be0b537a1</Anchor>
+    <Anchor>ae8404f7ed3463e912a500d530fb283c5</Anchor>
     <DeclaredIn>files.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -4363,7 +4363,7 @@
       <Scope>fontchooser</Scope>
     </TokenIdentifier>
     <Path>namespacefontchooser.html</Path>
-    <Anchor>a3483aa9295fcd6001aacb63bb27178f1</Anchor>
+    <Anchor>a65bac5d92a56bbc1c0d016578ad88886</Anchor>
     <DeclaredIn>fontchooser.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -4489,7 +4489,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>ftp__wrapper_8tcl.html</Path>
-    <Anchor>a953bbbefdd14a73f7d05f0641af1bb27</Anchor>
+    <Anchor>a206b4b6071f58ce1fead088b28a7fb1c</Anchor>
     <DeclaredIn>ftp_wrapper.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -5895,7 +5895,7 @@
       <Scope>gui</Scope>
     </TokenIdentifier>
     <Path>namespacegui.html</Path>
-    <Anchor>a9bc11f44a37da680ee035f3e562cc1dc</Anchor>
+    <Anchor>a221cbfdce8272760c460d4a8ebec467a</Anchor>
     <DeclaredIn>gui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7094,7 +7094,7 @@
       <Scope>ipanel</Scope>
     </TokenIdentifier>
     <Path>namespaceipanel.html</Path>
-    <Anchor>a318767d641e209c47bd9a00a2732ef6a</Anchor>
+    <Anchor>a6ba8e90a2807f2b79f7d5166bd295c56</Anchor>
     <DeclaredIn>ipanel.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7456,7 +7456,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>a67e51af22fa1ae1a68b1ce857138f9da</Anchor>
+    <Anchor>ab87a2f5ffadc360dbc5afebe7ef37cd3</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7599,7 +7599,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>afe0402aea8cc5239c8ea9cfd7ee3091d</Anchor>
+    <Anchor>a2b295e7b3b73ad09d0c9548a7382365d</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7610,7 +7610,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>ab6f695f15a982b0ac35a27867ec317c8</Anchor>
+    <Anchor>a7d526a0670350706a4b468613c152235</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7621,7 +7621,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>ac378eac3a826ccf2a55c45bd7b21a100</Anchor>
+    <Anchor>adbf4499997ce07bc3051f87f0cf24eb6</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7994,7 +7994,7 @@
       <Scope>markers</Scope>
     </TokenIdentifier>
     <Path>namespacemarkers.html</Path>
-    <Anchor>a83cc812a2988ef216454715fb6b89bbd</Anchor>
+    <Anchor>a34f5a4c42970b277179813790b380dad</Anchor>
     <DeclaredIn>markers.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -8060,7 +8060,7 @@
       <Scope>markers</Scope>
     </TokenIdentifier>
     <Path>namespacemarkers.html</Path>
-    <Anchor>af75eb18440976748b1f5272f7073ac2e</Anchor>
+    <Anchor>acb818609ba6c67ff755b74ec1d9b9ad1</Anchor>
     <DeclaredIn>markers.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -8159,7 +8159,7 @@
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a6b77936358a7faadd49d05edf16737aa</Anchor>
+    <Anchor>a6269cf5e88e7196f6c1b268613b2627e</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -9347,7 +9347,7 @@
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>aac7ea497c14541fba0b723919af1b887</Anchor>
+    <Anchor>a9c4750543b7a76db52a1f5b152b88783</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -9358,7 +9358,7 @@
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a56e1578a261d2d481286a0ac1fb9eb52</Anchor>
+    <Anchor>aa312f7c643cdd4a842b897a296000e4d</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -9799,17 +9799,6 @@
     </TokenIdentifier>
     <Path>namespacemulticursor.html</Path>
     <Anchor>aee3b1e42aebb720a20b8d64aa37ec06b</Anchor>
-    <DeclaredIn>multicursor.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>format_text</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>multicursor</Scope>
-    </TokenIdentifier>
-    <Path>namespacemulticursor.html</Path>
-    <Anchor>a171951ab21b040103db8fa4908c74e7f</Anchor>
     <DeclaredIn>multicursor.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10689,7 +10678,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a99f05a369988d6955a39f704a2182081</Anchor>
+    <Anchor>aa02467f8603b6d833a170729a356492b</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10700,7 +10689,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>aad6f1849984780f97a27d81db87845be</Anchor>
+    <Anchor>ae683bb83c05454fc255d855244aed802</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10711,7 +10700,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a0a6e3f7699c605e82a92b70ebc9553a6</Anchor>
+    <Anchor>a27ca11500513d7c0ea1d8ea352b3ea6e</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10722,7 +10711,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a7d89aac57b260ef32431a24da55d5cde</Anchor>
+    <Anchor>ad23424448a872e769c0570f3845024bb</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10744,7 +10733,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a5d22ef5ed9e13f8066eb53113a831d58</Anchor>
+    <Anchor>a92e529cb20eba1ca61b6bfdb210c0ffb</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10755,7 +10744,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a2384fbc83eeb105730ad9d3b0be250ee</Anchor>
+    <Anchor>abd508196db13f4d65b981e50cdac6d93</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10777,7 +10766,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a5e4afe6b02e916bcfcb973b4d89f29c4</Anchor>
+    <Anchor>a72ddb68cb8c617c4e367c2bf153453e3</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10821,7 +10810,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>afd7b4c8e5170f34bcc557b2f69e69aa6</Anchor>
+    <Anchor>a076f115e59ef219698f49a33a8067f49</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10854,7 +10843,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>afaedb61b326be4ddaa5d4f3556387086</Anchor>
+    <Anchor>a1818dccd70bea6c6df39f554e4e3bd7d</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10887,7 +10876,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a0e8843807be8b6ba14d8f479f48bfe62</Anchor>
+    <Anchor>a2c9e781e85e7ecc7b1969495d575776a</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10931,7 +10920,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a3f8eda566cc3c3ffd05dfbb1904087cc</Anchor>
+    <Anchor>a26aadfc2489f0983443bb1ff087e5634</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -11019,7 +11008,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>ae9d6268c2d0d22f21468bdeb0b887a7f</Anchor>
+    <Anchor>a1f89c393cbe963140f80811ab9a27cf4</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -11052,7 +11041,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a23d22659125f469152f6935bf1eb4256</Anchor>
+    <Anchor>a0907eeeec80f0177a8c7081ebc8e1bba</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -11063,7 +11052,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a13f5c717faf8ed7130b408bf707d8903</Anchor>
+    <Anchor>a7ee77392ca7e135acad70b1c6f75f1a5</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -11074,7 +11063,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>affe3eeadca72fa47e1ff4a128a515697</Anchor>
+    <Anchor>af69403104c17ae8c1e5c6f42b0683e0f</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -11096,7 +11085,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>aa0d47770f92f111e45e5e43e7c1f4133</Anchor>
+    <Anchor>aafb7d9da2e3605a94682ad691d6b24de</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12097,7 +12086,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>ac4a8d52972a8a0eb673ba00167ef95c4</Anchor>
+    <Anchor>a4694be4c468bad9dbc4159a7cd60edd3</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12295,7 +12284,7 @@
       <Scope>preferences</Scope>
     </TokenIdentifier>
     <Path>namespacepreferences.html</Path>
-    <Anchor>a83c0c52bb5347f9f2e8f914d02bcc3cb</Anchor>
+    <Anchor>a70afa9433519856abd2d0b8a08b1213f</Anchor>
     <DeclaredIn>preferences.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12339,7 +12328,7 @@
       <Scope>preferences</Scope>
     </TokenIdentifier>
     <Path>namespacepreferences.html</Path>
-    <Anchor>aafa5cc09f06e50c14ce7a1387f482983</Anchor>
+    <Anchor>a3e3444485a57de6cc90910adba7ec4be</Anchor>
     <DeclaredIn>preferences.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12482,7 +12471,7 @@
       <Scope>remote</Scope>
     </TokenIdentifier>
     <Path>namespaceremote.html</Path>
-    <Anchor>a082e46ff2a91b73d0e47042b06b32657</Anchor>
+    <Anchor>a79ef9c61adeefd0ac96d8240b42464b4</Anchor>
     <DeclaredIn>remote.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -13274,7 +13263,7 @@
       <Scope>scrolledframe</Scope>
     </TokenIdentifier>
     <Path>namespacescrolledframe.html</Path>
-    <Anchor>a84e86919d2c5994c44e101b5f933a267</Anchor>
+    <Anchor>a0e3449c2df3d69d4ca35642324209115</Anchor>
     <DeclaredIn>scrolledframe.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -13285,7 +13274,7 @@
       <Scope>scrolledframe</Scope>
     </TokenIdentifier>
     <Path>namespacescrolledframe.html</Path>
-    <Anchor>a613599e77563e047ac5af6309193401b</Anchor>
+    <Anchor>a00bd5223e3a8b7d72defbd5e71078d24</Anchor>
     <DeclaredIn>scrolledframe.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -13758,7 +13747,7 @@
       <Scope>select</Scope>
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
-    <Anchor>abf2b1526fff9b006ee5b22e8b1565b01</Anchor>
+    <Anchor>a73a8cc178a57ba4f0e94f7c8bfb49aba</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -13769,7 +13758,7 @@
       <Scope>select</Scope>
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
-    <Anchor>ae79aa513b6c41647adf45ad190f7a635</Anchor>
+    <Anchor>a52238aa7a6abc75205aa39d15625c27e</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -14594,7 +14583,7 @@
       <Scope>sessions</Scope>
     </TokenIdentifier>
     <Path>namespacesessions.html</Path>
-    <Anchor>a00f1ae93e42d1f2f45e23d7d204b63ff</Anchor>
+    <Anchor>aa8291377af3b18dd888657bac2fdeb07</Anchor>
     <DeclaredIn>sessions.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15331,7 +15320,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>aa831a544b108b2cbc2a72329d071222b</Anchor>
+    <Anchor>a8472ef61add7765ed5c54b40b1df8862</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15342,7 +15331,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a2523ee77af923ff6b223b79621445001</Anchor>
+    <Anchor>a1d877e8d0b0b9018c32ed3c4d664a0f9</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15353,7 +15342,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a34c2845d5f509c446871fa1f5459501e</Anchor>
+    <Anchor>a0919a0779ebacf58ca28ea0c43cdebfe</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15661,7 +15650,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>ae2a4f3b23b15b5069591a2cb3fb56a18</Anchor>
+    <Anchor>a9475a6b3b87f2723cd8c709623d1281c</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16090,7 +16079,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>ada4d238e45999b8693b688c9560b69bb</Anchor>
+    <Anchor>ac0efbe30c1d7f93cb4e33a1f21ff81f7</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16145,7 +16134,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>aa91918d4e30de27512b7afa1671b9581</Anchor>
+    <Anchor>a3332b7fddbb80e242a75d0606a02fdd7</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16189,7 +16178,7 @@
       <Scope>snippets</Scope>
     </TokenIdentifier>
     <Path>namespacesnippets.html</Path>
-    <Anchor>aab23ac4444d1d8d1fedbe5e57a6388ba</Anchor>
+    <Anchor>ad65aec95bdd0cbca44f8a941a8d54cf5</Anchor>
     <DeclaredIn>snippets.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16299,7 +16288,7 @@
       <Scope>snippets</Scope>
     </TokenIdentifier>
     <Path>namespacesnippets.html</Path>
-    <Anchor>af8420ca55dc88b0eb6c1fd6fe09bb3e0</Anchor>
+    <Anchor>a7d3c52a608b6b4571e98d5675257e538</Anchor>
     <DeclaredIn>snippets.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16502,7 +16491,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>socksend_8tcl.html</Path>
-    <Anchor>ae9580a1d54de9bd0b19723a1d362616d</Anchor>
+    <Anchor>a7abd327e094602b85cbd9a3e605b1e7e</Anchor>
     <DeclaredIn>socksend.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16532,7 +16521,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>socksend_8tcl.html</Path>
-    <Anchor>aa996cbe2133122c22455549642de9134</Anchor>
+    <Anchor>a074d5965ed0ee785f9d5f69a0d9f1fd8</Anchor>
     <DeclaredIn>socksend.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16651,7 +16640,7 @@
       <Scope>startup</Scope>
     </TokenIdentifier>
     <Path>namespacestartup.html</Path>
-    <Anchor>a5508338cd343cd6189ffdfe803299655</Anchor>
+    <Anchor>a48fccd8eaa8e17a469a07cf5d62c30e3</Anchor>
     <DeclaredIn>startup.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16717,7 +16706,7 @@
       <Scope>startup</Scope>
     </TokenIdentifier>
     <Path>namespacestartup.html</Path>
-    <Anchor>a276609556149a773e498238fcb9b6385</Anchor>
+    <Anchor>a880264b42f2d8f32d7a8893b33ede725</Anchor>
     <DeclaredIn>startup.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16849,7 +16838,7 @@
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>ab6e37f55f15d2d7f73fc9079d0ca1ce5</Anchor>
+    <Anchor>a383469d6b4e6daa348f15c1a62be9aa0</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16992,7 +16981,7 @@
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>a2dd46fee28a024792b373e9482788754</Anchor>
+    <Anchor>acb7375d529da8c410ee7c438049ea481</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -17201,7 +17190,7 @@
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>ac5be41ed13f53cdba888105055503c4f</Anchor>
+    <Anchor>a24d9a047ee4c7c065a98b1a4ed1baaa1</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -17740,7 +17729,7 @@
       <Scope>theme</Scope>
     </TokenIdentifier>
     <Path>namespacetheme.html</Path>
-    <Anchor>a3d0c815cf50f8ef1ec80bc7425d39286</Anchor>
+    <Anchor>af72e247d539f10507dec15577154b462</Anchor>
     <DeclaredIn>theme.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -17817,7 +17806,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>aaf4d143313ca31a3539df7b950ca88cb</Anchor>
+    <Anchor>ae8cce58063525b8e06991ebc36959d4b</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18158,7 +18147,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>ace88d9e2d0e4b6fc5636ad8820f92d70</Anchor>
+    <Anchor>aaae5954541d2c9587408362ff7fa5dad</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18334,7 +18323,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>a9a03d2e41129c6164299f680afd6e2a0</Anchor>
+    <Anchor>a29cc8abc1a21fd2f0fa2584534a40712</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18400,7 +18389,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>adce8144f4dcc3884293735334024e723</Anchor>
+    <Anchor>a4a4bdea8686b4b3349c1b753461be1d2</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18422,7 +18411,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>ada10095823e8d1a7472cca625aeef3bf</Anchor>
+    <Anchor>aa33133e53094e547e4df7349cc9e586d</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18433,7 +18422,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>ac9705be5ecfe988bb154095cf57798c6</Anchor>
+    <Anchor>a4bb0bffe91f9b0f2078089f1bb26ec33</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18741,7 +18730,7 @@
       <Scope>themes</Scope>
     </TokenIdentifier>
     <Path>namespacethemes.html</Path>
-    <Anchor>a824be6c04e7805526d879f5be8ef4977</Anchor>
+    <Anchor>a0beb48cbe7fbd0c0a2b8944429fe1118</Anchor>
     <DeclaredIn>themes.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19049,7 +19038,7 @@
       <Scope>tkedat</Scope>
     </TokenIdentifier>
     <Path>namespacetkedat.html</Path>
-    <Anchor>a2c584c7a8b9f1e942270bcdece79d103</Anchor>
+    <Anchor>aa7009a7ab9abdb1c1627ce4402a0ae88</Anchor>
     <DeclaredIn>tkedat.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19060,7 +19049,7 @@
       <Scope>tkedat</Scope>
     </TokenIdentifier>
     <Path>namespacetkedat.html</Path>
-    <Anchor>a08fb398e141982c3dccda6229055696d</Anchor>
+    <Anchor>a2c497c50d536bf03673ee049bb7b86d0</Anchor>
     <DeclaredIn>tkedat.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19071,7 +19060,7 @@
       <Scope>tkedat</Scope>
     </TokenIdentifier>
     <Path>namespacetkedat.html</Path>
-    <Anchor>aab5a6e8c1c3551a8b82dcff038cdb25c</Anchor>
+    <Anchor>aabbd8a90f513608fc2a7fe2d725c6a9d</Anchor>
     <DeclaredIn>tkedat.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19214,7 +19203,7 @@
       <Scope>utils</Scope>
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
-    <Anchor>a269f228f6962170c9655ffc9819035af</Anchor>
+    <Anchor>aa80202a063e637943b8d62cd33c72465</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19335,7 +19324,7 @@
       <Scope>utils</Scope>
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
-    <Anchor>ae67b92ab7f8d7401b82a5ee5e211cc5d</Anchor>
+    <Anchor>adfc92fa14a2507314f09aef8c3524586</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19434,7 +19423,7 @@
       <Scope>utils</Scope>
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
-    <Anchor>a03829114571e0ed074acd9274f0c5b90</Anchor>
+    <Anchor>a9118d8ecdd2d6358e8bda6a0badf62ce</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19676,7 +19665,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a2c0ff136478f40db93ee91b3704078c7</Anchor>
+    <Anchor>afeb244450216f1aed032baaab9bdb7ff</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20160,7 +20149,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>aac47d2a246b2d0039df331143140d9e8</Anchor>
+    <Anchor>a10fd81ed2135e146d43dae50fdf30e95</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20182,7 +20171,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a4dabb181dc139149ffa2996ae9db9099</Anchor>
+    <Anchor>a848d26847263c1fc5d6ea7c9a8d52a38</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20215,7 +20204,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>afa12886956d97e4de58a55573d40ec9d</Anchor>
+    <Anchor>a238f7a97465685339cbd575459b5a50e</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20358,7 +20347,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a8ad0ada25d064d8bdbbd0ce317214db6</Anchor>
+    <Anchor>aa0f1dd342440fc223531b5d143a2a6af</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21084,7 +21073,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a5e0ad51ccc9e12288547ca66548bd969</Anchor>
+    <Anchor>a21b432ee0bdee36662351ba6c218e4b0</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21621,7 +21610,7 @@
       <Scope>api</Scope>
     </TokenIdentifier>
     <Path>namespaceapi.html</Path>
-    <Anchor>af986a4bee016402e7118a63d9d15d999</Anchor>
+    <Anchor>af86365b4bffc6aac3899a20bcf382a6c</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21632,7 +21621,7 @@
       <Scope>api</Scope>
     </TokenIdentifier>
     <Path>namespaceapi.html</Path>
-    <Anchor>a27ab4c1890f1671c03994c892e966d35</Anchor>
+    <Anchor>a9939e105adae875c1a666e9ce2edec65</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21643,7 +21632,7 @@
       <Scope>api</Scope>
     </TokenIdentifier>
     <Path>namespaceapi.html</Path>
-    <Anchor>aa517a42355eb6cccae71569fa5273d32</Anchor>
+    <Anchor>a46ade28dfa546efab4945e22bf3b11fd</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21729,7 +21718,7 @@
       <Scope>api::edit</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1edit.html</Path>
-    <Anchor>ac942f75d8b76ba826d60cf9861e2a72b</Anchor>
+    <Anchor>a637bfd6d1f923e114271987a505ba268</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21795,7 +21784,7 @@
       <Scope>api::edit</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1edit.html</Path>
-    <Anchor>a15fd4188509b2bfd2dcb513c7649fde5</Anchor>
+    <Anchor>a664e64299003697490a9e564aa11fe77</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -21806,7 +21795,7 @@
       <Scope>api::edit</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1edit.html</Path>
-    <Anchor>a60f7309cf6238cfb14afb6767f73f01d</Anchor>
+    <Anchor>a1f0bac87f048b5557d633b4c82d7c06b</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22047,7 +22036,7 @@
       <Scope>api::utils</Scope>
     </TokenIdentifier>
     <Path>namespaceapi_1_1utils.html</Path>
-    <Anchor>a8314b76c2b45a6f10caf4b9648a9980f</Anchor>
+    <Anchor>a70b0c8e15296575c5e2dcdd7b7f68bd1</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22166,7 +22155,7 @@
       <Scope>bgproc</Scope>
     </TokenIdentifier>
     <Path>namespacebgproc.html</Path>
-    <Anchor>a10536dfd2292f544d88d5bb5d5ae1f5a</Anchor>
+    <Anchor>ae632a77a599bb15fd068e544e7e87c78</Anchor>
     <DeclaredIn>bgproc.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22263,7 +22252,7 @@
       <Scope>bindings</Scope>
     </TokenIdentifier>
     <Path>namespacebindings.html</Path>
-    <Anchor>a6f9337bcd0eef4eca80c29039706b720</Anchor>
+    <Anchor>a63d3c42d8b98922e931e4b7d1c14f046</Anchor>
     <DeclaredIn>bindings.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22382,7 +22371,7 @@
       <Scope>bist</Scope>
     </TokenIdentifier>
     <Path>namespacebist.html</Path>
-    <Anchor>a516c36e005e9b4a640d1d6947bd89c25</Anchor>
+    <Anchor>a76f5499f34c188c644153bccdd824830</Anchor>
     <DeclaredIn>bist.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22732,7 +22721,7 @@
       <Scope>bitmap</Scope>
     </TokenIdentifier>
     <Path>namespacebitmap.html</Path>
-    <Anchor>ae728a5666188614d76e710d32d424b68</Anchor>
+    <Anchor>aee61558584461d39b4772e16b6726a30</Anchor>
     <DeclaredIn>bitmap.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22787,7 +22776,7 @@
       <Scope>bitmap</Scope>
     </TokenIdentifier>
     <Path>namespacebitmap.html</Path>
-    <Anchor>a9a7e328f3c4d9c162631063876309339</Anchor>
+    <Anchor>aaac618cee944c91a21da9009d75b8c84</Anchor>
     <DeclaredIn>bitmap.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -23243,7 +23232,7 @@
       <Scope>diff</Scope>
     </TokenIdentifier>
     <Path>namespacediff.html</Path>
-    <Anchor>a73d46c369df1b80792f78760e9a1847d</Anchor>
+    <Anchor>af532199654cbe352a01eb13e3505fd96</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24270,7 +24259,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a24eb3163a1ff73990e7da3e37fd74d57</Anchor>
+    <Anchor>a398097dc2eaa81ecc7f47a967563fca8</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24292,7 +24281,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a81105d286d1be1ffd64567d5642715e7</Anchor>
+    <Anchor>ad7b83b9419b2d0778db5b415c1ec741f</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24369,7 +24358,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a3710e197ac73e2f282868e4167cede69</Anchor>
+    <Anchor>ac51b8596c6478c48c8831d4e05ab62bc</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24380,7 +24369,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>acf7ec15ad7efb81e956948004726b3a0</Anchor>
+    <Anchor>a202603b27fc2e35f0bde04b00adfd6cd</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24479,7 +24468,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a533be2a6fd12b57894f6454f1c2b0978</Anchor>
+    <Anchor>abc8e22f9e89f0bd05305228c7addd9b5</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24501,7 +24490,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a08bd891af50296acb4feb3fbb88f2e5b</Anchor>
+    <Anchor>afe02592278a7facedf17d427892c4889</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24523,7 +24512,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a4cde3744f48203280281610fdf5c6e86</Anchor>
+    <Anchor>a3140483a969271990827289140381a20</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24545,7 +24534,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>aba38b2ea78126b29cae99e95253857dd</Anchor>
+    <Anchor>ad93e6ea4bb5940133bab7ff365b24aaa</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24556,7 +24545,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a35d42142ea4a7bd9b86c6125bb6b6071</Anchor>
+    <Anchor>a38a15f488e4433eec2538d908502ef84</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24567,7 +24556,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a9199d64e96086903ac7b06c259991b2b</Anchor>
+    <Anchor>ae6b4c695228fc8021ba8448c3bac2b08</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24732,7 +24721,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>ad1b11c66041f119852b42dbabbcb60ec</Anchor>
+    <Anchor>a4c50c0e798e8280f37428f13349b2383</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24754,7 +24743,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>aeb4209b104cbf9e32f649a8602822ec1</Anchor>
+    <Anchor>a66f52c65fe631b1ca8879b4f0eac9cac</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24831,7 +24820,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a349f98f1d1eeb85f38328c3b044d901d</Anchor>
+    <Anchor>a3018300ec522a084c32ace8a02532108</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24842,7 +24831,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a46ba4204f98d2a758683510f4e0424b2</Anchor>
+    <Anchor>ad725796c8152d40d5b8a2677188bc021</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24853,7 +24842,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>ab8dcb35ac4f969b79cd0cc4f56353547</Anchor>
+    <Anchor>a586b15c463e3ac484800444bc55e9a91</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24864,7 +24853,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a00d86ac0ca86c9f7621fca0eb65d6de5</Anchor>
+    <Anchor>a2978fd6bd0c587184728e7c4cbbde73a</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24875,7 +24864,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a7e5a7c4d4e7d6764d82db185cf9d9403</Anchor>
+    <Anchor>a4dc310916df232c23dcdb454906baf04</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24886,7 +24875,7 @@
       <Scope>edit</Scope>
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
-    <Anchor>a93bd7e4ab5f2b13f7c75c67240a695d7</Anchor>
+    <Anchor>a9553a569a23b9a95bb41c1bd105ddb30</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -25791,7 +25780,7 @@
       <Scope>files</Scope>
     </TokenIdentifier>
     <Path>namespacefiles.html</Path>
-    <Anchor>a4a83ff20816ca00cc7f18e0be0b537a1</Anchor>
+    <Anchor>ae8404f7ed3463e912a500d530fb283c5</Anchor>
     <DeclaredIn>files.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -26108,7 +26097,7 @@
       <Scope>fontchooser</Scope>
     </TokenIdentifier>
     <Path>namespacefontchooser.html</Path>
-    <Anchor>a3483aa9295fcd6001aacb63bb27178f1</Anchor>
+    <Anchor>a65bac5d92a56bbc1c0d016578ad88886</Anchor>
     <DeclaredIn>fontchooser.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -27569,7 +27558,7 @@
       <Scope>gui</Scope>
     </TokenIdentifier>
     <Path>namespacegui.html</Path>
-    <Anchor>a9bc11f44a37da680ee035f3e562cc1dc</Anchor>
+    <Anchor>a221cbfdce8272760c460d4a8ebec467a</Anchor>
     <DeclaredIn>gui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -28786,7 +28775,7 @@
       <Scope>ipanel</Scope>
     </TokenIdentifier>
     <Path>namespaceipanel.html</Path>
-    <Anchor>a318767d641e209c47bd9a00a2732ef6a</Anchor>
+    <Anchor>a6ba8e90a2807f2b79f7d5166bd295c56</Anchor>
     <DeclaredIn>ipanel.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29156,7 +29145,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>a67e51af22fa1ae1a68b1ce857138f9da</Anchor>
+    <Anchor>ab87a2f5ffadc360dbc5afebe7ef37cd3</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29299,7 +29288,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>afe0402aea8cc5239c8ea9cfd7ee3091d</Anchor>
+    <Anchor>a2b295e7b3b73ad09d0c9548a7382365d</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29310,7 +29299,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>ab6f695f15a982b0ac35a27867ec317c8</Anchor>
+    <Anchor>a7d526a0670350706a4b468613c152235</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29321,7 +29310,7 @@
       <Scope>launcher</Scope>
     </TokenIdentifier>
     <Path>namespacelauncher.html</Path>
-    <Anchor>ac378eac3a826ccf2a55c45bd7b21a100</Anchor>
+    <Anchor>adbf4499997ce07bc3051f87f0cf24eb6</Anchor>
     <DeclaredIn>launcher.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29702,7 +29691,7 @@
       <Scope>markers</Scope>
     </TokenIdentifier>
     <Path>namespacemarkers.html</Path>
-    <Anchor>a83cc812a2988ef216454715fb6b89bbd</Anchor>
+    <Anchor>a34f5a4c42970b277179813790b380dad</Anchor>
     <DeclaredIn>markers.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29768,7 +29757,7 @@
       <Scope>markers</Scope>
     </TokenIdentifier>
     <Path>namespacemarkers.html</Path>
-    <Anchor>af75eb18440976748b1f5272f7073ac2e</Anchor>
+    <Anchor>acb818609ba6c67ff755b74ec1d9b9ad1</Anchor>
     <DeclaredIn>markers.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -29876,7 +29865,7 @@
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a6b77936358a7faadd49d05edf16737aa</Anchor>
+    <Anchor>a6269cf5e88e7196f6c1b268613b2627e</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -31064,7 +31053,7 @@
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>aac7ea497c14541fba0b723919af1b887</Anchor>
+    <Anchor>a9c4750543b7a76db52a1f5b152b88783</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -31075,7 +31064,7 @@
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a56e1578a261d2d481286a0ac1fb9eb52</Anchor>
+    <Anchor>aa312f7c643cdd4a842b897a296000e4d</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -31525,17 +31514,6 @@
     </TokenIdentifier>
     <Path>namespacemulticursor.html</Path>
     <Anchor>aee3b1e42aebb720a20b8d64aa37ec06b</Anchor>
-    <DeclaredIn>multicursor.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>format_text</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>multicursor</Scope>
-    </TokenIdentifier>
-    <Path>namespacemulticursor.html</Path>
-    <Anchor>a171951ab21b040103db8fa4908c74e7f</Anchor>
     <DeclaredIn>multicursor.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32442,7 +32420,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a99f05a369988d6955a39f704a2182081</Anchor>
+    <Anchor>aa02467f8603b6d833a170729a356492b</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32453,7 +32431,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>aad6f1849984780f97a27d81db87845be</Anchor>
+    <Anchor>ae683bb83c05454fc255d855244aed802</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32464,7 +32442,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a0a6e3f7699c605e82a92b70ebc9553a6</Anchor>
+    <Anchor>a27ca11500513d7c0ea1d8ea352b3ea6e</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32475,7 +32453,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a7d89aac57b260ef32431a24da55d5cde</Anchor>
+    <Anchor>ad23424448a872e769c0570f3845024bb</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32497,7 +32475,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a5d22ef5ed9e13f8066eb53113a831d58</Anchor>
+    <Anchor>a92e529cb20eba1ca61b6bfdb210c0ffb</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32508,7 +32486,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a2384fbc83eeb105730ad9d3b0be250ee</Anchor>
+    <Anchor>abd508196db13f4d65b981e50cdac6d93</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32530,7 +32508,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a5e4afe6b02e916bcfcb973b4d89f29c4</Anchor>
+    <Anchor>a72ddb68cb8c617c4e367c2bf153453e3</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32574,7 +32552,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>afd7b4c8e5170f34bcc557b2f69e69aa6</Anchor>
+    <Anchor>a076f115e59ef219698f49a33a8067f49</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32607,7 +32585,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>afaedb61b326be4ddaa5d4f3556387086</Anchor>
+    <Anchor>a1818dccd70bea6c6df39f554e4e3bd7d</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32640,7 +32618,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a0e8843807be8b6ba14d8f479f48bfe62</Anchor>
+    <Anchor>a2c9e781e85e7ecc7b1969495d575776a</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32684,7 +32662,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a3f8eda566cc3c3ffd05dfbb1904087cc</Anchor>
+    <Anchor>a26aadfc2489f0983443bb1ff087e5634</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32772,7 +32750,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>ae9d6268c2d0d22f21468bdeb0b887a7f</Anchor>
+    <Anchor>a1f89c393cbe963140f80811ab9a27cf4</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32805,7 +32783,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a23d22659125f469152f6935bf1eb4256</Anchor>
+    <Anchor>a0907eeeec80f0177a8c7081ebc8e1bba</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32816,7 +32794,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a13f5c717faf8ed7130b408bf707d8903</Anchor>
+    <Anchor>a7ee77392ca7e135acad70b1c6f75f1a5</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32827,7 +32805,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>affe3eeadca72fa47e1ff4a128a515697</Anchor>
+    <Anchor>af69403104c17ae8c1e5c6f42b0683e0f</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32849,7 +32827,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>aa0d47770f92f111e45e5e43e7c1f4133</Anchor>
+    <Anchor>aafb7d9da2e3605a94682ad691d6b24de</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -33850,7 +33828,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>ac4a8d52972a8a0eb673ba00167ef95c4</Anchor>
+    <Anchor>a4694be4c468bad9dbc4159a7cd60edd3</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34057,7 +34035,7 @@
       <Scope>preferences</Scope>
     </TokenIdentifier>
     <Path>namespacepreferences.html</Path>
-    <Anchor>a83c0c52bb5347f9f2e8f914d02bcc3cb</Anchor>
+    <Anchor>a70afa9433519856abd2d0b8a08b1213f</Anchor>
     <DeclaredIn>preferences.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34101,7 +34079,7 @@
       <Scope>preferences</Scope>
     </TokenIdentifier>
     <Path>namespacepreferences.html</Path>
-    <Anchor>aafa5cc09f06e50c14ce7a1387f482983</Anchor>
+    <Anchor>a3e3444485a57de6cc90910adba7ec4be</Anchor>
     <DeclaredIn>preferences.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34253,7 +34231,7 @@
       <Scope>remote</Scope>
     </TokenIdentifier>
     <Path>namespaceremote.html</Path>
-    <Anchor>a082e46ff2a91b73d0e47042b06b32657</Anchor>
+    <Anchor>a79ef9c61adeefd0ac96d8240b42464b4</Anchor>
     <DeclaredIn>remote.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -35054,7 +35032,7 @@
       <Scope>scrolledframe</Scope>
     </TokenIdentifier>
     <Path>namespacescrolledframe.html</Path>
-    <Anchor>a84e86919d2c5994c44e101b5f933a267</Anchor>
+    <Anchor>a0e3449c2df3d69d4ca35642324209115</Anchor>
     <DeclaredIn>scrolledframe.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -35065,7 +35043,7 @@
       <Scope>scrolledframe</Scope>
     </TokenIdentifier>
     <Path>namespacescrolledframe.html</Path>
-    <Anchor>a613599e77563e047ac5af6309193401b</Anchor>
+    <Anchor>a00bd5223e3a8b7d72defbd5e71078d24</Anchor>
     <DeclaredIn>scrolledframe.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -35565,7 +35543,7 @@
       <Scope>select</Scope>
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
-    <Anchor>abf2b1526fff9b006ee5b22e8b1565b01</Anchor>
+    <Anchor>a73a8cc178a57ba4f0e94f7c8bfb49aba</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -35576,7 +35554,7 @@
       <Scope>select</Scope>
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
-    <Anchor>ae79aa513b6c41647adf45ad190f7a635</Anchor>
+    <Anchor>a52238aa7a6abc75205aa39d15625c27e</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -36410,7 +36388,7 @@
       <Scope>sessions</Scope>
     </TokenIdentifier>
     <Path>namespacesessions.html</Path>
-    <Anchor>a00f1ae93e42d1f2f45e23d7d204b63ff</Anchor>
+    <Anchor>aa8291377af3b18dd888657bac2fdeb07</Anchor>
     <DeclaredIn>sessions.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37165,7 +37143,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>aa831a544b108b2cbc2a72329d071222b</Anchor>
+    <Anchor>a8472ef61add7765ed5c54b40b1df8862</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37176,7 +37154,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a2523ee77af923ff6b223b79621445001</Anchor>
+    <Anchor>a1d877e8d0b0b9018c32ed3c4d664a0f9</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37187,7 +37165,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a34c2845d5f509c446871fa1f5459501e</Anchor>
+    <Anchor>a0919a0779ebacf58ca28ea0c43cdebfe</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37495,7 +37473,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>ae2a4f3b23b15b5069591a2cb3fb56a18</Anchor>
+    <Anchor>a9475a6b3b87f2723cd8c709623d1281c</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37924,7 +37902,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>ada4d238e45999b8693b688c9560b69bb</Anchor>
+    <Anchor>ac0efbe30c1d7f93cb4e33a1f21ff81f7</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37979,7 +37957,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>aa91918d4e30de27512b7afa1671b9581</Anchor>
+    <Anchor>a3332b7fddbb80e242a75d0606a02fdd7</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38032,7 +38010,7 @@
       <Scope>snippets</Scope>
     </TokenIdentifier>
     <Path>namespacesnippets.html</Path>
-    <Anchor>aab23ac4444d1d8d1fedbe5e57a6388ba</Anchor>
+    <Anchor>ad65aec95bdd0cbca44f8a941a8d54cf5</Anchor>
     <DeclaredIn>snippets.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38142,7 +38120,7 @@
       <Scope>snippets</Scope>
     </TokenIdentifier>
     <Path>namespacesnippets.html</Path>
-    <Anchor>af8420ca55dc88b0eb6c1fd6fe09bb3e0</Anchor>
+    <Anchor>a7d3c52a608b6b4571e98d5675257e538</Anchor>
     <DeclaredIn>snippets.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38393,7 +38371,7 @@
       <Scope>startup</Scope>
     </TokenIdentifier>
     <Path>namespacestartup.html</Path>
-    <Anchor>a5508338cd343cd6189ffdfe803299655</Anchor>
+    <Anchor>a48fccd8eaa8e17a469a07cf5d62c30e3</Anchor>
     <DeclaredIn>startup.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38459,7 +38437,7 @@
       <Scope>startup</Scope>
     </TokenIdentifier>
     <Path>namespacestartup.html</Path>
-    <Anchor>a276609556149a773e498238fcb9b6385</Anchor>
+    <Anchor>a880264b42f2d8f32d7a8893b33ede725</Anchor>
     <DeclaredIn>startup.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38600,7 +38578,7 @@
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>ab6e37f55f15d2d7f73fc9079d0ca1ce5</Anchor>
+    <Anchor>a383469d6b4e6daa348f15c1a62be9aa0</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38743,7 +38721,7 @@
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>a2dd46fee28a024792b373e9482788754</Anchor>
+    <Anchor>acb7375d529da8c410ee7c438049ea481</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38952,7 +38930,7 @@
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>ac5be41ed13f53cdba888105055503c4f</Anchor>
+    <Anchor>a24d9a047ee4c7c065a98b1a4ed1baaa1</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -39518,7 +39496,7 @@
       <Scope>theme</Scope>
     </TokenIdentifier>
     <Path>namespacetheme.html</Path>
-    <Anchor>a3d0c815cf50f8ef1ec80bc7425d39286</Anchor>
+    <Anchor>af72e247d539f10507dec15577154b462</Anchor>
     <DeclaredIn>theme.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -39604,7 +39582,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>aaf4d143313ca31a3539df7b950ca88cb</Anchor>
+    <Anchor>ae8cce58063525b8e06991ebc36959d4b</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -39945,7 +39923,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>ace88d9e2d0e4b6fc5636ad8820f92d70</Anchor>
+    <Anchor>aaae5954541d2c9587408362ff7fa5dad</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40121,7 +40099,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>a9a03d2e41129c6164299f680afd6e2a0</Anchor>
+    <Anchor>a29cc8abc1a21fd2f0fa2584534a40712</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40187,7 +40165,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>adce8144f4dcc3884293735334024e723</Anchor>
+    <Anchor>a4a4bdea8686b4b3349c1b753461be1d2</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40209,7 +40187,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>ada10095823e8d1a7472cca625aeef3bf</Anchor>
+    <Anchor>aa33133e53094e547e4df7349cc9e586d</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40220,7 +40198,7 @@
       <Scope>themer</Scope>
     </TokenIdentifier>
     <Path>namespacethemer.html</Path>
-    <Anchor>ac9705be5ecfe988bb154095cf57798c6</Anchor>
+    <Anchor>a4bb0bffe91f9b0f2078089f1bb26ec33</Anchor>
     <DeclaredIn>themer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40537,7 +40515,7 @@
       <Scope>themes</Scope>
     </TokenIdentifier>
     <Path>namespacethemes.html</Path>
-    <Anchor>a824be6c04e7805526d879f5be8ef4977</Anchor>
+    <Anchor>a0beb48cbe7fbd0c0a2b8944429fe1118</Anchor>
     <DeclaredIn>themes.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40782,7 +40760,7 @@
       <Scope>tkedat</Scope>
     </TokenIdentifier>
     <Path>namespacetkedat.html</Path>
-    <Anchor>a2c584c7a8b9f1e942270bcdece79d103</Anchor>
+    <Anchor>aa7009a7ab9abdb1c1627ce4402a0ae88</Anchor>
     <DeclaredIn>tkedat.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40793,7 +40771,7 @@
       <Scope>tkedat</Scope>
     </TokenIdentifier>
     <Path>namespacetkedat.html</Path>
-    <Anchor>a08fb398e141982c3dccda6229055696d</Anchor>
+    <Anchor>a2c497c50d536bf03673ee049bb7b86d0</Anchor>
     <DeclaredIn>tkedat.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40804,7 +40782,7 @@
       <Scope>tkedat</Scope>
     </TokenIdentifier>
     <Path>namespacetkedat.html</Path>
-    <Anchor>aab5a6e8c1c3551a8b82dcff038cdb25c</Anchor>
+    <Anchor>aabbd8a90f513608fc2a7fe2d725c6a9d</Anchor>
     <DeclaredIn>tkedat.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40956,7 +40934,7 @@
       <Scope>utils</Scope>
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
-    <Anchor>a269f228f6962170c9655ffc9819035af</Anchor>
+    <Anchor>aa80202a063e637943b8d62cd33c72465</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41077,7 +41055,7 @@
       <Scope>utils</Scope>
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
-    <Anchor>ae67b92ab7f8d7401b82a5ee5e211cc5d</Anchor>
+    <Anchor>adfc92fa14a2507314f09aef8c3524586</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41176,7 +41154,7 @@
       <Scope>utils</Scope>
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
-    <Anchor>a03829114571e0ed074acd9274f0c5b90</Anchor>
+    <Anchor>a9118d8ecdd2d6358e8bda6a0badf62ce</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41427,7 +41405,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a2c0ff136478f40db93ee91b3704078c7</Anchor>
+    <Anchor>afeb244450216f1aed032baaab9bdb7ff</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41911,7 +41889,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>aac47d2a246b2d0039df331143140d9e8</Anchor>
+    <Anchor>a10fd81ed2135e146d43dae50fdf30e95</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41933,7 +41911,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a4dabb181dc139149ffa2996ae9db9099</Anchor>
+    <Anchor>a848d26847263c1fc5d6ea7c9a8d52a38</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41966,7 +41944,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>afa12886956d97e4de58a55573d40ec9d</Anchor>
+    <Anchor>a238f7a97465685339cbd575459b5a50e</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -42109,7 +42087,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a8ad0ada25d064d8bdbbd0ce317214db6</Anchor>
+    <Anchor>aa0f1dd342440fc223531b5d143a2a6af</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -42835,7 +42813,7 @@
       <Scope>vim</Scope>
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
-    <Anchor>a5e0ad51ccc9e12288547ca66548bd969</Anchor>
+    <Anchor>a21b432ee0bdee36662351ba6c218e4b0</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>

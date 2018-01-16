@@ -262,6 +262,18 @@ class serial : public std::vector<serial_item*> {
       serial       & elements
     );
 
+    /*! \return Returns the first non-whitespace character in the line containing index */
+    Tcl::object get_firstchar(
+      const Tcl::object & index,
+      const types       & typs
+    ) const;
+
+    /*! \return Returns a list of all first character starting positions. */
+    void get_all_firstchars(
+      std::vector<tindex> & positions,
+      const types         & typs
+    ) const;
+
     /*! \return Returns the number of spaces found before the previous line */
     Tcl::object indent_get_previous(
       const Tcl::object & index,

@@ -161,7 +161,7 @@ var gui_8tcl =
     [ "set_current_file_lock_with_current", "gui_8tcl.html#a4b687e751f56b18bdbf59b239a2fb0bc", null ],
     [ "set_current_modified", "gui_8tcl.html#a9da64554f552da470e810a642dd217b0", null ],
     [ "set_current_tab", "gui_8tcl.html#a44674fa01c1cef33886f9307582eeb2b", null ],
-    [ "set_error_message", "gui_8tcl.html#a9bc11f44a37da680ee035f3e562cc1dc", null ],
+    [ "set_error_message", "gui_8tcl.html#a221cbfdce8272760c460d4a8ebec467a", null ],
     [ "set_indent_mode", "gui_8tcl.html#a33e36b4e039350f254f3ef5637f2d0f2", null ],
     [ "set_info_message", "gui_8tcl.html#ae24d7b75d5efde245f7cfc3e8833c41b", null ],
     [ "set_line_number_view", "gui_8tcl.html#a45e6568268570709ab8b4182446c8912", null ],

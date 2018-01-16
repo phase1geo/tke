@@ -279,11 +279,16 @@ class mailbox {
       Tcl::object num
     );
 
-    void fold_indent_update(
-      Tcl::object ranges
-    );
+    void fold_indent_update();
 
     void fold_syntax_update();
+
+    Tcl::object get_firstchar(
+      Tcl::object index
+    ) {
+      add_request( REQUEST_FIRSTCHAR, index, true, false );
+      return( result() );
+    }
 
     /*!
      \return Returns the line number containing the first line that the indent

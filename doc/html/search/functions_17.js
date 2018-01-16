@@ -12,10 +12,10 @@ var searchData=
   ['winfo_5fcommand',['winfo_command',['../namespaceinterpreter.html#a9bea0692a0ce05dff7c73c7192ca20b7',1,'interpreter']]],
   ['wm_5fcommand',['wm_command',['../namespaceinterpreter.html#a3915536c9c16359161aef46682d22ee1',1,'interpreter']]],
   ['wrap_5fwith_5fabbreviation',['wrap_with_abbreviation',['../namespaceemmet.html#a28c4d4d87501797b66aed435e8d350aa',1,'emmet']]],
-  ['write',['write',['../namespacelauncher.html#aa46ba8726235daa782052256bdcdf390',1,'launcher::write()'],['../namespacetkedat.html#aab5a6e8c1c3551a8b82dcff038cdb25c',1,'tkedat::write()']]],
+  ['write',['write',['../namespacelauncher.html#aa46ba8726235daa782052256bdcdf390',1,'launcher::write()'],['../namespacetkedat.html#aabbd8a90f513608fc2a7fe2d725c6a9d',1,'tkedat::write()']]],
   ['write_5fconfig',['write_config',['../namespaceplugins.html#a5406a6ff2ab439e73b7c6be1acdebea3',1,'plugins']]],
   ['write_5ffile',['write_file',['../namespaceshare.html#a881b8e1ce1721cbc9b759f5db2489037',1,'share']]],
   ['write_5flang',['write_lang',['../namespacelang.html#a8e80e288101ccb8ab5c20388e348b550',1,'lang']]],
-  ['write_5fsort_5ffile',['write_sort_file',['../namespacesidebar.html#aa91918d4e30de27512b7afa1671b9581',1,'sidebar']]],
+  ['write_5fsort_5ffile',['write_sort_file',['../namespacesidebar.html#a3332b7fddbb80e242a75d0606a02fdd7',1,'sidebar']]],
   ['write_5ftketheme',['write_tketheme',['../namespacetheme.html#a8728c56ac93997775eb7d8fcf7752a3b',1,'theme']]]
 ];

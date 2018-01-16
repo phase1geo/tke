@@ -190,7 +190,7 @@ namespace eval snippets {
 
     if {![tab_clicked $txtt]} {
       if {![vim::in_vim_mode $txtt]} {
-        if {[string is space [$txtt get insert]] || ([lsearch [$txtt tag names insert] _prewhite] != -1)} {
+        if {[string is space [$txtt get insert]] || [$txtt compare insert < [$txtt index firstchar]]} {
           if {$expandtabs($txtt)} {
             $txtt insert insert [string repeat " " [$txtt cget -tabstop]]
             return 1

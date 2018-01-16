@@ -3,7 +3,6 @@ var multicursor_8tcl =
     [ "adjust_select", "multicursor_8tcl.html#ae2c33b600bd66fdaf06119a989c5ef1a", null ],
     [ "adjust_set_and_view", "multicursor_8tcl.html#ac1d50f80e126f66eca74888dc254cb70", null ],
     [ "copy", "multicursor_8tcl.html#a50084f489358ada48b7a376d46eccd34", null ],
-    [ "format_text", "multicursor_8tcl.html#a171951ab21b040103db8fa4908c74e7f", null ],
     [ "handle_escape", "multicursor_8tcl.html#a9e2ee38f843a9821a1fb4d0884ac61eb", null ],
     [ "handle_selection", "multicursor_8tcl.html#a2ea412780af897bcebccc9ec29d5da4e", null ],
     [ "lower_case", "multicursor_8tcl.html#adc623d14447bec043d9be218e571f4ec", null ],

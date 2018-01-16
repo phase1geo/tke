@@ -8,16 +8,16 @@ var searchData=
   ['open_5fconnection',['open_connection',['../namespaceremote.html#a8d9604088a95e640606252e07a77c576',1,'remote']]],
   ['open_5fdir_5fcommand',['open_dir_command',['../namespacemenus.html#ad75ee4cfb5b6d0c17891b53899f0da95',1,'menus']]],
   ['open_5fdocument_5fhelper',['open_document_helper',['../tke_8tcl.html#a83cef958a4b978dd010dede3b11fe93d',1,'tke.tcl']]],
-  ['open_5ffile',['open_file',['../namespaceapi_1_1utils.html#a8314b76c2b45a6f10caf4b9648a9980f',1,'api::utils::open_file()'],['../namespacesidebar.html#a772d3e7d86c3d8ae50e08ea0845fe18e',1,'sidebar::open_file()']]],
-  ['open_5ffile_5fexternally',['open_file_externally',['../namespaceutils.html#a269f228f6962170c9655ffc9819035af',1,'utils']]],
+  ['open_5ffile',['open_file',['../namespaceapi_1_1utils.html#a70b0c8e15296575c5e2dcdd7b7f68bd1',1,'api::utils::open_file()'],['../namespacesidebar.html#a772d3e7d86c3d8ae50e08ea0845fe18e',1,'sidebar::open_file()']]],
+  ['open_5ffile_5fexternally',['open_file_externally',['../namespaceutils.html#aa80202a063e637943b8d62cd33c72465',1,'utils']]],
   ['open_5ffolder_5ffiles',['open_folder_files',['../namespacesidebar.html#a9ddd640be16cea8afc23ef57a5ec1911',1,'sidebar']]],
-  ['open_5ffolds',['open_folds',['../namespacemenus.html#a56e1578a261d2d481286a0ac1fb9eb52',1,'menus']]],
+  ['open_5ffolds',['open_folds',['../namespacemenus.html#aa312f7c643cdd4a842b897a296000e4d',1,'menus']]],
   ['open_5fremote_5fcommand',['open_remote_command',['../namespacemenus.html#ad7d1b978050852852100f2d76d15a83a',1,'menus']]],
   ['open_5furi',['open_uri',['../namespacelauncher.html#a01be421c9123caa926698c9d65cb6d07',1,'launcher']]],
   ['open_5furi_5fand_5fbookmark',['open_uri_and_bookmark',['../namespacelauncher.html#a100a192679617311de14252ea5b43a45',1,'launcher']]],
   ['open_5furl',['open_url',['../namespacelauncher.html#ae62944c720f7c1d7531a1854f8a1870a',1,'launcher']]],
   ['open_5furl_5fand_5fbookmark',['open_url_and_bookmark',['../namespacelauncher.html#ae267e1c387465799686f3c2ea882d527',1,'launcher']]],
   ['opendocument',['OpenDocument',['../namespacetk_1_1mac.html#a531a41432a6dd5b23544e76788ccb3a2',1,'tk::mac']]],
-  ['order_5ffiles_5fdirs',['order_files_dirs',['../namespacesidebar.html#a34c2845d5f509c446871fa1f5459501e',1,'sidebar']]],
-  ['output',['output',['../namespacebist.html#a516c36e005e9b4a640d1d6947bd89c25',1,'bist']]]
+  ['order_5ffiles_5fdirs',['order_files_dirs',['../namespacesidebar.html#a0919a0779ebacf58ca28ea0c43cdebfe',1,'sidebar']]],
+  ['output',['output',['../namespacebist.html#a76f5499f34c188c644153bccdd824830',1,'bist']]]
 ];

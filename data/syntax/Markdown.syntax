@@ -206,8 +206,8 @@ advanced {
 
   HighlightProc list_check {
     if {[$txt compare $row.[expr [lindex $vars(0) 1] + 1] < insert] && $ins} {
-      if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
-        if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
+      if {![$txt is firstchar firstchar] && [$txt is firstchar [set fchar [$txt index [list firstchar -startpos index-1l]]]]} {
+        if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $fchar "$fchar lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
             $txt replace -highlight 0 "insert-1l linestart" insert "\n"
           } elseif {![regexp {^\\s*([+*>-]|(\\d+)\\.|\\[[ xX]\\])} [$txt get insert "insert lineend"]]} {

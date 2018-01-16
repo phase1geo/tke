@@ -20,10 +20,12 @@ namespace eval indent {
     }
 
     # Get the unindent information from the model
-    if {[set indents [ctext::model::indent_check_unindent $win $index [$win cget -shiftwidth]]] ne ""} {
+    lassign [ctext::model::indent_check_unindent $win $index [$win cget -shiftwidth]] startpos endpos indents
+
+    if {$indents ne ""} {
 
       # Get the whitespace at the beginning of the logical line
-      set indent_spaces [expr {($indents <= 0) ? "" : [string repeat " " $indents]}]
+      set indent_space [expr {($indents <= 0) ? "" : [string repeat " " $indents]}]
 
       # Replace the starting whitespace with the updated whitespace
       $win replace -highlight 0 -str $indent_space $startpos $endpos
@@ -67,7 +69,6 @@ namespace eval indent {
     } else {
       set shiftwidth [$win cget -shiftwidth]
       lassign [ctext::model::indent_newline $win $index $shiftwidth] insert_space add_nl
-      puts "insert_space: $insert_space, add_nl: $add_nl"
       if {$add_nl} {
         append nl_str [string repeat " " [expr $insert_space + $shiftwidth]] "\n"
       }
@@ -79,10 +80,10 @@ namespace eval indent {
 
     if {$insert_space < 0} {
       if {$nl_str ne ""} {
-        $win replace -highlight 0 $index "$index+${insert_space}c" $nl_str
+        $win replace -highlight 0 "$index+${insert_space}c" $index $nl_str
         $win._t mark set insert "$index+[expr [string length $nl_str] - 1]c"
       } else {
-        $win delete -highlight 0 $index "$index+${insert_space}c"
+        $win delete -highlight 0 "$index+${insert_space}c" $index
       }
     } else {
       if {$nl_str ne ""} {

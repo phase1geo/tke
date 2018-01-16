@@ -157,10 +157,13 @@ object request::execute(
       return( inst.fold_find( _args.at( i, 0 ), _args.at( i, 1 ), _args.at( i, 2 ) ) );
       break;
     case REQUEST_FOLDINDENTUPDATE :
-      inst.fold_indent_update( _args );
+      inst.fold_indent_update();
       break;
     case REQUEST_FOLDSYNTAXUPDATE :
       inst.fold_syntax_update();
+      break;
+    case REQUEST_FIRSTCHAR :
+      return( inst.get_firstchar( _args ) );
       break;
     case REQUEST_INDENTLINESTART :
       return( inst.indent_line_start( _args.at( i, 0 ) ) );
