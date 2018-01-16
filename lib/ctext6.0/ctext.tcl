@@ -1528,6 +1528,8 @@ namespace eval ctext {
         highlightAll $win $ranges $opts(-insert) $opts(-block)
         modified     $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
       }
+      configure { return [$win._t tag configure __[lindex $args 0] {*}[lrange $args 1 end]] }
+      cget      { return [$win._t tag cget __[lindex $args 0] [lindex $args 1]] }
       default {
         return -code error "Unknown ctext highlight subcommand ($subcmd)"
       }

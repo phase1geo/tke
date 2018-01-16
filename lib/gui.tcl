@@ -5329,30 +5329,9 @@ namespace eval gui {
     # Get the current widget
     set txt [current_txt]
 
-    # If we are escaped or in a comment/string, we should not match
-    if {[$txt is escaped insert] || [ctext::inCommentString $txt insert]} {
-      return
-    }
-
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
-    switch -- [$txt get insert] {
-      "\{"    { set index [ctext::getMatchBracket $txt curlyR] }
-      "\}"    { set index [ctext::getMatchBracket $txt curlyL] }
-      "\["    { set index [ctext::getMatchBracket $txt squareR] }
-      "\]"    { set index [ctext::getMatchBracket $txt squareL] }
-      "\("    { set index [ctext::getMatchBracket $txt parenR] }
-      "\)"    { set index [ctext::getMatchBracket $txt parenL] }
-      "\<"    { set index [ctext::getMatchBracket $txt angledR] }
-      "\>"    { set index [ctext::getMatchBracket $txt angledL] }
-      "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString*] == -1) ? "-forwards" : "-backwards"}]] }
-      "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString*] == -1) ? "-forwards" : "-backwards"}]] }
-      "`"     { set index [find_match_char $txt "`"  [expr {([lsearch [$txt tag names insert-1c] _bString*] == -1) ? "-forwards" : "-backwards"}]]}
-      default { set index [find_match_pair $txt {*}[lrange [syntax::get_indentation_expressions $txt] 0 1] -backwards] }
-    }
-
-    # Change the insertion cursor to the matching character
-    if {$index != -1} {
+    if {[set index [$txt matchchar insert]] ne ""} {
       $txt cursor set $index
     }
 
