@@ -222,7 +222,7 @@ class linemap {
     );
 
     void fold_indent_update(
-      const Tcl::object & ranges
+      const std::vector<tindex> & firstchars
     );
 
 };

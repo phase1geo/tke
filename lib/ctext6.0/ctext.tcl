@@ -1715,6 +1715,7 @@ namespace eval ctext {
       escaped         { return [ctext::model::is_escaped $win $index] }
       folded          { return [expr [lsearch -exact [$win._t tag names $index] _folded] != -1] }
       mcursor         { return [expr [lsearch -exact [$win._t tag names $index] _mcursor] != -1] }
+      firstchar       { return [ctext::model::is_index $win firstchar   $index] }
       curly           { return [ctext::model::is_index $win curly       $index] }
       square          { return [ctext::model::is_index $win square      $index] }
       paren           { return [ctext::model::is_index $win paren       $index] }
@@ -2857,24 +2858,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Renders the prewhite tags and, if needed, updates the linemap
-  # with the indentation information.
-  proc render_prewhite {win ranges} {
-
-    variable data
-
-    # Render the tags
-    render $win _prewhite $ranges 0
-
-    # If we need indentation based code folding, do that now.
-    if {$data($win,config,foldstate) eq "indent"} {
-      ctext::model::fold_indent_update $win
-      linemapUpdate $win 1
-    }
-
-  }
-
-  ######################################################################
   # Performs all of the syntax highlighting.
   proc highlight {win ranges ins {block 1}} {
 
@@ -2899,11 +2882,6 @@ namespace eval ctext {
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
       [list ctext::parsers::markers $win $str $linestart $lineend] \
-    ]
-
-    # Mark the prewhite space
-    lappend jobids [tpool::post $tpool \
-      [list ctext::parsers::prewhite $win $str $startrow] \
     ]
 
     # Perform keyword/startchars parsing
@@ -3846,8 +3824,8 @@ namespace eval ctext {
       set index [$win._t index "$opts(-startpos)-$opts(-num) display lines"]
     }
 
-    if {[lsearch [$win._t tag names "$index linestart"] _prewhite] != -1} {
-      return [lindex [$win._t tag nextrange _prewhite "$index linestart"] 1]-1c
+    if {[ctext::model::get_firstchar $win $index] ne ""} {
+      return $index
     } else {
       return "$index lineend"
     }
@@ -4116,8 +4094,8 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    if {[lsearch [$win._t tag names "$opts(-num).0"] _prewhite] != -1} {
-      return [lindex [$win._t tag nextrange _prewhite "$opts(-num).0"] 1]-1c
+    if {[set index [ctext::model::get_firstchar $win "$opts(-num).0"]] ne ""} {
+      return $index
     } else {
       return "$opts(-num).0 lineend"
     }

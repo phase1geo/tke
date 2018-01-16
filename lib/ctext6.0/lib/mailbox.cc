@@ -717,11 +717,11 @@ object mailbox::fold_find(
 
 }
 
-void mailbox::fold_indent_update(
-  object ranges
-) {
+void mailbox::fold_indent_update() {
 
-  add_request( REQUEST_FOLDINDENTUPDATE, ranges, false, false );
+  object args;
+
+  add_request( REQUEST_FOLDINDENTUPDATE, args, false, false );
 
 }
 
@@ -814,6 +814,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "foldfind",            &mailbox::fold_find )
     .def( "foldindentupdate",    &mailbox::fold_indent_update )
     .def( "foldsyntaxupdate",    &mailbox::fold_syntax_update )
+    .def( "firstchar",           &mailbox::get_firstchar )
     .def( "indentlinestart",     &mailbox::indent_line_start )
     .def( "indentprevious",      &mailbox::indent_get_previous )
     .def( "indentbackspace",     &mailbox::indent_backspace )

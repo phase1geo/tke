@@ -1123,27 +1123,24 @@ object linemap::fold_find(
 }
 
 void linemap::fold_indent_update(
-  const object & ranges
+  const vector<tindex> & firstchars
 ) {
 
-  interpreter interp( ranges.get_interp(), false );
-  int         col = get_col_index( "folding" );
+  int col = get_col_index( "folding" );
 
-  if( col == -1 ) {
+  if( (col == -1) || (firstchars.size() == 0) ) {
     return;
   }
 
   const linemap_colopts* open  = _cols[col]->get_value( "open" );
   const linemap_colopts* eopen = _cols[col]->get_value( "eopen" );
   const linemap_colopts* end   = _cols[col]->get_value( "end" );
-  int                    len   = ranges.length( interp );
   tindex                 last( 1, 0 );
 
-  for( int i=0; i<len; i+=2 ) {
-    tindex ti( ranges.at( interp, (i + 1) ) );
-    if( (ti.col() != last.col()) && (ti.row() != last.row()) ) {
-      const linemap_colopts* val   = (ti.col() > last.col()) ? open : end;
-      int                    row   = (val == open) ? last.row() : ti.row();
+  for( vector<tindex>::const_iterator it=firstchars.begin(); it!=firstchars.end(); it++ ) {
+    if( (it->col() != last.col()) && (it->row() != last.row()) ) {
+      const linemap_colopts* val   = (it->col() > last.col()) ? open : end;
+      int                    row   = (val == open) ? last.row() : it->row();
       int                    index = get_row_index( row );
       if( (index == _rows.size()) || (_rows[index]->row() != row) ) {
         _rows.insert( (_rows.begin() + index), new linemap_row( row, _cols.size() ) );
@@ -1154,7 +1151,7 @@ void linemap::fold_indent_update(
         _rows[index]->set_value( col, val );
       }
     }
-    last = ti;
+    last = (*it);
   }
 
 }

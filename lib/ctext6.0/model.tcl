@@ -588,9 +588,7 @@ namespace eval model {
 
     variable data
 
-    if {[set ranges [$win._t tag ranges _prewhite]] ne ""} {
-      $data($win,model) foldindentupdate $ranges
-    }
+    $data($win,model) foldindentupdate
 
   }
 
@@ -602,6 +600,18 @@ namespace eval model {
     variable data
 
     $data($win,model) foldsyntaxupdate
+
+  }
+
+  ######################################################################
+  # Returns the index containing the first non-whitespace character in
+  # the line containing index.  If the specified line is empty, returns
+  # the empty string.
+  proc get_firstchar {win index} {
+
+    variable data
+
+    return [$data($win,model) firstchar $index]
 
   }
 

@@ -58,7 +58,7 @@ var searchData=
   ['format_5fdropped_5fdata',['format_dropped_data',['../namespacegui.html#ad86dc8cc8f23a4ff5520d1bfb473cec0',1,'gui']]],
   ['format_5fimage_5fcell',['format_image_cell',['../namespacethemer.html#a4e86f66c81dae9284430e5dba9efa85c',1,'themer']]],
   ['format_5fname',['format_name',['../namespaceremote.html#affd68f5ea5971efc3d8623dda2b7edd4',1,'remote']]],
-  ['format_5ftext',['format_text',['../namespacegui.html#aca086b364fd0c4450d485d575845aa3d',1,'gui::format_text()'],['../namespacemulticursor.html#a171951ab21b040103db8fa4908c74e7f',1,'multicursor::format_text()']]],
+  ['format_5ftext',['format_text',['../namespacegui.html#aca086b364fd0c4450d485d575845aa3d',1,'gui']]],
   ['fp_5fbrowse',['fp_browse',['../namespacepref__ui.html#a16f045c0783132ac78a5d369da9fc646',1,'pref_ui']]],
   ['fp_5fclear',['fp_clear',['../namespacepref__ui.html#a9999c9b80136a745dd6fa1b61e3fae5e',1,'pref_ui']]],
   ['frputs',['frputs',['../ftp__wrapper_8tcl.html#a0a91c9a8bc71d405b2af227d73dbbe8a',1,'ftp_wrapper.tcl']]],

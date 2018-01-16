@@ -19,7 +19,7 @@ var bist_8tcl =
     [ "load_options", "bist_8tcl.html#a763b0fa958a1f0b4cba89db6e446154b", null ],
     [ "on_destroy", "bist_8tcl.html#a0fd48610b7833061506ab9744ea895e2", null ],
     [ "on_select", "bist_8tcl.html#a5ae4174b38f840361085ffd8db94d0c9", null ],
-    [ "output", "bist_8tcl.html#a516c36e005e9b4a640d1d6947bd89c25", null ],
+    [ "output", "bist_8tcl.html#a76f5499f34c188c644153bccdd824830", null ],
     [ "refresh", "bist_8tcl.html#acc86b03b308c8da5837df119d441b743", null ],
     [ "run", "bist_8tcl.html#a87af3710e8358c06bc375559768c7ee3", null ],
     [ "run_test", "bist_8tcl.html#a133f5aad87721baa066cd63f5ab7e3d5", null ],
