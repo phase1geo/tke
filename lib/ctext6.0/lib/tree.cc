@@ -1,4 +1,4 @@
-/*!
+ /*!
  \file     tree.cc
  \author   Trevor Williams  (phase1geo@gmail.com)
  \date     11/8/2017
@@ -47,7 +47,7 @@ void tree::insert_item(
       case 3 :  insert_root_any(   current, lescape, item );  break;
     }
 
-  } else if( !typs.is_comstr( current->type() ) || (current->type() == item.type()) || (item.side() == 0) ) {
+  } else if( !typs.is_comstr( current->type() ) || (current->type() & item.type()) || (item.side() == 0) ) {
     switch( item.side() ) {
       case 0 :  insert_none(  current, lescape, item, typs );  break;
       case 1 :  insert_left(  current, lescape, item );  break;
@@ -108,7 +108,7 @@ void tree::insert_right(
   serial_item & item
 ) {
 
-  if( current->type() == item.type() ) {
+  if( current->type() & item.type() ) {
     current->right( &item );
     item.set_node( current );
     current = current->parent();
@@ -119,7 +119,7 @@ void tree::insert_right(
 
     /* Check to see if the matching left already exists */
     while( (tn = tn->parent()) != _tree ) {
-      if( tn->type() == item.type() ) {
+      if( tn->type() & item.type() ) {
         tn->right( &item );
         item.set_node( tn );
         current = current->parent();
@@ -143,7 +143,7 @@ void tree::insert_any(
   serial_item & item
 ) {
 
-  if( current->type() == item.type() ) {
+  if( current->type() & item.type() ) {
     current->right( &item );
     item.set_node( current );
     current = current->parent();
@@ -160,7 +160,7 @@ void tree::insert_none(
   const types & typs
 ) {
 
-  if( item.type() == typs.type( "escape" ) ) {
+  if( item.type() & typs.type( "escape" ) ) {
     lescape = tindex( item.pos().row(), item.pos().start_col() + 1 );
   }
 
