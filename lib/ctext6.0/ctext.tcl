@@ -4543,6 +4543,9 @@ namespace eval ctext {
       $win._t delete $ins
     }
 
+    # Clear the selection
+    $win._t tag remove sel 1.0 end
+
     # Set the new insertion point
     $win._t mark set insert $index
     $win._t see $index
