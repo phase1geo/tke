@@ -394,25 +394,16 @@ namespace eval syntax {
 
   ######################################################################
   # Sets the language of the given text widget to the given language.
-  # Options:
-  #   -highlight (0 | 1)   Specifies whether syntax highlighting should be performed
-  proc set_language {txt language args} {
+  proc set_language {txt language} {
 
     variable langs
     variable curr_lang
     variable current_lang
 
-    array set opts {
-      -highlight 1
-    }
-    array set opts $args
-
     # Clear the syntax highlighting for the widget
-    if {$opts(-highlight)} {
-      ctext::deleteHighlightClasses $txt
-      ctext::setContextPatterns     $txt {} comment {} {}
-      ctext::setAutoMatchChars      $txt {} {}
-    }
+    ctext::clearHighlightClasses $txt
+    ctext::setContextPatterns    $txt {} comment {} {}
+    ctext::setAutoMatchChars     $txt {} {}
 
     # Initialize the indentation expressions
     set_indent_expressions $txt
@@ -511,9 +502,7 @@ namespace eval syntax {
     set curr_lang($txt) [set current_lang $language]
 
     # Re-highlight
-    if {$opts(-highlight)} {
-      $txt syntax highlight 1.0 end
-    }
+    $txt syntax highlight 1.0 end
 
     # Set the menubutton text
     if {[info exists gui::widgets(info_syntax)]} {

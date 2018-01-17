@@ -31,9 +31,8 @@ namespace eval model {
     set data($win,model) [model $win]
     set data($win,debug) 0
 
-    # Add the escape and firstchar types
-    add_type $win "escape"
-    add_type $win "firstchar"
+    # Clear the model
+    clear $win
 
   }
 
@@ -57,7 +56,12 @@ namespace eval model {
 
     variable data
 
+    # Clear the model memory
     $data($win,model) clear
+
+    # Add the escape and firstchar types
+    add_type $win "escape"
+    add_type $win "firstchar"
 
   }
 

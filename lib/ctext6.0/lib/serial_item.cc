@@ -44,7 +44,7 @@ bool serial_item::merge(
   const serial_item & si
 ) {
 
-  if( _pos == si.const_pos() ) {
+  if( (_pos.row() == si.const_pos().row()) && (_pos.start_col() == si.const_pos().start_col()) ) {
     _type |= si.type();
     return( true );
   }
