@@ -168,8 +168,8 @@ namespace eval parsers {
 
     foreach line [split $str \n] {
       set start 0
-      if {[regexp -indices -start $start {^[ \t]*\S} $line indices]} {
-        lappend tags [list firstchar none [list $startrow [list [lindex $indices 1] [expr [lindex $indices 1] + 1]]] 0 {}]
+      if {[regexp -indices -start $start {^[ \t]*(\S)} $line wspace indices]} {
+        lappend tags [list firstchar none [list $startrow $indices] 0 {}]
       }
       incr startrow
     }
