@@ -800,7 +800,35 @@ namespace eval vim {
 
   ######################################################################
   # Adjust the current selection if we are in visual mode.
-  proc adjust_select {txtt index pos} {
+  proc set_cursor {txtt index} {
+
+    set cursors [$txtt cursor get]
+
+    if {[in_visual_mode $txtt]} {
+      if {$cursors eq ""} {
+        $txtt cursor set [set index [$txtt index $index]]
+        adjust_select $txtt 0 $index
+      } else {
+        foreach cursor $cursors {
+          $txtt cursor set $index
+          adjust_select $txtt $i $index
+        }
+      }
+    } else {
+      if {$cursors eq ""} {
+        $txtt cursor set $index
+      } else {
+        foreach cursor $cursors {
+          $txtt cursor set $index
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Adjust the current selection when we are in visual mode.
+  proc adjust_select {txtt cindex tindex} {
 
     variable mode
     variable select_anchors
@@ -810,29 +838,29 @@ namespace eval vim {
     set type [lindex [split $mode($txtt) :] 1]
 
     # Get the anchor for the given selection
-    set anchor [lindex $select_anchors($txtt) $index]
+    set anchor [lindex $select_anchors($txtt) $cindex]
 
     if {$type eq "block"} {
       if {$seltype eq "exclusive"} {
-        select::handle_block_selection $txtt $anchor [$txtt index $pos]
+        select::handle_block_selection $txtt $anchor [$txtt index $tindex]
       } else {
-        select::handle_block_selection $txtt $anchor [$txtt index $pos+1c]
+        select::handle_block_selection $txtt $anchor [$txtt index $tindex+1c]
       }
-    } elseif {[$txtt compare $anchor < $pos]} {
+    } elseif {[$txtt compare $anchor < $tindex]} {
       if {$type eq "line"} {
-        $txtt tag add sel "$anchor linestart" "$pos lineend"
+        $txtt tag add sel "$anchor linestart" "$tindex lineend"
       } elseif {$seltype eq "exclusive"} {
-        $txtt tag add sel $anchor $pos
+        $txtt tag add sel $anchor $tindex
       } else {
-        $txtt tag add sel $anchor $pos+1c
+        $txtt tag add sel $anchor $tindex+1c
       }
     } else {
       if {$type eq "line"} {
-        $txtt tag add sel "$pos linestart" "$anchor lineend"
+        $txtt tag add sel "$tindex linestart" "$anchor lineend"
       } elseif {$seltype eq "exclusive"} {
-        $txtt tag add sel $pos $anchor
+        $txtt tag add sel $tindex $anchor
       } else {
-        $txtt tag add sel $pos $anchor+1c
+        $txtt tag add sel $tindex $anchor+1c
       }
     }
 
@@ -988,7 +1016,7 @@ namespace eval vim {
 
     set current [$W index @$x,$y]
     $W mark set [utils::text_anchor $W] $current
-    $W cursor set $current
+    set_cursor $W $current
 
     focus $W
 
@@ -1001,7 +1029,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    $W cursor set [$W index "$current wordstart"]
+    set_cursor $W [$W index "$current wordstart"]
 
     $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
 
@@ -1016,7 +1044,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    $W cursor set $current
+    set_cursor $W $current
 
     # Add the selection
     set anchor [utils::text_anchor $W]
@@ -1616,10 +1644,10 @@ namespace eval vim {
           if {$spos ne ""} {
             $txtt cursor set $spos
             visual_mode $txtt char
-            $txtt cursor set $epos
+            set_cursor $txtt $epos
           }
         } else {
-          $txtt cursor set $eposargs
+          set_cursor $txtt $eposargs
         }
         reset_state $txtt 0
         return 1
