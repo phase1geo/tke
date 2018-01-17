@@ -786,6 +786,8 @@ object serial::indent_newline(
     /* Get the first character index */
     first = (*this)[firstchar]->const_pos().to_tindex();
 
+    cout << "first: " << first.to_string() << ", type: " << typs.names( (*this)[firstchar]->type() ) << endl;
+
     /*
      Remove any leading whitespace and update indentation level
      (if the first non-whitespace char is a closing bracket)
