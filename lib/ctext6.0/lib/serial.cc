@@ -383,7 +383,7 @@ int serial::next_startindex(
 
   sindex si = get_index( ti );
 
-  return( (!si.matches() || (*this)[si.index()]->pos().compare( ti )) ? si.index() : (si.index() + 1) );
+  return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() + 1) );
 
 }
 
@@ -785,8 +785,6 @@ object serial::indent_newline(
 
     /* Get the first character index */
     first = (*this)[firstchar]->const_pos().to_tindex();
-
-    cout << "first: " << first.to_string() << ", type: " << typs.names( (*this)[firstchar]->type() ) << endl;
 
     /*
      Remove any leading whitespace and update indentation level
