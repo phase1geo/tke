@@ -129,11 +129,11 @@ namespace eval model {
 
   ######################################################################
   # Returns true if the given index contains the given information.
-  proc is_index {win type tindex} {
+  proc is_index {win type tindex {extra ""}} {
 
     variable data
 
-    return [$data($win,model) isindex $type $tindex]
+    return [$data($win,model) isindex [list $type $tindex $extra]]
 
   }
 

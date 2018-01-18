@@ -196,8 +196,7 @@ class model {
 
     /*! \return Returns true if the given text index contains the given type */
     bool is_index(
-      const Tcl::object & type,
-      const Tcl::object & ti
+      const Tcl::object & args
     ) const;
 
     /*! \return Returns comment marker positions in a Tcl list */

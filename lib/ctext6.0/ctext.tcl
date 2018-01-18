@@ -1,4 +1,4 @@
-package require Tk
+  package require Tk
 package require Thread
 package provide ctext 6.0
 
@@ -1709,7 +1709,7 @@ namespace eval ctext {
       return -code error "Incorrect arguments passed to ctext is command"
     }
 
-    lassign $args type index class
+    lassign $args type index extra
 
     set index [$win index $index]
 
@@ -1718,16 +1718,27 @@ namespace eval ctext {
       folded          { return [expr [lsearch -exact [$win._t tag names $index] _folded] != -1] }
       mcursor         { return [expr [lsearch -exact [$win._t tag names $index] _mcursor] != -1] }
       firstchar       { return [ctext::model::is_index $win firstchar   $index] }
-      curly           { return [ctext::model::is_index $win curly       $index] }
-      square          { return [ctext::model::is_index $win square      $index] }
-      paren           { return [ctext::model::is_index $win paren       $index] }
-      angled          { return [ctext::model::is_index $win angled      $index] }
-      double          { return [ctext::model::is_index $win double      $index] }
-      single          { return [ctext::model::is_index $win single      $index] }
-      btick           { return [ctext::model::is_index $win btick       $index] }
-      tdouble         { return [ctext::model::is_index $win tdouble     $index] }
-      tsingle         { return [ctext::model::is_index $win tsingle     $index] }
-      tbtick          { return [ctext::model::is_index $win tbtick      $index] }
+      curly   -
+      square  -
+      paren   -
+      angled  -
+      double  -
+      single  -
+      btick   -
+      tdouble -
+      tsingle -
+      tbtick          {
+        if {$extra eq ""} {
+          set extra "any"
+        } elseif {[lsearch [list left right any] $extra] == -1} {
+          return -code error "ctext is $type called with an illegal side value"
+        }
+        return [ctext::model::is_index $win $type $index $extra]
+      }
+      indent          { return [ctext::model::is_index $win indent      $index left] }
+      unindent        { return [ctext::model::is_index $win indent      $index right] }
+      reindent        { return [ctext::model::is_index $win reindent    $index] }
+      reindentStart   { return [ctext::model::is_index $win reindentStart $index] }
       indouble        { return [ctext::model::is_index $win indouble    $index] }
       insingle        { return [ctext::model::is_index $win insingle    $index] }
       inbtick         { return [ctext::model::is_index $win inbtick     $index] }
@@ -1737,7 +1748,12 @@ namespace eval ctext {
       instring        { return [ctext::model::is_index $win instring    $index] }
       incommentstring { return [ctext::model::is_index $win incomstr    $index] }
       intag           { return [ctext::model::is_index $win intag       $index] }
-      inclass         { return [expr [lsearch -exact [$win._t tag names $index] __$class] != -1] }
+      inclass         {
+        if {$extra eq ""} {
+          return -code error "Calling ctext is inclass without specifying a class name"
+        }
+        return [expr [lsearch -exact [$win._t tag names $index] __$extra] != -1]
+      }
       default         {
         return -code error "Unsupported is type ($type) specified"
       }

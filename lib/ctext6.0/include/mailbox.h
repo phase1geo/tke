@@ -136,9 +136,11 @@ class mailbox {
 
     /*! \return Returns true if the given text index contains the given type */
     Tcl::object is_index(
-      const Tcl::object & type,
-      const Tcl::object & ti
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_ISINDEX, args, true, false );
+      return( result() );
+    }
 
     /*! \return Returns a Tcl list containing the indices of all comment markers in the specified ranges */
     Tcl::object get_comment_markers(

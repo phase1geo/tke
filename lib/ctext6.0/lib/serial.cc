@@ -341,13 +341,20 @@ bool serial::is_escaped(
 bool serial::is_index(
   const string & type,
   const tindex & ti,
+  int            side,
   const types  & typs
 ) const {
 
   sindex si = get_index( ti );
 
   if( si.matches() ) {
-    return( (*this)[si.index()]->type() == typs.type( type ) );
+    const serial_item* item = (*this)[si.index()];
+    if( (item->side() & side) || ((item->side() == 0) && (side == 3)) ) {
+      if( type == "indent"        ) { return( typs.is_indent( item->type() ) ); }
+      if( type == "reindent"      ) { return( typs.is_reindent( item->type() ) ); }
+      if( type == "reindentStart" ) { return( typs.is_reindentStart( item->type() ) ); }
+      return( item->type() & typs.type( type ) );
+    }
   }
 
   return( false );
