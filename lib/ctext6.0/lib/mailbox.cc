@@ -250,23 +250,6 @@ object mailbox::is_escaped(
 
 }
 
-object mailbox::is_index(
-  const object & type,
-  const object & ti
-) {
-
-  interpreter i( type.get_interp(), false );
-  object      args;
-
-  args.append( i, type );
-  args.append( i, ti );
-
-  add_request( REQUEST_ISINDEX, args, true, false );
-
-  return( result() );
-
-}
-
 object mailbox::get_comment_markers(
   const object & ranges
 ) {

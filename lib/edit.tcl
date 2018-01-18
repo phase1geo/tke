@@ -972,8 +972,8 @@ namespace eval edit {
         foreach {startpos endpos} $mcursors {
           lappend ranges [$txt index "$startpos linestart"] [$txt index "$startpos lineend"]
         }
-      } elseif {[lsearch [$txt tag names insert] _cComment] != -1} {
-        lassign [$txt tag prevrange _cComment insert] startpos endpos
+      } elseif {[$txt is inblockcomment]} {
+        lassign [$txt syntax prevrange comment insert] startpos endpos
         if {[regexp "^[lindex $bcomments 0 0](.*)[lindex $bcomments 0 1]\$" [$txt get $startpos $endpos] -> str]} {
           $txt replace $startpos $endpos $str
           $txt edit separator
@@ -1418,7 +1418,7 @@ namespace eval edit {
     # Search backwards
     set txt      [winfo parent $txtt]
     set number   $num
-    set startpos [expr {([lsearch [$txtt tag names $cursor] _${type}L] == -1) ? $cursor : "$cursor+1c"}]
+    set startpos [expr {([lsearch [$txtt is $type] names $cursor] _${type}L] == -1) ? $cursor : "$cursor+1c"}]
 
     while {[set index [ctext::getMatchBracket $txt ${type}L $startpos]] ne ""} {
       if {[incr number -1] == 0} {

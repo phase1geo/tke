@@ -236,6 +236,7 @@ class serial : public std::vector<serial_item*> {
     bool is_index(
       const std::string & type,
       const tindex      & ti,
+      int                 side,
       const types       & typs
     ) const;
 
