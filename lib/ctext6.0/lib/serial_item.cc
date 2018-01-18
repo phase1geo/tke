@@ -49,6 +49,9 @@ bool serial_item::merge(
     if( ((_side == 0) || (_side == 3)) && ((si.side() == 1) || (si.side() == 2)) ) {
       _side = si.side();
     }
+    if( _pos.end_col() < si.const_pos().end_col() ) {
+      _pos = si.const_pos();
+    }
     return( true );
   }
 

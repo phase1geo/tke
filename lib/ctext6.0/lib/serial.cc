@@ -743,15 +743,13 @@ object serial::indent_backspace(
   const types  & typs
 ) const {
 
-  tindex ti( index );
-  int    firstchar = previndex_firstchar( ti, tindex( ti.row(), 0 ), typs );
+  tindex ti = tindex( index );
+  sindex si = get_index( ti );
 
-  if( firstchar != -1 ) {
-    if( (*this)[firstchar]->const_pos().start_col() == ti.col() ) {
-      return( (object)(*this)[firstchar]->const_pos().start_col() );
-    } else {
-      return( (object)-2 );
-    }
+  if( si.matches() && typs.is_firstchar( (*this)[si.index()]->type() ) ) {
+    return( (object)(*this)[si.index()]->const_pos().start_col() );
+  } else if( nextindex_firstchar( tindex( ti.row(), 0 ), tindex( ti.row(), tindex::lend ), typs ) != -1 ) {
+    return( (object)-2 );
   } else {
     return( (object)-1 );
   }
@@ -833,9 +831,8 @@ object serial::indent_check_unindent(
   }
 
   tindex first( (*this)[firstchar]->const_pos().to_tindex() );
-  tindex ti( curr.row(), (curr.col() - 1) );
-  sindex index   = get_index( ti );
   int    indents = first.col();
+  sindex index   = get_index( curr );
 
   /* If we did not match something in the serial list, return immediately */
   if( !index.matches() ) {
@@ -878,7 +875,7 @@ object serial::indent_check_unindent(
 
       } else {
 
-        int reindent_start = previndex_reindentStart( ti, typs );
+        int reindent_start = previndex_reindentStart( curr, typs );
         indents = get_start_of_line( (*this)[reindent_start]->const_pos().to_tindex(), typs, indented );
 
       }

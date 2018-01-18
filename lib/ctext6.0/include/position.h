@@ -125,6 +125,9 @@ class position {
     /*! \return Returns the starting column */
     int start_col() const { return( _scol ); }
 
+    /*! \return Returns the ending column */
+    int end_col() const { return( _ecol ); }
+
 };
 
 #endif

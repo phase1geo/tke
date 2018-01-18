@@ -69,7 +69,6 @@ namespace eval indent {
     } else {
       set shiftwidth [$win cget -shiftwidth]
       lassign [ctext::model::indent_newline $win $index $shiftwidth] insert_space add_nl
-      puts "insert_space: $insert_space, add_nl: $add_nl"
       if {$add_nl} {
         append nl_str [string repeat " " [expr $insert_space + $shiftwidth]] "\n"
       }
