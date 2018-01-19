@@ -1,4 +1,4 @@
-  package require Tk
+package require Tk
 package require Thread
 package provide ctext 6.0
 
@@ -1735,19 +1735,19 @@ namespace eval ctext {
         }
         return [ctext::model::is_index $win $type $index $extra]
       }
-      indent          { return [ctext::model::is_index $win indent      $index left] }
-      unindent        { return [ctext::model::is_index $win indent      $index right] }
-      reindent        { return [ctext::model::is_index $win reindent    $index] }
-      reindentStart   { return [ctext::model::is_index $win reindentStart $index] }
-      indouble        { return [ctext::model::is_index $win indouble    $index] }
-      insingle        { return [ctext::model::is_index $win insingle    $index] }
-      inbtick         { return [ctext::model::is_index $win inbtick     $index] }
-      inblockcomment  { return [ctext::model::is_index $win inbcomment: $index] }
-      inlinecomment   { return [ctext::model::is_index $win inlcomment: $index] }
-      incomment       { return [ctext::model::is_index $win incomment   $index] }
-      instring        { return [ctext::model::is_index $win instring    $index] }
-      incommentstring { return [ctext::model::is_index $win incomstr    $index] }
-      intag           { return [ctext::model::is_index $win intag       $index] }
+      indent          { return [ctext::model::is_index $win ident         $index left] }
+      unindent        { return [ctext::model::is_index $win ident         $index right] }
+      reindent        { return [ctext::model::is_index $win reindent      $index any] }
+      reindentStart   { return [ctext::model::is_index $win reindentStart $index any] }
+      indouble        { return [ctext::model::is_index $win indouble      $index] }
+      insingle        { return [ctext::model::is_index $win insingle      $index] }
+      inbtick         { return [ctext::model::is_index $win inbtick       $index] }
+      inblockcomment  { return [ctext::model::is_index $win inbcomment:   $index] }
+      inlinecomment   { return [ctext::model::is_index $win inlcomment:   $index] }
+      incomment       { return [ctext::model::is_index $win incomment     $index] }
+      instring        { return [ctext::model::is_index $win instring      $index] }
+      incommentstring { return [ctext::model::is_index $win incomstr      $index] }
+      intag           { return [ctext::model::is_index $win intag         $index] }
       inclass         {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"
