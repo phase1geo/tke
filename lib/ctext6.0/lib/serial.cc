@@ -350,7 +350,7 @@ bool serial::is_index(
   if( si.matches() ) {
     const serial_item* item = (*this)[si.index()];
     if( (item->side() & side) || ((item->side() == 0) && (side == 3)) ) {
-      if( type == "indent"        ) { return( typs.is_indent( item->type() ) ); }
+      if( type == "ident"         ) { return( typs.is_indent( item->type() ) ); }
       if( type == "reindent"      ) { return( typs.is_reindent( item->type() ) ); }
       if( type == "reindentStart" ) { return( typs.is_reindentStart( item->type() ) ); }
       return( item->type() & typs.type( type ) );
