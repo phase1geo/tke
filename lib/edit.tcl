@@ -1052,90 +1052,41 @@ namespace eval edit {
 
   ######################################################################
   # Perform indentation on a specified range.
-  proc do_indent {txtt startpos endpos} {
+  proc indent {str} {
 
     # Get the indent spacing
-    set indent_str [string repeat " " [$txtt cget -shiftwidth]]
+    set txt        [gui::current_txt]
+    set indent_str [string repeat " " [$txt cget -shiftwidth]]
+    set modlines   [list]
 
-    while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-      $txtt insert "$startpos linestart" $indent_str
-      set startpos [$txtt index "$startpos linestart+1l"]
+    puts "str: $str, indent_str ($indent_str)"
+
+    foreach line [split $str \n] {
+      lappend modlines "$indent_str$line"
     }
+
+    puts "In indent, modelines: $modlines"
+
+    return [join $modlines \n]
 
   }
 
   ######################################################################
   # Perform unindentation on a specified range.
-  proc do_unindent {txtt startpos endpos} {
+  proc unindent {str} {
 
     # Get the indent spacing
-    set unindent_str [string repeat " " [$txtt cget -shiftwidth]]
-    set unindent_len [string length $unindent_str]
+    set txt      [gui::current_txt]
+    set shiftw   [$txt cget -shiftwidth]
+    set modlines [list]
 
-    while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-      if {[regexp "^$unindent_str" [$txtt get "$startpos linestart" "$startpos lineend"]]} {
-        $txtt delete "$startpos linestart" "$startpos linestart+${unindent_len}c"
+    foreach line [split $str \n] {
+      if {[string trim [string range $line 0 [expr $shiftw - 1]]] eq ""} {
+        lappend modlines [string range $line $shiftw end]
       }
-      set startpos [$txtt index "$startpos linestart+1l"]
     }
 
-  }
-
-  ######################################################################
-  # If text is selected, performs one level of indentation.  Returns 1 if
-  # text was selected; otherwise, returns 0.
-  proc indent_selected {txtt} {
-
-    if {[llength [set range [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $range] {
-        do_indent $txtt $startpos $endpos
-      }
-      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Indents the selected text of the current text widget by one
-  # indentation level.
-  proc indent {txtt {startpos "insert"} {endpos "insert"}} {
-
-    if {![indent_selected $txtt]} {
-      do_indent $txtt $startpos $endpos
-      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
-    }
-
-  }
-
-  ######################################################################
-  # If text is selected, unindents the selected lines by one level and
-  # return a value of 1; otherwise, return a value of 0.
-  proc unindent_selected {txtt} {
-
-    if {[llength [set range [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $range] {
-        do_unindent $txtt $startpos $endpos
-      }
-      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Unindents the selected text of the current text widget by one
-  # indentation level.
-  proc unindent {txtt {startpos "insert"} {endpos "insert"}} {
-
-    if {![unindent_selected $txtt]} {
-      do_unindent $txtt $startpos $endpos
-      $txtt cursor set [list [list firstchar -startpos $startpos -num 0]]
-    }
+    return [join $modlines \n]
 
   }
 

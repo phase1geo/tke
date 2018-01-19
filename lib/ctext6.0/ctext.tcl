@@ -1840,6 +1840,8 @@ namespace eval ctext {
 
     lassign [lrange $args $i end] startPos endPos tags
 
+    puts "-transform ($opts(-transform))"
+
     # Setup the transform callback
     if {$opts(-transform) eq ""} {
       set opts(-transform) [list ctext::no_transform $opts(-str)]
@@ -1868,6 +1870,7 @@ namespace eval ctext {
       set startPos    [$win._t index $startPos]
       set endPos      [$win index $endPos]
       set old_content [$win._t get $startPos $endPos]
+      puts "startPos; $startPos, endPos: $endPos, old_content: $old_content"
       set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
       set chars       [string length $new_content]
       lappend dstrs $old_content

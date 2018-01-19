@@ -1699,25 +1699,19 @@ namespace eval vim {
       }
       "format" {
         $txtt indent $sposargs $eposargs
-        $txtt cursor set [list firstchar -num 0 -startpos $startpos]
+        # $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1
       }
       "lshift" {
-        if {![multicursor::shift $txtt left $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::unindent $txtt $startpos $endpos
-          [winfo parent $txtt] cursor set [list firstchar -num 0 -startpos $startpos]
-        }
+        $txtt replace -transform edit::unindent $sposargs $eposargs
+        # $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1
       }
       "rshift" {
-        if {![multicursor::shift $txtt right $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::indent $txtt $startpos $endpos
-          [winfo parent $txtt] cursor set [list firstchar -num 0 -startpos $startpos]
-        }
+        $txtt replace -transform edit::indent $sposargs $eposargs
+        # $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1
       }
@@ -2570,8 +2564,8 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          $txtt cursor move [list right -allowend 1]
           edit_mode $txtt
+          $txtt cursor move [list right -allowend 1]
           record_start $txtt "a"
           return 1
         }
