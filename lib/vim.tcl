@@ -1704,13 +1704,13 @@ namespace eval vim {
         return 1
       }
       "lshift" {
-        $txtt replace -transform edit::unindent $sposargs $eposargs
+        $txtt replace -transform edit::convert_unindent $sposargs $eposargs
         # $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1
       }
       "rshift" {
-        $txtt replace -transform edit::indent $sposargs $eposargs
+        $txtt replace -transform edit::convert_indent $sposargs $eposargs
         # $txtt cursor set [list firstchar -num 0 -startpos $startpos]
         command_mode $txtt
         return 1

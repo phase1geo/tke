@@ -485,6 +485,43 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Converts the text to text that is right-shifted by one level of
+  # indentation.
+  proc convert_indent {str} {
+
+    # Get the indent spacing
+    set txt        [gui::current_txt]
+    set indent_str [string repeat " " [$txt cget -shiftwidth]]
+    set modlines   [list]
+
+    foreach line [split $str \n] {
+      lappend modlines "$indent_str$line"
+    }
+
+    return [join $modlines \n]
+
+  }
+
+  ######################################################################
+  # Converts the text to text that is left-shifted by one level of
+  # indentation.
+  proc convert_unindent {str} {
+
+    set txt      [gui::current_txt]
+    set shiftw   [$txt cget -shiftwidth]
+    set modlines [list]
+
+    foreach line [split $str \n] {
+      if {[string trim [string range $line 0 [expr $shiftw - 1]]] eq ""} {
+        lappend modlines [string range $line $shiftw end]
+      }
+    }
+
+    return [join $modlines \n]
+
+  }
+
+  ######################################################################
   # If text is selected, the case will be toggled for each selected
   # character.  Returns 1 if selected text was found; otherwise, returns 0.
   proc transform_toggle_case_selected {txtt} {
@@ -1051,42 +1088,56 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Perform indentation on a specified range.
-  proc indent {str} {
+  # Performs indentation on selected text, if available.
+  proc indent_selected {txtt} {
 
-    # Get the indent spacing
-    set txt        [gui::current_txt]
-    set indent_str [string repeat " " [$txt cget -shiftwidth]]
-    set modlines   [list]
-
-    puts "str: $str, indent_str ($indent_str)"
-
-    foreach line [split $str \n] {
-      lappend modlines "$indent_str$line"
+    if {[set selected [$txtt tag ranges sel]] ne ""} {
+      foreach {endpos startpos} [lreverse $selected] {
+        $txtt replace -transform edit::convert_indent [list linestart -startpos $startpos] [list lineend -startpos $endpos]
+      }
+      $txtt cursor set $startpos
+      return 1
     }
 
-    puts "In indent, modelines: $modlines"
+    return 0
 
-    return [join $modlines \n]
+  }
+
+  ######################################################################
+  # Perform indentation on a specified range.
+  proc indent {txtt startpos endpos {cursorpos insert}} {
+
+    if {![indent_selected $txtt]} {
+      $txtt replace -transform edit::convert_indent [list linestart -startpos $startpos] [list lineend -startpos $endpos]
+      $txtt cursor set $cursorpos
+    }
+
+  }
+
+  ######################################################################
+  # Perform unindentation on the selected text, if applicable.
+  proc unindent_selected {txtt} {
+
+    if {[set selected [$txtt tag ranges sel]] ne ""} {
+      foreach {endpos startpos} [lreverse $selected] {
+        $txtt replace -transform edit::convert_unindent [list linestart -startpos $startpos] [list lineend -startpos $endpos]
+      }
+      $txtt cursor set $startpos
+      return 1
+    }
+
+    return 0
 
   }
 
   ######################################################################
   # Perform unindentation on a specified range.
-  proc unindent {str} {
+  proc unindent {txtt startpos endpos {cursorpos insert}} {
 
-    # Get the indent spacing
-    set txt      [gui::current_txt]
-    set shiftw   [$txt cget -shiftwidth]
-    set modlines [list]
-
-    foreach line [split $str \n] {
-      if {[string trim [string range $line 0 [expr $shiftw - 1]]] eq ""} {
-        lappend modlines [string range $line $shiftw end]
-      }
+    if {![unindent_selected $txtt]} {
+      $txtt replace -transform edit::convert_unindent [list linestart -startpos $startpos] [list lineend -startpos $endpos]
+      $txtt cursor set $cursorpos
     }
-
-    return [join $modlines \n]
 
   }
 

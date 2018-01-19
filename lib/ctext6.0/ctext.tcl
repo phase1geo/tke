@@ -1306,8 +1306,9 @@ namespace eval ctext {
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    set ranges [list]
-    set cursor [$win._t index insert]
+    set ranges  [list]
+    set hranges [list]
+    set cursor  [$win._t index insert]
 
     if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       set endSpec [lindex $args [expr $i + 1]]
@@ -1317,15 +1318,14 @@ namespace eval ctext {
           set endPos [$win index [list {*}$endSpec -startpos $startPos]]
         }
         lappend strs   [$win._t get $startPos $endPos]
-        lappend starts $startPos
-        lappend ends   $endPos
         $win._t delete $startPos $endPos
         if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
           $win._t tag add _mcursor $startPos-1c
         } else {
           $win._t tag add _mcursor $startPos
         }
-        lappend ranges $startPos $endPos
+        lappend ranges  $startPos $endPos
+        lappend hranges $startPos $startPos
       }
     } else {
       lassign [lrange $args $i end] startPos endPos
@@ -1335,18 +1335,17 @@ namespace eval ctext {
       } else {
         set endPos [$win index $endPos]
       }
-      lappend strs   [$win._t get $startPos $endPos]
-      lappend starts $startPos
-      lappend ends   $endPos
-      $win._t delete $startPos $endPos
-      lappend ranges $startPos $endPos
+      lappend strs    [$win._t get $startPos $endPos]
+      $win._t delete  $startPos $endPos
+      lappend ranges  $startPos $endPos
+      lappend hranges $startPos $startPos
     }
 
     # Cause the model to handle the deletion
     ctext::model::delete $win $ranges $strs $cursor $data($win,config,-linemap_mark_command)
 
     if {$opts(-highlight)} {
-      highlightAll $win $ranges 0 1
+      highlightAll $win $hranges 0 1
     }
 
     modified $win 1 [list delete $ranges $opts(-moddata)]
@@ -1522,7 +1521,7 @@ namespace eval ctext {
 
         set ranges [list]
         foreach {start end} [lrange $args $i end] {
-          lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
+          lappend ranges [$win index $start] [$win index $end]
         }
 
         highlightAll $win $ranges $opts(-insert) $opts(-block)
@@ -1840,43 +1839,46 @@ namespace eval ctext {
 
     lassign [lrange $args $i end] startPos endPos tags
 
-    puts "-transform ($opts(-transform))"
-
     # Setup the transform callback
     if {$opts(-transform) eq ""} {
       set opts(-transform) [list ctext::no_transform $opts(-str)]
     }
 
-    set ranges [list]
-    set cursor [$win._t index insert]
+    set ranges  [list]
+    set hranges [list]
+    set cursor  [$win._t index insert]
 
     # Insert the text
     if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
-      set endSpec [lindex $args [expr $i + 1]]
-      set ispec   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
+      set startSpec $startPos
+      set endSpec   $endPos
+      set sspec     [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
+      set espec     [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
-        if {$ispec} {
-          set endPos [$win index [list {*}$endSpec -startpos $startPos]]
-        }
+        if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $endPos]] }
         set old_content [$win._t get $startPos $endPos]
         set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
         set chars       [string length $new_content]
+        set new_endpos  [$win._t index "$startPos+${chars}c"]
         lappend dstrs $old_content
         lappend istrs $new_content
         $win._t replace $startPos $endPos $new_content $tags
-        lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
+        lappend ranges  $startPos $endPos $new_endpos
+        lappend hranges $startPos $new_endpos
       }
     } else {
-      set startPos    [$win._t index $startPos]
+      set startPos    [$win index $startPos]
       set endPos      [$win index $endPos]
       set old_content [$win._t get $startPos $endPos]
-      puts "startPos; $startPos, endPos: $endPos, old_content: $old_content"
       set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
       set chars       [string length $new_content]
+      set new_endpos  [$win._t index "$startPos+${chars}c"]
       lappend dstrs $old_content
       lappend istrs $new_content
       $win._t replace $startPos $endPos $new_content $tags
-      lappend ranges  $startPos $endPos [$win._t index "$startPos+${chars}c"]
+      lappend ranges  $startPos $endPos $new_endpos
+      lappend hranges $startPos $new_endpos
     }
 
     # Update the model
@@ -1884,7 +1886,7 @@ namespace eval ctext {
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
-      highlightAll $win $ranges 1 1
+      highlightAll $win $hranges 1 1
     }
 
     modified $win 1 [list replace $ranges $opts(-moddata)]
@@ -2514,9 +2516,7 @@ namespace eval ctext {
   # highlighting.  This 'ins' parameter should be set to 1 if we are being
   # called after inserting the text that is being highlighted; otherwise, it
   # should be set to 0.  The 'block' parameter causes this call to wait for
-  # all syntax highlighting to be applied prior to returning.  The 'do_tag'
-  # list should be derived from the list of tags that were deleted that
-  # would cause us to re-evaluate the comment parser.  This highlight
+  # all syntax highlighting to be applied prior to returning.  This highlight
   # procedure can automatically highlight one or more ranges of text.
   proc highlightAll {win lineranges ins block} {
 
