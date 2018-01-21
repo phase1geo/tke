@@ -1444,15 +1444,15 @@ namespace eval edit {
   proc get_range_string {txtt char tag inner adjust {cursor insert}} {
 
     if {[$txtt get $cursor] eq $char} {
-      if {[lsearch [$txtt tag names $cursor-1c] _${tag}*] == -1} {
+      if {![$txtt is $tag $cursor-1c]} {
         set index [gui::find_match_char [winfo parent $txtt] $char -forwards]
         return [expr {$inner ? [list [$txtt index "$cursor+1c"] [$txtt index "$index-1c$adjust"]] : [list [$txtt index $cursor] [$txtt index "$index$adjust"]]}]
       } else {
         set index [gui::find_match_char [winfo parent $txtt] $char -backwards]
         return [expr {$inner ? [list [$txtt index "$index+1c"] [$txtt index "$cursor-1c$adjust"]] : [list $index [$txtt index "$cursor$adjust"]]}]
       }
-    } elseif {[set tag [lsearch -inline [$txtt tag names $cursor] _${tag}*]] ne ""} {
-      lassign [$txtt tag prevrange $tag $cursor] startpos endpos
+    } elseif {[$txtt is $tag $cursor]} {
+      lassign [$txtt range prev $tag $cursor] startpos endpos
       return [expr {$inner ? [list [$txtt index "$startpos+1c"] [$txtt index "$endpos-2c$adjust"]] : [list $startpos [$txtt index "$endpos-1c$adjust"]]}]
     }
 

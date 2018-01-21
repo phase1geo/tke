@@ -1001,6 +1001,7 @@ namespace eval ctext {
       is          { return [command_is          $win {*}$args] }
       marker      { return [command_marker      $win {*}$args] }
       matchchar   { return [command_matchchar   $win {*}$args] }
+      range       { return [command_range       $win {*}$args] }
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
@@ -1810,6 +1811,52 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Performs a model range request.
+  proc command_range {win args} {
+
+    lassign $args which type side startpos endpos
+
+    if {[lsearch [list left right any none] $side] == -1} {
+      set endpos   $startpos
+      set startpos $side
+      set side     "any"
+    }
+
+    if {$startpos ne ""} { set startpos [$win index $startpos] }
+    if {$endpos   ne ""} { set endpos   [$win index $endpos] }
+
+    if {[lsearch [list all next prev] $which] == -1} {
+      return -code error "ctext range request is not valid (should be: all, next or prev)"
+    }
+
+    if {[lsearch [list curly square paren angled double single btick tdouble tsingle tbtick] $type] != -1} {
+      return [ctext::model::get_range $win $type $side $which $startpos $endpos]
+    } else {
+      switch $which {
+        "next" -
+        "prev" {
+          if {$endpos eq ""} {
+            return [$win._t tag ${which}range __$type $startpos]
+          } else {
+            return [$win._t tag ${which}range __$type $startpos $endpos]
+          }
+        }
+        "all" {
+          if {$startpos eq ""} {
+            return [$win._t tag ranges __$type]
+          } elseif {$endpos eq ""} {
+            set ranges [lsort -dictionary [list {*}[$win._t tag ranges __$type] $startpos]]
+            return [lrange $ranges [expr [lsearch $ranges $startpos] + 1] end]
+          } else {
+            set ranges [lsort -dictionary [list {*}[$win._t tag ranges __$type] $startpos $endpos]]
+            return [lrange $ranges [expr [lsearch $ranges $startpos] + 1] [expr [lsearch $ranges $endpos] - 1]]
+          }
+        }
+      }
+    }
+
+  }
 
   ######################################################################
   # Returns the given string.

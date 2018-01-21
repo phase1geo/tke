@@ -206,6 +206,14 @@ class model {
       return( _serial.get_comment_markers( ranges, _types ) );
     }
 
+    /*! \return Returns a list of ranges that match the input criteria */
+    Tcl::object get_range(
+      const Tcl::object & args
+    ) const {
+      Tcl::interpreter i( args.get_interp(), false );
+      return( _serial.get_range( args.at( i, 0 ), args.at( i, 1 ), args.at( i, 2 ), args.at( i, 3 ), args.at( i, 4 ), _types ) );
+    }
+
     /*!
      Handles rendering the currently viewable linemap.
     */

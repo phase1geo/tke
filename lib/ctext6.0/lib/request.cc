@@ -66,6 +66,9 @@ object request::execute(
     case REQUEST_GETCOMMENTMARKERS :
       return( inst.get_comment_markers( _args.at( i, 0 ) ) );
       break;
+    case REQUEST_RANGE :
+      return( inst.get_range( _args ) );
+      break;
     case REQUEST_RENDERLINEMAP :
       return( inst.render_linemap( _args.at( i, 0 ), _args.at( i, 1 ) ) );
       break;

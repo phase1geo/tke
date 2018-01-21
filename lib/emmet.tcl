@@ -268,15 +268,15 @@ namespace eval emmet {
 
     # Get the tag
     if {$opts(-dir) eq "prev"} {
-      if {[set start [lindex [$txt tag prevrange _angledL $opts(-start)] 0]] eq ""} {
+      if {[set start [$txt range prev angled left $opts(-start)]] eq ""} {
         return ""
-      } elseif {[set end [lindex [$txt tag nextrange _angledR $start] 1]] eq ""} {
+      } elseif {[set end [$txt range next angled right $start]] eq ""} {
         return ""
       }
     } else {
-      if {[set end [lindex [$txt tag nextrange _angledR $opts(-start)] 1]] eq ""} {
+      if {[set end [$txt range next angled right $opts(-start)]] eq ""} {
         return ""
-      } elseif {[set start [lindex [$txt tag prevrange _angledL $end] 0]] eq ""} {
+      } elseif {[set start [$txt range prev angled left $end]] eq ""} {
         return ""
       }
     }
@@ -286,20 +286,20 @@ namespace eval emmet {
       # Get the tag elements
       if {[$txt get "$start+1c"] eq "/"} {
         set found_type "001"
-        set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+2c" "$end-1c"]]
+        set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+2c" $end]]
       } else {
-        if {[$txt get "$end-2c"] eq "/"} {
+        if {[$txt get "$end-1c"] eq "/"} {
           set found_type "010"
-          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-2c"]]
+          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-1c"]]
         } else {
           set found_type "100"
-          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-1c"]]
+          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" $end]]
         }
       }
 
       # If we have found what we are looking for, return now
       if {[string match $opts(-type) $found_type] && [string match $opts(-name) $found_name]} {
-        return [list $start $end $found_name $found_type $missed]
+        return [list $start [$txt index "$end+1c"] $found_name $found_type $missed]
       }
 
       # Update counts
@@ -307,15 +307,15 @@ namespace eval emmet {
 
       # Otherwise, get the next tag
       if {$opts(-dir) eq "prev"} {
-        if {[set end [lindex [$txt tag prevrange _angledR $start] 1]] eq ""} {
+        if {[set end [$txt range prev angled right $start]] eq ""} {
           return ""
-        } elseif {[set start [lindex [$txt tag prevrange _angledL $end] 0]] eq ""} {
+        } elseif {[set start [$txt range prev angled left $end]] eq ""} {
           return ""
         }
       } else {
-        if {[set start [lindex [$txt tag nextrange _angledL $end] 0]] eq ""} {
+        if {[set start [$txt range next angled left $end]] eq ""} {
           return ""
-        } elseif {[set end [lindex [$txt tag nextrange _angledR $start] 1]] eq ""} {
+        } elseif {[set end [$txt range next angled right $start]] eq ""} {
           return ""
         }
       }
@@ -908,9 +908,10 @@ namespace eval emmet {
 
     if {[$txt is incomment insert]} {
 
-      if {([set comment_end [lassign [$txt tag prevrange _comstr1c0 insert] comment_start]] eq "") || \
+      # TBD - We need to figure out what comstr1c0 is now
+      if {([set comment_end [lassign [$txt range prev _comstr1c0 insert] comment_start]] eq "") || \
           [$txt compare insert > $comment_end]} {
-        lassign [$txt tag prevrange _comstr1c1 insert] comment_start comment_end
+        lassign [$txt range prev _comstr1c1 insert] comment_start comment_end
       }
 
       set i 0

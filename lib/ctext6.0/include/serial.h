@@ -99,6 +99,34 @@ class serial : public std::vector<serial_item*> {
       const types  & typs
     ) const;
 
+    /*!
+     \return Returns the index of the next serial_item that matches the given type and
+             side, starting at index 'start'.  If no matching item is found, a value of -1
+             is returned.
+    */
+    int nextindex_type(
+      const tindex & start,
+      int            type,
+      int            side
+    ) const;
+
+    /*!
+     \return Returns the index of the next serial_item that matches the given type and
+             side, starting at index 'start' and stopping at index 'end'.  If no matching
+             item is found, a value of -1 is returned.
+    */
+    int nextindex_type(
+      const tindex & start,
+      const tindex & end,
+      int            type,
+      int            side
+    ) const;
+
+    /*!
+     \return Returns the index of the previous serial_item that is the first non-whitespace
+             character of a line, starting at index 'start'.  If no matching item is found,
+             a value of -1 is returned.
+    */
     int previndex_firstchar(
       const tindex & start,
       const types  & typs
@@ -159,6 +187,29 @@ class serial : public std::vector<serial_item*> {
       const tindex & end,
       int            side,
       const types  & typs
+    ) const;
+
+    /*!
+     \return Returns the index of the previous serial_item that matches the given type
+             and side, starting at index 'start'.  If no matching item is found, a value
+             of -1 is returned.
+    */
+    int previndex_type(
+      const tindex & start,
+      int            type,
+      int            side
+    ) const;
+
+    /*!
+     \return Returns the index of the previous serial_item that matches the given type
+             and side, starting at index 'start' and stopping at index 'end'.  If no
+             matching item is found, a value of -1 is returned.
+    */
+    int previndex_type(
+      const tindex & start,
+      const tindex & end,
+      int            type,
+      int            side
     ) const;
 
     /*!
@@ -243,6 +294,16 @@ class serial : public std::vector<serial_item*> {
     /*! \return Returns all comment markers in the specified ranges */
     Tcl::object get_comment_markers(
       const Tcl::object & ranges,
+      const types       & typs
+    ) const;
+
+    /*! \return Returns the text indices that match the requested information */
+    Tcl::object get_range(
+      const Tcl::object & type,
+      const Tcl::object & side,
+      const Tcl::object & which,
+      const Tcl::object & startpos,
+      const Tcl::object & endpos,
       const types       & typs
     ) const;
 

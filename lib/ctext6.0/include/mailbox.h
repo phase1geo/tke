@@ -147,6 +147,13 @@ class mailbox {
       const Tcl::object & ranges
     );
 
+    Tcl::object get_range(
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_RANGE, args, true, false );
+      return( result() );
+    }
+
     Tcl::object render_contexts(
       const Tcl::object & linestart,
       const Tcl::object & lineend,

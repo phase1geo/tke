@@ -149,6 +149,16 @@ namespace eval model {
   }
 
   ######################################################################
+  # Returns the requested range, if found; otherwise, returns the empty list.
+  proc get_range {win type side which startpos endpos} {
+
+    variable data
+
+    return [$data($win,model) range [list $type $side $which $startpos $endpos]]
+
+  }
+
+  ######################################################################
   # Inserts the given items into the tree.
   proc insert {win ranges str cursor} {
 

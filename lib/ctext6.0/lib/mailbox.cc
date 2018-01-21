@@ -765,6 +765,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "isescaped",           &mailbox::is_escaped )
     .def( "isindex",             &mailbox::is_index )
     .def( "getcommentmarkers",   &mailbox::get_comment_markers )
+    .def( "range",               &mailbox::get_range )
     .def( "renderlinemap",       &mailbox::render_linemap )
     .def( "setmarker",           &mailbox::set_marker )
     .def( "getmarkername",       &mailbox::get_marker_name )
