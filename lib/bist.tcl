@@ -761,7 +761,7 @@ namespace eval bist {
     gui::get_info $tab tab txt
 
     # Get the position of the second to last right curly bracket
-    lassign [lrange [$txt tag ranges _curlyR] end-3 end-2] startpos endpos
+    lassign [lrange [$txt range all curly right] end-3 end-2] startpos endpos
 
     # Insert the test
     $txt insert $endpos "\n\n  proc $name {} {\n    \n  }"

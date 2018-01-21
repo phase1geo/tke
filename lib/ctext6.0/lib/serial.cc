@@ -384,13 +384,71 @@ object serial::get_comment_markers(
 
 }
 
+object serial::get_range(
+  const Tcl::object & type_obj,
+  const Tcl::object & side_obj,
+  const Tcl::object & which_obj,
+  const Tcl::object & startpos,
+  const Tcl::object & endpos,
+  const types       & typs
+) const {
+
+  interpreter interp( type_obj.get_interp(), false );
+  int         type  = typs.type( type_obj.get<string>( interp ) );
+  int         side  = get_side( side_obj.get<string>( interp ) );
+  string      which = which_obj.get<string>( interp );
+
+  /* Returns the next range */
+  if( which == "next" ) {
+    int index;
+    if( endpos.length( interp ) == 0 ) {
+      index = nextindex_type( tindex( startpos ), type, side );
+    } else {
+      index = nextindex_type( tindex( startpos ), tindex( endpos ), type, side );
+    }
+    if( index == -1 ) {
+      return( (object)"" );
+    } else {
+      return( (object)(*this)[index]->const_pos().to_tindex().to_string() );
+    }
+
+  /* Returns the previous range */
+  } else if( which == "prev" ) {
+    int index;
+    if( endpos.length( interp ) == 0 ) {
+      index = previndex_type( tindex( startpos ), type, side );
+    } else {
+      index = previndex_type( tindex( startpos ), tindex( endpos ), type, side );
+    }
+    if( index == -1 ) {
+      return( (object)"" );
+    } else {
+      return( (object)(*this)[index]->const_pos().to_tindex().to_string() );
+    }
+
+  /* Returns all of the ranges */
+  } else {
+    int    si = (startpos.length( interp ) == 0) ? 0      : next_startindex( startpos );
+    int    ei = (endpos.length( interp )   == 0) ? size() : next_endindex( endpos );
+    object retval;
+    for( int i=si; i<ei; i++ ) {
+      const serial_item* item = (*this)[i];
+      if( (type & item->type()) && ((side & item->side()) || ((item->side() == 0) && (side == 3))) ) {
+        retval.append( interp, (object)item->const_pos().to_tindex().to_string() );
+      }
+    }
+    return( retval );
+  }
+
+}
+
 int serial::next_startindex(
   const tindex & ti
 ) const {
 
   sindex si = get_index( ti );
 
-  return( (!si.matches() || (*this)[si.index()]->pos().matches_tindex( ti )) ? si.index() : (si.index() + 1) );
+  return( (!si.matches() || (*this)[si.index()]->const_pos().matches_tindex( ti )) ? si.index() : (si.index() + 1) );
 
 }
 
@@ -489,6 +547,45 @@ int serial::nextindex_reindent(
 
   for( int i=next_startindex( start ); i<ei; i++ ) {
     if( typs.is_reindent( (*this)[i]->type() ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::nextindex_type(
+  const tindex & start,
+  int            type,
+  int            side
+) const {
+
+  int ei = size();
+
+  for( int i=next_startindex( start ); i<ei; i++ ) {
+    const serial_item* item = (*this)[i];
+    if( (type & item->type()) && ((side & item->side()) || ((item->side() == 0) && (side == 3))) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::nextindex_type(
+  const tindex & start,
+  const tindex & end,
+  int            type,
+  int            side
+) const {
+
+  int ei = next_endindex( end );
+
+  for( int i=next_startindex( start ); i<ei; i++ ) {
+    const serial_item* item = (*this)[i];
+    if( (type & item->type()) && ((side & item->side()) || ((item->side() == 0) && (side == 3))) ) {
       return( i );
     }
   }
@@ -604,6 +701,45 @@ int serial::previndex_indent(
 
   for( int i=prev_startindex( start ); i>=ei; i-- ) {
     if( (*this)[i]->matches_indent( side, typs ) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::previndex_type(
+  const tindex & start,
+  int            type,
+  int            side
+) const {
+
+  int ei = size();
+
+  for( int i=prev_startindex( start ); i>=0; i-- ) {
+    const serial_item* item = (*this)[i];
+    if( (type & item->type()) && ((side & item->side()) || ((item->side() == 0) && (side == 3))) ) {
+      return( i );
+    }
+  }
+
+  return( -1 );
+
+}
+
+int serial::previndex_type(
+  const tindex & start,
+  const tindex & end,
+  int            type,
+  int            side
+) const {
+
+  int ei = prev_endindex( end );
+
+  for( int i=prev_startindex( start ); i>=ei; i-- ) {
+    const serial_item* item = (*this)[i];
+    if( (type & item->type()) && ((side & item->side()) || ((item->side() == 0) && (side == 3))) ) {
       return( i );
     }
   }
