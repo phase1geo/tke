@@ -1496,9 +1496,9 @@ namespace eval edit {
         "curly"  -
         "square" -
         "angled" { return [get_range_block $txtt $type $num $inner $adjust $cursor] }
-        "double" { return [get_range_string $txtt \" comstr0d $inner $adjust $cursor] }
-        "single" { return [get_range_string $txtt \' comstr0s $inner $adjust $cursor] }
-        "btick"  { return [get_range_string $txtt \` comstr0b $inner $adjust $cursor] }
+        "double" { return [get_range_string $txtt \" double $inner $adjust $cursor] }
+        "single" { return [get_range_string $txtt \' single $inner $adjust $cursor] }
+        "btick"  { return [get_range_string $txtt \` btick $inner $adjust $cursor] }
       }
 
     } else {

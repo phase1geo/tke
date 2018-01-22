@@ -1103,29 +1103,23 @@ namespace eval emmet_css {
     if {$opts(-dir) eq "prev"} {
       if {[$txt compare $opts(-startpos) == 1.0]} {
         return ""
-      } elseif {[set start_index [$txt range prev curly right $opts(-startpos)-1c]] eq ""} {
+      } elseif {[set start_index [lindex [$txt range prev curly right $opts(-startpos)-1c] 1]] eq ""} {
         set start_index 1.0
-      } else {
-        set start_index [$txt index "$start_index+1c"]
       }
     } else {
-      if {[set start_index [$txt range next curly right $opts(-startpos)]] eq ""} {
+      if {[set start_index [lindex [$txt range next curly right $opts(-startpos)] 1]] eq ""} {
         return ""
-      } else {
-        set start_index [$txt index "$start_index+1c"]
       }
     }
     
     # Find the first non-commented, non-whitespace character
     set start $start_index
     while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [$txt is incomment $start_index]} {
-      # TBD
-      set comment_tag [lsearch -inline [$txt tag names $start] _comstr*]
-      set start [lindex [$txt range prev $comment_tag $start+1c] 1]
+      set start [lindex [$txt range prev comment $start+1c] 1]
     }
 
-    if {($start ne "") && ([set end_index [$txt range next curly right $start]] ne "")} {
-      set curly_index [$txt range next curly left $start_index]
+    if {($start ne "") && ([set end_index [lindex [$txt range next curly right $start] 1]] ne "")} {
+      set curly_index [lindex [$txt range next curly left $start_index] 0]
       return [list $start $curly_index [$txt index "$end_index+1c"] $start_index]
     }
 
@@ -1454,9 +1448,7 @@ namespace eval emmet_css {
 
     if {[$txt is inblockcomment insert]} {
 
-      # TBD
-      set tag [lsearch -inline [$txt is _comstr1c* insert] _comstr1c*]
-      lassign [$txt tag prevrange $tag "insert+1c"] startpos endpos
+      lassign [$txt range prev comment "insert+1c"] startpos endpos
 
       if {[$txt get $endpos-3c] eq " "} {
         $txt delete "$endpos-3c" $endpos
