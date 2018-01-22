@@ -151,6 +151,8 @@ namespace eval indent {
 
     foreach {spos epos indents} [ctext::model::indent_format $win $startpos $endpos $shiftwidth] {
 
+      puts "spos: $spos, epos: $epos, indents: $indents"
+
       # Get the number of indentations to perform
       set indent_space [expr {($indents > 0) ? [string repeat " " $indents] : ""}]
 

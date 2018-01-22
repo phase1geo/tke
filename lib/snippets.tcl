@@ -271,6 +271,8 @@ namespace eval snippets {
     # Call the snippet parser
     if {[set result [parse_snippet $txtt $snippet]] ne ""} {
 
+      puts "snippet: $snippet, result: $result"
+
       # Get the snippet marks
       set marks [lsearch -glob -inline -all [$txtt tag names] snippet_*]
 
@@ -284,6 +286,7 @@ namespace eval snippets {
       set insert [$txtt index insert]
 
       # Insert the text
+      puts "result: $result"
       $txtt insert insert {*}$result
 
       # Format the text to match indentation
@@ -292,7 +295,9 @@ namespace eval snippets {
         foreach {str tags} $result {
           incr datalen [string length $str]
         }
-        $txtt indent $insert "$insert+${datalen}c"
+        puts "Adjusting indentation, $txtt indent $insert $insert+${datalen}c"
+        # catch { $txtt indent $insert "$insert+${datalen}c" } rc
+        # puts "After indent, rc: $rc"
       }
 
       # Traverse the inserted snippet

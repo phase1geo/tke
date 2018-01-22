@@ -2711,10 +2711,10 @@ namespace eval menus {
     set txt          [gui::current_txt]
     set line         [lindex [split [$txt index insert] .] 0]
     set state        [$txt gutter get folding $line]
-    set code_folding [expr {[$txt cget -foldstate] ne "none"}]
+    set code_folding [$txt cget -foldenable]
     set sel_state    [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
 
-    if {[$txt cget -foldstate] eq "manual"} {
+    if {[$txt cget -indentmode] eq "OFF"} {
       $mb entryconfigure [msgcat::mc "Create Fold From Selection"] -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Selected Folds"]      -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Current Fold"]        -state normal

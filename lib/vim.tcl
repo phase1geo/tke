@@ -581,14 +581,14 @@ namespace eval vim {
   proc do_set_foldmethod {val} {
 
     array set map {
-      none   1
-      manual 1
-      syntax 1
+      none   {-foldenable 0}
+      manual {-foldenable 1 -indentmode "OFF"}
+      syntax {-foldenable 1 -indentmode "IND+"}
     }
 
     # Set the current folding method
     if {[info exists map($val)]} {
-      [gui::current_txt] configure -foldstate $val
+      [gui::current_txt] configure {*}$map($val)
     } else {
       gui::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
     }
@@ -1994,8 +1994,7 @@ namespace eval vim {
       }
       "folding" {
         if {![in_visual_mode $txtt]} {
-          set enable [expr {[string match [[winfo parent $txtt] cget -foldstate] "none"] ? 1 : 0}]
-          $txt configure -foldenable $enable
+          $txt configure -foldenable [expr [$txtt cget -foldenable] ^ 1]
         }
       }
       default {

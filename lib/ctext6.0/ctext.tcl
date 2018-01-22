@@ -198,7 +198,7 @@ namespace eval ctext {
     grid $win.t -row 0 -column 2 -sticky news
 
     # Hide the linemap and separator if we are specified to do so
-    if {!$data($win,config,-linemap) && !$data($win,config,-linemap_markable) && ($data($win,config,-foldstate) eq "none")} {
+    if {!$data($win,config,-linemap) && !$data($win,config,-linemap_markable) && ($data($win,config,foldstate) eq "none")} {
       grid remove $win.l
       grid remove $win.f
     }
@@ -414,7 +414,7 @@ namespace eval ctext {
 
     lappend argTable {0 false no} -linemap {
       set data($win,config,-linemap) 0
-      if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && ($data($win,config,-foldstate) eq "none")} {
+      if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && ($data($win,config,foldstate) eq "none")} {
         catch {
           grid remove $win.l
           grid remove $win.f
@@ -1614,18 +1614,22 @@ namespace eval ctext {
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    lassign [lrange $args $i end] insertPos content tags
+    # Get the number of characters being inserted and adjust the tags
+    set chars 0
+    set items [list]
+    foreach {content tags} [lassign [lrange $args $i end] insertPos] {
+      incr chars [string length $content]
+      lappend items $content [list {*}$tags lmargin rmargin]
+    }
 
-    set ranges  [list]
-    set chars   [string length $content]
-    set tags    [list {*}$tags lmargin rmargin]
-    set cursor  [$win._t index insert]
+    set ranges [list]
+    set cursor [$win._t index insert]
 
     # Insert the text
     if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
-        $win._t insert $startPos $content $tags
-        lappend ranges  $startPos [$win._t index "$startPos+${chars}c"]
+        $win._t insert $startPos {*}$items
+        lappend ranges $startPos [$win._t index "$startPos+${chars}c"]
       }
     } else {
       if {$insertPos eq "end"} {
@@ -1633,12 +1637,12 @@ namespace eval ctext {
       } else {
         set insPos [$win._t index $insertPos]
       }
-      $win._t insert $insertPos $content $tags
+      $win._t insert $insertPos {*}$items
       lappend ranges $insPos [$win._t index "$insPos+${chars}c"]
     }
 
     # Delete any dspace characters
-    catch { $win._t delete [$win._t tag ranges _dspace] }
+    catch { $win._t delete {*}[$win._t tag ranges _dspace] }
 
     # Update the model
     ctext::model::insert $win $ranges $content $cursor
@@ -1684,7 +1688,7 @@ namespace eval ctext {
       }
 
       # Delete any dspace characters
-      catch { $win._t delete [$win._t tag remove _dspace] }
+      catch { $win._t delete {*}[$win._t tag ranges _dspace] }
 
       # Update the model
       ctext::model::insert $win $ranges $content $cursor
@@ -1711,7 +1715,11 @@ namespace eval ctext {
 
     lassign $args type index extra
 
-    set index [$win index $index]
+    if {$type eq "inclass"} {
+      set index [$win index $extra]
+    } else {
+      set index [$win index $index]
+    }
 
     switch $type {
       escaped         { return [ctext::model::is_escaped $win $index] }
@@ -1752,7 +1760,7 @@ namespace eval ctext {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"
         }
-        return [expr [lsearch -exact [$win._t tag names $index] __$extra] != -1]
+        return [expr [lsearch -exact [$win._t tag names $extra] __$index] != -1]
       }
       default         {
         return -code error "Unsupported is type ($type) specified"
