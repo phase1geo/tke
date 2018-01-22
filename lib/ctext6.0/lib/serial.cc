@@ -397,6 +397,7 @@ object serial::get_range(
   int         type  = typs.type( type_obj.get<string>( interp ) );
   int         side  = get_side( side_obj.get<string>( interp ) );
   string      which = which_obj.get<string>( interp );
+  object      retval;
 
   /* Returns the next range */
   if( which == "next" ) {
@@ -406,10 +407,8 @@ object serial::get_range(
     } else {
       index = nextindex_type( tindex( startpos ), tindex( endpos ), type, side );
     }
-    if( index == -1 ) {
-      return( (object)"" );
-    } else {
-      return( (object)(*this)[index]->const_pos().to_tindex().to_string() );
+    if( index != -1 ) {
+      (*this)[index]->const_pos().to_pair( retval );
     }
 
   /* Returns the previous range */
@@ -420,25 +419,23 @@ object serial::get_range(
     } else {
       index = previndex_type( tindex( startpos ), tindex( endpos ), type, side );
     }
-    if( index == -1 ) {
-      return( (object)"" );
-    } else {
-      return( (object)(*this)[index]->const_pos().to_tindex().to_string() );
+    if( index != -1 ) {
+      (*this)[index]->const_pos().to_pair( retval );
     }
 
   /* Returns all of the ranges */
   } else {
-    int    si = (startpos.length( interp ) == 0) ? 0      : next_startindex( startpos );
-    int    ei = (endpos.length( interp )   == 0) ? size() : next_endindex( endpos );
-    object retval;
+    int si = (startpos.length( interp ) == 0) ? 0      : next_startindex( startpos );
+    int ei = (endpos.length( interp )   == 0) ? size() : next_endindex( endpos );
     for( int i=si; i<ei; i++ ) {
       const serial_item* item = (*this)[i];
       if( (type & item->type()) && ((side & item->side()) || ((item->side() == 0) && (side == 3))) ) {
-        retval.append( interp, (object)item->const_pos().to_tindex().to_string() );
+        item->const_pos().to_pair( retval );
       }
     }
-    return( retval );
   }
+
+  return( retval );
 
 }
 
