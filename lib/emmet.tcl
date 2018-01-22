@@ -133,6 +133,7 @@ namespace eval emmet {
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $str $prespace } str]} {
+        puts "str: $str"
         snippets::insert_snippet_into_current $str -delrange [list $startpos $endpos] -separator 0
       }
 
@@ -328,7 +329,7 @@ namespace eval emmet {
   # If the insertion cursor is currently inside of a tag element, returns
   # the tag information; otherwise, returns the empty string
   proc inside_tag {txt args} {
-    
+
     array set opts {
       -startpos insert
       -allow010 0
@@ -349,7 +350,7 @@ namespace eval emmet {
   # Assumes that the insertion cursor is somewhere between a start and end
   # tag.
   proc get_node_range_within {txt args} {
-    
+
     array set opts {
       -startpos insert
     }
@@ -393,7 +394,7 @@ namespace eval emmet {
   proc get_node_range {txt args} {
 
     variable data
-    
+
     array set opts {
       -startpos insert
     }

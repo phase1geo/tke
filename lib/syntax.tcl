@@ -477,6 +477,7 @@ namespace eval syntax {
         completer::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
 
         # Handle embedded syntaxes
+        puts "embedded: $lang_array(embedded)"
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
