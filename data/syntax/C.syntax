@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed

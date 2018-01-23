@@ -4,7 +4,10 @@ filepatterns
 vimsyntax
 {prolog}
 
-matchcharsallowed
+completechars
+{curly square paren angled}
+
+matchchars
 {curly square paren angled}
 
 tabsallowed

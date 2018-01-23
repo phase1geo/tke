@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://elm-lang.org/docs}
 }
 
-matchcharsallowed
+completechars
+{curly square paren}
+
+matchchars
 {curly square paren}
 
 escapes

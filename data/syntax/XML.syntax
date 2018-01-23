@@ -9,8 +9,11 @@ reference {
   {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
 }
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -19,7 +22,7 @@ casesensitive
 {1}
 
 indentation
-{{<[^/>](.*?[^/])?> </.+?>}}
+{{<[^/>]+> </[^>]+>}}
 
 icomment {{<!--} {-->}}
 

@@ -13,7 +13,10 @@ embedded {
   {SCSS {} {}}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed

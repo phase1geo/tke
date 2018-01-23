@@ -5,7 +5,10 @@ reference {
   {{Language Reference} https://nim-lang.org/docs/manual.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren square double btick}
+
+matchchars
 {curly paren square double btick}
 
 escapes

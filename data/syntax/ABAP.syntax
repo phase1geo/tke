@@ -15,7 +15,10 @@ embedded
 delimiters
 {}
 
-matchcharsallowed
+completechars
+{square paren single btick}
+
+matchchars
 {square paren single btick}
 
 tabsallowed

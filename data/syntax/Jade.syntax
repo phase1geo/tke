@@ -6,7 +6,10 @@ reference
   {{Language Reference} https://scalate.github.io/scalate/documentation/jade-syntax.html}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed

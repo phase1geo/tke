@@ -6,7 +6,10 @@ reference
   {{Language Reference} http://coffeescript.org/}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed

@@ -7,7 +7,10 @@ vimsyntax
 reference
 {}
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 escapes

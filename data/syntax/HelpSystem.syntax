@@ -1,7 +1,10 @@
 filepatterns
 {*.help}
 
-matchcharsallowed
+completechars
+{angled double}
+
+matchchars
 {angled double}
 
 tabsallowed

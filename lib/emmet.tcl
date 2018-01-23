@@ -133,7 +133,6 @@ namespace eval emmet {
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $str $prespace } str]} {
-        puts "str: $str"
         snippets::insert_snippet_into_current $str -delrange [list $startpos $endpos] -separator 0
       }
 

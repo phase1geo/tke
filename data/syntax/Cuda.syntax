@@ -12,7 +12,10 @@ reference
 embedded
 {{C}}
 
-matchcharsallowed
+completechars
+{curly paren square double}
+
+matchchars
 {curly paren square double}
 
 tabsallowed

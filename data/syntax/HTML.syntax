@@ -17,8 +17,11 @@ embedded {
   {JavaScript {<script(.*type="text/javascript".*)?>$} {</script>}}
 }
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -27,7 +30,7 @@ casesensitive
 {0}
 
 indentation
-{{<[^/>](.*?[^/])?> </.+?>} {<\\? \\?>}}
+{{<[^/>]+> </[^>]+>} {<\\? \\?>}}
 
 icomment {{<!--} {-->}}
 

@@ -8,7 +8,10 @@ reference {
   {{User Guide} https://www.latex-project.org/help/documentation/usrguide.pdf}
 }
 
-matchcharsallowed
+completechars
+{curly square}
+
+matchchars
 {curly square}
 
 escapes

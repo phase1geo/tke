@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://caml.inria.fr/pub/docs/manual-ocaml/language.html}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 tabsallowed

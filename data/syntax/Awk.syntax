@@ -9,7 +9,10 @@ reference
   {{User Guide} https://www.gnu.org/software/gawk/manual/gawk.html}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 tabsallowed

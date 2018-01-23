@@ -57,7 +57,7 @@ namespace eval parsers {
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
       set start 0
-      while {[regexp -indices -start $start $pattern $line indices]} {
+      while {[regexp -indices -start $start -- $pattern $line indices]} {
         set word   [{*}$transform [string range $line {*}$indices]]
         set first  [string index $word 0]
         set endpos [expr [lindex $indices 1] + 1]
@@ -89,7 +89,7 @@ namespace eval parsers {
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
       set start 0
-      while {[regexp -indices -start $start $pattern $line indices]} {
+      while {[regexp -indices -start $start -- $pattern $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
         lappend ranges $startrow.[lindex $indices 0] $startrow.$endpos
         set start $endpos
@@ -114,7 +114,7 @@ namespace eval parsers {
     foreach line [split $str \n] {
       set start 0
       array unset var
-      while {[regexp -indices -start $start $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)]} {
+      while {[regexp -indices -start $start -- $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)]} {
         if {![catch { thread::send $ctext::utils::main_tid [list {*}$cmd $txt $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
           foreach sub [lindex $retval 0] {
             if {[llength $sub] == 3} {
@@ -145,7 +145,7 @@ namespace eval parsers {
 
     foreach line [split $str \n] {
       set start 0
-      while {[regexp -indices -start $start {\\} $line indices]} {
+      while {[regexp -indices -start $start -- {\\} $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
         lassign [lindex $tags end] t d i
         if {([lindex $i 0] == $startrow) && ([lindex $i 1 0] == ([lindex $indices 0] - 1))} {
@@ -208,7 +208,7 @@ namespace eval parsers {
       set trim  [expr {[string index $pattern 0] eq "^"}]
       foreach line $lines {
         set start 0
-        while {[regexp -indices -start $start $pattern $line indices]} {
+        while {[regexp -indices -start $start -- $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
           if {$trim} {
             set str  [string range $line {*}$indices]
@@ -240,7 +240,7 @@ namespace eval parsers {
       set srow $startrow
       foreach line [split $str \n] {
         set start 0
-        while {[regexp -indices -start $start $pattern $line indices]} {
+        while {[regexp -indices -start $start -- $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
           lappend tags [list $tag $side [list $srow $indices] 0 $ctx]
           set start $endpos
@@ -261,7 +261,7 @@ namespace eval parsers {
       set srow $startrow
       foreach line [split $str \n] {
         set start 0
-        while {[regexp -indices -start $start $pattern $line indices]} {
+        while {[regexp -indices -start $start -- $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
           lappend tags [list $tag $side [list $srow $indices] 0 $ctx]
           set start $endpos

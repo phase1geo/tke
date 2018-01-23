@@ -6,7 +6,10 @@ reference
   {{Language Reference} https://doc.rust-lang.org/book/}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 tabsallowed

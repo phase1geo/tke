@@ -34,7 +34,8 @@ namespace eval syntax {
     vimsyntax          {}
     reference          {}
     embedded           {}
-    matchcharsallowed  {}
+    completechars      {}
+    matchchars         {}
     escapes            1
     tabsallowed        0
     linewrap           0
@@ -460,7 +461,7 @@ namespace eval syntax {
         # ctext::setContextPatterns $txt string  string  {} $lang_array(strings) -fgtheme comments
         ctext::setIndentation     $txt {} $lang_array(indentation)
         ctext::setReindentation   $txt {} $lang_array(reindentation)
-        ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) -fgtheme strings
+        ctext::setBrackets        $txt {} $lang_array(matchchars) -fgtheme strings
 
         # Add the FIXME
         $txt syntax addclass fixme -fgtheme miscellaneous1
@@ -473,15 +474,14 @@ namespace eval syntax {
         $txt configure -foldenable [preferences::get View/EnableCodeFolding]
 
         # Set the completer options for the given language
-        ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
-        completer::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
+        ctext::setAutoMatchChars $txt {} $lang_array(completechars)
+        completer::set_auto_match_chars $txt.t {} $lang_array(completechars)
 
         # Handle embedded syntaxes
-        puts "embedded: $lang_array(embedded)"
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
-            ctext::setContextPatterns $txt $sublang $sublang "" [list $embed_start $embed_end] -bgtheme embedded
+            ctext::setContextPatterns $txt $sublang $sublang "" [list [list $embed_start $embed_end]] -bgtheme embedded
             add_sublanguage $txt $sublang $cmd_prefix "" $embed_start $embed_end
           } else {
             add_sublanguage $txt $sublang $cmd_prefix "" {} {}
@@ -563,8 +563,8 @@ namespace eval syntax {
       set_indent_expressions $txt $lang_array(indentation)
 
       # Set the completer options for the given language
-      ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)
-      completer::set_auto_match_chars $txt.t $language $lang_array(matchcharsallowed)
+      ctext::setAutoMatchChars $txt $language $lang_array(completechars)
+      completer::set_auto_match_chars $txt.t $language $lang_array(completechars)
 
       # Set the snippets for the current text widget
       snippets::set_language $language

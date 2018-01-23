@@ -7,7 +7,10 @@ reference {
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r@;:=\"'\|,<>]+}
 
-matchcharsallowed
+completechars
+{curly paren square double btick}
+
+matchchars
 {curly paren square double btick}
 
 escapes

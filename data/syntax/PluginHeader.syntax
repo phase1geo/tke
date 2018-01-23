@@ -1,7 +1,10 @@
 filepatterns
 {*/plugins/*/header.tkedat *\\plugins\\*\\header.tkedat}
 
-matchcharsallowed
+completechars
+{curly double single}
+
+matchchars
 {curly double single}
 
 indentation

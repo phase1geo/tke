@@ -11,8 +11,11 @@ reference
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|/,<>]+}
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -21,7 +24,7 @@ casesensitive
 {0}
 
 indentation
-{{<[^/>](.*?[^/])?>} {</.+?>}}
+{{<[^/>]+>} {</[^>]+>}}
 
 icomment {{<!--} {-->}}
 

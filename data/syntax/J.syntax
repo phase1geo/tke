@@ -1,7 +1,10 @@
 filepatterns
 {*.j}
 
-matchcharsallowed
+completechars
+{paren single}
+
+matchchars
 {paren single}
 
 tabsallowed

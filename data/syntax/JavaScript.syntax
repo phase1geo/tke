@@ -13,7 +13,10 @@ embedded {
   {JSON}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single btick}
+
+matchchars
 {curly square paren double single btick}
 
 tabsallowed

@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://docs.oracle.com/cd/E19957-01/805-4939/index.html}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed

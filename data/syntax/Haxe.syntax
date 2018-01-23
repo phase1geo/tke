@@ -6,7 +6,10 @@ reference
   {{Language Reference} http://old.haxe.org/ref}
 }
 
-matchcharsallowed
+completechars
+{curly}
+
+matchchars
 {curly}
 
 tabsallowed

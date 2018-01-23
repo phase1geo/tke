@@ -6,7 +6,10 @@ reference
   {{Language Reference} http://nekovm.org/doc}
 }
 
-matchcharsallowed
+completechars
+{curly}
+
+matchchars
 {curly}
 
 tabsallowed

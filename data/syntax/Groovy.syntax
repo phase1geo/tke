@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://www.groovy-lang.org/documentation.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren square double single}
+
+matchchars
 {curly paren square double single}
 
 tabsallowed

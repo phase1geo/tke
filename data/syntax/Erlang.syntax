@@ -9,7 +9,10 @@ reference
   {{Reference Manual} http://erlang.org/doc/reference_manual/users_guide.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren square}
+
+matchchars
 {curly paren square}
 
 tabsallowed

@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://www.scheme.com/tspl3/}
 }
 
-matchcharsallowed
+completechars
+{paren square double}
+
+matchchars
 {paren square double}
 
 tabsallowed

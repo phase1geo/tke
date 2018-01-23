@@ -1,7 +1,10 @@
 filepatterns
 {*.tketheme}
 
-matchcharsallowed
+completechars
+{curly double single}
+
+matchchars
 {curly double single}
 
 tabsallowed

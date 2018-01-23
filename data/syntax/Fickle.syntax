@@ -5,7 +5,10 @@ embedded {
   {Tcl}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed

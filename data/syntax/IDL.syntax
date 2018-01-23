@@ -8,7 +8,10 @@ reference {
   {{Language Reference} http://www.harrisgeospatial.com/docs/idl_programming.html}
 }
 
-matchcharsallowed
+completechars
+{square paren curly double single}
+
+matchchars
 {square paren curly double single}
 
 casesensitive
