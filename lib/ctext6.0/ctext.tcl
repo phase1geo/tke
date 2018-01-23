@@ -364,6 +364,7 @@ namespace eval ctext {
       set data($win,config,-blockcursor) 1
       if {[$win._t compare "insert linestart" == "insert lineend"]} {
         $win._t insert insert " " _dspace
+        $win._t mark set insert "insert linestart"
       }
       update_cursor $win
     }
@@ -371,7 +372,7 @@ namespace eval ctext {
     lappend argTable {0 false no} -blockcursor {
       set data($win,config,-blockcursor) 0
       if {[$win._t tag ranges _mcursor] eq ""} {
-        $win._t tag remove _dspace 1.0 end
+        catch { $win._t delete {*}[$win._t tag ranges _dspace] }
       }
       update_cursor $win
     }
@@ -3121,7 +3122,7 @@ namespace eval ctext {
     set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
     set linenum       $data($win,config,-linemap)
     set linenum_width [expr $linenum ? max( $data($win,config,-linemap_minwidth), $line_width ) : 1]
-    set gutterx       [expr ($linenum_width * $data($win,fontwidth)) + 1]
+    set gutterx       [expr ($linenum_width * $data($win,fontwidth)) + 10]
     set marker        $data($win,config,-linemap_mark_color)
     set normal        $data($win,config,-linemapfg)
     set font          $data($win,config,-font)

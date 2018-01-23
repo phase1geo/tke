@@ -1539,6 +1539,9 @@ namespace eval edit {
     # Adjust the view
     eval [string map {%W $txtt} [bind Text <[string totitle $dir]>]]
 
+    # Make sure that the cursor position is set through the widget
+    $txtt cursor set insert
+
   }
 
   ######################################################################
