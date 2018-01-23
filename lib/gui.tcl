@@ -2971,14 +2971,12 @@ namespace eval gui {
 
     # If any text is selected, format it
     if {[llength [set selected [$txt tag ranges sel]]] > 0} {
-      puts "selected: $selected"
       foreach {endpos startpos} [lreverse $selected] {
         $txt indent $startpos $endpos
       }
 
     # Otherwise, select the full file
     } else {
-      puts "all"
       $txt indent
     }
 
