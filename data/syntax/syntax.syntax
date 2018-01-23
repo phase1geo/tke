@@ -49,7 +49,7 @@ strings {}
 
 keywords
 {
-  filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
+  filepatterns vimsyntax reference embedded completechars matchchars tabsallowed linewrap
   casesensitive delimiters indentation reindentation keywords symbols icomment
   comments embeddedcomments strings numbers punctuation precompile miscellaneous1
   miscellaneous2 miscellaneous3 highlighter meta readmeta advanced escapes formatting
@@ -58,7 +58,7 @@ keywords
 symbols
 {
   HighlightKeywords {
-    filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed
+    filepatterns vimsyntax reference embedded completechars matchchars tabsallowed
     linewrap casesensitive delimiters indentation reindentation icomment
     comments strings symbols numbers punctuation precompile miscellaneous1
     miscellaneous2 miscellaneous3 meta readmeta advanced escapes formatting
