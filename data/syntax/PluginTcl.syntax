@@ -6,7 +6,10 @@ embedded
   {Tcl}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 indentation

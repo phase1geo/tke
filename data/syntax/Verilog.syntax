@@ -4,7 +4,10 @@ filepatterns
 vimsyntax
 {verilog}
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 tabsallowed

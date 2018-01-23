@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://docs.python.org/3/reference/}
 }
 
-matchcharsallowed
+completechars
+{square paren double single}
+
+matchchars
 {square paren double single}
 
 tabsallowed

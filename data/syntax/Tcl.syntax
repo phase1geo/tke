@@ -14,7 +14,10 @@ reference
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 tabsallowed

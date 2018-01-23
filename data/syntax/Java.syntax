@@ -9,7 +9,10 @@ reference
   {{Language Specification} http://docs.oracle.com/javase/specs/jls/se7/html/index.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren square double single}
+
+matchchars
 {curly paren square double single}
 
 tabsallowed

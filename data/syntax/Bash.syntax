@@ -9,7 +9,10 @@ reference
   {{User Guide} https://www.gnu.org/software/bash/manual/bashref.html}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed

@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://wiki.gnome.org/Projects/Vala/Tutorial}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed

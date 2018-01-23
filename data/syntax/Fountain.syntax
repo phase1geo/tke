@@ -18,10 +18,11 @@ escapes
 casesensitive
 {1}
 
-matchcharsallowed
-{
-  paren
-}
+completechars
+{paren}
+
+matchchars
+{paren}
 
 comments {{{/\*} {\*/}} {{\[\[} {\]\]}}}
 

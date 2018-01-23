@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://msdn.microsoft.com/en-us/library/sh9ywfdk.aspx}
 }
 
-matchcharsallowed
+completechars
+{curly paren double}
+
+matchchars
 {curly paren double}
 
 tabsallowed

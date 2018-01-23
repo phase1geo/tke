@@ -8,7 +8,10 @@ embedded {
   {CSS {} {}}
 }
 
-matchcharsallowed
+completechars
+{curly paren double single}
+
+matchchars
 {curly paren double single}
 
 tabsallowed

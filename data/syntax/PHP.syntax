@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://php.net/manual/en/langref.php}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed

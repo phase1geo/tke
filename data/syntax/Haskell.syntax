@@ -9,7 +9,10 @@ reference
   {{Documentation} https://www.haskell.org/documentation}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed

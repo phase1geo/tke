@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://web.cse.ohio-state.edu/~sgomori/314/langref.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren double single}
+
+matchchars
 {curly paren double single}
 
 tabsallowed

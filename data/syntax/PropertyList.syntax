@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFPropertyLists/CFPropertyLists.html}
 }
 
-matchcharsallowed
+completechars
+{paren angled double single}
+
+matchchars
 {paren angled double single}
 
 tabsallowed
@@ -19,7 +22,7 @@ casesensitive
 {1}
 
 indentation
-{{<[^/>](.*?[^/])?>} {</.+?>}}
+{{<[^/>]+>} {</[^>]+>}}
 
 icomment {{<!--} {-->}}
 

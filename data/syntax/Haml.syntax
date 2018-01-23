@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://haml.info/docs/yardoc/file.REFERENCE.html}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed

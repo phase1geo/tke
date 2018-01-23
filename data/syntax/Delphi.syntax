@@ -11,7 +11,10 @@ embedded {
   {Pascal {} {}}
 }
 
-matchcharsallowed
+completechars
+{curly square paren single}
+
+matchchars
 {curly square paren single}
 
 tabsallowed

@@ -155,8 +155,6 @@ object model::render_contexts(
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {
     if( ((*it)->type() != escape) && ((ltype != escape) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_col() - 1))) ) {
       const string & tag = _types.tag( (*it)->type() );
-      cout << "tag: " << tag << ", top: " << context.top() << ", context: " << (*it)->context()
-           << ", type: " << (*it)->type() << ", side: " << (*it)->side() << ", names: " << _types.names( 0 ) << endl;
       if( (context.top() == (*it)->context()) && ((*it)->side() & 1) ) {
         context.push( (*it)->type() );
         add_tag_index( i, ranges, tag, (*it)->pos().to_index( true ) );

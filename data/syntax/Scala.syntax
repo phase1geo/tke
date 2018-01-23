@@ -9,7 +9,10 @@ reference
   {{Documentation} http://www.scala-lang.org/documentation/}
 }
 
-matchcharsallowed
+completechars
+{curly paren square double single}
+
+matchchars
 {curly paren square double single}
 
 tabsallowed

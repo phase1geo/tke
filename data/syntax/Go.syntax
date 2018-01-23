@@ -6,7 +6,10 @@ reference
   {{Language Specification} https://golang.org/ref/spec}
 }
 
-matchcharsallowed
+completechars
+{square curly paren double btick}
+
+matchchars
 {square curly paren double btick}
 
 escapes

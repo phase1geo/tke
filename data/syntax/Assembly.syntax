@@ -4,7 +4,10 @@ filepatterns
 vimsyntax
 {asm}
 
-matchcharsallowed
+completechars
+{square}
+
+matchchars
 {square}
 
 escapes

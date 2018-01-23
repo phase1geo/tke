@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://www.gnu.org/software/emacs/manual/elisp.html}
 }
 
-matchcharsallowed
+completechars
+{paren double}
+
+matchchars
 {paren double}
 
 tabsallowed

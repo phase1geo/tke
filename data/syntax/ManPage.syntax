@@ -4,7 +4,10 @@ filepatterns
 vimsyntax
 {man}
 
-matchcharsallowed
+completechars
+{curly square paren}
+
+matchchars
 {curly square paren}
 
 tabsallowed
