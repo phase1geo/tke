@@ -938,7 +938,7 @@ namespace eval ctext {
     $win._t tag delete hl
 
     # Highlight text and bracket auditing
-    highlightAll $win $ranges 0 0
+    highlightAll $win $ranges "undo" 0
 
     # Set the cursor and let other know that the text widget was modified
     $win cursor set $cursor
@@ -965,7 +965,7 @@ namespace eval ctext {
     $win._t tag delete hl
 
     # Highlight text and bracket auditing
-    highlightAll $win $ranges 0 0
+    highlightAll $win $ranges "redo" 0
 
     # Set the cursor and let other know that the text widget was modified
     $win cursor set $cursor
@@ -1346,7 +1346,7 @@ namespace eval ctext {
     ctext::model::delete $win $ranges $strs $cursor $data($win,config,-linemap_mark_command)
 
     if {$opts(-highlight)} {
-      highlightAll $win $hranges 0 1
+      highlightAll $win $hranges "delete" 1
     }
 
     modified $win 1 [list delete $ranges $opts(-moddata)]
@@ -1466,7 +1466,7 @@ namespace eval ctext {
 
         # Insert the string and highlight it
         $win._t insert $tline.0 $str
-        $win highlight -insert 1 $tline.0 $pos
+        $win syntax highlight -insert 1 $tline.0 $pos
 
         # Add the tags
         $win._t tag add $tagA $start_posA [$win._t index "$end_posA+${count}l linestart"]
@@ -1525,8 +1525,7 @@ namespace eval ctext {
           lappend ranges [$win index $start] [$win index $end]
         }
 
-        highlightAll $win $ranges $opts(-insert) $opts(-block)
-        modified     $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
+        highlightAll $win $ranges [expr {$opts(-insert) ? "insert" : "highlight"}] $opts(-block)
       }
       configure { return [$win._t tag configure __[lindex $args 0] {*}[lrange $args 1 end]] }
       cget      { return [$win._t tag cget __[lindex $args 0] [lindex $args 1]] }
@@ -1649,7 +1648,7 @@ namespace eval ctext {
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
-      highlightAll $win $ranges 1 1
+      highlightAll $win $ranges "insert" 1
     }
 
     modified       $win 1 [list insert $ranges $opts(-moddata)]
@@ -1695,7 +1694,7 @@ namespace eval ctext {
 
       # Highlight text and bracket auditing
       if {$opts(-highlight)} {
-        highlightAll $win $ranges 1 1
+        highlightAll $win $ranges "insert" 1
       }
 
       modified       $win 1 [list insert $ranges $opts(-moddata)]
@@ -1941,7 +1940,7 @@ namespace eval ctext {
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
-      highlightAll $win $hranges 1 1
+      highlightAll $win $hranges "insert" 1
     }
 
     modified $win 1 [list replace $ranges $opts(-moddata)]
@@ -2573,7 +2572,7 @@ namespace eval ctext {
   # should be set to 0.  The 'block' parameter causes this call to wait for
   # all syntax highlighting to be applied prior to returning.  This highlight
   # procedure can automatically highlight one or more ranges of text.
-  proc highlightAll {win lineranges ins block} {
+  proc highlightAll {win lineranges reason block} {
 
     variable data
 
@@ -2587,7 +2586,7 @@ namespace eval ctext {
       $win._t tag remove $tag {*}$lineranges
     }
 
-    highlight $win $lineranges $ins $block
+    highlight $win $lineranges $reason $block
 
     event generate $win.t <<StringCommentChanged>>
 
@@ -2935,7 +2934,7 @@ namespace eval ctext {
 
   ######################################################################
   # Performs all of the syntax highlighting.
-  proc highlight {win ranges ins {block 1}} {
+  proc highlight {win ranges reason {block 1}} {
 
     variable data
     variable tpool
@@ -2954,6 +2953,7 @@ namespace eval ctext {
     set str       [$win._t get $linestart $lineend]
     set namelist  [array get data $win,highlight,word,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
+    set ins       [expr {$reason eq "insert"}]
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
@@ -2991,17 +2991,20 @@ namespace eval ctext {
     }
 
     # Finally, perform indentation handling here
-    if {$ins} {
-      foreach {endpos startpos} [lreverse $ranges] {
-        if {[$win._t get $startpos] eq "\n"} {
-          ctext::indent::newline $win $startpos $data($win,config,-indentmode)
-        } else {
-          ctext::indent::check_unindent $win $startpos $data($win,config,-indentmode)
+    switch $reason {
+      insert {
+        foreach {endpos startpos} [lreverse $ranges] {
+          if {[$win._t get $startpos] eq "\n"} {
+            ctext::indent::newline $win $startpos $data($win,config,-indentmode)
+          } else {
+            ctext::indent::check_unindent $win $startpos $data($win,config,-indentmode)
+          }
         }
       }
-    } else {
-      foreach {endpos startpos} [lreverse $ranges] {
-        ctext::indent::backspace $win $startpos $data($win,config,-indentmode)
+      delete {
+        foreach {endpos startpos} [lreverse $ranges] {
+          ctext::indent::backspace $win $startpos $data($win,config,-indentmode)
+        }
       }
     }
 
