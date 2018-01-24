@@ -22,6 +22,7 @@ class types {
 
     std::map<std::string,int> _types;
     std::map<int,std::string> _tags;
+    int                       _tagmask;
     std::string               _empty;
     int                       _firstchar;
     int                       _bracket;
@@ -64,7 +65,8 @@ class types {
 
     /*! Default constructor */
     types()
-    : _empty         ( "" ),
+    : _tagmask       ( 0 ),
+      _empty         ( "" ),
       _firstchar     ( 0 ),
       _bracket       ( 0 ),
       _string        ( 0 ),
@@ -82,6 +84,7 @@ class types {
     void clear() {
       _types.clear();
       _tags.clear();
+      _tagmask       = 0;
       _firstchar     = 0;
       _bracket       = 0;
       _string        = 0;
@@ -99,7 +102,10 @@ class types {
       if( type( name ) == 0 ) {
         int bitpos = _types.size();
         _types.insert( make_pair( name, (1 << bitpos) ) );
-        _tags.insert( make_pair( (1 << bitpos), tagname ) );
+        if( !tagname.empty() ) {
+          _tags.insert( make_pair( (1 << bitpos), tagname ) );
+          _tagmask |= (1 << bitpos);
+        }
         set_internals( name, bitpos );
       }
     }
@@ -129,7 +135,7 @@ class types {
 
     /*! \return Returns the tag associated with the given type */
     const std::string & tag( int type ) const {
-      std::map<int,std::string>::const_iterator it = _tags.find( type );
+      std::map<int,std::string>::const_iterator it = _tags.find( type & _tagmask );
       if( it == _tags.end() ) {
         return( _empty );
       }
