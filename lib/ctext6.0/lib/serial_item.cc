@@ -52,6 +52,9 @@ bool serial_item::merge(
     if( _pos.end_col() < si.const_pos().end_col() ) {
       _pos = si.const_pos();
     }
+    if( _context == 0 ) {
+      _context = si._context;
+    }
     return( true );
   }
 

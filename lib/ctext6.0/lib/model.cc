@@ -153,12 +153,12 @@ object model::render_contexts(
 
   /* Create the non-overlapping ranges for each of the context tags */
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {
-    if( ((*it)->type() != escape) && ((ltype != escape) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_col() - 1))) ) {
+    if( (((*it)->type() & escape) == 0) && (((ltype & escape) == 0) || (lrow != (*it)->pos().row()) || (lcol != ((*it)->pos().start_col() - 1))) ) {
       const string & tag = _types.tag( (*it)->type() );
-      if( (context.top() == (*it)->context()) && ((*it)->side() & 1) ) {
+      if( ((context.top() & (*it)->context()) || (context.top() == (*it)->context())) && ((*it)->side() & 1) ) {
         context.push( (*it)->type() );
         add_tag_index( i, ranges, tag, (*it)->pos().to_index( true ) );
-      } else if( (context.top() == (*it)->type()) && ((*it)->side() & 2) ) {
+      } else if( (context.top() & (*it)->type()) && ((*it)->side() & 2) ) {
         context.pop();
         add_tag_index( i, ranges, tag, (*it)->pos().to_index( false ) );
       } else {
