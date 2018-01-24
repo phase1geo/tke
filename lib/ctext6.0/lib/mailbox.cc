@@ -47,16 +47,30 @@ void mailbox::add_request(
   bool           tree
 ) {
 
-  /* Create the request and add it to the fifo */
-  _requests.push( new request( command, args, result, tree ) );
+  /* If the request FIFO is empty and we need a return value, execute it without starting a thread */
+  if( result && (_requests.size() == 0) ) {
 
-  /* If the processing thread is currently running, start it now */
-  if( !_th.joinable() || !_thread_active ) {
-    if( _th.joinable() ) {
-      _th.join();
+    /* Create the request */
+    request req( command, args, result, tree );
+
+    /* Execute the request */
+    _result = req.execute( _model, _update_needed );
+
+  /* Otherwise, start the thread */
+  } else {
+
+    /* Create the request and add it to the fifo */
+    _requests.push( new request( command, args, result, tree ) );
+
+    /* If the processing thread is currently not running, start it now */
+    if( !_th.joinable() || !_thread_active ) {
+      if( _th.joinable() ) {
+        _th.join();
+      }
+      _thread_active = true;
+      _th = thread( mailbox_execute, std::ref( *this ) );
     }
-    _thread_active = true;
-    _th = thread( mailbox_execute, std::ref( *this ) );
+
   }
 
 }
