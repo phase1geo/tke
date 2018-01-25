@@ -17,12 +17,14 @@
 #include "mingw.thread.h"
 #else
 #include <thread>
+#include <future>
 #endif
 
 #include "cpptcl.h"
 #include "model.h"
 #include "types.h"
 #include "request.h"
+#include "response.h"
 
 /*!
  Class for communicating to the model thread using a FIFO.
@@ -31,14 +33,15 @@ class mailbox {
 
   private:
 
-    model                _model;          /*!< Model instance to use */
-    std::string          _win;            /*!< Pathname of text widget */
-    std::queue<request*> _requests;       /*!< FIFO of requests */
-    std::thread          _th;             /*!< Active thread */
-    Tcl::object          _result;         /*!< Stores the last returned result */
-    bool                 _update_needed;  /*!< Set to true when a tree update is eventually needed */
-    bool                 _thread_active;  /*!< Set to true while the thread is checking queue status */
-    std::string          _callback_tid;   /*!< Thread ID to call when performing a callback */
+    model                 _model;          /*!< Model instance to use */
+    std::string           _win;            /*!< Pathname of text widget */
+    std::queue<request*>  _requests;       /*!< FIFO of requests */
+    std::queue<response*> _responses;      /*!< FIFO of responses */
+    std::thread           _th;             /*!< Active thread */
+    Tcl::object           _result;         /*!< Stores the last returned result */
+    bool                  _update_needed;  /*!< Set to true when a tree update is eventually needed */
+    bool                  _thread_active;  /*!< Set to true while the thread is checking queue status */
+    std::string           _callback_tid;   /*!< Thread ID to call when performing a callback */
 
     /*! Adds the specified request to the mailbox queue */
     void add_request(
@@ -83,6 +86,9 @@ class mailbox {
 
     /*! Execute items from the requests queue */
     void execute();
+
+    /*! Executes all callbacks on the main thread side */
+    Tcl::object get_callback();
 
     /*! \return Returns the last calculated result */
     Tcl::object & result() {
