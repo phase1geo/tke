@@ -105,7 +105,9 @@ void mailbox::run_callback(
   ostringstream cmd;
   
   /* Create the command */
-  cmd << "thread::send -async " << _callback_tid << " " << callback << " " << args.get<string>( interp );
+  cmd << "thread::send -async " << _callback_tid << " " << callback << " " << _win << " " << args.get<string>( interp );
+
+  cout << cmd.str() << endl;
 
   /* Execute the command */
   interp.eval( cmd.str() );

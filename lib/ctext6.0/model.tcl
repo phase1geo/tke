@@ -217,7 +217,15 @@ namespace eval model {
 
     variable data
 
-    foreach {tag ranges} [$data($win,model) rendercontexts [list $linestart $lineend [lsort -dictionary -index 2 $tags]]] {
+    $data($win,model) rendercontexts [list $linestart $lineend [lsort -dictionary -index 2 $tags]]
+
+  }
+
+  ######################################################################
+  # Perform the context rendering.
+  proc render_contexts_do {win data} {
+
+    foreach {tag ranges} $data {
       ctext::render $win __$tag $ranges 1
     }
 
