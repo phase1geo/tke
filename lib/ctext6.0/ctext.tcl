@@ -1514,10 +1514,8 @@ namespace eval ctext {
         while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
         array set opts {
-          -moddata  {}
-          -insert   0
-          -modified 0
-          -block    1
+          -insert 0
+          -block  1
         }
         array set opts [lrange $args 0 [expr $i - 1]]
 

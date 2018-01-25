@@ -310,30 +310,22 @@ namespace eval search {
     # Get the number of indices
     set num_indices [llength $indices]
     set ranges      [list]
-    set do_tags     [list]
 
     # Make sure that newline characters and tabs are replaced properly
     set replace [string map {{\n} \n {\t} \t} $replace]
 
     # Replace the text (perform variable substitutions if necessary)
-    for {set i 0} {$i < $num_indices} {incr i} {
-      set startpos [lindex $indices $i]
-      set endpos   [$txt index $startpos+[lindex $lengths $i]c]
-      set rendpos  [$txt index $startpos+[string length $replace]c]
-      if {[llength $do_tags] == 0} {
-        ctext::comments_chars_deleted $txt $startpos $endpos do_tags
-      }
+    foreach startpos $indices length $lengths {
+      set endpos  [$txt index $startpos+${lengths}c]
+      set rendpos [$txt index $startpos+[string length $replace]c]
       $txt replace -highlight 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
-      if {[llength $do_tags] == 0} {
-        ctext::comments_do_tag $txt $startpos $rendpos do_tags
-      }
-      lappend ranges $endpos $startpos
+      lappend ranges $startpos $rendpos
     }
 
     if {$num_indices > 0} {
 
       # Perform the highlight
-      $txt highlight -dotags $do_tags -insert 1 -modified {*}[lreverse $ranges]
+      $txt syntax highlight -insert 1 {*}$ranges
 
       # Set the insertion cursor to the last match and make that line visible
       $txt cursor set [lindex $indices 0]
