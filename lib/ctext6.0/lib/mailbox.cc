@@ -75,6 +75,43 @@ void mailbox::add_request(
 
 }
 
+void mailbox::add_request(
+  int            command,
+  const object & args,
+  const string & callback,
+  bool           tree
+) {
+
+  /* Create the request and add it to the fifo */
+  _requests.push( new request( command, args, callback, tree ) );
+
+  /* If the processing thread is currently not running, start it now */
+  if( !_th.joinable() || !_thread_active ) {
+    if( _th.joinable() ) {
+      _th.join();
+    }
+    _thread_active = true;
+    _th = thread( mailbox_execute, std::ref( *this ) );
+  }
+
+}
+
+void mailbox::run_callback(
+  const string & callback,
+  const object & args
+) {
+
+  interpreter   interp( args.get_interp(), false );
+  ostringstream cmd;
+  
+  /* Create the command */
+  cmd << "thread::send -async " << _callback_tid << " " << callback << " " << args.get<string>( interp );
+
+  /* Execute the command */
+  interp.eval( cmd.str() );
+
+}
+
 void mailbox::execute() {
 
   bool pause = false;
@@ -89,7 +126,10 @@ void mailbox::execute() {
         _update_needed = false;
       }
       _result = _requests.front()->execute( _model, _update_needed );
-      pause   = (_requests.front()->type() != REQUEST_TYPE_UPDATE);
+      switch( _requests.front()->type() ) {
+        case REQUEST_TYPE_RETURN   :  pause = true; break;
+        case REQUEST_TYPE_CALLBACK :  run_callback( _requests.front()->callback(), _result );  break;
+      }
       delete _requests.front();
       _requests.pop();
       count++;
@@ -109,7 +149,7 @@ void mailbox::execute() {
 CPPTCL_MODULE(Model, i) {
 
   /* Define the model class */
-  i.class_<mailbox>("model", init<const string &>())
+  i.class_<mailbox>("model", init<const string &, const string &>())
     .def( "clear",               &mailbox::clear )
     .def( "addtype",             &mailbox::add_type )
     .def( "insert",              &mailbox::insert )
