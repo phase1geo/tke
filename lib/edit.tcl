@@ -975,7 +975,7 @@ namespace eval edit {
     }
 
     # Re-highlight the widget
-    $txt highlight $ranges
+    $txt syntax highlight {*}$ranges
 
     # Create a separator
     $txt edit separator
@@ -1081,7 +1081,7 @@ namespace eval edit {
     }
 
     # Perform syntax highlighting
-    $txt highlight $ranges
+    $txt syntax highlight {*}$ranges
 
     return $retval
 
