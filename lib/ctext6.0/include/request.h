@@ -10,13 +10,14 @@
 */
 
 #include <iostream>
+#include <string>
 
 #include "cpptcl.h"
 #include "model.h"
 
 enum {
   REQUEST_TYPE_UPDATE = 0,
-  REQUEST_TYPE_RENDER,
+  REQUEST_TYPE_CALLBACK,
   REQUEST_TYPE_RETURN,
   REQUEST_TYPE_NUM
 };
@@ -84,10 +85,11 @@ class request {
 
   private:
 
-    int         _command;  /*!< Command to execute */
-    Tcl::object _args;     /*!< Arguments to pass to the command */
-    int         _type;     /*!< Specifies the request type */
-    bool        _tree;     /*!< Specifies that this command requires the tree be up-to-date prior to processing */
+    int         _command;   /*!< Command to execute */
+    Tcl::object _args;      /*!< Arguments to pass to the command */
+    int         _type;      /*!< Specifies the request type */
+    bool        _tree;      /*!< Specifies that this command requires the tree be up-to-date prior to processing */
+    std::string _callback;  /*!< Callback command to run once request has completed */
 
   public:
 
@@ -102,12 +104,26 @@ class request {
         _type    ( type ),
         _tree    ( tree ) {}
 
+    /*! Constructor */
+    request(
+      int                 command,
+      const Tcl::object & args,
+      const std::string & callback,
+      bool                tree
+    ) : _command  ( command ),
+        _args     ( args ),
+        _type     ( REQUEST_TYPE_CALLBACK ),
+        _tree     ( tree ),
+        _callback ( callback ) {}
+   
+
     /*! Copy constructor */
     request( const request & req ) :
-      _command ( req._command ),
-      _args    ( req._args ),
-      _type    ( req._type ),
-      _tree    ( req._tree ) {}
+      _command  ( req._command ),
+      _args     ( req._args ),
+      _type     ( req._type ),
+      _tree     ( req._tree ),
+      _callback ( req._callback ) {}
 
     /*! Destructor */
     ~request() {}
@@ -123,6 +139,9 @@ class request {
 
     /*! \return Returns the tree update indicator value */
     bool tree() const { return( _tree ); }
+
+    /*! \return Returns the stored callback routine */
+    const std::string & callback() { return( _callback ); }
 
 };
 

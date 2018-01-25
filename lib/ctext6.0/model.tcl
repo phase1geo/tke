@@ -28,7 +28,7 @@ namespace eval model {
 
     variable data
 
-    set data($win,model) [model $win]
+    set data($win,model) [model $win $ctext::utils::main_tid]
     set data($win,debug) 0
 
     # Clear the model

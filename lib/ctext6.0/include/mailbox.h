@@ -37,6 +37,7 @@ class mailbox {
     Tcl::object          _result;         /*!< Stores the last returned result */
     bool                 _update_needed;  /*!< Set to true when a tree update is eventually needed */
     bool                 _thread_active;  /*!< Set to true while the thread is checking queue status */
+    std::string          _callback_tid;   /*!< Thread ID to call when performing a callback */
 
     /*! Adds the specified request to the mailbox queue */
     void add_request(
@@ -46,12 +47,27 @@ class mailbox {
       bool                tree
     );
 
+    /*! Adds the specified callback request to the mailbox queue */
+    void add_request(
+      int                 command,
+      const Tcl::object & args,
+      const std::string & callback,
+      bool                tree
+    );
+
+    /*! Executes the callback associated with the given request */
+    void run_callback(
+      const std::string & callback,
+      const Tcl::object & args
+    );
+
   public:
 
     /*! Default constructor */
     mailbox(
-      const std::string & win
-    ) : _model( win ), _update_needed( false ), _thread_active( false ) {}
+      const std::string & win,
+      const std::string & callback_tid
+    ) : _model( win ), _update_needed( false ), _thread_active( false ), _callback_tid( callback_tid ) {}
 
     /*! Destructor */
     ~mailbox();
