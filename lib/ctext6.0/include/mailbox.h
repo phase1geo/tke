@@ -32,6 +32,7 @@ class mailbox {
   private:
 
     model                _model;          /*!< Model instance to use */
+    std::string          _win;            /*!< Pathname of text widget */
     std::queue<request*> _requests;       /*!< FIFO of requests */
     std::thread          _th;             /*!< Active thread */
     Tcl::object          _result;         /*!< Stores the last returned result */
@@ -67,7 +68,7 @@ class mailbox {
     mailbox(
       const std::string & win,
       const std::string & callback_tid
-    ) : _model( win ), _update_needed( false ), _thread_active( false ), _callback_tid( callback_tid ) {}
+    ) : _model( win ), _win( win ), _update_needed( false ), _thread_active( false ), _callback_tid( callback_tid ) {}
 
     /*! Destructor */
     ~mailbox();
@@ -198,7 +199,7 @@ class mailbox {
     Tcl::object render_contexts(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_RENDERCONTEXTS, args, REQUEST_TYPE_RETURN, false );
+      add_request( REQUEST_RENDERCONTEXTS, args, "ctext::model::render_contexts_do", false );
       return( result() );
     }
 
