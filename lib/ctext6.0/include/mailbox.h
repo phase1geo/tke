@@ -42,7 +42,7 @@ class mailbox {
     void add_request(
       int                 command,
       const Tcl::object & args,
-      bool                result,
+      int                 type,
       bool                tree
     );
 
@@ -61,7 +61,7 @@ class mailbox {
 
     /*! Adds type information to the types list */
     void add_type( const Tcl::object & data ) {
-      add_request( REQUEST_ADDTYPE, data, false, false );
+      add_request( REQUEST_ADDTYPE, data, REQUEST_TYPE_UPDATE, false );
     }
 
     /*! Execute items from the requests queue */
@@ -75,45 +75,59 @@ class mailbox {
 
     /*! Handles a text insertion */
     void insert(
-      const Tcl::object & ranges,
-      const Tcl::object & str,
-      const Tcl::object & cursor
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_INSERT, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     /*! Handles a text list insertion */
     void insertlist(
-      const Tcl::object & ranges,
-      const Tcl::object & strs,
-      const Tcl::object & cursor
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_INSERTLIST, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     /*! Handles a text deletion */
     Tcl::object remove(
-      const Tcl::object & ranges,
-      const Tcl::object & strs,
-      const Tcl::object & cursor
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_DELETE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     /*! Handles a text replacement */
     Tcl::object replace(
-      const Tcl::object & ranges,
-      const Tcl::object & dstrs,
-      const Tcl::object & istrs,
-      const Tcl::object & cursor
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_REPLACE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     /*! Updates model information */
     Tcl::object update(
-      const Tcl::object & linestart,
-      const Tcl::object & lineend,
-      const Tcl::object & elements
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_UPDATE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object show_serial();
+    Tcl::object show_serial() {
+      Tcl::object none;
+      add_request( REQUEST_SHOWSERIAL, none, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object show_tree();
+    Tcl::object show_tree() {
+      Tcl::object none;
+      add_request( REQUEST_SHOWTREE, none, REQUEST_TYPE_RETURN, true );
+      return( result() );
+    }
 
-    Tcl::object get_mismatched();
+    Tcl::object get_mismatched() {
+      Tcl::object none;
+      add_request( REQUEST_MISMATCHED, none, REQUEST_TYPE_RETURN, true );
+      return( result() );
+    }
 
     /*!
      \return Returns the text index of the character that matches
@@ -121,181 +135,265 @@ class mailbox {
     */
     Tcl::object get_match_char(
       const Tcl::object & ti
-    );
+    ) {
+      add_request( REQUEST_MATCHINDEX, ti, REQUEST_TYPE_RETURN, true );
+      return( result() );
+    }
 
     /*! \return Returns the tree depth of the given type */
     Tcl::object get_depth(
-      const Tcl::object & index,
-      const Tcl::object & type
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_DEPTH, args, REQUEST_TYPE_RETURN, true );
+      return( result() );
+    }
 
     /*! \return Returns true if the given text index is escaped */
     Tcl::object is_escaped(
       const Tcl::object & ti
-    );
+    ) {
+      add_request( REQUEST_ISESCAPED, ti, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     /*! \return Returns true if the given text index contains the given type */
     Tcl::object is_index(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_ISINDEX, args, true, false );
+      add_request( REQUEST_ISINDEX, args, REQUEST_TYPE_RETURN, false );
       return( result() );
     }
 
     /*! \return Returns a Tcl list containing the indices of all comment markers in the specified ranges */
     Tcl::object get_comment_markers(
       const Tcl::object & ranges
-    );
+    ) {
+      add_request( REQUEST_GETCOMMENTMARKERS, ranges, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object get_range(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_RANGE, args, true, false );
+      add_request( REQUEST_RANGE, args, REQUEST_TYPE_RETURN, false );
       return( result() );
     }
 
     Tcl::object render_contexts(
-      const Tcl::object & linestart,
-      const Tcl::object & lineend,
-      const Tcl::object & tags
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_RENDERCONTEXTS, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object render_linemap(
-      const Tcl::object & first_row,
-      const Tcl::object & last_row
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_RENDERLINEMAP, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     void set_marker(
-      const Tcl::object & row,
-      const Tcl::object & name
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_SETMARKER, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     Tcl::object get_marker_name(
       const Tcl::object & row
-    );
+    ) {
+      add_request( REQUEST_GETMARKERNAME, row, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object get_marker_line(
       const Tcl::object & name
-    );
+    ) {
+      add_request( REQUEST_GETMARKERLINE, name, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     void gutter_create(
-      const Tcl::object & name,
-      const Tcl::object & values
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERCREATE, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     void gutter_destroy(
       const Tcl::object & name
-    );
+    ) {
+      add_request( REQUEST_GUTTERDESTROY, name, REQUEST_TYPE_UPDATE, false );
+    }
 
     Tcl::object gutter_hide(
-      const Tcl::object & name,
-      const Tcl::object & value
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERHIDE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     void gutter_delete(
-      const Tcl::object & name,
-      const Tcl::object & syms
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERDELETE, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     void gutter_set(
-      const Tcl::object & name,
-      const Tcl::object & values
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERSET, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     void gutter_unset(
-      const Tcl::object & name_obj,
-      const Tcl::object & first_obj,
-      const Tcl::object & last_obj
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERUNSET, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     Tcl::object gutter_get(
-      const Tcl::object & name,
-      const Tcl::object & value
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERGET, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object gutter_cget(
-      const Tcl::object & name,
-      const Tcl::object & sym,
-      const Tcl::object & opt
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERCGET, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object gutter_configure(
-      const Tcl::object & name,
-      const Tcl::object & sym,
-      const Tcl::object & opts
-    );
+      const Tcl::object & args
+    ) {
+      add_request( REQUEST_GUTTERCONFIGURE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object gutter_names();
+    Tcl::object gutter_names() {
+      Tcl::object args;
+      add_request( REQUEST_GUTTERNAMES, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object undo();
+    Tcl::object undo() {
+      Tcl::object args;
+      add_request( REQUEST_UNDO, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object redo();
+    Tcl::object redo() {
+      Tcl::object args;
+      add_request( REQUEST_REDO, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object undoable();
+    Tcl::object undoable() {
+      Tcl::object args;
+      add_request( REQUEST_UNDOABLE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    Tcl::object redoable();
+    Tcl::object redoable() {
+      Tcl::object args;
+      add_request( REQUEST_REDOABLE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    void undo_separator();
+    void undo_separator() {
+      Tcl::object args;
+      add_request( REQUEST_UNDOSEPARATOR, args, REQUEST_TYPE_UPDATE, false );
+    }
 
-    void undo_reset();
+    void undo_reset() {
+      Tcl::object args;
+      add_request( REQUEST_UNDORESET, args, REQUEST_TYPE_UPDATE, false );
+    }
 
     /*! Sets the auto-separate feature to the given boolean value */
     void auto_separate(
       const Tcl::object & value
-    );
+    ) {
+      add_request( REQUEST_AUTOSEPARATE, value, REQUEST_TYPE_UPDATE, false );
+    }
 
-    Tcl::object cursor_history();
+    Tcl::object cursor_history() {
+      Tcl::object args;
+      add_request( REQUEST_CURSORHIST, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_delete(
-      Tcl::object startline,
-      Tcl::object depth
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDDELETE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_delete_range(
-      Tcl::object startline,
-      Tcl::object endline
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDDELETERANGE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_open(
-      Tcl::object startline,
-      Tcl::object depth
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDOPEN, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_open_range(
-      Tcl::object startline,
-      Tcl::object endline,
-      Tcl::object depth
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDOPENRANGE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_show_line(
       Tcl::object line
-    );
+    ) {
+      add_request( REQUEST_FOLDSHOWLINE, line, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_close(
-      Tcl::object startline,
-      Tcl::object depth
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDCLOSE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_close_range(
-      Tcl::object startline,
-      Tcl::object endline,
-      Tcl::object depth
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDCLOSERANGE, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     Tcl::object fold_find(
-      Tcl::object startline,
-      Tcl::object dir,
-      Tcl::object num
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_FOLDFIND, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
-    void fold_indent_update();
+    void fold_indent_update() {
+      Tcl::object args;
+      add_request( REQUEST_FOLDINDENTUPDATE, args, REQUEST_TYPE_UPDATE, false );
+    }
 
-    void fold_syntax_update();
+    void fold_syntax_update() {
+      Tcl::object args;
+      add_request( REQUEST_FOLDSYNTAXUPDATE, args, REQUEST_TYPE_UPDATE, true );
+    }
 
     Tcl::object get_firstchar(
       Tcl::object index
     ) {
-      add_request( REQUEST_FIRSTCHAR, index, true, false );
+      add_request( REQUEST_FIRSTCHAR, index, REQUEST_TYPE_RETURN, false );
       return( result() );
     }
 
@@ -305,13 +403,16 @@ class mailbox {
     */
     Tcl::object indent_line_start(
       Tcl::object indent_index
-    );
+    ) {
+      add_request( REQUEST_INDENTLINESTART, indent_index, REQUEST_TYPE_RETURN, true );
+      return( result() );
+    }
 
     /*! \return Returns the number of spaces found before the previous, non-empty line */
     Tcl::object indent_get_previous(
       Tcl::object index
     ) {
-      add_request( REQUEST_INDENTPREVIOUS, index, true, false );
+      add_request( REQUEST_INDENTPREVIOUS, index, REQUEST_TYPE_RETURN, false );
       return( result() );
     }
 
@@ -319,7 +420,7 @@ class mailbox {
     Tcl::object indent_backspace(
       Tcl::object index
     ) {
-      add_request( REQUEST_INDENTBACKSPACE, index, true, false );
+      add_request( REQUEST_INDENTBACKSPACE, index, REQUEST_TYPE_RETURN, false );
       return( result() );
     }
 
@@ -327,21 +428,23 @@ class mailbox {
     Tcl::object indent_newline(
       Tcl::object args
     ) {
-      add_request( REQUEST_INDENTNEWLINE, args, true, false );
+      add_request( REQUEST_INDENTNEWLINE, args, REQUEST_TYPE_RETURN, false );
       return( result() );
     }
 
     /*! \return Returns information used to handle unindentations */
     Tcl::object indent_check_unindent(
-      Tcl::object first_ti,
-      Tcl::object curr_ti
-    );
+      Tcl::object args
+    ) {
+      add_request( REQUEST_INDENTCHECKUNINDENT, args, REQUEST_TYPE_RETURN, false );
+      return( result() );
+    }
 
     /*! \returns Returns a list used for indentation formatting. */
     Tcl::object indent_format(
       Tcl::object args
     ) {
-      add_request( REQUEST_INDENTFORMAT, args, true, true );
+      add_request( REQUEST_INDENTFORMAT, args, REQUEST_TYPE_RETURN, true );
       return( result() );
     }
 

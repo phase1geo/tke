@@ -76,49 +76,46 @@ class model {
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
     void insert(
-      const Tcl::object & ranges,
-      const Tcl::object & str,
-      const Tcl::object & cursor
+      const Tcl::object & args
     ) {
+      Tcl::interpreter    interp( args.get_interp(), false );
       std::vector<tindex> vec;
-      object_to_ranges( ranges, vec );
+      object_to_ranges( args.at( interp, 0 ), vec );
       _serial.insert( vec );
       _linemap.insert( vec );
       if( _edited ) {
-        _undo_buffer.add_insertion( vec, str, cursor );
+        _undo_buffer.add_insertion( vec, args.at( interp, 1 ), args.at( interp, 2 ) );
       }
       _edited = true;
     }
 
     /*! Called when text is going to be inserted.  Adjusts the indices accordingly. */
     void insertlist(
-      const Tcl::object & ranges,
-      const Tcl::object & strs,
-      const Tcl::object & cursor
+      const Tcl::object & args
     ) {
+      Tcl::interpreter    interp( args.get_interp(), false );
       std::vector<tindex> vec;
-      object_to_ranges( ranges, vec );
+      object_to_ranges( args.at( interp, 0 ), vec );
       _serial.insert( vec );
       _linemap.insert( vec );
       if( _edited ) {
-        _undo_buffer.add_insertion_list( vec, strs, cursor );
+        _undo_buffer.add_insertion_list( vec, args.at( interp, 1 ), args.at( interp, 2 ) );
       }
       _edited = true;
     }
 
     /*! Called when text is going to be deleted.  Adjusts the indices accordingly. */
     Tcl::object remove(
-      const Tcl::object & ranges,
-      const Tcl::object & strs,
-      const Tcl::object & cursor
+      const Tcl::object & args
     ) {
+      Tcl::interpreter    interp( args.get_interp(), false );
       std::vector<tindex> vec;
       Tcl::object         result;
-      object_to_ranges( ranges, vec );
+      object_to_ranges( args.at( interp, 0 ), vec );
       _serial.remove( vec );
       result = _linemap.remove( vec );
       if( _edited ) {
-        _undo_buffer.add_deletion( vec, strs, cursor );
+        _undo_buffer.add_deletion( vec, args.at( interp, 1 ), args.at( interp, 2 ) );
       }
       _edited = true;
       return( result );
@@ -126,18 +123,16 @@ class model {
 
     /*! Called when text is going to be replaced.  Adjusts the indices accordingly. */
     Tcl::object replace(
-      const Tcl::object & ranges,
-      const Tcl::object & dstrs,
-      const Tcl::object & istrs,
-      const Tcl::object & cursor
+      const Tcl::object & args
     ) {
+      Tcl::interpreter    interp( args.get_interp(), false );
       std::vector<tindex> vec;
       Tcl::object         result;
-      object_to_ranges( ranges, vec );
+      object_to_ranges( args.at( interp, 0 ), vec );
       _serial.replace( vec );
       result = _linemap.replace( vec );
       if( _edited ) {
-        _undo_buffer.add_replacement( vec, dstrs, istrs, cursor );
+        _undo_buffer.add_replacement( vec, args.at( interp, 1 ), args.at( interp, 2 ), args.at( interp, 3 ) );
       }
       _edited = true;
       return( result );
@@ -145,9 +140,7 @@ class model {
 
     /*! Updates the model with the given tag information */
     bool update(
-      const Tcl::object & linestart,
-      const Tcl::object & lineend,
-      const Tcl::object & elements
+      const Tcl::object & args
     );
 
     /*! Update the tree with the contents of the serial list */
@@ -175,8 +168,7 @@ class model {
 
     /*! \return Returns the depth of the given item in the tree */
     int get_depth(
-      const Tcl::object & index,
-      const Tcl::object & type
+      const Tcl::object & args
     );
 
     /*!
@@ -184,9 +176,7 @@ class model {
      as what is stored in the model.
     */
     Tcl::object render_contexts(
-      const Tcl::object & linestart,
-      const Tcl::object & lineend,
-      const Tcl::object & tags
+      const Tcl::object & args
     );
 
     /*! \return Returns true if the given text index is immediately preceded by an escape */
@@ -218,18 +208,18 @@ class model {
      Handles rendering the currently viewable linemap.
     */
     Tcl::object render_linemap(
-      const Tcl::object & first_row,
-      const Tcl::object & last_row
+      const Tcl::object & args
     ) const {
-      return( _linemap.render( first_row, last_row ) );
+      Tcl::interpreter i( args.get_interp(), false );
+      return( _linemap.render( args.at( i, 0 ), args.at( i, 1 ) ) );
     }
 
     /*! Adds a marker to the linemap with the given name for the given line */
     void set_marker(
-      const Tcl::object & row,
-      const Tcl::object & name
+      const Tcl::object & args
     ) {
-      _linemap.set_marker( row, name );
+      Tcl::interpreter i( args.get_interp(), false );
+      _linemap.set_marker( args.at( i, 0 ), args.at( i, 1 ) );
     }
 
     /*! \return Returns the name of the marker stored at the given row */
@@ -248,10 +238,10 @@ class model {
 
     /*! Creates a new gutter column in the linemap gutter */
     void gutter_create(
-      const Tcl::object & name,
-      const Tcl::object & values
+      const Tcl::object & args
     ) {
-      _linemap.create( name, values );
+      Tcl::interpreter interp( args.get_interp(), false );
+      _linemap.create( args.at( interp, 0 ), args.at( interp, 1 ) );
     }
 
     /*! Destroys the given gutter item */
@@ -266,26 +256,26 @@ class model {
      of the gutter.
     */
     bool gutter_hide(
-      const Tcl::object & name,
-      const Tcl::object & value
+      const Tcl::object & args
     ) {
-      return( _linemap.hide( name, value ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.hide( args.at( interp, 0 ), args.at( interp, 1 ) ) );
     }
 
     /*! Deletes one or more symbols from the given buffer */
     void gutter_delete(
-      const Tcl::object & name,
-      const Tcl::object & syms
+      const Tcl::object & args
     ) {
-      _linemap.delete_symbols( name, syms );
+      Tcl::interpreter interp( args.get_interp(), false );
+      _linemap.delete_symbols( args.at( interp, 0 ), args.at( interp, 1 ) );
     }
 
     /*! Sets rows for a given gutter column to the specified values */
     void gutter_set(
-      const Tcl::object & name,
-      const Tcl::object & values
+      const Tcl::object & args
     ) {
-      _linemap.set( name, values );
+      Tcl::interpreter interp( args.get_interp(), false );
+      _linemap.set( args.at( interp, 0 ), args.at( interp, 1 ) );
     }
 
     /*!
@@ -293,29 +283,26 @@ class model {
      rows.
     */
     void gutter_unset(
-      const Tcl::object & name,
-      const Tcl::object & first,
-      const Tcl::object & last
+      const Tcl::object & args
     ) {
-      _linemap.unset( name, first, last );
+      Tcl::interpreter interp( args.get_interp(), false );
+      _linemap.unset( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) );
     }
 
     /*! \return Returns the gutter line information */
     Tcl::object gutter_get(
-      const Tcl::object & name,
-      const Tcl::object & value,
-      const Tcl::object & valueisint
+      const Tcl::object & args
     ) const {
-      return( _linemap.get( name, value, valueisint ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.get( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) ) );
     }
 
     /*! \return Returns the value of the gutter symbol option */
     Tcl::object gutter_cget(
-      const Tcl::object & name,
-      const Tcl::object & sym,
-      const Tcl::object & opt
+      const Tcl::object & args
     ) const {
-      return( _linemap.cget( name, sym, opt ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.cget( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) ) );
     }
 
     /*!
@@ -323,11 +310,10 @@ class model {
      current values
     */
     Tcl::object gutter_configure(
-      const Tcl::object & name,
-      const Tcl::object & sym,
-      const Tcl::object & opts
+      const Tcl::object & args
     ) {
-      return( _linemap.configure( name, sym, opts ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.configure( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) ) );
     }
 
     /*! \return Returns a Tcl list of all stored gutter names */
@@ -381,17 +367,17 @@ class model {
      \return Returns the text range to close the fold indicator.
     */
     Tcl::object fold_delete(
-      const Tcl::object & line,
-      const Tcl::object & depth
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_delete( line, depth ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_delete( args.at( interp, 0 ), args.at( interp, 1 ) ) );
     }
 
     Tcl::object fold_delete_range(
-      const Tcl::object & startline,
-      const Tcl::object & endline
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_delete_range( startline, endline ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_delete_range( args.at( interp, 0 ), args.at( interp, 1 ) ) );
     }
 
     /*!
@@ -400,18 +386,17 @@ class model {
      \return Returns the list of ranges to un-elide.
     */
     Tcl::object fold_open(
-      const Tcl::object & startline,
-      const Tcl::object & depth
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_open( startline, depth ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_open( args.at( interp, 0 ), args.at( interp, 1 ) ) );
     }
 
     Tcl::object fold_open_range(
-      const Tcl::object & startline,
-      const Tcl::object & endline,
-      const Tcl::object & depth
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_open_range( startline, endline, depth ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_open_range( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) ) );
     }
 
     Tcl::object fold_show_line(
@@ -426,26 +411,24 @@ class model {
      \return Returns the list of ranges to elide.
     */
     Tcl::object fold_close(
-      const Tcl::object & startline,
-      const Tcl::object & depth
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_close( startline, depth ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_close( args.at( interp, 0 ), args.at( interp, 1 ) ) );
     }
 
     Tcl::object fold_close_range(
-      const Tcl::object & startline,
-      const Tcl::object & endline,
-      const Tcl::object & depth
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_close_range( startline, endline, depth ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_close_range( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) ) );
     }
 
     Tcl::object fold_find(
-      const Tcl::object & startline,
-      const Tcl::object & dir,
-      const Tcl::object & num
+      const Tcl::object & args
     ) {
-      return( _linemap.fold_find( startline, dir, num ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _linemap.fold_find( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ) ) );
     }
 
     void fold_indent_update() {
@@ -489,24 +472,24 @@ class model {
     Tcl::object indent_newline(
       const Tcl::object & args
     ) const {
-      Tcl::interpreter i( args.get_interp(), false );
-      return( _serial.indent_newline( args.at( i, 0 ), args.at( i, 1 ), _types ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _serial.indent_newline( args.at( interp, 0 ), args.at( interp, 1 ), _types ) );
     }
 
     /*! \return Returns information used to handle an unindent */
     Tcl::object indent_check_unindent(
-      const Tcl::object & first_ti,
-      const Tcl::object & curr_ti
+      const Tcl::object & args
     ) const {
-      return( _serial.indent_check_unindent( first_ti, curr_ti, _types ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _serial.indent_check_unindent( args.at( interp, 0 ), args.at( interp, 1 ), _types ) );
     }
 
     /*! \return Returns a list used by the indent formatting code */
     Tcl::object indent_format(
       const Tcl::object & args
     ) const {
-      Tcl::interpreter i( args.get_interp(), false );
-      return( _serial.indent_format( args.at( i, 0 ), args.at( i, 1 ), args.at( i, 2 ), _types ) );
+      Tcl::interpreter interp( args.get_interp(), false );
+      return( _serial.indent_format( args.at( interp, 0 ), args.at( interp, 1 ), args.at( interp, 2 ), _types ) );
     }
 
 };

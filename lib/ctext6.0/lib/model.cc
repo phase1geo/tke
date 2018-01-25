@@ -36,17 +36,15 @@ void model::object_to_ranges(
 }
 
 bool model::update(
-  const object & linestart,
-  const object & lineend,
-  const object & elements
+  const object & args
 ) {
 
-  interpreter i( elements.get_interp(), false );
-  tindex lstart( linestart );
-  tindex lend( lineend );
-  serial elems;
+  interpreter interp( args.get_interp(), false );
+  tindex      lstart( args.at( interp, 0 ) );
+  tindex      lend( args.at( interp, 1 ) );
+  serial      elems;
 
-  elems.append( elements, _types );
+  elems.append( args.at( interp, 2 ), _types );
 
   /* Update the serial list */
   return( _serial.update( lstart, lend, elems ) );
@@ -64,14 +62,13 @@ object model::get_mismatched() const {
 }
 
 int model::get_depth(
-  const object & index,
-  const object & type
+  const object & args
 ) {
 
-  interpreter i( index.get_interp(), false );
+  interpreter interp( args.get_interp(), false );
   tnode*      node;
-  tindex      ti( index );
-  string      type_str = type.get<string>( i );
+  tindex      ti( args.at( interp, 0 ) );
+  string      type_str = args.at( interp, 1 ).get<string>( interp );
 
   if( (node = _serial.find_node( ti )) == 0 ) {
     return( 0 );
@@ -120,16 +117,14 @@ void model::add_tag_index(
 }
 
 object model::render_contexts(
-  const object & linestart,
-  const object & lineend,
-  const object & tags
+  const object & args
 ) {
 
-  interpreter i( linestart.get_interp(), false );
+  interpreter interp( args.get_interp(), false );
   object      result;
 
   /* If the tags list is empty and no context chars were previously removed, return with the empty list */
-  if( !_serial.context_removed() && (tags.length( i ) == 0) ) {
+  if( !_serial.context_removed() && (args.at( interp, 2 ).length( interp ) == 0) ) {
     return( result );
   }
 
@@ -148,8 +143,8 @@ object model::render_contexts(
   _serial.get_context_items( citems );
 
   /* Merge the context items with the tags */
-  titems.append( tags, _types );
-  citems.update( tindex( linestart ), tindex( lineend ), titems );
+  titems.append( args.at( interp, 2 ), _types );
+  citems.update( tindex( args.at( interp, 0 ) ), tindex( args.at( interp, 1 ) ), titems );
 
   /* Create the non-overlapping ranges for each of the context tags */
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {
@@ -157,10 +152,10 @@ object model::render_contexts(
       const string & tag = _types.tag( (*it)->type() );
       if( ((context.top() & (*it)->context()) || (context.top() == (*it)->context())) && ((*it)->side() & 1) ) {
         context.push( (*it)->type() );
-        add_tag_index( i, ranges, tag, (*it)->pos().to_index( true ) );
+        add_tag_index( interp, ranges, tag, (*it)->pos().to_index( true ) );
       } else if( (context.top() & (*it)->type()) && ((*it)->side() & 2) ) {
         context.pop();
-        add_tag_index( i, ranges, tag, (*it)->pos().to_index( false ) );
+        add_tag_index( interp, ranges, tag, (*it)->pos().to_index( false ) );
       } else {
         map<string,object>::iterator it = ranges.find( tag );
         if( it == ranges.end() ) {
@@ -175,8 +170,8 @@ object model::render_contexts(
 
   /* Render the ranges */
   for( map<string,object>::iterator it=ranges.begin(); it!=ranges.end(); it++ ) {
-    result.append( i, (object)it->first );
-    result.append( i, it->second );
+    result.append( interp, (object)it->first );
+    result.append( interp, it->second );
   }
 
   return( result );
