@@ -2999,7 +2999,6 @@ namespace eval menus {
   proc close_folds {type {depth 0}} {
 
     set txt [gui::current_txt]
-
     switch $type {
       current {
         $txt fold close [lindex [split [$txt index insert] .] 0] $depth

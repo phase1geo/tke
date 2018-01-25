@@ -1677,19 +1677,21 @@ namespace eval ctext {
       lassign [lrange $args $i end] contents
 
       set ranges  [list]
+      set strs    [list]
       set cursor  [$win._t index insert]
 
       foreach {endPos startPos} [lreverse $cursors] content [lreverse $contents] {
         lassign $content str tags
         $win._t insert $startPos $str [list {*}$tags lmargin rmargin]
         lappend ranges $startPos [$win._t index "$startPos+[string length $str]c"]
+        lappend strs   $str
       }
 
       # Delete any dspace characters
       catch { $win._t delete {*}[$win._t tag ranges _dspace] }
 
       # Update the model
-      ctext::model::insert $win $ranges $content $cursor
+      ctext::model::insertlist $win $ranges $strs $cursor
 
       # Highlight text and bracket auditing
       if {$opts(-highlight)} {

@@ -15,6 +15,13 @@
 #include "model.h"
 
 enum {
+  REQUEST_TYPE_UPDATE = 0,
+  REQUEST_TYPE_RENDER,
+  REQUEST_TYPE_RETURN,
+  REQUEST_TYPE_NUM
+};
+
+enum {
   REQUEST_ADDTYPE = 0,
   REQUEST_INSERT,
   REQUEST_INSERTLIST,
@@ -79,7 +86,7 @@ class request {
 
     int         _command;  /*!< Command to execute */
     Tcl::object _args;     /*!< Arguments to pass to the command */
-    bool        _result;   /*!< Specifies that this command requires a result to be returned */
+    int         _type;     /*!< Specifies the request type */
     bool        _tree;     /*!< Specifies that this command requires the tree be up-to-date prior to processing */
 
   public:
@@ -88,19 +95,19 @@ class request {
     request(
       int                 command,
       const Tcl::object & args,
-      bool                result,
+      int                 type,
       bool                tree
-    ) : _command( command ),
-        _args   ( args ),
-        _result ( result ),
-        _tree   ( tree ) {}
+    ) : _command ( command ),
+        _args    ( args ),
+        _type    ( type ),
+        _tree    ( tree ) {}
 
     /*! Copy constructor */
     request( const request & req ) :
-      _command( req._command ),
-      _args   ( req._args ),
-      _result ( req._result ),
-      _tree   ( req._tree ) {}
+      _command ( req._command ),
+      _args    ( req._args ),
+      _type    ( req._type ),
+      _tree    ( req._tree ) {}
 
     /*! Destructor */
     ~request() {}
@@ -111,8 +118,8 @@ class request {
       bool  & update_needed
     ) const;
 
-    /*! \return Returns the result of the last operation */
-    bool result() const { return( _result ); }
+    /*! \return Returns the type of the last operation */
+    int type() const { return( _type ); }
 
     /*! \return Returns the tree update indicator value */
     bool tree() const { return( _tree ); }

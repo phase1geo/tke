@@ -164,7 +164,17 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) insert $ranges $str $cursor
+    $data($win,model) insert [list $ranges $str $cursor]
+
+  }
+
+  ######################################################################
+  # Inserts the given items into the tree.
+  proc insertlist {win ranges strs cursor} {
+
+    variable data
+
+    $data($win,model) insertlist [list $ranges $strs $cursor]
 
   }
 
@@ -174,7 +184,7 @@ namespace eval model {
 
     variable data
 
-    set markers [$data($win,model) delete $ranges $strs $cursor]
+    set markers [$data($win,model) delete [list $ranges $strs $cursor]]
 
     if {$mark_command ne ""} {
       foreach marker $markers {
@@ -190,7 +200,7 @@ namespace eval model {
 
     variable data
 
-    set markers [$data($win,model) replace $ranges $dstrs $istrs $cursor]
+    set markers [$data($win,model) replace [list $ranges $dstrs $istrs $cursor]]
 
     if {$mark_command ne ""} {
       foreach marker $markers {
@@ -207,7 +217,7 @@ namespace eval model {
 
     variable data
 
-    foreach {tag ranges} [$data($win,model) rendercontexts $linestart $lineend [lsort -dictionary -index 2 $tags]] {
+    foreach {tag ranges} [$data($win,model) rendercontexts [list $linestart $lineend [lsort -dictionary -index 2 $tags]]] {
       ctext::render $win __$tag $ranges 1
     }
 
@@ -220,7 +230,7 @@ namespace eval model {
 
     variable data
 
-    if {[$data($win,model) update $linestart $lineend $elements]} {
+    if {[$data($win,model) update [list $linestart $lineend $elements]]} {
       ctext::parsers::render_mismatched $win
     }
 
@@ -242,7 +252,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) depth $tindex $type]
+    return [$data($win,model) depth [list $tindex $type]]
 
   }
 
@@ -269,7 +279,7 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) setmarker $line $name
+    $data($win,model) setmarker [list $line $name]
 
   }
 
@@ -300,7 +310,7 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) guttercreate $name $args
+    $data($win,model) guttercreate [list $name $args]
 
   }
 
@@ -321,7 +331,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) gutterhide $name $value]
+    return [$data($win,model) gutterhide [list $name $value]]
 
   }
 
@@ -331,7 +341,7 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) gutterdelete $name $syms
+    $data($win,model) gutterdelete [list $name $syms]
 
   }
 
@@ -341,7 +351,7 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) gutterset $name $values
+    $data($win,model) gutterset [list $name $values]
 
   }
 
@@ -351,7 +361,7 @@ namespace eval model {
 
     variable data
 
-    $data($win,model) gutterunset $name {*}$args
+    $data($win,model) gutterunset [list $name {*}$args]
 
   }
 
@@ -366,7 +376,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) gutterget $name $value]
+    return [$data($win,model) gutterget [list $name $value [expr {($value eq "") ? 0 : [string is integer $value]}]]]
 
   }
 
@@ -376,7 +386,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) guttercget $name $sym $opt]
+    return [$data($win,model) guttercget [list $name $sym $opt]]
 
   }
 
@@ -386,7 +396,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) gutterconfigure $name $sym $args]
+    return [$data($win,model) gutterconfigure [list $name $sym $args]]
 
   }
 
@@ -406,7 +416,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) renderlinemap $first $last]
+    return [$data($win,model) renderlinemap [list $first $last]]
 
   }
 
@@ -498,7 +508,7 @@ namespace eval model {
 
     variable data
 
-    lassign [$data($win,model) folddelete $line $depth] retval range
+    lassign [$data($win,model) folddelete [list $line $depth]] retval range
 
     return $retval
 
@@ -512,7 +522,7 @@ namespace eval model {
 
     variable data
 
-    lassign [$data($win,model) folddeleterange $startline $endline] retval ranges
+    lassign [$data($win,model) folddeleterange [list $startline $endline]] retval ranges
 
     return $retval
 
@@ -526,7 +536,7 @@ namespace eval model {
 
     variable data
 
-    lassign [$data($win,model) foldopen $line $depth] retval ranges
+    lassign [$data($win,model) foldopen [list $line $depth]] retval ranges
 
     return $retval
 
@@ -540,7 +550,7 @@ namespace eval model {
 
     variable data
 
-    lassign [$data($win,model) foldopenrange $startline $endline $depth] retval ranges
+    lassign [$data($win,model) foldopenrange [list $startline $endline $depth]] retval ranges
 
     return $retval
 
@@ -564,7 +574,7 @@ namespace eval model {
 
     variable data
 
-    lassign [$data($win,model) foldclose $line $depth] retval ranges
+    lassign [$data($win,model) foldclose [list $line $depth]] retval ranges
 
     return $retval
 
@@ -579,7 +589,7 @@ namespace eval model {
 
     variable data
 
-    lassign [$data($win,model) foldcloserange $startline $endline $depth] retval ranges
+    lassign [$data($win,model) foldcloserange [list $startline $endline $depth]] retval ranges
 
     return $retval
 
@@ -591,7 +601,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) foldfind $startline $dir $num]
+    return [$data($win,model) foldfind [list $startline $dir $num]]
 
   }
 
@@ -677,7 +687,7 @@ namespace eval model {
 
     variable data
 
-    return [$data($win,model) indentcheckunindent $first_index $curr_index]
+    return [$data($win,model) indentcheckunindent [list $first_index $curr_index]]
 
   }
 
