@@ -11,6 +11,8 @@
 
 #include <iostream>
 #include <string>
+#include <thread>
+#include <future>
 
 #include "cpptcl.h"
 #include "model.h"
@@ -85,11 +87,13 @@ class request {
 
   private:
 
-    int         _command;   /*!< Command to execute */
-    Tcl::object _args;      /*!< Arguments to pass to the command */
-    int         _type;      /*!< Specifies the request type */
-    bool        _tree;      /*!< Specifies that this command requires the tree be up-to-date prior to processing */
-    std::string _callback;  /*!< Callback command to run once request has completed */
+    int                       _command;   /*!< Command to execute */
+    Tcl::object               _args;      /*!< Arguments to pass to the command */
+    int                       _type;      /*!< Specifies the request type */
+    bool                      _tree;      /*!< Specifies that this command requires the tree be
+                                               up-to-date prior to processing */
+    std::string               _callback;  /*!< Callback command to run once request has completed */
+    std::promise<Tcl::object> _rsp_data;  /*!< Returned data used when calling callback functions */
 
   public:
 
@@ -142,6 +146,9 @@ class request {
 
     /*! \return Returns the stored callback routine */
     const std::string & callback() { return( _callback ); }
+
+    /*! \return Returns the data to be used in a callback function */
+    std::promise<Tcl::object> & rsp_data() { return( _rsp_data ); }
 
 };
 

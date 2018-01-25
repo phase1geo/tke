@@ -81,9 +81,13 @@ void mailbox::add_request(
   const string & callback,
   bool           tree
 ) {
+  
+  request* req  = new request( command, args, callback, tree );
+  response* rsp = new response( callback, req->rsp_data().get_future() );
 
-  /* Create the request and add it to the fifo */
-  _requests.push( new request( command, args, callback, tree ) );
+  /* Create the request and response and add it to their respective FIFOs */
+  _requests.push( req );
+  _responses.push( rsp );
 
   /* If the processing thread is currently not running, start it now */
   if( !_th.joinable() || !_thread_active ) {
@@ -114,10 +118,23 @@ void mailbox::run_callback(
 
 }
 
+object mailbox::get_callback() {
+
+  object retval;
+
+  if( !_responses.empty() ) {
+    retval = _responses.front()->get();
+    delete _responses.front();
+    _responses.pop();
+  }
+
+  return( retval );
+
+}
+
 void mailbox::execute() {
 
   bool pause = false;
-  int  count = 0;
 
   do {
 
@@ -129,12 +146,12 @@ void mailbox::execute() {
       }
       _result = _requests.front()->execute( _model, _update_needed );
       switch( _requests.front()->type() ) {
-        case REQUEST_TYPE_RETURN   :  pause = true; break;
+        case REQUEST_TYPE_RETURN   :  pause = true;  break;
+        // case REQUEST_TYPE_CALLBACK :  _requests.front()->rsp_data().set_value( _result );  break;
         case REQUEST_TYPE_CALLBACK :  run_callback( _requests.front()->callback(), _result );  break;
       }
       delete _requests.front();
       _requests.pop();
-      count++;
     }
 
     /* Update the tree if we need to and we were not paused */
@@ -152,6 +169,7 @@ CPPTCL_MODULE(Model, i) {
 
   /* Define the model class */
   i.class_<mailbox>("model", init<const string &, const string &>())
+    .def( "getcallback",         &mailbox::get_callback )
     .def( "clear",               &mailbox::clear )
     .def( "addtype",             &mailbox::add_type )
     .def( "insert",              &mailbox::insert )
