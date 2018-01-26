@@ -11,8 +11,15 @@
 
 #include <iostream>
 #include <string>
-#include <thread>
+
+#if defined(__MINGW32__) || defined(__MINGW64__)
+//#include <boost/thread.hpp>
+#include <boost/thread/future.hpp>
+#define GENERIC_PROMISE boost::promise
+#else
 #include <future>
+#define GENERIC_PROMISE std::promise
+#endif
 
 #include "cpptcl.h"
 #include "model.h"
@@ -87,13 +94,13 @@ class request {
 
   private:
 
-    int                       _command;   /*!< Command to execute */
-    Tcl::object               _args;      /*!< Arguments to pass to the command */
-    int                       _type;      /*!< Specifies the request type */
-    bool                      _tree;      /*!< Specifies that this command requires the tree be
-                                               up-to-date prior to processing */
-    std::string               _callback;  /*!< Callback command to run once request has completed */
-    std::promise<Tcl::object> _rsp_data;  /*!< Returned data used when calling callback functions */
+    int                          _command;   /*!< Command to execute */
+    Tcl::object                  _args;      /*!< Arguments to pass to the command */
+    int                          _type;      /*!< Specifies the request type */
+    bool                         _tree;      /*!< Specifies that this command requires the tree be
+                                                  up-to-date prior to processing */
+    std::string                  _callback;  /*!< Callback command to run once request has completed */
+    GENERIC_PROMISE<Tcl::object> _rsp_data;  /*!< Returned data used when calling callback functions */
 
   public:
 
@@ -148,7 +155,7 @@ class request {
     const std::string & callback() { return( _callback ); }
 
     /*! \return Returns the data to be used in a callback function */
-    std::promise<Tcl::object> & rsp_data() { return( _rsp_data ); }
+    boost::promise<Tcl::object> & rsp_data() { return( _rsp_data ); }
 
 };
 

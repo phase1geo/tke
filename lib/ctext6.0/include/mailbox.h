@@ -14,10 +14,13 @@
 #include <iomanip>
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
+// #include <boost/thread/thread.hpp>
 #include "mingw.thread.h"
+#define GENERIC_THREAD std::thread
 #else
 #include <thread>
 #include <future>
+#define GENERIC_THREAD std::thread
 #endif
 
 #include "cpptcl.h"
@@ -37,7 +40,7 @@ class mailbox {
     std::string           _win;            /*!< Pathname of text widget */
     std::queue<request*>  _requests;       /*!< FIFO of requests */
     std::queue<response*> _responses;      /*!< FIFO of responses */
-    std::thread           _th;             /*!< Active thread */
+    GENERIC_THREAD        _th;             /*!< Active thread */
     Tcl::object           _result;         /*!< Stores the last returned result */
     bool                  _update_needed;  /*!< Set to true when a tree update is eventually needed */
     bool                  _thread_active;  /*!< Set to true while the thread is checking queue status */

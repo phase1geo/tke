@@ -3105,6 +3105,41 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Draws the linemap with diff
+  proc linemapDiffUpdate {win first last linenum_width} {
+
+    variable data
+
+    set normal  $data($win,config,-linemapfg)
+    set lmark   $data($win,config,-linemap_mark_color)
+    set font    $data($win,config,-font)
+    set descent $data($win,fontdescent)
+
+    # Calculate the starting line numbers for both files
+    array set currline {A 0 B 0}
+    foreach diff_tag [lsearch -inline -all -glob [$win._t tag names $first.0] _diff:*] {
+      lassign [split $diff_tag :] dummy index type start
+      set currline($index) [expr $start - 1]
+      if {$type eq "S"} {
+        incr currline($index) [$win count -lines [lindex [$win._t tag ranges $diff_tag] 0] $first.0]
+      }
+    }
+
+    for {set line $first} {$line <= $last} {incr line} {
+      if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
+      lassign [$win._t dlineinfo $line.0] x y w h b
+      set ltags  [$win._t tag names $line.0]
+      set y      [expr $y + $b + $descent]
+      set lineA  [expr {([lsearch -glob $ltags _diff:A:S:*] != -1) ? [incr currline(A)] : ""}]
+      set lineB  [expr {([lsearch -glob $ltags _diff:B:S:*] != -1) ? [incr currline(B)] : ""}]
+      set marked [expr {[lsearch -glob $ltags lmark*] != -1}]
+      set fill   [expr {$marked ? $lmark : $normal}]
+      $win.l create text 1 $y -anchor sw -text [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] -fill $fill -font $font
+    }
+
+  }
+
+  ######################################################################
   # Updates the linemap area to match the text widget.
   proc linemapUpdate {win {forceUpdate 0}} {
 
@@ -3144,25 +3179,31 @@ namespace eval ctext {
     # Clear the canvas
     $win.l delete all
 
-    # Draw the linemap
-    foreach line [string map $colormap [ctext::model::render_linemap $win $first $last]] {
-      lassign $line lnum fill gutters
-      if {[$win._t count -displaychars $lnum.0 [expr $lnum + 1].0] == 0} { continue }
-      lassign [$win._t dlineinfo $lnum.0] x y w h b
-      set x $gutterx
-      set y [expr $y + $b + $descent]
-      if {$linenum} {
-        $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font -tags lnum
-      } elseif {$fill == $marker} {
-        $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font -tags lnum
-      }
-      foreach gutter $gutters {
-        lassign $gutter sym fill bindings
-        set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font -tags sym]
-        foreach {event command} $bindings {
-          $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
+    if {$data($win,config,-diff_mode)} {
+      linemapDiffUpdate $win $first $last $linenum_width
+      set full_width [expr (($linenum_width * 2) + 1) * $fontwidth]
+    } else {
+      # Draw the linemap
+      foreach line [string map $colormap [ctext::model::render_linemap $win $first $last]] {
+        lassign $line lnum fill gutters
+        if {[$win._t count -displaychars $lnum.0 [expr $lnum + 1].0] == 0} { continue }
+        lassign [$win._t dlineinfo $lnum.0] x y w h b
+        set x $gutterx
+        set y [expr $y + $b + $descent]
+        if {$linenum} {
+          $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font -tags lnum
+        } elseif {$fill == $marker} {
+          $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font -tags lnum
         }
         set full_width [incr x $fontwidth]
+        foreach gutter $gutters {
+          lassign $gutter sym fill bindings
+          set item [$win.l create text $x $y -anchor sw -text $sym -fill $fill -font $font -tags sym]
+          foreach {event command} $bindings {
+            $win.l bind $item <$event> [list uplevel #0 [list {*}$command $win $lnum]]
+          }
+          set full_width [incr x $fontwidth]
+        }
       }
     }
 

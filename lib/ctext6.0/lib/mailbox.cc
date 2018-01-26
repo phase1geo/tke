@@ -68,7 +68,7 @@ void mailbox::add_request(
         _th.join();
       }
       _thread_active = true;
-      _th = thread( mailbox_execute, std::ref( *this ) );
+      _th = GENERIC_THREAD( mailbox_execute, std::ref( *this ) );
     }
 
   }
@@ -95,7 +95,7 @@ void mailbox::add_request(
       _th.join();
     }
     _thread_active = true;
-    _th = thread( mailbox_execute, std::ref( *this ) );
+    _th = GENERIC_THREAD( mailbox_execute, std::ref( *this ) );
   }
 
 }

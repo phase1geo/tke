@@ -9,7 +9,16 @@
 */
 
 #include <string>
+
+#if defined(__MINGW32__) || defined(__MINGW64__)
+#include <boost/thread/future.hpp>
+#define GENERIC_FUTURE  boost::future
+#define GENERIC_PROMISE boost::promise
+#else
 #include <future>
+#define GENERIC_FUTURE  std::future
+#define GENERIC_PROMISE std::promise
+#endif
 
 #include "cpptcl.h"
 
@@ -17,15 +26,15 @@ class response {
 
   private:
 
-    std::string              _callback;  /*!< Callback function name to call */
-    std::future<Tcl::object> _data;      /*!< Returned data */
+    std::string                 _callback;  /*!< Callback function name to call */
+    GENERIC_FUTURE<Tcl::object> _data;      /*!< Returned data */
 
   public:
 
     /*! Default constructor */
     response(
-      const std::string         & callback,
-      std::promise<Tcl::object> & data
+      const std::string            & callback,
+      GENERIC_PROMISE<Tcl::object> & data
     ) : _callback ( callback ),
         _data     ( data.get_future() ) {}
 
