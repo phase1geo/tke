@@ -208,6 +208,16 @@ namespace eval model {
   }
 
   ######################################################################
+  # Runs the specified marker command for each marker.
+  proc delete_callback {mark_command win data} {
+
+    foreach marker $data {
+      uplevel #0 [list {*}$mark_command $win unmarked $marker]
+    }
+
+  }
+
+  ######################################################################
   # Update the model with the replacement information.
   proc replace {win ranges dstrs istrs cursor mark_command} {
 
@@ -219,6 +229,16 @@ namespace eval model {
       foreach marker $markers {
         uplevel #0 [list {*}$mark_command $win unmarked $marker]
       }
+    }
+
+  }
+
+  ######################################################################
+  # Runs the specified marker command for each marker.
+  proc replace_callback {mark_command win data} {
+
+    foreach marker $data {
+      uplevel #0 [list {*}$mark_command $win unmarked $marker]
     }
 
   }
@@ -236,7 +256,7 @@ namespace eval model {
 
   ######################################################################
   # Perform the context rendering.
-  proc render_contexts_do {win data} {
+  proc render_contexts_callback {win data} {
 
     foreach {tag ranges} $data {
       ctext::render $win __$tag $ranges 1
@@ -251,7 +271,16 @@ namespace eval model {
 
     variable data
 
-    if {[$data($win,model) update [list $linestart $lineend $elements]]} {
+    $data($win,model) update [list $linestart $lineend $elements]
+
+  }
+
+  ######################################################################
+  # If the returned data is a boolean true, renders the mismatched
+  # brackets
+  proc update_callback {win data} {
+
+    if {$data} {
       ctext::parsers::render_mismatched $win
     }
 
