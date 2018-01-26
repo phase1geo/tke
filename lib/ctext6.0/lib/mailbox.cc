@@ -82,8 +82,8 @@ void mailbox::add_request(
   bool           tree
 ) {
   
-  request* req  = new request( command, args, callback, tree );
-  response* rsp = new response( callback, req->rsp_data().get_future() );
+  request*  req = new request( command, args, callback, tree );
+  response* rsp = new response( callback, req->rsp_data() );
 
   /* Create the request and response and add it to their respective FIFOs */
   _requests.push( req );
@@ -147,8 +147,8 @@ void mailbox::execute() {
       _result = _requests.front()->execute( _model, _update_needed );
       switch( _requests.front()->type() ) {
         case REQUEST_TYPE_RETURN   :  pause = true;  break;
-        // case REQUEST_TYPE_CALLBACK :  _requests.front()->rsp_data().set_value( _result );  break;
-        case REQUEST_TYPE_CALLBACK :  run_callback( _requests.front()->callback(), _result );  break;
+        case REQUEST_TYPE_CALLBACK :  _requests.front()->rsp_data().set_value( _result );  break;
+        // case REQUEST_TYPE_CALLBACK :  run_callback( _requests.front()->callback(), _result );  break;
       }
       delete _requests.front();
       _requests.pop();

@@ -118,6 +118,19 @@ namespace eval model {
   }
 
   ######################################################################
+  # Runs all callbacks.
+  proc run_callbacks {win} {
+
+    variable data
+
+    while {[set callback [$data($win,model) getcallback]] ne ""} {
+      lassign $callback cmd value
+      uplevel #0 [list $cmd $win $value]
+    }
+
+  }
+
+  ######################################################################
   # Returns true if the character at the given index is escaped.
   proc is_escaped {win tindex} {
 

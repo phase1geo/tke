@@ -2976,7 +2976,6 @@ namespace eval ctext {
             [list ctext::parsers::regexp_class $win $str $startrow $re $value] \
           ]
         } else {
-          # TBD - Need to add command
           lappend jobids [tpool::post $tpool \
             [list ctext::parsers::regexp_command $win $str $startrow $re $value $ins] \
           ]
@@ -2986,6 +2985,7 @@ namespace eval ctext {
 
     # If we need to block for some reason, do it here
     if {$block} {
+      ctext::model::run_callbacks $win
       while {[llength $jobids]} {
         tpool::wait $tpool $jobids jobids
       }
@@ -3008,6 +3008,9 @@ namespace eval ctext {
         }
       }
     }
+
+    # Handle any callbacks
+    ctext::model::run_callbacks $win
 
   }
 
