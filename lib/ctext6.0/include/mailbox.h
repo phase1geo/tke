@@ -59,12 +59,6 @@ class mailbox {
       bool                tree
     );
 
-    /*! Executes the callback associated with the given request */
-    void run_callback(
-      const std::string & callback,
-      const Tcl::object & args
-    );
-
   public:
 
     /*! Default constructor */
@@ -87,7 +81,7 @@ class mailbox {
     /*! Execute items from the requests queue */
     void execute();
 
-    /*! Executes all callbacks on the main thread side */
+    /*! Returns the callback parameters to be executed on the main thread side */
     Tcl::object get_callback();
 
     /*! \return Returns the last calculated result */
@@ -127,11 +121,10 @@ class mailbox {
     }
 
     /*! Updates model information */
-    Tcl::object update(
+    void update(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_UPDATE, args, REQUEST_TYPE_RETURN, false );
-      return( result() );
+      add_request( REQUEST_UPDATE, args, "ctext::model::update_callback", false );
     }
 
     Tcl::object show_serial() {
@@ -202,11 +195,10 @@ class mailbox {
       return( result() );
     }
 
-    Tcl::object render_contexts(
+    void render_contexts(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_RENDERCONTEXTS, args, "ctext::model::render_contexts_do", false );
-      return( result() );
+      add_request( REQUEST_RENDERCONTEXTS, args, "ctext::model::render_contexts_callback", false );
     }
 
     Tcl::object render_linemap(

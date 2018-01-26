@@ -100,24 +100,6 @@ void mailbox::add_request(
 
 }
 
-void mailbox::run_callback(
-  const string & callback,
-  const object & args
-) {
-
-  interpreter   interp( args.get_interp(), false );
-  ostringstream cmd;
-  
-  /* Create the command */
-  cmd << "thread::send -async " << _callback_tid << " " << callback << " " << _win << " " << args.get<string>( interp );
-
-  cout << cmd.str() << endl;
-
-  /* Execute the command */
-  interp.eval( cmd.str() );
-
-}
-
 object mailbox::get_callback() {
 
   object retval;
@@ -148,7 +130,6 @@ void mailbox::execute() {
       switch( _requests.front()->type() ) {
         case REQUEST_TYPE_RETURN   :  pause = true;  break;
         case REQUEST_TYPE_CALLBACK :  _requests.front()->rsp_data().set_value( _result );  break;
-        // case REQUEST_TYPE_CALLBACK :  run_callback( _requests.front()->callback(), _result );  break;
       }
       delete _requests.front();
       _requests.pop();
