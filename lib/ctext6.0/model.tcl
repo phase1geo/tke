@@ -250,7 +250,11 @@ namespace eval model {
 
     variable data
 
+    # Render the contexts
     $data($win,model) rendercontexts [list $linestart $lineend [lsort -dictionary -index 2 $tags]]
+
+    # Make sure the context is rendered immediately
+    run_callbacks $win
 
   }
 
