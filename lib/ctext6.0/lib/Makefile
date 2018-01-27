@@ -9,7 +9,7 @@ ifneq ($(findstring $(MAKECMDGOALS),../model.dll),)
 CPPFLAGS = -Ic:/MinGW/msys/1.0/local/include -Ic:/Boost/include/boost-1_65_1 -I../include -I../cpptcl -std=c++0x -DBOOST_THREAD_VERSION=4 -g -fPIC -MD
 CXX      = c:/MinGW/bin/g++
 else
-CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
+CPPFLAGS = -I/usr/include/tcl8.6 -I/usr/include/boost -I/usr/local/boost -I../include -I../cpptcl -std=gnu++11 -g -fPIC -MD
 endif
 
 SRCS = ../cpptcl/cpptcl.cc \
