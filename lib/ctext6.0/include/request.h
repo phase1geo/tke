@@ -155,7 +155,7 @@ class request {
     const std::string & callback() { return( _callback ); }
 
     /*! \return Returns the data to be used in a callback function */
-    boost::promise<Tcl::object> & rsp_data() { return( _rsp_data ); }
+    GENERIC_PROMISE<Tcl::object> & rsp_data() { return( _rsp_data ); }
 
 };
 
