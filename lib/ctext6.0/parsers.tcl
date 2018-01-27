@@ -4,7 +4,7 @@
 # Date:    10/18/2017
 # Brief:   Contains text parsers that are used by the ctext 6.0 threaded
 #          namespace.  This code is completely executed inside of a thread.
-######################################################################$0
+######################################################################
 
 package require struct::stack
 
