@@ -289,10 +289,12 @@ bool serial::update(
 
   if( elements.size() ) {
 
+    int eindex = end_index.matches() ? (end_index.index() + 1) : end_index.index();
+
     /* Delete the range */
     if( start_index != end_index ) {
-      for( vector<serial_item*>::iterator it=(begin() + start_index.index()); it!=(begin() + end_index.index()); it++ ) { delete *it; }
-      erase( (begin() + start_index.index()), (begin() + end_index.index()) );
+      for( vector<serial_item*>::iterator it=(begin() + start_index.index()); it!=(begin() + eindex); it++ ) { delete *it; }
+      erase( (begin() + start_index.index()), (begin() + eindex) );
     }
 
     /* Insert the given list */
