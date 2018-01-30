@@ -1715,12 +1715,16 @@ namespace eval ctext {
       return -code error "Incorrect arguments passed to ctext is command"
     }
 
-    lassign $args type index extra
+    lassign $args type index extra prange
 
     if {$type eq "inclass"} {
       set index [$win index $extra]
     } else {
       set index [$win index $index]
+    }
+
+    if {$prange ne ""} {
+      upvar $prange range
     }
 
     switch $type {
@@ -1749,20 +1753,25 @@ namespace eval ctext {
       unindent        { return [ctext::model::is_index $win ident         $index right] }
       reindent        { return [ctext::model::is_index $win reindent      $index any] }
       reindentStart   { return [ctext::model::is_index $win reindentStart $index any] }
-      indouble        { return [ctext::model::is_index $win indouble      $index] }
-      insingle        { return [ctext::model::is_index $win insingle      $index] }
-      inbtick         { return [ctext::model::is_index $win inbtick       $index] }
-      inblockcomment  { return [ctext::model::is_index $win inbcomment:   $index] }
-      inlinecomment   { return [ctext::model::is_index $win inlcomment:   $index] }
-      incomment       { return [ctext::model::is_index $win incomment     $index] }
-      instring        { return [ctext::model::is_index $win instring      $index] }
-      incommentstring { return [ctext::model::is_index $win incomstr      $index] }
-      intag           { return [ctext::model::is_index $win intag         $index] }
+      indouble        { return [lassign [ctext::model::is_index $win indouble      $index $extra] range] }
+      insingle        { return [lassign [ctext::model::is_index $win insingle      $index $extra] range] }
+      inbtick         { return [lassign [ctext::model::is_index $win inbtick       $index $extra] range] }
+      inblockcomment  { return [lassign [ctext::model::is_index $win inbcomment:   $index $extra] range] }
+      inlinecomment   { return [lassign [ctext::model::is_index $win inlcomment:   $index $extra] range] }
+      incomment       { return [lassign [ctext::model::is_index $win incomment     $index $extra] range] }
+      instring        { return [lassign [ctext::model::is_index $win instring      $index $extra] range] }
+      incommentstring { return [lassign [ctext::model::is_index $win incomstr      $index $extra] range] }
+      intag           { return [lassign [ctext::model::is_index $win intag         $index $extra] range] }
       inclass         {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"
         }
-        return [expr [lsearch -exact [$win._t tag names $extra] __$index] != -1]
+        if {[expr [lsearch -exact [$win._t tag names $extra] __$index] != -1} {
+          set range [$win._t tag prevrange $extra __$index]
+          return 1
+        } else {
+          return 0
+        }
       }
       default         {
         return -code error "Unsupported is type ($type) specified"

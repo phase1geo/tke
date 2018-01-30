@@ -67,7 +67,7 @@ namespace eval selectmode {
     enter $txtt $cmdlist
 
     if {[$txtt tag ranges sel] ne $sel} {
-      cleanup "$id selection incorrect ([$txtt tag ranges sel])"
+      cleanup "$id selection incorrect ([$txtt tag ranges sel], $sel)"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor incorrect ([$txtt index insert])"

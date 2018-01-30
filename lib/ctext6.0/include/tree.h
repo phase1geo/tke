@@ -176,8 +176,9 @@ class tree {
     }
 
     /*! \return Returns true if the given text index is within the given type */
-    bool is_in_index(
+    Tcl::object is_in_index(
       const std::string & type,
+      bool                inner,
       const tindex      & ti,
       const types       & typs
     ) const;

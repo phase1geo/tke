@@ -3237,59 +3237,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Moves the specified bracket one word to the right.
-  proc move_bracket_right {txtt char} {
-
-    if {[set index [$txtt search -forwards -- $char insert]] ne ""} {
-      $txtt delete $index
-      $txtt insert "$index wordend" $char
-    }
-
-  }
-
-  ######################################################################
-  # Inserts or moves the specified bracket pair.
-  proc place_bracket {txtt left {right ""}} {
-
-    variable mode
-
-    # Get the current selection
-    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-
-      foreach {end start} [lreverse $selected] {
-        $txtt insert $end [expr {($right eq "") ? $left : $right}]
-        $txtt insert $start $left
-      }
-
-    } else {
-
-      # Add the bracket in the appropriate place
-      if {($left eq "\"") || ($left eq "'")} {
-        set tag [expr {($left eq "'") ? "_sString" : "_dString"}]
-        if {[lsearch [$txtt tag names insert] $tag] != -1} {
-          move_bracket_right $txtt $left
-        } else {
-          $txtt insert "insert wordend"   $left
-          $txtt insert "insert wordstart" $left
-        }
-      } else {
-        set re "(\\$left|\\$right)"
-        if {([set index [$txtt search -backwards -regexp -- $re insert]] ne "") && ([$txtt get $index] eq $left)} {
-          move_bracket_right $txtt $right
-        } else {
-          $txtt insert "insert wordend"   $right
-          $txtt insert "insert wordstart" $left
-        }
-      }
-
-    }
-
-    # Put ourselves back into start mode
-    command_mode $txtt
-
-  }
-
-  ######################################################################
   # If any text is selected, double quotes are placed around all
   # selections.  If the insertion cursor is within a completed
   # string, the right-most quote of the completed string is moved one

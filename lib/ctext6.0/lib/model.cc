@@ -186,19 +186,19 @@ bool model::is_escaped(
 
 }
 
-bool model::is_index(
+object model::is_index(
   const object & args
 ) const {
 
   interpreter interp( args.get_interp(), false );
   string      typ  = args.at( interp, 0 ).get<string>( interp );
   tindex      ti( args.at( interp, 1 ) );
-  int         side = get_side( args.at( interp, 2 ).get<string>( interp ) );
+  string      extra = args.at( interp, 2 ).get<string>( interp );
 
   if( typ.substr( 0, 2 ) == "in" ) {
-    return( _tree.is_in_index( typ.substr( 2 ), ti, _types ) );
+    return( _tree.is_in_index( typ.substr( 2 ), (extra == "inner"), ti, _types ) );
   } else {
-    return( _serial.is_index( typ, ti, side, _types ) );
+    return( (object)_serial.is_index( typ, ti, get_side( extra ), _types ) );
   }
 
 }
