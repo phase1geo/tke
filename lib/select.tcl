@@ -1049,10 +1049,10 @@ namespace eval select {
     } else {
       set closest ""
       foreach t [list square curly paren angled] {
-        if {[lsearch -regexp [$txtt tag names $startpos] "_${t}\[LR\]"] != -1} {
+        if {[$txtt is $t $startpos any]} {
           set type $t
           break
-        } elseif {[set index [ctext::getMatchBracket [winfo parent $txtt] ${t}L $startpos]] ne ""} {
+        } elseif {[set index [$txtt matchchar $t $startpos]] ne ""} {
           if {($closest eq "") || [$txtt compare $index > $closest]} {
             set type    $t
             set closest $index
@@ -1779,7 +1779,7 @@ namespace eval select {
   # Returns the range of the specified bracket.
   proc bracket_current {txtt type startpos} {
 
-    if {[lsearch -regexp [$txtt tag names $startpos] "_${type}\[LR\]"] != -1} {
+    if {[$txtt is $type $startpos any]} {
       return [edit::get_range $txtt [list $type 1] [list] o 0 $startpos]
     } else {
       return [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]

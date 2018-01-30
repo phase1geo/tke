@@ -1334,7 +1334,7 @@ namespace eval edit {
         if {[string is space [$txtt get $endpos]]} {
           set endpos [$txtt index [list spaceend -dir next -startpos $endpos]]
         } else {
-          set endpos [$txtt index ${type}end -dir next -startpos $endpos]]
+          set endpos [$txtt index [list ${type}end -dir next -startpos $endpos]]
         }
       }
 
@@ -1420,9 +1420,9 @@ namespace eval edit {
     # Search backwards
     set txt      [winfo parent $txtt]
     set number   $num
-    set startpos [expr {([lsearch [$txtt is $type] names $cursor] _${type}L] == -1) ? $cursor : "$cursor+1c"}]
+    set startpos [expr {![$txtt is $type left] ? $cursor : "$cursor+1c"}]
 
-    while {[set index [ctext::getMatchBracket $txt ${type}L $startpos]] ne ""} {
+    while {[set index [$txt matchchar $startpos]] ne ""} {
       if {[incr number -1] == 0} {
         set right [ctext::getMatchBracket $txt ${type}R $index]
         if {($right eq "") || [$txtt compare $right < $cursor]} {

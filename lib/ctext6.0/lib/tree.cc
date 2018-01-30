@@ -277,22 +277,40 @@ void tree::add_folds(
 
 }
 
-bool tree::is_in_index(
+object tree::is_in_index(
   const string & type,
+  bool           inner,
   const tindex & ti,
   const types  & typs
 ) const {
 
   const tnode*           node;
   const vector<tnode*> & children = _tree->const_children();
+  object                 retval;
+  object                 range;
+  interpreter            interp( retval.get_interp(), false );
+  bool                   found = false;
 
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
     if( (node = (*it)->get_node_containing( ti )) ) {
-      return( node->is_in_type( type, typs ) );
+      if( (found = node->is_in_type( type, typs )) ) {
+        if( inner ) {
+          range.append( interp, (object)node->left()->const_pos().to_tindex( false ).to_string() );
+          range.append( interp, (object)node->right()->const_pos().to_tindex( true ).to_string() );
+        } else {
+          range.append( interp, (object)node->left()->const_pos().to_tindex( true ).to_string() );
+          range.append( interp, (object)node->right()->const_pos().to_tindex( false ).to_string() );
+        }
+      }
+      break;
     }
   }
 
-  return( false );
+  /* Indicate that the range was not found */
+  retval.append( interp, range );
+  retval.append( interp, (object)found );
+
+  return( retval );
 
 }
 

@@ -59,7 +59,7 @@ object request::execute(
       return( (object)inst.is_escaped( _args ) );
       break;
     case REQUEST_ISINDEX :
-      return( (object)inst.is_index( _args ) );
+      return( inst.is_index( _args ) );
       break;
     case REQUEST_GETCOMMENTMARKERS :
       return( inst.get_comment_markers( _args ) );

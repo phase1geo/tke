@@ -185,7 +185,7 @@ class model {
     ) const;
 
     /*! \return Returns true if the given text index contains the given type */
-    bool is_index(
+    Tcl::object is_index(
       const Tcl::object & args
     ) const;
 
