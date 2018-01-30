@@ -1348,6 +1348,8 @@ namespace eval ctext {
 
     if {$opts(-highlight)} {
       highlightAll $win $hranges "delete" 1
+    } else {
+      ctext::model::run_callbacks $win
     }
 
     modified $win 1 [list delete $ranges $opts(-moddata)]
@@ -1942,6 +1944,8 @@ namespace eval ctext {
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
       highlightAll $win $hranges "insert" 1
+    } else {
+      ctext::model::run_callbacks $win
     }
 
     modified $win 1 [list replace $ranges $opts(-moddata)]
