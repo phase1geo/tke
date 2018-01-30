@@ -26,17 +26,20 @@ class response {
 
   private:
 
-    std::string                 _callback;  /*!< Callback function name to call */
-    GENERIC_FUTURE<Tcl::object> _data;      /*!< Returned data */
+    std::string                 _callback;   /*!< Callback function name to call */
+    GENERIC_FUTURE<Tcl::object> _data;       /*!< Returned data */
+    Tcl::object                 _user_data;  /*!< User data to pass to callback function */
 
   public:
 
     /*! Default constructor */
     response(
       const std::string            & callback,
-      GENERIC_PROMISE<Tcl::object> & data
-    ) : _callback ( callback ),
-        _data     ( data.get_future() ) {}
+      GENERIC_PROMISE<Tcl::object> & data,
+      const Tcl::object            & user_data
+    ) : _callback  ( callback ),
+        _data      ( data.get_future() ),
+        _user_data ( user_data ) {}
 
     /*! Destructor */
     ~response() {}
@@ -50,6 +53,7 @@ class response {
       Tcl::interpreter interp( retval.get_interp(), false );
       retval.append( interp, (Tcl::object)_callback );
       retval.append( interp, _data.get() );
+      retval.append( interp, _user_data );
       return( retval );
     }
 

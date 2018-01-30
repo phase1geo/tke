@@ -94,13 +94,13 @@ class request {
 
   private:
 
-    int                          _command;   /*!< Command to execute */
-    Tcl::object                  _args;      /*!< Arguments to pass to the command */
-    int                          _type;      /*!< Specifies the request type */
-    bool                         _tree;      /*!< Specifies that this command requires the tree be
-                                                  up-to-date prior to processing */
-    std::string                  _callback;  /*!< Callback command to run once request has completed */
-    GENERIC_PROMISE<Tcl::object> _rsp_data;  /*!< Returned data used when calling callback functions */
+    int                          _command;    /*!< Command to execute */
+    Tcl::object                  _args;       /*!< Arguments to pass to the command */
+    int                          _type;       /*!< Specifies the request type */
+    bool                         _tree;       /*!< Specifies that this command requires the tree be
+                                                   up-to-date prior to processing */
+    std::string                  _callback;   /*!< Callback command to run once request has completed */
+    GENERIC_PROMISE<Tcl::object> _rsp_data;   /*!< Returned data used when calling callback functions */
 
   public:
 
@@ -127,14 +127,13 @@ class request {
         _tree     ( tree ),
         _callback ( callback ) {}
    
-
     /*! Copy constructor */
     request( const request & req ) :
-      _command  ( req._command ),
-      _args     ( req._args ),
-      _type     ( req._type ),
-      _tree     ( req._tree ),
-      _callback ( req._callback ) {}
+      _command   ( req._command ),
+      _args      ( req._args ),
+      _type      ( req._type ),
+      _tree      ( req._tree ),
+      _callback  ( req._callback ) {}
 
     /*! Destructor */
     ~request() {}

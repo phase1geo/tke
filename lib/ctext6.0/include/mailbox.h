@@ -59,6 +59,7 @@ class mailbox {
       int                 command,
       const Tcl::object & args,
       const std::string & callback,
+      const Tcl::object & user_data,
       bool                tree
     );
 
@@ -109,17 +110,19 @@ class mailbox {
 
     /*! Handles a text deletion */
     Tcl::object remove(
-      const Tcl::object & args
+      const Tcl::object & args,
+      const Tcl::object & user_data
     ) {
-      add_request( REQUEST_DELETE, args, REQUEST_TYPE_RETURN, false );
+      add_request( REQUEST_DELETE, args, "ctext::model::delete_callback", user_data, false );
       return( result() );
     }
 
     /*! Handles a text replacement */
     Tcl::object replace(
-      const Tcl::object & args
+      const Tcl::object & args,
+      const Tcl::object & user_data
     ) {
-      add_request( REQUEST_REPLACE, args, REQUEST_TYPE_RETURN, false );
+      add_request( REQUEST_REPLACE, args, "ctext::model::replace_callback", user_data, false );
       return( result() );
     }
 
@@ -127,7 +130,8 @@ class mailbox {
     void update(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_UPDATE, args, "ctext::model::update_callback", false );
+      Tcl::object user_data;
+      add_request( REQUEST_UPDATE, args, "ctext::model::update_callback", user_data, false );
     }
 
     Tcl::object show_serial() {
@@ -201,7 +205,8 @@ class mailbox {
     void render_contexts(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_RENDERCONTEXTS, args, "ctext::model::render_contexts_callback", false );
+      Tcl::object user_data;
+      add_request( REQUEST_RENDERCONTEXTS, args, "ctext::model::render_contexts_callback", user_data, false );
     }
 
     Tcl::object render_linemap(

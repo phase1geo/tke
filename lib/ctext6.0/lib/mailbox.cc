@@ -79,11 +79,12 @@ void mailbox::add_request(
   int            command,
   const object & args,
   const string & callback,
+  const object & user_data,
   bool           tree
 ) {
   
   request*  req = new request( command, args, callback, tree );
-  response* rsp = new response( callback, req->rsp_data() );
+  response* rsp = new response( callback, req->rsp_data(), user_data );
 
   /* Create the request and response and add it to their respective FIFOs */
   _requests.push( req );

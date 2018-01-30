@@ -124,8 +124,8 @@ namespace eval model {
     variable data
 
     while {[set callback [$data($win,model) getcallback]] ne ""} {
-      lassign $callback cmd value
-      uplevel #0 [list $cmd $win $value]
+      lassign $callback cmd value user_data
+      uplevel #0 [list $cmd $win $value $user_data]
     }
 
   }
@@ -197,22 +197,18 @@ namespace eval model {
 
     variable data
 
-    set markers [$data($win,model) delete [list $ranges $strs $cursor]]
-
-    if {$mark_command ne ""} {
-      foreach marker $markers {
-        uplevel #0 [list {*}$mark_command $win unmarked $marker]
-      }
-    }
+    $data($win,model) delete [list $ranges $strs $cursor] $mark_command
 
   }
 
   ######################################################################
   # Runs the specified marker command for each marker.
-  proc delete_callback {mark_command win data} {
+  proc delete_callback {win data mark_command} {
 
-    foreach marker $data {
-      uplevel #0 [list {*}$mark_command $win unmarked $marker]
+    if {$mark_command ne ""} {
+      foreach marker $data {
+        uplevel #0 [list {*}$mark_command $win unmarked $marker]
+      }
     }
 
   }
@@ -223,22 +219,18 @@ namespace eval model {
 
     variable data
 
-    set markers [$data($win,model) replace [list $ranges $dstrs $istrs $cursor]]
-
-    if {$mark_command ne ""} {
-      foreach marker $markers {
-        uplevel #0 [list {*}$mark_command $win unmarked $marker]
-      }
-    }
+    $data($win,model) replace [list $ranges $dstrs $istrs $cursor] $mark_command
 
   }
 
   ######################################################################
   # Runs the specified marker command for each marker.
-  proc replace_callback {mark_command win data} {
+  proc replace_callback {win data mark_command} {
 
-    foreach marker $data {
-      uplevel #0 [list {*}$mark_command $win unmarked $marker]
+    if {$mark_command ne ""} {
+      foreach marker $data {
+        uplevel #0 [list {*}$mark_command $win unmarked $marker]
+      }
     }
 
   }
@@ -260,7 +252,7 @@ namespace eval model {
 
   ######################################################################
   # Perform the context rendering.
-  proc render_contexts_callback {win data} {
+  proc render_contexts_callback {win data user_data} {
 
     foreach {tag ranges} $data {
       ctext::render $win __$tag $ranges 1
@@ -282,7 +274,7 @@ namespace eval model {
   ######################################################################
   # If the returned data is a boolean true, renders the mismatched
   # brackets
-  proc update_callback {win data} {
+  proc update_callback {win data user_data} {
 
     if {$data} {
       ctext::parsers::render_mismatched $win
