@@ -87,12 +87,14 @@ namespace eval ctext {
     set data($win,config,-linemapbg)              $data($win,config,-bg)
     set data($win,config,-linemap_mark_command)   {}
     set data($win,config,-linemap_markable)       1
-    set data($win,config,-linemap_mark_color)     orange
+    set data($win,config,-linemap_marker_fg)      orange
+    set data($win,config,-linemap_marker_bg)      $data($win,config,-bg)
     set data($win,config,-linemap_cursor)         left_ptr
     set data($win,config,-linemap_relief)         $data($win,config,-relief)
     set data($win,config,-linemap_minwidth)       1
     set data($win,config,-linemap_type)           absolute
     set data($win,config,-linemap_align)          "left"   ;# "left" or "right" is allowed
+    set data($win,config,-linemap_separator)      red
     set data($win,config,-highlight)              1
     set data($win,config,-lmargin)                0
     set data($win,config,-warnwidth)              ""
@@ -139,7 +141,8 @@ namespace eval ctext {
     set data($win,config,ctextFlags) {
       -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg -font -linemap_mark_command
       -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor -highlightcolor
-      -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_mark_color
+      -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_marker_fg
+      -linemap_marker_bg -linemap_separator \
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -indentmode
       -foldenable -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
@@ -173,7 +176,7 @@ namespace eval ctext {
 
     canvas $win.l -relief $data($win,config,-relief) -bd 0 \
       -bg $data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0
-    frame  $win.f -width 1 -bd 0 -relief flat -bg $data($win,config,-warnwidth_bg)
+    frame  $win.f -width 1 -bd 0 -relief flat -bg $data($win,config,-linemap_separator)
 
     set args [list {*}$args -yscrollcommand [list ctext::event:yscroll $win $data($win,config,-yscrollcommand)] \
                             -xscrollcommand [list ctext::event:xscroll $win $data($win,config,-xscrollcommand)]]
@@ -185,12 +188,6 @@ namespace eval ctext {
     }
 
     frame $win.t.w -width 1 -bd 0 -relief flat -bg $data($win,config,-warnwidth_bg)
-
-    if {$data($win,config,-warnwidth) ne ""} {
-      set sample [string repeat "m" $data($win,config,-warnwidth)]
-      set x      [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . $sample]]
-      place $win.t.w -x $x -relheight 1.0
-    }
 
     grid rowconfigure    $win 0 -weight 100
     grid columnconfigure $win 2 -weight 100
@@ -272,7 +269,7 @@ namespace eval ctext {
           set longest $len
         }
       }
-      set missing [expr round( ($longest * 7) * $first )]
+      set missing [expr round( ($longest * $data($win,fontwidth)) * $first )]
     } else {
       set missing 0
     }
@@ -281,7 +278,7 @@ namespace eval ctext {
     if {$data($win,config,-warnwidth) ne ""} {
 
       # Width is calculated by multiplying the longest line with the length of a single character
-      set newx [expr ($data($win,config,-warnwidth) * 7) - $missing]
+      set newx [expr ($data($win,config,-warnwidth) * $data($win,fontwidth)) - $missing]
 
       # Move the vertical bar
       place $win.t.w -x $newx -relheight 1.0
@@ -437,7 +434,16 @@ namespace eval ctext {
         return -code error "ctext -linemap_align value must be either 'left' or 'right'"
       }
       set data($win,config,-linemap_align) $value
-      linemapUpdate $win 1
+      set update_linemap 1
+      break
+    }
+
+    lappend argTable any -linemap_separator {
+      if {[catch {winfo rgb $win $value} res]} {
+        return -code error $res
+      }
+      set data($win,config,-linemap_separator) $value
+      $win.f configure -bg $value
       break
     }
 
@@ -496,6 +502,7 @@ namespace eval ctext {
       set data($win,config,-font) $value
       set data($win,fontwidth)    [font measure $value -displayof $win "0"]
       set data($win,fontdescent)  [font metrics $data($win,config,-font) -displayof $win -descent]
+      adjust_warning_width $win
       set update_linemap 1
       break
     }
@@ -514,9 +521,8 @@ namespace eval ctext {
       if {[string is integer $value] && ($value >= 0)} {
         set data($win,config,-lmargin) $value
         if {$data($win,config,-warnwidth) ne ""} {
-          set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $data($win,config,-warnwidth)]]]
-          place $win.t.w -x $newx -relheight 1.0
-          adjust_rmargin $win
+          adjust_warning_width $win
+          adjust_rmargin       $win
           $win._t tag configure lmargin -lmargin1 $value -lmargin2 $value
         }
       } else {
@@ -530,9 +536,8 @@ namespace eval ctext {
       if {$value eq ""} {
         place forget $win.t.w
       } else {
-        set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]]]
-        place $win.t.w -x $newx -relheight 1.0
-        adjust_rmargin $win
+        adjust_warning_width $win
+        adjust_rmargin       $win
       }
       break
     }
@@ -543,7 +548,6 @@ namespace eval ctext {
       }
       set data($win,config,-warnwidth_bg) $value
       $win.t.w configure -bg $value
-      $win.f   configure -bg $value
       break
     }
 
@@ -565,11 +569,20 @@ namespace eval ctext {
       break
     }
 
-    lappend argTable any -linemap_mark_color {
+    lappend argTable any -linemap_marker_fg {
       if {[catch {winfo rgb $win $value} res]} {
         return -code error $res
       }
-      set data($win,config,-linemap_mark_color) $value
+      set data($win,config,-linemap_marker_fg) $value
+      set update_linemap 1
+      break
+    }
+
+    lappend argTable any -linemap_marker_bg {
+      if {[catch {winfo rgb $win $value} res]} {
+        return -code error $res
+      }
+      set data($win,config,-linemap_marker_bg) $value
       set update_linemap 1
       break
     }
@@ -755,6 +768,18 @@ namespace eval ctext {
     }
 
     set data($win,config,argTable) $argTable
+
+  }
+
+  ######################################################################
+  # Adjusts the position of the warning width indicator.
+  proc adjust_warning_width {win} {
+
+    variable data
+
+    set x [expr $data($win,config,-lmargin) + ($data($win,config,-warnwidth) * $data($win,fontwidth))]
+
+    place $win.t.w -x $x -relheight 1.0
 
   }
 
@@ -1783,7 +1808,7 @@ namespace eval ctext {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"
         }
-        if {[expr [lsearch -exact [$win._t tag names $extra] __$index] != -1} {
+        if {[lsearch -exact [$win._t tag names $extra] __$index] != -1} {
           set range [$win._t tag prevrange $extra __$index]
           return 1
         } else {
@@ -3110,7 +3135,8 @@ namespace eval ctext {
     variable data
 
     set normal  $data($win,config,-linemapfg)
-    set lmark   $data($win,config,-linemap_mark_color)
+    set lmarkfg $data($win,config,-linemap_marker_fg)
+    set lmarkbg $data($win,config,-linemap_marker_bg)
     set font    $data($win,config,-font)
     set descent $data($win,fontdescent)
 
@@ -3160,7 +3186,7 @@ namespace eval ctext {
     set linenum       $data($win,config,-linemap)
     set linenum_width [expr $linenum ? max( $data($win,config,-linemap_minwidth), $line_width ) : 1]
     set gutterx       [expr ($linenum_width + 1) * $data($win,fontwidth)]
-    set marker        $data($win,config,-linemap_mark_color)
+    set marker        $data($win,config,-linemap_marker_fg)
     set normal        $data($win,config,-linemapfg)
     set font          $data($win,config,-font)
     set fontwidth     $data($win,fontwidth)
