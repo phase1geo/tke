@@ -117,8 +117,7 @@ namespace eval theme {
     syntax,attention                {color {red} {} {0} {msgcat::mc "Background color to use for displaying character information that requires the user's attention."}}
     syntax,search_background        {color {yellow} {} {0} {msgcat::mc "Background color for matching search text"}}
     syntax,search_foreground        {color {black} {} {0} {msgcat::mc "Foreground color for matching search text"}}
-    syntax,marker_background        {color {black} {} {0} {msgcat::mc "Background color for markers in the line gutter"}}
-    syntax,marker_foreground        {color {orange} {} {0} {msgcat::mc "Foreground color for markers in the line gutter and scrollbar"}}
+    syntax,marker                   {color {orange} {} {0} {msgcat::mc "Foreground color for markers in the line gutter and scrollbar"}}
     syntax,closed_fold              {color {orange} {} {0} {msgcat::mc "Color to use for highlighting closed folds in the line number gutter"}}
     sidebar,-background             {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground             {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
@@ -585,10 +584,13 @@ namespace eval theme {
               set background 0
               set color      [normalize_color $val]
               if {$scope_types eq ""} {
-                set labels(background)    $color
-                set labels(warning_width) [utils::auto_adjust_color $color 40]
-                set labels(meta)          [utils::auto_adjust_color $color 40]
-                set labels(embedded)      [utils::auto_adjust_color $color 10]
+                set adjusted_color            [utils::auto_adjust_color $color 40]
+                set labels(background)        $color
+                set labels(linemap)           $color
+                set labels(warning_width)     $adjusted_color
+                set labels(linemap_separator) $adjusted_color
+                set labels(meta)              $adjusted_color
+                set labels(embedded)          [utils::auto_adjust_color $color 10]
               }
             } elseif {$caret} {
               set caret 0

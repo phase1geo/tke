@@ -1,6 +1,6 @@
-swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #0000ff #5a5a5a}
+swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #5a5a5a #585346}
 creator {Trevor Williams}
-date {1507436704}
+date {1517426709}
 images,form_close {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -261,6 +261,7 @@ meta,syntax,embedded {#22242c,v,0}
 meta,syntax,foreground {#b6c1c1,v,0}
 meta,syntax,punctuation {#5a5a5a,v,25}
 meta,ttk_style,pressed_color {#1d1f26,v,0}
+misc_scrollbar,-activeforeground {#2b303b}
 misc_scrollbar,-background {#333946}
 misc_scrollbar,-foreground {#2b303b}
 misc_scrollbar,-thickness {15}
@@ -279,6 +280,7 @@ sidebar_info,-active_background {#2b303b}
 sidebar_info,-background {#333946}
 sidebar_info,-title_foreground {#fbffd7}
 sidebar_info,-value_foreground {#878671}
+sidebar_scrollbar,-activeforeground {#333946}
 sidebar_scrollbar,-background {#333946}
 sidebar_scrollbar,-foreground {#878671}
 sidebar_scrollbar,-thickness {11}
@@ -295,6 +297,8 @@ syntax,foreground {#b6c1c1}
 syntax,highlighter {#ffff00}
 syntax,keywords {#6f89ba}
 syntax,line_number {#585346}
+syntax,linemap {#2b303b}
+syntax,linemap_separator {#585346}
 syntax,marker {orange}
 syntax,meta {#585346}
 syntax,miscellaneous1 {#babd9c}
@@ -319,6 +323,7 @@ tabs,-height {25}
 tabs,-inactivebackground {#333946}
 tabs,-inactiveforeground {#b6c1c1}
 tabs,-relief {flat}
+text_scrollbar,-activeforeground {#333946}
 text_scrollbar,-altforeground {red}
 text_scrollbar,-background {#2b303b}
 text_scrollbar,-foreground {#878671}

@@ -1,5 +1,5 @@
-swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
-date {1507436524}
+swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f #22212e}
+date {1517427353}
 images,form_close {fg white dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -268,6 +268,7 @@ menus,-foreground {black}
 menus,-relief {flat}
 menus,-selectcolor {black}
 meta,ttk_style,active_color {#4e4b68,v,22}
+misc_scrollbar,-activeforeground {#302e40}
 misc_scrollbar,-background {#4e4b68}
 misc_scrollbar,-foreground {#302e40}
 misc_scrollbar,-thickness {15}
@@ -286,6 +287,7 @@ sidebar_info,-active_background {#302e40}
 sidebar_info,-background {#4e4b68}
 sidebar_info,-title_foreground {#8f8f8f}
 sidebar_info,-value_foreground {#ececec}
+sidebar_scrollbar,-activeforeground {#4e4b68}
 sidebar_scrollbar,-background {#ececec}
 sidebar_scrollbar,-foreground {#4e4b68}
 sidebar_scrollbar,-thickness {15}
@@ -302,6 +304,8 @@ syntax,foreground {#ececec}
 syntax,highlighter {yellow}
 syntax,keywords {#e12977}
 syntax,line_number {#4e4b68}
+syntax,linemap {#22212e}
+syntax,linemap_separator {#22212e}
 syntax,marker {orange}
 syntax,meta {#4e4b68}
 syntax,miscellaneous1 {#aaaaaa}
@@ -326,6 +330,7 @@ tabs,-height {25}
 tabs,-inactivebackground {#4e4b68}
 tabs,-inactiveforeground {#ececec}
 tabs,-relief {flat}
+text_scrollbar,-activeforeground {#4e4b68}
 text_scrollbar,-altforeground {red}
 text_scrollbar,-background {#302e40}
 text_scrollbar,-foreground {#4e4b68}
