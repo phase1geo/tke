@@ -92,6 +92,7 @@ namespace eval ctext {
     set data($win,config,-linemap_relief)         $data($win,config,-relief)
     set data($win,config,-linemap_minwidth)       1
     set data($win,config,-linemap_type)           absolute
+    set data($win,config,-linemap_align)          "left"   ;# "left" or "right" is allowed
     set data($win,config,-highlight)              1
     set data($win,config,-lmargin)                0
     set data($win,config,-warnwidth)              ""
@@ -142,7 +143,7 @@ namespace eval ctext {
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -indentmode
       -foldenable -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
-      -blockcursor -multimove
+      -blockcursor -multimove -linemap_align
     }
 
     # Set args
@@ -428,6 +429,15 @@ namespace eval ctext {
 
     lappend argTable any -linemap_mark_command {
       set data($win,config,-linemap_mark_command) $value
+      break
+    }
+
+    lappend argTable any -linemap_align {
+      if {[lsearch [list left right] $value] == -1} {
+        return -code error "ctext -linemap_align value must be either 'left' or 'right'"
+      }
+      set data($win,config,-linemap_align) $value
+      linemapUpdate $win 1
       break
     }
 
@@ -3149,7 +3159,7 @@ namespace eval ctext {
     set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
     set linenum       $data($win,config,-linemap)
     set linenum_width [expr $linenum ? max( $data($win,config,-linemap_minwidth), $line_width ) : 1]
-    set gutterx       [expr ($linenum_width * $data($win,fontwidth)) + 10]
+    set gutterx       [expr ($linenum_width + 1) * $data($win,fontwidth)]
     set marker        $data($win,config,-linemap_mark_color)
     set normal        $data($win,config,-linemapfg)
     set font          $data($win,config,-font)
@@ -3159,6 +3169,8 @@ namespace eval ctext {
     set y             1
     set colormap      [list %m $marker %n $normal]
     set ins           [lindex [split [$win._t index insert] .] 0]
+    set num_x         [expr {($data($win,config,-linemap_align) eq "left") ? 1 : (($linenum_width * $data($win,fontwidth)) + 1)}]
+    set num_anchor    [expr {($data($win,config,-linemap_align) eq "left") ? "sw" : "se"}]
 
     # If we are displaying absolute line numbers, set the insertion row to 0
     if {$data($win,config,-linemap_type) eq "absolute"} {
@@ -3180,7 +3192,7 @@ namespace eval ctext {
         set x $gutterx
         set y [expr $y + $b + $descent]
         if {$linenum} {
-          $win.l create text 1 $y -anchor sw -text [expr abs( $lnum - $ins )] -fill $fill -font $font -tags lnum
+          $win.l create text $num_x $y -anchor $num_anchor -text [expr abs( $lnum - $ins )] -fill $fill -font $font -tags lnum
         } elseif {$fill == $marker} {
           $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font -tags lnum
         }

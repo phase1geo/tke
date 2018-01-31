@@ -1132,6 +1132,7 @@ set auto_index(::gui::handle_matching_char) [list source [file join $dir gui.tcl
 set auto_index(::gui::set_matching_char) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::handle_bracket_audit) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::handle_relative_line_numbers) [list source [file join $dir gui.tcl]]
+set auto_index(::gui::handle_line_number_alignment) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::handle_allow_tab_scrolling) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::handle_vim_mode) [list source [file join $dir gui.tcl]]
 set auto_index(::gui::handle_editor_font) [list source [file join $dir gui.tcl]]

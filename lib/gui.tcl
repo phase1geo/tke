@@ -466,6 +466,7 @@ namespace eval gui {
     trace variable preferences::prefs(Editor/HighlightMatchingChar)        w gui::handle_matching_char
     trace variable preferences::prefs(Editor/HighlightMismatchingChar)     w gui::handle_bracket_audit
     trace variable preferences::prefs(Editor/RelativeLineNumbers)          w gui::handle_relative_line_numbers
+    trace variable preferences::prefs(Editor/LineNumberAlignment)          w gui::handle_line_number_alignment
     trace variable preferences::prefs(View/AllowTabScrolling)              w gui::handle_allow_tab_scrolling
     trace variable preferences::prefs(Editor/VimMode)                      w gui::handle_vim_mode
     trace variable preferences::prefs(Appearance/EditorFont)               w gui::handle_editor_font
@@ -591,6 +592,19 @@ namespace eval gui {
 
     foreach txt [get_all_texts] {
       $txt configure -linemap_type $linemap_type
+    }
+
+  }
+
+  ######################################################################
+  # Handles any changes to the Editor/LineNumberAlignment preference
+  # value.  Updates all text widgets to the given value.
+  proc handle_line_number_alignment {name1 name2 op} {
+
+    set value [preferences::get Editor/LineNumberAlignment]
+
+    foreach txt [get_all_texts] {
+      $txt configure -linemap_align $value
     }
 
   }
@@ -4148,6 +4162,7 @@ namespace eval gui {
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
+      -linemap_align [preferences::get Editor/LineNumberAlignment] \
       -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
       -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
