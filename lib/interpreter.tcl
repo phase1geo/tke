@@ -842,9 +842,6 @@ namespace eval interpreter {
     $interp alias ctext::inString                   ctext::inString
     $interp alias ctext::inStringRange              ctext::inStringRange
     $interp alias ctext::getLang                    ctext::getLang
-    $interp alias ctext::getNextBracket             ctext::getNextBracket
-    $interp alias ctext::getPrevBracket             ctext::getPrevBracket
-    $interp alias ctext::getMatchBracket            ctext::getMatchBracket
     $interp alias ctext::getTagInRange              ctext::getTagInRange
 
     return $interp
