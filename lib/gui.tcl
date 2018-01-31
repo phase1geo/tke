@@ -4383,6 +4383,7 @@ namespace eval gui {
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange -peer $txt \
+      -linemap_align [preferences::get Editor/LineNumberAlignment] \
       -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
       -xscrollcommand "$pw.tf2.hb set" \
       -yscrollcommand "$pw.tf2.vb set"
@@ -5764,7 +5765,7 @@ namespace eval gui {
     $txt configure -background $theme(background) -foreground $theme(foreground) \
       -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
-      -linemapbg $theme(background) -linemapfg $theme(line_number) \
+      -linemapbg $theme(linemap) -linemapfg $theme(line_number) \
       -linemap_mark_color $theme(marker) \
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
