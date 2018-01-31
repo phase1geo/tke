@@ -72,77 +72,78 @@ namespace eval ctext {
 
     set tmp [text .__ctextTemp]
 
-    set data($win,config,-fg)                     [$tmp cget -foreground]
-    set data($win,config,-bg)                     [$tmp cget -background]
-    set data($win,config,-font)                   [$tmp cget -font]
-    set data($win,config,-relief)                 [$tmp cget -relief]
-    set data($win,config,-insertwidth)            [$tmp cget -insertwidth]
-    set data($win,config,-unhighlightcolor)       [$win cget -bg]
+    set data($win,config,-foreground)              [$tmp cget -foreground]
+    set data($win,config,-background)              [$tmp cget -background]
+    set data($win,config,-font)                    [$tmp cget -font]
+    set data($win,config,-relief)                  [$tmp cget -relief]
+    set data($win,config,-insertwidth)             [$tmp cget -insertwidth]
+    set data($win,config,-unhighlightcolor)        [$win cget -bg]
     ::destroy $tmp
-    set data($win,config,-xscrollcommand)         ""
-    set data($win,config,-yscrollcommand)         ""
-    set data($win,config,-highlightcolor)         "yellow"
-    set data($win,config,-linemap)                1
-    set data($win,config,-linemapfg)              $data($win,config,-fg)
-    set data($win,config,-linemapbg)              $data($win,config,-bg)
-    set data($win,config,-linemap_mark_command)   {}
-    set data($win,config,-linemap_markable)       1
-    set data($win,config,-linemap_marker_fg)      orange
-    set data($win,config,-linemap_marker_bg)      $data($win,config,-bg)
-    set data($win,config,-linemap_cursor)         left_ptr
-    set data($win,config,-linemap_relief)         $data($win,config,-relief)
-    set data($win,config,-linemap_minwidth)       1
-    set data($win,config,-linemap_type)           absolute
-    set data($win,config,-linemap_align)          "left"   ;# "left" or "right" is allowed
-    set data($win,config,-linemap_separator)      red
-    set data($win,config,-highlight)              1
-    set data($win,config,-lmargin)                0
-    set data($win,config,-warnwidth)              ""
-    set data($win,config,-warnwidth_bg)           red
-    set data($win,config,-casesensitive)          1
-    set data($win,config,-escapes)                1
-    set data($win,config,-peer)                   ""
-    set data($win,config,-undo)                   0
-    set data($win,config,-maxundo)                0
-    set data($win,config,-autoseparators)         0
-    set data($win,config,-diff_mode)              0
-    set data($win,config,-diffsubbg)              "pink"
-    set data($win,config,-diffaddbg)              "light green"
-    set data($win,config,-foldenable)             0
-    set data($win,config,-foldopencolor)          $data($win,config,-fg)
-    set data($win,config,-foldclosecolor)         "orange"
-    set data($win,config,-delimiters)             {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
-    set data($win,config,-matchchar)              0
-    set data($win,config,-matchchar_bg)           $data($win,config,-fg)
-    set data($win,config,-matchchar_fg)           $data($win,config,-bg)
-    set data($win,config,-matchaudit)             0
-    set data($win,config,-matchaudit_bg)          "red"
-    set data($win,config,-classes)                [list]
-    set data($win,config,-theme)                  [list]
-    set data($win,config,-shiftwidth)             2
-    set data($win,config,-tabstop)                2
-    set data($win,config,-blockcursor)            0
-    set data($win,config,-multimove)              1
-    set data($win,config,-indentmode)             "IND+"  ;# Can be "OFF", "IND" or "IND+"
-    set data($win,config,win)                     $win
-    set data($win,config,modified)                0
-    set data($win,config,lastUpdate)              0
-    set data($win,config,csl_patterns)            [list]
-    set data($win,config,csl_char_tags)           [list]
-    set data($win,config,lc_char_tags)            [list]
-    set data($win,config,csl_tags)                [list]
-    set data($win,config,csl_array)               [list]
-    set data($win,config,csl_tag_pair)            [list]
-    set data($win,config,langs)                   [list {}]
-    set data($win,config,gutters)                 [list]
-    set data($win,config,redo_hist)               [list]
-    set data($win,config,foldstate)               "none"
+    set data($win,config,-xscrollcommand)          ""
+    set data($win,config,-yscrollcommand)          ""
+    set data($win,config,-highlightcolor)          "yellow"
+    set data($win,config,-linemap)                 1
+    set data($win,config,-linemapfg)               $data($win,config,-foreground)
+    set data($win,config,-linemapbg)               $data($win,config,-background)
+    set data($win,config,-linemap_mark_command)    {}
+    set data($win,config,-linemap_markable)        1
+    set data($win,config,-linemap_marker_fg)       orange
+    set data($win,config,-linemap_marker_bg)       $data($win,config,-background)
+    set data($win,config,-linemap_cursor)          left_ptr
+    set data($win,config,-linemap_relief)          $data($win,config,-relief)
+    set data($win,config,-linemap_minwidth)        1
+    set data($win,config,-linemap_type)            absolute
+    set data($win,config,-linemap_align)           "left"   ;# "left" or "right" is allowed
+    set data($win,config,-linemap_separator)       auto
+    set data($win,config,-linemap_separator_color) red
+    set data($win,config,-highlight)               1
+    set data($win,config,-lmargin)                 0
+    set data($win,config,-warnwidth)               ""
+    set data($win,config,-warnwidth_bg)            red
+    set data($win,config,-casesensitive)           1
+    set data($win,config,-escapes)                 1
+    set data($win,config,-peer)                    ""
+    set data($win,config,-undo)                    0
+    set data($win,config,-maxundo)                 0
+    set data($win,config,-autoseparators)          0
+    set data($win,config,-diff_mode)               0
+    set data($win,config,-diffsubbg)               "pink"
+    set data($win,config,-diffaddbg)               "light green"
+    set data($win,config,-foldenable)              0
+    set data($win,config,-foldopencolor)           $data($win,config,-foreground)
+    set data($win,config,-foldclosecolor)          "orange"
+    set data($win,config,-delimiters)              {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
+    set data($win,config,-matchchar)               0
+    set data($win,config,-matchchar_bg)            $data($win,config,-foreground)
+    set data($win,config,-matchchar_fg)            $data($win,config,-background)
+    set data($win,config,-matchaudit)              0
+    set data($win,config,-matchaudit_bg)           "red"
+    set data($win,config,-classes)                 [list]
+    set data($win,config,-theme)                   [list]
+    set data($win,config,-shiftwidth)              2
+    set data($win,config,-tabstop)                 2
+    set data($win,config,-blockcursor)             0
+    set data($win,config,-multimove)               1
+    set data($win,config,-indentmode)              "IND+"  ;# Can be "OFF", "IND" or "IND+"
+    set data($win,config,win)                      $win
+    set data($win,config,modified)                 0
+    set data($win,config,lastUpdate)               0
+    set data($win,config,csl_patterns)             [list]
+    set data($win,config,csl_char_tags)            [list]
+    set data($win,config,lc_char_tags)             [list]
+    set data($win,config,csl_tags)                 [list]
+    set data($win,config,csl_array)                [list]
+    set data($win,config,csl_tag_pair)             [list]
+    set data($win,config,langs)                    [list {}]
+    set data($win,config,gutters)                  [list]
+    set data($win,config,redo_hist)                [list]
+    set data($win,config,foldstate)                "none"
 
     set data($win,config,ctextFlags) {
       -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg -font -linemap_mark_command
       -highlight -warnwidth -warnwidth_bg -linemap_markable -linemap_cursor -highlightcolor
       -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg -linemap_marker_fg
-      -linemap_marker_bg -linemap_separator \
+      -linemap_marker_bg -linemap_separator -linemap_separator_color -background \
       -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer -undo -maxundo
       -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin -indentmode
       -foldenable -foldopencolor -foldclosecolor -classes -theme -shiftwidth -tabstop -insertwidth
@@ -176,7 +177,7 @@ namespace eval ctext {
 
     canvas $win.l -relief $data($win,config,-relief) -bd 0 \
       -bg $data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0
-    frame  $win.f -width 1 -bd 0 -relief flat -bg $data($win,config,-linemap_separator)
+    frame  $win.f -width 1 -bd 0 -relief flat -bg $data($win,config,-linemap_separator_color)
 
     set args [list {*}$args -yscrollcommand [list ctext::event:yscroll $win $data($win,config,-yscrollcommand)] \
                             -xscrollcommand [list ctext::event:xscroll $win $data($win,config,-xscrollcommand)]]
@@ -200,6 +201,8 @@ namespace eval ctext {
       grid remove $win.l
       grid remove $win.f
     }
+
+    update_linemap_separator $win
 
     # Configure necessary tags
     if {$data($win,config,-matchchar)} {
@@ -358,6 +361,16 @@ namespace eval ctext {
 
     set argTable [list]
 
+    lappend argTable any -background {
+      if {[catch { winfo rgb $win $value } res]} {
+        return -code error $res
+      }
+      set data($win,config,-background) $value
+      $win.t configure -bg $value
+      update_linemap_separator $win
+      break
+    }
+
     lappend argTable {1 true yes} -blockcursor {
       set data($win,config,-blockcursor) 1
       if {[$win._t compare "insert linestart" == "insert lineend"]} {
@@ -439,11 +452,18 @@ namespace eval ctext {
     }
 
     lappend argTable any -linemap_separator {
+      set data($win,config,-linemap_separator) $value
+      update_linemap_separator $win
+      break
+    }
+
+    lappend argTable any -linemap_separator_color {
       if {[catch {winfo rgb $win $value} res]} {
         return -code error $res
       }
-      set data($win,config,-linemap_separator) $value
+      set data($win,config,-linemap_separator_color) $value
       $win.f configure -bg $value
+      update_linemap_separator $win
       break
     }
 
@@ -780,6 +800,39 @@ namespace eval ctext {
     set x [expr $data($win,config,-lmargin) + ($data($win,config,-warnwidth) * $data($win,fontwidth))]
 
     place $win.t.w -x $x -relheight 1.0
+
+  }
+
+  ######################################################################
+  # Shows/hides the linemap separator depending on the value of linemap_separator.
+  proc update_linemap_separator {win} {
+
+    variable data
+
+    # If the linemap is not being displayed, return now
+    if {[lsearch [grid slaves $win] $win.l] == -1} {
+      return
+    }
+
+    switch $data($win,config,-linemap_separator) {
+      1   -
+      yes -
+      true {
+        grid $win.f
+      }
+      auto {
+        set lm [winfo rgb $win $data($win,config,-linemapbg)]
+        set bg [winfo rgb $win $data($win,config,-background)]
+        if {$lm ne $bg} {
+          grid $win.f
+        } else {
+          grid remove $win.f
+        }
+      }
+      default {
+        grid remove $win.f
+      }
+    }
 
   }
 

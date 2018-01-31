@@ -4160,7 +4160,7 @@ namespace eval gui {
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap_mark_command [list gui::mark_command $tab] \
-      -linemap_relief flat -linemap_minwidth $numberwidth \
+      -linemap_relief flat -linemap_minwidth $numberwidth -linemap_separator 1 \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -linemap_align [preferences::get Editor/LineNumberAlignment] \
       -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
@@ -4381,7 +4381,7 @@ namespace eval gui {
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
-      -linemap [preferences::get View/ShowLineNumbers] \
+      -linemap [preferences::get View/ShowLineNumbers] -linemap_separator 1 \
       -linemap_mark_command [list gui::mark_command $tab] -peer $txt \
       -linemap_align [preferences::get Editor/LineNumberAlignment] \
       -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
@@ -5766,8 +5766,8 @@ namespace eval gui {
       -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
       -linemapbg $theme(linemap) -linemapfg $theme(line_number) \
-      -linemap_marker_fg $theme(marker_foreground) -linemap_marker_bg $theme(marker_background) \
-      -linemap_separator $theme(linemap_separator) \
+      -linemap_marker_fg $theme(marker) \
+      -linemap_separator_color $theme(linemap_separator) \
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
