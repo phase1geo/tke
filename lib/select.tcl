@@ -377,7 +377,7 @@ namespace eval select {
           }
           single    -
           double    -
-          btick     { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0] }
+          btick     { $txtt is in$data($txtt,type) insert [expr {$data($txtt,inner) ? "inner" : "outer"}] trange }
           default   { set trange [bracket_current $txtt $data($txtt,type) insert] }
         }
         if {[lsearch [list char line lineto word sentence paragraph] $data($txtt,type)] != -1} {
@@ -1032,36 +1032,14 @@ namespace eval select {
   # Returns the current bracket type based on the position of startpos.
   proc get_bracket_type {txtt startpos} {
 
-    set type ""
-    set txt  [winfo parent $txtt]
-
     # If we are within a comment, return
-    if {[$txt is incomment $startpos]} {
-      return comment
-    } elseif {[$txt is instring $startpos]} {
-      if {[$txt is insingle $startpos]} {
-        set type single
-      } elseif {[$txt is indouble $startpos]} {
-        set type double
-      } else {
-        set type btick
-      }
-    } else {
-      set closest ""
-      foreach t [list square curly paren angled] {
-        if {[$txtt is $t $startpos any]} {
-          set type $t
-          break
-        } elseif {[set index [$txtt matchchar $t $startpos]] ne ""} {
-          if {($closest eq "") || [$txtt compare $index > $closest]} {
-            set type    $t
-            set closest $index
-          }
-        }
+    foreach type [list comment single double btick square curly paren angled] {
+      if {[$txtt is in$type $startpos]} {
+        return $type
       }
     }
 
-    return $type
+    return ""
 
   }
 
@@ -1780,9 +1758,11 @@ namespace eval select {
   proc bracket_current {txtt type startpos} {
 
     if {[$txtt is $type $startpos any]} {
-      return [edit::get_range $txtt [list $type 1] [list] o 0 $startpos]
+      $txtt is in$type $startpos outer range
+      return $range
     } else {
-      return [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]
+      $txtt is in$type $startpos inner range
+      return $range
     }
 
   }
@@ -1795,20 +1775,18 @@ namespace eval select {
       set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos]
       if {[$txtt compare $right == $endpos-1c]} {
         if {[$txtt is $type $startpos-1c left]} {
-          return [list $startpos [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos-1c]]
+          return [list $startpos [ctext::getMatchBracket $txtt matchchar $startpos-1c]]
         } else {
-          return [edit::get_range $txtt [list $type 1] [list] i 0 "$startpos-1c"]
+          $txtt is in$type "$startpos-1c" inner range
+          return $range
         }
       } elseif {[$txtt is $type $startpos-1c left]} {
-        return [list [$txtt index $startpos-1c] [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos-1c]+1c]
+        return [list [$txtt index $startpos-1c] [$txtt matchchar $startpos-1c]+1c]
       }
     }
 
-    if {[set trange [edit::get_range $txtt [list $type 1] [list] o 0 "$startpos-1c"]] eq [list "" ""]} {
-      return ""
-    }
-
-    return $trange
+    $txtt is in$type "$startpos-1c" outer range
+    return $range
 
   }
 
@@ -1817,15 +1795,15 @@ namespace eval select {
   proc bracket_first_child {txtt type startpos endpos} {
 
     if {[$txtt is $type $startpos left]} {
-      if {[set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos]] ne ""} {
+      if {[set right [$txtt matchchar $startpos]] ne ""} {
         if {[$txtt compare $right == $endpos-1c]} {
           return [list [$txtt index $startpos+1c] $right]
         } elseif {[$txtt compare $right < $endpos]} {
           return [list $startpos [$txtt index $right+1c]]
         }
       }
-    } elseif {[set left [ctext::getNextBracket [winfo parent $txtt] ${type}L $startpos]] ne ""} {
-      if {[set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $left]] ne ""} {
+    } elseif {[set left [lindex [$txtt range next $type left $startpos] 0]] ne ""} {
+      if {[set right [$txtt matchchar $left]] ne ""} {
         if {[$txtt compare $right < $endpos]} {
           return [list $left [$txtt index $right+1c]]
         }
@@ -1841,15 +1819,15 @@ namespace eval select {
   proc bracket_last_child {txtt type startpos endpos} {
 
     if {[$txtt is $type $endpos-1c right]} {
-      if {[set left [ctext::getMatchBracket [winfo parent $txtt] ${type}L $endpos-1c]] ne ""} {
+      if {[set left [$txtt matchchar $endpos-1c]] ne ""} {
         if {[$txtt compare $left == $startpos]} {
           return [list [$txtt index $startpos+1c] [$txtt index $endpos-1c]]
         } elseif {[$txtt compare $startpos < $left]} {
           return [list $left $endpos]
         }
       }
-    } elseif {[set right [ctext::getPrevBracket [winfo parent $txtt] ${type}R $endpos]] ne ""} {
-      if {[set left [ctext::getMatchBracket [winfo parent $txtt] ${type}L $right]] ne ""} {
+    } elseif {[set right [lindex [$txtt range prev $type right $endpos] 0]] ne ""} {
+      if {[set left [$txtt matchchar $right]] ne ""} {
         if {[$txtt compare $startpos < $left]} {
           return [list $left [$txtt index $right+1c]]
         }
@@ -1869,12 +1847,12 @@ namespace eval select {
     if {[$txtt is $type $startpos left]} {
       set parent [bracket_parent $txtt $type $startpos $endpos]
       if {$data($txtt,anchorend) == 0} {
-        set left [ctext::getNextBracket [winfo parent $txtt] ${type}L $endpos]
+        set left [lindex [$txtt range next $type left $endpos] 0]
       } else {
-        set left [ctext::getNextBracket [winfo parent $txtt] ${type}L $startpos]
+        set left [lindex [$txtt range next $type left $startpos] 0]
       }
       if {($left ne "") && ([lindex $parent 1] ne "") && [$txtt compare $left < [lindex $parent 1]]} {
-        return [list $left [ctext::getMatchBracket [winfo parent $txtt] ${type}R $left]+1c]
+        return [list $left [$txtt matchchar $left]+1c]
       }
     }
 
@@ -1891,12 +1869,12 @@ namespace eval select {
     if {[$txtt is $type $startpos left]} {
       set parent [bracket_parent $txtt $type $startpos $endpos]
       if {$data($txtt,anchorend) == 0} {
-        set right [ctext::getPrevBracket [winfo parent $txtt] ${type}R $endpos-1c]
+        set right [lindex [$txtt range prev $type right $endpos-1c] 0]
       } else {
-        set right [ctext::getPrevBracket [winfo parent $txtt] ${type}R $startpos]
+        set right [lindex [$txtt range prev $type right $startpos] 0]
       }
       if {($right ne "") && ([lindex $parent 0] ne "") && [$txtt compare [lindex $parent 0] < $right]} {
-        return [list [ctext::getMatchBracket [winfo parent $txtt] ${type}L $right] $right+1c]
+        return [list [$txtt matchchar $right] $right+1c]
       }
     }
 

@@ -1186,7 +1186,9 @@ namespace eval ctext {
         update_cursor $win
       }
       set {
-        if {([llength [lindex $args 1]] == 1) || ([info procs getindex_[lindex $args 1 0]] ne "")} {
+        if {([llength [lindex $args 1]] == 1) || \
+            ([info procs getindex_[lindex $args 1 0]] ne "") || \
+            ([lsearch [list linestart lineend display wordstart wordend] [lindex $args 1 1]] != -1)} {
           set_cursor $win [$win index [lindex $args 1]]
         } else {
           clear_mcursors $win
@@ -1723,9 +1725,7 @@ namespace eval ctext {
       set index [$win index $index]
     }
 
-    if {$prange ne ""} {
-      upvar $prange range
-    }
+    catch { upvar 2 $prange range } rc
 
     switch $type {
       escaped         { return [ctext::model::is_escaped $win $index] }
@@ -1753,9 +1753,16 @@ namespace eval ctext {
       unindent        { return [ctext::model::is_index $win ident         $index right] }
       reindent        { return [ctext::model::is_index $win reindent      $index any] }
       reindentStart   { return [ctext::model::is_index $win reindentStart $index any] }
+      insquare        { return [lassign [ctext::model::is_index $win insquare      $index $extra] range] }
+      incurly         { return [lassign [ctext::model::is_index $win incurly       $index $extra] range] }
+      inparen         { return [lassign [ctext::model::is_index $win inparen       $index $extra] range] }
+      inangled        { return [lassign [ctext::model::is_index $win inangled      $index $extra] range] }
       indouble        { return [lassign [ctext::model::is_index $win indouble      $index $extra] range] }
       insingle        { return [lassign [ctext::model::is_index $win insingle      $index $extra] range] }
       inbtick         { return [lassign [ctext::model::is_index $win inbtick       $index $extra] range] }
+      intdouble       { return [lassign [ctext::model::is_index $win intdouble     $index $extra] range] }
+      intsingle       { return [lassign [ctext::model::is_index $win intsingle     $index $extra] range] }
+      intbtick        { return [lassign [ctext::model::is_index $win intbtick      $index $extra] range] }
       inblockcomment  { return [lassign [ctext::model::is_index $win inbcomment:   $index $extra] range] }
       inlinecomment   { return [lassign [ctext::model::is_index $win inlcomment:   $index $extra] range] }
       incomment       { return [lassign [ctext::model::is_index $win incomment     $index $extra] range] }
@@ -2330,37 +2337,6 @@ namespace eval ctext {
 
     # Render the matching character
     ctext::parsers::render_match_char $win $pos
-
-  }
-
-  ######################################################################
-  # Returns the index of the bracket type previous to the given index.
-  proc getPrevBracket {win stype {index insert}} {
-
-    lassign [$win._t tag prevrange __$stype $index] first last
-
-    if {$last eq ""} {
-      return ""
-    } elseif {[$win._t compare $last < $index]} {
-      return [$win._t index "$last-1c"]
-    } else {
-      return [$win._t index "$index-1c"]
-    }
-
-  }
-
-  ######################################################################
-  # Returns the index of the bracket type after the given index.
-  proc getNextBracket {win stype {index insert}} {
-
-    lassign [$win._t tag prevrange __$stype "$index+1c"] first last
-
-    if {($last ne "") && [$win._t compare "$index+1c" < $last]} {
-      return [$win._t index "$index+1c"]
-    } else {
-      lassign [$win._t tag nextrange __$stype "$index+1c"] first last
-      return $first
-    }
 
   }
 

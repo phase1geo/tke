@@ -202,8 +202,12 @@ namespace eval edit {
     $txtt delete $startpos $endpos
 
     # Adjust the insertion cursor if this was a delete and not a change
-    if {$adjust && ($insertpos ne "")} {
-      $txtt cursor set $insertpos
+    if {$adjust} {
+      if {$insertpos ne ""} {
+        $txtt cursor set $insertpos
+      } else {
+        $txtt cursor set insert
+      }
     }
 
   }

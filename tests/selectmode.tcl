@@ -70,7 +70,7 @@ namespace eval selectmode {
       cleanup "$id selection incorrect ([$txtt tag ranges sel], $sel)"
     }
     if {[$txtt index insert] ne $cursor} {
-      cleanup "$id cursor incorrect ([$txtt index insert])"
+      cleanup "$id cursor incorrect ([$txtt index insert], $cursor)"
     }
     if {$select::data($txtt,anchorend) ne $anchor} {
       cleanup "$id anchorend incorrect ($select::data($txtt,anchorend))"
