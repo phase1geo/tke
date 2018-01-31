@@ -99,6 +99,7 @@ namespace eval theme {
     syntax,highlighter              {color {yellow} {} {0} {msgcat::mc "Background color used in highlighted text."}}
     syntax,keywords                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific keywords."}}
     syntax,linemap                  {color {black} {} {0} {msgcat::mc "Background color of linemap area."}}
+    syntax,linemap_separator        {color {grey} {} {0} {msgcat::mc "Color used to draw the line which separates the linemap from the text area."}}
     syntax,line_number              {color {grey} {} {0} {msgcat::mc "Foreground text color to use for displaying line numbers."}}
     syntax,meta                     {color {grey} {} {0} {msgcat::mc "Foreground text color to use for meta syntax."}}
     syntax,readmeta                 {color {grey80} {} {0} {msgcat::mc "Foreground text color to use for readable meta syntax."}}
@@ -116,7 +117,8 @@ namespace eval theme {
     syntax,attention                {color {red} {} {0} {msgcat::mc "Background color to use for displaying character information that requires the user's attention."}}
     syntax,search_background        {color {yellow} {} {0} {msgcat::mc "Background color for matching search text"}}
     syntax,search_foreground        {color {black} {} {0} {msgcat::mc "Foreground color for matching search text"}}
-    syntax,marker                   {color {orange} {} {0} {msgcat::mc "Background color for markers in the line gutter and scrollbar"}}
+    syntax,marker_background        {color {black} {} {0} {msgcat::mc "Background color for markers in the line gutter"}}
+    syntax,marker_foreground        {color {orange} {} {0} {msgcat::mc "Foreground color for markers in the line gutter and scrollbar"}}
     syntax,closed_fold              {color {orange} {} {0} {msgcat::mc "Color to use for highlighting closed folds in the line number gutter"}}
     sidebar,-background             {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground             {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}

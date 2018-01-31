@@ -4159,7 +4159,7 @@ namespace eval gui {
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
-      -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange \
+      -linemap_mark_command [list gui::mark_command $tab] \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -linemap_align [preferences::get Editor/LineNumberAlignment] \
@@ -4382,7 +4382,7 @@ namespace eval gui {
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap [preferences::get View/ShowLineNumbers] \
-      -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange -peer $txt \
+      -linemap_mark_command [list gui::mark_command $tab] -peer $txt \
       -linemap_align [preferences::get Editor/LineNumberAlignment] \
       -tabstop [preferences::get Editor/SpacesPerTab] -shiftwidth [preferences::get Editor/IndentSpaces] \
       -xscrollcommand "$pw.tf2.hb set" \
@@ -5766,7 +5766,8 @@ namespace eval gui {
       -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
       -linemapbg $theme(linemap) -linemapfg $theme(line_number) \
-      -linemap_mark_color $theme(marker) \
+      -linemap_marker_fg $theme(marker_foreground) -linemap_marker_bg $theme(marker_background) \
+      -linemap_separator $theme(linemap_separator) \
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
