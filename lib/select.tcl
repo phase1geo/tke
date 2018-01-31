@@ -351,6 +351,7 @@ namespace eval select {
               $txtt mark set insert [$txtt index [list wordstart -dir [expr {($data($txtt,anchorend) == 0) ? "prev" : "next"}]]]
             }
             set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
+            puts "trange: $trange"
           }
           sentence -
           paragraph {
@@ -1759,11 +1760,11 @@ namespace eval select {
 
     if {[$txtt is $type $startpos any]} {
       $txtt is in$type $startpos outer range
-      return $range
     } else {
       $txtt is in$type $startpos inner range
-      return $range
     }
+
+    return $range
 
   }
 

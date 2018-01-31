@@ -4404,7 +4404,7 @@ namespace eval ctext {
     array set opts $optlist
 
     # Search for the end of the previous sentence
-    set pattern  {[.!?][])\"']*\s+\S}
+    set pattern  {[.!?][]\)\"']*\s+\S}
     set index    [$win._t search -backwards -count lengths -regexp -- $pattern $opts(-startpos) 1.0]
     set beginpos "1.0"
     set endpos   "end-1c"
@@ -4761,7 +4761,7 @@ namespace eval ctext {
       $win._t insert $index " " _dspace
       $win._t mark set insert $index
 
-    # If our cursor is going to fall
+    # If our cursor is going to fall of the end of the line, move it back by one character
     } elseif {[$win._t compare $index == "$index lineend"]} {
       $win._t mark set insert "$index-1 display chars"
     }
