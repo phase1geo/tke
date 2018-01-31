@@ -183,7 +183,7 @@ class mailbox {
     Tcl::object is_index(
       const Tcl::object & args
     ) {
-      add_request( REQUEST_ISINDEX, args, REQUEST_TYPE_RETURN, false );
+      add_request( REQUEST_ISINDEX, args, REQUEST_TYPE_RETURN, true );
       return( result() );
     }
 
@@ -451,7 +451,7 @@ class mailbox {
     Tcl::object indent_newline(
       Tcl::object args
     ) {
-      add_request( REQUEST_INDENTNEWLINE, args, REQUEST_TYPE_RETURN, false );
+      add_request( REQUEST_INDENTNEWLINE, args, REQUEST_TYPE_RETURN, true );
       return( result() );
     }
 
@@ -459,7 +459,7 @@ class mailbox {
     Tcl::object indent_check_unindent(
       Tcl::object args
     ) {
-      add_request( REQUEST_INDENTCHECKUNINDENT, args, REQUEST_TYPE_RETURN, false );
+      add_request( REQUEST_INDENTCHECKUNINDENT, args, REQUEST_TYPE_RETURN, true );
       return( result() );
     }
 

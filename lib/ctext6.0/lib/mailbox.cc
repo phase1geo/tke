@@ -47,8 +47,8 @@ void mailbox::add_request(
   bool           tree
 ) {
 
-  /* If the request FIFO is empty and we need a return value, execute it without starting a thread */
-  if( (type == REQUEST_TYPE_RETURN) && (_requests.size() == 0) ) {
+  /* If the request FIFO is empty, we  and we need a return value, execute it without starting a thread */
+  if( (type == REQUEST_TYPE_RETURN) && (!tree || !_update_needed) && (_requests.size() == 0) ) {
 
     /* Create the request */
     request req( command, args, type, tree );

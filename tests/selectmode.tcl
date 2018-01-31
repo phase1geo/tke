@@ -59,6 +59,9 @@ namespace eval selectmode {
       if {[llength $sel] > 0} {
         set index  [expr {$anchor ? 0 : "end"}]
         set cursor [lindex $sel $index]
+        if {[$txtt compare $cursor == "$cursor lineend"]} {
+          set cursor [$txtt index "$cursor-1 display chars"]
+        }
       } else {
         set cursor [$txtt index insert]
       }
