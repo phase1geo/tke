@@ -179,13 +179,20 @@ namespace eval selectmode {
     }
 
     $txtt tag remove sel 1.0 end
+    $txtt cursor clear
+
+    puts "A insert: [$txtt index insert], text:"
+    puts [$txtt get 1.0 end-1c]
 
     # Make sure that all matching occurrences are selected
     $txtt insert end "\nLines make a line liner"
     $txtt mark set insert 1.11
 
+    puts "B insert: [$txtt index insert], text:"
+    puts [$txtt get 1.0 end-1c]
+
     select::set_select_mode $txtt 1
-    do_test $txtt 10 {}   {1.10 1.14} 0 word
+    do_test $txtt 10 {}    {1.10 1.14} 0 word
     do_test $txtt 11 slash {1.10 1.14 2.13 2.17 2.18 2.22} 0 none 1.14
 
     if {$select::data($txtt,mode)} {
@@ -551,7 +558,7 @@ namespace eval selectmode {
 
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}        {1.0 1.5}   0 word
+    do_test $txtt 0  {}        {1.1 1.5}   0 word
     do_test $txtt 1  braceleft {1.1 1.28}  0 curly
     do_test $txtt 2  h         {1.0 1.29}  0 curly
     do_test $txtt 3  l         {1.1 1.28}  0 curly
@@ -602,7 +609,7 @@ namespace eval selectmode {
 
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}          {1.0 1.5}   0 word
+    do_test $txtt 0  {}          {1.1 1.5}   0 word
     do_test $txtt 1  bracketleft {1.1 1.29}  0 square
     do_test $txtt 2  h           {1.0 1.30}  0 square
     do_test $txtt 3  l           {1.1 1.29}  0 square
@@ -656,7 +663,7 @@ namespace eval selectmode {
 
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}        {1.0 1.5}   0 word
+    do_test $txtt 0  {}        {1.1 1.5}   0 word
     do_test $txtt 1  parenleft {1.1 1.28}  0 paren
     do_test $txtt 2  h         {1.0 1.29}  0 paren
     do_test $txtt 3  l         {1.1 1.28}  0 paren
@@ -709,7 +716,7 @@ namespace eval selectmode {
 
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}   {1.0 1.5}   0 word
+    do_test $txtt 0  {}   {1.1 1.5}   0 word
     do_test $txtt 1  less {1.1 1.29}  0 angled
     do_test $txtt 2  h    {1.0 1.30}  0 angled
     do_test $txtt 3  l    {1.1 1.29}  0 angled

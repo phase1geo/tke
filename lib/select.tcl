@@ -1773,10 +1773,10 @@ namespace eval select {
   proc bracket_parent {txtt type startpos endpos} {
 
     if {[$txtt is $type $startpos left]} {
-      set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos]
+      set right [$txtt matchchar $startpos]
       if {[$txtt compare $right == $endpos-1c]} {
         if {[$txtt is $type $startpos-1c left]} {
-          return [list $startpos [ctext::getMatchBracket $txtt matchchar $startpos-1c]]
+          return [list $startpos [$txtt matchchar $startpos-1c]]
         } else {
           $txtt is in$type "$startpos-1c" inner range
           return $range
