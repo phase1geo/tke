@@ -148,8 +148,6 @@ namespace eval model {
 
     set retval [$data($win,model) isindex [list $type $tindex $extra]]
 
-    puts "In is_index, type: $type, tindex: $tindex, extra: $extra, retval: $retval"
-
     return $retval
 
   }
