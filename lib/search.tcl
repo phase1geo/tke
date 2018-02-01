@@ -318,7 +318,7 @@ namespace eval search {
     foreach startpos $indices length $lengths {
       set endpos  [$txt index $startpos+${lengths}c]
       set rendpos [$txt index $startpos+[string length $replace]c]
-      $txt replace -highlight 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+      $txt replace -highlight 0 -str [regsub $search [$txt get $startpos $endpos] $replace] $startpos $endpos
       lappend ranges $startpos $rendpos
     }
 

@@ -767,7 +767,7 @@ namespace eval edit {
             set eos   [$txtt index "[lindex $selected 0]+[string length $wo_ws]c"]
             $txtt delete  $eos [lindex $selected end]
             $txtt insert  $eos $pbetween sel
-            $txtt replace "[lindex $selected 0]-[string length $pbetween]c" [lindex $selected 0] "  "
+            $txtt replace -str "  " "[lindex $selected 0]-[string length $pbetween]c" [lindex $selected 0]
           } elseif {[newline_count $cbetween] >= 2} {
             set index [$txtt index "[lindex $selected end]-[string length $cbetween]c"]
             $txtt insert $index $pbetween$pstr
@@ -1016,7 +1016,7 @@ namespace eval edit {
       } elseif {[$txt is inblockcomment]} {
         lassign [$txt syntax prevrange comment insert] startpos endpos
         if {[regexp "^[lindex $bcomments 0 0](.*)[lindex $bcomments 0 1]\$" [$txt get $startpos $endpos] -> str]} {
-          $txt replace $startpos $endpos $str
+          $txt replace -str $str $startpos $endpos
           $txt edit separator
         }
         return
@@ -1159,7 +1159,7 @@ namespace eval edit {
     catch { exec -ignorestderr {*}$cmd } rc
 
     # Replace the line with the given text
-    $txt replace "insert linestart" "insert lineend" $rc
+    $txt replace -str $rc "insert linestart" "insert lineend"
 
   }
 
@@ -1624,7 +1624,7 @@ namespace eval edit {
               while {[$txtt compare $start < $end]} {
                 set oldstr [$txtt get "$start linestart" "$start lineend"]
                 set newstr [string map [list \{TEXT\} $oldstr] $pattern]
-                $txtt replace "$start linestart" "$start lineend" $newstr
+                $txtt replace -str $newstr "$start linestart" "$start lineend"
                 if {$oldstr eq ""} {
                   if {($ranges_len == 2) && [$txtt compare $start+1l >= $end]} {
                     $txtt mark set insert "$start linestart+${textpos}c"
@@ -1644,7 +1644,7 @@ namespace eval edit {
           foreach {end start} [lreverse $ranges] {
             set oldstr [$txtt get $start $end]
             set newstr [string map [list \{TEXT\} $oldstr] $pattern]
-            $txtt replace $start $end $newstr
+            $txtt replace -str $newstr $start $end
             if {$oldstr eq ""} {
               if {$ranges_len == 2} {
                 $txtt mark set insert "$start+${textpos}c"
@@ -1707,7 +1707,7 @@ namespace eval edit {
           set i 0
           foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
             regexp $pattern [$txtt get $index "$index+[lindex $lengths $i]c"] -> str
-            $txtt replace $index "$index+[lindex $lengths $i]c" $str
+            $txtt replace -str $str $index "$index+[lindex $lengths $i]c"
             incr i
           }
           lappend new_ranges [$txtt index "$end-[expr $metalen * $i]c"] $start

@@ -80,7 +80,7 @@ namespace eval indent {
 
     if {$insert_space < 0} {
       if {$nl_str ne ""} {
-        $win replace -highlight 0 "$index+${insert_space}c" $index $nl_str
+        $win replace -highlight 0 -str $nl_str "$index+${insert_space}c" $index
         $win._t mark set insert "$index+[expr [string length $nl_str] - 1]c"
       } else {
         $win delete -highlight 0 "$index+${insert_space}c" $index

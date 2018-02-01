@@ -979,7 +979,7 @@ namespace eval emmet {
     } elseif {[set retval [inside_tag $txt -allow010 1]] ne ""} {
 
       set index [$txt search -regexp -- {\s*/>$} [lindex $retval 0] [lindex $retval 1]]
-      $txt replace $index [lindex $retval 1] "></[lindex $retval 2]>"
+      $txt replace -str "></[lindex $retval 2]>" $index [lindex $retval 1]
 
     }
 
@@ -1121,19 +1121,19 @@ namespace eval emmet {
         if {$width_start ne ""} {
           if {$height_start ne ""} {
             if {[$txt compare $width_start < $height_start]} {
-              $txt replace $height_start $height_end $height
-              $txt replace $width_start  $width_end  $width
+              $txt replace -str $height $height_start $height_end
+              $txt replace -str $width  $width_start  $width_end
             } else {
-              $txt replace $width_start  $width_end  $width
-              $txt replace $height_start $height_end $height
+              $txt replace -str $width  $width_start  $width_end
+              $txt replace -str $height $height_start $height_end
             }
           } else {
             $txt insert "$width_end+1c" " height=\"$height\""
-            $txt replace $width_start $width_end $width
+            $txt replace -str $width $width_start $width_end
           }
         } else {
           if {$height_start ne ""} {
-            $txt replace $height_start $height_end $height
+            $txt replace -str $height $height_start $height_end
             $txt insert $hstart "width=\"$width\" "
           } else {
             $txt insert $src_end " width=\"$width\" height=\"$height\""
@@ -1218,7 +1218,7 @@ namespace eval emmet {
       set cursor [$txt index insert]
 
       # Insert the number
-      $txt replace $num_start $num_end $number
+      $txt replace -str $number $num_start $num_end
 
       # Set the cursor
       $txt cursor set $cursor
@@ -1247,7 +1247,7 @@ namespace eval emmet {
       if {![catch { expr $expression } rc]} {
         set startpos [$txt index "insert-[string length $pre_match]c"]
         set endpos   [$txt index "insert+[string length $post_match]c"]
-        $txt replace $startpos $endpos $rc
+        $txt replace -str $rc $startpos $endpos
         $txt cursor set $startpos
         $txt edit separator
       }
@@ -1273,7 +1273,7 @@ namespace eval emmet {
           fconfigure $rc -encoding binary
           puts $rc [base64::decode $data]
           close $rc
-          $txt replace $startpos $endpos [utils::relative_to $fname [pwd]]
+          $txt replace -str [utils::relative_to $fname [pwd]] $startpos $endpos
           $txt edit separator
         }
       }
@@ -1307,7 +1307,7 @@ namespace eval emmet {
       if {$delete} {
         file delete -force $fname
       }
-      $txt replace $startpos $endpos "data:$type;base64,[base64::encode -maxlen 0 $data]"
+      $txt replace -str "data:$type;base64,[base64::encode -maxlen 0 $data]" $startpos $endpos
       $txt edit separator
     }
 
