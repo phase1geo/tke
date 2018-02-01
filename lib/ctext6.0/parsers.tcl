@@ -274,26 +274,37 @@ namespace eval parsers {
 
   ######################################################################
   # Store all file markers in a model for fast processing.
-  proc markers {txt str linestart lineend} {
+  proc markers {txt lineranges strs} {
 
-    lassign [split $linestart .] srow scol
-
-    set tags [list]
+    set range_tags      [list]
+    set full_range_tags [list]
 
     # Find all marker characters in the inserted text
-    escapes  $txt $str $srow tags
-    contexts $txt $str $srow tags
+    foreach {linestart lineend} $lineranges str $strs {
+      set tags [list]
+      set srow [lindex [split $linestart .] 0]
+      escapes  $txt $str $srow tags
+      contexts $txt $str $srow tags
+      lappend range_tags $linestart $lineend [lsort -dictionary -index 2 $tags]
+    }
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
-    thread::send -async $ctext::utils::main_tid [list ctext::model::render_contexts $txt $linestart $lineend $tags]
+    thread::send -async $ctext::utils::main_tid [list ctext::model::render_contexts $txt $range_tags]
 
     # Add firstchar, indentation and bracket markers to the tags list
-    firstchar   $txt $str $srow tags
-    indentation $txt $str $srow tags
-    brackets    $txt $str $srow tags
+    set i 2
+    foreach {linestart lineend} $lineranges str $strs {
+      set tags [lindex $range_tags $i]
+      set srow [lindex [split $linestart .] 0]
+      firstchar   $txt $str $srow tags
+      indentation $txt $str $srow tags
+      brackets    $txt $str $srow tags
+      lappend full_range_tags $linestart $lineend [lsort -dictionary -index 2 $tags]
+      incr i 3
+    }
 
     # Update the model
-    thread::send -async $ctext::utils::main_tid [list ctext::model::update $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]
+    thread::send -async $ctext::utils::main_tid [list ctext::model::update $txt $full_range_tags]
 
   }
 

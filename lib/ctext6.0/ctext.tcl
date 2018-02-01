@@ -955,7 +955,7 @@ namespace eval ctext {
     $win._t tag delete hl
 
     # Highlight text and bracket auditing
-    highlightAll $win $ranges "undo" 0
+    highlight $win $ranges "undo" 0
 
     # Set the cursor and let other know that the text widget was modified
     $win cursor set $cursor
@@ -982,7 +982,7 @@ namespace eval ctext {
     $win._t tag delete hl
 
     # Highlight text and bracket auditing
-    highlightAll $win $ranges "redo" 0
+    highlight $win $ranges "redo" 0
 
     # Set the cursor and let other know that the text widget was modified
     $win cursor set $cursor
@@ -1365,7 +1365,7 @@ namespace eval ctext {
     ctext::model::delete $win $ranges $strs $cursor $data($win,config,-linemap_mark_command)
 
     if {$opts(-highlight)} {
-      highlightAll $win $hranges "delete" 1
+      highlight $win $hranges "delete" 1
     } else {
       ctext::model::run_callbacks $win
     }
@@ -1544,7 +1544,7 @@ namespace eval ctext {
           lappend ranges [$win index $start] [$win index $end]
         }
 
-        highlightAll $win $ranges [expr {$opts(-insert) ? "insert" : "highlight"}] $opts(-block)
+        highlight $win $ranges [expr {$opts(-insert) ? "insert" : "highlight"}] $opts(-block)
       }
       configure { return [$win._t tag configure __[lindex $args 0] {*}[lrange $args 1 end]] }
       cget      { return [$win._t tag cget __[lindex $args 0] [lindex $args 1]] }
@@ -1667,7 +1667,7 @@ namespace eval ctext {
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
-      highlightAll $win $ranges "insert" 1
+      highlight $win $ranges "insert" 1
     }
 
     modified       $win 1 [list insert $ranges $opts(-moddata)]
@@ -1715,7 +1715,7 @@ namespace eval ctext {
 
       # Highlight text and bracket auditing
       if {$opts(-highlight)} {
-        highlightAll $win $ranges "insert" 1
+        highlight $win $ranges "insert" 1
       }
 
       modified       $win 1 [list insert $ranges $opts(-moddata)]
@@ -1975,7 +1975,7 @@ namespace eval ctext {
 
     # Highlight text and bracket auditing
     if {$opts(-highlight)} {
-      highlightAll $win $hranges "insert" 1
+      highlight $win $hranges "insert" 1
     } else {
       ctext::model::run_callbacks $win
     }
@@ -2572,33 +2572,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Main procedure used for performing all necessary syntax tagging and
-  # highlighting.  This 'ins' parameter should be set to 1 if we are being
-  # called after inserting the text that is being highlighted; otherwise, it
-  # should be set to 0.  The 'block' parameter causes this call to wait for
-  # all syntax highlighting to be applied prior to returning.  This highlight
-  # procedure can automatically highlight one or more ranges of text.
-  proc highlightAll {win lineranges reason block} {
-
-    variable data
-
-    # If we don't have any lineranges, return
-    if {$lineranges eq ""} {
-      return
-    }
-
-    # Delete all of the tags not associated with comments and strings that we created
-    foreach tag [lsearch -inline -all -glob [$win._t tag names] __*] {
-      $win._t tag remove $tag {*}$lineranges
-    }
-
-    highlight $win $lineranges $reason $block
-
-    event generate $win.t <<StringCommentChanged>>
-
-  }
-
-  ######################################################################
   # Returns the indices of the given tag that are found within the given
   # text range.
   proc getTagInRange {win tag start end} {
@@ -2939,53 +2912,69 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Performs all of the syntax highlighting.
-  proc highlight {win ranges reason {block 1}} {
+  # Main procedure used for performing all necessary syntax tagging and
+  # highlighting.  This 'ins' parameter should be set to 1 if we are being
+  # called after inserting the text that is being highlighted; otherwise, it
+  # should be set to 0.  The 'block' parameter causes this call to wait for
+  # all syntax highlighting to be applied prior to returning.  This highlight
+  # procedure can automatically highlight one or more ranges of text.
+  proc highlight {win ranges reason block} {
 
     variable data
     variable tpool
 
+    # If we don't have any ranges, return
     if {![winfo exists $win] || !$data($win,config,-highlight) || ($ranges eq "")} {
       return
     }
 
-    # We need to handle multiple ranges here
-    lassign $ranges start end
+    # Calculate the line ranges
+    foreach {startpos endpos} $ranges {
+      lappend lineranges [$win._t index "$startpos linestart"] [$win._t index "$endpos lineend"]
+      lappend strs       [$win._t get "$startpos linestart" "$endpos lineend"]
+    }
+
+    # Delete all of the tags not associated with comments and strings that we created
+    foreach tag [lsearch -inline -all -glob [$win._t tag names] __*] {
+      $win._t tag remove $tag {*}$lineranges
+    }
 
     set jobids    [list]
-    set linestart [$win._t index "$start linestart"]
-    set lineend   [$win._t index "$end lineend"]
-    set startrow  [lindex [split $linestart .] 0]
-    set str       [$win._t get $linestart $lineend]
     set namelist  [array get data $win,highlight,word,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
     set ins       [expr {$reason eq "insert"}]
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
-      [list ctext::parsers::markers $win $str $linestart $lineend] \
+      [list ctext::parsers::markers $win $lineranges $strs] \
     ]
 
-    # Perform keyword/startchars parsing
-    lappend jobids [tpool::post $tpool \
-      [list ctext::parsers::keywords_startchars $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
-    ]
+    foreach {linestart lineend} $lineranges str $strs {
 
-    # Handle regular expression parsing
-    if {[info exists data($win,highlight,regexps)]} {
-      foreach name $data($win,highlight,regexps) {
-        lassign [split $name ,] dummy type lang value
-        lassign $data($win,highlight,$name) re re_opts
-        if {$type eq "class"} {
-          lappend jobids [tpool::post $tpool \
-            [list ctext::parsers::regexp_class $win $str $startrow $re $value] \
-          ]
-        } else {
-          lappend jobids [tpool::post $tpool \
-            [list ctext::parsers::regexp_command $win $str $startrow $re $value $ins] \
-          ]
+      set startrow [lindex [split $linestart .] 0]
+
+      # Perform keyword/startchars parsing
+      lappend jobids [tpool::post $tpool \
+        [list ctext::parsers::keywords_startchars $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
+      ]
+
+      # Handle regular expression parsing
+      if {[info exists data($win,highlight,regexps)]} {
+        foreach name $data($win,highlight,regexps) {
+          lassign [split $name ,] dummy type lang value
+          lassign $data($win,highlight,$name) re re_opts
+          if {$type eq "class"} {
+            lappend jobids [tpool::post $tpool \
+              [list ctext::parsers::regexp_class $win $str $startrow $re $value] \
+            ]
+          } else {
+            lappend jobids [tpool::post $tpool \
+              [list ctext::parsers::regexp_command $win $str $startrow $re $value $ins] \
+            ]
+          }
         }
       }
+
     }
 
     # If we need to block for some reason, do it here
