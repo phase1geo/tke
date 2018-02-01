@@ -40,14 +40,20 @@ bool model::update(
 ) {
 
   interpreter interp( args.get_interp(), false );
-  tindex      lstart( args.at( interp, 0 ) );
-  tindex      lend( args.at( interp, 1 ) );
-  serial      elems;
+  bool        retval = false;
 
-  elems.append( args.at( interp, 2 ), _types );
+  for( int i=0; i<args.length( interp ); i+=3 ) {
 
-  /* Update the serial list */
-  return( _serial.update( lstart, lend, elems ) );
+    tindex lstart( args.at( interp, (i + 0) ) );
+    tindex lend( args.at( interp, (i + 1) ) );
+    serial elems;
+
+    elems.append( args.at( interp, (i + 2) ), _types );
+    retval |= _serial.update( lstart, lend, elems );
+
+  }
+
+  return( retval );
 
 }
 
@@ -120,31 +126,33 @@ object model::render_contexts(
   const object & args
 ) {
 
-  interpreter interp( args.get_interp(), false );
-  object      result;
-
-  /* If the tags list is empty and no context chars were previously removed, return with the empty list */
-  if( !_serial.context_removed() && (args.at( interp, 2 ).length( interp ) == 0) ) {
-    return( result );
-  }
-
+  interpreter        interp( args.get_interp(), false );
+  object             result;
   serial             citems;
-  serial             titems;
   std::stack<int>    context;
   int                ltype  = 0;
   int                escape = _types.type( "escape" );
   int                lrow   = 0;
   int                lcol   = 0;
   map<string,object> ranges;
-
-  context.push( ltype );
+  bool               tags_found = false;
 
   /* Get the context items from the model */
   _serial.get_context_items( citems );
 
   /* Merge the context items with the tags */
-  titems.append( args.at( interp, 2 ), _types );
-  citems.update( tindex( args.at( interp, 0 ) ), tindex( args.at( interp, 1 ) ), titems );
+  for( int i=0; i<args.length( interp ); i+=3 ) {
+    serial titems;
+    titems.append( args.at( interp, (i + 2) ), _types );
+    tags_found |= citems.update( tindex( args.at( interp, (i + 0) ) ), tindex( args.at( interp, (i + 1) ) ), titems );
+  }
+
+  /* If the tags list is empty and no context chars were previously removed, return with the empty list */
+  if( !_serial.context_removed() && !tags_found ) {
+    return( result );
+  }
+
+  context.push( ltype );
 
   /* Create the non-overlapping ranges for each of the context tags */
   for( vector<serial_item*>::iterator it=citems.begin(); it!=citems.end(); it++ ) {

@@ -240,12 +240,12 @@ namespace eval model {
   ######################################################################
   # Temporarily merge the current serial list with the tags
   # so that we can figure out which contexts to serially highlight
-  proc render_contexts {win linestart lineend tags} {
+  proc render_contexts {win range_tags} {
 
     variable data
 
     # Render the contexts
-    $data($win,model) rendercontexts [list $linestart $lineend [lsort -dictionary -index 2 $tags]]
+    $data($win,model) rendercontexts $range_tags
 
     # Make sure the context is rendered immediately
     run_callbacks $win
@@ -265,11 +265,11 @@ namespace eval model {
   ######################################################################
   # Updates the model, inserting the given parsed elements prior to rebuilding
   # the model tree.
-  proc update {win linestart lineend elements} {
+  proc update {win range_tags} {
 
     variable data
 
-    $data($win,model) update [list $linestart $lineend $elements]
+    $data($win,model) update $range_tags
 
   }
 
