@@ -1614,7 +1614,7 @@ namespace eval vim {
   # Perform text replacement.
   proc do_replace {txtt char} {
 
-    $txtt replace insert "insert+1c" $char
+    $txtt replace -str $char insert "insert+1c"
 
   }
 

@@ -1523,9 +1523,9 @@ namespace eval emmet_css {
 
     # Replace/insert width/height values
     if {[info exists found(width)]} {
-      $txt replace {*}[lrange $found(width) 2 3] " ${width}px"
+      $txt replace -str " ${width}px" {*}[lrange $found(width) 2 3]
       if {[info exists found(height)]} {
-        $txt replace {*}[lrange $found(height) 2 3] " ${height}px"
+        $txt replace -str " ${height}px" {*}[lrange $found(height) 2 3]
       } else {
         set num_spaces [lindex [split [lindex $found(width) 0] .] 1]
         set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
@@ -1534,7 +1534,7 @@ namespace eval emmet_css {
     } elseif {[info exists found(height)]} {
       set num_spaces [lindex [split [lindex $found(height) 0] .] 1]
       set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
-      $txt replace {*}[lrange $found(height) 2 3] " ${height}px"
+      $txt replace -str " ${height}px" {*}[lrange $found(height) 2 3]
       $txt insert "[lindex $found(height) 0] linestart" "${spaces}width: ${width}px;\n"
     } else {
       set num_spaces [lindex [split [lindex $found(url) 0] .] 1]
@@ -1578,7 +1578,7 @@ namespace eval emmet_css {
       foreach prop [lreverse [get_properties $txt $ruleset]] {
         set pname [$txt get {*}[lrange $prop 0 1]]
         if {($name ne $pname) && ([get_basename $pname] eq $basename)} {
-          $txt replace {*}[lrange $prop 2 3] $value
+          $txt replace -str $value {*}[lrange $prop 2 3]
         }
       }
     }
