@@ -2679,13 +2679,14 @@ namespace eval vim {
     # Get the number of pastes that we need to perform
     set num [get_number $txtt]
 
+    catch {
     if {[set nl_index [string last \n $clip]] != -1} {
-      if {[expr ([string length $clip] - 1) == $nl_index]} {
+      if {([string length $clip] - 1) == $nl_index} {
         set clip [string replace $clip $nl_index $nl_index]
       }
       $txtt insert "insert lineend" [string repeat "\n$clip" $num]
       multicursor::paste $txtt "insert+1l linestart"
-      $txtt cursor set  [list "insert+1l linestart"]
+      $txtt cursor set  "insert+1l linestart"
       $txtt cursor move [list firstchar -num 0]
     } else {
       set clip [string repeat $clip $num]
@@ -2693,6 +2694,8 @@ namespace eval vim {
       multicursor::paste $txtt "insert+1c"
       $txtt cursor set "insert+[string length $clip]c"
     }
+    } rc
+    puts "rc: $rc"
 
     # Create a separator
     $txtt edit separator
@@ -2708,7 +2711,7 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
-        do_post_paste $txtt [set clip [clipboard get]]
+        do_post_paste $txtt [clipboard get]
         cliphist::add_from_clipboard
         record $txtt p
       }
