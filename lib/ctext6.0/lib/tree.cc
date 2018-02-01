@@ -293,9 +293,7 @@ object tree::is_in_index(
 
   for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
     if( (node = (*it)->get_node_containing( ti )) ) {
-      cout << "Found node containing ti: " << ti.to_string() << ", checking type: " << type << endl;
       if( (found = node->is_in_type( type, typs )) ) {
-        cout << "  It is within the given type!  inner: " << inner << endl;
         if( inner ) {
           range.append( interp, (object)node->left()->const_pos().to_tindex( false ).to_string() );
           range.append( interp, (object)node->right()->const_pos().to_tindex( true ).to_string() );
@@ -303,8 +301,6 @@ object tree::is_in_index(
           range.append( interp, (object)node->left()->const_pos().to_tindex( true ).to_string() );
           range.append( interp, (object)node->right()->const_pos().to_tindex( false ).to_string() );
         }
-      } else {
-        cout << "  Not in type :(" << endl;
       }
       break;
     }

@@ -311,7 +311,7 @@ namespace eval parsers {
 
     # Get the matching character
     if {[ctext::model::get_match_char $win tindex]} {
-      render $win _matchchar $tindex 0
+      render $win _matchchar [list $tindex "$tindex+1c"] 0
     }
 
   }

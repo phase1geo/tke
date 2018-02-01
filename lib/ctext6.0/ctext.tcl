@@ -887,92 +887,20 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc inCommentStringRangeHelper {win index pattern prange} {
-
-    if {[set curr_tag [lsearch -inline -glob [$win tag names $index] $pattern]] ne ""} {
-      upvar 2 $prange range
-      set range [$win tag prevrange $curr_tag $index+1c]
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  proc inLineCommentRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr1l $prange]
-
-  }
-
-  ######################################################################
-  proc inBlockCommentRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr1c* $prange]
-
-  }
-
-  ######################################################################
-  proc inCommentRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr1* $prange]
-
-  }
-
-  ######################################################################
+  # Returns a list containing the outer and inner indices for the current
+  # comment.  If the specified index does not exist within a comment,
+  # returns the empty list.
   proc commentCharRanges {win index} {
 
-    if {[set curr_tag [lsearch -inline -glob [$win tag names $index] _comstr1*]] ne ""} {
-      set range [$win tag prevrange $curr_tag $index+1c]
-      if {[string index $curr_tag 8] eq "l"} {
-        set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]] _lCommentStart:*]
-        lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c] [lindex $range 1]
-      } else {
-        set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]]    _cCommentStart:*]
-        set end_tag   [lsearch -inline -glob [$win tag names [lindex $range 1]-1c] _cCommentEnd:*]
-        lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c]
-        lappend ranges {*}[$win tag prevrange $end_tag [lindex $range 1]]
-      }
-      return $ranges
+    if {[$win is inlinecomment $index outer orange]} {
+      $win is inlinecomment $index inner irange
+      return [list [lindex $orange 0] [lindex $irange 0] [lindex $orange 1]]
+    } elseif {[$win is inblockcomment $index outer orange]} {
+      $win is inblockcomment $index inner irange
+      return [list [lindex $orange 0] {*}$irange [lindex $orange 1]]
     }
 
     return [list]
-
-  }
-
-  ######################################################################
-  proc inBackTickRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr0b* $prange]
-
-  }
-
-  ######################################################################
-  proc inSingleQuoteRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr0s* $prange]
-
-  }
-
-  ######################################################################
-  proc inDoubleQuoteRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr0d* $prange]
-
-  }
-
-  ######################################################################
-  proc inStringRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr0* $prange]
-
-  }
-
-  ######################################################################
-  proc inCommentStringRange {win index prange} {
-
-    return [inCommentStringRangeHelper $win $index _comstr* $prange]
 
   }
 
