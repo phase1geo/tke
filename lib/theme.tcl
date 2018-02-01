@@ -1055,7 +1055,7 @@ namespace eval theme {
       return
     }
 
-    set opts [get_category_options menus]
+    set opts [get_category_options menus 1]
 
     foreach mnu $widgets(menus) {
       update_menu_helper $mnu $opts
@@ -1339,7 +1339,7 @@ namespace eval theme {
     variable widgets
 
     # Get the options
-    set opts [get_category_options $type]
+    set opts [get_category_options $type 1]
 
     # Configure all widgets of the given type
     foreach w $widgets($type) {
