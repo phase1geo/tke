@@ -809,19 +809,13 @@ namespace eval vim {
         $txtt cursor set [set index [$txtt index $index]]
         adjust_select $txtt 0 $index
       } else {
-        foreach cursor $cursors {
-          $txtt cursor set $index
+        $txtt cursor set $index
+        for {set i 0} {$i < [llength $cursors]} {incr i} {
           adjust_select $txtt $i $index
         }
       }
     } else {
-      if {$cursors eq ""} {
-        $txtt cursor set $index
-      } else {
-        foreach cursor $cursors {
-          $txtt cursor set $index
-        }
-      }
+      $txtt cursor set $index
     }
 
   }
