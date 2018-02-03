@@ -279,7 +279,7 @@ namespace eval completer {
         return 0
       } else {
         set ins [$txtt index insert]
-        if {![$txtt is incomment "insert-1c"] && [$txtt is instring "insert-1c"]} {
+        if {![$txtt is incommentstring "insert-1c"]} {
           $txtt insert -highlight 0 insert "\""
         }
         $txtt cursor set $ins
@@ -306,7 +306,7 @@ namespace eval completer {
         return 0
       } else {
         set ins [$txtt index insert]
-        if {![$txtt is incomment "insert-1c"] && ![$txtt is instring "insert-1c"]} {
+        if {![$txtt is incommentstring "insert-1c"]} {
           $txtt insert -highlight 0 insert "'"
         }
         $txtt cursor set $ins
@@ -333,7 +333,7 @@ namespace eval completer {
         return 0
       } else {
         set ins [$txtt index insert]
-        if {![$txtt is incomment "insert-1c"] && ![$txtt is instring "insert-1c"]} {
+        if {![$txtt is incommentstring "insert-1c"]} {
           $txtt insert -highlight 0 insert "`"
         }
         $txtt cursor set $ins
