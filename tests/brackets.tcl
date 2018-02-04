@@ -50,7 +50,7 @@ namespace eval brackets {
       $txt insert end "\n"
 
       if {$test_type eq "angled"} {
-        syntax::set_language $txt HTML
+        syntax::set_language $txt Gherkin
       }
 
       switch $test_type {
@@ -60,21 +60,22 @@ namespace eval brackets {
         angled { $txt insert end "if << <foobar>" }
       }
 
-      # Highlight mismatching brackets
-      ctext::checkAllBrackets $txt
+      set ::done 0
 
-      foreach type [list square curly paren angled] {
-        set ranges [$txt tag ranges missing:$type]
-        if {$test_type eq $type} {
-          if {$ranges ne [list 2.3 2.5]} {
-            cleanup "$type bracket not highlighted as expected ($ranges)"
-          }
-        } else {
-          if {$ranges ne [list]} {
-            cleanup "$type bracket not null as expected ($ranges)"
-          }
+      # Allow some time for the highlight to occur
+      after 1000 [format {
+
+        set ranges [%s._t tag ranges _missing]
+
+        if {$ranges ne [list 2.3 2.5]} {
+          bist::brackets::cleanup "%s bracket not highlighted as expected ($ranges)"
         }
-      }
+
+        set ::done 1
+
+      } $txt $test_type]
+
+      vwait ::done
 
     }
 
@@ -96,7 +97,7 @@ namespace eval brackets {
       $txt insert end "\n"
 
       if {$test_type eq "angled"} {
-        syntax::set_language $txt HTML
+        syntax::set_language $txt Gherkin
       }
 
       switch $test_type {
@@ -106,20 +107,10 @@ namespace eval brackets {
         angled { $txt insert end "if <foobar> >>" }
       }
 
-      # Highlight mismatching brackets
-      ctext::checkAllBrackets $txt
+      set ranges [$txt._t tag ranges _missing]
 
-      foreach type [list square curly paren angled] {
-        set ranges [$txt tag ranges missing:$type]
-        if {$test_type eq $type} {
-          if {$ranges ne [list 2.12 2.14]} {
-            cleanup "$type bracket not highlighted as expected ($ranges)"
-          }
-        } else {
-          if {$ranges ne [list]} {
-            cleanup "$type bracket not null as expected ($ranges)"
-          }
-        }
+      if {$ranges ne [list 2.12 2.14]} {
+        cleanup "$test_type bracket not highlighted as expected ($ranges)"
       }
 
     }
@@ -142,7 +133,7 @@ namespace eval brackets {
       $txt insert end "\n"
 
       if {$test_type eq "angled"} {
-        syntax::set_language $txt HTML
+        syntax::set_language $txt Gherkin
       }
 
       switch $test_type {
@@ -152,20 +143,10 @@ namespace eval brackets {
         angled { $txt insert end "if <foobar> <<>" }
       }
 
-      # Highlight mismatching brackets
-      ctext::checkAllBrackets $txt
+      set ranges [$txt._t tag ranges _missing]
 
-      foreach type [list square curly paren angled] {
-        set ranges [$txt tag ranges missing:$type]
-        if {$test_type eq $type} {
-          if {$ranges ne [list 2.12 2.13]} {
-            cleanup "$type bracket not highlighted as expected ($ranges)"
-          }
-        } else {
-          if {$ranges ne [list]} {
-            cleanup "$type bracket not null as expected ($ranges)"
-          }
-        }
+      if {$ranges ne [list 2.12 2.13]} {
+        cleanup "$test_type bracket not highlighted as expected ($ranges)"
       }
 
     }
