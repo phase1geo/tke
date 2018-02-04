@@ -296,10 +296,18 @@ object tree::is_in_index(
       if( (found = node->is_in_type( type, typs )) ) {
         if( inner ) {
           range.append( interp, (object)node->left()->const_pos().to_tindex( false ).to_string() );
-          range.append( interp, (object)node->right()->const_pos().to_tindex( true ).to_string() );
+          if( node->right() ) {
+            range.append( interp, (object)node->right()->const_pos().to_tindex( true ).to_string() );
+          } else {
+            range.append( interp, (object)"end" );
+          }
         } else {
           range.append( interp, (object)node->left()->const_pos().to_tindex( true ).to_string() );
-          range.append( interp, (object)node->right()->const_pos().to_tindex( false ).to_string() );
+          if( node->right() ) {
+            range.append( interp, (object)node->right()->const_pos().to_tindex( false ).to_string() );
+          } else {
+            range.append( interp, (object)"end" );
+          }
         }
       }
       break;

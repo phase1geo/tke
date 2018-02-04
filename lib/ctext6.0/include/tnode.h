@@ -103,10 +103,14 @@ class tnode {
     int depth( int type ) const;
 
     /*! \return Returns a string representation of this node and all children nodes */
-    std::string to_string() const;
+    std::string to_string(
+      const types & typs
+    ) const;
 
     /*! \return Recursively returns string version of the subtree */
-    std::string tree_string() const;
+    std::string tree_string(
+      const types & typs
+    ) const;
 
     /*! Adds this node and all children nodes that are mismatched to the object list */
     void get_mismatched(

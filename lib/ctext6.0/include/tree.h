@@ -166,7 +166,9 @@ class tree {
     );
 
     /*! \return Returns a graphical view of the stored string */
-    std::string tree_string() const { return( _tree->tree_string() ); }
+    std::string tree_string(
+      const types & typs
+    ) const { return( _tree->tree_string( typs ) ); }
 
     /*! Searches the tree for mismatched nodes. */
     void get_mismatched(

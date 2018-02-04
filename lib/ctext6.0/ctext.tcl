@@ -1673,7 +1673,7 @@ namespace eval ctext {
       if {$insertPos eq "end"} {
         set insPos [$win._t index $insertPos-1c]
       } else {
-        set insPos [$win._t index $insertPos]
+        set insPos [set insertPos [$win index $insertPos]]
       }
       $win._t insert $insertPos {*}$items
       lappend ranges $insPos [$win._t index "$insPos+${chars}c"]

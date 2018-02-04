@@ -106,7 +106,9 @@ int tnode::depth(
 
 }
 
-string tnode::to_string() const {
+string tnode::to_string(
+  const types & typs
+) const {
 
   if( isroot() ) {
     return( "(root)" );
@@ -116,28 +118,30 @@ string tnode::to_string() const {
 
   oss << "(" << ((_left  == 0) ? "??" : _left->pos().to_index())
       << "-" << ((_right == 0) ? "??" : _right->pos().to_index())
-      << " " << hex << _type << ")";
+      << " " << hex << typs.names( _type ) << ")";
 
   return( oss.str() );
 
 }
 
-string tnode::tree_string() const {
+string tnode::tree_string(
+  const types & typs
+) const {
 
   ostringstream oss;
   int           width = 30;
 
   if( !isroot() && (index() > 0) ) {
-    oss << setfill(' ') << setw(width * (depth() + 1)) << to_string();
+    oss << setfill(' ') << setw(width * (depth() + 1)) << to_string( typs );
   } else {
-    oss << setfill(' ') << setw(width) << to_string();
+    oss << setfill(' ') << setw(width) << to_string( typs );
   }
 
   if( _children.size() == 0 ) {
     oss << endl;
   } else {
     for( vector<tnode*>::const_iterator it=_children.begin(); it!=_children.end(); it++ ) {
-      oss << (*it)->tree_string();
+      oss << (*it)->tree_string( typs );
     }
   }
 
@@ -165,7 +169,7 @@ const tnode* tnode::get_node_containing(
 ) const {
 
   /* If the text index lies within this tnode, continue */
-  if( _left && (_left->const_pos().compare( ti ) >= 0) && _right && (_right->const_pos().compare( ti ) <= 0) ) {
+  if( _left && (_left->const_pos().compare( ti ) >= 0) && ((_right && (_right->const_pos().compare( ti ) <= 0)) || (_right == 0)) ) {
 
     const tnode* node;
 

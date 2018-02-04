@@ -153,7 +153,7 @@ class model {
     std::string show_serial() const { return( _serial.show( _types ) ); }
 
     /*! \return Returns a graphical representation of the stored tree */
-    std::string show_tree() const { return( _tree.tree_string() ); }
+    std::string show_tree() const { return( _tree.tree_string( _types ) ); }
 
     /*! \return Returns the list of mismatched indices */
     Tcl::object get_mismatched() const;
