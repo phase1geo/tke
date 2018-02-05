@@ -945,14 +945,16 @@ namespace eval ctext {
 
     lassign [ctext::model::undo $win] cmds cursor
 
+    puts "In undo, cmds: $cmds, cursor: $cursor"
+
     # Get the undo information and execute the returned commands
     foreach cmd $cmds {
       $win._t {*}$cmd
     }
 
     # Get the lines that have changed
-    set ranges [$win._t tag ranges hl]
-    $win._t tag delete hl
+    set ranges [$win._t tag ranges _hl]
+    $win._t tag delete _hl
 
     # Highlight text and bracket auditing
     highlight $win $ranges "undo" 0
@@ -978,8 +980,8 @@ namespace eval ctext {
     }
 
     # Get the lines that have changed
-    set ranges [$win._t tag ranges hl]
-    $win._t tag delete hl
+    set ranges [$win._t tag ranges _hl]
+    $win._t tag delete _hl
 
     # Highlight text and bracket auditing
     highlight $win $ranges "redo" 0

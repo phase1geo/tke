@@ -24,7 +24,7 @@ void undo_change::render(
 
   item2.append( i, (object)"tag" );
   item2.append( i, (object)"add" );
-  item2.append( i, (object)"hl" );
+  item2.append( i, (object)"_hl" );
 
   /* Render the insertion/deletion command */
   if( _type == UNDO_TYPE_DELETE ) {
