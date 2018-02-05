@@ -215,7 +215,7 @@ namespace eval delete {
     do_test $txtt 0 {d d} 2.0 "\nThis is a line" "This is a line\n"
 
     foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d d} $index 2] 1.0 " " "This is a line\nThis is a line\n"
+      do_test $txtt [expr $index + 1] [linsert {d d} $index 2] 1.0 "" "This is a line\nThis is a line\n"
     }
 
     do_test $txtt 3 {d d} 2.0 "\nThis is a line" "This is a line\n" 0
