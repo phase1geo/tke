@@ -202,8 +202,6 @@ namespace eval ctext {
       grid remove $win.f
     }
 
-    update_linemap_separator $win
-
     # Configure necessary tags
     if {$data($win,config,-matchchar)} {
       $win.t tag configure _matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
@@ -821,12 +819,14 @@ namespace eval ctext {
         grid $win.f
       }
       auto {
-        set lm [winfo rgb $win $data($win,config,-linemapbg)]
-        set bg [winfo rgb $win $data($win,config,-background)]
-        if {$lm ne $bg} {
-          grid $win.f
-        } else {
-          grid remove $win.f
+        catch {
+          set lm [winfo rgb $win $data($win,config,-linemapbg)]
+          set bg [winfo rgb $win $data($win,config,-background)]
+          if {$lm ne $bg} {
+            grid $win.f
+          } else {
+            grid remove $win.f
+          }
         }
       }
       default {
@@ -2997,7 +2997,7 @@ namespace eval ctext {
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
-      [list ctext::parsers::markers $win $lineranges $strs] \
+      [list ctext::parsers::markers $win $lineranges $strs $data($win,config,-matchaudit)] \
     ]
 
     foreach {linestart lineend} $lineranges str $strs {
@@ -4953,9 +4953,10 @@ proc ctext {win args} {
   interp alias {} $win {} ctext::instanceCmd $win
   interp alias {} $win.t {} $win
 
-  ctext::modified           $win 0
-  ctext::buildArgParseTable $win
-  ctext::adjust_rmargin     $win
+  ctext::update_linemap_separator $win
+  ctext::modified                 $win 0
+  ctext::buildArgParseTable       $win
+  ctext::adjust_rmargin           $win
 
   return $win
 

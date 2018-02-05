@@ -274,7 +274,7 @@ namespace eval parsers {
 
   ######################################################################
   # Store all file markers in a model for fast processing.
-  proc markers {txt lineranges strs} {
+  proc markers {txt lineranges strs audit} {
 
     set range_tags      [list]
     set full_range_tags [list]
@@ -304,7 +304,7 @@ namespace eval parsers {
     }
 
     # Update the model
-    thread::send -async $ctext::utils::main_tid [list ctext::model::update $txt $full_range_tags]
+    thread::send -async $ctext::utils::main_tid [list ctext::model::update $txt $full_range_tags $audit]
 
   }
 

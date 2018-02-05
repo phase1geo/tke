@@ -128,9 +128,9 @@ class mailbox {
 
     /*! Updates model information */
     void update(
-      const Tcl::object & args
+      const Tcl::object & args,
+      const Tcl::object & user_data
     ) {
-      Tcl::object user_data;
       add_request( REQUEST_UPDATE, args, "ctext::model::update_callback", user_data, false );
     }
 

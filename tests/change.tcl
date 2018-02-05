@@ -123,7 +123,7 @@ namespace eval change {
         cleanup "$id undo did not work ([$txtt get 1.0 end-1c])"
       }
       if {[$txtt index insert] ne $start_cursor} {
-        cleanup "$id undo insertion not correct ([$txtt get 1.0 end-1c])"
+        cleanup "$id undo insertion not correct ([$txtt index insert], $start_cursor)"
       }
     }
 
