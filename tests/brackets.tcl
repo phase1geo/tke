@@ -30,6 +30,8 @@ namespace eval brackets {
     # Close the current tab
     gui::close_tab $current_tab -check 0
 
+    set ::done 1
+
     # Output the fail message and cause a failure
     if {$fail_msg ne ""} {
       return -code error $fail_msg
@@ -107,11 +109,21 @@ namespace eval brackets {
         angled { $txt insert end "if <foobar> >>" }
       }
 
-      set ranges [$txt._t tag ranges _missing]
+      set ::done 0
 
-      if {$ranges ne [list 2.12 2.14]} {
-        cleanup "$test_type bracket not highlighted as expected ($ranges)"
-      }
+      after 1000 [format {
+
+        set ranges [%s._t tag ranges _missing]
+
+        if {$ranges ne [list 2.12 2.14]} {
+          cleanup "%s bracket not highlighted as expected ($ranges)"
+        }
+
+        set ::done 1
+
+      } $txt $test_type]
+
+      vwait ::done
 
     }
 
@@ -143,11 +155,21 @@ namespace eval brackets {
         angled { $txt insert end "if <foobar> <<>" }
       }
 
-      set ranges [$txt._t tag ranges _missing]
+      set ::done 0
 
-      if {$ranges ne [list 2.12 2.13]} {
-        cleanup "$test_type bracket not highlighted as expected ($ranges)"
-      }
+      after 1000 [format {
+
+        set ranges [%s._t tag ranges _missing]
+
+        if {$ranges ne [list 2.12 2.13]} {
+          cleanup "%s bracket not highlighted as expected ($ranges)"
+        }
+
+        set ::done 1
+ 
+      } $txt $test_type]
+
+      vwait ::done
 
     }
 

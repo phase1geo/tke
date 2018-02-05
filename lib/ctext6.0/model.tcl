@@ -265,11 +265,11 @@ namespace eval model {
   ######################################################################
   # Updates the model, inserting the given parsed elements prior to rebuilding
   # the model tree.
-  proc update {win range_tags} {
+  proc update {win range_tags audit} {
 
     variable data
 
-    $data($win,model) update $range_tags
+    $data($win,model) update $range_tags $audit
 
   }
 
@@ -278,7 +278,7 @@ namespace eval model {
   # brackets
   proc update_callback {win data user_data} {
 
-    if {$data} {
+    if {$data && $user_data} {
       ctext::parsers::render_mismatched $win
     }
 
