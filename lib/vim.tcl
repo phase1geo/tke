@@ -1666,29 +1666,32 @@ namespace eval vim {
         clipboard clear
         clipboard append [$txtt get $startpos $endpos]
         if {$opts(-cursor) ne ""} {
-          $txtt cursor set [list {*}$opts(-cursor)]
+          $txtt cursor set $opts(-cursor)
         }
         command_mode $txtt
         return 1
       }
       "swap" {
-        puts "Swapping, transform, convert_case_toggle, sposargs: $sposargs, eposargs: $eposargs"
         $txtt replace -transform edit::convert_case_toggle $sposargs $eposargs
+        if {$opts(-cursor) ne ""} { $txtt cursor set $opts(-cursor) }
         command_mode $txtt
         return 1
       }
       "upper" {
         $txtt replace -transform edit::convert_to_upper_case $sposargs $eposargs
+        if {$opts(-cursor) ne ""} { $txtt cursor set $opts(-cursor) }
         command_mode $txtt
         return 1
       }
       "lower" {
         $txtt replace -transform edit::convert_to_lower_case $sposargs $eposargs
+        if {$opts(-cursor) ne ""} { $txtt cursor set $opts(-cursor) }
         command_mode $txtt
         return 1
       }
       "rot13" {
         $txtt replace -transform edit::convert_to_rot13 $sposargs $eposargs
+        if {$opts(-cursor) ne ""} { $txtt cursor set $opts(-cursor) }
         command_mode $txtt
         return 1
       }
@@ -2674,7 +2677,6 @@ namespace eval vim {
     # Get the number of pastes that we need to perform
     set num [get_number $txtt]
 
-    catch {
     if {[set nl_index [string last \n $clip]] != -1} {
       if {([string length $clip] - 1) == $nl_index} {
         set clip [string replace $clip $nl_index $nl_index]
@@ -2689,8 +2691,6 @@ namespace eval vim {
       multicursor::paste $txtt "insert+1c"
       $txtt cursor set "insert+[string length $clip]c"
     }
-    } rc
-    puts "rc: $rc"
 
     # Create a separator
     $txtt edit separator
@@ -2802,7 +2802,7 @@ namespace eval vim {
         }
       }
       "lower" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor firstchar]
       }
     }
 
@@ -2830,7 +2830,7 @@ namespace eval vim {
         }
       }
       "upper" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor firstchar]
       }
     }
 
@@ -3548,7 +3548,7 @@ namespace eval vim {
         }
       }
       "swap" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor firstchar]
       }
     }
 
