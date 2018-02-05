@@ -116,7 +116,7 @@ namespace eval brackets {
         set ranges [%s._t tag ranges _missing]
 
         if {$ranges ne [list 2.12 2.14]} {
-          cleanup "%s bracket not highlighted as expected ($ranges)"
+          bist::brackets::cleanup "%s bracket not highlighted as expected ($ranges)"
         }
 
         set ::done 1
@@ -162,7 +162,7 @@ namespace eval brackets {
         set ranges [%s._t tag ranges _missing]
 
         if {$ranges ne [list 2.12 2.13]} {
-          cleanup "%s bracket not highlighted as expected ($ranges)"
+          bist::brackets::cleanup "%s bracket not highlighted as expected ($ranges)"
         }
 
         set ::done 1
