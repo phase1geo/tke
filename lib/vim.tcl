@@ -1615,7 +1615,7 @@ namespace eval vim {
   ######################################################################
   # Performs the current motion-specific operation on the text range specified
   # by startpos/endpos.
-  proc do_operation {txtt eposargs {sposargs {}} args} {
+  proc do_operation {txtt eposargs {sposargs {insert}} args} {
 
     variable mode
     variable operator
@@ -1624,7 +1624,7 @@ namespace eval vim {
     variable number
 
     array set opts {
-      -cursor "none"
+      -cursor ""
       -object ""
     }
     array set opts $args
@@ -1672,6 +1672,7 @@ namespace eval vim {
         return 1
       }
       "swap" {
+        puts "Swapping, transform, convert_case_toggle, sposargs: $sposargs, eposargs: $eposargs"
         $txtt replace -transform edit::convert_case_toggle $sposargs $eposargs
         command_mode $txtt
         return 1
@@ -1726,12 +1727,12 @@ namespace eval vim {
     switch $motion($txtt) {
       "a" {
         if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-          return [do_operation $txtt [list $object [get_number $txtt]] [list] -object "a"]
+          return [do_operation $txtt [list $object [get_number $txtt]] insert -object "a"]
         }
       }
       "i" {
         if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-          return [do_operation $txtt [list $object [get_number $txtt]] [list] -object "i"]
+          return [do_operation $txtt [list $object [get_number $txtt]] insert -object "i"]
         }
       }
     }
@@ -1766,7 +1767,7 @@ namespace eval vim {
     }
 
     if {($operator($txtt) eq "") || ($dir eq "prev")} {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] {} -cursor $cursorargs]
+      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] insert -cursor $cursorargs]
     } else {
       return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl -adjust "+1 display chars"]]
     }
@@ -2116,7 +2117,7 @@ namespace eval vim {
     variable motion
 
     # Move the insertion cursor right one character
-    set startargs ""
+    set startargs "insert"
     switch [lindex $motion($txtt) end] {
       "V" {
         set startargs linestart
@@ -2296,7 +2297,7 @@ namespace eval vim {
     variable motion
 
     # Move the insertion cursor left one character
-    set startargs  ""
+    set startargs  "insert"
     set cursorargs [list left -num [get_number $txtt]]
     switch [lindex $motion($txtt) end] {
       "V" {
@@ -3535,7 +3536,7 @@ namespace eval vim {
       "" {
         if {$motion($txtt) eq ""} {
           set_operator $txtt "swap" {asciitilde}
-          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} -cursor [list char -dir next -num [get_number $txtt]]]
+          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] insert -cursor [list char -dir next -num [get_number $txtt]]]
         } elseif {$motion($txtt) eq "g"} {
           if {[edit::transform_toggle_case_selected $txtt]} {
             command_mode $txtt
@@ -3659,7 +3660,7 @@ namespace eval vim {
     variable motion
 
     # Move the insertion cursor right one character
-    set startargs ""
+    set startargs "insert"
     switch [lindex $motion($txtt) end] {
       "V" {
         set startargs "linestart"
@@ -3694,7 +3695,7 @@ namespace eval vim {
     variable motion
 
     # Move the insertion cursor left one character
-    set startargs  ""
+    set startargs  "insert"
     set cursorargs [list dchar -dir prev -num [get_number $txtt]]
     switch [lindex $motion($txtt) end] {
       "V" {
