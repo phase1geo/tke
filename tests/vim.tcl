@@ -63,32 +63,32 @@ namespace eval vim {
     set txtt [initialize].t
 
     # Get the current tabstop
-    set orig_tabstop [indent::get_tabstop $txtt]
+    set orig_tabstop [$txtt cget -tabstop]
 
     # Set the tabstop
-    indent::set_tabstop $txtt 20
+    $txtt configure -tabstop 20
 
     # Get the current tabstop
-    if {[indent::get_tabstop $txtt] != 20} {
-      cleanup "Tabstop not set to the correct value"
+    if {[$txtt cget -tabstop] != 20} {
+      cleanup "A Tabstop not set to the correct value"
     }
 
     # Verify that the text widget -tabs value is correct
     if {[$txtt cget -tabs] ne [list [expr 20 * [font measure [$txtt cget -font] 0]] left]} {
-      cleanup "Text widget -tabs value is not set correctly"
+      cleanup "A Text widget -tabs value is not set correctly ([$txtt cget -tabs])"
     }
 
     # Set the tabstop to the original value
-    indent::set_tabstop $txtt $orig_tabstop
+    $txtt configure -tabstop $orig_tabstop
 
     # Get the current tabstop
-    if {[indent::get_tabstop $txtt] != $orig_tabstop} {
-      cleanup "Tabstop not set to the correct value"
+    if {[$txtt cget -tabstop] != $orig_tabstop} {
+      cleanup "B Tabstop not set to the correct value"
     }
 
     # Verify that the text widget -tabs value is correct
     if {[$txtt cget -tabs] ne [list [expr $orig_tabstop * [font measure [$txtt cget -font] 0]] left]} {
-      cleanup "Text widget -tabs value is not set correctly"
+      cleanup "B Text widget -tabs value is not set correctly ([$txtt cget -tabs])"
     }
 
     # Cleanup
