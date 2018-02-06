@@ -3536,7 +3536,7 @@ namespace eval vim {
       "" {
         if {$motion($txtt) eq ""} {
           set_operator $txtt "swap" {asciitilde}
-          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] cursor -cursor [list char -dir next -num [get_number $txtt]]]
+          return [do_operation $txtt [list char -dir next -num [get_number $txtt]]]
         } elseif {$motion($txtt) eq "g"} {
           if {[edit::transform_toggle_case_selected $txtt]} {
             command_mode $txtt

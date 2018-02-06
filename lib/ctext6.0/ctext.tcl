@@ -945,8 +945,6 @@ namespace eval ctext {
 
     lassign [ctext::model::undo $win] cmds cursor
 
-    puts "In undo, cmds: $cmds, cursor: $cursor"
-
     # Get the undo information and execute the returned commands
     foreach cmd $cmds {
       $win._t {*}$cmd
@@ -3042,7 +3040,7 @@ namespace eval ctext {
     switch $reason {
       insert {
         foreach {endpos startpos} [lreverse $ranges] {
-          if {[$win._t get $startpos] eq "\n"} {
+          if {[$win._t get $startpos $endpos] eq "\n"} {
             ctext::indent::newline $win $startpos $data($win,config,-indentmode)
           } else {
             ctext::indent::check_unindent $win $startpos $data($win,config,-indentmode)
@@ -3989,7 +3987,7 @@ namespace eval ctext {
     array set opts $optlist
 
     if {$opts(-num) == 0} {
-      set index $opts(-startpos)
+      set index [$win._t index $opts(-startpos)]
     } elseif {$opts(-dir) eq "next"} {
       if {[$win._t compare [set index [$win._t index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
         set index [$win._t index "$index-1 display lines"]
