@@ -299,7 +299,9 @@ namespace eval vim {
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
-            multicursor::search_and_add_cursors $txt $from $to $search
+            foreach index [$txt search -regexp -all $search $from $to] {
+              $txt cursor add $index
+            }
 
           # Handle code fold opening in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
@@ -2669,7 +2671,7 @@ namespace eval vim {
   ######################################################################
   # Pastes the contents of the given clip to the text widget after the
   # current line.
-  proc do_post_paste {txtt clip} {
+  proc do_post_paste {txtt} {
 
     # Create a separator
     $txtt edit separator
@@ -2677,19 +2679,19 @@ namespace eval vim {
     # Get the number of pastes that we need to perform
     set num [get_number $txtt]
 
+    # Get the contents of the clipboard
+    set clip [clipboard get]
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {([string length $clip] - 1) == $nl_index} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      $txtt insert "insert lineend" [string repeat "\n$clip" $num]
-      multicursor::paste $txtt "insert+1l linestart"
-      $txtt cursor set  "insert+1l linestart"
+      $txtt paste -num $num -pre "\n" "insert+1l linestart"
+      $txtt cursor move [list linestart -num 1]
       $txtt cursor move [list firstchar -num 0]
     } else {
-      set clip [string repeat $clip $num]
-      $txtt insert "insert+1c" $clip
-      multicursor::paste $txtt "insert+1c"
-      $txtt cursor set "insert+[string length $clip]c"
+      $txtt paste -num $num "insert+1c"
+      $txtt cursor set [list char -num [string length $clip]]
     }
 
     # Create a separator
@@ -2706,7 +2708,7 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
-        do_post_paste $txtt [clipboard get]
+        do_post_paste $txtt
         cliphist::add_from_clipboard
         record $txtt p
       }
@@ -2722,26 +2724,25 @@ namespace eval vim {
   ######################################################################
   # Pastes the contents of the given clip prior to the current line
   # in the text widget.
-  proc do_pre_paste {txtt clip} {
+  proc do_pre_paste {txtt} {
 
     $txtt edit separator
 
     # Calculate the number of clips to pre-paste
     set num [get_number $txtt]
 
+    # Get the contents of the clipboard
+    set clip [clipboard get]
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      set startpos [$txtt index "insert linestart"]
-      $txtt insert "insert linestart" [string repeat "$clip\n" $num]
-      multicursor::paste $txtt $startpos
-      $txtt cursor set $startpos
+      $txtt paste -num $num -post "\n" linestart
       $txtt cursor move [list firstchar -num 0]
     } else {
-      $txtt insert insert [string repeat $clip $num]
-      multicursor::paste $txtt insert
-      $txtt cursor set "insert-1c"
+      $txtt paste -num $num insert
+      $txtt cursor move [list char -num 1 -dir prev]
     }
 
     # Create separator
@@ -2754,7 +2755,7 @@ namespace eval vim {
   # before the current line.
   proc handle_P {txtt} {
 
-    do_pre_paste $txtt [set clip [clipboard get]]
+    do_pre_paste $txtt
     cliphist::add_from_clipboard
     record $txtt P
 
