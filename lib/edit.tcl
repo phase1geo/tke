@@ -96,41 +96,36 @@ namespace eval edit {
     # If we have selected text, perform the deletion
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
 
-      # Allow multicursors to be handled, if enabled
-      if {![multicursor::delete $txtt selected]} {
+      if {$line} {
 
-        if {$line} {
+        # Save the selected text to the clipboard
+        clipboard clear
+        foreach {start end} $selected {
+          clipboard append [$txtt get "$start linestart" "$end lineend"]
+        }
 
-          # Save the selected text to the clipboard
-          clipboard clear
-          foreach {start end} $selected {
-            clipboard append [$txtt get "$start linestart" "$end lineend"]
-          }
+        # Set the cursor to the first character of the selection prior to deletion
+        $txtt mark set insert [lindex $selected 0]
 
-          # Set the cursor to the first character of the selection prior to deletion
-          $txtt mark set insert [lindex $selected 0]
+        # Delete the text
+        foreach {end start} [lreverse $selected] {
+          $txtt delete -userange 1 "$start linestart" "$end lineend"
+        }
 
-          # Delete the text
-          foreach {end start} [lreverse $selected] {
-            $txtt delete "$start linestart" "$end lineend"
-          }
+      } else {
 
-        } else {
+        # Save the selected text to the clipboard
+        clipboard clear
+        foreach {start end} $selected {
+          clipboard append [$txtt get $start $end]
+        }
 
-          # Save the selected text to the clipboard
-          clipboard clear
-          foreach {start end} $selected {
-            clipboard append [$txtt get $start $end]
-          }
+        # Set the cursor to the first character of the selection prior to deletion
+        $txtt mark set insert [lindex $selected 0]
 
-          # Set the cursor to the first character of the selection prior to deletion
-          $txtt mark set insert [lindex $selected 0]
-
-          # Delete the text
-          foreach {end start} [lreverse $selected] {
-            $txtt delete $start $end
-          }
-
+        # Delete the text
+        foreach {end start} [lreverse $selected] {
+          $txtt delete -userange 1 $start $end
         }
 
       }
@@ -216,17 +211,15 @@ namespace eval edit {
   # Delete from the current cursor to the end of the line
   proc delete_to_end {txtt copy {num 1}} {
 
+    set endspec [list lineend -num $num]
+
     # Delete from the current cursor to the end of the line
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "lineend"
-    } else {
-      set endpos [$txtt index [list lineend -num $num]]+1c
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get insert $endpos]
-      }
-      $txtt delete insert $endpos
+    if {$copy && ([$txtt cursor num] > 1)} {
+      clipboard clear
+      clipboard append [$txtt get insert [$txtt index $endspec]]
     }
+
+    $txtt delete insert $endspec
 
   }
 
@@ -234,16 +227,15 @@ namespace eval edit {
   # Delete from the start of the current line to just before the current cursor.
   proc delete_from_start {txtt copy} {
 
+    set startspec [list linestart]
+
     # Delete from the beginning of the line to just before the current cursor
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "linestart"
-    } else {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get "insert linestart" insert]
-      }
-      $txtt delete "insert linestart" insert
+    if {$copy && ([$txtt cursor num] > 1)} {
+      clipboard clear
+      clipboard append [$txtt get "insert linestart" insert]
     }
+
+    $txtt delete $startspec insert
 
   }
 
@@ -251,20 +243,19 @@ namespace eval edit {
   # Delete from the start of the firstchar to just before the current cursor.
   proc delete_to_firstchar {txtt copy} {
 
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt firstchar
-    } else {
-      set firstchar [$txtt index firstchar]
+    set spec [list firstchar]
+
+    if {[$txtt cursor num] > 1} {
       if {[$txtt compare $firstchar < insert]} {
         if {$copy} {
           clipboard clear
-          clipboard append [$txtt get $firstchar insert]
+          clipboard append [$txtt get $spec insert]
         }
         $txtt delete $firstchar insert
       } elseif {[$txtt compare $firstchar > insert]} {
         if {$copy} {
           clipboard clear
-          clipboard append [$txtt get insert $firstchar]
+          clipboard append [$txtt get insert $spec]
         }
         $txtt delete insert $firstchar
       }
@@ -1556,7 +1547,7 @@ namespace eval edit {
     $txtt tag remove sel 1.0 end
 
     # Adjust the cursors
-    multicursor::move $txtt $modifier
+    $txtt cursor move $modifier
 
   }
 
@@ -1566,12 +1557,12 @@ namespace eval edit {
 
     # Get the range of lines to modify
     if {[set ranges [$txtt tag ranges sel]] eq ""} {
-      if {[multicursor::enabled $txtt]} {
-        foreach {start end} [$txtt tag ranges mcursor] {
-          if {[string trim [$txtt get "$start wordstart" "$start wordend"]] ne ""} {
-            lappend ranges [$txtt index "$start wordstart"] [$txtt index "$start wordend"]
+      if {[set cursors [$txtt cursor get]] ne ""} {
+        foreach cursor $cursors {
+          if {[string trim [$txtt get "$cursor wordstart" "$cursor wordend"]] ne ""} {
+            lappend ranges [$txtt index "$cursor wordstart"] [$txtt index "$cursor wordend"]
           } else {
-            lappend ranges $start $start
+            lappend ranges $cursor $cursor
           }
         }
       } else {
@@ -1613,7 +1604,7 @@ namespace eval edit {
         set textpos [string first \{TEXT\} $pattern]
 
         # Remove any multicursors
-        multicursor::disable $txtt
+        $txtt cursor disable
 
         $txtt edit separator
 
@@ -1629,7 +1620,7 @@ namespace eval edit {
                   if {($ranges_len == 2) && [$txtt compare $start+1l >= $end]} {
                     $txtt mark set insert "$start linestart+${textpos}c"
                   } else {
-                    multicursor::add_cursor $txtt "$start linestart+${textpos}c"
+                    $txtt cursor add "$start linestart+${textpos}c"
                   }
                 }
                 if {[string first \n $newstr]} {
@@ -1649,7 +1640,7 @@ namespace eval edit {
               if {$ranges_len == 2} {
                 $txtt mark set insert "$start+${textpos}c"
               } else {
-                multicursor::add_cursor $txtt [$txtt index "$start+${textpos}c"]
+                $txtt cursor add "$start+${textpos}c"
               }
             }
             if {[string first \n $newstr]} {
@@ -1676,12 +1667,12 @@ namespace eval edit {
 
     # Get the range of lines to check
     if {[set ranges [$txtt tag ranges sel]] eq ""} {
-      if {[multicursor::enabled $txtt]} {
+      if {[set cursors [$txtt cursor get]] ne ""} {
         set last ""
-        foreach {start end} [$txtt tag ranges mcursor] {
-          if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
-            lappend ranges [$txtt index "$start linestart"] [$txtt index "$start lineend"]
-            set last $start
+        foreach cursor $cursors {
+          if {($last eq "") || [$txtt compare "$cursor linestart" != "$last linestart"]} {
+            lappend ranges [$txtt index "$cursor linestart"] [$txtt index "$cursor lineend"]
+            set last $cursor
           }
         }
       } else {
