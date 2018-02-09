@@ -211,15 +211,15 @@ namespace eval edit {
   # Delete from the current cursor to the end of the line
   proc delete_to_end {txtt copy {num 1}} {
 
-    set endspec [list lineend -num $num]
+    set spec [list lineend -num $num]
 
     # Delete from the current cursor to the end of the line
-    if {$copy && ([$txtt cursor num] > 1)} {
+    if {$copy && ([$txtt cursor num] == 0) && ([set str [$txtt get insert $spec]] ne "")} {
       clipboard clear
-      clipboard append [$txtt get insert [$txtt index $endspec]]
+      clipboard append $str
     }
 
-    $txtt delete insert $endspec
+    $txtt delete insert $spec
 
   }
 
@@ -227,15 +227,15 @@ namespace eval edit {
   # Delete from the start of the current line to just before the current cursor.
   proc delete_from_start {txtt copy} {
 
-    set startspec [list linestart]
+    set spec [list linestart]
 
     # Delete from the beginning of the line to just before the current cursor
-    if {$copy && ([$txtt cursor num] > 1)} {
+    if {$copy && ([$txtt cursor num] == 0) && ([set str [$txtt get $spec insert]] ne "")} {
       clipboard clear
-      clipboard append [$txtt get "insert linestart" insert]
+      clipboard append $str
     }
 
-    $txtt delete $startspec insert
+    $txtt delete $spec insert
 
   }
 
@@ -245,7 +245,7 @@ namespace eval edit {
 
     set spec [list firstchar]
 
-    if {[$txtt cursor num] > 1} {
+    if {[$txtt cursor num] == 0} {
       if {[$txtt compare $firstchar < insert]} {
         if {$copy} {
           clipboard clear
@@ -269,7 +269,7 @@ namespace eval edit {
 
     set spec [list numberend]
 
-    if {([$txtt cursor num] == 0) && $copy && ([set str [$txtt get insert $spec]] ne "")} {
+    if {$copy && ([$txtt cursor num] == 0) && ([set str [$txtt get insert $spec]] ne "")} {
       clipboard clear
       clipboard append $str
     }
@@ -286,7 +286,7 @@ namespace eval edit {
 
     set spec [list numberstart]
 
-    if {([$txtt cursor num] == 0) && $copy && ([set str [$txtt get $spec insert]] ne "")} {
+    if {$copy && ([$txtt cursor num] == 0) && ([set str [$txtt get $spec insert]] ne "")} {
       clipboard clear
       clipboard append $str
     }
