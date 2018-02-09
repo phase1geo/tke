@@ -1260,6 +1260,9 @@ namespace eval ctext {
         }
         update_cursor $win
       }
+      num {
+        return [expr [llength [$win._t tag ranges _mcursor]] / 2]
+      }
       get {
         set indices [list]
         foreach {startpos endpos} [$win._t tag ranges _mcursor] {
@@ -1351,13 +1354,13 @@ namespace eval ctext {
     set cursor  [$win._t index insert]
 
     if {!$opts(-userange) && ([set cursors [$win._t tag ranges _mcursor]] ne "")} {
-      set endSpec [lindex $args [expr $i + 1]]
-      set ispec   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
+      lassign [lrange $args $i end] startSpec endSpec
+      set istart [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
+      set iend   [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
-        if {$ispec} {
-          set endPos [$win index [list {*}$endSpec -startpos $startPos]]
-        }
-        lappend strs   [$win._t get $startPos $endPos]
+        if {$istart { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        if {$iend}  { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        lappend strs [$win._t get $startPos $endPos]
         $win._t delete $startPos $endPos
         if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
           $win._t tag add _mcursor $startPos-1c
