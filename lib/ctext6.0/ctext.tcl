@@ -1358,8 +1358,8 @@ namespace eval ctext {
       set istart [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
       set iend   [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
-        if {$istart { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
-        if {$iend}  { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        if {$istart} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        if {$iend}   { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
         lappend strs [$win._t get $startPos $endPos]
         $win._t delete $startPos $endPos
         if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
@@ -2014,11 +2014,20 @@ namespace eval ctext {
 
     variable data
 
-    set opts      [lrange $args 0 end-1]
-    set insertpos [lindex $args end]
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -pre  ""
+      -post ""
+      -num  1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] insertpos
 
     # Get the contents of the clipboard
-    set clip [clipboard get]
+    set clip [string repeat [clipboard get] $opts(-num)]
 
     # Check to see if we are doing a multicursor paste
     if {[set mcursors [llength [$win._t tag ranges _mcursor]]] > 0} {
@@ -2027,15 +2036,15 @@ namespace eval ctext {
 
       # If the number of mcursors match the number of lines, do a list insert
       if {$mcursors == [llength $lines]} {
-        command_insertlist $win {*}$args $lines
+        command_insertlist $win {*}[array get opts] $lines
       } else {
-        command_insert $win {*}$args $insertpos $clip
+        command_insert $win {*}[array get opts] $insertpos "$opts(-pre)$clip$opts(-post)"
       }
 
     } else {
 
       # Insert the clipboard contents at the given insertion cursor
-      command_insert $win {*}$args $insertpos $clip
+      command_insert $win {*}[array get opts] $insertpos "$opts(-pre)$clip$opts(-post)"
 
       # Add the multicursors if we copied the multicursors
       if {[info exists data($win,copy_value)] && ($data($txt,copy_value) eq $clip)} {

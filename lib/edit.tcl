@@ -267,17 +267,15 @@ namespace eval edit {
   # Delete all consecutive numbers from cursor to end of line.
   proc delete_next_numbers {txtt copy} {
 
-    variable patterns
+    set spec [list numberend]
 
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(nnumber)
-    } elseif {[regexp $patterns(nnumber) [$txtt get insert "insert lineend"] match]} {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get insert "insert+[string length $match]c"]
-      }
-      $txtt delete insert "insert+[string length $match]c"
+    if {([$txtt cursor num] == 0) && $copy && ([set str [$txtt get insert $spec]] ne "")} {
+      clipboard clear
+      clipboard append $str
     }
+
+    # Delete the text
+    $txtt delete insert $spec
 
   }
 
@@ -286,17 +284,15 @@ namespace eval edit {
   # the current line.
   proc delete_prev_numbers {txtt copy} {
 
-    variable patterns
+    set spec [list numberstart]
 
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(pnumber)
-    } elseif {[regexp $patterns(pnumber) [$txtt get "insert linestart" insert] match]} {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get "insert-[string length $match]c" insert]
-      }
-      $txtt delete "insert-[string length $match]c" insert
+    if {([$txtt cursor num] == 0) && $copy && ([set str [$txtt get $spec insert]] ne "")} {
+      clipboard clear
+      clipboard append $str
     }
+
+    # Delete the text
+    $txtt delete $spec insert
 
   }
 
@@ -305,13 +301,7 @@ namespace eval edit {
   # the line.
   proc delete_next_space {txtt} {
 
-    variable patterns
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(nspace)
-    } elseif {[regexp $patterns(nspace) [$txtt get insert "insert lineend"] match]} {
-      $txtt delete insert "insert+[string length $match]c"
-    }
+    $txtt delete insert spaceend
 
   }
 
@@ -320,13 +310,7 @@ namespace eval edit {
   # of the line.
   proc delete_prev_space {txtt} {
 
-    variable patterns
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(pspace)
-    } elseif {[regexp $patterns(pspace) [$txtt get "insert linestart" insert] match]} {
-      $txtt delete "insert-[string length $match]c" insert
-    }
+    $txtt delete spacestart insert
 
   }
 
