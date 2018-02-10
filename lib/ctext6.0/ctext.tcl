@@ -2097,7 +2097,7 @@ namespace eval ctext {
       }
       default {
         if {[string index $tag 0] eq "_"} {
-          return -code error "ctext tags may not begin with an underscore"
+          return -code error "ctext tags may not begin with an underscore ($tag)"
         }
         if {$subcmd eq "lower"} {
           set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang:*] end]
