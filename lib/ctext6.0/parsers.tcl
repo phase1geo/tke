@@ -114,7 +114,8 @@ namespace eval parsers {
     foreach line [split $str \n] {
       set start 0
       array unset var
-      while {[regexp -indices -start $start -- $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)]} {
+      while {[regexp -indices -start $start -- $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && \
+             ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
         if {![catch { thread::send $ctext::utils::main_tid [list {*}$cmd $txt $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
           foreach sub [lindex $retval 0] {
             if {[llength $sub] == 3} {
@@ -128,7 +129,7 @@ namespace eval parsers {
       }
       incr startrow
     }
-
+ 
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
       render $txt $tag $ranges 0

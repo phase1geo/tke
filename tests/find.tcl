@@ -72,8 +72,8 @@ namespace eval find {
     if {[$txtt get 1.0 end-1c] ne $str} {
       cleanup "$id text changed ([$txtt get 1.0 end-1c])"
     }
-    if {[$txtt tag ranges _search] ne $tags} {
-      cleanup "$id search tags incorrect ([$txtt tag ranges _search])"
+    if {[$txtt syntax ranges search] ne $tags} {
+      cleanup "$id search tags incorrect ([$txtt syntax ranges search])"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id insertion cursor incorrect ([$txtt index insert])"
