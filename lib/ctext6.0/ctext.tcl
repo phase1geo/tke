@@ -3003,8 +3003,8 @@ namespace eval ctext {
     }
 
     set jobids    [list]
-    set namelist  [array get data $win,highlight,word,class,,*]
-    set startlist [array get data $win,highlight,charstart,class,,*]
+    set namelist  [array get data $win,highlight,word,class,*]
+    set startlist [array get data $win,highlight,charstart,class,*]
     set ins       [expr {$reason eq "insert"}]
 
     # Perform bracket parsing

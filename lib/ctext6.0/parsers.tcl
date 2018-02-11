@@ -61,10 +61,10 @@ namespace eval parsers {
         set word   [{*}$transform [string range $line {*}$indices]]
         set first  [string index $word 0]
         set endpos [expr [lindex $indices 1] + 1]
-        if {[info exists words($txt,highlight,word,class,,$word)]} {
-          lappend tags($words($txt,highlight,word,class,,$word)) $startrow.[lindex $indices 0] $startrow.$endpos
-        } elseif {[info exists starts($txt,highlight,charstart,class,,$first)]} {
-          lappend tags($starts($txt,highlight,charstart,class,,$first)) $startrow.[lindex $indices 0] $startrow.$endpos
+        if {[set names [array names words $txt,highlight,word,class,*,$word]] ne ""} {
+          lappend tags($words([lindex $names 0])) $startrow.[lindex $indices 0] $startrow.$endpos
+        } elseif {[set names [array names starts $txt,highlight,charstart,class,*,$first]] ne ""} {
+          lappend tags($starts([lindex $names 0])) $startrow.[lindex $indices 0] $startrow.$endpos
         }
         set start $endpos
       }
