@@ -2912,7 +2912,7 @@ namespace eval gui {
     if {[focus] eq "$txt.t"} {
 
       # Perform the paste
-      $txt paste
+      $txt paste insert
 
       # Handle the Vim paste
       vim::handle_paste $txt
