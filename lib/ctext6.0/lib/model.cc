@@ -128,6 +128,7 @@ object model::render_contexts(
 
   interpreter        interp( args.get_interp(), false );
   object             result;
+  object             contexts;
   serial             citems;
   std::stack<int>    context;
   int                ltype  = 0;
@@ -176,10 +177,61 @@ object model::render_contexts(
     lcol  = (*it)->pos().start_col();
   }
 
-  /* Render the ranges */
+  /* Render the context ranges */
   for( map<string,object>::iterator it=ranges.begin(); it!=ranges.end(); it++ ) {
-    result.append( interp, (object)it->first );
-    result.append( interp, it->second );
+    contexts.append( interp, (object)it->first );
+    contexts.append( interp, it->second );
+  }
+
+  /* Indicate that the contexts have been rendered */
+  _contexts_rendered = true;
+
+  /* Return the result */
+  result.append( interp, contexts );
+  result.append( interp, filter_contexts( _tags_to_filter ) );
+
+  return( result );
+
+}
+
+Tcl::object model::filter_contexts(
+  const object & args
+) {
+
+  interpreter interp( args.get_interp(), false );
+  int         tag_length = args.length( interp );
+  object      result;
+
+  if( _contexts_rendered && (tag_length > 0) ) {
+
+    /* Perform the filter operation */
+    for( int i=0; i<tag_length; i+=3 ) {
+      string context    = args.at( interp, (i + 0) ).get<string>( interp );
+      string tag        = args.at( interp, (i + 1) ).get<string>( interp );
+      object ranges     = args.at( interp, (i + 2) );
+      int    ranges_len = ranges.length( interp );
+      object filtered;
+      for( int j=0; j<ranges_len; j+= 2 ) {
+        tindex ti( ranges.at( interp, j ) );
+        if( _tree.is_in_context( context, ti ) ) {
+          filtered.append( interp, ranges.at( interp, (j + 0) ) );
+          filtered.append( interp, ranges.at( interp, (j + 1) ) );
+        }
+      }
+      result.append( interp, (object)tag );
+      result.append( interp, filtered );
+    }
+
+    /* Clear the tags to filter */
+    _contexts_rendered = false;
+
+    /* Clear the tags to filter */
+    _tags_to_filter = "";
+
+  } else {
+
+    _tags_to_filter = args;
+
   }
 
   return( result );

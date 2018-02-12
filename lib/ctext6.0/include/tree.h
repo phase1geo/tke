@@ -185,6 +185,12 @@ class tree {
       const types       & typs
     ) const;
 
+    /*! \return Returns true if the given index exists within the given context */
+    bool is_in_context(
+      const std::string & context,
+      const tindex      & ti
+    ) const;
+
 };
 
 #endif

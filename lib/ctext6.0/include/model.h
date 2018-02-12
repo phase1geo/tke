@@ -28,13 +28,15 @@ class model {
 
   private:
 
-    types        _types;        /*!< Type information */
-    serial       _serial;       /*!< Serial list structure */
-    tree         _tree;         /*!< Tree structure */
-    linemap      _linemap;      /*!< Line map structure */
-    undo_manager _undo_buffer;  /*!< Undo buffer */
-    std::string  _win;          /*!< Name of this model */
-    bool         _edited;       /*!< Set to false until after the model is changed */
+    types        _types;              /*!< Type information */
+    serial       _serial;             /*!< Serial list structure */
+    tree         _tree;               /*!< Tree structure */
+    linemap      _linemap;            /*!< Line map structure */
+    undo_manager _undo_buffer;        /*!< Undo buffer */
+    std::string  _win;                /*!< Name of this model */
+    bool         _edited;             /*!< Set to false until after the model is changed */
+    bool         _contexts_rendered;  /*!< Specifies that the contexts have been rendered */
+    Tcl::object  _tags_to_filter;     /*!< List of tags to filter */
 
     /*!
      Converts the given object to a vector of text indices.
@@ -57,7 +59,7 @@ class model {
   public:
 
     /*! Default constructor */
-    model( const std::string & win ) : _win( win ), _edited( false ) {}
+    model( const std::string & win ) : _win( win ), _edited( false ), _contexts_rendered( false ) {}
 
     /*! Destructor */
     ~model() {}
@@ -176,6 +178,14 @@ class model {
      as what is stored in the model.
     */
     Tcl::object render_contexts(
+      const Tcl::object & args
+    );
+
+    /*!
+     Compares the given tag ranges to the stored contexts and returns a modified tag range
+     list.
+    */
+    Tcl::object filter_contexts(
       const Tcl::object & args
     );
 
