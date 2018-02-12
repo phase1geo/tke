@@ -168,6 +168,7 @@ CPPTCL_MODULE(Model, i) {
     .def( "matchindex",          &mailbox::get_match_char )
     .def( "depth",               &mailbox::get_depth )
     .def( "rendercontexts",      &mailbox::render_contexts )
+    .def( "filtercontexts",      &mailbox::filter_contexts )
     .def( "isescaped",           &mailbox::is_escaped )
     .def( "isindex",             &mailbox::is_index )
     .def( "getcommentmarkers",   &mailbox::get_comment_markers )

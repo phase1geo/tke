@@ -256,8 +256,37 @@ namespace eval model {
   # Perform the context rendering.
   proc render_contexts_callback {win data user_data} {
 
-    foreach {tag ranges} $data {
+    # Render the contexts
+    foreach {tag ranges} [lindex $data 0] {
       ctext::render $win __$tag $ranges 1
+    }
+
+    # Render the filtered contexts
+    foreach {tag ranges} [lindex $data 1] {
+      ctext::render $win __$tag $ranges 0
+    }
+
+  }
+
+  ######################################################################
+  # Takes the given tag ranges, compares them against the rendered
+  # contexts and calls the filter_contexts_callback method with the
+  # list of tag ranges to render.
+  proc filter_contexts {win range_tags} {
+
+    variable data
+
+    # Filter the contexts
+    $data($win,model) filtercontexts $range_tags
+
+  }
+
+  ######################################################################
+  # Renders the given tag ranges
+  proc filter_contexts_callback {win data user_data} {
+
+    foreach {tag ranges} $data {
+      ctext::render $win __$tag $ranges 0
     }
 
   }

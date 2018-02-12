@@ -209,6 +209,13 @@ class mailbox {
       add_request( REQUEST_RENDERCONTEXTS, args, "ctext::model::render_contexts_callback", user_data, false );
     }
 
+    Tcl::object filter_contexts(
+      const Tcl::object & args
+    ) {
+      Tcl::object user_data;
+      add_request( REQUEST_FILTERCONTEXTS, args, "ctext::model::filter_contexts_callback", user_data, false );
+    }
+
     Tcl::object render_linemap(
       const Tcl::object & args
     ) {

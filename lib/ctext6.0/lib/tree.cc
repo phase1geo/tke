@@ -322,3 +322,19 @@ object tree::is_in_index(
 
 }
 
+bool tree::is_in_context(
+  const string & context,
+  const tindex & ti
+) const {
+
+  const vector<tnode*> & children = _tree->const_children();
+
+  for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
+    if( (*it)->left() && ((*it)->left()->const_pos().compare( ti ) != -1) && (((*it)->right() == 0) || ((*it)->right()->const_pos().compare( ti ) == -1)) ) {
+      return( (*it)->type() == 0 /* TBD */ );
+    }
+  }
+
+  return( false );
+
+}
