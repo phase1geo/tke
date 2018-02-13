@@ -9,6 +9,7 @@
 */
 
 #include <string>
+#include <vector>
 #include <iostream>
 
 #include "cpptcl.h"
@@ -27,7 +28,8 @@ class tree {
 
   private:
 
-    tnode* _tree;  /*!< Pointer to the tree structure */
+    tnode*              _tree;      /*!< Pointer to the tree structure */
+    std::vector<tnode*> _contexts;  /*!< List of pointers to context-specific tnodes */
 
     /*!
      Inserts an item into the tree.
@@ -187,8 +189,8 @@ class tree {
 
     /*! \return Returns true if the given index exists within the given context */
     bool is_in_context(
-      const std::string & context,
-      const tindex      & ti
+      int            context,
+      const tindex & ti
     ) const;
 
 };

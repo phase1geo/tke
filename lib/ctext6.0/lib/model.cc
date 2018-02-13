@@ -202,18 +202,20 @@ Tcl::object model::filter_contexts(
   int         tag_length = args.length( interp );
   object      result;
 
+  cout << "In filter_contexts, args: " << tag_length << endl;
+
   if( _contexts_rendered && (tag_length > 0) ) {
 
     /* Perform the filter operation */
-    for( int i=0; i<tag_length; i+=3 ) {
-      string context    = args.at( interp, (i + 0) ).get<string>( interp );
-      string tag        = args.at( interp, (i + 1) ).get<string>( interp );
-      object ranges     = args.at( interp, (i + 2) );
+    for( int i=0; i<tag_length; i+=2 ) {
+      string context    = args.at( interp, (i + 0) ).at( interp, 0 ).get<string>( interp );
+      string tag        = args.at( interp, (i + 0) ).at( interp, 1 ).get<string>( interp );
+      object ranges     = args.at( interp, (i + 1) );
       int    ranges_len = ranges.length( interp );
       object filtered;
       for( int j=0; j<ranges_len; j+= 2 ) {
         tindex ti( ranges.at( interp, j ) );
-        if( _tree.is_in_context( context, ti ) ) {
+        if( _tree.is_in_context( _types.type( context ), ti ) ) {
           filtered.append( interp, ranges.at( interp, (j + 0) ) );
           filtered.append( interp, ranges.at( interp, (j + 1) ) );
         }

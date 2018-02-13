@@ -55,6 +55,9 @@ object request::execute(
     case REQUEST_RENDERCONTEXTS :
       return( inst.render_contexts( _args ) );
       break;
+    case REQUEST_FILTERCONTEXTS :
+      return( inst.filter_contexts( _args ) );
+      break;
     case REQUEST_ISESCAPED :
       return( (object)inst.is_escaped( _args ) );
       break;

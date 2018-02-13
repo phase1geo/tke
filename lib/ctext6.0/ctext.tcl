@@ -2815,7 +2815,7 @@ namespace eval ctext {
     }
 
     foreach word $keywords {
-      set data($win,highlight,word,$type,$lang,$word) $value
+      set data($win,highlight,word,$type,$lang,$word) [list $lang $value]
     }
 
   }
@@ -2849,7 +2849,7 @@ namespace eval ctext {
       set value __$value
     }
 
-    set data($win,highlight,charstart,$type,$lang,$char) $value
+    set data($win,highlight,charstart,$type,$lang,$char) [list $lang $value]
 
   }
 
