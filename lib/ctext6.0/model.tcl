@@ -276,6 +276,8 @@ namespace eval model {
 
     variable data
 
+    puts "In filter_contexts proc, win: $win, range_tags: $range_tags"
+
     # Filter the contexts
     $data($win,model) filtercontexts $range_tags
 

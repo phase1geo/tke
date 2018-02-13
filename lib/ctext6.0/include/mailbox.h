@@ -213,7 +213,9 @@ class mailbox {
       const Tcl::object & args
     ) {
       Tcl::object user_data;
-      add_request( REQUEST_FILTERCONTEXTS, args, "ctext::model::filter_contexts_callback", user_data, false );
+      Tcl::interpreter interp( args.get_interp(), false );
+      std::cout << "filter_contexts: " << args.get<std::string>( interp ) << std::endl;
+      add_request( REQUEST_FILTERCONTEXTS, args, "ctext::model::filter_contexts_callback", user_data, true );
     }
 
     Tcl::object render_linemap(

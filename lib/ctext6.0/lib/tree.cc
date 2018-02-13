@@ -22,6 +22,9 @@ void tree::clear() {
   /* Clear the tree */
   _tree->clear();
 
+  /* Clear the context vector */
+  _contexts.clear();
+
 }
 
 void tree::insert_item(
@@ -187,6 +190,11 @@ void tree::add_child_node(
   /* Save the node pointer in the serial list item */
   item.set_node( n );
 
+  /* If the item is a context, add it to the list of contexts */
+  if( left && item.iscontext() ) {
+    _contexts.push_back( n );
+  }
+
 }
 
 void tree::update(
@@ -323,15 +331,15 @@ object tree::is_in_index(
 }
 
 bool tree::is_in_context(
-  const string & context,
+  int            context,
   const tindex & ti
 ) const {
 
   const vector<tnode*> & children = _tree->const_children();
 
-  for( vector<tnode*>::const_iterator it=children.begin(); it!=children.end(); it++ ) {
+  for( vector<tnode*>::const_iterator it=_contexts.begin(); it!=_contexts.end(); it++ ) {
     if( (*it)->left() && ((*it)->left()->const_pos().compare( ti ) != -1) && (((*it)->right() == 0) || ((*it)->right()->const_pos().compare( ti ) == -1)) ) {
-      return( (*it)->type() == 0 /* TBD */ );
+      return( ((*it)->type() & context) != 0 );
     }
   }
 

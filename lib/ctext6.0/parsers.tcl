@@ -62,19 +62,26 @@ namespace eval parsers {
         set first  [string index $word 0]
         set endpos [expr [lindex $indices 1] + 1]
         if {[set names [array names words $txt,highlight,word,class,*,$word]] ne ""} {
-          lappend tags($words([lindex $names 0])) $startrow.[lindex $indices 0] $startrow.$endpos
+          foreach name $names {
+            lappend tags($words($name)) $startrow.[lindex $indices 0] $startrow.$endpos
+          }
         } elseif {[set names [array names starts $txt,highlight,charstart,class,*,$first]] ne ""} {
-          lappend tags($starts([lindex $names 0])) $startrow.[lindex $indices 0] $startrow.$endpos
+          foreach name $names {
+            lappend tags($starts($name)) $startrow.[lindex $indices 0] $startrow.$endpos
+          }
         }
         set start $endpos
       }
       incr startrow
     }
 
+    # Filter the contexts
+    ctext::model::filter_contexts $txt [array get tags]
+
     # Have the main application thread render the tag ranges
-    foreach {tag ranges} [array get tags] {
-      render $txt $tag $ranges 0
-    }
+#    foreach {tag ranges} [array get tags] {
+#      render $txt $tag $ranges 0
+#    }
 
   }
 
