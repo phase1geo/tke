@@ -34,6 +34,14 @@ namespace eval parsers {
   }
 
   ######################################################################
+  # Renders the given ranges, paying attention to the current context.
+  proc render_in_context {txt context tag ranges} {
+
+    thread::send -async $ctext::utils::main_tid [list ctext::render_in_context $txt $context $tag $ranges]
+
+  }
+
+  ######################################################################
   # This is used by parsers to handle case manipulation when no case
   # change should occur.
   proc nochange {value} {
@@ -76,12 +84,12 @@ namespace eval parsers {
     }
 
     # Filter the contexts
-    ctext::model::filter_contexts $txt [array get tags]
+    # ctext::model::filter_contexts $txt [array get tags]
 
     # Have the main application thread render the tag ranges
-#    foreach {tag ranges} [array get tags] {
-#      render $txt $tag $ranges 0
-#    }
+    foreach {tag ranges} [array get tags] {
+      render $txt $tag $ranges 0
+    }
 
   }
 
