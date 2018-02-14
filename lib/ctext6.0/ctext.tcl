@@ -2975,6 +2975,27 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Renders the given ranges if the item is within the given context.
+  proc render_in_context {win context tag ranges} {
+
+    if {![winfo exists $win]} {
+      return
+    }
+
+    # Filter the tags
+    set new_ranges [list]
+    foreach {startpos endpos} $ranges {
+      if {[lsearch [$win._t tag names $startpos] $context] != -1} {
+        lappend new_ranges $startpos $endpos
+      }
+    }
+
+    # Render the tag
+    $win._t tag add $tag {*}$new_ranges
+
+  }
+
+  ######################################################################
   # Main procedure used for performing all necessary syntax tagging and
   # highlighting.  This 'ins' parameter should be set to 1 if we are being
   # called after inserting the text that is being highlighted; otherwise, it

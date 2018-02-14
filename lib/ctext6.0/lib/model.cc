@@ -202,8 +202,6 @@ Tcl::object model::filter_contexts(
   int         tag_length = args.length( interp );
   object      result;
 
-  cout << "In filter_contexts, args: " << tag_length << endl;
-
   if( _contexts_rendered && (tag_length > 0) ) {
 
     /* Perform the filter operation */
