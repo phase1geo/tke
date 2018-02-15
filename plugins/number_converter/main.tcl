@@ -3,33 +3,45 @@ namespace eval number_converter {
 
   ######################################################################
   # Returns a decimal representation of the given number.
-  proc get_number {txt startpos endpos} {
+  proc get_numbers {txt startpos endpos} {
 
     array set charmap [list 0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 a 10 b 11 c 12 d 13 e 14 f 15]
 
     # Get the selected text
-    set str [$txt get $startpos $endpos]
+    set str     [$txt get $startpos $endpos]
+    set start   0
+    set numbers [list]
 
-    # Look for a valid numerical format
-    if {[regexp {^(0[xX]|'[sS]?[hH])([0-9a-fA-F_]+)$} $str -> prefix value]} {
-      set shift 4
-    } elseif {[regexp {^(0[dD]|'[sS][dD])?([0-9_]+)$} $str -> prefix value]} {
-      return [string map {_ {}} $value]
-    } elseif {[regexp {^(0[oO]|'[sS][oO])([0-7_]+)$} $str -> prefix value]} {
-      set shift 3
-    } elseif {[regexp {^(0[bB]|'[sS][bB])([01_]+)$} $str -> prefix value]} {
-      set shift 1
-    } else {
-      return ""
+    while {1} {
+
+      # Look for a valid numerical format
+      if {[regexp -indices -start $start -- {(0[xX]|'[sS]?[hH])([0-9a-fA-F_]+)} $str -> prefix value]} {
+        set shift 4
+      } elseif {[regexp -indices -start $start -- {(0[oO]|'[sS][oO])([0-7_]+)} $str -> prefix value]} {
+        set shift 3
+      } elseif {[regexp -indices -start $start -- {(0[bB]|'[sS][bB])([01_]+)} $str -> prefix value]} {
+        set shift 1
+      } elseif {[regexp -indices -start $start -- {(0[dD]|'[sS][dD])?([0-9_]+)} $str -> prefix value]} {
+        lappend numbers [$txt index $startpos+[lindex $value 0]c] [$txt index $startpos+[expr [lindex $value 1] + 1]c] [string map {_ {}} [string range $str {*}$value]]
+        set start [expr [lindex $value 1] + 1]
+        continue
+      } else {
+        return $numbers
+      }
+
+      # Calculate the decimal value
+      set val 0
+      foreach c [split [string map {_ {}} [string tolower [string range $str {*}$value]]] {}] {
+        set val [expr ($val << $shift) | $charmap($c)]
+      }
+
+      # Add the information to the number list
+      lappend numbers [$txt index $startpos+[lindex $value 0]c] [$txt index $startpos+[expr [lindex $value 1] + 1]c] $val
+
+      # Update the start point
+      set start [expr [lindex $value 1] + 1]
+
     }
-
-    # Calculate the decimal value
-    set val 0
-    foreach c [split [string map {_ {}} [string tolower $value]] {}] {
-      set val [expr ($val << $shift) | $charmap($c)]
-    }
-
-    return $val
 
   }
 
@@ -58,8 +70,9 @@ namespace eval number_converter {
     set txt [api::file::get_info [api::file::current_index] txt]
 
     foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-      if {[set num [get_number $txt $startpos $endpos]] ne ""} {
-        $txt replace $startpos $endpos "$prefix[insert_underscores [format $fmt $num] $underscore]"
+      foreach {num end start} [lreverse [get_numbers $txt $startpos $endpos]] {
+        $txt replace -str "$prefix[insert_underscores [format $fmt $num] $underscore]" $start $end
+        $txt tag remove sel 1.0 end
       }
     }
 
@@ -104,7 +117,7 @@ namespace eval number_converter {
     if {[set index [api::file::current_index]] != -1} {
       set txt [api::file::get_info $index txt]
       foreach {startpos endpos} [$txt tag ranges sel] {
-        if {[get_number $txt $startpos $endpos] ne ""} {
+        if {[get_numbers $txt $startpos $endpos] ne ""} {
           return 1
         }
       }
