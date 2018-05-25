@@ -2341,7 +2341,7 @@ msgcat::mcmset da {
   "Type"
 
   "Unable to connect to"
-  "\"
+  "Kan ikke oprette forbindelse til"
 
   "Username"
   "Brugernavn"
@@ -2639,7 +2639,7 @@ msgcat::mcmset da {
   "Fjern fra Sidebar"
 
   "Show"
-  "\"
+  "Forestilling"
 
   "Show Difference"
   "Vis forskellen"
@@ -2706,7 +2706,7 @@ msgcat::mcmset da {
   "Indstillingsmuligheder"
 
   "Setup Complete"
-  "\"
+  "Installationen er fuldført"
 
   "Share"
   "Del"

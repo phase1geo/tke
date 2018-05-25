@@ -2341,7 +2341,7 @@ msgcat::mcmset ru {
   "Тип"
 
   "Unable to connect to"
-  "\"
+  "не удается подключиться к"
 
   "Username"
   "Логин"
