@@ -202,6 +202,8 @@ namespace eval utils {
     selectforeground   white
     stretch            all
     stripebackground   #EDF3FE
+    stripeforeground   white
+    foreground         black
     relief             flat
     border             0
     showseparators     yes
@@ -367,13 +369,13 @@ namespace eval utils {
     array set ::env [array get vars]
 
   }
-  
+
   ######################################################################
   # Returns true if the given string looks like a URL.
   proc is_url {str} {
-    
+
     return [regexp {^(([a-zA-Z0-9]+://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str]
-    
+
   }
 
   ######################################################################
@@ -1099,11 +1101,11 @@ namespace eval utils {
     return ""
 
   }
-  
+
   ######################################################################
   # Exports the given string to the given filename.
   proc export {str lang fname} {
-    
+
     # Perform any snippet substitutions
     set str [snippets::substitute $str $lang]
 
@@ -1133,7 +1135,7 @@ namespace eval utils {
     # Write and the close the file
     puts $rc $str
     close $rc
-    
+
   }
 
 }
