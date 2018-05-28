@@ -2099,7 +2099,7 @@ msgcat::mcmset cs {
   "Klávesové zkratky"
 
   "Show 'Find in Files' result in other pane"
-  "Ukázat \"
+  "Zobrazit výsledek ' najít v souborech ' v jiném podokně"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Zobrazit pro místní soubory/adresáře namísto odstranění přesunout do koše"
