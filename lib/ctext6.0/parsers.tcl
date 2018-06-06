@@ -71,11 +71,11 @@ namespace eval parsers {
         set endpos [expr [lindex $indices 1] + 1]
         if {[set names [array names words $txt,highlight,word,class,*,$word]] ne ""} {
           foreach name $names {
-            lappend tags($words($name)) $startrow.[lindex $indices 0] $startrow.$endpos
+            lappend tags([lindex $words($name) 1]) $startrow.[lindex $indices 0] $startrow.$endpos
           }
         } elseif {[set names [array names starts $txt,highlight,charstart,class,*,$first]] ne ""} {
           foreach name $names {
-            lappend tags($starts($name)) $startrow.[lindex $indices 0] $startrow.$endpos
+            lappend tags([lindex $starts($name) 1]) $startrow.[lindex $indices 0] $startrow.$endpos
           }
         }
         set start $endpos
@@ -144,7 +144,7 @@ namespace eval parsers {
       }
       incr startrow
     }
- 
+
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
       render $txt $tag $ranges 0
