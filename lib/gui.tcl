@@ -4968,7 +4968,7 @@ namespace eval gui {
 
 
       if {!$readonly && ([lindex $data 2] ne "ignore")} {
-        set_current_modified 1
+        set_current_modified [undoable]
       }
 
       # Clear the cursor history
