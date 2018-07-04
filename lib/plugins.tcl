@@ -119,6 +119,9 @@ namespace eval plugins {
       set dirs [glob -nocomplain -directory [file join $::tke_dir plugins] -types d *]
     }
 
+    # Add any plugins found in the TKE home directory
+    lappend dirs {*}[glob -nocomplain -directory [file join $::tke_home plugins] -types d *]
+
     foreach plugin $dirs {
 
       # Read the header information
