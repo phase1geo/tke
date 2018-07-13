@@ -81,9 +81,16 @@ namespace eval highlight_matches {
       set sel [$txt get $pos $pos2]
     } else {
       if {$err || [string trim $sel]==""} {
-        set sel [string trim [$txt get "insert wordstart" "insert wordend"]]
         set pos  [$txt index "insert wordstart"]
         set pos2 [$txt index "insert wordend"]
+        set sel [string trim [$txt get $pos $pos2]]
+        if {$sel==""} {
+          # when cursor just at the right of word: take the word at the left
+          # e.g. if "_" stands for cursor then "word_" means selecting "word"
+          set pos  [$txt index "insert -1 char wordstart"]
+          set pos2 [$txt index "insert -1 char wordend"]
+          set sel [$txt get $pos $pos2]
+        }
       } else {
         foreach {pos pos2} $sel {     ;# multiple selections: find current one
           if {[$txt compare $pos >= insert] ||
