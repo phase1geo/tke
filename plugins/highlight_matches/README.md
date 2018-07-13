@@ -31,17 +31,17 @@ This option allows to quicken the highlighting when you want to view only some n
 Setting this option to 0 disables only double-clicking highlights. All menu "Plugin/ Highlight Matches" operations apply to the whole text at that.
 
 Other entries of "Plugin/ Highlight Matches" menu are following:
-  - "Jump Backward" means moving the cursor to the previous selection;
-  - "Jump Forward"  means moving the cursor to the next selection;
-  - "Jump to First" means moving the cursor to the first selection;
-  - "Jump to Last"  means moving the cursor to the last selection.
+  `Jump Backward` means moving the cursor to the previous selection;
+  `Jump Forward`  means moving the cursor to the next selection;
+  `Jump to First` means moving the cursor to the first selection;
+  `Jump to Last`  means moving the cursor to the last selection.
 
 It would be convenient to assign the following shortkeys for the "Plugin/ Highlight Matches" operations:
-  - Alt-H     to "Highlight"
-  - Alt-Left  to "Jump to Backward"
-  - Alt-Right to "Jump to Forward"
-  - Alt-Q     to "Jump to First"
-  - Alt-W     to "Jump to Last"
+  *Alt-H*     - Highlight
+  *Alt-Left*  - Jump to Backward
+  *Alt-Right* - Jump to Forward
+  *Alt-Q*     - Jump to First
+  *Alt-W*     - Jump to Last
 For lefthanders, though, Alt+Q and Alt+W are more convenient than Alt+Arrows. Checked by the plugin author.
 
 While in Vim mode ("Edit/ Preferences/ Editor") you can't highlight a word with double-clicking, so "Plugin/ Highlight Matches/ Highlight" and its shortkey can only help you.
@@ -82,12 +82,12 @@ You should take this into account while using the highlight feature.
 
 We edit the following code:
 
-  set sel [$w get {*}$selected]
-  set countList {}
-  set startList [$w search -all -regexp -count countList $sel 1.0 end]
-  foreach first $startList count $countList {
-     $w tag add sel $first [$w index "$first + $count chars"]
-  }
+    set sel [$w get $selected]
+    set countList {}
+    set startList [$w search -all -regexp -count countList $sel 1.0 end]
+    foreach first $startList count $countList {
+       $w tag add sel $first [$w index "$first + $count chars"]
+    }
 
-After double-clicking on "count" word we get all six "count" being highlighted.
+After double-clicking on _count_ we get all six _count_ being highlighted.
 
