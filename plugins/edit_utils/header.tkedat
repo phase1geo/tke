@@ -1,0 +1,12 @@
+name           {edit_utils}
+author         {Alex Plotnikov}
+email          {aplsimple@mail.ru}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {
+  1) Delete the line/ selection.
+  2) Duplicate the line/ selection.
+  3) Indent/unindent the line/ selection.
+  4) Comment/uncomment the TCL line/ selection.
+}

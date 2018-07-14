@@ -1,0 +1,65 @@
+filepatterns
+{meson.build}
+
+reference {
+  {{Language Reference} http://mesonbuild.com/Syntax.html}
+}
+
+completechars
+{curly}
+
+matchchars
+{curly paren square single triple}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+indentation
+{curly paren}
+
+icomment {{#}}
+
+comments {{{#} {$}}}
+
+nestedcomments {0}
+
+strings {single triple}
+
+keywords
+{
+  if elif else endif foreach endforeach
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0[Xx][0-9a-fA-F]+|0[oO][0-7]+|true|false)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}\(\),+*%=/:?-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    and or not
+  }
+}
+
+advanced {
+  HighlightClass method {-fgtheme miscellaneous1}
+
+  HighlightRegexp {\.(strip|to_upper|to_lower|to_int|contains|startswith|endswith|split|join|underscorify|version_compare)\(} methods
+
+  HighlightProc methods {
+    return [list [list [list method {*}$vars(0)]] ""]
+  } HighlightEndProc
+}
