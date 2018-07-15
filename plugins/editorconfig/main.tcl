@@ -17,7 +17,6 @@ namespace eval editorconfig {
   proc do_open {index} {
 
     set fname [api::file::get_info $index fname]
-    api::log "In do_open, fname: $fname"
 
     # Parse the .editorconfig files found in the current file's path
     parse_configs $fname
@@ -40,7 +39,6 @@ namespace eval editorconfig {
 
     for {set i [expr $pathlen - 2]} {$i >= 0} {incr i -1} {
       set config [file join {*}[lrange $path 0 $i] .editorconfig]
-      puts "config: $config"
       if {[file exists $config] && [parse_config [file join {*}[lrange $path [expr $i + 1] end]] $config]} {
         break
       }
@@ -54,8 +52,6 @@ namespace eval editorconfig {
 
     variable opts
 
-    api::log "In parse_config, fname: $fname, config: $config"
-
     set root_found 0
     set skip       0
 
@@ -68,10 +64,8 @@ namespace eval editorconfig {
 
     foreach line [split $contents \n] {
       if {[regexp {^\s*[#;]} $line]} {
-        api::log "  Found a comment: $line"
         # This is a comment
       } elseif {[regexp {^\s*\[([^]]+)\]} $line -> filepattern]} {
-        api::log "  Found a file pattern: $line, pattern: $filepattern"
         set skip 0
         if {![parse_filepattern $fname $filepattern]} {
           set skip 1
@@ -80,7 +74,7 @@ namespace eval editorconfig {
         if {($key eq "root") && ($value eq "true")} {
           set root_found 1
         } elseif {[info exists opts($key)] && ($opts($key) eq "")} {
-          set opts($key) $value
+          set opts($key) [map_opt_$key $value]
         }
       }
     }
@@ -93,9 +87,11 @@ namespace eval editorconfig {
   # match, returns 1; otherwise, returns 0.
   proc parse_filepattern {fname pattern} {
 
-    set re [string map {{**} {.*} {*} {[^/]*} {.} {\.} {[!} {[^}} $pattern]
+    set re [join [list ^ [string map {{**} {.*} {*} {[^/]*} {.} {\.} {[!} {[^}} $pattern] \$] ""]
 
-    return [regexp $re [file tail $fname]]
+    api::log [join [list "re: $re, fname: $fname, result: " [regexp $re $fname]]]
+
+    return [regexp $re $fname]
 
   }
 
@@ -112,6 +108,59 @@ namespace eval editorconfig {
       }
     }
 
+  }
+
+  proc set_opt_indent_style {value} {
+    variable opts
+    array set values {
+      tab   tab
+      space space
+    }
+    if {[info exists values($value)]} {
+      set opts(indent_style) $values($value)
+    }
+  }
+
+  proc set_opt_indent_size {value} {
+    variable opts
+    if {[string is integer $value] && ($value >= 0)} {
+      set opts(indent_size) $value
+    }
+  }
+
+  proc set_opt_tab_width {value} {
+    # TBD
+  }
+
+  proc set_opt_end_of_line {value} {
+    variable opts
+    array set values {
+      lf   lf
+      crlf crlf
+      cr   cr
+    }
+    if {[info exists values($value)]} {
+      set opts(end_of_line) $values($value)
+    }
+  }
+
+  proc set_opt_charset {value} {
+    # Do nothing with this value for now
+  }
+
+  proc set_opt_trim_trailing_whitespace {value} {
+    variable opts
+    array set values {
+      true  1
+      false 0
+    }
+    if {[info exists values($value)]} {
+      set opts(trim_trailing_whitespace) $values($value)
+    }
+  }
+
+  proc insert_final_newline {value} {
+    # Do nothing with this value for now
   }
 
 }
