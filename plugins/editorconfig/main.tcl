@@ -18,6 +18,8 @@ namespace eval editorconfig {
 
     set fname [api::file::get_info $index fname]
 
+    api::log "Handling fname: $fname"
+
     # Parse the .editorconfig files found in the current file's path
     parse_configs $fname
 
@@ -65,16 +67,13 @@ namespace eval editorconfig {
     foreach line [split $contents \n] {
       if {[regexp {^\s*[#;]} $line]} {
         # This is a comment
-      } elseif {[regexp {^\s*\[([^]]+)\]} $line -> filepattern]} {
-        set skip 0
-        if {![parse_filepattern $fname $filepattern]} {
-          set skip 1
-        }
+      } elseif {[regexp {^\s*\[(.*)\]\s*$} $line -> filepattern]} {
+        set skip [expr [parse_filepattern $fname $filepattern] == 0]
       } elseif {!$skip && [regexp {^\s*(\w+)\s*=\s*(\S+)$} $line -> key value]} {
         if {($key eq "root") && ($value eq "true")} {
           set root_found 1
         } elseif {[info exists opts($key)] && ($opts($key) eq "")} {
-          set opts($key) [map_opt_$key $value]
+          set opts($key) [set_opt_$key $value]
         }
       }
     }
@@ -87,9 +86,17 @@ namespace eval editorconfig {
   # match, returns 1; otherwise, returns 0.
   proc parse_filepattern {fname pattern} {
 
-    set re [join [list ^ [string map {{**} {.*} {*} {[^/]*} {.} {\.} {[!} {[^}} $pattern] \$] ""]
+    set ranges [list]
 
-    api::log [join [list "re: $re, fname: $fname, result: " [regexp $re $fname]]]
+    while {[regexp -indices {\{(\d+)\.\.(\d+)\}} $pattern full minpos maxpos]} {
+      set min     [string range $pattern {*}$minpos]
+      set max     [string range $pattern {*}$maxpos]
+      lappend ranges $min $max
+      set pattern [string replace $pattern {*}$full "(\d+)"]
+    }
+
+    # Calculate the regular expression
+    set re [join [list ^ [string map {{**} {.*} {*} {[^/]*} {.} {\.} {[!} {[^} , | \{ \( \} \)} $pattern] \$] ""]
 
     return [regexp $re $fname]
 
@@ -100,11 +107,17 @@ namespace eval editorconfig {
 
     variable opts
 
-    api::log "In apply_configuration info"
+    array set mapping {
+      indent_style expandtab
+      indent_size  tabstop
+      tab_width    tabstop
+      end_of_line  fileformat
+    }
 
     foreach {opt value} [array get opts] {
       if {($opt ne "root") && ($value ne "")} {
-        api::log "Setting option $opt to $value"
+        api::log "  set_option, opt: $opt, mapping: $mapping($opt), value: $value"
+        api::file::set_option $index $mapping($opt) $value
       }
     }
 
@@ -123,13 +136,16 @@ namespace eval editorconfig {
 
   proc set_opt_indent_size {value} {
     variable opts
-    if {[string is integer $value] && ($value >= 0)} {
+    if {($value eq "tab") || ([string is integer $value] && ($value >= 0))} {
       set opts(indent_size) $value
     }
   }
 
   proc set_opt_tab_width {value} {
-    # TBD
+    variable opts
+    if {[string is integer $value] && ($value >= 1)} {
+      set opts(tab_width) $value
+    }
   }
 
   proc set_opt_end_of_line {value} {
@@ -149,17 +165,10 @@ namespace eval editorconfig {
   }
 
   proc set_opt_trim_trailing_whitespace {value} {
-    variable opts
-    array set values {
-      true  1
-      false 0
-    }
-    if {[info exists values($value)]} {
-      set opts(trim_trailing_whitespace) $values($value)
-    }
+    # Do nothing with this value for now
   }
 
-  proc insert_final_newline {value} {
+  proc set_opt_insert_final_newline {value} {
     # Do nothing with this value for now
   }
 

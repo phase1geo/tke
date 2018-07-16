@@ -109,13 +109,13 @@ namespace eval gui {
 
   ######################################################################
   # Returns the file browser directory path.
-  proc get_browse_directory {} {
+  proc get_browse_directory {txt} {
 
     variable browse_dir
 
     switch $browse_dir {
       last    { return "" }
-      buffer  { return [file dirname [get_info {} current fname]] }
+      buffer  { return [file dirname [get_info $txt txt fname]] }
       current { return [pwd] }
       default { return $browse_dir }
     }
@@ -644,7 +644,7 @@ namespace eval gui {
   # information.
   proc handle_auto_cwd {name1 name2 op} {
 
-    set_auto_cwd [preferences::get General/AutoChangeWorkingDirectory]
+    set_auto_cwd [gui::current_txt] [preferences::get General/AutoChangeWorkingDirectory]
 
   }
 
@@ -784,6 +784,17 @@ namespace eval gui {
     }
 
   }
+
+  ######################################################################
+  # Returns the current value of the auto_cwd setting.
+  proc get_auto_cwd {} {
+
+    variable auto_cwd
+
+    return $auto_cwd
+
+  }
+
   ######################################################################
   # Sets the auto_cwd variable to the given boolean value.
   proc set_auto_cwd {value} {
@@ -988,11 +999,19 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Returns the line number view value for the current text widget.
+  proc get_line_number_view {txt} {
+
+    return [$txt cget -linemap]
+
+  }
+
+  ######################################################################
   # Shows the line numbers.
-  proc set_line_number_view {value} {
+  proc set_line_number_view {txt value} {
 
     # Show the line numbers in the current editor
-    [current_txt] configure -linemap $value
+    $txt configure -linemap $value
 
   }
 
@@ -1216,7 +1235,7 @@ namespace eval gui {
               syntax::set_language $txt $finfo(language)
             }
             if {[info exists finfo(indent)]} {
-              set_indent_mode $finfo(indent)
+              set_indent_mode $txt $finfo(indent)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               diff::set_session_data $txt $finfo(diffdata)
@@ -2036,7 +2055,7 @@ namespace eval gui {
   proc prompt_for_save {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     # Get the list of save options
     set save_opts [list]
@@ -2094,21 +2113,47 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Returns the current EOL translation for the current text widget.
+  proc get_eol_translation {txt} {
+
+    return [files::get_info [get_info $txt txt fileindex] fileindex eol]
+
+  }
+
+  ######################################################################
+  # Sets the EOL translation setting for the current file to the given value.
+  proc set_eol_translation {txt value} {
+
+    # Get the file index of the current file
+    files::set_info [get_info $txt txt fileindex] fileindex eol $value
+
+  }
+
+  ######################################################################
   # Sets the EOL translation setting for the current file to the given value.
   proc set_current_eol_translation {value} {
 
-    # Get the file index of the current file
-    files::set_info [get_info {} current fileindex] fileindex eol $value
+    set_eol_translation [gui::current_txt] $value
+
+  }
+
+  ######################################################################
+  # Returns the modified indicator for the current text widget.
+  proc get_modified {txt} {
+
+    get_info $txt txt tab
+
+    return [files::get_info $tab tab modified]
 
   }
 
   ######################################################################
   # Sets the current text status modification value to the specified value
-  # and updates the titlebar and tabbar
-  proc set_current_modified {value} {
+  # and updates the titlebar and tabbar.
+  proc set_modified {txt value} {
 
     # Get the current file information
-    get_info {} current tabbar tab txt fname
+    get_info $txt txt tabbar tab fname
 
     # Set the file modified status to the given value
     files::set_info $tab tab modified $value
@@ -2122,7 +2167,18 @@ namespace eval gui {
     $tabbar tab $tab -text [format "%s %s" [expr {$value ? " *" : ""}] [file tail $fname]]
 
     # Update the title
-    set_title
+    if {$txt eq [gui::current_txt]} {
+      set_title
+    }
+
+  }
+
+  ######################################################################
+  # Sets the current text status modification value to the specified value
+  # and updates the titlebar and tabbar.
+  proc set_current_modified {value} {
+
+    set_modified [gui::current_txt] $value
 
   }
 
@@ -3196,17 +3252,35 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Sets the file lock to the specified value for the current file.
-  proc set_current_file_lock {lock} {
+  # Returns the file lock value for the current text widget.
+  proc get_file_lock {txt} {
+
+    get_info $txt txt tab
+
+    return [files::get_info $tab tab lock]
+
+  }
+
+  ######################################################################
+  # Sets the file lock to the specified value for the specified file.
+  proc set_file_lock {txt lock} {
 
     # Get the current tab information
-    get_info {} current tab
+    get_info $txt txt tab
 
     # Set the current lock status
     files::set_info $tab tab lock $lock
 
     # Set the tab image to match
     set_tab_image $tab
+
+  }
+
+  ######################################################################
+  # Sets the file lock to the specified value for the current file.
+  proc set_current_file_lock {lock} {
+
+    set_file_lock [gui::current_txt] $lock
 
   }
 
@@ -3759,6 +3833,16 @@ namespace eval gui {
     } else {
       set_info_message [msgcat::mc "Must be in multicursor mode to insert numbers"]
     }
+
+  }
+
+  ######################################################################
+  # Returns 1 if we are split pane view; otherwise, returns 0.
+  proc get_split_pane {txt} {
+
+    get_info $txt txt txt2
+
+    return [expr [winfo exists $txt2] ^ 1]
 
   }
 
@@ -5791,23 +5875,40 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Sets the indentation mode for the current text widget.
-  proc set_indent_mode {mode} {
+  # Returns the current indentation mode for the current text widget.
+  proc get_indent_mode {txt} {
+
+    return [$txt cget -indentmode]
+
+  }
+
+  ######################################################################
+  # Sets the indentation mode for the specified text widget.
+  proc set_indent_mode {txt mode} {
 
     variable widgets
     variable indent_mode_map
 
-    # Get the current text widget
-    set txt [gui::current_txt]
-
     # Set the text widget's indent mode
     $txt configure -indentmode $indent_mode_map($mode)
 
-    # Update the menu button
-    $widgets(info_indent) configure -text $mode
+    if {$txt eq [gui::current_txt]} {
 
-    # Set the focus back to the text widget
-    catch { set_txt_focus [last_txt_focus] }
+      # Update the menu button
+      $widgets(info_indent) configure -text $mode
+
+      # Set the focus back to the text widget
+      catch { set_txt_focus [last_txt_focus] }
+
+    }
+
+  }
+
+  ######################################################################
+  # Set the indentation mode for the current text widget.
+  proc set_current_indent_mode {mode} {
+
+    set_indent_mode [gui::current_txt] $mode
 
   }
 
@@ -5823,7 +5924,7 @@ namespace eval gui {
     # Populate the menu with the available languages
     foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
       $mnu add radiobutton -label $lbl -variable gui::current_indent \
-                           -value $mode -command [list gui::set_indent_mode $mode]
+                           -value $mode -command [list gui::set_current_indent_mode $mode]
     }
 
     return $mnu

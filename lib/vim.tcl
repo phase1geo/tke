@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (ps (p1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -180,7 +180,9 @@ namespace eval vim {
             set opts [string map {"\\:" {:} ":" { }} $opts]
             foreach opt $opts {
               if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
-                do_set_command $txt $key $val $mod 1
+                if {[catch { do_set_command $txt $key $val $mod 1 }]} {
+                  gui::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
+                }
               }
             }
             return
@@ -385,7 +387,9 @@ namespace eval vim {
           } elseif {[regexp {^set?\s+(.*)$} $value -> opts]} {
             foreach opt [split $opts ": "] {
               if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
-                set txt [do_set_command $txt $key $val $mod]
+                if {[catch { do_set_command $txt $key $val $mod } txt]} {
+                  gui::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
+                }
               }
             }
 
@@ -401,91 +405,145 @@ namespace eval vim {
 
   ######################################################################
   # Handles set command calls and modeline settings.
+  proc do_get_command {txt opt} {
+
+    switch $opt {
+      autochdir        -
+      acd              { return [do_get_autochdir $txt] }
+      autoindent       -
+      ai               { return [do_get_indent_mode $txt IND] }
+      browsedir        -
+      bsdir            { return [do_get_browse_dir $txt] }
+      expandtab        -
+      et               { return [do_get_expandtab $txt] }
+      fileformat       -
+      ff               { return [do_get_fileformat $txt] }
+      foldenable       -
+      fen              { return [do_get_foldenable $txt] }
+      foldmethod       -
+      fdm              { return [do_get_foldmethod $txt] }
+      matchpairs       -
+      mps              { return [do_get_matchpairs $txt] }
+      modeline         -
+      ml               { return [do_get_modeline $txt] }
+      mls              { return [do_get_modelines $txt] }
+      modifiable       -
+      ma               { return [do_get_modifiable $txt] }
+      modified         -
+      mod              { return [do_get_modified $txt] }
+      number           -
+      nu               { return [do_get_number $txt] }
+      numberwidth      -
+      nuw              { return [do_get_numberwidth $txt] }
+      relativenumber   -
+      rnu              { return [do_get_relativenumber $txt] }
+      selection        -
+      sel              { return [do_get_selection $txt] }
+      shiftwidth       -
+      sw               { return [do_get_shiftwidth $txt] }
+      showmatch        -
+      sm               { return [do_get_showmatch $txt] }
+      smartindent      -
+      si               { return [do_get_indent_mode $txt IND+] }
+      splitbelow       -
+      sb               { return [do_get_split $txt] }
+      syntax           -
+      syn              { return [do_get_syntax $txt] }
+      tabstop          -
+      ts               { return [do_get_tabstop $txt] }
+    }
+
+    return -code error "Unsupported Vim command ($opt)"
+
+  }
+
+  ######################################################################
+  # Handles set command calls and modeline settings.
   proc do_set_command {txt opt val mod {ml 0}} {
 
     switch $opt {
       autochdir        -
       acd              {
         if {$ml} { return $txt }
-        do_set_autochdir 1
+        do_set_autochdir $txt 1
       }
       noautochdir      -
       noacd            {
         if {$ml} { return $txt }
-        do_set_autochdir 0
+        do_set_autochdir $txt 0
       }
       autoindent       -
-      ai               { do_set_indent_mode IND 1 }
+      ai               { do_set_indent_mode $txt IND 1 }
       noautoindent     -
-      noai             { do_set_indent_mode IND 0 }
+      noai             { do_set_indent_mode $txt IND 0 }
       browsedir        -
-      bsdir            { do_set_browse_dir $val }
+      bsdir            { do_set_browse_dir $txt $val }
       expandtab        -
-      et               { do_set_expandtab 1 }
+      et               { do_set_expandtab $txt 1 }
       noexpandtab      -
-      noet             { do_set_expandtab 0 }
+      noet             { do_set_expandtab $txt 0 }
       fileformat       -
-      ff               { do_set_fileformat $val }
+      ff               { do_set_fileformat $txt $val }
       foldenable       -
-      fen              { do_set_foldenable 1 }
+      fen              { do_set_foldenable $txt 1 }
       nofoldenable     -
-      nofen            { do_set_foldenable 0 }
+      nofen            { do_set_foldenable $txt 0 }
       foldmethod       -
-      fdm              { do_set_foldmethod $val }
+      fdm              { do_set_foldmethod $txt $val }
       matchpairs       -
-      mps              { do_set_matchpairs $val $mod }
+      mps              { do_set_matchpairs $txt $val $mod }
       modeline         -
-      ml               { do_set_modeline 1 }
+      ml               { do_set_modeline $txt 1 }
       nomodeline       -
-      noml             { do_set_modeline 0 }
+      noml             { do_set_modeline $txt 0 }
       modelines        -
       mls              {
         if {$ml} { return $txt }
-        do_set_modelines $val
+        do_set_modelines $txt $val
       }
       modifiable       -
-      ma               { do_set_modifiable 1 }
+      ma               { do_set_modifiable $txt 1 }
       nomodifiable     -
-      noma             { do_set_modifiable 0 }
+      noma             { do_set_modifiable $txt 0 }
       modified         -
-      mod              { do_set_modified 1 }
+      mod              { do_set_modified $txt 1 }
       nomodified       -
-      nomod            { do_set_modified 0 }
+      nomod            { do_set_modified $txt 0 }
       number           -
-      nu               { do_set_number 1 }
+      nu               { do_set_number $txt 1 }
       nonumber         -
-      nonu             { do_set_number 0 }
+      nonu             { do_set_number $txt 0 }
       numberwidth      -
       nuw              {
         if {$ml} { return $txt }
-        do_set_numberwidth $val
+        do_set_numberwidth $txt $val
       }
       relativenumber   -
-      rnu              { do_set_relativenumber relative }
+      rnu              { do_set_relativenumber $txt relative }
       norelativenumber -
-      nornu            { do_set_relativenumber absolute }
+      nornu            { do_set_relativenumber $txt absolute }
       selection        -
-      sel              { do_set_selection $val }
+      sel              { do_set_selection $txt $val }
       shiftwidth       -
-      sw               { do_set_shiftwidth $val }
+      sw               { do_set_shiftwidth $txt $val }
       showmatch        -
-      sm               { do_set_showmatch 1 }
+      sm               { do_set_showmatch $txt 1 }
       noshowmatch      -
-      nosm             { do_set_showmatch 0 }
+      nosm             { do_set_showmatch $txt 0 }
       smartindent      -
-      si               { do_set_indent_mode IND+ 1 }
+      si               { do_set_indent_mode $txt IND+ 1 }
       nosmartindent    -
-      nosi             { do_set_indent_mode IND+ 0 }
+      nosi             { do_set_indent_mode $txt IND+ 0 }
       splitbelow       -
-      sb               { do_set_split 1 }
+      sb               { do_set_split $txt 1 }
       nosplitbelow     -
-      nosb             { do_set_split 0; set txt [gui::current_txt] }
+      nosb             { do_set_split $txt 0; set txt [gui::current_txt] }
       syntax           -
-      syn              { do_set_syntax $val }
+      syn              { do_set_syntax $txt $val }
       tabstop          -
-      ts               { do_set_tabstop $val }
+      ts               { do_set_tabstop $txt $val }
       default          {
-        gui::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
+        return -code error "Unsupported Vim command"
       }
     }
 
@@ -494,18 +552,34 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Returns the current autochdir setting value.
+  proc do_get_autochdir {txt} {
+
+    return [gui::get_auto_cwd]
+
+  }
+
+  ######################################################################
   # Causes the current working directory to automatically change to be
   # the directory of the currently opened file.  This is a global setting.
-  proc do_set_autochdir {value} {
+  proc do_set_autochdir {txt value} {
 
     gui::set_auto_cwd $value
 
   }
 
   ######################################################################
+  # Returns the current indentation mode.
+  proc do_get_indent_mode {txt} {
+
+    return [gui::get_indent_mode $txt]
+
+  }
+
+  ######################################################################
   # Sets the indentation mode based on the current value, the specified
   # type (IND, IND+) and the value (0 or 1).
-  proc do_set_indent_mode {type value} {
+  proc do_set_indent_mode {txt type value} {
 
     array set newval {
       {OFF,IND,0}   {OFF}
@@ -523,35 +597,59 @@ namespace eval vim {
     }
 
     # Get the current mode
-    set curr [[gui::current_txt] cget -indentmode]
+    set curr [$txt cget -indentmode]
 
     # If the indentation mode will change, set it to the new value
     if {$curr ne $newval($curr,$type,$value)} {
-      gui::set_indent_mode $newval($curr,$type,$value)
+      gui::set_indent_mode $txt $newval($curr,$type,$value)
     }
 
   }
 
   ######################################################################
+  # Returns the current value of browse_dir value.
+  proc do_get_browse_dir {txt} {
+
+    return [gui::get_browse_directory $txt]
+
+  }
+
+  ######################################################################
   # Sets the file browser directory default pathname.
-  proc do_set_browse_dir {val} {
+  proc do_set_browse_dir {txt val} {
 
     gui::set_browse_directory $val
 
   }
 
   ######################################################################
+  # Returns the current expandtab value.
+  proc do_get_expandtab {txt} {
+
+    return [snippets::get_expandtabs $txt]
+
+  }
+
+  ######################################################################
   # Sets the tab expansion mode for the current buffer to (use tabs or
   # translate tabs to spaces.
-  proc do_set_expandtab {val} {
+  proc do_set_expandtab {txt val} {
 
-    snippets::set_expandtabs [gui::current_txt] $val
+    snippets::set_expandtabs $txt $val
+
+  }
+
+  ######################################################################
+  # Returns the current fileformat setting for the current text widget.
+  proc do_get_fileformat {txt} {
+
+    return [gui::get_eol_translation $txt]
 
   }
 
   ######################################################################
   # Set the EOL setting for the current buffer.
-  proc do_set_fileformat {val} {
+  proc do_set_fileformat {txt val} {
 
     array set map {
       dos  crlf
@@ -561,7 +659,7 @@ namespace eval vim {
 
     # Set the current EOL translation
     if {[info exists map($val)]} {
-      gui::set_current_eol_translation $map($val)
+      gui::set_eol_translation $txt $map($val)
     } else {
       gui::set_info_message [format "%s (%s)" [msgcat::mc "File format unrecognized"] $val]
     }
@@ -569,18 +667,41 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Perform a fold_all or unfold_all command call.
-  proc do_set_foldenable {val} {
+  # Returns the current foldenable value for the current text.
+  proc do_get_foldenable {txt} {
 
-    set txt [gui::current_txt]
+    return [$txt cget -foldenable]
+
+  }
+
+  ######################################################################
+  # Perform a fold_all or unfold_all command call.
+  proc do_set_foldenable {txt val} {
 
     $txt configure -foldenable $val
 
   }
 
   ######################################################################
+  # Returns the current foldmethod value for the current text widget.
+  proc do_get_foldmethod {txt} {
+
+    if {[$txt cget -foldenable] == 0} {
+      return "none"
+    } else {
+      switch [$txt cget -indentmode] {
+        "OFF"  { return "manual" }
+        "IND+" { return "syntax" }
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
   # Set the current code folding method.
-  proc do_set_foldmethod {val} {
+  proc do_set_foldmethod {txt val} {
 
     array set map {
       none   {-foldenable 0}
@@ -590,7 +711,7 @@ namespace eval vim {
 
     # Set the current folding method
     if {[info exists map($val)]} {
-      [gui::current_txt] configure {*}$map($val)
+      $txt configure {*}$map($val)
     } else {
       gui::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
     }
@@ -598,12 +719,22 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Returns the matchchars string for the current text widget.
+  proc do_get_matchpairs {txt} {
+
+    set lang       [ctext::getLang $txt insert]
+    set matchchars [ctext::getAutoMatchChars $txt $lang]
+
+    return [join [string map {curly {\{:\}} paren {\(:\)} square {[:]} angled <:>} $matchchars] ,]
+
+  }
+
+  ######################################################################
   # Set the matchpairs to the given value(s).  The value of val is like
   # <:> and mod will be {}, + or -.
-  proc do_set_matchpairs {val mod} {
+  proc do_set_matchpairs {txt val mod} {
 
     # Get the current text widget
-    set txt  [gui::current_txt]
     set lang [ctext::getLang $txt insert]
 
     # Get the current match characters
@@ -633,19 +764,39 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Sets whether or not modeline information should be used for the current
-  # buffer.
-  proc do_set_modeline {val} {
+  # Returns the current modeline for the current text widget.
+  proc do_get_modeline {txt} {
 
     variable modeline
 
-    set modeline([gui::current_txt].t) $val
+    return $modeline($txt.t)
+
+  }
+
+  ######################################################################
+  # Sets whether or not modeline information should be used for the current
+  # buffer.
+  proc do_set_modeline {txt val} {
+
+    variable modeline
+
+    set modeline($txt.t) $val
+
+  }
+
+  ######################################################################
+  # Returns the current modelines value.
+  proc do_get_modelines {txt} {
+
+    variable modelines
+
+    return $modelines
 
   }
 
   ######################################################################
   # Sets the number of lines to parse for modeline information.
-  proc do_set_modelines {val} {
+  proc do_set_modelines {txt val} {
 
     variable modelines
 
@@ -658,33 +809,65 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Set the locked status of the current buffer.
-  proc do_set_modifiable {val} {
+  # Returns the modifiable value for the current text widget.
+  proc do_get_modifiable {txt} {
 
-    gui::set_current_file_lock [expr {$val ? 0 : 1}]
+    return [gui::get_file_lock $txt]
+
+  }
+
+  ######################################################################
+  # Set the locked status of the current buffer.
+  proc do_set_modifiable {txt val} {
+
+    gui::set_file_lock $txt [expr {$val ? 0 : 1}]
+
+  }
+
+  ######################################################################
+  # Returns the modified value for the current text widget.
+  proc do_get_modified {txt} {
+
+    return [gui::get_modified $txt]
 
   }
 
   ######################################################################
   # Changes the modified state of the current buffer.
-  proc do_set_modified {val} {
+  proc do_set_modified {txt val} {
 
-    gui::set_current_modified $val
+    gui::set_modified $txt $val
+
+  }
+
+  ######################################################################
+  # Returns the number view value of the current text.
+  proc do_get_number {txt} {
+
+    return [gui::get_line_number_view $txt]
 
   }
 
   ######################################################################
   # Sets the visibility of the line numbers.
-  proc do_set_number {val} {
+  proc do_set_number {txt val} {
 
-    gui::set_line_number_view $val
+    gui::set_line_number_view $txt $val
+
+  }
+
+  ######################################################################
+  # Returns the numberwidth value for the current text widget.
+  proc do_get_numberwidth {txt} {
+
+    return [$txt cget -linemap_minwidth]
 
   }
 
   ######################################################################
   # Sets the minimum width of the line number gutter area to the specified
   # value.
-  proc do_set_numberwidth {val} {
+  proc do_set_numberwidth {txt val} {
 
     if {[string is integer $val]} {
       gui::set_line_number_width $val
@@ -695,16 +878,34 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Sets the relative numbering mode to the given value.
-  proc do_set_relativenumber {val} {
+  # Returns the current relative number value for the current text widget.
+  proc do_get_relativenumber {txt} {
 
-    [gui::current_txt] configure -linemap_type $val
+    return [$txt cget -linemap_type]
+
+  }
+
+  ######################################################################
+  # Sets the relative numbering mode to the given value.
+  proc do_set_relativenumber {txt val} {
+
+    $txt configure -linemap_type $val
+
+  }
+
+  ######################################################################
+  # Returns the selection value.
+  proc do_get_selection {txt} {
+
+    variable seltype
+
+    return $seltype
 
   }
 
   ######################################################################
   # Sets the selection value to either old, inclusive or exclusive.
-  proc do_set_selection {val} {
+  proc do_set_selection {txt val} {
 
     variable seltype
 
@@ -721,11 +922,19 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Returns the shiftwidth value for the current text widget.
+  proc do_get_shiftwidth {txt} {
+
+    return [$txt cget -shiftwidth]
+
+  }
+
+  ######################################################################
   # Specifies the number of spaces to use for each indentation.
-  proc do_set_shiftwidth {val} {
+  proc do_set_shiftwidth {txt val} {
 
     if {[string is integer $val]} {
-      [gui::current_txt] configure -shiftwidth $val
+      $txt configure -shiftwidth $val
     } else {
       gui::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
     }
@@ -733,39 +942,71 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Returns the showmatch value for the current text widget.
+  proc do_get_showmatch {txt} {
+
+    return [$txt cget -matchchar]
+
+  }
+
+  ######################################################################
   # Sets the showmatch value in all of the text widgets.
-  proc do_set_showmatch {val} {
+  proc do_set_showmatch {txt val} {
 
     gui::set_matching_char $val
 
   }
 
   ######################################################################
+  # Returns the current split value.
+  proc do_get_split {txt} {
+
+    return [gui::get_split_pane $txt]
+
+  }
+
+  ######################################################################
   # Shows or hides split view in the current buffer.
-  proc do_set_split {val} {
+  proc do_set_split {txt val} {
 
     if {$val} {
-      gui::show_split_pane [gui::get_info {} current tab]
+      gui::show_split_pane [gui::get_info $txt txt tab]
     } else {
-      gui::hide_split_pane [gui::get_info {} current tab]
+      gui::hide_split_pane [gui::get_info $txt txt tab]
     }
 
   }
 
   ######################################################################
-  # Run the set syntax command.
-  proc do_set_syntax {val} {
+  # Returns the current syntax value.
+  proc do_get_syntax {txt} {
 
-    syntax::set_current_language [syntax::get_vim_language $val]
+    return [syntax::get_language $txt]
+
+  }
+
+  ######################################################################
+  # Run the set syntax command.
+  proc do_set_syntax {txt val} {
+
+    syntax::set_language $txt [syntax::get_vim_language $val]
+
+  }
+
+  ######################################################################
+  # Returns the tabstop value for the current text widget.
+  proc do_get_tabstop {txt} {
+
+    return [$txt cget -tabstop]
 
   }
 
   ######################################################################
   # Specifies number of spaces that a TAB in the file counts for.
-  proc do_set_tabstop {val} {
+  proc do_set_tabstop {txt val} {
 
     if {[string is integer $val]} {
-      [gui::current_txt] configure -tabstop $val
+      $txt configure -tabstop $val
     } else {
       gui::set_info_message [msgcat::mc "Tabstop value is not an integer"]
     }

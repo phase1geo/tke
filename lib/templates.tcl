@@ -72,7 +72,7 @@ namespace eval templates {
   proc load_abs {name args} {
 
     # Get the browse directory
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     # Get the filename from the user
     if {[set fname [tk_getSaveFile -parent . -initialdir $dirname -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
