@@ -659,7 +659,7 @@ namespace eval menus {
   proc open_command {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -filetypes [syntax::get_filetypes] -defaultextension .tcl -multiple 1]] ne ""} {
       foreach ofile $ofiles {
@@ -674,7 +674,7 @@ namespace eval menus {
   proc open_dir_command {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       sidebar::add_directory $odir
@@ -704,7 +704,7 @@ namespace eval menus {
   # Change the current working directory to a specified value.
   proc change_working_directory {} {
 
-    if {[set dir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory] -mustexist 1]] ne ""} {
+    if {[set dir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory [gui::current_txt]] -mustexist 1]] ne ""} {
       gui::change_working_directory $dir
     }
 
@@ -778,7 +778,7 @@ namespace eval menus {
   proc export_command {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     # Get the current editing buffer
     set txt [gui::current_txt]
@@ -1166,14 +1166,14 @@ namespace eval menus {
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list gui::set_indent_mode OFF]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list gui::set_indent_mode OFF]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list gui::set_current_indent_mode OFF]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list gui::set_current_indent_mode OFF]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list gui::set_indent_mode IND]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list gui::set_indent_mode IND]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list gui::set_current_indent_mode IND]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list gui::set_current_indent_mode IND]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list gui::set_indent_mode IND+]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list gui::set_indent_mode IND+]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list gui::set_current_indent_mode IND+]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list gui::set_current_indent_mode IND+]
 
     ######################
     # Populate cursor menu
@@ -1984,7 +1984,7 @@ namespace eval menus {
   # Inserts the contents of the file after the current line.
   proc edit_insert_file_after_current_line {} {
 
-    if {[set fname [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory] -multiple 1]] ne ""} {
+    if {[set fname [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory [gui::current_txt]] -multiple 1]] ne ""} {
       edit::insert_file [gui::current_txt].t $fname
       gui::set_txt_focus [gui::current_txt]
     }
@@ -2837,7 +2837,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Line Numbers"] -label [msgcat::mc "Hide Line Numbers"] -command "menus::hide_line_numbers $mb"}]} {
-      gui::set_line_number_view 1
+      gui::set_line_number_view [gui::current_txt] 1
     }
 
   }
@@ -2848,7 +2848,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
-      gui::set_line_number_view 0
+      gui::set_line_number_view [gui::current_txt] 0
     }
 
   }

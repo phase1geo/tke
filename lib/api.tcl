@@ -476,6 +476,32 @@ namespace eval api {
 
     }
 
+    ######################################################################
+    ## Gets an editor option with the given name for the specified file.
+    #
+    #  \params
+    proc get_option {interp pname file_index name} {
+
+      # Get the text field for the given file index
+      gui::get_info $file_index fileindex txt
+
+      # Get the command
+      return [vim::do_get_command $txt $name]
+
+    }
+
+    ######################################################################
+    ## Sets an editor option with the given name/value for the specified file.
+    proc set_option {interp pname file_index opt value {mod +}} {
+
+      # Get the text field for the given file index
+      gui::get_info $file_index fileindex txt
+
+      # Set the command for the given text field
+      vim::do_set_command $txt $opt $value $mod
+
+    }
+
   }
 
   namespace eval edit {
@@ -711,6 +737,7 @@ namespace eval api {
       edit::remove_formatting $txt
 
     }
+
 
   }
 

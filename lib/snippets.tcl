@@ -89,6 +89,16 @@ namespace eval snippets {
   }
 
   ######################################################################
+  # Returns the current expandtabs value for the given text widget.
+  proc get_expandtabs {txt} {
+
+    variable expandtabs
+
+    return $expandtabs($txt.t)
+
+  }
+
+  ######################################################################
   # Sets the expandtabs memory for the given text widget to the given value.
   proc set_expandtabs {txt val} {
 
