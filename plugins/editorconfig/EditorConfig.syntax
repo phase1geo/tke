@@ -1,0 +1,38 @@
+filepatterns
+{.editorconfig}
+
+reference
+{
+  {{Language Reference} https://editorconfig.org}
+}
+
+completechars
+{curly square}
+
+matchchars
+{curly square}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+comments {{{#} {$}} {{;} {$}}}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}=*!?.,]} {}
+}
+
+advanced {
+  HighlightClass rhs {-fgtheme numbers}
+
+  HighlightRegexp {=\s*(.*)$} rhs
+
+  HighlightProc rhs {
+    return [list [list [list rhs {*}$vars(0)]] {}]
+  } HighlightEndProc
+}

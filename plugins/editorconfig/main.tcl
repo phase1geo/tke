@@ -177,4 +177,5 @@ namespace eval editorconfig {
 # Register all plugin actions
 api::register editorconfig {
   {on_open editorconfig::do_open}
+  {syntax EditorConfig.syntax}
 }
