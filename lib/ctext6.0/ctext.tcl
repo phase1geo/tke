@@ -1553,6 +1553,7 @@ namespace eval ctext {
       prevrange { return [prevHighlightClassItem $win {*}$args] }
       ranges    { return [$win._t tag ranges __[lindex $args 0]] }
       highlight {
+        puts "Highlighting!"
         set i 0
         while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
@@ -2834,6 +2835,7 @@ namespace eval ctext {
 
     lappend data($win,highlight,regexps) "regexp,$type,$lang,$value"
 
+    puts "In addHighlightRegexp, type: $type, value: $value, lang: $lang"
     set data($win,highlight,regexp,$type,$lang,$value) [list $re $data($win,config,re_opts)]
 
   }
@@ -3052,6 +3054,7 @@ namespace eval ctext {
               [list ctext::parsers::regexp_class $win $str $startrow $re $value] \
             ]
           } else {
+            puts "HERE B, re: $re, value: $value"
             lappend jobids [tpool::post $tpool \
               [list ctext::parsers::regexp_command $win $str $startrow $re $value $ins] \
             ]
