@@ -123,6 +123,8 @@ namespace eval parsers {
   # calls the main application thread to render the highlighting.
   proc regexp_command {txt str startrow pattern cmd ins} {
 
+    utils::log "In regexp_command, pattern: $pattern, cmd: $cmd"
+
     array set tags [list]
 
     # Perform the parsing on a line basis
@@ -131,6 +133,7 @@ namespace eval parsers {
       array unset var
       while {[regexp -indices -start $start -- $pattern $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && \
              ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
+        utils::log "Calling $cmd with row $startrow"
         if {![catch { thread::send $ctext::utils::main_tid [list {*}$cmd $txt $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
           foreach sub [lindex $retval 0] {
             if {[llength $sub] == 3} {

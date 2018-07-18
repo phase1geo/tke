@@ -18,8 +18,6 @@ namespace eval editorconfig {
 
     set fname [api::file::get_info $index fname]
 
-    api::log "Handling fname: $fname"
-
     # Parse the .editorconfig files found in the current file's path
     parse_configs $fname
 
@@ -116,7 +114,6 @@ namespace eval editorconfig {
 
     foreach {opt value} [array get opts] {
       if {($opt ne "root") && ($value ne "")} {
-        api::log "  set_option, opt: $opt, mapping: $mapping($opt), value: $value"
         api::file::set_option $index $mapping($opt) $value
       }
     }
@@ -170,6 +167,13 @@ namespace eval editorconfig {
 
   proc set_opt_insert_final_newline {value} {
     # Do nothing with this value for now
+  }
+
+  # Handles right-hand-side highlighting
+  proc highlight_rhs {txt row str varlist ins} {
+    api::log "In handle_rhs, row: $row, str: $str"
+    array set vars $varlist
+    return [list [list [list rhs {*}$vars(0)]] {}]
   }
 
 }

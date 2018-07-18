@@ -633,7 +633,7 @@ namespace eval syntax {
               set section_list [lassign $section_list syntax command]
               if {$command ne ""} {
                 if {$cmd_prefix ne ""} {
-                  add_highlight_type $txt $type command "$cmd_prefix $command" $syntax $lang
+                  add_highlight_type $txt $type command "$cmd_prefix$command" $syntax $lang
                 } elseif {[string first :: $command] != -1} {
                   add_highlight_type $txt $type command $command $syntax $lang
                 } else {
