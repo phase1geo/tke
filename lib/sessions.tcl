@@ -70,7 +70,7 @@ namespace eval sessions {
 
     # If the name has not been specified, ask the user for a name
     if {$name eq ""} {
-      if {[gui::get_user_response "Session name:" sessions::user_name]} {
+      if {[gui::get_user_response [msgcat::mc "Session name:"] sessions::user_name]} {
         set name         $user_name
         set names($name) 1
         set current_name $name
@@ -291,7 +291,7 @@ namespace eval sessions {
     if {[info exists names($name)]} {
 
       # Confirm the deletion
-      if {[tk_messageBox -icon warning -parent . -default no -type yesnocancel -message "Delete session \"$name\"?"] ne "yes"} {
+      if {[tk_messageBox -icon warning -parent . -default no -type yesnocancel -message [msgcat::mc "Delete session \"%s\"?" $name] ne "yes"} {
         return
       }
 
