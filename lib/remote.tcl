@@ -130,7 +130,7 @@ namespace eval remote {
 
     ttk::frame .ftp.pw.lf.sf
     set widgets(sb) [tablelist::tablelist .ftp.pw.lf.sf.tl \
-      -columns {0 {Connections} 0 {} 0 {}} -treecolumn 0 -exportselection 0 -relief flat \
+      -columns [list 0 [msgcat::mc "Connections"] 0 {} 0 {}] -treecolumn 0 -exportselection 0 -relief flat \
       -selectmode single -movablerows 1 -labelrelief flat -highlightthickness 0 \
       -labelactivebackground [utils::get_default_background] \
       -labelbackground [utils::get_default_background] \
@@ -2298,7 +2298,7 @@ namespace eval remote {
 
     # If the table is empty, make sure that at least one group exists
     if {[$widgets(sb) size] == 0} {
-      set groups(Group) [$widgets(sb) insertchild root end "Group"]
+      set groups(Group) [$widgets(sb) insertchild root end [msgcat::mc "Group"]]
     }
 
   }
