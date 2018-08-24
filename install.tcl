@@ -118,6 +118,16 @@ if {[catch "package require Img" rc]} {
   puts "Found"
 }
 
+# Check to see if the tcl-thread package is available on the system
+puts -nonewline "Checking for tcl-thread package...          "
+flush stdout
+if {[catch "package require Thread" rc]} {
+  puts "Not Found! ($rc)"
+  exit 1
+} else {
+  puts "Found"
+}
+
 proc get_yes_or_no {question} {
 
   set answer "x"
