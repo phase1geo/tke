@@ -1,0 +1,28 @@
+ ; menu for e_menu.tcl
+
+ M:  -   M: 8
+ S: Run me (%s0) S: tclsh %f
+ R: Open my directory (%s1) R: caja "%d"
+ R: Edit/create file "%s" R:%E %s
+ R: Firefox search for "%s" R: firefox -search "%s"
+ R: Wikipedia for "%s" R:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
+ R: GoldenDict for "%s" R: goldendict %s
+
+ M:  M: 6
+ M: Fossil M: m=menus/fossil.mnu "u=%s" o=0 w=50
+ M: Git  M: m=menus/git.mnu "u=%s" o=0 w=50
+ M: Utils M: m=menus/utils.mnu
+ M: Links M: m=menus/links.mnu
+ M: Tests M: m=menus/test3.mnu
+
+[OPTIONS]
+n=< e_menu >
+bd=1
+PD=/home/apl/PG/Tcl-Tk/UTILS/tke/lib/tke
+d=%PD
+fs=11
+s1=%s run #%i1 at %t2
+u1=_run_#%i1_at_%t2
+w=45
+g=+500+200
+# c=5

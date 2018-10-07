@@ -1,0 +1,88 @@
+ ; git menu for e_menu.tcl
+
+ R:git status R: cd %PD
+ S:git status S: git status
+
+ R:git gui R: cd %PD
+ R:git gui R: git gui
+
+ R:git add * R: cd %PD
+ S:git add * S: git add *
+
+ R:git commit -am "%x1 %x2 at %t2" R: %q "Committing changes" "Add and commit with message\n\n'%x1 %x2 at %t2' ?"
+ R:git commit -am "%x1 %x2 at %t2" R: cd %PD
+ S:git commit -am "%x1 %x2 at %t2" S: git commit -am "%x1 %x2 at %t2"
+
+ R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%x1 %x2 %t1 #%i1' ?"
+ R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %PD
+ S:git commit --amend -am "%x1 %x2 %t1 #%i1" S: git commit --amend -am "%x1 %x2 %t1 #%i1"
+
+ R:git log "1 hour ago" R: cd %PD
+ S:git log "1 hour ago" S: git log "--since=1 hour ago"
+
+ R:git log "1 day ago" R: cd %PD
+ S:git log "1 day ago" S: git log "--since=1 day ago"
+
+ R:git log -p "1 hour ago" R: cd %PD
+ S:git log -p "1 hour ago" S: git log -p "--since=1 hour ago"
+
+ R:git log -p "1 day ago" R: cd %PD
+ S:git log -p "1 day ago" S: git log -p "--since=1 day ago"
+
+ R:git log --since="1 week ago" R: cd %PD
+ S:git log --since="1 week ago" S: git log "--since=1 week ago"
+
+ R:git log R: cd %PD
+ S:git log S: git log
+
+ R:git branch R: cd %PD
+ S:git branch S: git branch
+
+ R:git diff master..%s R: cd %PD
+ S:git diff master..%s S: git diff master..%s
+
+ R:edit .gitignore R: cd %PD
+ R:edit .gitignore R: %E .gitignore
+
+ MW: MISC git MW: #sets the menu item type = "M, MW, ME"
+ R: MISC git R: %Q "DANGER!" "These commands are dangerous\nand can set the world on fire!\n\nContinue?"
+ MW: MISC git MW: m=menus/git2.mnu
+
+# utils menu for e_menu.tcl
+
+ R:?8? Caja "%PD"    R: caja "%PD"
+ R:Xterm "%PD"       R: cd %PD
+ R:Xterm "%PD"       R: x-terminal-emulator -fa ru_RU.utf8 -fs 11 -geometry 80x40 R:Meld "%PD"        R:cd %PD
+ R:Meld "%PD"        R:meld .
+ R:edit all   R: cd %PD
+ R:edit all   R: %e e_menu/src/e_help.tcl e_menu/e_menu.tcl
+;
+; I: Xterm in "%PD" (verbose) I: D run bash in %PD; cd "%PD"; S bash
+
+ M: Tcl/Tk             M: m=menus/tcltk.mnu w=20
+ MW: Python            MW: m=menus/python.mnu w=40
+ MW: System            MW: m=menus/system.mnu w=40
+ MW: Wiki & Dicts      MW: m=menus/wiki.mnu w=40
+ M: MISC utils         M: m=menus/misc.mnu w=40
+
+ ; wiki menu for e_menu.tcl
+ R:?8? Mail.ru R: chromium https://mail.ru
+ R:Gmail R: %b https://gmail.com
+ R:Google R: %b https://google.com
+ R:Wikipedia.en R:%b https://en.wikipedia.org
+ R:Wikipedia.de R:%b https://de.wikipedia.org
+ R:Wikipedia.ru R:%b https://ru.wikipedia.org
+
+ R:?8? using_with_tcl_tk R: %b https://wiki.geany.org/howtos/using_with_tcl_tk
+ R:Geany wiki: keyboard_shortcuts R: %b "file:///home/apl/DOC/Web/Keyboard shortcuts - Geany Wiki.mhtml"
+ R:Geany wiki: guidelines R: %b https://wiki.geany.org/wiki/guidelines
+ R:Wiki: wikitext R: %b https://www.dokuwiki.org/wikitext
+
+ MW: MISC links MW: m=menus/links2.mnu w=40
+
+[HIDDEN]
+ R: 1. tkcon               R: tkcon
+ R: 2. edit all   R: cd %PD
+ R: 2. edit all   R: %e e_menu/src/e_help.tcl e_menu/e_menu.tcl
+ R: 3. Stop working! R: ?-33*60/-7*60:ah=4? audacious  "/home/apl/PROGRAMS/C_COMM/breakon.wav"
+ R: 4. Arbeiten!     R: audacious "/home/apl/PROGRAMS/C_COMM/breakoff.wav"
