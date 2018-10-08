@@ -30,9 +30,5 @@ punctuation
 advanced {
   HighlightClass rhs {-fgtheme numbers}
 
-  HighlightRegexp {=\s*(.*)$} rhs
-
-  HighlightProc rhs {
-    return [list [list [list rhs {*}$vars(0)]] {}]
-  } HighlightEndProc
+  HighlightRegexp {=\s*(.*)$} editorconfig::highlight_rhs
 }
