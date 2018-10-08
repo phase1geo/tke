@@ -850,8 +850,8 @@ namespace eval pref_ui {
     }
 
     # Update the menubuttons text
-    $widgets(select_s) configure -text "Session: $session"
-    $widgets(select_l) configure -text "Language: $language"
+    $widgets(select_s) configure -text [msgcat::mc "Session: %s" $session]
+    $widgets(select_l) configure -text [msgcat::mc "Language: %s" $language]
 
     # Update the language menu in case the user changed the session
     populate_session_menu $language
@@ -1979,7 +1979,7 @@ namespace eval pref_ui {
     register $a.cf.$type $wstr Appearance/Colorize
 
     # Create fonts frame
-    ttk::labelframe $a.ff -text "Fonts"
+    ttk::labelframe $a.ff -text [msgcat::mc "Fonts"]
     ttk::label  $a.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
     ttk::label  $a.ff.f0  -text "AaBbCc0123" -font $prefs(Appearance/EditorFont)
     ttk::button $a.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f0 "Select Editor Font" Appearance/EditorFont 1]

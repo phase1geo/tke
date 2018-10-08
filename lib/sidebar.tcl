@@ -1903,7 +1903,7 @@ namespace eval sidebar {
     variable widgets
     variable mover
 
-    if {$mover(detached)} {
+    if {[info exists mover(detached)] && $mover(detached)} {
       set mover(detached) 0
       set mover(start)    ""
       $widgets(tl) tag remove moveto
