@@ -1,0 +1,4 @@
+lib/ctext6.0/lib/.*\.o$
+lib/ctext6.0/lib/.*\.d$
+lib/ctext6.0/cpptcl/.*\.d$
+lib/ctext6.0/cpptcl/.*\.o$
