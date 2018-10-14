@@ -1,7 +1,7 @@
 #==============================================================================
 # Contains the implementation of the tablelist move and movecolumn subcommands.
 #
-# Copyright (c) 2003-2017  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
+# Copyright (c) 2003-2018  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
 #==============================================================================
 
 #------------------------------------------------------------------------------
@@ -121,29 +121,8 @@ proc tablelist::moveNode {win source targetParentKey targetChildIdx \
     }
 
     #
-    # Build the list of column indices of the selected cells
-    # within the source line and then delete that line
+    # Delete the source line
     #
-    set selectedCols {}
-    set line [expr {$source + 1}]
-    set textIdx $line.0
-    variable canElide
-    variable elide
-    for {set col 0} {$col < $data(colCount)} {incr col} {
-	if {$data($col-hide) && !$canElide} {
-	    continue
-	}
-
-	#
-	# Check whether the 2nd tab character of the cell is selected
-	#
-	set textIdx [$w search $elide "\t" $textIdx+1c $line.end]
-	if {[lsearch -exact [$w tag names $textIdx] select] >= 0} {
-	    lappend selectedCols $col
-	}
-
-	set textIdx $textIdx+1c
-    }
     $w delete [expr {$source + 1}].0 [expr {$source + 2}].0
 
     #
@@ -192,11 +171,12 @@ proc tablelist::moveNode {win source targetParentKey targetChildIdx \
     if {[info exists data($sourceKey-font)]} {
 	$w tag add row-font-$data($sourceKey-font) $targetLine.0 $targetLine.end
     }
+    variable pu
     if {[info exists data($sourceKey-elide)]} {
-	$w tag add elidedRow $targetLine.0 $targetLine.end+1c
+	$w tag add elidedRow $targetLine.0 $targetLine.end+1$pu
     }
     if {[info exists data($sourceKey-hide)]} {
-	$w tag add hiddenRow $targetLine.0 $targetLine.end+1c
+	$w tag add hiddenRow $targetLine.0 $targetLine.end+1$pu
     }
 
     set treeCol $data(treeCol)
@@ -312,7 +292,7 @@ proc tablelist::moveNode {win source targetParentKey targetChildIdx \
     #
     # Update the list variable if present
     #
-    if {$data(hasListVar)} {
+    if {$data(hasListVar) && [info exists ::$data(-listvariable)]} {
 	upvar #0 $data(-listvariable) var
 	trace vdelete var wu $data(listVarTraceCmd)
 	set var [lreplace $var $source $source]
@@ -348,13 +328,6 @@ proc tablelist::moveNode {win source targetParentKey targetChildIdx \
     # Invalidate the list of row indices indicating the viewable rows
     #
     set data(viewableRowList) {-1}
-
-    #
-    # Select those source elements that were selected before
-    #
-    foreach col $selectedCols {
-	cellSelection $win set $target1 $col $target1 $col
-    }
 
     #
     # Restore the edit window if it was present before
@@ -427,9 +400,9 @@ proc tablelist::moveNode {win source targetParentKey targetChildIdx \
     #
     foreach tag {elidedRow hiddenRow} {
 	if {[lsearch -exact [$w tag names end-1l] $tag] >= 0} {
-	    $w tag add $tag end-1c
+	    $w tag add $tag end-1$pu
 	} else {
-	    $w tag remove $tag end-1c
+	    $w tag remove $tag end-1$pu
 	}
     }
 
@@ -443,7 +416,8 @@ proc tablelist::moveNode {win source targetParentKey targetChildIdx \
 #------------------------------------------------------------------------------
 proc tablelist::moveCol {win source target} {
     upvar ::tablelist::ns${win}::data data \
-	  ::tablelist::ns${win}::attribs attribs
+	  ::tablelist::ns${win}::attribs attribs \
+	  ::tablelist::ns${win}::selStates selStates
     if {$data(isDisabled)} {
 	return ""
     }
@@ -453,14 +427,6 @@ proc tablelist::moveCol {win source target} {
     #
     if {$target == $source || $target == $source + 1} {
 	return ""
-    }
-
-    if {[winfo viewable $win]} {
-	purgeWidgets $win
-	update idletasks
-	if {![array exists ::tablelist::ns${win}::data]} {
-	    return ""
-	}
     }
 
     #
@@ -478,17 +444,18 @@ proc tablelist::moveCol {win source target} {
     set data(-columns) [eval linsert {$data(-columns)} $target3 $sourceRange]
 
     #
-    # Save some elements of data and attribs corresponding to source
+    # Save some elements of data, attribs, and selStates corresponding to source
     #
     array set tmpData [array get data $source-*]
+    array set tmpData [array get data hk*,$source-*]
     array set tmpData [array get data k*,$source-*]
     foreach specialCol {activeCol anchorCol editCol -treecolumn treeCol} {
 	set tmpData($specialCol) $data($specialCol)
     }
     array set tmpAttribs [array get attribs $source-*]
+    array set tmpAttribs [array get attribs hk*,$source-*]
     array set tmpAttribs [array get attribs k*,$source-*]
-    set selCells [curCellSelection $win]
-    set tmpRows [extractColFromCellList $selCells $source]
+    array set tmpSelStates [array get selStates k*,$source]
 
     #
     # Remove source from the list of stretchable columns
@@ -530,26 +497,23 @@ proc tablelist::moveCol {win source target} {
     trace vdelete data(activeCol) w [list tablelist::activeTrace $win]
 
     #
-    # Move the elements of data and attribs corresponding
+    # Move the elements of data, attribs, and selStates corresponding
     # to the columns in oldCols to the elements corresponding
     # to the columns with the same indices in newCols
     #
     foreach oldCol $oldCols newCol $newCols {
 	moveColData data data imgs $oldCol $newCol
 	moveColAttribs attribs attribs $oldCol $newCol
-	set selCells [replaceColInCellList $selCells $oldCol $newCol]
+	moveColSelStates selStates selStates $oldCol $newCol
     }
 
     #
-    # Move the elements of data and attribs corresponding
+    # Move the elements of data, attribs, and selStates corresponding
     # to source to the elements corresponding to target1
     #
     moveColData tmpData data imgs $source $target1
     moveColAttribs tmpAttribs attribs $source $target1
-    set selCells [deleteColFromCellList $selCells $target1]
-    foreach row $tmpRows {
-	lappend selCells $row,$target1
-    }
+    moveColSelStates tmpSelStates selStates $source $target1
 
     #
     # If the column given by source was explicitly specified as
@@ -561,7 +525,19 @@ proc tablelist::moveCol {win source target} {
     }
 
     #
-    # Update the item list
+    # Update the item list in the header text widget
+    #
+    set hdr_newItemList {}
+    foreach item $data(hdr_itemList) {
+	set sourceText [lindex $item $source]
+	set item [lreplace $item $source $source]
+	set item [linsert $item $target1 $sourceText]
+	lappend hdr_newItemList $item
+    }
+    set data(hdr_itemList) $hdr_newItemList
+
+    #
+    # Update the item list in the body text widget
     #
     set newItemList {}
     foreach item $data(itemList) {
@@ -589,7 +565,8 @@ proc tablelist::moveCol {win source target} {
     #
     # Redisplay the items
     #
-    redisplay $win 0 $selCells
+    redisplay $win
+    hdr_updateColorsWhenIdle $win
     updateColorsWhenIdle $win
 
     #
