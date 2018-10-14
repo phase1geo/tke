@@ -8,26 +8,13 @@
 #   - Private procedures performing RGB <-> HSV conversions
 #   - Private procedures related to global KDE configuration options
 #
-# Copyright (c) 2005-2017  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
+# Copyright (c) 2005-2018  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
 #==============================================================================
 
 #
 # Public procedures related to tile themes
 # ========================================
 #
-
-#------------------------------------------------------------------------------
-# tablelist::getCurrentTheme
-#
-# Returns the current tile theme.
-#------------------------------------------------------------------------------
-proc tablelist::getCurrentTheme {} {
-    if {[info exists ttk::currentTheme]} {
-	return $ttk::currentTheme
-    } else {
-	return $tile::currentTheme
-    }
-}
 
 #------------------------------------------------------------------------------
 # tablelist::setThemeDefaults
@@ -97,7 +84,7 @@ proc tablelist::altTheme {} {
 	-labelborderwidth	2 \
 	-labelpady		1 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		winnative \
     ]
 }
@@ -278,6 +265,38 @@ proc tablelist::AquativoTheme {} {
 }
 
 #------------------------------------------------------------------------------
+# tablelist::aquativoTheme
+#------------------------------------------------------------------------------
+proc tablelist::aquativoTheme {} {
+    variable themeDefaults
+    array set themeDefaults [list \
+	-background		white \
+	-foreground		black \
+	-disabledforeground	#565248 \
+	-stripebackground	#edf3fe \
+	-selectbackground	#000000 \
+	-selectforeground	#ffffff \
+	-selectborderwidth	0 \
+	-font			TkTextFont \
+	-labelbackground	#fafafa \
+	-labeldeactivatedBg	#fafafa \
+	-labeldisabledBg	#e3e1dd\
+	-labelactiveBg		#c1d2ee \
+	-labelpressedBg		#bab5ab \
+	-labelforeground	black \
+	-labeldisabledFg	#565248 \
+	-labelactiveFg		black \
+	-labelpressedFg		black \
+	-labelfont		TkDefaultFont \
+	-labelborderwidth	2 \
+	-labelpady		1 \
+	-arrowcolor		#777777 \
+	-arrowstyle		flat7x7 \
+	-treestyle		aqua \
+    ]
+}
+
+#------------------------------------------------------------------------------
 # tablelist::ArcTheme
 #------------------------------------------------------------------------------
 proc tablelist::ArcTheme {} {
@@ -368,7 +387,7 @@ proc tablelist::clamTheme {} {
 	-labelborderwidth	2 \
 	-labelpady		3 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		gtk \
     ]
 }
@@ -404,8 +423,8 @@ proc tablelist::classicTheme {} {
 	-treestyle		gtk \
     ]
 
-    if {[info exists tile::version] &&
-	[string compare $tile::version 0.8] < 0} {
+    if {[info exists ::tile::version] &&
+	[string compare $::tile::version 0.8] < 0} {
 	set themeDefaults(-font)	TkClassicDefaultFont
 	set themeDefaults(-labelfont)	TkClassicDefaultFont
     }
@@ -470,7 +489,7 @@ proc tablelist::defaultTheme {} {
 	-labelborderwidth	1 \
 	-labelpady		1 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		gtk \
     ]
 }
@@ -566,7 +585,7 @@ proc tablelist::krocTheme {} {
 	-labelborderwidth	2 \
 	-labelpady		1 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		gtk \
     ]
 }
@@ -630,7 +649,7 @@ proc tablelist::srivTheme {} {
 	-labelborderwidth	2 \
 	-labelpady		1 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		gtk \
     ]
 }
@@ -662,7 +681,7 @@ proc tablelist::srivlgTheme {} {
 	-labelborderwidth	2 \
 	-labelpady		1 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		gtk \
     ]
 }
@@ -694,7 +713,7 @@ proc tablelist::stepTheme {} {
 	-labelborderwidth	2 \
 	-labelpady		1 \
 	-arrowcolor		black \
-	-arrowstyle		flat7x5 \
+	-arrowstyle		flat8x4 \
 	-treestyle		gtk \
     ]
 }
@@ -754,7 +773,7 @@ proc tablelist::tileqtTheme {} {
     #
     switch "$bg $labelBg" {
 	"#fafafa #6188d7" {	;# color scheme "Aqua Blue"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #ffffff }
 		"platinum"			      { set pressedBg #d0d0d0 }
 		"baghira"	{ set labelBg #f5f5f5;  set pressedBg #9ec2fa }
@@ -768,7 +787,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#ffffff #89919b" {	;# color scheme "Aqua Graphite"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #ffffff }
 		"platinum"			      { set pressedBg #d4d4d4 }
 		"baghira"	{ set labelBg #f5f5f5;  set pressedBg #c3c7cd }
@@ -782,7 +801,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#afb49f #afb49f" {	;# color scheme "Atlas Green"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #c1c6af }
 		"platinum"			      { set pressedBg #929684 }
 		"baghira"	{ set labelBg #e5e8dc;  set pressedBg #dadcd0 }
@@ -796,7 +815,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#d9d9d9 #d9d9d9" {	;# color scheme "BeOS"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #eeeeee }
 		"platinum"			      { set pressedBg #b4b4b4 }
 		"baghira"	{ set labelBg #f2f2f2;  set pressedBg #e9e9e9 }
@@ -810,7 +829,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#9db9c8 #9db9c8" {	;# color scheme "Blue Slate"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #adcbdc }
 		"platinum"			      { set pressedBg #8299a6 }
 		"baghira"	{ set labelBg #ddeff6;  set pressedBg #d0e1ea }
@@ -824,7 +843,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#999999 #999999" {	;# color scheme "CDE"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #a8a8a8 }
 		"platinum"			      { set pressedBg #7f7f7f }
 		"baghira"	{ set labelBg #d5d5d5;  set pressedBg #cccccc }
@@ -838,7 +857,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#426794 #426794" {	;# color scheme "Dark Blue"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #4871a2 }
 		"platinum"			      { set pressedBg #37567b }
 		"baghira"	{ set labelBg #8aafdc;  set pressedBg #82a3cc }
@@ -852,7 +871,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#d6cdbb #d6cdbb" {	;# color scheme "Desert Red"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #ebe1ce }
 		"platinum"			      { set pressedBg #b2ab9c }
 		"baghira"	{ set labelBg #f7f4ec;  set pressedBg #edeae0 }
@@ -866,7 +885,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#4b7b82 #4b7b82" {	;# color scheme "Digital CDE"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #52878f }
 		"platinum"			      { set pressedBg #3e666c }
 		"baghira"	{ set labelBg #97c3c9;  set pressedBg #8eb6bc }
@@ -880,7 +899,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#e6dedc #e4e4e4" {	;# color scheme "EveX"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #fdf4f2 }
 		"platinum"			      { set pressedBg #bfb8b7 }
 		"baghira"	{ set labelBg #f6f5f5;  set pressedBg #ededed }
@@ -894,7 +913,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#ffffff #ffffff" {	;# color scheme "High Contrast Black Text"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #ffffff }
 		"platinum"			      { set pressedBg #d4d4d4 }
 		"baghira"	{ set labelBg #f5f5f5;  set pressedBg #f2f2f2 }
@@ -908,7 +927,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#0000ff #0000ff" {	;# color scheme "High Contrast Yellow on Blue"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #1919ff }
 		"platinum"			      { set pressedBg #0000d4 }
 		"baghira"	{ set labelBg #4848ff;  set pressedBg #4646ff }
@@ -922,7 +941,7 @@ proc tablelist::tileqtTheme {} {
 	}
 
 	"#000000 #000000" {	;# color scheme "High Contrast White Text"
-	    switch -- $style {  
+	    switch -- $style {
 		"light, 3rd revision"		      { set pressedBg #000000 }
 		"platinum"			      { set pressedBg #000000 }
 		"baghira"	{ set labelBg #818181;  set pressedBg #7f7f7f }
@@ -1715,8 +1734,8 @@ proc tablelist::xpnativeTheme {} {
 	    set arrowStyle	flat9x5
 	    set treeStyle	winxpBlue
 
-	    if {[info exists tile::version] &&
-		[string compare $tile::version 0.7] < 0} {
+	    if {[info exists ::tile::version] &&
+		[string compare $::tile::version 0.7] < 0} {
 		set labelBd 0
 	    }
 	}
@@ -1734,8 +1753,8 @@ proc tablelist::xpnativeTheme {} {
 	    set arrowStyle	flat9x5
 	    set treeStyle	winxpOlive
 
-	    if {[info exists tile::version] &&
-		[string compare $tile::version 0.7] < 0} {
+	    if {[info exists ::tile::version] &&
+		[string compare $::tile::version 0.7] < 0} {
 		set labelBd 0
 	    }
 	}
@@ -1753,8 +1772,8 @@ proc tablelist::xpnativeTheme {} {
 	    set arrowStyle	flat9x5
 	    set treeStyle	winxpSilver
 
-	    if {[info exists tile::version] &&
-		[string compare $tile::version 0.7] < 0} {
+	    if {[info exists ::tile::version] &&
+		[string compare $::tile::version 0.7] < 0} {
 		set labelBd 0
 	    }
 	}
