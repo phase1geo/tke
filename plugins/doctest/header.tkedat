@@ -1,0 +1,7 @@
+name           {doctest}
+author         {Alex Plotnikov}
+email          {aplsimple@mail.ru}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {Enables doctesting of TCL scripts à la Python doctest.}

@@ -1,0 +1,12 @@
+S: Comedy 'Miaou' in 3 parts! Duration ~ 1½ minutes S: ?-0.01/20:a=/TN=3:ah=3/-0:ah=1/-10:ah=2/-3:ah=2/-3:a=/? echo 'Miaou' part %TN \ndate
+
+[HIDDEN]
+ S: Intermission S: echo Intermission %TN \ndate
+ S: Bell S: echo Bell N '%TI-3' \ndate
+ S: Curtain S: echo Curtain \ndate
+
+[OPTIONS]
+om=1
+o=0
+c=3
+w=50
