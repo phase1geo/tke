@@ -1,0 +1,29 @@
+ ; menu for e_menu.tcl
+
+ M:  -   M: 6
+ SE: Run me (tclsh "%s0" %s) SE: tclsh "%f" %s
+ SE: Run Tcl {%s} ... SE: tclsh %z1/src/ch_.tcl "%z2"
+ RE: Edit/create file "%s" RE:%E %s
+
+ M:  M: 6
+ RE: Open directory "%s1" RE: %Q "CHANGE ME!" "The directory\n\n%d\n\nwould be open by \"caja\" file manager.\n\nYou can change it in\n\n%z1/menus/menu.mnu"
+ RE: Open directory "%s1" RE: caja "%d"
+ RE: Open in Firefox "%s2" site RE: firefox "%s"
+ RE: Search in Firefox for "%s2" RE: firefox -search "%s"
+ RE: Wikipedia for "%s2" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
+ RE: GoldenDict for "%s2" RE: goldendict %s
+
+ M:  M: 6
+ M: Fossil M: m=menus/fossil.mnu "u=%s" o=0 w=50
+ M: Git  M: m=menus/git.mnu "u=%s" o=0 w=50
+ M: Utils M: m=menus/utils.mnu
+ M: Links M: m=menus/links.mnu
+ M: Tests M: m=menus/test3.mnu
+
+[OPTIONS]
+n=< e_menu >
+bd=1
+fs=10
+w=45
+g=+500+100
+# c=5

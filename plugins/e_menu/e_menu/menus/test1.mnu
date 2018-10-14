@@ -1,0 +1,10 @@
+  # //test1.mnu//:
+  #
+  # use from Geany context:
+  #
+  # wish ./e_menu.tcl s=%s m=./menus/test1.mnu
+
+    MW/ Test2 menu MW/ "m=menus\test2.mnu" o=0
+    MW/ Test3 menu MW/ "m=menus\test3.mnu" o=0
+[OPTIONS]
+o=0

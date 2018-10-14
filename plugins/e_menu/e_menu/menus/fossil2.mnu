@@ -1,0 +1,40 @@
+ R: fossil stash R: %q "Stash" "Stash the current project?"
+ R: fossil stash R: cd %PD
+ R: fossil stash R: fossil stash
+
+ R: fossil stash "%s0" R: %q "Stash" "Stash the file '%f'?"
+ R: fossil stash "%s0" R: cd %PD
+ R: fossil stash "%s0" R: fossil stash "%f"
+
+ R: fossil stash save -m "%s" R: %q "Snapshot" "Stash the current project\nwith '%s'?"
+ R: fossil stash save -m "%s" R: cd %PD
+ R: fossil stash save -m "%s" R: fossil stash save -m "%s"
+
+ R: fossil stash snapshot -m "%s" R: %q "Snapshot" "Stash snapshot the current project\nwith '%s'\n\n(this omits revert, keeping the checkout unchanged)?"
+ R: fossil stash snapshot -m "%s" R: cd %PD
+ R: fossil stash snapshot -m "%s" R: fossil stash snapshot -m "%s"
+
+ R: fossil stash list -v R: cd %PD
+ S: fossil stash list -v S: fossil stash list -v
+
+ R: fossil stash show R: cd %PD
+ S: fossil stash show S: fossil stash show
+
+ R: fossil stash pop R: %q "Stash pop" "Stash pop the current project?\n\n(this deletes a changeset from the stash after applying)"
+ R: fossil stash pop R: cd %PD
+ R: fossil stash pop R: fossil stash pop
+
+ R: fossil stash apply R: %q "Stash apply" "Stash apply the current project?\n\n(this retains the changeset in the stash after applying)"
+ R: fossil stash apply R: cd %PD
+ R: fossil stash apply R: fossil stash apply
+
+ R: fossil stash drop -all R: %q "Stash pop" "Stash drop the current project?\n\n(forget the whole stash)"
+ R: fossil stash drop -all R: cd %PD
+ R: fossil stash drop -all R: fossil stash drop -all
+
+ R: fossil stash gdiff R: cd %PD
+ S: fossil stash gdiff S: fossil stash gdiff
+
+[OPTIONS]
+o=0
+
