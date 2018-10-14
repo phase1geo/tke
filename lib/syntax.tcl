@@ -256,7 +256,7 @@ namespace eval syntax {
       set patterns $lang_array(filepatterns)
       set excluded 0
       if {[info exists overrides($lang)]} {
-        set exclude_patterns [list]
+        set epatterns [list]
         foreach pattern $overrides($lang) {
           switch [string index $pattern 0] {
             "+" { lappend patterns  [string range $pattern 1 end] }
