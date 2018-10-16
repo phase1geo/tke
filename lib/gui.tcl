@@ -4132,7 +4132,7 @@ namespace eval gui {
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange \
-      -linemap_relief flat -linemap_minwidth $numberwidth \
+      -linemap_relief flat -linemap_minwidth $numberwidth -linemap_separator 1 \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
@@ -4356,7 +4356,7 @@ namespace eval gui {
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
-      -linemap [preferences::get View/ShowLineNumbers] \
+      -linemap [preferences::get View/ShowLineNumbers] -linemap_separator 1 \
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
       -yscrollcommand "$pw.tf2.vb set"
@@ -5964,12 +5964,12 @@ namespace eval gui {
     $txt configure -background $theme(background) -foreground $theme(foreground) \
       -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
-      -linemapbg $theme(background) -linemapfg $theme(line_number) \
-      -linemap_mark_color $theme(marker) \
+      -linemapbg $theme(linemap) -linemapfg $theme(line_number) \
+      -linemap_mark_color $theme(marker) -linemap_separator_color $theme(linemap_separator) \
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
-      -matchaudit_bg $theme(attention)
+      -matchaudit_bg $theme(attention) -theme [array get theme]
 
     # If the bird's eye view exists, update it
     get_info $txt txt beye

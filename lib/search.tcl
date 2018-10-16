@@ -60,7 +60,7 @@ namespace eval search {
       }
 
       # Gather any search options
-      set search_opts [list]
+      set search_opts [list -regexp]
       if {!$case_sensitive} {
         lappend search_opts -nocase
       }
@@ -73,7 +73,7 @@ namespace eval search {
 
       # Create a highlight class for the given search string
       array set theme [theme::get_syntax_colors]
-      ctext::addSearchClassForRegexp $txt search $theme(search_foreground) $theme(search_background) "" $str $search_opts
+      ctext::highlightSearch $txt search $str $search_opts
 
     }
 
