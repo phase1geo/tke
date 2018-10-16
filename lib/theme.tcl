@@ -96,6 +96,8 @@ namespace eval theme {
     syntax,foreground               {color {white} {} {0} {msgcat::mc "Default color for non-syntax highlighted text."}}
     syntax,highlighter              {color {yellow} {} {0} {msgcat::mc "Background color used in highlighted text."}}
     syntax,keywords                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific keywords."}}
+    syntax,linemap                  {color {black} {} {0} {msgcat::mc "Background color of linemap area."}}
+    syntax,linemap_separator        {color {grey} {} {0} {msgcat::mc "Color used to draw the line which separates the linemap from the text area."}}
     syntax,line_number              {color {grey} {} {0} {msgcat::mc "Foreground text color to use for displaying line numbers."}}
     syntax,meta                     {color {grey} {} {0} {msgcat::mc "Foreground text color to use for meta syntax."}}
     syntax,readmeta                 {color {grey80} {} {0} {msgcat::mc "Foreground text color to use for readable meta syntax."}}
