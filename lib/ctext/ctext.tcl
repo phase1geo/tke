@@ -3263,69 +3263,65 @@ namespace eval ctext {
   
   }
   
-  proc add_font_opt {win class modifiers popts} {
-  
+  ######################################################################
+  # Create a fontname (if one does not already exist) and configure it
+  # with the given modifiers.  Returns the list of options that should
+  # be applied to the tag
+  proc add_font_opts {win modifiers popts} {
+
     variable data
-  
+
     upvar $popts opts
-  
-    if {[llength $modifiers] > 0} {
-  
-      array set font_opts [font configure [$win cget -font]]
-      array set line_opts [list]
-      array set tag_opts  [list]
-  
-      set lsize       ""
-      set click       0
-      set superscript 0
-      set subscript   0
-      set name_list   [list 0 0 0 0 0 0]
-  
-      foreach modifier $modifiers {
-        switch $modifier {
-          "bold"        { set font_opts(-weight)    "bold";   lset name_list 0 1 }
-          "italics"     { set font_opts(-slant)     "italic"; lset name_list 1 1 }
-          "underline"   { set font_opts(-underline) 1;        lset name_list 2 1 }
-          "overstrike"  { set tag_opts(-overstrike) 1;        lset name_list 3 1 }
-          "h6"          { set font_opts(-size) [expr $font_opts(-size) + 1]; set lsize "6" }
-          "h5"          { set font_opts(-size) [expr $font_opts(-size) + 2]; set lsize "5" }
-          "h4"          { set font_opts(-size) [expr $font_opts(-size) + 3]; set lsize "4" }
-          "h3"          { set font_opts(-size) [expr $font_opts(-size) + 4]; set lsize "3" }
-          "h2"          { set font_opts(-size) [expr $font_opts(-size) + 5]; set lsize "2" }
-          "h1"          { set font_opts(-size) [expr $font_opts(-size) + 6]; set lsize "1" }
-          "click"       { set click 1 }
-          "superscript" {
-            set lsize              "super"
-            set size               [expr $font_opts(-size) - 2]
-            set font_opts(-size)   $size
-            set line_opts(-offset) [expr $size / 2]
-            lset name_list 4 1
-          }
-          "subscript"   {
-            set lsize              "sub"
-            set size               [expr $font_opts(-size) - 2]
-            set font_opts(-size)   $size
-            set line_opts(-offset) [expr 0 - ($size / 2)]
-            lset name_list 5 1
-          }
+
+    if {[llength $modifiers] == 0} return
+
+    array set font_opts [font configure [$win cget -font]]
+    array set line_opts [list]
+    array set tag_opts  [list]
+
+    set lsize       ""
+    set superscript 0
+    set subscript   0
+    set name_list   [list 0 0 0 0 0 0]
+
+    foreach modifier $modifiers {
+      switch $modifier {
+        "bold"        { set font_opts(-weight)    "bold";   lset name_list 0 1 }
+        "italics"     { set font_opts(-slant)     "italic"; lset name_list 1 1 }
+        "underline"   { set font_opts(-underline) 1;        lset name_list 2 1 }
+        "overstrike"  { set tag_opts(-overstrike) 1;        lset name_list 3 1 }
+        "h6"          { set font_opts(-size) [expr $font_opts(-size) + 1]; set lsize "6" }
+        "h5"          { set font_opts(-size) [expr $font_opts(-size) + 2]; set lsize "5" }
+        "h4"          { set font_opts(-size) [expr $font_opts(-size) + 3]; set lsize "4" }
+        "h3"          { set font_opts(-size) [expr $font_opts(-size) + 4]; set lsize "3" }
+        "h2"          { set font_opts(-size) [expr $font_opts(-size) + 5]; set lsize "2" }
+        "h1"          { set font_opts(-size) [expr $font_opts(-size) + 6]; set lsize "1" }
+        "superscript" {
+          set lsize              "super"
+          set size               [expr $font_opts(-size) - 2]
+          set font_opts(-size)   $size
+          set line_opts(-offset) [expr $size / 2]
+          lset name_list 4 1
+        }
+        "subscript"   {
+          set lsize              "sub"
+          set size               [expr $font_opts(-size) - 2]
+          set font_opts(-size)   $size
+          set line_opts(-offset) [expr 0 - ($size / 2)]
+          lset name_list 5 1
         }
       }
-  
-      set fontname ctext-[join $name_list ""]$lsize
-      if {[lsearch [font names] $fontname] == -1} {
-        font create $fontname {*}[array get font_opts]
-      }
-  
-      lappend opts -font $fontname {*}[array get tag_opts] {*}[array get line_opts]
-  
-      if {$click} {
-        set data($win,highlight,click,$class) $opts
-      }
-  
     }
-  
+
+    set fontname ctext-[join $name_list ""]$lsize
+    if {[lsearch [font names] $fontname] == -1} {
+      font create $fontname {*}[array get font_opts]
+    }
+
+    lappend opts -font $fontname {*}[array get tag_opts] {*}[array get line_opts]
+
   }
-  
+
   proc addHighlightKeywords {win keywords type value {lang ""}} {
   
     variable data
@@ -3606,12 +3602,15 @@ namespace eval ctext {
             incr i
           }
         } else {
+          puts "re: $re, start: $start, end: $end"
           set startrow [lindex [split $start .] 0]
           foreach line [split [$twin get $start $end] \n] {
             set index 0
             array unset var
             while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
-              if {![catch { {*}$value $txt $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
+              puts "  HERE! value: $value, txt: $twin, startrow: $startrow, vars: [array get var]"
+              if {![catch { {*}$value $twin $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
+                puts "  retval: $retval"
                 foreach sub [lindex $retval 0] {
                   if {[llength $sub] == 3} {
                     lappend tags([lindex $sub 0]) $startrow.[lindex $sub 1] $startrow.[expr [lindex $sub 2] + 1]
@@ -3619,6 +3618,7 @@ namespace eval ctext {
                 }
                 set index [expr {([lindex $retval 1] ne "") ? [lindex $retval 1] : ([lindex $var(0) 1] + 1)}]
               } else {
+                puts "  retval :< $retval"
                 set index [expr {[lindex $var(0) 1] + 1}]
               }
             }

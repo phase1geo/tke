@@ -10,67 +10,54 @@ casesensitive
 {1}
 
 advanced {
-  HighlightClass add     miscellaneous1 {}
-  HighlightClass del     miscellaneous2 {overstrike}
-  HighlightClass comm    comments       {}
-  HighlightClass hilite  highlighter    {}
-  HighlightClass grey    meta           {}
 
-  HighlightRegexp {\{\+\+.+?\+\+\}}  addition
-  HighlightRegexp {\{\-\-.+?\-\-\}}  deletion
-  HighlightRegexp {\{~~.+?~>.+?~~\}} substitution
-  HighlightRegexp {\{>>.+?<<\}}      comment
-  HighlightRegexp {\{==.+?==\}}      highlight
+  HighlightClass add    {-fgtheme miscellaneous1}
+  HighlightClass del    {-fgtheme miscellaneous2 -fontopts {overstrike}}
+  HighlightClass comm   {-fgtheme comments}
+  HighlightClass hilite {-fgtheme background -bgtheme highlighter}
+  HighlightClass meta   {-fgtheme meta}
+
+  HighlightRegexp {(\{\+\+)(.+?)(\+\+\})}      addition
+  HighlightRegexp {(\{\-\-)(.+?)(\-\-\})}      deletion
+  HighlightRegexp {(\{~~)(.+?)(~>)(.+?)(~~\})} substitution
+  HighlightRegexp {(\{>>)(.+?)(<<\})}          comment
+  HighlightRegexp {(\{==)(.+?)(==\})}          highlight
 
   HighlightProc addition {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list add  [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list add  {*}$vars(2)] \
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc deletion {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list del  [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list del  {*}$vars(2)] \
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc substitution {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      if {[regexp {^(.+?)~>(.*)$} [$txt get "$startpos+3c" "$endpos-3c"] -> del add]} {
-        set delend   [$txt index "$startpos+[expr [string length $del] + 3]c"]
-        set addstart [$txt index "$delend+2c"]
-        return [list [list [list del  [$txt index "$startpos+3c"] $delend [list]] \
-                           [list add  $addstart [$txt index "$endpos-3c"] [list]] \
-                           [list grey $startpos [$txt index "$startpos+3c"] [list]] \
-                           [list grey $delend $addstart [list]] \
-                           [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
-      }
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list del  {*}$vars(2)] \
+                       [list add  {*}$vars(4)] \
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)] \
+                       [list meta {*}$vars(5)]] ""]
   } HighlightEndProc
 
   HighlightProc comment {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list comm [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list comm {*}$vars(2)] \
+                       [list meta {*}$vars(1)] \
+                       [list meta {*}$vars(3)]] ""]
   } HighlightEndProc
 
   HighlightProc highlight {
-    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list hilite [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey   $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list [list hilite {*}$vars(2)] \
+                       [list meta   {*}$vars(1)] \
+                       [list meta   {*}$vars(3)]] ""]
   } HighlightEndProc
 
 }
