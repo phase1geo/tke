@@ -50,7 +50,7 @@ advanced {
 
   HighlightRegexp {(``)(.+?)(``)}                          ccode
   HighlightRegexp {(`)(.+?)(`)}                            code
-  HighlightRegexp {^(#{1,6})(.*?)$}                        header
+  HighlightRegexp {^(#{1,6}\s*)(.*?)$}                     header
   HighlightRegexp {^(>)(.*?)$}                             quote
   HighlightRegexp {([*_]{2})((?=\S).+?)(\1)}               bold
   HighlightRegexp {([*_])((?=\S).+?)(\1)}                  italics
@@ -67,20 +67,20 @@ advanced {
   HighlightProc ccode {
     array set vars $varlist
     $txt tag remove _code $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
-    return [list [list [list ccode       {*}$vars(2)] \
-                       [list codemarkers {*}$vars(1)] \
-                       [list codemarkers {*}$vars(3)] \
-                       [list meta        {*}$vars(1)] \
-                       [list meta        {*}$vars(3)]] ""]
+    return [list [list ccode       {*}$vars(2) \
+                       codemarkers {*}$vars(1) \
+                       codemarkers {*}$vars(3) \
+                       meta        {*}$vars(1) \
+                       meta        {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc code {
     array set vars $varlist
     if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _codemarkers] == -1) && \
         ([lsearch [$txt tag names $row.[lindex $vars(0) 1] _codemarkers] == -1)} {
-      return [list [list [list code {*}$vars(2)] \
-                         [list meta {*}$vars(1)] \
-                         [list meta {*}$vars(3)]] ""]
+      return [list [list code {*}$vars(2) \
+                         meta {*}$vars(1) \
+                         meta {*}$vars(3)] ""]
     } else {
       return [list [list] [lindex $vars(2) 0]]
     }
@@ -89,34 +89,33 @@ advanced {
   HighlightProc header {
     array set vars $varlist
     set num [string length [string range $str {*}$vars(1)]]
-    puts "Found header, h$num\n"
-    return [list [list [list h$num {*}$vars(2)] \
-                       [list meta  {*}$vars(1)]] ""]
+    return [list [list h$num {*}$vars(2) \
+                       meta  {*}$vars(1)] ""]
   } HighlightEndProc
 
   HighlightProc quote {
     array set vars $varlist
-    return [list [list [list quote {*}$vars(2)] \
-                       [list meta  {*}$vars(1)]] ""]
+    return [list [list quote {*}$vars(2) \
+                       meta  {*}$vars(1)] ""]
   } HighlightEndProc
 
   HighlightProc bold {
     array set vars $varlist
     $txt tag remove _italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
-    return [list [list [list bold        {*}$vars(2)] \
-                       [list boldmarkers {*}$vars(1)] \
-                       [list boldmarkers {*}$vars(4)] \
-                       [list meta        {*}$vars(1)] \
-                       [list meta        {*}$vars(4)]] ""]
+    return [list [list bold        {*}$vars(2) \
+                       boldmarkers {*}$vars(1) \
+                       boldmarkers {*}$vars(4) \
+                       meta        {*}$vars(1) \
+                       meta        {*}$vars(4)] ""]
   } HighlightEndProc
 
   HighlightProc italics {
     array set vars $varlist
     if {([lsearch [$txt tag names $row.[lindex $vars(0) 0]] _boldmarkers] == -1) && \
         ([lsearch [$txt tag names $row.[lindex $vars(0) 1]] _boldmarkers] == -1)} {
-      return [list [list [list italics {*}$vars(2)] \
-                         [list meta    {*}$vars(1)] \
-                         [list meta    {*}$vars(4)]] ""]
+      return [list [list italics {*}$vars(2) \
+                         meta    {*}$vars(1) \
+                         meta    {*}$vars(4)] ""]
     } else {
       return [list [list] [lindex $vars(2) 0]]
     }
@@ -124,27 +123,27 @@ advanced {
 
   HighlightProc overstrike {
     array set vars $varlist
-    return [list [list [list strike        {*}$vars(2)] \
-                       [list strikemarkers {*}$vars(1)] \
-                       [list strikemarkers {*}$vars(4)] \
-                       [list meta          {*}$vars(1)] \
-                       [list meta          {*}$vars(4)]] ""]
+    return [list [list strike        {*}$vars(2) \
+                       strikemarkers {*}$vars(1) \
+                       strikemarkers {*}$vars(4) \
+                       meta          {*}$vars(1) \
+                       meta          {*}$vars(4)] ""]
   } HighlightEndProc
 
   HighlightProc highlight {
     array set vars $varlist
-    return [list [list [list hilite {*}$vars(2)] \
-                       [list meta   {*}$vars(1)] \
-                       [list meta   {*}$vars(4)]] ""]
+    return [list [list hilite {*}$vars(2) \
+                       meta   {*}$vars(1) \
+                       meta   {*}$vars(4)] ""]
   } HighlightEndProc
 
   HighlightProc subscript {
     array set vars $varlist
     if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _strikemarkers] == -1) && \
         ([lsearch [$txt tag names $row.[lindex $vars(0) 1] _strikemarkers] == -1)} {
-      return [list [list [list sub  {*}$vars(2)] \
-                         [list meta {*}$vars(1)] \
-                         [list meta {*}$vars(4)]] ""]
+      return [list [list sub  {*}$vars(2) \
+                         meta {*}$vars(1) \
+                         meta {*}$vars(4)] ""]
     } else {
       return [list [list] [lindex $vars(2) 0]]
     }
@@ -152,27 +151,27 @@ advanced {
 
   HighlightProc superscript {
     array set vars $varlist
-    return [list [list [list super {*}$vars(2)] \
-                       [list meta  {*}$vars(1)] \
-                       [list meta  {*}$vars(4)]] ""]
+    return [list [list super {*}$vars(2) \
+                       meta  {*}$vars(1) \
+                       meta  {*}$vars(4)] ""]
   } HighlightEndProc
 
   HighlightProc reflink {
     array set vars $varlist
-    return [list [list [list link {*}$vars(2)] \
-                       [list meta {*}$vars(1)] \
-                       [list meta {*}$vars(3)] \
-                       [list ref  {*}$vars(4)] \
-                       [list meta {*}$vars(5)]] ""]
+    return [list [list link {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3) \
+                       ref  {*}$vars(4) \
+                       meta {*}$vars(5)] ""]
   } HighlightEndProc
 
   HighlightProc urllink {
     array set vars $varlist
-    return [list [list [list link {*}$vars(2)] \
-                       [list meta {*}$vars(1)] \
-                       [list meta {*}$vars(3)] \
-                       [list url  {*}$vars(4)] \
-                       [list meta {*}$vars(6)]] ""]
+    return [list [list link {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3) \
+                       url  {*}$vars(4) \
+                       meta {*}$vars(6)] ""]
   } HighlightEndProc
 
   HighlightProc linkref {
@@ -186,7 +185,7 @@ advanced {
 
   HighlightProc checkbox {
     array set vars $varlist
-    return [list [list [list check {*}$vars(0)]] ""]
+    return [list [list check {*}$vars(0)] ""]
   } HighlightEndProc
 
   HighlightProc handle_urllink_click {txt startpos endpos} {

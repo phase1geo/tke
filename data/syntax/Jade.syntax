@@ -63,7 +63,7 @@ miscellaneous2 {
 
 advanced
 {
-  HighlightClass attribute miscellaneous2 {}
+  HighlightClass attribute {-fgtheme miscellaneous2}
 
-  HighlightRegexp {\S+=} syntax::get_xml_attribute
+  HighlightRegexp {(\S+)=} syntax::get_xml_attribute
 }

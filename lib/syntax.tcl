@@ -990,7 +990,7 @@ namespace eval syntax {
 
     array set vars $varlist
 
-    return [list [list [list tag {*}$vars(1)]] ""]
+    return [list [list tag {*}$vars(1)] ""]
 
   }
 
@@ -1000,7 +1000,7 @@ namespace eval syntax {
 
     array set vars $varlist
 
-    return [list [list [list attribute {*}$vars(1)]] ""]
+    return [list [list attribute {*}$vars(1)] ""]
 
   }
 

@@ -41,18 +41,20 @@ miscellaneous2 {
 
 advanced {
 
-  HighlightClass arg_c miscellaneous3 {}
-  HighlightClass arg_s miscellaneous1 {italics}
+  HighlightClass arg_c {-fgtheme miscellaneous3}
+  HighlightClass arg_s {-fgtheme miscellaneous1 -fontopts italics}
 
-  HighlightRegexp {\{.*?\}} arg_curly
-  HighlightRegexp {\[.*?\]} arg_square
+  HighlightRegexp {\{(.*?)\}} arg_curly
+  HighlightRegexp {\[(.*?)\]} arg_square
 
   HighlightProc arg_curly {
-    return [list [list [list arg_c [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
+    array set vars $varlist
+    return [list [list arg_c {*}$vars(1)] ""]
   } HighlightEndProc
 
   HighlightProc arg_square {
-    return [list [list [list arg_s [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
+    array set vars $varlist
+    return [list [list arg_s {*}$vars(1)] ""]
   } HighlightEndProc
 
 }

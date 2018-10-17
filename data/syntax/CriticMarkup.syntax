@@ -25,39 +25,39 @@ advanced {
 
   HighlightProc addition {
     array set vars $varlist
-    return [list [list [list add  {*}$vars(2)] \
-                       [list meta {*}$vars(1)] \
-                       [list meta {*}$vars(3)]] ""]
+    return [list [list add  {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc deletion {
     array set vars $varlist
-    return [list [list [list del  {*}$vars(2)] \
-                       [list meta {*}$vars(1)] \
-                       [list meta {*}$vars(3)]] ""]
+    return [list [list del  {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc substitution {
     array set vars $varlist
-    return [list [list [list del  {*}$vars(2)] \
-                       [list add  {*}$vars(4)] \
-                       [list meta {*}$vars(1)] \
-                       [list meta {*}$vars(3)] \
-                       [list meta {*}$vars(5)]] ""]
+    return [list [list del  {*}$vars(2) \
+                       add  {*}$vars(4) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3) \
+                       meta {*}$vars(5)] ""]
   } HighlightEndProc
 
   HighlightProc comment {
     array set vars $varlist
-    return [list [list [list comm {*}$vars(2)] \
-                       [list meta {*}$vars(1)] \
-                       [list meta {*}$vars(3)]] ""]
+    return [list [list comm {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc highlight {
     array set vars $varlist
-    return [list [list [list hilite {*}$vars(2)] \
-                       [list meta   {*}$vars(1)] \
-                       [list meta   {*}$vars(3)]] ""]
+    return [list [list hilite {*}$vars(2) \
+                       meta   {*}$vars(1) \
+                       meta   {*}$vars(3)] ""]
   } HighlightEndProc
 
 }

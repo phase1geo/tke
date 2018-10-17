@@ -3602,23 +3602,20 @@ namespace eval ctext {
             incr i
           }
         } else {
-          puts "re: $re, start: $start, end: $end"
           set startrow [lindex [split $start .] 0]
           foreach line [split [$twin get $start $end] \n] {
             set index 0
             array unset var
             while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
-              puts "  HERE! value: $value, txt: $twin, startrow: $startrow, vars: [array get var]"
               if {![catch { {*}$value $twin $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
-                puts "  retval: $retval"
-                foreach sub [lindex $retval 0] {
-                  if {[llength $sub] == 3} {
-                    lappend tags([lindex $sub 0]) $startrow.[lindex $sub 1] $startrow.[expr [lindex $sub 2] + 1]
+                lassign $retval rtags goback
+                if {([llength $rtags] % 3) == 0} {
+                  foreach {rtag rstart rend} $rtags {
+                    lappend tags(__$rtag) $startrow.$rstart $startrow.[expr $rend + 1]
                   }
                 }
-                set index [expr {([lindex $retval 1] ne "") ? [lindex $retval 1] : ([lindex $var(0) 1] + 1)}]
+                set index [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
               } else {
-                puts "  retval :< $retval"
                 set index [expr {[lindex $var(0) 1] + 1}]
               }
             }
@@ -3629,8 +3626,8 @@ namespace eval ctext {
     }
   
     # Add the tags
-    foreach tag [array names tags] {
-      $twin tag add $tag {*}$tags($tag)
+    foreach {tag indices} [array get tags] {
+      $twin tag add $tag {*}$indices
     }
   
   }
