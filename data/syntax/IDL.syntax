@@ -20,8 +20,6 @@ indent
 unindent
 {endelse endfor endforeach endif endrep endwhile end endcase endswitch}
 
-reindent {}
-
 icomment {{;}}
 
 lcomments {{;}}
@@ -98,6 +96,3 @@ miscellaneous2 {
   }
 }
 
-miscellaneous3 {}
-
-advanced {}

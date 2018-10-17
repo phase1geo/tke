@@ -31,17 +31,13 @@ punctuation
 }
 
 advanced {
-  HighlightClass var keywords {}
+  HighlightClass var {-fgtheme keywords}
 
-  HighlightRegexp {^\s*\w+\s*=} handle_variable
+  HighlightRegexp {^\s*(\w+)\s*=} handle_variable
 
   HighlightProc handle_variable {
-    if {[regexp {^(\\s*)(\\w+)} [$txt get $startpos $endpos] -> prespace varname]} {
-      set start [$txt index "$startpos+[string length $prespace]c"]
-      return [list [list [list var $start [$txt index "$start+[string length $varname]c"] [list]]] [list]]
-    }
-    return ""
+    array set vars $varlist
+    return [list [list var {*}$vars(1)] ""]
   } HighlightEndProc
-
 }
 
