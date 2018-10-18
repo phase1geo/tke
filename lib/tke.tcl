@@ -542,5 +542,7 @@ if {[catch {
   wm deiconify .
 
 } rc]} {
+  puts "rc: $rc"
+  puts $::errorInfo
   bgerror $rc
 }
