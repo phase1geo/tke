@@ -2341,7 +2341,7 @@ msgcat::mcmset da {
   "Type"
 
   "Unable to connect to"
-  "\"
+  "Unable to connect to"
 
   "Username"
   "Brugernavn"
@@ -2639,7 +2639,7 @@ msgcat::mcmset da {
   "Fjern fra Sidebar"
 
   "Show"
-  "\"
+  "Show"
 
   "Show Difference"
   "Vis forskellen"
@@ -2706,7 +2706,7 @@ msgcat::mcmset da {
   "Indstillingsmuligheder"
 
   "Setup Complete"
-  "\"
+  "Setup Complete"
 
   "Share"
   "Del"
@@ -2801,6 +2801,9 @@ msgcat::mcmset da {
   "Background color of insertion cursor and background marker colors."
   "Baggrundsfarve indsættelse markøren og baggrunden markør farver."
 
+  "Background color of linemap area."
+  "Baggrundsfarve p� linemap-omr�det."
+
   "Background color of list items when not selected"
   "Baggrundsfarven af listeelementer når ikke valgt"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset da {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Farve, der benyttes til fremhævning i lukkede folder i linje nummer tagrende"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Farve bruges til at tegne linjen, som adskiller linjekortet fra tekstomr�det."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Color bruges til at tegne advarslen bredde linje i redigeringen buffer (såvel som grænsen mellem renden fra redigeringen buffer)."

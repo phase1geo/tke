@@ -2801,6 +2801,9 @@ msgcat::mcmset it {
   "Background color of insertion cursor and background marker colors."
   "Il colore di sfondo di inserimento del cursore e lo sfondo marcatori colori."
 
+  "Background color of linemap area."
+  "Colore di sfondo dell&#39;area della linemap."
+
   "Background color of list items when not selected"
   "Colore di sfondo degli elementi di elenco quando non selezionata"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset it {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Colore da utilizzare per evidenziare chiusi pieghe nella grondaia numero linea"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Colore usato per disegnare la linea che separa la linemap dall&#39;area di testo."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Colore usato per disegnare la linea larghezza avviso nel buffer di modifica (come pure la linea che separa la grondaia dal buffer di modifica)."

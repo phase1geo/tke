@@ -166,7 +166,7 @@ msgcat::mcmset de {
   "Datei-Index liegt außerhalb des Bereichs"
 
   "Hide Tab"
-  "Registerkarte \"
+  "Hide Tab"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Bild gefunden in Fill-in-Formulare, die die Form UI schließt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
@@ -199,40 +199,40 @@ msgcat::mcmset de {
   "Bild in Register, die, wenn geklickt wird, schließt das Register verwendet."
 
   "Image used in the preferences window in the Advanced tab."
-  "Bild im Fenster \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Erweitert verwendet wird."
 
   "Image used in the preferences window in the Appearance tab."
-  "Bild im Fenster \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Darstellung verwendet wird."
 
   "Image used in the preferences window in the Documentation tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte &quot;Dokumentation&quot; verwendet wird."
 
   "Image used in the preferences window in the Editor tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte &quot;Editor&quot; verwendet wird."
 
   "Image used in the preferences window in the Emmet tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Emmet verwendet wird."
 
   "Image used in the preferences window in the Find tab."
-  "Bild im Fenster \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Suchen verwendet wird."
 
   "Image used in the preferences window in the General tab."
-  "Bild im Fenster \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Allgemein verwendet wird."
 
   "Image used in the preferences window in the Plugins tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Plugins verwendet wird."
 
   "Image used in the preferences window in the Shortcuts tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Verkn�pfungen verwendet wird."
 
   "Image used in the preferences window in the Sidebar tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Seitenleiste verwendet wird."
 
   "Image used in the preferences window in the Snippets tab."
-  "Bild im Einstellungsfenster auf der Registerkarte \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Snippets verwendet wird."
 
   "Image used in the preferences window in the View tab."
-  "Bild im Fenster \"
+  "Bild, das im Einstellungsfenster auf der Registerkarte Ansicht verwendet wird."
 
   "Image used in the preferences window to indicate that a table item is deselected."
   "Bild im Einstellungsfenster verwendet, um anzugeben, dass ein Tabellenelement deaktiviert ist."
@@ -2099,7 +2099,7 @@ msgcat::mcmset de {
   "Tastaturbefehle"
 
   "Show 'Find in Files' result in other pane"
-  "Zeigen Sie \"
+  "Zeige &#39;Finde in Dateien&#39; Ergebnis in einem anderen Fenster"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Zeigen Sie auf Papierkorb verschieben für lokale Dateien/Verzeichnisse statt löschen"
@@ -2150,7 +2150,7 @@ msgcat::mcmset de {
   "abstand"
 
   "Spaces per tab"
-  "Räume pro Registerkarte \"
+  "Leerzeichen pro Registerkarte"
 
   "Square bracket"
   "Eckige Klammer"
@@ -2688,7 +2688,7 @@ msgcat::mcmset de {
   "Schlichten"
 
   "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
-  "Benötigen Sie möchten Ihre Freigabeeinstellungen ändern Sie dazu in den Einstellungen unter der Registerkarte \"
+  "Wenn Sie Ihre Freigabeeinstellungen �ndern m�chten, k�nnen Sie dies in den Einstellungen auf der Registerkarte Allgemein / Freigabe vornehmen."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Ausgewählten Elemente werden auf Ihrem lokalen home-Verzeichnis kopiert. Elemente, die nicht ausgewählt sind werden in Ihrem home-Verzeichnis erstellt werden."
@@ -2801,6 +2801,9 @@ msgcat::mcmset de {
   "Background color of insertion cursor and background marker colors."
   "Hintergrundfarbe des Einfügemarke und Hintermarkerfarben."
 
+  "Background color of linemap area."
+  "Hintergrundfarbe des Linimap-Bereichs."
+
   "Background color of list items when not selected"
   "Hintergrundfarbe von Listenelementen wenn nicht ausgewählt"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset de {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Farbe für die Hervorhebung geschlossene Falten in der Linie Nummer Gosse verwenden"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Farbe zum Zeichnen der Linie, die die Linimap vom Textbereich trennt."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Farbe verwendet werden, um die Warnung Breitenlinie im Bearbeitungspuffer (wie auch die Trennlinie zwischen der Dachrinne von der Bearbeitungspuffer) zu zeichnen."

@@ -124,7 +124,7 @@ msgcat::mcmset pl {
   "Case sensitive i case insensitive"
 
   "Close All Other Tabs"
-  "\"
+  "Wyślij ponownie..."
 
   "Close All Tabs"
   "Zamknij wszystkie karty"
@@ -553,7 +553,7 @@ msgcat::mcmset pl {
   "Usuń zaznaczone fałdy"
 
   "Delete Session"
-  "<g x=1 id=\"
+  "Konfiguruj wtyczki..."
 
   "Delete User"
   "Usuń użytkownika"
@@ -2706,7 +2706,7 @@ msgcat::mcmset pl {
   "Ustawienia opcji"
 
   "Setup Complete"
-  "\"
+  "Konfiguracja zako?czona"
 
   "Share"
   "Podziel się"
@@ -2801,6 +2801,9 @@ msgcat::mcmset pl {
   "Background color of insertion cursor and background marker colors."
   "Kolor tła i markerów kursor wstawiania tła kolorach."
 
+  "Background color of linemap area."
+  "Kolor t?a obszaru linemap."
+
   "Background color of list items when not selected"
   "Kolor tła elementów listy, gdy nie wybrany"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset pl {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Kolor używany do podkreślenia ZAMKNIĘTA fałdy w rynsztoku numer wiersza"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Kolor u?ywany do narysowania linii oddzielaj?cej map? linow? od obszaru tekstowego."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Kolor używany do rysowania linii szerokości ostrzeżenie w buforze edycji (jak również linię oddzielającą rynny z edycji buforu)."

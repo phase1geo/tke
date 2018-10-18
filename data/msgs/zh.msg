@@ -1889,7 +1889,7 @@ msgcat::mcmset zh {
   "已显示信息"
 
   "Double-quote"
-  "\"
+  "Double-quote"
 
   "Editor"
   "编辑"
@@ -2801,6 +2801,9 @@ msgcat::mcmset zh {
   "Background color of insertion cursor and background marker colors."
   "插入光标和背景颜色标记背景颜色。"
 
+  "Background color of linemap area."
+  "Background color of linemap area."
+
   "Background color of list items when not selected"
   "当未选中的列表项的背景色"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset zh {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "颜色要用于突出显示行数滚动条槽中的闭的褶皱"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Color used to draw the line which separates the linemap from the text area."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "用来绘制中编辑缓冲区 (以及线装订线分离编辑缓冲区) 的警告宽度线的颜色。"

@@ -2099,7 +2099,7 @@ msgcat::mcmset cs {
   "Klávesové zkratky"
 
   "Show 'Find in Files' result in other pane"
-  "Ukázat \"
+  "Show 'Find in Files' result in other pane"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Zobrazit pro místní soubory/adresáře namísto odstranění přesunout do koše"
@@ -2801,6 +2801,9 @@ msgcat::mcmset cs {
   "Background color of insertion cursor and background marker colors."
   "Barva pozadí vložení kurzoru a zázemí značkovacích barev."
 
+  "Background color of linemap area."
+  "Barva pozad� oblasti plochy linemap."
+
   "Background color of list items when not selected"
   "Barva pozadí položek seznamu, když není vybrán"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset cs {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Barva se použije na zvýraznění uzavřených záhyby linky číslo okapu"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Barva pou?it� k kreslen� ?�ry, kter� odd?luje linku od textov� oblasti."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Barva slouží ke kreslení šířky varování řádek v editační vyrovnávací paměti (stejně jako čáru oddělující okap z vyrovnávací paměti pro úpravy)."
