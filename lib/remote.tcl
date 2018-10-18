@@ -1972,7 +1972,7 @@ namespace eval remote {
   # Get the file contents of the given filename using the given connection
   # name if the remote file is newer than the given modtime.  Returns 1
   # if the file was retrieved without error; otherwise, returns 0.
-  proc get_file {name fname pcontents pmodtime} {
+  proc get_file {name fname encode pcontents pmodtime} {
 
     variable connections
     variable opened
@@ -1987,6 +1987,7 @@ namespace eval remote {
         set modtime [get_mtime $name $fname]
         if {![catch { ::FTP_GetFile $name $fname $local 0 } rc]} {
           if {![catch { open $local r } rc]} {
+            fconfigure $rc -encoding $encode
             set contents [read $rc]
             close $rc
             file delete -force $local
@@ -2016,7 +2017,7 @@ namespace eval remote {
   ######################################################################
   # Saves the given file contents to the given filename.  Returns 1 if
   # the file was saved successfully; otherwise, returns 0.
-  proc save_file {name fname contents pmodtime} {
+  proc save_file {name fname encode contents pmodtime} {
 
     variable connections
     variable opened
@@ -2028,6 +2029,7 @@ namespace eval remote {
       "SFTP" {
         set local [file join $::tke_home sftp_put.tmp]
         if {![catch { open $local w } rc]} {
+          fconfigure $rc -encoding $encode
           puts $rc $contents
           close $rc
           if {![catch { ::FTP_PutFile $name $local $fname [file size $local] } rc]} {

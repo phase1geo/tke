@@ -46,6 +46,7 @@ namespace eval files {
     xview    16
     yview    17
     cursor   18
+    encode   19
   }
 
   ######################################################################
@@ -312,23 +313,24 @@ namespace eval files {
     variable files
     variable fields
 
-    array set opts {
-      -save_cmd ""
-      -lock     0
-      -readonly 0
-      -sidebar  0
-      -buffer   0
-      -gutters  [list]
-      -diff     0
-      -tags     [list]
-      -loaded   0
-      -eol      ""
-      -remember 0
-      -remote   ""
-      -xview    0
-      -yview    0
-      -cursor   1.0
-    }
+    array set opts [list \
+      -save_cmd "" \
+      -lock     0 \
+      -readonly 0 \
+      -sidebar  0 \
+      -buffer   0 \
+      -gutters  [list] \
+      -diff     0 \
+      -tags     [list] \
+      -loaded   0 \
+      -eol      "" \
+      -remember 0 \
+      -remote   "" \
+      -xview    0 \
+      -yview    0 \
+      -cursor   1.0 \
+      -encode   [encoding system] \
+    ]
     array set opts $args
 
     set file_info [lrepeat [array size fields] ""]
@@ -351,6 +353,7 @@ namespace eval files {
     lset file_info $fields(xview)    $opts(-xview)
     lset file_info $fields(yview)    $opts(-yview)
     lset file_info $fields(cursor)   $opts(-cursor)
+    lset file_info $fields(encode)   $opts(-encode)
 
     if {($opts(-remote) eq "") && !$opts(-buffer)} {
       lset file_info $fields(eol) [get_eol_translation $fname]
@@ -409,7 +412,7 @@ namespace eval files {
     variable files
     variable fields
 
-    get_info $tab tab fileindex fname diff remote
+    get_info $tab tab fileindex fname diff remote encode
 
     # Set the loaded indicator
     lset files $fileindex $fields(loaded) 1
@@ -418,9 +421,10 @@ namespace eval files {
 
     # Get the file contents
     if {$remote ne ""} {
-      remote::get_file $remote $fname contents modtime
+      remote::get_file $remote $fname $encode contents modtime
       lset files $fileindex $fields(mtime) $modtime
     } elseif {![catch { open $fname r } rc]} {
+      fconfigure $rc -encoding $encode
       set contents [string range [read $rc] 0 end-1]
       close $rc
       lset files $fileindex $fields(mtime) [file mtime $fname]
@@ -439,12 +443,12 @@ namespace eval files {
     variable files
     variable fields
 
-    get_info $tab tab fileindex fname remote eol
+    get_info $tab tab fileindex fname remote eol encode
 
     if {$remote ne ""} {
 
       # Save the file contents to the remote file
-      if {![remote::save_file $remote $fname $contents modtime]} {
+      if {![remote::save_file $remote $fname $encode $contents modtime]} {
         gui::set_error_message [msgcat::mc "Unable to write remote file"] ""
         return 0
       }
@@ -454,7 +458,7 @@ namespace eval files {
     } elseif {![catch { open $fname w } rc]} {
 
       # Write the file contents
-      catch { fconfigure $rc -translation $eol }
+      catch { fconfigure $rc -translation $eol -encoding $encode }
       puts $rc $contents
       close $rc
 

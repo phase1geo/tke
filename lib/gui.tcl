@@ -337,11 +337,14 @@ namespace eval gui {
     ttk::separator .if.s1 -orient vertical
     set widgets(info_msg)    [ttk::label .if.l2]
     ttk::separator .if.s2 -orient vertical
-    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_info_menu_popup .if.ind [indent::create_menu .if.ind]]]
+    set widgets(info_encode) [ttk::button .if.enc -style BButton -command [list gui::handle_info_menu_popup .if.enc [gui::create_encoding_menu .if.enc]]]
     ttk::separator .if.s3 -orient vertical
+    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_info_menu_popup .if.ind [indent::create_menu .if.ind]]]
+    ttk::separator .if.s4 -orient vertical
     set widgets(info_syntax) [ttk::button .if.syn -style BButton -command [list gui::handle_info_menu_popup .if.syn [syntax::create_menu .if.syn]]]
     ttk::label     .if.sp -text " "
 
+    $widgets(info_encode) configure -state disabled
     $widgets(info_indent) configure -state disabled
     $widgets(info_syntax) configure -state disabled
 
@@ -353,6 +356,8 @@ namespace eval gui {
     pack .if.s3  -side right -padx 2 -pady 10 -fill y
     pack .if.ind -side right -padx 2 -pady 2
     pack .if.s2  -side right -padx 2 -pady 10 -fill y
+    pack .if.enc -side right -padx 2 -pady 2
+    pack .if.s4  -side right -padx 2 -pady 10 -fill y
 
     # Create the configurable response widget
     set widgets(ursp)       [ttk::frame .rf]
@@ -1008,7 +1013,7 @@ namespace eval gui {
       foreach tab [$nb.tbf.tb tabs] {
 
         # Get the file tab information
-        get_info $tab tab paneindex txt fname save_cmd lock readonly diff sidebar buffer remember remote txt2 beye
+        get_info $tab tab paneindex txt fname save_cmd lock readonly diff sidebar buffer remember remote txt2 beye encode
 
         # If we need to forget this file, don't save it to the session
         if {!$remember || ($remote ne "")} {
@@ -1024,6 +1029,7 @@ namespace eval gui {
         set finfo(sidebar)     $sidebar
         set finfo(buffer)      $buffer
         set finfo(remember)    $remember
+        set finfo(encode)      $encode
 
         # Save the tab as a current tab if it's not a buffer
         if {!$finfo(buffer) && !$current_set} {
@@ -1166,6 +1172,9 @@ namespace eval gui {
             }
             if {[info exists finfo(indent)]} {
               indent::set_indent_mode $finfo(indent)
+            }
+            if {[info exists finfo(encode)]} {
+              set_encoding $finfo(encode)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               diff::set_session_data $txt $finfo(diffdata)
@@ -3367,6 +3376,7 @@ namespace eval gui {
     }
 
     # For good measure, we'll even disable the information bar items
+    $widgets(info_encode) configure -state $state
     $widgets(info_indent) configure -state $state
     $widgets(info_syntax) configure -state $state
 
@@ -4109,6 +4119,7 @@ namespace eval gui {
 
     # Make the tabbar visible and the syntax menubutton enabled
     grid $tb
+    $widgets(info_encode) configure -state normal
     $widgets(info_indent) configure -state normal
     $widgets(info_syntax) configure -state normal
 
@@ -5147,6 +5158,9 @@ namespace eval gui {
     # Reload the snippets to correspond to the current file
     snippets::reload_snippets
 
+    # Update the encoding indicator
+    update_encode_button
+
     # Update the indentation indicator
     indent::update_button $widgets(info_indent)
 
@@ -5639,6 +5653,68 @@ namespace eval gui {
     variable widgets
 
     indent::update_button $widgets(info_indent)
+
+  }
+
+  ######################################################################
+  # Creates the encoding menu.
+  proc create_encoding_menu {w} {
+
+    variable widgets
+
+    # Create the menubutton menu
+    set mnu [menu ${w}Menu -tearoff 0]
+
+    # Populate the menu with the available languages
+    set i 0
+    foreach enc [lsort [encoding names]] {
+      $mnu add radiobutton -label [string toupper $enc] -variable gui::current_encoding \
+        -value $enc -command [list gui::set_encoding $enc] -columnbreak [expr ($i % 20) == 0]
+      incr i
+    }
+
+    # Register the menu
+    theme::register_widget $mnu menus
+
+    return $mnu
+
+  }
+
+  ######################################################################
+  # Sets the encoding to the given value.
+  proc set_encoding {value} {
+
+    variable widgets
+
+    # Get the current tab info
+    get_info {} current fileindex encode
+
+    # If the value did not change, do nothing
+    if {$value eq $encode} return
+
+    # Save the file encoding
+    files::set_info $fileindex fileindex encode $value
+
+    # Update the encode button
+    update_encode_button
+
+    # Update the file with the new encoding
+    update_file $fileindex
+
+  }
+
+  ######################################################################
+  # This is called when the tab changes.  Our job is to update the label
+  # on the encoding button to match the value for the file.
+  proc update_encode_button {} {
+
+    variable widgets
+
+    # Get the current encoding
+    get_info {} current encode
+
+    # Update the encode button
+    $widgets(info_encode) configure -text [string toupper $encode]
 
   }
 
