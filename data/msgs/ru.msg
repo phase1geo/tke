@@ -2341,7 +2341,7 @@ msgcat::mcmset ru {
   "Тип"
 
   "Unable to connect to"
-  "\"
+  "Не удалось подключиться"
 
   "Username"
   "Логин"
@@ -2801,6 +2801,9 @@ msgcat::mcmset ru {
   "Background color of insertion cursor and background marker colors."
   "Цвет фона курсора вставки и предпосылки маркеров цвета."
 
+  "Background color of linemap area."
+  "???? ???? ??????? ?????."
+
   "Background color of list items when not selected"
   "Цвет фона элементов списка, если не выбран"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset ru {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Цвет, используемый для выделения закрытой складки в канаве номер линии"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "???? ???????????? ??? ????????? ?????, ??????? ???????? ???????? ????? ?? ????????? ???????."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Цвет, используемый для рисования линии ширина предупреждение в буфере редактирования (а также линия, разделяющая желоба от редактирования буфера)."

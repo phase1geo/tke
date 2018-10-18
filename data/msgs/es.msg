@@ -2386,6 +2386,9 @@ msgcat::mcmset es {
   "Angled Brackets"
   "soportes"
 
+  "Backticks"
+  "'acentos abiertos'"
+
   "Block"
   "Block"
 
@@ -2798,6 +2801,9 @@ msgcat::mcmset es {
   "Background color of insertion cursor and background marker colors."
   "Color de fondo del cursor de inserción y el fondo de marcadores colores."
 
+  "Background color of linemap area."
+  "Color de fondo del �rea de linemap."
+
   "Background color of list items when not selected"
   "Color de fondo de elementos de lista cuando no se selecciona"
 
@@ -2863,6 +2869,9 @@ msgcat::mcmset es {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Color que desea utilizar para resaltar pliegues cerrados en el canal número de línea"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Color utilizado para dibujar la l�nea que separa el mapa de l�nea del �rea de texto."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Color utilizado para dibujar la línea de ancho de advertencia en el buffer de edición (así como la línea que separa la cuneta de la memoria intermedia de edición)."

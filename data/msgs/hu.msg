@@ -2099,7 +2099,7 @@ msgcat::mcmset hu {
   "Billentyűparancsok"
 
   "Show 'Find in Files' result in other pane"
-  "\"
+  "M�s ablakban jelen�tse meg a &quot;Find in Files&quot; tal�latot"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Mutatják, mozog-hoz szemét helyett Delete helyi fájlok/könyvtárak"
@@ -2801,6 +2801,9 @@ msgcat::mcmset hu {
   "Background color of insertion cursor and background marker colors."
   "Háttérszíne behelyezés kurzor és a háttér marker színek."
 
+  "Background color of linemap area."
+  "A vonalter�let ter�let�nek h�tt�rsz�ne."
+
   "Background color of list items when not selected"
   "Háttérszín lista elem, ha nincs kijelölve"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset hu {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Kiemelve a zárt bedobja a vonal szám ereszcsatorna a használandó színt"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "A linkt�l elv�laszt� vonal rajzol�s�hoz haszn�lt sz�n."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Színes hívják fel a figyelmeztető széles vonal a szerkesztési puffer (valamint az elválasztó vonal az ereszcsatorna a szerkesztési puffer)."

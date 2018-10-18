@@ -1889,7 +1889,7 @@ msgcat::mcmset fr {
   "Information affichée"
 
   "Double-quote"
-  "\"
+  "Guillemets doubles"
 
   "Editor"
   "Éditeur"
@@ -2801,6 +2801,9 @@ msgcat::mcmset fr {
   "Background color of insertion cursor and background marker colors."
   "La couleur de fond du curseur d`insertion et de marqueurs de couleurs de fond."
 
+  "Background color of linemap area."
+  "Couleur d&#39;arri�re-plan de la zone de linemap."
+
   "Background color of list items when not selected"
   "Couleur d’arrière-plan des éléments de liste lorsque ne pas sélectionné"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset fr {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Couleur à utiliser pour mettre en évidence les plis fermés dans le caniveau de numéro de ligne"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Couleur utilis�e pour tracer la ligne s�parant le linemap de la zone de texte."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Couleur utilisée pour tracer la ligne de largeur d`avertissement dans le tampon d`édition (ainsi que la ligne qui sépare la gouttière de la mémoire tampon d`édition)."

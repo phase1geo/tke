@@ -5667,7 +5667,7 @@ namespace eval gui {
 
     # Populate the menu with the available languages
     set i 0
-    foreach enc [lsort [encoding names]] {
+    foreach enc [lsort -dictionary [encoding names]] {
       $mnu add radiobutton -label [string toupper $enc] -variable gui::current_encoding \
         -value $enc -command [list gui::set_encoding $enc] -columnbreak [expr ($i % 20) == 0]
       incr i

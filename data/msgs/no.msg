@@ -2715,7 +2715,7 @@ msgcat::mcmset no {
   "Aksjer innstillinger data fra en ny eller eksisterende mappe (ex., iCloud Google stasjonen, Dropbox, etc.).  Endringer i innstillingene data vil vÃ¦re tilgjengelig for andre brukere."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
-  "Takk for hjelp TKE, den avanserte programmerer redaktÃ¸r.  Siden dette er en ny installasjon av TKE, la oss hjelpe deg Ã¥ fÃ¥ ting satt opp. \\n \\n klikk \"
+  "Takk for at du brukte TKE, den avanserte programmørens redaktør. Siden dette er en ny installasjon av TKE, la oss hjelpe deg med å få ting opprettet. \\ n \\ n Klikk på &#39;Neste&#39; nedenfor for å få ting til å gå."
 
   "Use shared settings"
   "Bruke delte innstillinger"
@@ -2801,6 +2801,9 @@ msgcat::mcmset no {
   "Background color of insertion cursor and background marker colors."
   "Bakgrunnsfarge pÃ¥ innsetting markÃ¸ren og bakgrunn markÃ¸r farger."
 
+  "Background color of linemap area."
+  "Bakgrunnsfargen på linjekartsområdet."
+
   "Background color of list items when not selected"
   "Bakgrunnsfargen for listeelementer nÃ¥r ikke"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset no {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Farge som brukes for utheving lukket folder i linje nummer rennesteinen"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Farge brukes til å tegne linjen som skiller linjeskjemaet fra tekstområdet."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Fargen som brukes til Ã¥ trekke advarsel bredde linjen redigering bufferen (samt linjen skille gutter fra redigering bufferen)."

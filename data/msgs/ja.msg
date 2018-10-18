@@ -2801,6 +2801,9 @@ msgcat::mcmset ja {
   "Background color of insertion cursor and background marker colors."
   "挿入カーソルと背景マーカ色の背景色です。"
 
+  "Background color of linemap area."
+  "?????????????"
+
   "Background color of list items when not selected"
   "選択されていない場合、リスト アイテムの背景色"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset ja {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "行番号余白で閉じた襞を強調表示に使用する色"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "???????????????????????????????????"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "色は、編集バッファに警告幅ライン（並びに編集バッファから樋を分離線）を描画するために使用されます。"

@@ -2801,6 +2801,9 @@ msgcat::mcmset nl {
   "Background color of insertion cursor and background marker colors."
   "Achtergrondkleur van het inbrengen cursor en achtergrond marker kleuren."
 
+  "Background color of linemap area."
+  "Achtergrondkleur van het linemapgebied."
+
   "Background color of list items when not selected"
   "Achtergrondkleur van lijstitems als niet geselecteerd"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset nl {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Kleur gebruiken voor het benadrukken van gesloten plooien in de lijn nummer goot"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Kleur gebruikt om de lijn te tekenen die de linemap van het tekstgebied scheidt."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Kleur gebruikt om de waarschuwing breedte regel in de editing buffer (evenals de lijn tussen de goot van de redactie buffer) te trekken."

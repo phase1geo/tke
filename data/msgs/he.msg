@@ -2099,7 +2099,7 @@ msgcat::mcmset he {
   "קיצורי דרך"
 
   "Show 'Find in Files' result in other pane"
-  "הצגת התוצאה \"
+  "??? &#39;????? ???????&#39; ??????? ????"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "הצג להזיז את האשפה עבור הקבצים/הספריות המקומי במקום למחוק"
@@ -2801,6 +2801,9 @@ msgcat::mcmset he {
   "Background color of insertion cursor and background marker colors."
   "צבע הרקע של ההכנסה הסמן סמן והרקע."
 
+  "Background color of linemap area."
+  "??? ??? ?? ???? Linemap."
+
   "Background color of list items when not selected"
   "צבע הרקע של פריטי רשימה כאשר לא נבחר"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset he {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "הצבע בו יש להשתמש עבור הדגשת קפלי סגור בביוב מספר השורה"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "???? ???? ????? ??? ?????? ??? ?- linemap ????? ?????."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "הצבע המשמש כדי לצייר קו רוחב אזהרה המאגר העריכה (כמו גם על הקו המפריד בין המרזב מתוך המאגר העריכה)."

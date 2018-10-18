@@ -2099,7 +2099,7 @@ msgcat::mcmset sv {
   "Genvägar"
 
   "Show 'Find in Files' result in other pane"
-  "Visa \"
+  "Visa &quot;Hitta i filer&quot; resultat i annan ruta"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Visa flytta till papperskorgen för lokala filer/kataloger istället för radera"
@@ -2801,6 +2801,9 @@ msgcat::mcmset sv {
   "Background color of insertion cursor and background marker colors."
   "Bakgrundsfärg på insättningspunkten och bakgrundsmarkeringsfärger."
 
+  "Background color of linemap area."
+  "Bakgrundsf�rg p� linemap-omr�det."
+
   "Background color of list items when not selected"
   "Bakgrundsfärgen för listobjekt när inte markerad"
 
@@ -2866,6 +2869,9 @@ msgcat::mcmset sv {
 
   "Color to use for highlighting closed folds in the line number gutter"
   "Färg som ska användas för att belysa stängda veck i linje nummer rännstenen"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "F�rg brukade rita linjen som skiljer linjekartan fr�n textomr�det."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Färgen används för att rita linjen varning bredd i redigering bufferten (liksom linjen som skiljer rännstenen från redigering bufferten)."
