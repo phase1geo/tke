@@ -141,6 +141,7 @@ set tke_dir [file normalize [file join [pwd] ..]]
 
 # Set the releases directory
 set release_dir [file normalize [file join [pwd] .. .. releases]]
+file mkdir $release_dir
 
 # Set the global auto_path to include all needed packages
 set_auto_path
