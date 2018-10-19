@@ -5,11 +5,8 @@ reference {
   {{Language Reference} http://mesonbuild.com/Syntax.html}
 }
 
-completechars
-{curly}
-
-matchchars
-{curly paren square single triple}
+matchcharsallowed
+{curly paren square single}
 
 escapes
 {1}
@@ -23,16 +20,17 @@ linewrap
 casesensitive
 {1}
 
-indentation
-{curly paren}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{{#} {$}}}
+lcomments {{#}}
 
-nestedcomments {0}
-
-strings {single triple}
+strings {{"} {'}}
 
 keywords
 {
