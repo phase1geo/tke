@@ -355,7 +355,7 @@ namespace eval files {
     lset file_info $fields(cursor)   $opts(-cursor)
     lset file_info $fields(encode)   $opts(-encode)
 
-    if {($opts(-remote) eq "") && !$opts(-buffer)} {
+    if {($opts(-remote) eq "") && !$opts(-buffer) && [file exists $fname]} {
       lset file_info $fields(eol) [get_eol_translation $fname]
     } else {
       lset file_info $fields(eol) [get_eol_translation ""]
