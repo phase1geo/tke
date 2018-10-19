@@ -1609,37 +1609,38 @@ namespace eval pref_ui {
     $widgets(share_entry) insert end $share_dir
     $widgets(share_entry) configure -state readonly
 
-    ###############
-    # UPDATES TAB #
-    ###############
-
-    $w.nb add [set d [ttk::frame $w.nb.d]] -text [set wstr [msgcat::mc "Updates"]]
-
-    make_cb $d.ucos [msgcat::mc "Automatically check for updates on start"] General/UpdateCheckOnStart
-
-    ttk::frame $d.f
-    ttk::label $d.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
-    set widgets(upd_mb) [ttk::menubutton $d.f.umb -menu [menu $d.updMnu -tearoff 0]]
-
+    # The updates tab is not valid for Windows
     if {![string match *Win* $::tcl_platform(os)]} {
+
+      ###############
+      # UPDATES TAB #
+      ###############
+
+      $w.nb add [set d [ttk::frame $w.nb.d]] -text [set wstr [msgcat::mc "Updates"]]
+
+      make_cb $d.ucos [msgcat::mc "Automatically check for updates on start"] General/UpdateCheckOnStart
+
+      ttk::frame $d.f
+      ttk::label $d.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
+      set widgets(upd_mb) [ttk::menubutton $d.f.umb -menu [menu $d.updMnu -tearoff 0]]
+
+      $d.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
+      $d.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
+
       ttk::button $d.upd -style BButton -text [msgcat::mc "Check for Update"] -command [list menus::check_for_update]
-    }
 
-    $d.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
-    $d.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
-
-    pack $d.f.ul  -side left -padx 2 -pady 2
-    pack $d.f.umb -side left -padx 2 -pady 2
-    pack $d.f     -fill x
-    if {![string match *Win* $::tcl_platform(os)]} {
+      pack $d.f.ul  -side left -padx 2 -pady 2
+      pack $d.f.umb -side left -padx 2 -pady 2
+      pack $d.f     -fill x
       pack $d.upd -padx 2 -pady 2
+
+      # Register the widget for search
+      register $widgets(upd_mb) $wstr General/UpdateReleaseType
+
+      # Initialize the release type menubutton text
+      set_release_type
+
     }
-
-    # Register the widget for search
-    register $widgets(upd_mb) $wstr General/UpdateReleaseType
-
-    # Initialize the release type menubutton text
-    set_release_type
 
   }
 
