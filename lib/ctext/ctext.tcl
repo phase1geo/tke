@@ -103,6 +103,7 @@ namespace eval ctext {
     set data($win,config,undo_sep_last)           -1
     set data($win,config,undo_sep_next)           -1
     set data($win,config,undo_sep_size)           0
+    set data($win,config,undo_sep_count)          0
     set data($win,config,redo_hist)               [list]
   
     set data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
@@ -905,6 +906,9 @@ namespace eval ctext {
   
       # Increment the separator size
       incr data($win,config,undo_sep_size)
+
+      # Increment the separator count
+      incr data($win,config,undo_sep_count)
   
     }
   
@@ -1119,6 +1123,7 @@ namespace eval ctext {
       set data($win,config,undo_sep_next) [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
       set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
       incr data($win,config,undo_sep_size) -1
+      incr data($win,config,undo_sep_count) -1
   
       ::tk::TextSetCursor $win.t $last_cursor
       modified $win 1 [list undo $ranges ""]
@@ -1207,6 +1212,7 @@ namespace eval ctext {
       set data($win,config,undo_sep_next) [expr ($data($win,config,undo_sep_next) == -1) ? [expr $data($win,config,undo_hist_size) - 1] : $data($win,config,undo_sep_next)]
       set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
       incr data($win,config,undo_sep_size)
+      incr data($win,config,undo_sep_count)
   
       ::tk::TextSetCursor $win.t $cursor
       modified $win 1 [list redo $ranges ""]
@@ -2105,12 +2111,16 @@ namespace eval ctext {
           undo_separator $win
         }
       }
+      undocount {
+        return $data($win,config,undo_sep_count)
+      }
       reset {
         set data($win,config,undo_hist)      [list]
         set data($win,config,undo_hist_size) 0
         set data($win,config,undo_sep_next)  -1
         set data($win,config,undo_sep_last)  -1
         set data($win,config,undo_sep_size)  0
+        set data($win,config,undo_sep_count) 0
         set data($win,config,redo_hist)      [list]
         set data($win,config,modified)       false
       }
