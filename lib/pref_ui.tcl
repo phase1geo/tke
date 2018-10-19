@@ -3004,7 +3004,8 @@ namespace eval pref_ui {
 
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Info Panel"]]
 
-    make_cb $c.kfiv [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] Sidebar/KeepInfoPanelVisible
+    make_cb $c.kfiv [msgcat::mc "Keep information panel visible when sidebar doesn't have focus"] Sidebar/KeepInfoPanelVisible
+    make_cb $c. [msgcat::mc "Update information panel whenever the sidebar selection changes"] Sidebar/InfoPanelFollowsSelection
     make_spacer $c
     make_sb $c.rtwpm [msgcat::mc "Reading time words per minute"] Sidebar/InfoPanelReadingTimeWordsPerMinute 100 400 5
     make_spacer $c

@@ -38,6 +38,7 @@ namespace eval sidebar {
   variable tkdnd_id         ""
   variable tkdnd_drag       0
   variable state            "normal"
+  variable ipanel_id        ""
 
   array set widgets {}
   array set scan_id {
@@ -359,6 +360,7 @@ namespace eval sidebar {
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns)  w sidebar::handle_ignore_files
     trace variable preferences::prefs(Sidebar/IgnoreBinaries)      w sidebar::handle_ignore_files
     trace variable preferences::prefs(Sidebar/InfoPanelAttributes) w sidebar::handle_info_panel_view
+    trace variable preferences::prefs(Sidebar/InfoPanelFollowsSelection) w sidebar::handle_info_panel_follows
 
     return $w
 
@@ -1550,6 +1552,9 @@ namespace eval sidebar {
 
       # Colorize the selected items to be selected
       $widgets(tl) tag add sel [$widgets(tl) selection]
+
+      # If the information panel should be updated, do it now
+      update_info_panel_for_selection
 
     }
 
@@ -2925,6 +2930,14 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Handles any changes to the info panel update preference option.
+  proc handle_info_panel_follows {name1 name2 op} {
+
+    update_info_panel_for_selection
+
+  }
+
+  ######################################################################
   # Returns the list of files that are currently visible.
   proc get_shown_files {} {
 
@@ -3023,10 +3036,36 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # In cases where we are updating the information panel whenever the
+  # user changes the selection, we need to make sure the sidebar selection
+  # can change without delay since updating file information can take a
+  # moment.
+  proc update_info_panel_for_selection {} {
+
+    variable widgets
+    variable ipanel_id
+
+    if {![preferences::get Sidebar/InfoPanelFollowsSelection]} {
+      return
+    }
+
+    if {$ipanel_id ne ""} {
+      after cancel $ipanel_id
+    }
+
+    # Update the information panel
+    set ipanel_id [after 500 [list sidebar::update_info_panel [$widgets(tl) selection]]]
+
+  }
+
+  ######################################################################
   # Updates the file information panel to match the current selections
   proc update_info_panel {{selected ""}} {
 
     variable widgets
+    variable ipanel_id
+
+    set ipanel_id ""
 
     if {[llength $selected] == 1} {
       ipanel::update $widgets(info,panel) [$widgets(tl) set [lindex $selected 0] name]
