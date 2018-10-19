@@ -58,6 +58,7 @@ namespace eval gui {
   array set synced          {}
   array set be_after_id     {}
   array set be_ignore       {}
+  array set undo_count      {}
 
   #######################
   #  PUBLIC PROCEDURES  #
@@ -1839,6 +1840,8 @@ namespace eval gui {
   # Inserts the file information and sets the
   proc add_tab_content {tab} {
 
+    variable undo_count
+
     # Get some of the file information
     get_info $tab tab tabbar txt fname diff loaded lock readonly xview yview cursor
 
@@ -1854,6 +1857,9 @@ namespace eval gui {
 
       # Delete any dspace characters
       vim::remove_dspace $txt
+
+      # Initialize the undo count
+      set undo_count($tab) 0
 
       # Insert the file contents
       $txt fastinsert end $contents
@@ -1949,6 +1955,8 @@ namespace eval gui {
   # Update the file located at the given notebook index.
   proc update_file {file_index} {
 
+    variable undo_count
+
     # Get the file information
     get_info $file_index fileindex tabbar tab txt fname diff lock remote
 
@@ -1977,6 +1985,7 @@ namespace eval gui {
 
       # Change the text to unmodified
       $txt edit reset
+      set undo_count($txt) 0
       files::set_info $file_index fileindex modified 0
 
       # Set the insertion mark to the first position
@@ -2006,7 +2015,12 @@ namespace eval gui {
   # Updates the currently displayed file.
   proc update_current {} {
 
-    update_file [get_info {} current fileindex]
+    get_info {} current fileindex tab
+
+    # Update the file
+    update_file $fileindex
+
+
 
   }
 
@@ -2108,9 +2122,29 @@ namespace eval gui {
   }
 
   ######################################################################
+  # This is called whenever we undo/redo.  Checks to see if the current
+  # buffer should be indicated as being not modified.
+  proc check_for_modified {txtt} {
+
+    variable undo_count
+
+    get_info [winfo parent $txtt] txt tabbar tab fname
+
+    if {$undo_count($tab) == [$txtt edit undocount]} {
+      files::set_info $tab tab modified 0
+      $txtt edit modified 0
+      $tabbar tab $tab -text [format " %s" [file tail $fname]]
+      set_title
+    }
+
+  }
+
+  ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
   # otherwise, returns a value of 0.
   proc save_current {args} {
+
+    variable undo_count
 
     array set opts {
       -force   0
@@ -2216,6 +2250,7 @@ namespace eval gui {
 
     # Set the modified state to 0
     set_current_modified 0
+    set undo_count($tab) [$txt edit undocount]
 
     # If there is a save command, run it now
     if {$save_cmd ne ""} {
@@ -2235,6 +2270,8 @@ namespace eval gui {
   # not been previously saved (a new file), that tab is made the current
   # tab and the save_current procedure is called.
   proc save_all {} {
+
+    variable undo_count
 
     for {set i 0} {$i < [files::get_file_num]} {incr i} {
 
@@ -2260,6 +2297,7 @@ namespace eval gui {
 
             # Change the text to unmodified
             $txt edit modified false
+            set undo_count($tab) [$txt edit undocount]
             files::set_info $i fileindex modified 0
 
           # Save the current
@@ -2286,6 +2324,7 @@ namespace eval gui {
 
           # Change the text to unmodified
           $txt edit modified false
+          set undo_count($tab) [$txt edit undocount]
           files::set_info $i fileindex modified 0
 
           # If there is a save command, run it now
@@ -4438,11 +4477,13 @@ namespace eval gui {
     variable cursor_hist
     variable be_after_id
     variable be_ignore
+    variable undo_count
 
     set tab [join [lrange [split $txt .] 0 end-3] .]
 
     catch { unset line_sel_anchor($txt.l) }
     catch { unset txt_current($tab) }
+    catch { unset undo_count($tab) }
     catch { array unset cursor_hist $txt,* }
 
     # Only unset the bird's eye variables if we are destroying txt

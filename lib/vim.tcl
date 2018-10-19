@@ -2900,6 +2900,9 @@ namespace eval vim {
     # Adjusts the insertion cursor
     adjust_insert $txtt
 
+    # Allow the UI to update its state
+    gui::check_for_modified $txtt
+
   }
 
   ######################################################################
@@ -2911,6 +2914,9 @@ namespace eval vim {
 
     # Adjusts the insertion cursor
     adjust_insert $txtt
+
+    # Allow the UI to update its state
+    gui::check_for_modified $txtt
 
   }
 
