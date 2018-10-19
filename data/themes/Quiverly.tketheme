@@ -1,6 +1,6 @@
 swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #0000ff #5a5a5a}
 creator {Trevor Williams}
-date {1507436704}
+date {1539964002}
 images,form_close {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -295,6 +295,8 @@ syntax,foreground {#b6c1c1}
 syntax,highlighter {#ffff00}
 syntax,keywords {#6f89ba}
 syntax,line_number {#585346}
+syntax,linemap {#2b303b}
+syntax,linemap_separator {#333946}
 syntax,marker {orange}
 syntax,meta {#585346}
 syntax,miscellaneous1 {#babd9c}
@@ -309,7 +311,7 @@ syntax,search_foreground {black}
 syntax,select_background {#395472}
 syntax,select_foreground {white}
 syntax,strings {#73817d}
-syntax,warning_width {#585346}
+syntax,warning_width {#333946}
 tabs,-activebackground {#2b303b}
 tabs,-activeforeground {#fbffd7}
 tabs,-background {#333946}

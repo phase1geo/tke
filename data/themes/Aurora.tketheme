@@ -1,5 +1,5 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
-date {1507436524}
+date {1539963081}
 images,form_close {fg white dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -302,6 +302,8 @@ syntax,foreground {#ececec}
 syntax,highlighter {yellow}
 syntax,keywords {#e12977}
 syntax,line_number {#4e4b68}
+syntax,linemap {#302e40}
+syntax,linemap_separator {#4e4b68}
 syntax,marker {orange}
 syntax,meta {#4e4b68}
 syntax,miscellaneous1 {#aaaaaa}
