@@ -1,65 +1,25 @@
-2018-10-18 22:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ac07d55b540 [devel-3.4.1] <temp34>)
+2018-10-19 13:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (66998b5bf712 [devel-3.4.2] <temp34>)
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.1 release
+	ChangeLog for devel-3.4.2 release
 
-2018-10-18 22:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (39d39f6451c1 <temp34>)
+2018-10-19 13:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d617d585fb45 <temp34>)
 
 	* .hgtags:
-	Added tag devel-3.4.1 for changeset 9ac07d55b540
+	Added tag devel-3.4.2 for changeset 66998b5bf712
 
-2018-10-18 23:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (332237734e81 <temp34>)
+2018-10-19 13:28 -0500  Trevor Williams  <phase1geo@gmail.com>  (f414b2a6a125 <temp34>)
 
-	* lib/pref_ui.tcl, lib/version.tcl:
-	* Fixing syntax errors when preferences panel is displayed.
+	* Win/freewrap.files, Win/freewrap.tcl, lib/version.tcl:
+	* Fixing script issues with freewrap.tcl.
 
-2018-10-18 23:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e566ddf3deac <temp34>)
+2018-10-19 13:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5c3f7bc76861 <temp34>)
 
-	* lib/files.tcl, lib/version.tcl:
-	* Fixing bug #36 which causes an error if an non-existent filename
-	is used to lookup the EOL translation when in auto mode.
+	* Win/freewrap.tcl, lib/version.tcl:
+	* Merging.
 
-2018-10-19 00:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3983b9e00403 <temp34>)
+2018-10-19 13:47 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9c2badeabe5e [tip] <temp34>)
 
-	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl,
-	lib/version.tcl:
-	* Checkpointing work on keeping information panel in sync with
-	sidebar (with preference option).
-
-2018-10-19 01:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5130d561d025 <temp34>)
-
-	* lib/gui.tcl, lib/version.tcl:
-	* Fixing theming issue in lower right corner of editor when
-	scrollbar background doesn't match editor background.
-
-2018-10-19 09:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7def4298e33e <temp34>)
-
-	* lib/search.tcl, lib/theme.tcl, lib/version.tcl:
-	* Fixing theming issue with text scrollbars.
-	* Fixing syntax errors in search.
-
-2018-10-19 10:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3bba8e11a0cc <temp34>)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing ctext syntax issues that caused problems with
-	deleting/getting highlight classes.
-
-2018-10-19 11:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d96153f3f55b <temp34>)
-
-	* data/themes/Aurora.tketheme, data/themes/Cool Glow.tketheme,
-	data/themes/Fluidvision.tketheme, data/themes/Monokai.tketheme,
-	data/themes/Notebook.tketheme, data/themes/Quiverly.tketheme,
-	data/themes/Ruby Blue.tketheme, data/themes/Turn of the
-	Century.tketheme, data/themes/choco.tketheme,
-	data/themes/idleFingers.tketheme,
-	data/themes/minimal_Theme.tketheme, data/themes/oscuro.tketheme,
-	lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing theme coloring issues with linemap.
-	* Fixing theme issue with linemap_separator color.
-
-2018-10-19 12:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9fbced6196e8 [tip] <temp34>)
-
-	* lib/pref_ui.tcl, lib/version.tcl:
-	* Removing Updates tab in preferences window on Windows so that we
-	don't mischief.
+	* lib/tablelist6.3/tablelistPublic.tcl, lib/version.tcl:
+	* Fixing issue with tablelist.
 
