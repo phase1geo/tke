@@ -1,0 +1,60 @@
+filepatterns
+{*.nut}
+
+reference {
+  {{Reference Manual} https://squirrel-lang.org/squirreldoc/reference/index.html}
+}
+
+matchcharsallowed
+{curly square paren single double}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent
+{{switch case default}}
+
+icomment {{//}}
+
+lcomments {{//} {#}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  base break case catch class clone continue const default delete do else enum
+  extends for foreach function if in local null resume return switch this
+  throw try typeof while yield constructor instanceof true false static
+  __LINE__ __FILE__
+}
+
+symbols {
+  HighlightKeywords {function} syntax::get_prefixed_symbol
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[eE]?-?[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}!=|&~^<>+/*%?:';"@.-]} {}
+}
+
