@@ -3475,32 +3475,35 @@ namespace eval ctext {
   
   }
   
-  proc deleteHighlightClass {win classToDelete} {
+  ######################################################################
+  # Removes the specified highlighting class from the widget.
+  proc deleteHighlightClass {win class} {
   
     variable data
-  
-    if {![info exists data($win,classes,_$classToDelete)]} {
-      return -code error "$classToDelete doesn't exist"
-    }
-  
-    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,_$classToDelete]] != -1} {
+
+    # Verify that the specified highlight class exists
+    checkHighlightClass $win $class
+
+    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,__$class]] != -1} {
       set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
     }
+
+    array unset data $win,highlight,*,class,__$class
+    unset data($win,classopts,$class)
   
-    array unset data $win,highlight,*,class,_$classToDelete
-    unset data($win,classes,_$classToDelete)
-  
-    $win tag delete _$classToDelete 1.0 end
-  
+    $win._t tag delete __$class 1.0 end
+
   }
   
+  ######################################################################
+  # Returns the highlight classes that are stored in the widget.
   proc getHighlightClasses {win} {
   
     variable data
   
     set classes [list]
-    foreach class [array names data $win,classes,*] {
-      lappend classes [string range [lindex [split $class ,] 2] 1 end]
+    foreach class [array names data $win,classopts,*] {
+      lappend classes [lindex [split $class ,] 2]
     }
   
     return $classes
@@ -3512,7 +3515,6 @@ namespace eval ctext {
     variable data
   
     array unset data $win,highlight,*
-    array unset data $win,classes,*
   
     # Delete the associated tags
     if {[winfo exists $win]} {
