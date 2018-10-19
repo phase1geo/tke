@@ -424,6 +424,13 @@
 
 {Sidebar/KeepInfoPanelVisible} {0}
 
+# If View/ShowFileInfo is set to true, this option, if set, will cause the information panel to
+# automatically update to display the currently selected item in the sidebar.  If this option
+# is not set, the information panel will always display the file information for the same file
+# until the user displays a different file's information in the panel.
+
+{Sidebar/InfoPanelFollowsSelection} {0}
+
 # Specifies which file attributes will be displayed in the sidebar information panel.  The legal
 # values that can be specified are as follows:
 #
