@@ -2532,6 +2532,7 @@ namespace eval pref_ui {
     ttk::labelframe $c.lf -text [msgcat::mc "Preview"]
     frame $c.lf.f
     set widgets(emmet_na_preview) [ctext $c.lf.f.t -height 10 -state disabled \
+      -theme [theme::get_syntax_colors] \
       -xscrollcommand [list $c.lf.f.hb set] -yscrollcommand [list $c.lf.f.vb set]]
     scroller::scroller $c.lf.f.vb -orient vertical   -autohide 1 -command [list $c.lf.f.t yview]
     scroller::scroller $c.lf.f.hb -orient horizontal -autohide 0 -command [list $c.lf.f.t xview]
@@ -2600,6 +2601,7 @@ namespace eval pref_ui {
     ttk::labelframe $d.lf -text [msgcat::mc "Preview"]
     frame $d.lf.f
     set widgets(emmet_aa_preview) [ctext $d.lf.f.t -height 10 -state disabled \
+      -theme [theme::get_syntax_colors] \
       -xscrollcommand [list $d.lf.f.hb set] -yscrollcommand [list $d.lf.f.vb set]]
     scroller::scroller $d.lf.f.vb -orient vertical   -autohide 1 -command [list $d.lf.f.t yview]
     scroller::scroller $d.lf.f.hb -orient horizontal -autohide 0 -command [list $d.lf.f.t xview]
@@ -3174,6 +3176,7 @@ namespace eval pref_ui {
     ttk::labelframe $w.sf.ef.tf -text [msgcat::mc "Snippet Text"]
     frame $w.sf.ef.tf.tf
     set widgets(snippets_text) [ctext $w.sf.ef.tf.tf.t -wrap none \
+      -theme [theme::get_syntax_colors] \
       -xscrollcommand [list $w.sf.ef.tf.tf.hb set] -yscrollcommand [list $w.sf.ef.tf.tf.vb set]]
     scroller::scroller $w.sf.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.sf.ef.tf.tf.t yview]
     scroller::scroller $w.sf.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.sf.ef.tf.tf.t xview]
