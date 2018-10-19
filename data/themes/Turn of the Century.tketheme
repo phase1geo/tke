@@ -1,5 +1,5 @@
 swatch {{#d6c4b6} #ae9f94 #333333}
-date {1507436777}
+date {1539964477}
 images,form_close {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -303,10 +303,12 @@ syntax,foreground {#333333}
 syntax,highlighter {yellow}
 syntax,keywords {#6c6661}
 syntax,line_number {#4e5044}
+syntax,linemap {#ae9f94}
+syntax,linemap_separator {#ae9f94}
 syntax,marker {orange}
 syntax,meta {#ae9f94}
 syntax,miscellaneous1 {#1e1d22}
-syntax,miscellaneous2 {#b0b0b0}
+syntax,miscellaneous2 {#67677f}
 syntax,miscellaneous3 {#996633}
 syntax,numbers {#555555}
 syntax,precompile {#d0d0ff}
