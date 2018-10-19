@@ -5,7 +5,16 @@
 # Brief:    Builds the Windows TKE executable.
 # Usage:    tclsh8.5 freewrap.tcl
 
+array set dnames {}
+
 proc find_package_helper {dname pkg} {
+
+  # Keep track of where we have been and if we start looping, stop
+  set dname [file normalize $dname]
+  if {[info exists ::dnames($dname)]} {
+    return 0
+  }
+  set ::dnames($dname) 1
 
   # If we can find a pkgIndex.tcl file in the dname directory
   # see if it calls an ifneeded for the given package.
@@ -23,7 +32,11 @@ proc find_package_helper {dname pkg} {
   }
 
   # Continue to search in subdirectories
-  foreach sdname [glob -nocomplain -directory $dname -types d *] {
+  if {[catch { glob -nocomplain -directory $dname -types d * } sdnames]} {
+    set sdnames [list]
+  }
+
+  foreach sdname $sdnames {
     if {[find_package_helper $sdname $pkg]} {
       return 1
     }
