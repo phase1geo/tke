@@ -72,8 +72,8 @@ namespace eval search {
       find_clear
 
       # Create a highlight class for the given search string
-      array set theme [theme::get_syntax_colors]
-      ctext::highlightSearch $txt search $str $search_opts
+      ctext::addHighlightClass $txt search -fgtheme search_foreground -bgtheme search_background
+      ctext::highlightSearch   $txt search $str $search_opts
 
     }
 
@@ -147,7 +147,7 @@ namespace eval search {
   # otherwise, returns false.
   proc enable_find_view {txt} {
 
-    return [expr {[$txt tag ranges _search] ne ""}]
+    return [expr {[$txt tag ranges __search] ne ""}]
 
   }
 
@@ -158,11 +158,11 @@ namespace eval search {
     set wrapped 0
 
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag nextrange _search "insert+1c"] startpos endpos
+    lassign [$txt tag nextrange __search "insert+1c"] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag nextrange _search 1.0] startpos endpos
+      lassign [$txt tag nextrange __search 1.0] startpos endpos
       set wrapped 1
     }
 
@@ -185,11 +185,11 @@ namespace eval search {
     set wrapped 0
 
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag prevrange _search insert] startpos endpos
+    lassign [$txt tag prevrange __search insert] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag prevrange _search end] startpos endpos
+      lassign [$txt tag prevrange __search end] startpos endpos
       set wrapped 1
     }
 
@@ -210,7 +210,7 @@ namespace eval search {
   # search item.
   proc enable_select_current {txt} {
 
-    return [expr [lsearch [$txt tag names insert] _search] != -1]
+    return [expr [lsearch [$txt tag names insert] __search] != -1]
 
   }
 
@@ -224,7 +224,7 @@ namespace eval search {
     }
 
     # Add the search term to the selection
-    $txt tag add sel {*}[$txt tag prevrange _search "insert+1c"]
+    $txt tag add sel {*}[$txt tag prevrange __search "insert+1c"]
 
   }
 
@@ -236,7 +236,7 @@ namespace eval search {
     $txt tag remove sel 1.0 end
 
     # Get the search ranges
-    if {[set ranges [$txt tag ranges _search]] ne ""} {
+    if {[set ranges [$txt tag ranges __search]] ne ""} {
 
       # Add the ranges to the selection
       $txt tag add sel {*}$ranges
