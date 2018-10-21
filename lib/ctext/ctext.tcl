@@ -959,13 +959,16 @@ namespace eval ctext {
       return
     }
 
+    # puts "START undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor"
+    # undo_display $win
+
     set end_pos [$win index "$insert_pos+${str_len}c"]
 
     # Combine elements, if possible
     if {[llength $data($win,config,undo_hist)] > 0} {
       lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 hcursor sep
       if {$sep == 0} {
-        if {($cmd eq "d") && ($val2 == $insert_pos)} {
+        if {($cmd eq "d") && ($val2 eq $insert_pos)} {
           lset data($win,config,undo_hist) end 2 $end_pos
           set data($win,config,redo_hist) [list]
           return
@@ -980,6 +983,9 @@ namespace eval ctext {
     # Clear the redo history
     set data($win,config,redo_hist) [list]
 
+    # puts "END undo_insert"
+    # undo_display $win
+
   }
 
   proc undo_delete {win start_pos end_pos} {
@@ -990,6 +996,9 @@ namespace eval ctext {
       return
     }
 
+    # puts "START undo_delete, start_pos: $start_pos, end_pos: $end_pos"
+    # undo_display $win
+
     set str [$win get $start_pos $end_pos]
 
     # Combine elements, if possible
@@ -997,17 +1006,17 @@ namespace eval ctext {
       lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
       if {$sep == 0} {
         if {$cmd eq "i"} {
-          if {$val1 == $end_pos} {
+          if {$val1 eq $end_pos} {
             lset data($win,config,undo_hist) end 1 $start_pos
             lset data($win,config,undo_hist) end 2 "$str$val2"
             set data($win,config,redo_hist) [list]
             return
-          } elseif {$val1 == $start_pos} {
+          } elseif {$val1 eq $start_pos} {
             lset data($win,config,undo_hist) end 2 "$val2$str"
             set data($win,config,redo_hist) [list]
             return
           }
-        } elseif {($cmd eq "d") && ($val2 == $end_pos)} {
+        } elseif {($cmd eq "d") && ($val2 eq $end_pos)} {
           lset data($win,config,undo_hist) end 2 $start_pos
           lset data($win,config,redo_hist) [list]
           return
@@ -1021,6 +1030,9 @@ namespace eval ctext {
 
     # Clear the redo history
     set data($win,config,redo_hist) [list]
+
+    # puts "END undo_delete"
+    # undo_display $win
 
   }
 
