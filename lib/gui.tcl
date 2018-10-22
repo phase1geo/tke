@@ -1597,6 +1597,7 @@ namespace eval gui {
 
     variable widgets
     variable pw_current
+    variable undo_count
 
     # Handle options
     array set opts [list \
@@ -1682,6 +1683,8 @@ namespace eval gui {
       if {!$opts(-background)} {
         set_current_tab $tabbar $tab
       }
+
+      set undo_count($tab) 0
 
     }
 
