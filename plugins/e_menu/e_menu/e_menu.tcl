@@ -1649,6 +1649,7 @@ as a context menu\n(see readme.md for details)." }
       if {[wm attributes . -alpha] < 0.1} {wm attributes . -alpha 1.0}
     } else {
       catch {wm deiconify . ; raise .}
+      catch {exec chmod a+x "$::lin_console"}
     }
     #update
     #update idletasks

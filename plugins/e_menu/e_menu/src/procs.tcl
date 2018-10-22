@@ -190,15 +190,15 @@ set COM_STRING "\n% "
 set PUT_STRING "\n//"
 set COM_LENGTH [string length $COM_STRING]
 set PUT_LENGTH [string length $PUT_STRING]
-set bun ""
-foreach st [split $bundle \n] {
-  if {![string first "#" $st] || ![string first "//" $st]} {
-    set st "// \{[string trimleft $st {#/ }]\} \
-          [expr {[string index $st 1]!="#"}]"
-  }
-  append bun \n $st
-}
-set bundle $bun
+#? set bun ""
+#? foreach st [split $bundle \n] {
+#?   if {![string first "#" $st] || ![string first "//" $st]} {
+#?     set st "// \{[string trimleft $st {#/ }]\} \
+#?           [expr {[string index $st 1]!="#"}]"
+#?   }
+#?   append bun \n $st
+#? }
+#? set bundle $bun
 if {[info exists show_bundle]} {
   puts [reformat $bundle]
 }
