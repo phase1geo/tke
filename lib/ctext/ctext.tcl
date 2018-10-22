@@ -210,24 +210,14 @@ namespace eval ctext {
           set longest $len
         }
       }
-      set missing [expr round( ($longest * 7) * $first )]
+      set cwidth  [font measure [$win._t cget -font] -displayof . "m"]
+      set missing [expr round( ($longest * $cwidth) * $first )]
     } else {
       set missing 0
     }
 
     # Adjust the warning width line, if one was requested
-    if {$data($win,config,-warnwidth) ne ""} {
-
-      # Width is calculated by multiplying the longest line with the length of a single character
-      set newx [expr ($data($win,config,-warnwidth) * 7) - $missing]
-
-      # Move the vertical bar
-      place $win.t.w -x $newx -relheight 1.0
-
-      # Adjust the rmargin
-      adjust_rmargin $win
-
-    }
+    set_warnwidth $win [expr 0 - $missing]
 
   }
 
@@ -401,6 +391,7 @@ namespace eval ctext {
       set data($win,fontwidth)    [font measure $value -displayof $win "0"]
       set data($win,fontdescent)  [font metrics $data($win,config,-font) -displayof $win -descent]
       set update_linemap 1
+      set_warnwidth $win
       break
     }
 
@@ -417,12 +408,8 @@ namespace eval ctext {
     lappend argTable any -lmargin {
       if {[string is integer $value] && ($value >= 0)} {
         set data($win,config,-lmargin) $value
-        if {$data($win,config,-warnwidth) ne ""} {
-          set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $data($win,config,-warnwidth)]]]
-          place $win.t.w -x $newx -relheight 1.0
-          adjust_rmargin $win
-          $win tag configure lmargin -lmargin1 $value -lmargin2 $value
-        }
+        set_warnwidth $win
+        $win tag configure lmargin -lmargin1 $value -lmargin2 $value
       } else {
         return -code error "Error: -lmargin option must be an integer value greater or equal to zero"
       }
@@ -431,13 +418,7 @@ namespace eval ctext {
 
     lappend argTable any -warnwidth {
       set data($win,config,-warnwidth) $value
-      if {$value eq ""} {
-        place forget $win.t.w
-      } else {
-        set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]]]
-        place $win.t.w -x $newx -relheight 1.0
-        adjust_rmargin $win
-      }
+      set_warnwidth $win
       break
     }
 
@@ -3940,6 +3921,24 @@ namespace eval ctext {
     linemapUpdate $win
 
     # Update the rmargin
+    adjust_rmargin $win
+
+  }
+
+  proc set_warnwidth {win {adjust 0}} {
+
+    variable data
+
+    if {$data($win,config,-warnwidth) eq ""} {
+      place forget $win.t.w
+      return
+    }
+
+    set lmargin $data($win,config,-lmargin)
+    set cwidth  [font measure [$win._t cget -font] -displayof . m]
+    set str     [string repeat "m" $data($win,config,-warnwidth)]
+    set newx    [expr $lmargin + ($cwidth * $data($win,config,-warnwidth)) + $adjust]
+    place configure $win.t.w -x $newx -relheight 1.0
     adjust_rmargin $win
 
   }
