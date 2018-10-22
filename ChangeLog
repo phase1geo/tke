@@ -1,25 +1,28 @@
-2018-10-19 13:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (66998b5bf712 [devel-3.4.2] <temp34>)
+2018-10-19 13:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (172e6abf36c3 [devel-3.4.3] <temp34>)
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.2 release
+	ChangeLog for devel-3.4.3 release
 
-2018-10-19 13:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d617d585fb45 <temp34>)
+2018-10-19 13:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c280f2d65b02 <temp34>)
 
 	* .hgtags:
-	Added tag devel-3.4.2 for changeset 66998b5bf712
+	Added tag devel-3.4.3 for changeset 172e6abf36c3
 
-2018-10-19 13:28 -0500  Trevor Williams  <phase1geo@gmail.com>  (f414b2a6a125 <temp34>)
+2018-10-21 08:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7dd11fa92467 <temp34>)
 
-	* Win/freewrap.files, Win/freewrap.tcl, lib/version.tcl:
-	* Fixing script issues with freewrap.tcl.
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing undo buffer issue when comparing indices.
 
-2018-10-19 13:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5c3f7bc76861 <temp34>)
+2018-10-21 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b77d630c1bcd <temp34>)
 
-	* Win/freewrap.tcl, lib/version.tcl:
-	* Merging.
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing issue where warning width indicator was not adjusted when
+	the font was changed.
 
-2018-10-19 13:47 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9c2badeabe5e [tip] <temp34>)
+2018-10-21 23:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (afbf93a49b22 [tip] <temp34>)
 
-	* lib/tablelist6.3/tablelistPublic.tcl, lib/version.tcl:
-	* Fixing issue with tablelist.
+	* lib/gui.tcl, lib/version.tcl, plugins/number_converter/main.tcl:
+	* Fixing undo case.
+	* Enhancing number converter to convert all numbers found within a
+	selection.
 
