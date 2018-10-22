@@ -124,6 +124,12 @@ namespace eval e_menu {
     set offline_help_dir "[api::get_plugin_directory]/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
+    } else {
+      # try 2nd location of offline help ~/DOC/www.tcl.tk
+      set offline_help_dir "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"
+      if {[file exists $offline_help_dir]} {
+        set h_opt "h=$offline_help_dir"
+      }
     }
     set file_index [api::file::current_index]
     if {$file_index != -1} {
