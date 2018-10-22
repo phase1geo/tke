@@ -2318,6 +2318,8 @@ namespace eval pref_ui {
     ttk::label $w.sf.eoll -text [format "%s: " [set wstr [msgcat::mc "End-of-line character when saving"]]]
     set widgets(editor_eolmb) [ttk::menubutton $w.sf.eolmb -menu [menu $w.sf.eol -tearoff 0]]
 
+    make_mb $w.sf.lna [msgcat::mc "Line number alignment"] Editor/LineNumberAlignment [list left right] 1
+
     foreach {value desc} [list \
       auto [msgcat::mc "Use original EOL character from file"] \
       sys  [msgcat::mc "Use appropriate EOL character on system"] \

@@ -50,66 +50,67 @@ namespace eval ctext {
     set data($win,config,-relief)                 [$tmp cget -relief]
     set data($win,config,-unhighlightcolor)       [$win cget -bg]
     destroy $tmp
-    set data($win,config,-xscrollcommand)         ""
-    set data($win,config,-yscrollcommand)         ""
-    set data($win,config,-highlightcolor)         "yellow"
-    set data($win,config,-linemap)                1
-    set data($win,config,-linemapfg)              $data($win,config,-fg)
-    set data($win,config,-linemapbg)              $data($win,config,-bg)
-    set data($win,config,-linemap_mark_command)   {}
-    set data($win,config,-linemap_markable)       1
-    set data($win,config,-linemap_mark_color)     orange
-    set data($win,config,-linemap_cursor)         left_ptr
-    set data($win,config,-linemap_relief)         $data($win,config,-relief)
-    set data($win,config,-linemap_minwidth)       1
-    set data($win,config,-linemap_type)           absolute
+    set data($win,config,-xscrollcommand)          ""
+    set data($win,config,-yscrollcommand)          ""
+    set data($win,config,-highlightcolor)          "yellow"
+    set data($win,config,-linemap)                 1
+    set data($win,config,-linemapfg)               $data($win,config,-fg)
+    set data($win,config,-linemapbg)               $data($win,config,-bg)
+    set data($win,config,-linemap_mark_command)    {}
+    set data($win,config,-linemap_markable)        1
+    set data($win,config,-linemap_mark_color)      orange
+    set data($win,config,-linemap_cursor)          left_ptr
+    set data($win,config,-linemap_relief)          $data($win,config,-relief)
+    set data($win,config,-linemap_minwidth)        1
+    set data($win,config,-linemap_type)            absolute
+    set data($win,config,-linemap_align)           left
     set data($win,config,-linemap_separator)       auto
     set data($win,config,-linemap_separator_color) red
-    set data($win,config,-highlight)              1
-    set data($win,config,-lmargin)                0
-    set data($win,config,-warnwidth)              ""
-    set data($win,config,-warnwidth_bg)           red
-    set data($win,config,-casesensitive)          1
-    set data($win,config,-escapes)                1
-    set data($win,config,-peer)                   ""
-    set data($win,config,-undo)                   0
-    set data($win,config,-maxundo)                0
-    set data($win,config,-autoseparators)         0
-    set data($win,config,-diff_mode)              0
-    set data($win,config,-diffsubbg)              "pink"
-    set data($win,config,-diffaddbg)              "light green"
-    set data($win,config,-folding)                0
-    set data($win,config,-delimiters)             $REs(words)
-    set data($win,config,-matchchar)              0
-    set data($win,config,-matchchar_bg)           $data($win,config,-fg)
-    set data($win,config,-matchchar_fg)           $data($win,config,-bg)
-    set data($win,config,-matchaudit)             0
-    set data($win,config,-matchaudit_bg)          "red"
-    set data($win,config,-theme)                  [list]
-    set data($win,config,re_opts)                 ""
-    set data($win,config,win)                     $win
-    set data($win,config,modified)                0
-    set data($win,config,lastUpdate)              0
-    set data($win,config,csl_patterns)            [list]
-    set data($win,config,csl_char_tags)           [list]
-    set data($win,config,lc_char_tags)            [list]
-    set data($win,config,csl_tags)                [list]
-    set data($win,config,csl_array)               [list]
-    set data($win,config,csl_tag_pair)            [list]
-    set data($win,config,langs)                   [list {}]
-    set data($win,config,gutters)                 [list]
-    set data($win,config,undo_hist)               [list]
-    set data($win,config,undo_hist_size)          0
-    set data($win,config,undo_sep_last)           -1
-    set data($win,config,undo_sep_next)           -1
-    set data($win,config,undo_sep_size)           0
-    set data($win,config,undo_sep_count)          0
-    set data($win,config,redo_hist)               [list]
+    set data($win,config,-highlight)               1
+    set data($win,config,-lmargin)                 0
+    set data($win,config,-warnwidth)               ""
+    set data($win,config,-warnwidth_bg)            red
+    set data($win,config,-casesensitive)           1
+    set data($win,config,-escapes)                 1
+    set data($win,config,-peer)                    ""
+    set data($win,config,-undo)                    0
+    set data($win,config,-maxundo)                 0
+    set data($win,config,-autoseparators)          0
+    set data($win,config,-diff_mode)               0
+    set data($win,config,-diffsubbg)               "pink"
+    set data($win,config,-diffaddbg)               "light green"
+    set data($win,config,-folding)                 0
+    set data($win,config,-delimiters)              $REs(words)
+    set data($win,config,-matchchar)               0
+    set data($win,config,-matchchar_bg)            $data($win,config,-fg)
+    set data($win,config,-matchchar_fg)            $data($win,config,-bg)
+    set data($win,config,-matchaudit)              0
+    set data($win,config,-matchaudit_bg)           "red"
+    set data($win,config,-theme)                   [list]
+    set data($win,config,re_opts)                  ""
+    set data($win,config,win)                      $win
+    set data($win,config,modified)                 0
+    set data($win,config,lastUpdate)               0
+    set data($win,config,csl_patterns)             [list]
+    set data($win,config,csl_char_tags)            [list]
+    set data($win,config,lc_char_tags)             [list]
+    set data($win,config,csl_tags)                 [list]
+    set data($win,config,csl_array)                [list]
+    set data($win,config,csl_tag_pair)             [list]
+    set data($win,config,langs)                    [list {}]
+    set data($win,config,gutters)                  [list]
+    set data($win,config,undo_hist)                [list]
+    set data($win,config,undo_hist_size)           0
+    set data($win,config,undo_sep_last)            -1
+    set data($win,config,undo_sep_next)            -1
+    set data($win,config,undo_sep_size)            0
+    set data($win,config,undo_sep_count)           0
+    set data($win,config,redo_hist)                [list]
 
     set data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
     -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
     -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg \
-    -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type \
+    -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
     -linemap_separator -linemap_separator_color -casesensitive -peer -theme \
     -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin]
 
@@ -489,13 +490,19 @@ namespace eval ctext {
       break
     }
 
-    lappend argTable {any} -linemap_type {
+    lappend argTable {absolute relative} -linemap_type {
       if {[lsearch [list absolute relative] $value] == -1} {
         return -code error "-linemap_type argument must be either 'absolute' or 'relative'"
       }
       set data($win,config,-linemap_type) $value
       set update_linemap 1
       break
+    }
+
+    lappend argTable {left right} -linemap_align {
+      set data($win,config,-linemap_align) $value
+      set update_linemap 1
+      break;
     }
 
     lappend argTable {0 false no} -undo {
@@ -3757,7 +3764,7 @@ namespace eval ctext {
     set last          [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
     set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
     set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
-    set gutter_width  [llength [lsearch -index 2 -all -inline $data($win,config,gutters) 0]]
+    set gutter_width  [expr [llength [lsearch -index 2 -all -inline $data($win,config,gutters) 0]] + 1]
 
     if {[$win._t compare "@0,0 linestart" != @0,0]} {
       incr first
@@ -3819,8 +3826,9 @@ namespace eval ctext {
     set lmark   $data($win,config,-linemap_mark_color)
     set font    $data($win,config,-font)
     set linebx  [expr (($linenum_width + 1) * $data($win,fontwidth)) + 1]
-    set gutterx [expr $linebx + (($linenum_width * $data($win,fontwidth)) + 1)]
+    set gutterx [expr $linebx + ((($linenum_width + 1) * $data($win,fontwidth)) + 1)]
     set descent $data($win,fontdescent)
+    set fmt     [expr {($data($win,config,-linemap_align) eq "left") ? "%-*s %-*s" : "%*s %*s"}]
 
     # Calculate the starting line numbers for both files
     array set currline {A 0 B 0}
@@ -3841,7 +3849,7 @@ namespace eval ctext {
       set lineB  [expr {([lsearch -glob $ltags diff:B:S:*] != -1) ? [incr currline(B)] : ""}]
       set marked [expr {[lsearch -glob $ltags lmark*] != -1}]
       set fill   [expr {$marked ? $lmark : $normal}]
-      $win.l create text 1 $y -anchor sw -text [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] -fill $fill -font $font
+      $win.l create text 1 $y -anchor sw -text [format $fmt $linenum_width $lineA $linenum_width $lineB] -fill $fill -font $font
       linemapUpdateGutter $win ltags $gutterx $y
     }
 
@@ -3856,18 +3864,23 @@ namespace eval ctext {
     set lmark   $data($win,config,-linemap_mark_color)
     set normal  $data($win,config,-linemapfg)
     set font    $data($win,config,-font)
-    set gutterx [expr $linenum_width * $data($win,fontwidth) + 1]
+    set gutterx [expr (($linenum_width + 1) * $data($win,fontwidth)) + 1]
     set descent $data($win,fontdescent)
+    set fmt     [expr {($data($win,config,-linemap_align) eq "left") ? "%-*s" : "%*s"}]
+
+    if {$abs} {
+      set curr 0
+    }
 
     for {set line $first} {$line <= $last} {incr line} {
       if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
       lassign [$win._t dlineinfo $line.0] x y w h b
       set ltags   [$win.t tag names $line.0]
-      set linenum [expr $abs ? $line : abs( $line - $curr )]
+      set linenum [expr abs( $line - $curr )]
       set marked  [expr {[lsearch -glob $ltags lmark*] != -1}]
       set fill    [expr {$marked ? $lmark : $normal}]
       set y       [expr $y + $b + $descent]
-      $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $linenum] -fill $fill -font $font
+      $win.l create text 1 $y -anchor sw -text [format $fmt $linenum_width $linenum] -fill $fill -font $font
       linemapUpdateGutter $win ltags $gutterx $y
     }
 

@@ -240,6 +240,11 @@
 
 {Editor/RelativeLineNumbers} {0}
 
+# Specifies whether line numbers should be left or right justified in the linemap area of each editor.
+# The possible legal values are: 'left' or 'right'
+
+{Editor/LineNumberAlignment} {left}
+
 # If this value is set to a value of 1, the application will start in Vim mode;
 # otherwise, if the value is set to a value of 0, the application will start in
 # normal mode.
