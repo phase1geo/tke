@@ -1,28 +1,38 @@
-2018-10-19 13:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (172e6abf36c3 [devel-3.4.3] <temp34>)
+2018-10-22 00:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f54620a09859 [devel-3.4.4] <temp34>)
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.3 release
+	ChangeLog for devel-3.4.4 release
 
-2018-10-19 13:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c280f2d65b02 <temp34>)
+2018-10-22 00:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8620d3afc727 <temp34>)
 
 	* .hgtags:
-	Added tag devel-3.4.3 for changeset 172e6abf36c3
+	Added tag devel-3.4.4 for changeset f54620a09859
 
-2018-10-21 08:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7dd11fa92467 <temp34>)
+2018-10-22 00:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0765f37dc62b [tip] <temp34>)
 
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing undo buffer issue when comparing indices.
-
-2018-10-21 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b77d630c1bcd <temp34>)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing issue where warning width indicator was not adjusted when
-	the font was changed.
-
-2018-10-21 23:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (afbf93a49b22 [tip] <temp34>)
-
-	* lib/gui.tcl, lib/version.tcl, plugins/number_converter/main.tcl:
-	* Fixing undo case.
-	* Enhancing number converter to convert all numbers found within a
-	selection.
+	* data/msgs/ru.msg, lib/version.tcl, plugins/e_menu/README.md,
+	plugins/e_menu/e_menu/e_menu.tcl,
+	plugins/e_menu/e_menu/menus/fossil.mnu,
+	plugins/e_menu/e_menu/menus/fossil2.mnu,
+	plugins/e_menu/e_menu/menus/git.mnu,
+	plugins/e_menu/e_menu/menus/git2.mnu,
+	plugins/e_menu/e_menu/menus/links.mnu,
+	plugins/e_menu/e_menu/menus/links2.mnu,
+	plugins/e_menu/e_menu/menus/menu.mnu,
+	plugins/e_menu/e_menu/menus/python.mnu,
+	plugins/e_menu/e_menu/menus/side.mnu,
+	plugins/e_menu/e_menu/menus/tcltk.mnu,
+	plugins/e_menu/e_menu/menus/test1.mnu,
+	plugins/e_menu/e_menu/menus/test2.mnu,
+	plugins/e_menu/e_menu/menus/test3.mnu,
+	plugins/e_menu/e_menu/menus/utils.mnu,
+	plugins/e_menu/e_menu/src/ch_.tcl,
+	plugins/e_menu/e_menu/src/e_help.tcl,
+	plugins/e_menu/e_menu/src/procs.tcl,
+	plugins/e_menu/e_menu/src/rarrow.png,
+	plugins/e_menu/e_menu/src/run_pause.bat,
+	plugins/e_menu/e_menu/src/run_pause.sh,
+	plugins/e_menu/header.tkedat, plugins/e_menu/main.tcl:
+	* Updating e_menu plugin.
+	* Updating Russian translation.
 
