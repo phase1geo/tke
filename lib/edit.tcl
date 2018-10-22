@@ -771,7 +771,10 @@ namespace eval edit {
           foreach {end_range start_range} [lreverse $selected] {
             set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
             $txtt delete "$start_range-1l linestart" "$start_range linestart"
-            $txtt insert "$end_range+1l linestart" $str
+            if {[$txtt compare "$end_range linestart" == end]} {
+              set str "\n[string trimright $str]"
+            }
+            $txtt insert "$end_range linestart" $str
           }
         }
         sentence {
