@@ -905,6 +905,28 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Returns the file patterns from the syntax file for the specified
+  # language (or for the language associated with the current editor if
+  # not specified).
+  proc get_file_patterns {{language ""}} {
+
+    variable langs
+    variable curr_lang
+
+    if {$language eq ""} {
+      set language $curr_lang([gui::current_txt])
+    }
+
+    if {$language eq [msgcat::mc "None"]} {
+      return [list]
+    } else {
+      array set lang_array $langs($language)
+      return $lang_array(filepatterns)
+    }
+
+  }
+
+  ######################################################################
   # Retrieves the value of tabsallowed in the current syntax.
   proc get_tabs_allowed {txt} {
 
