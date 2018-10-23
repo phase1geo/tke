@@ -2891,20 +2891,19 @@ namespace eval ctext {
 
   }
 
-  proc setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} {
+  proc setEmbedLangPattern {win lang start_pattern end_pattern} {
 
     variable data
 
     lappend data($win,config,csl_patterns) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
     lappend data($win,config,langs) $lang
 
-    if {$color ne ""} {
-      array set theme $data($win,config,-theme)
-      $win tag configure _Lang:$lang
-      $win tag lower     _Lang:$lang
-      $win tag configure _Lang=$lang -background $theme(embedded)
-      $win tag lower     _Lang=$lang
-    }
+    array set theme $data($win,config,-theme)
+
+    $win tag configure _Lang:$lang
+    $win tag lower     _Lang:$lang
+    $win tag configure _Lang=$lang -background $theme(embedded)
+    $win tag lower     _Lang=$lang
 
     lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
     lappend data($win,config,csl_tags)      _Lang:$lang
@@ -3178,7 +3177,9 @@ namespace eval ctext {
     foreach tag [lsearch -inline -all -glob $data($win,config,csl_tags) _Lang:*] {
       set indices [list]
       foreach {start end} [$win tag ranges $tag] {
-        lappend indices "$start+1l linestart" "$end linestart"
+        if {[$win compare "$start+1l linestart" < "$end linestart"]} {
+          lappend indices "$start+1l linestart" "$end linestart"
+        }
       }
       if {[llength $indices] > 0} {
         $win tag add [string map {: =} $tag] {*}$indices
@@ -3355,7 +3356,7 @@ namespace eval ctext {
       set value __$value
     }
 
-    lappend data($win,highlight,regexps) "regexp,$type,$lang,$value"
+    lappend data($win,highlight,regexps,$lang) "regexp,$type,$lang,$value"
 
     set data($win,highlight,regexp,$type,$lang,$value) [list $re $data($win,config,re_opts)]
 
@@ -3483,8 +3484,10 @@ namespace eval ctext {
     # Verify that the specified highlight class exists
     checkHighlightClass $win $class
 
-    if {[set index [lsearch -glob $data($win,highlight,regexps) *regexp,class,*,__$class]] != -1} {
-      set data($win,highlight,regexps) [lreplace $data($win,highlight,regexps) $index $index]
+    foreach key [array names data $win,highlight,regexps,*] {
+      if {[set index [lsearch -glob $data($key) *regexp,class,__$class]] != -1} {
+        set data($key) [lreplace $data($key) $index $index]
+      }
     }
 
     array unset data $win,highlight,*,class,__$class
@@ -3599,38 +3602,46 @@ namespace eval ctext {
     }
 
     # Handle regular expression matching
-    if {[info exists data($win,highlight,regexps)]} {
-      foreach name $data($win,highlight,regexps) {
-        lassign [split $name ,] dummy type lang value
-        lassign $data($win,highlight,$name) re re_opts
-        set i 0
-        if {$type eq "class"} {
-          foreach res [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end] {
-            if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
+    foreach key [array names data $win,highlight,regexps,*] {
+      if {[set lang [lindex [split $key ,] 3]] eq ""} {
+        set ranges [list 1.0 end]
+      } else {
+        set ranges [$twin tag ranges "_Lang=$lang"]
+      }
+      foreach {langstart langend} $ranges {
+        if {[$twin compare $start > $langend] || [$twin compare $langstart > $end]} continue
+        if {[$twin compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
+        if {[$twin compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
+        foreach name $data($key) {
+          lassign [split $name ,] dummy1 type dummy2 value
+          lassign $data($win,highlight,$name) re re_opts
+          set i 0
+          if {$type eq "class"} {
+            foreach res [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $pstart $pend] {
               set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
               lappend tags($value) $res $wordEnd
+              incr i
             }
-            incr i
-          }
-        } else {
-          set startrow [lindex [split $start .] 0]
-          foreach line [split [$twin get $start $end] \n] {
-            set index 0
-            array unset var
-            while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
-              if {![catch { {*}$value $twin $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
-                lassign $retval rtags goback
-                if {([llength $rtags] % 3) == 0} {
-                  foreach {rtag rstart rend} $rtags {
-                    lappend tags(__$rtag) $startrow.$rstart $startrow.[expr $rend + 1]
+          } else {
+            set startrow [lindex [split $pstart .] 0]
+            foreach line [split [$twin get $pstart $pend] \n] {
+              set index 0
+              array unset var
+              while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
+                if {![catch { {*}$value $twin $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
+                  lassign $retval rtags goback
+                  if {([llength $rtags] % 3) == 0} {
+                    foreach {rtag rstart rend} $rtags {
+                      lappend tags(__$rtag) $startrow.$rstart $startrow.[expr $rend + 1]
+                    }
                   }
+                  set index [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
+                } else {
+                  set index [expr {[lindex $var(0) 1] + 1}]
                 }
-                set index [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
-              } else {
-                set index [expr {[lindex $var(0) 1] + 1}]
               }
+              incr startrow
             }
-            incr startrow
           }
         }
       }
