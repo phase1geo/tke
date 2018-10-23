@@ -14,7 +14,7 @@ msgcat::mcmset it {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset it {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset it {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset it {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset it {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset it {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset it {
   "Insertion cursor width"
   "Larghezza del cursore di inserimento"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Tenere il pannello informazioni file visibile quando sidebar non ha lo stato attivo"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Mantieni il pannello delle informazioni visibile quando la barra laterale non ha la messa a fuoco"
 
   "Keyword"
   "Parola chiave"
@@ -1980,6 +1980,9 @@ msgcat::mcmset it {
 
   "Line count to find Vim modeline information"
   "Conteggio delle righe per trovare informazioni modeline Vim"
+
+  "Line number alignment"
+  "Allineamento numero"
 
   "Logfile Directory"
   "Directory del file di log"
@@ -2179,6 +2182,9 @@ msgcat::mcmset it {
   "Time"
   "Ora"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Aggiorna il riquadro delle informazioni ogni volta che cambia la barra laterale"
+
   "Update using release type"
   "Aggiornare utilizzando il tipo di rilascio"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset it {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset it {
 
   "Add Selection Matches"

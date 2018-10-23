@@ -14,7 +14,7 @@ msgcat::mcmset sv {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset sv {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset sv {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset sv {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset sv {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset sv {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset sv {
   "Insertion cursor width"
   "Insättningspunkten markören bredd"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Hålla filen informationspanel synlig när sidofältet inte har fokus"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Håll informationspanelen synlig när sidofältet inte har fokus"
 
   "Keyword"
   "Nyckelord"
@@ -1980,6 +1980,9 @@ msgcat::mcmset sv {
 
   "Line count to find Vim modeline information"
   "Antal rader att hitta Vim lägesrader information"
+
+  "Line number alignment"
+  "Linjens nummerjustering"
 
   "Logfile Directory"
   "Logfile katalog"
@@ -2179,6 +2182,9 @@ msgcat::mcmset sv {
   "Time"
   "Tid"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Uppdatera informationspanelen när valet av sidofältet ändras"
+
   "Update using release type"
   "Uppdatera med release typ"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset sv {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset sv {
 
   "Add Selection Matches"
@@ -2802,7 +2808,7 @@ msgcat::mcmset sv {
   "Bakgrundsfärg på insättningspunkten och bakgrundsmarkeringsfärger."
 
   "Background color of linemap area."
-  "Bakgrundsf�rg p� linemap-omr�det."
+  "Bakgrundsfärg på linemap-området."
 
   "Background color of list items when not selected"
   "Bakgrundsfärgen för listobjekt när inte markerad"
@@ -2871,7 +2877,7 @@ msgcat::mcmset sv {
   "Färg som ska användas för att belysa stängda veck i linje nummer rännstenen"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "F�rg brukade rita linjen som skiljer linjekartan fr�n textomr�det."
+  "Färg brukade rita linjen som skiljer linjekartan från textområdet."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Färgen används för att rita linjen varning bredd i redigering bufferten (liksom linjen som skiljer rännstenen från redigering bufferten)."

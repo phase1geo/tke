@@ -14,7 +14,7 @@ msgcat::mcmset el {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset el {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset el {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset el {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset el {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset el {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset el {
   "Insertion cursor width"
   "Πλάτος δρομέα εισαγωγής"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Κρατάτε αρχείο πίνακα πληροφοριών ορατά όταν πλαϊνή μπάρα δεν έχει εστίαση"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Κρατήστε το πάνελ πληροφοριών ορατό όταν η πλευρική γραμμή δεν έχει εστίαση"
 
   "Keyword"
   "ΛΕΞΕΙΣ-ΚΛΕΙΔΙΑ"
@@ -1980,6 +1980,9 @@ msgcat::mcmset el {
 
   "Line count to find Vim modeline information"
   "Γραμμή αρίθμηση για να βρείτε πληροφορίες modeline Vim"
+
+  "Line number alignment"
+  "Ευθυγράμμιση αριθμού γραμμής"
 
   "Logfile Directory"
   "Logfile καταλόγου"
@@ -2179,6 +2182,9 @@ msgcat::mcmset el {
   "Time"
   "Ώρα"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Ενημερώστε τον πίνακα πληροφοριών όποτε αλλάζει η επιλογή της πλευρικής μπάρας"
+
   "Update using release type"
   "Ενημέρωση μέσω τύπος έκδοσης"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset el {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset el {
 
   "Add Selection Matches"

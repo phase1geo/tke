@@ -22,6 +22,8 @@
 # Brief:   Namespace for an information panel.
 ######################################################################
 
+# msgcat::note Information panel displayed in the sidebar
+
 namespace eval ipanel {
 
   array set current {}

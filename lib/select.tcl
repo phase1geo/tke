@@ -21,6 +21,8 @@
 # Brief:   Provides select mode functionality.
 ######################################################################
 
+# msgcat::note Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.
+
 namespace eval select {
 
   array set motions   {}

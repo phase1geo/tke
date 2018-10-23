@@ -14,7 +14,7 @@ msgcat::mcmset zh {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset zh {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset zh {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset zh {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset zh {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset zh {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset zh {
   "Insertion cursor width"
   "插入光标宽度"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "保持文件信息面板可见，当侧边栏不具有焦点时"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "当侧边栏没有焦点时，保持信息面板可见"
 
   "Keyword"
   "关键词"
@@ -1980,6 +1980,9 @@ msgcat::mcmset zh {
 
   "Line count to find Vim modeline information"
   "要找到 Vim modeline 信息的行计数"
+
+  "Line number alignment"
+  "行号对齐"
 
   "Logfile Directory"
   "日志文件目录"
@@ -2179,6 +2182,9 @@ msgcat::mcmset zh {
   "Time"
   "时间"
 
+  "Update information panel whenever the sidebar selection changes"
+  "侧栏选择更改时更新信息面板"
+
   "Update using release type"
   "更新使用释放类型"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset zh {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset zh {
 
   "Add Selection Matches"

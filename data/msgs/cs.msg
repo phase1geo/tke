@@ -14,7 +14,7 @@ msgcat::mcmset cs {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset cs {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset cs {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset cs {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset cs {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset cs {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset cs {
   "Insertion cursor width"
   "Šířka kurzoru kurzor"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Panel informace o souboru zachovat viditelné, když postranní panel nemá zaměření"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Pokud boční panel nemá zaostření, udržujte informační panel viditelný"
 
   "Keyword"
   "Klíčové slovo"
@@ -1980,6 +1980,9 @@ msgcat::mcmset cs {
 
   "Line count to find Vim modeline information"
   "Počet řádků Vim modeline informace"
+
+  "Line number alignment"
+  "Zarovnání čísla řádku"
 
   "Logfile Directory"
   "Adresář souboru protokolu"
@@ -2179,6 +2182,9 @@ msgcat::mcmset cs {
   "Time"
   "Čas"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Aktualizujte panel s informacemi vždy, když se změní výběr bočního panelu"
+
   "Update using release type"
   "Aktualizovat pomocí verze typu"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset cs {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset cs {
 
   "Add Selection Matches"
@@ -2802,7 +2808,7 @@ msgcat::mcmset cs {
   "Barva pozadí vložení kurzoru a zázemí značkovacích barev."
 
   "Background color of linemap area."
-  "Barva pozad� oblasti plochy linemap."
+  "Barva pozadí oblasti plochy linemap."
 
   "Background color of list items when not selected"
   "Barva pozadí položek seznamu, když není vybrán"
@@ -2871,7 +2877,7 @@ msgcat::mcmset cs {
   "Barva se použije na zvýraznění uzavřených záhyby linky číslo okapu"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "Barva pou?it� k kreslen� ?�ry, kter� odd?luje linku od textov� oblasti."
+  "Barva pou?itá k kreslení ?áry, která odd?luje linku od textové oblasti."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Barva slouží ke kreslení šířky varování řádek v editační vyrovnávací paměti (stejně jako čáru oddělující okap z vyrovnávací paměti pro úpravy)."

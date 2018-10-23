@@ -22,6 +22,8 @@
 # Brief:   Widget tool to create a two-color bitmap.
 ######################################################################
 
+# msgcat::note Strings are found in the theme editor for a bitmapped image
+
 if {0} {
   set tke_dir [file join ~ projects tke-code]
   source [file join $::tke_dir lib utils.tcl]
