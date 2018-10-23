@@ -22,6 +22,8 @@
 # Brief:   Allows the user to customize, create, export and import themes.
 ######################################################################
 
+# msgcat::note Select "Tools / Theme Editor" to view window containing these strings
+
 source [file join $::tke_dir lib bitmap.tcl]
 
 namespace eval themer {
@@ -122,7 +124,7 @@ namespace eval themer {
 
     # First, check to see if the current theme needs to be saved
     if {[theme_needs_saving]} {
-      switch [tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesnocancel -default yes] {
+      switch [tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes."] -type yesnocancel -default yes] {
         yes    { save_current_theme }
         cancel { return 0 }
       }
@@ -147,9 +149,9 @@ namespace eval themer {
 
     if {[info exists attr(creator)]} {
       if {[info exists attr(website)]} {
-        append theme_attr "  (By: $attr(creator), $attr(website))"
+        append theme_attr [format "  (%s: %s, %s)" [msgcat::mc "By"] $attr(creator) $attr(website)]
       } else {
-        append theme_attr "  (By: $attr(creator))"
+        append theme_attr [format "  (%s: %s)" [msgcat::mc "By"] $attr(creator)]
       }
     } elseif {[info exists attr(website)]} {
       append theme_attr "  ($attr(website))"
@@ -233,7 +235,7 @@ namespace eval themer {
       bind [$data(widgets,search) entrytag] <Return> [list themer::select_search]
 
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
-        -columns {0 Options 0 Value 0 {} 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
+        -columns [list 0 [msgcat::mc "Options"] 0 [msgcat::mc "Value"] 0 {} 0 {}] -treecolumn 0 -exportselection 0 -width 0 \
         -borderwidth 0 -highlightthickness 0 \
         -labelcommand [list themer::show_filter_menu] \
         -yscrollcommand { .thmwin.pw.lf.vb set } \
@@ -404,7 +406,7 @@ namespace eval themer {
 
     # Save the theme if it needs saving and the user agrees to it
     if {[theme_needs_saving]} {
-      if {[tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes"] -type yesno -default yes] eq "yes"} {
+      if {[tk_messageBox -parent .thmwin -icon question -message [msgcat::mc "Save theme changes?"] -detail [msgcat::mc "The current theme has unsaved changes."] -type yesno -default yes] eq "yes"} {
         save_current_theme
       }
     }
@@ -501,7 +503,7 @@ namespace eval themer {
 
     # Write the theme to disk
     if {[catch { theme::write_tketheme $data(widgets,cat) $theme_file } rc]} {
-      tk_messageBox -parent .thmwin -icon error -default ok -type ok -message "Save error" -detail $rc
+      tk_messageBox -parent .thmwin -icon error -default ok -type ok -message [msgcat::mc "Save error"] -detail $rc
       return
     }
 
@@ -538,7 +540,7 @@ namespace eval themer {
 
     # Write the theme to disk
     if {[catch { theme::write_tketheme $data(widgets,cat) $theme_file } rc]} {
-      tk_messageBox -parent .thmwin -icon error -default ok -type ok -message "Save error" -detail $rc
+      tk_messageBox -parent .thmwin -icon error -default ok -type ok -message [msgcat::mc "Save error"] -detail $rc
       return
     }
 
@@ -1327,7 +1329,7 @@ namespace eval themer {
         lassign $values base_color data(mod) set_value
       }
       default {
-        return -code error "Unknown color value format ($value)"
+        return -code error [format "%s (%s)" [msgcat::mc "Unknown color value format"] $value]
       }
     }
 

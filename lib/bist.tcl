@@ -22,6 +22,8 @@
 # Brief:   Contains namespace that runs a built-in self test.
 ######################################################################
 
+# msgcat::note In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST"
+
 # If the bist namespace already exists, delete it
 catch { namespace delete bist }
 
@@ -136,13 +138,13 @@ namespace eval bist {
 
     # Configure UI components
     $data(widgets,refresh) configure -state disabled
-    $data(widgets,run)     configure -text  "Cancel" -command [list bist::cancel]
+    $data(widgets,run)     configure -text  [msgcat::mc "Cancel"] -command [list bist::cancel]
     $data(widgets,runtype) configure -state disabled
 
     update idletasks
 
     output "---------------------------------------------\n"
-    output "RUNNING BIST - [clock format [clock seconds]]\n\n"
+    output [format "%s - %s\n\n" [msgcat::mc "RUNNING BIST"] [clock format [clock seconds]]]
 
     set start_time [clock milliseconds]
 
@@ -150,7 +152,7 @@ namespace eval bist {
       $data(widgets,total) configure -text [$data(widgets,iters) get]
       set index 0
       for {set i 0} {$i < [$data(widgets,iters) get]} {incr i} {
-        output "Iteration [format {%4d} [expr $i + 1]]:  "
+        output [format {%s %4d:  } [msgcat::mc "Iteration"] [expr $i + 1]]
         switch $data(iter_mode) {
           random {
             if {![run_test [expr int( rand() * $testslen )] pass fail err]} {
@@ -191,9 +193,9 @@ namespace eval bist {
             set tests [lreverse $tests]
           }
         }
-        output "\nLoop [expr $i + 1]\n\n"
+        output [format "\n%s %d\n\n" [msgcat::mc "Loop"] [expr $i + 1]]
         for {set j 0} {$j < $testslen} {incr j} {
-          output "Test [format {%4d} [expr $j + 1]]:  "
+          output [format {%s %4d:  } [msgcat::mc "Test"] [expr $j + 1]]
           if {![run_test [lindex $tests $j] pass fail err]} {
             break
           }
@@ -206,13 +208,13 @@ namespace eval bist {
 
     set stop_time [clock milliseconds]
 
-    output "\nPASSED: $pass, FAILED: $fail\n\n"
-    output "Runtime: [runtime_string [expr $stop_time - $start_time]]\n"
+    output [format "\n%s: %d, %s: %d\n\n" [msgcat::mc "PASSED"] $pass [msgcat::mc "FAILED"] $fail]
+    output [format "%s: %s\n" [msgcat::mc "Runtime"] [runtime_string [expr $stop_time - $start_time]]]
     output "---------------------------------------------"
 
     # Configure UI components
     $data(widgets,refresh) configure -state normal
-    $data(widgets,run)     configure -text "Run" -command [list bist::run]
+    $data(widgets,run)     configure -text [msgcat::mc "Run"] -command [list bist::run]
 
     if {$fail == 0} {
       $data(widgets,runtype) configure -state disabled
@@ -247,19 +249,19 @@ namespace eval bist {
     $data(widgets,tbl) cellconfigure $row,count -text [expr [$data(widgets,tbl) cellcget $row,count -text] + 1]
     $data(widgets,tbl) cellconfigure $par,count -text [expr [$data(widgets,tbl) cellcget $par,count -text] + 1]
 
-    output "Running [format {%-40s} $test...]  "
+    output [format {%s %-40s...  } [msgcat::mc "Running"] $test]
 
     # Run the diagnostic and track the pass/fail status in the table
     if {[catch { $test } rc]} {
       incr fail
-      output "  FAILED ($rc)\n" failed
+      output [format "  %s (%s)\n" [msgcat::mc "FAILED"] $rc] failed
       logger::log $::errorInfo
       $data(widgets,fail) configure -text $fail
       $data(widgets,tbl)  cellconfigure $row,fail -text [expr [$data(widgets,tbl) cellcget $row,fail -text] + 1]
       $data(widgets,tbl)  cellconfigure $par,fail -text [expr [$data(widgets,tbl) cellcget $par,fail -text] + 1]
     } else {
       incr pass
-      output "  PASSED\n" passed
+      output [format "  %s\n" [msgcat::mc "PASSED"]] passed
       $data(widgets,pass) configure -text $pass
       $data(widgets,tbl)  cellconfigure $row,pass -text [expr [$data(widgets,tbl) cellcget $row,pass -text] + 1]
       $data(widgets,tbl)  cellconfigure $par,pass -text [expr [$data(widgets,tbl) cellcget $par,pass -text] + 1]
@@ -281,7 +283,7 @@ namespace eval bist {
     set minutes [expr ($ms - ($hours * 3600000)) / 60000]
     set seconds [expr ($ms - ($hours * 3600000) - ($minutes * 60000)) / 1000.0]
 
-    return "$hours hours, $minutes minutes, $seconds seconds"
+    return [format "%d %s, %d %s, %g %s" $hours [msgcat::mc "hours"] $minutes [msgcat::mc "minutes"] $seconds [msgcat::mc "seconds"]]
 
   }
 
@@ -351,7 +353,7 @@ namespace eval bist {
     if {$data(runtype) eq "failed"} {
       set failed_tests [list]
       foreach {startpos endpos} [$data(widgets,output) tag ranges failed] {
-        if {[regexp {Running\s+(\S+)\.\.\.} [$data(widgets,output) get $startpos $endpos] -> test]} {
+        if {[regexp [format {%s\s+(\S+)\s*\.\.\.} [msgcat::mc "Running"]] [$data(widgets,output) get $startpos $endpos] -> test]} {
           lappend failed_tests [list $test [lindex [lsearch -index 0 -inline $run_tests $test] 1]]
         }
       }
@@ -399,16 +401,16 @@ namespace eval bist {
 
     # Create the window
     toplevel .bistwin
-    wm title .bistwin "Built-In Self Test"
+    wm title .bistwin [msgcat::mc "Built-In Self Test"]
 
     # Create the main notebook
     set data(widgets,nb) [ttk::notebook .bistwin.nb]
 
     # Add the regression setup frame
-    .bistwin.nb add [set sf [ttk::frame .bistwin.nb.sf]] -text "Setup"
+    .bistwin.nb add [set sf [ttk::frame .bistwin.nb.sf]] -text [msgcat::mc "Setup"]
 
     ttk::frame $sf.tf
-    set data(widgets,tbl) [tablelist::tablelist $sf.tf.tl -columns {0 {} 0 {Name} 0 {Run Count} 0 {Pass Count} 0 {Fail Count} 0 {}} \
+    set data(widgets,tbl) [tablelist::tablelist $sf.tf.tl -columns [list 0 {} 0 [msgcat::mc "Name"] 0 [msgcat::mc "Run Count"] 0 [msgcat::mc "Pass Count"] 0 [msgcat::mc "Fail Count"] 0 {}] \
       -treecolumn 1 -exportselection 0 -stretch all \
       -borderwidth 0 -highlightthickness 0 \
       -selectbackground blue -selectforeground white \
@@ -435,17 +437,17 @@ namespace eval bist {
     pack $sf.tf -fill both -expand yes
 
     # Add the options frame
-    .bistwin.nb add [set of [ttk::frame .bistwin.nb.of]] -text "Options"
+    .bistwin.nb add [set of [ttk::frame .bistwin.nb.of]] -text [msgcat::mc "Options"]
 
-    ttk::radiobutton $of.lrb -text "Run loops" -variable bist::data(run_mode) -value "loop" -command {
+    ttk::radiobutton $of.lrb -text [msgcat::mc "Run loops"] -variable bist::data(run_mode) -value "loop" -command {
       bist::set_state .bistwin.nb.of.if disabled
       bist::set_state .bistwin.nb.of.lf normal
     }
 
     ttk::frame      $of.lf
-    ttk::label      $of.lf.lcl  -text "Loop count: "
+    ttk::label      $of.lf.lcl  -text [format "%s: " [msgcat::mc "Loop count"]]
     set data(widgets,loops) [ttk::spinbox $of.lf.lcsb -from 1 -to 1000 -increment 1.0]
-    ttk::label      $of.lf.ltl  -text "Loop type: "
+    ttk::label      $of.lf.ltl  -text [format "%s: " [msgcat::mc "Loop type"]]
     ttk::menubutton $of.lf.ltmb -menu [menu .bistwin.ltPopup -tearoff 0]
 
     grid rowconfigure    $of.lf 5 -weight 1
@@ -457,15 +459,15 @@ namespace eval bist {
     grid $of.lf.ltl  -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid $of.lf.ltmb -row 1 -column 2 -sticky news -padx 2 -pady 2
 
-    ttk::radiobutton $of.irb -text "Run iterations" -variable bist::data(run_mode) -value "iter" -command {
+    ttk::radiobutton $of.irb -text [msgcat::mc "Run iterations"] -variable bist::data(run_mode) -value "iter" -command {
       bist::set_state .bistwin.nb.of.lf disabled
       bist::set_state .bistwin.nb.of.if normal
     }
 
     ttk::frame      $of.if
-    ttk::label      $of.if.icl  -text "Iteration count: "
+    ttk::label      $of.if.icl  -text [format "%s: " [msgcat::mc "Iteration count"]]
     set data(widgets,iters) [ttk::spinbox $of.if.icsb -from 1 -to 1000 -increment 1.0]
-    ttk::label      $of.if.itl  -text "Selection method: "
+    ttk::label      $of.if.itl  -text [format "%s: " [msgcat::mc "Selection method"]]
     ttk::menubutton $of.if.itmb -menu [menu .bistwin.itPopup -tearoff 0]
 
     grid rowconfigure    $of.if 5 -weight 1
@@ -483,21 +485,21 @@ namespace eval bist {
     pack $of.if  -fill x -padx 2 -pady 2
 
     # Create loop mode menu
-    foreach {val lbl} {
-      "random"    "Random"
-      "increment" "Incrementing order"
-      "decrement" "Decrementing order"
-    } {
+    foreach {val lbl} [list \
+      "random"    [msgcat::mc "Random"] \
+      "increment" [msgcat::mc "Incrementing order"] \
+      "decrement" [msgcat::mc "Decrementing order"] \
+    ] {
       set cmd [list bist::set_mode .bistwin.nb.of.lf.ltmb $lbl $val loop_mode]
       .bistwin.ltPopup add radiobutton -label $lbl -variable bist::data(loop_mode) -value $val -command $cmd
     }
 
     # Create iteration mode menu
-    foreach {val lbl} {
-      "random"    "Random"
-      "increment" "Incrementing order"
-      "decrement" "Decrementing order"
-    } {
+    foreach {val lbl} [list \
+      "random"    [msgcat::mc "Random"] \
+      "increment" [msgcat::mc "Incrementing order"] \
+      "decrement" [msgcat::mc "Decrementing order"] \
+    ] {
       set cmd [list bist::set_mode .bistwin.nb.of.if.itmb $lbl $val iter_mode]
       .bistwin.itPopup add radiobutton -label $lbl -variable bist::data(iter_mode) -value $val -command $cmd
     }
@@ -507,15 +509,15 @@ namespace eval bist {
     set data(loop_mode) "random"
     set data(iter_mode) "random"
     $data(widgets,loops) set 1
-    $of.lf.ltmb configure -text "Random"
+    $of.lf.ltmb configure -text [msgcat::mc "Random"]
     $data(widgets,iters) set 50
-    $of.if.itmb configure -text "Random"
+    $of.if.itmb configure -text [msgcat::mc "Random"]
     set_state $of.lf disabled
 
     # Add the results frame
-    .bistwin.nb add [set rf [ttk::frame .bistwin.nb.rf]] -text "Results"
+    .bistwin.nb add [set rf [ttk::frame .bistwin.nb.rf]] -text [msgcat::mc "Results"]
 
-    ttk::labelframe $rf.of -text "Output"
+    ttk::labelframe $rf.of -text [msgcat::mc "Output"]
     set data(widgets,output) [text $rf.of.t -state disabled -wrap none \
       -relief flat -borderwidth 0 -highlightthickness 0 \
       -xscrollcommand [list $rf.of.hb set] \
@@ -536,17 +538,17 @@ namespace eval bist {
 
     # Add the main button frame
     ttk::frame  .bistwin.bf
-    set data(widgets,filter)  [ttk::menubutton .bistwin.bf.filter  -text "Filter" -width 12 -menu .bistwin.filterPopup]
-    set data(widgets,refresh) [ttk::button     .bistwin.bf.refresh -style BButton -text "Refresh" -width 7 -command [list bist::refresh]]
-    set data(widgets,run)     [ttk::button     .bistwin.bf.run     -style BButton -text "Run"     -width 7 -command [list bist::run]]
+    set data(widgets,filter)  [ttk::menubutton .bistwin.bf.filter  -text [msgcat::mc "Filter"] -width 12 -menu .bistwin.filterPopup]
+    set data(widgets,refresh) [ttk::button     .bistwin.bf.refresh -style BButton -text [msgcat::mc "Refresh"] -width 7 -command [list bist::refresh]]
+    set data(widgets,run)     [ttk::button     .bistwin.bf.run     -style BButton -text [msgcat::mc "Run"]     -width 7 -command [list bist::run]]
     set data(widgets,runtype) [ttk::menubutton .bistwin.bf.runtype -menu .bistwin.runPopup -state disabled]
 
     # Pack the button frame
-    ttk::label      .bistwin.bf.l0 -text "Total: "
+    ttk::label      .bistwin.bf.l0 -text [format "%s: " [msgcat::mc "Total"]]
     set data(widgets,total) [ttk::label .bistwin.bf.tot -text "" -width 5]
-    ttk::label      .bistwin.bf.l1 -text "Passed: "
+    ttk::label      .bistwin.bf.l1 -text [format "%s: " [msgcat::mc "Passed"]]
     set data(widgets,pass) [ttk::label .bistwin.bf.pass -text "" -width 5]
-    ttk::label      .bistwin.bf.l2 -text "Failed: "
+    ttk::label      .bistwin.bf.l2 -text [format "%s: " [msgcat::mc "Failed"]]
     set data(widgets,fail) [ttk::label .bistwin.bf.fail -text "" -width 5]
 
     pack .bistwin.bf.l0      -side left  -padx 2 -pady 2
@@ -573,23 +575,23 @@ namespace eval bist {
 
     # Create testlist menus
     menu .bistwin.filePopup -tearoff 0
-    .bistwin.filePopup add command -label "New Test File" -command [list bist::create_file]
-    .bistwin.filePopup add command -label "New Test"      -command [list bist::create_test]
+    .bistwin.filePopup add command -label [msgcat::mc "New Test File"] -command [list bist::create_file]
+    .bistwin.filePopup add command -label [msgcat::mc "New Test"]      -command [list bist::create_test]
     .bistwin.filePopup add separator
-    .bistwin.filePopup add command -label "Edit Test File" -command [list bist::edit_file]
+    .bistwin.filePopup add command -label [msgcat::mc "Edit Test File"] -command [list bist::edit_file]
 
     menu .bistwin.testPopup -tearoff 0
-    .bistwin.testPopup add command -label "Edit Test"     -command [list bist::edit_test]
+    .bistwin.testPopup add command -label [msgcat::mc "Edit Test"] -command [list bist::edit_test]
 
     menu .bistwin.filterPopup -tearoff 0
-    .bistwin.filterPopup add radiobutton -label "All"  -variable bist::data(filter) -value all -command [list bist::filter]
+    .bistwin.filterPopup add radiobutton -label [msgcat::mc "All"] -variable bist::data(filter) -value all -command [list bist::filter]
     .bistwin.filterPopup add separator
-    .bistwin.filterPopup add radiobutton -label "Fail" -variable bist::data(filter) -value fail -command [list bist::filter]
-    .bistwin.filterPopup add radiobutton -label "Pass" -variable bist::data(filter) -value pass -command [list bist::filter]
+    .bistwin.filterPopup add radiobutton -label [msgcat::mc "Fail"] -variable bist::data(filter) -value fail -command [list bist::filter]
+    .bistwin.filterPopup add radiobutton -label [msgcat::mc "Pass"] -variable bist::data(filter) -value pass -command [list bist::filter]
 
     menu .bistwin.runPopup -tearoff 0
-    .bistwin.runPopup add radiobutton -label "Selected" -variable bist::data(runtype) -value selected
-    .bistwin.runPopup add radiobutton -label "Failed"   -variable bist::data(runtype) -value failed
+    .bistwin.runPopup add radiobutton -label [msgcat::mc "Selected"] -variable bist::data(runtype) -value selected
+    .bistwin.runPopup add radiobutton -label [msgcat::mc "Failed"]   -variable bist::data(runtype) -value failed
 
     # Handle the window close event
     wm protocol .bistwin WM_DELETE_WINDOW [list bist::on_destroy]
@@ -615,8 +617,10 @@ namespace eval bist {
     # Clear the selection
     $data(widgets,output) tag remove sel 1.0 end
 
-    if {[set index [$data(widgets,output) search -count length -regexp -- {Running \S+\.\.\.} $row.0 $row.end]] ne ""} {
-      $data(widgets,output) tag add sel "$index+8c" "$index+[expr $length - 3]c"
+    set pattern [format {%s \S+\s*\.\.\.} [msgcat::mc "Running"]]
+    if {[set index [$data(widgets,output) search -count length -regexp -- $pattern $row.0 $row.end]] ne ""} {
+      set start [expr {[string length [msgcat::mc "Running"]] + 1}]
+      $data(widgets,output) tag add sel "$index+${start}c" "$index+[expr $length - 3]c"
     }
 
   }
@@ -647,12 +651,12 @@ namespace eval bist {
   proc create_file {} {
 
     toplevel     .bistwin.namewin
-    wm title     .bistwin.namewin "New Test Name"
+    wm title     .bistwin.namewin [msgcat::mc "New Test Name"]
     wm transient .bistwin.namewin .bistwin
     wm resizable .bistwin.namewin 0 0
 
     ttk::frame .bistwin.namewin.f
-    ttk::label .bistwin.namewin.f.l -text "Name: "
+    ttk::label .bistwin.namewin.f.l -text [format "%s: " [msgcat::mc "Name"]]
     ttk::entry .bistwin.namewin.f.e -validate key -validatecommand [list bist::validate_file %P]
 
     bind .bistwin.namewin.f.e <Return> [list .bistwin.namewin.bf.create invoke]
@@ -661,11 +665,11 @@ namespace eval bist {
     pack .bistwin.namewin.f.e -side left -padx 2 -pady 2 -fill x
 
     ttk::frame .bistwin.namewin.bf
-    ttk::button .bistwin.namewin.bf.create -style BButton -text "Create" -width 6 -command {
+    ttk::button .bistwin.namewin.bf.create -style BButton -text [msgcat::mc "Create"] -width 6 -command {
       bist::generate_file [.bistwin.namewin.f.e get]
       destroy .bistwin.namewin
     } -state disabled
-    ttk::button .bistwin.namewin.bf.cancel -style BButton -text "Cancel" -width 6 -command {
+    ttk::button .bistwin.namewin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       destroy .bistwin.namewin
     }
 
@@ -1127,17 +1131,17 @@ namespace eval bist {
       "all" {
         $data(widgets,output) tag configure passed -elide 0
         $data(widgets,output) tag configure failed -elide 0
-        $data(widgets,filter) configure -text "Filter: All"
+        $data(widgets,filter) configure -text [format "%s: %s" [msgcat::mc "Filter"] [msgcat::mc "All"]]
       }
       "pass" {
         $data(widgets,output) tag configure passed -elide 0
         $data(widgets,output) tag configure failed -elide 1
-        $data(widgets,filter) configure -text "Filter: Pass"
+        $data(widgets,filter) configure -text [format "%s: %s" [msgcat::mc "Filter"] [msgcat::mc "Pass"]]
       }
       "fail" {
         $data(widgets,output) tag configure passed -elide 1
         $data(widgets,output) tag configure failed -elide 0
-        $data(widgets,filter) configure -text "Filter: Fail"
+        $data(widgets,filter) configure -text [format "%s: %s" [msgcat::mc "Filter"] [msgcat::mc "Fail"]]
       }
     }
 

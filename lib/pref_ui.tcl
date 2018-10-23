@@ -814,7 +814,7 @@ namespace eval pref_ui {
     $widgets(selsmenu) delete 0 end
 
     # Populate the selection menu
-    $widgets(selsmenu) add radiobutton -label "None" -variable pref_ui::selected_session -value "None" -command [list pref_ui::select $selected_session $language "None" $language]
+    $widgets(selsmenu) add radiobutton -label [msgcat::mc "None"] -variable pref_ui::selected_session -value [msgcat::mc "None"] -command [list pref_ui::select $selected_session $language [msgcat::mc "None"] $language]
     $widgets(selsmenu) add separator
     foreach name [sessions::get_names] {
       $widgets(selsmenu) add radiobutton -label $name -variable pref_ui::selected_session -value $name -command [list pref_ui::select $selected_session $language $name $language]
@@ -829,7 +829,7 @@ namespace eval pref_ui {
     variable widgets
     variable selected_language
 
-    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session $selected_language $session] pref_ui::selected_language "All" [syntax::get_all_languages]
+    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session $selected_language $session] pref_ui::selected_language [msgcat::mc "All"] [syntax::get_all_languages]
 
   }
 
@@ -850,8 +850,8 @@ namespace eval pref_ui {
     }
 
     # Update the menubuttons text
-    $widgets(select_s) configure -text "Session: $session"
-    $widgets(select_l) configure -text "Language: $language"
+    $widgets(select_s) configure -text [format "%s: %s" [msgcat::mc "Session"] $session]
+    $widgets(select_l) configure -text [format "%s: %s" [msgcat::mc "Language"] $language]
 
     # Update the language menu in case the user changed the session
     populate_session_menu $language
@@ -863,10 +863,10 @@ namespace eval pref_ui {
     }
 
     # Translate the session and language values
-    if {$session eq "None"} {
+    if {$session eq [msgcat::mc "None"]} {
       set session ""
     }
-    if {$language eq "All"} {
+    if {$language eq [msgcat::mc "All"]} {
       set language ""
     }
 
@@ -951,7 +951,7 @@ namespace eval pref_ui {
     if {![winfo exists .prefwin]} {
 
       toplevel     .prefwin
-      wm title     .prefwin "Preferences"
+      wm title     .prefwin [msgcat::mc "Preferences"]
       wm transient .prefwin .
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
       wm withdraw  .prefwin
@@ -962,8 +962,8 @@ namespace eval pref_ui {
       set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 30 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
 
       # Initialize the syntax menu
-      set selected_session  [expr {($session  eq "") ? "None" : $session}]
-      set selected_language [expr {($language eq "") ? "All"  : $language}]
+      set selected_session  [expr {($session  eq "") ? [msgcat::mc "None"] : $session}]
+      set selected_language [expr {($language eq "") ? [msgcat::mc "All"]  : $language}]
       populate_session_menu $selected_language
       populate_lang_menu $selected_session
 
@@ -1178,11 +1178,11 @@ namespace eval pref_ui {
 
     # If we are changing language preferences, there are no changes or we are specified
     # to not prompt the user, do nothing
-    if {($language ne "All") || ([array size changes] == 0) || !$pref_ui::prefs(General/PromptCrossSessionSave)} {
+    if {($language ne [msgcat::mc "All"]) || ([array size changes] == 0) || !$pref_ui::prefs(General/PromptCrossSessionSave)} {
       return
     }
 
-    if {$session eq "None"} {
+    if {$session eq [msgcat::mc "None"]} {
 
       if {[sessions::current] ne ""} {
 
@@ -1197,7 +1197,7 @@ namespace eval pref_ui {
 
     } else {
 
-      set detail [msgcat::mc "You have changed the current session's preferences which will not be applied globally"]
+      set detail [msgcat::mc "You have changed the current session's preferences which will not be applied globally."]
       set answer [tk_messageBox -parent .prefwin -icon question -type yesno -message [msgcat::mc "Save changes to global preferences?"] -detail $detail]
 
       if {$answer eq "yes"} {
@@ -1246,7 +1246,7 @@ namespace eval pref_ui {
     variable search
     variable selected_language
 
-    if {$selected_language eq "All"} {
+    if {$selected_language eq [msgcat::mc "All"]} {
       set matches [array names search -regexp (?i).*$request.*::.]
     } else {
       set matches [array names search -regexp (?i).*$request.*::1]
@@ -1277,8 +1277,8 @@ namespace eval pref_ui {
 
     # Get the list of matches
     if {$value ne ""} {
-      if {$selected_language eq "All"} {
-        if {$selected_session eq "None"} {
+      if {$selected_language eq [msgcat::mc "All"]} {
+        if {$selected_session eq [msgcat::mc "None"]} {
           set matches [array names search -regexp (?i).*$value.*::a.*]
         } else {
           set matches [array names search -regexp (?i).*$value.*::.*b.*]
@@ -1517,8 +1517,8 @@ namespace eval pref_ui {
     register $widgets(var_table) $wstr General/Variables
 
     ttk::frame $b.bf
-    set widgets(var_add) [ttk::button $b.bf.add -style BButton -text "Add"    -command [list pref_ui::add_variable]]
-    set widgets(var_del) [ttk::button $b.bf.del -style BButton -text "Delete" -command [list pref_ui::del_variable] -state disabled]
+    set widgets(var_add) [ttk::button $b.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::add_variable]]
+    set widgets(var_del) [ttk::button $b.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::del_variable] -state disabled]
 
     pack $b.bf.add -side left -padx 2 -pady 2
     pack $b.bf.del -side left -padx 2 -pady 2
@@ -1980,16 +1980,16 @@ namespace eval pref_ui {
     register $a.cf.$type $wstr Appearance/Colorize
 
     # Create fonts frame
-    ttk::labelframe $a.ff -text "Fonts"
+    ttk::labelframe $a.ff -text [msgcat::mc "Fonts"]
     ttk::label  $a.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
     ttk::label  $a.ff.f0  -text "AaBbCc0123" -font $prefs(Appearance/EditorFont)
-    ttk::button $a.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
+    ttk::button $a.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f0 [msgcat::mc "Select Editor Font"] Appearance/EditorFont 1]
     ttk::label  $a.ff.l1  -text [format "%s: " [msgcat::mc "Command launcher entry"]]
     ttk::label  $a.ff.f1  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherEntryFont)
-    ttk::button $a.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
+    ttk::button $a.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f1 [msgcat::mc "Select Command Launcher Entry Font"] Appearance/CommandLauncherEntryFont 0]
     ttk::label  $a.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
     ttk::label  $a.ff.f2  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherPreviewFont)
-    ttk::button $a.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
+    ttk::button $a.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f2 [msgcat::mc "Select Command Launcher Preview Font"] Appearance/CommandLauncherPreviewFont 0]
 
     # Register the widgets for search
     register $a.ff.b0 "" Appearance/EditorFont
@@ -3246,7 +3246,8 @@ namespace eval pref_ui {
     $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]            -command [list pref_ui::snippets_insert_str "\${0}"]
 
     # Setup the date/time submenu
-    $w.sf.datePopup add command -label "01/01/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
+    $w.sf.datePopup add command -label "01/13/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
+    $w.sf.datePopup add command -label "2001/01/13" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE2"]
     $w.sf.datePopup add command -label "01:01 PM"   -command [list pref_ui::snippets_insert_str "\$CURRENT_TIME"]
     $w.sf.datePopup add separator
     $w.sf.datePopup add command -label "Jan"        -command [list pref_ui::snippets_insert_str "\$CURRENT_MON"]
@@ -4361,7 +4362,7 @@ namespace eval pref_ui {
     set url [string map {\{query\} foobar} $url]
 
     # Set the default value of title
-    set title "Unknown"
+    set title [msgcat::mc "Unknown"]
 
     # Attempt to open the URL
     if {[catch { http::geturl $url } token]} {

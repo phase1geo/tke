@@ -130,7 +130,7 @@ namespace eval remote {
 
     ttk::frame .ftp.pw.lf.sf
     set widgets(sb) [tablelist::tablelist .ftp.pw.lf.sf.tl \
-      -columns {0 {Connections} 0 {} 0 {}} -treecolumn 0 -exportselection 0 -relief flat \
+      -columns [list 0 [msgcat::mc "Connections"] 0 {} 0 {}] -treecolumn 0 -exportselection 0 -relief flat \
       -selectmode single -movablerows 1 -labelrelief flat -highlightthickness 0 \
       -labelactivebackground [utils::get_default_background] \
       -labelbackground [utils::get_default_background] \
@@ -213,7 +213,7 @@ namespace eval remote {
     pack $widgets(dir_mb)      -side left -padx 2 -pady 2 -fill x -expand yes
 
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
-      -columns {0 {File System} 0 {}} -exportselection 0 -borderwidth 0 -highlightthickness 0 -showlabels 0 \
+      -columns [list 0 [msgcat::mc "File System"] 0 {}] -exportselection 0 -borderwidth 0 -highlightthickness 0 -showlabels 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.rf.vf.ff.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.rf.vf.ff.vb]]
@@ -614,7 +614,7 @@ namespace eval remote {
     set settings [list $type $server $user $passwd $port $dir]
 
     # Update the sidebar
-    if {[$widgets(edit_create) cget -text] eq "Create"} {
+    if {[$widgets(edit_create) cget -text] eq [msgcat::mc "Create"]} {
       $widgets(sb) insertchild $groups($group) end [list $name $settings $passwd]
     } else {
       set selected      [$widgets(sb) curselection]
@@ -663,7 +663,7 @@ namespace eval remote {
     $widgets(edit_group) configure -text $value
 
     # If the create button is Update, potentially update the button state
-    if {[$widgets(edit_create) cget -text] eq "Update"} {
+    if {[$widgets(edit_create) cget -text] eq [msgcat::mc "Update"]} {
       if {([$widgets(edit_name)   get] ne "") && \
           ([$widgets(edit_server) get] ne "") && \
           ([$widgets(edit_user)   get] ne "") && \
@@ -1112,7 +1112,7 @@ namespace eval remote {
     $widgets(edit_port)  insert end 21
 
     # Set the create button text to Create
-    $widgets(edit_create) configure -text "Create"
+    $widgets(edit_create) configure -text [msgcat::mc "Create"]
 
     # Make the editor pane visible
     pack forget $widgets(pw)
@@ -1261,7 +1261,7 @@ namespace eval remote {
     $widgets(edit_dir)    insert end [lindex $settings 5]
 
     # Set the create button text to Update
-    $widgets(edit_create) configure -text "Update" -state disabled
+    $widgets(edit_create) configure -text [msgcat::mc "Update"] -state disabled
 
     # Make the editor pane visible
     pack forget $widgets(pw)
@@ -1368,7 +1368,7 @@ namespace eval remote {
     set selected [$widgets(tl) curselection]
 
     # If the selected item is a file
-    if {([$widgets(open) cget -text] eq "Open") || \
+    if {([$widgets(open) cget -text] eq [msgcat::mc "Open"]) || \
         ([$widgets(tl) cellcget $selected,dir -text] == 0)} {
 
       # Populate the save entry field
@@ -1600,7 +1600,7 @@ namespace eval remote {
     set selected [$widgets(tl) curselection]
 
     # Get the filename(s)
-    if {[$widgets(open) cget -text] eq "Open"} {
+    if {[$widgets(open) cget -text] eq [msgcat::mc "Open"]} {
       set current_fname [list]
       foreach select $selected {
         lappend current_fname [list [$widgets(tl) cellcget $select,fname -text] [$widgets(tl) cellcget $select,dir -text]]
@@ -1661,7 +1661,7 @@ namespace eval remote {
     # Add the new directory
     set items [list]
     if {![dir_contents $current_server $directory items]} {
-      tk_messageBox -parent .ftp -icon error -type ok -default ok -message "Unable to read remote directory contents" -detail $directory
+      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to read remote directory contents."] -detail $directory
       return
     }
 
@@ -1723,7 +1723,7 @@ namespace eval remote {
     variable opened
 
     if {![info exists connections($name)]} {
-      return -code error "Connection does not exist ($name)"
+      return -code error [format "%s (%s)" [msgcat::mc "Connection does not exist"] $name]
     }
 
     lassign $connections($name) key type server user passwd port startdir
@@ -2300,7 +2300,7 @@ namespace eval remote {
 
     # If the table is empty, make sure that at least one group exists
     if {[$widgets(sb) size] == 0} {
-      set groups(Group) [$widgets(sb) insertchild root end "Group"]
+      set groups(Group) [$widgets(sb) insertchild root end [msgcat::mc "Group"]]
     }
 
   }
