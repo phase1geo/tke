@@ -15,6 +15,7 @@ The following table represents the various variables that can be used within sni
 | **$LINE\_INDEX** | Places the position of the current insertion cursor (specified as _line.column_) at this variable’s location. |
 | **$LINE\_NUMBER** | Places the line position of the current insertion cursor at this variable’s location. |
 | **$CURRENT\_DATE** | Places the current date at this variable’s location. The date is specified as MM/DD/YYYY. |
+| **$CURRENT\_DATE2** | Places the current date at this variable's location.  The date is specified as YYYY/MM/DD. |
 | **$CURRENT\_TIME** | Places the current time at this variable’s location. The time is specified as HH:MM AM/PM. |
 | **$CURRENT\_MON** | Shortened name of the current month (ex., Jan, Feb). |
 | **$CURRENT\_MONTH** | Long name of the current month (ex., January, February). |

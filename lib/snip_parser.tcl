@@ -3711,109 +3711,109 @@ array set ::snip_rules {
 }
 
 array set ::snip_rules {
-  41,line 270
-  96,line 441
+  41,line 271
+  96,line 442
   7,line 107
-  37,line 254
-  93,line 432
+  37,line 255
+  93,line 433
   4,line 98
-  34,line 245
-  90,line 423
-  89,line 420
+  34,line 246
+  90,line 424
+  89,line 421
   1,line 87
-  102,line 463
-  31,line 236
-  86,line 411
-  27,line 224
-  83,line 402
-  24,line 215
-  80,line 389
-  79,line 386
-  21,line 206
-  76,line 377
+  102,line 464
+  31,line 237
+  86,line 412
+  27,line 225
+  83,line 403
+  24,line 216
+  80,line 390
+  79,line 387
+  21,line 207
+  76,line 378
   17,line 159
-  73,line 368
+  73,line 369
   14,line 144
-  70,line 359
-  69,line 356
+  70,line 360
+  69,line 357
   11,line 119
-  66,line 347
-  63,line 338
-  60,line 329
-  59,line 326
-  56,line 315
-  53,line 306
-  50,line 297
-  49,line 294
-  46,line 285
-  43,line 276
-  98,line 449
+  66,line 348
+  63,line 339
+  60,line 330
+  59,line 327
+  56,line 316
+  53,line 307
+  50,line 298
+  49,line 295
+  46,line 286
+  43,line 277
+  98,line 450
   9,line 113
-  40,line 265
-  39,line 262
-  95,line 438
+  40,line 266
+  39,line 263
+  95,line 439
   6,line 104
-  36,line 251
-  92,line 429
+  36,line 252
+  92,line 430
   3,line 95
-  33,line 242
-  88,line 417
-  101,line 458
-  29,line 230
-  30,line 233
-  85,line 408
-  26,line 221
-  82,line 399
-  23,line 212
-  78,line 383
+  33,line 243
+  88,line 418
+  101,line 459
+  29,line 231
+  30,line 234
+  85,line 409
+  26,line 222
+  82,line 400
+  23,line 213
+  78,line 384
   19,line 169
-  20,line 201
-  75,line 374
+  20,line 202
+  75,line 375
   16,line 156
-  72,line 365
+  72,line 366
   13,line 131
-  68,line 353
+  68,line 354
   10,line 116
-  65,line 344
-  62,line 335
-  58,line 323
-  55,line 312
-  52,line 303
-  48,line 291
-  45,line 282
-  42,line 273
-  97,line 444
+  65,line 345
+  62,line 336
+  58,line 324
+  55,line 313
+  52,line 304
+  48,line 292
+  45,line 283
+  42,line 274
+  97,line 445
   8,line 110
-  38,line 257
-  94,line 435
+  38,line 258
+  94,line 436
   5,line 101
-  35,line 248
-  91,line 426
+  35,line 249
+  91,line 427
   2,line 92
-  103,line 466
-  32,line 239
-  87,line 414
-  100,line 455
-  28,line 227
-  84,line 405
-  25,line 218
-  81,line 394
-  22,line 209
-  77,line 380
+  103,line 467
+  32,line 240
+  87,line 415
+  100,line 456
+  28,line 228
+  84,line 406
+  25,line 219
+  81,line 395
+  22,line 210
+  77,line 381
   18,line 166
-  74,line 371
+  74,line 372
   15,line 151
-  71,line 362
+  71,line 363
   12,line 128
-  67,line 350
-  64,line 341
-  61,line 332
-  57,line 320
-  54,line 309
-  51,line 300
-  47,line 288
-  44,line 279
-  99,line 452
+  67,line 351
+  64,line 342
+  61,line 333
+  57,line 321
+  54,line 310
+  51,line 301
+  47,line 289
+  44,line 280
+  99,line 453
 }
 
 proc snip_parse {} {
@@ -3964,6 +3964,7 @@ proc snip_parse {} {
              LINE_INDEX      { set _ [lindex [split [$txtt index insert] .] 1] }
              LINE_NUMBER     { set _ [lindex [split [$txtt index insert] .] 0] }
              CURRENT_DATE    { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
+             CURRENT_DATE2   { set _ [clock format [clock seconds] -format "%Y/%m/%d"] }
              CURRENT_TIME    { set _ [clock format [clock seconds] -format "%I:%M %p"] }
              CURRENT_MON     { set _ [clock format [clock seconds] -format "%b"] }
              CURRENT_MONTH   { set _ [clock format [clock seconds] -format "%B"] }

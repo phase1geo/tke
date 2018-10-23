@@ -69,6 +69,7 @@ namespace eval lang {
         set contents [read $rc]
         close $rc
 
+        # Look for a note that we will append to the filename in the generated files
         if {[regexp {msgcat::note\s+([^\n]+)} $contents -> note]} {
           set notes($src) $note
         }
@@ -76,6 +77,11 @@ namespace eval lang {
         # Store all of the found msgcat::mc calls in the phrases array
         set start 0
         while {[regexp -indices -start $start {msgcat::mc\s+\"([^\"]+)\"} $contents -> phrase_index]} {
+          if {[string index $contents [lindex $phrase_index 1]] eq "\\"} {
+            puts "ERROR:  Found a translatable string that contains an embedded doublequote character"
+            puts "  File: $src, line: [llength [split [string range $contents 0 [lindex $phrase_index 1]] \n]]"
+            exit 1
+          }
           set phrase [string range $contents {*}$phrase_index]
           if {[info exists phrases($phrase)]} {
             if {[lindex $phrases($phrase) 0] ne $src} {
@@ -113,8 +119,8 @@ namespace eval lang {
       # Parse the file
       foreach line [split $contents \n] {
         set line [string trim $line]
-        if {[string index $line 0] eq "#"} {
-          set fname [lindex [string trim [string range $line 1 end]] 0]
+        if {[regexp {^#\s+(\S+)} $line -> fn]} {
+          set fname $fn
         } elseif {[regexp {msgcat::mcmset} $line]} {
           set mcmset 1
           set xlate  [list]
@@ -359,8 +365,9 @@ namespace eval lang {
     variable widgets
 
     # Prepare the search string for URL usage
-    set str [http::formatQuery q [$widgets(tbl) cellcget $row,str -text]]
-    set str "https://mymemory.translated.net/api/get?$str&langpair=en|$lang&de=phase1geo@gmail.com"
+    set str2xlate [$widgets(tbl) cellcget $row,str -text]
+    set str       [http::formatQuery q $str2xlate]
+    set str       "https://mymemory.translated.net/api/get?$str&langpair=en|$lang&de=phase1geo@gmail.com"
 
     # Perform http request
     set token [http::geturl $str -strict 0]
@@ -373,7 +380,12 @@ namespace eval lang {
           http::cleanup $token
           return -code error "Row: $row, $ttext"
         }
-        $widgets(tbl) cellconfigure $row,xlate -text [subst [string map {{[} {\[} {]} {\]}} $ttext]]
+        if {([string first "??" $ttext] != -1)} {
+          set xlated $str2xlate
+        } else {
+          set xlated [subst [string map {{[} {\[} {]} {\]}} $ttext]]
+        }
+        $widgets(tbl) cellconfigure $row,xlate -text $xlated
         $widgets(tbl) see $row
         show_hide_xlate $row
       }
@@ -404,7 +416,9 @@ namespace eval lang {
           }
         } else {
           for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
-            if {[$widgets(tbl) cellcget $i,xlate -text] eq ""} {
+            set str   [$widgets(tbl) cellcget $i,str   -text]
+            set xlate [$widgets(tbl) cellcget $i,xlate -text]
+            if {($xlate eq "") || ($xlate eq $str) || ([string first "??" $xlate] != -1)} {
               perform_translation $i $lang
             }
           }

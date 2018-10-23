@@ -181,6 +181,7 @@ varname: VARNAME {
              LINE_INDEX      { set _ [lindex [split [$txtt index insert] .] 1] }
              LINE_NUMBER     { set _ [lindex [split [$txtt index insert] .] 0] }
              CURRENT_DATE    { set _ [clock format [clock seconds] -format "%m/%d/%Y"] }
+             CURRENT_DATE2   { set _ [clock format [clock seconds] -format "%Y/%m/%d"] }
              CURRENT_TIME    { set _ [clock format [clock seconds] -format "%I:%M %p"] }
              CURRENT_MON     { set _ [clock format [clock seconds] -format "%b"] }
              CURRENT_MONTH   { set _ [clock format [clock seconds] -format "%B"] }

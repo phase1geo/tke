@@ -148,15 +148,15 @@ namespace eval vim {
       }
       if {[info exists mode($txt.t)]} {
         switch $mode($txt.t) {
-          "edit"         { return "INSERT MODE$record" }
-          "visual:char"  { return "VISUAL MODE$record" }
-          "visual:line"  { return "VISUAL LINE MODE$record"}
-          "visual:block" { return "VISUAL BLOCK MODE$record"}
+          "edit"         { return [format "%s%s" [msgcat::mc "INSERT MODE"] $record] }
+          "visual:char"  { return [format "%s%s" [msgcat::mc "VISUAL MODE"] $record] }
+          "visual:line"  { return [format "%s%s" [msgcat::mc "VISUAL LINE MODE"] $record] }
+          "visual:block" { return [format "%s%s" [msgcat::mc "VISUAL BLOCK MODE"] $record] }
           default        {
             if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
-              return "MULTIMOVE MODE"
+              return [msgcat::mc "MULTIMOVE MODE"]
             } else {
-              return "COMMAND MODE$record"
+              return [format "%s%s" [msgcat::mc "COMMAND MODE"] $record]
             }
           }
         }
