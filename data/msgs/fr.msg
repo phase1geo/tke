@@ -14,7 +14,7 @@ msgcat::mcmset fr {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset fr {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset fr {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset fr {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset fr {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset fr {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset fr {
   "Insertion cursor width"
   "Largeur du curseur d’insertion"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Maintenir le panneau informations sur le fichier visible lorsque la barre latérale n’est pas mise au point"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Garder le panneau d&#39;information visible lorsque la barre latérale n&#39;a pas le focus"
 
   "Keyword"
   "Mots-clé"
@@ -1980,6 +1980,9 @@ msgcat::mcmset fr {
 
   "Line count to find Vim modeline information"
   "Nombre de lignes à renseigner de modeline Vim"
+
+  "Line number alignment"
+  "Alignement de numéro de ligne"
 
   "Logfile Directory"
   "Répertoire du fichier journal"
@@ -2179,6 +2182,9 @@ msgcat::mcmset fr {
   "Time"
   "Période"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Mettre à jour le panneau d&#39;information chaque fois que la sélection de la barre latérale change"
+
   "Update using release type"
   "Mise à jour en utilisant le type de sortie"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset fr {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset fr {
 
   "Add Selection Matches"
@@ -2802,7 +2808,7 @@ msgcat::mcmset fr {
   "La couleur de fond du curseur d`insertion et de marqueurs de couleurs de fond."
 
   "Background color of linemap area."
-  "Couleur d&#39;arri�re-plan de la zone de linemap."
+  "Couleur d&#39;arrière-plan de la zone de linemap."
 
   "Background color of list items when not selected"
   "Couleur d’arrière-plan des éléments de liste lorsque ne pas sélectionné"
@@ -2871,7 +2877,7 @@ msgcat::mcmset fr {
   "Couleur à utiliser pour mettre en évidence les plis fermés dans le caniveau de numéro de ligne"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "Couleur utilis�e pour tracer la ligne s�parant le linemap de la zone de texte."
+  "Couleur utilisée pour tracer la ligne séparant le linemap de la zone de texte."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Couleur utilisée pour tracer la ligne de largeur d`avertissement dans le tampon d`édition (ainsi que la ligne qui sépare la gouttière de la mémoire tampon d`édition)."

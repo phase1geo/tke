@@ -14,7 +14,7 @@ msgcat::mcmset hu {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset hu {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset hu {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset hu {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset hu {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset hu {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset hu {
   "Insertion cursor width"
   "Beszúrási kurzor szélessége"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Tartsa fájl adatai láthatók, amikor tálaló nincs fókusz"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Az információs panel látható akkor, ha az oldalsáv nem rendelkezik élességgel"
 
   "Keyword"
   "Kulcsszó"
@@ -1980,6 +1980,9 @@ msgcat::mcmset hu {
 
   "Line count to find Vim modeline information"
   "Sorok száma Vim modeline talál?"
+
+  "Line number alignment"
+  "Sorszám igazítás"
 
   "Logfile Directory"
   "Logfile-könyvtár"
@@ -2099,7 +2102,7 @@ msgcat::mcmset hu {
   "Billentyűparancsok"
 
   "Show 'Find in Files' result in other pane"
-  "M�s ablakban jelen�tse meg a &quot;Find in Files&quot; tal�latot"
+  "Más ablakban jelenítse meg a &quot;Find in Files&quot; találatot"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Mutatják, mozog-hoz szemét helyett Delete helyi fájlok/könyvtárak"
@@ -2178,6 +2181,9 @@ msgcat::mcmset hu {
 
   "Time"
   "Idő"
+
+  "Update information panel whenever the sidebar selection changes"
+  "Frissítse az információs panelt, amikor az oldalsáv-kiválasztás megváltozik"
 
   "Update using release type"
   "Frissítse a kiadás típusú"
@@ -2371,7 +2377,7 @@ msgcat::mcmset hu {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset hu {
 
   "Add Selection Matches"
@@ -2802,7 +2808,7 @@ msgcat::mcmset hu {
   "Háttérszíne behelyezés kurzor és a háttér marker színek."
 
   "Background color of linemap area."
-  "A vonalter�let ter�let�nek h�tt�rsz�ne."
+  "A vonalterület területének háttérszíne."
 
   "Background color of list items when not selected"
   "Háttérszín lista elem, ha nincs kijelölve"
@@ -2871,7 +2877,7 @@ msgcat::mcmset hu {
   "Kiemelve a zárt bedobja a vonal szám ereszcsatorna a használandó színt"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "A linkt�l elv�laszt� vonal rajzol�s�hoz haszn�lt sz�n."
+  "A linktól elválasztó vonal rajzolásához használt szín."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Színes hívják fel a figyelmeztető széles vonal a szerkesztési puffer (valamint az elválasztó vonal az ereszcsatorna a szerkesztési puffer)."

@@ -22,6 +22,8 @@
 # Brief:    Contains namespace which handles displaying file version differences
 ######################################################################
 
+# msgcat::note Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.
+
 namespace eval diff {
 
   array set data {}

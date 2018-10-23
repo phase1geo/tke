@@ -14,7 +14,7 @@ msgcat::mcmset he {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset he {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset he {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset he {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset he {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset he {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset he {
   "Insertion cursor width"
   "רוחב הסמן ההכנסה"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "להשאיר את לוח המידע של הקובץ גלוי כאשר הסרגל הצידי אין מיקוד"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "שמור על חלונית מידע גלויה כאשר סרגל הצד אינו מתמקד"
 
   "Keyword"
   "מילות מפתח"
@@ -1980,6 +1980,9 @@ msgcat::mcmset he {
 
   "Line count to find Vim modeline information"
   "ספירת השורות כדי למצוא מידע modeline Vim"
+
+  "Line number alignment"
+  "יישור מספר הקו"
 
   "Logfile Directory"
   "מדריך יומן"
@@ -2179,6 +2182,9 @@ msgcat::mcmset he {
   "Time"
   "זמן"
 
+  "Update information panel whenever the sidebar selection changes"
+  "עדכן את לוח המידע בכל פעם שמבחר הסרגל הצדדי משתנה"
+
   "Update using release type"
   "עדכון באמצעות סוג המהדורה"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset he {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset he {
 
   "Add Selection Matches"

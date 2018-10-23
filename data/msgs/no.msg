@@ -14,7 +14,7 @@ msgcat::mcmset no {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset no {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset no {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset no {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset no {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset no {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset no {
   "Insertion cursor width"
   "Innsetting mark√∏ren bredde"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Beholde filen dokumentinformasjonspanel synlig n√•r sidepanelet ikke har fokus"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Hold informasjonspanelet synlig n√•r sidefeltet ikke har fokus"
 
   "Keyword"
   "S√∏keord"
@@ -1980,6 +1980,9 @@ msgcat::mcmset no {
 
   "Line count to find Vim modeline information"
   "Linjetelling finne Vim modeline informasjon"
+
+  "Line number alignment"
+  "Linje nummerjustering"
 
   "Logfile Directory"
   "Logfile Directory"
@@ -2179,6 +2182,9 @@ msgcat::mcmset no {
   "Time"
   "Tidspunkt"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Oppdater informasjon panel n√•r sidebarvalget endres"
+
   "Update using release type"
   "Oppdatere bruker versjonstypen"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset no {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset no {
 
   "Add Selection Matches"
@@ -2715,7 +2721,7 @@ msgcat::mcmset no {
   "Aksjer innstillinger data fra en ny eller eksisterende mappe (ex., iCloud Google stasjonen, Dropbox, etc.).  Endringer i innstillingene data vil v√¶re tilgjengelig for andre brukere."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
-  "Takk for at du brukte TKE, den avanserte programm¯rens redakt¯r. Siden dette er en ny installasjon av TKE, la oss hjelpe deg med Â fÂ ting opprettet. \\ n \\ n Klikk pÂ &#39;Neste&#39; nedenfor for Â fÂ ting til Â gÂ."
+  "Takk for at du brukte TKE, den avanserte programm√∏rens redakt√∏r. Siden dette er en ny installasjon av TKE, la oss hjelpe deg med √• f√• ting opprettet. \\ n \\ n Klikk p√• &#39;Neste&#39; nedenfor for √• f√• ting til √• g√•."
 
   "Use shared settings"
   "Bruke delte innstillinger"
@@ -2802,7 +2808,7 @@ msgcat::mcmset no {
   "Bakgrunnsfarge p√• innsetting mark√∏ren og bakgrunn mark√∏r farger."
 
   "Background color of linemap area."
-  "Bakgrunnsfargen pÂ linjekartsomrÂdet."
+  "Bakgrunnsfargen p√• linjekartsomr√•det."
 
   "Background color of list items when not selected"
   "Bakgrunnsfargen for listeelementer n√•r ikke"
@@ -2871,7 +2877,7 @@ msgcat::mcmset no {
   "Farge som brukes for utheving lukket folder i linje nummer rennesteinen"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "Farge brukes til Â tegne linjen som skiller linjeskjemaet fra tekstomrÂdet."
+  "Farge brukes til √• tegne linjen som skiller linjeskjemaet fra tekstomr√•det."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Fargen som brukes til √• trekke advarsel bredde linjen redigering bufferen (samt linjen skille gutter fra redigering bufferen)."

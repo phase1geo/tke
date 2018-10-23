@@ -14,7 +14,7 @@ msgcat::mcmset pt {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset pt {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset pt {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset pt {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset pt {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset pt {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset pt {
   "Insertion cursor width"
   "Largura do cursor de inserção"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Manter o painel de informações do arquivo visível quando a barra lateral não tem foco"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Manter o painel de informações visível quando a barra lateral não tem foco"
 
   "Keyword"
   "Escreva como pensa Ex. T2"
@@ -1980,6 +1980,9 @@ msgcat::mcmset pt {
 
   "Line count to find Vim modeline information"
   "Contagem de linha para encontrar o Vim modeline informações"
+
+  "Line number alignment"
+  "Alinhamento de números de linha"
 
   "Logfile Directory"
   "Diretório do arquivo de log"
@@ -2179,6 +2182,9 @@ msgcat::mcmset pt {
   "Time"
   "Hora"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Atualizar o painel de informações sempre que a seleção da barra lateral for alterada"
+
   "Update using release type"
   "Atualizar usando o tipo de lançamento"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset pt {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset pt {
 
   "Add Selection Matches"
@@ -2802,7 +2808,7 @@ msgcat::mcmset pt {
   "A cor do fundo do cursor de inserção e marcadores fundo cores."
 
   "Background color of linemap area."
-  "Cor de fundo da �rea do linemap."
+  "Cor de fundo da área do linemap."
 
   "Background color of list items when not selected"
   "Cor de fundo dos itens de lista, quando não selecionada"
@@ -2871,7 +2877,7 @@ msgcat::mcmset pt {
   "Cor para usar para destacar dobras fechadas na sarjeta linha número"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "Cor usada para desenhar a linha que separa o mapa de linha da �rea de texto."
+  "Cor usada para desenhar a linha que separa o mapa de linha da área de texto."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Cor usada para desenhar a linha de largura de aviso no buffer de edição (bem como a linha que separa a calha do buffer de edição)."

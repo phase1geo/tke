@@ -51,6 +51,7 @@ namespace eval lang {
   array set phrases {}
   array set xlates  {}
   array set widgets {}
+  array set notes   {}
 
   ######################################################################
   # Gets all of the msgcat::mc procedure calls for all of the library
@@ -58,6 +59,7 @@ namespace eval lang {
   proc gather_msgcat {} {
 
     variable phrases
+    variable notes
 
     foreach src [glob -directory [file join $::tke_dir lib] *.tcl] {
 
@@ -66,6 +68,10 @@ namespace eval lang {
         # Read the contents of the file and close the file
         set contents [read $rc]
         close $rc
+
+        if {[regexp {msgcat::note\s+([^\n]+)} $contents -> note]} {
+          set notes($src) $note
+        }
 
         # Store all of the found msgcat::mc calls in the phrases array
         set start 0
@@ -108,7 +114,7 @@ namespace eval lang {
       foreach line [split $contents \n] {
         set line [string trim $line]
         if {[string index $line 0] eq "#"} {
-          set fname [string trim [string range $line 1 end]]
+          set fname [lindex [string trim [string range $line 1 end]] 0]
         } elseif {[regexp {msgcat::mcmset} $line]} {
           set mcmset 1
           set xlate  [list]
@@ -159,6 +165,7 @@ namespace eval lang {
   proc write_lang {lang} {
 
     variable widgets
+    variable notes
 
     if {![catch "open [file join $::tke_dir data msgs $lang.msg] w" rc]} {
 
@@ -172,7 +179,10 @@ namespace eval lang {
       # Output to the file by source file
       foreach src [lsort [array names srcs]] {
 
-        puts $rc "# [file tail $src]"
+        # Figure out the note to attach
+        set note [expr {[info exists notes($src)] ? " ($notes($src))" : ""}]
+
+        puts $rc "# [file tail $src]$note"
         puts $rc "msgcat::mcmset $lang \{\n"
 
         foreach xlate $srcs($src) {

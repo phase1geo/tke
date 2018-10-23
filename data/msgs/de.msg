@@ -14,7 +14,7 @@ msgcat::mcmset de {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset de {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset de {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset de {
 
   "    End: "
@@ -223,7 +223,7 @@ msgcat::mcmset de {
   "Bild, das im Einstellungsfenster auf der Registerkarte Plugins verwendet wird."
 
   "Image used in the preferences window in the Shortcuts tab."
-  "Bild, das im Einstellungsfenster auf der Registerkarte Verkn�pfungen verwendet wird."
+  "Bild, das im Einstellungsfenster auf der Registerkarte Verknüpfungen verwendet wird."
 
   "Image used in the preferences window in the Sidebar tab."
   "Bild, das im Einstellungsfenster auf der Registerkarte Seitenleiste verwendet wird."
@@ -293,7 +293,7 @@ msgcat::mcmset de {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset de {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset de {
   "Insertion cursor width"
   "Einfügen-Cursor-breite"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Bleiben Sie Datei-Info-Tafel sichtbar, wenn Seitenleiste nicht im Fokus"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Halten Sie das Informationsfenster sichtbar, wenn die Seitenleiste keinen Fokus hat"
 
   "Keyword"
   "Suchbegriff"
@@ -1980,6 +1980,9 @@ msgcat::mcmset de {
 
   "Line count to find Vim modeline information"
   "Anzahl der Zeilen, Vim Modeline Informationen finden"
+
+  "Line number alignment"
+  "Zeilennummernausrichtung"
 
   "Logfile Directory"
   "Logfile-Verzeichnis"
@@ -2179,6 +2182,9 @@ msgcat::mcmset de {
   "Time"
   "Zeit"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Aktualisieren Sie das Informationsfenster, wenn sich die Auswahl der Seitenleiste ändert"
+
   "Update using release type"
   "Update mit Abrufart"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset de {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset de {
 
   "Add Selection Matches"
@@ -2688,7 +2694,7 @@ msgcat::mcmset de {
   "Schlichten"
 
   "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
-  "Wenn Sie Ihre Freigabeeinstellungen �ndern m�chten, k�nnen Sie dies in den Einstellungen auf der Registerkarte Allgemein / Freigabe vornehmen."
+  "Wenn Sie Ihre Freigabeeinstellungen ändern möchten, können Sie dies in den Einstellungen auf der Registerkarte Allgemein / Freigabe vornehmen."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Ausgewählten Elemente werden auf Ihrem lokalen home-Verzeichnis kopiert. Elemente, die nicht ausgewählt sind werden in Ihrem home-Verzeichnis erstellt werden."

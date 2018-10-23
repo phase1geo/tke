@@ -14,7 +14,7 @@ msgcat::mcmset ja {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset ja {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset ja {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset ja {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset ja {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset ja {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset ja {
   "Insertion cursor width"
   "挿入カーソルの幅"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "サイドバーにフォーカスがあるないときにファイル情報パネルを表示したままにします。"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "サイドバーにフォーカスがないときは情報パネルを表示したままにする"
 
   "Keyword"
   "キーワード"
@@ -1980,6 +1980,9 @@ msgcat::mcmset ja {
 
   "Line count to find Vim modeline information"
   "行カウントを Vim modeline 情報を検索するには"
+
+  "Line number alignment"
+  "行番号の整列"
 
   "Logfile Directory"
   "ログ ファイル ディレクトリ"
@@ -2179,6 +2182,9 @@ msgcat::mcmset ja {
   "Time"
   "時間"
 
+  "Update information panel whenever the sidebar selection changes"
+  "サイドバーの選択が変わるたびに情報パネルを更新する"
+
   "Update using release type"
   "リリースの型を使用して更新します。"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset ja {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset ja {
 
   "Add Selection Matches"

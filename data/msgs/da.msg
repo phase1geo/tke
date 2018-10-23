@@ -14,7 +14,7 @@ msgcat::mcmset da {
 
 }
 
-# bitmap.tcl
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset da {
 
   "Center image"
@@ -46,7 +46,7 @@ msgcat::mcmset da {
 
 }
 
-# diff.tcl
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
 msgcat::mcmset da {
 
   "    End: "
@@ -293,7 +293,7 @@ msgcat::mcmset da {
 
 }
 
-# ipanel.tcl
+# ipanel.tcl (Information panel displayed in the sidebar)
 msgcat::mcmset da {
 
   "Binary"
@@ -1960,8 +1960,8 @@ msgcat::mcmset da {
   "Insertion cursor width"
   "Indsættelse markørens bredde"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
-  "Holde filen dokumentoplysningspanelet synlige når indholdsoversigten ikke har fokus"
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Hold informationspanelet synligt, når sidebjælken ikke har fokus"
 
   "Keyword"
   "Nøgleord"
@@ -1980,6 +1980,9 @@ msgcat::mcmset da {
 
   "Line count to find Vim modeline information"
   "Linje tæller at finde Vim modeline oplysninger"
+
+  "Line number alignment"
+  "Linje nummerjustering"
 
   "Logfile Directory"
   "Logfile Register"
@@ -2179,6 +2182,9 @@ msgcat::mcmset da {
   "Time"
   "Tid"
 
+  "Update information panel whenever the sidebar selection changes"
+  "Opdater informationspanel, når sidebarvalget ændres"
+
   "Update using release type"
   "Opdatere bruger release type"
 
@@ -2371,7 +2377,7 @@ msgcat::mcmset da {
 
 }
 
-# select.tcl
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
 msgcat::mcmset da {
 
   "Add Selection Matches"
@@ -2802,7 +2808,7 @@ msgcat::mcmset da {
   "Baggrundsfarve indsættelse markøren og baggrunden markør farver."
 
   "Background color of linemap area."
-  "Baggrundsfarve p� linemap-omr�det."
+  "Baggrundsfarve på linemap-området."
 
   "Background color of list items when not selected"
   "Baggrundsfarven af listeelementer når ikke valgt"
@@ -2871,7 +2877,7 @@ msgcat::mcmset da {
   "Farve, der benyttes til fremhævning i lukkede folder i linje nummer tagrende"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "Farve bruges til at tegne linjen, som adskiller linjekortet fra tekstomr�det."
+  "Farve bruges til at tegne linjen, som adskiller linjekortet fra tekstområdet."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Color bruges til at tegne advarslen bredde linje i redigeringen buffer (såvel som grænsen mellem renden fra redigeringen buffer)."
