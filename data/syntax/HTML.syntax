@@ -13,12 +13,12 @@ reference
 
 embedded {
   {PHP        {<\?php$}                                {\?>}}
-  {CSS        {<style(.*type="text/css".*)?>$}         {</style>}}
-  {JavaScript {<script(.*type="text/javascript".*)?>$} {</script>}}
+  {CSS        {<style(.*type=["']text/css["'].*)?>$}    {</style>}}
+  {JavaScript {<script(.*type=["']text/javascript["'].*)?>$} {</script>}}
 }
 
 matchcharsallowed
-{paren angled double single}
+{paren angled double}
 
 tabsallowed
 {0}
@@ -27,10 +27,10 @@ casesensitive
 {0}
 
 indent
-{<[^/>](.*?[^/])?> <\\?}
+{<[^/>] <\\?}
 
 unindent
-{</.+?> \\?>}
+{</ \\?>}
 
 icomment {{<!--} {-->}}
 
