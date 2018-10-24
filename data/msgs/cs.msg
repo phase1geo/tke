@@ -14,6 +14,125 @@ msgcat::mcmset cs {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset cs {
+
+  "Built-In Self Test"
+  "Zabudovaný autotest"
+
+  "Decrementing order"
+  "Decrementing order"
+
+  "Edit Test"
+  "Upravit test"
+
+  "Edit Test File"
+  "Upravit testovací soubor"
+
+  "FAILED"
+  "SELHALO"
+
+  "Fail"
+  "Neúspěšné"
+
+  "Fail Count"
+  "Počet"
+
+  "Failed"
+  "Selhalo"
+
+  "Filter"
+  "Filtr"
+
+  "Incrementing order"
+  "Zvýšení pořadí"
+
+  "Iteration"
+  "Iterace"
+
+  "Iteration count"
+  "Počet opakování"
+
+  "Loop"
+  "Opakovat"
+
+  "Loop count"
+  "Počet"
+
+  "Loop type"
+  "Typ smyčky"
+
+  "New Test"
+  "Nový test"
+
+  "New Test File"
+  "Nový testovací soubor"
+
+  "New Test Name"
+  "Nový název testu"
+
+  "Output"
+  "Výstup"
+
+  "PASSED"
+  "PROŠEL"
+
+  "Pass"
+  "Přeskočit"
+
+  "Pass Count"
+  "Počet"
+
+  "Passed"
+  "Prošel"
+
+  "RUNNING BIST"
+  "Běží"
+
+  "Random"
+  "Náhodný"
+
+  "Refresh"
+  "Obnovit"
+
+  "Results"
+  "Výsledky"
+
+  "Run Count"
+  "Počet"
+
+  "Run iterations"
+  "Spustit iterací"
+
+  "Run loops"
+  "Spuštění smyčky"
+
+  "Running"
+  "Běží"
+
+  "Runtime"
+  "Doba trvání"
+
+  "Selection method"
+  "Metoda výběru"
+
+  "Setup"
+  "Nastavení"
+
+  "Total"
+  "Celkem"
+
+  "hours"
+  "hod"
+
+  "minutes"
+  "minuty"
+
+  "seconds"
+  "sekund"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset cs {
 
@@ -60,9 +179,6 @@ msgcat::mcmset cs {
 
   "Enter starting file"
   "Zadejte počáteční soubor"
-
-  "Update"
-  "Aktualizovat"
 
 }
 
@@ -142,7 +258,7 @@ msgcat::mcmset cs {
   "Sloupec"
 
   "Copyright"
-  "Copyright"
+  "Autorská práva"
 
   "Credits"
   "Autoři"
@@ -940,7 +1056,7 @@ msgcat::mcmset cs {
   "Instalovat"
 
   "Install plugin"
-  "Install plugin"
+  "Nainstalovat plugin"
 
   "Italics"
   "Kurzíva"
@@ -1123,7 +1239,7 @@ msgcat::mcmset cs {
   "Nový ze šablony"
 
   "New Window"
-  "New Window"
+  "Nové okno"
 
   "New file"
   "Nový soubor"
@@ -1317,9 +1433,6 @@ msgcat::mcmset cs {
   "Restart"
   "Restart"
 
-  "Run"
-  "Spustit"
-
   "Run theme editor"
   "Spustit editor téma"
 
@@ -1432,7 +1545,7 @@ msgcat::mcmset cs {
   "Nastavit syntaxe"
 
   "Set Theme"
-  "Set Theme"
+  "Motiv"
 
   "Set current file line ending to CR for Classic Mac"
   "Nastavit aktuální řádek souboru končí na CR pro klasický Mac"
@@ -1450,7 +1563,7 @@ msgcat::mcmset cs {
   "Zobrazit všechny karty"
 
   "Show Cursor"
-  "Show Cursor"
+  "Kurzor"
 
   "Show Diagnostic Logfile"
   "Zobrazit diagnostického protokolu"
@@ -1480,7 +1593,7 @@ msgcat::mcmset cs {
   "Zobrazit Sidebar"
 
   "Show Status Bar"
-  "Show Status Bar"
+  "Zobrazit stavový řádek"
 
   "Show Tab Bar"
   "Zobrazit Tab Bar"
@@ -1522,10 +1635,10 @@ msgcat::mcmset cs {
   "Seřadit záložky"
 
   "Split/Join Tag"
-  "Split/Join Tag"
+  "Rozdělit / Připojit značku"
 
   "Split/Join tag"
-  "Split/Join tag"
+  "Rozdělit / Připojit značku"
 
   "Start Profiling"
   "Začněte profilování"
@@ -1606,7 +1719,7 @@ msgcat::mcmset cs {
   "Unfavorite soubor"
 
   "Unindent"
-  "Unindent"
+  "Zpětné odsazení"
 
   "Unindent selected text"
   "Zrušit odsazení vybraného textu"
@@ -1692,10 +1805,10 @@ msgcat::mcmset cs {
   "Zadejte plugin jméno"
 
   "Grant"
-  "Grant"
+  "Přidělit"
 
   "Grant permission?"
-  "Grant permission?"
+  "Udělit oprávnění"
 
   "Plugin Errors"
   "Plugin chyby"
@@ -1924,6 +2037,9 @@ msgcat::mcmset cs {
   "Extensions"
   "Rozšíření"
 
+  "Fonts"
+  "Písma"
+
   "Format snippet indentation after insert"
   "Odsazení fragment formát po vložení"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset cs {
   "Node Aliases"
   "Uzel aliasy"
 
-  "Options"
-  "Možnosti"
-
   "Profiler Options"
   "Profiler možnosti"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset cs {
   "Search Snippets"
   "Hledat fragmenty"
 
+  "Select Command Launcher Entry Font"
+  "Zvolte písmeno vstupního příkazu Command Launcher"
+
+  "Select Command Launcher Preview Font"
+  "Vyberte písmo Náhled spouštěcího příkazu"
+
+  "Select Editor Font"
+  "Vyberte písmo editoru"
+
   "Select Settings Sharing Directory"
   "Vyberte nastavení sdílení adresáře"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset cs {
 
   "Selected Text"
   "Vybraný text záložky"
+
+  "Session"
+  "Relace"
 
   "Set"
   "Nastavit"
@@ -2102,7 +2227,7 @@ msgcat::mcmset cs {
   "Klávesové zkratky"
 
   "Show 'Find in Files' result in other pane"
-  "Show 'Find in Files' result in other pane"
+  "Zobrazit &#39;Najít v souborech&#39; výsledek v jiném podokně"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "Zobrazit pro místní soubory/adresáře namísto odstranění přesunout do koše"
@@ -2182,6 +2307,9 @@ msgcat::mcmset cs {
   "Time"
   "Čas"
 
+  "Unknown"
+  "Neznámý"
+
   "Update information panel whenever the sidebar selection changes"
   "Aktualizujte panel s informacemi vždy, když se změní výběr bočního panelu"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset cs {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Změnili jste globální nastavení, které nebude viditelný, protože se v současné době v rámci relace pojmenované."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Jste změnili předvolby aktuální relace, které nebudou použita globálně"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Změnili jste předvolby aktuální relace, které nebudou aplikovány globálně."
 
   "milliseconds"
   "milisekundy"
@@ -2244,11 +2372,17 @@ msgcat::mcmset cs {
   "Close Connection"
   "Zavření připojení"
 
+  "Connection does not exist"
+  "Připojení neexistuje"
+
   "Connection failed"
   "připojení selhalo"
 
   "Connection passed"
   "Připojení předané"
+
+  "Connections"
+  "Připojení"
 
   "Create New Folder"
   "Vytvořit novou složku"
@@ -2270,6 +2404,9 @@ msgcat::mcmset cs {
 
   "Enter Password"
   "Zadejte heslo"
+
+  "File System"
+  "Souborový systém"
 
   "Folder Name"
   "Název složky:"
@@ -2348,6 +2485,9 @@ msgcat::mcmset cs {
 
   "Unable to connect to"
   "Nelze se připojit k"
+
+  "Unable to read remote directory contents."
+  "Nelze číst obsah vzdáleného adresáře."
 
   "Username"
   "Uživatelské jméno"
@@ -2463,9 +2603,6 @@ msgcat::mcmset cs {
 
   "Right"
   "Vpravo"
-
-  "Selected"
-  "Vybráno"
 
   "Selection Mode Command Help"
   "Výběr režimu příkazu Nápověda"
@@ -3103,7 +3240,7 @@ msgcat::mcmset cs {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset cs {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset cs {
 
   "   Show Selected Value"
   "Show zvolená hodnota"
+
+  "By"
+  "Od"
 
   "Categories"
   "Kategorie"
@@ -3188,7 +3328,7 @@ msgcat::mcmset cs {
   "Pozměňovací návrhy"
 
   "One-Color Bitmap"
-  "One-Color Bitmap"
+  "Jednobarevná bitová mapa"
 
   "Output Directory"
   "Výstupní adresář"
@@ -3201,6 +3341,9 @@ msgcat::mcmset cs {
 
   "Save As:"
   "Uložit jako"
+
+  "Save error"
+  "Chyba při nahrávání"
 
   "Save theme changes?"
   "Uložit změny téma?"
@@ -3238,8 +3381,8 @@ msgcat::mcmset cs {
   "Table Search"
   "Tabulky hledání"
 
-  "The current theme has unsaved changes"
-  "Aktuální téma má neuložené změny"
+  "The current theme has unsaved changes."
+  "Aktuální téma má neuložené změny."
 
   "Theme Name"
   "Jméno šablony"
@@ -3249,6 +3392,9 @@ msgcat::mcmset cs {
 
   "Two-Color Bitmap"
   "Dva-Color Bitmap"
+
+  "Unknown color value format"
+  "Formát neznámé hodnoty barev"
 
   "User Directory"
   "Uživatel Directory"
@@ -3297,6 +3443,9 @@ msgcat::mcmset cs {
 # vim.tcl
 msgcat::mcmset cs {
 
+  "COMMAND MODE"
+  "Command"
+
   "File format unrecognized"
   "Formát souboru nebyl rozpoznán"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset cs {
   "Folding method unrecognized"
   "Skládání metoda nebyl rozpoznán"
 
+  "INSERT MODE"
+  "Režim vkládání@ info: tooltip"
+
   "Illegal modelines value"
   "Ilegální ModeLine hodnota"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVÝ REŽIM"
 
   "Number width not a number"
   "Číslo šířka není číslo"
@@ -3323,6 +3478,15 @@ msgcat::mcmset cs {
 
   "Unrecognized vim option"
   "Možnost nerozpoznaný vim"
+
+  "VISUAL BLOCK MODE"
+  "REŽIM VISUAL BLOCK"
+
+  "VISUAL LINE MODE"
+  "REŽIM VISUAL LINE"
+
+  "VISUAL MODE"
+  "Zobrazení"
 
 }
 
@@ -3399,7 +3563,7 @@ msgcat::mcmset cs {
   "&Jméno souboru:"
 
   "Find"
-  "Find"
+  "Najít"
 
   "Find next occurrence"
   "Najít další výskyt"
@@ -3456,7 +3620,10 @@ msgcat::mcmset cs {
   "OK"
 
   "Open"
-  "Open"
+  "Otevřeno"
+
+  "Options"
+  "Možnosti"
 
   "Parenthesis"
   "Závorky"
@@ -3476,6 +3643,9 @@ msgcat::mcmset cs {
   "Rename"
   "Odebrat"
 
+  "Run"
+  "Spustit"
+
   "Save"
   "Uložit"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset cs {
 
   "Search"
   "Hledat"
+
+  "Selected"
+  "Vybráno"
 
   "Sessions"
   "Návt?vy"
@@ -3534,7 +3707,10 @@ msgcat::mcmset cs {
   "Nelze zapisovat"
 
   "Unfavorite"
-  "Unfavorite"
+  "Vyjmout z oblíbených"
+
+  "Update"
+  "Aktualizovat"
 
   "Value"
   "Hodnota"

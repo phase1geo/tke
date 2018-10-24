@@ -14,6 +14,125 @@ msgcat::mcmset el {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset el {
+
+  "Built-In Self Test"
+  "Ενσωματωμένο αυτοέλεγχο"
+
+  "Decrementing order"
+  "Μείωση της τάξης"
+
+  "Edit Test"
+  "Επεξεργασία δοκιμής"
+
+  "Edit Test File"
+  "Επεξεργαστείτε το αρχείο δοκιμής"
+
+  "FAILED"
+  "ΑΠΟΤΥΧΙΑ"
+
+  "Fail"
+  "Αποτυχία"
+
+  "Fail Count"
+  "Μέτρηση"
+
+  "Failed"
+  "Αποτυχία"
+
+  "Filter"
+  "Φίλτρο"
+
+  "Incrementing order"
+  "Αύξηση της τάξης"
+
+  "Iteration"
+  "2η επανάληψη"
+
+  "Iteration count"
+  "Επαναμέτρηση επανάληψης"
+
+  "Loop"
+  "Επανάληψη"
+
+  "Loop count"
+  "Μέτρηση"
+
+  "Loop type"
+  "Τύπος βρόχου"
+
+  "New Test"
+  "Νέα δοκιμή"
+
+  "New Test File"
+  "Νέο αρχείο δοκιμής"
+
+  "New Test Name"
+  "Νέο όνομα δοκιμής"
+
+  "Output"
+  "Αποτέλεσμα"
+
+  "PASSED"
+  "ΕΠΙΤΥΧΗΣ"
+
+  "Pass"
+  "Επιτυχία"
+
+  "Pass Count"
+  "Αριθμός περασμάτων"
+
+  "Passed"
+  "Πέρασε"
+
+  "RUNNING BIST"
+  "ΛΕΙΤΟΥΡΓΕΙ"
+
+  "Random"
+  "Τυχαία"
+
+  "Refresh"
+  "Ανανέωση"
+
+  "Results"
+  "Αποτελέσματα"
+
+  "Run Count"
+  "Μέτρηση"
+
+  "Run iterations"
+  "Εκτελέστε επαναλήψεις"
+
+  "Run loops"
+  "κουμπότρυπες"
+
+  "Running"
+  "Τρέξιμο"
+
+  "Runtime"
+  "χρόνος εκτέλεσης"
+
+  "Selection method"
+  "Μέθοδος επιλογής"
+
+  "Setup"
+  "Εγκατάσταση"
+
+  "Total"
+  "Σύνολο"
+
+  "hours"
+  "ώρες"
+
+  "minutes"
+  "λεπτά"
+
+  "seconds"
+  "δευτερόλεπτα"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset el {
 
@@ -60,9 +179,6 @@ msgcat::mcmset el {
 
   "Enter starting file"
   "Εισαγάγετε το αρχείο εκκίνησης"
-
-  "Update"
-  "Ενημέρωση"
 
 }
 
@@ -199,40 +315,40 @@ msgcat::mcmset el {
   "Εικόνα που χρησιμοποιούνται στην καρτέλα που, όταν πατηθεί, κλείνει την καρτέλα."
 
   "Image used in the preferences window in the Advanced tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ??? ?????????????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Για προχωρημένους."
 
   "Image used in the preferences window in the Appearance tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ????????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Εμφάνιση."
 
   "Image used in the preferences window in the Documentation tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? &quot;??????????&quot;."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα &quot;Τεκμηρίωση&quot;."
 
   "Image used in the preferences window in the Editor tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ????????????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Επεξεργαστής."
 
   "Image used in the preferences window in the Emmet tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? Emmet."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Emmet."
 
   "Image used in the preferences window in the Find tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ??????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Εύρεση."
 
   "Image used in the preferences window in the General tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ??????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Γενικά."
 
   "Image used in the preferences window in the Plugins tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? &quot;Plugins&quot;."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα &quot;Plugins&quot;."
 
   "Image used in the preferences window in the Shortcuts tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ????????????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Συντομεύσεις."
 
   "Image used in the preferences window in the Sidebar tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Sidebar."
 
   "Image used in the preferences window in the Snippets tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? &quot;???????&quot;."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα &quot;Αποκοπή&quot;."
 
   "Image used in the preferences window in the View tab."
-  "?????? ??? ??????????????? ??? ???????? ??????????? ???? ??????? ???????."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Προβολή."
 
   "Image used in the preferences window to indicate that a table item is deselected."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να υποδείξει ότι ένα στοιχείο πίνακα είναι απενεργοποιημένη."
@@ -1132,7 +1248,7 @@ msgcat::mcmset el {
   "Νέο αρχείο από πρότυπο"
 
   "New window"
-  "New window"
+  "Καινούριο Παράθυρο"
 
   "Next Difference"
   "επόμενο Διαφορά"
@@ -1150,7 +1266,7 @@ msgcat::mcmset el {
   "Ανοικτή τρέχουσα φορές"
 
   "Open Directory"
-  "Open Directory"
+  "Άνοιγμα καταλόγου"
 
   "Open Favorite"
   "Open Αγαπημένα"
@@ -1316,9 +1432,6 @@ msgcat::mcmset el {
 
   "Restart"
   "Επανεκκίνηση"
-
-  "Run"
-  "ΤΡΕΞΙΜΟ"
 
   "Run theme editor"
   "Εκτελέστε τον επεξεργαστή θέμα"
@@ -1516,7 +1629,7 @@ msgcat::mcmset el {
   "Έξυπνες περίπτωση"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Ταξινόμηση καρτελών"
 
   "Sort tabs"
   "Είδος καρτέλες"
@@ -1739,7 +1852,7 @@ msgcat::mcmset el {
   "Επιπλέον χώρο μεταξύ των γραμμών"
 
   "Addons"
-  "Addons"
+  "Πρόσθετα"
 
   "Alias"
   "Άλλως"
@@ -1775,7 +1888,7 @@ msgcat::mcmset el {
   "Αυτόματα να ορίσετε τον τρέχοντα κατάλογο εργασίας στον τρέχοντα κατάλογο καρτέλες"
 
   "Backtick"
-  "Backtick"
+  "Πίσω"
 
   "Base Directory"
   "Φάκελος βάσης"
@@ -1924,6 +2037,9 @@ msgcat::mcmset el {
   "Extensions"
   "Επεκτάσεις"
 
+  "Fonts"
+  "Γραμματοσειρές"
+
   "Format snippet indentation after insert"
   "Εσοχή απόσπασμα μορφή μετά από το ένθετο"
 
@@ -1952,7 +2068,7 @@ msgcat::mcmset el {
   "Διαμόρφωση χώρων"
 
   "Info Panel"
-  "??????? ??????????? ??????"
+  "Πίνακας Πληροφοριών Πλοίου"
 
   "Insert unsorted files at the top of a manually sorted directory"
   "Εισαγωγή μη ταξινομημένα αρχεία στην κορυφή του ένα χέρι ταξινομημένο κατάλογο"
@@ -2008,9 +2124,6 @@ msgcat::mcmset el {
   "Node Aliases"
   "Κόμβος ψευδώνυμα"
 
-  "Options"
-  "Eπιλογές"
-
   "Profiler Options"
   "Profiler επιλογές"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset el {
   "Search Snippets"
   "Αναζήτηση αποσπάσματα"
 
+  "Select Command Launcher Entry Font"
+  "Επιλέξτε Γραμματοσειρά εισόδου εκκίνησης εντολών"
+
+  "Select Command Launcher Preview Font"
+  "Επιλέξτε Γραμματοσειρά προεπισκόπησης εκκίνησης εντολών"
+
+  "Select Editor Font"
+  "Επιλέξτε Γραμματοσειρά επεξεργαστή"
+
   "Select Settings Sharing Directory"
   "Επιλέξτε ρυθμίσεις κοινής χρήσης καταλόγου"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset el {
 
   "Selected Text"
   "Επιλεγμένο κείμενο"
+
+  "Session"
+  "Συνεδρία"
 
   "Set"
   "Σετ"
@@ -2182,6 +2307,9 @@ msgcat::mcmset el {
   "Time"
   "Ώρα"
 
+  "Unknown"
+  "Άγνωστο"
+
   "Update information panel whenever the sidebar selection changes"
   "Ενημερώστε τον πίνακα πληροφοριών όποτε αλλάζει η επιλογή της πλευρικής μπάρας"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset el {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Έχετε αλλάξει σφαιρικές προτιμήσεις που δεν θα είναι ορατή επειδή είστε επί του παρόντος στο πλαίσιο ένα όνομα περιόδου λειτουργίας."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Έχετε αλλάξει την τρέχουσα περίοδο λειτουργίας του προτιμήσεις, οι οποίες δεν θα εφαρμοστεί καθολικά"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Έχετε αλλάξει τις προτιμήσεις της τρέχουσας περιόδου σύνδεσης, οι οποίες δεν θα εφαρμοστούν σε παγκόσμιο επίπεδο."
 
   "milliseconds"
   "χιλιοστά του δευτερολέπτου"
@@ -2244,11 +2372,17 @@ msgcat::mcmset el {
   "Close Connection"
   "Κλείσιμο σύνδεσης"
 
+  "Connection does not exist"
+  "Η σύνδεση δεν υπάρχει"
+
   "Connection failed"
   "Αποτυχία σύνδεσης"
 
   "Connection passed"
   "Σύνδεση που πέρασε"
+
+  "Connections"
+  "Συνδέσεις"
 
   "Create New Folder"
   "Δημιουργία Νέου Φακέλου"
@@ -2270,6 +2404,9 @@ msgcat::mcmset el {
 
   "Enter Password"
   "Κωδικός πρόσβασης"
+
+  "File System"
+  "Σύστημα κατασκευής:"
 
   "Folder Name"
   "Κατάλογος"
@@ -2349,6 +2486,9 @@ msgcat::mcmset el {
   "Unable to connect to"
   "Δεν είναι δυνατή η σύνδεση στο δίκτυο"
 
+  "Unable to read remote directory contents."
+  "Δεν είναι δυνατή η ανάγνωση απομακρυσμένο κατάλογο περιεχομένων."
+
   "Username"
   "Όνομα χρήστη"
 
@@ -2393,7 +2533,7 @@ msgcat::mcmset el {
   "Αγκύλες σε σχήμα βέλους"
 
   "Backticks"
-  "Backticks"
+  "Βάσεις"
 
   "Block"
   "Μπλοκ"
@@ -2463,9 +2603,6 @@ msgcat::mcmset el {
 
   "Right"
   "Δεξιά"
-
-  "Selected"
-  "Επιλεγμένο"
 
   "Selection Mode Command Help"
   "Επιλογή λειτουργίας εντολή Βοήθεια"
@@ -2808,7 +2945,7 @@ msgcat::mcmset el {
   "Χρώμα φόντου του δείκτη και του δείκτη εισαγωγής χρώματα φόντου."
 
   "Background color of linemap area."
-  "????? ?????? ??? ???????? ????????? ????????."
+  "Χρώμα φόντου της περιοχής γραμμικού πλαισίου."
 
   "Background color of list items when not selected"
   "Χρώμα φόντου των στοιχείων λίστας όταν δεν είναι επιλεγμένο"
@@ -2877,7 +3014,7 @@ msgcat::mcmset el {
   "Χρώμα που χρησιμοποιεί για την επισήμανση κλειστό πτυχώσεις στην υδρορροή αριθμός γραμμής"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "????? ??? ??????????????? ??? ??? ??????? ??? ??????? ??? ??????? ?? ???????????? ??? ??? ??????? ????????."
+  "Χρώμα που χρησιμοποιείται για την κλήρωση της γραμμής που χωρίζει το χαρτονομίσμα από την περιοχή κειμένου."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Χρώμα που χρησιμοποιείται για να επιστήσει την γραμμή πλάτους προειδοποίηση στο ρυθμιστικό μοντάζ (καθώς και η γραμμή που χωρίζει την υδρορροή από το ρυθμιστικό μοντάζ)."
@@ -3103,7 +3240,7 @@ msgcat::mcmset el {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset el {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset el {
 
   "   Show Selected Value"
   "   Εμφάνιση επιλεγμένη τιμή"
+
+  "By"
+  "Από"
 
   "Categories"
   "Κατηγορίες"
@@ -3202,6 +3342,9 @@ msgcat::mcmset el {
   "Save As:"
   "Αποθήκευση ως:"
 
+  "Save error"
+  "Σφάλμα ανάλυσης"
+
   "Save theme changes?"
   "Αποθηκεύστε τις αλλαγές θέμα;"
 
@@ -3238,8 +3381,8 @@ msgcat::mcmset el {
   "Table Search"
   "Πίνακας αναζήτησης"
 
-  "The current theme has unsaved changes"
-  "Το σημερινό θέμα έχει μη αποθηκευμένες αλλαγές"
+  "The current theme has unsaved changes."
+  "Το τρέχον θέμα έχει μη αποθηκευμένες αλλαγές."
 
   "Theme Name"
   "Όνομα θέματος:"
@@ -3249,6 +3392,9 @@ msgcat::mcmset el {
 
   "Two-Color Bitmap"
   "Δύο-χρώμα Bitmap"
+
+  "Unknown color value format"
+  "Άγνωστο χρώμα τιμή μορφή"
 
   "User Directory"
   "Χρήστης Κατάλογος"
@@ -3297,6 +3443,9 @@ msgcat::mcmset el {
 # vim.tcl
 msgcat::mcmset el {
 
+  "COMMAND MODE"
+  "κατάσταση αποδοχής εντολών"
+
   "File format unrecognized"
   "Μη αναγνωρίσιμη μορφή αρχείου"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset el {
   "Folding method unrecognized"
   "Πτυσσόμενα μέθοδος δεν αναγνωρίζεται"
 
+  "INSERT MODE"
+  "шындымаш режим"
+
   "Illegal modelines value"
   "Παράνομη modelines αξία"
+
+  "MULTIMOVE MODE"
+  "ΠΟΛΥΜΕΣΗ ΛΕΙΤΟΥΡΓΙΑ"
 
   "Number width not a number"
   "Αριθμός πλάτος δεν είναι αριθμός"
@@ -3324,13 +3479,22 @@ msgcat::mcmset el {
   "Unrecognized vim option"
   "Επιλογή μη αναγνωρίσιμη vim"
 
+  "VISUAL BLOCK MODE"
+  "ΟΠΤΙΚΗ ΛΕΙΤΟΥΡΓΙΑ BLOCK"
+
+  "VISUAL LINE MODE"
+  "οπτική γραμμή"
+
+  "VISUAL MODE"
+  "Εμφάνιση"
+
 }
 
 # General
 msgcat::mcmset el {
 
   "All"
-  "All"
+  "Όλα"
 
   "Attributes"
   "Χαρακτηριστικά"
@@ -3399,7 +3563,7 @@ msgcat::mcmset el {
   "Όνομα αρχείου:"
 
   "Find"
-  "Find"
+  "Εύρεση"
 
   "Find next occurrence"
   "Βρείτε την επόμενη εμφάνιση"
@@ -3458,6 +3622,9 @@ msgcat::mcmset el {
   "Open"
   "Ανοιχτό"
 
+  "Options"
+  "Eπιλογές"
+
   "Parenthesis"
   "Παρένθεση."
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset el {
   "Rename"
   "Μετονομασία"
 
+  "Run"
+  "ΤΡΕΞΙΜΟ"
+
   "Save"
   "Αποθήκευση"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset el {
 
   "Search"
   "Αναζήτηση"
+
+  "Selected"
+  "Επιλεγμένο"
 
   "Sessions"
   "συνεδρίες"
@@ -3513,7 +3686,7 @@ msgcat::mcmset el {
   "Αποσπάσματα"
 
   "Split View"
-  "Split View"
+  "Διαίρεση προβολής"
 
   "TKE Updater"
   "ΤΚΕ Updater"
@@ -3535,6 +3708,9 @@ msgcat::mcmset el {
 
   "Unfavorite"
   "Μη αγαπημένα"
+
+  "Update"
+  "Ενημέρωση"
 
   "Value"
   "Τιμή"

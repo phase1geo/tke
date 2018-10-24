@@ -14,6 +14,125 @@ msgcat::mcmset es {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset es {
+
+  "Built-In Self Test"
+  "Prueba incorporada (autoprueba)"
+
+  "Decrementing order"
+  "Orden decreciente"
+
+  "Edit Test"
+  "Editar Test"
+
+  "Edit Test File"
+  "Editar Test"
+
+  "FAILED"
+  "FALLIDO"
+
+  "Fail"
+  "Fallo"
+
+  "Fail Count"
+  "Dejar de contar"
+
+  "Failed"
+  "Fallido"
+
+  "Filter"
+  "Filtrar"
+
+  "Incrementing order"
+  "Orden de incremento"
+
+  "Iteration"
+  "2a Iteración"
+
+  "Iteration count"
+  "Visualizaciones"
+
+  "Loop"
+  "Bucle"
+
+  "Loop count"
+  "Loop contar"
+
+  "Loop type"
+  "Tipo de bucle:"
+
+  "New Test"
+  "Nuevo Test"
+
+  "New Test File"
+  "Nuevo Test"
+
+  "New Test Name"
+  "Nuevo Test"
+
+  "Output"
+  "Producción"
+
+  "PASSED"
+  "APROBADO"
+
+  "Pass"
+  "Aprobado"
+
+  "Pass Count"
+  "Adaptación"
+
+  "Passed"
+  "Ha Pasado"
+
+  "RUNNING BIST"
+  "En curso"
+
+  "Random"
+  "Aleatorio"
+
+  "Refresh"
+  "Actualizar"
+
+  "Results"
+  "Results"
+
+  "Run Count"
+  "Ejecutar recuento"
+
+  "Run iterations"
+  "Iteraciones"
+
+  "Run loops"
+  "Vueltas"
+
+  "Running"
+  "En ejecución"
+
+  "Runtime"
+  "Tiempo de ejecución"
+
+  "Selection method"
+  "METODOLOGÍA SELECCIÓN"
+
+  "Setup"
+  "Preparación"
+
+  "Total"
+  "Total"
+
+  "hours"
+  "horas"
+
+  "minutes"
+  "minutos"
+
+  "seconds"
+  "segundos"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset es {
 
@@ -60,9 +179,6 @@ msgcat::mcmset es {
 
   "Enter starting file"
   "Entrar a partir del archivo"
-
-  "Update"
-  "Actualizar"
 
 }
 
@@ -136,7 +252,7 @@ msgcat::mcmset es {
   "Cerrar otras pestañas en panel"
 
   "Close Tab"
-  "Close Tab"
+  "Cerrar la solapa"
 
   "Column"
   "Columna"
@@ -154,7 +270,7 @@ msgcat::mcmset es {
   "el correo electrónico"
 
   "Error"
-  "Error"
+  "Error: archivo no editable"
 
   "Favorited"
   "Los favoritos"
@@ -811,7 +927,7 @@ msgcat::mcmset es {
   "Barra de estado"
 
   "Hide Tab Bar"
-  "Hide Tab Bar"
+  "Ocultar barra de pestañas"
 
   "Hide Tcl Console"
   "Ocultar consola Tcl"
@@ -1258,7 +1374,7 @@ msgcat::mcmset es {
   "Numeración de línea relativa"
 
   "Reload"
-  "Reload"
+  "Volver a cargar"
 
   "Reload all plugins"
   "Volver a cargar complementos"
@@ -1316,9 +1432,6 @@ msgcat::mcmset es {
 
   "Restart"
   "Reiniciar"
-
-  "Run"
-  "Ejecutar"
 
   "Run theme editor"
   "Ejecutar el editor de temas"
@@ -1516,7 +1629,7 @@ msgcat::mcmset es {
   "Guión inteligente"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Ordenar pestañas"
 
   "Sort tabs"
   "Fichas de clase"
@@ -1606,7 +1719,7 @@ msgcat::mcmset es {
   "Archivo unfavorite"
 
   "Unindent"
-  "Unindent"
+  "unindent"
 
   "Unindent selected text"
   "No sangría de texto seleccionado"
@@ -1695,7 +1808,7 @@ msgcat::mcmset es {
   "Otorgar"
 
   "Grant permission?"
-  "Grant permission?"
+  "¿Conceder permiso?"
 
   "Plugin Errors"
   "Errores Plugin"
@@ -1790,7 +1903,7 @@ msgcat::mcmset es {
   "Ancho de vista de ojo de pájaro"
 
   "Buffer"
-  "Buffer"
+  "Amortiguador"
 
   "Choose Color"
   "Elejir color"
@@ -1924,6 +2037,9 @@ msgcat::mcmset es {
   "Extensions"
   "Extensiones"
 
+  "Fonts"
+  "Fuentes"
+
   "Format snippet indentation after insert"
   "Sangría de fragmento de código de formato después de insertar"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset es {
   "Node Aliases"
   "Alias"
 
-  "Options"
-  "Opciones"
-
   "Profiler Options"
   "Opciones de perfilado:"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset es {
   "Search Snippets"
   "Búsqueda de fragmentos"
 
+  "Select Command Launcher Entry Font"
+  "Seleccione la fuente de entrada del iniciador de comandos"
+
+  "Select Command Launcher Preview Font"
+  "Seleccione Command Launcher Preview Font"
+
+  "Select Editor Font"
+  "Seleccione la fuente del editor"
+
   "Select Settings Sharing Directory"
   "Seleccione configuración de compartir directorio"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset es {
 
   "Selected Text"
   "Texto seleccionado"
+
+  "Session"
+  "Charla"
 
   "Set"
   "Conjunto"
@@ -2182,6 +2307,9 @@ msgcat::mcmset es {
   "Time"
   "Tiempo"
 
+  "Unknown"
+  "desconocido"
+
   "Update information panel whenever the sidebar selection changes"
   "Actualizar el panel de información cada vez que cambie la selección de la barra lateral."
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset es {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Han cambiado las preferencias globales que no será visibles porque está actualmente en una sesión con nombre."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Ha cambiado de preferencias de la sesión actual que no se aplica a nivel mundial"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Ha cambiado las preferencias de la sesión actual que no se aplicarán globalmente."
 
   "milliseconds"
   "milisegundos"
@@ -2244,11 +2372,17 @@ msgcat::mcmset es {
   "Close Connection"
   "Cerrar la conexión"
 
+  "Connection does not exist"
+  "la conexión no existe"
+
   "Connection failed"
   "Error de conexión"
 
   "Connection passed"
   "Conexión aprobado"
+
+  "Connections"
+  "Conexiones"
 
   "Create New Folder"
   "Crear nueva carpeta"
@@ -2270,6 +2404,9 @@ msgcat::mcmset es {
 
   "Enter Password"
   "Introducir la contraseña"
+
+  "File System"
+  "Sistema de Archivos"
 
   "Folder Name"
   "Nombre de carpeta:"
@@ -2349,6 +2486,9 @@ msgcat::mcmset es {
   "Unable to connect to"
   "No se puede conectar"
 
+  "Unable to read remote directory contents."
+  "No se pueden leer los contenidos del directorio remoto."
+
   "Username"
   "Nombre de Usuario"
 
@@ -2396,7 +2536,7 @@ msgcat::mcmset es {
   "'acentos abiertos'"
 
   "Block"
-  "Block"
+  "Bloquear"
 
   "Character"
   "Carácter"
@@ -2463,9 +2603,6 @@ msgcat::mcmset es {
 
   "Right"
   "Derecha"
-
-  "Selected"
-  "Seleccionado"
 
   "Selection Mode Command Help"
   "Selección modo comando ayuda"
@@ -3103,7 +3240,7 @@ msgcat::mcmset es {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset es {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset es {
 
   "   Show Selected Value"
   "Mostrar valor seleccionado"
+
+  "By"
+  "Por"
 
   "Categories"
   "Categorías"
@@ -3202,6 +3342,9 @@ msgcat::mcmset es {
   "Save As:"
   "Guardar como:"
 
+  "Save error"
+  "Error al guardar"
+
   "Save theme changes?"
   "Guardar cambios temáticos?"
 
@@ -3238,8 +3381,8 @@ msgcat::mcmset es {
   "Table Search"
   "Búsqueda de tabla"
 
-  "The current theme has unsaved changes"
-  "El tema actual tiene cambios sin guardar"
+  "The current theme has unsaved changes."
+  "El tema actual tiene cambios sin guardar."
 
   "Theme Name"
   "Nombre del Tema"
@@ -3249,6 +3392,9 @@ msgcat::mcmset es {
 
   "Two-Color Bitmap"
   "Bitmap de dos colores"
+
+  "Unknown color value format"
+  "Formato de valor de color desconocido"
 
   "User Directory"
   "Directorio de usuarios"
@@ -3297,6 +3443,9 @@ msgcat::mcmset es {
 # vim.tcl
 msgcat::mcmset es {
 
+  "COMMAND MODE"
+  "modo de instrucción"
+
   "File format unrecognized"
   "Formato de archivo desconocido"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset es {
   "Folding method unrecognized"
   "Método desconocido plegable"
 
+  "INSERT MODE"
+  "modo de inserción"
+
   "Illegal modelines value"
   "Valor de modos ilegales"
+
+  "MULTIMOVE MODE"
+  "MODO MULTIMOVE"
 
   "Number width not a number"
   "Número ancho no es un número"
@@ -3323,6 +3478,15 @@ msgcat::mcmset es {
 
   "Unrecognized vim option"
   "Opción no reconocida vim"
+
+  "VISUAL BLOCK MODE"
+  "MODO DE BLOQUE VISUAL"
+
+  "VISUAL LINE MODE"
+  "línea visual"
+
+  "VISUAL MODE"
+  "Modo Visual"
 
 }
 
@@ -3458,6 +3622,9 @@ msgcat::mcmset es {
   "Open"
   "Abierto"
 
+  "Options"
+  "Opciones"
+
   "Parenthesis"
   "Paréntesis"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset es {
   "Rename"
   "Cambiar nombre"
 
+  "Run"
+  "Ejecutar"
+
   "Save"
   "Guardar"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset es {
 
   "Search"
   "Buscar"
+
+  "Selected"
+  "Seleccionado"
 
   "Sessions"
   "Sesiones"
@@ -3534,7 +3707,10 @@ msgcat::mcmset es {
   "No se puede escribir"
 
   "Unfavorite"
-  "Unfavorite"
+  "Quitar de mis favoritas"
+
+  "Update"
+  "Actualizar"
 
   "Value"
   "Valor"

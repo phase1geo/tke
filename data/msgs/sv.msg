@@ -14,6 +14,125 @@ msgcat::mcmset sv {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset sv {
+
+  "Built-In Self Test"
+  "Inbyggt självtest"
+
+  "Decrementing order"
+  "Decrementing order"
+
+  "Edit Test"
+  "Redigera test"
+
+  "Edit Test File"
+  "testningsfil"
+
+  "FAILED"
+  "MISSLYCKADES"
+
+  "Fail"
+  "Misslyckas"
+
+  "Fail Count"
+  "antal"
+
+  "Failed"
+  "Misslyckad"
+
+  "Filter"
+  "Filtrera"
+
+  "Incrementing order"
+  "Ökande ordning"
+
+  "Iteration"
+  "Iteration"
+
+  "Iteration count"
+  "Iterationsräknare"
+
+  "Loop"
+  "Loop"
+
+  "Loop count"
+  "Antal omgångar"
+
+  "Loop type"
+  "Loop typ"
+
+  "New Test"
+  "Lägg Nytt test"
+
+  "New Test File"
+  "testningsfil"
+
+  "New Test Name"
+  "Nytt testnamn"
+
+  "Output"
+  "Utgång"
+
+  "PASSED"
+  "LYCKAT"
+
+  "Pass"
+  "Godkänd"
+
+  "Pass Count"
+  "Genomflöde"
+
+  "Passed"
+  "Godkänt"
+
+  "RUNNING BIST"
+  "Pågår"
+
+  "Random"
+  "Slumpmässig"
+
+  "Refresh"
+  "Uppdatera"
+
+  "Results"
+  "Resultat"
+
+  "Run Count"
+  "antal"
+
+  "Run iterations"
+  "Kör iterationer"
+
+  "Run loops"
+  "Slingor"
+
+  "Running"
+  "Pågår"
+
+  "Runtime"
+  "Speltid"
+
+  "Selection method"
+  "Urvalsmetod"
+
+  "Setup"
+  "Inställningar"
+
+  "Total"
+  "% count % för totala annonser."
+
+  "hours"
+  "timmar"
+
+  "minutes"
+  "minuter"
+
+  "seconds"
+  "sek"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset sv {
 
@@ -60,9 +179,6 @@ msgcat::mcmset sv {
 
   "Enter starting file"
   "Ange start fil"
-
-  "Update"
-  "Uppdatera"
 
 }
 
@@ -142,7 +258,7 @@ msgcat::mcmset sv {
   "Kolumn"
 
   "Copyright"
-  "Copyright"
+  "Upphovsrätt"
 
   "Credits"
   "Kediter"
@@ -247,7 +363,7 @@ msgcat::mcmset sv {
   "Bilder som används i fliken som kommer att visas när musen kommer in i området nära stängning"
 
   "In"
-  "In"
+  "I"
 
   "License"
   "Licens"
@@ -754,7 +870,7 @@ msgcat::mcmset sv {
   "Gå till föregående redigeringspunkt"
 
   "Goto Last Tab"
-  "Goto Last Tab"
+  "Gå till senaste fliken"
 
   "Goto Next Tab"
   "Gå till nästa flik"
@@ -811,7 +927,7 @@ msgcat::mcmset sv {
   "Dölj statusrad"
 
   "Hide Tab Bar"
-  "Hide Tab Bar"
+  "Dölj Tabell"
 
   "Hide Tcl Console"
   "Dölja Tcl-konsolen"
@@ -1003,7 +1119,7 @@ msgcat::mcmset sv {
   "Länk"
 
   "Lock"
-  "Lock"
+  "Lås"
 
   "Lock file"
   "Låsfil"
@@ -1317,9 +1433,6 @@ msgcat::mcmset sv {
   "Restart"
   "Omstart"
 
-  "Run"
-  "Körs"
-
   "Run theme editor"
   "Kör theme editor"
 
@@ -1606,7 +1719,7 @@ msgcat::mcmset sv {
   "Unfavorite fil"
 
   "Unindent"
-  "Unindent"
+  "unindent"
 
   "Unindent selected text"
   "Ångra indrag av markerad text"
@@ -1639,7 +1752,7 @@ msgcat::mcmset sv {
   "Stora bokstäver"
 
   "User Guide"
-  "User Guide"
+  "Användarguide"
 
   "View"
   "Visa"
@@ -1924,6 +2037,9 @@ msgcat::mcmset sv {
   "Extensions"
   "Tillägg"
 
+  "Fonts"
+  "Typsnitt"
+
   "Format snippet indentation after insert"
   "Formatet snutt indrag efter infoga"
 
@@ -1943,7 +2059,7 @@ msgcat::mcmset sv {
   "Gömmer sig"
 
   "Host"
-  "Host"
+  "Värd"
 
   "Imported"
   "Importerad"
@@ -2008,9 +2124,6 @@ msgcat::mcmset sv {
   "Node Aliases"
   "Alias"
 
-  "Options"
-  "Alternativ"
-
   "Profiler Options"
   "Alternativ för profiler"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset sv {
   "Search Snippets"
   "Sök snuttar"
 
+  "Select Command Launcher Entry Font"
+  "Välj Kommandotillträdare"
+
+  "Select Command Launcher Preview Font"
+  "Välj Command Launcher Preview Font"
+
+  "Select Editor Font"
+  "Välj redigeringsfonter"
+
   "Select Settings Sharing Directory"
   "Välj inställningar delar katalog"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset sv {
 
   "Selected Text"
   "Markerad text"
+
+  "Session"
+  "Session"
 
   "Set"
   "Ange"
@@ -2182,6 +2307,9 @@ msgcat::mcmset sv {
   "Time"
   "Tid"
 
+  "Unknown"
+  "Okänt"
+
   "Update information panel whenever the sidebar selection changes"
   "Uppdatera informationspanelen när valet av sidofältet ändras"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset sv {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Du har ändrat globala inställningar som inte är synliga eftersom du är för närvarande i en namngiven session."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Du har ändrat den aktuella sessionens preferenser som inte kommer att tillämpas globalt"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Du har ändrat den aktuella sessionens inställningar som inte kommer att tillämpas globalt."
 
   "milliseconds"
   "Millisekund"
@@ -2244,11 +2372,17 @@ msgcat::mcmset sv {
   "Close Connection"
   "Stäng förbindelsen"
 
+  "Connection does not exist"
+  "anslutning saknas"
+
   "Connection failed"
   "Uppkoppling avbruten"
 
   "Connection passed"
   "Anslutning som passerade"
+
+  "Connections"
+  "Anslutningar"
 
   "Create New Folder"
   "Skapa ny katalog"
@@ -2270,6 +2404,9 @@ msgcat::mcmset sv {
 
   "Enter Password"
   "ange lösenord"
+
+  "File System"
+  "i filsystem"
 
   "Folder Name"
   "Mappnamn"
@@ -2349,6 +2486,9 @@ msgcat::mcmset sv {
   "Unable to connect to"
   "Det går inte att ansluta"
 
+  "Unable to read remote directory contents."
+  "Det går inte att läsa innehållet på fjärrkatalog."
+
   "Username"
   "Användarnamn"
 
@@ -2393,10 +2533,10 @@ msgcat::mcmset sv {
   "Klamrar"
 
   "Backticks"
-  "Backticks"
+  "baklängescitationstecken"
 
   "Block"
-  "Block"
+  "Puff"
 
   "Character"
   "Teckenattribut"
@@ -2464,9 +2604,6 @@ msgcat::mcmset sv {
   "Right"
   "Höger"
 
-  "Selected"
-  "Valda"
-
   "Selection Mode Command Help"
   "Val av Mode kommandot Help"
 
@@ -2510,7 +2647,7 @@ msgcat::mcmset sv {
   "Upp"
 
   "Word"
-  "Word"
+  "Ord"
 
   "matching instances"
   "matchande instanser"
@@ -3103,7 +3240,7 @@ msgcat::mcmset sv {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset sv {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset sv {
 
   "   Show Selected Value"
   "Visa valt värde"
+
+  "By"
+  "Av"
 
   "Categories"
   "Nyhetsarkiv"
@@ -3125,7 +3265,7 @@ msgcat::mcmset sv {
   "Skapad av"
 
   "Custom Directory"
-  "Custom Directory"
+  "Anpassad mapp"
 
   "Custom..."
   "Anpassad..."
@@ -3202,6 +3342,9 @@ msgcat::mcmset sv {
   "Save As:"
   "Spara som:"
 
+  "Save error"
+  "Fel vid spara"
+
   "Save theme changes?"
   "Spara tema ändringar?"
 
@@ -3224,7 +3367,7 @@ msgcat::mcmset sv {
   "Visa valt värde"
 
   "Swatch"
-  "Swatch"
+  "bevarande av Siles våtmarker"
 
   "Swatch Colors"
   "Swatch Färger"
@@ -3238,8 +3381,8 @@ msgcat::mcmset sv {
   "Table Search"
   "Tabell Sök"
 
-  "The current theme has unsaved changes"
-  "Det aktuella temat har osparade ändringar"
+  "The current theme has unsaved changes."
+  "Det aktuella temat har olagrade ändringar."
 
   "Theme Name"
   "Temanamn"
@@ -3249,6 +3392,9 @@ msgcat::mcmset sv {
 
   "Two-Color Bitmap"
   "Två-Color Bitmap"
+
+  "Unknown color value format"
+  "Okänd färgvärdesformat"
 
   "User Directory"
   "Användarkatalog"
@@ -3297,6 +3443,9 @@ msgcat::mcmset sv {
 # vim.tcl
 msgcat::mcmset sv {
 
+  "COMMAND MODE"
+  "kommando"
+
   "File format unrecognized"
   "Okänt filformat"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset sv {
   "Folding method unrecognized"
   "Vikning metod okänd"
 
+  "INSERT MODE"
+  "Infogningsläge"
+
   "Illegal modelines value"
   "Olagliga lägesrader värde"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVE MODE"
 
   "Number width not a number"
   "Nummer bredd inte ett antal"
@@ -3323,6 +3478,15 @@ msgcat::mcmset sv {
 
   "Unrecognized vim option"
   "Okänd vim alternativet"
+
+  "VISUAL BLOCK MODE"
+  "VISUAL BLOCK MODE"
+
+  "VISUAL LINE MODE"
+  "VISUAL LINE MODE"
+
+  "VISUAL MODE"
+  "visuellt objekt"
 
 }
 
@@ -3393,7 +3557,7 @@ msgcat::mcmset sv {
   "Gunstling"
 
   "File"
-  "File"
+  "Fil"
 
   "File Name:"
   "Filnamn:"
@@ -3426,7 +3590,7 @@ msgcat::mcmset sv {
   "Språkdokumentation"
 
   "Launcher"
-  "Launcher"
+  "Startbild"
 
   "Line"
   "Linje"
@@ -3458,6 +3622,9 @@ msgcat::mcmset sv {
   "Open"
   "Öppen"
 
+  "Options"
+  "Alternativ"
+
   "Parenthesis"
   "Klammer"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset sv {
   "Rename"
   "Byt namn"
 
+  "Run"
+  "Körs"
+
   "Save"
   "Spara"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset sv {
 
   "Search"
   "Sök"
+
+  "Selected"
+  "Valda"
 
   "Sessions"
   "Sessioner"
@@ -3535,6 +3708,9 @@ msgcat::mcmset sv {
 
   "Unfavorite"
   "Bort från favoriter"
+
+  "Update"
+  "Uppdatera"
 
   "Value"
   "Värde"
