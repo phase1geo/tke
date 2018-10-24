@@ -14,6 +14,125 @@ msgcat::mcmset da {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset da {
+
+  "Built-In Self Test"
+  "Indbygget selvtest"
+
+  "Decrementing order"
+  "Decrementing ordre"
+
+  "Edit Test"
+  "Redigér test"
+
+  "Edit Test File"
+  "Rediger testfil"
+
+  "FAILED"
+  "FEJL"
+
+  "Fail"
+  "Fejl"
+
+  "Fail Count"
+  "Antal"
+
+  "Failed"
+  "Mislykket"
+
+  "Filter"
+  "Filter"
+
+  "Incrementing order"
+  "Stigende rækkefølge"
+
+  "Iteration"
+  "Iteration"
+
+  "Iteration count"
+  "Iteration count"
+
+  "Loop"
+  "Løkke"
+
+  "Loop count"
+  "Løkke count"
+
+  "Loop type"
+  "Løkke type"
+
+  "New Test"
+  "Ny Test"
+
+  "New Test File"
+  "Ny testfil"
+
+  "New Test Name"
+  "Testnavn"
+
+  "Output"
+  "Udgang"
+
+  "PASSED"
+  "GODKENDT"
+
+  "Pass"
+  "Årskort"
+
+  "Pass Count"
+  "Antal"
+
+  "Passed"
+  "Bestået"
+
+  "RUNNING BIST"
+  "Løbende"
+
+  "Random"
+  "Tilfældig"
+
+  "Refresh"
+  "Opdater"
+
+  "Results"
+  "Resultater"
+
+  "Run Count"
+  "Antal"
+
+  "Run iterations"
+  "Kør iterationer"
+
+  "Run loops"
+  "Gentagelse"
+
+  "Running"
+  "Løbende"
+
+  "Runtime"
+  "Runtime"
+
+  "Selection method"
+  "Udvælgelsesmetode"
+
+  "Setup"
+  "Indstillinger"
+
+  "Total"
+  "Total"
+
+  "hours"
+  "timer"
+
+  "minutes"
+  "minutter"
+
+  "seconds"
+  "sekunder"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset da {
 
@@ -61,9 +180,6 @@ msgcat::mcmset da {
   "Enter starting file"
   "Indtast start fil"
 
-  "Update"
-  "Opdater"
-
 }
 
 # edit.tcl
@@ -79,7 +195,7 @@ msgcat::mcmset da {
   "Billede URL"
 
   "Link URL"
-  "Link URL"
+  "Link-URL"
 
 }
 
@@ -265,7 +381,7 @@ msgcat::mcmset da {
   "Ingen skrivetilladelser.  Brug '!' at tvinge skrive."
 
   "Release Type"
-  "Release Type"
+  "Udgave"
 
   "Replace"
   "Erstat"
@@ -277,7 +393,7 @@ msgcat::mcmset da {
   "Starttal"
 
   "Tcl/Tk Version"
-  "Tcl/Tk Version"
+  "Tcl / Tk Version"
 
   "Total Characters"
   "Samlede karakterer"
@@ -754,10 +870,10 @@ msgcat::mcmset da {
   "Gå til forrige punkt, Rediger"
 
   "Goto Last Tab"
-  "Goto Last Tab"
+  "Gå til sidste faneblad"
 
   "Goto Next Tab"
-  "Goto Next Tab"
+  "Næste fane"
 
   "Goto Other Pane"
   "Goto Anden Pane"
@@ -1317,9 +1433,6 @@ msgcat::mcmset da {
   "Restart"
   "Genstart"
 
-  "Run"
-  "Kør"
-
   "Run theme editor"
   "Køre tema editor"
 
@@ -1426,13 +1539,13 @@ msgcat::mcmset da {
   "Send fejlrapport."
 
   "Send feedback"
-  "Send feedback"
+  "Send Feedback"
 
   "Set Syntax"
   "Set Syntaks"
 
   "Set Theme"
-  "Set Theme"
+  "Tema muligheder for lejlighed wp"
 
   "Set current file line ending to CR for Classic Mac"
   "Angive aktuelle fil linje slutter til CR for klassiske Mac"
@@ -1516,16 +1629,16 @@ msgcat::mcmset da {
   "Smart led"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Sorter faner"
 
   "Sort tabs"
   "Sortere faneblade"
 
   "Split/Join Tag"
-  "Split/Join Tag"
+  "Split / Join Tag"
 
   "Split/Join tag"
-  "Split/Join tag"
+  "Split / Join tag"
 
   "Start Profiling"
   "Start Profilering"
@@ -1558,7 +1671,7 @@ msgcat::mcmset da {
   "Tab"
 
   "Tips & Tricks"
-  "Tips & Tricks"
+  "Tips & tricks"
 
   "Title Case"
   "Titel versalisering"
@@ -1739,7 +1852,7 @@ msgcat::mcmset da {
   "Ekstra mellemrum mellem linjer"
 
   "Addons"
-  "Addons"
+  "Tilføjelser"
 
   "Alias"
   "Kaldenavn (alias)"
@@ -1775,7 +1888,7 @@ msgcat::mcmset da {
   "Automatisk indstille den aktuelle arbejdsmappe til mappen aktuelle faner"
 
   "Backtick"
-  "Backtick"
+  "backtick"
 
   "Base Directory"
   "Base Register"
@@ -1924,6 +2037,9 @@ msgcat::mcmset da {
   "Extensions"
   "Udvidelser"
 
+  "Fonts"
+  "Skrifttyper"
+
   "Format snippet indentation after insert"
   "Format snippet indrykning efter Indsæt"
 
@@ -2003,13 +2119,10 @@ msgcat::mcmset da {
   "Menuen bindinger"
 
   "Mounts"
-  "Mounts"
+  "·         monteringsdele."
 
   "Node Aliases"
   "Node aliaser"
-
-  "Options"
-  "Indstillinger"
 
   "Profiler Options"
   "Profiler indstillinger"
@@ -2062,6 +2175,15 @@ msgcat::mcmset da {
   "Search Snippets"
   "Søg Snippets"
 
+  "Select Command Launcher Entry Font"
+  "Vælg Command Launcher Entry Skrifttype"
+
+  "Select Command Launcher Preview Font"
+  "Vælg Command Launcher Preview Font"
+
+  "Select Editor Font"
+  "Vælg editorens skrifttype"
+
   "Select Settings Sharing Directory"
   "Vælg indstillinger for deling Register"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset da {
 
   "Selected Text"
   "Markeret tekst"
+
+  "Session"
+  "Session"
 
   "Set"
   "Sæt af varer"
@@ -2182,6 +2307,9 @@ msgcat::mcmset da {
   "Time"
   "Tid"
 
+  "Unknown"
+  "Ukendt"
+
   "Update information panel whenever the sidebar selection changes"
   "Opdater informationspanel, når sidebarvalget ændres"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset da {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Du har ændret globale indstillinger, der ikke vil være synlig, fordi du er i øjeblikket i en navngivet session."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Du har ændret den aktuelle session præferencer, som ikke bliver anvendt globalt"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Du har ændret den aktuelle sessions præferencer, som ikke bliver anvendt globalt."
 
   "milliseconds"
   "Millisekund"
@@ -2244,11 +2372,17 @@ msgcat::mcmset da {
   "Close Connection"
   "Luk forbindelse"
 
+  "Connection does not exist"
+  "Forbindelse eksisterer ikke"
+
   "Connection failed"
   "Forbindelsen blev afbrudt."
 
   "Connection passed"
   "Forbindelse gået"
+
+  "Connections"
+  "Forbindelser"
 
   "Create New Folder"
   "Opret ny mappe"
@@ -2270,6 +2404,9 @@ msgcat::mcmset da {
 
   "Enter Password"
   "Adgangskode"
+
+  "File System"
+  "Filsystem"
 
   "Folder Name"
   "Mappe Navn"
@@ -2329,7 +2466,7 @@ msgcat::mcmset da {
   "Port"
 
   "Remote Directory"
-  "Remote Directory"
+  "Ekstern NFS- mappe"
 
   "Rename Group"
   "Omdøb gruppe"
@@ -2347,7 +2484,10 @@ msgcat::mcmset da {
   "Type"
 
   "Unable to connect to"
-  "Unable to connect to"
+  "Vi kan forbinde til databasen"
+
+  "Unable to read remote directory contents."
+  "Kan ikke læse fjernbibliotekets indhold."
 
   "Username"
   "Brugernavn"
@@ -2393,7 +2533,7 @@ msgcat::mcmset da {
   "Konsoller"
 
   "Backticks"
-  "Backticks"
+  "backticks"
 
   "Block"
   "Bloker"
@@ -2463,9 +2603,6 @@ msgcat::mcmset da {
 
   "Right"
   "Højre"
-
-  "Selected"
-  "Valgt"
 
   "Selection Mode Command Help"
   "Klik og trÃ¦k for at placere tekst i en bestemt retning."
@@ -2645,7 +2782,7 @@ msgcat::mcmset da {
   "Fjern fra Sidebar"
 
   "Show"
-  "Show"
+  "Vis"
 
   "Show Difference"
   "Vis forskellen"
@@ -2712,7 +2849,7 @@ msgcat::mcmset da {
   "Indstillingsmuligheder"
 
   "Setup Complete"
-  "Setup Complete"
+  "Opsætningen er færdig!"
 
   "Share"
   "Del"
@@ -3051,7 +3188,7 @@ msgcat::mcmset da {
   "Sidebar options"
 
   "Sidebar Scrollbar Options"
-  "Sidebar Scrollbar Options"
+  "Sidebjælke Scrollbar Options"
 
   "Specifies background color of command launcher entry and list"
   "Angiver baggrundsfarven af kommandoen launcher post og liste"
@@ -3103,7 +3240,7 @@ msgcat::mcmset da {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset da {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset da {
 
   "   Show Selected Value"
   "Valgt værdi"
+
+  "By"
+  "Af"
 
   "Categories"
   "Bólkur"
@@ -3161,7 +3301,7 @@ msgcat::mcmset da {
   "GIF Billeder"
 
   "Import"
-  "Import"
+  "Et klik demo import"
 
   "Import BMP Data"
   "Import BMP data"
@@ -3202,6 +3342,9 @@ msgcat::mcmset da {
   "Save As:"
   "Gem som"
 
+  "Save error"
+  "Fejl ved at gemme"
+
   "Save theme changes?"
   "Gem tema ændringer?"
 
@@ -3238,8 +3381,8 @@ msgcat::mcmset da {
   "Table Search"
   "Tabel søgning"
 
-  "The current theme has unsaved changes"
-  "Den aktuelle tema har ikke-gemte ændringer"
+  "The current theme has unsaved changes."
+  "Det aktuelle tema har ikke gemte ændringer."
 
   "Theme Name"
   "Temanavn"
@@ -3250,8 +3393,11 @@ msgcat::mcmset da {
   "Two-Color Bitmap"
   "To-Color bitmap"
 
+  "Unknown color value format"
+  "Ukendt farveværdiformat"
+
   "User Directory"
-  "User Directory"
+  "Brugers CSS-filer"
 
   "Value: "
   "Værdi:"
@@ -3297,6 +3443,9 @@ msgcat::mcmset da {
 # vim.tcl
 msgcat::mcmset da {
 
+  "COMMAND MODE"
+  "kommandomode"
+
   "File format unrecognized"
   "Filformatet blev ikke genkendt"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset da {
   "Folding method unrecognized"
   "Folde metode blev ikke genkendt"
 
+  "INSERT MODE"
+  "indsættetilstand"
+
   "Illegal modelines value"
   "Ulovlig modelines værdi"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVE MODE"
 
   "Number width not a number"
   "Antal bredde ikke et nummer"
@@ -3323,6 +3478,15 @@ msgcat::mcmset da {
 
   "Unrecognized vim option"
   "Ukendt vim mulighed"
+
+  "VISUAL BLOCK MODE"
+  "VISUAL BLOCK MODE"
+
+  "VISUAL LINE MODE"
+  "bliklinje"
+
+  "VISUAL MODE"
+  "Visuel undersøgelse"
 
 }
 
@@ -3426,7 +3590,7 @@ msgcat::mcmset da {
   "Sprog dokumentation"
 
   "Launcher"
-  "Launcher"
+  "løfteraket"
 
   "Line"
   "Linje"
@@ -3458,6 +3622,9 @@ msgcat::mcmset da {
   "Open"
   "Åben"
 
+  "Options"
+  "Indstillinger"
+
   "Parenthesis"
   "Parentes"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset da {
   "Rename"
   "Omdøb"
 
+  "Run"
+  "Kør"
+
   "Save"
   "Gem"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset da {
 
   "Search"
   "Søg Nu"
+
+  "Selected"
+  "Valgt"
 
   "Sessions"
   "Sessioner"
@@ -3507,10 +3680,10 @@ msgcat::mcmset da {
   "Vis tab-linje"
 
   "Snippet"
-  "Snippet"
+  "Stump"
 
   "Snippets"
-  "Snippets"
+  "Kodestykker"
 
   "Split View"
   "Opdel visning"
@@ -3534,7 +3707,10 @@ msgcat::mcmset da {
   "Der kan ikke skrives"
 
   "Unfavorite"
-  "Unfavorite"
+  "Fjern favorit"
+
+  "Update"
+  "Opdater"
 
   "Value"
   "Værdi"

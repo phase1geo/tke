@@ -14,6 +14,125 @@ msgcat::mcmset ja {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset ja {
+
+  "Built-In Self Test"
+  "ビルトインセルフテスト"
+
+  "Decrementing order"
+  "注文の減少"
+
+  "Edit Test"
+  "テストの編集"
+
+  "Edit Test File"
+  "テストの編集"
+
+  "FAILED"
+  "失敗"
+
+  "Fail"
+  "失敗"
+
+  "Fail Count"
+  "カウント"
+
+  "Failed"
+  "失敗"
+
+  "Filter"
+  "フィルター"
+
+  "Incrementing order"
+  "昇順"
+
+  "Iteration"
+  "繰り返し数"
+
+  "Iteration count"
+  "反復回数"
+
+  "Loop"
+  "スライドを停止"
+
+  "Loop count"
+  "ループ数"
+
+  "Loop type"
+  "ループタイプ"
+
+  "New Test"
+  "新しいテストを追加します。"
+
+  "New Test File"
+  "新しいテストを追加します。"
+
+  "New Test Name"
+  "新しいテストを追加します。"
+
+  "Output"
+  "出力"
+
+  "PASSED"
+  "成功"
+
+  "Pass"
+  "申し訳ありませんが、テストに合格しませんでした"
+
+  "Pass Count"
+  "ひととおり実行"
+
+  "Passed"
+  "空のフィールドは子サイトに渡されません。"
+
+  "RUNNING BIST"
+  "実行中"
+
+  "Random"
+  "ランダム"
+
+  "Refresh"
+  "更新"
+
+  "Results"
+  "結果"
+
+  "Run Count"
+  "カウント"
+
+  "Run iterations"
+  "検証の反復回数 (Iteration)"
+
+  "Run loops"
+  "ループを実行する"
+
+  "Running"
+  "実行中"
+
+  "Runtime"
+  "ランタイム"
+
+  "Selection method"
+  "選択方法"
+
+  "Setup"
+  "設定"
+
+  "Total"
+  "合計"
+
+  "hours"
+  "時"
+
+  "minutes"
+  "分"
+
+  "seconds"
+  "秒"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset ja {
 
@@ -60,9 +179,6 @@ msgcat::mcmset ja {
 
   "Enter starting file"
   "開始ファイルを入力してください。"
-
-  "Update"
-  "の編集"
 
 }
 
@@ -784,7 +900,7 @@ msgcat::mcmset ja {
   "後藤の前のタブ"
 
   "Header"
-  "Header"
+  "ヘッダー"
 
   "Help"
   "ヘルプ"
@@ -1317,9 +1433,6 @@ msgcat::mcmset ja {
   "Restart"
   "再試行"
 
-  "Run"
-  "クリックして"
-
   "Run theme editor"
   "テーマエディターを実行します。"
 
@@ -1742,7 +1855,7 @@ msgcat::mcmset ja {
   "アドオン"
 
   "Alias"
-  "Alias"
+  "别号"
 
   "Allow scrolling in tab bar"
   "タブ ・ バーでスクロール可能します。"
@@ -1924,6 +2037,9 @@ msgcat::mcmset ja {
   "Extensions"
   "追加エクステンション"
 
+  "Fonts"
+  "フォント"
+
   "Format snippet indentation after insert"
   "形式スニペット インデント挿入後"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset ja {
   "Node Aliases"
   "仮名"
 
-  "Options"
-  "オプション"
-
   "Profiler Options"
   "「Profiler オプション"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset ja {
   "Search Snippets"
   "検索のスニペット"
 
+  "Select Command Launcher Entry Font"
+  "コマンドランチャーの選択フォントを選択"
+
+  "Select Command Launcher Preview Font"
+  "コマンドランチャーのプレビューフォントを選択"
+
+  "Select Editor Font"
+  "エディタのフォントを選択"
+
   "Select Settings Sharing Directory"
   "ディレクトリの共有の設定を選択します。"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset ja {
 
   "Selected Text"
   "選択したテキスト"
+
+  "Session"
+  "セッション"
 
   "Set"
   "セット"
@@ -2182,6 +2307,9 @@ msgcat::mcmset ja {
   "Time"
   "時間"
 
+  "Unknown"
+  "不明"
+
   "Update information panel whenever the sidebar selection changes"
   "サイドバーの選択が変わるたびに情報パネルを更新する"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset ja {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "名前付きセッション内の現在、あなたは表示されません、グローバル設定を変更しました。"
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "グローバルに適用されません、現在のセッションの設定を変更しました。"
+  "You have changed the current session's preferences which will not be applied globally."
+  "グローバルに適用されない現在のセッションの設定を変更しました。"
 
   "milliseconds"
   "ミリ秒"
@@ -2244,11 +2372,17 @@ msgcat::mcmset ja {
   "Close Connection"
   "接続を閉じる"
 
+  "Connection does not exist"
+  "接続が存在しません"
+
   "Connection failed"
   "連携に失敗しました"
 
   "Connection passed"
   "渡された接続"
+
+  "Connections"
+  "接続"
 
   "Create New Folder"
   "新しいフォルダの作成"
@@ -2270,6 +2404,9 @@ msgcat::mcmset ja {
 
   "Enter Password"
   "パスワードの入力"
+
+  "File System"
+  "ファイルシステム"
 
   "Folder Name"
   "フォルダー名"
@@ -2349,11 +2486,14 @@ msgcat::mcmset ja {
   "Unable to connect to"
   "連携できません"
 
+  "Unable to read remote directory contents."
+  "リモートディレクトリの内容を読み取ることができません。"
+
   "Username"
   "ユーザーネーム"
 
   "server"
-  "server"
+  "サーバー"
 
 }
 
@@ -2463,9 +2603,6 @@ msgcat::mcmset ja {
 
   "Right"
   "右向き"
-
-  "Selected"
-  "選択した画像はありません。"
 
   "Selection Mode Command Help"
   "選択モード コマンドのヘルプ"
@@ -2808,7 +2945,7 @@ msgcat::mcmset ja {
   "挿入カーソルと背景マーカ色の背景色です。"
 
   "Background color of linemap area."
-  "?????????????"
+  "ラインマップ領域の背景色。"
 
   "Background color of list items when not selected"
   "選択されていない場合、リスト アイテムの背景色"
@@ -2877,7 +3014,7 @@ msgcat::mcmset ja {
   "行番号余白で閉じた襞を強調表示に使用する色"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "???????????????????????????????????"
+  "ラインマップをテキスト領域から分離する線を描画するために使用される色。"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "色は、編集バッファに警告幅ライン（並びに編集バッファから樋を分離線）を描画するために使用されます。"
@@ -3103,7 +3240,7 @@ msgcat::mcmset ja {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset ja {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset ja {
 
   "   Show Selected Value"
   "表示選択した値"
+
+  "By"
+  "によって"
 
   "Categories"
   "カテゴリー"
@@ -3202,6 +3342,9 @@ msgcat::mcmset ja {
   "Save As:"
   "保存する："
 
+  "Save error"
+  "保存エラー"
+
   "Save theme changes?"
   "テーマの変更を保存しますか？"
 
@@ -3238,8 +3381,8 @@ msgcat::mcmset ja {
   "Table Search"
   "テーブル検索"
 
-  "The current theme has unsaved changes"
-  "現在のテーマは保存されていない変更があります"
+  "The current theme has unsaved changes."
+  "現在のテーマに変更が保存されていません。"
 
   "Theme Name"
   "テーマ名"
@@ -3249,6 +3392,9 @@ msgcat::mcmset ja {
 
   "Two-Color Bitmap"
   "二つの色のビットマップ"
+
+  "Unknown color value format"
+  "不明な色の値の形式"
 
   "User Directory"
   "ユーザーのディレクトリ"
@@ -3297,6 +3443,9 @@ msgcat::mcmset ja {
 # vim.tcl
 msgcat::mcmset ja {
 
+  "COMMAND MODE"
+  "コマンド"
+
   "File format unrecognized"
   "ファイル形式を認識できません。"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset ja {
   "Folding method unrecognized"
   "折り畳み方法が認識されていません。"
 
+  "INSERT MODE"
+  "挿入モード"
+
   "Illegal modelines value"
   "違法なモードライン値"
+
+  "MULTIMOVE MODE"
+  "マルチモード"
 
   "Number width not a number"
   "番号ではなく幅を数します。"
@@ -3323,6 +3478,15 @@ msgcat::mcmset ja {
 
   "Unrecognized vim option"
   "認識されない vim のオプション"
+
+  "VISUAL BLOCK MODE"
+  "ビジュアルブロックモード"
+
+  "VISUAL LINE MODE"
+  "ビジュアルラインモード"
+
+  "VISUAL MODE"
+  "ビジュアル モード"
 
 }
 
@@ -3458,6 +3622,9 @@ msgcat::mcmset ja {
   "Open"
   "オープン"
 
+  "Options"
+  "オプション"
+
   "Parenthesis"
   "括弧"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset ja {
   "Rename"
   "名前の変更"
 
+  "Run"
+  "クリックして"
+
   "Save"
   "保存"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset ja {
 
   "Search"
   "検索"
+
+  "Selected"
+  "選択した画像はありません。"
 
   "Sessions"
   "セッション"
@@ -3535,6 +3708,9 @@ msgcat::mcmset ja {
 
   "Unfavorite"
   "気に入らない"
+
+  "Update"
+  "の編集"
 
   "Value"
   "明度"

@@ -14,6 +14,125 @@ msgcat::mcmset nl {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset nl {
+
+  "Built-In Self Test"
+  "Ingebouwde zelftest"
+
+  "Decrementing order"
+  "Decrementing order"
+
+  "Edit Test"
+  "Test bewerken"
+
+  "Edit Test File"
+  "testbestand"
+
+  "FAILED"
+  "MISLUKT"
+
+  "Fail"
+  "Gezakt"
+
+  "Fail Count"
+  "teller"
+
+  "Failed"
+  "Mislukt"
+
+  "Filter"
+  "Filter"
+
+  "Incrementing order"
+  "Incrementing order"
+
+  "Iteration"
+  "Iteratie 2"
+
+  "Iteration count"
+  "Iteratietelling"
+
+  "Loop"
+  "Lus"
+
+  "Loop count"
+  "Aantal keren doorlopen"
+
+  "Loop type"
+  "Lustype"
+
+  "New Test"
+  "Nieuwe taakNew"
+
+  "New Test File"
+  "testbestand"
+
+  "New Test Name"
+  "Nederlands"
+
+  "Output"
+  "Uitgang"
+
+  "PASSED"
+  "PASSED"
+
+  "Pass"
+  "Gehaald"
+
+  "Pass Count"
+  "Doorloop"
+
+  "Passed"
+  "Geslaagd"
+
+  "RUNNING BIST"
+  "Actief"
+
+  "Random"
+  "Willekeurig"
+
+  "Refresh"
+  "Vernieuw"
+
+  "Results"
+  "Resultaten"
+
+  "Run Count"
+  "Run Count"
+
+  "Run iterations"
+  "Iteraties"
+
+  "Run loops"
+  "loops"
+
+  "Running"
+  "Actief"
+
+  "Runtime"
+  "Gebruikstijd"
+
+  "Selection method"
+  "Selectiemethode"
+
+  "Setup"
+  "Instellingen"
+
+  "Total"
+  "Totaal"
+
+  "hours"
+  "Uren"
+
+  "minutes"
+  "Minuten"
+
+  "seconds"
+  "Seconden"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset nl {
 
@@ -42,7 +161,7 @@ msgcat::mcmset nl {
   "Afbeelding rechtsom draaien"
 
   "Transform Tools"
-  "Transform Tools"
+  "Transformeer gereedschappen"
 
 }
 
@@ -60,9 +179,6 @@ msgcat::mcmset nl {
 
   "Enter starting file"
   "Begin bestand invoeren"
-
-  "Update"
-  "Bijwerken"
 
 }
 
@@ -98,7 +214,7 @@ msgcat::mcmset nl {
 msgcat::mcmset nl {
 
   "Delete tab?"
-  "Delete tab?"
+  "Wis tab"
 
   "Reload file?"
   "Opnieuw laden"
@@ -145,7 +261,7 @@ msgcat::mcmset nl {
   "Auteursrecht"
 
   "Credits"
-  "Credits"
+  "Aftiteling"
 
   "Developer"
   "Ontwikkelaar"
@@ -166,7 +282,7 @@ msgcat::mcmset nl {
   "File index valt buiten het bereik"
 
   "Hide Tab"
-  "Hide Tab"
+  "Tab verbergen"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Afbeelding in fill-in vormen die de vorm UI sluit. Gebruikt in de vorm zoals zoeken, zoeken / vervangen, en vinden van bestanden."
@@ -247,7 +363,7 @@ msgcat::mcmset nl {
   "Afbeeldingen die in het tabblad worden gebruikt, dat wordt weergegeven wanneer de muis in het sluitknopgebied komt"
 
   "In"
-  "In"
+  "over"
 
   "License"
   "Licentie"
@@ -265,7 +381,7 @@ msgcat::mcmset nl {
   "Geen schrijfrechten.  Gebruik '!' te dwingen schrijven."
 
   "Release Type"
-  "Release Type"
+  "Release"
 
   "Replace"
   "Vervangen"
@@ -409,7 +525,7 @@ msgcat::mcmset nl {
   "Bubble omlaag"
 
   "Bubble Up"
-  "Bubble Up"
+  "Bellen"
 
   "Bubble lines down one line"
   "Bubble lijnen één regel naar beneden"
@@ -754,7 +870,7 @@ msgcat::mcmset nl {
   "Ga naar vorige bewerkingspunt"
 
   "Goto Last Tab"
-  "Goto Last Tab"
+  "Laatste tab"
 
   "Goto Next Tab"
   "Goto Volgende Tab"
@@ -811,7 +927,7 @@ msgcat::mcmset nl {
   "Verberg Status Bar"
 
   "Hide Tab Bar"
-  "Hide Tab Bar"
+  "Tab verbergen"
 
   "Hide Tcl Console"
   "Verbergen van Tcl Console"
@@ -838,7 +954,7 @@ msgcat::mcmset nl {
   "Hide barkrediet"
 
   "Highlight"
-  "Highlight"
+  "Uitgelicht"
 
   "Image"
   "Afbeelding"
@@ -1006,7 +1122,7 @@ msgcat::mcmset nl {
   "Vergrendelen"
 
   "Lock file"
-  "Lock file"
+  "Bestand vergrendelen"
 
   "Lower Case"
   "Kleineletters"
@@ -1153,7 +1269,7 @@ msgcat::mcmset nl {
   "Map openen"
 
   "Open Favorite"
-  "Open Favorite"
+  "favoriet"
 
   "Open File"
   "Bestand openen"
@@ -1162,7 +1278,7 @@ msgcat::mcmset nl {
   "Recent geopend"
 
   "Open Remote"
-  "Open Remote"
+  "Op afstand"
 
   "Open Selected Folds"
   "Open geselecteerd plooien"
@@ -1213,7 +1329,7 @@ msgcat::mcmset nl {
   "Tekst plakken vanaf het klembord"
 
   "Plugin Developer Guide"
-  "Plugin Developer Guide"
+  "Handleiding voor plugin-ontwikkelaars"
 
   "Previous Difference"
   "Vorig verschil"
@@ -1316,9 +1432,6 @@ msgcat::mcmset nl {
 
   "Restart"
   "Herstart"
-
-  "Run"
-  "Uitvoeren"
 
   "Run theme editor"
   "Thema-editor uitvoeren"
@@ -1483,7 +1596,7 @@ msgcat::mcmset nl {
   "Statusbalk tonen"
 
   "Show Tab Bar"
-  "Show Tab Bar"
+  "Tabbladbalk tonen@info:whatsthis"
 
   "Show Tcl Console"
   "Toon Tcl Console"
@@ -1522,19 +1635,19 @@ msgcat::mcmset nl {
   "Tabs soort"
 
   "Split/Join Tag"
-  "Split/Join Tag"
+  "Tag splitsen / aansluiten"
 
   "Split/Join tag"
-  "Split/Join tag"
+  "Tag splitsen / samenvoegen"
 
   "Start Profiling"
-  "Start Profiling"
+  "Begin met profileren"
 
   "Start profiling"
   "Start profilering"
 
   "Stop Profiling"
-  "Stop Profiling"
+  "profielsamenstelling"
 
   "Stop profiling"
   "Stoppen met profielen"
@@ -1618,7 +1731,7 @@ msgcat::mcmset nl {
   "Verwijderen plugin"
 
   "Unix"
-  "Unix"
+  "Linux"
 
   "Unlock"
   "Ontgrendelen"
@@ -1651,7 +1764,7 @@ msgcat::mcmset nl {
   "Bekijk Gids"
 
   "Vim Mode"
-  "Vim Mode"
+  "Vim-modus"
 
   "Windows"
   "Windows"
@@ -1692,10 +1805,10 @@ msgcat::mcmset nl {
   "Voer plugin naam"
 
   "Grant"
-  "Grant"
+  "Subsidie"
 
   "Grant permission?"
-  "Grant permission?"
+  "Toestemming geven?"
 
   "Plugin Errors"
   "Plugin fouten"
@@ -1775,7 +1888,7 @@ msgcat::mcmset nl {
   "Automatisch instellen van de huidige het werk folder naar de huidige map van de tabbladen"
 
   "Backtick"
-  "Backtick"
+  "backtick"
 
   "Base Directory"
   "Basisfolder"
@@ -1865,7 +1978,7 @@ msgcat::mcmset nl {
   "Standaardextensie Markdown Export"
 
   "Default Theme Export Directory"
-  "Default Theme Export Directory"
+  "Standaardthema exportdirectory"
 
   "Default theme"
   "Standaardthema"
@@ -1883,7 +1996,7 @@ msgcat::mcmset nl {
   "Verwijder gebruiker bindingen en gebruik van de standaard?"
 
   "Development"
-  "Development"
+  "Ontwikkeling"
 
   "Displayed Information"
   "Getoonde informatie"
@@ -1924,6 +2037,9 @@ msgcat::mcmset nl {
   "Extensions"
   "Extensies"
 
+  "Fonts"
+  "Lettertypen"
+
   "Format snippet indentation after insert"
   "Indeling fragment inspringing na invoegen"
 
@@ -1943,7 +2059,7 @@ msgcat::mcmset nl {
   "Verborgenheid"
 
   "Host"
-  "Host"
+  "Organisator"
 
   "Imported"
   "Geïmporteerd"
@@ -2008,9 +2124,6 @@ msgcat::mcmset nl {
   "Node Aliases"
   "Aliassen"
 
-  "Options"
-  "Opties"
-
   "Profiler Options"
   "Profiler opties"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset nl {
   "Search Snippets"
   "Zoek snippets"
 
+  "Select Command Launcher Entry Font"
+  "Selecteer het invoervak ​​van de Command Launcher"
+
+  "Select Command Launcher Preview Font"
+  "Selecteer het preview-lettertype van Command Launcher"
+
+  "Select Editor Font"
+  "Editorlettertype selecteren"
+
   "Select Settings Sharing Directory"
   "Selecteer instellingen voor het delen van Directory"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset nl {
 
   "Selected Text"
   "Geselecteerde tekst"
+
+  "Session"
+  "Sessie"
 
   "Set"
   "Instellen"
@@ -2182,6 +2307,9 @@ msgcat::mcmset nl {
   "Time"
   "Tijd"
 
+  "Unknown"
+  "Onbekend"
+
   "Update information panel whenever the sidebar selection changes"
   "Werk het informatiepaneel bij telkens wanneer de selectie van de zijbalk verandert"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset nl {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "U kunt globale voorkeuren die niet zichtbaar zijn zal omdat u zich momenteel binnen een benoemde sessie hebt gewijzigd."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "U hebt de huidige sessie voorkeuren die niet wereldwijd zal worden toegepast"
+  "You have changed the current session's preferences which will not be applied globally."
+  "U hebt de voorkeuren van de huidige sessie gewijzigd die niet wereldwijd worden toegepast."
 
   "milliseconds"
   "Milliseconde"
@@ -2244,11 +2372,17 @@ msgcat::mcmset nl {
   "Close Connection"
   "Verbinding verbreken"
 
+  "Connection does not exist"
+  "ERROR: Ad does not exist."
+
   "Connection failed"
   "Verbinden mislukt"
 
   "Connection passed"
   "Verbinding doorgegeven"
+
+  "Connections"
+  "Connecties"
 
   "Create New Folder"
   "Nieuwe map aanmaken"
@@ -2270,6 +2404,9 @@ msgcat::mcmset nl {
 
   "Enter Password"
   "Voer wachtwoord in"
+
+  "File System"
+  "Bestandssysteem"
 
   "Folder Name"
   "Folder Naam"
@@ -2326,7 +2463,7 @@ msgcat::mcmset nl {
   "Wachtwoord:"
 
   "Port"
-  "Port"
+  "Poort"
 
   "Remote Directory"
   "Verre folder"
@@ -2348,6 +2485,9 @@ msgcat::mcmset nl {
 
   "Unable to connect to"
   "Kan geen verbinding maken met de site"
+
+  "Unable to read remote directory contents."
+  "Kan inhoud van externe directory niet lezen."
 
   "Username"
   "Gebruikersnaam"
@@ -2393,7 +2533,7 @@ msgcat::mcmset nl {
   "Schuine haken"
 
   "Backticks"
-  "Backticks"
+  "backticks"
 
   "Block"
   "Blok"
@@ -2463,9 +2603,6 @@ msgcat::mcmset nl {
 
   "Right"
   "Rechts"
-
-  "Selected"
-  "Geselecteerd"
 
   "Selection Mode Command Help"
   "Selectie Mode commando Help"
@@ -2573,7 +2710,7 @@ msgcat::mcmset nl {
   "Verwijder mappen?"
 
   "Delete directory?"
-  "Delete directory?"
+  "Verwijder map"
 
   "Delete file?"
   "Bestand verwijderen"
@@ -2621,7 +2758,7 @@ msgcat::mcmset nl {
   "Toenemend"
 
   "Make Current Working Directory"
-  "Make Current Working Directory"
+  "Maak de huidige werkdirectory"
 
   "Manually"
   "Handmatig"
@@ -2668,7 +2805,7 @@ msgcat::mcmset nl {
 msgcat::mcmset nl {
 
   "Snippet: *"
-  "Snippet: *"
+  "Snippet:"
 
 }
 
@@ -2752,7 +2889,7 @@ msgcat::mcmset nl {
   "Template verwijderen?"
 
   "Template"
-  "Template"
+  "Sjabloon"
 
   "Template Name"
   "Template Naam"
@@ -3103,7 +3240,7 @@ msgcat::mcmset nl {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset nl {
 
   "   Show Selected Option"
@@ -3112,11 +3249,14 @@ msgcat::mcmset nl {
   "   Show Selected Value"
   "Toon geselecteerde waarde"
 
+  "By"
+  "Door"
+
   "Categories"
   "Categorieën"
 
   "Change Base Color"
-  "Change Base Color"
+  "Verandering basiskleur"
 
   "Choose Theme"
   "Kies thema"
@@ -3137,7 +3277,7 @@ msgcat::mcmset nl {
   "Beschrijving"
 
   "Details"
-  "Details"
+  "Gegevens"
 
   "Done"
   "Klaar"
@@ -3149,7 +3289,7 @@ msgcat::mcmset nl {
   "BMP-gegevens exporteren"
 
   "Export BMP Mask"
-  "Export BMP Mask"
+  "BMP-masker exporteren"
 
   "Export Bitmap Data"
   "Bitmapgegevens exporteren"
@@ -3158,7 +3298,7 @@ msgcat::mcmset nl {
   "Exporteer thema"
 
   "GIF Photo"
-  "GIF Photo"
+  "Foto"
 
   "Import"
   "Invoer"
@@ -3173,7 +3313,7 @@ msgcat::mcmset nl {
   "Bitmapgegevens importeren"
 
   "Import Error"
-  "Import Error"
+  "CRL-importfout"
 
   "Import Theme File"
   "Importeer thema"
@@ -3201,6 +3341,9 @@ msgcat::mcmset nl {
 
   "Save As:"
   "Opslaan als"
+
+  "Save error"
+  "Fout bij opslaan"
 
   "Save theme changes?"
   "Opslaan thema veranderingen?"
@@ -3238,8 +3381,8 @@ msgcat::mcmset nl {
   "Table Search"
   "Tabel zoeken"
 
-  "The current theme has unsaved changes"
-  "De huidige thema heeft opgeslagen wijzigingen"
+  "The current theme has unsaved changes."
+  "Het huidige thema bevat niet-opgeslagen wijzigingen."
 
   "Theme Name"
   "Thema Naam"
@@ -3249,6 +3392,9 @@ msgcat::mcmset nl {
 
   "Two-Color Bitmap"
   "Twee-Color Bitmap"
+
+  "Unknown color value format"
+  "Onbekende kleurwaarde-indeling"
 
   "User Directory"
   "Gebruikersmap"
@@ -3297,6 +3443,9 @@ msgcat::mcmset nl {
 # vim.tcl
 msgcat::mcmset nl {
 
+  "COMMAND MODE"
+  "opdrachtenwerkwijze"
+
   "File format unrecognized"
   "Bestandsindeling niet herkend"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset nl {
   "Folding method unrecognized"
   "Vouwen methode niet herkend"
 
+  "INSERT MODE"
+  "Invoegmodus"
+
   "Illegal modelines value"
   "Illegale modelines waarde"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVE MODE"
 
   "Number width not a number"
   "Nummer breedte niet een nummer"
@@ -3323,6 +3478,15 @@ msgcat::mcmset nl {
 
   "Unrecognized vim option"
   "Niet-herkende vim optie"
+
+  "VISUAL BLOCK MODE"
+  "VISUEEL BLOK"
+
+  "VISUAL LINE MODE"
+  "linea visus"
+
+  "VISUAL MODE"
+  "Visuele modus"
 
 }
 
@@ -3426,7 +3590,7 @@ msgcat::mcmset nl {
   "Documentatie van de taal"
 
   "Launcher"
-  "Launcher"
+  "Startmenu"
 
   "Line"
   "Regel"
@@ -3453,10 +3617,13 @@ msgcat::mcmset nl {
   "Geen"
 
   "OK"
-  "OK"
+  "Ok"
 
   "Open"
   "Openen"
+
+  "Options"
+  "Opties"
 
   "Parenthesis"
   "Haakje"
@@ -3476,6 +3643,9 @@ msgcat::mcmset nl {
   "Rename"
   "Hernoem"
 
+  "Run"
+  "Uitvoeren"
+
   "Save"
   "Opslaan"
 
@@ -3485,11 +3655,14 @@ msgcat::mcmset nl {
   "Search"
   "Zoeken"
 
+  "Selected"
+  "Geselecteerd"
+
   "Sessions"
   "Sessies"
 
   "Show in Sidebar"
-  "Show in Sidebar"
+  "Weergeven in zijbalk"
 
   "Show line numbers"
   "Regelnummering tonen"
@@ -3507,10 +3680,10 @@ msgcat::mcmset nl {
   "Toon tabbalk"
 
   "Snippet"
-  "Snippet"
+  "Fragment"
 
   "Snippets"
-  "Snippets"
+  "Fragmenten"
 
   "Split View"
   "Venster opsplitsen"
@@ -3519,7 +3692,7 @@ msgcat::mcmset nl {
   "TKE Updater"
 
   "Templates"
-  "Templates"
+  "Sjablonen"
 
   "Test"
   "Test"
@@ -3534,7 +3707,10 @@ msgcat::mcmset nl {
   "Niet in staat om te schrijven"
 
   "Unfavorite"
-  "Unfavorite"
+  "Verwijder uit favorieten"
+
+  "Update"
+  "Bijwerken"
 
   "Value"
   "Een record matching '%value%' is gevonden."

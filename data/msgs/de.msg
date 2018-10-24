@@ -14,6 +14,125 @@ msgcat::mcmset de {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset de {
+
+  "Built-In Self Test"
+  "Eingebauter Selbsttest"
+
+  "Decrementing order"
+  "Dekrementierungsreihenfolge"
+
+  "Edit Test"
+  "Test bearbeiten"
+
+  "Edit Test File"
+  "Testdatei bearbeiten"
+
+  "FAILED"
+  "FEHLGESCHLAGEN"
+
+  "Fail"
+  "Versagen"
+
+  "Fail Count"
+  "Anzahl fehlgeschlagen"
+
+  "Failed"
+  "Fehlgeschlagen"
+
+  "Filter"
+  "Filter"
+
+  "Incrementing order"
+  "Reihenfolge wird erhöht"
+
+  "Iteration"
+  "Wiederkehrend"
+
+  "Iteration count"
+  "Iterationszählung"
+
+  "Loop"
+  "Schleife"
+
+  "Loop count"
+  "Anzahl der Durchläufe"
+
+  "Loop type"
+  "Endlosschleifen-Typ"
+
+  "New Test"
+  "Neuer Test"
+
+  "New Test File"
+  "Neue Testdatei"
+
+  "New Test Name"
+  "Neuer Testname"
+
+  "Output"
+  "Output"
+
+  "PASSED"
+  "Erfolgreich"
+
+  "Pass"
+  "Pass"
+
+  "Pass Count"
+  "Durchlauf"
+
+  "Passed"
+  "Dieser Termin hat bereits stattgefunden"
+
+  "RUNNING BIST"
+  "Aktiv"
+
+  "Random"
+  "Zufällig"
+
+  "Refresh"
+  "Aktualisieren"
+
+  "Results"
+  "Ergebnisse"
+
+  "Run Count"
+  "Zählen starten"
+
+  "Run iterations"
+  "Führen Sie Iterationen aus"
+
+  "Run loops"
+  "Wiederholungen"
+
+  "Running"
+  "Aktiv"
+
+  "Runtime"
+  "Laufzeit"
+
+  "Selection method"
+  "Auswahlmethode"
+
+  "Setup"
+  "Setup"
+
+  "Total"
+  "Gesamt"
+
+  "hours"
+  "Stunden"
+
+  "minutes"
+  "Minuten"
+
+  "seconds"
+  "Sekunden"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset de {
 
@@ -61,9 +180,6 @@ msgcat::mcmset de {
   "Enter starting file"
   "Geben Sie die Startdatei"
 
-  "Update"
-  "Aktualisieren"
-
 }
 
 # edit.tcl
@@ -79,7 +195,7 @@ msgcat::mcmset de {
   "Bild URL"
 
   "Link URL"
-  "Link URL"
+  "URL Link"
 
 }
 
@@ -127,7 +243,7 @@ msgcat::mcmset de {
   "Andere Unterfenster schließen"
 
   "Close All Tabs"
-  "Close All Tabs"
+  "Alle Tabs schließen"
 
   "Close All Tabs In Pane"
   "Schließen Sie alle Registerkarten im Bereich"
@@ -142,7 +258,7 @@ msgcat::mcmset de {
   "Spalte"
 
   "Copyright"
-  "Copyright"
+  "Urheberrecht"
 
   "Credits"
   "Kredite"
@@ -166,7 +282,7 @@ msgcat::mcmset de {
   "Datei-Index liegt außerhalb des Bereichs"
 
   "Hide Tab"
-  "Hide Tab"
+  "Registerkarte ausblenden"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Bild gefunden in Fill-in-Formulare, die die Form UI schließt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
@@ -247,7 +363,7 @@ msgcat::mcmset de {
   "Bilder, die in der Registerkarte verwendet werden, die angezeigt wird, wenn die Maus in die Schaltfläche &quot;Schließen&quot; gelangt"
 
   "In"
-  "In"
+  "in"
 
   "License"
   "Lizenze"
@@ -403,7 +519,7 @@ msgcat::mcmset de {
   "Balance-Tag-paar nach außen verschieben"
 
   "Bold"
-  "Bold"
+  "Fett"
 
   "Bubble Down"
   "Blase nach unten"
@@ -724,7 +840,7 @@ msgcat::mcmset de {
   "Vorherigen unpassende Halterung zu finden"
 
   "Folding"
-  "Folding"
+  "Zum Falten"
 
   "Format"
   "Format"
@@ -754,10 +870,10 @@ msgcat::mcmset de {
   "Zum vorherigen Schnittpunkt gehen"
 
   "Goto Last Tab"
-  "Goto Last Tab"
+  "Gehe zu letzter Registerkarte"
 
   "Goto Next Tab"
-  "Goto Next Tab"
+  "Nächster Tab"
 
   "Goto Other Pane"
   "Goto Andere Pane"
@@ -838,7 +954,7 @@ msgcat::mcmset de {
   "Tab-Leiste ausblenden"
 
   "Highlight"
-  "Highlight"
+  "Hervorheben"
 
   "Image"
   "Bild"
@@ -1150,7 +1266,7 @@ msgcat::mcmset de {
   "Offenen aktuelle Fold"
 
   "Open Directory"
-  "Open Directory"
+  "Ordner öffnen"
 
   "Open Favorite"
   "Offenen Favorit"
@@ -1243,7 +1359,7 @@ msgcat::mcmset de {
   "Letzten Bestellungen"
 
   "Redo"
-  "Redo"
+  "Wiederherstellen"
 
   "Reflect CSS Value"
   "CSS-Werte"
@@ -1316,9 +1432,6 @@ msgcat::mcmset de {
 
   "Restart"
   "Neustarten"
-
-  "Run"
-  "Durchlauf"
 
   "Run theme editor"
   "Motiv-Bearbeitung"
@@ -1519,7 +1632,7 @@ msgcat::mcmset de {
   "Tabs sortieren"
 
   "Sort tabs"
-  "Sort tabs"
+  "Tabs sortieren"
 
   "Split/Join Tag"
   "Split/Join-Tag"
@@ -1606,7 +1719,7 @@ msgcat::mcmset de {
   "Unfavorite Datei"
 
   "Unindent"
-  "Unindent"
+  "unindent"
 
   "Unindent selected text"
   "Markierten Text ausrücken"
@@ -1692,7 +1805,7 @@ msgcat::mcmset de {
   "Geben Sie Name des Plugins"
 
   "Grant"
-  "Grant"
+  "Erteilen"
 
   "Grant permission?"
   "Gewähre prmission?"
@@ -1924,6 +2037,9 @@ msgcat::mcmset de {
   "Extensions"
   "Erweiterungen"
 
+  "Fonts"
+  "Schriftarten"
+
   "Format snippet indentation after insert"
   "Format-Snippet Einzug nach einfügen"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset de {
   "Node Aliases"
   "Aliase"
 
-  "Options"
-  "Optionen"
-
   "Profiler Options"
   "Profiler-Optionen"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset de {
   "Search Snippets"
   "Suche Auszüge (snippets)"
 
+  "Select Command Launcher Entry Font"
+  "Wählen Sie Command Launcher-Eintragsschriftart aus"
+
+  "Select Command Launcher Preview Font"
+  "Wählen Sie Command Launcher Vorschau Schriftart"
+
+  "Select Editor Font"
+  "Wählen Sie Editor Schriftart"
+
   "Select Settings Sharing Directory"
   "Wählen Sie Einstellungen teilen Verzeichnis"
 
@@ -2074,8 +2196,11 @@ msgcat::mcmset de {
   "Selected Text"
   "Ausgewählter Text"
 
+  "Session"
+  "Session"
+
   "Set"
-  "Set"
+  "User-Status wurde erfolgreich auf %s gesetzt"
 
   "Set Find in Files line context"
   "Suchen in Dateien Zeile Kontext gesetzt"
@@ -2096,7 +2221,7 @@ msgcat::mcmset de {
   "Freigabe von Elementen"
 
   "Shortcut"
-  "Shortcut"
+  "Kurzbefehl"
 
   "Shortcuts"
   "Tastaturbefehle"
@@ -2182,6 +2307,9 @@ msgcat::mcmset de {
   "Time"
   "Zeit"
 
+  "Unknown"
+  "Unbekannt"
+
   "Update information panel whenever the sidebar selection changes"
   "Aktualisieren Sie das Informationsfenster, wenn sich die Auswahl der Seitenleiste ändert"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset de {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Sie haben globale Einstellungen geändert, die nicht angezeigt werden, weil Sie derzeit innerhalb einer benannten Sitzung sind."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Sie haben die aktuelle Sitzung Einstellungen geändert, die weltweit nicht angewendet werden"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Sie haben die Einstellungen der aktuellen Sitzung geändert, die nicht global angewendet werden."
 
   "milliseconds"
   "Millisekunden"
@@ -2244,11 +2372,17 @@ msgcat::mcmset de {
   "Close Connection"
   "Verbindung schließen"
 
+  "Connection does not exist"
+  "Verbindung existiert nicht"
+
   "Connection failed"
   "Verbindung fehlgeschlagen"
 
   "Connection passed"
   "Verbindung übergeben"
+
+  "Connections"
+  "Verbindungen"
 
   "Create New Folder"
   "Neuen Artikel erstellen"
@@ -2270,6 +2404,9 @@ msgcat::mcmset de {
 
   "Enter Password"
   "Passwort eingeben"
+
+  "File System"
+  "Dateisystem"
 
   "Folder Name"
   "Ordnername"
@@ -2349,6 +2486,9 @@ msgcat::mcmset de {
   "Unable to connect to"
   "Verbindungsaufbau zu dieser Seite nicht möglich"
 
+  "Unable to read remote directory contents."
+  "Der Inhalt des Remote-Verzeichnisses konnte nicht gelesen werden."
+
   "Username"
   "Benutzername"
 
@@ -2396,13 +2536,13 @@ msgcat::mcmset de {
   "einfache Anführungszeichen"
 
   "Block"
-  "Block"
+  "Blockieren"
 
   "Character"
   "Zeichen"
 
   "Child"
-  "Child"
+  "Kind"
 
   "Clear Selection"
   "Auswahl zurücksetzen"
@@ -2463,9 +2603,6 @@ msgcat::mcmset de {
 
   "Right"
   "Rechts"
-
-  "Selected"
-  "Ausgewählt"
 
   "Selection Mode Command Help"
   "Auswahl-Modus Befehl Hilfe"
@@ -2547,7 +2684,7 @@ msgcat::mcmset de {
   "Einstellungen exportieren"
 
   "Themes"
-  "Themes"
+  "Themenwelten"
 
 }
 
@@ -2621,7 +2758,7 @@ msgcat::mcmset de {
   "Aufsteigend"
 
   "Make Current Working Directory"
-  "Make Current Working Directory"
+  "Aktuelles Arbeitsverzeichnis"
 
   "Manually"
   "Manuell"
@@ -2676,7 +2813,7 @@ msgcat::mcmset de {
 msgcat::mcmset de {
 
   "Change Directory"
-  "Change Directory"
+  "Änderungsverzeichnis"
 
   "Copies settings data from an existing directory to your home directory."
   "Kopiert die Einstellungsdaten aus einem vorhandenen Verzeichnis auf Ihrem home-Verzeichnis."
@@ -2755,7 +2892,7 @@ msgcat::mcmset de {
   "Vorlage"
 
   "Template Name"
-  "Template Name"
+  "Vorlagenname"
 
   "deleted"
   "Nachrichten gelöscht."
@@ -3081,7 +3218,7 @@ msgcat::mcmset de {
   "Gibt das Pixeldicke der Highlight Linie."
 
   "Standard Scrollbars"
-  "Standard Scrollbars"
+  "Standard-Bildlaufleisten"
 
   "Syntax Colors"
   "Syntax Farben"
@@ -3103,7 +3240,7 @@ msgcat::mcmset de {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset de {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset de {
 
   "   Show Selected Value"
   "Ausgewählter Wert"
+
+  "By"
+  "Von"
 
   "Categories"
   "Kategorien"
@@ -3161,13 +3301,13 @@ msgcat::mcmset de {
   "GIF Foto"
 
   "Import"
-  "Import"
+  "Importieren"
 
   "Import BMP Data"
   "Daten importieren"
 
   "Import BMP Mask"
-  "Import BMP Mask"
+  "BMP-Maske importieren"
 
   "Import Bitmap Data"
   "Bitmap-Daten importieren"
@@ -3188,7 +3328,7 @@ msgcat::mcmset de {
   "Änderungen"
 
   "One-Color Bitmap"
-  "One-Color Bitmap"
+  "Einfarbige Bitmap"
 
   "Output Directory"
   "Ausgabeverzeichnis"
@@ -3201,6 +3341,9 @@ msgcat::mcmset de {
 
   "Save As:"
   "Speichern als"
+
+  "Save error"
+  "Fehler beim Speichern"
 
   "Save theme changes?"
   "Speichere das Thema Veränderungen?"
@@ -3238,8 +3381,8 @@ msgcat::mcmset de {
   "Table Search"
   "Tabelle-Suche"
 
-  "The current theme has unsaved changes"
-  "Das aktuelle Thema hat nicht gespeicherte Änderungen"
+  "The current theme has unsaved changes."
+  "Das aktuelle Thema hat nicht gespeicherte Änderungen."
 
   "Theme Name"
   "Theme-Name"
@@ -3249,6 +3392,9 @@ msgcat::mcmset de {
 
   "Two-Color Bitmap"
   "Zwei-Farben-Bitmap"
+
+  "Unknown color value format"
+  "Unbekanntes Farbwertformat"
 
   "User Directory"
   "Benutzerverzeichnis"
@@ -3297,6 +3443,9 @@ msgcat::mcmset de {
 # vim.tcl
 msgcat::mcmset de {
 
+  "COMMAND MODE"
+  "Kommandomodus"
+
   "File format unrecognized"
   "Unbekanntes Dateiformat"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset de {
   "Folding method unrecognized"
   "Faltbare unbekannte Methode"
 
+  "INSERT MODE"
+  "Einfügemodus"
+
   "Illegal modelines value"
   "Illegale Modelines Wert"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVER MODUS"
 
   "Number width not a number"
   "Nummer Breite Nichtzahlen"
@@ -3323,6 +3478,15 @@ msgcat::mcmset de {
 
   "Unrecognized vim option"
   "Nicht erkannte Vim-option"
+
+  "VISUAL BLOCK MODE"
+  "VISUELLER BLOCKMODUS"
+
+  "VISUAL LINE MODE"
+  "Foveolarstrahl"
+
+  "VISUAL MODE"
+  "Visuelles Element"
 
 }
 
@@ -3426,7 +3590,7 @@ msgcat::mcmset de {
   "Sprachdokumentation"
 
   "Launcher"
-  "Launcher"
+  "Werfer"
 
   "Line"
   "Linie"
@@ -3458,6 +3622,9 @@ msgcat::mcmset de {
   "Open"
   "Geöffnet"
 
+  "Options"
+  "Optionen"
+
   "Parenthesis"
   "Klammer"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset de {
   "Rename"
   "Benennen"
 
+  "Run"
+  "Durchlauf"
+
   "Save"
   "Speichern"
 
@@ -3485,11 +3655,14 @@ msgcat::mcmset de {
   "Search"
   "Suche"
 
+  "Selected"
+  "Ausgewählt"
+
   "Sessions"
   "zur Verfügung steht."
 
   "Show in Sidebar"
-  "Show in Sidebar"
+  "In der Seitenleiste"
 
   "Show line numbers"
   "zeilennummern zeilen nummern"
@@ -3516,10 +3689,10 @@ msgcat::mcmset de {
   "Split anzeigen"
 
   "TKE Updater"
-  "TKE Updater"
+  "Updater"
 
   "Templates"
-  "Templates"
+  "Vorlagen"
 
   "Test"
   "Prüfung"
@@ -3534,7 +3707,10 @@ msgcat::mcmset de {
   "Datei konnte nicht geschrieben werden"
 
   "Unfavorite"
-  "Unfavorite"
+  "Gefällt mir nicht mehr"
+
+  "Update"
+  "Aktualisieren"
 
   "Value"
   "Wert"

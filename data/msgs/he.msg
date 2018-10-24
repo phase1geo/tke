@@ -14,6 +14,125 @@ msgcat::mcmset he {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset he {
+
+  "Built-In Self Test"
+  "בדיקה עצמית מובנית"
+
+  "Decrementing order"
+  "צמצום הסדר"
+
+  "Edit Test"
+  "ערוך טסט"
+
+  "Edit Test File"
+  "עריכת קובץ בדיקה"
+
+  "FAILED"
+  "נכשלה"
+
+  "Fail"
+  "נכשל"
+
+  "Fail Count"
+  "ספירה"
+
+  "Failed"
+  "נכשל"
+
+  "Filter"
+  "סנן"
+
+  "Incrementing order"
+  "הגדלת הסדר"
+
+  "Iteration"
+  "איטרציה"
+
+  "Iteration count"
+  "ספירת איטרציה"
+
+  "Loop"
+  "לופ"
+
+  "Loop count"
+  "ספירה"
+
+  "Loop type"
+  "סוג לולאה"
+
+  "New Test"
+  "מבחן חדש"
+
+  "New Test File"
+  "קובץ בדיקה חדש"
+
+  "New Test Name"
+  "שם בדיקה חדש"
+
+  "Output"
+  "ייצוא"
+
+  "PASSED"
+  "עברתי"
+
+  "Pass"
+  "עובר"
+
+  "Pass Count"
+  "ספירה"
+
+  "Passed"
+  "עבר"
+
+  "RUNNING BIST"
+  "פועל"
+
+  "Random"
+  "אקראי"
+
+  "Refresh"
+  "רענן"
+
+  "Results"
+  "תוצאות"
+
+  "Run Count"
+  "להריץ ספירה"
+
+  "Run iterations"
+  "הפעלת מספר איטראציות"
+
+  "Run loops"
+  "הפעלת לולאות"
+
+  "Running"
+  "פועל"
+
+  "Runtime"
+  "זמן ריצה"
+
+  "Selection method"
+  "שיטת הבחירה"
+
+  "Setup"
+  "התקנה"
+
+  "Total"
+  "Total"
+
+  "hours"
+  "שעות"
+
+  "minutes"
+  "דקות"
+
+  "seconds"
+  "שניות"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset he {
 
@@ -60,9 +179,6 @@ msgcat::mcmset he {
 
   "Enter starting file"
   "הזן קובץ ההתחלה"
-
-  "Update"
-  "עדכן"
 
 }
 
@@ -1317,9 +1433,6 @@ msgcat::mcmset he {
   "Restart"
   "הפעלה מחדש"
 
-  "Run"
-  "לרוץ"
-
   "Run theme editor"
   "להפעיל את עורך דירוג"
 
@@ -1924,6 +2037,9 @@ msgcat::mcmset he {
   "Extensions"
   "הרחבות"
 
+  "Fonts"
+  "פונטים"
+
   "Format snippet indentation after insert"
   "כניסת מקטע בתבנית לאחר הוספה"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset he {
   "Node Aliases"
   "צומת כינויים"
 
-  "Options"
-  "אפשרויות"
-
   "Profiler Options"
   "אפשרויות פרופיילר"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset he {
   "Search Snippets"
   "חיפוש קטעי"
 
+  "Select Command Launcher Entry Font"
+  "בחר Command Launcher Entry Font"
+
+  "Select Command Launcher Preview Font"
+  "בחר Command Launcher תצוגה מקדימה של גופן"
+
+  "Select Editor Font"
+  "בחר גופן עורך"
+
   "Select Settings Sharing Directory"
   "בחר הגדרות שיתוף הספריות"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset he {
 
   "Selected Text"
   "הטקסט שנבחר ללשונית"
+
+  "Session"
+  "סשנים"
 
   "Set"
   "הגדר"
@@ -2102,7 +2227,7 @@ msgcat::mcmset he {
   "קיצורי דרך"
 
   "Show 'Find in Files' result in other pane"
-  "??? &#39;????? ???????&#39; ??????? ????"
+  "הצג &#39;חיפוש בתיקייה&#39; בחלונית אחרת"
 
   "Show Move To Trash for local files/directories instead of Delete"
   "הצג להזיז את האשפה עבור הקבצים/הספריות המקומי במקום למחוק"
@@ -2182,6 +2307,9 @@ msgcat::mcmset he {
   "Time"
   "זמן"
 
+  "Unknown"
+  "לא ידוע"
+
   "Update information panel whenever the sidebar selection changes"
   "עדכן את לוח המידע בכל פעם שמבחר הסרגל הצדדי משתנה"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset he {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   ". שינית את ההעדפות הכללית אשר לא יהיו גלויים כי אתה כעת בתוך מושב בשם."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "שינית את העדפות ההפעלה הנוכחית לא יוחלו באופן גלובלי"
+  "You have changed the current session's preferences which will not be applied globally."
+  "שינית את ההעדפות של הפעילות הנוכחית שאינן מוחלות באופן גלובלי."
 
   "milliseconds"
   "מילי שניות"
@@ -2244,11 +2372,17 @@ msgcat::mcmset he {
   "Close Connection"
   "לסגור את החיבור"
 
+  "Connection does not exist"
+  "החיבור אינו קיים"
+
   "Connection failed"
   "החיבור נכשל"
 
   "Connection passed"
   "חיבור עבר"
+
+  "Connections"
+  "קשרים"
 
   "Create New Folder"
   "ליצור תיקייה קיימת"
@@ -2270,6 +2404,9 @@ msgcat::mcmset he {
 
   "Enter Password"
   "להזין סיסמא"
+
+  "File System"
+  "מערכת־ קבצים"
 
   "Folder Name"
   "שם תיקיה"
@@ -2348,6 +2485,9 @@ msgcat::mcmset he {
 
   "Unable to connect to"
   "לא ניתן להתחבר לשרת"
+
+  "Unable to read remote directory contents."
+  "אין אפשרות לקרוא תוכן מדריך מרחוק."
 
   "Username"
   "שם משתמש"
@@ -2463,9 +2603,6 @@ msgcat::mcmset he {
 
   "Right"
   "ימין"
-
-  "Selected"
-  "נבחר"
 
   "Selection Mode Command Help"
   "עזרה הפקודה מצב בחירה"
@@ -2808,7 +2945,7 @@ msgcat::mcmset he {
   "צבע הרקע של ההכנסה הסמן סמן והרקע."
 
   "Background color of linemap area."
-  "??? ??? ?? ???? Linemap."
+  "צבע רקע של אזור Linemap."
 
   "Background color of list items when not selected"
   "צבע הרקע של פריטי רשימה כאשר לא נבחר"
@@ -2877,7 +3014,7 @@ msgcat::mcmset he {
   "הצבע בו יש להשתמש עבור הדגשת קפלי סגור בביוב מספר השורה"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "???? ???? ????? ??? ?????? ??? ?- linemap ????? ?????."
+  "הצבע משמש לציור הקו המפריד בין ה- linemap מאזור הטקסט."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "הצבע המשמש כדי לצייר קו רוחב אזהרה המאגר העריכה (כמו גם על הקו המפריד בין המרזב מתוך המאגר העריכה)."
@@ -3103,7 +3240,7 @@ msgcat::mcmset he {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset he {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset he {
 
   "   Show Selected Value"
   "ערך נבחר"
+
+  "By"
+  "מאת"
 
   "Categories"
   "קטגוריות"
@@ -3202,6 +3342,9 @@ msgcat::mcmset he {
   "Save As:"
   "שמור בשם"
 
+  "Save error"
+  "שגיאה בשמירה"
+
   "Save theme changes?"
   "האם לשמור שינויים בערכות נושא?"
 
@@ -3238,8 +3381,8 @@ msgcat::mcmset he {
   "Table Search"
   "טבלת חיפוש"
 
-  "The current theme has unsaved changes"
-  "הנושא הנוכחית שינויים שלא נשמרו"
+  "The current theme has unsaved changes."
+  "לנושא הנוכחי יש שינויים שלא נשמרו."
 
   "Theme Name"
   "שם ערכת נושא"
@@ -3249,6 +3392,9 @@ msgcat::mcmset he {
 
   "Two-Color Bitmap"
   "מפת סיביות שני צבעים"
+
+  "Unknown color value format"
+  "תבנית ערך צבעים לא ידוע"
 
   "User Directory"
   "מדריך למשתמש"
@@ -3297,6 +3443,9 @@ msgcat::mcmset he {
 # vim.tcl
 msgcat::mcmset he {
 
+  "COMMAND MODE"
+  "מצב COMMAND"
+
   "File format unrecognized"
   "תבנית קובץ לא מזוהה"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset he {
   "Folding method unrecognized"
   "קיפול שיטה לא מזוהה"
 
+  "INSERT MODE"
+  "הכנס"
+
   "Illegal modelines value"
   "ערך לא חוקי modelines"
+
+  "MULTIMOVE MODE"
+  "מצב MULTIMOVE"
 
   "Number width not a number"
   "מספר רוחב לא מספר"
@@ -3323,6 +3478,15 @@ msgcat::mcmset he {
 
   "Unrecognized vim option"
   "אפשרות vim לא מזוהה"
+
+  "VISUAL BLOCK MODE"
+  "מצב לחות ויזואלית"
+
+  "VISUAL LINE MODE"
+  "מצב קו VISUAL"
+
+  "VISUAL MODE"
+  "חזותי"
 
 }
 
@@ -3458,6 +3622,9 @@ msgcat::mcmset he {
   "Open"
   "לִפְתוֹחַ"
 
+  "Options"
+  "אפשרויות"
+
   "Parenthesis"
   "סוגריים"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset he {
   "Rename"
   "שינוי שם"
 
+  "Run"
+  "לרוץ"
+
   "Save"
   "שמור"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset he {
 
   "Search"
   "חיפוש"
+
+  "Selected"
+  "נבחר"
 
   "Sessions"
   "הפעלות"
@@ -3535,6 +3708,9 @@ msgcat::mcmset he {
 
   "Unfavorite"
   "בטל סימון כמועדף"
+
+  "Update"
+  "עדכן"
 
   "Value"
   "ערך"

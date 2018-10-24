@@ -14,6 +14,125 @@ msgcat::mcmset pt {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset pt {
+
+  "Built-In Self Test"
+  "Built-in-Test:"
+
+  "Decrementing order"
+  "Ordem decrescente"
+
+  "Edit Test"
+  "Editar teste"
+
+  "Edit Test File"
+  "Teste Arquivo"
+
+  "FAILED"
+  "ERRO"
+
+  "Fail"
+  "Reprovado"
+
+  "Fail Count"
+  "Falha Conde"
+
+  "Failed"
+  "Reprovado"
+
+  "Filter"
+  "Filtro"
+
+  "Incrementing order"
+  "Ordem de incremento"
+
+  "Iteration"
+  "2.a Iteração"
+
+  "Iteration count"
+  "Contagem de Iteração"
+
+  "Loop"
+  "Loop"
+
+  "Loop count"
+  "Contagem de Repetições"
+
+  "Loop type"
+  "Tipo de ciclo:"
+
+  "New Test"
+  "Teste Novo"
+
+  "New Test File"
+  "Teste Arquivo"
+
+  "New Test Name"
+  "Nome do Teste"
+
+  "Output"
+  "Realizações"
+
+  "PASSED"
+  "APROVADO"
+
+  "Pass"
+  "Aprovado"
+
+  "Pass Count"
+  "Contagem de Transmissão"
+
+  "Passed"
+  "Aprovado"
+
+  "RUNNING BIST"
+  "Corrida"
+
+  "Random"
+  "Aleatório"
+
+  "Refresh"
+  "Atualizar"
+
+  "Results"
+  "Resultados"
+
+  "Run Count"
+  "Executar contagem"
+
+  "Run iterations"
+  "Executar iterações"
+
+  "Run loops"
+  "Laços"
+
+  "Running"
+  "Corrida"
+
+  "Runtime"
+  "Tempo de execução"
+
+  "Selection method"
+  "Método de seleção"
+
+  "Setup"
+  "Configurações"
+
+  "Total"
+  "Total"
+
+  "hours"
+  "horas"
+
+  "minutes"
+  "minutos"
+
+  "seconds"
+  "segundos"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset pt {
 
@@ -60,9 +179,6 @@ msgcat::mcmset pt {
 
   "Enter starting file"
   "Insira o arquivo inicial"
-
-  "Update"
-  "Atualizar"
 
 }
 
@@ -511,7 +627,7 @@ msgcat::mcmset pt {
   "Criar novo plugin"
 
   "Current Bounded Text"
-  "Current Bounded Text"
+  "Texto limitado atual"
 
   "Current Paragraph"
   "Parágrafo atual"
@@ -1000,7 +1116,7 @@ msgcat::mcmset pt {
   "Quebra de linha"
 
   "Link"
-  "Link"
+  "Ligação"
 
   "Lock"
   "Fixar"
@@ -1317,9 +1433,6 @@ msgcat::mcmset pt {
   "Restart"
   "Reiniciar"
 
-  "Run"
-  "Executar"
-
   "Run theme editor"
   "Execute o editor de temas"
 
@@ -1516,7 +1629,7 @@ msgcat::mcmset pt {
   "Travessão inteligente"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Classificar guias"
 
   "Sort tabs"
   "Guias de classificação"
@@ -1588,7 +1701,7 @@ msgcat::mcmset pt {
   "Ferramentas"
 
   "Transform"
-  "Transform"
+  "Transformar"
 
   "Unable to delete file"
   "Não é possível excluir o arquivo {0}"
@@ -1606,7 +1719,7 @@ msgcat::mcmset pt {
   "Arquivo favoritas"
 
   "Unindent"
-  "Unindent"
+  "Desindentar"
 
   "Unindent selected text"
   "Remover o recuo texto selecionado"
@@ -1621,7 +1734,7 @@ msgcat::mcmset pt {
   "Unix"
 
   "Unlock"
-  "Unlock"
+  "Desbloquear"
 
   "Unlock file"
   "Desbloquear arquivo"
@@ -1654,7 +1767,7 @@ msgcat::mcmset pt {
   "Modo Vim"
 
   "Windows"
-  "Windows"
+  "Janelas"
 
   "Wrap With Abbreviation"
   "Envolva-a com a abreviatura"
@@ -1790,7 +1903,7 @@ msgcat::mcmset pt {
   "Largura de exibição de olho do pássaro"
 
   "Buffer"
-  "Buffer"
+  "Tampão"
 
   "Choose Color"
   "Escolha a cor"
@@ -1924,6 +2037,9 @@ msgcat::mcmset pt {
   "Extensions"
   "Extensões"
 
+  "Fonts"
+  "Fontes;"
+
   "Format snippet indentation after insert"
   "Recuo de trecho formato após inserção"
 
@@ -1943,7 +2059,7 @@ msgcat::mcmset pt {
   "Esconderijo"
 
   "Host"
-  "Host"
+  "Hospedeiro"
 
   "Imported"
   "Importado"
@@ -2008,9 +2124,6 @@ msgcat::mcmset pt {
   "Node Aliases"
   "Aliases"
 
-  "Options"
-  "Opções"
-
   "Profiler Options"
   "Opções do analisador:"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset pt {
   "Search Snippets"
   "Pesquisa Snippets"
 
+  "Select Command Launcher Entry Font"
+  "Selecione a fonte de entrada de inicialização de comando"
+
+  "Select Command Launcher Preview Font"
+  "Selecione a fonte de visualização do iniciador de comando"
+
+  "Select Editor Font"
+  "Selecione a fonte do editor"
+
   "Select Settings Sharing Directory"
   "Selecione as configurações de compartilhamento de arquivos"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset pt {
 
   "Selected Text"
   "Texto Seleccionado"
+
+  "Session"
+  "Sessão"
 
   "Set"
   "Definir"
@@ -2182,6 +2307,9 @@ msgcat::mcmset pt {
   "Time"
   "Hora"
 
+  "Unknown"
+  "Desconhecido"
+
   "Update information panel whenever the sidebar selection changes"
   "Atualizar o painel de informações sempre que a seleção da barra lateral for alterada"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset pt {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Você mudou as preferências globais que não será visíveis porque você está atualmente em uma sessão nomeada."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Você mudou as preferências da sessão atual, que não serão aplicadas globalmente"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Você alterou as preferências da sessão atual, que não serão aplicadas globalmente."
 
   "milliseconds"
   "milisegundos (ms)"
@@ -2244,11 +2372,17 @@ msgcat::mcmset pt {
   "Close Connection"
   "Terminar a Ligação"
 
+  "Connection does not exist"
+  "Class method não existe"
+
   "Connection failed"
   "Falha de conexão"
 
   "Connection passed"
   "Conexão passado"
+
+  "Connections"
+  "Ligações"
 
   "Create New Folder"
   "Criar uma Nova Pasta"
@@ -2270,6 +2404,9 @@ msgcat::mcmset pt {
 
   "Enter Password"
   "Inserir Senha"
+
+  "File System"
+  "Sistema de arquivos"
 
   "Folder Name"
   "Nome da Pasta"
@@ -2348,6 +2485,9 @@ msgcat::mcmset pt {
 
   "Unable to connect to"
   "﻿Impossível conectar ao host:"
+
+  "Unable to read remote directory contents."
+  "Não é possível ler o conteúdo do diretório remoto."
 
   "Username"
   "Nome de Usuário"
@@ -2463,9 +2603,6 @@ msgcat::mcmset pt {
 
   "Right"
   "Direito"
-
-  "Selected"
-  "Selecionado"
 
   "Selection Mode Command Help"
   "Ajuda de comando do modo de seleção"
@@ -3099,11 +3236,11 @@ msgcat::mcmset pt {
   "Cor do texto para todos os itens da barra lateral que estão selecionados."
 
   "ttk Widget Colors"
-  "ttk Widget Colors"
+  "Cores dos Elementos"
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset pt {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset pt {
 
   "   Show Selected Value"
   "Mostrar o valor selecionado"
+
+  "By"
+  "Por"
 
   "Categories"
   "Categorias"
@@ -3202,6 +3342,9 @@ msgcat::mcmset pt {
   "Save As:"
   "Salvar como:"
 
+  "Save error"
+  "Erro ao guardar"
+
   "Save theme changes?"
   "Salve as alterações do tema?"
 
@@ -3227,7 +3370,7 @@ msgcat::mcmset pt {
   "Swatch"
 
   "Swatch Colors"
-  "Swatch Colors"
+  "Cores de Amostra"
 
   "Table Copy"
   "Cópia de mesa"
@@ -3238,8 +3381,8 @@ msgcat::mcmset pt {
   "Table Search"
   "pesquisa por cálculo de endereço"
 
-  "The current theme has unsaved changes"
-  "O tema atual tem alterações não salvas"
+  "The current theme has unsaved changes."
+  "O tema atual tem alterações não salvas."
 
   "Theme Name"
   "Nome do Tema"
@@ -3249,6 +3392,9 @@ msgcat::mcmset pt {
 
   "Two-Color Bitmap"
   "Bitmap de duas cores"
+
+  "Unknown color value format"
+  "Formato de valor de cor desconhecido"
 
   "User Directory"
   "Directório de utilizador"
@@ -3297,6 +3443,9 @@ msgcat::mcmset pt {
 # vim.tcl
 msgcat::mcmset pt {
 
+  "COMMAND MODE"
+  "modo de comando"
+
   "File format unrecognized"
   "Formato de arquivo não reconhecido"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset pt {
   "Folding method unrecognized"
   "Método não reconhecido de dobramento"
 
+  "INSERT MODE"
+  "Modo de inserção"
+
   "Illegal modelines value"
   "Valor ilegal modelines"
+
+  "MULTIMOVE MODE"
+  "MODO MULTIMOVE"
 
   "Number width not a number"
   "Número de largura não é um número"
@@ -3323,6 +3478,15 @@ msgcat::mcmset pt {
 
   "Unrecognized vim option"
   "Opção de não reconhecido o vim"
+
+  "VISUAL BLOCK MODE"
+  "MODO DE BLOCO VISUAL"
+
+  "VISUAL LINE MODE"
+  "linha visual"
+
+  "VISUAL MODE"
+  "Modo visual"
 
 }
 
@@ -3369,7 +3533,7 @@ msgcat::mcmset pt {
   "Palavra atual"
 
   "Cursor"
-  "Cursor"
+  "Cursores"
 
   "Delete"
   "Excluir"
@@ -3453,10 +3617,13 @@ msgcat::mcmset pt {
   "Nenhum"
 
   "OK"
-  "OK"
+  "Ok"
 
   "Open"
   "Abrir"
+
+  "Options"
+  "Opções"
 
   "Parenthesis"
   "Colchete"
@@ -3476,6 +3643,9 @@ msgcat::mcmset pt {
   "Rename"
   "Renomear"
 
+  "Run"
+  "Executar"
+
   "Save"
   "Salvar"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset pt {
 
   "Search"
   "Buscar"
+
+  "Selected"
+  "Selecionado"
 
   "Sessions"
   "Sessões"
@@ -3519,7 +3692,7 @@ msgcat::mcmset pt {
   "TKE Updater"
 
   "Templates"
-  "Templates"
+  "Modelos"
 
   "Test"
   "Testar"
@@ -3534,7 +3707,10 @@ msgcat::mcmset pt {
   "Não foi possível gravar o ficheiro"
 
   "Unfavorite"
-  "Unfavorite"
+  "Não é favorito"
+
+  "Update"
+  "Atualizar"
 
   "Value"
   "Valor"

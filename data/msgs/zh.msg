@@ -14,6 +14,125 @@ msgcat::mcmset zh {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset zh {
+
+  "Built-In Self Test"
+  "内置自测"
+
+  "Decrementing order"
+  "减少订单"
+
+  "Edit Test"
+  "编辑测验"
+
+  "Edit Test File"
+  "编辑测试文件"
+
+  "FAILED"
+  "失败"
+
+  "Fail"
+  "失败"
+
+  "Fail Count"
+  "计数"
+
+  "Failed"
+  "失败"
+
+  "Filter"
+  "过滤器"
+
+  "Incrementing order"
+  "增加订单"
+
+  "Iteration"
+  "迭代"
+
+  "Iteration count"
+  "重复计数"
+
+  "Loop"
+  "循环"
+
+  "Loop count"
+  "循环播放次数"
+
+  "Loop type"
+  "循环类型"
+
+  "New Test"
+  "新测试"
+
+  "New Test File"
+  "新测试"
+
+  "New Test Name"
+  "测试名称"
+
+  "Output"
+  "输出"
+
+  "PASSED"
+  "通过"
+
+  "Pass"
+  "通过"
+
+  "Pass Count"
+  "穿透"
+
+  "Passed"
+  "通过"
+
+  "RUNNING BIST"
+  "进行中"
+
+  "Random"
+  "随机"
+
+  "Refresh"
+  "再刷新"
+
+  "Results"
+  "结果"
+
+  "Run Count"
+  "运行数量"
+
+  "Run iterations"
+  "复述"
+
+  "Run loops"
+  "二手过渡 (循环订单)"
+
+  "Running"
+  "进行中"
+
+  "Runtime"
+  "运行时"
+
+  "Selection method"
+  "规则选择方法"
+
+  "Setup"
+  "建立"
+
+  "Total"
+  "总"
+
+  "hours"
+  "小时"
+
+  "minutes"
+  "分钟"
+
+  "seconds"
+  "秒"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset zh {
 
@@ -60,9 +179,6 @@ msgcat::mcmset zh {
 
   "Enter starting file"
   "输入起始文件"
-
-  "Update"
-  "升级"
 
 }
 
@@ -142,7 +258,7 @@ msgcat::mcmset zh {
   "列"
 
   "Copyright"
-  "Copyright"
+  "版权"
 
   "Credits"
   "贡献"
@@ -475,7 +591,7 @@ msgcat::mcmset zh {
   "关闭选定的褶皱-一个级别"
 
   "Code"
-  "Code"
+  "折扣代码"
 
   "Command"
   "命令"
@@ -1317,9 +1433,6 @@ msgcat::mcmset zh {
   "Restart"
   "重新启动"
 
-  "Run"
-  "运行"
-
   "Run theme editor"
   "运行主题编辑器"
 
@@ -1654,7 +1767,7 @@ msgcat::mcmset zh {
   "Vim的模式"
 
   "Windows"
-  "Windows"
+  "窗口"
 
   "Wrap With Abbreviation"
   "用缩写包裹"
@@ -1924,6 +2037,9 @@ msgcat::mcmset zh {
   "Extensions"
   "扩展"
 
+  "Fonts"
+  "字体"
+
   "Format snippet indentation after insert"
   "格式代码段缩进后插入"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset zh {
   "Node Aliases"
   "别名"
 
-  "Options"
-  "选项"
-
   "Profiler Options"
   "探查器选项"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset zh {
   "Search Snippets"
   "搜索代码段"
 
+  "Select Command Launcher Entry Font"
+  "选择Command Launcher Entry Font"
+
+  "Select Command Launcher Preview Font"
+  "选择命令启动器预览字体"
+
+  "Select Editor Font"
+  "选择编辑器字体"
+
   "Select Settings Sharing Directory"
   "选择设置共享目录"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset zh {
 
   "Selected Text"
   "所选文字"
+
+  "Session"
+  "会议"
 
   "Set"
   "设置"
@@ -2182,6 +2307,9 @@ msgcat::mcmset zh {
   "Time"
   "时间"
 
+  "Unknown"
+  "未知"
+
   "Update information panel whenever the sidebar selection changes"
   "侧栏选择更改时更新信息面板"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset zh {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "你改变了全球的首选项，因为你是命名会话中当前不可见。"
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "您已经更改了当前会话的首选项，将不会应用到的全球"
+  "You have changed the current session's preferences which will not be applied globally."
+  "您已更改当前会话的首选项，这些首选项不会全局应用。"
 
   "milliseconds"
   "毫秒"
@@ -2244,11 +2372,17 @@ msgcat::mcmset zh {
   "Close Connection"
   "关闭连接？"
 
+  "Connection does not exist"
+  "连接不存在"
+
   "Connection failed"
   "连接失败"
 
   "Connection passed"
   "通过连接"
+
+  "Connections"
+  "连接设备"
 
   "Create New Folder"
   "创建新文件夹"
@@ -2270,6 +2404,9 @@ msgcat::mcmset zh {
 
   "Enter Password"
   "输入密码"
+
+  "File System"
+  "文件系统"
 
   "Folder Name"
   "文件夹名"
@@ -2348,6 +2485,9 @@ msgcat::mcmset zh {
 
   "Unable to connect to"
   "无法连接"
+
+  "Unable to read remote directory contents."
+  "无法读取远程目录内容。"
 
   "Username"
   "用户名"
@@ -2463,9 +2603,6 @@ msgcat::mcmset zh {
 
   "Right"
   "右边"
-
-  "Selected"
-  "選"
 
   "Selection Mode Command Help"
   "選取模式"
@@ -2808,7 +2945,7 @@ msgcat::mcmset zh {
   "插入光标和背景颜色标记背景颜色。"
 
   "Background color of linemap area."
-  "Background color of linemap area."
+  "线图区域的背景颜色。"
 
   "Background color of list items when not selected"
   "当未选中的列表项的背景色"
@@ -2877,7 +3014,7 @@ msgcat::mcmset zh {
   "颜色要用于突出显示行数滚动条槽中的闭的褶皱"
 
   "Color used to draw the line which separates the linemap from the text area."
-  "Color used to draw the line which separates the linemap from the text area."
+  "用于绘制线条图和文本区域的线条的颜色。"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "用来绘制中编辑缓冲区 (以及线装订线分离编辑缓冲区) 的警告宽度线的颜色。"
@@ -3103,7 +3240,7 @@ msgcat::mcmset zh {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset zh {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset zh {
 
   "   Show Selected Value"
   "選擇值"
+
+  "By"
+  "由"
 
   "Categories"
   "分类"
@@ -3202,6 +3342,9 @@ msgcat::mcmset zh {
   "Save As:"
   "另存為:"
 
+  "Save error"
+  "保存错误"
+
   "Save theme changes?"
   "保存主题的变化？"
 
@@ -3238,8 +3381,8 @@ msgcat::mcmset zh {
   "Table Search"
   "表搜索"
 
-  "The current theme has unsaved changes"
-  "目前的主题有未保存的更改"
+  "The current theme has unsaved changes."
+  "当前主题有未保存的更改。"
 
   "Theme Name"
   "主题名称"
@@ -3249,6 +3392,9 @@ msgcat::mcmset zh {
 
   "Two-Color Bitmap"
   "双色位图"
+
+  "Unknown color value format"
+  "未知的颜色值格式"
 
   "User Directory"
   "用户目录"
@@ -3297,6 +3443,9 @@ msgcat::mcmset zh {
 # vim.tcl
 msgcat::mcmset zh {
 
+  "COMMAND MODE"
+  "命令"
+
   "File format unrecognized"
   "无法识别的文件格式"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset zh {
   "Folding method unrecognized"
   "折叠方法无法识别"
 
+  "INSERT MODE"
+  "插入模式"
+
   "Illegal modelines value"
   "非法 modeline 值"
+
+  "MULTIMOVE MODE"
+  "多模式"
 
   "Number width not a number"
   "数字宽度不是一个数字"
@@ -3323,6 +3478,15 @@ msgcat::mcmset zh {
 
   "Unrecognized vim option"
   "无法识别的 vim 选项"
+
+  "VISUAL BLOCK MODE"
+  "视觉块模式"
+
+  "VISUAL LINE MODE"
+  "视线模式"
+
+  "VISUAL MODE"
+  "预览模式"
 
 }
 
@@ -3458,6 +3622,9 @@ msgcat::mcmset zh {
   "Open"
   "打开"
 
+  "Options"
+  "选项"
+
   "Parenthesis"
   "括号"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset zh {
   "Rename"
   "重命名"
 
+  "Run"
+  "运行"
+
   "Save"
   "保存"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset zh {
 
   "Search"
   "搜索"
+
+  "Selected"
+  "選"
 
   "Sessions"
   "會議"
@@ -3535,6 +3708,9 @@ msgcat::mcmset zh {
 
   "Unfavorite"
   "不喜欢的"
+
+  "Update"
+  "升级"
 
   "Value"
   "數值"

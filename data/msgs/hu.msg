@@ -14,6 +14,125 @@ msgcat::mcmset hu {
 
 }
 
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset hu {
+
+  "Built-In Self Test"
+  "Beépített önteszt"
+
+  "Decrementing order"
+  "A rendeléscsökkenés"
+
+  "Edit Test"
+  "Teszt szerkesztése"
+
+  "Edit Test File"
+  "Testfájl szerkesztése"
+
+  "FAILED"
+  "MEGBUKTÁL"
+
+  "Fail"
+  "Hibás"
+
+  "Fail Count"
+  "Számláló"
+
+  "Failed"
+  "Sikertelen"
+
+  "Filter"
+  "Szűrő"
+
+  "Incrementing order"
+  "Rendezés növelése"
+
+  "Iteration"
+  "Közelítés"
+
+  "Iteration count"
+  "Ismétlés száma"
+
+  "Loop"
+  "Ismétlés"
+
+  "Loop count"
+  "Ismétlések száma"
+
+  "Loop type"
+  "Loop típus:"
+
+  "New Test"
+  "Új teszt"
+
+  "New Test File"
+  "Új tesztfájl"
+
+  "New Test Name"
+  "Teszt neve"
+
+  "Output"
+  "Kimenet"
+
+  "PASSED"
+  "MEGFELELTÉL"
+
+  "Pass"
+  "Helyes"
+
+  "Pass Count"
+  "Menetek száma"
+
+  "Passed"
+  "Minimum eredmény"
+
+  "RUNNING BIST"
+  "Folyamatban"
+
+  "Random"
+  "véletlenszerű"
+
+  "Refresh"
+  "Frissítés"
+
+  "Results"
+  "Eredmények"
+
+  "Run Count"
+  "Számláló"
+
+  "Run iterations"
+  "Run iterációk"
+
+  "Run loops"
+  "Futasson hurkot"
+
+  "Running"
+  "Folyamatban"
+
+  "Runtime"
+  "futási idő"
+
+  "Selection method"
+  "Kiválasztási Módszer:"
+
+  "Setup"
+  "Beállítás"
+
+  "Total"
+  "Összeg"
+
+  "hours"
+  "óra"
+
+  "minutes"
+  "PERC"
+
+  "seconds"
+  "másodperc"
+
+}
+
 # bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
 msgcat::mcmset hu {
 
@@ -60,9 +179,6 @@ msgcat::mcmset hu {
 
   "Enter starting file"
   "Adja meg a kezdő fájl"
-
-  "Update"
-  "Frissítés"
 
 }
 
@@ -1317,9 +1433,6 @@ msgcat::mcmset hu {
   "Restart"
   "Újraindítás"
 
-  "Run"
-  "Futtatás"
-
   "Run theme editor"
   "Fuss téma szerkesztő"
 
@@ -1516,16 +1629,16 @@ msgcat::mcmset hu {
   "Intelligens francia"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Rendezés lapok"
 
   "Sort tabs"
   "Lapok rendezése"
 
   "Split/Join Tag"
-  "Split/Join Tag"
+  "Split / Join tag"
 
   "Split/Join tag"
-  "Split/Join tag"
+  "Split / Join tag"
 
   "Start Profiling"
   "Kezdje Profiling"
@@ -1651,7 +1764,7 @@ msgcat::mcmset hu {
   "Használati útmutató"
 
   "Vim Mode"
-  "Vim Mode"
+  "Vim mód"
 
   "Windows"
   "Windows"
@@ -1924,6 +2037,9 @@ msgcat::mcmset hu {
   "Extensions"
   "Kiterjesztések"
 
+  "Fonts"
+  "Betűk"
+
   "Format snippet indentation after insert"
   "Formátum részlet behúzás után beszúrása"
 
@@ -2008,9 +2124,6 @@ msgcat::mcmset hu {
   "Node Aliases"
   "Csomópont-aliasok"
 
-  "Options"
-  "Beállítások"
-
   "Profiler Options"
   "A profilozó beállításai:"
 
@@ -2062,6 +2175,15 @@ msgcat::mcmset hu {
   "Search Snippets"
   "Keresés töredék"
 
+  "Select Command Launcher Entry Font"
+  "Válassza a Command Launcher Entry Font elemet"
+
+  "Select Command Launcher Preview Font"
+  "Válassza a Parancsindító előnézeti betűtípus parancsot"
+
+  "Select Editor Font"
+  "Válassza a Szerkesztõ betût"
+
   "Select Settings Sharing Directory"
   "Válassza a beállítások könyvtár megosztása"
 
@@ -2073,6 +2195,9 @@ msgcat::mcmset hu {
 
   "Selected Text"
   "A kijelölt szöveg"
+
+  "Session"
+  "Munkafolyamat"
 
   "Set"
   "Beállítás"
@@ -2182,6 +2307,9 @@ msgcat::mcmset hu {
   "Time"
   "Idő"
 
+  "Unknown"
+  "Ismeretlen"
+
   "Update information panel whenever the sidebar selection changes"
   "Frissítse az információs panelt, amikor az oldalsáv-kiválasztás megváltozik"
 
@@ -2227,8 +2355,8 @@ msgcat::mcmset hu {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Globális beállítások, ami nem látható, mert jelenleg egy névvel ellátott munkameneten belül változott."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Módosítja az aktuális munkamenet beállításait nem globálisan alkalmazható"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Megváltoztatta az aktuális munkamenet beállításait, amelyeket nem alkalmaz globálisan."
 
   "milliseconds"
   "ezredmásodperc"
@@ -2244,11 +2372,17 @@ msgcat::mcmset hu {
   "Close Connection"
   "A kapcsolat bezárása"
 
+  "Connection does not exist"
+  "A kapcsolat nem létezik"
+
   "Connection failed"
   "Sikertelen csatlakozás"
 
   "Connection passed"
   "Kapcsolat telt el"
+
+  "Connections"
+  "Kapcsolatok"
 
   "Create New Folder"
   "Új könyvtár létrehozása"
@@ -2270,6 +2404,9 @@ msgcat::mcmset hu {
 
   "Enter Password"
   "Adja meg a jelszót"
+
+  "File System"
+  "Fájlrendszer"
 
   "Folder Name"
   "Mappa"
@@ -2349,6 +2486,9 @@ msgcat::mcmset hu {
   "Unable to connect to"
   "Nem lehet csatlakozni"
 
+  "Unable to read remote directory contents."
+  "Nem lehet olvasni a távoli könyvtár tartalmát."
+
   "Username"
   "Felhasználónév"
 
@@ -2393,7 +2533,7 @@ msgcat::mcmset hu {
   "Zárójelek"
 
   "Backticks"
-  "Backticks"
+  "fordított aposztróffal"
 
   "Block"
   "Blokk"
@@ -2420,7 +2560,7 @@ msgcat::mcmset hu {
   "Kettős idézőjelek"
 
   "Down"
-  "Down"
+  "Lefelé"
 
   "Exit Selection Mode"
   "Kijelölési mód"
@@ -2463,9 +2603,6 @@ msgcat::mcmset hu {
 
   "Right"
   "Jobb"
-
-  "Selected"
-  "Kiválasztva"
 
   "Selection Mode Command Help"
   "Kijelölési mód"
@@ -3081,7 +3218,7 @@ msgcat::mcmset hu {
   "Meghatározza a pixel vastagságú fénypontja sor."
 
   "Standard Scrollbars"
-  "Standard Scrollbars"
+  "Szabványos görgetősávok"
 
   "Syntax Colors"
   "Syntax színek"
@@ -3103,7 +3240,7 @@ msgcat::mcmset hu {
 
 }
 
-# themer.tcl
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
 msgcat::mcmset hu {
 
   "   Show Selected Option"
@@ -3111,6 +3248,9 @@ msgcat::mcmset hu {
 
   "   Show Selected Value"
   "Mutasd a kiválasztott érték"
+
+  "By"
+  "Szerző"
 
   "Categories"
   "Kategóriák"
@@ -3161,19 +3301,19 @@ msgcat::mcmset hu {
   "GIF Fotó"
 
   "Import"
-  "Import"
+  "Importálás"
 
   "Import BMP Data"
   "Import BMP adatok"
 
   "Import BMP Mask"
-  "Import BMP Mask"
+  "Import BMP maszk"
 
   "Import Bitmap Data"
   "Bitmapadatok importálása"
 
   "Import Error"
-  "Import Error"
+  "Importálási hiba"
 
   "Import Theme File"
   "Import témafájlt"
@@ -3201,6 +3341,9 @@ msgcat::mcmset hu {
 
   "Save As:"
   "Mentés másként"
+
+  "Save error"
+  "Mentési hiba"
 
   "Save theme changes?"
   "Mentsd téma változik?"
@@ -3238,8 +3381,8 @@ msgcat::mcmset hu {
   "Table Search"
   "Táblázat-keresés"
 
-  "The current theme has unsaved changes"
-  "Az aktuális téma nem mentett módosításokat tartalmaz"
+  "The current theme has unsaved changes."
+  "A jelenlegi téma mentetlen változásokat tartalmaz."
 
   "Theme Name"
   "Téma neve"
@@ -3249,6 +3392,9 @@ msgcat::mcmset hu {
 
   "Two-Color Bitmap"
   "Két-Color Bitmap"
+
+  "Unknown color value format"
+  "Ismeretlen szín érték formátum"
 
   "User Directory"
   "Saját könyvtár"
@@ -3297,6 +3443,9 @@ msgcat::mcmset hu {
 # vim.tcl
 msgcat::mcmset hu {
 
+  "COMMAND MODE"
+  "Parancs"
+
   "File format unrecognized"
   "Ismeretlen fájlformátum"
 
@@ -3306,8 +3455,14 @@ msgcat::mcmset hu {
   "Folding method unrecognized"
   "Ismeretlen módszer összecsukható"
 
+  "INSERT MODE"
+  "beszúró üzemmód"
+
   "Illegal modelines value"
   "Illegális hardverednek érték"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVE MÓD"
 
   "Number width not a number"
   "Szám szélessége nem szám"
@@ -3324,6 +3479,15 @@ msgcat::mcmset hu {
   "Unrecognized vim option"
   "Ismeretlen vim lehetőség"
 
+  "VISUAL BLOCK MODE"
+  "VIZUÁLIS BLOCK MÓD"
+
+  "VISUAL LINE MODE"
+  "VISUAL LINE MÓD"
+
+  "VISUAL MODE"
+  "Vizuális"
+
 }
 
 # General
@@ -3339,7 +3503,7 @@ msgcat::mcmset hu {
   "Vissza"
 
   "Bird's Eye View"
-  "Bird's Eye View"
+  "Madártávlat"
 
   "Browse"
   "Böngészés"
@@ -3458,6 +3622,9 @@ msgcat::mcmset hu {
   "Open"
   "Nyissa"
 
+  "Options"
+  "Beállítások"
+
   "Parenthesis"
   "Zárójel"
 
@@ -3476,6 +3643,9 @@ msgcat::mcmset hu {
   "Rename"
   "Átnevezés"
 
+  "Run"
+  "Futtatás"
+
   "Save"
   "Mentés"
 
@@ -3484,6 +3654,9 @@ msgcat::mcmset hu {
 
   "Search"
   "Keresés"
+
+  "Selected"
+  "Kiválasztva"
 
   "Sessions"
   "Ülések"
@@ -3510,13 +3683,13 @@ msgcat::mcmset hu {
   "Töredék"
 
   "Snippets"
-  "Snippets"
+  "Kóddarabok"
 
   "Split View"
   "Osztott nézet"
 
   "TKE Updater"
-  "TKE Updater"
+  "TKE frissítő"
 
   "Templates"
   "Sablonok"
@@ -3535,6 +3708,9 @@ msgcat::mcmset hu {
 
   "Unfavorite"
   "Nem kedvenc"
+
+  "Update"
+  "Frissítés"
 
   "Value"
   "Érték"
