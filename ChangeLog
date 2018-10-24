@@ -1,38 +1,82 @@
-2018-10-22 00:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f54620a09859 [devel-3.4.4] <temp34>)
+2018-10-22 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (917fb5e0643f [devel-3.4.5] <temp34>)
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.4 release
+	ChangeLog for devel-3.4.5 release
 
-2018-10-22 00:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8620d3afc727 <temp34>)
+2018-10-22 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (08bca42ff268 <temp34>)
 
 	* .hgtags:
-	Added tag devel-3.4.4 for changeset f54620a09859
+	Added tag devel-3.4.5 for changeset 917fb5e0643f
 
-2018-10-22 00:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0765f37dc62b [tip] <temp34>)
+2018-10-22 13:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (b991a16af88c <temp34>)
 
-	* data/msgs/ru.msg, lib/version.tcl, plugins/e_menu/README.md,
-	plugins/e_menu/e_menu/e_menu.tcl,
-	plugins/e_menu/e_menu/menus/fossil.mnu,
-	plugins/e_menu/e_menu/menus/fossil2.mnu,
-	plugins/e_menu/e_menu/menus/git.mnu,
-	plugins/e_menu/e_menu/menus/git2.mnu,
-	plugins/e_menu/e_menu/menus/links.mnu,
-	plugins/e_menu/e_menu/menus/links2.mnu,
-	plugins/e_menu/e_menu/menus/menu.mnu,
-	plugins/e_menu/e_menu/menus/python.mnu,
-	plugins/e_menu/e_menu/menus/side.mnu,
-	plugins/e_menu/e_menu/menus/tcltk.mnu,
-	plugins/e_menu/e_menu/menus/test1.mnu,
-	plugins/e_menu/e_menu/menus/test2.mnu,
-	plugins/e_menu/e_menu/menus/test3.mnu,
-	plugins/e_menu/e_menu/menus/utils.mnu,
-	plugins/e_menu/e_menu/src/ch_.tcl,
-	plugins/e_menu/e_menu/src/e_help.tcl,
-	plugins/e_menu/e_menu/src/procs.tcl,
-	plugins/e_menu/e_menu/src/rarrow.png,
-	plugins/e_menu/e_menu/src/run_pause.bat,
-	plugins/e_menu/e_menu/src/run_pause.sh,
-	plugins/e_menu/header.tkedat, plugins/e_menu/main.tcl:
-	* Updating e_menu plugin.
-	* Updating Russian translation.
+	* data/preferences.tkedat, lib/ctext/ctext.tcl, lib/gui.tcl,
+	lib/pref_ui.tcl, lib/version.tcl:
+	* Adding ability to change the line number alignment in preferences
+	to left or right.
+	* Adding space between line numbers and the gutter items to enhance
+	readability.
+
+2018-10-22 13:40 -0500  Trevor Williams  <phase1geo@gmail.com>  (94f3e2cce1e5 <temp34>)
+
+	* lib/pref_ui.tcl, lib/syntax.tcl, lib/version.tcl:
+	* Changing preference Language table to display file patterns
+	instead of extensions.
+
+2018-10-22 14:48 -0500  Trevor Williams  <phase1geo@gmail.com>  (c95320b177df <temp34>)
+
+	* lib/edit.tcl, lib/version.tcl:
+	* Fixing issues with bubbling lines up/down that are selected.
+
+2018-10-22 19:13 -0500  Trevor Williams  <phase1geo@gmail.com>  (313d869d9cbc <temp34>)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/bitmap.tcl, lib/diff.tcl,
+	lib/ipanel.tcl, lib/lang.tcl, lib/select.tcl, lib/version.tcl:
+	* Adding support to translation files to include information to help
+	translators find the respective context.
+
+2018-10-23 10:56 -0500  Trevor Williams  <phase1geo@gmail.com>  (4fc23ad4e7d7 <temp34>)
+
+	* .hgignore, doc/md/TKE User Guide/Snippets/Snippet Variables.md,
+	lib/bist.tcl, lib/lang.tcl, lib/pref_ui.tcl, lib/remote.tcl,
+	lib/snip_parser.tac, lib/snip_parser.tcl, lib/themer.tcl,
+	lib/version.tcl, lib/vim.tcl:
+	* Enhancing .hgignore file.
+	* Adding ability to insert dates in the format of YYYY/MM/DD with the
+	new CURRENT_DATE2 snippet variable.
+	* Improving translation support in source files.
+	* Attempting to fix issues with generating bad translation files.
+
+2018-10-23 14:58 -0500  Trevor Williams  <phase1geo@gmail.com>  (434fc6167d52 <temp34>)
+
+	* data/syntax/HTML.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing syntax highlighting issues with embedded languages.
+	* Improving HTML syntax highlighting.
+	* Improving embedded syntax highlighting performance.
+
+2018-10-23 22:05 -0500  Trevor Williams  <phase1geo@gmail.com>  (37d9ffa08efc <temp34>)
+
+	* data/syntax/HTML.syntax, lib/ctext/ctext.tcl, lib/syntax.tcl,
+	lib/version.tcl:
+	* Checkpointing performance improvements for HTML editing.
+
+2018-10-23 22:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (f5c0fa48f85c <temp34>)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating messages.
+
+2018-10-24 00:40 -0500  Trevor Williams  <phase1geo@gmail.com>  (6d9cb9c21879 [tip] <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Checkpointing more improvements to the syntax highlighter.
 
