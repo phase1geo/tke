@@ -1,5 +1,3 @@
-# by george peter Staplin
-# See also the README for a list of contributors
 # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
@@ -3196,26 +3194,6 @@ namespace eval ctext {
 
   }
 
-  proc brackets {twin start end lang} {
-
-    variable data
-    variable REs
-    variable bracket_map
-    variable bracket_map2
-
-    # Handle special character matching
-    foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-      lappend tags(_$bracket_map([$twin get $res])) $res "$res+1c"
-    }
-
-    foreach tag [array names tags] {
-      if {[info exists data($twin,config,matchChar,$lang,[string range $tag 1 end-1])]} {
-        $twin tag add $tag {*}$tags($tag)
-      }
-    }
-
-  }
-
   # This procedure tags all of the whitespace from the beginning of a line.  This
   # must be called prior to invoking the indentation procedure.
   proc prewhite {twin start end} {
@@ -3232,21 +3210,124 @@ namespace eval ctext {
 
   }
 
-  proc indentation {twin start end lang} {
+  proc brackets {win start end lang ptags} {
+
+    upvar $ptags tags
+
+    variable data
+    variable REs
+    variable bracket_map
+
+    array set ttags {}
+
+    # Handle special character matching
+    foreach res [$win._t search -regexp -all -- $REs(brackets) $start $end] {
+      lappend ttags(_$bracket_map([$win._t get $res]) $res "$res+1c"
+    }
+
+    foreach tag [array names ttags] {
+      if {[info exists data($win,config,matchChar,$lang,[string range $tag 1 end-1])]} {
+        dict lappend tags $tag {*}$ttags($tag)
+      }
+    }
+
+  }
+
+  proc indentation {win start end lang ptags} {
+
+    upvar $ptags tags
 
     variable data
 
     # Add indentation
-    foreach key [array names data $twin,config,indentation,$lang,*] {
+    foreach key [array names data $win,config,indentation,$lang,*] {
       set type [lindex [split $key ,] 4]
       set i    0
       array unset indices
-      foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-        lappend indices([expr $i & 1]) $res "$res+[lindex $lengths $i]c"
+      foreach res [$win._t search -regexp -all -count lengths -- $data($key) $start $end] {
+        dict lappend tags _$type[expr $i & 1] $res "$res+[lindex $lengths $i]c"
         incr i
       }
-      foreach i {0 1} {
-        catch { $twin tag add _$type$i {*}$indices($i) }
+    }
+
+  }
+
+  proc words {win start end lang ptags} {
+
+    upvar $ptags tags
+
+    variable data
+
+    if {[llength [array names data $win,highlight,w*,$lang,*]] > 0} {
+
+      set i 0
+      foreach res [$win._t search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
+        set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
+        set word    [$win._t get $res $wordEnd]
+        if {!$data($win,config,-casesensitive)} {
+          set word [string tolower $word]
+        }
+        set firstOfWord [string index $word 0]
+        if {[info exists data($win,highlight,wkeyword,class,$lang,$word)]} {
+          dict lappend tags $data($win,highlight,wkeyword,class,$lang,$word) $res $wordEnd
+        } elseif {[info exists data($win,highlight,wcharstart,class,$lang,$firstOfWord)]} {
+          dict lappend tags $data($win,highlight,wcharstart,class,$lang,$firstOfWord) $res $wordEnd
+        }
+        if {[info exists data($win,highlight,wkeyword,command,$lang,$word)] && \
+            ![catch { {*}$data($win,highlight,wkeyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
+          if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+            dict lappend tags [lindex $ret 0] {*}[lrange $ret 1 end]
+          }
+        } elseif {[info exists data($win,highlight,wcharstart,command,$lang,$firstOfWord)] && \
+                  ![catch { {*}$data($win,highlight,wcharstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
+          if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+            dict lappend tags [lindex $ret 0] {*}[lrange $ret 1 end]
+          }
+        }
+        incr i
+      }
+
+    }
+
+  }
+
+  proc regexps {win start end lang ins ptags} {
+
+    upvar $ptags tags
+
+    variable data
+
+    # Handle regular expression matching
+    foreach name $data($win,highlight,regexps,$lang) {
+      lassign [split $name ,] dummy1 type dummy2 value
+      lassign $data($win,highlight,$name) re re_opts
+      set i 0
+      if {$type eq "class"} {
+        foreach res [$win._t search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end] {
+          set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
+          dict lappend tags $value $res $wordEnd
+          incr i
+        }
+      } else {
+        set startrow [lindex [split $start .] 0]
+        foreach line [split [$win._t get $start $end] \n] {
+          set index 0
+          array unset var
+          while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
+            if {![catch { {*}$value $win $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
+              lassign $retval rtags goback
+              if {([llength $rtags] % 3) == 0} {
+                foreach {rtag rstart rend} $rtags {
+                  dict lappend tags __$rtag $startrow.$rstart $startrow.[expr $rend + 1]
+                }
+              }
+              set index [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
+            } else {
+              set index [expr {[lindex $var(0) 1] + 1}]
+            }
+          }
+          incr startrow
+        }
       }
     }
 
@@ -3541,7 +3622,7 @@ namespace eval ctext {
     }
 
     set twin "$win._t"
-    array set tags [list]
+    set tags [dict create]
 
     foreach lang $data($win,config,langs) {
 
@@ -3559,80 +3640,18 @@ namespace eval ctext {
         if {[$twin compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
         if {[$twin compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
 
-        brackets    $win $pstart $pend $lang
-        indentation $win $pstart $pend $lang
-
-        # Handle word-based matching
-        if {[llength [array names data $win,highlight,w*,$lang,*]] > 0} {
-          set i 0
-          foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $pstart $pend] {
-            set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-            set word    [$twin get $res $wordEnd]
-            if {!$data($win,config,-casesensitive)} {
-              set word [string tolower $word]
-            }
-            set firstOfWord [string index $word 0]
-            if {[info exists data($win,highlight,wkeyword,class,$lang,$word)]} {
-              lappend tags($data($win,highlight,wkeyword,class,$lang,$word)) $res $wordEnd
-            } elseif {[info exists data($win,highlight,wcharstart,class,$lang,$firstOfWord)]} {
-              lappend tags($data($win,highlight,wcharstart,class,$lang,$firstOfWord)) $res $wordEnd
-            }
-            if {[info exists data($win,highlight,wkeyword,command,$lang,$word)] && \
-                ![catch { {*}$data($win,highlight,wkeyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-              if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-                lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-              }
-            } elseif {[info exists data($win,highlight,wcharstart,command,$lang,$firstOfWord)] && \
-                      ![catch { {*}$data($win,highlight,wcharstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-              if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-                lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-              }
-            }
-            incr i
-          }
-        }
-
-        # Handle regular expression matching
-        foreach name $data($win,highlight,regexps,$lang) {
-          lassign [split $name ,] dummy1 type dummy2 value
-          lassign $data($win,highlight,$name) re re_opts
-          set i 0
-          if {$type eq "class"} {
-            foreach res [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $pstart $pend] {
-              set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-              lappend tags($value) $res $wordEnd
-              incr i
-            }
-          } else {
-            set startrow [lindex [split $pstart .] 0]
-            foreach line [split [$twin get $pstart $pend] \n] {
-              set index 0
-              array unset var
-              while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
-                if {![catch { {*}$value $twin $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
-                  lassign $retval rtags goback
-                  if {([llength $rtags] % 3) == 0} {
-                    foreach {rtag rstart rend} $rtags {
-                      lappend tags(__$rtag) $startrow.$rstart $startrow.[expr $rend + 1]
-                    }
-                  }
-                  set index [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
-                } else {
-                  set index [expr {[lindex $var(0) 1] + 1}]
-                }
-              }
-              incr startrow
-            }
-          }
-        }
+        brackets    $win $pstart $pend $lang tags
+        indentation $win $pstart $pend $lang tags
+        words       $win $pstart $pend $lang tags
+        regexps     $win $pstart $pend $lang $ins tags
 
       }
 
     }
 
-    # Add the tags
-    foreach {tag indices} [array get tags] {
-      $twin tag add $tag {*}$indices
+    # Update the tags
+    dict for {tag indices} $tags {
+      $win._t tag add $tag {*}$indices
     }
 
   }
