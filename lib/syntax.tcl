@@ -482,8 +482,8 @@ namespace eval syntax {
         ctext::setIndentation $txt {} $reindents      reindent
 
         # Add the FIXME
-        ctext::addHighlightClass $txt fixme -fgtheme miscellaneous1
-        ctext::addHighlightKeywords $txt FIXME class fixme
+        # ctext::addHighlightClass $txt fixme -fgtheme miscellaneous1
+        # ctext::addHighlightKeywords $txt FIXME class fixme
 
         # Set the indent/unindent regular expressions
         indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
@@ -584,7 +584,7 @@ namespace eval syntax {
       ctext::setIndentation $txt $language $reindents      reindent
 
       # Add the FIXME
-      ctext::addHighlightKeywords $txt FIXME class fixme $language
+      # ctext::addHighlightKeywords $txt FIXME class fixme $language
 
       # Set the indent/unindent regular expressions
       indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1

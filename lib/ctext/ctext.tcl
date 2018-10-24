@@ -800,20 +800,6 @@ namespace eval ctext {
 
   }
 
-  proc highlight {win lineStart lineEnd ins} {
-
-    variable data
-
-    # If highlighting has been disabled, return immediately
-    if {!$data($win,config,-highlight)} {
-      return
-    }
-
-    # Perform the highlight in the background
-    doHighlight $win $lineStart $lineEnd $ins
-
-  }
-
   proc handleFocusIn {win} {
 
     variable data
@@ -2962,14 +2948,10 @@ namespace eval ctext {
           $win._t tag remove $tag [lindex $lineranges 1] end
         }
       }
-      brackets    $win [lindex $lineranges 0] end
-      indentation $win [lindex $lineranges 0] end
-      highlight   $win [lindex $lineranges 0] end $ins
+      highlight $win [lindex $lineranges 0] end $ins
     } else {
       foreach {linestart lineend} $ranges {
-        brackets    $win $linestart $lineend
-        indentation $win $linestart $lineend
-        highlight   $win $linestart $lineend $ins
+        highlight $win $linestart $lineend $ins
       }
     }
 
@@ -3214,7 +3196,7 @@ namespace eval ctext {
 
   }
 
-  proc brackets {twin start end} {
+  proc brackets {twin start end lang} {
 
     variable data
     variable REs
@@ -3223,13 +3205,12 @@ namespace eval ctext {
 
     # Handle special character matching
     foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-      lappend indices(_$bracket_map([$twin get $res]),[getLang $twin $res]) $res "$res+1c"
+      lappend tags(_$bracket_map([$twin get $res])) $res "$res+1c"
     }
 
-    foreach key [array names indices] {
-      lassign [split $key ,] tag lang
+    foreach tag [array names tags] {
       if {[info exists data($twin,config,matchChar,$lang,[string range $tag 1 end-1])]} {
-        $twin tag add $tag {*}$indices($key)
+        $twin tag add $tag {*}$tags($tag)
       }
     }
 
@@ -3251,23 +3232,21 @@ namespace eval ctext {
 
   }
 
-  proc indentation {twin start end} {
+  proc indentation {twin start end lang} {
 
     variable data
 
     # Add indentation
-    foreach key [array names data $twin,config,indentation,*,*] {
-      set elems [split $key ,]
-      set lang  [lindex $elems 3]
-      set type  [lindex $elems 4]
-      set i     0
+    foreach key [array names data $twin,config,indentation,$lang,*] {
+      set type [lindex [split $key ,] 4]
+      set i    0
       array unset indices
       foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-        lappend indices([expr $i & 1],[getLang $twin $res]) $res "$res+[lindex $lengths $i]c"
+        lappend indices([expr $i & 1]) $res "$res+[lindex $lengths $i]c"
         incr i
       }
       foreach i {0 1} {
-        catch { $twin tag add _$type$i {*}$indices($i,$lang) }
+        catch { $twin tag add _$type$i {*}$indices($i) }
       }
     }
 
@@ -3342,7 +3321,7 @@ namespace eval ctext {
     }
 
     foreach word $keywords {
-      set data($win,highlight,keyword,$type,$lang,$word) $value
+      set data($win,highlight,wkeyword,$type,$lang,$word) $value
     }
 
   }
@@ -3372,7 +3351,7 @@ namespace eval ctext {
       set value __$value
     }
 
-    set data($win,highlight,charstart,$type,$lang,$char) $value
+    set data($win,highlight,wcharstart,$type,$lang,$char) $value
 
   }
 
@@ -3547,7 +3526,7 @@ namespace eval ctext {
 
   }
 
-  proc doHighlight {win start end ins} {
+  proc highlight {win start end ins} {
 
     variable data
     variable REs
@@ -3564,55 +3543,57 @@ namespace eval ctext {
     set twin "$win._t"
     array set tags [list]
 
-    # Handle word-based matching
-    set i 0
-    foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
-      set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-      set word    [$twin get $res $wordEnd]
-      set lang    [lindex [split [lindex [$twin tag names $res] 0] =] 1]
-      if {!$data($win,config,-casesensitive)} {
-        set word [string tolower $word]
-      }
-      set firstOfWord [string index $word 0]
-      if {[info exists data($win,highlight,keyword,class,$lang,$word)]} {
-        lappend tags($data($win,highlight,keyword,class,$lang,$word)) $res $wordEnd
-      } elseif {[info exists data($win,highlight,charstart,class,$lang,$firstOfWord)]} {
-        lappend tags($data($win,highlight,charstart,class,$lang,$firstOfWord)) $res $wordEnd
-      }
-      if {[info exists data($win,highlight,keyword,command,$lang,$word)] && \
-          ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-        if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-          lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-        }
-      } elseif {[info exists data($win,highlight,charstart,command,$lang,$firstOfWord)] && \
-                ![catch { {*}$data($win,highlight,charstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-        if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-          lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-        }
-      }
-      if {[info exists data($win,highlight,searchword,class,$word)]} {
-        $twin tag add $data($win,highlight,searchword,class,$word) $res $wordEnd
-      } elseif {[info exists data($win,highlight,searchword,command,$word)] && \
-                ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-        if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-          lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-        }
-      }
-      incr i
-    }
+    foreach lang $data($win,config,langs) {
 
-    # Handle regular expression matching
-    foreach key [array names data $win,highlight,regexps,*] {
-      if {[set lang [lindex [split $key ,] 3]] eq ""} {
+      # Get the ranges to check
+      if {$lang eq ""} {
         set ranges [list 1.0 end]
       } else {
         set ranges [$twin tag ranges "_Lang=$lang"]
       }
+
+      # Perform highlighting for each range
       foreach {langstart langend} $ranges {
+
         if {[$twin compare $start > $langend] || [$twin compare $langstart > $end]} continue
         if {[$twin compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
         if {[$twin compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
-        foreach name $data($key) {
+
+        brackets    $win $pstart $pend $lang
+        indentation $win $pstart $pend $lang
+
+        # Handle word-based matching
+        if {[llength [array names data $win,highlight,w*,$lang,*]] > 0} {
+          set i 0
+          foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $pstart $pend] {
+            set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
+            set word    [$twin get $res $wordEnd]
+            if {!$data($win,config,-casesensitive)} {
+              set word [string tolower $word]
+            }
+            set firstOfWord [string index $word 0]
+            if {[info exists data($win,highlight,wkeyword,class,$lang,$word)]} {
+              lappend tags($data($win,highlight,wkeyword,class,$lang,$word)) $res $wordEnd
+            } elseif {[info exists data($win,highlight,wcharstart,class,$lang,$firstOfWord)]} {
+              lappend tags($data($win,highlight,wcharstart,class,$lang,$firstOfWord)) $res $wordEnd
+            }
+            if {[info exists data($win,highlight,wkeyword,command,$lang,$word)] && \
+                ![catch { {*}$data($win,highlight,wkeyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
+              if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+                lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
+              }
+            } elseif {[info exists data($win,highlight,wcharstart,command,$lang,$firstOfWord)] && \
+                      ![catch { {*}$data($win,highlight,wcharstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
+              if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+                lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
+              }
+            }
+            incr i
+          }
+        }
+
+        # Handle regular expression matching
+        foreach name $data($win,highlight,regexps,$lang) {
           lassign [split $name ,] dummy1 type dummy2 value
           lassign $data($win,highlight,$name) re re_opts
           set i 0
@@ -3644,7 +3625,9 @@ namespace eval ctext {
             }
           }
         }
+
       }
+
     }
 
     # Add the tags
