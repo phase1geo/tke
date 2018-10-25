@@ -3010,27 +3010,36 @@ namespace eval ctext {
           if {[$win._t compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
           if {[$win._t compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
 
+          set lines    [split [$win._t get $pstart $pend] \n]
+          set startrow [lindex [split $pstart .] 0]
+
           # First, tag all string/comment patterns found between start and end
           foreach {tag pattern} $data($win,config,csl_patterns,$lang) {
             array set indices {0 {} 1 {}}
-            set i 0
-            foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $pstart $pend] {
-              if {![isEscaped $win $index]} {
-                set end_index [$win index "$index+[lindex $lengths $i]c"]
-                if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
-                  set match [$win get $index $end_index]
-                  set diff  [expr [string length $match] - [string length [string trimleft $match]]]
-                  lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
-                } else {
-                  lappend indices([expr $i & 1]) $index $end_index
+            set i   0
+            set row $startrow
+            foreach line $lines {
+              set start 0
+              while {[regexp -indices -start $start {*}$data($win,config,re_opts) -- $pattern $line res]} {
+                lassign $res scol ecol
+                set start [expr $ecol + 1]
+                if {![isEscaped $win $row.$scol]} {
+                  if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
+                    set match [string range $line $scol $ecol]
+                    set diff  [expr [string length $match] - [string length [string trimleft $match]]]
+                    lappend indices([expr $i & 1]) $row.[expr $scol + $diff] $row.$start
+                  } else {
+                    lappend indices([expr $i & 1]) $row.$scol $row.$start
+                  }
                 }
+                incr i
               }
-              incr i
+              incr row
             }
             foreach j {0 1} {
               if {$indices($j) ne [getTagInRange $win $tag$j $pstart $pend]} {
-                $win tag remove $tag$j $pstart $pend
-                catch { $win tag add $tag$j {*}$indices($j) }
+                $win._t tag remove $tag$j $pstart $pend
+                catch { $win._t tag add $tag$j {*}$indices($j) }
                 set tag_changed($tag) 1
               }
             }
@@ -3215,7 +3224,37 @@ namespace eval ctext {
 
     # Handle special character matching
     foreach res [$win._t search -regexp -all -- $REs(brackets) $start $end] {
-      lappend ttags(_$bracket_map([$win._t get $res]) $res "$res+1c"
+      lappend ttags(_$bracket_map([$win._t get $res])) $res "$res+1c"
+    }
+
+    foreach tag [array names ttags] {
+      if {[info exists data($win,config,matchChar,$lang,[string range $tag 1 end-1])]} {
+        dict lappend tags $tag {*}$ttags($tag)
+      }
+    }
+
+  }
+
+  proc brackets1 {win start end lang ptags} {
+
+    upvar $ptags tags
+
+    variable data
+    variable REs
+    variable bracket_map
+
+    array set ttags {}
+
+    # Handle special character matching
+    set startrow [lindex [split $start .] 0]
+    foreach line [split [$win._t get $start $end] \n] {
+      set start 0
+      while {[regexp -indices -start $start -- $REs(brackets) $line res]} {
+        set scol  [lindex $res 0]
+        set start [expr $scol + 1]
+        lappend ttags(_$bracket_map([string index $line $scol])) $startrow.$scol $startrow.$start
+      }
+      incr startrow
     }
 
     foreach tag [array names ttags] {
@@ -3236,10 +3275,37 @@ namespace eval ctext {
     foreach key [array names data $win,config,indentation,$lang,*] {
       set type [lindex [split $key ,] 4]
       set i    0
-      array unset indices
       foreach res [$win._t search -regexp -all -count lengths -- $data($key) $start $end] {
         dict lappend tags _$type[expr $i & 1] $res "$res+[lindex $lengths $i]c"
         incr i
+      }
+    }
+
+  }
+
+  proc indentation1 {win start end lang ptags} {
+
+    upvar $ptags tags
+
+    variable data
+
+    set lines    [split [$win._t get $start $end] \n]
+    set startrow [lindex [split $start .] 0]
+
+    # Add indentation
+    foreach key [array names data $win,config,indentation,$lang,*] {
+      set type [lindex [split $key ,] 4]
+      set i    0
+      set row  $startrow
+      foreach line $lines {
+        set start 0
+        while {[regexp -indices -start $start -- $data($key) $line res]} {
+          lassign $res scol ecol
+          set start [expr $ecol + 1]
+          dict lappend tags _$type[expr $i & 1] $startrow.$scol $startrow.$start
+          incr i
+        }
+        incr row
       }
     }
 
@@ -3278,6 +3344,49 @@ namespace eval ctext {
           }
         }
         incr i
+      }
+
+    }
+
+  }
+
+  proc words1 {win start end lang ptags} {
+
+    upvar $ptags tags
+
+    variable data
+
+    if {[llength [array names data $win,highlight,w*,$lang,*]] > 0} {
+
+      set row [lindex [split $start .] 0]
+      foreach line [split [$win._t get $start $end] \n] {
+        set start 0
+        while {[regexp -indices -start $start -- $data($win,config,-delimiters) $line res]} {
+          lassign $res scol ecol
+          set word  [string range $line $scol $ecol]
+          set start [expr $ecol + 1]
+          if {!$data($win,config,-casesensitive)} {
+            set word [string tolower $word]
+          }
+          set firstOfWord [string index $word 0]
+          if {[info exists data($win,highlight,wkeyword,class,$lang,$word)]} {
+            dict lappend tags $data($win,highlight,wkeyword,class,$lang,$word) $row.$scol $row.$start
+          } elseif {[info exists data($win,highlight,wcharstart,class,$lang,$firstOfWord)]} {
+            dict lappend tags $data($win,highlight,wcharstart,class,$lang,$firstOfWord) $row.$scol $row.$start
+          }
+          if {[info exists data($win,highlight,wkeyword,command,$lang,$word)] && \
+              ![catch { {*}$data($win,highlight,wkeyword,command,$lang,$word) $win $scol $start $ins } retval] && ([llength $retval] == 4)} {
+            if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+              dict lappend tags [lindex $ret 0] {*}[lrange $ret 1 end]
+            }
+          } elseif {[info exists data($win,highlight,wcharstart,command,$lang,$firstOfWord)] && \
+                    ![catch { {*}$data($win,highlight,wcharstart,command,$lang,$firstOfWord) $win $row.$scol $row.$start $ins } retval] && ([llength $retval] == 4)} {
+            if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+              dict lappend tags [lindex $ret 0] {*}[lrange $ret 1 end]
+            }
+          }
+        }
+        incr row
       }
 
     }
@@ -3633,10 +3742,10 @@ namespace eval ctext {
         if {[$twin compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
         if {[$twin compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
 
-        brackets    $win $pstart $pend $lang tags
-        indentation $win $pstart $pend $lang tags
-        words       $win $pstart $pend $lang tags
-        regexps     $win $pstart $pend $lang $ins tags
+        brackets1    $win $pstart $pend $lang tags
+        indentation1 $win $pstart $pend $lang tags
+        words1       $win $pstart $pend $lang tags
+        regexps      $win $pstart $pend $lang $ins tags
 
       }
 
