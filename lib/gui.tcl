@@ -1878,11 +1878,13 @@ namespace eval gui {
       # Initialize the undo count
       set undo_count($tab) 0
 
+      # Check the highlightable value
+      check_highlightable $txt $contents
+
       # Insert the file contents
       $txt fastinsert end $contents
 
       # Highlight text and add update code folds
-      $txt configure -highlight [highlightable $contents]
       $txt highlight 1.0 end
       $txt see 1.0
 
@@ -1939,13 +1941,24 @@ namespace eval gui {
   # make this decision by examining the length of each line.  If a line
   # exceeds a given length, we know this will cause problems with the
   # Tk text widget.
-  proc highlightable {contents} {
+  proc check_highlightable {txt contents} {
+
+    variable widgets
+
+    set highlightable 1
 
     foreach line [split $contents \n] {
-      if {[string length $line] > 1024} { return 0 }
+      if {[string length $line] > 1024} {
+        set highlightable 0
+        break;
+      }
     }
 
-    return 1
+    # Set the highlight value
+    $txt configure -highlight $highlightable
+
+    # Update the auto-indentation value
+    indent::update_auto_indent $txt.t $widgets(info_indent)
 
   }
 
@@ -2008,8 +2021,7 @@ namespace eval gui {
     if {[files::get_file $tab contents]} {
 
       # Updat the highlightability attribute of the text widget
-      $txt configure -highlight [highlightable $contents]
-      indent::update_button $widgets(info_indent)
+      check_highlightable $txt $contents
 
       # Read the file contents and insert them
       $txt insert end $contents
@@ -5745,11 +5757,14 @@ namespace eval gui {
     # Create the menubutton menu
     set mnu [menu ${w}Menu -tearoff 0]
 
+    # If we are running in Aqua, don't perform the column break
+    set dobreak [expr {[tk windowingsystem] ne "aqua"}]
+
     # Populate the menu with the available languages
     set i 0
     foreach enc [lsort -dictionary [encoding names]] {
       $mnu add radiobutton -label [string toupper $enc] -variable gui::current_encoding \
-        -value $enc -command [list gui::set_encoding $enc] -columnbreak [expr ($i % 20) == 0]
+        -value $enc -command [list gui::set_encoding $enc] -columnbreak [expr (($i % 20) == 0) && $dobreak]
       incr i
     }
 
@@ -5780,6 +5795,10 @@ namespace eval gui {
 
     # Update the file with the new encoding
     update_file $fileindex
+
+    # Set the focus back to the text editor
+    puts "This is really great and something"
+    set_txt_focus [last_txt_focus]
 
   }
 
