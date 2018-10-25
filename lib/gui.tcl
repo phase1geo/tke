@@ -1882,6 +1882,7 @@ namespace eval gui {
       $txt fastinsert end $contents
 
       # Highlight text and add update code folds
+      $txt configure -highlight [highlightable $contents]
       $txt highlight 1.0 end
       $txt see 1.0
 
@@ -1930,6 +1931,21 @@ namespace eval gui {
 
     # Specify that we have completed loading the tab
     $tabbar tab $tab -busy 0
+
+  }
+
+  ######################################################################
+  # Returns true if the given file contents should be highlighted.  We
+  # make this decision by examining the length of each line.  If a line
+  # exceeds a given length, we know this will cause problems with the
+  # Tk text widget.
+  proc highlightable {contents} {
+
+    foreach line [split $contents \n] {
+      if {[string length $line] > 1024} { return 0 }
+    }
+
+    return 1
 
   }
 
