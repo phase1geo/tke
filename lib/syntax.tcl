@@ -486,7 +486,7 @@ namespace eval syntax {
         # ctext::addHighlightKeywords $txt FIXME class fixme
 
         # Set the indent/unindent regular expressions
-        indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
+        indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
@@ -587,7 +587,7 @@ namespace eval syntax {
       # ctext::addHighlightKeywords $txt FIXME class fixme $language
 
       # Set the indent/unindent regular expressions
-      indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1
+      indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
 
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)

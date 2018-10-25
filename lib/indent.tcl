@@ -202,7 +202,7 @@ namespace eval indent {
 
     variable data
 
-    return [expr {$data($txt.t,indent) ne ""}]
+    return [expr {$data($txt.t,auto,avail) ne ""}]
 
   }
 
@@ -687,21 +687,13 @@ namespace eval indent {
 
   ######################################################################
   # Sets the indentation expressions for the given text widget.
-  proc set_indent_expressions {txtt indent unindent reindent {add 0}} {
+  proc set_indent_expressions {txtt indent unindent reindent} {
 
     variable data
 
-    # If we are adding the given indentation expressions
-    if {$add} {
-      lappend indent {*}[split $data($txtt,indent) |]
-    }
-
+    # Update the auto-indent settings
     set data($txtt,auto,avail)  [expr {$indent ne ""}]
     set data($txtt,auto,enable) 1
-    # Set the indentation expressions
-    set data($txtt,indent)   [join $indent |]
-    set data($txtt,unindent) [join $unindent |]
-    set data($txtt,reindent) [join $reindent |]
 
     # Set the default indentation mode
     if {[preferences::get Editor/EnableAutoIndent]} {
@@ -714,23 +706,23 @@ namespace eval indent {
       set data($txtt,mode) "OFF"
     }
 
-    # Update the state of the indentation widget
-    gui::update_indent_button
-
   }
 
   ######################################################################
   # This will be caused if the associated file is not able to be automatically
   # indented due to syntax highlighting being disabled.
-  proc set_auto_indent {value} {
+  proc update_auto_indent {txtt w} {
 
     variable data
 
-    if {$data($txtt,mode) eq "IND+"} {
+    set data($txtt,auto,enable) [expr [$txtt cget -highlight] && $data($txtt,auto,avail)]
+    set state                   [expr {$data($txtt,auto,enable) ? "normal" : "disabled"}]
+
+    if {$data($txtt,auto,enable) && ($data($txtt,mode) eq "IND+")} {
       set data($txtt,mode) "IND"
-      $mnu itemconfigure [msgcat::mc "Smart Indent"] -state disabled
-      gui::update_indent_button
     }
+
+    ${w}Menu entryconfigure [msgcat::mc "Smart Indent"] -state $state
 
   }
 
@@ -787,7 +779,7 @@ namespace eval indent {
     }
 
     # Update the selectable state of the button
-    ${w}Menu itemconfigure [msgcat::mc "Smart Indent"] -state [expr {[$txtt cget -highlight] ? "normal" : "disabled"}]
+    ${w}Menu entryconfigure [msgcat::mc "Smart Indent"] -state [expr {[$txtt cget -highlight] ? "normal" : "disabled"}]
 
   }
 
