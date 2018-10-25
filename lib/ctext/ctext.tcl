@@ -3397,9 +3397,12 @@ namespace eval ctext {
 
     variable data
 
-    if {![info exists data($win,highlight,regexps,$lang]} return
+    if {![info exists data($win,highlight,regexps,$lang)]} return
 
     upvar $ptags tags
+
+    set lines    [split [$win._t get $start $end] \n]
+    set startrow [lindex [split $start .] 0]
 
     # Handle regular expression matching
     foreach name $data($win,highlight,regexps,$lang) {
@@ -3413,16 +3416,16 @@ namespace eval ctext {
           incr i
         }
       } else {
-        set startrow [lindex [split $start .] 0]
-        foreach line [split [$win._t get $start $end] \n] {
+        set row $startrow
+        foreach line $lines {
           set index 0
           array unset var
           while {[regexp {*}$re_opts -indices -start $index -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
-            if {![catch { {*}$value $win $startrow [list $line] [array get var] $ins] } retval] && ([llength $retval] == 2)} {
+            if {![catch { {*}$value $win $row [list $line] [array get var] $ins } retval] && ([llength $retval] == 2)} {
               lassign $retval rtags goback
               if {([llength $rtags] % 3) == 0} {
                 foreach {rtag rstart rend} $rtags {
-                  dict lappend tags __$rtag $startrow.$rstart $startrow.[expr $rend + 1]
+                  dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
                 }
               }
               set index [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
@@ -3430,7 +3433,7 @@ namespace eval ctext {
               set index [expr {[lindex $var(0) 1] + 1}]
             }
           }
-          incr startrow
+          incr row
         }
       }
     }

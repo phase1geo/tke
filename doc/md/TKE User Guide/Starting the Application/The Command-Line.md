@@ -28,7 +28,7 @@ In addition to files and directories, the following options are also available o
 | -nosb | Starts the UI without the sidebar being displayed. |
 | -e | Exits the application when the last tab is closed (overrides preference setting) |
 | -m | Creates a minimal editing environment (overrides preference settings) |
-| -n | Opens a new window without attempting to merge with an existing window. |
+| -n | Opens a new window without attempting to merge with an existing window or last saved session. |
 | -s _session\_name_ | Starts a new session with (if a window does not exist) or switches the current window to a previously saved session specified with _session\_name_. |
 
 
