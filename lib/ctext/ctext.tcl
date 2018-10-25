@@ -3395,9 +3395,11 @@ namespace eval ctext {
 
   proc regexps {win start end lang ins ptags} {
 
-    upvar $ptags tags
-
     variable data
+
+    if {![info exists data($win,highlight,regexps,$lang]} return
+
+    upvar $ptags tags
 
     # Handle regular expression matching
     foreach name $data($win,highlight,regexps,$lang) {
