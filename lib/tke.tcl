@@ -183,8 +183,9 @@ proc usage {} {
   puts "  -m                 Creates a minimal editing environment (overrides"
   puts "                       preference settings)."
   puts "  -n                 Opens a new window without attempting to merge"
-  puts "                       with an existing window."
-  puts "  -s <session_name>  Opens the specified session name."
+  puts "                       with an existing window or last saved session."
+  puts "  -s <session_name>  Opens the specified session name.  This option"
+  puts "                       is ignored if the -n option is specified.
   puts ""
 
   exit

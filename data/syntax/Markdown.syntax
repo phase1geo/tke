@@ -52,8 +52,8 @@ advanced {
   HighlightRegexp {(`)(.+?)(`)}                            code
   HighlightRegexp {^(#{1,6}\s*)(.*?)$}                     header
   HighlightRegexp {^(>)(.*?)$}                             quote
-  HighlightRegexp {([*_]{2})((?=\S).+?)(\1)}               bold
-  HighlightRegexp {([*_])((?=\S).+?)(\1)}                  italics
+  HighlightRegexp {([*_]{2})((?=\S).+?[^\\])(\1)}          bold
+  HighlightRegexp {([*_])((?=\S).+?[^\\])(\1)}             italics
   HighlightRegexp {(!?\[)([^\]]+)(\]\s*\[)(.*?)(\])}       reflink
   HighlightRegexp {(!?\[)([^\]]+)(\]\()(\S+)(\s+.*?)(\))}  urllink
   HighlightRegexp {^\s*\[(.+?)\]:\s+(\S+)}                 linkref
@@ -101,18 +101,23 @@ advanced {
 
   HighlightProc bold {
     array set vars $varlist
-    $txt tag remove _italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
-    return [list [list bold        {*}$vars(2) \
-                       boldmarkers {*}$vars(1) \
-                       boldmarkers {*}$vars(4) \
-                       meta        {*}$vars(1) \
-                       meta        {*}$vars(4)] ""]
+    if {![ctext::isEscaped $txt $row.[lindex $vars(0) 0]]} {
+      $txt tag remove _italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+      return [list [list bold        {*}$vars(2) \
+                         boldmarkers {*}$vars(1) \
+                         boldmarkers {*}$vars(4) \
+                         meta        {*}$vars(1) \
+                         meta        {*}$vars(4)] ""]
+    } else {
+      return ""
+    }
   } HighlightEndProc
 
   HighlightProc italics {
     array set vars $varlist
     if {([lsearch [$txt tag names $row.[lindex $vars(0) 0]] _boldmarkers] == -1) && \
-        ([lsearch [$txt tag names $row.[lindex $vars(0) 1]] _boldmarkers] == -1)} {
+        ([lsearch [$txt tag names $row.[lindex $vars(0) 1]] _boldmarkers] == -1) && \
+        ![ctext::isEscaped $txt $row.[lindex $vars(1) 0]]} {
       return [list [list italics {*}$vars(2) \
                          meta    {*}$vars(1) \
                          meta    {*}$vars(4)] ""]
@@ -204,6 +209,7 @@ advanced {
   } HighlightEndProc
 
   HighlightProc list_check {
+    array set vars $varlist
     if {[$txt compare $row.[expr [lindex $vars(0) 1] + 1] < insert] && $ins} {
       if {![$txt is firstchar firstchar] && [$txt is firstchar [set fchar [$txt index [list firstchar -startpos index-1l]]]]} {
         if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $fchar "$fchar lineend"] -> match num rest]} {
