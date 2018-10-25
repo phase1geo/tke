@@ -2007,6 +2007,10 @@ namespace eval gui {
 
     if {[files::get_file $tab contents]} {
 
+      # Updat the highlightability attribute of the text widget
+      $txt configure -highlight [highlightable $contents]
+      indent::update_button $widgets(info_indent)
+
       # Read the file contents and insert them
       $txt insert end $contents
 

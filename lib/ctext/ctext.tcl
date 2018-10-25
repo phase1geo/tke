@@ -2906,6 +2906,9 @@ namespace eval ctext {
       prewhite $win $linestart $lineend
     }
 
+    # If highlighting is not specified, stop here
+    if {!$data($win,config,-highlight)} { return 0 }
+
     # Tag comments and strings
     set all [comments $win $ranges $do_tag]
 
@@ -3719,14 +3722,6 @@ namespace eval ctext {
     variable data
     variable REs
     variable restart_from
-
-    if {![winfo exists $win]} {
-      return
-    }
-
-    if {!$data($win,config,-highlight)} {
-      return
-    }
 
     set twin "$win._t"
     set tags [dict create]

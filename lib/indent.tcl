@@ -26,8 +26,8 @@ namespace eval indent {
 
   variable current_indent "IND+"
 
-  array set tabstops     {}
-  array set indent_exprs {}
+  array set tabstops {}
+  array set data     {}
   array set indent_mode_map {
     "OFF"  "OFF"
     "IND"  "IND"
@@ -160,14 +160,16 @@ namespace eval indent {
   # Sets the indentation mode for the current text widget.
   proc set_indent_mode {mode} {
 
-    variable indent_exprs
+    variable data
     variable indent_mode_map
+    variable current_indent
 
     # Get the current text widget
     set txt [gui::current_txt]
 
     # Set the current mode
-    set indent_exprs($txt.t,mode) $indent_mode_map($mode)
+    set data($txt.t,mode) $indent_mode_map($mode)
+    set current_indent    $indent_mode_map($mode)
 
     # Set the text widget's indent mode
     folding::add_folds $txt 1.0 end
@@ -184,12 +186,12 @@ namespace eval indent {
   # Returns the value of the indentation mode for the given text widget.
   proc get_indent_mode {txt} {
 
-    variable indent_exprs
+    variable data
 
-    if {![info exists indent_exprs($txt.t,mode)]} {
+    if {![info exists data($txt.t,mode)]} {
       return "OFF"
     } else {
-      return $indent_exprs($txt.t,mode)
+      return [lindex $data($txt.t,mode) 0]
     }
 
   }
@@ -198,9 +200,9 @@ namespace eval indent {
   # Returns true if auto-indentation is available; otherwise, returns false.
   proc is_auto_indent_available {txt} {
 
-    variable indent_exprs
+    variable data
 
-    return [expr {$indent_exprs($txt.t,indent) ne ""}]
+    return [expr {$data($txt.t,indent) ne ""}]
 
   }
 
@@ -241,11 +243,11 @@ namespace eval indent {
   # accordingly.
   proc check_indent {txtt index do_update} {
 
-    variable indent_exprs
+    variable data
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txtt,mode) ne "IND+") || [vim::in_vim_mode $txtt]} {
+    if {($data($txtt,mode) ne "IND+") || [vim::in_vim_mode $txtt]} {
       return $index
     }
 
@@ -420,11 +422,11 @@ namespace eval indent {
   # first line of non-space text.
   proc newline {txtt index do_update} {
 
-    variable indent_exprs
+    variable data
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
+    if {($data($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
       if {[$txtt cget -autoseparators]} {
         $txtt edit separator
       }
@@ -432,7 +434,7 @@ namespace eval indent {
     }
 
     # If we do not need smart indentation, use the previous space
-    if {$indent_exprs($txtt,mode) eq "IND"} {
+    if {$data($txtt,mode) eq "IND"} {
 
       set indent_space [get_previous_indent_space $txtt $index]
 
@@ -462,10 +464,11 @@ namespace eval indent {
       # lessen the indentation by one
       if {[lsearch [$txtt tag names "$endpos-1c"] _unindent*] != -1} {
         $txtt fastinsert -update 0 insert "$indent_space\n"
+        puts "HERE: [$txtt index insert]"
         set startpos [$txtt index $startpos+1l]
         set endpos   [$txtt index $endpos+1l]
         set restore_insert [$txtt index insert-1c]
-        if {$indent_exprs($txtt,mode) eq "IND+"} {
+        if {$data($txtt,mode) eq "IND+"} {
           set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
         }
 
@@ -474,7 +477,7 @@ namespace eval indent {
       } elseif {([lsearch [$txtt tag names "$endpos-1c"] _reindent*] != -1) && [check_reindent_for_unindent $txtt [lindex [$txtt tag prevrange _reindent $endpos] 0]]} {
         # $txtt insert insert "$indent_space\n"
         # set restore_insert [$txtt index insert-1c]
-        if {$indent_exprs($txtt,mode) eq "IND+"} {
+        if {$data($txtt,mode) eq "IND+"} {
           set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
         }
       }
@@ -515,11 +518,11 @@ namespace eval indent {
   # Handles the backspace key.  If we are
   proc backspace {txtt index do_update} {
 
-    variable indent_exprs
+    variable data
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
+    if {($data($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
       return $index
     }
 
@@ -560,9 +563,9 @@ namespace eval indent {
   # Returns the whitespace of the previous (non-empty) line of text.
   proc get_previous_indent_space {txtt index} {
 
-    variable indent_exprs
+    variable data
 
-    if {($indent_exprs($txtt,mode) eq "OFF") || \
+    if {($data($txtt,mode) eq "OFF") || \
         [vim::in_vim_mode $txtt] || \
         ([lindex [split $index .] 0] == 1)} {
       return 0
@@ -580,7 +583,7 @@ namespace eval indent {
   # This procedure counts the number of tags in the given range.
   proc get_tag_count {txtt tag start end} {
 
-    variable indent_exprs
+    variable data
 
     # Initialize the indent_level
     set count 0
@@ -600,7 +603,7 @@ namespace eval indent {
   # widget at the current insertion cursor.
   proc format_text {txtt startpos endpos {add_separator 1}} {
 
-    variable indent_exprs
+    variable data
 
     # Create a separator
     if {$add_separator} {
@@ -686,33 +689,48 @@ namespace eval indent {
   # Sets the indentation expressions for the given text widget.
   proc set_indent_expressions {txtt indent unindent reindent {add 0}} {
 
-    variable indent_exprs
+    variable data
 
     # If we are adding the given indentation expressions
     if {$add} {
-      lappend indent   {*}[split $indent_exprs($txtt,indent) |]
-      lappend unindent {*}[split $indent_exprs($txtt,unindent) |]
-      lappend reindent {*}[split $indent_exprs($txtt,reindent) |]
+      lappend indent {*}[split $data($txtt,indent) |]
     }
 
+    set data($txtt,auto,avail)  [expr {$indent ne ""}]
+    set data($txtt,auto,enable) 1
     # Set the indentation expressions
-    set indent_exprs($txtt,indent)   [join $indent |]
-    set indent_exprs($txtt,unindent) [join $unindent |]
-    set indent_exprs($txtt,reindent) [join $reindent |]
+    set data($txtt,indent)   [join $indent |]
+    set data($txtt,unindent) [join $unindent |]
+    set data($txtt,reindent) [join $reindent |]
 
     # Set the default indentation mode
     if {[preferences::get Editor/EnableAutoIndent]} {
-      if {$indent ne ""} {
-        set indent_exprs($txtt,mode) "IND+"
+      if {($indent ne "") && [$txtt cget -highlight]} {
+        set data($txtt,mode) "IND+"
       } else {
-        set indent_exprs($txtt,mode) "IND"
+        set data($txtt,mode) "IND"
       }
     } else {
-      set indent_exprs($txtt,mode) "OFF"
+      set data($txtt,mode) "OFF"
     }
 
     # Update the state of the indentation widget
     gui::update_indent_button
+
+  }
+
+  ######################################################################
+  # This will be caused if the associated file is not able to be automatically
+  # indented due to syntax highlighting being disabled.
+  proc set_auto_indent {value} {
+
+    variable data
+
+    if {$data($txtt,mode) eq "IND+"} {
+      set data($txtt,mode) "IND"
+      $mnu itemconfigure [msgcat::mc "Smart Indent"] -state disabled
+      gui::update_indent_button
+    }
 
   }
 
@@ -726,7 +744,7 @@ namespace eval indent {
     $mnu delete 0 end
 
     # Populate the menu with the available languages
-    foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
+    foreach {lbl mode} [list [msgcat::mc "No Indent"] "OFF" [msgcat::mc "Auto-Indent"] "IND" [msgcat::mc "Smart Indent"] "IND+"] {
       $mnu add radiobutton -label $lbl -variable indent::current_indent \
         -value $mode -command [list indent::set_indent_mode $mode]
     }
@@ -757,16 +775,19 @@ namespace eval indent {
   # Updates the menubutton to match the current mode.
   proc update_button {w} {
 
-    variable indent_exprs
+    variable data
     variable current_indent
 
     # Get the current text widget
     set txtt [gui::current_txt].t
 
     # Configure the menubutton
-    if {[info exists indent_exprs($txtt,mode)]} {
-      $w configure -text [set current_indent $indent_exprs($txtt,mode)]
+    if {[info exists data($txtt,mode)]} {
+      $w configure -text [set current_indent $data($txtt,mode)]
     }
+
+    # Update the selectable state of the button
+    ${w}Menu itemconfigure [msgcat::mc "Smart Indent"] -state [expr {[$txtt cget -highlight] ? "normal" : "disabled"}]
 
   }
 
