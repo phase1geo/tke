@@ -89,7 +89,6 @@ namespace eval ctext {
     set data($win,config,win)                      $win
     set data($win,config,modified)                 0
     set data($win,config,lastUpdate)               0
-    set data($win,config,csl_patterns)             [list]
     set data($win,config,csl_char_tags)            [list]
     set data($win,config,lc_char_tags)             [list]
     set data($win,config,csl_array)                [list]
@@ -644,20 +643,6 @@ namespace eval ctext {
         grid remove $win.f
       }
     }
-
-  }
-
-  proc setCommentRE {win lang} {
-
-    variable data
-
-    set patterns [list]
-
-    foreach {tag pattern} $data($win,config,csl_patterns,$lang) {
-      lappend patterns $pattern
-    }
-
-    set data($win,config,csl_re) [join $patterns |]
 
   }
 
@@ -2764,7 +2749,8 @@ namespace eval ctext {
 
     variable data
 
-    set data($win,config,csl_patterns)  [list]
+    array unset data $win,config,csl_patterns,*
+
     set data($win,config,csl_char_tags) [list]
     set data($win,config,lc_char_tags)  [list]
     set data($win,config,csl_array)     [list]
@@ -2785,8 +2771,8 @@ namespace eval ctext {
     }
 
     if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns) _cCommentStart:$lang [join $start_patterns |]
-      lappend data($win,config,csl_patterns) _cCommentEnd:$lang   [join $end_patterns   |]
+      lappend data($win,config,csl_patterns,$lang) _cCommentStart:$lang [join $start_patterns |]
+      lappend data($win,config,csl_patterns,$lang) _cCommentEnd:$lang   [join $end_patterns   |]
     }
 
     array set tags [list _cCommentStart:${lang}0 1 _cCommentStart:${lang}1 1 _cCommentEnd:${lang}0 1 _cCommentEnd:${lang}1 1 _comstr1c0 1 _comstr1c1 1]
@@ -2803,8 +2789,6 @@ namespace eval ctext {
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
-
-    setCommentRE $win $lang
 
   }
 
@@ -2827,8 +2811,6 @@ namespace eval ctext {
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
-
-    setCommentRE $win $lang
 
   }
 
@@ -2866,15 +2848,13 @@ namespace eval ctext {
       catch { $win tag delete {*}[array names tags] }
     }
 
-    setCommentRE $win $lang
-
   }
 
   proc setEmbedLangPattern {win lang start_pattern end_pattern} {
 
     variable data
 
-    lappend data($win,config,csl_patterns,$lang) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
+    lappend data($win,config,csl_patterns,) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
     lappend data($win,config,langs) $lang
 
     array set theme $data($win,config,-theme)
@@ -2887,8 +2867,6 @@ namespace eval ctext {
     lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
     lappend data($win,config,csl_array)     _LangStart:${lang}0 1 _LangStart:${lang}1 1 _LangEnd:${lang}0 1 _LangEnd:${lang}1 1 _Lang:$lang 1
     lappend data($win,config,csl_tag_pair)  _LangStart:$lang _Lang=$lang
-
-    setCommentRE $win $lang
 
   }
 
@@ -3012,28 +2990,31 @@ namespace eval ctext {
     # Go through each language
     foreach lang $data($win,config,langs) {
 
-      # Go through each range
-      foreach {start end} $ranges {
+      # If a csl_pattern does not exist for this language, go to the next language
+      if {![info exists data($win,config,csl_patterns,$lang)]} continue
 
-        # Get the ranges to check
-        if {$lang eq ""} {
-          set lranges [list 1.0 end]
-        } else {
-          set lranges [$twin tag ranges "_Lang=$lang"]
-        }
+      # Get the ranges to check
+      if {$lang eq ""} {
+        set lranges [list 1.0 end]
+      } else {
+        set lranges [$win._t tag ranges "_Lang=$lang"]
+      }
 
-        # Perform highlighting for each range
-        foreach {langstart langend} $lranges {
+      # Perform highlighting for each range
+      foreach {langstart langend} $lranges {
 
-          if {[$twin compare $start > $langend] || [$twin compare $langstart > $end]} continue
-          if {[$twin compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
-          if {[$twin compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
+        # Go through each range
+        foreach {start end} $ranges {
+
+          if {[$win._t compare $start > $langend] || [$win._t compare $langstart > $end]} continue
+          if {[$win._t compare $start <= $langstart]} { set pstart $langstart } else { set pstart $start }
+          if {[$win._t compare $langend <= $end]}     { set pend   $langend   } else { set pend   $end }
 
           # First, tag all string/comment patterns found between start and end
           foreach {tag pattern} $data($win,config,csl_patterns,$lang) {
             array set indices {0 {} 1 {}}
             set i 0
-            foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
+            foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $pstart $pend] {
               if {![isEscaped $win $index]} {
                 set end_index [$win index "$index+[lindex $lengths $i]c"]
                 if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
@@ -3047,8 +3028,8 @@ namespace eval ctext {
               incr i
             }
             foreach j {0 1} {
-              if {$indices($j) ne [getTagInRange $win $tag$j $start $end]} {
-                $win tag remove $tag$j $start $end
+              if {$indices($j) ne [getTagInRange $win $tag$j $pstart $pend]} {
+                $win tag remove $tag$j $pstart $pend
                 catch { $win tag add $tag$j {*}$indices($j) }
                 set tag_changed($tag) 1
               }
@@ -3170,14 +3151,12 @@ namespace eval ctext {
 
     foreach lang $data($win,config,langs) {
       set indices [list]
-      foreach {start end} [$win tag ranges _Lang:$lang] {
+      foreach {start end} [$win._t tag ranges _Lang:$lang] {
         if {[$win compare "$start+1l linestart" < "$end linestart"]} {
           lappend indices "$start+1l linestart" "$end linestart"
         }
       }
-      if {[llength $indices] > 0} {
-        $win tag add _Lang=$lang {*}$indices
-      }
+      catch { $win._t tag add _Lang=$lang {*}$indices }
     }
 
   }
@@ -3194,14 +3173,14 @@ namespace eval ctext {
 
   }
 
-  proc escapes {twin start end} {
+  proc escapes {win start end} {
 
     variable data
 
-    if {$data($twin,config,-escapes)} {
-      foreach res [$twin search -all -- "\\" $start $end] {
-        if {[lsearch [$twin tag names $res-1c] _escape] == -1} {
-          $twin tag add _escape $res
+    if {$data($win,config,-escapes)} {
+      foreach res [$win._t search -all -- "\\" $start $end] {
+        if {[lsearch [$win._t tag names $res-1c] _escape] == -1} {
+          $win._t tag add _escape $res
         }
       }
     }
@@ -3210,17 +3189,17 @@ namespace eval ctext {
 
   # This procedure tags all of the whitespace from the beginning of a line.  This
   # must be called prior to invoking the indentation procedure.
-  proc prewhite {twin start end} {
+  proc prewhite {win start end} {
 
     # Add prewhite tags
     set i       0
     set indices [list]
-    foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
+    foreach res [$win._t search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
       lappend indices $res "$res+[lindex $lengths $i]c"
       incr i
     }
 
-    catch { $twin tag add _prewhite {*}$indices }
+    catch { $win._t tag add _prewhite {*}$indices }
 
   }
 
