@@ -213,7 +213,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_sidebar       1
   set ::cl_exit_on_close 0
   set ::cl_minimal       0
-  set ::cl_new_win       0
+  set ::cl_new           0
   set ::cl_use_session   ""
   set ::cl_profile       0
   set ::cl_testport      ""
@@ -226,7 +226,7 @@ proc parse_cmdline {argc argv} {
       -nosb { set ::cl_sidebar 0 }
       -e    { set ::cl_exit_on_close 1 }
       -m    { set ::cl_minimal 1 }
-      -n    { set ::cl_new_win 1 }
+      -n    { set ::cl_new 1 }
       -s    { incr i; set ::cl_use_session [lindex $argv $i] }
       -p    { set ::cl_profile 1 }
       -port { incr i; set ::cl_testport [lindex $argv $i] }
@@ -412,7 +412,7 @@ if {[catch {
   if {[catch { ::comm::comm config -port $comm_port }]} {
 
     # Attempt to add files or raise the existing application
-    if {!$cl_new_win} {
+    if {!$cl_new} {
       if {[llength $cl_files] > 0} {
         if {![catch { ::comm::comm send $comm_port gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
           destroy .
@@ -498,6 +498,11 @@ if {[catch {
   # Run any plugins that are required at application start
   plugins::handle_on_start
 
+  # Load a session file
+  if {!$cl_new && ([preferences::get General/LoadLastSession] || ($cl_use_session ne ""))} {
+    sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session 0
+  }
+
   # Populate the GUI with the command-line filelist (if specified)
   if {[llength $cl_files] > 0} {
     set tab ""
@@ -514,10 +519,6 @@ if {[catch {
     if {$tab ne ""} {
       gui::set_current_tab [gui::get_info $tab tab tabbar] $tab
     }
-
-  # Load the session file
-  } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
-    sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session 0
   }
 
   # If we are in development mode and preferences are telling us to open the
