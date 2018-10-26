@@ -202,7 +202,7 @@ namespace eval indent {
 
     variable data
 
-    return [expr {$data($txt.t,auto,avail) ne ""}]
+    return $data($txt.t,auto,avail)
 
   }
 
@@ -464,7 +464,6 @@ namespace eval indent {
       # lessen the indentation by one
       if {[lsearch [$txtt tag names "$endpos-1c"] _unindent*] != -1} {
         $txtt fastinsert -update 0 insert "$indent_space\n"
-        puts "HERE: [$txtt index insert]"
         set startpos [$txtt index $startpos+1l]
         set endpos   [$txtt index $endpos+1l]
         set restore_insert [$txtt index insert-1c]
@@ -714,13 +713,16 @@ namespace eval indent {
   proc update_auto_indent {txtt w} {
 
     variable data
+    variable current_indent
 
     set data($txtt,auto,enable) [expr [$txtt cget -highlight] && $data($txtt,auto,avail)]
     set state                   [expr {$data($txtt,auto,enable) ? "normal" : "disabled"}]
 
-    if {$data($txtt,auto,enable) && ($data($txtt,mode) eq "IND+")} {
+    if {!$data($txtt,auto,enable) && ($data($txtt,mode) eq "IND+")} {
       set data($txtt,mode) "IND"
     }
+
+    set current_indent $data($txtt,mode)
 
     ${w}Menu entryconfigure [msgcat::mc "Smart Indent"] -state $state
 
