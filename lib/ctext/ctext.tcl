@@ -2963,7 +2963,7 @@ namespace eval ctext {
     foreach {tag dummy} $data($win,config,csl_array) {
       lassign [$win tag nextrange $tag $start] tag_start tag_end
       if {($tag_start ne "") && [$win compare $tag_start < $end]} {
-        lappend do_tags $tag
+        lappend do_tags $tag 1
         return
       }
     }
@@ -2975,7 +2975,7 @@ namespace eval ctext {
     upvar $pdo_tags do_tags
 
     if {($do_tags eq "") && [inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)} {
-      lappend do_tags "stuff"
+      lappend do_tags "stuff" 1
     }
 
   }
@@ -2984,13 +2984,8 @@ namespace eval ctext {
 
     variable data
 
-    array set tag_changed [list]
-
-    foreach do_tag $do_tags {
-      set tag_changed($do_tag) 1
-    }
-
-    puts "In comments, langs: $data($win,config,langs)"
+    array set tag_changed $do_tags
+    set retval 0
 
     # Go through each language
     foreach lang $data($win,config,langs) {
@@ -3005,8 +3000,6 @@ namespace eval ctext {
         set lranges [$win._t tag ranges "_Lang:$lang"]
       }
 
-      puts "  lang: $lang, lranges: $lranges"
-
       # Perform highlighting for each range
       foreach {langstart langend} $lranges {
 
@@ -3019,8 +3012,6 @@ namespace eval ctext {
 
           set lines    [split [$win._t get $pstart $pend] \n]
           set startrow [lindex [split $pstart .] 0]
-
-          puts "    lang: $lang, pstart: $pstart, pend: $pend"
 
           # First, tag all string/comment patterns found between start and end
           foreach {tag pattern} $data($win,config,csl_patterns,$lang) {
@@ -3057,7 +3048,7 @@ namespace eval ctext {
         }
 
         # If we didn't find any comment/string characters that changed, no need to continue.
-        if {[array size tag_changed] == 0} { return 0 }
+        if {[array size tag_changed] == 0} continue
 
         # Initialize tags
         array unset tags
@@ -3148,8 +3139,6 @@ namespace eval ctext {
           lappend tags(_Lang:$curr_lang) $curr_lang_start end
         }
 
-        puts "  tags: [array names tags]"
-
         # Delete old, add new and re-raise tags
         foreach tag [array names tags] {
           $win tag remove $tag 1.0 end
@@ -3157,11 +3146,15 @@ namespace eval ctext {
           $win tag lower $tag sel
         }
 
+        # Calculate the return value
+        set retval [expr (($retval == 2) || ([llength [array names tag_changed _Lang*:*]] > 0)) ? 2 : 1]
+        array unset tag_changed
+
       }
 
     }
 
-    return [expr ([llength [array names tag_changed _Lang*:*]] > 0) ? 2 : 1]
+    return $retval
 
   }
 
