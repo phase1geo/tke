@@ -1948,7 +1948,7 @@ namespace eval gui {
     set highlightable 1
 
     foreach line [split $contents \n] {
-      if {[string length $line] > 1024} {
+      if {[string length $line] > 8192} {
         set highlightable 0
         break;
       }
