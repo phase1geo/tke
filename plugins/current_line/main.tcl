@@ -25,8 +25,9 @@ namespace eval current_line {
     # Get the current color
     set color [expr {([ctext::getLang $txt insert] eq "") ? $colors(normal) : $colors(embed)}]
 
-    # Configure the current_line tag
+    # Configure the current_line tag and make sure that it is below the selection
     $txt tag configure current_line -background $color
+    $txt tag lower current_line sel
 
   }
 

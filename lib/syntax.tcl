@@ -984,7 +984,7 @@ namespace eval syntax {
     array set vars $varlist
 
     if {[lindex $vars(0) 0] == 0} {
-      return [list symbols: {*}$vars(0)]
+      return [list __symbols: {*}$vars(0)]
     }
 
     return ""
@@ -998,8 +998,8 @@ namespace eval syntax {
 
     array set vars $varlist
 
-    if {[regexp -indices -start [expr [lindex $vars(0) 1] + 1] {[a-zA-Z0-9_:]+} $str name]} {
-      return [list symbols:[string range $str {*}$vars(0)] {*}$name]
+    if {[regexp -indices -start [expr [lindex $vars(0) 1] + 1] -- {[a-zA-Z0-9_:]+} $str name]} {
+      return [list __symbols:[string range $str {*}$vars(0)] {*}$name]
     }
 
     return ""
