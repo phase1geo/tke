@@ -5358,8 +5358,8 @@ namespace eval gui {
 
     set proclist [list]
     foreach tag [$txt tag names] {
-      if {[string range $tag 0 8] eq "_symbols:"} {
-        if {[set type [string range $tag 9 end]] ne ""} {
+      if {[string range $tag 0 9] eq "__symbols:"} {
+        if {[set type [string range $tag 10 end]] ne ""} {
           append type ": "
         }
         foreach {startpos endpos} [$txt tag ranges $tag] {
