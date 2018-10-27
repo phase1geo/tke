@@ -501,7 +501,7 @@ if {[catch {
 
   # Load a session file
   if {!$cl_new && ([preferences::get General/LoadLastSession] || ($cl_use_session ne ""))} {
-    sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session 0
+    sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session $cl_new
   }
 
   # Populate the GUI with the command-line filelist (if specified)

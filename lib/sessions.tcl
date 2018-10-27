@@ -151,10 +151,10 @@ namespace eval sessions {
   #   - prefs  = Only save preference information to the session file, leaving the rest intact.
   #   - full   = Save all information
   #   - nosave = Only read the given session name without worrying about saving.
-  # Name specifies the base name of the session to load while new_window
+  # Name specifies the base name of the session to load while 'new'
   # specifies whether the session should be loaded in the current window (0)
   # or a new window (1).
-  proc load {type name new_window} {
+  proc load {type name new} {
 
     variable current_name
     variable current_content
@@ -196,9 +196,9 @@ namespace eval sessions {
 
     # Load the GUI session information (provide backward compatibility)
     if {[info exists content(gui)]} {
-      gui::load_session $content(gui)
+      gui::load_session $content(gui) $new
     } else {
-      gui::load_session $rc
+      gui::load_session $rc $new
     }
 
     # Load the find session information
