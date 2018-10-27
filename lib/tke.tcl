@@ -500,7 +500,7 @@ if {[catch {
   plugins::handle_on_start
 
   # Load a session file
-  if {!$cl_new && ([preferences::get General/LoadLastSession] || ($cl_use_session ne ""))} {
+  if {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
     sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session $cl_new
   }
 
