@@ -1143,7 +1143,7 @@ namespace eval gui {
     # Load the session information into the launcher
     launcher::load_session $content(Launcher)
 
-    # If we are loading a new TKE session, exit now since we don't want to load the rest 
+    # If we are loading a new TKE session, exit now since we don't want to load the rest
     if {$new} return
 
     # Load the session information into the sidebar
@@ -5800,7 +5800,6 @@ namespace eval gui {
     update_file $fileindex
 
     # Set the focus back to the text editor
-    puts "This is really great and something"
     set_txt_focus [last_txt_focus]
 
   }
@@ -5811,9 +5810,12 @@ namespace eval gui {
   proc update_encode_button {} {
 
     variable widgets
+    variable current_encoding
 
     # Get the current encoding
     get_info {} current encode
+
+    set current_encoding $encode
 
     # Update the encode button
     $widgets(info_encode) configure -text [string toupper $encode]

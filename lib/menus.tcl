@@ -383,6 +383,7 @@ namespace eval menus {
 
     $mb add separator
 
+    $mb add cascade -label [msgcat::mc "Encoding"]    -menu [gui::create_encoding_menu $mb.encode]
     $mb add cascade -label [msgcat::mc "Line Ending"] -menu [make_menu $mb.eolPopup -tearoff 0 -postcommand [list menus::file_eol_posting $mb.eolPopup]]
 
     $mb add separator
