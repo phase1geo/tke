@@ -1098,7 +1098,7 @@ namespace eval gui {
   ######################################################################
   # Loads the geometry information (if it exists) and changes the current
   # window geometry to match the read value.
-  proc load_session {info} {
+  proc load_session {info new} {
 
     variable widgets
     variable last_opened
@@ -1140,11 +1140,14 @@ namespace eval gui {
     # Restore the "last_opened" list
     set last_opened $content(LastOpened)
 
-    # Load the session information into the sidebar
-    sidebar::load_session $content(Sidebar)
-
     # Load the session information into the launcher
     launcher::load_session $content(Launcher)
+
+    # If we are loading a new TKE session, exit now since we don't want to load the rest 
+    if {$new} return
+
+    # Load the session information into the sidebar
+    sidebar::load_session $content(Sidebar)
 
     # Set the current working directory to the saved value
     if {[file exists $content(CurrentWorkingDirectory)]} {
