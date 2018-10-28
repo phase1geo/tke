@@ -1870,8 +1870,6 @@ namespace eval ctext {
     set insertPos [$win._t index insert]
     set datalen   [string length [clipboard get]]
 
-    undo_insert $win $insertPos $datalen [$win._t index insert]
-
     tk_textPaste $win
 
     handleInsertAt0 $win._t $insertPos $datalen
