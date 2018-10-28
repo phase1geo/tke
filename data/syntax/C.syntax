@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed
@@ -18,22 +21,17 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
+indentation
+{{curly}}
 
-unindent
-{\}}
-
-reindent
+reindentation
 {{switch case default}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
@@ -55,7 +53,7 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart {#} {}
+  HighlightCharStart {#} {}
 }
 
 miscellaneous1 {

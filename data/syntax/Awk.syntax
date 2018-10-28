@@ -9,7 +9,10 @@ reference
   {{User Guide} https://www.gnu.org/software/gawk/manual/gawk.html}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 tabsallowed
@@ -18,19 +21,14 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
-bcomments {}
-
-strings {{"}}
+strings {double}
 
 keywords
 {
@@ -56,12 +54,12 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart \@ {}
+  HighlightCharStart \@ {}
 }
 
 miscellaneous1
 {
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }
 
 miscellaneous2

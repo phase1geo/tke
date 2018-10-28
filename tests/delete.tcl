@@ -129,8 +129,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 x 2.0 "\nhis is a line" "T"
     do_test $txtt 1 {2 x} 2.0 "\nis is a line" "Th"
@@ -151,8 +150,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 Delete 2.0 "\nhis is a line" "T"
     do_test $txtt 1 {2 Delete} 2.0 "\nis is a line" "Th"
@@ -173,8 +171,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.3
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.3
 
     do_test $txtt 0 X 2.2 "\nThs is a line" "i"
     do_test $txtt 1 {2 X} 2.1 "\nTs is a line" "hi"
@@ -195,8 +192,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.3
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.3
 
     do_test $txtt 0 D 2.2 "\nThi\nThis is a line\nThis is a line" "s is a line"
     do_test $txtt 1 {2 D} 2.2 "\nThi\nThis is a line" "s is a line\nThis is a line"
@@ -214,13 +210,12 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {d d} 2.0 "\nThis is a line" "This is a line\n"
 
     foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d d} $index 2] 1.0 " " "This is a line\nThis is a line\n"
+      do_test $txtt [expr $index + 1] [linsert {d d} $index 2] 1.0 "" "This is a line\nThis is a line\n"
     }
 
     do_test $txtt 3 {d d} 2.0 "\nThis is a line" "This is a line\n" 0
@@ -239,8 +234,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d l} 2.0 "\nhis is a line" "T"
 
@@ -264,8 +258,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d v l} 2.0 "\nis is a line" "Th"
 
@@ -291,8 +284,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {d h} 2.7 "\nThis isa line" " "
 
@@ -319,8 +311,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.2
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.2
 
     do_test $txtt 0 {d j} 2.2 "\nThis is a line\nThis is a line" "is is a line\nTh"
 
@@ -344,8 +335,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 4.2
-    vim::adjust_insert $txtt
+    $txtt cursor set 4.2
 
     do_test $txtt 0 {d k} 3.2 "\nThis is a line\nThis is a line" "is is a line\nTh"
 
@@ -369,8 +359,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis... is a line"
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {d w} 2.1 "\nT... is a line" "his"
 
@@ -394,8 +383,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis... is a line"
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {d W} 2.1 "\nTis a line" "his... "
 
@@ -419,8 +407,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis... is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {d b} 2.6 "\nThis..is a line" ". "
 
@@ -444,8 +431,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis... is a line"
     $txtt edit separator
-    $txtt mark set insert 2.11
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.11
 
     do_test $txtt 0 {d B} 2.8 "\nThis... a line" "is "
 
@@ -469,8 +455,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis... is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d e} 2.0 "\n... is a line" "This"
 
@@ -494,8 +479,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis... is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d E} 2.0 "\n is a line" "This..."
 
@@ -519,8 +503,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is... a line"
     $txtt edit separator
-    $txtt mark set insert 2.11
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.11
 
     do_test $txtt 0 {d g e} 2.9 "\nThis is.. line" ". a"
 
@@ -544,8 +527,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is... a line"
     $txtt edit separator
-    $txtt mark set insert 2.11
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.11
 
     do_test $txtt 0 {d g E} 2.9 "\nThis is.. line" ". a"
 
@@ -569,8 +551,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line\nThis is a line\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line" "is a line"
 
@@ -595,8 +576,7 @@ namespace eval delete {
 
     $txtt insert end "\n  This is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {d 0} 2.0 "\ns a line" "  This i"
 
@@ -613,8 +593,7 @@ namespace eval delete {
 
     $txtt insert end "\n  This is a line\n This is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {d asciicircum} 2.2 "\n  s a line\n This is a line" "This i"
 
@@ -635,8 +614,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {d f l} 2.1 "\nTine" "his is a l"
 
@@ -660,8 +638,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {d t l} 2.1 "\nTline" "his is a "
 
@@ -685,8 +662,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {d F i} 2.5 "\nThis a line" "is "
 
@@ -710,8 +686,7 @@ namespace eval delete {
 
     $txtt insert end [set start "\nThis is a line"]
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {d T i} 2.6 "\nThis ia line" "s "
 
@@ -736,8 +711,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d space} 2.0 "\nhis is a line\nThis is a line" "T"
 
@@ -765,8 +739,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {d BackSpace} 2.4 "\nThisis a line\nThis is a line" " "
 
@@ -793,8 +766,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is line 1000x"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d n} 2.0 "\nThis is line 1000x" "" 0
 
@@ -821,8 +793,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is line 1000x"
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {d N} 2.5 "\nThis is line 1000x" "" 0
 
@@ -849,8 +820,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is line    x"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {d s} 2.0 "\nThis is line    x" "" 0
 
@@ -864,8 +834,7 @@ namespace eval delete {
     $txtt delete 1.0 end
     $txtt insert end "\nThis is line    "
     $txtt edit separator
-    $txtt mark set insert 2.12
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.12
 
     do_test $txtt 4 {d s} 2.11 "\nThis is line" ""
 
@@ -882,8 +851,7 @@ namespace eval delete {
 
     $txtt insert end "\nThis is line    x"
     $txtt edit separator
-    $txtt mark set insert 2.3
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.3
 
     do_test $txtt 0 {d S} 2.3 "\nThis is line    x" "" 0
 

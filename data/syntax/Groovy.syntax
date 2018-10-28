@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://www.groovy-lang.org/documentation.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren square double single}
+
+matchchars
 {curly paren square double single}
 
 tabsallowed
@@ -18,22 +21,17 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
+indentation
+{{curly}}
 
-unindent
-{\}}
-
-reindent
+reindentation
 {{switch case default}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{/\*\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}} {{/\*\*} {\*/}}}
-
-strings {{"} {'} {'''} {/}}
+strings {double singles}
 
 keywords
 {

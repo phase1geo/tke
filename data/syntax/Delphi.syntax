@@ -11,7 +11,10 @@ embedded {
   {Pascal {} {}}
 }
 
-matchcharsallowed
+completechars
+{curly square paren single}
+
+matchchars
 {curly square paren single}
 
 tabsallowed
@@ -20,19 +23,14 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{begin}
-
-unindent
-{end}
+indentation
+{{begin end}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{\{} {\}}} {{\(\*} {\*\)}} {{//} {$}}}
 
-bcomments {{{\{} {\}}} {{\(\*} {\*\)}}}
-
-strings {{'}}
+strings {single}
 
 keywords
 {

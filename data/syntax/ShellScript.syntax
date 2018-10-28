@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://www.gnu.org/software/bash/manual/bashref.html}
 }
 
-matchcharsallowed
+completechars
+{square paren double single}
+
+matchchars
 {square paren double single}
 
 tabsallowed
@@ -20,9 +23,9 @@ casesensitive
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
-strings {{"}}
+strings {double}
 
 numbers
 {

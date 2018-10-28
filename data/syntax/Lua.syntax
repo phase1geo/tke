@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://www.lua.org/manual/5.3/}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed
@@ -19,18 +22,17 @@ casesensitive
 {1}
 
 indent
-{\{ then do}
-
-unindent
-{\} end}
+{
+  {\{ \}}
+  {do end}
+  {then {(elseif|else|end)}}
+}
 
 icomment {{--}}
 
-lcomments {{--}}
+comments {{{--\[-*\[} {\]-*\]}} {{--} {$}}}
 
-bcomments {{{--\[-*\[} {\]-*\]}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

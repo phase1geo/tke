@@ -6,7 +6,10 @@ reference
   {{Language Reference} http://old.haxe.org/ref}
 }
 
-matchcharsallowed
+completechars
+{curly}
+
+matchchars
 {curly}
 
 tabsallowed
@@ -15,19 +18,14 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{//} {$}}}
 
-bcomments {}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

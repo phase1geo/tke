@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -148,8 +148,8 @@ namespace eval markers {
 
     if {$type eq "line"} {
       return $value
-    } elseif {[set index [lindex [$txt tag ranges $value] 0]] ne ""} {
-      return [lindex [split $index .] 0]
+    } elseif {[set line [$txt marker getline $value]] != 0} {
+      return $line
     } else {
       return ""
     }

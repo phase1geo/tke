@@ -12,7 +12,10 @@ reference
 embedded
 {{C}}
 
-matchcharsallowed
+completechars
+{curly paren square double}
+
+matchchars
 {curly paren square double}
 
 tabsallowed
@@ -21,23 +24,18 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
+indentation
+{{curly}}
 
-unindent
-{\}}
-
-reindent {
-  {{switch case default}}
+reindentation {
+  {switch case default}
 }
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

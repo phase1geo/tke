@@ -4,7 +4,10 @@ filepatterns
 vimsyntax
 {asm}
 
-matchcharsallowed
+completechars
+{square}
+
+matchchars
 {square}
 
 escapes
@@ -18,9 +21,9 @@ casesensitive
 
 icomment {{;}}
 
-lcomments {{;}}
+comments {{{;} {$}}}
 
-strings {{'}}
+strings {single}
 
 keywords
 {
@@ -39,7 +42,7 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart \% {}
+  HighlightCharStart \% {}
 }
 
 miscellaneous1

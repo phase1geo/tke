@@ -4,10 +4,25 @@ Like the original Ctext widget, the main purpose of the new Ctext widget is to a
 
 In addition to these functions, the new Ctext widget provides several new functions:
 
+- Multicursor support
+	- Support for creating and deleting multiple cursors within the widget.
+	- Inserting, deleting and replacing code when multiple cursors are active will perform all editing operations relative to each cursor position.
+	- Keybindings for cursor movement are included.
+	- Includes API methods for manipulating the cursor positions.
 - Gutter support
 	- In addition to line numbers, the Ctext widget provides a set of APIs to add additional programmable gutter information such that each line can be tagged with a symbol and/or colors in the gutter area to convey additional information about the line.  Each symbol displayed can receive on\_leave, on\_enter and on\_click events and execute a command when the user causes any of the events to occur.
 	- Each gutter operates independently of other gutters in the same Ctext widget.
 	- Gutter tagging stays on the assigned line even if the line changes to a new location due to text being inserted or deleted from the Ctext widget.
+
+- Code Folding
+	- Support for manual, syntax and indent-based code folding is included.
+	- API methods for adding, deleting, opening, closing and finding code fold blocks are included.
+
+- Auto-indentation
+	- Support for both auto and "smart" syntax-based code indentation support.
+
+- Bracket Auditing
+	- Adds support for automatic bracket auditing, highlighting any curly, square, parenthesis or angled bracket that is missing its pair to aid in visual debugging of code.
 
 - Difference mode
 	- Displays a new version of the gutter which shows two sets of line numbers per line.
@@ -38,4 +53,4 @@ In addition to these functions, the new Ctext widget provides several new functi
 	- Includes support for the replace command such that undo/redo will behave as expected as well as provides the proper syntax highlighting support.
 
 - New version number
-	- The new Ctext widget provided with TKE is set to version 5.0.  The original version set its version number to 4.0.  This allows development environments to use both widgets, if necessary (although 5.0 is a superset of 4.0 such that 4.0 should no longer be necessary to use).
+	- The new Ctext widget provided with TKE is set to version 6.0.  The original version set its version number to 4.0.  This allows development environments to use both widgets, if necessary (although 6.0 is a superset of 4.0 such that 4.0 should no longer be necessary to use).

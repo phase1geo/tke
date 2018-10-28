@@ -13,7 +13,10 @@ embedded {
   {SCSS {} {}}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed
@@ -24,11 +27,9 @@ casesensitive
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"} {'}}
+strings {double single}
 
 numbers
 {
@@ -41,10 +42,10 @@ punctuation
 }
 
 miscellaneous1 {
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }
 
 miscellaneous2 {
-  HighlightWithOnlyCharStart @ {}
+  HighlightCharStart @ {}
 }
 

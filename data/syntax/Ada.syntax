@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://ada-auth.org/standards/12rm/html/RM-TTL.html}
 }
 
-matchcharsallowed
+completechars
+{curly}
+
+matchchars
 {curly}
 
 tabsallowed
@@ -18,21 +21,21 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{begin {loop\s} {case\s} then}
-
-unindent
-{end.*;}
-
-reindent {}
+indentation
+{
+  {begin   {end\s+\S+;}}
+  {loop    {end\s+loop;}}
+  {record  {end\s+record;}}
+  {case    {end\s+case;}}
+  {package {end\s+\S+;}}
+  {then    {(end\s+if;|else|elsif)}}
+}
 
 icomment {{--}}
 
-lcomments {{^[ \t]*--}}
+comments {{{^[ \t]*--} {$}}}
 
-bcomments {}
-
-strings {{"}}
+strings {double}
 
 keywords
 {

@@ -6,8 +6,11 @@ reference
   {{Specification} https://cyber.harvard.edu/rss/rss.html}
 }
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -15,17 +18,14 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{<[^/>](.*?[^/])?>}
-
-unindent
-{</.+?>}
+indentation
+{{<[^/>]+?> </[^>]+>}}
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+comments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

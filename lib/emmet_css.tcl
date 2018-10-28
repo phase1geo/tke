@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1103,25 +1103,24 @@ namespace eval emmet_css {
     if {$opts(-dir) eq "prev"} {
       if {[$txt compare $opts(-startpos) == 1.0]} {
         return ""
-      } elseif {[set start_index [lindex [$txt tag prevrange _curlyR $opts(-startpos)-1c] 1]] eq ""} {
+      } elseif {[set start_index [lindex [$txt range prev curly right $opts(-startpos)-1c] 1]] eq ""} {
         set start_index 1.0
       }
     } else {
-      if {[set start_index [lindex [$txt tag nextrange _curlyR $opts(-startpos)] 1]] eq ""} {
+      if {[set start_index [lindex [$txt range next curly right $opts(-startpos)] 1]] eq ""} {
         return ""
       }
     }
     
     # Find the first non-commented, non-whitespace character
     set start $start_index
-    while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [ctext::inComment $txt $start_index]} {
-      set comment_tag [lsearch -inline [$txt tag names $start] _comstr*]
-      set start [lindex [$txt tag prevrange $comment_tag $start+1c] 1]
+    while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [$txt is incomment $start_index]} {
+      set start [lindex [$txt range prev comment $start+1c] 1]
     }
 
-    if {($start ne "") && ([set end_index [lindex [$txt tag nextrange _curlyR $start] 1]] ne "")} {
-      set curly_index [lindex [$txt tag nextrange _curlyL $start_index] 0]
-      return [list $start $curly_index $end_index $start_index]
+    if {($start ne "") && ([set end_index [lindex [$txt range next curly right $start] 1]] ne "")} {
+      set curly_index [lindex [$txt range next curly left $start_index] 0]
+      return [list $start $curly_index [$txt index "$end_index+1c"] $start_index]
     }
 
     return ""
@@ -1288,12 +1287,12 @@ namespace eval emmet_css {
       if {$dir eq "next"} {
 
         if {$select} {
-          ::tk::TextSetCursor $txt $value_end
+          $txt cursor set $value_end
           $txt tag add sel $value_start $value_end
           return 1
         } elseif {$selected eq [list $value_start $value_end]} {
           if {[lindex $fnargs 0] != -1} {
-            ::tk::TextSetCursor $txt $fnargs_end
+            $txt cursor set $fnargs_end
             $txt tag add sel $fnargs_start $fnargs_end
             return 1
           }
@@ -1316,7 +1315,7 @@ namespace eval emmet_css {
         if {([lindex $fnargs 0] != -1) && ($selected ne "")} {
           if {[$txt compare $fnargs_start == [lindex $selected 0]] && \
               [$txt compare $fnargs_end   == [lindex $selected 1]]} {
-            ::tk::TextSetCursor $txt $value_end
+            $txt cursor set $value_end
             $txt tag add sel $value_start $value_end
             return 1
           } elseif {$select || \
@@ -1325,13 +1324,13 @@ namespace eval emmet_css {
             if {[select_property_value $txt $dir [expr $depth + 1] $selected $fnargs_start $fnargs_end]} {
               return 1
             } else {
-              ::tk::TextSetCursor $txt $fnargs_end
+              $txt cursor set $fnargs_end
               $txt tag add sel $fnargs_start $fnargs_end
               return 1
             }
           }
         } elseif {$select} {
-          ::tk::TextSetCursor $txt $value_end
+          $txt cursor set $value_end
           $txt tag add sel $value_start $value_end
           return 1
         } elseif {$selected eq [list $value_start $value_end]} {
@@ -1345,7 +1344,7 @@ namespace eval emmet_css {
     if {$select} {
       return 0
     } else {
-      ::tk::TextSetCursor $txt $endpos
+      $txt cursor set $endpos
       $txt tag add sel $startpos $endpos
       return 1
     }
@@ -1375,7 +1374,7 @@ namespace eval emmet_css {
         lassign [get_selector $txt $ruleset] selector_start selector_end
 
         if {[$txt compare insert <= $selector_start]} {
-          ::tk::TextSetCursor $txt.t $selector_end
+          $txt cursor set $selector_end
           $txt tag add sel $selector_start $selector_end
           return
 
@@ -1385,11 +1384,11 @@ namespace eval emmet_css {
               continue
             }
             if {[$txt compare insert < [lindex $prop 2]]} {
-              ::tk::TextSetCursor $txt [lindex $prop 3]
+              $txt cursor set [lindex $prop 3]
               $txt tag add sel [lindex $prop 0] [lindex $prop 3]
               return
             } elseif {($selected eq [list [lindex $prop 0] [lindex $prop 3]]) || ($selected eq "")} {
-              ::tk::TextSetCursor $txt [lindex $prop 3]
+              $txt cursor set [lindex $prop 3]
               $txt tag add sel [lindex $prop 2] [lindex $prop 3]
               return
             } elseif {[select_property_value $txt next 0 $selected {*}[lrange $prop 2 3]]} {
@@ -1413,13 +1412,13 @@ namespace eval emmet_css {
           }
           if {($selected eq [list [lindex $prop 2] [$txt index [lindex $prop 3]]]) || \
               (($selected eq "") && [$txt compare insert > [lindex $prop 0]])} {
-            ::tk::TextSetCursor $txt [lindex $prop 3]
+            $txt cursor set [lindex $prop 3]
             $txt tag add sel [lindex $prop 0] [lindex $prop 3]
             return
           } elseif {[select_property_value $txt prev 0 $selected {*}[lrange $prop 2 3]]} {
             return
           } elseif {[$txt compare insert > [lindex $prop 2]]} {
-            ::tk::TextSetCursor $txt [lindex $prop 3]
+            $txt cursor set [lindex $prop 3]
             $txt tag add sel [lindex $prop 2] [lindex $prop 3]
             return
           }
@@ -1429,7 +1428,7 @@ namespace eval emmet_css {
 
         if {(($selected ne [list $selector_start $selector_end]) && [$txt compare insert > [lindex $ruleset 0]]) || \
             ($selected eq [list [lindex $prop 0] [lindex $prop 3]])} {
-          ::tk::TextSetCursor $txt $selector_end
+          $txt cursor set $selector_end
           $txt tag add sel $selector_start $selector_end
           return
         }
@@ -1447,10 +1446,9 @@ namespace eval emmet_css {
   # Toggles comment of ruleset or property.
   proc toggle_comment {txt} {
 
-    if {[ctext::inBlockComment $txt insert]} {
+    if {[$txt is inblockcomment insert]} {
 
-      set tag [lsearch -inline [$txt tag names insert] _comstr1c*]
-      lassign [$txt tag prevrange $tag "insert+1c"] startpos endpos
+      lassign [$txt range prev comment "insert+1c"] startpos endpos
 
       if {[$txt get $endpos-3c] eq " "} {
         $txt delete "$endpos-3c" $endpos
@@ -1525,9 +1523,9 @@ namespace eval emmet_css {
 
     # Replace/insert width/height values
     if {[info exists found(width)]} {
-      $txt replace {*}[lrange $found(width) 2 3] " ${width}px"
+      $txt replace -str " ${width}px" {*}[lrange $found(width) 2 3]
       if {[info exists found(height)]} {
-        $txt replace {*}[lrange $found(height) 2 3] " ${height}px"
+        $txt replace -str " ${height}px" {*}[lrange $found(height) 2 3]
       } else {
         set num_spaces [lindex [split [lindex $found(width) 0] .] 1]
         set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
@@ -1536,7 +1534,7 @@ namespace eval emmet_css {
     } elseif {[info exists found(height)]} {
       set num_spaces [lindex [split [lindex $found(height) 0] .] 1]
       set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
-      $txt replace {*}[lrange $found(height) 2 3] " ${height}px"
+      $txt replace -str " ${height}px" {*}[lrange $found(height) 2 3]
       $txt insert "[lindex $found(height) 0] linestart" "${spaces}width: ${width}px;\n"
     } else {
       set num_spaces [lindex [split [lindex $found(url) 0] .] 1]
@@ -1580,7 +1578,7 @@ namespace eval emmet_css {
       foreach prop [lreverse [get_properties $txt $ruleset]] {
         set pname [$txt get {*}[lrange $prop 0 1]]
         if {($name ne $pname) && ([get_basename $pname] eq $basename)} {
-          $txt replace {*}[lrange $prop 2 3] $value
+          $txt replace -str $value {*}[lrange $prop 2 3]
         }
       }
     }

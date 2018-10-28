@@ -127,7 +127,7 @@ namespace eval url_validator {
 
     # Display the text widget
     api::reset_text_focus $txt
-    tk::TextSetCursor $txt $startpos
+    $txt cursor set $startpos
 
   }
 

@@ -11,8 +11,11 @@ reference
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|/,<>]+}
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -20,17 +23,14 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{<[^/>](.*?[^/])?>}
-
-unindent
-{</.+?>}
+indentation
+{{<[^/>]+>} {</[^>]+>}}
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+comments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 keywords {
   abbrev abstract accel acknowledgements acronym address affiliation alt anchor annotation answer

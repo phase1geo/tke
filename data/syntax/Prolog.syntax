@@ -4,7 +4,10 @@ filepatterns
 vimsyntax
 {prolog}
 
-matchcharsallowed
+completechars
+{curly square paren angled}
+
+matchchars
 {curly square paren angled}
 
 tabsallowed
@@ -13,21 +16,21 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{class implement interface if foreach try}
-
-unindent
-{end}
-
-reindent {}
+indentation
+{
+  {class end}
+  {implement end}
+  {interface end}
+  {if        end}
+  {foreach   end}
+  {try       end}
+}
 
 icomment {{%}}
 
-lcomments {{^[ \t]*%}}
+comments {{{/\*} {\*/}} {{^[ \t]*%} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

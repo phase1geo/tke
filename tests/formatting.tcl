@@ -69,7 +69,7 @@ namespace eval formatting {
       $txt delete 1.0 end
       $txt insert end "Make this formatted but not the rest"
       $txt tag add sel 1.5 1.19
-      edit::format $txt.t [lindex $type 0]
+      edit::add_formatting $txt.t [lindex $type 0]
 
       if {[lindex $type 2] eq ""} {
         if {[$txt get 1.0 end-1c] ne "[lindex $type 1] Make this formatted but not the rest"} {
@@ -88,9 +88,8 @@ namespace eval formatting {
 
       $txt delete 1.0 end
       $txt insert end "Make this formatted but not the rest"
-      $txt mark set insert 1.10
-      vim::adjust_insert $txt.t
-      edit::format $txt.t [lindex $type 0]
+      $txt cursor set 1.10
+      edit::add_formatting $txt.t [lindex $type 0]
 
       if {[lindex $type 2] eq ""} {
         if {[$txt get 1.0 end-1c] ne "[lindex $type 1] Make this formatted but not the rest"} {

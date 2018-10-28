@@ -1,7 +1,7 @@
 #!tclsh8.6
 
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -114,6 +114,16 @@ puts -nonewline "Checking for Img package...                 "
 flush stdout
 if {[catch "package require Img" rc]} {
   puts "Not Found (Only .gif, .bmp and .png images will be previewable in the file information panel)"
+} else {
+  puts "Found"
+}
+
+# Check to see if the tcl-thread package is available on the system
+puts -nonewline "Checking for tcl-thread package...          "
+flush stdout
+if {[catch "package require Thread" rc]} {
+  puts "Not Found! ($rc)"
+  exit 1
 } else {
   puts "Found"
 }

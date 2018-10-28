@@ -7,7 +7,10 @@ reference {
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r@;:=\"'\|,<>]+}
 
-matchcharsallowed
+completechars
+{curly paren square double btick}
+
+matchchars
 {curly paren square double btick}
 
 escapes
@@ -19,19 +22,14 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"}}
+strings {double}
 
 keywords
 {

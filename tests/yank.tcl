@@ -124,8 +124,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {y y} 2.5 "This is a line\n"
 
@@ -145,8 +144,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y l} 2.0 "T"
 
@@ -173,8 +171,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y h} 2.7 " "
 
@@ -202,8 +199,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.13
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.13
 
     # Do a simple one character yank
     do_test $txtt 0 {y space} 2.13 "e"
@@ -230,8 +226,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y BackSpace} 2.7 " "
 
@@ -258,8 +253,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y w} 2.0 "This "
 
@@ -281,8 +275,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y f l} 2.0 "This is a l"
 
@@ -305,8 +298,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y t l} 2.0 "This is a "
 
@@ -329,8 +321,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y F i} 2.5 "is "
 
@@ -355,8 +346,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y T i} 2.6 "s "
 
@@ -381,8 +371,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     enter $txtt {v l}
     do_test $txtt 0 y 2.8 "a "
@@ -464,8 +453,7 @@ namespace eval yank {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify pasting characters that are less than a line
     clipboard clear

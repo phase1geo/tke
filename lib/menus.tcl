@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -660,7 +660,7 @@ namespace eval menus {
   proc open_command {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -filetypes [syntax::get_filetypes] -defaultextension .tcl -multiple 1]] ne ""} {
       foreach ofile $ofiles {
@@ -675,7 +675,7 @@ namespace eval menus {
   proc open_dir_command {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       sidebar::add_directory $odir
@@ -705,7 +705,7 @@ namespace eval menus {
   # Change the current working directory to a specified value.
   proc change_working_directory {} {
 
-    if {[set dir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory] -mustexist 1]] ne ""} {
+    if {[set dir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory [gui::current_txt]] -mustexist 1]] ne ""} {
       gui::change_working_directory $dir
     }
 
@@ -779,7 +779,7 @@ namespace eval menus {
   proc export_command {} {
 
     # Get the directory of the current file
-    set dirname [gui::get_browse_directory]
+    set dirname [gui::get_browse_directory [gui::current_txt]]
 
     # Get the current editing buffer
     set txt [gui::current_txt]
@@ -1019,6 +1019,9 @@ namespace eval menus {
     # Close all of the tabs
     gui::close_all -force 1 -exiting 1
 
+    # Destroy the ctext namespace
+    catch { ctext::destroy }
+
     # Save the clipboard history
     cliphist::save
 
@@ -1164,14 +1167,14 @@ namespace eval menus {
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode OFF]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode OFF]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list gui::set_current_indent_mode OFF]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list gui::set_current_indent_mode OFF]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode IND]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode IND]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list gui::set_current_indent_mode IND]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list gui::set_current_indent_mode IND]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode IND+]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode IND+]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list gui::set_current_indent_mode IND+]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list gui::set_current_indent_mode IND+]
 
     ######################
     # Populate cursor menu
@@ -1230,11 +1233,11 @@ namespace eval menus {
 
     $mb.cursorPopup add separator
 
-    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors Only"] -command [list edit::align_cursors]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors only"]] [list edit::align_cursors]
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors Only"] -command [list edit::align_cursors -text 0]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors only"]] [list edit::align_cursors -text 0]
 
-    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors and Text"] -command [list edit::align_cursors_and_text]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors and text"]] [list edit::align_cursors_and_text]
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors and Text"] -command [list edit::align_cursors -text 1]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors and text"]] [list edit::align_cursors -text 1]
 
     #########################
     # Populate insertion menu
@@ -1264,8 +1267,8 @@ namespace eval menus {
 
     $mb.insertPopup add separator
 
-    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration]
+    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::enumerate]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::enumerate]
 
     #########################
     # Populate transform menu
@@ -1618,7 +1621,7 @@ namespace eval menus {
 
     # Set the indentation mode for the current editor
     if {[set txt [gui::current_txt]] ne ""} {
-      set indent_mode [indent::get_indent_mode $txt]
+      set indent_mode [$txt cget -indentmode]
       set state       "normal"
     }
 
@@ -1640,7 +1643,7 @@ namespace eval menus {
 
     # Get the current text widget
     if {[set txt [gui::current_txt]] ne ""} {
-      if {[multicursor::enabled $txt]} {
+      if {[$txt cursor get] ne ""} {
         set mstate "normal"
       } else {
         set sstate "normal"
@@ -1678,7 +1681,7 @@ namespace eval menus {
 
     if {[set txt [gui::current_txt]] ne ""} {
       set tstate "normal"
-      if {[multicursor::enabled $txt]} {
+      if {[$txt cursor get] ne ""} {
         set mstate "normal"
       }
     }
@@ -1905,7 +1908,7 @@ namespace eval menus {
   # Indents the current line or current selection.
   proc indent_command {} {
 
-    edit::indent [gui::current_txt].t
+    edit::indent [gui::current_txt].t insert insert
 
   }
 
@@ -1913,7 +1916,7 @@ namespace eval menus {
   # Unindents the current line or current selection.
   proc unindent_command {} {
 
-    edit::unindent [gui::current_txt].t
+    edit::unindent [gui::current_txt].t insert insert
 
   }
 
@@ -1926,7 +1929,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
-    if {![multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] eq ""} {
       edit::move_cursor $txtt $modifier
     }
 
@@ -1941,7 +1944,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
-    if {![multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] eq ""} {
       edit::move_cursor_by_page $txtt $dir
     }
 
@@ -1955,7 +1958,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     # If we are in multicursor mode, move the cursors in the direction given by modifier
-    if {[multicursor::enabled $txtt]} {
+    if {[$txtt cursor get] ne ""} {
       edit::move_cursors $txtt $modifier
     }
 
@@ -1982,7 +1985,7 @@ namespace eval menus {
   # Inserts the contents of the file after the current line.
   proc edit_insert_file_after_current_line {} {
 
-    if {[set fname [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory] -multiple 1]] ne ""} {
+    if {[set fname [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory [gui::current_txt]] -multiple 1]] ne ""} {
       edit::insert_file [gui::current_txt].t $fname
       gui::set_txt_focus [gui::current_txt]
     }
@@ -2095,7 +2098,7 @@ namespace eval menus {
   proc edit_format {type} {
 
     # Perform the editing
-    edit::format [gui::current_txt].t $type
+    edit::add_formatting [gui::current_txt].t $type
 
   }
 
@@ -2104,7 +2107,7 @@ namespace eval menus {
   proc edit_format_remove {} {
 
     # Unapply any formatting found in the selected text
-    edit::unformat [gui::current_txt].t
+    edit::remove_formatting [gui::current_txt].t
 
   }
 
@@ -2543,7 +2546,8 @@ namespace eval menus {
 
     $mb.foldPopup add cascade -label [msgcat::mc "Close Current Fold"] -menu [make_menu $mb.fcloseCurrPopup -tearoff 0]
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Close Selected Folds"] -menu [make_menu $mb.fcloseSelPopup -tearoff 0]
+    $mb.foldPopup add command -label [msgcat::mc "Close Selected Folds"] -command [list menus::close_folds selected]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds"]] [list menus::close_folds selected]
 
     $mb.foldPopup add command -label [msgcat::mc "Close All Folds"] -command [list menus::close_folds all]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Close all folds"]] [list menus::close_folds all]
@@ -2552,7 +2556,8 @@ namespace eval menus {
 
     $mb.foldPopup add cascade -label [msgcat::mc "Open Current Fold"] -menu [make_menu $mb.fopenCurrPopup -tearoff 0]
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Open Selected Folds"] -menu [make_menu $mb.fopenSelPopup -tearoff 0]
+    $mb.foldPopup add command -label [msgcat::mc "Open Selected Folds"] -command [list menus::open_folds selected]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds"]] [list menus::open_folds selected]
 
     $mb.foldPopup add command -label [msgcat::mc "Open All Folds"] -command [list menus::open_folds all]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Open all folds"]] [list menus::open_folds all]
@@ -2577,26 +2582,12 @@ namespace eval menus {
     launcher::register [make_menu_cmd "View" [msgcat::mc "Close fold at current line - one level"]]  [list menus::close_folds current 1]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Close fold at current line - all levels"]] [list menus::close_folds current 0]
 
-    # Setup the folding close selected popup menu
-    $mb.fcloseSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds selected 1]
-    $mb.fcloseSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds selected 0]
-
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds - one level"]]  [list menus::close_folds selected 1]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds - all levels"]] [list menus::close_folds selected 0]
-
     # Setup the folding open current popup menu
     $mb.fopenCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds current 1]
     $mb.fopenCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds current 0]
 
     launcher::register [make_menu_cmd "View" [msgcat::mc "Open fold at current line - one level"]]  [list menus::open_folds current 1]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Open fold at current line - all levels"]] [list menus::open_folds current 0]
-
-    # Setup the folding open selected popup menu
-    $mb.fopenSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds selected 1]
-    $mb.fopenSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds selected 0]
-
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds - one level"]]  [list menus::open_folds selected 1]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds - all levels"]] [list menus::open_folds selected 0]
 
   }
 
@@ -2719,11 +2710,12 @@ namespace eval menus {
 
     # Get the current text widget
     set txt          [gui::current_txt]
-    set state        [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
-    set code_folding [folding::get_enable $txt]
+    set line         [lindex [split [$txt index insert] .] 0]
+    set state        [$txt gutter get folding $line]
+    set code_folding [$txt cget -foldenable]
     set sel_state    [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
 
-    if {[folding::get_method $txt] eq "manual"} {
+    if {[$txt cget -indentmode] eq "OFF"} {
       $mb entryconfigure [msgcat::mc "Create Fold From Selection"] -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Selected Folds"]      -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Current Fold"]        -state normal
@@ -2846,7 +2838,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Line Numbers"] -label [msgcat::mc "Hide Line Numbers"] -command "menus::hide_line_numbers $mb"}]} {
-      gui::set_line_number_view 1
+      gui::set_line_number_view [gui::current_txt] 1
     }
 
   }
@@ -2857,7 +2849,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
-      gui::set_line_number_view 0
+      gui::set_line_number_view [gui::current_txt] 0
     }
 
   }
@@ -2952,12 +2944,13 @@ namespace eval menus {
     # Get the current text widget
     set txt [gui::current_txt]
 
-    # Set the fold enable value
-    if {$value eq ""} {
-      folding::set_fold_enable $txt $code_folding
-    } else {
-      folding::set_fold_enable $txt [set code_folding $value]
+    # If the user specified a value, set it
+    if {$value ne ""} {
+      set code_folding $value
     }
+
+    # Set the fold enable value
+    $txt configure -foldenable $code_folding
 
   }
 
@@ -2965,7 +2958,9 @@ namespace eval menus {
   # Create a fold for the selected code and close the fold.
   proc add_fold_from_selection {} {
 
-    folding::close_selected [gui::current_txt]
+    set txt [gui::current_txt]
+
+    $txt fold add {*}[$txt tag ranges sel]
 
   }
 
@@ -2979,13 +2974,17 @@ namespace eval menus {
     set txt [gui::current_txt]
 
     switch $type {
-      current  { folding::delete_fold $txt [lindex [split [$txt index insert] .] 0] }
-      all      { folding::delete_all_folds $txt }
+      current {
+        $txt fold delete [lindex [split [$txt index insert] .] 0] -depth 1
+      }
+      all {
+        $txt fold delete all
+      }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          folding::delete_folds_in_range $txt $startline $endline
+          $txt fold delete $startline $endline
         }
       }
     }
@@ -3001,15 +3000,16 @@ namespace eval menus {
   proc close_folds {type {depth 0}} {
 
     set txt [gui::current_txt]
-
     switch $type {
-      current  { folding::close_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
-      all      { folding::close_all_folds $txt }
+      current {
+        $txt fold close [lindex [split [$txt index insert] .] 0] $depth
+      }
+      all {
+        $txt fold close all
+      }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
-          set startline [lindex [split $startpos .] 0]
-          set endline   [lindex [split $endpos   .] 0]
-          folding::close_folds_in_range $txt $startline $endline $depth
+          $txt fold close $startpos $endpos 1
         }
       }
     }
@@ -3027,14 +3027,18 @@ namespace eval menus {
     set txt [gui::current_txt]
 
     switch $type {
-      current  { folding::open_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
-      all      { folding::open_all_folds $txt }
-      show     { folding::show_line $txt [lindex [split [$txt index insert] .] 0] }
+      current  {
+        $txt fold open [lindex [split [$txt index insert] .] 0] $depth
+      }
+      all      {
+        $txt fold open all
+      }
+      show     {
+        $txt fold open [lindex [split [$txt index insert] .] 0]
+      }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
-          set startline [lindex [split $startpos .] 0]
-          set endline   [lindex [split $endpos   .] 0]
-          folding::open_folds_in_range $txt $startline $endline $depth
+          $txt fold open $startpos $endpos $depth
         }
       }
     }
@@ -3046,7 +3050,11 @@ namespace eval menus {
   # cursor position.
   proc jump_to_fold {dir} {
 
-    folding::jump_to [gui::current_txt] $dir
+    set txt [gui::current_txt]
+
+    if {[set line [$txt fold find insert $dir]] ne ""} {
+      $txt cursor set $line.0
+    }
 
   }
 

@@ -76,8 +76,8 @@ namespace eval multicursor {
     # Set our Vim mode to edit
     vim::edit_mode $txt.t
 
-    if {[$txt tag ranges mcursor] ne [list 2.0 2.1 3.0 3.1]} {
-      cleanup "mcursor initialization mismatched ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.0 2.1 3.0 3.1]} {
+      cleanup "mcursor initialization mismatched ([$txt cursor get])"
     }
     if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "keyword initialization mismatched ([$txt tag ranges _keywords])"
@@ -86,8 +86,8 @@ namespace eval multicursor {
     multicursor::insert $txt.t "if \{\$a\} \{" indent::check_indent
 
     # Make sure that the mcursor is set to the correct position
-    if {[$txt tag ranges mcursor] ne [list 2.9 2.10 3.9 3.10]} {
-      cleanup "mcursor mismatched ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.9 2.10 3.9 3.10]} {
+      cleanup "mcursor mismatched ([$txt cursor get])"
     }
     if {[$txt get 2.0 end-1c] ne "if \{\$a\} \{ \nif \{\$a\} \{ "} {
       cleanup "Text did not match ([$txt get 2.0 end-1c])"
@@ -98,8 +98,8 @@ namespace eval multicursor {
 
     multicursor::insert $txt.t "\n" indent::newline
 
-    if {[$txt tag ranges mcursor] ne [list 3.2 3.3 5.2 5.3]} {
-      cleanup "mcursor mismatched after newline ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 3.2 3.3 5.2 5.3]} {
+      cleanup "mcursor mismatched after newline ([$txt cursor get])"
     }
     if {[$txt tag ranges _keywords] ne [list 2.0 2.2 4.0 4.2]} {
       cleanup "keyword mismatched after newline ([$txt tag ranges _keywords])"
@@ -113,8 +113,8 @@ namespace eval multicursor {
 
     multicursor::insert $txt.t "puts \"b\"" indent::check_indent
 
-    if {[$txt tag ranges mcursor] ne [list 3.10 3.11 5.10 5.11]} {
-      cleanup "mcursor mismatched after string ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 3.10 3.11 5.10 5.11]} {
+      cleanup "mcursor mismatched after string ([$txt cursor get])"
     }
     if {[$txt tag ranges _keywords] ne [list 2.0 2.2 3.2 3.6 4.0 4.2 5.2 5.6]} {
       cleanup "keyword mismatched after string ([$txt tag ranges _keywords])"
@@ -128,8 +128,8 @@ namespace eval multicursor {
 
     multicursor::insert $txt.t "\n" indent::newline
 
-    if {[$txt tag ranges mcursor] ne [list 4.2 4.3 7.2 7.3]} {
-      cleanup "mcursor mismatched after 2nd newline ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 4.2 4.3 7.2 7.3]} {
+      cleanup "mcursor mismatched after 2nd newline ([$txt cursor get])"
     }
     if {[$txt tag ranges _keywords] ne [list 2.0 2.2 3.2 3.6 5.0 5.2 6.2 6.6]} {
       cleanup "keyword mismatched after 2nd newline ([$txt tag ranges _keywords])"
@@ -143,8 +143,8 @@ namespace eval multicursor {
 
     multicursor::insert $txt.t "\}" indent::check_indent
 
-    if {[$txt tag ranges mcursor] ne [list 4.1 4.2 7.1 7.2]} {
-      cleanup "mcursor mismatched after unindent ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 4.1 4.2 7.1 7.2]} {
+      cleanup "mcursor mismatched after unindent ([$txt cursor get])"
     }
 
     # End the diagnostic
@@ -168,20 +168,20 @@ namespace eval multicursor {
 
     multicursor::insert $txt.t "hearing" indent::check_indent
 
-    if {[$txt tag ranges mcursor] ne [list 2.7 2.8 3.7 3.8]} {
-      cleanup "mcursor does not match expected ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.7 2.8 3.7 3.8]} {
+      cleanup "mcursor does not match expected ([$txt cursor get])"
     }
 
     multicursor::move $txt.t [list left -num 4]
 
-    if {[$txt tag ranges mcursor] ne [list 2.3 2.4 3.3 3.4]} {
-      cleanup "mcursor mismatch after -3c adjust ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.3 2.4 3.3 3.4]} {
+      cleanup "mcursor mismatch after -3c adjust ([$txt cursor get])"
     }
 
     multicursor::replace $txt.t "der" indent::check_indent
 
-    if {[$txt tag ranges mcursor] ne [list 2.6 2.7 3.6 3.7]} {
-      cleanup "mcursor mismatch after replace ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.6 2.7 3.6 3.7]} {
+      cleanup "mcursor mismatch after replace ([$txt cursor get])"
     }
 
     # Clean things up
@@ -208,8 +208,8 @@ namespace eval multicursor {
     multicursor::handle_selection $txt.t
 
     # Verify that multicursors are set
-    if {[$txt tag ranges mcursor] ne [list 2.7 2.8 3.7 3.8]} {
-      cleanup "mcursor mismatch after selection ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.7 2.8 3.7 3.8]} {
+      cleanup "mcursor mismatch after selection ([$txt cursor get])"
     }
 
     multicursor::delete $txt.t selected
@@ -217,8 +217,8 @@ namespace eval multicursor {
     if {[$txt get 2.0 end-1c] ne "lappend foobar 0\nlappend foobar 1"} {
       cleanup "text does not match expected ([$txt get 2.0 end-1c])"
     }
-    if {[$txt tag ranges mcursor] ne [list 2.7 2.8 3.7 3.8]} {
-      cleanup "mcursor mismatch after deletion ([$txt tag ranges mcursor])"
+    if {[$txt cursor get] ne [list 2.7 2.8 3.7 3.8]} {
+      cleanup "mcursor mismatch after deletion ([$txt cursor get])"
     }
     if {[$txt tag ranges _keywords] ne [list 2.0 2.7 3.0 3.7]} {
       cleanup "keywords mismatch after deletion ([$txt tag ranges _keywords])"
@@ -242,7 +242,7 @@ namespace eval multicursor {
     $txt tag add sel 2.6 2.9 3.6 3.9
     multicursor::handle_selection $txt.t
 
-    if {[$txt tag ranges mcursor] ne [list 2.6 2.7 3.6 3.7]} {
+    if {[$txt cursor get] ne [list 2.6 2.7 3.6 3.7]} {
       cleanup "mcursor mismatched after selection ([$txt tag ranges mcursor])"
     }
 
@@ -624,8 +624,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a line\nThis is a good line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {s j s m} [list 2.0 3.0]
     do_test $txtt 1 l         [list 2.1 3.1]
@@ -657,8 +656,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a line\nThis is a good line"
-    $txtt mark set insert 2.13
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.13
 
     enter $txtt {s j 5 l s m}
 
@@ -692,8 +690,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end [string repeat "\nThis is a line" 10]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {s j s m} [list 2.0 3.0]
     do_test $txtt 1 j         [list 3.0 4.0]
@@ -727,8 +724,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end [string repeat "\nThis is a line" 10]
-    $txtt mark set insert 10.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 10.0
 
     do_test $txtt 0 {s j s m} [list 10.0 11.0]
     do_test $txtt 1 k         [list 9.0 10.0]
@@ -741,8 +737,7 @@ namespace eval multicursor {
     do_test $txtt 6 Escape [list 1.0 2.0]
     do_test $txtt 7 Escape [list]
 
-    $txtt mark set insert 11.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 11.0
 
     do_test     $txtt 8  {s 6 k s m} [list 5.0 11.0]
     do_sel_test $txtt 9  {v k}       [list 4.0 10.0]
@@ -764,8 +759,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a line\nThis is also a line"
-    $txtt mark set insert 2.13
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.13
 
     do_test $txtt 0 {s j 5 l s m} [list 2.13 3.18]
     do_test $txtt 1 0 [list 2.0 3.0]
@@ -774,8 +768,7 @@ namespace eval multicursor {
     do_test $txtt 2 Escape [list 2.0 3.0]
     do_test $txtt 3 Escape [list]
 
-    $txtt mark set insert 2.13
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.13
 
     do_test     $txtt 4 {s j 5 l s m} [list 2.13 3.18]
     do_sel_test $txtt 5 {v 0}         [list 2.0 3.0]
@@ -795,8 +788,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a good line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {s j s m} [list 2.0 3.0]
     do_test $txtt 1 dollar    [list 2.18 3.13]
@@ -805,8 +797,7 @@ namespace eval multicursor {
     do_test $txtt 2 Escape [list 2.18 3.13]
     do_test $txtt 3 Escape [list]
 
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test     $txtt 4 {s j s m}  [list 2.0 3.0]
     do_sel_test $txtt 5 {v dollar} [list 2.18 3.13]
@@ -826,8 +817,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a line\nThis is a really good line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {s j s m} [list 2.0 3.0]
     do_test $txtt 1 w         [list 2.5 3.5]
@@ -842,8 +832,7 @@ namespace eval multicursor {
     do_test $txtt 8 Escape [list 1.0 2.8]
     do_test $txtt 9 Escape [list]
 
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test     $txtt 10 {s j s m} [list 2.0 3.0]
     do_sel_test $txtt 11 {v w}     [list 2.5 3.5]
@@ -867,8 +856,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a line\nThis is a really good line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {s j s m}       [list 2.0 3.0]
     do_test $txtt 1 space           [list 2.1 3.1]
@@ -882,8 +870,7 @@ namespace eval multicursor {
     do_test $txtt 8 Escape [list 1.0 2.5]
     do_test $txtt 9 Escape [list]
 
-    $txtt mark set insert 2.2
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.2
 
     do_test     $txtt 10 {s j s m}       [list 2.2 3.2]
     do_sel_test $txtt 11 {v space}       [list 2.3 3.3]
@@ -908,8 +895,7 @@ namespace eval multicursor {
     set txtt [initialize].t
 
     $txtt insert end "\n This is a line\n  This is a line"
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {s j s m}   [list 2.5 3.5]
     do_test $txtt 1 asciicircum [list 2.1 3.2]
@@ -918,8 +904,7 @@ namespace eval multicursor {
     do_test $txtt 3 Escape [list 2.1 3.2]
     do_test $txtt 4 Escape [list]
 
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt     5 {s j s m}       [list 2.5 3.5]
     do_sel_test $txtt 6 {v asciicircum} [list 2.1 3.2]
@@ -984,9 +969,8 @@ namespace eval multicursor {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    $txtt tag add mcursor 2.0 2.1 3.0 3.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
+    $txtt cursor add 2.0 2.1 3.0 3.1
 
     # Verify d deletion
     do_op_test $txtt 0 {d l} "\nhis is a line\nhis is a line" {2.0 3.0}
@@ -1003,7 +987,7 @@ namespace eval multicursor {
 
     # Verify y yank
     clipboard clear
-    $txtt tag add mcursor 2.0 2.1 3.0 3.1
+    $txtt cursor add 2.0 2.1 3.0 3.1
     do_op_test $txtt 4 {y l} "\nThis is a line\nThis is a line" {2.0 3.0}
 
     # TBD - Multicursor yank is not fully supported yet
@@ -1036,7 +1020,7 @@ namespace eval multicursor {
     do_op_test $txtt 11 {less less} "\nThis is a line\nThis is a line" {2.0 3.0}
 
     $txtt tag remove mcursor 1.0 end
-    $txtt tag add mcursor 2.1 2.2 3.2 3.3
+    $txtt cursor add 2.1 2.2 3.2 3.3
 
     # Verify X deletion
     do_op_test $txtt 13 {X} "\n This is a line\n This is a line" {2.0 3.1}
