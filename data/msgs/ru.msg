@@ -14,126 +14,7 @@ msgcat::mcmset ru {
 
 }
 
-# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
-msgcat::mcmset ru {
-
-  "Built-In Self Test"
-  "Встроенная система контроля"
-
-  "Decrementing order"
-  "Порядок уменьшения"
-
-  "Edit Test"
-  "Редактировать тест"
-
-  "Edit Test File"
-  "Редактировать файл теста"
-
-  "FAILED"
-  "НЕУДАЧНО"
-
-  "Fail"
-  "Окончилось неудачей"
-
-  "Fail Count"
-  "Счетчик ошибок"
-
-  "Failed"
-  "Неудачный"
-
-  "Filter"
-  "Фильтр"
-
-  "Incrementing order"
-  "Увеличивая заказ"
-
-  "Iteration"
-  "Итерация"
-
-  "Iteration count"
-  "Количество повторов"
-
-  "Loop"
-  "Цикл"
-
-  "Loop count"
-  "Количество прогонов"
-
-  "Loop type"
-  "Loop тип"
-
-  "New Test"
-  "Новый тест"
-
-  "New Test File"
-  "Новый тест"
-
-  "New Test Name"
-  "Название испытания"
-
-  "Output"
-  "Выходная мощность"
-
-  "PASSED"
-  "ВЫПОЛНЕНО"
-
-  "Pass"
-  "Пройдено успешно"
-
-  "Pass Count"
-  "Количество пропусков"
-
-  "Passed"
-  "Пройдено успешно"
-
-  "RUNNING BIST"
-  "Активное"
-
-  "Random"
-  "Случайные"
-
-  "Refresh"
-  "Обновлять"
-
-  "Results"
-  "Результаты"
-
-  "Run Count"
-  "Запустить Граф"
-
-  "Run iterations"
-  "Выполнение итераций"
-
-  "Run loops"
-  "Витки"
-
-  "Running"
-  "Активное"
-
-  "Runtime"
-  "Продолжительность"
-
-  "Selection method"
-  "Метод выбора правила"
-
-  "Setup"
-  "Установки"
-
-  "Total"
-  "Всего"
-
-  "hours"
-  "час"
-
-  "minutes"
-  "минут"
-
-  "seconds"
-  "секунд"
-
-}
-
-# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
+# bitmap.tcl
 msgcat::mcmset ru {
 
   "Center image"
@@ -165,7 +46,7 @@ msgcat::mcmset ru {
 
 }
 
-# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
+# diff.tcl
 msgcat::mcmset ru {
 
   "    End: "
@@ -179,6 +60,9 @@ msgcat::mcmset ru {
 
   "Enter starting file"
   "Введите начальный файл"
+
+  "Update"
+  "Обновить"
 
 }
 
@@ -409,7 +293,7 @@ msgcat::mcmset ru {
 
 }
 
-# ipanel.tcl (Information panel displayed in the sidebar)
+# ipanel.tcl
 msgcat::mcmset ru {
 
   "Binary"
@@ -1433,6 +1317,9 @@ msgcat::mcmset ru {
   "Restart"
   "Перезапуск"
 
+  "Run"
+  "Запуск"
+
   "Run theme editor"
   "Запуск редактора темы"
 
@@ -2037,9 +1924,6 @@ msgcat::mcmset ru {
   "Extensions"
   "Расширения"
 
-  "Fonts"
-  "Шрифты"
-
   "Format snippet indentation after insert"
   "Форматировать отступ фрагмента после вставки"
 
@@ -2076,8 +1960,8 @@ msgcat::mcmset ru {
   "Insertion cursor width"
   "Ширина курсора вставки"
 
-  "Keep information panel visible when sidebar doesn't have focus"
-  "Сохранять информационную панель, если боковая панель не имеет фокуса"
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Оставить панель информации видимой, когда курсор не в боковой панели"
 
   "Keyword"
   "Ключевое слово"
@@ -2096,9 +1980,6 @@ msgcat::mcmset ru {
 
   "Line count to find Vim modeline information"
   "Число строк для режима modeline в Vim"
-
-  "Line number alignment"
-  "Выравнивание номера строки"
 
   "Logfile Directory"
   "Каталог файла журнала"
@@ -2123,6 +2004,9 @@ msgcat::mcmset ru {
 
   "Node Aliases"
   "Псевдонимы узлов"
+
+  "Options"
+  "Опции"
 
   "Profiler Options"
   "Параметры профилировщика"
@@ -2158,7 +2042,7 @@ msgcat::mcmset ru {
   "Сохранить регистр"
 
   "Return"
-  "Возврат"
+  "Return"
 
   "Ruler column"
   "Столбец линейки"
@@ -2175,15 +2059,6 @@ msgcat::mcmset ru {
   "Search Snippets"
   "Поиск фрагментов кода"
 
-  "Select Command Launcher Entry Font"
-  "Выбор шрифта ввода командной строки"
-
-  "Select Command Launcher Preview Font"
-  "Выберите Command Launcher Preview Font"
-
-  "Select Editor Font"
-  "Выбрать шрифт редактора"
-
   "Select Settings Sharing Directory"
   "Выбрать общий каталог настроек"
 
@@ -2195,9 +2070,6 @@ msgcat::mcmset ru {
 
   "Selected Text"
   "Выделенный текст"
-
-  "Session"
-  "Сессия"
 
   "Set"
   "Задать"
@@ -2307,12 +2179,6 @@ msgcat::mcmset ru {
   "Time"
   "Время"
 
-  "Unknown"
-  "Неизвестно"
-
-  "Update information panel whenever the sidebar selection changes"
-  "Обновлять панель информации всякий раз, когда изменяется выбор боковой панели"
-
   "Update using release type"
   "Обновление с помощью типа релиза"
 
@@ -2355,8 +2221,8 @@ msgcat::mcmset ru {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Вы изменили глобальные настройки, которые не будут видны, потому что вы находитесь сейчас в именной сессии."
 
-  "You have changed the current session's preferences which will not be applied globally."
-  "Вы изменили настройки текущего сеанса, которые не будут применяться глобально."
+  "You have changed the current session's preferences which will not be applied globally"
+  "Вы изменили настройки текущей сессии, которые не будут применяться глобально"
 
   "milliseconds"
   "миллисекунд"
@@ -2372,17 +2238,11 @@ msgcat::mcmset ru {
   "Close Connection"
   "Закрыть соединение"
 
-  "Connection does not exist"
-  "план подключения не существует"
-
   "Connection failed"
   "Сбой соединения."
 
   "Connection passed"
   "Соединение установлено"
-
-  "Connections"
-  "Связи"
 
   "Create New Folder"
   "Создать новую папку"
@@ -2404,9 +2264,6 @@ msgcat::mcmset ru {
 
   "Enter Password"
   "Введите пароль"
-
-  "File System"
-  "% 1 Файл)"
 
   "Folder Name"
   "Название каталога"
@@ -2486,9 +2343,6 @@ msgcat::mcmset ru {
   "Unable to connect to"
   "Невозможно соединиться с"
 
-  "Unable to read remote directory contents."
-  "Не удается прочитать содержимое удаленного каталога."
-
   "Username"
   "Логин"
 
@@ -2517,7 +2371,7 @@ msgcat::mcmset ru {
 
 }
 
-# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
+# select.tcl
 msgcat::mcmset ru {
 
   "Add Selection Matches"
@@ -2604,6 +2458,9 @@ msgcat::mcmset ru {
   "Right"
   "Вправо"
 
+  "Selected"
+  "Выделено"
+
   "Selection Mode Command Help"
   "Справка по командам режима выделения"
 
@@ -2669,7 +2526,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Emmet"
-  "муравей"
+  "Emmet"
 
   "Export Settings Data"
   "Экспорт настроек"
@@ -3240,7 +3097,7 @@ msgcat::mcmset ru {
 
 }
 
-# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
+# themer.tcl
 msgcat::mcmset ru {
 
   "   Show Selected Option"
@@ -3248,9 +3105,6 @@ msgcat::mcmset ru {
 
   "   Show Selected Value"
   "   Показать выбранное значение"
-
-  "By"
-  "По"
 
   "Categories"
   "Категории"
@@ -3342,9 +3196,6 @@ msgcat::mcmset ru {
   "Save As:"
   "Сохранить как:"
 
-  "Save error"
-  "Ошибка при сохранении"
-
   "Save theme changes?"
   "Сохранить изменения темы?"
 
@@ -3381,8 +3232,8 @@ msgcat::mcmset ru {
   "Table Search"
   "Поиск таблицы"
 
-  "The current theme has unsaved changes."
-  "Текущая тема имеет несохраненные изменения."
+  "The current theme has unsaved changes"
+  "В текущей теме есть несохраненные изменения."
 
   "Theme Name"
   "Название темы"
@@ -3392,9 +3243,6 @@ msgcat::mcmset ru {
 
   "Two-Color Bitmap"
   "Двухцветное изображение"
-
-  "Unknown color value format"
-  "Неизвестный формат значения цвета"
 
   "User Directory"
   "Каталог пользователя"
@@ -3443,9 +3291,6 @@ msgcat::mcmset ru {
 # vim.tcl
 msgcat::mcmset ru {
 
-  "COMMAND MODE"
-  "КОМАНДНЫЙ РЕЖИМ"
-
   "File format unrecognized"
   "Неизвестный формат файла"
 
@@ -3455,14 +3300,8 @@ msgcat::mcmset ru {
   "Folding method unrecognized"
   "Неизвестный метод свертки"
 
-  "INSERT MODE"
-  "Режим вставки"
-
   "Illegal modelines value"
   "Некорректное значение modelines"
-
-  "MULTIMOVE MODE"
-  "MULTIMOVE MODE"
 
   "Number width not a number"
   "Значение ширины не число"
@@ -3478,15 +3317,6 @@ msgcat::mcmset ru {
 
   "Unrecognized vim option"
   "Неизвестная опция vim"
-
-  "VISUAL BLOCK MODE"
-  "РЕЖИМ ВИЗУАЛЬНОГО БЛОКА"
-
-  "VISUAL LINE MODE"
-  "Режим VISUAL LINE"
-
-  "VISUAL MODE"
-  "Визуально"
 
 }
 
@@ -3617,13 +3447,10 @@ msgcat::mcmset ru {
   "Ничей"
 
   "OK"
-  "OK’ейОПТ, пляшем! ������"
+  "OK"
 
   "Open"
   "Открыть"
-
-  "Options"
-  "Опции"
 
   "Parenthesis"
   "Скобки"
@@ -3643,9 +3470,6 @@ msgcat::mcmset ru {
   "Rename"
   "Переименовать"
 
-  "Run"
-  "Запуск"
-
   "Save"
   "Сохранить"
 
@@ -3654,9 +3478,6 @@ msgcat::mcmset ru {
 
   "Search"
   "Поиск"
-
-  "Selected"
-  "Выделено"
 
   "Sessions"
   "Сессии"
@@ -3708,9 +3529,6 @@ msgcat::mcmset ru {
 
   "Unfavorite"
   "Удалить из избранного"
-
-  "Update"
-  "Обновить"
 
   "Value"
   "Значение"
