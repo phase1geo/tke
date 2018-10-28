@@ -1,82 +1,139 @@
-2018-10-22 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (917fb5e0643f [devel-3.4.5] <temp34>)
+2018-10-24 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (31339144e75d [devel-3.4.6] <temp34>)
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.5 release
+	ChangeLog for devel-3.4.6 release
 
-2018-10-22 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (08bca42ff268 <temp34>)
+2018-10-24 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3d0cee8d2caa <temp34>)
 
 	* .hgtags:
-	Added tag devel-3.4.5 for changeset 917fb5e0643f
+	Added tag devel-3.4.6 for changeset 31339144e75d
 
-2018-10-22 13:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (b991a16af88c <temp34>)
+2018-10-24 17:04 -0500  Trevor Williams  <Trevor Williams>  (d1a520e10ff5 <temp34>)
 
-	* data/preferences.tkedat, lib/ctext/ctext.tcl, lib/gui.tcl,
-	lib/pref_ui.tcl, lib/version.tcl:
-	* Adding ability to change the line number alignment in preferences
-	to left or right.
-	* Adding space between line numbers and the gutter items to enhance
-	readability.
+	* lib/ctext/ctext.tcl:
+	* Checkpointing work on improving string/comment/language parser.
 
-2018-10-22 13:40 -0500  Trevor Williams  <phase1geo@gmail.com>  (94f3e2cce1e5 <temp34>)
-
-	* lib/pref_ui.tcl, lib/syntax.tcl, lib/version.tcl:
-	* Changing preference Language table to display file patterns
-	instead of extensions.
-
-2018-10-22 14:48 -0500  Trevor Williams  <phase1geo@gmail.com>  (c95320b177df <temp34>)
-
-	* lib/edit.tcl, lib/version.tcl:
-	* Fixing issues with bubbling lines up/down that are selected.
-
-2018-10-22 19:13 -0500  Trevor Williams  <phase1geo@gmail.com>  (313d869d9cbc <temp34>)
-
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/bitmap.tcl, lib/diff.tcl,
-	lib/ipanel.tcl, lib/lang.tcl, lib/select.tcl, lib/version.tcl:
-	* Adding support to translation files to include information to help
-	translators find the respective context.
-
-2018-10-23 10:56 -0500  Trevor Williams  <phase1geo@gmail.com>  (4fc23ad4e7d7 <temp34>)
-
-	* .hgignore, doc/md/TKE User Guide/Snippets/Snippet Variables.md,
-	lib/bist.tcl, lib/lang.tcl, lib/pref_ui.tcl, lib/remote.tcl,
-	lib/snip_parser.tac, lib/snip_parser.tcl, lib/themer.tcl,
-	lib/version.tcl, lib/vim.tcl:
-	* Enhancing .hgignore file.
-	* Adding ability to insert dates in the format of YYYY/MM/DD with the
-	new CURRENT_DATE2 snippet variable.
-	* Improving translation support in source files.
-	* Attempting to fix issues with generating bad translation files.
-
-2018-10-23 14:58 -0500  Trevor Williams  <phase1geo@gmail.com>  (434fc6167d52 <temp34>)
-
-	* data/syntax/HTML.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing syntax highlighting issues with embedded languages.
-	* Improving HTML syntax highlighting.
-	* Improving embedded syntax highlighting performance.
-
-2018-10-23 22:05 -0500  Trevor Williams  <phase1geo@gmail.com>  (37d9ffa08efc <temp34>)
-
-	* data/syntax/HTML.syntax, lib/ctext/ctext.tcl, lib/syntax.tcl,
-	lib/version.tcl:
-	* Checkpointing performance improvements for HTML editing.
-
-2018-10-23 22:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (f5c0fa48f85c <temp34>)
-
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
-	* Updating messages.
-
-2018-10-24 00:40 -0500  Trevor Williams  <phase1geo@gmail.com>  (6d9cb9c21879 [tip] <temp34>)
+2018-10-24 20:03 -0500  Trevor Williams  <phase1geo@gmail.com>  (87e7729240c3 <temp34>)
 
 	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Checkpointing more improvements to the syntax highlighter.
+	* Improving performance of comment parser for languages with
+	embedded languages.
+
+2018-10-24 22:38 -0500  Trevor Williams  <phase1geo@gmail.com>  (d322a639caf4 <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Checkpointing improvements to syntax highlighter.
+
+2018-10-24 23:47 -0500  Trevor Williams  <phase1geo@gmail.com>  (53e399730fdb <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/tke.tcl, lib/version.tcl:
+	* Fixing syntax error in ctext due to recent changes.
+	* Changing startup behavior when TKE is invoked with a file/directory
+	-- it is now added to the last saved session.
+	* Changing meaning of -n command-line option.
+
+2018-10-25 01:02 -0500  Trevor Williams  <phase1geo@gmail.com>  (d09d3db10cf1 <temp34>)
+
+	* data/syntax/Markdown.syntax, doc/md/TKE User Guide/Starting the
+	Application/The Command-Line.md, lib/ctext/ctext.tcl, lib/tke.tcl,
+	lib/version.tcl:
+	* Fixing usage information and user guide.
+	* Enhancing Markdown syntax description.
+
+2018-10-25 08:16 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (52957d927e94 <temp34>)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Adding check to see if a file is highlightable.
+
+2018-10-25 16:40 -0500  Trevor Williams  <Trevor Williams>  (c4bb63196bdd <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/gui.tcl, lib/indent.tcl:
+	* Checkpointing work on disabling auto-indent mode when we are not
+	highlighted.
+	* Disabling syntax highlighting if we find a line that exceeds 1024
+	characters.
+
+2018-10-25 18:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (88a999f57f23 <temp34>)
+
+	* lib/gui.tcl, lib/indent.tcl, lib/syntax.tcl, lib/version.tcl:
+	* Fixing problems caused in previous checkin.
+
+2018-10-25 20:39 -0500  Trevor Williams  <phase1geo@gmail.com>  (8b7bfd0bdbee <temp34>)
+
+	* doc/html/api_8tcl_source.html, lib/indent.tcl, lib/version.tcl:
+	* Fixing semantic errors in indentation code.
+
+2018-10-26 00:51 -0500  Trevor Williams  <phase1geo@gmail.com>  (8baaeae2e1e2 <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/gui.tcl, lib/syntax.tcl, lib/version.tcl,
+	plugins/current_line/main.tcl:
+	* Fixing current_line plugin to make sure that the line highlight is
+	placed behind the selection.
+	* Fixing various syntax highlighting issues.
+
+2018-10-26 01:21 -0500  Trevor Williams  <phase1geo@gmail.com>  (c36a1f3fa73f <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/gui.tcl, lib/version.tcl:
+	* Increasing maximum line length allowed for parsing based on
+	rendering performance.
+	* Starting to debug problems with embedded language string/comment
+	parsing (work in progress).
+
+2018-10-26 10:38 -0500  Trevor Williams  <phase1geo@gmail.com>  (ea66c834b9fd <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing issues with embedded language comment/string highlighting.
+
+2018-10-27 13:26 -0500  Trevor Williams  <phase1geo@gmail.com>  (c1bc2f79d995 <temp34>)
+
+	* lib/gui.tcl, lib/sessions.tcl, lib/tke.tcl, lib/version.tcl:
+	* If the -n option is specified on the command-line, load the
+	"Recently Opened" list, window geometry and other non-file
+	information from the last session file.
+
+2018-10-27 15:29 -0500  Trevor Williams  <phase1geo@gmail.com>  (785a179b25c8 <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Checkpointing work on comments procedure improvements.
+
+2018-10-27 15:41 -0500  Trevor Williams  <phase1geo@gmail.com>  (62565dbc54e7 <temp34>)
+
+	* lib/tke.tcl, lib/version.tcl:
+	* Fixing issue with reloading partial last session information when
+	the -n command-line was used.
+
+2018-10-27 15:58 -0500  Trevor Williams  <phase1geo@gmail.com>  (979df10bc4ee <temp34>)
+
+	* data/syntax/Markdown.syntax, lib/version.tcl:
+	* Fixing issues with Markdown list handling.
+
+2018-10-27 16:54 -0500  Trevor Williams  <phase1geo@gmail.com>  (9f21bdd88ee3 <temp34>)
+
+	* lib/gui.tcl, lib/menus.tcl, lib/version.tcl:
+	* Adding encoding menu item to File menu.
+
+2018-10-28 08:16 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (88d17f04c8bd <temp34>)
+
+	* lib/ctext/ctext.tcl, lib/pref_ui.tcl, lib/version.tcl:
+	* Fixing undo buffer issue with pasting text.
+	* Fixing syntax error in pref_ui.tcl.
+
+2018-10-28 13:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5d73ecd1a791 <temp34>)
+
+	* lib/version.tcl, plugins/e_menu/main.tcl,
+	plugins/highlight_matches/README.md,
+	plugins/highlight_matches/header.tkedat,
+	plugins/highlight_matches/main.tcl:
+	* Updating e_menu and highlight_matches plugins.
+
+2018-10-28 13:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (013646522125 <temp34>)
+
+	* lib/plugins.tcl, lib/version.tcl:
+	* Adding check of a plugins directory in the home directory.
+
+2018-10-28 13:43 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d05215a23cca [tip] <temp34>)
+
+	* data/msgs/ru.msg, lib/themes.tcl, lib/version.tcl:
+	* Updating Russion translation.
+	* Fixing issue when attempting to import a theme that already exists.
 
