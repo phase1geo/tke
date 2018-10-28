@@ -69,7 +69,7 @@
 #  - current = Uses the current working directory path.
 #  - <path>  = Uses the specified pathname.  If <path> does not exist, we will default to "last".
 
-{General/DefaultFileBrowserDirectory} {last}
+{General/DefaultFileBrowserDirectory} {buffer}
 
 # Specifies the default extension to use when exporting Markdown files.  The
 # supported values are the following:

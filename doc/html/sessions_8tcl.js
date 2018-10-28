@@ -9,6 +9,6 @@ var sessions_8tcl =
     [ "load_and_raise_window", "sessions_8tcl.html#aeace7cb595bcf021fda063f398efdfd0", null ],
     [ "load_prefs", "sessions_8tcl.html#a886349099cd9c6f1466e2cc6cc4a5f44", null ],
     [ "preload", "sessions_8tcl.html#abca08877bf8c666ec21486cd4650ae0b", null ],
-    [ "save", "sessions_8tcl.html#a00f1ae93e42d1f2f45e23d7d204b63ff", null ],
+    [ "save", "sessions_8tcl.html#aa8291377af3b18dd888657bac2fdeb07", null ],
     [ "share_changed", "sessions_8tcl.html#aeacf26b47686e062a21cdeb298b7883b", null ]
 ];

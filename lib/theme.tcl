@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -65,7 +65,8 @@ namespace eval theme {
     ttk_style,grip_thickness        {{number {2 10}} {5} {} {0} {msgcat::mc "Determines the thickness of the grip area between resizable panes."}}
     ttk_style,grip_count            {{number {0 20}} {10} {} {0} {msgcat::mc "Determines the number of grips strips to display in the grip area between resizable panes."}}
     misc_scrollbar,-background      {color {1} {} {0} {msgcat::mc "Background (trough) color used in a standard scrollbar."}}
-    misc_scrollbar,-foreground      {color {0} {} {0} {msgcat::mc "Foreground (slider) color used in a standard scrollbar."}}
+    misc_scrollbar,-foreground      {color {0} {} {0} {msgcat::mc "Foreground (slider) color used in a standard scrollbar when it is inactive."}}
+    misc_scrollbar,-activeforeground {color {0} {} {0} {msgcat::mc "Foreground (slider) color used in a standard scrollbar when it is active."}}
     misc_scrollbar,-thickness       {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
     menus,-background               {color {white} {} {0} {msgcat::mc "Background color used in menus."}}
     menus,-foreground               {color {black} {} {0} {msgcat::mc "Foreground text color used in menus."}}
@@ -84,7 +85,8 @@ namespace eval theme {
     tabs,-height                    {{number {20 40}} {25} {} {0} {msgcat::mc "Pixel height of the tabbar widget."}}
     tabs,-relief                    {{relief {flat raised}} {flat} {} {0} {msgcat::mc "Relief used in drawing the tabs."}}
     text_scrollbar,-background      {color {0} {} {0} {msgcat::mc "Background (trough) color used in the text scrollbars."}}
-    text_scrollbar,-foreground      {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars."}}
+    text_scrollbar,-foreground      {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars when it is inactive."}}
+    text_scrollbar,-activeforeground {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars when it is active."}}
     text_scrollbar,-altforeground   {color {red} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."}}
     text_scrollbar,-thickness       {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
     syntax,background               {color {black} {} {0} {msgcat::mc "Background color of the editing buffer."}}
@@ -115,7 +117,7 @@ namespace eval theme {
     syntax,attention                {color {red} {} {0} {msgcat::mc "Background color to use for displaying character information that requires the user's attention."}}
     syntax,search_background        {color {yellow} {} {0} {msgcat::mc "Background color for matching search text"}}
     syntax,search_foreground        {color {black} {} {0} {msgcat::mc "Foreground color for matching search text"}}
-    syntax,marker                   {color {orange} {} {0} {msgcat::mc "Background color for markers in the line gutter and scrollbar"}}
+    syntax,marker                   {color {orange} {} {0} {msgcat::mc "Foreground color for markers in the line gutter and scrollbar"}}
     syntax,closed_fold              {color {orange} {} {0} {msgcat::mc "Color to use for highlighting closed folds in the line number gutter"}}
     sidebar,-background             {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground             {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
@@ -129,7 +131,8 @@ namespace eval theme {
     sidebar,-highlightthickness     {{number {1 5}} {1} {} {0} {msgcat::mc "Specifies the pixel thickness of the highlight line."}}
     sidebar,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Relief value of the sidebar area."}}
     sidebar_scrollbar,-background   {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
-    sidebar_scrollbar,-foreground   {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
+    sidebar_scrollbar,-foreground   {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar when it is inactive."}}
+    sidebar_scrollbar,-activeforeground {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar when it is active."}}
     sidebar_scrollbar,-thickness    {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
     sidebar_info,-background        {color {2} {} {0} {msgcat::mc "Background color to use for the file information panel."}}
     sidebar_info,-active_background {color {0} {} {0} {msgcat::mc "Background color to use for active information values to indicate they are clickable."}}
@@ -581,10 +584,13 @@ namespace eval theme {
               set background 0
               set color      [normalize_color $val]
               if {$scope_types eq ""} {
-                set labels(background)    $color
-                set labels(warning_width) [utils::auto_adjust_color $color 40]
-                set labels(meta)          [utils::auto_adjust_color $color 40]
-                set labels(embedded)      [utils::auto_adjust_color $color 10]
+                set adjusted_color            [utils::auto_adjust_color $color 40]
+                set labels(background)        $color
+                set labels(linemap)           $color
+                set labels(warning_width)     $adjusted_color
+                set labels(linemap_separator) $adjusted_color
+                set labels(meta)              $adjusted_color
+                set labels(embedded)          [utils::auto_adjust_color $color 10]
               }
             } elseif {$caret} {
               set caret 0
@@ -1003,9 +1009,7 @@ namespace eval theme {
     # Update all of the syntax and scrollers
     foreach txt $widgets(syntax) {
       gui::update_theme $txt
-      syntax::set_language $txt [syntax::get_language $txt] -highlight 0
       scroller::update_markers [winfo parent $txt].vb
-      folding::update_closed $txt
     }
 
   }
@@ -1020,7 +1024,6 @@ namespace eval theme {
     foreach txt $widgets(syntax_split) {
       gui::update_theme $txt
       scroller::update_markers [winfo parent $txt].vb
-      folding::update_closed $txt
     }
 
   }
@@ -1052,7 +1055,7 @@ namespace eval theme {
       return
     }
 
-    set opts [get_category_options menus]
+    set opts [get_category_options menus 1]
 
     foreach mnu $widgets(menus) {
       update_menu_helper $mnu $opts

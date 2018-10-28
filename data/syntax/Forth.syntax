@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://www.taygeta.com/forth/dpans.html}
 }
 
-matchcharsallowed
+completechars
+{curly square}
+
+matchchars
 {curly square}
 
 tabsallowed
@@ -20,11 +23,9 @@ casesensitive
 
 icomment {{\\}}
 
-lcomments {{\\}}
+comments {{{\( } { \)}} {{//} {$}}}
 
-bcomments {{{\( } { \)}}}
-
-strings {{"}}
+strings {double}
 
 keywords
 {

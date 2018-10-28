@@ -1,0 +1,7 @@
+name           {editorconfig}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {Sets up editor configuration using .editorconfig files found in the opened file's path}

@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -85,6 +85,16 @@ namespace eval snippets {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Returns the current expandtabs value for the given text widget.
+  proc get_expandtabs {txt} {
+
+    variable expandtabs
+
+    return $expandtabs($txt.t)
 
   }
 
@@ -190,13 +200,13 @@ namespace eval snippets {
 
     if {![tab_clicked $txtt]} {
       if {![vim::in_vim_mode $txtt]} {
-        if {[string is space [$txtt get insert]] || ([lsearch [$txtt tag names insert] _prewhite] != -1)} {
+        if {[string is space [$txtt get insert]] || [$txtt compare insert < [$txtt index firstchar]]} {
           if {$expandtabs($txtt)} {
-            $txtt insert insert [string repeat " " [indent::get_tabstop $txtt]]
+            $txtt insert insert [string repeat " " [$txtt cget -tabstop]]
             return 1
           }
         } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
-          ::tk::TextSetCursor $txtt $index
+          $txtt cursor set $index
           return 1
         }
       }
@@ -292,7 +302,7 @@ namespace eval snippets {
         foreach {str tags} $result {
           incr datalen [string length $str]
         }
-        indent::format_text $txtt $insert "$insert+${datalen}c" 0
+        $txtt indent $insert "$insert+${datalen}c"
       }
 
       # Traverse the inserted snippet
@@ -301,9 +311,6 @@ namespace eval snippets {
       }
 
     }
-
-    # Adjust the cursor, if necessary
-    vim::adjust_insert $txtt
 
     # Create a separator
     $txtt edit separator
@@ -404,7 +411,7 @@ namespace eval snippets {
     # Delete all text that is tagged with a snippet tag
     foreach tabstop [lsearch -inline -all -glob [$txtt tag names] snippet_*] {
       foreach {start end} [$txtt tag ranges $tabstop] {
-        $txtt fastdelete $start $end
+        $txtt delete $start $end
       }
       $txtt tag delete $tabstop
     }
@@ -446,7 +453,7 @@ namespace eval snippets {
         set tabvals($txtt,$index) [$txtt get $tabstart($txtt) insert]
         foreach {endpos startpos} [lreverse [$txtt tag ranges snippet_mirror_$index]] {
           set str [parse_snippet $txtt [$txtt get $startpos $endpos]]
-          $txtt fastdelete $startpos $endpos
+          $txtt delete $startpos $endpos
           $txtt insert $startpos {*}$str
         }
       }
@@ -457,17 +464,17 @@ namespace eval snippets {
       # Find the current tab point tag
       if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {
         $txtt tag delete snippet_sel_$tabpoints($txtt)
-        ::tk::TextSetCursor $txtt [lindex $range 1]
+        $txtt cursor set [lindex $range 1]
         $txtt tag add sel {*}$range
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
-        $txtt fastdelete {*}$range
-        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt delete {*}$range
+        $txtt cursor set [lindex $range 0]
         $txtt tag delete snippet_mark_$tabpoints($txtt)
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
-        $txtt fastdelete {*}$range
-        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt delete {*}$range
+        $txtt cursor set [lindex $range 0]
         $txtt tag delete snippet_mark_0
         set tabstart($txtt) [lindex $range 0]
       }

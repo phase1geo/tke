@@ -7,7 +7,10 @@ vimsyntax
 reference
 {}
 
-matchcharsallowed
+completechars
+{curly square paren double}
+
+matchchars
 {curly square paren double}
 
 escapes
@@ -19,17 +22,14 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{//}}
 
-lcomments {{//} {--}}
+comments {{{//} {$}} {{--} {$}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

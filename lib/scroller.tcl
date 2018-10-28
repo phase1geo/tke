@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,33 +33,35 @@ namespace eval scroller {
     variable data
 
     array set opts {
-      -background    "white"
-      -foreground    "black"
-      -altforeground "red"
-      -orient        "vertical"
-      -command       ""
-      -markcommand1  ""
-      -markcommand2  ""
-      -thickness     15
-      -markhide1     0
-      -markhide2     0
-      -autohide      0
-      -usealt        0
+      -background       "white"
+      -foreground       "black"
+      -activeforeground "black"
+      -altforeground    "red"
+      -orient           "vertical"
+      -command          ""
+      -markcommand1     ""
+      -markcommand2     ""
+      -thickness        15
+      -markhide1        0
+      -markhide2        0
+      -autohide         0
+      -usealt           0
     }
     array set opts $args
 
-    set data($win,-background)    $opts(-background)
-    set data($win,-foreground)    $opts(-foreground)
-    set data($win,-altforeground) $opts(-altforeground)
-    set data($win,-orient)        $opts(-orient)
-    set data($win,-command)       $opts(-command)
-    set data($win,-markcommand1)  $opts(-markcommand1)
-    set data($win,-markcommand2)  $opts(-markcommand2)
-    set data($win,-thickness)     $opts(-thickness)
-    set data($win,-markhide1)     $opts(-markhide1)
-    set data($win,-markhide2)     $opts(-markhide2)
-    set data($win,-autohide)      $opts(-autohide)
-    set data($win,-usealt)        $opts(-usealt)
+    set data($win,-background)       $opts(-background)
+    set data($win,-foreground)       $opts(-foreground)
+    set data($win,-activeforeground) $opts(-activeforeground)
+    set data($win,-altforeground)    $opts(-altforeground)
+    set data($win,-orient)           $opts(-orient)
+    set data($win,-command)          $opts(-command)
+    set data($win,-markcommand1)     $opts(-markcommand1)
+    set data($win,-markcommand2)     $opts(-markcommand2)
+    set data($win,-thickness)        $opts(-thickness)
+    set data($win,-markhide1)        $opts(-markhide1)
+    set data($win,-markhide2)        $opts(-markhide2)
+    set data($win,-autohide)         $opts(-autohide)
+    set data($win,-usealt)           $opts(-usealt)
 
     # Constant values
     set data($win,minwidth)  3
@@ -68,6 +70,7 @@ namespace eval scroller {
     # Variables
     set data($win,extra_width)  [expr {(($opts(-markcommand1) ne "") ? 3 : 0) + (($opts(-markcommand2) ne "") ? 3 : 0)}]
     set data($win,slider_width) $data($win,minwidth)
+    set data($win,slider_fg)    $data($win,-foreground)
     set data($win,pressed)      0
     set data($win,first)        0.0
     set data($win,last)         1.0
@@ -149,6 +152,8 @@ namespace eval scroller {
           $data($win,canvas) configure -height [expr (($first == 0) && ($last == 1) && ($data($win,marks) == 0) && $data($win,-autohide)) ? 0 : $data($win,-thickness)]
         }
         $data($win,canvas) coords $data($win,slider) [expr $x1 + 2] [expr $y1 + 2] $x2 $y2
+        $data($win,canvas) itemconfigure $data($win,slider) -fill $data($win,slider_fg)
+        update_markers $win
       }
 
       configure {
@@ -162,6 +167,9 @@ namespace eval scroller {
         }
         if {[info exists opts(-foreground)]} {
           set data($win,-foreground) $opts(-foreground)
+        }
+        if {[info exists opts(-activeforeground)]} {
+          set data($win,-activeforeground) $opts(-activeforeground)
         }
         if {[info exists opts(-altforeground)]} {
           set data($win,-altforeground) $opts(-altforeground)
@@ -279,6 +287,7 @@ namespace eval scroller {
     if {!$data($W,pressed) && ($data($W,slider_width) != $data($W,-thickness))} {
 
       set data($W,slider_width) $data($W,-thickness)
+      set data($W,slider_fg)    $data($W,-activeforeground)
 
       lassign [eval $data($W,-command)] first last
 
@@ -297,6 +306,7 @@ namespace eval scroller {
     if {!$data($W,pressed)} {
 
       set data($W,slider_width) $data($W,minwidth)
+      set data($W,slider_fg)    $data($W,-foreground)
 
       lassign [eval $data($W,-command)] first last
 

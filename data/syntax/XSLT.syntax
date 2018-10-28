@@ -9,8 +9,11 @@ reference
   {{Language Reference} https://www.w3.org/TR/xslt}
 }
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -21,17 +24,14 @@ casesensitive
 delimiters
 {[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
 
-indent
-{<[^/>](.*?[^/])?>}
-
-unindent
-{</.+?>}
+indentation
+{{<[^/>]+> </[^>]+>}}
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+comments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

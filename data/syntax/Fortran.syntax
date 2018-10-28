@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://docs.oracle.com/cd/E19957-01/805-4939/index.html}
 }
 
-matchcharsallowed
+completechars
+{paren double single}
+
+matchchars
 {paren double single}
 
 tabsallowed
@@ -18,17 +21,22 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{if while else do}
-
-unindent
-{end continue do enddo}
+indentation
+{
+  {structure  {end\s+structure}}
+  {subroutine end}
+  {record     end}
+  {do         {(continue|end)}}
+  {then       {(else|end\s+if)}}
+  {map        {end\s+map}}
+  {union      {end\s+union}}
+}
 
 icomment {{^\*\s}}
 
-lcomments {{^(c|\*)\s}}
+comments {{{^(c|\*)\s} {$}}}
 
-strings {{'}}
+strings {single}
 
 keywords
 {

@@ -1,6 +1,6 @@
 var utils_8tcl =
 [
-    [ "auto_adjust_color", "utils_8tcl.html#ae67b92ab7f8d7401b82a5ee5e211cc5d", null ],
+    [ "auto_adjust_color", "utils_8tcl.html#adfc92fa14a2507314f09aef8c3524586", null ],
     [ "auto_mix_colors", "utils_8tcl.html#a8c3b435ab26715ea69ffd020a52be918", null ],
     [ "basename_range", "utils_8tcl.html#aa882721b1d7a65d479cd627571bfc09d", null ],
     [ "center_on_screen", "utils_8tcl.html#a52195c97d90390224e74900292d122e2", null ],
@@ -22,12 +22,12 @@ var utils_8tcl =
     [ "get_file_owner", "utils_8tcl.html#a53f0046a5ee1f2e1845e1381964e5f06", null ],
     [ "get_file_permissions", "utils_8tcl.html#a11ff1b301f28ada96b7a710b741eb66f", null ],
     [ "get_file_size", "utils_8tcl.html#ad65f14c3390f4b55c89a7a4cad2a2651", null ],
-    [ "glob_install", "utils_8tcl.html#a03829114571e0ed074acd9274f0c5b90", null ],
+    [ "glob_install", "utils_8tcl.html#a9118d8ecdd2d6358e8bda6a0badf62ce", null ],
     [ "hsl_to_rgb", "utils_8tcl.html#abd4b1a5bb2dfc7df51db5eeeb3b20f7e", null ],
     [ "hsv_to_rgb", "utils_8tcl.html#a6ba72039b659afee4217fe215246d42c", null ],
     [ "is_binary", "utils_8tcl.html#adc6bc1f5b9727f87e0c7c0968d0f9d4d", null ],
     [ "is_url", "utils_8tcl.html#a44f24d13e8b345f2a527d712987ad383", null ],
-    [ "open_file_externally", "utils_8tcl.html#a269f228f6962170c9655ffc9819035af", null ],
+    [ "open_file_externally", "utils_8tcl.html#aa80202a063e637943b8d62cd33c72465", null ],
     [ "perform_substitutions", "utils_8tcl.html#a1e9a4156cea22ee80d216b5a9977a24a", null ],
     [ "relative_to", "utils_8tcl.html#a9f7e4c65edc6d994109c4a04d92b3a57", null ],
     [ "rgb_to_hsl", "utils_8tcl.html#ab72a3edeb9b8cee80bfe77fede34ece7", null ],

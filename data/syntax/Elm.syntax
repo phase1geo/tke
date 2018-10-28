@@ -9,7 +9,10 @@ reference
   {{Language Reference} http://elm-lang.org/docs}
 }
 
-matchcharsallowed
+completechars
+{curly square paren}
+
+matchchars
 {curly square paren}
 
 escapes
@@ -24,19 +27,14 @@ linewrap
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{--}}
 
-lcomments {{--}}
+comments {{{\{-} {-\}}} {-- {$}}}
 
-bcomments {{{\{-} {-\}}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

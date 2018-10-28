@@ -7,7 +7,10 @@ reference {
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed
@@ -16,21 +19,18 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{fn {do(?!:)} {\(}}
+indentation
+{{fn end} {{do(?!:)} {\)}} {\( \)}}
 
-unindent
-{end {\)}}
-
-reindent {
+reindentation {
   {{do(?!:)} after catch else rescue}
 }
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
@@ -58,7 +58,7 @@ symbols
 numbers {
   HighlightKeywords {true false} {}
   HighlightRegexp {\m([0-9_]+|0b[01_]+|0o[0-7_]+|0x[0-9a-fA-F_]+|[0-9_]+\.[0-9_]+[eE]-?[0-9]+)} {}
-  HighlightWithOnlyCharStart {:} {}
+  HighlightCharStart {:} {}
 }
 
 punctuation
@@ -67,7 +67,7 @@ punctuation
 }
 
 miscellaneous1 {
-  HighlightWithOnlyCharStart {@} {}
+  HighlightCharStart {@} {}
 }
 
 miscellaneous2 {

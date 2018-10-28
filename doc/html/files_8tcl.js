@@ -11,7 +11,7 @@ var files_8tcl =
     [ "get_file", "files_8tcl.html#a388ace1d13542def0a68e9a04980f7ae", null ],
     [ "get_file_num", "files_8tcl.html#a2aa67b058254e782182d465ee6da25e9", null ],
     [ "get_index", "files_8tcl.html#a93b6026d7abe685af0e789914a608768", null ],
-    [ "get_indices", "files_8tcl.html#a4a83ff20816ca00cc7f18e0be0b537a1", null ],
+    [ "get_indices", "files_8tcl.html#ae8404f7ed3463e912a500d530fb283c5", null ],
     [ "get_info", "files_8tcl.html#aae39897e37c06de33148881e76923a01", null ],
     [ "get_tabs", "files_8tcl.html#a4e269dbac4be2387ac9264c6525f8d83", null ],
     [ "get_unique_path", "files_8tcl.html#ad2aa7c49e9d9ec7cb6dd26a0c5660516", null ],

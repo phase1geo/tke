@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://archive.eiffel.com/nice/language/}
 }
 
-matchcharsallowed
+completechars
+{paren curly square}
+
+matchchars
 {paren curly square}
 
 tabsallowed
@@ -20,9 +23,9 @@ casesensitive
 
 icomment {{--}}
 
-lcomments {{--}}
+comments {{-- {$}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

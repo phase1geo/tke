@@ -8,7 +8,10 @@ reference {
   {{Language Reference} https://www.gnu.org/software/make/manual/make.html}
 }
 
-matchcharsallowed
+completechars
+{curly paren double single}
+
+matchchars
 {curly paren double single}
 
 tabsallowed
@@ -17,15 +20,12 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
 keywords
 {
@@ -47,5 +47,5 @@ miscellaneous2 {
 }
 
 miscellaneous3 {
-  HighlightRegexp {$\([^\)]*\)} {}
+  HighlightRegexp {\$\([^\)]*\)} {}
 }

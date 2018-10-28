@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -268,15 +268,15 @@ namespace eval emmet {
 
     # Get the tag
     if {$opts(-dir) eq "prev"} {
-      if {[set start [lindex [$txt tag prevrange _angledL $opts(-start)] 0]] eq ""} {
+      if {[set start [lindex [$txt range prev angled left $opts(-start)] 0]] eq ""} {
         return ""
-      } elseif {[set end [lindex [$txt tag nextrange _angledR $start] 1]] eq ""} {
+      } elseif {[set end [lindex [$txt range next angled right $start] 1]] eq ""} {
         return ""
       }
     } else {
-      if {[set end [lindex [$txt tag nextrange _angledR $opts(-start)] 1]] eq ""} {
+      if {[set end [lindex [$txt range next angled right $opts(-start)] 1]] eq ""} {
         return ""
-      } elseif {[set start [lindex [$txt tag prevrange _angledL $end] 0]] eq ""} {
+      } elseif {[set start [lindex [$txt range prev angled left $end] 0]] eq ""} {
         return ""
       }
     }
@@ -299,7 +299,7 @@ namespace eval emmet {
 
       # If we have found what we are looking for, return now
       if {[string match $opts(-type) $found_type] && [string match $opts(-name) $found_name]} {
-        return [list $start $end $found_name $found_type $missed]
+        return [list $start [$txt index $end $found_name $found_type $missed]
       }
 
       # Update counts
@@ -307,15 +307,15 @@ namespace eval emmet {
 
       # Otherwise, get the next tag
       if {$opts(-dir) eq "prev"} {
-        if {[set end [lindex [$txt tag prevrange _angledR $start] 1]] eq ""} {
+        if {[set end [lindex [$txt range prev angled right $start] 1]] eq ""} {
           return ""
-        } elseif {[set start [lindex [$txt tag prevrange _angledL $end] 0]] eq ""} {
+        } elseif {[set start [lindex [$txt range prev angled left $end] 0]] eq ""} {
           return ""
         }
       } else {
-        if {[set start [lindex [$txt tag nextrange _angledL $end] 0]] eq ""} {
+        if {[set start [lindex [$txt range next angled left $end] 0]] eq ""} {
           return ""
-        } elseif {[set end [lindex [$txt tag nextrange _angledR $start] 1]] eq ""} {
+        } elseif {[set end [lindex [$txt range next angled right $start] 1]] eq ""} {
           return ""
         }
       }
@@ -328,7 +328,7 @@ namespace eval emmet {
   # If the insertion cursor is currently inside of a tag element, returns
   # the tag information; otherwise, returns the empty string
   proc inside_tag {txt args} {
-    
+
     array set opts {
       -startpos insert
       -allow010 0
@@ -349,7 +349,7 @@ namespace eval emmet {
   # Assumes that the insertion cursor is somewhere between a start and end
   # tag.
   proc get_node_range_within {txt args} {
-    
+
     array set opts {
       -startpos insert
     }
@@ -393,7 +393,7 @@ namespace eval emmet {
   proc get_node_range {txt args} {
 
     variable data
-    
+
     array set opts {
       -startpos insert
     }
@@ -516,7 +516,7 @@ namespace eval emmet {
         return
       }
       if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
-        ::tk::TextSetCursor $txt [lindex $retval 0]
+        $txt cursor set [lindex $retval 0]
         return
       }
       incr others -1
@@ -557,7 +557,7 @@ namespace eval emmet {
     }
 
     # Set the cursor position
-    ::tk::TextSetCursor $txt [lindex $node_range 0]
+    $txt cursor set [lindex $node_range 0]
 
     # Select the current range
     $txt tag add sel {*}$node_range
@@ -576,7 +576,7 @@ namespace eval emmet {
     if {[llength [$txt tag ranges sel]] == 2} {
       if {([inside_tag $txt] eq "") || ([set tag_range [get_inner [get_node_range $txt]]] eq "")} {
         if {([set retval [get_tag $txt -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
-          ::tk::TextSetCursor $txt [lindex $retval 0]
+          $txt cursor set [lindex $retval 0]
           if {[set tag_range [get_outer [get_node_range $txt]]] eq ""} {
             return
           }
@@ -586,7 +586,7 @@ namespace eval emmet {
       }
 
       # Set the cursor and the selection
-      ::tk::TextSetCursor $txt [lindex $tag_range 0]
+      $txt cursor set [lindex $tag_range 0]
       $txt tag add sel {*}$tag_range
 
     # Otherwise, perform an outward balance to make the selection
@@ -675,8 +675,7 @@ namespace eval emmet {
       } else {
         set endpos [expr {($dir eq "next") ? [lindex $retval 0] : [lindex $retval 1]}]
         if {[set index [get_blank_line $txt $dir insert $endpos]] ne ""} {
-          ::tk::TextSetCursor $txt "$index lineend"
-          vim::adjust_insert $txt.t
+          $txt cursor set [list "$index lineend"]
           return
         }
       }
@@ -688,17 +687,16 @@ namespace eval emmet {
       while {1} {
         foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
           if {($attr_value eq "") && [$txt compare $attr_value_start > insert]} {
-            ::tk::TextSetCursor $txt $attr_value_start
+            $txt cursor set $attr_value_start
             return
           }
         }
         if {[set next_tag [get_tag $txt -dir next -start [lindex $retval 1]]] ne ""} {
           if {[$txt compare [lindex $retval 1] == [lindex $next_tag 0]]} {
-            ::tk::TextSetCursor $txt [lindex $next_tag 0]
+            $txt cursor set [lindex $next_tag 0]
             return
           } elseif {[set index [get_blank_line $txt next [lindex $retval 1] [lindex $next_tag 0]]] ne ""} {
-            ::tk::TextSetCursor $txt "$index lineend"
-            vim::adjust_insert $txt.t
+            $txt cursor set [list "$index lineend"]
             return
           } else {
             set retval $next_tag
@@ -713,18 +711,17 @@ namespace eval emmet {
       while {1} {
         foreach {attr_value_start attr_value attr_name_start attr_name} [lreverse [get_tag_attributes $txt $retval]] {
           if {($attr_value eq "") && [$txt compare $attr_value_start < insert]} {
-            ::tk::TextSetCursor $txt $attr_value_start
+            $txt cursor set $attr_value_start
             return
           }
         }
         if {[set prev_tag [get_tag $txt -dir prev -start [lindex $retval 0]]] ne ""} {
           if {[$txt compare [lindex $prev_tag 1] == [lindex $retval 0]] && \
               [$txt compare insert != [lindex $retval 0]]} {
-            ::tk::TextSetCursor $txt [lindex $retval 0]
+            $txt cursor set [lindex $retval 0]
             return
           } elseif {[set index [get_blank_line $txt prev [lindex $retval 0] [lindex $prev_tag 1]]] ne ""} {
-            ::tk::TextSetCursor $txt "$index lineend"
-            vim::adjust_insert $txt.t
+            $txt cursor set "$index lineend"
             return
           } else {
             set retval $prev_tag
@@ -759,7 +756,7 @@ namespace eval emmet {
       set value_start [$txt index "$attr_value_start+[lindex $match 0]c"]
       set value_end   [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
       if {$select} {
-        ::tk::TextSetCursor $txt $value_end
+        $txt cursor set $value_end
         $txt tag add sel $value_start $value_end
         return 1
       } elseif {$selected eq [list $value_start $value_end]} {
@@ -776,7 +773,7 @@ namespace eval emmet {
     if {$select} {
       return 0
     } else {
-      ::tk::TextSetCursor $txt $attr_value_end
+      $txt cursor set $attr_value_end
       $txt tag add sel $attr_value_start $attr_value_end
       return 1
     }
@@ -808,7 +805,7 @@ namespace eval emmet {
 
         # Select the tag name if it is the next item
         if {[$txt compare $startpos < $end_name]} {
-          ::tk::TextSetCursor $txt $end_name
+          $txt cursor set $end_name
           $txt tag add sel "[lindex $retval 0]+1c" $end_name
           return
 
@@ -820,11 +817,11 @@ namespace eval emmet {
               continue
             }
             if {[$txt compare $startpos < $attr_value_start]} {
-              ::tk::TextSetCursor $txt $attr_end
+              $txt cursor set $attr_end
               $txt tag add sel $attr_name_start $attr_end
               return
             } elseif {(($selected eq [list $attr_name_start $attr_end]) && ($attr_value ne "")) || ($selected eq "")} {
-              ::tk::TextSetCursor $txt "$attr_end-1c"
+              $txt cursor set "$attr_end-1c"
               $txt tag add sel $attr_value_start "$attr_end-1c"
               return
             } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start ]} {
@@ -851,13 +848,13 @@ namespace eval emmet {
           }
           if {($selected eq [list $attr_value_start [$txt index $attr_end-1c]]) || \
               (($attr_value eq "") && [$txt compare $startpos > $attr_name_start])} {
-            ::tk::TextSetCursor $txt $attr_end
+            $txt cursor set $attr_end
             $txt tag add sel $attr_name_start $attr_end
             return
           } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start]} {
             return
           } elseif {[$txt compare $startpos > $attr_value_start] && ($attr_value ne "")} {
-            ::tk::TextSetCursor $txt "$attr_end-1c"
+            $txt cursor set "$attr_end-1c"
             $txt tag add sel $attr_value_start "$attr_end-1c"
             return
           }
@@ -871,7 +868,7 @@ namespace eval emmet {
         # the tag name
         if {(($selected ne [list $start_name $end_name]) && [$txt compare $startpos > [lindex $retval 0]]) || \
             (($attr_name_start ne "") && ($selected eq [list $attr_name_start $attr_end]))} {
-          ::tk::TextSetCursor $txt $end_name
+          $txt cursor set $end_name
           $txt tag add sel $start_name $end_name
           return
         }
@@ -909,11 +906,11 @@ namespace eval emmet {
   # Toggles the current HTML node with an HTML comment.
   proc toggle_html_comment {txt} {
 
-    if {[ctext::inComment $txt insert]} {
+    if {[$txt is incomment insert]} {
 
-      if {([set comment_end [lassign [$txt tag prevrange _comstr1c0 insert] comment_start]] eq "") || \
+      if {([set comment_end [lassign [$txt range prev comment insert] comment_start]] eq "") || \
           [$txt compare insert > $comment_end]} {
-        lassign [$txt tag prevrange _comstr1c1 insert] comment_start comment_end
+        lassign [$txt range prev comment insert] comment_start comment_end
       }
 
       set i 0
@@ -982,7 +979,7 @@ namespace eval emmet {
     } elseif {[set retval [inside_tag $txt -allow010 1]] ne ""} {
 
       set index [$txt search -regexp -- {\s*/>$} [lindex $retval 0] [lindex $retval 1]]
-      $txt replace $index [lindex $retval 1] "></[lindex $retval 2]>"
+      $txt replace -str "></[lindex $retval 2]>" $index [lindex $retval 1]
 
     }
 
@@ -1032,7 +1029,7 @@ namespace eval emmet {
         $txt delete {*}[lrange $retval 0 1]
 
         # Just use the indentation algorithm
-        indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 0]+${count}l linestart" 0
+        $txt indent [lindex $retval 0] "[lindex $retval 0]+${count}l linestart"
 
       }
 
@@ -1124,19 +1121,19 @@ namespace eval emmet {
         if {$width_start ne ""} {
           if {$height_start ne ""} {
             if {[$txt compare $width_start < $height_start]} {
-              $txt replace $height_start $height_end $height
-              $txt replace $width_start  $width_end  $width
+              $txt replace -str $height $height_start $height_end
+              $txt replace -str $width  $width_start  $width_end
             } else {
-              $txt replace $width_start  $width_end  $width
-              $txt replace $height_start $height_end $height
+              $txt replace -str $width  $width_start  $width_end
+              $txt replace -str $height $height_start $height_end
             }
           } else {
             $txt insert "$width_end+1c" " height=\"$height\""
-            $txt replace $width_start $width_end $width
+            $txt replace -str $width $width_start $width_end
           }
         } else {
           if {$height_start ne ""} {
-            $txt replace $height_start $height_end $height
+            $txt replace -str $height $height_start $height_end
             $txt insert $hstart "width=\"$width\" "
           } else {
             $txt insert $src_end " width=\"$width\" height=\"$height\""
@@ -1178,17 +1175,17 @@ namespace eval emmet {
     # Get the range of the number
     if {[$txt get insert] eq "-"} {
       set num_start "insert"
-      set num_end   [edit::get_index $txt.t numberend -startpos "insert+1c" -adjust "+1c"]
+      set num_end   [$txt index [list numberend -startpos "insert+1c" -adjust "+1c"]]
       if {[$txt compare $num_end == "insert+1c"]} {
         return
       }
     } else {
-      set num_start [edit::get_index $txt.t numberstart]
-      set num_end   [edit::get_index $txt.t numberend -adjust "+1c"]
+      set num_start [$txt index numberstart]
+      set num_end   [$txt index [list numberend -adjust "+1c"]]
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
-      if {([$txt get "$num_start-1c"] eq "-") && ![ctext::isEscaped $txt "$num_start-1c"]} {
+      if {([$txt get "$num_start-1c"] eq "-") && ![$txt is escaped "$num_start-1c"]} {
         set num_start "$num_start-1c"
       }
     }
@@ -1221,10 +1218,10 @@ namespace eval emmet {
       set cursor [$txt index insert]
 
       # Insert the number
-      $txt replace $num_start $num_end $number
+      $txt replace -str $number $num_start $num_end
 
       # Set the cursor
-      ::tk::TextSetCursor $txt.t $cursor
+      $txt cursor set $cursor
 
       # Create an undo separator
       $txt edit separator
@@ -1250,8 +1247,8 @@ namespace eval emmet {
       if {![catch { expr $expression } rc]} {
         set startpos [$txt index "insert-[string length $pre_match]c"]
         set endpos   [$txt index "insert+[string length $post_match]c"]
-        $txt replace $startpos $endpos $rc
-        ::tk::TextSetCursor $txt $startpos
+        $txt replace -str $rc $startpos $endpos
+        $txt cursor set $startpos
         $txt edit separator
       }
 
@@ -1276,7 +1273,7 @@ namespace eval emmet {
           fconfigure $rc -encoding binary
           puts $rc [base64::decode $data]
           close $rc
-          $txt replace $startpos $endpos [utils::relative_to $fname [pwd]]
+          $txt replace -str [utils::relative_to $fname [pwd]] $startpos $endpos
           $txt edit separator
         }
       }
@@ -1310,7 +1307,7 @@ namespace eval emmet {
       if {$delete} {
         file delete -force $fname
       }
-      $txt replace $startpos $endpos "data:$type;base64,[base64::encode -maxlen 0 $data]"
+      $txt replace -str "data:$type;base64,[base64::encode -maxlen 0 $data]" $startpos $endpos
       $txt edit separator
     }
 

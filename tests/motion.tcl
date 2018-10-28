@@ -109,8 +109,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\nthis is good"
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 h     2.4
     do_test $txtt 1 {2 h} 2.2
@@ -140,8 +139,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\nthis is not bad\nthis is cool"
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 l       2.6
     do_test $txtt 1 {2 l}   2.8
@@ -171,8 +169,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\ngood\n\nbad\nfoobar\nnice\nbetter"
-    $txtt mark set insert 7.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 7.0
 
     do_test $txtt 0 {}    7.0
     do_test $txtt 1 k     6.0
@@ -213,8 +210,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\ngood\nbad\nfoobar\nnice\n\nbetter\n\n"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {}    2.0
     do_test $txtt 1 j     3.0
@@ -254,8 +250,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is a line\nAnother line"
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {}       2.5
     do_test $txtt 1 0        2.0
@@ -278,8 +273,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\nThis is good\n\nThis is great"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Move forward by one word
     foreach {index dspace} [list 2.5 0 2.8 0 3.0 1 4.0 0 4.5 0 4.8 0 4.12 0 4.12 0] {
@@ -318,8 +312,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\nThis... is good\n\nThis... is great"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Move forward by one WORD (0-6)
     foreach {index dspace} [list 2.8 0 2.11 0 3.0 1 4.0 0 4.8 0 4.11 0 4.11 0] {
@@ -358,8 +351,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\nThis is good\n\n\nThis is good"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     foreach {index dspace} [list 2.3 0 2.6 0 2.11 0 3.0 1 4.0 1 5.3 0 5.6 0 5.11 0 5.11 0] {
       do_test $txtt $i e $index $dspace
@@ -394,8 +386,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\nThis... is good\n\n\nThis... is great"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     # 0-8
     foreach {index dspace} [list 2.6 0 2.9 0 2.14 0 3.0 1 4.0 1 5.6 0 5.9 0 5.15 0 5.15 0] {
@@ -436,8 +427,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\n apples\n\ngrapes\n      bananas\n  milk\n\n    soup"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     # Verify the current line firstword variety
     foreach {index dspace} [list 1.0 1 2.1 0 3.0 1 4.0 0 5.6 0 6.2 0 7.0 1 8.4 0] {
@@ -485,9 +475,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\ngood\n\ngreat"
-
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     # Move forward through the document, one character at a time
     foreach {index dspace} [list 2.0 0 2.1 0 2.2 0 2.3 0 3.0 1 4.0 0 4.1 0 4.2 0 4.3 0 4.4 0 4.4 0] {
@@ -525,9 +513,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end [string repeat "\n" 100]
-
-    $txtt mark set insert 10.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 10.0
 
     do_test $txtt 0 {} 10.0 1
 
@@ -625,8 +611,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is something"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Move to a valid column
     do_test $txtt 0 {7 bar} 2.6
@@ -650,8 +635,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\nThis is something. This is something else.\n\nThis is great.\nThis is not."
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     foreach {index dspace} [list 2.0 0 2.19 0 4.0 0 5.0 0 5.11 0 5.11 0] {
       do_test $txtt $i parenright $index $dspace
@@ -686,8 +670,7 @@ namespace eval motion {
     set i    0
 
     $txtt insert end "\nThis is the first paragraph.\nThis is still a part of the first paragraph.\n\n\nAnother paragraph.\n\nLast paragraph"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     # 0 - 4
     foreach {index dspace} [list 2.0 0 6.0 0 8.0 0 8.13 0 8.13 0] {
@@ -726,11 +709,10 @@ namespace eval motion {
 
     # Insert a line that we can code fold
     $txtt insert end "\nif {\$foocar} {\n  set c 0\n}\n# Another comment"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Close the fold
-    folding::close_all_folds [winfo parent $txtt]
+    [winfo parent $txtt] fold close all
 
     # Move up/down
     do_test $txtt 0 j      4.0
@@ -764,8 +746,7 @@ namespace eval motion {
     $txtt insert end "\nNi*e **bold**\nGood"
     $txtt tag configure foobar -elide 1
     $txtt tag add foobar 2.5 2.7
-    $txtt mark set insert 2.4
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.4
 
     do_test $txtt 0 l      2.7
     do_test $txtt 1 h      2.4
@@ -838,8 +819,7 @@ namespace eval motion {
     vim::do_set_selection "inclusive"
 
     $txtt insert end "\nThis is so so good.\n\nThis is great."
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_sel_test $txtt 0 v         {2.0 2.1}
     do_sel_test $txtt 1 l         {2.0 2.2}
@@ -890,8 +870,7 @@ namespace eval motion {
     vim::do_set_selection "inclusive"
 
     $txtt insert end "\nThis is so so good.\n\nThis is great."
-    $txtt mark set insert 2.10
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.10
 
     do_sel_test $txtt 0 v             {2.10 2.11}
     do_sel_test $txtt 1 h             {2.9 2.11}
@@ -936,8 +915,7 @@ namespace eval motion {
     vim::do_set_selection "exclusive"
 
     $txtt insert end "\nThis is so so good.\n\nThis is great."
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_sel_test $txtt 0 v         {}
     do_sel_test $txtt 1 l         {2.0 2.1}
@@ -983,8 +961,7 @@ namespace eval motion {
     vim::do_set_selection "exclusive"
 
     $txtt insert end "\nThis is so so good.\n\nThis is great."
-    $txtt mark set insert 2.10
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.10
 
     do_sel_test $txtt 0 v             {}
     do_sel_test $txtt 1 h             {2.9 2.10}
@@ -1033,8 +1010,7 @@ namespace eval motion {
 
       # Set mode to inclusive
       vim::do_set_selection $seltype
-      $txtt mark set insert 10.0
-      vim::adjust_insert $txtt
+      $txtt cursor set 10.0
 
       do_sel_test $txtt [expr ($index * 30) + 0]  V          {10.0 11.0}
       do_sel_test $txtt [expr ($index * 30) + 1]  j          {10.0 11.14}
@@ -1081,8 +1057,7 @@ namespace eval motion {
     set txtt [initialize].t
 
     $txtt insert end "\nThis is good\n\nThis is good too"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     vim::do_set_shiftwidth 2
 

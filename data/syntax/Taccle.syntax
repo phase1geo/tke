@@ -5,7 +5,10 @@ embedded {
   {Tcl}
 }
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed
@@ -14,17 +17,14 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{curly}}
 
 icomment {{#}}
 
-lcomments {{^[ \t]*#} {;#}}
+comments {{{^[ \t]*#} {$}} {{;#} {$}}}
 
-strings {{"}}
+strings {double}
 
 numbers
 {
@@ -33,5 +33,5 @@ numbers
 
 miscellaneous3
 {
-  HighlightWithOnlyCharStart \% {}
+  HighlightCharStart \% {}
 }

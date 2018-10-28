@@ -9,7 +9,10 @@ reference
 delimiters
 {}
 
-matchcharsallowed
+completechars
+{square curly paren}
+
+matchchars
 {square curly paren}
 
 escapes
@@ -23,11 +26,9 @@ casesensitive
 
 icomment {{#}}
 
-lcomments {{#}}
+comments {{# {$}}}
 
-bcomments {}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

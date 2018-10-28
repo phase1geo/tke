@@ -9,8 +9,11 @@ reference
   {{Language Reference} https://www.w3.org/TR/MathML/}
 }
 
-matchcharsallowed
+completechars
 {paren angled double single}
+
+matchchars
+{paren double single}
 
 tabsallowed
 {0}
@@ -18,17 +21,17 @@ tabsallowed
 casesensitive
 {0}
 
-indent
-{<[^/>](.*?[^/])?> <\\?}
-
-unindent
-{</.+?> \\?>}
+indentation
+{
+  {<[^/>]+> </[^>]+>}
+  {<\\? \\?>}
+}
 
 icomment {{<!--} {-->}}
 
-bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+comments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 punctuation {
   HighlightRegexp {=} {}

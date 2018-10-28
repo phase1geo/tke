@@ -12,7 +12,10 @@ reference
 embedded
 {{C}}
 
-matchcharsallowed
+completechars
+{curly square paren double single}
+
+matchchars
 {curly square paren double single}
 
 tabsallowed
@@ -21,22 +24,17 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{\{}
+indentation
+{{curly}}
 
-unindent
-{\}}
-
-reindent
+reindentation
 {{switch case default} {class public protected private}}
 
 icomment {{//}}
 
-lcomments {{//}}
+comments {{{/\*} {\*/}} {{//} {$}}}
 
-bcomments {{{/\*} {\*/}}}
-
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
@@ -55,5 +53,5 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart {#} {}
+  HighlightCharStart {#} {}
 }

@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -277,11 +277,7 @@ namespace eval ipanel {
 
     if {($syntax || $filesize) && [file isfile $fname]} {
       if {$syntax} {
-        if {[set type [$widgets($w,v,type) cget -text]] eq ""} {
-          lappend typelist [expr {[utils::is_binary $fname] ? [msgcat::mc "Binary"] : [syntax::get_default_language $fname]}]
-        } else {
-          lappend typelist [lindex [split $type ,] 0]
-        }
+        lappend typelist [expr {[utils::is_binary $fname] ? [msgcat::mc "Binary"] : [syntax::get_default_language $fname]}]
       }
       if {$filesize} {
         lappend typelist [utils::get_file_size $fname]

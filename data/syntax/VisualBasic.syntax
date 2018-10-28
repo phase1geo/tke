@@ -9,7 +9,10 @@ reference
   {{Language Reference} https://msdn.microsoft.com/en-us/library/sh9ywfdk.aspx}
 }
 
-matchcharsallowed
+completechars
+{curly paren double}
+
+matchchars
 {curly paren double}
 
 tabsallowed
@@ -20,9 +23,9 @@ casesensitive
 
 icomment {{'}}
 
-lcomments {{'}}
+comments {{' {$}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {
@@ -56,7 +59,7 @@ punctuation
 }
 
 precompile {
-  HighlightWithOnlyCharStart {#} {}
+  HighlightCharStart {#} {}
 }
 
 miscellaneous1 {
