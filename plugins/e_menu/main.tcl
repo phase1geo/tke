@@ -67,7 +67,7 @@ namespace eval e_menu {
         set pos  [$txt index "insert wordstart"]
         set pos2 [$txt index "insert wordend"]
         set sel [string trim [$txt get $pos $pos2]]
-        if {$sel==""} {
+        if {![string is alnum -strict $sel]} {
           # when cursor just at the right of word: take the word at the left
           # e.g. if "_" stands for cursor then "word_" means selecting "word"
           set pos  [$txt index "insert -1 char wordstart"]
@@ -137,7 +137,7 @@ namespace eval e_menu {
       foreach s [split $sel \n] {
         set s_opt [string trimright $s]
         if {$s_opt!=""} {
-          set s_opt "s=$s_opt"           ;# s= 1st line of the selection
+          set s_opt [string map {\" \\\" \{ \\\{ \( "\\\\("} "s=$s_opt"]  ;# s= 1st line of the selection
           set tmpname [save_to_tmp $sel]
           if {$tmpname!=""} {
             set z2_opt "z2=$tmpname"     ;# z2= temp.file of the selection
