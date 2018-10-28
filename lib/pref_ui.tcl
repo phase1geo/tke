@@ -1806,7 +1806,7 @@ namespace eval pref_ui {
       set patterns [syntax::get_file_patterns $lang]
       if {[info exists orides($lang)]} {
         foreach pattern $orides($lang) {
-          if {[string index $ext 0] eq "+"} {
+          if {[string index $pattern 0] eq "+"} {
             lappend patterns [string range $pattern 1 end]
           } elseif {[set index [lsearch -exact $patterns [string range $pattern 1 end]]] != -1} {
             set patterns [lreplace $patterns $index $index]
