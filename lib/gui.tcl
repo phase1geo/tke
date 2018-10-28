@@ -454,6 +454,11 @@ namespace eval gui {
     # Save the initial state since this value can be modified from Vim
     set_matching_char [preferences::get Editor/HighlightMatchingChar]
 
+    # Add the available encodings to the command launcher
+    foreach encname [encoding names] {
+      launcher::register [format "%s: %s" [msgcat::mc "Encoding"] [string toupper $encname]] [list gui::set_encoding $encname]
+    }
+
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
     wm protocol . WM_DELETE_WINDOW [list menus::exit_command]
