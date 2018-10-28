@@ -193,14 +193,24 @@ namespace eval themes {
     variable files
     variable themes_dir
 
+    # If the directory exists, move it out of the way
+    set odir [file join $themes_dir [file basename [file tail $fname]]]
+    if {[file exists $odir]} {
+      file rename $odir $odir.old
+    }
+
     # Unzip the file contents
     if {[catch { zipper::unzip $fname $themes_dir } rc]} {
       if {[catch { exec -ignorestderr unzip -u $fname -d $themes_dir } rc]} {
+        catch { file rename $odir.old $odir }
         tk_messageBox -parent $parent_win -icon error -type ok -default ok \
           -message "Unable to unzip theme file" -detail $rc
         return ""
       }
     }
+
+    # Remove the old file if it exists
+    catch { file delete [file exists $odir.old] }
 
     # Reload the available themes
     load
