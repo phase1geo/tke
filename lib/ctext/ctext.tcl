@@ -3455,7 +3455,7 @@ namespace eval ctext {
   }
 
   # For things like $blah
-  proc addHighlightWithOnlyCharStart {win char type value {lang ""}} {
+  proc addHighlightCharStart {win char type value {lang ""}} {
 
     variable data
 
