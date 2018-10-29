@@ -19,9 +19,10 @@ var indent_8tcl =
     [ "line_contains_indentation", "indent_8tcl.html#a12816d73a6108e6140f150d2e755fdbb", null ],
     [ "newline", "indent_8tcl.html#af0fe20db3a00f61c70a7122891e2a8c0", null ],
     [ "populate_indent_menu", "indent_8tcl.html#a6354b33861551e27b6f2ac17c813ba06", null ],
-    [ "set_indent_expressions", "indent_8tcl.html#a064b4310c92873e348ddaef2e6af1952", null ],
+    [ "set_indent_expressions", "indent_8tcl.html#a3fce3f9ca5a50b8a335adf1aacc034eb", null ],
     [ "set_indent_mode", "indent_8tcl.html#aff385d4cd4c939ba7712d91a12bb2318", null ],
     [ "set_shiftwidth", "indent_8tcl.html#a43172ae5078d5a74639e35a9e73205c4", null ],
     [ "set_tabstop", "indent_8tcl.html#a032a38575e6d722d220ebcd3c3a9050c", null ],
+    [ "update_auto_indent", "indent_8tcl.html#ab78cb8095cbaae3ddfaa45a12b4a0e65", null ],
     [ "update_button", "indent_8tcl.html#afc3853bc8d8b9616b15dbad372cbd2a7", null ]
 ];

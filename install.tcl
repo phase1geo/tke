@@ -239,7 +239,7 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"
     puts $rc "Exec=$wish [file join $lib_dir lib tke.tcl] -name tke -- -nosb"
-    puts $rc "Icon=[file join $lib_dir lib images tke_logo_128.gif]"
+    puts $rc "Icon=[file join $lib_dir lib images tke_logo.svg]"
     puts $rc "Type=Application"
     puts $rc "Comment=Advanced code editor"
     puts $rc "Categories=Programming;Development;Utility;TextEditor"

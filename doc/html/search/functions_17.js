@@ -11,6 +11,7 @@ var searchData=
   ['windowmenu',['windowMenu',['../namespacewindowlist.html#a3dcf58cabfd65f7a5d24f1064559aecb',1,'windowlist']]],
   ['winfo_5fcommand',['winfo_command',['../namespaceinterpreter.html#a9bea0692a0ce05dff7c73c7192ca20b7',1,'interpreter']]],
   ['wm_5fcommand',['wm_command',['../namespaceinterpreter.html#a3915536c9c16359161aef46682d22ee1',1,'interpreter']]],
+  ['words',['words',['../namespacectext.html#afdac5c2244c16abc12a624b379657825',1,'ctext']]],
   ['wrap_5fwith_5fabbreviation',['wrap_with_abbreviation',['../namespaceemmet.html#a28c4d4d87501797b66aed435e8d350aa',1,'emmet']]],
   ['write',['write',['../namespacelauncher.html#aa46ba8726235daa782052256bdcdf390',1,'launcher::write()'],['../namespacetkedat.html#aab5a6e8c1c3551a8b82dcff038cdb25c',1,'tkedat::write()']]],
   ['write_5fconfig',['write_config',['../namespaceplugins.html#a5406a6ff2ab439e73b7c6be1acdebea3',1,'plugins']]],

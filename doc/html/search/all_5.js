@@ -69,7 +69,7 @@ var searchData=
   ['end_5fopen_5fframe',['end_open_frame',['../namespacethemer.html#a934aa061ae7469fae3cca70f8665ce34',1,'themer']]],
   ['end_5fsave_5fframe',['end_save_frame',['../namespacethemer.html#ab0b77bb975e3370d22f3eff53b9e8f88',1,'themer']]],
   ['enter',['enter',['../namespacescroller.html#a0a03f8caac06521e8e97aaace0bb5930',1,'scroller']]],
-  ['escapes',['escapes',['../namespacectext.html#aba590c75d82a2376f36921e64a4903af',1,'ctext']]],
+  ['escapes',['escapes',['../namespacectext.html#a5c9520ac94a5b294339e1714f474029a',1,'ctext']]],
   ['evaluate_5fmath_5fexpression',['evaluate_math_expression',['../namespaceemmet.html#a553b94433e843355df2c78e86b016638',1,'emmet']]],
   ['event_3adestroy',['event:Destroy',['../namespacectext.html#a225f3c10199f5445578f9e759afee72f',1,'ctext']]],
   ['event_3axscroll',['event:xscroll',['../namespacectext.html#a6563737eb53a4bcdd9dcc0525d3fd825',1,'ctext']]],
