@@ -13,10 +13,7 @@ embedded {
   {JSON}
 }
 
-completechars
-{curly square paren double single btick}
-
-matchchars
+matchcharsallowed
 {curly square paren double single btick}
 
 tabsallowed
@@ -25,14 +22,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double single btick}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'} {`}}
 
 keywords
 {

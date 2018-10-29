@@ -6,10 +6,7 @@ reference
   {{Language Reference} https://doc.rust-lang.org/book/}
 }
 
-completechars
-{curly square paren double}
-
-matchchars
+matchcharsallowed
 {curly square paren double}
 
 tabsallowed
@@ -18,14 +15,21 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent {}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"}}
 
 keywords
 {
@@ -66,8 +70,8 @@ precompile {
 }
 
 miscellaneous2 {
-  HighlightCharStart ' {}
-  HighlightCharStart \$ {}
+  HighlightWithOnlyCharStart ' {}
+  HighlightWithOnlyCharStart \$ {}
 }
 
 miscellaneous3 {

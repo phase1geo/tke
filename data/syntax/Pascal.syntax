@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://www.freepascal.org/docs-html/ref/ref.html}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,14 +18,19 @@ tabsallowed
 casesensitive
 {0}
 
-indentation
-{{begin end}}
+indent
+{begin}
+
+unindent
+{end}
 
 icomment {}
 
-comments {{{\{\*} {\*\}}} {{\{} {\}}} {{\(\*} {\*\)}}}
+lcomments {}
 
-strings {single}
+bcomments {{{\{\*} {\*\}}} {{\{} {\}}} {{\(\*} {\*\)}}}
+
+strings {{'}}
 
 keywords
 {

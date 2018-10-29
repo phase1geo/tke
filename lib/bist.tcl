@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -765,11 +765,11 @@ namespace eval bist {
     gui::get_info $tab tab txt
 
     # Get the position of the second to last right curly bracket
-    lassign [lrange [$txt range all curly right] end-3 end-2] startpos endpos
+    lassign [lrange [$txt tag ranges _curlyR] end-3 end-2] startpos endpos
 
     # Insert the test
     $txt insert $endpos "\n\n  proc $name {} {\n    \n  }"
-    $txt cursor set $endpos+4c
+    ::tk::TextSetCursor $txt $endpos+4c
 
     # Save the file
     gui::save_current
@@ -827,7 +827,7 @@ namespace eval bist {
 
     # Find the test in the file
     if {[set index [$txt search -regexp -- "proc\\s+$tname\\M" 1.0]] ne ""} {
-      $txt cursor set $index
+      ::tk::TextSetCursor $txt $index
     }
 
   }

@@ -1,18 +1,18 @@
 filepatterns
 {*/plugins/*/header.tkedat *\\plugins\\*\\header.tkedat}
 
-completechars
+matchcharsallowed
 {curly double single}
 
-matchchars
-{curly double single}
+indent
+{\{}
 
-indentation
-{{curly}}
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{# {$}}}
+lcomments {{#}}
 
 keywords {
   name author email version include trust_required description

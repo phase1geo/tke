@@ -6,10 +6,7 @@ reference
   {{Language Reference} https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html}
 }
 
-completechars
-{paren double single}
-
-matchchars
+matchcharsallowed
 {paren double single}
 
 tabsallowed
@@ -20,9 +17,11 @@ casesensitive
 
 icomment {{--}}
 
-comments {{{\(\*} {\*\)}} {{--} {$}} {# {$}}}
+lcomments {{--} {#}}
 
-strings {double}
+bcomments {{{\(\*} {\*\)}}}
+
+strings {{"}}
 
 keywords
 {

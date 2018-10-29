@@ -72,8 +72,8 @@ namespace eval find {
     if {[$txtt get 1.0 end-1c] ne $str} {
       cleanup "$id text changed ([$txtt get 1.0 end-1c])"
     }
-    if {[$txtt syntax ranges search] ne $tags} {
-      cleanup "$id search tags incorrect ([$txtt syntax ranges search])"
+    if {[$txtt tag ranges _search] ne $tags} {
+      cleanup "$id search tags incorrect ([$txtt tag ranges _search])"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id insertion cursor incorrect ([$txtt index insert])"
@@ -88,7 +88,8 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {slash} {"line" 1 0} {2.10 2.14 3.10 3.14 4.10 4.14} {2.10}
 
@@ -112,7 +113,8 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {question} {"this" 0 0} {2.0 2.4 3.0 3.4 4.0 4.4} {4.0}
 
@@ -136,7 +138,8 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt cursor set 2.1
+    $txtt mark set insert 2.1
+    vim::adjust_insert $txtt
 
     set matches [list 2.0 2.4 3.0 3.4 4.0 4.4]
 

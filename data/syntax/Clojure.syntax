@@ -7,10 +7,7 @@ reference
   {{Search} https://clojure.org/search?q={query}}
 }
 
-completechars
-{curly square paren double}
-
-matchchars
+matchcharsallowed
 {curly square paren double}
 
 tabsallowed
@@ -21,9 +18,9 @@ casesensitive
 
 icomment {{;}}
 
-comments {{{;} {$}}}
+lcomments {{;}}
 
-strings {double}
+strings {{"}}
 
 keywords
 {
@@ -60,5 +57,5 @@ punctuation
 }
 
 miscellaneous3 {
-  HighlightCharStart : {}
+  HighlightWithOnlyCharStart : {}
 }

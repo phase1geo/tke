@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://caml.inria.fr/pub/docs/manual-ocaml/language.html}
 }
 
-completechars
-{curly square paren double}
-
-matchchars
+matchcharsallowed
 {curly square paren double}
 
 tabsallowed
@@ -21,12 +18,15 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{begin end}}
+indent
+{begin}
 
-comments {{{\(\*} {\*\)}}}
+unindent
+{end}
 
-strings {double}
+bcomments {{{\(\*} {\*\)}}}
+
+strings {{"}}
 
 keywords
 {

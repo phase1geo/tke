@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://www.scheme.com/tspl3/}
 }
 
-completechars
-{paren square double}
-
-matchchars
+matchcharsallowed
 {paren square double}
 
 tabsallowed
@@ -21,14 +18,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{paren}}
+indent
+{\\(}
+
+unindent
+{\\)}
 
 icomment {{;}}
 
-comments {{{#\|} {\|#}} {{^[ \t]*;} {$}}}
+lcomments {{^[ \t]*;}}
 
-strings {double}
+bcomments {{{#\|} {\|#}}}
+
+strings {{"}}
 
 keywords
 {

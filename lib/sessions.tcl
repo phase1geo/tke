@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ namespace eval sessions {
 
     # If the name has not been specified, ask the user for a name
     if {$name eq ""} {
-      if {[gui::get_user_response [msgcat::mc "Session name:"] sessions::user_name]} {
+      if {[gui::get_user_response "Session name:" sessions::user_name]} {
         set name         $user_name
         set names($name) 1
         set current_name $name
@@ -291,7 +291,7 @@ namespace eval sessions {
     if {[info exists names($name)]} {
 
       # Confirm the deletion
-      if {[tk_messageBox -icon warning -parent . -default no -type yesnocancel -message [msgcat::mc "Delete session \"%s\"?" $name] ne "yes"} {
+      if {[tk_messageBox -icon warning -parent . -default no -type yesnocancel -message "Delete session \"$name\"?"] ne "yes"} {
         return
       }
 

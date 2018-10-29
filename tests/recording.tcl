@@ -101,7 +101,8 @@ namespace eval recording {
     set txtt [initialize]
 
     $txtt insert end [string repeat "\nThis is a line" 6]
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {2 d d} "" none {d d}
 

@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://php.net/manual/en/langref.php}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,17 +18,22 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
 
-reindentation
+unindent
+{\}}
+
+reindent
 {{switch case default}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {# {$}} {{//} {$}}}
+lcomments {{#} {//}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {
@@ -77,5 +79,5 @@ miscellaneous2 {
 }
 
 miscellaneous3 {
-  HighlightCharStart \$ {}
+  HighlightWithOnlyCharStart \$ {}
 }

@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://perldoc.perl.org/index-language.html}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,14 +18,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{{^=} {=cut}} {{(^|[^\$])#} {$}}}
+lcomments {{(^|[^\$])#}}
 
-strings {double single}
+bcomments {{{^=} {=cut}}}
+
+strings {{"} {'}}
 
 keywords
 {
@@ -57,7 +59,7 @@ punctuation
 
 miscellaneous1
 {
-  HighlightCharStart \$ {}
-  HighlightCharStart \@ {}
-  HighlightCharStart \% {}
+  HighlightWithOnlyCharStart \$ {}
+  HighlightWithOnlyCharStart \@ {}
+  HighlightWithOnlyCharStart \% {}
 }

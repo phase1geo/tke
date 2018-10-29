@@ -6,10 +6,7 @@ reference
   {{Language Reference} https://scalate.github.io/scalate/documentation/jade-syntax.html}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -20,9 +17,9 @@ casesensitive
 
 icomment {{//}}
 
-comments {{{//} {$}}}
+lcomments {{//}}
 
-strings {double single}
+strings {{"} {'}}
 
 keywords
 {

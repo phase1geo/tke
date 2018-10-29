@@ -15,10 +15,7 @@ embedded
 delimiters
 {}
 
-completechars
-{square paren single btick}
-
-matchchars
+matchcharsallowed
 {square paren single btick}
 
 tabsallowed
@@ -29,9 +26,9 @@ casesensitive
 
 icomment {{\*}}
 
-comments {{{^\*} {$}} {{"} {$}}}
+lcomments {{^\*} {"}}
 
-strings {single btick}
+strings {{'} {`}}
 
 keywords
 {

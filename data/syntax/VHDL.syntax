@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://edg.uchicago.edu/~tang/VHDLref.pdf}
 }
 
-completechars
-{curly square paren double}
-
-matchchars
+matchcharsallowed
 {curly square paren double}
 
 tabsallowed
@@ -21,14 +18,17 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{begin end}}
+indent
+{begin}
+
+unindent
+{end}
 
 icomment {{--}}
 
-comments {{{--} {$}}}
+lcomments {{--}}
 
-strings {double}
+strings {{"}}
 
 keywords
 {

@@ -12,7 +12,6 @@ var search_8tcl =
     [ "fif_insert_results", "search_8tcl.html#a96695123acff182d6b17d9d89e5347c1", null ],
     [ "fif_start", "search_8tcl.html#aff77deecbfb95650f1923e3f3fc4d955", null ],
     [ "find_clear", "search_8tcl.html#a53318e1bcc0b27ba06ba7caecbec3609", null ],
-    [ "find_current_word", "search_8tcl.html#a18d9a6c2b395834377c796bd3c7957d5", null ],
     [ "find_next", "search_8tcl.html#afad27f9218528fcd8dc71d519f7fba66", null ],
     [ "find_prev", "search_8tcl.html#ad4766384123cee0e8914ccd6921bccfc", null ],
     [ "find_resilient", "search_8tcl.html#a81df95f508f6dbbe1fec54ea81a122f7", null ],

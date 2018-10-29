@@ -6,10 +6,7 @@ reference
   {{Language Specification} https://golang.org/ref/spec}
 }
 
-completechars
-{square curly paren double btick}
-
-matchchars
+matchcharsallowed
 {square curly paren double btick}
 
 escapes
@@ -21,17 +18,21 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
 
-reindentation
-{{switch case default} {select case default}}
+unindent
+{\}}
+
+reindent {{switch case default} {select case default}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double btick}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {`}}
 
 keywords
 {

@@ -8,7 +8,7 @@ Documentation for the tclx package can be found at [http://www.tcl.tk/man/tclx8.
 
 ## Tablelist
 
-Documentation for the tablelist package can be found at [http://www.nemethi.de/tablelist/index.html](http://www.nemethi.de/tablelist/index.html).  TKE currently uses version 6.0.
+Documentation for the tablelist package can be found at [http://www.nemethi.de/tablelist/index.html](http://www.nemethi.de/tablelist/index.html).  TKE currently uses version 5.18.
 
 ## tooltip
 

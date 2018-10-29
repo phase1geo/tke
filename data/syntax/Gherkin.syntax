@@ -6,10 +6,7 @@ reference
   {{Language Reference} https://cucumber.io/docs/reference}
 }
 
-completechars
-{angled}
-
-matchchars
+matchcharsallowed
 {angled}
 
 tabsallowed
@@ -20,9 +17,9 @@ casesensitive
 
 icomment {{#}}
 
-comments {{# {$}}}
+lcomments {{#}}
 
-strings {double}
+strings {{"}}
 
 keywords
 {

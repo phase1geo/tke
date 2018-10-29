@@ -6,10 +6,7 @@ reference
   {{Language Reference} http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/index.html}
 }
 
-completechars
-{curly square paren double single}
-
-matchcharsars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -18,17 +15,22 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
 
-reindentation
+unindent
+{\}}
+
+reindent
 {{switch case default}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"}}
 
 keywords
 {

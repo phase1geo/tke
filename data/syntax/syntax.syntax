@@ -15,10 +15,7 @@ embedded
 delimiters
 {}
 
-completechars
-{curly}
-
-matchchars
+matchcharsallowed
 {curly}
 
 escapes
@@ -33,34 +30,34 @@ linewrap
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
 
-reindentation
-{}
+unindent
+{\}}
+
+reindent {}
 
 icomment {{#}}
 
-comments {{{^[ \t]*#} {$}}}
-
-nestedcomments {0}
+lcomments {{^[ \t]*#}}
 
 strings {}
 
 keywords
 {
-  filepatterns vimsyntax reference embedded completechars matchchars tabsallowed linewrap
-  casesensitive delimiters indentation reindentation keywords symbols icomment
-  comments nestedcomments strings numbers punctuation precompile miscellaneous1
+  filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
+  casesensitive delimiters indent unindent reindent keywords symbols icomment
+  lcomments bcomments strings numbers punctuation precompile miscellaneous1
   miscellaneous2 miscellaneous3 highlighter meta readmeta advanced escapes formatting
 }
 
 symbols
 {
   HighlightKeywords {
-    filepatterns vimsyntax reference embedded completechars matchchars tabsallowed
-    linewrap casesensitive delimiters indentation reindentation icomment
-    comments strings symbols numbers punctuation precompile miscellaneous1
+    filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed
+    linewrap casesensitive delimiters indent unindent reindent icomment lcomments
+    bcomments strings symbols numbers punctuation precompile miscellaneous1
     miscellaneous2 miscellaneous3 meta readmeta advanced escapes formatting
   } syntax::get_syntax_symbol
 }
@@ -74,7 +71,7 @@ punctuation
 
 precompile {
   HighlightKeywords {
-    HighlightClass HighlightKeywords HighlightRegexp HighlightCharStart
+    HighlightClass HighlightKeywords HighlightRegexp HighlightWithOnlyCharStart
     HighlightProc HighlightEndProc TclBegin TclEnd
   } {}
 }

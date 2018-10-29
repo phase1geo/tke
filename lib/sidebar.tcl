@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -257,7 +257,7 @@ namespace eval sidebar {
     set widgets(insert) [frame $widgets(tl).ins -background black -height 2]
 
     $widgets(tl) column #0 -width 300
-
+    
     set tkdnd_press_cmd  ""
     set tkdnd_motion_cmd ""
 
@@ -285,9 +285,9 @@ namespace eval sidebar {
       # Remove the TkDND_Drag1 binding from the sidebar bindtags
       set index [lsearch [bindtags $widgets(tl)] TkDND_Drag1]
       bindtags $widgets(tl) [lreplace [bindtags $widgets(tl)] $index $index]
-
+      
     }
-
+    
     bind $widgets(tl) <<TreeviewSelect>>              [list sidebar::handle_selection]
     bind $widgets(tl) <<TreeviewOpen>>                [list sidebar::expand_directory]
     bind $widgets(tl) <<TreeviewClose>>               [list sidebar::collapse_directory]
@@ -485,9 +485,9 @@ namespace eval sidebar {
   proc tkdnd_press {cmd args} {
 
     variable tkdnd_id
-
+    
     set tkdnd_id [after 1000 [list sidebar::tkdnd_call_press $cmd {*}$args]]
-
+    
   }
 
   ######################################################################
@@ -1291,10 +1291,7 @@ namespace eval sidebar {
     } else {
       if {$show_hidden} {
         foreach fname [glob -nocomplain -directory $dir -types hidden *] {
-          set tail [file tail $fname]
-          if {($tail ne ".") && ($tail ne "..")} {
-            lappend items [list $fname [file isdirectory $fname]]
-          }
+          lappend items [list $fname [file isdirectory $fname]]
         }
       }
       foreach fname [glob -nocomplain -directory $dir *] {
@@ -1589,15 +1586,15 @@ namespace eval sidebar {
         return 0
       }
     }
-
+    
     # If drag and drop is enabled, call our tkdnd_press method
     if {$tkdnd_cmd ne ""} {
       tkdnd_press {*}$tkdnd_cmd
     }
-
+    
     # If the clicked row is not within the current selection
     return [expr {([llength $selected] > 1) && ([lsearch $selected $row] != -1)}]
-
+    
   }
 
   ######################################################################
@@ -1608,10 +1605,10 @@ namespace eval sidebar {
     variable widgets
     variable mover
     variable tkdnd_drag
-
+    
     # Release the drag and drop event, if we doing that
     tkdnd_release
-
+    
     # If we are in a tkdnd_drag call, we have nothing more to do
     if {$tkdnd_drag} {
       return
@@ -1908,7 +1905,7 @@ namespace eval sidebar {
     variable widgets
     variable mover
 
-    if {[info exists mover(detached)] && $mover(detached)} {
+    if {$mover(detached)} {
       set mover(detached) 0
       set mover(start)    ""
       $widgets(tl) tag remove moveto
@@ -2006,12 +2003,12 @@ namespace eval sidebar {
     variable mover
     variable spring_id
     variable tkdnd_drag
-
+    
     # Call the tkdnd_motion procedure if the command is valid.
     if {$tkdnd_cmd ne ""} {
       tkdnd_motion {*}$tkdnd_cmd
     }
-
+    
     # If we are in the middle of a tkdnd drag event, return immediately
     if {$tkdnd_drag} {
       return

@@ -39,16 +39,6 @@ namespace eval folding {
 
   }
 
-  proc fold_state {txt line} {
-
-    if {[set state [$txt gutter folding get $line]] eq ""} {
-      set state "none"
-    }
-
-    return $state
-
-  }
-
   # Verify the ability to change the code folding mode as well as be
   # able to detect which mode that we are currently in.
   proc run_test1 {} {
@@ -60,7 +50,7 @@ namespace eval folding {
     set pref [expr {[preferences::get View/EnableCodeFolding] ? "syntax" : "none"}]
 
     # Verify that the code folding mode matches the preference setting
-    if {[$txt cget -foldstate] ne $pref} {
+    if {[folding::get_method $txt] ne $pref} {
       cleanup "Preference setting does not match text folding status"
     }
 
@@ -75,7 +65,7 @@ namespace eval folding {
         }
 
         # Verify that we are disabled
-        if {[$txt cget -foldstate] ne $method} {
+        if {[folding::get_method $txt] ne $method} {
           cleanup "Setting code folding method to $method failed"
         }
 
@@ -105,46 +95,46 @@ namespace eval folding {
     $txt insert end "}"
 
     # Enable code folding
-    $txt fold add 1.0 end
+    folding::add_folds $txt 1.0 end
 
     # Check to see that a fold only detected on the correct lines
     set opened_lines [list none open none end none open none end]
 
     for {set i 1} {$i <= 8} {incr i} {
-      if {[fold_state $txt $i] ne [lindex $opened_lines [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected 1 ([fold_state $txt $i])"
+      if {[folding::fold_state $txt $i] ne [lindex $opened_lines [expr $i - 1]]} {
+        cleanup "Fold state on line $i did not match expected 1 ([folding::fold_state $txt $i])"
       }
     }
 
     # Close one of the opened folds
-    $txt fold close 6 1
-    if {[fold_state $txt 6] ne "close"} {
-      cleanup "Fold state is not closed ([fold_state $txt 6])"
+    folding::close_fold 1 $txt 6
+    if {[folding::fold_state $txt 6] ne "close"} {
+      cleanup "Fold state is not closed ([folding::fold_state $txt 6])"
     }
 
     # Open the closed fold
-    $txt fold open 6 1
-    if {[fold_state $txt 6] ne "open"} {
-      cleanup "Fold state is not opened ([fold_state $txt 6])"
+    folding::open_fold 1 $txt 6
+    if {[folding::fold_state $txt 6] ne "open"} {
+      cleanup "Fold state is not opened ([folding::fold_state $txt 6])"
     }
 
     # Close all foldable lines
     set closed_lines [list none close none end none close none end]
 
-    $txt fold close all
+    folding::close_all_folds $txt
 
     for {set i 1} {$i <= 8} {incr i} {
-      if {[fold_state $txt $i] ne [lindex $closed_lines [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected 2 ([fold_state $txt $i])"
+      if {[folding::fold_state $txt $i] ne [lindex $closed_lines [expr $i - 1]]} {
+        cleanup "Fold state on line $i did not match expected 2 ([folding::fold_state $txt $i])"
       }
     }
 
     # Open all folded lines
-    $txt fold open all
+    folding::open_all_folds $txt
 
     for {set i 1} {$i <= 8} {incr i} {
-      if {[fold_state $txt $i] ne [lindex $opened_lines [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected 3 ([fold_state $txt $i])"
+      if {[folding::fold_state $txt $i] ne [lindex $opened_lines [expr $i - 1]]} {
+        cleanup "Fold state on line $i did not match expected 3 ([folding::fold_state $txt $i])"
       }
     }
 
@@ -168,7 +158,7 @@ namespace eval folding {
     $txt insert end "}\n"
 
     # Make sure that syntax folding is enabled
-    $txt fold add 1.0 end
+    folding::add_folds $txt 1.0 end
 
     # Verify that the code folding states are correct
     set states [list none open open none end end]
@@ -176,32 +166,32 @@ namespace eval folding {
     foreach order [list 0 1 0 2 0 3 2 3 1 3 0] {
 
       if {[expr $order & 1]} {
-        if {[fold_state $txt 2] eq "open"} {
-          $txt fold close 2 1
+        if {[folding::fold_state $txt 2] eq "open"} {
+          folding::close_fold 1 $txt 2
           lset states 1 close
         }
       } else {
-        if {[fold_state $txt 2] eq "close"} {
-          $txt fold open 2 1
+        if {[folding::fold_state $txt 2] eq "close"} {
+          folding::open_fold 1 $txt 2
           lset states 1 open
         }
       }
 
       if {[expr $order & 2]} {
-        if {[fold_state $txt 3] eq "open"} {
-          $txt fold close 3 1
+        if {[folding::fold_state $txt 3] eq "open"} {
+          folding::close_fold 1 $txt 3
           lset states 2 close
         }
       } else {
-        if {[fold_state $txt 3] eq "close"} {
-          $txt fold open 3 1
+        if {[folding::fold_state $txt 3] eq "close"} {
+          folding::open_fold 1 $txt 3
           lset states 2 open
         }
       }
 
       for {set i 1} {$i <= 6} {incr i} {
-        if {[fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
-          cleanup "Fold state on line $i did not match expected, order: $order ([fold_state $txt $i])"
+        if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
+          cleanup "Fold state on line $i did not match expected, order: $order ([folding::fold_state $txt $i])"
         }
       }
 
@@ -225,24 +215,24 @@ namespace eval folding {
     $txt insert end "}\n"
 
     # Enable code folding
-    $txt fold add 1.0 end
+    folding::add_folds $txt 1.0 end
 
-    if {[fold_state $txt 2] ne "open"} {
-      cleanup "Folding state of line 2 is not open ([fold_state $txt 2])"
+    if {[folding::fold_state $txt 2] ne "open"} {
+      cleanup "Folding state of line 2 is not open ([folding::fold_state $txt 2])"
     }
 
     # Toggle the fold
-    $txt fold toggle 2
+    folding::toggle_fold $txt 2
 
-    if {[fold_state $txt 2] ne "close"} {
-      cleanup "Folding state of line 2 is not close ([fold_state $txt 2])"
+    if {[folding::fold_state $txt 2] ne "close"} {
+      cleanup "Folding state of line 2 is not close ([folding::fold_state $txt 2])"
     }
 
     # Toggle the fold again
-    $txt fold toggle 2
+    folding::toggle_fold $txt 2
 
-    if {[fold_state $txt 2] ne "open"} {
-      cleanup "Folding state of line 2 is not open again ([fold_state $txt 2])"
+    if {[folding::fold_state $txt 2] ne "open"} {
+      cleanup "Folding state of line 2 is not open again ([folding::fold_state $txt 2])"
     }
 
     # Clean everything up
@@ -261,8 +251,8 @@ namespace eval folding {
     }
 
     for {set i 0} {$i < 5} {incr i} {
-      if {[fold_state $txt $i] ne "none"} {
-        cleanup "Folding state of line $i is not none ([fold_state $txt $i])"
+      if {[folding::fold_state $txt $i] ne "none"} {
+        cleanup "Folding state of line $i is not none ([folding::fold_state $txt $i])"
       }
     }
 
@@ -273,7 +263,7 @@ namespace eval folding {
 
       # Select and fold some of the text
       $txt tag add sel 2.0 5.0
-      $txt fold close [$txt tag ranges sel]
+      folding::close_selected $txt
 
       if {[$txt tag ranges sel] ne ""} {
         cleanup "Selection was not removed ([$txt tag ranges sel])"
@@ -283,22 +273,22 @@ namespace eval folding {
       set states [list none close none none end]
       for {set i 0} {$i < 5} {incr i} {
         set line [expr $i + 1]
-        if {[fold_state $txt $line] ne [lindex $states $i]} {
-          cleanup "Folding state of line $i is not [lindex $states $i] ([fold_state $txt $line])"
+        if {[folding::fold_state $txt $line] ne [lindex $states $i]} {
+          cleanup "Folding state of line $i is not [lindex $states $i] ([folding::fold_state $txt $line])"
         }
       }
 
       # Delete the fold
       switch $type {
-        line  { $txt fold delete 2 }
-        range { $txt fold delete 1 3 }
-        all   { $txt fold delete all }
+        line  { folding::delete_fold $txt 2 }
+        range { folding::delete_folds_in_range $txt 1 3 }
+        all   { folding::delete_all_folds $txt }
       }
 
       # Verify that the folding has cleared
       for {set i 0} {$i < 5} {incr i} {
-        if {[fold_state $txt $i] ne "none"} {
-          cleanup "Folding state of line $i is not none ([fold_state $txt $i])"
+        if {[folding::fold_state $txt $i] ne "none"} {
+          cleanup "Folding state of line $i is not none ([folding::fold_state $txt $i])"
         }
       }
 
@@ -324,14 +314,14 @@ namespace eval folding {
     }
 
     indent::set_indent_mode OFF
-    $txt fold close 7.0 9.0 0
-    $txt fold close 2.0 5.0 0
+    folding::close_range $txt 7.0 9.0
+    folding::close_range $txt 2.0 5.0
 
     set lines [list none close none none none end close none none end]
     for {set i 0} {$i < 10} {incr i} {
       set line [expr $i + 1]
-      if {[fold_state $txt $line] ne [lindex $lines $i]} {
-        cleanup "Folding state of line $line is not expected ([fold_state $txt $line])"
+      if {[folding::fold_state $txt $line] ne [lindex $lines $i]} {
+        cleanup "Folding state of line $line is not expected ([folding::fold_state $txt $line])"
       }
     }
 
@@ -342,29 +332,29 @@ namespace eval folding {
       switch $type {
         line {
           if {[lindex $lines $x] eq "close"} {
-            $txt fold open [expr ($index == 0) ? 2 : 7] 1
+            folding::open_fold 1 $txt [expr ($index == 0) ? 2 : 7]
             lset lines $x open
           } else {
-            $txt fold close [expr ($index == 0) ? 2 : 7] 1
+            folding::close_fold 1 $txt [expr ($index == 0) ? 2 : 7]
             lset lines $x close
           }
         }
         range {
           if {[lindex $lines $x] eq "close"} {
-            $txt fold open [expr ($index == 0) ? 1 : 6] [expr ($index == 0) ? 3 : 8] 1
+            folding::open_folds_in_range $txt [expr ($index == 0) ? 1 : 6] [expr ($index == 0) ? 3 : 8] 1
             lset lines $x open
           } else {
-            $txt fold close [expr ($index == 0) ? 1 : 6] [expr ($index == 0) ? 3 : 8] 1
+            folding::close_folds_in_range $txt [expr ($index == 0) ? 1 : 6] [expr ($index == 0) ? 3 : 8] 1
             lset lines $x close
           }
         }
         all {
           if {[lindex $lines $x] eq "close"} {
-            $txt fold open all
+            folding::open_all_folds $txt
             lset lines 1 open
             lset lines 6 open
           } else {
-            $txt fold close all
+            folding::close_all_folds $txt
             lset lines 1 close
             lset lines 6 close
           }
@@ -373,8 +363,8 @@ namespace eval folding {
 
       for {set i 0} {$i < 10} {incr i} {
         set line [expr $i + 1]
-        if {[fold_state $txt $line] ne [lindex $lines $i]} {
-          cleanup "Folding state of line $line is not expected ([fold_state $txt $line])"
+        if {[folding::fold_state $txt $line] ne [lindex $lines $i]} {
+          cleanup "Folding state of line $line is not expected ([folding::fold_state $txt $line])"
         }
       }
 
@@ -396,46 +386,46 @@ namespace eval folding {
     }
 
     indent::set_indent_mode OFF
-    $txt fold close 2.0 5.0 0
-    $txt fold close 7.0 9.0 0
+    folding::close_range $txt 2.0 5.0
+    folding::close_range $txt 7.0 9.0
 
     $txt mark set insert 1.0
 
-    set next [$txt fold find insert next]
+    folding::jump_to $txt next
 
-    if {$next ne 2.0} {
-      cleanup "Insertion cursor incorrect A ($next)"
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect A ([$txt index insert])"
     }
 
-    set next [$txt fold find insert next]
+    folding::jump_to $txt next
 
-    if {$next ne 7.0} {
-      cleanup "Insertion cursor incorrect B ($next)"
+    if {[$txt index insert] ne 7.0} {
+      cleanup "Insertion cursor incorrect B ([$txt index insert])"
     }
 
-    set next [$txt fold find insert next]
+    folding::jump_to $txt next
 
-    if {$next ne 7.0} {
-      cleanup "Insertion cursor incorrect C ($next)"
+    if {[$txt index insert] ne 7.0} {
+      cleanup "Insertion cursor incorrect C ([$txt index insert])"
     }
 
-    set prev [$txt fold find insert prev]
+    folding::jump_to $txt prev
 
-    if {$prev ne 2.0} {
-      cleanup "Insertion cursor incorrect D ($prev)"
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect D ([$txt index insert])"
     }
 
-    set prev [$txt fold find insert prev]
+    folding::jump_to $txt prev
 
-    if {$prev ne 2.0} {
-      cleanup "Insertion cursor incorrect E ($prev)"
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect E ([$txt index insert])"
     }
 
-    $txt fold delete all
-    set next [$txt fold find insert next]
+    folding::delete_all_folds $txt
+    folding::jump_to $txt next
 
-    if {$next ne 2.0} {
-      cleanup "Insertion cursor incorrect F ($next)"
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect F ([$txt index insert])"
     }
 
     # Clean things up
@@ -456,22 +446,22 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txt mark set insert 5.0
-    $txt fold close 2.0 9.0 0
+    folding::close_range $txt 2.0 9.0
 
     if {[$txt index insert] ne 5.0} {
       cleanup "Insertion cursor incorrect ([$txt index insert])"
     }
-    if {[fold_state $txt 2] ne "close"} {
-      cleanup "Folding state is not closed ([fold_state $txt 2])"
+    if {[folding::fold_state $txt 2] ne "close"} {
+      cleanup "Folding state is not closed ([folding::fold_state $txt 2])"
     }
     if {[lsearch [$txt tag names insert] _folded] == -1} {
       cleanup "Cursor is not hidden when it should be"
     }
 
-    $txt fold open 5
+    folding::show_line $txt 5
 
-    if {[fold_state $txt 2] ne "open"} {
-      cleanup "Folding state is not opened ([fold_state $txt 2])"
+    if {[folding::fold_state $txt 2] ne "open"} {
+      cleanup "Folding state is not opened ([folding::fold_state $txt 2])"
     }
     if {[lsearch [$txt tag names insert] _folded] != -1} {
       cleanup "Cursor is not shown when it should be"
@@ -492,7 +482,7 @@ namespace eval folding {
     syntax::set_language $txt None
 
     # Verify that the folding method is indent
-    if {[$txt cget -foldstate] ne "indent"} {
+    if {[folding::get_method $txt] ne "indent"} {
       cleanup "Folding method is not indent when it should be"
     }
 
@@ -514,8 +504,8 @@ namespace eval folding {
 
     set i 1
     foreach state $states {
-      if {[fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected 1 ([fold_state $txt $i])"
+      if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
+        cleanup "Fold state on line $i did not match expected 1 ([folding::fold_state $txt $i])"
       }
       incr i
     }
@@ -523,13 +513,13 @@ namespace eval folding {
     set j 1
     foreach {line new_state fn} [list 3 close close 10 eclose close 10 eopen open 3 open open] {
 
-      $txt fold $fn $line 1
+      folding::${fn}_fold 1 $txt $line
       lset states [expr $line - 1] $new_state
 
       set i 1
       foreach state $states {
-        if {[fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
-          cleanup "Fold state on line $i did not match expected $j ([fold_state $txt $i])"
+        if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
+          cleanup "Fold state on line $i did not match expected $j ([folding::fold_state $txt $i])"
         }
         incr i
       }
@@ -613,7 +603,8 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     # Select line 3 and fold it with zf
     $txtt tag add sel 3.0 5.0
@@ -653,7 +644,8 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {z F} 2.0 {}
 
@@ -674,7 +666,8 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6"
-    $txtt cursor set 3.0
+    $txtt mark set insert 3.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {2 z F}   3.0 {4}
     do_test $txtt 1 {k 3 z F} 2.0 {3 4 5}
@@ -697,7 +690,8 @@ namespace eval folding {
     indent::set_indent_mode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6\nThis is line 7\nThis is line 8"
-    $txtt cursor set 3.0
+    $txtt mark set insert 3.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {2 z F}     3.0 {4}
     do_test $txtt 1 {k 3 z F}   2.0 {3 4 5}
@@ -719,7 +713,8 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    if {1} {\n      set a 0\n    }\n  }\n}"
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {}      2.0 {}
     do_test $txtt 1 {z c}   2.0 {3 4 5 6 7}
@@ -763,7 +758,8 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    set a 0\n  }\n  set b 0\n}"
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {} 2.0 {}
     do_test $txtt 1 {z C} 2.0 {3 4 5 6}
@@ -788,16 +784,19 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    set a 0\n  }\n  set b 0\n}"
-    $txtt cursor set 1.0
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {}    1.0 {}
     do_test $txtt 1 {z M} 1.0 {3 4 5 6}
 
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
     do_test $txtt 2 {z o} 2.0 {4}
     do_test $txtt 3 {z c} 2.0 {3 4 5 6}
 
-    $txtt cursor set 1.0
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
     do_test $txtt 4 {z R} 1.0 {}
 
     # Cleanup
@@ -812,7 +811,8 @@ namespace eval folding {
     set txtt [initialize].t
 
     $txtt insert end "\nif {1} {\n  if {1} {\n    if {1} {\n      set e 0\n    }\n  }\n}"
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {}    2.0 {}
     do_test $txtt 1 {z c} 2.0 {3 4 5 6 7}
@@ -881,7 +881,8 @@ namespace eval folding {
     foreach var [list a b c d e] {
       $txtt insert end "\nif {$var} {\n  set $var 0\n}"
     }
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {}        2.0  {}
     do_test $txtt 1 {z c}     2.0  {3}

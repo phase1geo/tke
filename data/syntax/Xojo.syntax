@@ -6,10 +6,7 @@ reference
   {{Language Reference} http://docs.xojo.com/index.php/Category:Language_Reference}
 }
 
-completechars
-{paren}
-
-matchchars
+matchcharsallowed
 {paren}
 
 casesensitive
@@ -20,11 +17,11 @@ escapes
 
 icomment {{'}}
 
-comments {{' {$}}}
+lcomments {{'}}
 
 bcomments {}
 
-strings {double}
+strings {{"}}
 
 keywords
 {

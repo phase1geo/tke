@@ -1,10 +1,7 @@
 filepatterns
 {*.tkedat}
 
-completechars
-{curly double single}
-
-matchchars
+matchcharsallowed
 {curly double single}
 
 tabsallowed
@@ -13,12 +10,15 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{# {$}}}
+lcomments {{#}}
 
 punctuation
 {

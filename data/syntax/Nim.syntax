@@ -5,10 +5,7 @@ reference {
   {{Language Reference} https://nim-lang.org/docs/manual.html}
 }
 
-completechars
-{curly paren square double btick}
-
-matchchars
+matchcharsallowed
 {curly paren square double btick}
 
 escapes
@@ -22,9 +19,11 @@ casesensitive
 
 icomment {{#}}
 
-comments {{{#\[} {\]#}} {{##\[} {\]##}} {{(?!\]#?)#(?!#?\[)} {$}}}
+lcomments {{(?!\]#?)#(?!#?\[)}}
 
-strings {double}
+bcomments {{{#\[} {\]#}} {{##\[} {\]##}}}
+
+strings {{"}}
 
 keywords
 {

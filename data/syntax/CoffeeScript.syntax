@@ -6,10 +6,7 @@ reference
   {{Language Reference} http://coffeescript.org/}
 }
 
-completechars
-{paren double single}
-
-matchchars
+matchcharsallowed
 {paren double single}
 
 tabsallowed
@@ -20,9 +17,11 @@ casesensitive
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {

@@ -9,10 +9,7 @@ reference
   {{Language Reference} https://cran.r-project.org/doc/manuals/r-release/R-intro.html}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 escapes
@@ -24,14 +21,17 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{# {$}}}
+lcomments {{#}}
 
-strings {double single}
+strings {{"} {'}}
 
 keywords
 {

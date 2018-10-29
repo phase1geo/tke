@@ -118,7 +118,8 @@ namespace eval transform {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {asciitilde} 2.1 "\nthis is a line"
     do_test $txtt 1 {2 asciitilde} 2.2 "\ntHis is a line"
@@ -142,7 +143,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\ntHiS iS a LiNe"
     $txtt edit separator
-    $txtt cursor set 2.2
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde asciitilde} 2.0 "\ntHiS iS a LiNe\ntHiS iS a LiNe"
 
@@ -163,7 +165,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.2
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u u} 2.0 "\nthis is a line\nTHIS IS A LINE"
 
@@ -184,7 +187,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.2
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U U} 2.0 "\nTHIS IS A LINE\nthis is a line"
 
@@ -205,7 +209,8 @@ namespace eval transform {
 
     $txtt insert end "\nthe quick brown fox jumps over the lazy dog\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
     $txtt edit separator
-    $txtt cursor set 2.2
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g question question} 2.0 "\ngur dhvpx oebja sbk whzcf bire gur ynml qbt\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
 
@@ -226,7 +231,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde l} 2.0 "\ntHIS IS A LINE\nThis is a line"
 
@@ -254,7 +260,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u l} 2.0 "\ntHIS IS A LINE\nTHIS IS A LINE"
 
@@ -278,7 +285,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U l} 2.0 "\nThis is a line"
 
@@ -302,7 +310,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g question l} 2.0 "\nghis is a line"
 
@@ -326,7 +335,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde h} 2.2 "\nThis Is A lInE\nThis is a line"
 
@@ -354,7 +364,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u h} 2.2 "\nTHiS IS A LINE"
 
@@ -378,7 +389,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U h} 2.2 "\nthIs is a line"
 
@@ -402,7 +414,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g question h} 2.2 "\nthvs is a line"
 
@@ -426,7 +439,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde space} 2.0 "\nthIs Is A lInE\nThis is a line"
 
@@ -454,7 +468,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u space} 2.0 "\ntHIS IS A LINE"
 
@@ -478,7 +493,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U space} 2.0 "\nThis is a line"
 
@@ -515,7 +531,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde BackSpace} 2.2 "\nThis Is A lInE\nThis is a line"
 
@@ -542,7 +559,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u BackSpace} 2.2 "\nTHiS IS A LINE"
 
@@ -566,7 +584,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.3
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U BackSpace} 2.2 "\nthIs is a line"
 
@@ -603,7 +622,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde f I} 2.0 "\ntHis Is A lInE\nThis is a line"
 
@@ -626,7 +646,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u f I} 2.0 "\nthiS IS A LINE"
 
@@ -647,7 +668,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U f i} 2.0 "\nTHIs is a line"
 
@@ -681,7 +703,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde t I} 2.0 "\ntHIs Is A lInE\nThis is a line"
 
@@ -704,7 +727,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u t I} 2.0 "\nthIS IS A LINE"
 
@@ -725,7 +749,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.0
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U t i} 2.0 "\nTHis is a line"
 
@@ -759,7 +784,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.13
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde F s} 2.6 "\nThIs IS a LiNE\nThis is a line"
 
@@ -783,7 +809,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.13
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u F S} 2.6 "\nTHIS Is a linE"
 
@@ -804,7 +831,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.13
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U F s} 2.6 "\nthis iS A LINe"
 
@@ -838,7 +866,8 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\nThis is a line"
     $txtt edit separator
-    $txtt cursor set 2.13
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde T s} 2.7 "\nThIs Is a LiNE\nThis is a line"
 
@@ -862,7 +891,8 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt cursor set 2.13
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u T S} 2.7 "\nTHIS IS a linE"
 
@@ -883,7 +913,8 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line"
     $txtt edit separator
-    $txtt cursor set 2.13
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U T s} 2.7 "\nthis is A LINe"
 

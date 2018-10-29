@@ -9,10 +9,7 @@ reference
   {{Documentation} https://www.haskell.org/documentation}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,14 +18,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{--}}
 
-comments {{\{- -\}} {-- {$}}}
+lcomments {{--}}
 
-strings {double single}
+bcomments {{\{- -\}}}
+
+strings {{"} {'}}
 
 keywords
 {

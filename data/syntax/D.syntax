@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://dlang.org/spec/spec.html}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,17 +18,22 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
 
-reindentation
+unindent
+{\}}
+
+reindent
 {{switch case default}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{/\+} {\+/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double btick}
+bcomments {{{/\*} {\*/}} {{/\+} {\+/}}}
+
+strings {{"} {`}}
 
 keywords
 {
@@ -58,7 +60,7 @@ punctuation
 
 precompile
 {
-  HighlightCharStart {#} {}
+  HighlightWithOnlyCharStart {#} {}
 }
 
 miscellaneous1 {

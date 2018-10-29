@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://haml.info/docs/yardoc/file.REFERENCE.html}
 }
 
-completechars
-{paren double single}
-
-matchchars
+matchcharsallowed
 {paren double single}
 
 tabsallowed
@@ -23,9 +20,9 @@ casesensitive
 
 icomment {{-#}}
 
-comments {{{-#} {$}}}
+lcomments {{-#}}
 
-strings {double single}
+strings {{"} {'}}
 
 keywords
 {
