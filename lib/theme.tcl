@@ -1270,7 +1270,7 @@ namespace eval theme {
 
       # Configure ttk::combobox widgets
       ttk::style configure TCombobox \
-        -relief $opts(relief) -background $opts(background) -foreground $opts(background)
+        -relief $opts(relief) -fieldbackground white -foreground black
       ttk::style map TCombobox \
         -background [list disabled  $opts(disabled_background) \
                           pressed   $opts(pressed_color) \
