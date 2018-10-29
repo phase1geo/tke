@@ -277,11 +277,7 @@ namespace eval ipanel {
 
     if {($syntax || $filesize) && [file isfile $fname]} {
       if {$syntax} {
-        if {[set type [$widgets($w,v,type) cget -text]] eq ""} {
-          lappend typelist [expr {[utils::is_binary $fname] ? [msgcat::mc "Binary"] : [syntax::get_default_language $fname]}]
-        } else {
-          lappend typelist [lindex [split $type ,] 0]
-        }
+        lappend typelist [expr {[utils::is_binary $fname] ? [msgcat::mc "Binary"] : [syntax::get_default_language $fname]}]
       }
       if {$filesize} {
         lappend typelist [utils::get_file_size $fname]
