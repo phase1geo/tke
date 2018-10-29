@@ -27,7 +27,7 @@ namespace eval current_line {
 
     # Configure the current_line tag and make sure that it is below the selection
     $txt tag configure current_line -background $color
-    $txt tag lower current_line __search
+    $txt tag lower current_line sel
 
   }
 
