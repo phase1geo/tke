@@ -22,6 +22,7 @@ The File Menu contains commands that are related to either the currently selecte
 | Save Selection As… | | | Saves only the currently selected text to a file without saving the current editing buffer. |
 | Save All | | | Saves all files opened in the editor to their original file names.  Any files which do not have original names, will have a save file dialog window shown, allowing the user to specify the name. |
 | Export… | Shift-Cmd-E | Shift-Ctrl-E | If the current editing buffer language is set to Markdown, this option will run the file contents through the Markdown parser, generating either HTML or XHTML output (the General/DefaultMarkdownExportExtension specifies the default extension to use for Markdown exporting but can be overridden in the save file dialog window).  Additionally, the user can embed snippet text within \<tke:ExportString\>\</tke:ExportString\> tags.  Any snippets will be generated at the time of export, replacing the tags and snippet text with the generated text. |
+| Encoding | | | Changes the character encoding for the current file. |
 | Line Ending / Windows | | | Changes the line ending to use for the current file to CRLF when the file is saved. |
 | Line Ending / Unix | | | Changes the line ending to use for the current file to LF when the file is saved. |
 | Line Ending / Classic Mac | | | Changes the line ending to use for the current file to CR when the file is saved. |
@@ -33,4 +34,4 @@ The File Menu contains commands that are related to either the currently selecte
 | Favorite/Unfavorite | | | Marks the current file as a favorite (with the “Favorite” command) or removes the file as a favorite (with the “Unfavorite” command).  Favorited files can be opened quickly with the “Open Favorite” menu list or the command launcher.  Additionally, favorited files/directories can be used in the “Find in File” feature. |
 | Close | Cmd-W | Ctrl-W | Closes the current tab.  If the text content is in the modified state (as indicated by the “\*” character in the tab), a prompt will be displayed asking the user if the content should be saved prior to closing. |
 | Close All | Shift-Cmd-W | Shift-Ctrl-W | Closes all tabs in the editor.  If text content in a tab has been modified, a prompt will be displayed asking the user if the content should be saved prior to closing. |
-| Quit | Cmd-Q | Ctrl-Q | Exits the application.  Any modified files in the editor will prompt the user if the content should be saved prior to exiting the application. |
+| Quit | Cmd-Q | Ctrl-Q | Exits the application.  Any modified files in the editor will prompt the user if the content should be saved prior to exiting the application.
