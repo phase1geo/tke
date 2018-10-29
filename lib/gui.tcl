@@ -3781,7 +3781,7 @@ namespace eval gui {
         .aboutwin.f.credits configure -text [msgcat::mc "Credits"]
       }
     }
-    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 17]
+    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 18]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2

@@ -272,7 +272,7 @@ namespace eval syntax {
       }
       if {!$excluded} {
         foreach pattern $patterns {
-          if {[string match -nocase $pattern $filename]} {
+          if {[string match -nocase $pattern [file tail $filename]]} {
             if {[string length $pattern] > $maxlen} {
               set maxlen     [string length $pattern]
               set best_match $lang
