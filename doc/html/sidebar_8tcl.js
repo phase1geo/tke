@@ -50,6 +50,7 @@ var sidebar_8tcl =
     [ "handle_focus_in", "sidebar_8tcl.html#ae258e96b4501a57f918fc1a160722276", null ],
     [ "handle_focus_out", "sidebar_8tcl.html#a66b659727d286eeeb9f36699cb2c987d", null ],
     [ "handle_ignore_files", "sidebar_8tcl.html#ae8888c547a5d3c1374f8f40a9051613f", null ],
+    [ "handle_info_panel_follows", "sidebar_8tcl.html#abc65b6612e2622cb9de60aad4888879e", null ],
     [ "handle_info_panel_view", "sidebar_8tcl.html#a35327fd3a01568f1fbfcce3bd580d2fa", null ],
     [ "handle_left_press", "sidebar_8tcl.html#a44bf6a28d51fa3f9ccd4ad059ab979b0", null ],
     [ "handle_left_release", "sidebar_8tcl.html#af1185144009196c2f91a1dadc4a7d8f1", null ],
@@ -116,6 +117,7 @@ var sidebar_8tcl =
     [ "update_filenames", "sidebar_8tcl.html#aa747d26413e0a4f05821fc3398c07bb4", null ],
     [ "update_info_panel", "sidebar_8tcl.html#a4ad130d22506bf91afa87791b44bf941", null ],
     [ "update_info_panel_for_file", "sidebar_8tcl.html#acbae97f5d7351c4a884541994a884808", null ],
+    [ "update_info_panel_for_selection", "sidebar_8tcl.html#a86963b94cbc2d409979677da235dbd19", null ],
     [ "view_file", "sidebar_8tcl.html#ada4d238e45999b8693b688c9560b69bb", null ],
     [ "write_sort_file", "sidebar_8tcl.html#aa91918d4e30de27512b7afa1671b9581", null ]
 ];

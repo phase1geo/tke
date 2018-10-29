@@ -29,7 +29,7 @@ var searchData=
   ['indent_2etcl',['indent.tcl',['../indent_8tcl.html',1,'']]],
   ['indent_5fcommand',['indent_command',['../namespacemenus.html#aa13061537b3a52d45e29885a41e18f74',1,'menus']]],
   ['indent_5fselected',['indent_selected',['../namespaceedit.html#a0ca1738ce2ae8e7bfeba20f07811d941',1,'edit']]],
-  ['indentation',['indentation',['../namespacectext.html#a68759a8c437e2022fbd26c28c51c901c',1,'ctext']]],
+  ['indentation',['indentation',['../namespacectext.html#a576120be9159d92360c708a86dbbbbe3',1,'ctext']]],
   ['indoublequote',['inDoubleQuote',['../namespacectext.html#aa9d5c7e84fea7d141aba74e6badebbf9',1,'ctext']]],
   ['indoublequoterange',['inDoubleQuoteRange',['../namespacectext.html#a12b37385b323d8de2fda03ae226baef5',1,'ctext']]],
   ['init_5fcp',['init_cp',['../namespacepref__ui.html#a103dc17acc8beb526419b0e18c60a750',1,'pref_ui']]],

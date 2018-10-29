@@ -17,6 +17,7 @@ var searchData=
   ['reflect_5fcss_5fvalue',['reflect_css_value',['../namespaceemmet__css.html#adca6f7957564b2c99636332b6d1058aa',1,'emmet_css']]],
   ['refresh',['refresh',['../namespacebist.html#acc86b03b308c8da5837df119d441b743',1,'bist']]],
   ['refresh_5fdirectory_5ffiles',['refresh_directory_files',['../namespacesidebar.html#a0ae8988e5ae9494a0b2658ffcf6f2a7b',1,'sidebar']]],
+  ['regexps',['regexps',['../namespacectext.html#aa80193372da10533c4703ea0eb1d0324',1,'ctext']]],
   ['register',['register',['../namespacelauncher.html#afe0402aea8cc5239c8ea9cfd7ee3091d',1,'launcher::register()'],['../namespaceplugins.html#ad76d3447c45a8ee5cfa38554508d8fb4',1,'plugins::register()'],['../namespacepref__ui.html#a04d021e33aad6a3461e4ee5ec796fb7a',1,'pref_ui::register()']]],
   ['register_5fimage',['register_image',['../namespacetheme.html#a62234ea098ac12d79d2f0e27c402569c',1,'theme']]],
   ['register_5finitialization',['register_initialization',['../namespacepref__ui.html#a517b300f9f2ad106dd7ff8a804a76fd9',1,'pref_ui']]],

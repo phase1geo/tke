@@ -5,7 +5,7 @@ var sessions_8tcl =
     [ "delete", "sessions_8tcl.html#a7d60298c406cbfc3c16725fe0bec23d1", null ],
     [ "get_names", "sessions_8tcl.html#a35756cb24a7e75ae37dd81a46f6c7674", null ],
     [ "get_share_items", "sessions_8tcl.html#ae6b459925e6fca7354b6f9063b53fad7", null ],
-    [ "load", "sessions_8tcl.html#a91d0a67e14c80527d50e478ae51f91a4", null ],
+    [ "load", "sessions_8tcl.html#a9f0c0bddc64c78edf523fb2e2e6ede33", null ],
     [ "load_and_raise_window", "sessions_8tcl.html#aeace7cb595bcf021fda063f398efdfd0", null ],
     [ "load_prefs", "sessions_8tcl.html#a886349099cd9c6f1466e2cc6cc4a5f44", null ],
     [ "preload", "sessions_8tcl.html#abca08877bf8c666ec21486cd4650ae0b", null ],

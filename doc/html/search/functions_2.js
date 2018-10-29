@@ -15,7 +15,7 @@ var searchData=
   ['bracket_5fnext_5fsibling',['bracket_next_sibling',['../namespaceselect.html#aa8f57659f356e0d4934e0e93e648d358',1,'select']]],
   ['bracket_5fparent',['bracket_parent',['../namespaceselect.html#aeab24e5a8e6c798a04d8fd48fe9e6b92',1,'select']]],
   ['bracket_5fprev_5fsibling',['bracket_prev_sibling',['../namespaceselect.html#a120a5264b92ae9847e702dd14547a156',1,'select']]],
-  ['brackets',['brackets',['../namespacectext.html#ab58b308ab50a5164cce0bdd146586c00',1,'ctext']]],
+  ['brackets',['brackets',['../namespacectext.html#a644133c61d7bf8e2ca13a15cc22d96ce',1,'ctext']]],
   ['browse_5fdirectory',['browse_directory',['../namespaceshare.html#a5a203c350e7d93679af85d0d213d8165',1,'share']]],
   ['bubble_5fdown',['bubble_down',['../namespaceapi_1_1edit.html#a39b776589ed0e56240a776ec0d9dec52',1,'api::edit']]],
   ['bubble_5fup',['bubble_up',['../namespaceapi_1_1edit.html#a4edbca8e310db3e8e66e480a8478127f',1,'api::edit']]],

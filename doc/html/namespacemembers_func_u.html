@@ -27,10 +27,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
+  <td id="projectlogo"><img alt="Logo" src="tke_logo.svg"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">3.3</span>
+   &#160;<span id="projectnumber">3.5</span>
    </div>
    <div id="projectbrief">Advanced code editor for programmers</div>
   </td>
@@ -95,6 +95,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 <li>undo()
 : <a class="el" href="namespacectext.html#a82f484c7fcd28988bdefd051f754b112">ctext</a>
 , <a class="el" href="namespacegui.html#a121cb0f4a9b5fb675dd0736dc9d470db">gui</a>
+, <a class="el" href="namespaceselect.html#a7c656420b93949fe8ea694bd5b08f90f">select</a>
 , <a class="el" href="namespacevim.html#aca910373ef71ebbbe026c84a58d8c19c">vim</a>
 </li>
 <li>undo_delete()
@@ -172,6 +173,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 <li>update_attrs()
 : <a class="el" href="namespaceipanel.html#a32689d9215a69c3a142b174efdae70b3">ipanel</a>
 </li>
+<li>update_auto_indent()
+: <a class="el" href="namespaceindent.html#ab78cb8095cbaae3ddfaa45a12b4a0e65">indent</a>
+</li>
 <li>update_button()
 : <a class="el" href="namespaceindent.html#afc3853bc8d8b9616b15dbad372cbd2a7">indent</a>
 , <a class="el" href="namespacesyntax.html#ac7d9311ea2ccddffa42f9ad7032d0f02">syntax</a>
@@ -199,6 +203,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 </li>
 <li>update_directory_recursively()
 : <a class="el" href="namespacesidebar.html#a042ceeb8bd20ffb2b75773972c47b43b">sidebar</a>
+</li>
+<li>update_encode_button()
+: <a class="el" href="namespacegui.html#a1345cec69a4a78dfed41da83fc7fefbb">gui</a>
 </li>
 <li>update_favorite()
 : <a class="el" href="namespaceipanel.html#afc189513a6ac4ae791afc559a7289da4">ipanel</a>
@@ -234,11 +241,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 <li>update_info_panel_for_file()
 : <a class="el" href="namespacesidebar.html#acbae97f5d7351c4a884541994a884808">sidebar</a>
 </li>
+<li>update_info_panel_for_selection()
+: <a class="el" href="namespacesidebar.html#a86963b94cbc2d409979677da235dbd19">sidebar</a>
+</li>
 <li>update_langs()
 : <a class="el" href="namespacelang.html#ae3625898886c85a1b6885bf57832a0ad">lang</a>
 </li>
 <li>update_launcher()
 : <a class="el" href="namespacetheme.html#af1f664c68c1d7830df2809b03346d141">theme</a>
+</li>
+<li>update_linemap_separator()
+: <a class="el" href="namespacectext.html#a4c422a1a7419f6ed59deb43c6130a089">ctext</a>
 </li>
 <li>update_markers()
 : <a class="el" href="namespacescroller.html#a0205bf6d22a84d8fcefd0c72493f8419">scroller</a>
@@ -283,6 +296,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 <li>update_syntax()
 : <a class="el" href="namespacetheme.html#abb54e84db48a97735ffb0571737e7a08">theme</a>
 </li>
+<li>update_syntax_split()
+: <a class="el" href="namespacetheme.html#a4ab82c6c96ebf4c7afd24d5d42547a4f">theme</a>
+</li>
 <li>update_tab()
 : <a class="el" href="namespacegui.html#a8ecd39fedaf8bb771e48ed01ff102d06">gui</a>
 </li>
@@ -296,7 +312,8 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 : <a class="el" href="namespacetheme.html#a0b3ef907b7a2e8a9945cd44ea3ff94cd">theme</a>
 </li>
 <li>update_theme()
-: <a class="el" href="namespaceipanel.html#aa9fb2f0257a07d9b4c5ba5476106a02c">ipanel</a>
+: <a class="el" href="namespacegui.html#a978675c24f2ab6a6f042779bacca7014">gui</a>
+, <a class="el" href="namespaceipanel.html#aa9fb2f0257a07d9b4c5ba5476106a02c">ipanel</a>
 , <a class="el" href="namespacetheme.html#a197b4c210d872d0393731c59f29825d3">theme</a>
 </li>
 <li>update_themes_dir()
@@ -342,7 +359,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_u.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Sep 1 2017 18:19:20 for TKE by
+    <li class="footer">Generated on Sun Oct 28 2018 23:26:25 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

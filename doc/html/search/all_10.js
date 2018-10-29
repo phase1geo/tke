@@ -58,7 +58,7 @@ var searchData=
   ['press',['press',['../namespaceselect.html#abc36fe8b903d35679166dfe78a9850af',1,'select']]],
   ['preview_5ftheme',['preview_theme',['../namespacethemer.html#ac42508b2bc906cebff80ecd2077eb4a2',1,'themer']]],
   ['previous_5ftab',['previous_tab',['../namespacegui.html#af06efc281a583135590b7f7dbc5cf248',1,'gui']]],
-  ['prewhite',['prewhite',['../namespacectext.html#a9da35aaa2a5e38ecef40c74964b4b05b',1,'ctext']]],
+  ['prewhite',['prewhite',['../namespacectext.html#ada6106649e8f989a39280387e227eed4',1,'ctext']]],
   ['printable_5fhist',['printable_hist',['../namespacecliphist.html#a001c756e25ffa9803cb23c098c3a7756',1,'cliphist']]],
   ['processdata',['processData',['../socksend_8tcl.html#a98a9e8c5bbdf7d84c1aee82b96d993ad',1,'socksend.tcl']]],
   ['progress_5fdialog',['progress_dialog',['../namespacebgproc.html#a4ef835fd115fa3122c66066b439ad945',1,'bgproc']]],
