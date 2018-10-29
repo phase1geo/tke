@@ -454,6 +454,9 @@ namespace eval gui {
     # Save the initial state since this value can be modified from Vim
     set_matching_char [preferences::get Editor/HighlightMatchingChar]
 
+    # Make sure that the browse directory is updated
+    handle_browse_directory
+
     # Add the available encodings to the command launcher
     foreach encname [encoding names] {
       launcher::register [format "%s: %s" [msgcat::mc "Encoding"] [string toupper $encname]] [list gui::set_encoding $encname]
@@ -652,7 +655,7 @@ namespace eval gui {
   ######################################################################
   # Changes the value of the browse directory variable to match the value
   # specified in the preference file.
-  proc handle_browse_directory {name1 name2 op} {
+  proc handle_browse_directory {{name1 ""} {name2 ""} {op ""}} {
 
     variable browse_dir
 
