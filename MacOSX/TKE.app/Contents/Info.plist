@@ -81,8 +81,8 @@
 	<key>CFBundleExecutable</key>
 	<string>Wish</string>
 	<key>CFBundleGetInfoString</key>
-	<string>TKE 3.4,
-Copyright © 2013-2017 Trevor Williams</string>
+	<string>TKE 3.5,
+Copyright © 2013-2018 Trevor Williams</string>
 	<key>CFBundleIconFile</key>
 	<string>TKE.icns</string>
 	<key>CFBundleIdentifier</key>
