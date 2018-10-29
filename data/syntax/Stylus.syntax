@@ -8,10 +8,7 @@ reference
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
 
-completechars
-{curly paren square double single}
-
-matchchars
+matchcharsallowed
 {curly paren square double single}
 
 tabsallowed
@@ -20,14 +17,19 @@ tabsallowed
 casesensitive
 {0}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {
@@ -80,7 +82,7 @@ miscellaneous1 {
 }
 
 miscellaneous2 {
-  HighlightCharStart {@} {}
+  HighlightWithOnlyCharStart {@} {}
 }
 
 miscellaneous3 {

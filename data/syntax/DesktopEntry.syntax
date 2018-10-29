@@ -9,10 +9,7 @@ reference
   {{Language Reference} https://specifications.freedesktop.org/desktop-entry-spec/latest/index.html}
 }
 
-completechars
-{square}
-
-matchchars
+matchcharsallowed
 {square}
 
 escapes
@@ -26,9 +23,9 @@ casesensitive
 
 icomment {{#}}
 
-comments {{# {$}}}
+lcomments {{#}}
 
-strings {double single}
+strings {{"} {'}}
 
 keywords
 {

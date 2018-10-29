@@ -9,10 +9,7 @@ reference
   {{Language Reference} https://dev.mysql.com/doc/refman/5.5/en/}
 }
 
-completechars
-{paren single}
-
-matchchars
+matchcharsallowed
 {paren single}
 
 tabsallowed
@@ -23,9 +20,11 @@ casesensitive
 
 icomment {{--}}
 
-comments {{{/\*} {\*/}} {{--} {$}}}
+lcomments {{--}}
 
-strings {single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{'}}
 
 keywords
 {

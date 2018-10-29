@@ -3,10 +3,7 @@ filepatterns
 
 reference {}
 
-completechars
-{curly paren square double single}
-
-matchchars
+matchcharsallowed
 {curly paren square double single}
 
 tabsallowed
@@ -14,9 +11,11 @@ tabsallowed
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}} {# {$}}}
+lcomments {{//} {#}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {

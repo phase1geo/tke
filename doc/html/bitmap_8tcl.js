@@ -6,7 +6,7 @@ var bitmap_8tcl =
     [ "configure", "bitmap_8tcl.html#a5fc52b05f485123412863b707607c2f3", null ],
     [ "count_blanks", "bitmap_8tcl.html#ad0cb64395aba7e0545aa77392b00a56e", null ],
     [ "create", "bitmap_8tcl.html#a30ac7e4bc916d7f331170819fff494e0", null ],
-    [ "draw_grid", "bitmap_8tcl.html#aee61558584461d39b4772e16b6726a30", null ],
+    [ "draw_grid", "bitmap_8tcl.html#ae728a5666188614d76e710d32d424b68", null ],
     [ "export", "bitmap_8tcl.html#acb41a2ddd41e47b3ee4c3b6e80d0512f", null ],
     [ "flip", "bitmap_8tcl.html#a2ad84a0884c29a64b9a8dfdb3744a64b", null ],
     [ "get_info", "bitmap_8tcl.html#acf9b39d9a208896a7b4bad6fb5ae1fa8", null ],
@@ -16,7 +16,7 @@ var bitmap_8tcl =
     [ "rotate", "bitmap_8tcl.html#a3fc2379763ef4b64f12594c5941d19b9", null ],
     [ "set_color", "bitmap_8tcl.html#a27954a412ff146e7d729b520bd033fa0", null ],
     [ "set_custom_color", "bitmap_8tcl.html#ab1b462bcf661c1082d4d3fff45d68d05", null ],
-    [ "set_from_info", "bitmap_8tcl.html#aaac618cee944c91a21da9009d75b8c84", null ],
+    [ "set_from_info", "bitmap_8tcl.html#a9a7e328f3c4d9c162631063876309339", null ],
     [ "set_grid_size", "bitmap_8tcl.html#a26cd2e1d3887f18a42a24967bbf471f3", null ],
     [ "update_menus", "bitmap_8tcl.html#a5ade38645652ba43ea6ccaa3b6412c40", null ],
     [ "widget_cmd", "bitmap_8tcl.html#a0205297d6e67ff23fde46b9254680a79", null ]

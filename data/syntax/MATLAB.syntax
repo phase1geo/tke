@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://www.mathworks.com/help/matlab/index.html}
 }
 
-completechars
-{curly square paren}
-
-matchchars
+matchcharsallowed
 {curly square paren}
 
 tabsallowed
@@ -23,9 +20,11 @@ casesensitive
 
 icomment {{%}}
 
-comments {{{^%\{} {^%\}}} {{%[^\{\}]} {$}}}
+lcomments {{%[^\{\}]}}
 
-strings {single}
+bcomments {{{^%\{} {^%\}}}}
+
+strings {{'}}
 
 keywords
 {

@@ -1,7 +1,7 @@
 var fontchooser_8tcl =
 [
     [ "click", "fontchooser_8tcl.html#a1a00f3df3b8b72465a059f6077a58044", null ],
-    [ "configure", "fontchooser_8tcl.html#a65bac5d92a56bbc1c0d016578ad88886", null ],
+    [ "configure", "fontchooser_8tcl.html#a3483aa9295fcd6001aacb63bb27178f1", null ],
     [ "create", "fontchooser_8tcl.html#a9605e5b5f857313d7ed05e9795e508ee", null ],
     [ "destroy", "fontchooser_8tcl.html#a0710101070538770f53612511b6b4ff2", null ],
     [ "find_font_class", "fontchooser_8tcl.html#af577459a8cc2438944196faa9920c543", null ],

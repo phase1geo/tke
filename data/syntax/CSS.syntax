@@ -13,10 +13,7 @@ reference
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>@]+}
 
-completechars
-{curly paren double single}
-
-matchchars
+matchcharsallowed
 {curly paren double single}
 
 tabsallowed
@@ -25,14 +22,19 @@ tabsallowed
 casesensitive
 {0}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {

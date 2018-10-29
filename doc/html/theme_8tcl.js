@@ -5,7 +5,7 @@ var theme_8tcl =
     [ "export", "theme_8tcl.html#a34d0ab1423373b2149ee32009ef963bf", null ],
     [ "get_all_colors", "theme_8tcl.html#ac64b8704e1d1ab807d57167c3f4d19bc", null ],
     [ "get_attributions", "theme_8tcl.html#aa92649e8fdd55d797da3e543bb287ed3", null ],
-    [ "get_category_options", "theme_8tcl.html#af72e247d539f10507dec15577154b462", null ],
+    [ "get_category_options", "theme_8tcl.html#a3d0c815cf50f8ef1ec80bc7425d39286", null ],
     [ "get_category_titles", "theme_8tcl.html#a56174fad8e9256a5a6d4f1b88110dfe4", null ],
     [ "get_current_theme", "theme_8tcl.html#add2925a35bd66e592461bccb3859e6b5", null ],
     [ "get_file_attributions", "theme_8tcl.html#a2cd013bf583afbcbfdbe0f12ac278af3", null ],

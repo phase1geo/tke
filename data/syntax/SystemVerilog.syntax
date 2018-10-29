@@ -13,10 +13,7 @@ embedded {
   {Verilog}
 }
 
-completechars
-{curly square paren double}
-
-matchchars
+matchcharsallowed
 {curly square paren double}
 
 tabsallowed
@@ -25,30 +22,23 @@ tabsallowed
 casesensitive
 {1}
 
-indentation {
-  {begin     end}
-  {task      endtask}
-  {function  endfunction}
-  {case      endcase}
-  {casex     endcase}
-  {casez     endcase}
-  {module    endmodule}
-  {generate  endgenerate}
-  {class     endclass}
-  {clocking  endclocking}
-  {group     endgroup}
-  {interface endinterface}
-  {package   endpackage}
-  {program   endprogram}
-  {property  endproperty}
-  {sequence  endsequence}
+indent {
+  begin task function casex casez module generate class clocking group
+  interface package program property sequence
+}
+
+unindent {
+  end endtask endfunction endcase endmodule endgenerate endclass endclocking endgroup
+  endinterface endpackage endprogram endproperty endsequence
 }
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"}}
 
 keywords
 {

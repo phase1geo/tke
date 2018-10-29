@@ -1193,6 +1193,7 @@ namespace eval emmet {
     set txt [initialize]
 
     $txt insert end "\n<p>Hello</p>"
+    vim::adjust_insert $txt.t
     $txt tag add sel 2.0 2.12
 
     emmet::wrap_with_abbreviation -test "body>dir"
@@ -1220,7 +1221,8 @@ namespace eval emmet {
     set txt [initialize]
 
     $txt insert end "\n<p>Hello</p>"
-    $txt cursor set 2.1
+    $txt mark set insert 2.1
+    vim::adjust_insert $txt.t
 
     emmet::wrap_with_abbreviation -test "ul>li"
 
@@ -1246,6 +1248,7 @@ namespace eval emmet {
     set txt [initialize]
 
     $txt insert end "\nHello\nWorld\nAgain"
+    vim::adjust_insert $txt.t
     $txt tag add sel 2.0 5.0
 
     emmet::wrap_with_abbreviation -test "ul>li*>p"
@@ -1280,6 +1283,7 @@ namespace eval emmet {
     set txt [initialize]
 
     $txt insert end "\nHello\nWorld\nGo"
+    vim::adjust_insert $txt.t
     $txt tag add sel 2.0 5.0
 
     emmet::wrap_with_abbreviation -test {ul>li[title=$#]*>{$#}+img[alt=$#]}
@@ -1317,7 +1321,8 @@ namespace eval emmet {
     set txt [initialize]
 
     $txt insert end "\nHello World"
-    $txt cursor set 2.0
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
     $txt tag add sel 2.0 3.0
 
     emmet::wrap_with_abbreviation -test {ul<li}
@@ -1347,7 +1352,8 @@ namespace eval emmet {
     <p>Lorem ipsum dolor sit amet.</p>
   </section>
 </div>}
-    $txt cursor set 5.10
+    $txt mark set insert 5.10
+    vim::adjust_insert $txt.t
 
     foreach {startpos endpos} [list 5.7 5.34 5.4 5.38 3.27 6.2 3.2 6.12 2.15 7.0 2.0 7.6 2.0 7.6] {
       emmet::balance_outward
@@ -1398,7 +1404,8 @@ namespace eval emmet {
     <p>Nothing.
   </section>
 </div>}
-    $txt cursor set 8.2
+    $txt mark set insert 8.2
+    vim::adjust_insert $txt.t
 
     emmet::go_to_matching_pair
     if {[$txt index insert] ne "2.0"} {
@@ -1460,6 +1467,7 @@ namespace eval emmet {
 <div>
 XX
 </div>}]
+    vim::adjust_insert $txt.t
 
     foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.31 4.35 7.1 7.1] {
       emmet::go_to_edit_point next
@@ -1499,7 +1507,8 @@ XX
     </ul>
   </a>
 </body>}
-    $txt cursor set 3.0
+    $txt mark set insert 3.0
+    vim::adjust_insert $txt.t
 
     foreach {startpos endpos} [list 4.3 4.4 4.5 4.29 4.11 4.28 4.30 4.59 4.38 4.58 4.38 4.44 4.45 4.50 4.51 4.58 \
                                     5.5 5.8 5.9 5.34 5.14 5.33 5.35 5.45 5.42 5.44 5.46 5.57 5.54 5.56 \
@@ -1572,7 +1581,8 @@ XX
   <img src="stuff.png" />
   <p>Here is <b>bold</b></p>
 </body>}]
-    $txt cursor set 2.0
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
 
     emmet::toggle_comment
     if {[$txt get 1.0 end-1c] ne [set body_value "\n<!-- <body>\n  <img src=\"stuff.png\" />\n  <p>Here is <b>bold</b></p>\n</body> -->"]} {
@@ -1623,7 +1633,8 @@ XX
     }
 
     # Attempt to comment nothing and make sure that nothing happens
-    $txt cursor set 1.0
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
     emmet::toggle_comment
     if {[$txt get 1.0 end-1c] ne " \n[string range $body_value 1 end]"} {
       cleanup "blank space was not left alone ([$txt get 1.0 end-1c])"
@@ -1647,7 +1658,8 @@ XX
 <example>
     Lorem ipsum dolor sit amet
 </example>}
-    $txt cursor set 2.0
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
 
     emmet::split_join_tag
     if {[$txt get 1.0 end-1c] ne "\n<example />"} {
@@ -1660,7 +1672,8 @@ XX
     }
 
     # Make sure that nothing happens if we attempt to split/join when we are not within a node.
-    $txt cursor set 1.0
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
     emmet::split_join_tag
     if {[$txt get 1.0 end-1c] ne " \n<example></example>"} {
       cleanup "Tag was joined when cursor is not within node/tag ([$txt get 1.0 end-1c])"
@@ -1688,7 +1701,8 @@ XX
   </div>
 </body>}]
     $txt edit separator
-    $txt cursor set 3.2
+    $txt mark set insert 3.2
+    vim::adjust_insert $txt.t
 
     emmet::remove_tag
     if {[$txt get 1.0 end-1c] ne [set remove_value "\n<body>\n  <h1>Title</h1>\n  <p>Lorem ipsum <p>dolor</p> sit amet.</p>\n  <p></p>\n  <p />\n  <p />Good\n</body>"]} {
@@ -1760,7 +1774,8 @@ XX
     }
 
     # Attempt to delete empty space
-    $txt cursor set 1.0
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
     emmet::remove_tag
     if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
       cleanup "deleting tag when we are not within a tag/node did not work ([$txt get 1.0 end-1c])"
@@ -1784,7 +1799,8 @@ XX
   <b>Line</b> 2.
 </p>}]
     $txt edit separator
-    $txt cursor set 2.0
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
 
     emmet::merge_lines
     if {[$txt get 1.0 end-1c] ne [set merge_value "\n<p>Line 1.<b>Line</b> 2.</p>"]} {
@@ -1808,7 +1824,8 @@ XX
     }
 
     # Verify that merging a line that is not within a node does nothing
-    $txt cursor set 1.0
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
     emmet::merge_lines
     if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
       cleanup "merge lines when not in a node changed text ([$txt get 1.0 end-1c])"
@@ -1841,7 +1858,8 @@ XX
       $txt delete 1.0 end
       $txt insert end [lindex $tag 0]
       $txt edit separator
-      $txt cursor set 2.0
+      $txt mark set insert 2.0
+      vim::adjust_insert $txt.t
 
       emmet::update_image_size
       if {[$txt get 1.0 end-1c] ne [lindex $tag 1]} {
@@ -1856,7 +1874,8 @@ XX
     $txt delete 1.0 end
     $txt insert end [lindex $tags 0 0]
     $txt edit separator
-    $txt cursor set 1.0
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
 
     emmet::update_image_size
     if {[$txt get 1.0 end-1c] ne " \n[string range [lindex $tags 0 0] 1 end]"} {
@@ -1875,7 +1894,8 @@ XX
     set txt [initialize]
 
     $txt insert end "\n100+91\nabs(-10)\n10/4\n10.0/4\n\nNothing 2*3"
-    $txt cursor set 2.0
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
 
     emmet::evaluate_math_expression
     if {[$txt get 1.0 end-1c] ne "\n191\nabs(-10)\n10/4\n10.0/4\n\nNothing 2*3"} {
@@ -1930,7 +1950,8 @@ XX
     set txt [initialize]
 
     $txt insert end "\nx100x\nx-100x\nNothing\n-x\n0x10"
-    $txt cursor set 2.1
+    $txt mark set insert 2.1
+    vim::adjust_insert $txt.t
 
     emmet::change_number 10
     if {[$txt get 1.0 end-1c] ne "\nx110x\nx-100x\nNothing\n-x\n0x10"} {
@@ -2025,7 +2046,8 @@ XX
 
     $txt insert end [set value "\n<img src=\"$url\" width=\"11\" height=\"11\" />"]
     $txt edit separator
-    $txt cursor set 2.20
+    $txt mark set insert 2.20
+    vim::adjust_insert $txt.t
 
     emmet::encode_decode_image_to_data_url
     if {[$txt get 1.0 end-1c] ne [set expect "\n<img src=\"data:image/gif;base64,R0lGODdhCwALAJEAAH9/f////////////ywAAAAACwALAAACH4SPRvEPADEIYPwDQAwCGP8AEIMAxj8AxCCA8Y/goxUAOw==\" width=\"11\" height=\"11\" />"]} {
@@ -2055,7 +2077,8 @@ XX
     }
 
     # Verify that nothing happens when we are not in an image tag
-    $txt cursor set 1.0
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
     emmet::encode_decode_image_to_data_url
     if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
       cleanup "text changed even though we were not on an image tag ([$txt get 1.0 end-1c])"
@@ -2075,7 +2098,8 @@ XX
     foreach {line cursor fname} $tests {
       $txt delete 1.0 end
       $txt insert end $line
-      $txt cursor set $cursor
+      $txt mark set insert $cursor
+      vim::adjust_insert $txt.t
       emmet::encode_decode_image_to_data_url -test $fname
       if {[$txt get 1.0 end-1c] ne $line} {
         file attributes $ro -permissions rw-------

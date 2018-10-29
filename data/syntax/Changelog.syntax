@@ -9,40 +9,9 @@ reference
   {Syntax Reference} https://www.gnu.org/prep/standards/html_node/Change-Logs.html#Change-Logs
 }
 
-completechars
+matchcharsallowed
 {square paren angled}
 
-matchchars
-{square paren angled}
-
-tabsallowed
-{0}
-
-casesensitive
-{1}
-
-numbers
-{
-  HighlightRegexp {\d{4}-\d{2}-\d{2}} {}
-  HighlightRegexp {\d{2}:\d{2}} {}
-}
-
-punctuation
-{
-  HighlightRegexp {\*.+?:} {}
-}
-
-miscellaneous1 {
-  HighlightRegexp {\(.+?\)} {}
-}
-
-miscellaneous2 {
-  HighlightRegexp {\[.+?\]} {}
-}
-
-miscellaneous3 {
-  HighlightRegexp {\<.+?\>} {}
-}
 tabsallowed
 {0}
 

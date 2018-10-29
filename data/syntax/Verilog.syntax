@@ -4,10 +4,7 @@ filepatterns
 vimsyntax
 {verilog}
 
-completechars
-{curly square paren double}
-
-matchchars
+matchcharsallowed
 {curly square paren double}
 
 tabsallowed
@@ -16,23 +13,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{
-  {begin    end}
-  {task     endtask}
-  {function endfunction}
-  {case     endcase}
-  {casex    endcase}
-  {casez    endcase}
-  {module   endmodule}
-  {generate endgenerate}
-}
+indent
+{begin task function casex casez module generate}
+
+unindent
+{end endtask endfunction endcase endmodule endgenerate}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"}}
 
 keywords
 {
@@ -66,7 +59,7 @@ precompile
 
 miscellaneous1
 {
-  HighlightCharStart \$ {}
+  HighlightWithOnlyCharStart \$ {}
 }
 
 miscellaneous2

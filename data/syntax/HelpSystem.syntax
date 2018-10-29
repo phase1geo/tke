@@ -1,10 +1,7 @@
 filepatterns
 {*.help}
 
-completechars
-{angled double}
-
-matchchars
+matchcharsallowed
 {angled double}
 
 tabsallowed
@@ -13,14 +10,17 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{<\w+> </\w+>}}
+indent
+{<\w+>}
+
+unindent
+{</\w+>}
 
 icomment {{;}}
 
-comments {{{^\s*;} {$}}}
+lcomments {{^\s*;}}
 
-strings {double}
+strings {{"}}
 
 keywords
 {

@@ -4,10 +4,7 @@ filepatterns
 vimsyntax
 {sql}
 
-completechars
-{paren single}
-
-matchchars
+matchcharsallowed
 {paren single}
 
 tabsallowed
@@ -18,9 +15,11 @@ casesensitive
 
 icomment {{--}}
 
-comments {{{/\*} {\*/}} {{--} {$}}}
+lcomments {{--}}
 
-strings {single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{'}}
 
 keywords
 {

@@ -1,10 +1,7 @@
 filepatterns
 {*.j}
 
-completechars
-{paren single}
-
-matchchars
+matchcharsallowed
 {paren single}
 
 tabsallowed
@@ -15,9 +12,9 @@ casesensitive
 
 icomment {{NB\.}}
 
-comments {{{NB\.} {$}}}
+lcomments {{NB\.}}
 
-strings {single}
+strings {{'}}
 
 keywords {
   do

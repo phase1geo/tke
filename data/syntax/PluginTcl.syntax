@@ -6,20 +6,20 @@ embedded
   {Tcl}
 }
 
-completechars
+matchcharsallowed
 {curly square paren double}
 
-matchchars
-{curly square paren double}
+indent
+{\{}
 
-indentation
-{{curly}}
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{{^[ \t]*#} {$}} {{;#} {$}}}
+lcomments {{^[ \t]*#} {;#}}
 
-strings {double}
+strings {{"}}
 
 keywords
 {

@@ -6,6 +6,7 @@ var searchData=
   ['new_5ffile_5ffrom_5ftemplate',['new_file_from_template',['../namespacemenus.html#ae3b60dad0fdfc840226af5e80f3a7e78',1,'menus']]],
   ['new_5fgroup',['new_group',['../namespaceremote.html#a2f104a4b4288025855431a33995635dd',1,'remote']]],
   ['new_5fwindow_5fcommand',['new_window_command',['../namespacemenus.html#aadbabe73c8664d86c8353d714274dd21',1,'menus']]],
+  ['newline',['newline',['../namespaceindent.html#af0fe20db3a00f61c70a7122891e2a8c0',1,'indent']]],
   ['newline_5fcount',['newline_count',['../namespaceedit.html#afffc4ec4ca1ff82d9f968b0e7ce4c0c0',1,'edit']]],
   ['next_5fpane',['next_pane',['../namespacegui.html#ac3d030aff9d857a0658a51d7b48c6ac7',1,'gui']]],
   ['next_5ftab',['next_tab',['../namespacegui.html#a2951095a477f0a72fb227872a68a6aba',1,'gui']]],

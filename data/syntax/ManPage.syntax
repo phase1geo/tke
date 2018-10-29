@@ -4,10 +4,7 @@ filepatterns
 vimsyntax
 {man}
 
-completechars
-{curly square paren}
-
-matchchars
+matchcharsallowed
 {curly square paren}
 
 tabsallowed
@@ -18,9 +15,9 @@ casesensitive
 
 icomment {{\.\\"}}
 
-comments {{{\.\\"} {$}}}
+lcomments {{\.\\"}}
 
-strings {double}
+strings {{"}}
 
 symbols
 {

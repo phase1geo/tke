@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -786,7 +786,7 @@ namespace eval interpreter {
     # Create Tcl/Tk commands
     foreach cmd [list clipboard event focus font grid pack place tk_messageBox \
                       tk_chooseColor fontchooser tk_getOpenFile tk_getSaveFile \
-                      tk_chooseDirectory tk::TextUpDownLine \
+                      tk_chooseDirectory tk::TextSetCursor tk::TextUpDownLine \
                       tk::PlaceWindow tk::SetFocusGrab tk::RestoreFocusGrab \
                       tkwait base64::encode base64::decode] {
       $interp alias $cmd $cmd
@@ -825,7 +825,27 @@ namespace eval interpreter {
     $interp alias api::export                       utils::export
 
     # Add ctext calls
+    $interp alias ctext::inBackTick                 ctext::inBackTick
+    $interp alias ctext::inBackTickRange            ctext::inBackTickRange
+    $interp alias ctext::inBlockComment             ctext::inBlockComment
+    $interp alias ctext::inBlockCommentRange        ctext::inBlockCommentRange
+    $interp alias ctext::inComment                  ctext::inComment
+    $interp alias ctext::inCommentRange             ctext::inCommentRange
+    $interp alias ctext::inCommentString            ctext::inCommentString
+    $interp alias ctext::inCommentStringRange       ctext::inCommentStringRange
+    $interp alias ctext::inDoubleQuote              ctext::inDoubleQuote
+    $interp alias ctext::inDoubleQuoteRange         ctext::inDoubleQuoteRange
+    $interp alias ctext::inLineComment              ctext::inLineComment
+    $interp alias ctext::inLineCommentRange         ctext::inLineCommentRange
+    $interp alias ctext::inSingleQuote              ctext::inSingleQuote
+    $interp alias ctext::inSingleQuoteRange         ctext::inSingleQuoteRange
+    $interp alias ctext::inString                   ctext::inString
+    $interp alias ctext::inStringRange              ctext::inStringRange
+    $interp alias ctext::isEscaped                  ctext::isEscaped
     $interp alias ctext::getLang                    ctext::getLang
+    $interp alias ctext::getNextBracket             ctext::getNextBracket
+    $interp alias ctext::getPrevBracket             ctext::getPrevBracket
+    $interp alias ctext::getMatchBracket            ctext::getMatchBracket
     $interp alias ctext::getTagInRange              ctext::getTagInRange
 
     return $interp

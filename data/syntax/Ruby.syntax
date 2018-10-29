@@ -9,10 +9,7 @@ reference
   {{Language Reference} http://ruby-doc.com/docs/ProgrammingRuby/}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,14 +18,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{#}}
 
-comments {{{=begin} {=end}} {# {$}}}
+lcomments {{#}}
 
-strings {double single}
+bcomments {{{=begin} {=end}}}
+
+strings {{"} {'}}
 
 keywords
 {

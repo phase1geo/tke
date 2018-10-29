@@ -9,10 +9,7 @@ reference
   {{Language Reference} https://wiki.gnome.org/Projects/Vala/Tutorial}
 }
 
-completechars
-{curly square paren double single}
-
-matchchars
+matchcharsallowed
 {curly square paren double single}
 
 tabsallowed
@@ -21,17 +18,22 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
 
-reindentation
+unindent
+{\}}
+
+reindent
 {{switch case default}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {
@@ -70,6 +72,6 @@ punctuation
 
 precompile
 {
-  HighlightCharStart {#} {}
+  HighlightWithOnlyCharStart {#} {}
 }
 

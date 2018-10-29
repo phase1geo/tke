@@ -54,12 +54,9 @@ NAGELFAR_FILES = version.tcl \
 
 .PHONY: commit snippets emmet snip_parser.tcl format_parser.tcl static
 
-commit: mkindex
+commit:
 	$(TCLSH) commit.tcl
 	hg commit
-
-mkindex:
-	echo 'auto_mkindex .' | $(TCLSH) -- -
 
 snippets: snip_lexer.tcl snip_parser.tcl format_lexer.tcl format_parser.tcl
 

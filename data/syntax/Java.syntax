@@ -9,10 +9,7 @@ reference
   {{Language Specification} http://docs.oracle.com/javase/specs/jls/se7/html/index.html}
 }
 
-completechars
-{curly paren square double single}
-
-matchchars
+matchcharsallowed
 {curly paren square double single}
 
 tabsallowed
@@ -21,14 +18,19 @@ tabsallowed
 casesensitive
 {1}
 
-indentation
-{{curly}}
+indent
+{\{}
+
+unindent
+{\}}
 
 icomment {{//}}
 
-comments {{{/\*} {\*/}} {{//} {$}}}
+lcomments {{//}}
 
-strings {double single}
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
 
 keywords
 {
