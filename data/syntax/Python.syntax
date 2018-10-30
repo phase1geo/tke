@@ -48,5 +48,5 @@ punctuation
 
 miscellaneous1
 {
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }

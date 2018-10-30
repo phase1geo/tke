@@ -54,8 +54,8 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart {#} {}
-  HighlightWithOnlyCharStart {%} {}
+  HighlightCharStart {#} {}
+  HighlightCharStart {%} {}
 }
 
 miscellaneous1 {

@@ -57,5 +57,5 @@ punctuation
 }
 
 miscellaneous3 {
-  HighlightWithOnlyCharStart : {}
+  HighlightCharStart : {}
 }

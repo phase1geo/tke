@@ -59,7 +59,7 @@ precompile
 
 miscellaneous1
 {
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }
 
 miscellaneous2

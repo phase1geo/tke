@@ -70,8 +70,8 @@ precompile {
 }
 
 miscellaneous2 {
-  HighlightWithOnlyCharStart ' {}
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart ' {}
+  HighlightCharStart \$ {}
 }
 
 miscellaneous3 {

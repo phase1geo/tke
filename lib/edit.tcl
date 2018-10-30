@@ -1047,8 +1047,8 @@ namespace eval edit {
         foreach {startpos endpos} $mcursors {
           lappend ranges [$txt index "$startpos linestart"] [$txt index "$startpos lineend"]
         }
-      } elseif {[lsearch [$txt tag names insert] _cComment] != -1} {
-        lassign [$txt tag prevrange _cComment insert] startpos endpos
+      } elseif {[lsearch [$txt tag names insert] __cComment] != -1} {
+        lassign [$txt tag prevrange __cComment insert] startpos endpos
         if {[regexp "^[lindex $bcomments 0 0](.*)[lindex $bcomments 0 1]\$" [$txt get $startpos $endpos] -> str]} {
           $txt replace $startpos $endpos $str
           $txt edit separator
@@ -1858,8 +1858,8 @@ namespace eval edit {
         } else {
           set index [$txtt index "$opts(-startpos)-$opts(-num) display lines"]
         }
-        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
+        if {[lsearch [$txtt tag names "$index linestart"] __prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange __prewhite "$index linestart"] 1]-1c
         } else {
           set index "$index lineend"
         }
@@ -1874,8 +1874,8 @@ namespace eval edit {
       WORDend       { set index [get_WORDend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
       linenum       {
-        if {[lsearch [$txtt tag names "$opts(-num).0"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$opts(-num).0"] 1]-1c
+        if {[lsearch [$txtt tag names "$opts(-num).0"] __prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange __prewhite "$opts(-num).0"] 1]-1c
         } else {
           set index "$opts(-num).0 lineend"
         }
@@ -2073,7 +2073,7 @@ namespace eval edit {
     # Search backwards
     set txt      [winfo parent $txtt]
     set number   $num
-    set startpos [expr {([lsearch [$txtt tag names $cursor] _${type}L] == -1) ? $cursor : "$cursor+1c"}]
+    set startpos [expr {([lsearch [$txtt tag names $cursor] __${type}L] == -1) ? $cursor : "$cursor+1c"}]
 
     while {[set index [ctext::getMatchBracket $txt ${type}L $startpos]] ne ""} {
       if {[incr number -1] == 0} {
@@ -2097,14 +2097,14 @@ namespace eval edit {
   proc get_range_string {txtt char tag inner adjust {cursor insert}} {
 
     if {[$txtt get $cursor] eq $char} {
-      if {[lsearch [$txtt tag names $cursor-1c] _${tag}*] == -1} {
+      if {[lsearch [$txtt tag names $cursor-1c] __${tag}*] == -1} {
         set index [gui::find_match_char [winfo parent $txtt] $char -forwards]
         return [expr {$inner ? [list [$txtt index "$cursor+1c"] [$txtt index "$index-1c$adjust"]] : [list [$txtt index $cursor] [$txtt index "$index$adjust"]]}]
       } else {
         set index [gui::find_match_char [winfo parent $txtt] $char -backwards]
         return [expr {$inner ? [list [$txtt index "$index+1c"] [$txtt index "$cursor-1c$adjust"]] : [list $index [$txtt index "$cursor$adjust"]]}]
       }
-    } elseif {[set tag [lsearch -inline [$txtt tag names $cursor] _${tag}*]] ne ""} {
+    } elseif {[set tag [lsearch -inline [$txtt tag names $cursor] __${tag}*]] ne ""} {
       lassign [$txtt tag prevrange $tag $cursor] startpos endpos
       return [expr {$inner ? [list [$txtt index "$startpos+1c"] [$txtt index "$endpos-2c$adjust"]] : [list $startpos [$txtt index "$endpos-1c$adjust"]]}]
     }
