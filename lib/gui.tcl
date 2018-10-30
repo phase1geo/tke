@@ -1896,7 +1896,7 @@ namespace eval gui {
       $txt fastinsert end $contents
 
       # Highlight text and add update code folds
-      $txt highlight 1.0 end
+      $txt syntax highlight 1.0 end
       $txt see 1.0
 
       # Add any previous markers saved for this text widget
@@ -5113,13 +5113,18 @@ namespace eval gui {
     # Get the parent window
     set txt [winfo parent $w]
 
-    # Get the current line from the line sidebar
-    set index [$txt index @$x,$y]
+    # Get the last line
+    set fontwidth  [font measure [$txt cget -font] -displayof . "0"]
+    set last_line  [lindex [split [$txt index end-1c] .] 0]
+    set line_chars [expr ([$txt cget -linemap] ? max( [$txt cget -linemap_minwidth], [string length $last_line] ) : 1) + 1]
 
     # We will only select the line if we clicked in the line number area
-    if {[expr [lindex [split $index .] 1] >= ([$w cget -width] - [llength [$txt gutter names]])]} {
+    if {$x > ($fontwidth * $line_chars)} {
       return
     }
+
+    # Get the current line from the line sidebar
+    set index [$txt index @0,$y]
 
     # Select the corresponding line in the text widget
     $txt tag remove sel 1.0 end
@@ -5143,13 +5148,18 @@ namespace eval gui {
     # Get the parent window
     set txt [winfo parent $w]
 
-    # Get the current line from the line sidebar
-    set index [$txt index @$x,$y]
+    # Get the last line
+    set fontwidth  [font measure [$txt cget -font] -displayof . "0"]
+    set last_line  [lindex [split [$txt index end-1c] .] 0]
+    set line_chars [expr ([$txt cget -linemap] ? max( [$txt cget -linemap_minwidth], [string length $last_line] ) : 1) + 1]
 
     # We will only select the line if we clicked in the line number area
-    if {[expr [lindex [split $index .] 1] >= ([$w cget -width] - [llength [$txt gutter names]])]} {
+    if {$x > ($fontwidth * $line_chars)} {
       return
     }
+
+    # Get the current line from the line sidebar
+    set index [$txt index @$x,$y]
 
     # Remove the current selection
     $txt tag remove sel 1.0 end

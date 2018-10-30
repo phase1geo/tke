@@ -55,5 +55,5 @@ punctuation
 
 precompile
 {
-  HighlightWithOnlyCharStart {#} {}
+  HighlightCharStart {#} {}
 }

@@ -72,8 +72,8 @@ namespace eval search {
       find_clear
 
       # Create a highlight class for the given search string
-      ctext::addHighlightClass $txt search -fgtheme search_foreground -bgtheme search_background
-      ctext::highlightSearch   $txt search $str $search_opts
+      $txt syntax addclass search -fgtheme search_foreground -bgtheme search_background -highpriority 1
+      $txt syntax search   search $str $search_opts
 
     }
 

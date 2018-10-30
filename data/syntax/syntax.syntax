@@ -71,7 +71,7 @@ punctuation
 
 precompile {
   HighlightKeywords {
-    HighlightClass HighlightKeywords HighlightRegexp HighlightWithOnlyCharStart
+    HighlightClass HighlightKeywords HighlightRegexp HighlightCharStart
     HighlightProc HighlightEndProc TclBegin TclEnd
   } {}
 }

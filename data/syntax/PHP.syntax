@@ -79,5 +79,5 @@ miscellaneous2 {
 }
 
 miscellaneous3 {
-  HighlightWithOnlyCharStart \$ {}
+  HighlightCharStart \$ {}
 }

@@ -82,7 +82,7 @@ miscellaneous1 {
 }
 
 miscellaneous2 {
-  HighlightWithOnlyCharStart {@} {}
+  HighlightCharStart {@} {}
 }
 
 miscellaneous3 {

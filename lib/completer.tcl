@@ -152,7 +152,7 @@ namespace eval completer {
   # This is called when a closing character is detected.
   proc skip_closing {txtt type} {
 
-    return [expr [lsearch [$txtt tag names insert] _${type}R] != -1]
+    return [expr [lsearch [$txtt tag names insert] __${type}R] != -1]
 
   }
 

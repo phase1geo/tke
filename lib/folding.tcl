@@ -133,7 +133,7 @@ namespace eval folding {
         restore_folds $txt
         $txt gutter hide folding 0
       } else {
-        $txt tag remove _folded 1.0 end
+        $txt tag remove __folded 1.0 end
         $txt gutter hide folding 1
       }
     }
@@ -145,7 +145,7 @@ namespace eval folding {
   proc disable_folding {txt} {
 
     # Remove all folded text
-    $txt tag remove _folded 1.0 end
+    $txt tag remove __folded 1.0 end
 
     # Remove the gutter
     $txt gutter destroy folding
@@ -176,7 +176,8 @@ namespace eval folding {
   # Restarts the folder after the text widget has had its tags cleared.
   proc restart {txt} {
 
-    $txt.t tag configure _folded -elide 1
+    $txt.t tag configure __folded -elide 1
+    $txt.t tag lower __folded _invisible
 
   }
 
@@ -209,7 +210,7 @@ namespace eval folding {
     # Get the starting and ending line
     } elseif {$method eq "indent"} {
       set startpos 1.0
-      if {[set range [$txt tag prevrange _prewhite "$startpos lineend"]] ne ""} {
+      if {[set range [$txt tag prevrange __prewhite "$startpos lineend"]] ne ""} {
         set startpos [lindex $range 0]
       }
     }
@@ -245,13 +246,13 @@ namespace eval folding {
         set unindent_cnt [indent::get_tag_count $txt.t unindent $line.0 $line.end]
       }
       indent {
-        if {[lsearch [$txt tag names $line.0] _prewhite] != -1} {
+        if {[lsearch [$txt tag names $line.0] __prewhite] != -1} {
           set prev 0
           set curr 0
           set next 0
-          catch { set prev [$txt count -chars {*}[$txt tag prevrange _prewhite $line.0]] }
-          catch { set curr [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]] }
-          catch { set next [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0+1c]] }
+          catch { set prev [$txt count -chars {*}[$txt tag prevrange __prewhite $line.0]] }
+          catch { set curr [$txt count -chars {*}[$txt tag nextrange __prewhite $line.0]] }
+          catch { set next [$txt count -chars {*}[$txt tag nextrange __prewhite $line.0+1c]] }
           set indent_cnt   [expr $curr < $next]
           set unindent_cnt [expr $curr < $prev]
           if {$indent_cnt && $unindent_cnt} {
@@ -292,12 +293,12 @@ namespace eval folding {
 
     if {[get_method $txt] eq "indent"} {
 
-      set start_chars [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]]
+      set start_chars [$txt count -chars {*}[$txt tag nextrange __prewhite $line.0]]
       set next_line   $line.0
       set final       [lindex [split [$txt index end] .] 0].0
       set all_chars   [list]
 
-      while {[set range [$txt tag nextrange _prewhite $next_line]] ne ""} {
+      while {[set range [$txt tag nextrange __prewhite $next_line]] ne ""} {
         set chars [$txt count -chars {*}$range]
         set tline [lindex [split [lindex $range 0] .] 0]
         set state [fold_state $txt $tline]
@@ -380,7 +381,7 @@ namespace eval folding {
       lassign [lindex $data $i] line tag
       if {[incr count $counts($tag)] == 0} {
         open_fold 1 $txt $line
-        if {[lsearch [$txt tag names $line.0] _folded] == -1} {
+        if {[lsearch [$txt tag names $line.0] __folded] == -1} {
           return
         }
         set count 1
@@ -396,7 +397,7 @@ namespace eval folding {
 
     foreach line [$txt gutter get folding close] {
       lassign [get_fold_range $txt $line 1] startpos endpos
-      $txt tag add _folded $startpos $endpos
+      $txt tag add __folded $startpos $endpos
     }
 
   }
@@ -450,7 +451,7 @@ namespace eval folding {
       lassign [split [$txt index $startpos] .] start_line start_col
       lassign [split [$txt index $endpos]   .] end_line   end_col
 
-      $txt tag add _folded [expr $start_line + 1].0 [expr $end_line + 1].0
+      $txt tag add __folded [expr $start_line + 1].0 [expr $end_line + 1].0
       $txt gutter set folding close $start_line
       $txt gutter set folding end   [expr $end_line + 1]
 
@@ -585,7 +586,7 @@ namespace eval folding {
     if {[get_method $txt] eq "manual"} {
 
       # Remove all folded text
-      $txt tag remove _folded 1.0 end
+      $txt tag remove __folded 1.0 end
 
       # Clear all of fold indicators in the gutter
       $txt gutter clear folding 1 [lindex [split [$txt index end] .] 0]
@@ -621,7 +622,7 @@ namespace eval folding {
     }
 
     # Hide the text
-    $txt tag add _folded $startpos $endpos
+    $txt tag add __folded $startpos $endpos
 
     return $endpos
 
@@ -683,7 +684,7 @@ namespace eval folding {
       $txt gutter set folding eclose [$txt gutter get folding eopen]
 
       # Adds folds
-      $txt tag add _folded {*}$ranges
+      $txt tag add __folded {*}$ranges
 
     }
 
@@ -715,7 +716,7 @@ namespace eval folding {
     }
 
     # Remove the folded tag
-    $txt tag remove _folded $startpos $endpos
+    $txt tag remove __folded $startpos $endpos
 
     # Close all of the previous folds
     if {$depth > 0} {
@@ -757,7 +758,7 @@ namespace eval folding {
       return $retval
     }
 
-    $txt tag remove _folded 1.0 end
+    $txt tag remove __folded 1.0 end
     $txt gutter set folding open  [$txt gutter get folding close]
     $txt gutter set folding eopen [$txt gutter get folding eclose]
 
@@ -799,7 +800,7 @@ namespace eval folding {
   # Returns true if the specified index exists within a fold.
   proc is_folded {txt index} {
 
-    return [expr [lsearch -exact [$txt tag names $index] _folded] != -1]
+    return [expr [lsearch -exact [$txt tag names $index] __folded] != -1]
 
   }
 

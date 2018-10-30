@@ -61,6 +61,11 @@ namespace eval syntax {
     advanced           {}
     formatting         {}
   }
+  array set highlight_types {
+    HighlightKeywords  addwords
+    HighlightRegexp    addregexp
+    HighlightCharStart addcharstart
+  }
   array set langs        {}
   array set curr_lang    {}
   array set meta_tags    {}
@@ -404,7 +409,7 @@ namespace eval syntax {
 
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
-      ctext::clearHighlightClasses   $txt
+      $txt syntax clear
       ctext::setBlockCommentPatterns $txt {} {}
       ctext::setLineCommentPatterns  $txt {} {}
       ctext::setStringPatterns       $txt {} {}
@@ -448,8 +453,8 @@ namespace eval syntax {
         }
 
         # Add the language keywords
-        ctext::addHighlightClass $txt keywords -fgtheme keywords
-        ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
+        $txt syntax addclass keywords -fgtheme keywords
+        $txt syntax addwords class keywords $lang_array(keywords)
 
         # Add the rest of the sections
         set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix $lang_ns
@@ -482,8 +487,8 @@ namespace eval syntax {
         ctext::setIndentation $txt {} $reindents      reindent
 
         # Add the FIXME
-        # ctext::addHighlightClass $txt fixme -fgtheme miscellaneous1
-        # ctext::addHighlightKeywords $txt FIXME class fixme
+        # $txt syntax addclass fixme -fgtheme miscellaneous1
+        # $txt syntax addwords class fixme FIXME
 
         # Set the indent/unindent regular expressions
         indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
@@ -518,7 +523,7 @@ namespace eval syntax {
 
     # Re-highlight
     if {$opts(-highlight)} {
-      $txt highlight 1.0 end
+      $txt syntax highlight 1.0 end
       folding::restart $txt
     }
 
@@ -548,7 +553,7 @@ namespace eval syntax {
     }
 
     # Add the keywords
-    ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords $language
+    $txt syntax addwords class keywords $lang_array(keywords) $language
 
     # Add the rest of the sections
     set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix $lang_ns
@@ -584,7 +589,7 @@ namespace eval syntax {
       ctext::setIndentation $txt $language $reindents      reindent
 
       # Add the FIXME
-      # ctext::addHighlightKeywords $txt FIXME class fixme $language
+      # $txt syntax addwords class fixme FIXME $language
 
       # Set the indent/unindent regular expressions
       indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
@@ -609,6 +614,20 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Calls the proper
+  proc add_highlight_type {txt type valtype value syntax lang} {
+
+    variable highlight_types
+
+    if {[info exists highlight_types($type)]} {
+      $txt syntax $highlight_types($type) $valtype $value $syntax $lang
+    } else {
+      return -code error "Unknown syntax type $type"
+    }
+
+  }
+
+  ######################################################################
   # Adds syntax highlighting for a given type
   proc set_language_section {txt section section_list lang {cmd_prefix ""} {lang_ns ""}} {
 
@@ -623,7 +642,7 @@ namespace eval syntax {
             "HighlightClass" {
               if {$section eq "advanced"} {
                 set section_list [lassign $section_list name modifiers]
-                ctext::addHighlightClass $txt $name {*}$modifiers
+                $txt syntax addclass $name {*}$modifiers
               }
             }
             "HighlightProc" {
@@ -649,14 +668,14 @@ namespace eval syntax {
               set section_list [lassign $section_list syntax command]
               if {$command ne ""} {
                 if {$cmd_prefix ne ""} {
-                  ctext::add$type $txt $syntax command "$cmd_prefix $command" $lang
+                  add_highlight_type $txt $type command "$cmd_prefix $command" $syntax $lang
                 } elseif {[string first :: $command] != -1} {
-                  ctext::add$type $txt $syntax command $command $lang
+                  add_highlight_type $txt $type command $command $syntax $lang
                 } else {
-                  ctext::add$type $txt $syntax command syntax::${lang_ns}::$command $lang
+                  add_highlight_type $txt $type command syntax::${lang_ns}::$command $syntax $lang
                 }
               } else {
-                ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
+                add_highlight_type $txt $type class [expr {($section eq "symbols") ? "symbols" : "none"}] $syntax $lang
               }
             }
             "TclBegin" {
@@ -679,8 +698,8 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            ctext::addHighlightClass $txt $class -fgtheme background -bgtheme $section -fontopts $modifiers
-            ctext::add$type $txt $syntax class $class $lang
+            $txt syntax addclass $class -fgtheme background -bgtheme $section -fontopts $modifiers
+            add_highlight_type $txt $type class $class $syntax $lang
           }
         }
       }
@@ -691,8 +710,8 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            ctext::addHighlightClass $txt $class -fgtheme $section -fontopts $modifiers
-            ctext::add$type $txt $syntax class $class $lang
+            $txt syntax addclass $class -fgtheme $section -fontopts $modifiers
+            add_highlight_type $txt $type class $class $syntax $lang
           }
         }
       }
@@ -706,11 +725,11 @@ namespace eval syntax {
 
     variable meta_tags
 
-    set all_tags [ctext::getHighlightClasses $txt]
+    set all_classes [$txt syntax classes]
 
     if {[info exists meta_tags($txt)]} {
       foreach tag $meta_tags($txt) {
-        if {[lsearch $all_tags $tag] != -1} {
+        if {[lsearch $all_classes $tag] != -1} {
           return 1
         }
       }
@@ -726,12 +745,12 @@ namespace eval syntax {
 
     variable meta_tags
 
-    set all_tags [ctext::getHighlightClasses $txt]
+    set all_classes [$txt syntax classes]
 
     if {[info exists meta_tags($txt)]} {
       foreach tag $meta_tags($txt) {
-        if {[lsearch $all_tags $tag] != -1} {
-          $txt tag configure _$tag -elide [expr $value ^ 1]
+        if {[lsearch $all_classes $tag] != -1} {
+          $txt syntax configure $tag -elide [expr $value ^ 1]
         }
       }
     }

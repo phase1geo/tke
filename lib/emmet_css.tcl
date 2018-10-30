@@ -1103,24 +1103,24 @@ namespace eval emmet_css {
     if {$opts(-dir) eq "prev"} {
       if {[$txt compare $opts(-startpos) == 1.0]} {
         return ""
-      } elseif {[set start_index [lindex [$txt tag prevrange _curlyR $opts(-startpos)-1c] 1]] eq ""} {
+      } elseif {[set start_index [lindex [$txt tag prevrange __curlyR $opts(-startpos)-1c] 1]] eq ""} {
         set start_index 1.0
       }
     } else {
-      if {[set start_index [lindex [$txt tag nextrange _curlyR $opts(-startpos)] 1]] eq ""} {
+      if {[set start_index [lindex [$txt tag nextrange __curlyR $opts(-startpos)] 1]] eq ""} {
         return ""
       }
     }
-    
+
     # Find the first non-commented, non-whitespace character
     set start $start_index
     while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [ctext::inComment $txt $start_index]} {
-      set comment_tag [lsearch -inline [$txt tag names $start] _comstr*]
+      set comment_tag [lsearch -inline [$txt tag names $start] __comstr*]
       set start [lindex [$txt tag prevrange $comment_tag $start+1c] 1]
     }
 
-    if {($start ne "") && ([set end_index [lindex [$txt tag nextrange _curlyR $start] 1]] ne "")} {
-      set curly_index [lindex [$txt tag nextrange _curlyL $start_index] 0]
+    if {($start ne "") && ([set end_index [lindex [$txt tag nextrange __curlyR $start] 1]] ne "")} {
+      set curly_index [lindex [$txt tag nextrange __curlyL $start_index] 0]
       return [list $start $curly_index $end_index $start_index]
     }
 
@@ -1449,7 +1449,7 @@ namespace eval emmet_css {
 
     if {[ctext::inBlockComment $txt insert]} {
 
-      set tag [lsearch -inline [$txt tag names insert] _comstr1c*]
+      set tag [lsearch -inline [$txt tag names insert] __comstr1c*]
       lassign [$txt tag prevrange $tag "insert+1c"] startpos endpos
 
       if {[$txt get $endpos-3c] eq " "} {

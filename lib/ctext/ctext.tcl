@@ -165,10 +165,24 @@ namespace eval ctext {
       grid remove $win.f
     }
 
+    # Add the priority tags
+    $win.t tag configure _visible
+    $win.t tag configure _invisible
+    $win.t tag lower _visible   sel
+    $win.t tag lower _invisible _visible
+
+    # Add default classes
+    $win.t tag configure __escape
+    $win.t tag configure __prewhite
+    $win.t tag lower __escape _invisible
+    $win.t tag lower __prewhite _invisible
+
     # If -matchchar is set, create the tag
     if {$data($win,config,-matchchar)} {
       $win.t tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+      $win.t tag lower matchchar sel
     }
+
 
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
@@ -654,49 +668,49 @@ namespace eval ctext {
 
   proc inLineComment {win index} {
 
-    return [inCommentStringHelper $win $index _comstr1l]
+    return [inCommentStringHelper $win $index __comstr1l]
 
   }
 
   proc inBlockComment {win index} {
 
-    return [inCommentStringHelper $win $index _comstr1c]
+    return [inCommentStringHelper $win $index __comstr1c]
 
   }
 
   proc inComment {win index} {
 
-    return [inCommentStringHelper $win $index _comstr1]
+    return [inCommentStringHelper $win $index __comstr1]
 
   }
 
   proc inBackTick {win index} {
 
-    return [inCommentStringHelper $win $index _comstr0b]
+    return [inCommentStringHelper $win $index __comstr0b]
 
   }
 
   proc inSingleQuote {win index} {
 
-    return [inCommentStringHelper $win $index _comstr0s]
+    return [inCommentStringHelper $win $index __comstr0s]
 
   }
 
   proc inDoubleQuote {win index} {
 
-    return [inCommentStringHelper $win $index _comstr0d]
+    return [inCommentStringHelper $win $index __comstr0d]
 
   }
 
   proc inString {win index} {
 
-    return [inCommentStringHelper $win $index _comstr0]
+    return [inCommentStringHelper $win $index __comstr0]
 
   }
 
   proc inCommentString {win index} {
 
-    return [inCommentStringHelper $win $index _comstr]
+    return [inCommentStringHelper $win $index __comstr]
 
   }
 
@@ -714,32 +728,32 @@ namespace eval ctext {
 
   proc inLineCommentRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr1l $prange]
+    return [inCommentStringRangeHelper $win $index __comstr1l $prange]
 
   }
 
   proc inBlockCommentRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr1c* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr1c* $prange]
 
   }
 
   proc inCommentRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr1* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr1* $prange]
 
   }
 
   proc commentCharRanges {win index} {
 
-    if {[set curr_tag [lsearch -inline -glob [$win tag names $index] _comstr1*]] ne ""} {
+    if {[set curr_tag [lsearch -inline -glob [$win tag names $index] __comstr1*]] ne ""} {
       set range [$win tag prevrange $curr_tag $index+1c]
       if {[string index $curr_tag 8] eq "l"} {
-        set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]] _lCommentStart:*]
+        set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]] __lCommentStart:*]
         lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c] [lindex $range 1]
       } else {
-        set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]]    _cCommentStart:*]
-        set end_tag   [lsearch -inline -glob [$win tag names [lindex $range 1]-1c] _cCommentEnd:*]
+        set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]]    __cCommentStart:*]
+        set end_tag   [lsearch -inline -glob [$win tag names [lindex $range 1]-1c] __cCommentEnd:*]
         lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c]
         lappend ranges {*}[$win tag prevrange $end_tag [lindex $range 1]]
       }
@@ -752,31 +766,31 @@ namespace eval ctext {
 
   proc inBackTickRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr0b* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr0b* $prange]
 
   }
 
   proc inSingleQuoteRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr0s* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr0s* $prange]
 
   }
 
   proc inDoubleQuoteRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr0d* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr0d* $prange]
 
   }
 
   proc inStringRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr0* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr0* $prange]
 
   }
 
   proc inCommentStringRange {win index prange} {
 
-    return [inCommentStringRangeHelper $win $index _comstr* $prange]
+    return [inCommentStringRangeHelper $win $index __comstr* $prange]
 
   }
 
@@ -807,7 +821,7 @@ namespace eval ctext {
 
     set names [$win tag names $index-1c]
 
-    return [expr {[string map {_escape {}} $names] ne $names}]
+    return [expr {[string map {__escape {}} $names] ne $names}]
 
   }
 
@@ -1292,6 +1306,7 @@ namespace eval ctext {
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
+      syntax      { return [command_syntax      $win {*}$args] }
       tag         { return [command_tag         $win {*}$args] }
       language    { return [command_language    $win {*}$args] }
       default     { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
@@ -1775,7 +1790,7 @@ namespace eval ctext {
     if {([llength $args] >= 3) && ([set lang [getLang $win $insertPos]] ne "")} {
       set tag_index 2
       foreach {chars taglist} [lrange $args 1 end] {
-        lappend taglist _Lang:$lang
+        lappend taglist __Lang:$lang
         lset args $tag_index $taglist
         incr tag_index 2
       }
@@ -1897,6 +1912,59 @@ namespace eval ctext {
 
   }
 
+  # This command helps process any syntax highlighting functionality of this widget.
+  proc command_syntax {win args} {
+
+    variable data
+
+    set args [lassign $args subcmd]
+
+    switch $subcmd {
+      addclass     { addHighlightClass             $win {*}$args }
+      addwords     { addHighlightKeywords          $win {*}$args }
+      addregexp    { addHighlightRegexp            $win {*}$args }
+      addcharstart { addHighlightWithOnlyCharStart $win {*}$args }
+      search       { highlightSearch               $win {*}$args }
+      delete       {
+        if {[llength $args] == 0} {
+          foreach class [getHighlightClasses $win] {
+            deleteHighlightClass $win $class
+          }
+        } else {
+          deleteHighlightClass $win {*}$args
+        }
+      }
+      classes   { return [getHighlightClasses $win] }
+      clear     { clearHighlightClasses $win }
+      nextrange { return [nextHighlightClassItem $win {*}$args] }
+      prevrange { return [prevHighlightClassItem $win {*}$args] }
+      ranges    { return [$win._t tag ranges __[lindex $args 0]] }
+      highlight {
+        set i 0
+        while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+        array set opts {
+          -moddata  {}
+          -insert   0
+          -dotags   {}
+          -modified 0
+        }
+        array set opts [lrange $args 0 [expr $i - 1]]
+        set ranges [list]
+        foreach {start end} [lrange $args $i end] {
+          lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
+        }
+        highlightAll $win $ranges $opts(-insert) $opts(-dotags)
+        modified $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
+      }
+      configure { return [$win._t tag configure __[lindex $args 0] {*}[lrange $args 1 end]] }
+      cget      { return [$win._t tag cget      __[lindex $args 0] {*}[lrange $args 1 end]] }
+      default   {
+        return -code error [format "%s ($subcmd)" [msgcat::mc "Unknown ctext syntax subcommand"]]
+      }
+    }
+
+  }
+
   # We need to guarantee that embedded language tags are always listed as lowest
   # priority, so if someone calls the lower tag subcommand, we need to make sure
   # that it won't be placed lower than an embedded language tag.
@@ -1907,16 +1975,16 @@ namespace eval ctext {
     switch [lindex $args 0] {
       lower {
         set args [lassign $args subcmd tag]
-        if {($tag ne "") && ([string range $tag 0 5] eq "_Lang=")} {
+        if {($tag ne "") && ([string range $tag 0 5] eq "__Lang=")} {
           $win._t tag lower $tag {*}$args
-        } elseif {[string range $tag 0 5] eq "_Lang:"} {
-          if {[set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang=*] end]] ne ""} {
+        } elseif {[string range $tag 0 5] eq "__Lang:"} {
+          if {[set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] __Lang=*] end]] ne ""} {
             $win._t tag raise $tag $lowest
           } else {
             $win._t tag lower $tag {*}$args
           }
         } else {
-          set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang:*] end]
+          set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] __Lang:*] end]
           if {($lowest ne "") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
             $win._t tag raise $tag $lowest
           } else {
@@ -1927,7 +1995,7 @@ namespace eval ctext {
       }
       raise {
         set args [lassign $args subcmd tag]
-        if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
+        if {($tag ne "") && ([string range $tag 0 5] ne "__Lang:")} {
           $win._t tag raise $tag {*}$args
         }
         return
@@ -1935,8 +2003,8 @@ namespace eval ctext {
       nextrange -
       prevrange {
         set args0 [set args1 [lassign $args subcmd tag]]
-        set indent_tags  [list _indent _unindent _reindent _reindentStart]
-        set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
+        set indent_tags  [list __indent __unindent __reindent __reindentStart]
+        set bracket_tags [list __curlyL __curlyR __squareL __squareR __parenL __parenR __angledL __angledR]
         if {[string map [list $tag {}] $indent_tags] ne $indent_tags} {
           if {$subcmd eq "nextrange"} {
             lassign [$win._t tag nextrange ${tag}0 {*}$args0] s0 e0
@@ -2014,7 +2082,7 @@ namespace eval ctext {
       }
       ranges {
         set tag          [lindex $args 1]
-        set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
+        set bracket_tags [list __curlyL __curlyR __squareL __squareR __parenL __parenR __angledL __angledR]
         if {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
           if {![info exists range_cache($win,$tag)]} {
             set range_cache($win,$tag) [list]
@@ -2502,12 +2570,12 @@ namespace eval ctext {
 
       set otype [string range $stype 0 end-1]L
 
-      lassign [$win tag nextrange _$stype "$index+1c"] sfirst slast
-      lassign [$win tag prevrange _$otype $index]      ofirst olast
+      lassign [$win tag nextrange __$stype "$index+1c"] sfirst slast
+      lassign [$win tag prevrange __$otype $index]      ofirst olast
       set ofirst "$index+1c"
 
       if {($olast eq "") || [$win compare $olast < $index]} {
-        lassign [$win tag nextrange _$otype $index] dummy olast
+        lassign [$win tag nextrange __$otype $index] dummy olast
       }
 
       while {($olast ne "") && ($slast ne "")} {
@@ -2515,10 +2583,10 @@ namespace eval ctext {
           if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
             return "$slast-[expr 1 - $count]c"
           }
-          lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
+          lassign [$win tag nextrange __$stype "$slast+1c"] sfirst slast
         } else {
           incr count [$win count -chars $ofirst $olast]
-          lassign [$win tag nextrange _$otype "$olast+1c"] ofirst olast
+          lassign [$win tag nextrange __$otype "$olast+1c"] ofirst olast
         }
       }
 
@@ -2526,15 +2594,15 @@ namespace eval ctext {
         if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
           return "$slast-[expr 1 - $count]c"
         }
-        lassign [$win tag nextrange _$stype "$slast+1c"] sfirst slast
+        lassign [$win tag nextrange __$stype "$slast+1c"] sfirst slast
       }
 
     } else {
 
       set otype [string range $stype 0 end-1]R
 
-      lassign [$win tag prevrange _$stype $index] sfirst slast
-      lassign [$win tag prevrange _$otype $index] ofirst olast
+      lassign [$win tag prevrange __$stype $index] sfirst slast
+      lassign [$win tag prevrange __$otype $index] ofirst olast
 
       if {($olast ne "") && [$win compare $olast >= $index]} {
         set olast $index
@@ -2545,10 +2613,10 @@ namespace eval ctext {
           if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
             return "$sfirst+[expr 0 - $count]c"
           }
-          lassign [$win tag prevrange _$stype $sfirst] sfirst slast
+          lassign [$win tag prevrange __$stype $sfirst] sfirst slast
         } else {
           incr count [$win count -chars $ofirst $olast]
-          lassign [$win tag prevrange _$otype $ofirst] ofirst olast
+          lassign [$win tag prevrange __$otype $ofirst] ofirst olast
         }
       }
 
@@ -2556,7 +2624,7 @@ namespace eval ctext {
         if {[incr count -[$win count -chars $sfirst $slast]] <= 0} {
           return "$sfirst+[expr 0 - $count]c"
         }
-        lassign [$win tag prevrange _$stype $sfirst] sfirst slast
+        lassign [$win tag prevrange __$stype $sfirst] sfirst slast
       }
 
     }
@@ -2589,7 +2657,7 @@ namespace eval ctext {
     }
 
     # Get the actual tag to check for
-    set tag [lsearch -inline [$win tag names $pos] _$tag*]
+    set tag [lsearch -inline [$win tag names $pos] __$tag*]
 
     lassign [$win tag nextrange $tag $pos] first last
 
@@ -2767,21 +2835,25 @@ namespace eval ctext {
     }
 
     if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns,$lang) _cCommentStart:$lang [join $start_patterns |]
-      lappend data($win,config,csl_patterns,$lang) _cCommentEnd:$lang   [join $end_patterns   |]
+      lappend data($win,config,csl_patterns,$lang) __cCommentStart:$lang [join $start_patterns |]
+      lappend data($win,config,csl_patterns,$lang) __cCommentEnd:$lang   [join $end_patterns   |]
     }
 
-    array set tags [list _cCommentStart:${lang}0 1 _cCommentStart:${lang}1 1 _cCommentEnd:${lang}0 1 _cCommentEnd:${lang}1 1 _comstr1c0 1 _comstr1c1 1]
+    array set tags [list __cCommentStart:${lang}0 1 __cCommentStart:${lang}1 1 __cCommentEnd:${lang}0 1 __cCommentEnd:${lang}1 1 __comstr1c0 1 __comstr1c1 1]
 
     if {[llength $patterns] > 0} {
       array set theme $data($win,config,-theme)
-      $win tag configure _comstr1c0 -foreground $theme(comments)
-      $win tag configure _comstr1c1 -foreground $theme(comments)
-      $win tag lower _comstr1c0 sel
-      $win tag lower _comstr1c1 sel
-      lappend data($win,config,csl_char_tags,$lang) _cCommentStart:$lang _cCommentEnd:$lang
+      $win tag configure __comstr1c0 -foreground $theme(comments)
+      $win tag configure __comstr1c1 -foreground $theme(comments)
+      $win tag lower __comstr1c0 _visible
+      $win tag lower __comstr1c1 _visible
+      foreach tag [list __cCommentStart:${lang}0 __cCommentStart:${lang}1 __cCommentEnd:${lang}0 __cCommentEnd:${lang}1] {
+        $win tag configure $tag
+        $win tag lower $tag _invisible
+      }
+      lappend data($win,config,csl_char_tags,$lang) __cCommentStart:$lang __cCommentEnd:$lang
       lappend data($win,config,csl_array)           {*}[array get tags]
-      lappend data($win,config,csl_tag_pair)        _cCommentStart:$lang _comstr1c
+      lappend data($win,config,csl_tag_pair)        __cCommentStart:$lang __comstr1c
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
@@ -2793,16 +2865,20 @@ namespace eval ctext {
     variable data
 
     if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns,$lang) _lCommentStart:$lang [join $patterns |]
+      lappend data($win,config,csl_patterns,$lang) __lCommentStart:$lang [join $patterns |]
     }
 
-    array set tags [list _lCommentStart:${lang}0 1 _lCommentStart:${lang}1 1 _comstr1l 1]
+    array set tags [list __lCommentStart:${lang}0 1 __lCommentStart:${lang}1 1 __comstr1l 1]
 
     if {[llength $patterns] > 0} {
       array set theme $data($win,config,-theme)
-      $win tag configure _comstr1l -foreground $theme(comments)
-      $win tag lower _comstr1l sel
-      lappend data($win,config,lc_char_tags,$lang) _lCommentStart:$lang
+      $win tag configure __comstr1l -foreground $theme(comments)
+      $win tag lower __comstr1l _visible
+      foreach tag [list __lCommentStart:${lang}0 __lCommentStart:${lang}1] {
+        $win tag configure $tag
+        $win tag lower $tag _invisible
+      }
+      lappend data($win,config,lc_char_tags,$lang) __lCommentStart:$lang
       lappend data($win,config,csl_array)    {*}[array get tags]
     } else {
       catch { $win tag delete {*}[array names tags] }
@@ -2816,30 +2892,34 @@ namespace eval ctext {
 
     foreach pattern $patterns {
       switch $pattern {
-        \"      { lappend data($win,config,csl_patterns,$lang) "_dQuote:$lang" $pattern }
-        `       { lappend data($win,config,csl_patterns,$lang) "_bQuote:$lang" $pattern }
-        default { lappend data($win,config,csl_patterns,$lang) "_sQuote:$lang" $pattern }
+        \"      { lappend data($win,config,csl_patterns,$lang) "__dQuote:$lang" $pattern }
+        `       { lappend data($win,config,csl_patterns,$lang) "__bQuote:$lang" $pattern }
+        default { lappend data($win,config,csl_patterns,$lang) "__sQuote:$lang" $pattern }
       }
     }
 
     array set tags [list \
-      _sQuote:${lang}0 1 _sQuote:${lang}1 1 \
-      _dQuote:${lang}0 1 _dQuote:${lang}1 1 \
-      _bQuote:${lang}0 1 _bQuote:${lang}1 1 \
-      _comstr0s0 1 _comstr0s1 1 \
-      _comstr0d0 1 _comstr0d1 1 \
-      _comstr0b0 1 _comstr0b1 1 \
+      __sQuote:${lang}0 1 __sQuote:${lang}1 1 \
+      __dQuote:${lang}0 1 __dQuote:${lang}1 1 \
+      __bQuote:${lang}0 1 __bQuote:${lang}1 1 \
+      __comstr0s0 1 __comstr0s1 1 \
+      __comstr0d0 1 __comstr0d1 1 \
+      __comstr0b0 1 __comstr0b1 1 \
     ]
 
     if {[llength $patterns] > 0} {
       array set theme $data($win,config,-theme)
-      foreach tag [list _comstr0s0 _comstr0s1 _comstr0d0 _comstr0d1 _comstr0b0 _comstr0b1] {
+      foreach tag [list __comstr0s0 __comstr0s1 __comstr0d0 __comstr0d1 __comstr0b0 __comstr0b1] {
         $win tag configure $tag -foreground $theme(strings)
-        $win tag lower $tag sel
+        $win tag lower $tag _visible
       }
-      lappend data($win,config,csl_char_tags,$lang) _sQuote:$lang _dQuote:$lang _bQuote:$lang
+      foreach tag [list __sQuote:${lang}0 __sQuote:${lang}1 __dQuote:${lang}0 __dQuote:${lang}1 __bQuote:${lang}0 __bQuote:${lang}1] {
+        $win tag configure $tag
+        $win tag lower $tag _invisible
+      }
+      lappend data($win,config,csl_char_tags,$lang) __sQuote:$lang __dQuote:$lang __bQuote:$lang
       lappend data($win,config,csl_array)           {*}[array get tags]
-      lappend data($win,config,csl_tag_pair)        _sQuote:$lang _comstr0s _dQuote:$lang _comstr0d _bQuote:$lang _comstr0b
+      lappend data($win,config,csl_tag_pair)        __sQuote:$lang __comstr0s __dQuote:$lang __comstr0d __bQuote:$lang __comstr0b
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
@@ -2850,19 +2930,19 @@ namespace eval ctext {
 
     variable data
 
-    lappend data($win,config,csl_patterns,) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
+    lappend data($win,config,csl_patterns,) __LangStart:$lang $start_pattern __LangEnd:$lang $end_pattern
     lappend data($win,config,langs) $lang
 
     array set theme $data($win,config,-theme)
 
-    $win tag configure _Lang:$lang
-    $win tag lower     _Lang:$lang
-    $win tag configure _Lang=$lang -background $theme(embedded)
-    $win tag lower     _Lang=$lang
+    $win tag configure __Lang:$lang
+    $win tag lower     __Lang:$lang
+    $win tag configure __Lang=$lang -background $theme(embedded)
+    $win tag lower     __Lang=$lang
 
-    lappend data($win,config,csl_char_tags,) _LangStart:$lang _LangEnd:$lang
-    lappend data($win,config,csl_array)      _LangStart:${lang}0 1 _LangStart:${lang}1 1 _LangEnd:${lang}0 1 _LangEnd:${lang}1 1 _Lang:$lang 1
-    lappend data($win,config,csl_tag_pair)   _LangStart:$lang _Lang=$lang
+    lappend data($win,config,csl_char_tags,) __LangStart:$lang __LangEnd:$lang
+    lappend data($win,config,csl_array)      __LangStart:${lang}0 1 __LangStart:${lang}1 1 __LangEnd:${lang}0 1 __LangEnd:${lang}1 1 __Lang:$lang 1
+    lappend data($win,config,csl_tag_pair)   __LangStart:$lang __Lang=$lang
 
   }
 
@@ -2913,7 +2993,7 @@ namespace eval ctext {
 
     if {$all == 2} {
       foreach tag [$win._t tag names] {
-        if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
+        if {([string index $tag 0] eq "__") && ($tag ne "__escape") && ![info exists csl_array($tag)]} {
           $win._t tag remove $tag [lindex $lineranges 1] end
         }
       }
@@ -2993,7 +3073,7 @@ namespace eval ctext {
       if {$lang eq ""} {
         set lranges [list 1.0 end]
       } else {
-        set lranges [$win._t tag ranges "_Lang:$lang"]
+        set lranges [$win._t tag ranges "__Lang:$lang"]
       }
 
       # Perform highlighting for each range
@@ -3058,7 +3138,7 @@ namespace eval ctext {
               while {([set char_end [lassign [$win tag nextrange $char_tag$i $index] char_start]] ne "") && [$win compare $char_end <= $langend]} {
                 set lineend [$win index "$char_start lineend"]
                 set index   $lineend
-                lappend char_tags [list $char_start $char_end _lCommentStart:$lang] [list $lineend "$lineend+1c" _lCommentEnd:$lang]
+                lappend char_tags [list $char_start $char_end __lCommentStart:$lang] [list $lineend "$lineend+1c" __lCommentEnd:$lang]
               }
             }
           }
@@ -3084,18 +3164,18 @@ namespace eval ctext {
         array set tag_pairs $data($win,config,csl_tag_pair)
         foreach char_info $char_tags {
           lassign $char_info char_start char_end char_tag
-          if {($curr_char_tag eq "") || [string match "_*End:$curr_lang" $curr_char_tag] || ($char_tag eq "_LangEnd:$curr_lang")} {
-            if {[string range $char_tag 0 5] eq "_LangS"} {
+          if {($curr_char_tag eq "") || [string match "__*End:$curr_lang" $curr_char_tag] || ($char_tag eq "__LangEnd:$curr_lang")} {
+            if {[string range $char_tag 0 6] eq "__LangS"} {
               set curr_lang       [lindex [split $char_tag :] 1]
               set curr_lang_start $char_start
               set curr_char_tag   ""
-            } elseif {$char_tag eq "_LangEnd:$curr_lang"} {
+            } elseif {$char_tag eq "__LangEnd:$curr_lang"} {
               if {[info exists tag_pairs($curr_char_tag)]} {
                 lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start $char_start
                 set rb [expr $rb ^ 1]
               }
               if {$curr_lang_start ne ""} {
-                lappend tags(_Lang:$curr_lang) $curr_lang_start $char_end
+                lappend tags(__Lang:$curr_lang) $curr_lang_start $char_end
               }
               set curr_lang       ""
               set curr_lang_start ""
@@ -3104,32 +3184,32 @@ namespace eval ctext {
               set curr_char_tag   $char_tag
               set curr_char_start $char_start
             }
-          } elseif {$curr_char_tag eq "_lCommentStart:$curr_lang"} {
-            if {$char_tag eq "_lCommentEnd:$curr_lang"} {
-              lappend tags(_comstr1l) $curr_char_start $char_end
+          } elseif {$curr_char_tag eq "__lCommentStart:$curr_lang"} {
+            if {$char_tag eq "__lCommentEnd:$curr_lang"} {
+              lappend tags(__comstr1l) $curr_char_start $char_end
               set curr_char_tag ""
             }
-          } elseif {$curr_char_tag eq "_cCommentStart:$curr_lang"} {
-            if {$char_tag eq "_cCommentEnd:$curr_lang"} {
-              lappend tags(_comstr1c$rb) $curr_char_start $char_end
-              set curr_char_tag ""
-              set rb [expr $rb ^ 1]
-            }
-          } elseif {$curr_char_tag eq "_dQuote:$curr_lang"} {
-            if {$char_tag eq "_dQuote:$curr_lang"} {
-              lappend tags(_comstr0d$rb) $curr_char_start $char_end
+          } elseif {$curr_char_tag eq "__cCommentStart:$curr_lang"} {
+            if {$char_tag eq "__cCommentEnd:$curr_lang"} {
+              lappend tags(__comstr1c$rb) $curr_char_start $char_end
               set curr_char_tag ""
               set rb [expr $rb ^ 1]
             }
-          } elseif {$curr_char_tag eq "_sQuote:$curr_lang"} {
-            if {$char_tag eq "_sQuote:$curr_lang"} {
-              lappend tags(_comstr0s$rb) $curr_char_start $char_end
+          } elseif {$curr_char_tag eq "__dQuote:$curr_lang"} {
+            if {$char_tag eq "__dQuote:$curr_lang"} {
+              lappend tags(__comstr0d$rb) $curr_char_start $char_end
               set curr_char_tag ""
               set rb [expr $rb ^ 1]
             }
-          } elseif {$curr_char_tag eq "_bQuote:$curr_lang"} {
-            if {$char_tag eq "_bQuote:$curr_lang"} {
-              lappend tags(_comstr0b$rb) $curr_char_start $char_end
+          } elseif {$curr_char_tag eq "__sQuote:$curr_lang"} {
+            if {$char_tag eq "__sQuote:$curr_lang"} {
+              lappend tags(__comstr0s$rb) $curr_char_start $char_end
+              set curr_char_tag ""
+              set rb [expr $rb ^ 1]
+            }
+          } elseif {$curr_char_tag eq "__bQuote:$curr_lang"} {
+            if {$char_tag eq "__bQuote:$curr_lang"} {
+              lappend tags(__comstr0b$rb) $curr_char_start $char_end
               set curr_char_tag ""
               set rb [expr $rb ^ 1]
             }
@@ -3139,7 +3219,7 @@ namespace eval ctext {
           lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start [expr {($lang eq "") ? "end" : "$langend linestart"}]
         }
         if {($curr_lang ne "") && ($lang eq "")} {
-          lappend tags(_Lang:$curr_lang) $curr_lang_start end
+          lappend tags(__Lang:$curr_lang) $curr_lang_start end
         }
 
         # Delete old, add new and re-raise tags
@@ -3150,7 +3230,7 @@ namespace eval ctext {
         }
 
         # Calculate the return value
-        set retval [expr (($retval == 2) || ([llength [array names tag_changed _Lang*:*]] > 0)) ? 2 : 1]
+        set retval [expr (($retval == 2) || ([llength [array names tag_changed __Lang*:*]] > 0)) ? 2 : 1]
         array unset tag_changed
 
       }
@@ -3167,12 +3247,12 @@ namespace eval ctext {
 
     foreach lang $data($win,config,langs) {
       set indices [list]
-      foreach {start end} [$win._t tag ranges _Lang:$lang] {
+      foreach {start end} [$win._t tag ranges __Lang:$lang] {
         if {[$win compare "$start+1l linestart" < "$end linestart"]} {
           lappend indices "$start+1l linestart" "$end linestart"
         }
       }
-      catch { $win._t tag add _Lang=$lang {*}$indices }
+      catch { $win._t tag add __Lang=$lang {*}$indices }
     }
 
   }
@@ -3183,6 +3263,8 @@ namespace eval ctext {
 
     if {[llength $indentations] > 0} {
       set data($twin,config,indentation,$lang,$type) [join $indentations |]
+      $twin tag configure __$type
+      $twin tag lower __$type _invisible
     } else {
       catch { unset data($twin,config,indentation,$lang,$type) }
     }
@@ -3195,8 +3277,8 @@ namespace eval ctext {
 
     if {$data($win,config,-escapes)} {
       foreach res [$win._t search -all -- "\\" $start $end] {
-        if {[lsearch [$win._t tag names $res-1c] _escape] == -1} {
-          $win._t tag add _escape $res
+        if {[lsearch [$win._t tag names $res-1c] __escape] == -1} {
+          $win._t tag add __escape $res
         }
       }
     }
@@ -3215,7 +3297,7 @@ namespace eval ctext {
       incr i
     }
 
-    catch { $win._t tag add _prewhite {*}$indices }
+    catch { $win._t tag add __prewhite {*}$indices }
 
   }
 
@@ -3236,13 +3318,13 @@ namespace eval ctext {
       while {[regexp -indices -start $col -- $REs(brackets) $line res]} {
         set scol [lindex $res 0]
         set col  [expr $scol + 1]
-        lappend ttags(_$bracket_map([string index $line $scol])) $row.$scol $row.$col
+        lappend ttags(__$bracket_map([string index $line $scol])) $row.$scol $row.$col
       }
       incr row
     }
 
     foreach tag [array names ttags] {
-      if {[info exists data($win,config,matchChar,$lang,[string range $tag 1 end-1])]} {
+      if {[info exists data($win,config,matchChar,$lang,[string range $tag 2 end-1])]} {
         dict lappend tags $tag {*}$ttags($tag)
       }
     }
@@ -3268,7 +3350,7 @@ namespace eval ctext {
         while {[regexp -indices -start $col -- $data($key) $line res]} {
           lassign $res scol ecol
           set col [expr $ecol + 1]
-          dict lappend tags _$type[expr $i & 1] $row.$scol $row.$col
+          dict lappend tags __$type[expr $i & 1] $row.$scol $row.$col
           incr i
         }
         incr row
@@ -3424,7 +3506,7 @@ namespace eval ctext {
 
   }
 
-  proc addHighlightKeywords {win keywords type value {lang ""}} {
+  proc addHighlightKeywords {win type value keywords {lang ""}} {
 
     variable data
 
@@ -3504,16 +3586,21 @@ namespace eval ctext {
     variable right_click
 
     array set opts {
-      -fgtheme  ""
-      -bgtheme  ""
-      -fontopts ""
-      -clickcmd ""
+      -fgtheme      ""
+      -bgtheme      ""
+      -fontopts     ""
+      -clickcmd     ""
+      -highpriority 0
     }
     array set opts $args
 
     # Configure the class tag and make it lower than the sel tag
     $win._t tag configure __$class
-    $win._t tag lower __$class sel
+    if {($opts(-fgtheme) eq "") && ($opts(-bgtheme) eq "") && ($opts(-fontopts) eq "")} {
+      $win._t tag lower __$class _invisible
+    } else {
+      $win._t tag [expr {$opts(-highpriority) ? "raise" : "lower"}] __$class _visible
+    }
 
     # If there is a command associated with the class, bind it to the right-click button
     if {$opts(-clickcmd) ne ""} {
@@ -3604,6 +3691,8 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Clears the highlight classes so that they can be freshly reapplied.
   proc clearHighlightClasses {win} {
 
     variable data
@@ -3612,10 +3701,8 @@ namespace eval ctext {
 
     # Delete the associated tags
     if {[winfo exists $win]} {
-      foreach tag [$win tag names] {
-        if {[string index $tag 0] eq "_"} {
-          $win tag delete $tag
-        }
+      foreach class [getHighlightClasses $win] {
+        $win._t tag delete __$class
       }
     }
 
@@ -3636,7 +3723,7 @@ namespace eval ctext {
       if {$lang eq ""} {
         set ranges [list 1.0 end]
       } else {
-        set ranges [$twin tag ranges "_Lang=$lang"]
+        set ranges [$twin tag ranges "__Lang=$lang"]
       }
 
       # Perform highlighting for each range
@@ -3909,7 +3996,7 @@ namespace eval ctext {
 
     variable data
 
-    set gutterx [expr {$data($win,config,-linemap_markable) ? ($data($win,fontwidth) + 2) : 1}]
+    set gutterx [expr {$data($win,config,-linemap_markable) ? (($data($win,fontwidth) * 2) + 1) : 1}]
     set fill    $data($win,config,-linemap_mark_color)
     set font    $data($win,config,-font)
     set descent $data($win,fontdescent)

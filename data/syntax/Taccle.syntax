@@ -33,5 +33,5 @@ numbers
 
 miscellaneous3
 {
-  HighlightWithOnlyCharStart \% {}
+  HighlightCharStart \% {}
 }
