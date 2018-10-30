@@ -170,7 +170,7 @@ namespace eval sessions {
 
     # If we need to open
     if {$current_name ne ""} {
-      if {$new_window} {
+      if {$new} {
         array set frame [info frame 0]
         exec -ignorestderr [info nameofexecutable] $frame(file) -s $name -n &
         return
