@@ -30,7 +30,7 @@ icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 keywords {
   abbrev abstract accel acknowledgements acronym address affiliation alt anchor annotation answer

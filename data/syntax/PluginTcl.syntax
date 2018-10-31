@@ -19,7 +19,7 @@ icomment {{#}}
 
 lcomments {{^[ \t]*#} {;#}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

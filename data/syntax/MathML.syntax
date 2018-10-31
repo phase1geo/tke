@@ -28,7 +28,7 @@ icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
 punctuation {
   HighlightRegexp {=} {}

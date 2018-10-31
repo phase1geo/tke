@@ -32,7 +32,7 @@ lcomments {{^[ \t]*--}}
 
 bcomments {}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

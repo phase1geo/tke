@@ -24,7 +24,7 @@ lcomments {{--}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{'}}
+strings {single}
 
 keywords
 {

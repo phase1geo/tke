@@ -24,7 +24,7 @@ icomment {{;}}
 
 lcomments {{;}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

@@ -14,7 +14,7 @@ icomment {{NB\.}}
 
 lcomments {{NB\.}}
 
-strings {{'}}
+strings {single}
 
 keywords {
   do

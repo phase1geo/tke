@@ -702,6 +702,24 @@ namespace eval ctext {
 
   }
 
+  proc inTripleBackTick {win index} {
+
+    return [inCommentStringHelper $win $index __comstr0B]
+
+  }
+
+  proc inTripleSingleQuote {win index} {
+
+    return [inCommentStringHelper $win $index __comstr0S]
+
+  }
+
+  proc inTripleDoubleQuote {win index} {
+
+    return [inCommentStringHelper $win $index __comstr0D]
+
+  }
+
   proc inString {win index} {
 
     return [inCommentStringHelper $win $index __comstr0]
@@ -779,6 +797,24 @@ namespace eval ctext {
   proc inDoubleQuoteRange {win index prange} {
 
     return [inCommentStringRangeHelper $win $index __comstr0d* $prange]
+
+  }
+
+  proc inTripleBackTickRange {win index prange} {
+
+    return [inCommentStringRangeHelper $win $index __comstr0B* $prange]
+
+  }
+
+  proc inTripleSingleQuoteRange {win index prange} {
+
+    return [inCommentStringRangeHelper $win $index __comstr0S* $prange]
+
+  }
+
+  proc inTripleDoubleQuoteRange {win index prange} {
+
+    return [inCommentStringRangeHelper $win $index __comstr0D* $prange]
 
   }
 
@@ -1303,6 +1339,7 @@ namespace eval ctext {
       gutter      { return [command_gutter      $win {*}$args] }
       highlight   { return [command_highlight   $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
+      is          { return [command_is          $win {*}$args] }
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
@@ -1817,6 +1854,76 @@ namespace eval ctext {
 
   }
 
+  # Answers questions about a given index
+  proc command_is {win args} {
+
+    if {[llength $args] < 2} {
+      return -code error "Incorrect arguments passed to ctext is command"
+    }
+
+    lassign $args type index extra prange
+
+    set index [$win index $index]
+
+    switch $type {
+      escaped   { return [isEscaped $win $index] }
+      firstchar {
+        set prewhite [$win._t tag prevrange __prewhite "$index+1c"]
+        return [expr {($prewhite ne "") && [$win._t compare [lindex $prewhite 1] == "$index+1c"]}]
+      }
+      curly   -
+      square  -
+      paren   -
+      angled  {
+        if {$extra eq ""} {
+          set extra "any"
+        } elseif {[lsearch [list left right any] $extra] == -1} {
+          return -code error "ctext is $type called with an illegal side value"
+        }
+        array set chars [list left L right R any *]
+        return [expr [lsearch [$win._t tag names $index] __$type$chars($extra)] != -1]
+      }
+      double        { return [is_quote $win d $index $extra] }
+      single        { return [is_quote $win s $index $extra] }
+      btick         { return [is_quote $win b $index $extra] }
+      tripledouble  { return [is_quote $win D $index $extra] }
+      triplesingle  { return [is_quote $win S $index $extra] }
+      triplebtick   { return [is_quote $win B $index $extra] }
+      indent        -
+      unindent      -
+      reindent      -
+      reindentStart {
+        return [expr [lsearch [$win._t tag names $index] __$type] != -1]
+      }
+      default {
+        return -code error "Unsupported is command type specified"
+      }
+    }
+
+  }
+
+  proc is_quote {win char index side} {
+
+    if {$side eq ""} {
+      set side "any"
+    } elseif {[lsearch [list left right any] $side] == -1} {
+      return -code error "ctext 'is' command $type called with an illegal side value"
+    }
+
+    if {[lsearch [$win._t tag names $index] __${char}Quote*] != -1} {
+      if {$side eq "any"} {
+        return 1
+      } else {
+        set tag   [lsearch -inline [$win._t tag names $index] __comstr0${char}*]
+        set range [$win._t tag prevrange $tag "$index+1c"]
+        return [expr {($side eq "left") ? [$win._t compare [lindex $range 0] == $index] : [$win._t compare [lindex $range 1] == "$index+1c"]}]
+      }
+    }
+
+    return 0
+
+  }
+
   proc command_replace {win args} {
 
     variable data
@@ -1934,7 +2041,8 @@ namespace eval ctext {
           deleteHighlightClass $win {*}$args
         }
       }
-      classes   { return [getHighlightClasses $win] }
+      classes   { return [getHighlightClasses $win {*}$args] }
+
       clear     { clearHighlightClasses $win }
       nextrange { return [nextHighlightClassItem $win {*}$args] }
       prevrange { return [prevHighlightClassItem $win {*}$args] }
@@ -2835,8 +2943,8 @@ namespace eval ctext {
     }
 
     if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns,$lang) __cCommentStart:$lang [join $start_patterns |]
-      lappend data($win,config,csl_patterns,$lang) __cCommentEnd:$lang   [join $end_patterns   |]
+      lappend data($win,config,csl_patterns,$lang) __cCommentStart:$lang [join $start_patterns |] 0
+      lappend data($win,config,csl_patterns,$lang) __cCommentEnd:$lang   [join $end_patterns   |] 0
     }
 
     array set tags [list __cCommentStart:${lang}0 1 __cCommentStart:${lang}1 1 __cCommentEnd:${lang}0 1 __cCommentEnd:${lang}1 1 __comstr1c0 1 __comstr1c1 1]
@@ -2865,7 +2973,7 @@ namespace eval ctext {
     variable data
 
     if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns,$lang) __lCommentStart:$lang [join $patterns |]
+      lappend data($win,config,csl_patterns,$lang) __lCommentStart:$lang [join $patterns |] 0
     }
 
     array set tags [list __lCommentStart:${lang}0 1 __lCommentStart:${lang}1 1 __comstr1l 1]
@@ -2886,40 +2994,65 @@ namespace eval ctext {
 
   }
 
-  proc setStringPatterns {win lang patterns} {
+  proc setStringPatterns {win lang types} {
 
     variable data
 
-    foreach pattern $patterns {
-      switch $pattern {
-        \"      { lappend data($win,config,csl_patterns,$lang) "__dQuote:$lang" $pattern }
-        `       { lappend data($win,config,csl_patterns,$lang) "__bQuote:$lang" $pattern }
-        default { lappend data($win,config,csl_patterns,$lang) "__sQuote:$lang" $pattern }
+    set csl_patterns [list]
+
+    foreach type $types {
+      switch $type {
+        double       { lappend csl_patterns "__dQuote:$lang" \" 1 }
+        tripledouble { lappend csl_patterns "__DQuote:$lang" \"\"\" 0 }
+        btick        { lappend csl_patterns "__bQuote:$lang" `   1 }
+        triplebtick  { lappend csl_patterns "__BQuote:$lang" ``` 0 }
+        single       { lappend csl_patterns "__sQuote:$lang" ' 1  }
+        triplesingle { lappend csl_patterns "__SQuote:$lang" ''' 0 }
+        default      { lappend csl_patterns "__sQuote:$lang" $type 0 }
+        default      {
+          return -code error "Unsupported string type specified ($type)"
+        }
       }
     }
 
     array set tags [list \
       __sQuote:${lang}0 1 __sQuote:${lang}1 1 \
+      __SQuote:${lang}0 1 __SQuote:${lang}1 1 \
       __dQuote:${lang}0 1 __dQuote:${lang}1 1 \
+      __DQuote:${lang}0 1 __DQuote:${lang}1 1 \
       __bQuote:${lang}0 1 __bQuote:${lang}1 1 \
+      __BQuote:${lang}0 1 __BQuote:${lang}1 1 \
       __comstr0s0 1 __comstr0s1 1 \
+      __comstr0S0 1 __comstr0S1 1 \
       __comstr0d0 1 __comstr0d1 1 \
+      __comstr0D0 1 __comstr0D1 1 \
       __comstr0b0 1 __comstr0b1 1 \
+      __comstr0B0 1 __comstr0B1 1 \
     ]
 
-    if {[llength $patterns] > 0} {
+    array set comstr [list \
+      __dQuote:$lang __comstr0d \
+      __DQuote:$lang __comstr0D \
+      __sQuote:$lang __comstr0s \
+      __SQuote:$lang __comstr0S \
+      __bQuote:$lang __comstr0b \
+      __BQuote:$lang __comstr0B \
+    ]
+
+    if {[llength $types] > 0} {
       array set theme $data($win,config,-theme)
-      foreach tag [list __comstr0s0 __comstr0s1 __comstr0d0 __comstr0d1 __comstr0b0 __comstr0b1] {
-        $win tag configure $tag -foreground $theme(strings)
-        $win tag lower $tag _visible
+      foreach {tag pattern adjust} $csl_patterns {
+        foreach rb {0 1} {
+          $win tag configure $comstr($tag)$rb -foreground $theme(strings)
+          $win tag configure $tag$rb
+          $win tag lower $comstr($tag)$rb _visible
+          $win tag lower $tag$rb _invisible
+        }
+        lappend data($win,config,csl_char_tags,$lang) $tag
       }
-      foreach tag [list __sQuote:${lang}0 __sQuote:${lang}1 __dQuote:${lang}0 __dQuote:${lang}1 __bQuote:${lang}0 __bQuote:${lang}1] {
-        $win tag configure $tag
-        $win tag lower $tag _invisible
-      }
-      lappend data($win,config,csl_char_tags,$lang) __sQuote:$lang __dQuote:$lang __bQuote:$lang
+      lappend data($win,config,csl_patterns,$lang)  {*}$csl_patterns
       lappend data($win,config,csl_array)           {*}[array get tags]
-      lappend data($win,config,csl_tag_pair)        __sQuote:$lang __comstr0s __dQuote:$lang __comstr0d __bQuote:$lang __comstr0b
+      lappend data($win,config,csl_tag_pair)        {*}[array get comstr]
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
@@ -2930,7 +3063,7 @@ namespace eval ctext {
 
     variable data
 
-    lappend data($win,config,csl_patterns,) __LangStart:$lang $start_pattern __LangEnd:$lang $end_pattern
+    lappend data($win,config,csl_patterns,) __LangStart:$lang $start_pattern 0 __LangEnd:$lang $end_pattern 0
     lappend data($win,config,langs) $lang
 
     array set theme $data($win,config,-theme)
@@ -3090,7 +3223,7 @@ namespace eval ctext {
           set startrow [lindex [split $pstart .] 0]
 
           # First, tag all string/comment patterns found between start and end
-          foreach {tag pattern} $data($win,config,csl_patterns,$lang) {
+          foreach {tag pattern adjust} $data($win,config,csl_patterns,$lang) {
             array set indices {0 {} 1 {}}
             set i   0
             set row $startrow
@@ -3105,7 +3238,7 @@ namespace eval ctext {
                     set diff  [expr [string length $match] - [string length [string trimleft $match]]]
                     lappend indices([expr $i & 1]) $row.[expr $scol + $diff] $row.$col
                   } else {
-                    lappend indices([expr $i & 1]) $row.$scol $row.$col
+                    lappend indices([expr $i & 1]) $row.[expr $scol + $adjust] $row.$col
                   }
                 }
                 incr i
@@ -3115,6 +3248,7 @@ namespace eval ctext {
             foreach j {0 1} {
               if {$indices($j) ne [getTagInRange $win $tag$j $pstart $pend]} {
                 $win._t tag remove $tag$j $pstart $pend
+                puts "Setting tag: $tag$j to $indices($j)"
                 catch { $win._t tag add $tag$j {*}$indices($j) }
                 set tag_changed($tag) 1
               }
@@ -3145,6 +3279,7 @@ namespace eval ctext {
           if {[info exists data($win,config,csl_char_tags,$lang)]} {
             foreach char_tag $data($win,config,csl_char_tags,$lang) {
               set index $langstart
+              puts "char_tag: $char_tag$i, ranges: [$win tag ranges $char_tag$i]"
               while {([set char_end [lassign [$win tag nextrange $char_tag$i $index] char_start]] ne "") && [$win compare $char_end <= $langend]} {
                 lappend char_tags [list $char_start $char_end $char_tag]
                 set index $char_end
@@ -3155,6 +3290,7 @@ namespace eval ctext {
 
         # Sort the char tags
         set char_tags [lsort -dictionary -index 0 $char_tags]
+        # puts "char_tags: $char_tags"
 
         # Create the tag lists
         set curr_lang       $lang
@@ -3197,19 +3333,37 @@ namespace eval ctext {
             }
           } elseif {$curr_char_tag eq "__dQuote:$curr_lang"} {
             if {$char_tag eq "__dQuote:$curr_lang"} {
-              lappend tags(__comstr0d$rb) $curr_char_start $char_end
+              lappend tags(__comstr0d$rb) "$curr_char_start-1c" $char_end
               set curr_char_tag ""
               set rb [expr $rb ^ 1]
             }
           } elseif {$curr_char_tag eq "__sQuote:$curr_lang"} {
             if {$char_tag eq "__sQuote:$curr_lang"} {
-              lappend tags(__comstr0s$rb) $curr_char_start $char_end
+              lappend tags(__comstr0s$rb) "$curr_char_start-1c" $char_end
               set curr_char_tag ""
               set rb [expr $rb ^ 1]
             }
           } elseif {$curr_char_tag eq "__bQuote:$curr_lang"} {
             if {$char_tag eq "__bQuote:$curr_lang"} {
-              lappend tags(__comstr0b$rb) $curr_char_start $char_end
+              lappend tags(__comstr0b$rb) "$curr_char_start-1c" $char_end
+              set curr_char_tag ""
+              set rb [expr $rb ^ 1]
+            }
+          } elseif {$curr_char_tag eq "__DQuote:$curr_lang"} {
+            if {$char_tag eq "__DQuote:$curr_lang"} {
+              lappend tags(__comstr0D$rb) $curr_char_start $char_end
+              set curr_char_tag ""
+              set rb [expr $rb ^ 1]
+            }
+          } elseif {$curr_char_tag eq "__SQuote:$curr_lang"} {
+            if {$char_tag eq "__SQuote:$curr_lang"} {
+              lappend tags(__comstr0S$rb) $curr_char_start $char_end
+              set curr_char_tag ""
+              set rb [expr $rb ^ 1]
+            }
+          } elseif {$curr_char_tag eq "__BQuote:$curr_lang"} {
+            if {$char_tag eq "__BQuote:$curr_lang"} {
+              lappend tags(__comstr0B$rb) $curr_char_start $char_end
               set curr_char_tag ""
               set rb [expr $rb ^ 1]
             }
@@ -3677,14 +3831,24 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Returns the highlight classes that are stored in the widget.
-  proc getHighlightClasses {win} {
+  # Returns the highlight classes that are stored in the widget or at the
+  # provided index (if specified).
+  proc getHighlightClasses {win {index ""}} {
 
     variable data
 
-    set classes [list]
-    foreach class [array names data $win,classopts,*] {
-      lappend classes [lindex [split $class ,] 2]
+    if {$index eq ""} {
+      set classes [list]
+      foreach class [array names data $win,classopts,*] {
+        lappend classes [lindex [split $class ,] 2]
+      }
+    } else {
+      foreach tag [$win._t tag names $index] {
+        set t [string range $tag 2 end]
+        if {[info exists data($win,classopts,$t)]} {
+          lappend classes $t
+        }
+      }
     }
 
     return $classes

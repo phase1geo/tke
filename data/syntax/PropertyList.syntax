@@ -28,7 +28,7 @@ icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}}}
 
-strings {{"}}
+strings {double}
 
 keywords {
 }
