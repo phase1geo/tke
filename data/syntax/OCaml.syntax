@@ -26,7 +26,7 @@ unindent
 
 bcomments {{{\(\*} {\*\)}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

@@ -28,7 +28,7 @@ icomment {{^\*\s}}
 
 lcomments {{^(c|\*)\s}}
 
-strings {{'}}
+strings {single}
 
 keywords
 {

@@ -34,7 +34,7 @@ lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'} {`}}
+strings {double single btick}
 
 keywords
 {

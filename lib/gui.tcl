@@ -5558,9 +5558,9 @@ namespace eval gui {
       "\)"    { set index [ctext::getMatchBracket $txt parenL] }
       "\<"    { set index [ctext::getMatchBracket $txt angledR] }
       "\>"    { set index [ctext::getMatchBracket $txt angledL] }
-      "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString*] == -1) ? "-forwards" : "-backwards"}]] }
-      "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString*] == -1) ? "-forwards" : "-backwards"}]] }
-      "`"     { set index [find_match_char $txt "`"  [expr {([lsearch [$txt tag names insert-1c] _bString*] == -1) ? "-forwards" : "-backwards"}]]}
+      "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] __dQuote*] == -1) ? "-forwards" : "-backwards"}]] }
+      "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] __sQuote*] == -1) ? "-forwards" : "-backwards"}]] }
+      "`"     { set index [find_match_char $txt "`"  [expr {([lsearch [$txt tag names insert-1c] __bQuote*] == -1) ? "-forwards" : "-backwards"}]]}
       default { set index [find_match_pair $txt {*}[lrange [syntax::get_indentation_expressions $txt] 0 1] -backwards] }
     }
 

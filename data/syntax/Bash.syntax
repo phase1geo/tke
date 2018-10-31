@@ -22,7 +22,7 @@ icomment {{#}}
 
 lcomments {{^[ \t]*#}}
 
-strings {{"} {'} {`}}
+strings {double single btick}
 
 keywords
 {

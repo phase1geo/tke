@@ -30,7 +30,7 @@ lcomments {{#}}
 
 bcomments {}
 
-strings {{"}}
+strings {double}
 
 keywords
 {

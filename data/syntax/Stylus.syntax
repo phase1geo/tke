@@ -29,7 +29,7 @@ lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {

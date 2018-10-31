@@ -24,7 +24,7 @@ icomment {{#}}
 
 lcomments {{^[ \t]*#} {;#}}
 
-strings {{"}}
+strings {double}
 
 numbers
 {

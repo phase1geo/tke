@@ -1795,7 +1795,7 @@ namespace eval select {
   # Returns the range of the specified bracket's parent bracket.
   proc bracket_parent {txtt type startpos endpos} {
 
-    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+    if {[lsearch [$txtt syntax names $startpos] _${type}L] != -1} {
       set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos]
       if {[$txtt compare $right == $endpos-1c]} {
         if {[lsearch [$txtt tag names $startpos-1c] _${type}L] != -1} {
