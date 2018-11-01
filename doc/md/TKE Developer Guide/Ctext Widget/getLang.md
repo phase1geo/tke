@@ -21,5 +21,5 @@ Returns the empty string if the syntax located at the given index is the primary
 
 ```Tcl
 # Get the language used at index 5.2 of the text widget
-set lang [ctext::getLang $txt 5.2] 
+set lang [ctext::getLang $txt 5.2]
 ```

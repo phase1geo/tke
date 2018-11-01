@@ -3763,10 +3763,10 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {[string trim [set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" 0]]]] ne ""} {
-        catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
         array set theme [theme::get_syntax_colors]
-        ctext::highlightSearch [winfo parent $txtt] search $word
-        $txtt tag lower _search sel
+        catch { $txtt syntax delete search }
+        $txtt syntax addclass search -fgtheme search_foreground -bgtheme search_background -highpriority 1
+        $txtt syntax search   search $word
         search::find_next [winfo parent $txtt]
       }
     }

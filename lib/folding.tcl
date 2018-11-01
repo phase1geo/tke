@@ -177,7 +177,7 @@ namespace eval folding {
   proc restart {txt} {
 
     $txt.t tag configure __folded -elide 1
-    $txt.t tag lower __folded _invisible
+    $txt.t tag place __folded invisible
 
   }
 

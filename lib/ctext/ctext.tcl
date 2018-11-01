@@ -174,8 +174,12 @@ namespace eval ctext {
     # Add default classes
     $win.t tag configure __escape
     $win.t tag configure __prewhite
-    $win.t tag lower __escape _invisible
+    $win.t tag configure rmargin
+    $win.t tag configure lmargin
+    $win.t tag lower __escape   _invisible
     $win.t tag lower __prewhite _invisible
+    $win.t tag lower rmargin    _invisible
+    $win.t tag lower lmargin    _invisible
 
     # If -matchchar is set, create the tag
     if {$data($win,config,-matchchar)} {
@@ -606,6 +610,7 @@ namespace eval ctext {
       foreach type [list curly square paren angled] {
         if {[lsearch [$win tag names] missing:$type] != -1} {
           $win tag configure missing:$type -background $value
+          $win tag raise missing:$type _visible
         }
       }
       break
@@ -1549,7 +1554,7 @@ namespace eval ctext {
 
         # Colorize the *D* tag
         $win._t tag configure diff:A:D:$fline -background $data($win,config,-diffaddbg)
-        $win._t tag lower diff:A:D:$fline
+        $win._t tag lower diff:A:D:$fline _invisible
       }
       line {
         if {[llength $args] != 2} {
@@ -1633,7 +1638,7 @@ namespace eval ctext {
 
         # Colorize the *D* tag
         $win._t tag configure diff:B:D:$fline -background $data($win,config,-diffsubbg)
-        $win._t tag lower diff:B:D:$fline
+        $win._t tag lower diff:B:D:$fline _invisible
       }
     }
     linemapUpdate $win 1
@@ -2102,37 +2107,30 @@ namespace eval ctext {
 
     variable range_cache
 
-    switch [lindex $args 0] {
-      lower {
-        set args [lassign $args subcmd tag]
-        if {($tag ne "") && ([string range $tag 0 5] eq "__Lang=")} {
-          $win._t tag lower $tag {*}$args
-        } elseif {[string range $tag 0 5] eq "__Lang:"} {
-          if {[set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] __Lang=*] end]] ne ""} {
-            $win._t tag raise $tag $lowest
+    set args [lassign $args subcmd]
+
+    switch $subcmd {
+      place {
+        set args [lassign $args tag]
+        if {[llength $args] == 0} {
+          array set opts [$win._t tag configure $tag]
+          if {($opts(-background) ne "") || ($opts(-foreground) ne "") || ($opts(-font) ne "")} {
+            $win._t tag lower $tag _visible
           } else {
-            $win._t tag lower $tag {*}$args
+            $win._t tag lower $tag _invisible
           }
         } else {
-          set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] __Lang:*] end]
-          if {($lowest ne "") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
-            $win._t tag raise $tag $lowest
-          } else {
-            $win._t tag lower $tag {*}$args
+          switch [lindex $args 0] {
+            visible   { $win._t tag lower $tag _visible }
+            invisible { $win._t tag lower $tag _invisible }
+            priority  { $win._t tag rase  $tag _visible }
+            default   { return -code error "Invalid tag place value ([lindex $args 0])" }
           }
         }
-        return
-      }
-      raise {
-        set args [lassign $args subcmd tag]
-        if {($tag ne "") && ([string range $tag 0 5] ne "__Lang:")} {
-          $win._t tag raise $tag {*}$args
-        }
-        return
       }
       nextrange -
       prevrange {
-        set args0 [set args1 [lassign $args subcmd tag]]
+        set args0        [set args1 [lassign $args tag]]
         set indent_tags  [list __indent __unindent __reindent __reindentStart]
         set bracket_tags [list __curlyL __curlyR __squareL __squareR __parenL __parenR __angledL __angledR]
         if {[string map [list $tag {}] $indent_tags] ne $indent_tags} {
@@ -2168,14 +2166,8 @@ namespace eval ctext {
           } else {
             if {$s1 eq ""} {
               return [list $s0 $e0]
-            } elseif {$subcmd eq "nextrange"} {
-              if {[$win._t compare $s0 < $s1]} {
-                return [list $s0 $e0]
-              } else {
-                return [list $s1 $e1]
-              }
             } else {
-              if {[$win._t compare $s0 > $s1]} {
+              if {[$win._t compare $s0 [expr {($subcmd eq "nextrange") ? "<" : ">"}] $s1]} {
                 return [list $s0 $e0]
               } else {
                 return [list $s1 $e1]
@@ -2211,7 +2203,7 @@ namespace eval ctext {
         }
       }
       ranges {
-        set tag          [lindex $args 1]
+        set tag          [lindex $args 0]
         set bracket_tags [list __curlyL __curlyR __squareL __squareR __parenL __parenR __angledL __angledR]
         if {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
           if {![info exists range_cache($win,$tag)]} {
@@ -2230,7 +2222,7 @@ namespace eval ctext {
         }
       }
       default {
-        return [$win._t tag {*}$args]
+        return [$win._t tag $subcmd {*}$args]
       }
     }
 
@@ -2613,6 +2605,7 @@ namespace eval ctext {
     foreach matchChar [list curly square paren angled] {
       if {[info exists data($win,config,matchChar,$lang,$matchChar)]} {
         $win._t tag configure missing:$matchChar -background $data($win,config,-matchaudit_bg)
+        $win._t tag raise missing:$matchChar _visible
       }
     }
 
@@ -3107,9 +3100,9 @@ namespace eval ctext {
     array set theme $data($win,config,-theme)
 
     $win tag configure __Lang:$lang
-    $win tag lower     __Lang:$lang
+    $win tag lower     __Lang:$lang _invisible
     $win tag configure __Lang=$lang -background $theme(embedded)
-    $win tag lower     __Lang=$lang
+    $win tag raise     __Lang=$lang _invisible
 
     lappend data($win,config,csl_char_tags,) __LangStart:$lang __LangEnd:$lang
     lappend data($win,config,csl_array)      __LangStart:${lang}0 1 __LangStart:${lang}1 1 __LangEnd:${lang}0 1 __LangEnd:${lang}1 1 __Lang:$lang 1
@@ -3633,9 +3626,11 @@ namespace eval ctext {
           while {[regexp {*}$re_opts -indices -start $col -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
             if {![catch { {*}$value $win $row $line [array get var] $ins } retval] && ([llength $retval] == 2)} {
               lassign $retval rtags goback
+              puts "rtags: $rtags, goback: $goback, immediate: [array get data $win,classimmediate,*]"
               if {([llength $rtags] % 3) == 0} {
                 foreach {rtag rstart rend} $rtags {
                   if {$data($win,classimmediate,$rtag)} {
+                    puts "Tagging __$rtag! $row.$rstart $row.[expr $rend + 1]"
                     $win tag add __$rtag $row.$rstart $row.[expr $rend + 1]
                   } else {
                     dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
