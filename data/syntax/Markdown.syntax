@@ -28,25 +28,28 @@ casesensitive
 {1}
 
 advanced {
-  HighlightClass bold    {-fgtheme keywords       -fontopts bold}
-  HighlightClass italics {-fgtheme keywords       -fontopts italics}
-  HighlightClass super   {-fgtheme numbers        -fontopts superscript}
-  HighlightClass sub     {-fgtheme numbers        -fontopts subscript}
-  HighlightClass h1      {-fgtheme miscellaneous2 -fontopts h1}
-  HighlightClass h2      {-fgtheme miscellaneous2 -fontopts h2}
-  HighlightClass h3      {-fgtheme miscellaneous2 -fontopts h3}
-  HighlightClass h4      {-fgtheme miscellaneous2 -fontopts h4}
-  HighlightClass h5      {-fgtheme miscellaneous2 -fontopts h5}
-  HighlightClass h6      {-fgtheme miscellaneous2 -fontopts h6}
-  HighlightClass quote   {-fgtheme punctuation}
-  HighlightClass ref     {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_reflink_click}
-  HighlightClass url     {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_urllink_click}
-  HighlightClass code    {-fgtheme precompile     -fontopts code}
-  HighlightClass ccode   {-fgtheme precompile     -fontopts code}
-  HighlightClass strike  {-fontopts overstrike}
-  HighlightClass hilite  {-fgtheme background -bgtheme highlighter}
-  HighlightClass meta    {-fgtheme meta}
-  HighlightClass check   {-clickcmd syntax::markdown::handle_checkbox_click}
+  HighlightClass bold          {-fgtheme keywords       -fontopts bold}
+  HighlightClass italics       {-fgtheme keywords       -fontopts italics}
+  HighlightClass super         {-fgtheme numbers        -fontopts superscript}
+  HighlightClass sub           {-fgtheme numbers        -fontopts subscript}
+  HighlightClass h1            {-fgtheme miscellaneous2 -fontopts h1}
+  HighlightClass h2            {-fgtheme miscellaneous2 -fontopts h2}
+  HighlightClass h3            {-fgtheme miscellaneous2 -fontopts h3}
+  HighlightClass h4            {-fgtheme miscellaneous2 -fontopts h4}
+  HighlightClass h5            {-fgtheme miscellaneous2 -fontopts h5}
+  HighlightClass h6            {-fgtheme miscellaneous2 -fontopts h6}
+  HighlightClass quote         {-fgtheme punctuation}
+  HighlightClass ref           {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_reflink_click}
+  HighlightClass url           {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_urllink_click}
+  HighlightClass code          {-fgtheme precompile     -fontopts code}
+  HighlightClass ccode         {-fgtheme precompile     -fontopts code}
+  HighlightClass strike        {-fontopts overstrike}
+  HighlightClass hilite        {-fgtheme background -bgtheme highlighter}
+  HighlightClass meta          {-fgtheme meta}
+  HighlightClass check         {-clickcmd syntax::markdown::handle_checkbox_click}
+  HighlightClass codemarkers   {-immediate 1}
+  HighlightClass boldmarkers   {-immediate 1}
+  HighlightClass strikemarkers {-immediate 1}
 
   HighlightRegexp {(``)(.+?)(``)}                          ccode
   HighlightRegexp {(`)(.+?)(`)}                            code
@@ -66,7 +69,7 @@ advanced {
 
   HighlightProc ccode {
     array set vars $varlist
-    $txt tag remove _code $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+    $txt syntax clear code $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
     return [list [list ccode       {*}$vars(2) \
                        codemarkers {*}$vars(1) \
                        codemarkers {*}$vars(3) \
@@ -76,8 +79,8 @@ advanced {
 
   HighlightProc code {
     array set vars $varlist
-    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _codemarkers] == -1) && \
-        ([lsearch [$txt tag names $row.[lindex $vars(0) 1] _codemarkers] == -1)} {
+    if {![$txt syntax contains codemarkers $row.[lindex $vars(0) 0]] && \
+        ![$txt syntax contains codemarkers $row.[lindex $vars(0) 1]]} {
       return [list [list code {*}$vars(2) \
                          meta {*}$vars(1) \
                          meta {*}$vars(3)] ""]
@@ -102,7 +105,7 @@ advanced {
   HighlightProc bold {
     array set vars $varlist
     if {![ctext::isEscaped $txt $row.[lindex $vars(0) 0]]} {
-      $txt tag remove _italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+      $txt syntax clear italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
       return [list [list bold        {*}$vars(2) \
                          boldmarkers {*}$vars(1) \
                          boldmarkers {*}$vars(4) \
@@ -115,9 +118,9 @@ advanced {
 
   HighlightProc italics {
     array set vars $varlist
-    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0]] _boldmarkers] == -1) && \
-        ([lsearch [$txt tag names $row.[lindex $vars(0) 1]] _boldmarkers] == -1) && \
-        ![ctext::isEscaped $txt $row.[lindex $vars(1) 0]]} {
+    if {![$txt syntax contains boldmarkers $row.[lindex $vars(0) 0]] && \
+        ![$txt syntax contains boldmarkers $row.[lindex $vars(0) 1]] && \
+        ![$txt is escaped $row.[lindex $vars(1) 0]]} {
       return [list [list italics {*}$vars(2) \
                          meta    {*}$vars(1) \
                          meta    {*}$vars(4)] ""]
@@ -144,8 +147,8 @@ advanced {
 
   HighlightProc subscript {
     array set vars $varlist
-    if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _strikemarkers] == -1) && \
-        ([lsearch [$txt tag names $row.[lindex $vars(0) 1] _strikemarkers] == -1)} {
+    if {![$txt syntax contains strikemarkers $row.[lindex $vars(0) 0]] && \
+        ![$txt syntax contains strikemarkers $row.[lindex $vars(0) 1]]} {
       return [list [list sub  {*}$vars(2) \
                          meta {*}$vars(1) \
                          meta {*}$vars(4)] ""]

@@ -13,7 +13,7 @@ to be highly performant so its use is encouraged over doing the check manually.
 
 Returns true if the character at the given index is escaped.
 
-**Parmaters**
+**Parameters**
 
 | Parameter | Description |
 | - | - |
