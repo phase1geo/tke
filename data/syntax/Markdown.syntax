@@ -104,8 +104,11 @@ advanced {
 
   HighlightProc bold {
     array set vars $varlist
-    if {![ctext::isEscaped $txt $row.[lindex $vars(0) 0]]} {
-      $txt syntax clear italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+    puts "Parsed bold, row: $row, varlist: $varlist"
+    if {![$txt is escaped $row.[lindex $vars(0) 0]]} {
+      puts "  Not escaped!"
+      catch { $txt syntax clear italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1] }
+      puts "  After italics is cleared"
       return [list [list bold        {*}$vars(2) \
                          boldmarkers {*}$vars(1) \
                          boldmarkers {*}$vars(4) \
@@ -118,6 +121,7 @@ advanced {
 
   HighlightProc italics {
     array set vars $varlist
+    puts "Parsed italics, row: $row, varlist: $varlist"
     if {![$txt syntax contains boldmarkers $row.[lindex $vars(0) 0]] && \
         ![$txt syntax contains boldmarkers $row.[lindex $vars(0) 1]] && \
         ![$txt is escaped $row.[lindex $vars(1) 0]]} {

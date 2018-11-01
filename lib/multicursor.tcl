@@ -36,6 +36,7 @@ namespace eval multicursor {
 
     # Create tag for the multicursor stuff
     $txt tag configure mcursor -underline 1
+    $txt tag place mcursor visible
 
     # Create multicursor bindings
     bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
