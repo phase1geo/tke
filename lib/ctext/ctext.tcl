@@ -3079,7 +3079,7 @@ namespace eval ctext {
 
     variable data
 
-    lappend data($win,config,csl_patterns,) __LangStart:$lang "" $start_pattern __LangEnd:$lang "" $end_pattern
+    lappend data($win,config,csl_patterns,) __LangStart:$lang "" ($start_pattern) __LangEnd:$lang "" ($end_pattern)
     lappend data($win,config,langs) $lang
 
     array set theme $data($win,config,-theme)
@@ -3212,8 +3212,6 @@ namespace eval ctext {
     array set tag_changed $do_tags
     set retval 0
 
-    puts "In comments"
-
     # Go through each language
     foreach lang $data($win,config,langs) {
 
@@ -3226,8 +3224,6 @@ namespace eval ctext {
       } else {
         set lranges [$win._t tag ranges "__Lang:$lang"]
       }
-
-      puts "  lang: $lang"
 
       # Perform highlighting for each range
       foreach {langstart langend} $lranges {
@@ -3290,7 +3286,6 @@ namespace eval ctext {
 
         # Initialize tags
         array unset tags
-        array unset dtags
         set char_tags [list]
 
         # Gather the list of comment ranges in the char_tags list
@@ -3404,7 +3399,6 @@ namespace eval ctext {
         }
 
         # Delete old tags
-        puts "Deleting tag_pairs: [array get tag_pairs]"
         foreach {char_tag tag} [array get tag_pairs] {
           foreach j {0 1} {
             $win._t tag remove $tag$j $langstart $langend
@@ -3708,7 +3702,7 @@ namespace eval ctext {
 
   }
 
-  proc addHighlightRegexp {win re type value {lang ""}} {
+  proc addHighlightRegexp {win type value re {lang ""}} {
 
     variable data
 
@@ -3724,7 +3718,7 @@ namespace eval ctext {
   }
 
   # For things like $blah
-  proc addHighlightWithOnlyCharStart {win char type value {lang ""}} {
+  proc addHighlightWithOnlyCharStart {win type value char {lang ""}} {
 
     variable data
 
