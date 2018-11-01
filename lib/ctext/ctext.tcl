@@ -2042,8 +2042,30 @@ namespace eval ctext {
         }
       }
       classes   { return [getHighlightClasses $win {*}$args] }
-
-      clear     { clearHighlightClasses $win }
+      clear     {
+        switch [llength $args] {
+          0 {
+            foreach class [getHighlightClasses $win] {
+              $txt tag remove __$class 1.0 end
+            }
+          }
+          1 {
+            $txt tag remove __$class 1.0 end
+          }
+          2 {
+            foreach class [getHighlightClasses $win] {
+              $txt tag remove __$class {*}$args
+            }
+          }
+          3 {
+            $txt tag remove __[lindex $args 0] {*}[lrange $args 1 end]
+          }
+          default {
+            return -code error "Invalid arguments passed to syntax clear command"
+          }
+        }
+      }
+      contains  { return [expr [lsearch [$win._t tag names [lindex $args 1]] [lindex $args 0]] != -1] }
       nextrange { return [nextHighlightClassItem $win {*}$args] }
       prevrange { return [prevHighlightClassItem $win {*}$args] }
       ranges    { return [$win._t tag ranges __[lindex $args 0]] }
@@ -3595,7 +3617,7 @@ namespace eval ctext {
     # Handle regular expression matching
     foreach name $data($win,highlight,regexps,$lang) {
       lassign [split $name ,] dummy1 type dummy2 value
-      lassign $data($win,highlight,$name) re re_opts
+      lassign $data($win,highlight,$name) re re_opts immediate
       set i 0
       if {$type eq "class"} {
         foreach res [$win._t search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end] {
@@ -3613,7 +3635,11 @@ namespace eval ctext {
               lassign $retval rtags goback
               if {([llength $rtags] % 3) == 0} {
                 foreach {rtag rstart rend} $rtags {
-                  dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
+                  if {$data($win,classimmediate,$rtag)} {
+                    $win tag add __$rtag $row.$rstart $row.[expr $rend + 1]
+                  } else {
+                    dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
+                  }
                 }
               }
               set col [expr {($goback ne "") ? $goback : ([lindex $var(0) 1] + 1)}]
@@ -3772,10 +3798,11 @@ namespace eval ctext {
       -fontopts     ""
       -clickcmd     ""
       -highpriority 0
+      -immediate    0
     }
     array set opts $args
 
-    # Configure the class tag and make it lower than the sel tag
+    # Configure the class tag and place it in the correct position in the tag stack
     $win._t tag configure __$class
     if {($opts(-fgtheme) eq "") && ($opts(-bgtheme) eq "") && ($opts(-fontopts) eq "")} {
       $win._t tag lower __$class _invisible
@@ -3789,7 +3816,8 @@ namespace eval ctext {
     }
 
     # Save the class name and options
-    set data($win,classopts,$class) [array get opts]
+    set data($win,classopts,$class)      [array get opts]
+    set data($win,classimmediate,$class) $opts(-immediate)
 
     # Apply the class theming information
     applyClassTheme $win $class
@@ -3852,6 +3880,7 @@ namespace eval ctext {
 
     array unset data $win,highlight,*,class,__$class
     unset data($win,classopts,$class)
+    unset data($win,classimmediate,$class)
 
     $win._t tag delete __$class 1.0 end
 
