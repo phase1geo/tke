@@ -69,7 +69,7 @@ advanced {
 
   HighlightProc ccode {
     array set vars $varlist
-    $txt syntax clear code $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
+    catch { $txt syntax clear code $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1] }
     return [list [list ccode       {*}$vars(2) \
                        codemarkers {*}$vars(1) \
                        codemarkers {*}$vars(3) \
@@ -104,16 +104,13 @@ advanced {
 
   HighlightProc bold {
     array set vars $varlist
-    puts "Parsed bold, row: $row, varlist: $varlist"
     if {![$txt is escaped $row.[lindex $vars(0) 0]]} {
-      puts "  Not escaped!"
       catch { $txt syntax clear italics $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1] }
-      puts "  After italics is cleared"
       return [list [list bold        {*}$vars(2) \
                          boldmarkers {*}$vars(1) \
-                         boldmarkers {*}$vars(4) \
+                         boldmarkers {*}$vars(3) \
                          meta        {*}$vars(1) \
-                         meta        {*}$vars(4)] ""]
+                         meta        {*}$vars(3)] ""]
     } else {
       return ""
     }
@@ -121,13 +118,12 @@ advanced {
 
   HighlightProc italics {
     array set vars $varlist
-    puts "Parsed italics, row: $row, varlist: $varlist"
     if {![$txt syntax contains boldmarkers $row.[lindex $vars(0) 0]] && \
         ![$txt syntax contains boldmarkers $row.[lindex $vars(0) 1]] && \
         ![$txt is escaped $row.[lindex $vars(1) 0]]} {
       return [list [list italics {*}$vars(2) \
                          meta    {*}$vars(1) \
-                         meta    {*}$vars(4)] ""]
+                         meta    {*}$vars(3)] ""]
     } else {
       return [list [list] [lindex $vars(2) 0]]
     }
@@ -135,18 +131,23 @@ advanced {
 
   HighlightProc overstrike {
     array set vars $varlist
-    return [list [list strike        {*}$vars(2) \
-                       strikemarkers {*}$vars(1) \
-                       strikemarkers {*}$vars(4) \
-                       meta          {*}$vars(1) \
-                       meta          {*}$vars(4)] ""]
+    if {![$txt is escaped $row.[lindex $vars(0) 0]]} {
+      catch { $txt syntax clear subscript $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1] }
+      return [list [list strike        {*}$vars(2) \
+                         strikemarkers {*}$vars(1) \
+                         strikemarkers {*}$vars(3) \
+                         meta          {*}$vars(1) \
+                         meta          {*}$vars(3)] ""]
+    } else {
+      return ""
+    }
   } HighlightEndProc
 
   HighlightProc highlight {
     array set vars $varlist
     return [list [list hilite {*}$vars(2) \
                        meta   {*}$vars(1) \
-                       meta   {*}$vars(4)] ""]
+                       meta   {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc subscript {
@@ -155,7 +156,7 @@ advanced {
         ![$txt syntax contains strikemarkers $row.[lindex $vars(0) 1]]} {
       return [list [list sub  {*}$vars(2) \
                          meta {*}$vars(1) \
-                         meta {*}$vars(4)] ""]
+                         meta {*}$vars(3)] ""]
     } else {
       return [list [list] [lindex $vars(2) 0]]
     }
@@ -165,21 +166,21 @@ advanced {
     array set vars $varlist
     return [list [list super {*}$vars(2) \
                        meta  {*}$vars(1) \
-                       meta  {*}$vars(4)] ""]
+                       meta  {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc reflink {
     array set vars $varlist
-    return [list [list link {*}$vars(2) \
+    return [list [list ref  {*}$vars(2) \
                        meta {*}$vars(1) \
                        meta {*}$vars(3) \
-                       ref  {*}$vars(4) \
+                       meta {*}$vars(4) \
                        meta {*}$vars(5)] ""]
   } HighlightEndProc
 
   HighlightProc urllink {
     array set vars $varlist
-    return [list [list link {*}$vars(2) \
+    return [list [list ref  {*}$vars(2) \
                        meta {*}$vars(1) \
                        meta {*}$vars(3) \
                        url  {*}$vars(4) \
