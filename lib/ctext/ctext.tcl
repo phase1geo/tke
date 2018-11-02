@@ -2051,26 +2051,26 @@ namespace eval ctext {
         switch [llength $args] {
           0 {
             foreach class [getHighlightClasses $win] {
-              $txt tag remove __$class 1.0 end
+              $win tag remove __$class 1.0 end
             }
           }
           1 {
-            $txt tag remove __$class 1.0 end
+            $win tag remove __$class 1.0 end
           }
           2 {
             foreach class [getHighlightClasses $win] {
-              $txt tag remove __$class {*}$args
+              $win tag remove __$class {*}$args
             }
           }
           3 {
-            $txt tag remove __[lindex $args 0] {*}[lrange $args 1 end]
+            $win tag remove __[lindex $args 0] {*}[lrange $args 1 end]
           }
           default {
             return -code error "Invalid arguments passed to syntax clear command"
           }
         }
       }
-      contains  { return [expr [lsearch [$win._t tag names [lindex $args 1]] [lindex $args 0]] != -1] }
+      contains  { return [expr [lsearch [$win._t tag names [lindex $args 1]] __[lindex $args 0]] != -1] }
       nextrange { return [nextHighlightClassItem $win {*}$args] }
       prevrange { return [prevHighlightClassItem $win {*}$args] }
       ranges    { return [$win._t tag ranges __[lindex $args 0]] }
@@ -3619,6 +3619,7 @@ namespace eval ctext {
           incr i
         }
       } else {
+        array unset itags
         set row $startrow
         foreach line $lines {
           set col 0
@@ -3626,12 +3627,10 @@ namespace eval ctext {
           while {[regexp {*}$re_opts -indices -start $col -- $re $line var(0) var(1) var(2) var(3) var(4) var(5) var(6) var(7) var(8) var(9)] && ([lindex $var(0) 0] <= [lindex $var(0) 1])} {
             if {![catch { {*}$value $win $row $line [array get var] $ins } retval] && ([llength $retval] == 2)} {
               lassign $retval rtags goback
-              puts "rtags: $rtags, goback: $goback, immediate: [array get data $win,classimmediate,*]"
               if {([llength $rtags] % 3) == 0} {
                 foreach {rtag rstart rend} $rtags {
                   if {$data($win,classimmediate,$rtag)} {
-                    puts "Tagging __$rtag! $row.$rstart $row.[expr $rend + 1]"
-                    $win tag add __$rtag $row.$rstart $row.[expr $rend + 1]
+                    lappend itags(__$rtag) $row.$rstart $row.[expr $rend + 1]
                   } else {
                     dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
                   }
@@ -3643,6 +3642,9 @@ namespace eval ctext {
             }
           }
           incr row
+        }
+        foreach tag [array names itags] {
+          $win._t tag add $tag {*}$itags($tag)
         }
       }
     }

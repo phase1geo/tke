@@ -145,8 +145,13 @@ namespace eval syntax {
     if {![catch { open $sfile r } rc]} {
 
       # Read in the file information
-      array set lang_array [read $rc]
+      set contents [read $rc]
       close $rc
+
+      # Parse the file contents but if there was an error, just return without adding the syntax
+      if {[catch { array set lang_array $contents } rc]} {
+        return
+      }
 
       # Format the extension information
       set extensions [list]
