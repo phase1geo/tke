@@ -9,8 +9,9 @@ reference
   {{Toolkit Documentation} http://docs.nvidia.com/cuda/#axzz4YXesizWJ}
 }
 
-embedded
-{{C}}
+embedded {
+  {C {}}
+}
 
 matchcharsallowed
 {curly paren square double}

@@ -8,8 +8,7 @@ reference {}
 
 embedded
 {
-  {Tcl {TclBegin} {TclEnd}}
-  {Tcl {HighlightProc} {HighlightEndProc}}
+  {Tcl {{HighlightProc HighlightEndProc} {TclBegin TclEnd}}}
 }
 
 delimiters

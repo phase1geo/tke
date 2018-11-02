@@ -3090,11 +3090,18 @@ namespace eval ctext {
 
   }
 
-  proc setEmbedLangPattern {win lang start_pattern end_pattern} {
+  proc setEmbedLangPattern {win lang patterns} {
 
     variable data
 
-    lappend data($win,config,csl_patterns,) __LangStart:$lang "" ($start_pattern) __LangEnd:$lang "" ($end_pattern)
+    # Coallesce the start/end patterns
+    foreach pattern $patterns {
+      lassign $pattern spat epat
+      lappend start_patterns $spat
+      lappend end_patterns $epat
+    }
+
+    lappend data($win,config,csl_patterns,) __LangStart:$lang "" ([join $start_patterns |]) __LangEnd:$lang "" ([join $end_patterns |])
     lappend data($win,config,langs) $lang
 
     array set theme $data($win,config,-theme)
@@ -3227,6 +3234,8 @@ namespace eval ctext {
     array set tag_changed $do_tags
     set retval 0
 
+    puts "do_tags: $do_tags"
+
     # Go through each language
     foreach lang $data($win,config,langs) {
 
@@ -3328,6 +3337,7 @@ namespace eval ctext {
 
         # Sort the char tags
         set char_tags [lsort -dictionary -index 0 $char_tags]
+        puts "lang: $lang, char_tags: $char_tags"
 
         # Create the tag lists
         set curr_lang       $lang

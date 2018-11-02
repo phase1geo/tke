@@ -2,7 +2,7 @@ filepatterns
 {*.fcl}
 
 embedded {
-  {Tcl}
+  {Tcl {}}
 }
 
 matchcharsallowed

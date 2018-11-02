@@ -8,7 +8,7 @@ reference
 }
 
 embedded {
-  {Pascal {} {}}
+  {Pascal {}}
 }
 
 matchcharsallowed

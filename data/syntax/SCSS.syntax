@@ -5,7 +5,7 @@ vimsyntax
 {scss}
 
 embedded {
-  {CSS {} {}}
+  {CSS {}}
 }
 
 matchcharsallowed

@@ -2,7 +2,7 @@ filepatterns
 {*.tac}
 
 embedded {
-  {Tcl}
+  {Tcl {}}
 }
 
 matchcharsallowed

@@ -10,7 +10,7 @@ reference
 }
 
 embedded {
-  {SCSS {} {}}
+  {SCSS {}}
 }
 
 matchcharsallowed
