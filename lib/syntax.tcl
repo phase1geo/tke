@@ -503,10 +503,10 @@ namespace eval syntax {
         completer::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
 
         foreach embedded $lang_array(embedded) {
-          lassign $embedded sublang embed_start embed_end
-          if {($embed_start ne "") && ($embed_end ne "")} {
-            ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end
-            add_sublanguage $txt $sublang $cmd_prefix "" $embed_start $embed_end
+          lassign $embedded sublang embed_tokens
+          if {$embed_tokens ne ""} {
+            ctext::setEmbedLangPattern $txt $sublang $embed_tokens
+            add_sublanguage $txt $sublang $cmd_prefix "" $embed_tokens
           } else {
             add_sublanguage $txt $sublang $cmd_prefix "" {} {}
           }
@@ -541,14 +541,14 @@ namespace eval syntax {
 
   ######################################################################
   # Add sublanguage features to current text widget.
-  proc add_sublanguage {txt language cmd_prefix parent embed_start embed_end} {
+  proc add_sublanguage {txt language cmd_prefix parent embed_patterns} {
 
     variable langs
 
     array set lang_array $langs($language)
 
     # Adjust the language value if we are not performing a full insertion
-    if {$embed_start eq ""} {
+    if {$embed_patterns eq ""} {
       set lang_ns  [string tolower $language]
       set language $parent
     } elseif {$cmd_prefix ne ""} {
@@ -571,7 +571,14 @@ namespace eval syntax {
     set_language_section $txt readmeta       $lang_array(readmeta) $language
     set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix $lang_ns
 
-    if {$embed_start ne ""} {
+    if {$embed_patterns ne ""} {
+
+      # Let's convert the embed_patterns list into start/end pattern lists
+      foreach embed_pattern $embed_patterns {
+        lassign $embed_pattern embed_start embed_end
+        lappend embed_starts $embed_start
+        lappend embed_ends $embed_end
+      }
 
       # Add the rest of the sections
       set_language_section $txt numbers    $lang_array(numbers) $language
@@ -581,8 +588,8 @@ namespace eval syntax {
       ctext::setBlockCommentPatterns $txt $language $lang_array(bcomments)
       ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments)
       ctext::setStringPatterns       $txt $language $lang_array(strings)
-      ctext::setIndentation          $txt $language [list $embed_start {*}$lang_array(indent)]   indent
-      ctext::setIndentation          $txt $language [list $embed_end   {*}$lang_array(unindent)] unindent
+      ctext::setIndentation          $txt $language [list {*}$embed_starts {*}$lang_array(indent)]   indent
+      ctext::setIndentation          $txt $language [list {*}$embed_ends   {*}$lang_array(unindent)] unindent
 
       set reindentStarts [list]
       set reindents      [list]
@@ -610,9 +617,9 @@ namespace eval syntax {
 
     # Add any mixed languages
     foreach embedded $lang_array(embedded) {
-      lassign $embedded sublang embed_start embed_end
-      if {$embed_start eq ""} {
-        add_sublanguage $txt $sublang $cmd_prefix $language {} {}
+      lassign $embedded sublang embed_tokens
+      if {$embed_tokens eq ""} {
+        add_sublanguage $txt $sublang $cmd_prefix $language {}
       }
     }
 

@@ -1200,7 +1200,7 @@ namespace eval gui {
               indent::set_indent_mode $finfo(indent)
             }
             if {[info exists finfo(encode)]} {
-              set_encoding $finfo(encode)
+              set_encoding $finfo(encode) 0
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               diff::set_session_data $txt $finfo(diffdata)
@@ -5798,7 +5798,7 @@ namespace eval gui {
 
   ######################################################################
   # Sets the encoding to the given value.
-  proc set_encoding {value} {
+  proc set_encoding {value {setfocus 1}} {
 
     variable widgets
 
@@ -5818,7 +5818,9 @@ namespace eval gui {
     update_file $fileindex
 
     # Set the focus back to the text editor
-    set_txt_focus [last_txt_focus]
+    if {$setfocus} {
+      set_txt_focus [last_txt_focus]
+    }
 
   }
 

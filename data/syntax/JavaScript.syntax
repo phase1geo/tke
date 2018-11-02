@@ -10,7 +10,7 @@ reference
 }
 
 embedded {
-  {JSON}
+  {JSON {}}
 }
 
 matchcharsallowed

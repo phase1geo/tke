@@ -9,8 +9,9 @@ reference
   {{Language Reference} http://en.cppreference.com/w/cpp/language}
 }
 
-embedded
-{{C}}
+embedded {
+  {C {}}
+}
 
 matchcharsallowed
 {curly square paren double single}

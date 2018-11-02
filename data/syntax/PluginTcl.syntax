@@ -3,7 +3,7 @@ filepatterns
 
 embedded
 {
-  {Tcl}
+  {Tcl {}}
 }
 
 matchcharsallowed

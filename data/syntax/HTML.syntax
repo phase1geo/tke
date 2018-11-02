@@ -12,9 +12,9 @@ reference
 }
 
 embedded {
-  {PHP        {<\?php$}                                {\?>}}
-  {CSS        {<style(.*type=["']text/css["'].*)?>$}    {</style>}}
-  {JavaScript {<script(.*type=["']text/javascript["'].*)?>$} {</script>}}
+  {PHP        {{<\?php$}                                {\?>}}}
+  {CSS        {{<style(.*type=["']text/css["'].*)?>$}    {</style>}}}
+  {JavaScript {{<script(.*type=["']text/javascript["'].*)?>$} {</script>}}}
 }
 
 matchcharsallowed
