@@ -90,6 +90,7 @@ namespace eval ctext {
     set data($win,config,modified)                 0
     set data($win,config,lastUpdate)               0
     set data($win,config,csl_array)                [list]
+    set data($win,config,csl_markers)              [list]
     set data($win,config,csl_tag_pair)             [list]
     set data($win,config,langs)                    [list {}]
     set data($win,config,gutters)                  [list]
@@ -2941,6 +2942,7 @@ namespace eval ctext {
     array unset data $win,lc_char_tags,*
 
     set data($win,config,csl_array)     [list]
+    set data($win,config,csl_markers)   [list]
     set data($win,config,csl_tag_pair)  [list]
 
   }
@@ -2976,6 +2978,7 @@ namespace eval ctext {
       }
       lappend data($win,config,csl_char_tags,$lang) __cCommentStart:$lang __cCommentEnd:$lang
       lappend data($win,config,csl_array)           {*}[array get tags]
+      lappend data($win,config,csl_markers)         __cCommentStart:${lang}0 __cCommentStart:${lang}1 __cCommentEnd:${lang}0 __cCommentEnd:${lang}1
       lappend data($win,config,csl_tag_pair)        __cCommentStart:$lang __comstr1c
     } else {
       catch { $win tag delete {*}[array names tags] }
@@ -3002,7 +3005,8 @@ namespace eval ctext {
         $win tag lower $tag _invisible
       }
       lappend data($win,config,lc_char_tags,$lang) __lCommentStart:$lang
-      lappend data($win,config,csl_array)    {*}[array get tags]
+      lappend data($win,config,csl_array)          {*}[array get tags]
+      lappend data($win,config,csl_markers)        __lCommentStart:${lang}0 __lCommentStart:${lang}1
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
@@ -3083,6 +3087,9 @@ namespace eval ctext {
       }
       lappend data($win,config,csl_patterns,$lang)  {*}$csl_patterns
       lappend data($win,config,csl_array)           {*}[array get tags]
+      lappend data($win,config,csl_markers)         __dQuote:${lang}0 __dQuote:${lang}1 __DQuote:${lang}0 __DQuote:${lang}1 \
+                                                    __sQuote:${lang}0 __sQuote:${lang}1 __SQuote:${lang}0 __SQuote:${lang}1 \
+                                                    __bQuote:${lang}0 __bQuote:${lang}1 __BQuote:${lang}0 __BQuote:${lang}1
       lappend data($win,config,csl_tag_pair)        {*}[array get comstr]
     } else {
       catch { $win tag delete {*}[array names tags] }
@@ -3113,6 +3120,7 @@ namespace eval ctext {
 
     lappend data($win,config,csl_char_tags,) __LangStart:$lang __LangEnd:$lang
     lappend data($win,config,csl_array)      __LangStart:${lang}0 1 __LangStart:${lang}1 1 __LangEnd:${lang}0 1 __LangEnd:${lang}1 1 __Lang:$lang 1
+    lappend data($win,config,csl_markers)    __LangStart:${lang}0 __LangStart:${lang}1 __LangEnd:${lang}0 __LangEnd:${lang}1
     lappend data($win,config,csl_tag_pair)   __LangStart:$lang __Lang=$lang
 
   }
@@ -3126,7 +3134,7 @@ namespace eval ctext {
 
     # Delete all of the tags not associated with comments and strings that we created
     foreach tag [$win._t tag names] {
-      if {([string index $tag 0] eq "_") && ![info exists csl_array($tag)]} {
+      if {([string range $tag 0 1] eq "__") && ![info exists csl_array($tag)]} {
         $win._t tag remove $tag {*}$lineranges
       }
     }
@@ -3207,7 +3215,7 @@ namespace eval ctext {
 
     upvar $pdo_tags do_tags
 
-    foreach {tag dummy} $data($win,config,csl_array) {
+    foreach tag $data($win,config,csl_markers) {
       lassign [$win tag nextrange $tag $start] tag_start tag_end
       if {($tag_start ne "") && [$win compare $tag_start < $end]} {
         lappend do_tags $tag 1
@@ -3233,8 +3241,6 @@ namespace eval ctext {
 
     array set tag_changed $do_tags
     set retval 0
-
-    puts "do_tags: $do_tags"
 
     # Go through each language
     foreach lang $data($win,config,langs) {
@@ -3337,7 +3343,6 @@ namespace eval ctext {
 
         # Sort the char tags
         set char_tags [lsort -dictionary -index 0 $char_tags]
-        puts "lang: $lang, char_tags: $char_tags"
 
         # Create the tag lists
         set curr_lang       $lang
@@ -3437,9 +3442,10 @@ namespace eval ctext {
 
         # Calculate the return value
         set retval [expr (($retval == 2) || ([llength [array names tag_changed __Lang*:*]] > 0)) ? 2 : 1]
-        array unset tag_changed
 
       }
+
+      array unset tag_changed {*:$lang[01]}
 
     }
 
