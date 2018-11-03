@@ -508,7 +508,7 @@ namespace eval syntax {
             ctext::setEmbedLangPattern $txt $sublang $embed_tokens
             add_sublanguage $txt $sublang $cmd_prefix "" $embed_tokens
           } else {
-            add_sublanguage $txt $sublang $cmd_prefix "" {} {}
+            add_sublanguage $txt $sublang $cmd_prefix "" {}
           }
         }
 
