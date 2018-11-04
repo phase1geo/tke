@@ -1869,7 +1869,13 @@ namespace eval ctext {
 
     lassign $args type index extra prange
 
-    set index [$win index $index]
+    if {$type eq "inclass"} {
+      set index [$win index $extra]
+    } else {
+      set index [$win index $index]
+    }
+
+    catch { upvar 2 $prange range } rc
 
     switch $type {
       escaped   { return [isEscaped $win $index] }
@@ -1900,6 +1906,33 @@ namespace eval ctext {
       reindent      -
       reindentStart {
         return [expr [lsearch [$win._t tag names $index] __$type] != -1]
+      }
+      insquare        { return 0 }
+      incurly         { return 0 }
+      inparen         { return 0 }
+      inangled        { return 0 }
+      indouble        { return [inDoubleQuote $win $index] }
+      insingle        { return [inSingleQuote $win $index] }
+      inbtick         { return [inBackTick $win $index] }
+      intripledouble  { return [inTripleDoubleQuote $win $index] }
+      intriplesingle  { return [inTripleSingleQuote $win $index] }
+      intriplebtick   { return [inTripleBackTick $win $index] }
+      inblockcomment  { return [inBlockComment $win $index] }
+      inlinecomment   { return [inLineComment $win $index] }
+      incomment       { return [inComment $win $index] }
+      instring        { return [inString $win $index] }
+      incommentstring { return [inCommentString $win $index] }
+      intag           { return 0 }
+      inclass         {
+        if {$extra eq ""} {
+          return -code error "Calling ctext is inclass without specifying a class name"
+        }
+        if {[lsearch -exact [$win._t tag names $extra] __$index] != -1} {
+          set range [$win._t tag prevrange $extra __$index]
+          return 1
+        } else {
+          return 0
+        }
       }
       default {
         return -code error "Unsupported is command type specified"
