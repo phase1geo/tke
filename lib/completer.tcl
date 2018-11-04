@@ -39,13 +39,16 @@ namespace eval completer {
 
     # Populate the pref_complete array with the values from the preferences file
     array set pref_complete {
-      square 0
-      curly  0
-      angled 0
-      paren  0
-      double 0
-      single 0
-      btick  0
+      square       0
+      curly        0
+      angled       0
+      paren        0
+      double       0
+      single       0
+      btick        0
+      tripledouble 0
+      triplesingle 0
+      triplebtick  0
     }
 
     foreach value [preferences::get Editor/AutoMatchChars] {
@@ -73,13 +76,16 @@ namespace eval completer {
 
     # Initialize the complete array for the given text widget
     array set complete [list \
-      $txtt,$lang,square 0 \
-      $txtt,$lang,curly  0 \
-      $txtt,$lang,angled 0 \
-      $txtt,$lang,paren  0 \
-      $txtt,$lang,double 0 \
-      $txtt,$lang,single 0 \
-      $txtt,$lang,btick  0 \
+      $txtt,$lang,square       0 \
+      $txtt,$lang,curly        0 \
+      $txtt,$lang,angled       0 \
+      $txtt,$lang,paren        0 \
+      $txtt,$lang,double       0 \
+      $txtt,$lang,single       0 \
+      $txtt,$lang,btick        0 \
+      $txtt,$lang,tripledouble 0 \
+      $txtt,$lang,triplesingle 0 \
+      $txtt,$lang,tripelbtick  0 \
     ]
 
     # Combine the language-specific match chars with preference chars
@@ -271,7 +277,11 @@ namespace eval completer {
     variable complete
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],double)} {
-      if {[ctext::inDoubleQuote $txtt insert]} {
+      if {[$txtt is intripledouble insert]} {
+        if {([$txtt get insert] eq "\"") && ![$txtt is escaped insert]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+        }
+      } elseif {[ctext::inDoubleQuote $txtt insert]} {
         if {([$txtt get insert] eq "\"") && ![ctext::isEscaped $txtt insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
           return 1
