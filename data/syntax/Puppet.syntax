@@ -1,0 +1,61 @@
+filepatterns
+{*.pp *.epp}
+
+reference {
+  {{Language Reference} https://puppet.com/docs/puppet/4.5/lang_summary.html}
+}
+
+matchcharsallowed
+{curly square paren double single}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{ do}
+
+unindent
+{\} end}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double single}
+
+keywords
+{
+  case class contain default define do else elsif end false if include inherits
+  node notice require true super type undef unless when
+}
+
+numbers {
+  HighlightRegexp {\m([0-9_]+|0[0-7_]+|0[xX][0-9a-fA-F_]+|[0-9]+\.[0-9]+)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}\!|=<>~@.,:;?*/%+-]} {}
+}
+
+miscellaneous1 {
+  HighlightCharStart \$ {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    in and or
+  }
+}
+ 
