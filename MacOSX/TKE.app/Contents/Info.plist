@@ -64,6 +64,20 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>PluginPackage</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tkeplugz</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>TKEPlugin.icns</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>Anything</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
