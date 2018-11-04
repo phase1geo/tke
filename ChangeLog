@@ -1,181 +1,37 @@
-2018-10-30 02:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (336ecbb22b70 [devel-3.4.8])
+2018-11-03 13:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d742f19f6174 [devel-3.4.9])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.8 release
+	ChangeLog for devel-3.4.9 release
 
-2018-10-30 02:08 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c52d8e025599)
+2018-11-03 13:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6d64fd01ce26)
 
 	* .hgtags:
-	Added tag devel-3.4.8 for changeset 336ecbb22b70
+	Added tag devel-3.4.9 for changeset d742f19f6174
 
-2018-10-30 16:41 -0500  Trevor Williams  <Trevor Williams>  (18d4ea70830d)
+2018-11-03 13:18 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7d872e5356d8)
 
-	* data/syntax/Assembly.syntax, data/syntax/Awk.syntax,
-	data/syntax/C++.syntax, data/syntax/C.syntax,
-	data/syntax/Clojure.syntax, data/syntax/D.syntax,
-	data/syntax/Elixir.syntax, data/syntax/LaTeX.syntax,
-	data/syntax/Lex.syntax, data/syntax/Objective-C.syntax,
-	data/syntax/PHP.syntax, data/syntax/Perl.syntax,
-	data/syntax/Python.syntax, data/syntax/Rust.syntax,
-	data/syntax/SASS.syntax, data/syntax/SCSS.syntax,
-	data/syntax/Stylus.syntax, data/syntax/Taccle.syntax,
-	data/syntax/Tcl.syntax, data/syntax/Vala.syntax,
-	data/syntax/Verilog.syntax, data/syntax/VisualBasic.syntax,
-	data/syntax/Yacc.syntax, data/syntax/syntax.syntax, lib/bist.tcl,
-	lib/completer.tcl, lib/ctext/ctext.tcl, lib/edit.tcl, lib/emmet.tcl,
-	lib/emmet_css.tcl, lib/folding.tcl, lib/gui.tcl, lib/indent.tcl,
-	lib/search.tcl, lib/snippets.tcl, lib/syntax.tcl,
-	plugins/current_line/main.tcl:
-	* Adding ctext syntax command
-	* Updating all code and syntax description files for the new syntax
-	command.
-	* Adding _visible and _invisible tags for tag ordering purposes.
-	* Fixing line number selection issues.
-	* Fixing highlighting class naming issues.
+	* MacOSX/TKE.app/Contents/Info.plist, lib/version.tcl:
+	* Updating version in Info.plist for upcoming 3.5 stable release.
 
-2018-10-31 01:05 -0500  Trevor Williams  <phase1geo@gmail.com>  (2686151f277b)
+2018-11-04 00:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2ed052dcf5c4)
 
-	* data/syntax/ABAP.syntax, data/syntax/ActionScript.syntax,
-	data/syntax/Ada.syntax, data/syntax/AppleScript.syntax,
-	data/syntax/Assembly.syntax, data/syntax/Awk.syntax,
-	data/syntax/Bash.syntax, data/syntax/Boo.syntax,
-	data/syntax/C#.syntax, data/syntax/C++.syntax, data/syntax/C.syntax,
-	data/syntax/CSS.syntax, data/syntax/Clojure.syntax,
-	data/syntax/Cobol.syntax, data/syntax/CoffeeScript.syntax,
-	data/syntax/Cuda.syntax, data/syntax/D.syntax,
-	data/syntax/Delphi.syntax, data/syntax/DesktopEntry.syntax,
-	data/syntax/DocBook.syntax, data/syntax/Doxyfile.syntax,
-	data/syntax/Eiffel.syntax, data/syntax/Elixir.syntax,
-	data/syntax/Elm.syntax, data/syntax/Erlang.syntax,
-	data/syntax/Fickle.syntax, data/syntax/Forth.syntax,
-	data/syntax/Fortran.syntax, data/syntax/Gherkin.syntax,
-	data/syntax/Go.syntax, data/syntax/Groovy.syntax,
-	data/syntax/HTML.syntax, data/syntax/Haml.syntax,
-	data/syntax/Haskell.syntax, data/syntax/Haxe.syntax,
-	data/syntax/HelpSystem.syntax, data/syntax/IDL.syntax,
-	data/syntax/J.syntax, data/syntax/JSON.syntax,
-	data/syntax/Jade.syntax, data/syntax/Java.syntax,
-	data/syntax/JavaScript.syntax, data/syntax/Julia.syntax,
-	data/syntax/Kotlin.syntax, data/syntax/Lex.syntax,
-	data/syntax/Lisp.syntax, data/syntax/Lua.syntax,
-	data/syntax/MATLAB.syntax, data/syntax/ManPage.syntax,
-	data/syntax/MathML.syntax, data/syntax/Meson.syntax,
-	data/syntax/MySQL.syntax, data/syntax/Neko.syntax,
-	data/syntax/Nim.syntax, data/syntax/OCaml.syntax,
-	data/syntax/Objective-C.syntax, data/syntax/PHP.syntax,
-	data/syntax/Pascal.syntax, data/syntax/Perl.syntax,
-	data/syntax/PluginTcl.syntax, data/syntax/Prolog.syntax,
-	data/syntax/PropertyList.syntax, data/syntax/Python.syntax,
-	data/syntax/R.syntax, data/syntax/RSS.syntax,
-	data/syntax/Ruby.syntax, data/syntax/Rust.syntax,
-	data/syntax/SASS.syntax, data/syntax/SCSS.syntax,
-	data/syntax/SQL.syntax, data/syntax/Scala.syntax,
-	data/syntax/Scheme.syntax, data/syntax/ShellScript.syntax,
-	data/syntax/Specman.syntax, data/syntax/Squirrel.syntax,
-	data/syntax/Stylus.syntax, data/syntax/Swift.syntax,
-	data/syntax/SystemVerilog.syntax, data/syntax/Taccle.syntax,
-	data/syntax/Tcl.syntax, data/syntax/VHDL.syntax,
-	data/syntax/Vala.syntax, data/syntax/Verilog.syntax,
-	data/syntax/VisualBasic.syntax, data/syntax/XML.syntax,
-	data/syntax/XSLT.syntax, data/syntax/Xojo.syntax,
-	data/syntax/YAML.syntax, data/syntax/Yacc.syntax,
-	data/syntax/tkeTheme.syntax, lib/ctext/ctext.tcl, lib/gui.tcl,
-	lib/select.tcl, lib/version.tcl:
-	* Adding 'is' command support.
-	* Adding support for triple double/single/backtick quotes.
-	* Updating syntax definition files per these changes.
-
-2018-10-31 14:14 -0500  Trevor Williams  <Trevor Williams>  (f1a6fe63c068)
-
-	* lib/ctext/ctext.tcl:
-	* Working on triple* string support (almost there now).
-
-2018-10-31 22:23 -0500  Trevor Williams  <phase1geo@gmail.com>  (f37d18ca5c91)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing issues from the previous checkin.
-
-2018-10-31 23:40 -0500  Trevor Williams  <phase1geo@gmail.com>  (80d503717be7)
-
-	* doc/md/TKE Developer Guide/Ctext Widget/is angled.md, doc/md/TKE
-	Developer Guide/Ctext Widget/is btick.md, doc/md/TKE Developer
-	Guide/Ctext Widget/is curly.md, doc/md/TKE Developer Guide/Ctext
-	Widget/is double.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	escaped.md, doc/md/TKE Developer Guide/Ctext Widget/is firstchar.md,
-	doc/md/TKE Developer Guide/Ctext Widget/is indent.md, doc/md/TKE
-	Developer Guide/Ctext Widget/is paren.md, doc/md/TKE Developer
-	Guide/Ctext Widget/is single.md, doc/md/TKE Developer Guide/Ctext
-	Widget/is square.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	triplebtick.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	tripledouble.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	triplesingle.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	unindent.md: new file.
-	* doc/md/TKE Developer Guide/Ctext Widget/isEscaped.md: deleted file.
-	* doc/md/TKE Developer Guide/Ctext Widget/.tkesort, doc/md/TKE
-	Developer Guide/Ctext Widget/is angled.md, doc/md/TKE Developer
-	Guide/Ctext Widget/is btick.md, doc/md/TKE Developer Guide/Ctext
-	Widget/is curly.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	double.md, doc/md/TKE Developer Guide/Ctext Widget/is escaped.md,
-	doc/md/TKE Developer Guide/Ctext Widget/is firstchar.md, doc/md/TKE
-	Developer Guide/Ctext Widget/is indent.md, doc/md/TKE Developer
-	Guide/Ctext Widget/is paren.md, doc/md/TKE Developer Guide/Ctext
-	Widget/is single.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	square.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	triplebtick.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	tripledouble.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	triplesingle.md, doc/md/TKE Developer Guide/Ctext Widget/is
-	unindent.md, doc/md/TKE Developer Guide/Ctext Widget/isEscaped.md,
+	* MacOSX/TKE.app/Contents/Resources/TKEPlugin.icns: new file.
+	* .DS_Store, MacOSX/.DS_Store, MacOSX/TKE.app/Contents/Info.plist,
+	MacOSX/TKE.app/Contents/Resources/TKE.icns,
+	MacOSX/TKE.app/Contents/Resources/TKEPlugin.icns,
+	MacOSX/TKE.app/Contents/Resources/TKETheme.icns, lib/.DS_Store,
+	lib/images/tke.ico, lib/images/tke_logo.svg,
+	lib/images/tke_logo_128.gif, lib/images/tke_logo_64.gif,
 	lib/version.tcl:
-	* Checkpointing work on developer documentation.
+	* Final update of new icons.
 
-2018-11-01 01:08 -0500  Trevor Williams  <phase1geo@gmail.com>  (75141501490b)
+2018-11-04 00:17 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cd762f565687)
 
-	* data/syntax/Markdown.syntax, doc/md/TKE Developer Guide/Ctext
-	Widget/is escaped.md, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Adding support for the -immediate class creation flag.
-	* Updating Markdown syntax file to use -immediate option.
+	* lib/images/tke_specl.gif, lib/version.tcl:
+	* Updating tke_specl.gif file.
 
-2018-11-01 17:19 -0500  Trevor Williams  <Trevor Williams>  (bc2ec5f5ac94)
+2018-11-04 00:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (df56d8387c7c [tip])
 
-	* data/syntax/Markdown.syntax, doc/md/TKE Developer Guide/Ctext
-	Widget/getLang.md, lib/ctext/ctext.tcl, lib/folding.tcl,
-	lib/multicursor.tcl, lib/vim.tcl:
-	* Checkpointing minor fixes to ctext widget (work in progress) and
-	dependent code.
-
-2018-11-01 23:07 -0500  Trevor Williams  <phase1geo@gmail.com>  (d305ce50da9b)
-
-	* data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
-	lib/ctext/ctext.tcl, lib/syntax.tcl, lib/version.tcl:
-	* Checkpointing improvements to Markdown and MultiMarkdown parsers.
-
-2018-11-02 16:41 -0500  Trevor Williams  <Trevor Williams>  (51262cc544f0)
-
-	* data/syntax/ABAP.syntax, data/syntax/C++.syntax,
-	data/syntax/Cuda.syntax, data/syntax/Delphi.syntax,
-	data/syntax/Fickle.syntax, data/syntax/HTML.syntax,
-	data/syntax/JavaScript.syntax, data/syntax/Markdown.syntax,
-	data/syntax/MultiMarkdown.syntax, data/syntax/PluginTcl.syntax,
-	data/syntax/SASS.syntax, data/syntax/SCSS.syntax,
-	data/syntax/SystemVerilog.syntax, data/syntax/Taccle.syntax,
-	data/syntax/syntax.syntax, lib/ctext/ctext.tcl, lib/gui.tcl,
-	lib/syntax.tcl:
-	* Fixing syntax error when loading a session.
-	* Fixing issues with highlighting comments/strings in embedded Tcl in
-	a syntax file.
-	* Updated all affected syntax decription files from the above change.
-
-2018-11-02 21:22 -0500  Trevor Williams  <phase1geo@gmail.com>  (4028bcd2edc4)
-
-	* lib/ctext/ctext.tcl, lib/syntax.tcl, lib/version.tcl:
-	* Fixing string/comment/language syntax highlighting issue when
-	deletions occur.
-	* Fixing syntax error in syntax.tcl from previous checkin.
-
-2018-11-03 12:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5d340bbf7a92 [tip])
-
-	* MacOSX/TKE.app/Contents/Resources/TKE.icns, lib/.DS_Store,
-	lib/images/tke.ico, lib/images/tke_logo_128.gif,
-	lib/images/tke_logo_64.gif, lib/version.tcl:
-	* Updating icon files.
+	* lib/.DS_Store, lib/images/startup.gif, lib/version.tcl:
+	* Updating startup image.
 
