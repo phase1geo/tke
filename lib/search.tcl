@@ -315,25 +315,28 @@ namespace eval search {
     # Make sure that newline characters and tabs are replaced properly
     set replace [string map {{\n} \n {\t} \t} $replace]
 
-    # Replace the text (perform variable substitutions if necessary)
-    for {set i 0} {$i < $num_indices} {incr i} {
-      set startpos [lindex $indices $i]
-      set endpos   [$txt index $startpos+[lindex $lengths $i]c]
-      set rendpos  [$txt index $startpos+[string length $replace]c]
-      if {[llength $do_tags] == 0} {
-        ctext::comments_chars_deleted $txt $startpos $endpos do_tags
-      }
-      $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
-      if {[llength $do_tags] == 0} {
-        ctext::comments_do_tag $txt $startpos $rendpos do_tags
-      }
-      lappend ranges $endpos $startpos
-    }
-
     if {$num_indices > 0} {
 
+      $txt configure -state normal
+
+      # Replace the text (perform variable substitutions if necessary)
+      for {set i 0} {$i < $num_indices} {incr i} {
+        set startpos [lindex $indices $i]
+        set endpos   [$txt index $startpos+[lindex $lengths $i]c]
+        set rendpos  [$txt index $startpos+[string length $replace]c]
+        if {[llength $do_tags] == 0} {
+          ctext::comments_chars_deleted $txt $startpos $endpos do_tags
+        }
+        $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+        if {[llength $do_tags] == 0} {
+          ctext::comments_do_tag $txt $startpos $rendpos do_tags
+        }
+        lappend ranges $endpos $startpos
+      }
+
       # Perform the highlight
-      $txt syntax highlight -dotags $do_tags -insert 1 -modified {*}[lreverse $ranges]
+      $txt configure -state disabled
+      $txt syntax highlight -dotags $do_tags -insert 1 -modified 1 {*}[lreverse $ranges]
 
       # Set the insertion cursor to the last match and make that line visible
       ::tk::TextSetCursor $txt [lindex $indices 0]
