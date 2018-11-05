@@ -1,37 +1,41 @@
-2018-11-03 13:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d742f19f6174 [devel-3.4.9])
+2018-11-04 00:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (430ad68e5ec6 [devel-3.4.10])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.9 release
+	ChangeLog for devel-3.4.10 release
 
-2018-11-03 13:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6d64fd01ce26)
+2018-11-04 00:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f91481aa85e8)
 
 	* .hgtags:
-	Added tag devel-3.4.9 for changeset d742f19f6174
+	Added tag devel-3.4.10 for changeset 430ad68e5ec6
 
-2018-11-03 13:18 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7d872e5356d8)
+2018-11-04 08:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (99ccc58a1e50)
 
-	* MacOSX/TKE.app/Contents/Info.plist, lib/version.tcl:
-	* Updating version in Info.plist for upcoming 3.5 stable release.
+	* lib/completer.tcl, lib/ctext/ctext.tcl, lib/version.tcl:
+	* Adding more subcommands to the ctext "is" command.
+	* Starting to add support for triple* completer support (work in
+	progress).
 
-2018-11-04 00:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2ed052dcf5c4)
+2018-11-04 14:48 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (abc0d484c2d6)
 
-	* MacOSX/TKE.app/Contents/Resources/TKEPlugin.icns: new file.
-	* .DS_Store, MacOSX/.DS_Store, MacOSX/TKE.app/Contents/Info.plist,
-	MacOSX/TKE.app/Contents/Resources/TKE.icns,
-	MacOSX/TKE.app/Contents/Resources/TKEPlugin.icns,
-	MacOSX/TKE.app/Contents/Resources/TKETheme.icns, lib/.DS_Store,
-	lib/images/tke.ico, lib/images/tke_logo.svg,
-	lib/images/tke_logo_128.gif, lib/images/tke_logo_64.gif,
-	lib/version.tcl:
-	* Final update of new icons.
+	* data/syntax/Puppet.syntax: new file.
+	* data/syntax/Puppet.syntax, lib/version.tcl:
+	* Adding puppet syntax description file.
 
-2018-11-04 00:17 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cd762f565687)
+2018-11-04 14:50 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d145a09ee89e)
 
-	* lib/images/tke_specl.gif, lib/version.tcl:
-	* Updating tke_specl.gif file.
+	* data/syntax/Vala.syntax, lib/version.tcl:
+	* Adding Valadoc to Vala reference list.
 
-2018-11-04 00:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (df56d8387c7c [tip])
+2018-11-04 23:03 -0600  Trevor Williams  <phase1geo@gmail.com>  (27c5aa53a180)
 
-	* lib/.DS_Store, lib/images/startup.gif, lib/version.tcl:
-	* Updating startup image.
+	* data/syntax/HTML.syntax, data/syntax/Markdown.syntax,
+	data/syntax/MultiMarkdown.syntax, lib/indent.tcl, lib/search.tcl,
+	lib/version.tcl, lib/vim.tcl:
+	* Fixing issues caused by recent checkins.
+
+2018-11-05 01:09 -0600  Trevor Williams  <phase1geo@gmail.com>  (2503066586a6 [tip])
+
+	* lib/completer.tcl, lib/search.tcl, lib/version.tcl:
+	* Fixing issue with find/replace functionality.
+	* Working on supporting triple* completion support (not working yet).
 
