@@ -276,21 +276,35 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],double)} {
+    # First, check to see if we are dealing with a triple double-quote
+    if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],tripledouble)} {
       if {[$txtt is intripledouble insert]} {
         if {([$txtt get insert] eq "\"") && ![$txtt is escaped insert]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          ::tk::TextSetCursor $txtt "insert+3c"
+          return 1
         }
-      } elseif {[ctext::inDoubleQuote $txtt insert]} {
+      } elseif {[$txtt is intripledouble end-1c]} {
+        return 0
+      } else {
+        set ins [$txtt index insert]
+        if {![$txtt is incommentstring "insert-1c"]} {
+          $txtt fastinsert insert "\""
+        }
+        ::tk::TextSetCursor $txtt $ins
+      }
+    }
+
+    if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],double)} {
+      if {[$txtt is indouble insert]} {
         if {([$txtt get insert] eq "\"") && ![ctext::isEscaped $txtt insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
           return 1
         }
-      } elseif {[ctext::inDoubleQuote $txtt end-1c]} {
+      } elseif {[$txtt is indouble end-1c]} {
         return 0
       } else {
         set ins [$txtt index insert]
-        if {![ctext::inCommentString $txtt "insert-1c"]} {
+        if {![$txtt is incommentstring "insert-1c"]} {
           $txtt fastinsert insert "\""
         }
         ::tk::TextSetCursor $txtt $ins
