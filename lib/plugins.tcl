@@ -1503,6 +1503,69 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Exports the specified plugin as a .tkeplugz file.  This filetype will
+  # support drag-and-drop to install a given plugin.
+  proc export_plugin {parent_win name odir} {
+
+    # Get the directory to export
+    set idir [file join $::tke_home plugins $name]
+
+    # If the directory does not exist return 0.
+    if {![file exists $idir]} {
+      return 0
+    }
+
+    # Get the current working directory
+    set pwd [pwd]
+
+    # Set the current working directory to the user themes directory
+    cd $odir
+
+    # Perform the archive
+    if {[catch { zipper::list2zip $idir [glob -directory $idir -tails *] [file join $name.tkeplugz] } rc]} {
+      if {[catch { exec -ignorestderr zip -r [file join $name.tkeplugz] $idir } rc]} {
+        tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+          -message [format "%s %s" [msgcat::mc "Unable to zip plugin"] $name]
+      }
+    }
+
+    # Restore the current working directory
+    cd $pwd
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Imports the given plugin, copying the data to the user's home plugins
+  # directory.
+  proc import_plugin {parent_win fname} {
+
+    # Make sure that the plugins directory exists
+    file mkdir [file join $::tke_home plugins]
+
+    # If the directory exists, move it out of the way
+    set odir [file join $::tke_home plugins [file basename [file tail $fname]]]
+    if {[file exists $odir]} {
+      file rename $odir $odir.old
+    }
+
+    # Unzip the file contents
+    if {[catch { zipper::unzip $fname $odir } rc]} {
+      if {[catch { exec -ignorestderr unzip -u $fname -d $odir } rc]} {
+        catch { file rename $odir.old $odir }
+        tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+          -message [format "%s %s" [msgcat::mc "Unable to unzip plugin"] $fname] -detail $rc
+        return ""
+      }
+    }
+
+    # Remove the old file if it exists
+    catch { file delete [file exists $odir.old] }
+
+  }
+
+  ######################################################################
   # Returns the list of files in the TKE home directory to copy.
   proc get_share_items {dir} {
 
