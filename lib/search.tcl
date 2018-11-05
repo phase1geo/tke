@@ -138,7 +138,7 @@ namespace eval search {
     set txt [gui::current_txt]
 
     # Clear the highlight class
-    catch { ctext::deleteHighlightClass $txt search }
+    catch { $txt syntax delete search }
 
   }
 
@@ -333,7 +333,7 @@ namespace eval search {
     if {$num_indices > 0} {
 
       # Perform the highlight
-      $txt highlight -dotags $do_tags -insert 1 -modified {*}[lreverse $ranges]
+      $txt syntax highlight -dotags $do_tags -insert 1 -modified {*}[lreverse $ranges]
 
       # Set the insertion cursor to the last match and make that line visible
       ::tk::TextSetCursor $txt [lindex $indices 0]

@@ -680,7 +680,7 @@ namespace eval indent {
     $txtt edit separator
 
     # Perform syntax highlighting
-    [winfo parent $txtt] highlight $startpos $endpos
+    $txtt syntax highlight $startpos $endpos
 
   }
 
