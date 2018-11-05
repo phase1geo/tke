@@ -1707,7 +1707,7 @@ namespace eval vim {
       multicursor::replace $txtt $char indent::check_indent
     } else {
       $txtt replace insert "insert+1c" $char
-      $txtt highlight "insert linestart" "insert lineend"
+      $txtt syntax highlight "insert linestart" "insert lineend"
     }
 
   }
@@ -2063,9 +2063,9 @@ namespace eval vim {
       set end_index [$txtt index insert]
       if {$start_index != $end_index} {
         if {[$txtt compare $start_index < $end_index]} {
-          $txtt highlight $start_index $end_index
+          $txtt syntax highlight $start_index $end_index
         } else {
-          $txtt highlight $end_index $start_index
+          $txtt syntax highlight $end_index $start_index
         }
       }
       reset_state $txtt 0

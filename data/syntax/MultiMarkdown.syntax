@@ -12,10 +12,10 @@ reference
 embedded
 {
   {HTML       {}}
-  {C          {{```c$}          {```$}}}
-  {C++        {{```cpp$}        {```$}}}
-  {Python     {{```python$}     {```$}}}
-  {JavaScript {{```javascript$} {```$}}}
+  {C          {{```c$          ```$}}}
+  {C++        {{```cpp$        ```$}}}
+  {Python     {{```python$     ```$}}}
+  {JavaScript {{```javascript$ ```$}}}
 }
 
 tabsallowed
