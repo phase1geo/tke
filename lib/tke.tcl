@@ -185,7 +185,7 @@ proc usage {} {
   puts "  -n                 Opens a new window without attempting to merge"
   puts "                       with an existing window or last saved session."
   puts "  -s <session_name>  Opens the specified session name.  This option"
-  puts "                       is ignored if the -n option is specified.
+  puts "                       is ignored if the -n option is specified."
   puts ""
 
   exit
@@ -267,6 +267,12 @@ proc check_file_for_import {fname} {
         themer::import_tke $fname
       }
       return 1
+    }
+    .tkeplugz {
+      set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TKE plugin?"] -parent . -type yesnocancel]
+      if {$ans eq "yes"} {
+        plugins::import_plugin $fname
+      }
     }
   }
 
