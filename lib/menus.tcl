@@ -159,7 +159,7 @@ namespace eval menus {
         set mb ".menubar.plugins"
         $mb insert 3 separator
         $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command [list plugins::create_new_plugin]
-        $mb insert 6 command -label [msgcat::mc "Export"]                  -underline 0 -command [list plugins::export]
+        $mb insert 6 command -label [format "%s..." [msgcat::mc "Export"]] -underline 0 -command [list plugins::export]
 
         launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]]     [list plugins::create_new_plugin]
         launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] [list plugins::export]
@@ -3408,7 +3408,7 @@ namespace eval menus {
     $mb add command -label [format "%s..." [msgcat::mc "Show Installed"]] -underline 0 -command [list plugins::show_installed]
     launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Show installed plugins"]] [list plugins::show_installed]
 
-    $mb add command -label [msgcat::mc "Import"] -underline 0 -command [list plugins::import]
+    $mb add command -label [format "%s..." [msgcat::mc "Import"]] -underline 0 -command [list plugins::import]
     launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Import plugin bundle"]] [list plugins::import]
 
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command [list plugins::reload]
@@ -3423,7 +3423,7 @@ namespace eval menus {
   # Called when the plugins menu needs to be posted.
   proc plugins_posting {mb} {
 
-    $mb entryconfigure [msgcat::mc "Export"] -state [expr {[plugins::export_available] ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s..." [msgcat::mc "Export"]] -state [expr {[plugins::export_available] ? "normal" : "disabled"}]
 
   }
 
