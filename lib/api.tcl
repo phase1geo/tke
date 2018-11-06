@@ -79,6 +79,25 @@ namespace eval api {
   }
 
   ######################################################################
+  # \return Returns the pathname to the user's plugin installation directory.
+  proc get_install_directory {interp pname} {
+
+    # Get the pathname to the installed plugins directory
+    set install [file join $::tke_home iplugins $pname]
+
+    if {![file exists $install]} {
+      set install [file join $::tke_dir plugins $pname]
+    }
+
+    if {[$interp issafe]} {
+      return [::safe::interpFindInAccessPath $interp $install]
+    } else {
+      return $install
+    }
+
+  }
+
+  ######################################################################
   ## \return Returns a fully NFS normalized filename based on the given host.
   #
   #  \param host   Name of the host that contains the filename
@@ -860,6 +879,31 @@ namespace eval api {
     proc load_variable {interp pname index name} {
 
       return [plugins::restore_data $index $name]
+
+    }
+
+    ######################################################################
+    ## Returns a value of true if the given procedure has been exposed by
+    #  another plugin.  The value of "name" should be in the form of:
+    #    <plugin_name>::<procedure_name>
+    proc is_exposed {interp pname name} {
+
+      return [plugins::is_exposed $name]
+
+    }
+
+    ######################################################################
+    ## Executes the exposed procedure (if it exists) and returns the value
+    #  returned by the procedure.  If the procedure does not exist or there
+    #  is an exception thrown by the procedure, a value of -1 will be
+    #  returned to the calling method.
+    proc exec_exposed {interp pname name args} {
+
+      if {[plugins::is_exposed $name] && ![catch { plugins::execute_exposed $name {*}$args } retval]} {
+        return $retval
+      }
+
+      return -1
 
     }
 
