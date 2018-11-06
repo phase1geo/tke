@@ -122,8 +122,8 @@ namespace eval plugins {
     }
 
     # Get any plugins from the user's home directory
-    if {[file exists [file join $::tke_home plugins]]} {
-      lappend dirs {*}[glob -nocomplain -directory [file join $::tke_home plugins] -types d *]
+    if {[file exists [file join $::tke_home iplugins]]} {
+      lappend dirs {*}[glob -nocomplain -directory [file join $::tke_home iplugins] -types d *]
     }
 
     foreach plugin $dirs {

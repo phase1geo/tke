@@ -907,6 +907,15 @@ namespace eval api {
 
     }
 
+    ######################################################################
+    ## Reloads the plugins.  This is useful if the plugin changes its own
+    #  code at runtime and needs to re-source itself.
+    proc reload {interp pname} {
+
+      plugins::reload
+
+    }
+
   }
 
   namespace eval preferences {
@@ -1042,6 +1051,60 @@ namespace eval api {
     proc get_value {interp pname varname} {
 
       return $preferences::prefs(Plugins/$pname/$varname)
+
+    }
+
+  }
+
+  namespace eval menu {
+
+    # This is a list of menu items that a plugin will not be allowed to invoke
+    array set not_allowed {
+      "File/Quit" 1
+      "Tools/Restart TKE" 1
+    }
+
+    ######################################################################
+    ## Returns true if the given menu path exists in the main menubar;
+    #  otherwise, returns false.  The 'mnu_path' is a slash-separated (/) path
+    #  to a menu item.  The menu path must match the menu strings exactly
+    #  (case-sensitive).
+    proc exists {interp pname mnu_path} {
+
+      variable not_allowed
+
+      if {[info exists not_allowed($mnu_path)]} {
+        return 0
+      }
+
+      set menu_list [split $mnu_path /]
+
+      if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
+        puts "mnu: $mnu"
+        return [expr {[$mnu index [lindex $menu_list end]] ne "none"}]
+      }
+
+      return 0
+
+    }
+
+    ######################################################################
+    ## Attempts to invoke the menu item specified by the given menu path.
+    proc invoke {interp pname mnu_path} {
+
+      variable not_allowed
+
+      if {[info exists not_allowed($mnu_path)]} {
+        return
+      }
+
+      set menu_list [split $mnu_path /]
+
+      if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
+        if {[set index [$mnu index [lindex $menu_list end]]] ne "none"} {
+          menus::invoke $mnu $index
+        }
+      }
 
     }
 
