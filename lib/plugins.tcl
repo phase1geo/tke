@@ -48,6 +48,7 @@
 #  syntax          - Adds the given syntax file to the list of available syntaxes
 #  vcs             - Adds support for a version control system to the difference viewer
 #  info_panel      - Adds items to the sidebar information panel.
+#  expose          - Adds procedures that can be called from any plugin.
 ######################################################################
 
 namespace eval plugins {
@@ -64,6 +65,7 @@ namespace eval plugins {
   array set prev_sourced {}
   array set bound_tags   {}
   array set menu_vars    {}
+  array set exposed      {}
 
   set plugins_file [file join $::tke_home plugins.tkedat]
 
@@ -166,6 +168,9 @@ namespace eval plugins {
     variable registry_size
     variable prev_sourced
 
+    # Delete all exposed procedures
+    delete_all_exposed
+
     # Delete all plugin menu items
     delete_all_menus
 
@@ -196,6 +201,9 @@ namespace eval plugins {
 
     # Load plugin header information
     load
+
+    # Add all exposed procedures
+    add_all_exposed
 
     # Add all of the plugins
     add_all_menus
@@ -492,6 +500,9 @@ namespace eval plugins {
 
     variable registry
 
+    # Delete all exposed procedures
+    delete_all_exposed
+
     # Delete all plugin menu items
     delete_all_menus
 
@@ -512,6 +523,7 @@ namespace eval plugins {
           "reject" { set registry($index,tgntd) 0 }
           "always" { set registry($index,tgntd) 1 }
           default  {
+            add_all_exposed
             add_all_menus
             add_all_text_bindings
             add_all_syntax
@@ -541,6 +553,9 @@ namespace eval plugins {
       set registry($index,selected) 1
       run_on_start_after_install $index
     }
+
+    # Add all exposed procedures
+    add_all_exposed
 
     # Add all of the plugins
     add_all_menus
@@ -610,6 +625,9 @@ namespace eval plugins {
     # Call "on_uninstall" command, if it exists
     handle_on_uninstall $index
 
+    # Delete all exposed procedures
+    delete_all_exposed
+
     # Delete all plugin menu items
     delete_all_menus
 
@@ -628,6 +646,9 @@ namespace eval plugins {
     # Unselect the plugin
     set registry($index,selected) 0
     set registry($index,interp)   ""
+
+    # Add all exposed procedures
+    add_all_exposed
 
     # Add all of the plugins
     add_all_menus
@@ -729,8 +750,11 @@ namespace eval plugins {
   }
 
   ######################################################################
-  # Creates a new plugin
-  proc create_new_plugin {} {
+  # Creates a new plugin.  If 'install_dir' is true, the plugin will be
+  # created in the TKE installed directory (only valid for TKE development).
+  # If 'install_dir' is false, the plugin will be created in the user's
+  # iplugins directory in their TKE home directory.
+  proc create_new_plugin {{install_dir 0}} {
 
     set name ""
 
@@ -741,7 +765,11 @@ namespace eval plugins {
         return
       }
 
-      set dirname [file join $::tke_dir plugins $name]
+      if {$install_dir} {
+        set dirname [file join $::tke_dir plugins $name]
+      } else {
+        set dirname [file join $::tke_home iplugins $name]
+      }
 
       if {[file exists $dirname]} {
         gui::set_info_message [msgcat::mc "ERROR:  Plugin name already exists"]
@@ -1006,6 +1034,25 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Adds to the list of all exposed procedures.
+  proc add_all_exposed {} {
+
+    variable registry
+    variable exposed
+
+    foreach entry [find_registry_entries "expose"] {
+      foreach p [lassign $entry index] {
+        if {[lsearch -exact [$registry($index,interp) info procs] $p] != -1} {
+          set exposed($p) $index
+        } else {
+          handle_status_error "exposed" $index "Exposed proc $p does not exist"
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
   # Adds all of the plugins to the list of available menus.
   proc add_all_menus {} {
 
@@ -1038,6 +1085,16 @@ namespace eval plugins {
       set sfile [file join $::tke_dir plugins $registry($index,name) $sfile]
       syntax::add_syntax $sfile $registry($index,interp)
     }
+
+  }
+
+  ######################################################################
+  # Clears the list of all exposed procedures.
+  proc delete_all_exposed {} {
+
+    variable exposed
+
+    array unset exposed
 
   }
 
@@ -1503,12 +1560,82 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Returns true if the given name is exposed.
+  proc is_exposed {name} {
+
+    variable exposed
+
+    return [info exists exposed($name)]
+
+  }
+
+  ######################################################################
+  # Executes the exposed procedure with the given arguments and returns
+  # the value returned from the procedure.
+  proc execute_exposed {name args} {
+
+    variable registry
+    variable exposed
+
+    if {[catch { $registry($index,interp) eval $name {*}$args } status]} {
+      handle_status_error "execute_exposed" $index $status
+      return -code error $status
+    } else {
+      return $status
+    }
+
+  }
+
+  ######################################################################
+  # Returns true if a plugin export is currently possible; otherwise, returns
+  # false.
+  proc export_available {} {
+
+    set iplugins [file join $::tke_home iplugins]
+
+    # Get the currently selected file
+    gui::get_info {} current txt fname
+
+    # If the given file exists in the iplugins directory, proceed with the export
+    return [expr {[string compare -length [string length $iplugins] $iplugins $fname] == 0}]
+
+  }
+
+  ######################################################################
+  # Exports the plugin that is currently opened in the editor.
+  proc export {} {
+
+    # If the export is not available, stop immediately
+    if {![export_available]} {
+      return
+    }
+
+    # Get the directory to save the file to
+    if {[set odir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory]]] eq ""} {
+      return
+    }
+
+    # Get the currently selected file
+    gui::get_info {} current txt fname
+    set fname [file split $fname]
+    set index [lsearch $fname iplugins]
+
+    # Perform the export
+    if {[export_plugin . [lindex $fname [expr $index + 1]] $odir]} {
+      gui::set_info_message [msgcat::mc "Plugin export completed successfully"]
+    }
+
+  }
+
+  ######################################################################
   # Exports the specified plugin as a .tkeplugz file.  This filetype will
   # support drag-and-drop to install a given plugin.
   proc export_plugin {parent_win name odir} {
 
+    puts "In export_plugin, name: $name, odir: $odir"
+
     # Get the directory to export
-    set idir [file join $::tke_home plugins $name]
+    set idir [file join $::tke_home iplugins $name]
 
     # If the directory does not exist return 0.
     if {![file exists $idir]} {
@@ -1537,15 +1664,40 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Opens a file browser to allow the user to select an installable plugin
+  # file.
+  proc import {} {
+
+    # Get the list of files to import from the user
+    set ifiles  [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory] -filetypes {{{TKE Plugin File} {.tkeplugz}}} -defaultextension .tkeplugz -multiple 1]
+
+    # Perform the import for each selected file
+    if {[llength $ifiles] > 0} {
+      set success 1
+      foreach ifile $ifiles {
+        if {[import_plugin . $ifile] eq ""} {
+          set success 0
+        }
+      }
+      if {$success} {
+        gui::set_info_message [msgcat::mc "Plugin import completed successfully"]
+      }
+    }
+
+  }
+
+  ######################################################################
   # Imports the given plugin, copying the data to the user's home plugins
   # directory.
   proc import_plugin {parent_win fname} {
 
+    puts "Importing "
+
     # Make sure that the plugins directory exists
-    file mkdir [file join $::tke_home plugins]
+    file mkdir [file join $::tke_home iplugins]
 
     # If the directory exists, move it out of the way
-    set odir [file join $::tke_home plugins [file basename [file tail $fname]]]
+    set odir [file join $::tke_home iplugins [file basename [file tail $fname]]]
     if {[file exists $odir]} {
       file rename $odir $odir.old
     }
@@ -1562,6 +1714,8 @@ namespace eval plugins {
 
     # Remove the old file if it exists
     catch { file delete [file exists $odir.old] }
+
+    return $odir
 
   }
 

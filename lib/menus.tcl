@@ -159,8 +159,10 @@ namespace eval menus {
         set mb ".menubar.plugins"
         $mb insert 3 separator
         $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command [list plugins::create_new_plugin]
+        $mb insert 6 command -label [msgcat::mc "Export"]                  -underline 0 -command [list plugins::export]
 
-        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] [list plugins::create_new_plugin]
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]]     [list plugins::create_new_plugin]
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] [list plugins::export]
 
         set mb ".menubar.help"
         $mb insert 2 separator
@@ -184,7 +186,9 @@ namespace eval menus {
 
         set mb ".menubar.plugins"
         $mb delete 3 4
+        $mb delete 6
         launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] * *
+        launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] * *
 
         set mb ".menubar.help"
         $mb delete 2 3
@@ -3404,6 +3408,9 @@ namespace eval menus {
     $mb add command -label [format "%s..." [msgcat::mc "Show Installed"]] -underline 0 -command [list plugins::show_installed]
     launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Show installed plugins"]] [list plugins::show_installed]
 
+    $mb add command -label [msgcat::mc "Import"] -underline 0 -command [list plugins::import]
+    launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Import plugin bundle"]] [list plugins::import]
+
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command [list plugins::reload]
     launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Reload all plugins"]] [list plugins::reload]
 
@@ -3416,7 +3423,7 @@ namespace eval menus {
   # Called when the plugins menu needs to be posted.
   proc plugins_posting {mb} {
 
-    # TBD
+    $mb entryconfigure [msgcat::mc "Export"] -state [expr {[plugins::export_available] ? "normal" : "disabled"}]
 
   }
 
