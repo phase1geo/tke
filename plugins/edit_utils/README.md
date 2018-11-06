@@ -24,6 +24,9 @@ Also, the 5th operation can help you find out what braces are unpaired in your T
 
 All these operations can be applied to the current line or to the selected text.
 
+Note:
+The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
+
 
 ### Menu usage
 

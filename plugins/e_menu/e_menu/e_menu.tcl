@@ -75,7 +75,7 @@ namespace eval em {
   set ratiomin "3/5"
   set hotsall "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   set hotkeys $hotsall
-  set workdir [pwd]
+  set workdir ""
   set prjname [file tail [pwd]]
   set ornament 1  ;# 1 - header only; 2 - prompt only; 3 - both; 0 - none
   set inttimer 1  ;# interval to check the timed tasks
@@ -1213,9 +1213,26 @@ as a context menu\n(see readme.md for details)." }
       }
     }
   }
+  #====== to get "project (working) directory"
+  proc getPD {seltd {doit 0}} {
+    if {$::em::workdir=="" || $doit} {
+      set ::em::workdir $seltd
+      prepr_win ::em::workdir "M/"  ;# force converting
+      if {!$::em::prjset} {
+        set ::em::prjname [file tail $::em::workdir] }
+      catch {cd $::em::workdir}
+    }
+  }
   #====== to initialize ::em::commands from argv and menu
   proc initcommands { lmc amc osm {domenu 0} } {
     set resetpercent2 0
+    catch {
+      set ::em::prjname $::env(E_MENU_PN)
+      set ::em::prjset 1
+    }
+    catch {
+      getPD $::env(E_MENU_PD) 1
+    }
     foreach s1 { a0= P= N= PD= PN= o= s= \
         u= w= qq= dd= pa= ah= wi= += bd= b1= b2= b3= b4= \
         f1= f2= fs= ch= a1= a2= ed= tf= tg= \
@@ -1246,12 +1263,7 @@ as a context menu\n(see readme.md for details)." }
             }   ;# must be reset to % after cycle
           }
           N= { set ::em::appN [::getN $seltd 1]}
-          PD= { set ::em::workdir $seltd;
-            prepr_win ::em::workdir "M/"  ;# force converting
-            if {!$::em::prjset} {
-            set ::em::prjname [file tail $::em::workdir] }
-            catch {cd $::em::workdir}
-          }
+          PD= { getPD $seltd }
           PN= { set ::em::prjname $seltd
           set ::em::prjset 2 }
           s= {
@@ -1354,6 +1366,7 @@ as a context menu\n(see readme.md for details)." }
     }
     prepare_wilds $resetpercent2
     set ::em::ncmd [llength $::em::commands]
+    getPD [pwd]
   }
   #====== to prepend initialization
   proc initcommhead {} {
@@ -1611,19 +1624,14 @@ as a context menu\n(see readme.md for details)." }
   }
   #====== to begin inits
   proc initbegin {} {
-    if {[iswindows]} {         ;# maybe nice to hide all windows manipulations
+    if {[iswindows]} { ;# maybe nice to hide all windows manipulations
       wm attributes . -alpha 0.0
     } else {
-      #wm iconify .
       wm withdraw .
     }
     update idletasks
     encoding system "utf-8"
     bind . <F1> {::em::help}
-    catch {
-      set ::em::prjname $::env(E_MENU_PN)
-      set ::em::prjset 1  ;# 1st (2nd would be in PN=)
-    }
   }
   #====== to end up inits
   proc initend {} {
@@ -1651,8 +1659,6 @@ as a context menu\n(see readme.md for details)." }
       catch {wm deiconify . ; raise .}
       catch {exec chmod a+x "$::lin_console"}
     }
-    #update
-    #update idletasks
   }
 }
 ::em::initbegin

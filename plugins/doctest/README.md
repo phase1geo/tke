@@ -69,6 +69,9 @@ Do not include into the test blocks the commands that cannot be run outside of t
 
 The most fit to *doctest* are the procedures with more or less complex and error-prone algorithms of pure computing. The typical though trivial example is *factorial*.
 
+Note:
+The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
+
 
 ### Menu usage
 

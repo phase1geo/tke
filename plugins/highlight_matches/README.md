@@ -18,7 +18,10 @@ The one character and multiline selections are ignored by the highlight operatio
 
 Note that if you try to highlight a string with several hundreds (or more) matches you take the risk of waiting for a good while. Though, you can restrict the span of lines for the highlighting.
 
-Note also that the highlighting and the jumpings are case sensitive.
+The highlightings and the jumpings are case sensitive.
+
+Note:
+The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
 
 
 ### Menu usage
