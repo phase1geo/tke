@@ -67,7 +67,7 @@ namespace eval e_menu {
         set pos  [$txt index "insert wordstart"]
         set pos2 [$txt index "insert wordend"]
         set sel [string trim [$txt get $pos $pos2]]
-        if {![string is alnum -strict $sel]} {
+        if {![string is wordchar -strict $sel]} {
           # when cursor just at the right of word: take the word at the left
           # e.g. if "_" stands for cursor then "word_" means selecting "word"
           set pos  [$txt index "insert -1 char wordstart"]
@@ -117,10 +117,13 @@ namespace eval e_menu {
     set s_opt ""
     set f_opt ""
     set d_opt ""
+    set D_opt ""
     set s0_opt ""
     set s1_opt ""
     set s2_opt ""
+    set z1_opt ""
     set z2_opt ""
+    set z3_opt ""
     set offline_help_dir "[api::get_plugin_directory]/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
@@ -137,7 +140,8 @@ namespace eval e_menu {
       foreach s [split $sel \n] {
         set s_opt [string trimright $s]
         if {$s_opt!=""} {
-          set s_opt [string map {\" \\\" \{ \\\{ \( "\\\\("} "s=$s_opt"]  ;# s= 1st line of the selection
+          set s_opt [string map {\" \\\" \{ \\\{ \( "\\\\(" \
+          \> "" \< ""} "s=$s_opt"]  ;# s= 1st line of the selection
           set tmpname [save_to_tmp $sel]
           if {$tmpname!=""} {
             set z2_opt "z2=$tmpname"     ;# z2= temp.file of the selection
@@ -150,15 +154,21 @@ namespace eval e_menu {
         set dir_name [file dirname $file_name]
         set f_opt "f=$file_name"
         set d_opt "d=$dir_name"
+        set D_opt "PD=$dir_name"
         set s0_opt "s0=[file tail $file_name]"
         set s1_opt "s1=[file tail $dir_name]"
+      }
+      catch {
+        # z3=tail of project dir
+        set z3_opt "z3=[file tail $::env(E_MENU_PD)]"
       }
     }
     set tke [file normalize [file join [api::get_plugin_directory]/../../../../bin tke]]
     set plugdir "[api::get_plugin_directory]/e_menu"
+    set z1_opt "z1=$plugdir"
     exec tclsh $plugdir/e_menu.tcl \
     "m=menus/menu.mnu" "ed=$tke" fs=11 w=40 wc=1 \
-    "z1=$plugdir" $h_opt $s_opt $f_opt $d_opt $s0_opt $s1_opt $s2_opt $z2_opt &
+    $h_opt $s_opt $f_opt $d_opt $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $D_opt &
   }
 
   #====== Procedures to register the plugin

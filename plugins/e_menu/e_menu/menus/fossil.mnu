@@ -1,26 +1,26 @@
  R:fossil status %PD R: cd %PD
- S:fossil status %PD S: fossil status
+ S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
 
  R:fossil ui R: cd %PD
  R:fossil ui R: fossil ui -port 8081
 
- R:fossil addremove R: %Q "Add remove" "Add the new and remove the deleted files \nfrom repository %PN.fossil?"
- R:fossil addremove R: cd %PD
- S:fossil addremove S: fossil addremove
+ R:fossil addremove (to/from %z3.fossil) R: %Q "Add remove" "Add the new and remove the deleted\nin %PD?"
+ R:fossil addremove (to/from %z3.fossil) R: cd %PD
+ S:fossil addremove (to/from %z3.fossil) S: pwd\necho ---\ndir\necho ---\nfossil addremove
 
  R:fossil changes R: cd %PD
- S:fossil changes S: fossil changes
+ S:fossil changes S: pwd\necho ---\necho --+%PD+--\ndir\necho ---\nfossil changes
 
  R:fossil extras R: cd %PD
- S:fossil extras S: fossil extras
+ S:fossil extras S: pwd\necho ---\ndir\necho ---\nfossil extras
 
- R: R: 3
+ R: R: 2
 
  R:fossil finfo %s0 R: cd %PD
  S:fossil finfo %s0 S: fossil finfo %f
 
  R:fossil gdiff %s0 R: cd %PD
- R:fossil gdiff %s0 R: fossil gdiff %f
+ S:fossil gdiff %s0 S: fossil gdiff %f
 
  R:fossil revert %s0 R: %q "Reverting changes" "Revert changes of \n   %f?"
  R:fossil revert %s0 R: cd %PD
@@ -31,11 +31,11 @@
  R:fossil undo %s0 R: cd %PD
  S:fossil undo %s0 S: fossil undo %f
 
- R: R: 3
+ R: R: 2
 
- R:fossil commit -m "%s at %t1" R: %q "Committing changes" "Commit with message\n\n'%s at %t1' ?"
- R:fossil commit -m "%s at %t1" R: cd %PD
- S:fossil commit -m "%s at %t1" S: fossil commit -m "%s at %t1"
+ R:fossil commit -m "%z3 %PN %s at %t1" R: %q "Committing changes" "Commit with message\n\n'%z3 %PN %s at %t1' ?"
+ R:fossil commit -m "%z3 %PN %s at %t1" R: cd %PD
+ S:fossil commit -m "%z3 %PN %s at %t1" S: fossil commit -m "%z3 %PN %s at %t1"
 
  R:fossil branch new "%dd" trunk R: %q "Branch" "Branch new %dd ?"
  R:fossil branch new "%dd" trunk R: cd %PD
@@ -68,7 +68,7 @@
  R:fossil undo R: cd %PD
  S:fossil undo S: fossil undo
 
- R: R: 3
+ R: R: 2
 
  R:fossil timeline R: cd %PD
  S:fossil timeline S: fossil timeline
@@ -79,7 +79,11 @@
  R:fossil timeline after %t1 --showfiles R: cd %PD
  S:fossil timeline after %t1 --showfiles S: fossil timeline after %t1 --showfiles -n 0
 
- R: -- R: 9
+ R: -- R: 4
+
+ R:fossil init %z3.fossil R: %q "INIT" "Initialize the new fossil repository\nas\n   %z3.fossil\nin\n   %PD?"
+ R:fossil init %z3.fossil R: cd %PD
+ S:fossil init %z3.fossil S: fossil new ~/FOSSIL/%z3.fossil\nfossil open ~/FOSSIL/%z3.fossil\nfossil status
 
  R:fossil all list R: cd %PD
  S:fossil all list S: fossil all list
