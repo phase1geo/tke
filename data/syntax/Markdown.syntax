@@ -145,9 +145,13 @@ advanced {
 
   HighlightProc highlight {
     array set vars $varlist
-    return [list [list hilite {*}$vars(2) \
-                       meta   {*}$vars(1) \
-                       meta   {*}$vars(3)] ""]
+    if {![$txt is escaped $row.[lindex $vars(0) 0]]} {
+      return [list [list hilite {*}$vars(2) \
+                         meta   {*}$vars(1) \
+                         meta   {*}$vars(3)] ""]
+    } else {
+      return ""
+    }
   } HighlightEndProc
 
   HighlightProc subscript {

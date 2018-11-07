@@ -771,6 +771,12 @@ namespace eval files {
           }
           close_tabs $fname $isdir
           return
+        } elseif {![catch { exec -ignorestderr which gio 2>@1 }]} {
+          if {[catch { exec -ignorestderr gio trash $fname } rc]} {
+            return -code error $rc
+          }
+          close_tabs $fname $isdir
+          return
         } elseif {[file exists [set trash [file join ~ .local share Trash]]]} {
           if {[info exists ::env(XDG_DATA_HOME)] && ($::env(XDG_DATA_HOME) ne "") && [file exists $::env(XDG_DATA_HOME)]} {
             set trash $::env(XDG_DATA_HOME)
