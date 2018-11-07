@@ -981,7 +981,7 @@ namespace eval pref_ui {
       set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 \
         -borderwidth 0 -highlightthickness 0 \
         -yscrollcommand [list utils::set_yscrollbar .prefwin.f.mf.vb]]
-      scroller::scroller .prefwin.f.mf.vb -orient vertical -command [list .pref.f.mf.matches yview]
+      scroller::scroller .prefwin.f.mf.vb -orient vertical -command [list .prefwin.f.mf.lb yview]
 
       bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::search_select]
       bind [.prefwin.sf.e entrytag] <Escape> [list pref_ui::search_clear]
