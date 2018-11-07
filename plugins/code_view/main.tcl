@@ -14,8 +14,8 @@ namespace eval code_view {
   proc run {} {
 
     if {![api::file::get_info [api::file::current_index] lock]} {
-      api::invoke_menu "File/Lock"
-      api::invoke_menu "Edit/Indentation/Format Text"
+      api::menu::invoke "File/Lock"
+      api::menu::invoke "Edit/Indentation/Format Text"
     }
 
   }
