@@ -759,6 +759,13 @@ namespace eval specl::updater {
                 set trash_path [linux_manual_trash $install_dir]
               }
             }
+          } elseif {![catch { exec -ignorestderr which gio 2>@1 }]} {
+            if {[catch { exec -ignorestderr gio trash $install_dir }]} {
+              set password [get_password $content_list]
+              if {[catch { run_admin_cmd "gio trash [list $install_dir]" $password }]} {
+                set trash_path [linux_manual_trash $install_dir]
+              }
+            }
           } else {
             set trash_path [linux_manual_trash $install_dir]
           }

@@ -297,6 +297,9 @@ namespace eval plugins {
         -message [msgcat::mc "Syntax errors found in selected plugins"] -detail [join $names \n]
     }
 
+    # Add all of the exposed procs
+    add_all_exposed
+
     # Add all of the available VCS commands
     add_all_vcs_commands
 
@@ -1042,7 +1045,7 @@ namespace eval plugins {
 
     foreach entry [find_registry_entries "expose"] {
       foreach p [lassign $entry index] {
-        if {[lsearch -exact [$registry($index,interp) info procs] $p] != -1} {
+        if {![catch { $registry($index,interp) eval info procs $p } rc] && ($rc eq "::$p")} {
           set exposed($p) $index
         } else {
           handle_status_error "exposed" $index "Exposed proc $p does not exist"
@@ -1577,7 +1580,13 @@ namespace eval plugins {
     variable registry
     variable exposed
 
-    if {[catch { $registry($index,interp) eval $name {*}$args } status]} {
+    if {![info exists exposed($name)]} {
+      return -code error "Attempting to execute a non-existent exposed proc"
+    }
+
+    set index $exposed($name)
+
+    if {[catch { $registry($index,interp) eval $name $index $args } status]} {
       handle_status_error "execute_exposed" $index $status
       return -code error $status
     } else {
@@ -1631,8 +1640,6 @@ namespace eval plugins {
   # Exports the specified plugin as a .tkeplugz file.  This filetype will
   # support drag-and-drop to install a given plugin.
   proc export_plugin {parent_win name odir} {
-
-    puts "In export_plugin, name: $name, odir: $odir"
 
     # Get the directory to export
     set idir [file join $::tke_home iplugins $name]
@@ -1690,8 +1697,6 @@ namespace eval plugins {
   # Imports the given plugin, copying the data to the user's home plugins
   # directory.
   proc import_plugin {parent_win fname} {
-
-    puts "Importing "
 
     # Make sure that the plugins directory exists
     file mkdir [file join $::tke_home iplugins]

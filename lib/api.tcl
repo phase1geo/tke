@@ -126,23 +126,6 @@ namespace eval api {
   }
 
   ######################################################################
-  ## Invokes the given menu path.
-  #
-  # \param menu_path  Hierarchical menu path (separated by '/') to invoke.
-  proc invoke_menu {interp pname menu_path} {
-
-    # Get the menu path
-    set menu_path [split $menu_path /]
-
-    # Get the parent menu
-    set parent [menus::get_menu [lrange $menu_path 0 end-1]]
-
-    # Invoke the menu entry in the parent
-    menus::invoke $parent [lindex $menu_path end]
-
-  }
-
-  ######################################################################
   ## Logs the given information in the diagnostic logfile and standard
   #  output.
   #
@@ -1080,8 +1063,9 @@ namespace eval api {
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        puts "mnu: $mnu"
-        return [expr {[$mnu index [lindex $menu_list end]] ne "none"}]
+        if {![catch { $mnu index [lindex $menu_list end] } res] && ($res ne "none")} {
+          return 1
+        }
       }
 
       return 0
@@ -1101,10 +1085,12 @@ namespace eval api {
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        if {[set index [$mnu index [lindex $menu_list end]]] ne "none"} {
-          menus::invoke $mnu $index
+        if {![catch { menus::invoke $mnu [lindex $menu_list end] }]} {
+          return 1
         }
       }
+
+      return 0
 
     }
 
