@@ -2687,7 +2687,7 @@ namespace eval ctext {
   # Returns the index of the bracket type previous to the given index.
   proc getPrevBracket {win stype {index insert}} {
 
-    lassign [$win tag prevrange _$stype $index] first last
+    lassign [$win tag prevrange __$stype $index] first last
 
     if {$last eq ""} {
       return ""
@@ -2703,12 +2703,12 @@ namespace eval ctext {
   # Returns the index of the bracket type after the given index.
   proc getNextBracket {win stype {index insert}} {
 
-    lassign [$win tag prevrange _$stype "$index+1c"] first last
+    lassign [$win tag prevrange __$stype "$index+1c"] first last
 
     if {($last ne "") && [$win compare "$index+1c" < $last]} {
       return [$win index "$index+1c"]
     } else {
-      lassign [$win tag nextrange _$stype "$index+1c"] first last
+      lassign [$win tag nextrange __$stype "$index+1c"] first last
       return $first
     }
 
@@ -2870,11 +2870,11 @@ namespace eval ctext {
 
     set count   0
     set other   ${stype}R
-    set olist   [lassign [$win.t tag ranges _$other] ofirst olast]
+    set olist   [lassign [$win.t tag ranges __$other] ofirst olast]
     set missing [list]
 
     # Perform count for all code containing left stypes
-    foreach {sfirst slast} [$win.t tag ranges _${stype}L] {
+    foreach {sfirst slast} [$win.t tag ranges __${stype}L] {
       while {($ofirst ne "") && [$win.t compare $sfirst > $ofirst]} {
         if {[incr count -[$win._t count -chars $ofirst $olast]] < 0} {
           lappend missing "$olast+${count}c" $olast

@@ -51,11 +51,11 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.8 2.13 2.22]} {
-      cleanup "Tag tags are incorrect ([$txt tag ranges _miscellaneous10])"
+    if {[$txt syntax ranges miscellaneous10] ne [list 2.0 2.8 2.13 2.22]} {
+      cleanup "Tag tags are incorrect ([$txt syntax ranges miscellaneous10])"
     }
-    if {[$txt tag ranges _bold] ne [list 2.25 2.30]} {
-      cleanup "Bold tags are incorrect ([$txt tag ranges _bold])"
+    if {[$txt syntax ranges bold] ne [list 2.25 2.30]} {
+      cleanup "Bold tags are incorrect ([$txt syntax ranges bold])"
     }
 
     # Clean things up
@@ -83,20 +83,20 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
-      cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    if {[$txt syntax ranges keywords] ne [list 6.4 6.6]} {
+      cleanup "Keyword miscompare ([$txt syntax ranges keywords])"
     }
-    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20 10.0 10.7]} {
-      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
+    if {[$txt syntax ranges miscellaneous10] ne [list 2.0 2.6 3.2 3.20 10.0 10.7]} {
+      cleanup "Tag miscompare ([$txt syntax ranges miscellaneous10])"
     }
-    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
-      cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
+    if {[$txt syntax ranges comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt syntax ranges comstr1c0])"
     }
-    if {[$txt tag ranges _comstr1l] ne [list 5.4 6.0]} {
-      cleanup "PHP comment miscompare ([$txt tag ranges _comstr1l:PHP])"
+    if {[$txt syntax ranges comstr1l] ne [list 5.4 6.0]} {
+      cleanup "PHP comment miscompare ([$txt syntax ranges comstr1l:PHP])"
     }
-    if {[$txt tag ranges _Lang=PHP] ne [list 5.0 9.0]} {
-      cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
+    if {[$txt syntax ranges Lang=PHP] ne [list 5.0 9.0]} {
+      cleanup "PHP language miscompare ([$txt syntax ranges Lang=PHP])"
     }
 
     # Clean things up

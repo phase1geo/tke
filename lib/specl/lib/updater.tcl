@@ -745,7 +745,14 @@ namespace eval specl::updater {
           }
         }
         Linux* {
-          if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
+          if {![catch { exec -ignorestderr which gio 2>@1 }]} {
+            if {[catch { exec -ignorestderr gio trash $install_dir }]} {
+              set password [get_password $content_list]
+              if {[catch { run_admin_cmd "gio trash [list $install_dir]" $password }]} {
+                set trash_path [linux_manual_trash $install_dir]
+              }
+            }
+          } elseif {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
             if {[catch { exec -ignorestderr gvfs-trash $install_dir }]} {
               set password [get_password $content_list]
               if {[catch { run_admin_cmd "gvfs-trash [list $install_dir]" $password }]} {
@@ -756,13 +763,6 @@ namespace eval specl::updater {
             if {[catch { exec -ignorestderr kioclient move $install_dir trash:/ }]} {
               set password [get_password $content_list]
               if {[catch { run_admin_cmd "kioclient move [list $install_dir] trash:/" $password }]} {
-                set trash_path [linux_manual_trash $install_dir]
-              }
-            }
-          } elseif {![catch { exec -ignorestderr which gio 2>@1 }]} {
-            if {[catch { exec -ignorestderr gio trash $install_dir }]} {
-              set password [get_password $content_list]
-              if {[catch { run_admin_cmd "gio trash [list $install_dir]" $password }]} {
                 set trash_path [linux_manual_trash $install_dir]
               }
             }

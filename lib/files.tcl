@@ -759,7 +759,13 @@ namespace eval files {
       }
 
       Linux* {
-        if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
+        if {![catch { exec -ignorestderr which gio 2>@1 }]} {
+          if {[catch { exec -ignorestderr gio trash $fname } rc]} {
+            return -code error $rc
+          }
+          close_tabs $fname $isdir
+          return
+        } elseif {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
           if {[catch { exec -ignorestderr gvfs-trash $fname } rc]} {
             return -code error $rc
           }
@@ -767,12 +773,6 @@ namespace eval files {
           return
         } elseif {![catch { exec -ignorestderr which kioclient 2>@1 }]} {
           if {[catch { exec -ignorestderr kioclient move $fname trash:/ } rc]} {
-            return -code error $rc
-          }
-          close_tabs $fname $isdir
-          return
-        } elseif {![catch { exec -ignorestderr which gio 2>@1 }]} {
-          if {[catch { exec -ignorestderr gio trash $fname } rc]} {
             return -code error $rc
           }
           close_tabs $fname $isdir
