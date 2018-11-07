@@ -49,10 +49,10 @@ namespace eval ctext {
     $txt insert end "\n\"String 1\"\"String 2\""
 
     # Verify that all characters contain the _comstr0d tag
-    if {[$txt tag ranges _comstr0d0] ne [list 2.0 2.10]} {
+    if {[$txt syntax ranges comstr0d0] ne [list 2.0 2.10]} {
       cleanup "Inserted strings are missing _comstr0d0 tag"
     }
-    if {[$txt tag ranges _comstr0d1] ne [list 2.10 2.20]} {
+    if {[$txt syntax ranges comstr0d1] ne [list 2.10 2.20]} {
       cleanup "Inserted strings are missing _comstr0d1 tag"
     }
 
@@ -60,7 +60,7 @@ namespace eval ctext {
     $txt insert 2.10 "a"
 
     # Verify that the newly inserted character was not tagged with _comstr0d
-    if {[lsearch -glob [$txt tag names 2.10] _comstr0d*] != -1} {
+    if {[$txt syntax contains comstr0d* 2.10]} {
       cleanup "Inserted character marked with _comstr0d tag"
     }
 
@@ -69,58 +69,8 @@ namespace eval ctext {
 
   }
 
-  # Verify that strings are tagged even if syntax highlighting is disabled
+  # Verify is escaped functionality
   proc run_test2 {} {
-
-    # Initialize the test
-    set txt [initialize]
-
-    # Turn of syntax highlighting
-    $txt configure -highlight 0
-
-    # Insert a string
-    $txt insert end "\n\"This is a string\""
-
-    # Verify that the string is tagged
-    if {[$txt tag ranges _comstr0d0] ne [list 2.0 2.18]} {
-      cleanup "String was not properly tagged"
-    }
-
-    # Verify that a character within the string is considered to be in a string
-    if {![ctext::inCommentString $txt 2.5]} {
-      cleanup "Character 5 is not considered to be within a string"
-    }
-
-    # Cleanup the test
-    cleanup
-
-  }
-
-  # Verify that bracket tagging occurs even if syntax highlighting is disabled.
-  proc run_test3 {} {
-
-    # Initialize the test
-    set txt [initialize]
-
-    # Turn of syntax highlighting
-    $txt configure -highlight 0
-
-    # Insert a string with a bracket
-    $txt insert end "\nset foobar \[barfoo\]"
-
-    # Verify that the brackets are tagged
-    if {([$txt tag ranges _squareL] ne [list 2.11 2.12]) ||
-        ([$txt tag ranges _squareR] ne [list 2.18 2.19])} {
-      cleanup "Brackets were not properly tagged"
-    }
-
-    # Cleanup the test
-    cleanup
-
-  }
-
-  # Verify isEscaped functionality
-  proc run_test4 {} {
 
     set txt [initialize]
 
@@ -136,7 +86,7 @@ namespace eval ctext {
     }
 
     $txt insert end "\n\\ \\word"
-    if {![ctext::isEscaped $txt 2.3]} {
+    if {![$txt is escaped 2.3]} {
       cleanup "split escapes are not being parsed properly"
     }
 
@@ -144,24 +94,24 @@ namespace eval ctext {
 
   }
 
-  # Verify inDoubleQuote, inString and inCommentString functionality for double quotes
-  proc run_test5 {} {
+  # Verify indouble, instring and incommentstring functionality for double quotes
+  proc run_test3 {} {
 
     set txt [initialize]
     syntax::set_language $txt "C++"
 
     $txt insert end "\nthis \"is a\" string"
 
-    if {[$txt tag ranges _comstr0d0] ne [list 2.5 2.11]} {
-      cleanup "tag does not match expected value"
+    if {[$txt syntax ranges comstr0d0] ne [list 2.5 2.11]} {
+      cleanup "tag does not match expected value ([$txt syntax ranges comstr0d0])"
     }
 
-    foreach procedure [list inDoubleQuote inString inCommentString] {
+    foreach procedure [list indouble instring incommentstring] {
       foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.9 1 2.10 1 2.11 0] {
         set range ""
-        if {[ctext::$procedure $txt $index] != $expect} {
+        if {[$txt is $procedure $index] != $expect} {
           cleanup "$procedure: index $index did not match expected value ($expect)"
-        } elseif {[ctext::${procedure}Range $txt $index range] != $expect} {
+        } elseif {[$txt is $procedure $index range] != $expect} {
           cleanup "${procedure}Range: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "${procedure}Range: index $index returned a range when it should not have"
@@ -175,24 +125,24 @@ namespace eval ctext {
 
   }
 
-  # Verify inSingleQuote, inString and inCommentString functionality for single quotes
-  proc run_test6 {} {
+  # Verify insingle, instring and incommentstring functionality for single quotes
+  proc run_test4 {} {
 
     set txt [initialize]
     syntax::set_language $txt "C++"
 
     $txt insert end "\nthis 'is a' string"
 
-    if {[$txt tag ranges _comstr0s0] ne [list 2.5 2.11]} {
+    if {[$txt syntax ranges comstr0s0] ne [list 2.5 2.11]} {
       cleanup "tag does not match expected value"
     }
 
-    foreach procedure [list inSingleQuote inString inCommentString] {
+    foreach procedure [list insingle instring incommentstring] {
       foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.9 1 2.10 1 2.11 0] {
         set range ""
-        if {[ctext::$procedure $txt $index] != $expect} {
+        if {[$txt is $procedure $index] != $expect} {
           cleanup "$procedure: index $index did not match expected value ($expect)"
-        } elseif {[ctext::${procedure}Range $txt $index range] != $expect} {
+        } elseif {[$txt is $procedure $index range] != $expect} {
           cleanup "${procedure}Range: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "${procedure}Range: index $index returned a range when it should not have"
@@ -206,24 +156,117 @@ namespace eval ctext {
 
   }
 
-  # Verify inLineComment, inComment and inCommentString functionality for line comments
+  # Verify inbtick, instring and incommentstring functionality for single quotes
+  proc run_test5 {} {
+
+    set txt [initialize]
+    syntax::set_language $txt "FOOBAR"
+
+    $txt insert end "\nthis `is a` string"
+
+    if {[$txt syntax ranges comstr0b0] ne [list 2.5 2.11]} {
+      cleanup "tag does not match expected value"
+    }
+
+    foreach procedure [list inbtick instring incommentstring] {
+      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.9 1 2.10 1 2.11 0] {
+        set range ""
+        if {[$txt is $procedure $index] != $expect} {
+          cleanup "$procedure: index $index did not match expected value ($expect)"
+        } elseif {[$txt is $procedure $index range] != $expect} {
+          cleanup "${procedure}Range: index $index did not match expected value ($expect)"
+        } elseif {!$expect && ($range ne "")} {
+          cleanup "${procedure}Range: index $index returned a range when it should not have"
+        } elseif {$expect && ($range ne [list 2.5 2.11])} {
+          cleanup "${procedure}Range: index $index returned a bad range ($range)"
+        }
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify intripledouble, instring and incommentstring functionality for triple-double quotes
+  proc run_test6 {} {
+
+    set txt [initialize]
+    syntax::set_language $txt "Python"
+
+    $txt insert end "\nthis \"\"\"is \" a\"\"\" string"
+
+    if {[$txt syntax ranges comstr0D0] ne [list 2.5 2.17]} {
+      cleanup "tag does not match expected value"
+    }
+
+    foreach procedure [list inbtick instring incommentstring] {
+      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.15 1 2.16 1 2.17 0] {
+        set range ""
+        if {[$txt is $procedure $index] != $expect} {
+          cleanup "$procedure: index $index did not match expected value ($expect)"
+        } elseif {[$txt is $procedure $index range] != $expect} {
+          cleanup "${procedure}Range: index $index did not match expected value ($expect)"
+        } elseif {!$expect && ($range ne "")} {
+          cleanup "${procedure}Range: index $index returned a range when it should not have"
+        } elseif {$expect && ($range ne [list 2.5 2.11])} {
+          cleanup "${procedure}Range: index $index returned a bad range ($range)"
+        }
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify inbtickdouble, instring and incommentstring functionality for triple-single quotes
   proc run_test7 {} {
+
+    set txt [initialize]
+    syntax::set_language $txt "Markdown"
+
+    $txt insert end "\nthis ```is ` a``` string"
+
+    if {[$txt syntax ranges comstr0B0] ne [list 2.5 2.17]} {
+      cleanup "tag does not match expected value"
+    }
+
+    foreach procedure [list inbtick instring incommentstring] {
+      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.15 1 2.16 1 2.17 0] {
+        set range ""
+        if {[$txt is $procedure $index] != $expect} {
+          cleanup "$procedure: index $index did not match expected value ($expect)"
+        } elseif {[$txt is $procedure $index range] != $expect} {
+          cleanup "${procedure}Range: index $index did not match expected value ($expect)"
+        } elseif {!$expect && ($range ne "")} {
+          cleanup "${procedure}Range: index $index returned a range when it should not have"
+        } elseif {$expect && ($range ne [list 2.5 2.11])} {
+          cleanup "${procedure}Range: index $index returned a bad range ($range)"
+        }
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify inlinecomment, incomment and incommentstring functionality for line comments
+  proc run_test8 {} {
 
     set txt [initialize]
     syntax::set_language $txt "C++"
 
     $txt insert end "\nthis // is a line\ncomment"
 
-    if {[$txt tag ranges _comstr1l] ne [list 2.5 3.0]} {
-      cleanup "tag does not match expected value ([$txt tag ranges _comstr1l])"
+    if {[$txt syntax ranges comstr1l] ne [list 2.5 3.0]} {
+      cleanup "tag does not match expected value ([$txt syntax ranges comstr1l])"
     }
 
-    foreach procedure [list inLineComment inComment inCommentString] {
+    foreach procedure [list inlinecomment incomment incommentstring] {
       foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.7 1 2.16 1 2.end 1 3.0 0] {
         set range ""
-        if {[ctext::$procedure $txt $index] != $expect} {
+        if {[$txt is $procedure $index] != $expect} {
           cleanup "$procedure: index $index did not match expected value ($expect)"
-        } elseif {[ctext::${procedure}Range $txt $index range] != $expect} {
+        } elseif {[$txt is $procedure $index range] != $expect} {
           cleanup "${procedure}Range: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "${procedure}Range: index $index returned a range when it should not have"
@@ -237,24 +280,24 @@ namespace eval ctext {
 
   }
 
-  # Verify inBlockComment, inComment and inCommentString functionality for block comments
-  proc run_test8 {} {
+  # Verify inblockcomment, incomment and incommentstring functionality for block comments
+  proc run_test9 {} {
 
     set txt [initialize]
     syntax::set_language $txt "C++"
 
     $txt insert end "\nthis /* is a block */ comment"
 
-    if {[$txt tag ranges _comstr1c0] ne [list 2.5 2.21]} {
+    if {[$txt syntax ranges comstr1c0] ne [list 2.5 2.21]} {
       cleanup "comstr1c0 tag does not match expected value"
     }
 
-    foreach procedure [list inBlockComment inComment inCommentString] {
+    foreach procedure [list inblockcomment incomment incommentstring] {
       foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.7 1 2.18 1 2.19 1 2.20 1 2.21 0] {
         set range ""
-        if {[ctext::$procedure $txt $index] != $expect} {
+        if {[$txt is $procedure $index] != $expect} {
           cleanup "$procedure: index $index did not match expected value ($expect)"
-        } elseif {[ctext::${procedure}Range $txt $index range] != $expect} {
+        } elseif {[$txt is $procedure $index range] != $expect} {
           cleanup "${procedure}Range: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "${procedure}Range: index $index returned a range when it should not have"
@@ -269,7 +312,7 @@ namespace eval ctext {
   }
 
   # Verify the clipboard append command
-  proc run_test9 {} {
+  proc run_test10 {} {
 
     set txt [initialize]
 
@@ -300,7 +343,7 @@ namespace eval ctext {
   }
 
   # Verify the cget and configure commands
-  proc run_test10 {} {
+  proc run_test11 {} {
 
     set txt [initialize]
 
@@ -335,7 +378,7 @@ namespace eval ctext {
   }
 
   # Verify other flavors of configure
-  proc run_test11 {} {
+  proc run_test12 {} {
 
     set txt  [initialize]
     set opts [$txt configure]
@@ -378,7 +421,7 @@ namespace eval ctext {
   }
 
   # Verify the copy command
-  proc run_test12 {} {
+  proc run_test13 {} {
 
     set txt [initialize]
 
@@ -412,7 +455,7 @@ namespace eval ctext {
   }
 
   # Verify the cut command
-  proc run_test13 {} {
+  proc run_test14 {} {
 
     set txt [initialize]
 
@@ -448,27 +491,27 @@ namespace eval ctext {
   }
 
   # Verify the delete command
-  proc run_test14 {} {
+  proc run_test15 {} {
 
     set txt [initialize]
 
     $txt insert end "\nset foobar \"good\""
 
-    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+    if {[$txt syntax ranges keywords] ne [list 2.0 2.3]} {
       cleanup "set keyword was not tagged"
     }
-    if {[$txt tag ranges _comstr0d0] ne [list 2.11 2.17]} {
+    if {[$txt syntax ranges comstr0d0] ne [list 2.11 2.17]} {
       cleanup "string was not tagged"
     }
     $txt delete 2.0
-    if {[$txt tag ranges _keywords] ne [list]} {
+    if {[$txt syntax ranges keywords] ne [list]} {
       cleanup "set keyword was still tagged after character deleted"
     }
     if {[$txt get 2.0 2.end] ne "et foobar \"good\""} {
       cleanup "text content not correct after s removal"
     }
     $txt delete 2.10
-    if {[$txt tag ranges _comstr0d0] ne [list 2.14 3.0]} {
+    if {[$txt syntax ranges comstr0d0] ne [list 2.14 3.0]} {
       cleanup "string was still tagged after quote deleted"
     }
     if {[$txt get 2.0 2.end] ne "et foobar good\""} {
@@ -478,7 +521,7 @@ namespace eval ctext {
     if {[$txt get 1.0 end-1c] ne ""} {
       cleanup "text not removed"
     }
-    if {[$txt tag ranges _comstr0d0] ne [list]} {
+    if {[$txt syntax ranges comstr0d0] ne [list]} {
       cleanup "string still exists after wiping the text"
     }
 
@@ -488,41 +531,41 @@ namespace eval ctext {
     if {[$txt get 2.0 2.end] ne "seoobar \"good\""} {
       cleanup "text content not correct after set removal"
     }
-    if {[$txt tag ranges _keywords] ne [list]} {
+    if {[$txt syntax ranges keywords] ne [list]} {
       cleanup "set keyword tag still exists after deleting a portion of it"
     }
 
     $txt delete 1.0 end
     $txt insert end "\nset this \\\\{is good}"
 
-    if {[$txt tag ranges _curlyL] ne [list 2.11 2.12]} {
+    if {[$txt syntax ranges curlyL] ne [list 2.11 2.12]} {
       cleanup "left curly bracket tag is missing"
     }
-    if {[$txt tag ranges _curlyR] ne [list 2.19 2.20]} {
+    if {[$txt syntax ranges curlyR] ne [list 2.19 2.20]} {
       cleanup "right curly bracket tag is missing"
     }
-    if {[$txt tag ranges _escape] ne [list 2.9 2.10]} {
+    if {[$txt syntax ranges escape] ne [list 2.9 2.10]} {
       cleanup "escape character tag is missing"
     }
 
     $txt delete 2.9
-    if {[$txt tag ranges _escape] ne [list 2.9 2.10]} {
+    if {[$txt syntax ranges escape] ne [list 2.9 2.10]} {
       cleanup "escape character tag is missing after deletion"
     }
-    if {[$txt tag ranges _curlyL] ne [list]} {
+    if {[$txt syntax ranges curlyL] ne [list]} {
       cleanup "left curly bracket tag still exists"
     }
 
     $txt delete 2.9
-    if {[$txt tag ranges _escape] ne [list]} {
+    if {[$txt syntax ranges escape] ne [list]} {
       cleanup "escape character exists when it was deleted"
     }
-    if {[$txt tag ranges _curlyL] ne [list 2.9 2.10]} {
+    if {[$txt syntax ranges curlyL] ne [list 2.9 2.10]} {
       cleanup "left curly bracket is missing even though it is not escaped"
     }
 
     $txt delete 2.9
-    if {[$txt tag ranges _curlyL] ne [list]} {
+    if {[$txt syntax ranges curlyL] ne [list]} {
       cleanup "left curly bracket tag exists after it has been deleted"
     }
 
@@ -531,7 +574,7 @@ namespace eval ctext {
   }
 
   # Verify the fastdelete command
-  proc run_test15 {} {
+  proc run_test16 {} {
 
     set txt [initialize]
 
@@ -556,19 +599,19 @@ namespace eval ctext {
   }
 
   # Verify the fastinsert command
-  proc run_test16 {} {
+  proc run_test17 {} {
 
     set txt [initialize]
 
     $txt fastinsert end "\nset foobar \\\\{now}"
 
-    if {[$txt tag ranges _keywords] ne [list]} {
+    if {[$txt syntax ranges keywords] ne [list]} {
       cleanup "keyword tags exist for fast insert"
     }
-    if {[$txt tag ranges _escape] ne [list]} {
+    if {[$txt syntax ranges escape] ne [list]} {
       cleanup "escape tags exist for fast insert"
     }
-    if {[$txt tag ranges _curlyL] ne [list]} {
+    if {[$txt syntax ranges curlyL] ne [list]} {
       cleanup "curly bracket tags exist for fast insert"
     }
     if {[$txt get 2.0 2.end] ne "set foobar \\\\{now}"} {
@@ -580,7 +623,7 @@ namespace eval ctext {
   }
 
   # Verify the highlight command
-  proc run_test17 {} {
+  proc run_test18 {} {
 
     set txt [initialize]
 
@@ -589,29 +632,29 @@ namespace eval ctext {
       $txt delete 1.0 end
       $txt fastinsert end "\nset foobar \[list \"nice\" \"\\\\\"\]"
 
-      if {([$txt tag ranges _keywords]  ne [list]) || \
-          ([$txt tag ranges _squareL]   ne [list]) || \
-          ([$txt tag ranges _comstr0d0] ne [list]) || \
-          ([$txt tag ranges _comstr0d1] ne [list]) || \
-          ([$txt tag ranges _escape]    ne [list])} {
+      if {([$txt syntax ranges keywords]  ne [list]) || \
+          ([$txt syntax ranges squareL]   ne [list]) || \
+          ([$txt syntax ranges comstr0d0] ne [list]) || \
+          ([$txt syntax ranges comstr0d1] ne [list]) || \
+          ([$txt syntax ranges escape]    ne [list])} {
         cleanup "fastinsert text contained tags"
       }
 
       $txt highlight $startpos $endpos
 
-      if {[$txt tag ranges _keywords] ne [list 2.0 2.3 2.12 2.16]} {
+      if {[$txt syntax ranges keywords] ne [list 2.0 2.3 2.12 2.16]} {
         cleanup "keyword not tagged after being highlighted"
       }
-      if {[$txt tag ranges _squareL] ne [list 2.11 2.12]} {
+      if {[$txt syntax ranges squareL] ne [list 2.11 2.12]} {
         cleanup "square bracket not tagged after being highlighted"
       }
-      if {[$txt tag ranges _comstr0d0] ne [list 2.17 2.23]} {
+      if {[$txt syntax ranges comstr0d0] ne [list 2.17 2.23]} {
         cleanup "comstr0d0 not tagged after being highlighted"
       }
-      if {[$txt tag ranges _comstr0d1] ne [list 2.24 2.28]} {
+      if {[$txt syntax ranges comstr0d1] ne [list 2.24 2.28]} {
         cleanup "comstr0d1 not tagged after being highlighted"
       }
-      if {[$txt tag ranges _escape] ne [list 2.25 2.26]} {
+      if {[$txt syntax ranges escape] ne [list 2.25 2.26]} {
         cleanup "escape not tagged after being highlighted"
       }
 
@@ -622,19 +665,19 @@ namespace eval ctext {
   }
 
   # Verify the insert command
-  proc run_test18 {} {
+  proc run_test19 {} {
 
     set txt [initialize]
 
     $txt insert end "\nset foobar \\\\{now}"
 
-    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+    if {[$txt syntax ranges keywords] ne [list 2.0 2.3]} {
       cleanup "keyword tags exist for insert"
     }
-    if {[$txt tag ranges _escape] ne [list 2.11 2.12]} {
+    if {[$txt syntax ranges escape] ne [list 2.11 2.12]} {
       cleanup "escape tags exist for insert"
     }
-    if {[$txt tag ranges _curlyL] ne [list 2.13 2.14]} {
+    if {[$txt syntax ranges curlyL] ne [list 2.13 2.14]} {
       cleanup "curly bracket tags exist for insert"
     }
     if {[$txt get 2.0 2.end] ne "set foobar \\\\{now}"} {
@@ -646,19 +689,19 @@ namespace eval ctext {
   }
 
   # Verify the replace command
-  proc run_test19 {} {
+  proc run_test20 {} {
 
     set txt [initialize]
 
     $txt insert end "\nset foobar \\\\{now}"
 
-    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+    if {[$txt syntax ranges keywords] ne [list 2.0 2.3]} {
       cleanup "keyword tags incorrect for insert"
     }
-    if {[$txt tag ranges _escape] ne [list 2.11 2.12]} {
+    if {[$txt syntax ranges escape] ne [list 2.11 2.12]} {
       cleanup "escape tags incorrect for insert"
     }
-    if {[$txt tag ranges _curlyL] ne [list 2.13 2.14]} {
+    if {[$txt syntax ranges curlyL] ne [list 2.13 2.14]} {
       cleanup "curly bracket tags incorrect for insert"
     }
     if {[$txt get 2.0 2.end] ne "set foobar \\\\{now}"} {
@@ -667,13 +710,13 @@ namespace eval ctext {
 
     $txt replace 2.4 2.10 "goo"
 
-    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+    if {[$txt syntax ranges keywords] ne [list 2.0 2.3]} {
       cleanup "keyword tags incorrect for replace"
     }
-    if {[$txt tag ranges _escape] ne [list 2.8 2.9]} {
+    if {[$txt syntax ranges escape] ne [list 2.8 2.9]} {
       cleanup "escape tags incorrect for replace"
     }
-    if {[$txt tag ranges _curlyL] ne [list 2.10 2.11]} {
+    if {[$txt syntax ranges curlyL] ne [list 2.10 2.11]} {
       cleanup "curly bracket tags incorrect for replace"
     }
     if {[$txt get 2.0 2.end] ne "set goo \\\\{now}"} {
@@ -682,16 +725,16 @@ namespace eval ctext {
 
     $txt replace 1.0 end "\nproc something {{parm \"buddy\"}} {}"
 
-    if {[$txt tag ranges _keywords] ne [list 2.0 2.4]} {
+    if {[$txt syntax ranges keywords] ne [list 2.0 2.4]} {
       cleanup "keyword tags incorrect for replace"
     }
-    if {[$txt tag ranges _escape] ne [list]} {
+    if {[$txt syntax ranges escape] ne [list]} {
       cleanup "escape tags exist for replace"
     }
-    if {[$txt tag ranges _curlyL] ne [list 2.15 2.17 2.32 2.33]} {
+    if {[$txt syntax ranges curlyL] ne [list 2.15 2.17 2.32 2.33]} {
       cleanup "curly bracket tags incorrect for replace"
     }
-    if {[$txt tag ranges _comstr0d0] ne [list 2.22 2.29]} {
+    if {[$txt syntax ranges comstr0d0] ne [list 2.22 2.29]} {
       cleanup "string tags incorrect for replace"
     }
     if {[$txt get 2.0 2.end] ne "proc something {{parm \"buddy\"}} {}"} {
@@ -702,7 +745,7 @@ namespace eval ctext {
 
   }
 
-  proc run_test20 {} {
+  proc run_test21 {} {
 
     set txt [initialize]
 
@@ -718,10 +761,10 @@ namespace eval ctext {
     if {[$txt get 2.0 2.end] ne "set foobar \"good\""} {
       cleanup "text not pasted properly"
     }
-    if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
+    if {[$txt syntax ranges keywords] ne [list 2.0 2.3]} {
       cleanup "keywords not tagged after a paste operation"
     }
-    if {[$txt tag ranges _comstr0d0] ne [list 2.11 2.17]} {
+    if {[$txt syntax ranges comstr0d0] ne [list 2.11 2.17]} {
       cleanup "string not tagged after a paste operation"
     }
 
