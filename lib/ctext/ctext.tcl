@@ -3155,7 +3155,7 @@ namespace eval ctext {
     $win tag configure __Lang:$lang
     $win tag lower     __Lang:$lang _invisible
     $win tag configure __Lang=$lang -background $theme(embedded)
-    $win tag raise     __Lang=$lang _invisible
+    $win tag lower     __Lang=$lang _invisible
 
     lappend data($win,config,csl_char_tags,) __LangStart:$lang __LangEnd:$lang
     lappend data($win,config,csl_array)      __LangStart:${lang}0 1 __LangStart:${lang}1 1 __LangEnd:${lang}0 1 __LangEnd:${lang}1 1 __Lang:$lang 1

@@ -184,7 +184,6 @@ advanced {
   } HighlightEndProc
 
   HighlightProc urllink {
-    puts "urllink varlist: $varlist"
     array set vars $varlist
     return [list [list ulink {*}$vars(2) \
                        meta  {*}$vars(1) \
@@ -228,7 +227,7 @@ advanced {
   HighlightProc list_check {
     array set vars $varlist
     if {[$txt compare $row.[expr [lindex $vars(0) 1] + 1] < insert] && $ins} {
-      if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
+      if {([set prevend [lassign [$txt syntax prevrange prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
         if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get "$prevend-1c" "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
             $txt fastreplace "insert-1l linestart" insert "\n"
