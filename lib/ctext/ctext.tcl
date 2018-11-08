@@ -2106,8 +2106,8 @@ namespace eval ctext {
         }
       }
       contains  { return [expr [lsearch [$win._t tag names [lindex $args 1]] __[lindex $args 0]] != -1] }
-      nextrange { return [nextHighlightClassItem $win {*}$args] }
-      prevrange { return [prevHighlightClassItem $win {*}$args] }
+      nextrange { return [$win._t tag nextrange __[lindex $args 0] {*}[lrange $args 1 end]] }
+      prevrange { return [$win._t tag prevrange __[lindex $args 0] {*}[lrange $args 1 end]] }
       ranges    { return [$win._t tag ranges __[lindex $args 0]] }
       highlight {
         set i 0
