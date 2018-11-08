@@ -56,6 +56,7 @@ puts -nonewline "Installation requires the Tk package...     "
 flush stdout
 if {[catch "package require Tk" rc]} {
   puts "Not Found! ($rc)"
+  puts "Install tk8.6 package"
   exit 1
 } else {
   puts "Found"
@@ -66,6 +67,7 @@ puts -nonewline "Installation requires the Tclx package...   "
 flush stdout
 if {[catch "package require Tclx" rc]} {
   puts "Not Found! ($rc)"
+  puts "Install tclx package"
   exit 1
 } else {
   puts "Found"
@@ -76,6 +78,7 @@ puts -nonewline "Installation requires the Tcllib package... "
 flush stdout
 if {[catch "package require struct::set" rc]} {
   puts "Not Found! ($rc)"
+  puts "Install tcllib package"
   exit 1
 } else {
   puts "Found"
@@ -86,6 +89,7 @@ puts -nonewline "Installation requires the Tklib package...  "
 flush stdout
 if {[catch "package require tooltip" rc]} {
   puts "Not Found! ($rc)"
+  puts "Install tklib package"
   exit 1
 } else {
   puts "Found"
@@ -96,6 +100,7 @@ puts -nonewline "Checking for tkdnd package...               "
 flush stdout
 if {[catch "package require tkdnd" rc]} {
   puts "Not Found (Drag and drop support will be disabled)"
+  puts "Install tkdnd package"
 } else {
   puts "Found"
 }
@@ -105,6 +110,7 @@ puts -nonewline "Checking for Expect package...              "
 flush stdout
 if {[catch "package require Expect" rc]} {
   puts "Not Found (SFTP support will be disabled)"
+  puts "Install expect package"
 } else {
   puts "Found"
 }
@@ -114,6 +120,16 @@ puts -nonewline "Checking for Img package...                 "
 flush stdout
 if {[catch "package require Img" rc]} {
   puts "Not Found (Only .gif, .bmp and .png images will be previewable in the file information panel)"
+} else {
+  puts "Found"
+}
+
+# Check to see if the tcl-vfs package is available on the system
+puts -nonewline "Checking for tcl-vfs package...             "
+flush stdout
+if {[catch "package require vfs" rc]} {
+  puts "Not Found! (Zip/Unzip functions will use zip/unzip on the system)"
+  puts "Install tcl-vfs package"
 } else {
   puts "Found"
 }
