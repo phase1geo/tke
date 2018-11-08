@@ -39,8 +39,9 @@ advanced {
   HighlightClass h5            {-fgtheme miscellaneous2 -fontopts h5}
   HighlightClass h6            {-fgtheme miscellaneous2 -fontopts h6}
   HighlightClass quote         {-fgtheme punctuation}
-  HighlightClass ref           {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_reflink_click}
-  HighlightClass url           {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_urllink_click}
+  HighlightClass rlink         {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_reflink_click}
+  HighlightClass ulink         {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::markdown::handle_urllink_click}
+  HighlightClass ref           {-fgtheme meta}
   HighlightClass code          {-fgtheme precompile     -fontopts code}
   HighlightClass ccode         {-fgtheme precompile     -fontopts code}
   HighlightClass strike        {-fontopts overstrike}
@@ -51,21 +52,21 @@ advanced {
   HighlightClass boldmarkers   {-immediate 1}
   HighlightClass strikemarkers {-immediate 1}
 
-  HighlightRegexp {(``)(.+?)(``)}                          ccode
-  HighlightRegexp {(`)(.+?)(`)}                            code
-  HighlightRegexp {^(#{1,6}\s*)(.*?)$}                     header
-  HighlightRegexp {^(>)(.*?)$}                             quote
-  HighlightRegexp {([*_]{2})((?=\S).+?[^\\])(\1)}          bold
-  HighlightRegexp {([*_])((?=\S).+?[^\\])(\1)}             italics
-  HighlightRegexp {(!?\[)([^\]]+)(\]\s*\[)(.*?)(\])}       reflink
-  HighlightRegexp {(!?\[)([^\]]+)(\]\()(\S+)(\s+.*?)(\))}  urllink
-  HighlightRegexp {^\s*\[(.+?)\]:\s+(\S+)}                 linkref
-  HighlightRegexp {([~|]{2})((?=\S).+?)(\1)}               overstrike
-  HighlightRegexp {(~)((?=\S).+?)(\1)}                     subscript
-  HighlightRegexp {(\^)((?=\S).+?)(\1)}                    superscript
-  HighlightRegexp {([=:]{2})((?=\S).+?)(\1)}               highlight
-  HighlightRegexp {\[[ xX]\]}                              checkbox
-  HighlightRegexp {.*?$}                                   list_check
+  HighlightRegexp {(``)(.+?)(``)}                               ccode
+  HighlightRegexp {(`)(.+?)(`)}                                 code
+  HighlightRegexp {^(#{1,6}\s*)(.*?)$}                          header
+  HighlightRegexp {^(>)(.*?)$}                                  quote
+  HighlightRegexp {([*_]{2})((?=\S).+?[^\\])(\1)}               bold
+  HighlightRegexp {([*_])((?=\S).+?[^\\])(\1)}                  italics
+  HighlightRegexp {(!?\[)([^\]]+)(\]\s*\[)(.*?)(\])}            reflink
+  HighlightRegexp {(!?\[)([^\]]+)(\]\()([^\s\)]+)(\s+.*)?(\))}  urllink
+  HighlightRegexp {^\s*\[(.+?)\]:\s+(\S+)}                      linkref
+  HighlightRegexp {([~|]{2})((?=\S).+?)(\1)}                    overstrike
+  HighlightRegexp {(~)((?=\S).+?)(\1)}                          subscript
+  HighlightRegexp {(\^)((?=\S).+?)(\1)}                         superscript
+  HighlightRegexp {([=:]{2})((?=\S).+?)(\1)}                    highlight
+  HighlightRegexp {\[[ xX]\]}                                   checkbox
+  HighlightRegexp {.*?$}                                        list_check
 
   HighlightProc ccode {
     array set vars $varlist
@@ -175,27 +176,28 @@ advanced {
 
   HighlightProc reflink {
     array set vars $varlist
-    return [list [list ref  {*}$vars(2) \
-                       meta {*}$vars(1) \
-                       meta {*}$vars(3) \
-                       meta {*}$vars(4) \
-                       meta {*}$vars(5)] ""]
+    return [list [list rlink {*}$vars(2) \
+                       meta  {*}$vars(1) \
+                       meta  {*}$vars(3) \
+                       ref   {*}$vars(4) \
+                       meta  {*}$vars(5)] ""]
   } HighlightEndProc
 
   HighlightProc urllink {
+    puts "urllink varlist: $varlist"
     array set vars $varlist
-    return [list [list ref  {*}$vars(2) \
-                       meta {*}$vars(1) \
-                       meta {*}$vars(3) \
-                       url  {*}$vars(4) \
-                       meta {*}$vars(6)] ""]
+    return [list [list ulink {*}$vars(2) \
+                       meta  {*}$vars(1) \
+                       meta  {*}$vars(3) \
+                       ref   {*}$vars(4) \
+                       meta  {*}$vars(6)] ""]
   } HighlightEndProc
 
   HighlightProc linkref {
     variable linkrefs
     array set vars $varlist
-    set linkref [string tolower [string range {*}$vars(1)]]
-    set url     [string range {*}$vars(2)]
+    set linkref [string tolower [string range $str {*}$vars(1)]]
+    set url     [string range $str {*}$vars(2)]
     set linkrefs($txt,$linkref) $url
     return ""
   } HighlightEndProc
@@ -206,12 +208,14 @@ advanced {
   } HighlightEndProc
 
   HighlightProc handle_urllink_click {txt startpos endpos} {
-    utils::open_file_externally [$txt get $startpos $endpos]
+    lassign [$txt syntax nextrange ref $endpos] spos epos
+    utils::open_file_externally [$txt get $spos $epos]
   } HighlightEndProc
 
   HighlightProc handle_reflink_click {txt startpos endpos} {
     variable linkrefs
-    if {[info exists linkrefs($txt,[string tolower [$txt get $startpos $endpos]])]} {
+    lassign [$txt syntax nextrange ref $endpos] spos epos
+    if {[info exists linkrefs($txt,[string tolower [$txt get $spos $epos]])]} {
       utils::open_file_externally $linkrefs($txt,$ref)
     }
   } HighlightEndProc
