@@ -209,14 +209,15 @@ advanced {
 
   HighlightProc handle_urllink_click {txt startpos endpos} {
     lassign [$txt syntax nextrange ref $endpos] spos epos
-    utils::open_file_externally [$txt get $spos $epos]
+    utils::open_file_externally [$txt get $spos $epos] 1
   } HighlightEndProc
 
   HighlightProc handle_reflink_click {txt startpos endpos} {
     variable linkrefs
     lassign [$txt syntax nextrange ref $endpos] spos epos
-    if {[info exists linkrefs($txt,[string tolower [$txt get $spos $epos]])]} {
-      utils::open_file_externally $linkrefs($txt,$ref)
+    set ref_id [string tolower [$txt get $spos $epos]]
+    if {[info exists linkrefs($txt,$ref_id)]} {
+      utils::open_file_externally $linkrefs($txt,$ref_id) 1
     }
   } HighlightEndProc
 
