@@ -813,7 +813,7 @@ namespace eval emmet {
 </html>$0}
 
     if {$actual ne $expect} {
-      cleanup "$str did not expand properly ($actual)"
+      cleanup "$str did not expand properly ([join [split $actual \n] ,\n])"
     }
 
     cleanup

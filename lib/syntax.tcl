@@ -173,7 +173,9 @@ namespace eval syntax {
 
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
-      launcher::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list syntax::set_current_language $name]
+      if {[string index $name 0] ne "_"} {
+        launcher::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list syntax::set_current_language $name]
+      }
 
     }
 
@@ -782,7 +784,7 @@ namespace eval syntax {
     # If the user wants to view languages in a submenu, organize them that way
     if {[preferences::get View/ShowLanguagesSubmenu] && [winfo exists $mnu.submenuA]} {
       array unset letters
-      foreach lang [lsort $languages] {
+      foreach lang [lsort [lsearch -inline -not -all $languages _*]] {
         lappend letters([string toupper [string index $lang 0]]) $lang
       }
       $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
@@ -813,7 +815,7 @@ namespace eval syntax {
     # Populate the menu with the available languages
     $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
     set i 0
-    foreach lang [lsort $languages] {
+    foreach lang [lsort [lsearch -inline -not -all $languages _*]] {
       $mnu add radiobutton -label $lang -variable $varname \
         -value $lang -command [list {*}$command $lang] -columnbreak [expr (($len / $cols) == $i) && $dobreak]
       set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]

@@ -1053,7 +1053,7 @@ namespace eval select {
     } else {
       set closest ""
       foreach t [list square curly paren angled] {
-        if {[lsearch -regexp [$txtt tag names $startpos] "_${t}\[LR\]"] != -1} {
+        if {[$txtt is $t $startpos]} {
           set type $t
           break
         } elseif {[set index [ctext::getMatchBracket [winfo parent $txtt] ${t}L $startpos]] ne ""} {
@@ -1783,7 +1783,7 @@ namespace eval select {
   # Returns the range of the specified bracket.
   proc bracket_current {txtt type startpos} {
 
-    if {[lsearch -regexp [$txtt tag names $startpos] "_${type}\[LR\]"] != -1} {
+    if {[$txtt is $type $startpos]} {
       return [edit::get_range $txtt [list $type 1] [list] o 0 $startpos]
     } else {
       return [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]
@@ -1795,15 +1795,15 @@ namespace eval select {
   # Returns the range of the specified bracket's parent bracket.
   proc bracket_parent {txtt type startpos endpos} {
 
-    if {[lsearch [$txtt syntax names $startpos] _${type}L] != -1} {
+    if {[$txtt is $type left $startpos]} {
       set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos]
       if {[$txtt compare $right == $endpos-1c]} {
-        if {[lsearch [$txtt tag names $startpos-1c] _${type}L] != -1} {
+        if {[$txtt is $type left $startpos-1c]} {
           return [list $startpos [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos-1c]]
         } else {
           return [edit::get_range $txtt [list $type 1] [list] i 0 "$startpos-1c"]
         }
-      } elseif {[lsearch [$txtt tag names $startpos-1c] _${type}L] != -1} {
+      } elseif {[$txtt is $type left $startpos-1c]} {
         return [list [$txtt index $startpos-1c] [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos-1c]+1c]
       }
     }
@@ -1820,7 +1820,7 @@ namespace eval select {
   # Returns the range of the first child within the given parent range.
   proc bracket_first_child {txtt type startpos endpos} {
 
-    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+    if {[$txtt is $type left $startpos]} {
       if {[set right [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos]] ne ""} {
         if {[$txtt compare $right == $endpos-1c]} {
           return [list [$txtt index $startpos+1c] $right]
@@ -1844,7 +1844,7 @@ namespace eval select {
   # Returns the range of the last child within the given parent range.
   proc bracket_last_child {txtt type startpos endpos} {
 
-    if {[lsearch [$txtt tag names $endpos-1c] _${type}R] != -1} {
+    if {[$txtt is $type right $endpos-1c]} {
       if {[set left [ctext::getMatchBracket [winfo parent $txtt] ${type}L $endpos-1c]] ne ""} {
         if {[$txtt compare $left == $startpos]} {
           return [list [$txtt index $startpos+1c] [$txtt index $endpos-1c]]
@@ -1870,7 +1870,7 @@ namespace eval select {
 
     variable data
 
-    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+    if {[$txtt is $type left $startpos]} {
       set parent [bracket_parent $txtt $type $startpos $endpos]
       if {$data($txtt,anchorend) == 0} {
         set left [ctext::getNextBracket [winfo parent $txtt] ${type}L $endpos]
@@ -1892,7 +1892,7 @@ namespace eval select {
 
     variable data
 
-    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+    if {[$txtt is $type left $startpos]} {
       set parent [bracket_parent $txtt $type $startpos $endpos]
       if {$data($txtt,anchorend) == 0} {
         set right [ctext::getPrevBracket [winfo parent $txtt] ${type}R $endpos-1c]
