@@ -1637,6 +1637,24 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Recursively gathers a list of files to zip.
+  proc get_file_list {abs {rel ""}} {
+
+    set file_list [list]
+
+    foreach item [glob -directory $abs *] {
+      if {[file isdirectory $item]} {
+        lappend file_list {*}[get_file_list $item [file join $rel [file tail $item]]]
+      } elseif {[file isfile $item]} {
+        lappend file_list [file join $rel [file tail $item]]
+      }
+    }
+
+    return $file_list
+
+  }
+
+  ######################################################################
   # Exports the specified plugin as a .tkeplugz file.  This filetype will
   # support drag-and-drop to install a given plugin.
   proc export_plugin {parent_win name odir} {
@@ -1655,8 +1673,10 @@ namespace eval plugins {
     # Set the current working directory to the user themes directory
     cd $odir
 
+    set file_list [get_file_list $idir]
+
     # Perform the archive
-    if {[catch { zipper::list2zip $idir [glob -directory $idir -tails *] [file join $name.tkeplugz] } rc]} {
+    if {[catch { zipper::list2zip $idir $file_list [file join $name.tkeplugz] } rc]} {
       if {[catch { exec -ignorestderr zip -r [file join $name.tkeplugz] $idir } rc]} {
         tk_messageBox -parent $parent_win -icon error -type ok -default ok \
           -message [format "%s %s" [msgcat::mc "Unable to zip plugin"] $name]
@@ -1687,6 +1707,7 @@ namespace eval plugins {
         }
       }
       if {$success} {
+        reload
         gui::set_info_message [msgcat::mc "Plugin import completed successfully"]
       }
     }
