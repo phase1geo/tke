@@ -40,42 +40,45 @@ advanced {
   HighlightClass h5            {-fgtheme miscellaneous2 -fontopts h5}
   HighlightClass h6            {-fgtheme miscellaneous2 -fontopts h6}
   HighlightClass quote         {-fgtheme punctuation}
-  HighlightClass reflink       {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::MultiMarkdown::handle_reflink_click}
-  HighlightClass urllink       {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::MultiMarkdown::handle_urllink_click}
+  HighlightClass ilink         {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::multimarkdown::handle_immlink_click}
+  HighlightClass rlink         {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::multimarkdown::handle_reflink_click}
+  HighlightClass ulink         {-fgtheme miscellaneous1 -fontopts underline -clickcmd syntax::multimarkdown::handle_urllink_click}
+  HighlightClass uline         {-fontopts underline}
+  HighlightClass ref           {-fgtheme meta}
   HighlightClass code          {-fgtheme precompile     -fontopts code}
   HighlightClass ccode         {-fgtheme precompile     -fontopts code}
   HighlightClass strike        {-fgtheme none           -fontopts overstrike}
   HighlightClass hilite        {-fgtheme background -bgtheme highlighter}
   HighlightClass meta          {-fgtheme meta}
   HighlightClass math          {-fgtheme miscellaneous3}
-  HighlightClass check         {-clickcmd syntax::MultiMarkdown::handle_checkbox_click}
+  HighlightClass check         {-clickcmd syntax::multimarkdown::handle_checkbox_click}
   HighlightClass boldmarkers   {-immediate 1}
   HighlightClass codemarkers   {-immediate 1}
   HighlightClass strikemarkers {-immediate 1}
 
-  HighlightRegexp {(`{3})(.+?)(\1)}                    ccode
-  HighlightRegexp {(`)(.+?)(`)}                        code
-  HighlightRegexp {^(#{1,6}\s+)(.*?)$}                 header
-  HighlightRegexp {^(>)(.*?)$}                         quote
-  HighlightRegexp {([*_]{2})((?=\S).+?)(\1)}           bold
-  HighlightRegexp {([*_])((?=\S).+?)(\1)}              italics
-  HighlightRegexp {(!?\[)(.+?)(\]\s*\[)(.*?)(\])}      reflink
-  HighlightRegexp {(!?\[)(.+?)(\]\()(\S+)(\s*.*?)(\))} urllink
-  HighlightRegexp {<(.+?)>}                            immlink
-  HighlightRegexp {^\s*\[(.+?)\]:\s+(\S+)}             linkref
-  HighlightRegexp {(\{\-{2})((?=\S).+?)(\1\})}         overstrike
-  HighlightRegexp {(\{\+{2})((?=\S).+?)(\1\})}         underline
-  HighlightRegexp {(\{~{2})(.+?)(~>)(.+?)(\1\})}       correction
-  HighlightRegexp {(\{={2})((?=\S).+?)(\1\})}          highlight
-  HighlightRegexp {(\{>{2})(.+?)(<{2}\})}              ignore
-  HighlightRegexp {(~)((?=\S).+?)(\1)}                 subscript
-  HighlightRegexp {(\^)((?=\S).+?)(\1)}                superscript
-  HighlightRegexp {(\\\\\[)\s+(.+?)\s+(\\\\\])}        math1
-  HighlightRegexp {(\\\\\()\s+(.+?)\s+(\\\\\))}        math2
-  HighlightRegexp {(\$\$)(.+?)(\1)}                    math3
-  HighlightRegexp {(\$)(.+?)(\$) }                     math4
-  HighlightRegexp {\[[ xX]\]}                          checkbox
-  HighlightRegexp {.*?$}                               list_check
+  HighlightRegexp {(`{3})(.+?)(\1)}                         ccode
+  HighlightRegexp {(`)(.+?)(`)}                             code
+  HighlightRegexp {^(#{1,6}\s+)(.*?)$}                      header
+  HighlightRegexp {^(>)(.*?)$}                              quote
+  HighlightRegexp {([*_]{2})((?=\S).+?[^\\])(\1)}           bold
+  HighlightRegexp {([*_])((?=\S).+?[^\\])(\1)}              italics
+  HighlightRegexp {(!?\[)(.+?)(\]\s*\[)(.*?)(\])}           reflink
+  HighlightRegexp {(!?\[)(.+?)(\]\()([^\s\)]+)(\s*.*?)(\))} urllink
+  HighlightRegexp {<(.+?)>}                                 immlink
+  HighlightRegexp {^\s*\[(.+?)\]:\s+(\S+)}                  linkref
+  HighlightRegexp {(\{\-{2})((?=\S).+?)(\-{2}\})}           overstrike
+  HighlightRegexp {(\{\+{2})((?=\S).+?)(\+{2}\})}           underline
+  HighlightRegexp {(\{~{2})(.+?)(~>)(.+?)(~{2}\})}          correction
+  HighlightRegexp {(\{={2})((?=\S).+?)(={2}\})}             highlight
+  HighlightRegexp {(\{>{2})(.+?)(<{2}\})}                   ignore
+  HighlightRegexp {(~)((?=\S).+?)(\1)}                      subscript
+  HighlightRegexp {(\^)((?=\S).+?)(\1)}                     superscript
+  HighlightRegexp {(\\\\\[)\s+(.+?)\s+(\\\\\])}             math1
+  HighlightRegexp {(\\\\\()\s+(.+?)\s+(\\\\\))}             math2
+  HighlightRegexp {(\$\$)(.+?)(\1)}                         math3
+  HighlightRegexp {(\$)(.+?)(\$) }                          math4
+  HighlightRegexp {\[[ xX]\]}                               checkbox
+  HighlightRegexp {.*?$}                                    list_check
 
   HighlightProc ccode {
     array set vars $varlist
@@ -128,9 +131,8 @@ advanced {
 
   HighlightProc italics {
     array set vars $varlist
-    puts "Italics"
-    if {![$txt syntax contains boldmarkers $row.[lindex $vars(0) 0] && \
-        ![$txt syntax contains boldmarkers $row.[lindex $vars(0) 1] && \
+    if {![$txt syntax contains boldmarkers $row.[lindex $vars(0) 0]] && \
+        ![$txt syntax contains boldmarkers $row.[lindex $vars(0) 1]] && \
         ![$txt is escaped $row.[lindex $vars(0) 0]]} {
       return [list [list italics {*}$vars(2) \
                          meta    {*}$vars(1) \
@@ -156,9 +158,9 @@ advanced {
 
   HighlightProc underline {
     array set vars $varlist
-    return [list [list reflink {*}$vars(2) \
-                       meta    {*}$vars(1) \
-                       meta    {*}$vars(3)] ""]
+    return [list [list uline {*}$vars(2) \
+                       meta  {*}$vars(1) \
+                       meta  {*}$vars(3)] ""]
   } HighlightEndProc
 
   HighlightProc correction {
@@ -205,46 +207,52 @@ advanced {
 
   HighlightProc reflink {
     array set vars $varlist
-    return [list [list ref     {*}$vars(2) \
-                       meta    {*}$vars(1) \
-                       meta    {*}$vars(3) \
-                       reflink {*}$vars(4) \
-                       meta    {*}$vars(5)] ""]
+    return [list [list rlink {*}$vars(2) \
+                       meta  {*}$vars(1) \
+                       meta  {*}$vars(3) \
+                       ref   {*}$vars(4) \
+                       meta  {*}$vars(5)] ""]
   } HighlightEndProc
 
   HighlightProc urllink {
     array set vars $varlist
-    return [list [list ref     {*}$vars(2) \
-                       meta    {*}$vars(1) \
-                       meta    {*}$vars(3) \
-                       urllink {*}$vars(4) \
-                       meta    {*}$vars(6)] ""]
+    return [list [list ulink {*}$vars(2) \
+                       meta  {*}$vars(1) \
+                       meta  {*}$vars(3) \
+                       ref   {*}$vars(4) \
+                       meta  {*}$vars(6)] ""]
   } HighlightEndProc
 
   HighlightProc immlink {
     array set vars $varlist
-    return [list [list urllink {*}$vars(1)] ""]
+    return [list [list ilink {*}$vars(1)] ""]
   } HighlightEndProc
 
   HighlightProc linkref {
     variable linkrefs
-    array set vars $varlink
+    array set vars $varlist
     set linkref [string tolower [string range $str {*}$vars(1)]]
     set url     [string range $str {*}$vars(2)]
     set linkrefs($txt,$linkref) $url
     return ""
   } HighlightEndProc
 
+  HighlightProc handle_immlink_click {txt startpos endpos} {
+    utils::open_file_externally [$txt get $startpos $endpos] 1
+  } HighlightEndProc
+
   HighlightProc handle_reflink_click {txt startpos endpos} {
     variable linkrefs
-    set ref [string tolower [$txt get $startpos $endpos]]
+    lassign [$txt syntax nextrange ref $endpos] spos epos
+    set ref [string tolower [$txt get $spos $epos]]
     if {[info exists linkrefs($txt,$ref)]} {
-      utils::open_file_externally $linkrefs($txt,$ref)
+      utils::open_file_externally $linkrefs($txt,$ref) 1
     }
   } HighlightEndProc
 
   HighlightProc handle_urllink_click {txt startpos endpos} {
-    utils::open_file_externally [$txt get $startpos $endpos]
+    lassign [$txt syntax nextrange ref $endpos] spos epos
+    utils::open_file_externally [$txt get $spos $epos] 1
   } HighlightEndProc
 
   HighlightProc math1 {
@@ -287,15 +295,15 @@ advanced {
   HighlightProc list_check {
     array set vars $varlist
     if {[$txt compare $row.[expr [lindex $vars(0) 1] + 1] < insert] && $ins} {
-      if {![$txt is firstchar firstchar] && [$txt is firstchar [set fchar [$txt index [list firstchar -startpos insert-1l]]]]} {
-        if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $fchar "$fchar lineend"] -> match num rest]} {
+      if {([set prevend [lassign [$txt syntax prevrange prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
+        if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get "$prevend-1c" "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
-            $txt replace -highlight 0 "insert-1l linestart" insert "\n"
+            $txt fastreplace "insert-1l linestart" insert "\n"
           } elseif {![regexp {^\\s*([+*>-]|(\\d+)\\.|\\[[ xX]\\])} [$txt get insert "insert lineend"]]} {
             if {($num ne "")} {
-              $txt insert -highlight 0 insert "[expr $num + 1]. "
+              $txt fastinsert insert "[expr $num + 1]. "
             } else {
-              $txt insert -highlight 0 insert "$match "
+              $txt fastinsert insert "$match "
             }
           }
         }
