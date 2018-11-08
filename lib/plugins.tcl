@@ -1702,7 +1702,7 @@ namespace eval plugins {
     file mkdir [file join $::tke_home iplugins]
 
     # If the directory exists, move it out of the way
-    set odir [file join $::tke_home iplugins [file basename [file tail $fname]]]
+    set odir [file join $::tke_home iplugins [file rootname [file tail $fname]]]
     if {[file exists $odir]} {
       file rename $odir $odir.old
     }
