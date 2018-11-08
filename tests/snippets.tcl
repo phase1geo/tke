@@ -130,7 +130,7 @@ namespace eval snippets {
     snippets::insert_snippet $txt.t {Some `echo text`}
 
     if {[$txt get 1.0 end-1c] ne "Some text"} {
-      cleanup "Snippet did not expand properly"
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
     }
 
     # Clean things up

@@ -160,7 +160,7 @@ namespace eval ctext {
   proc run_test5 {} {
 
     set txt [initialize]
-    syntax::set_language $txt "FOOBAR"
+    syntax::set_language $txt "Bash"
 
     $txt insert end "\nthis `is a` string"
 
@@ -199,7 +199,7 @@ namespace eval ctext {
       cleanup "tag does not match expected value"
     }
 
-    foreach procedure [list inbtick instring incommentstring] {
+    foreach procedure [list intripledouble instring incommentstring] {
       foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.15 1 2.16 1 2.17 0] {
         set range ""
         if {[$txt is $procedure $index] != $expect} {
@@ -208,7 +208,7 @@ namespace eval ctext {
           cleanup "${procedure}Range: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "${procedure}Range: index $index returned a range when it should not have"
-        } elseif {$expect && ($range ne [list 2.5 2.11])} {
+        } elseif {$expect && ($range ne [list 2.5 2.17])} {
           cleanup "${procedure}Range: index $index returned a bad range ($range)"
         }
       }
@@ -218,19 +218,19 @@ namespace eval ctext {
 
   }
 
-  # Verify inbtickdouble, instring and incommentstring functionality for triple-single quotes
+  # Verify intriplesingle, instring and incommentstring functionality for triple-single quotes
   proc run_test7 {} {
 
     set txt [initialize]
-    syntax::set_language $txt "Markdown"
+    syntax::set_language $txt "_test"
 
-    $txt insert end "\nthis ```is ` a``` string"
+    $txt insert end "\nthis '''is ' a''' string"
 
-    if {[$txt syntax ranges comstr0B0] ne [list 2.5 2.17]} {
-      cleanup "tag does not match expected value"
+    if {[$txt syntax ranges comstr0S0] ne [list 2.5 2.17]} {
+      cleanup "tag does not match expected value ([$txt syntax ranges comstr0S0])"
     }
 
-    foreach procedure [list inbtick instring incommentstring] {
+    foreach procedure [list intriplesingle instring incommentstring] {
       foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.15 1 2.16 1 2.17 0] {
         set range ""
         if {[$txt is $procedure $index] != $expect} {
@@ -239,7 +239,38 @@ namespace eval ctext {
           cleanup "${procedure}Range: index $index did not match expected value ($expect)"
         } elseif {!$expect && ($range ne "")} {
           cleanup "${procedure}Range: index $index returned a range when it should not have"
-        } elseif {$expect && ($range ne [list 2.5 2.11])} {
+        } elseif {$expect && ($range ne [list 2.5 2.17])} {
+          cleanup "${procedure}Range: index $index returned a bad range ($range)"
+        }
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify intriplebtick, instring and incommentstring functionality for triple-backtick
+  proc run_test8 {} {
+
+    set txt [initialize]
+    syntax::set_language $txt "_test"
+
+    $txt insert end "\nthis ```is ` a``` string"
+
+    if {[$txt syntax ranges comstr0B0] ne [list 2.5 2.17]} {
+      cleanup "tag does not match expected value"
+    }
+
+    foreach procedure [list intriplebtick instring incommentstring] {
+      foreach {index expect} [list 2.0 0 2.4 0 2.5 1 2.6 1 2.15 1 2.16 1 2.17 0] {
+        set range ""
+        if {[$txt is $procedure $index] != $expect} {
+          cleanup "$procedure: index $index did not match expected value ($expect)"
+        } elseif {[$txt is $procedure $index range] != $expect} {
+          cleanup "${procedure}Range: index $index did not match expected value ($expect)"
+        } elseif {!$expect && ($range ne "")} {
+          cleanup "${procedure}Range: index $index returned a range when it should not have"
+        } elseif {$expect && ($range ne [list 2.5 2.17])} {
           cleanup "${procedure}Range: index $index returned a bad range ($range)"
         }
       }
@@ -250,7 +281,7 @@ namespace eval ctext {
   }
 
   # Verify inlinecomment, incomment and incommentstring functionality for line comments
-  proc run_test8 {} {
+  proc run_test9 {} {
 
     set txt [initialize]
     syntax::set_language $txt "C++"
@@ -281,7 +312,7 @@ namespace eval ctext {
   }
 
   # Verify inblockcomment, incomment and incommentstring functionality for block comments
-  proc run_test9 {} {
+  proc run_test10 {} {
 
     set txt [initialize]
     syntax::set_language $txt "C++"
@@ -312,7 +343,7 @@ namespace eval ctext {
   }
 
   # Verify the clipboard append command
-  proc run_test10 {} {
+  proc run_test11 {} {
 
     set txt [initialize]
 
@@ -343,7 +374,7 @@ namespace eval ctext {
   }
 
   # Verify the cget and configure commands
-  proc run_test11 {} {
+  proc run_test12 {} {
 
     set txt [initialize]
 
@@ -378,7 +409,7 @@ namespace eval ctext {
   }
 
   # Verify other flavors of configure
-  proc run_test12 {} {
+  proc run_test13 {} {
 
     set txt  [initialize]
     set opts [$txt configure]
@@ -421,7 +452,7 @@ namespace eval ctext {
   }
 
   # Verify the copy command
-  proc run_test13 {} {
+  proc run_test14 {} {
 
     set txt [initialize]
 
@@ -455,7 +486,7 @@ namespace eval ctext {
   }
 
   # Verify the cut command
-  proc run_test14 {} {
+  proc run_test15 {} {
 
     set txt [initialize]
 
@@ -491,7 +522,7 @@ namespace eval ctext {
   }
 
   # Verify the delete command
-  proc run_test15 {} {
+  proc run_test16 {} {
 
     set txt [initialize]
 
@@ -574,7 +605,7 @@ namespace eval ctext {
   }
 
   # Verify the fastdelete command
-  proc run_test16 {} {
+  proc run_test17 {} {
 
     set txt [initialize]
 
@@ -599,7 +630,7 @@ namespace eval ctext {
   }
 
   # Verify the fastinsert command
-  proc run_test17 {} {
+  proc run_test18 {} {
 
     set txt [initialize]
 
@@ -623,7 +654,7 @@ namespace eval ctext {
   }
 
   # Verify the highlight command
-  proc run_test18 {} {
+  proc run_test19 {} {
 
     set txt [initialize]
 
@@ -640,7 +671,7 @@ namespace eval ctext {
         cleanup "fastinsert text contained tags"
       }
 
-      $txt highlight $startpos $endpos
+      $txt syntax highlight $startpos $endpos
 
       if {[$txt syntax ranges keywords] ne [list 2.0 2.3 2.12 2.16]} {
         cleanup "keyword not tagged after being highlighted"
@@ -665,7 +696,7 @@ namespace eval ctext {
   }
 
   # Verify the insert command
-  proc run_test19 {} {
+  proc run_test20 {} {
 
     set txt [initialize]
 
@@ -689,7 +720,7 @@ namespace eval ctext {
   }
 
   # Verify the replace command
-  proc run_test20 {} {
+  proc run_test21 {} {
 
     set txt [initialize]
 
@@ -745,7 +776,7 @@ namespace eval ctext {
 
   }
 
-  proc run_test21 {} {
+  proc run_test22 {} {
 
     set txt [initialize]
 

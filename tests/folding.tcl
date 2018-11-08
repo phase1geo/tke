@@ -292,8 +292,8 @@ namespace eval folding {
         }
       }
 
-      if {[$txt tag ranges _folded] ne [list]} {
-        cleanup "Text is not hidden ([$txt tag ranges _folded])"
+      if {[$txt tag ranges __folded] ne [list]} {
+        cleanup "Text is not hidden ([$txt tag ranges __folded])"
       }
 
     }
@@ -454,7 +454,7 @@ namespace eval folding {
     if {[folding::fold_state $txt 2] ne "close"} {
       cleanup "Folding state is not closed ([folding::fold_state $txt 2])"
     }
-    if {[lsearch [$txt tag names insert] _folded] == -1} {
+    if {[lsearch [$txt tag names insert] __folded] == -1} {
       cleanup "Cursor is not hidden when it should be"
     }
 
@@ -463,7 +463,7 @@ namespace eval folding {
     if {[folding::fold_state $txt 2] ne "open"} {
       cleanup "Folding state is not opened ([folding::fold_state $txt 2])"
     }
-    if {[lsearch [$txt tag names insert] _folded] != -1} {
+    if {[lsearch [$txt tag names insert] __folded] != -1} {
       cleanup "Cursor is not shown when it should be"
     }
 
@@ -582,7 +582,7 @@ namespace eval folding {
 
     set folds [list]
     for {set i 0} {$i < [$txtt count -lines 1.0 end]} {incr i} {
-      if {[lsearch [$txtt tag names $i.0] _folded] != -1} {
+      if {[lsearch [$txtt tag names $i.0] __folded] != -1} {
         lappend folds $i
       }
     }

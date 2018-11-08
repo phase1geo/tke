@@ -268,15 +268,15 @@ namespace eval emmet {
 
     # Get the tag
     if {$opts(-dir) eq "prev"} {
-      if {[set start [lindex [$txt tag prevrange __angledL $opts(-start)] 0]] eq ""} {
+      if {[set start [lindex [$txt syntax prevrange angledL $opts(-start)] 0]] eq ""} {
         return ""
-      } elseif {[set end [lindex [$txt tag nextrange __angledR $start] 1]] eq ""} {
+      } elseif {[set end [lindex [$txt syntax nextrange angledR $start] 1]] eq ""} {
         return ""
       }
     } else {
-      if {[set end [lindex [$txt tag nextrange __angledR $opts(-start)] 1]] eq ""} {
+      if {[set end [lindex [$txt syntax nextrange angledR $opts(-start)] 1]] eq ""} {
         return ""
-      } elseif {[set start [lindex [$txt tag prevrange __angledL $end] 0]] eq ""} {
+      } elseif {[set start [lindex [$txt syntax prevrange angledL $end] 0]] eq ""} {
         return ""
       }
     }
@@ -307,15 +307,15 @@ namespace eval emmet {
 
       # Otherwise, get the next tag
       if {$opts(-dir) eq "prev"} {
-        if {[set end [lindex [$txt tag prevrange __angledR $start] 1]] eq ""} {
+        if {[set end [lindex [$txt syntax prevrange angledR $start] 1]] eq ""} {
           return ""
-        } elseif {[set start [lindex [$txt tag prevrange __angledL $end] 0]] eq ""} {
+        } elseif {[set start [lindex [$txt syntax prevrange angledL $end] 0]] eq ""} {
           return ""
         }
       } else {
-        if {[set start [lindex [$txt tag nextrange __angledL $end] 0]] eq ""} {
+        if {[set start [lindex [$txt syntax nextrange angledL $end] 0]] eq ""} {
           return ""
-        } elseif {[set end [lindex [$txt tag nextrange __angledR $start] 1]] eq ""} {
+        } elseif {[set end [lindex [$txt syntax nextrange angledR $start] 1]] eq ""} {
           return ""
         }
       }
@@ -911,9 +911,9 @@ namespace eval emmet {
 
     if {[ctext::inComment $txt insert]} {
 
-      if {([set comment_end [lassign [$txt tag prevrange __comstr1c0 insert] comment_start]] eq "") || \
+      if {([set comment_end [lassign [$txt syntax prevrange comstr1c0 insert] comment_start]] eq "") || \
           [$txt compare insert > $comment_end]} {
-        lassign [$txt tag prevrange __comstr1c1 insert] comment_start comment_end
+        lassign [$txt syntax prevrange comstr1c1 insert] comment_start comment_end
       }
 
       set i 0

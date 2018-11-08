@@ -167,11 +167,13 @@ namespace eval ctext {
       grid remove $win.f
     }
 
-    # Add the priority tags
-    $win.t tag configure _visible
+    # Add the layer tags
+    $win.t tag configure _visibleH
+    $win.t tag configure _visibleL
     $win.t tag configure _invisible
-    $win.t tag lower _visible   sel
-    $win.t tag lower _invisible _visible
+    $win.t tag lower _visibleH   sel
+    $win.t tag lower _visibleL  _visibleH
+    $win.t tag lower _invisible _visibleL
 
     # Add default classes
     $win.t tag configure __escape
@@ -612,7 +614,7 @@ namespace eval ctext {
       foreach type [list curly square paren angled] {
         if {[lsearch [$win tag names] missing:$type] != -1} {
           $win tag configure missing:$type -background $value
-          $win tag raise missing:$type _visible
+          $win tag raise missing:$type _visibleH
         }
       }
       break
@@ -773,7 +775,7 @@ namespace eval ctext {
 
     if {[set curr_tag [lsearch -inline -glob [$win tag names $index] __comstr1*]] ne ""} {
       set range [$win tag prevrange $curr_tag $index+1c]
-      if {[string index $curr_tag 8] eq "l"} {
+      if {[string index $curr_tag 9] eq "l"} {
         set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]] __lCommentStart:*]
         lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c] [lindex $range 1]
       } else {
@@ -1868,19 +1870,12 @@ namespace eval ctext {
       return -code error "Incorrect arguments passed to ctext is command"
     }
 
-    lassign $args type index extra prange
-
-    if {$type eq "inclass"} {
-      set index [$win index $extra]
-    } else {
-      set index [$win index $index]
-    }
-
-    catch { upvar 2 $prange range } rc
+    lassign $args type extra index
 
     switch $type {
-      escaped   { return [isEscaped $win $index] }
+      escaped   { return [isEscaped $win [$win._t index $extra]] }
       firstchar {
+        set index    [$win._t index $extra]
         set prewhite [$win._t tag prevrange __prewhite "$index+1c"]
         return [expr {($prewhite ne "") && [$win._t compare [lindex $prewhite 1] == "$index+1c"]}]
       }
@@ -1888,48 +1883,78 @@ namespace eval ctext {
       square  -
       paren   -
       angled  {
-        if {$extra eq ""} {
+        if {[lsearch [list left right any] $extra] == -1} {
+          set index [$win._t index $extra]
           set extra "any"
-        } elseif {[lsearch [list left right any] $extra] == -1} {
-          return -code error "ctext is $type called with an illegal side value"
+        } else {
+          set index [$win._t index $index]
         }
         array set chars [list left L right R any *]
         return [expr [lsearch [$win._t tag names $index] __$type$chars($extra)] != -1]
       }
-      double        { return [is_quote $win d $index $extra] }
-      single        { return [is_quote $win s $index $extra] }
-      btick         { return [is_quote $win b $index $extra] }
-      tripledouble  { return [is_quote $win D $index $extra] }
-      triplesingle  { return [is_quote $win S $index $extra] }
-      triplebtick   { return [is_quote $win B $index $extra] }
+      double       -
+      single       -
+      btick        -
+      tripledouble -
+      triplesingle -
+      triplebtick  {
+        if {[lsearch [list left right any] $extra] == -1} {
+          set index [$win._t index $extra]
+          set extra "any"
+        } else {
+          set index [$win._t index $index]
+        }
+        array set chars [list double d single s btick b tripledouble D triplesingle S triplebtick B]
+        return [isQuote $win $chars($type) $index $extra]
+      }
       indent        -
       unindent      -
       reindent      -
       reindentStart {
-        return [expr [lsearch [$win._t tag names $index] __$type] != -1]
+        return [expr [lsearch [$win._t tag names $extra] __$type] != -1]
       }
       insquare        { return 0 }
       incurly         { return 0 }
       inparen         { return 0 }
       inangled        { return 0 }
-      indouble        { return [inDoubleQuote $win $index] }
-      insingle        { return [inSingleQuote $win $index] }
-      inbtick         { return [inBackTick $win $index] }
-      intripledouble  { return [inTripleDoubleQuote $win $index] }
-      intriplesingle  { return [inTripleSingleQuote $win $index] }
-      intriplebtick   { return [inTripleBackTick $win $index] }
-      inblockcomment  { return [inBlockComment $win $index] }
-      inlinecomment   { return [inLineComment $win $index] }
-      incomment       { return [inComment $win $index] }
-      instring        { return [inString $win $index] }
-      incommentstring { return [inCommentString $win $index] }
+      indouble        -
+      insingle        -
+      inbtick         -
+      intripledouble  -
+      intriplesingle  -
+      intriplebtick   -
+      inblockcomment  -
+      inlinecomment   -
+      incomment       -
+      instring        -
+      incommentstring {
+        array set procs {
+          indouble        DoubleQuote
+          insingle        SingleQuote
+          inbtick         BackTick
+          intripledouble  TripleDoubleQuote
+          intriplesingle  TripleSingleQuote
+          intriplebtick   TripleBackTick
+          inblockcomment  BlockComment
+          inlinecomment   LineComment
+          incomment       Comment
+          instring        String
+          incommentstring CommentString
+        }
+        if {$index ne ""} {
+          upvar 2 $index range
+          return [in$procs($type)Range $win [$win._t index $extra] range]
+        } else {
+          return [in$procs($type) $win [$win._t index $extra]]
+        }
+      }
       intag           { return 0 }
       inclass         {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"
         }
         if {[lsearch -exact [$win._t tag names $extra] __$index] != -1} {
-          set range [$win._t tag prevrange $extra __$index]
+          set range [$win._t tag prevrange __$extra "[$win._t index $index]+1c"]
           return 1
         } else {
           return 0
@@ -1942,7 +1967,7 @@ namespace eval ctext {
 
   }
 
-  proc is_quote {win char index side} {
+  proc isQuote {win char index side} {
 
     if {$side eq ""} {
       set side "any"
@@ -2106,9 +2131,9 @@ namespace eval ctext {
         }
       }
       contains  { return [expr [lsearch [$win._t tag names [lindex $args 1]] __[lindex $args 0]] != -1] }
-      nextrange { return [$win._t tag nextrange __[lindex $args 0] {*}[lrange $args 1 end]] }
-      prevrange { return [$win._t tag prevrange __[lindex $args 0] {*}[lrange $args 1 end]] }
-      ranges    { return [$win._t tag ranges __[lindex $args 0]] }
+      nextrange { return [$win tag nextrange __[lindex $args 0] {*}[lrange $args 1 end]] }
+      prevrange { return [$win tag prevrange __[lindex $args 0] {*}[lrange $args 1 end]] }
+      ranges    { return [$win tag ranges __[lindex $args 0]] }
       highlight {
         set i 0
         while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
@@ -2149,16 +2174,21 @@ namespace eval ctext {
         set args [lassign $args tag]
         if {[llength $args] == 0} {
           array set opts [$win._t tag configure $tag]
-          if {($opts(-background) ne "") || ($opts(-foreground) ne "") || ($opts(-font) ne "")} {
-            $win._t tag lower $tag _visible
+          if {$opts(-background) ne ""} {
+            $win._t tag lower $tag _visibleH
+          } elseif {($opts(-foreground) ne "") || ($opts(-font) ne "")} {
+            $win._t tag lower $tag _visibleL
           } else {
             $win._t tag lower $tag _invisible
           }
         } else {
           switch [lindex $args 0] {
-            visible   { $win._t tag lower $tag _visible }
+            visible1  { $win._t tag lower $tag _visibleH }
+            visible2  { $win._t tag raise $tag _visibleL }
+            visible3  { $win._t tag lower $tag _visibleL }
+            visible4  { $win._t tag raise $tag _invisible }
             invisible { $win._t tag lower $tag _invisible }
-            priority  { $win._t tag rase  $tag _visible }
+            priority  { $win._t tag raise $tag _visibleH }
             default   { return -code error "Invalid tag place value ([lindex $args 0])" }
           }
         }
@@ -2640,7 +2670,7 @@ namespace eval ctext {
     foreach matchChar [list curly square paren angled] {
       if {[info exists data($win,config,matchChar,$lang,$matchChar)]} {
         $win._t tag configure missing:$matchChar -background $data($win,config,-matchaudit_bg)
-        $win._t tag raise missing:$matchChar _visible
+        $win._t tag raise missing:$matchChar _visibleH
       }
     }
 
@@ -3005,8 +3035,8 @@ namespace eval ctext {
       array set theme $data($win,config,-theme)
       $win tag configure __comstr1c0 -foreground $theme(comments)
       $win tag configure __comstr1c1 -foreground $theme(comments)
-      $win tag lower __comstr1c0 _visible
-      $win tag lower __comstr1c1 _visible
+      $win tag lower __comstr1c0 _visibleH
+      $win tag lower __comstr1c1 _visibleH
       foreach tag [list __cCommentStart:${lang}0 __cCommentStart:${lang}1 __cCommentEnd:${lang}0 __cCommentEnd:${lang}1] {
         $win tag configure $tag
         $win tag lower $tag _invisible
@@ -3035,7 +3065,7 @@ namespace eval ctext {
     if {[llength $patterns] > 0} {
       array set theme $data($win,config,-theme)
       $win tag configure __comstr1l -foreground $theme(comments)
-      $win tag lower __comstr1l _visible
+      $win tag lower __comstr1l _visibleH
       foreach tag [list __lCommentStart:${lang}0 __lCommentStart:${lang}1] {
         $win tag configure $tag
         $win tag lower $tag _invisible
@@ -3108,7 +3138,7 @@ namespace eval ctext {
         foreach rb {0 1} {
           $win tag configure $comstr($tag1)$rb -foreground $theme(strings)
           $win tag configure $tag1$rb
-          $win tag lower $comstr($tag1)$rb _visible
+          $win tag lower $comstr($tag1)$rb _visibleH
           $win tag lower $tag1$rb _invisible
           lappend data($win,config,csl_tags) $comstr($tag1)$rb
         }
@@ -3117,7 +3147,7 @@ namespace eval ctext {
           foreach rb {0 1} {
             $win tag configure $comstr($tag2)$rb -foreground $theme(strings)
             $win tag configure $tag2$rb
-            $win tag lower $comstr($tag2)$rb _visible
+            $win tag lower $comstr($tag2)$rb _visibleH
             $win tag lower $tag2$rb _invisible
           }
           lappend data($win,config,csl_char_tags,$lang) $tag2
@@ -3860,10 +3890,13 @@ namespace eval ctext {
 
     # Configure the class tag and place it in the correct position in the tag stack
     $win._t tag configure __$class
-    if {($opts(-fgtheme) eq "") && ($opts(-bgtheme) eq "") && ($opts(-fontopts) eq "")} {
-      $win._t tag lower __$class _invisible
+    if {$opts(-bgtheme) ne ""} {
+      $win._t tag lower __$class _visibleL
+    } elseif {($opts(-fgtheme) ne "") || ($opts(-fontopts) ne "")} {
+      $win._t tag raise __$class _visibleL
     } else {
-      $win._t tag [expr {$opts(-highpriority) ? "raise" : "lower"}] __$class _visible
+      $win._t tag lower __$class _invisible
+#      $win._t tag [expr {$opts(-highpriority) ? "raise" : "lower"}] __$class _visible
     }
 
     # If there is a command associated with the class, bind it to the right-click button
