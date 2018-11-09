@@ -2058,9 +2058,11 @@ namespace eval edit {
     if {$inner} {
       set str  [$txtt get {*}$pos_list]
       set less [expr ([string length $str] - [string length [string trimright $str]]) + 1]
-      lset pos_list 1 [$txtt index "[lindex $pos_list 1]-${less}c"]
+    } else {
+      set less 1
     }
 
+    lset pos_list 1 [$txtt index "[lindex $pos_list 1]-${less}c$adjust"]
 
     return $pos_list
 
