@@ -745,6 +745,7 @@ namespace eval interpreter {
     # Setup the access paths
     lappend access_path $::tcl_library
     lappend access_path [file join $::tke_home plugins $pname]
+    lappend access_path [file join $::tke_home iplugins $pname]
     lappend access_path [file join $::tke_dir  plugins $pname]
     lappend access_path [file join $::tke_dir  plugins images]
 
