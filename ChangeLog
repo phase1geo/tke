@@ -1,149 +1,72 @@
-2018-11-05 01:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c3d877f403ae [devel-3.4.11])
+2018-11-08 08:27 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f92a476c097f [devel-3.4.12])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.11 release
+	ChangeLog for devel-3.4.12 release
 
-2018-11-05 01:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2d3bff80ee47)
+2018-11-08 08:28 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (96acebdb25cf)
 
 	* .hgtags:
-	Added tag devel-3.4.11 for changeset c3d877f403ae
+	Added tag devel-3.4.12 for changeset f92a476c097f
 
-2018-11-05 16:14 -0600  Trevor Williams  <Trevor Williams>  (621320fc26e7)
+2018-11-07 15:46 -0600  Trevor Williams  <Trevor Williams>  (c554c16668b1)
 
-	* lib/plugins.tcl, lib/tke.tcl:
-	* Adding initial code that will allow us to install an external
-	plugin (work in progress).
+	* lib/pref_ui.tcl:
+	* Fixing syntax error in preferences search window.
 
-2018-11-05 22:57 -0600  Trevor Williams  <phase1geo@gmail.com>  (4cc34050d326)
+2018-11-08 09:22 -0600  Trevor Williams  <Trevor Williams>  (2b1b1a953f4a)
 
-	* lib/api.tcl, lib/menus.tcl, lib/plugins.tcl, lib/version.tcl:
-	* Checkpointing work on plugin import/export.
-	* Checkpointing work on plugin api changes to support exposing plugin
-	procedures.
+	* Merge
 
-2018-11-06 08:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (780b999f6ef9)
+2018-11-08 17:06 -0600  Trevor Williams  <Trevor Williams>  (7832fff9589a)
 
-	* lib/version.tcl, plugins/doctest/README.md,
-	plugins/e_menu/README.md, plugins/e_menu/e_menu/e_menu.tcl,
-	plugins/e_menu/e_menu/menus/fossil.mnu,
-	plugins/e_menu/e_menu/menus/git.mnu,
-	plugins/e_menu/e_menu/menus/menu.mnu,
-	plugins/e_menu/e_menu/menus/side.mnu,
-	plugins/e_menu/e_menu/src/ch_.tcl,
-	plugins/e_menu/e_menu/src/e_help.tcl,
-	plugins/e_menu/e_menu/src/procs.tcl, plugins/e_menu/header.tkedat,
-	plugins/e_menu/main.tcl, plugins/edit_utils/README.md,
-	plugins/highlight_matches/README.md,
-	plugins/highlight_matches/header.tkedat,
-	plugins/highlight_matches/main.tcl:
-	* Updating Alex Plotnikov's plugins.
+	* data/syntax/_test.syntax: new file.
+	* data/syntax/HTML.syntax, data/syntax/_test.syntax,
+	lib/ctext/ctext.tcl, lib/emmet.tcl, lib/multicursor.tcl,
+	lib/select.tcl, lib/syntax.tcl, tests/ctext.tcl, tests/emmet.tcl,
+	tests/folding.tcl, tests/snippets.tcl, tests/syntax.tcl:
+	* Fixing BIST failures.
 
-2018-11-06 17:04 -0600  Trevor Williams  <Trevor Williams>  (17b8f12862ab)
+2018-11-08 19:51 -0600  Trevor Williams  <phase1geo@gmail.com>  (6f09542c359e)
 
-	* lib/api.tcl, lib/menus.tcl, lib/plugins.tcl:
-	* Checkpointing work on new api::menu procedures.
+	* data/syntax/MultiMarkdown.syntax, lib/version.tcl, tests/emmet.tcl,
+	tests/multicursor.tcl:
+	* Fixing regression failures.
 
-2018-11-06 20:00 -0600  Trevor Williams  <phase1geo@gmail.com>  (1997f75ffc66)
+2018-11-09 01:18 -0600  Trevor Williams  <phase1geo@gmail.com>  (e9c138b20d0a)
 
-	* data/syntax/Markdown.syntax, doc/md/TKE Developer Guide/Plugin
-	API/.tkesort, lib/api.tcl, lib/files.tcl, lib/plugins.tcl,
-	lib/specl/lib/updater.tcl, lib/version.tcl,
-	plugins/current_line/main.tcl:
-	* Fixing highlighting issue in Markdown syntax in regards to
-	highlight syntax.
-	* Fixing issues with new plugin functionality.
-	* Adding support for using `gio trash` to trash files in some Linux
-	environments.
-	* Fixing current\_line plugin so that it does not override other
-	syntax highlighting with background colors.
+	* lib/images/tke_plugin.svg, lib/images/tke_theme.svg: new file.
+	* install.tcl, lib/gui.tcl, lib/images/tke_plugin.svg,
+	lib/images/tke_theme.svg, lib/tke.tcl, lib/version.tcl:
+	* Checkpointing work on creating mimetypes for TKE theme and plugin
+	bundles in a Linux environment.
+	* If a theme or plugin bundle file is opened by TKE, have it
+	automatically ask for import.
 
-2018-11-06 20:01 -0600  Trevor Williams  <phase1geo@gmail.com>  (c6c9c76b5df3)
+2018-11-09 08:30 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b012cf8d8133)
 
-	* doc/md/TKE Developer Guide/Plugin API/api--menu--exists.md,
-	doc/md/TKE Developer Guide/Plugin API/api--menu--invoke.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--exec_exposed.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--is_exposed.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--reload.md,
-	doc/md/TKE Developer Guide/Plugin Action Types/expose.md: new file.
-	* doc/md/TKE Developer Guide/Plugin API/api--menu--exists.md,
-	doc/md/TKE Developer Guide/Plugin API/api--menu--invoke.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--exec_exposed.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--is_exposed.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--reload.md,
-	doc/md/TKE Developer Guide/Plugin Action Types/expose.md,
-	lib/version.tcl:
-	* Adding documentation for the API plugin and menu commands.
-	* Adding documentation for the expose plugin action.
+	* lib/api.tcl, lib/interpreter.tcl, lib/version.tcl:
+	* Adding api::menu::enabled API function.
+	* Adding iplugins directory to the list of accessible filesystem
+	pathnames in safe interpreters.
 
-2018-11-06 20:03 -0600  Trevor Williams  <phase1geo@gmail.com>  (5f7bc61c8798)
+2018-11-09 08:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (764bf7757854)
 
-	* doc/md/TKE Developer Guide/Plugin API/api--invoke_menu.md: deleted
+	* doc/md/TKE Developer Guide/Plugin API/api--menu--enabled.md: new
 	file.
-	* doc/md/TKE Developer Guide/Plugin API/api--invoke_menu.md,
-	lib/version.tcl:
-	* Removing invoke_menu plugin API (this has been replaced with the
-	api::menu::invoke call).
+	* doc/md/TKE Developer Guide/Plugin API/.tkesort, doc/md/TKE Developer
+	Guide/Plugin API/api--menu--enabled.md, doc/md/TKE Developer
+	Guide/Plugin API/api--menu--exists.md, doc/md/TKE Developer
+	Guide/Plugin API/api--menu--invoke.md, lib/version.tcl:
+	* Fixing syntax issues with API menu documentation.
+	* Adding api::menu::enabled documentation.
 
-2018-11-06 20:05 -0600  Trevor Williams  <phase1geo@gmail.com>  (4c9b6d9ded6f)
+2018-11-09 08:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3d75536babf9 [tip])
 
-	* lib/version.tcl, plugins/code_view/main.tcl:
-	* Updating code_view plugin for the removal of the invoke_menu
-	plugin API.
-
-2018-11-06 23:01 -0600  Trevor Williams  <phase1geo@gmail.com>  (62be15aad034)
-
-	* lib/ctext/ctext.tcl, lib/files.tcl, lib/specl/lib/updater.tcl,
-	lib/version.tcl, tests/ctext.tcl, tests/find.tcl,
-	tests/multicursor.tcl, tests/syntax.tcl:
-	* Fixing issue with bracket auditing handler.
-	* Adding support for trashing files with the 'gio trash' utility, if
-	it exists (precludes gvfs-trash utility).
-	* Fixing regression test issues.
-
-2018-11-07 19:49 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5365f61af191)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing string/comment/language highlighting issues.
-
-2018-11-07 20:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (66992e5fe354)
-
-	* data/syntax/Markdown.syntax, lib/version.tcl:
-	* Fixing Markdown syntax highlighting issues.
-
-2018-11-07 21:24 -0600  Trevor Williams  <phase1geo@gmail.com>  (4ca24939cde6)
-
-	* data/syntax/Markdown.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing issues with link references in Markdown syntax.
-	* Fixing issues with nextrange and prevrange subcommands for the ctext
-	syntax command.
-
-2018-11-07 22:19 -0600  Trevor Williams  <phase1geo@gmail.com>  (b4cb9a2674be)
-
-	* data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
-	lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing ordering of embedded language background and current_line
-	plugin.
-	* Fixing issues with Markdown and MultiMarkdown parsers.
-
-2018-11-07 23:54 -0600  Trevor Williams  <phase1geo@gmail.com>  (c924b02fa143)
-
-	* lib/plugins.tcl, lib/version.tcl:
-	* Fixing syntax error in import/export plugin functionality.
-
-2018-11-08 01:10 -0600  Trevor Williams  <phase1geo@gmail.com>  (5b3186c10ce4)
-
-	* lib/plugins.tcl, lib/version.tcl:
-	* Fixing issue with exporting/importing plugin using zipper library
-	(still need to verify zip/unzip command-line).
-
-2018-11-08 01:15 -0600  Trevor Williams  <phase1geo@gmail.com>  (868be7d28c0f)
-
-	* install.tcl, lib/version.tcl:
-	* Adding tcl-vfs package to Linux install script.
-
-2018-11-08 08:25 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c94b1ddbe4a2 [tip])
-
-	* doc/md/TKE User Guide/Installation/Dependencies.md, doc/md/TKE User
-	Guide/Installation/Installing for Linux.md, lib/version.tcl:
-	* Updating installation notes.
+	* doc/md/TKE Developer Guide/Plugin API/api--plugin--exec_exposed.md,
+	doc/md/TKE Developer Guide/Plugin API/api--plugin--is_exposed.md,
+	doc/md/TKE Developer Guide/Plugin API/api--plugin--reload.md,
+	doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted)
+	Interpreter Description.md, doc/md/TKE Developer Guide/Prefix/title-
+	TKE Developer Guide.md, lib/version.tcl:
+	* Development documentation repairs.
 
