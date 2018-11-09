@@ -1,4 +1,4 @@
-## api\::plugin::reload
+## api::plugin::reload
 
 Reloads the plugin within the application without restarting TKE.  This
 function is useful if your plugin contains code which rewrites itself.
