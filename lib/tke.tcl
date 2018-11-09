@@ -273,6 +273,7 @@ proc check_file_for_import {fname} {
       if {$ans eq "yes"} {
         plugins::import_plugin $fname
       }
+      return 1
     }
   }
 
@@ -518,7 +519,9 @@ if {[catch {
       if {[file isdirectory $name]} {
         sidebar::add_directory $name
       } elseif {[file exists $name]} {
-        set tab [gui::add_file end $name -lazy 1]
+        if {![check_file_for_import $name]} {
+          set tab [gui::add_file end $name -lazy 1]
+        }
       } else {
         set tab [gui::add_new_file end -name $name -sidebar 1]
       }

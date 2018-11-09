@@ -1982,7 +1982,7 @@ namespace eval gui {
     foreach fname [lreverse $args] {
       if {[file isdirectory $fname]} {
         sidebar::add_directory [files::normalize $host $fname]
-      } else {
+      } elseif {![::check_file_for_import $fname]} {
         add_file $index [files::normalize $host $fname]
       }
     }
