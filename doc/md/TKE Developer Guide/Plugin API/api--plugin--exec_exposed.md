@@ -1,4 +1,4 @@
-## api\::plugin::exec_exposed
+## api::plugin::exec_exposed
 
 This function can be used to call an exposed plugin procedure.  This API
 call will first check to make sure that the given plugin procedure

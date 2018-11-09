@@ -1,4 +1,4 @@
-## api\::plugin::is_exposed
+## api::plugin::is_exposed
 
 This function can be used to check if a given plugin is loaded and has an
 exposed function of the given name available for call execution.

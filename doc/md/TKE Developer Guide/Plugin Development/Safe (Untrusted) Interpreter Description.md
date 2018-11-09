@@ -1,12 +1,13 @@
 ### Safe (Untrusted) Interpreter Description
 
-Safe interpreters allow their plugins to view and modify files within three directories:
+Safe interpreters allow their plugins to view and modify files within four directories:
 
-- \~/.tke/plugins/\_plugin\_name\_
-- _installation\_directory_/plugins/\_plugin\_name\_
+- \~/.tke/plugins/_plugin\_name_
+- \~/.tke/iplugins/_plugin\_name_
+- _installation\_directory_/plugins/_plugin\_name_
 - _installation\_directory_/plugins/images
 
-Where _installation\_directory_ is the pathname to the directory where TKE is installed and _plugin\_name_ is the name of the plugin.  The filenames of these directories are managed in such a way that the “\~/.tke/plugins” and “\_installation\_directory\_/plugins” pathnames are hidden encoded is such a way that they cannot be discerned by the plugin.  Specifying any of these directories or files/subdirectories within these directories in any Tcl/Tk command that uses filenames will decode the full pathname within the TKE master interpreter and handle their usage in that interpreter.
+Where _installation\_directory_ is the pathname to the directory where TKE is installed and _plugin\_name_ is the name of the plugin.  The filenames of these directories are managed in such a way that the “\~/.tke/plugins” and “_installation\_directory_/plugins” pathnames are hidden encoded is such a way that they cannot be discerned by the plugin.  Specifying any of these directories or files/subdirectories within these directories in any Tcl/Tk command that uses filenames will decode the full pathname within the TKE master interpreter and handle their usage in that interpreter.
 
 The following table lists the differences in standard Tcl commands within a safe plugin interpreter to their standard counterparts.
 
