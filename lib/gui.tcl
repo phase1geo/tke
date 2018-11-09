@@ -49,6 +49,7 @@ namespace eval gui {
   variable synced_key       ""
   variable synced_txt       ""
   variable show_match_chars 0
+  variable search_method    "-regexp"
 
   array set widgets         {}
   array set tab_tip         {}
@@ -4301,13 +4302,20 @@ namespace eval gui {
     ttk::entry       $tab.sf.e
     ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
     ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
-    ttk::checkbutton $tab.sf.case  -text "Aa" -variable gui::case_sensitive
-    ttk::checkbutton $tab.sf.save  -text [msgcat::mc "Save"] -variable gui::saved -command [list search::update_save find]
+    ttk::radiobutton $tab.sf.regex -text " .+" -variable gui::search_method -value "-regexp"
+    ttk::radiobutton $tab.sf.glob  -text " *?" -variable gui::search_method -value "-glob"
+    ttk::radiobutton $tab.sf.exact -text " Ex" -variable gui::search_method -value "-exact"
+    ttk::checkbutton $tab.sf.case  -text " Aa" -variable gui::case_sensitive
+    ttk::checkbutton $tab.sf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
 
-    tooltip::tooltip $tab.sf.next [msgcat::mc "Find next occurrence"]
-    tooltip::tooltip $tab.sf.prev [msgcat::mc "Find previous occurrence"]
-    tooltip::tooltip $tab.sf.case [msgcat::mc "Case sensitivity"]
+    tooltip::tooltip $tab.sf.regex [msgcat::mc "Regular expression matching"]
+    tooltip::tooltip $tab.sf.glob  [msgcat::mc "Glob matching"]
+    tooltip::tooltip $tab.sf.exact [msgcat::mc "Exact matching"]
+    tooltip::tooltip $tab.sf.next  [msgcat::mc "Find next occurrence"]
+    tooltip::tooltip $tab.sf.prev  [msgcat::mc "Find previous occurrence"]
+    tooltip::tooltip $tab.sf.case  [msgcat::mc "Case sensitivity"]
+    tooltip::tooltip $tab.sf.save  [msgcat::mc "Save this search"]
 
     pack $tab.sf.l1    -side left  -padx 2 -pady 2
     pack $tab.sf.e     -side left  -padx 2 -pady 2 -fill x -expand yes
@@ -4316,8 +4324,14 @@ namespace eval gui {
     pack $tab.sf.case  -side right -padx 2 -pady 2
     pack $tab.sf.next  -side right -padx 2 -pady 2
     pack $tab.sf.prev  -side right -padx 2 -pady 2
+    pack $tab.sf.exact -side right -padx 2 -pady 2
+    pack $tab.sf.glob  -side right -padx 2 -pady 2
+    pack $tab.sf.regex -side right -padx 2 -pady 2
 
     bind $tab.sf.e     <Escape>    [list gui::close_search]
+    bind $tab.sf.regex <Escape>    [list gui::close_search]
+    bind $tab.sf.glob  <Escape>    [list gui::close_search]
+    bind $tab.sf.exact <Escape>    [list gui::close_search]
     bind $tab.sf.case  <Escape>    [list gui::close_search]
     bind $tab.sf.save  <Escape>    [list gui::close_search]
     bind $tab.sf.e     <Up>        "search::traverse_history find  1; break"
@@ -4331,22 +4345,33 @@ namespace eval gui {
     ttk::entry       $tab.rf.fe
     ttk::label       $tab.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab.rf.re
-    ttk::checkbutton $tab.rf.case  -text "Aa"   -variable gui::case_sensitive
-    ttk::checkbutton $tab.rf.glob  -text [msgcat::mc "All"]  -variable gui::replace_all
-    ttk::checkbutton $tab.rf.save  -text [msgcat::mc "Save"] -variable gui::saved \
+    ttk::button      $tab.rf.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.rf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
+    ttk::checkbutton $tab.rf.case  -text " Aa" -variable gui::case_sensitive
+    ttk::checkbutton $tab.rf.glob  -text [format " %s" [msgcat::mc "All"]]  -variable gui::replace_all
+    ttk::checkbutton $tab.rf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved \
       -command [list search::update_save replace]
     ttk::label       $tab.rf.close -image form_close
     ttk::separator   $tab.rf.sep   -orient horizontal
 
-    pack $tab.rf.fl    -side left -padx 2 -pady 2
-    pack $tab.rf.fe    -side left -padx 2 -pady 2 -fill x -expand yes
-    pack $tab.rf.rl    -side left -padx 2 -pady 2
-    pack $tab.rf.re    -side left -padx 2 -pady 2 -fill x -expand yes
-    pack $tab.rf.case  -side left -padx 2 -pady 2
-    pack $tab.rf.glob  -side left -padx 2 -pady 2
-    pack $tab.rf.save  -side left -padx 2 -pady 2
-    pack $tab.rf.close -side left -padx 2 -pady 2
-    pack $tab.rf.sep   -fill x
+    tooltip::tooltip $tab.rf.next [msgcat::mc "Find next occurrence"]
+    tooltip::tooltip $tab.rf.prev [msgcat::mc "Find previous occurrence"]
+    tooltip::tooltip $tab.rf.case [msgcat::mc "Case sensitivity"]
+    tooltip::tooltip $tab.rf.glob [msgcat::mc "Replace all occurrences"]
+    tooltip::tooltip $tab.rf.save [msgcat::mc "Save this search"]
+
+    grid columnconfigure $tab.rf 1 -weight 1
+    grid $tab.rf.fl    -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $tab.rf.fe    -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $tab.rf.prev  -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $tab.rf.next  -row 0 -column 3 -sticky news -padx 2 -pady 2
+    grid $tab.rf.close -row 0 -column 5 -sticky news -padx 2 -pady 2
+    grid $tab.rf.rl    -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $tab.rf.re    -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $tab.rf.case  -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid $tab.rf.glob  -row 1 -column 3 -sticky news -padx 2 -pady 2
+    grid $tab.rf.save  -row 1 -column 4 -sticky news -padx 2 -pady 2
+    grid $tab.rf.sep   -row 2 -column 0 -sticky news -column 5
 
     bind $tab.rf.fe    <Return>    [list search::replace_start]
     bind $tab.rf.re    <Return>    [list search::replace_start]
