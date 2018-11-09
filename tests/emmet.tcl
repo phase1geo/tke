@@ -1843,7 +1843,7 @@ XX
     set txt    [initialize]
     set url    "http://tke.sourceforge.net/screenshots_files/page2-1000-thumb.jpg"
     set bad    "http://tke.sourceforge.net/blah.jpg"
-    set width  145
+    set width  144
     set height 144
     set tags   [list [list "\n<img src=\"$url\" alt=\"\" />"                             "\n<img src=\"$url\" width=\"$width\" height=\"$height\" alt=\"\" />"] \
                      [list "\n<img src=\"$url\" alt=\"\" width=\"10\" />"                "\n<img src=\"$url\" alt=\"\" width=\"$width\" height=\"$height\" />"] \

@@ -1003,6 +1003,7 @@ namespace eval multicursor {
 
     # Verify y yank
     clipboard clear
+    $txtt tag remove mcursor 1.0 end
     $txtt tag add mcursor 2.0 2.1 3.0 3.1
     do_op_test $txtt 4 {y l} "\nThis is a line\nThis is a line" {2.0 3.0}
 
