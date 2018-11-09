@@ -1054,16 +1054,27 @@ namespace eval api {
     #  (case-sensitive).
     proc exists {interp pname mnu_path} {
 
-      variable not_allowed
-
-      if {[info exists not_allowed($mnu_path)]} {
-        return 0
-      }
-
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [lindex $menu_list end] } res] && ($res ne "none")} {
+          return 1
+        }
+      }
+
+      return 0
+
+    }
+
+    ######################################################################
+    # Returns 1 if the given menu path is enabled in the menu; otherwise,
+    # returns 0.
+    proc enabled {interp pname mnu_path} {
+
+      set menu_list [split $mnu_path /]
+
+      if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
+        if {![catch { $mnu entrycget [lindex $menu_list end] -state } res] && ($res eq "normal")} {
           return 1
         }
       }
@@ -1079,7 +1090,7 @@ namespace eval api {
       variable not_allowed
 
       if {[info exists not_allowed($mnu_path)]} {
-        return
+        return 0
       }
 
       set menu_list [split $mnu_path /]
