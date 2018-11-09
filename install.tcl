@@ -254,15 +254,52 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
   if {![catch "open $app_file w" rc]} {
     puts $rc "\[Desktop Entry\]"
     puts $rc "Name=TKE"
-    puts $rc "Exec=$wish [file join $lib_dir lib tke.tcl] -name tke -- -nosb"
+    puts $rc "Exec=$wish [file join $lib_dir lib tke.tcl] -name tke -- -nosb %f"
     puts $rc "Icon=[file join $lib_dir lib images tke_logo.svg]"
     puts $rc "Type=Application"
     puts $rc "Comment=Advanced code editor"
     puts $rc "Categories=Programming;Development;Utility;TextEditor"
     puts $rc "GenericName=Text Editor"
-    puts $rc "MimeTypes=text/plain;text/html;text/css;text/x-script.csh;text/x-fortran;text/x-java-source;text/javascript;text/x-pascal;text/pascal;text/x-script.python;text/x-asm;text/xml;text/x-script.tcl"
+    puts $rc "MimeTypes=text/plain;text/html;text/css;text/x-script.csh;text/x-fortran;text/x-java-source;text/javascript;text/x-pascal;text/pascal;text/x-script.python;text/x-asm;text/xml;text/x-script.tcl;application/x-tkethemz;application/x-tkeplugz"
     close $rc
     puts "done."
+  } else {
+    puts "not done."
+  }
+}
+
+# Create the MIME file so that the TKE theme and plugin bundle file extensions will be opened by TKE
+if {[file exists [set mime_dir [file join / usr share mime packages]]]} {
+  set mime_file     [file join $mime_dir tke.xml]
+  set mime_icon_dir [file join / usr share icons hicolor scalable mimetypes]
+  puts -nonewline "Creating mime file $mime_file...  "
+  flush stdout
+  if {![catch "open $mime_file w" rc]} {
+    puts $rc "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+    puts $rc "<mime-info xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\">"
+    puts $rc "  <mime-type type=\"application/x-tkethemz\">"
+    puts $rc "    <comment>TKE theme bundle</comment>"
+    puts $rc "    <generic-icon name=\"application-x-tkethemz\"/>"
+    puts $rc "    <glob pattern=\"*.tkethemz\"/>"
+    puts $rc "  </mime-type>"
+    puts $rc "  <mime-type type=\"application/x-tkeplugz\">"
+    puts $rc "    <comment>TKE plugin bundle</comment>"
+    puts $rc "    <generic-icon name=\"application-x-tkeplugz\"/>"
+    puts $rc "    <glob pattern=\"*.tkeplugz\"/>"
+    puts $rc "  </mime-type>"
+    puts $rc "</mime-info>"
+    close $rc
+    puts "done."
+    puts -nonewline "Updating mime database...  "
+    flush stdout
+    catch { file copy -force [file join $lib_dir lib images tke_theme.svg]  [file join $mime_icon_dir application-x-tkethemz.svg] }
+    catch { file copy -force [file join $lib_dir lib images tke_plugin.svg] [file join $mime_icon_dir application-x-tkeplugz.svg] }
+    if {![catch { exec -ignorestderr update-mime-database [file join / usr share mime] }]} {
+      puts "done."
+    } else {
+      puts "not done."
+      catch { file delete -force $mime_file }
+    }
   } else {
     puts "not done."
   }
