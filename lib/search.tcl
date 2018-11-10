@@ -45,24 +45,30 @@ namespace eval search {
   # Performs string search
   proc do_find {txt search_data} {
 
-    lassign $search_data str case_sensitive saved
+    lassign $search_data str search_method case_sensitive saved
 
     # If the user has specified a new search value, find all occurrences
     if {$str ne ""} {
+
+      # Gather any search options
+      if {$search_method eq "glob"} {
+        set search_opts [list -regexp]
+        set str         [string map {* .* ? .} $str]
+      } else {
+        set search_opts [list -$search_method]
+      }
+
+      if {!$case_sensitive} {
+        lappend search_opts -nocase
+      }
 
       # Escape any parenthesis in the regular expression
       set str [string map {{(} {\(} {)} {\)}} $str]
 
       # Test the regular expression, if it is invalid, let the user know
-      if {[catch { regexp $str "" } rc]} {
+      if {($search_method ne "exact") && [catch { regexp $str "" } rc]} {
         after 100 [list gui::set_info_message $rc]
         return
-      }
-
-      # Gather any search options
-      set search_opts [list -regexp]
-      if {!$case_sensitive} {
-        lappend search_opts -nocase
       }
 
       # Save the find text to history
@@ -254,10 +260,10 @@ namespace eval search {
   # settings.
   proc replace_start {} {
 
-    lassign [set search_data [gui::get_search_data replace]] find replace case_sensitive replace_all
+    lassign [set search_data [gui::get_search_data replace]] find replace search_method case_sensitive replace_all
 
     # Perform the search and replace
-    replace_do_raw 1.0 end $find $replace [expr !$case_sensitive] $replace_all
+    replace_do_raw 1.0 end $find $replace $search_method [expr !$case_sensitive] $replace_all
 
     # Add the search data to history
     add_history replace $search_data
@@ -269,7 +275,7 @@ namespace eval search {
 
   ######################################################################
   # Performs a search and replace given the expression,
-  proc replace_do_raw {sline eline search replace ignore_case all} {
+  proc replace_do_raw {sline eline search replace search_method ignore_case all} {
 
     variable lengths
 
@@ -280,13 +286,19 @@ namespace eval search {
     $txt tag remove sel 1.0 end
 
     # Create regsub arguments
-    set rs_args [list]
+    if {Search_method eq "glob"} {
+      set rs_args [list -regexp]
+      set search  [string map {* .* ? .} $search]
+    } else {
+      set rs_args [list -$search_method]
+    }
+
     if {$ignore_case} {
       lappend rs_args -nocase
     }
 
     # Get the list of items to replace
-    set indices [$txt search -all -regexp -count search::lengths {*}$rs_args -- $search $sline $eline]
+    set indices [$txt search -all -count search::lengths {*}$rs_args -- $search $sline $eline]
 
     if {$all} {
       set indices [lreverse $indices]
@@ -369,7 +381,7 @@ namespace eval search {
       array set rsp $rsp_list
 
       # Add the rsp(find) value to the history list
-      add_history fif [list $rsp(find) $rsp(in) $rsp(case_sensitive) $rsp(save)]
+      add_history fif [list $rsp(find) $rsp(in) $rsp(search_method) $rsp(case_sensitive) $rsp(save)]
 
       # Convert directories into files
       array set files {}
@@ -382,6 +394,16 @@ namespace eval search {
           }
         } elseif {![sidebar::ignore_file $file 1]} {
           set files($file) 1
+        }
+      }
+
+      # Convert the pattern based on the given search method
+      switch $rsp(search_method) {
+        glob {
+          set rsp(find) [string map {* .* ? . { \\{ } \\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
+        }
+        exact {
+          set rsp(find) [string map {* \\* ? \\? . \\. { \\{ } \\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
         }
       }
 

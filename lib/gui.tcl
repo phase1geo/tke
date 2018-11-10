@@ -49,7 +49,7 @@ namespace eval gui {
   variable synced_key       ""
   variable synced_txt       ""
   variable show_match_chars 0
-  variable search_method    "-regexp"
+  variable search_method    "regexp"
 
   array set widgets         {}
   array set tab_tip         {}
@@ -3090,6 +3090,25 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Updates the menubutton label for the given widget with the current
+  # value of search_method
+  proc update_search_method {tab} {
+
+    variable search_method
+
+    switch $search_method {
+      glob    { set lbl [msgcat::mc "Glob"] }
+      exact   { set lbl [msgcat::mc "Exact"] }
+      default { set lbl [msgcat::mc "Regexp"] }
+    }
+
+    # Update the labels
+    $tab.sf.type configure -text $lbl
+    $tab.rf.type configure -text $lbl
+
+  }
+
+  ######################################################################
   # Displays the search bar.
   proc search {{dir "next"}} {
 
@@ -3097,6 +3116,9 @@ namespace eval gui {
 
     # Get the tab information
     get_info {} current tab txt
+
+    # Update the search method menubutton label
+    update_search_method $tab
 
     # Display the search bar and separator
     panel_place $tab.sf
@@ -3152,6 +3174,9 @@ namespace eval gui {
     # Get the tab information
     get_info {} current tab txt
 
+    # Update the search method menubutton label
+    update_search_method $tab
+
     # Display the search bar and separator
     panel_place $tab.rf
 
@@ -3195,14 +3220,15 @@ namespace eval gui {
     variable case_sensitive
     variable replace_all
     variable saved
+    variable search_method
 
     # Get the current tab
     get_info {} current tab
 
     switch $type {
-      "find"    { return [list [$tab.sf.e get] $case_sensitive $saved] }
-      "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $case_sensitive $replace_all $saved] }
-      "fif"     { return [list [$widgets(fif_find) get] [$widgets(fif_in) tokenget] $case_sensitive $saved] }
+      "find"    { return [list [$tab.sf.e get] $search_method $case_sensitive $saved] }
+      "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $search_method $case_sensitive $replace_all $saved] }
+      "fif"     { return [list [$widgets(fif_find) get] [$widgets(fif_in) tokenget] $search_method $case_sensitive $saved] }
     }
 
   }
@@ -3216,32 +3242,33 @@ namespace eval gui {
     variable case_sensitive
     variable replace_all
     variable saved
+    variable search_method
 
     # Get the current tab
     get_info {} current tab
 
     switch $type {
       "find" {
-        lassign $data str case_sensitive saved
+        lassign $data str search_method case_sensitive saved
         $tab.sf.e delete 0 end
         $tab.sf.e insert end $str
       }
       "replace" {
-        lassign $data find replace case_sensitive replace_all saved
+        lassign $data find replace search_method case_sensitive replace_all saved
         $tab.rf.fe delete 0 end
         $tab.rf.re delete 0 end
         $tab.rf.fe insert end $find
         $tab.rf.re insert end $replace
       }
       "fif" {
-        lassign $data find in case_sensitive saved
+        lassign $data find in search_method case_sensitive saved
         $widgets(fif_find) delete 0 end
         $widgets(fif_find) insert end $find
         $widgets(fif_in) tokendelete 0 end
         $widgets(fif_in) tokeninsert end $in
       }
       "docsearch" {
-        lassign $data name str saved
+        lassign $data name str search_method saved
         $widgets(doc).mb configure -text [expr {($name eq "") ? [[$widgets(doc).mb cget -menu] entrycget 0 -label] : $name}]
         $widgets(doc).e  delete 0 end
         $widgets(doc).e  insert end $str
@@ -3636,6 +3663,7 @@ namespace eval gui {
 
     variable widgets
     variable fif_files
+    variable search_method
     variable case_sensitive
     variable saved
 
@@ -3674,7 +3702,7 @@ namespace eval gui {
     }
 
     # Gather the input to return
-    set rsp_list [list find [$widgets(fif_find) get] in $ins case_sensitive $case_sensitive save $saved]
+    set rsp_list [list find [$widgets(fif_find) get] in $ins search_method $search_method case_sensitive $case_sensitive save $saved]
 
     return [set gui::user_exit_status]
 
@@ -4296,42 +4324,38 @@ namespace eval gui {
     # Create the Vim command bar
     vim::bind_command_entry $txt [entry $tab.ve]
 
+    # Create the search type menu
+    set type_menu [menu $tab.typeMenu -tearoff 0]
+    $type_menu add radiobutton -label [msgcat::mc "Regexp"] -variable gui::search_method -value "regexp" -command [list gui::update_search_method $tab]
+    $type_menu add radiobutton -label [msgcat::mc "Glob"]   -variable gui::search_method -value "glob"   -command [list gui::update_search_method $tab]
+    $type_menu add radiobutton -label [msgcat::mc "Exact"]  -variable gui::search_method -value "exact"  -command [list gui::update_search_method $tab]
+
     # Create the search bar
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab.sf.e
     ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
     ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
-    ttk::radiobutton $tab.sf.regex -text " .+" -variable gui::search_method -value "-regexp"
-    ttk::radiobutton $tab.sf.glob  -text " *?" -variable gui::search_method -value "-glob"
-    ttk::radiobutton $tab.sf.exact -text " Ex" -variable gui::search_method -value "-exact"
+    ttk::menubutton  $tab.sf.type  -width 10 -menu $type_menu
     ttk::checkbutton $tab.sf.case  -text " Aa" -variable gui::case_sensitive
     ttk::checkbutton $tab.sf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
 
-    tooltip::tooltip $tab.sf.regex [msgcat::mc "Regular expression matching"]
-    tooltip::tooltip $tab.sf.glob  [msgcat::mc "Glob matching"]
-    tooltip::tooltip $tab.sf.exact [msgcat::mc "Exact matching"]
     tooltip::tooltip $tab.sf.next  [msgcat::mc "Find next occurrence"]
     tooltip::tooltip $tab.sf.prev  [msgcat::mc "Find previous occurrence"]
     tooltip::tooltip $tab.sf.case  [msgcat::mc "Case sensitivity"]
     tooltip::tooltip $tab.sf.save  [msgcat::mc "Save this search"]
 
-    pack $tab.sf.l1    -side left  -padx 2 -pady 2
-    pack $tab.sf.e     -side left  -padx 2 -pady 2 -fill x -expand yes
-    pack $tab.sf.close -side right -padx 2 -pady 2
-    pack $tab.sf.save  -side right -padx 2 -pady 2
-    pack $tab.sf.case  -side right -padx 2 -pady 2
-    pack $tab.sf.next  -side right -padx 2 -pady 2
-    pack $tab.sf.prev  -side right -padx 2 -pady 2
-    pack $tab.sf.exact -side right -padx 2 -pady 2
-    pack $tab.sf.glob  -side right -padx 2 -pady 2
-    pack $tab.sf.regex -side right -padx 2 -pady 2
+    pack $tab.sf.l1    -side left  -padx 4 -pady 2
+    pack $tab.sf.e     -side left  -padx 4 -pady 2 -fill x -expand yes
+    pack $tab.sf.close -side right -padx 4 -pady 2
+    pack $tab.sf.save  -side right -padx 4 -pady 2
+    pack $tab.sf.case  -side right -padx 4 -pady 2
+    pack $tab.sf.next  -side right -padx 4 -pady 2
+    pack $tab.sf.prev  -side right -padx 4 -pady 2
+    pack $tab.sf.type  -side right -padx 4 -pady 2
 
     bind $tab.sf.e     <Escape>    [list gui::close_search]
-    bind $tab.sf.regex <Escape>    [list gui::close_search]
-    bind $tab.sf.glob  <Escape>    [list gui::close_search]
-    bind $tab.sf.exact <Escape>    [list gui::close_search]
     bind $tab.sf.case  <Escape>    [list gui::close_search]
     bind $tab.sf.save  <Escape>    [list gui::close_search]
     bind $tab.sf.e     <Up>        "search::traverse_history find  1; break"
@@ -4348,7 +4372,8 @@ namespace eval gui {
     ttk::button      $tab.rf.next  -style BButton -image search_next -command [list search::find_resilient next]
     ttk::button      $tab.rf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
     ttk::checkbutton $tab.rf.case  -text " Aa" -variable gui::case_sensitive
-    ttk::checkbutton $tab.rf.glob  -text [format " %s" [msgcat::mc "All"]]  -variable gui::replace_all
+    ttk::menubutton  $tab.rf.type  -width 10 -menu $type_menu
+    ttk::checkbutton $tab.rf.all   -text [format " %s" [msgcat::mc "All"]]  -variable gui::replace_all
     ttk::checkbutton $tab.rf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved \
       -command [list search::update_save replace]
     ttk::label       $tab.rf.close -image form_close
@@ -4357,31 +4382,32 @@ namespace eval gui {
     tooltip::tooltip $tab.rf.next [msgcat::mc "Find next occurrence"]
     tooltip::tooltip $tab.rf.prev [msgcat::mc "Find previous occurrence"]
     tooltip::tooltip $tab.rf.case [msgcat::mc "Case sensitivity"]
-    tooltip::tooltip $tab.rf.glob [msgcat::mc "Replace all occurrences"]
+    tooltip::tooltip $tab.rf.all  [msgcat::mc "Replace all occurrences"]
     tooltip::tooltip $tab.rf.save [msgcat::mc "Save this search"]
 
     grid columnconfigure $tab.rf 1 -weight 1
-    grid $tab.rf.fl    -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $tab.rf.fe    -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $tab.rf.prev  -row 0 -column 2 -sticky news -padx 2 -pady 2
-    grid $tab.rf.next  -row 0 -column 3 -sticky news -padx 2 -pady 2
-    grid $tab.rf.close -row 0 -column 5 -sticky news -padx 2 -pady 2
-    grid $tab.rf.rl    -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $tab.rf.re    -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $tab.rf.case  -row 1 -column 2 -sticky news -padx 2 -pady 2
-    grid $tab.rf.glob  -row 1 -column 3 -sticky news -padx 2 -pady 2
-    grid $tab.rf.save  -row 1 -column 4 -sticky news -padx 2 -pady 2
+    grid $tab.rf.fl    -row 0 -column 0 -sticky news -padx 4 -pady 2
+    grid $tab.rf.fe    -row 0 -column 1 -sticky news -padx 4 -pady 2
+    grid $tab.rf.type  -row 0 -column 2 -sticky news -padx 4 -pady 2
+    grid $tab.rf.prev  -row 0 -column 3 -sticky news -padx 4 -pady 2
+    grid $tab.rf.next  -row 0 -column 4 -sticky news -padx 4 -pady 2
+    grid $tab.rf.close -row 0 -column 5 -sticky news -padx 4 -pady 2
+    grid $tab.rf.rl    -row 1 -column 0 -sticky news -padx 4 -pady 2
+    grid $tab.rf.re    -row 1 -column 1 -sticky news -padx 4 -pady 2
+    grid $tab.rf.case  -row 1 -column 2 -sticky news -padx 4 -pady 2
+    grid $tab.rf.all   -row 1 -column 3 -sticky news -padx 4 -pady 2
+    grid $tab.rf.save  -row 1 -column 4 -sticky news -padx 4 -pady 2
     grid $tab.rf.sep   -row 2 -column 0 -sticky news -column 5
 
     bind $tab.rf.fe    <Return>    [list search::replace_start]
     bind $tab.rf.re    <Return>    [list search::replace_start]
     bind $tab.rf.case  <Return>    [list search::replace_start]
-    bind $tab.rf.glob  <Return>    [list search::replace_start]
+    bind $tab.rf.all   <Return>    [list search::replace_start]
     bind $tab.rf.save  <Return>    [list search::replace_start]
     bind $tab.rf.fe    <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.re    <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.case  <Escape>    [list gui::close_search_and_replace]
-    bind $tab.rf.glob  <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.all   <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.save  <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.close <Button-1>  [list gui::close_search_and_replace]
     bind $tab.rf.close <Key-space> [list gui::close_search_and_replace]
