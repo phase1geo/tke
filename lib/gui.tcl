@@ -339,11 +339,11 @@ namespace eval gui {
     ttk::separator .if.s1 -orient vertical
     set widgets(info_msg)    [ttk::label .if.l2]
     ttk::separator .if.s2 -orient vertical
-    set widgets(info_encode) [ttk::button .if.enc -style BButton -command [list gui::handle_info_menu_popup .if.enc [gui::create_encoding_menu .if.enc]]]
+    set widgets(info_encode) [ttk::button .if.enc -style BButton -command [list gui::handle_menu_popup .if.enc [gui::create_encoding_menu .if.enc]]]
     ttk::separator .if.s3 -orient vertical
-    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_info_menu_popup .if.ind [indent::create_menu .if.ind]]]
+    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_menu_popup .if.ind [indent::create_menu .if.ind]]]
     ttk::separator .if.s4 -orient vertical
-    set widgets(info_syntax) [ttk::button .if.syn -style BButton -command [list gui::handle_info_menu_popup .if.syn [syntax::create_menu .if.syn]]]
+    set widgets(info_syntax) [ttk::button .if.syn -style BButton -command [list gui::handle_menu_popup .if.syn [syntax::create_menu .if.syn]]]
     ttk::label     .if.sp -text " "
 
     $widgets(info_encode) configure -state disabled
@@ -494,7 +494,7 @@ namespace eval gui {
 
   ######################################################################
   # Handles any menu popups that are needed in the information bar
-  proc handle_info_menu_popup {w mnu} {
+  proc handle_menu_popup {w mnu} {
 
     set menu_width  [winfo reqwidth $mnu]
     set menu_height [winfo reqheight $mnu]
@@ -4334,9 +4334,9 @@ namespace eval gui {
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab.sf.e
-    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.sf.type  -style BButton -width 10 -command [list gui::handle_menu_popup $tab.sf.type $type_menu]
     ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
-    ttk::menubutton  $tab.sf.type  -width 10 -menu $type_menu
+    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
     ttk::checkbutton $tab.sf.case  -text " Aa" -variable gui::case_sensitive
     ttk::checkbutton $tab.sf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
@@ -4369,10 +4369,10 @@ namespace eval gui {
     ttk::entry       $tab.rf.fe
     ttk::label       $tab.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab.rf.re
-    ttk::button      $tab.rf.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.rf.type  -style BButton -width 10 -command [list gui::handle_menu_popup $tab.rf.type $type_menu]
     ttk::button      $tab.rf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
+    ttk::button      $tab.rf.next  -style BButton -image search_next -command [list search::find_resilient next]
     ttk::checkbutton $tab.rf.case  -text " Aa" -variable gui::case_sensitive
-    ttk::menubutton  $tab.rf.type  -width 10 -menu $type_menu
     ttk::checkbutton $tab.rf.all   -text [format " %s" [msgcat::mc "All"]]  -variable gui::replace_all
     ttk::checkbutton $tab.rf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved \
       -command [list search::update_save replace]
