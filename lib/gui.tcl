@@ -1191,11 +1191,8 @@ namespace eval gui {
             set tab [add_file $finfo(tab) $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1 \
-              -xview $finfo(xview) -yview $finfo(yview) -cursor $finfo(cursor)]
+              -xview $finfo(xview) -yview $finfo(yview) -cursor $finfo(cursor) -lang $finfo(language)]
             get_info $tab tab txt
-            if {[syntax::get_language $txt] ne $finfo(language)} {
-              syntax::set_language $txt $finfo(language)
-            }
             if {[info exists finfo(indent)]} {
               indent::set_indent_mode $finfo(indent)
             }
@@ -1786,6 +1783,7 @@ namespace eval gui {
       -cursor      1.0
       -xview       0
       -yview       0
+      -lang        ""
     }
     array set opts $args
 
@@ -1822,7 +1820,7 @@ namespace eval gui {
       get_info $pw_current paneindex tabbar
 
       # Add the tab to the editor frame
-      set tab [insert_tab $tabbar $index $fname -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
+      set tab [insert_tab $tabbar $index $fname -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags) -lang $opts(-lang)]
 
       # Create the file information
       files::add $fname $tab \

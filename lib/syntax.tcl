@@ -393,6 +393,9 @@ namespace eval syntax {
     # Set the language of the current buffer
     set_language $txt $language {*}$args
 
+    # Update the menubutton text
+    [set gui::widgets(info_syntax)] configure -text $language
+
     # Set the focus back to the text editor
     gui::set_txt_focus [gui::last_txt_focus]
 
