@@ -153,7 +153,7 @@ namespace eval search {
   # otherwise, returns false.
   proc enable_find_view {txt} {
 
-    return [expr {[$txt tag ranges __search] ne ""}]
+    return [expr {[$txt syntax ranges search] ne ""}]
 
   }
 
@@ -164,11 +164,11 @@ namespace eval search {
     set wrapped 0
 
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag nextrange __search "insert+1c"] startpos endpos
+    lassign [$txt syntax nextrange search "insert+1c"] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag nextrange __search 1.0] startpos endpos
+      lassign [$txt syntax nextrange search 1.0] startpos endpos
       set wrapped 1
     }
 
@@ -191,11 +191,11 @@ namespace eval search {
     set wrapped 0
 
     # Search the text widget from the current insertion cursor forward.
-    lassign [$txt tag prevrange __search insert] startpos endpos
+    lassign [$txt syntax prevrange search insert] startpos endpos
 
     # We need to wrap on the search item
     if {$startpos eq ""} {
-      lassign [$txt tag prevrange __search end] startpos endpos
+      lassign [$txt syntax prevrange search end] startpos endpos
       set wrapped 1
     }
 
@@ -216,7 +216,7 @@ namespace eval search {
   # search item.
   proc enable_select_current {txt} {
 
-    return [expr [lsearch [$txt tag names insert] __search] != -1]
+    return [$txt syntax contains search insert]
 
   }
 
@@ -230,7 +230,7 @@ namespace eval search {
     }
 
     # Add the search term to the selection
-    $txt tag add sel {*}[$txt tag prevrange __search "insert+1c"]
+    $txt tag add sel {*}[$txt syntax prevrange search "insert+1c"]
 
   }
 
@@ -242,7 +242,7 @@ namespace eval search {
     $txt tag remove sel 1.0 end
 
     # Get the search ranges
-    if {[set ranges [$txt tag ranges __search]] ne ""} {
+    if {[set ranges [$txt syntax ranges search]] ne ""} {
 
       # Add the ranges to the selection
       $txt tag add sel {*}$ranges
@@ -278,8 +278,6 @@ namespace eval search {
   proc replace_do_raw {sline eline search replace search_method ignore_case all} {
 
     variable lengths
-
-    puts "sline: $sline, eline: $eline"
 
     # Get the current text widget
     set txt [gui::current_txt]
@@ -325,10 +323,7 @@ namespace eval search {
     if {$matches ne [list]} {
 
       # Perform replacement
-      catch {
       do_replace $txt $matches $search $replace
-      } rc
-      puts "rc: $rc"
 
       # Specify the number of substitutions that we did
       gui::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
@@ -372,6 +367,32 @@ namespace eval search {
 
     # Make sure that the insertion cursor is valid
     vim::adjust_insert $txt
+
+  }
+
+  ######################################################################
+  # Replaces the matched item that exists on the insertion cursor with the
+  # string that is in the replace field in the GUI.
+  proc replace_one {} {
+
+    gui::get_info {} current txt
+
+    # Get the string to replace the current value with
+    lassign [gui::get_search_data] search replace
+
+    # Get the range to replace
+    lassign [$txt syntax prevrange search "insert+1c"] startpos endpos
+
+    # Perform the replacement
+    $txt configure -state normal
+    $txt replace $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+    $txt configure -state disabled
+
+    # Make sure that the insertion cursor is valid
+    vim::adjust_insert $txt
+
+    # Find the next match
+    find_next $txt
 
   }
 
