@@ -534,11 +534,6 @@ namespace eval syntax {
       folding::restart $txt
     }
 
-    # Set the menubutton text
-    if {[info exists gui::widgets(info_syntax)]} {
-      [set gui::widgets(info_syntax)] configure -text $language
-    }
-
   }
 
   ######################################################################
