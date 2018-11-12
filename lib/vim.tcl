@@ -274,13 +274,13 @@ namespace eval vim {
             set ranges [list]
             if {$dummy eq ""} {
               if {[set ranges [$txt tag ranges sel]] eq ""} {
-                set ranges [list 1.0 [$txt index end]]
+                set ranges [list [$txt index "insert linestart"] [$txt index "insert lineend"]]
               }
             } else {
               set ranges [list [get_linenum $txt $from] [$txt index "[get_linenum $txt $to] lineend-1c"]]
             }
             foreach {from to} $ranges {
-              search::replace_do_raw $from $to $search $replace \
+              search::replace_do_raw $from $to $search $replace "regexp" \
                 [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
             }
 

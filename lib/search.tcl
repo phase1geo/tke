@@ -258,9 +258,9 @@ namespace eval search {
   ######################################################################
   # Performs a search and replace operation based on the GUI element
   # settings.
-  proc replace_start {} {
+  proc replace_start {replace_all} {
 
-    lassign [set search_data [gui::get_search_data replace]] find replace search_method case_sensitive replace_all
+    lassign [set search_data [gui::get_search_data replace]] find replace search_method case_sensitive
 
     # Perform the search and replace
     replace_do_raw 1.0 end $find $replace $search_method [expr !$case_sensitive] $replace_all
@@ -279,6 +279,8 @@ namespace eval search {
 
     variable lengths
 
+    puts "sline: $sline, eline: $eline"
+
     # Get the current text widget
     set txt [gui::current_txt]
 
@@ -286,7 +288,7 @@ namespace eval search {
     $txt tag remove sel 1.0 end
 
     # Create regsub arguments
-    if {Search_method eq "glob"} {
+    if {$search_method eq "glob"} {
       set rs_args [list -regexp]
       set search  [string map {* .* ? .} $search]
     } else {
@@ -299,62 +301,34 @@ namespace eval search {
 
     # Get the list of items to replace
     set indices [$txt search -all -count search::lengths {*}$rs_args -- $search $sline $eline]
+    set matches [list]
 
     if {$all} {
-      set indices [lreverse $indices]
-      set lengths [lreverse $lengths]
+      foreach index [lreverse $indices] length [lreverse $lengths] {
+        lappend matches $index [$txt index "$index+${length}c"]
+      }
     } else {
       set last_line 0
-      set i         0
-      foreach index $indices {
+      foreach index $indices length $lengths {
         set curr_line [lindex [split $index .] 0]
         if {$curr_line != $last_line} {
-          lappend new_indices $index
-          lappend new_lengths [lindex $lengths $i]
+          lappend matches [$txt index "$index+${length}c"] $index
           set last_line $curr_line
         }
-        incr i
       }
-      set indices [lreverse $new_indices]
-      set lengths [lreverse $new_lengths]
+      set matches [lreverse $matches]
     }
-
-    # Get the number of indices
-    set num_indices [llength $indices]
-    set ranges      [list]
-    set do_tags     [list]
 
     # Make sure that newline characters and tabs are replaced properly
     set replace [string map {{\n} \n {\t} \t} $replace]
 
-    if {$num_indices > 0} {
+    if {$matches ne [list]} {
 
-      $txt configure -state normal
-
-      # Replace the text (perform variable substitutions if necessary)
-      for {set i 0} {$i < $num_indices} {incr i} {
-        set startpos [lindex $indices $i]
-        set endpos   [$txt index $startpos+[lindex $lengths $i]c]
-        set rendpos  [$txt index $startpos+[string length $replace]c]
-        if {[llength $do_tags] == 0} {
-          ctext::comments_chars_deleted $txt $startpos $endpos do_tags
-        }
-        $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
-        if {[llength $do_tags] == 0} {
-          ctext::comments_do_tag $txt $startpos $rendpos do_tags
-        }
-        lappend ranges $endpos $startpos
-      }
-
-      # Perform the highlight
-      $txt configure -state disabled
-      $txt syntax highlight -dotags $do_tags -insert 1 -modified 1 {*}[lreverse $ranges]
-
-      # Set the insertion cursor to the last match and make that line visible
-      ::tk::TextSetCursor $txt [lindex $indices 0]
-
-      # Make sure that the insertion cursor is valid
-      vim::adjust_insert $txt
+      # Perform replacement
+      catch {
+      do_replace $txt $matches $search $replace
+      } rc
+      puts "rc: $rc"
 
       # Specify the number of substitutions that we did
       gui::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
@@ -364,6 +338,40 @@ namespace eval search {
       gui::set_info_message [msgcat::mc "No search results found"]
 
     }
+
+  }
+
+  ######################################################################
+  # Performs the replacement operation for the given indices.
+  proc do_replace {txt matches search replace} {
+
+    set do_tags     [list]
+    set replace_len [string length $replace]
+
+    # Make sure that the text widget is editable
+    $txt configure -state normal
+
+    # Replace the text (perform variable substitutions if necessary)
+    foreach {startpos endpos} $matches {
+      set rendpos [$txt index $startpos+${replace_len}c]
+      if {[llength $do_tags] == 0} {
+        ctext::comments_chars_deleted $txt $startpos $endpos do_tags
+      }
+      $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+      if {[llength $do_tags] == 0} {
+        ctext::comments_do_tag $txt $startpos $rendpos do_tags
+      }
+    }
+
+    # Perform the highlight
+    $txt configure -state disabled
+    $txt syntax highlight -dotags $do_tags -insert 1 -modified 1 {*}$matches
+
+    # Set the insertion cursor to the last match and make that line visible
+    ::tk::TextSetCursor $txt [lindex $matches 0]
+
+    # Make sure that the insertion cursor is valid
+    vim::adjust_insert $txt
 
   }
 
