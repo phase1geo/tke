@@ -92,7 +92,7 @@ namespace eval todo {
     foreach todo_list $todo_lists {
 
       # Create a menu item for each todo list
-      set list_menu [menu $mnu.[string map {{ } _ {.} {\\.}} [string tolower [lindex $todo_list 0]]] -tearoff 0]
+      set list_menu [menu $mnu.[string map {{ } _ . _} [string tolower [lindex $todo_list 0]]] -tearoff 0]
       $mnu add cascade -label [lindex $todo_list 0] -menu $list_menu
 
       # Add the todo items for the given list
@@ -100,7 +100,7 @@ namespace eval todo {
       foreach todo [lindex $todo_list 1] {
 
         # Create the todo menu
-        set todo_menu [menu $list_menu.[string map {{ } _ {.} {\\.}} [string tolower [lindex $todo 0]]] -tearoff 0]
+        set todo_menu [menu $list_menu.[string map {{ } _ . _} [string tolower [lindex $todo 0]]] -tearoff 0]
 
         # Figure out the appropriate checkbutton image to draw
         if {[lindex $todo 1]} {
