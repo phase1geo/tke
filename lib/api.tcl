@@ -185,7 +185,7 @@ namespace eval api {
   #          value (if the first value is set to 1).
   proc get_user_input {interp pname msg pvar {allow_vars 1}} {
 
-    set var ""
+    set var [$interp eval set $pvar]
 
     if {[gui::get_user_response $msg var -allow_vars $allow_vars]} {
       $interp eval set $pvar [list $var]
