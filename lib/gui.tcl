@@ -3088,7 +3088,7 @@ namespace eval gui {
 
   ######################################################################
   # Updates the menubutton label for the given widget with the current
-  # value of search_method
+  # value of search_method.
   proc update_search_method {tab} {
 
     variable search_method
@@ -3102,6 +3102,14 @@ namespace eval gui {
     # Update the labels
     $tab.sf.type      configure -text $lbl
     $tab.rf.opts.type configure -text $lbl
+
+    # If the find field for the given search type is not an empty string, perform the
+    # search with the new search method
+    if {[winfo ismapped $tab.sf]} {
+      search::find_resilient "next"
+    } else {
+      # TBD
+    }
 
   }
 
@@ -4406,7 +4414,7 @@ namespace eval gui {
     ttk::frame       $tab.rf.act
     ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
     ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next]
-    ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_start 0]
+    ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_one]
     ttk::button      $tab.rf.act.repa  -style BButton -text [msgcat::mc "Replace All"] -command [list search::replace_start 1]
     ttk::frame       $tab.rf.opts
     ttk::button      $tab.rf.opts.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.rf.opts.type $type_menu]
