@@ -57,7 +57,7 @@ namespace eval bgproc {
       # If the given resource list is in existence, wait for it to complete.
       if {[info exists resources($resource)]} {
         if {![info exists resource_completed($resource)]} {
-          set resource_completed($resource)] 0
+          set resource_completed($resource) 0
         }
         vwait bgproc::resource_completed($resource)
       }
