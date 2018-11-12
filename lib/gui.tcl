@@ -41,7 +41,6 @@ namespace eval gui {
   variable trailing_ws_re   {[\ ]+$}
   variable case_sensitive   1
   variable saved            0
-  variable replace_all      1
   variable highlightcolor   ""
   variable auto_cwd         0
   variable numberwidth      4
@@ -3103,8 +3102,36 @@ namespace eval gui {
     }
 
     # Update the labels
-    $tab.sf.type configure -text $lbl
-    $tab.rf.type configure -text $lbl
+    $tab.sf.type      configure -text $lbl
+    $tab.rf.opts.type configure -text $lbl
+
+  }
+
+  ######################################################################
+  # Called whenever the user changes the search text.
+  proc handle_search_change {tab value} {
+
+    set state [expr {($value eq "") ? "disabled" : "normal"}]
+
+    $tab.sf.prev configure -state $state
+    $tab.sf.next configure -state $state
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Called whenever the user changes the search text.
+  proc handle_replace_change {tab value} {
+
+    set state [expr {($value eq "") ? "disabled" : "normal"}]
+
+    $tab.rf.act.prev configure -state $state
+    $tab.rf.act.next configure -state $state
+    $tab.rf.act.rep  configure -state $state
+    $tab.rf.act.repa configure -state $state
+
+    return 1
 
   }
 
@@ -3119,6 +3146,10 @@ namespace eval gui {
 
     # Update the search method menubutton label
     update_search_method $tab
+
+    # Disable UI elements
+    $tab.sf.prev configure -state disabled
+    $tab.sf.next configure -state disabled
 
     # Display the search bar and separator
     panel_place $tab.sf
@@ -3177,6 +3208,12 @@ namespace eval gui {
     # Update the search method menubutton label
     update_search_method $tab
 
+    # Disable UI elements
+    $tab.rf.act.prev configure -state disabled
+    $tab.rf.act.next configure -state disabled
+    $tab.rf.act.rep  configure -state disabled
+    $tab.rf.act.repa configure -state disabled
+
     # Display the search bar and separator
     panel_place $tab.rf
 
@@ -3218,7 +3255,6 @@ namespace eval gui {
 
     variable widgets
     variable case_sensitive
-    variable replace_all
     variable saved
     variable search_method
 
@@ -3227,7 +3263,7 @@ namespace eval gui {
 
     switch $type {
       "find"    { return [list [$tab.sf.e get] $search_method $case_sensitive $saved] }
-      "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $search_method $case_sensitive $replace_all $saved] }
+      "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $search_method $case_sensitive $saved] }
       "fif"     { return [list [$widgets(fif_find) get] [$widgets(fif_in) tokenget] $search_method $case_sensitive $saved] }
     }
 
@@ -3240,7 +3276,6 @@ namespace eval gui {
 
     variable widgets
     variable case_sensitive
-    variable replace_all
     variable saved
     variable search_method
 
@@ -3254,7 +3289,7 @@ namespace eval gui {
         $tab.sf.e insert end $str
       }
       "replace" {
-        lassign $data find replace search_method case_sensitive replace_all saved
+        lassign $data find replace search_method case_sensitive saved
         $tab.rf.fe delete 0 end
         $tab.rf.re delete 0 end
         $tab.rf.fe insert end $find
@@ -4326,7 +4361,7 @@ namespace eval gui {
 
     # Create the search type menu
     set type_menu [menu $tab.typeMenu -tearoff 0]
-    set max_width [msgcat::mcmax "Regexp" "Glob" "Exact"]
+    set max_width [expr [msgcat::mcmax "Regexp" "Glob" "Exact"] + 1]
     $type_menu add radiobutton -label [msgcat::mc "Regexp"] -variable gui::search_method -value "regexp" -command [list gui::update_search_method $tab]
     $type_menu add radiobutton -label [msgcat::mc "Glob"]   -variable gui::search_method -value "glob"   -command [list gui::update_search_method $tab]
     $type_menu add radiobutton -label [msgcat::mc "Exact"]  -variable gui::search_method -value "exact"  -command [list gui::update_search_method $tab]
@@ -4334,10 +4369,10 @@ namespace eval gui {
     # Create the search bar
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
-    ttk::entry       $tab.sf.e
-    ttk::button      $tab.sf.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.sf.type $type_menu]
+    ttk::entry       $tab.sf.e     -validate key -validatecommand [list gui::handle_search_change $tab %P]
     ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
     ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.sf.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.sf.type $type_menu]
     ttk::checkbutton $tab.sf.case  -text " Aa" -variable gui::case_sensitive
     ttk::checkbutton $tab.sf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
@@ -4352,9 +4387,9 @@ namespace eval gui {
     pack $tab.sf.close -side right -padx 4 -pady 2
     pack $tab.sf.save  -side right -padx 4 -pady 2
     pack $tab.sf.case  -side right -padx 4 -pady 2
+    pack $tab.sf.type  -side right -padx 4 -pady 2
     pack $tab.sf.next  -side right -padx 4 -pady 2
     pack $tab.sf.prev  -side right -padx 4 -pady 2
-    pack $tab.sf.type  -side right -padx 4 -pady 2
 
     bind $tab.sf.e     <Escape>    [list gui::close_search]
     bind $tab.sf.case  <Escape>    [list gui::close_search]
@@ -4367,52 +4402,58 @@ namespace eval gui {
     # Create the search/replace bar
     ttk::frame       $tab.rf
     ttk::label       $tab.rf.fl    -text [format "%s:" [msgcat::mc "Find"]]
-    ttk::entry       $tab.rf.fe
+    ttk::entry       $tab.rf.fe    -validate key -validatecommand [list gui::handle_replace_change $tab %P]
     ttk::label       $tab.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab.rf.re
-    ttk::button      $tab.rf.rep   -style BButton -text [msgcat::mc "Replace"] -command {}
-    ttk::button      $tab.rf.repa  -style BButton -text [msgcat::mc "Replace All"] -command {}
-    ttk::button      $tab.rf.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.rf.type $type_menu]
-    ttk::button      $tab.rf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
-    ttk::button      $tab.rf.next  -style BButton -image search_next -command [list search::find_resilient next]
-    ttk::checkbutton $tab.rf.case  -text " Aa" -variable gui::case_sensitive
-    ttk::checkbutton $tab.rf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved \
+    ttk::frame       $tab.rf.act
+    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
+    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_start 0]
+    ttk::button      $tab.rf.act.repa  -style BButton -text [msgcat::mc "Replace All"] -command [list search::replace_start 1]
+    ttk::frame       $tab.rf.opts
+    ttk::button      $tab.rf.opts.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.rf.opts.type $type_menu]
+    ttk::checkbutton $tab.rf.opts.case  -text " Aa" -variable gui::case_sensitive
+    ttk::checkbutton $tab.rf.opts.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved \
       -command [list search::update_save replace]
     ttk::label       $tab.rf.close -image form_close
     ttk::separator   $tab.rf.sep   -orient horizontal
 
-    tooltip::tooltip $tab.rf.next [msgcat::mc "Find next occurrence"]
-    tooltip::tooltip $tab.rf.prev [msgcat::mc "Find previous occurrence"]
-    tooltip::tooltip $tab.rf.case [msgcat::mc "Case sensitivity"]
-    tooltip::tooltip $tab.rf.save [msgcat::mc "Save this search"]
+    tooltip::tooltip $tab.rf.act.next  [msgcat::mc "Find next occurrence"]
+    tooltip::tooltip $tab.rf.act.prev  [msgcat::mc "Find previous occurrence"]
+    tooltip::tooltip $tab.rf.opts.case [msgcat::mc "Case sensitivity"]
+    tooltip::tooltip $tab.rf.opts.save [msgcat::mc "Save this search"]
+
+    pack $tab.rf.act.prev -side left -padx 4
+    pack $tab.rf.act.next -side left -padx 4
+    pack $tab.rf.act.rep  -side left -padx 4
+    pack $tab.rf.act.repa -side left -padx 4
+
+    pack $tab.rf.opts.type -side left -padx 4
+    pack $tab.rf.opts.case -side left -padx 4
+    pack $tab.rf.opts.save -side right -padx 4
 
     grid columnconfigure $tab.rf 1 -weight 1
     grid $tab.rf.fl    -row 0 -column 0 -sticky news -padx 4 -pady 2
     grid $tab.rf.fe    -row 0 -column 1 -sticky news -padx 4 -pady 2
-    grid $tab.rf.rep   -row 0 -column 2 -sticky news -padx 4 -pady 2
-    grid $tab.rf.type  -row 0 -column 3 -sticky news -padx 4 -pady 2
-    grid $tab.rf.prev  -row 0 -column 4 -sticky news -padx 4 -pady 2
-    grid $tab.rf.next  -row 0 -column 5 -sticky news -padx 4 -pady 2
-    grid $tab.rf.close -row 0 -column 6 -sticky news -padx 4 -pady 2
+    grid $tab.rf.act   -row 0 -column 2 -sticky news -padx 4 -pady 2
+    grid $tab.rf.close -row 0 -column 3 -sticky news -padx 4 -pady 2
     grid $tab.rf.rl    -row 1 -column 0 -sticky news -padx 4 -pady 2
     grid $tab.rf.re    -row 1 -column 1 -sticky news -padx 4 -pady 2
-    grid $tab.rf.repa  -row 1 -column 2 -sticky news -padx 4 -pady 2
-    grid $tab.rf.case  -row 1 -column 3 -sticky news -padx 4 -pady 2
-    grid $tab.rf.save  -row 1 -column 5 -sticky news -padx 4 -pady 2
-    grid $tab.rf.sep   -row 2 -column 0 -sticky news -column 6
+    grid $tab.rf.opts  -row 1 -column 2 -sticky news -padx 4 -pady 2
+    grid $tab.rf.sep   -row 2 -column 0 -sticky news -column 4
 
-    bind $tab.rf.fe    <Return>    [list search::replace_start]
-    bind $tab.rf.re    <Return>    [list search::replace_start]
-    bind $tab.rf.case  <Return>    [list search::replace_start]
-    bind $tab.rf.save  <Return>    [list search::replace_start]
-    bind $tab.rf.fe    <Escape>    [list gui::close_search_and_replace]
-    bind $tab.rf.re    <Escape>    [list gui::close_search_and_replace]
-    bind $tab.rf.case  <Escape>    [list gui::close_search_and_replace]
-    bind $tab.rf.save  <Escape>    [list gui::close_search_and_replace]
-    bind $tab.rf.close <Button-1>  [list gui::close_search_and_replace]
-    bind $tab.rf.close <Key-space> [list gui::close_search_and_replace]
-    bind $tab.rf.fe    <Up>        "search::traverse_history replace  1; break"
-    bind $tab.rf.fe    <Down>      "search::traverse_history replace -1; break"
+    bind $tab.rf.fe        <Return>    [list search::replace_start]
+    bind $tab.rf.re        <Return>    [list search::replace_start]
+    bind $tab.rf.opts.case <Return>    [list search::replace_start]
+    bind $tab.rf.opts.save <Return>    [list search::replace_start]
+    bind $tab.rf.fe        <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.re        <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.opts.case <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.opts.save <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.close     <Button-1>  [list gui::close_search_and_replace]
+    bind $tab.rf.close     <Key-space> [list gui::close_search_and_replace]
+    bind $tab.rf.fe        <Up>        "search::traverse_history replace  1; break"
+    bind $tab.rf.fe        <Down>      "search::traverse_history replace -1; break"
 
     # Create the diff bar
     if {$opts(-diff)} {

@@ -3849,6 +3849,8 @@ namespace eval ctext {
 
     applyClassTheme $win $class
 
+    $win._t tag raise __$class _visibleH
+
     # Perform the search
     set i 0
     foreach res [$win._t search -count lengths {*}$opts -all -- $str 1.0 end] {
