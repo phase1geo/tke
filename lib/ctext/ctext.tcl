@@ -3748,15 +3748,15 @@ namespace eval ctext {
 
     variable data
 
-    foreach {key data} [array get data $win,highlight,searches,*] {
+    foreach {key value} [array get data $win,highlight,searches,*] {
 
       set class [lindex [split $key ,] 3]
-      lappend $data str opts
+      lassign $value str opts
 
       # Perform the search now
       set i 0
       foreach res [$win._t search -count lengths {*}$opts -all -- $str $start $end] {
-        lappend tags($class) $res [$win._t index "$res + [lindex $lengths $i] chars"]
+        dict lappend tags $class $res [$win._t index "$res + [lindex $lengths $i] chars"]
         incr i
       }
 
@@ -3870,6 +3870,8 @@ namespace eval ctext {
   ######################################################################
   # Performs a search and highlights all matches.
   proc highlightSearch {win class str {opts ""}} {
+
+    variable data
 
     # Add the highlight class
     addHighlightClass $win $class -fgtheme search -bgtheme search -priority high
