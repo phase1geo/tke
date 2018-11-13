@@ -46,9 +46,6 @@ namespace eval completer {
       double       0
       single       0
       btick        0
-      tripledouble 0
-      triplesingle 0
-      triplebtick  0
     }
 
     foreach value [preferences::get Editor/AutoMatchChars] {
@@ -83,9 +80,6 @@ namespace eval completer {
       $txtt,$lang,double       0 \
       $txtt,$lang,single       0 \
       $txtt,$lang,btick        0 \
-      $txtt,$lang,tripledouble 0 \
-      $txtt,$lang,triplesingle 0 \
-      $txtt,$lang,tripelbtick  0 \
     ]
 
     # Combine the language-specific match chars with preference chars
@@ -275,24 +269,6 @@ namespace eval completer {
   proc add_double {txtt} {
 
     variable complete
-
-    # First, check to see if we are dealing with a triple double-quote
-    if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],tripledouble)} {
-      if {[$txtt is intripledouble insert]} {
-        if {([$txtt get insert] eq "\"") && ![$txtt is escaped insert]} {
-          ::tk::TextSetCursor $txtt "insert+3c"
-          return 1
-        }
-      } elseif {[$txtt is intripledouble end-1c]} {
-        return 0
-      } else {
-        set ins [$txtt index insert]
-        if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt fastinsert insert "\""
-        }
-        ::tk::TextSetCursor $txtt $ins
-      }
-    }
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],double)} {
       if {[$txtt is indouble insert]} {
