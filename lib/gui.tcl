@@ -3106,9 +3106,9 @@ namespace eval gui {
     # If the find field for the given search type is not an empty string, perform the
     # search with the new search method
     if {[winfo ismapped $tab.sf]} {
-      search::find_resilient "next"
-    } else {
-      # TBD
+      search::find_resilient "next" "find"
+    } elseif {[winfo ismapped $tab.rf]} {
+      search::find_resilient "next" "replace"
     }
 
   }
@@ -3142,6 +3142,24 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Clears the search UI for find and find/replace.
+  proc search_clear {} {
+
+    # Get the current tab
+    get_info {} current tab
+
+    # Clear the find UI
+    $tab.sf.e delete 0 end
+    handle_search_change $tab ""
+
+    # Clear the find/replace UI
+    $tab.rf.fe delete 0 end
+    $tab.rf.re delete 0 end
+    handle_replace_change $tab ""
+
+  }
+
+  ######################################################################
   # Displays the search bar.
   proc search {{dir "next"}} {
 
@@ -3153,10 +3171,6 @@ namespace eval gui {
     # Update the search method menubutton label
     update_search_method $tab
 
-    # Disable UI elements
-    $tab.sf.prev configure -state disabled
-    $tab.sf.next configure -state disabled
-
     # Display the search bar and separator
     panel_place $tab.sf
 
@@ -3164,9 +3178,6 @@ namespace eval gui {
     bind $tab.sf.e    <Return> [list search::find_start $dir]
     bind $tab.sf.case <Return> [list search::find_start $dir]
     bind $tab.sf.save <Return> [list search::find_start $dir]
-
-    # Clear the search entry
-    $tab.sf.e delete 0 end
 
     # Reset the saved indicator
     set saved 0
@@ -3214,18 +3225,8 @@ namespace eval gui {
     # Update the search method menubutton label
     update_search_method $tab
 
-    # Disable UI elements
-    $tab.rf.act.prev configure -state disabled
-    $tab.rf.act.next configure -state disabled
-    $tab.rf.act.rep  configure -state disabled
-    $tab.rf.act.repa configure -state disabled
-
     # Display the search bar and separator
     panel_place $tab.rf
-
-    # Clear the search entry
-    $tab.rf.fe delete 0 end
-    $tab.rf.re delete 0 end
 
     # Reset the saved indicator
     set saved 0
@@ -3297,6 +3298,7 @@ namespace eval gui {
         set saved          $data_array(saved)
         $tab.sf.e delete 0 end
         $tab.sf.e insert end $data_array(find)
+        handle_search_change $tab $data_array(find)
       }
       "replace" {
         set search_method  $data_array(method)
@@ -3306,6 +3308,7 @@ namespace eval gui {
         $tab.rf.re delete 0 end
         $tab.rf.fe insert end $data_array(find)
         $tab.rf.re insert end $data_array(replace)
+        handle_replace_change $tab $data_array(find)
       }
       "fif" {
         set search_method  $data_array(method)
@@ -4385,8 +4388,8 @@ namespace eval gui {
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab.sf.e     -validate key -validatecommand [list gui::handle_search_change $tab %P]
-    ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
-    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev] -state disabled
+    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next] -state disabled
     ttk::button      $tab.sf.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.sf.type $type_menu]
     ttk::checkbutton $tab.sf.case  -text " Aa" -variable gui::case_sensitive
     ttk::checkbutton $tab.sf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved -command [list search::update_save find]
@@ -4424,10 +4427,10 @@ namespace eval gui {
     ttk::label       $tab.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab.rf.re
     ttk::frame       $tab.rf.act
-    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev replace]
-    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next replace]
-    ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_one]
-    ttk::button      $tab.rf.act.repa  -style BButton -text [msgcat::mc "Replace All"] -command [list search::replace_start 1]
+    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev replace] -state disabled
+    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next replace] -state disabled
+    ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_one]     -state disabled
+    ttk::button      $tab.rf.act.repa  -style BButton -text [msgcat::mc "Replace All"] -command [list search::replace_start 1] -state disabled
     ttk::frame       $tab.rf.opts
     ttk::button      $tab.rf.opts.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.rf.opts.type $type_menu]
     ttk::checkbutton $tab.rf.opts.case  -text " Aa" -variable gui::case_sensitive

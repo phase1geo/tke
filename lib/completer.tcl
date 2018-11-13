@@ -170,7 +170,7 @@ namespace eval completer {
 
     if {$complete($txtt,[ctext::getLang $txtt "insert-1c"],square) && \
         ![$txtt is incomment "insert-1c"] && \
-        ![$txtt is escpaed insert]} {
+        ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
           ::tk::TextSetCursor $txtt "insert+1c"
