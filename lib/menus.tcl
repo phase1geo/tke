@@ -1212,11 +1212,11 @@ namespace eval menus {
     $mb.cursorPopup add command -label [msgcat::mc "Move to Line End"] -command [list menus::edit_cursor_move lineend]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to end of current line"]] [list menus::edit_cursor_move lineend]
 
-    $mb.cursorPopup add command -label [msgcat::mc "Move to Next Word"] -command [list menus::edit_cursor_move nextwordstart]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to next word"]] [list menus::edit_cursor_move nextwordstart]
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Next Word"] -command [list menus::edit_cursor_move wordstart -dir next]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to next word"]] [list menus::edit_cursor_move wordstart -dir next]
 
-    $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Word"] -command [list menus::edit_cursor_move prevwordstart]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to previous word"]] [list menus::edit_cursor_move prevwordstart]
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Word"] -command [list menus::edit_cursor_move wordstart -dir prev]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to previous word"]] [list menus::edit_cursor_move wordstart -dir prev]
 
     $mb.cursorPopup add separator
 
@@ -1924,14 +1924,14 @@ namespace eval menus {
   ######################################################################
   # Moves the current cursor by the given modifier for the current
   # text widget.
-  proc edit_cursor_move {modifier} {
+  proc edit_cursor_move {modifier args} {
 
     # Get the current text widget
     set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
     if {![multicursor::enabled $txtt]} {
-      edit::move_cursor $txtt $modifier
+      edit::move_cursor $txtt $modifier {*}$args
     }
 
   }
