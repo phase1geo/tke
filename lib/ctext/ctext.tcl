@@ -2092,6 +2092,7 @@ namespace eval ctext {
     set args [lassign $args subcmd]
 
     switch $subcmd {
+      add          { $win._t tag add __[lindex $args 0] {*}[lrange $args 1 end] }
       addclass     { addHighlightClass             $win {*}$args }
       addwords     { addHighlightKeywords          $win {*}$args }
       addregexp    { addHighlightRegexp            $win {*}$args }
@@ -2103,7 +2104,9 @@ namespace eval ctext {
             deleteHighlightClass $win $class
           }
         } else {
-          deleteHighlightClass $win {*}$args
+          foreach class $args {
+            deleteHighlightClass $win $class
+          }
         }
       }
       classes   { return [getHighlightClasses $win {*}$args] }
@@ -2115,7 +2118,7 @@ namespace eval ctext {
             }
           }
           1 {
-            $win tag remove __$class 1.0 end
+            $win tag remove __[lindex $args 0] 1.0 end
           }
           2 {
             foreach class [getHighlightClasses $win] {
@@ -4006,9 +4009,9 @@ namespace eval ctext {
     }
 
     array unset data $win,highlight,*,class,__$class
+    array unset data $win,highlight,searches,__$class
     unset data($win,classopts,$class)
     unset data($win,classimmediate,$class)
-    unset data($win,highlight,searches,__$class)
 
     $win._t tag delete __$class 1.0 end
 

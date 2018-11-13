@@ -78,7 +78,8 @@ namespace eval search {
       find_clear
 
       # Create a highlight class for the given search string
-      $txt syntax addclass search -fgtheme search_foreground -bgtheme search_background -highpriority 1
+      $txt syntax addclass search_curr -fgtheme search_foreground -bgtheme marker -priority high
+      $txt syntax addclass search -fgtheme search_foreground -bgtheme search_background -priority 1
       $txt syntax search   search $data_array(find) $search_opts
 
     }
@@ -144,7 +145,7 @@ namespace eval search {
     set txt [gui::current_txt]
 
     # Clear the highlight class
-    catch { $txt syntax delete search }
+    catch { $txt syntax delete search search_curr }
 
   }
 
@@ -172,9 +173,13 @@ namespace eval search {
       set wrapped 1
     }
 
+    # Clear the search_curr
+    $txt syntax clear search_curr
+
     # Select the next match
     if {$startpos ne ""} {
       ::tk::TextSetCursor $txt.t $startpos
+      $txt syntax add search_curr $startpos $endpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
@@ -199,9 +204,13 @@ namespace eval search {
       set wrapped 1
     }
 
+    # Clear the search_curr
+    $txt syntax clear search_curr
+
     # Select the next match
     if {$startpos ne ""} {
       ::tk::TextSetCursor $txt.t $startpos
+      $txt syntax add search_curr $startpos $endpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
