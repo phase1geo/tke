@@ -3268,9 +3268,9 @@ namespace eval gui {
     get_info {} current tab
 
     switch $type {
-      "find"    { return [list [$tab.sf.e get] $search_method $case_sensitive $saved] }
-      "replace" { return [list [$tab.rf.fe get] [$tab.rf.re get] $search_method $case_sensitive $saved] }
-      "fif"     { return [list [$widgets(fif_find) get] [$widgets(fif_in) tokenget] $search_method $case_sensitive $saved] }
+      "find"    { return [list find [$tab.sf.e get] method $search_method case $case_sensitive save $saved] }
+      "replace" { return [list find [$tab.rf.fe get] replace [$tab.rf.re get] method $search_method case $case_sensitive save $saved] }
+      "fif"     { return [list find [$widgets(fif_find) get] in [$widgets(fif_in) tokenget] method $search_method case $case_sensitive save $saved] }
     }
 
   }
@@ -3288,31 +3288,40 @@ namespace eval gui {
     # Get the current tab
     get_info {} current tab
 
+    array set data_array $data
+
     switch $type {
       "find" {
-        lassign $data str search_method case_sensitive saved
+        set search_method  $data_array(method)
+        set case_sensitive $data_array(case)
+        set saved          $data_array(saved)
         $tab.sf.e delete 0 end
-        $tab.sf.e insert end $str
+        $tab.sf.e insert end $data_array(find)
       }
       "replace" {
-        lassign $data find replace search_method case_sensitive saved
+        set search_method  $data_array(method)
+        set case_sensitive $data_array(case)
+        set saved          $data_array(saved)
         $tab.rf.fe delete 0 end
         $tab.rf.re delete 0 end
-        $tab.rf.fe insert end $find
-        $tab.rf.re insert end $replace
+        $tab.rf.fe insert end $data_array(find)
+        $tab.rf.re insert end $data_array(replace)
       }
       "fif" {
-        lassign $data find in search_method case_sensitive saved
+        set search_method  $data_array(method)
+        set case_sensitive $data_array(case)
+        set saved          $data_array(saved)
         $widgets(fif_find) delete 0 end
-        $widgets(fif_find) insert end $find
+        $widgets(fif_find) insert end $data_array(find)
         $widgets(fif_in) tokendelete 0 end
-        $widgets(fif_in) tokeninsert end $in
+        $widgets(fif_in) tokeninsert end $data_array(in)
       }
       "docsearch" {
-        lassign $data name str search_method saved
-        $widgets(doc).mb configure -text [expr {($name eq "") ? [[$widgets(doc).mb cget -menu] entrycget 0 -label] : $name}]
+        set search_method  $data_array(method)
+        set saved          $data_array(saved)
+        $widgets(doc).mb configure -text [expr {($data_array(name) eq "") ? [[$widgets(doc).mb cget -menu] entrycget 0 -label] : $data_array(name)}]
         $widgets(doc).e  delete 0 end
-        $widgets(doc).e  insert end $str
+        $widgets(doc).e  insert end $data_array(find)
       }
     }
 
@@ -4400,6 +4409,9 @@ namespace eval gui {
     bind $tab.sf.e     <Escape>    [list gui::close_search]
     bind $tab.sf.case  <Escape>    [list gui::close_search]
     bind $tab.sf.save  <Escape>    [list gui::close_search]
+    bind $tab.sf.type  <Escape>    [list gui::close_search]
+    bind $tab.sf.next  <Escape>    [list gui::close_search]
+    bind $tab.sf.prev  <Escape>    [list gui::close_search]
     bind $tab.sf.e     <Up>        "search::traverse_history find  1; break"
     bind $tab.sf.e     <Down>      "search::traverse_history find -1; break"
     bind $tab.sf.close <Button-1>  [list gui::close_search]
@@ -4412,8 +4424,8 @@ namespace eval gui {
     ttk::label       $tab.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab.rf.re
     ttk::frame       $tab.rf.act
-    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
-    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev replace]
+    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next replace]
     ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_one]
     ttk::button      $tab.rf.act.repa  -style BButton -text [msgcat::mc "Replace All"] -command [list search::replace_start 1]
     ttk::frame       $tab.rf.opts
@@ -4450,12 +4462,18 @@ namespace eval gui {
 
     bind $tab.rf.fe        <Return>    [list search::replace_start]
     bind $tab.rf.re        <Return>    [list search::replace_start]
+    bind $tab.rf.opts.type <Return>    [list search::replace_start]
     bind $tab.rf.opts.case <Return>    [list search::replace_start]
     bind $tab.rf.opts.save <Return>    [list search::replace_start]
     bind $tab.rf.fe        <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.re        <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.opts.type <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.opts.case <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.opts.save <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.act.prev  <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.act.next  <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.act.rep   <Escape>    [list gui::close_search_and_replace]
+    bind $tab.rf.act.repa  <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.close     <Button-1>  [list gui::close_search_and_replace]
     bind $tab.rf.close     <Key-space> [list gui::close_search_and_replace]
     bind $tab.rf.fe        <Up>        "search::traverse_history replace  1; break"
@@ -5641,7 +5659,7 @@ namespace eval gui {
     set txt [current_txt]
 
     # If we are escaped or in a comment/string, we should not match
-    if {[ctext::isEscaped $txt insert] || [ctext::inCommentString $txt insert]} {
+    if {[$txt is escaped insert] || [$txt is incommentstring insert]} {
       return
     }
 
@@ -5674,7 +5692,7 @@ namespace eval gui {
   # otherwise, returns -1.
   proc find_match_pair {txt str1 str2 dir {startpos insert}} {
 
-    if {[ctext::isEscaped $txt $startpos] || [ctext::inCommentString $txt $startpos]} {
+    if {[$txt is escaped $startpos] || [$txt is incommentstring $startpos]} {
       return -1
     }
 
@@ -5683,7 +5701,7 @@ namespace eval gui {
     set pos       [$txt index [expr {($dir eq "-forwards") ? "$startpos+1c" : $startpos}]]
 
     # Calculate the endpos
-    if {[set incomstr [ctext::inCommentStringRange $txt $pos srange]]} {
+    if {[set incomstr [$txt is incommentstring $pos srange]]} {
       if {$dir eq "-forwards"} {
         set endpos [lindex $srange 1]
       } else {
@@ -5710,7 +5728,7 @@ namespace eval gui {
         set pos $found
       }
 
-      if {[ctext::isEscaped $txt $found] || (!$incomstr && [ctext::inCommentString $txt $found])} {
+      if {[$txt is escaped $found] || (!$incomstr && [$txt is incommentstring $found])} {
         continue
       } elseif {[string equal $char [subst $str2]]} {
         incr count
@@ -5732,7 +5750,7 @@ namespace eval gui {
 
     set last_found ""
 
-    if {[ctext::isEscaped $txt $startpos]} {
+    if {[$txt is escaped $startpos]} {
       return -1
     }
 
@@ -5752,7 +5770,7 @@ namespace eval gui {
       set last_found $found
       set startpos   [expr {($dir eq "-backwards") ? $found : [$txt index "$found+1c"]}]
 
-      if {[ctext::isEscaped $txt $last_found]} {
+      if {[$txt is escaped $last_found]} {
         continue
       }
 
