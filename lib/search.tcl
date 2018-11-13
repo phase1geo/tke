@@ -326,7 +326,7 @@ namespace eval search {
       do_replace $txt $matches $search $replace
 
       # Specify the number of substitutions that we did
-      gui::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
+      gui::set_info_message [format "%d %s" [llength $matches] [msgcat::mc "substitutions done"]]
 
     } else {
 
