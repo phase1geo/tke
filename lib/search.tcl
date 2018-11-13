@@ -147,6 +147,9 @@ namespace eval search {
     # Clear the highlight class
     catch { $txt syntax delete search search_curr }
 
+    # Clear the search UI
+    gui::search_clear
+
   }
 
   ######################################################################
