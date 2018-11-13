@@ -1,72 +1,116 @@
-2018-11-08 08:27 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f92a476c097f [devel-3.4.12])
+2018-11-09 09:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (154cb582d5de [devel-3.4.13])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.12 release
+	ChangeLog for devel-3.4.13 release
 
-2018-11-08 08:28 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (96acebdb25cf)
+2018-11-09 09:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0226d332e3b7)
 
 	* .hgtags:
-	Added tag devel-3.4.12 for changeset f92a476c097f
+	Added tag devel-3.4.13 for changeset 154cb582d5de
 
-2018-11-07 15:46 -0600  Trevor Williams  <Trevor Williams>  (c554c16668b1)
+2018-11-09 12:31 -0600  Trevor Williams  <Trevor Williams>  (f80187c9271e)
 
-	* lib/pref_ui.tcl:
-	* Fixing syntax error in preferences search window.
+	* lib/edit.tcl:
+	* Fixing selection issues with sentences and paragraphs.
 
-2018-11-08 09:22 -0600  Trevor Williams  <Trevor Williams>  (2b1b1a953f4a)
+2018-11-09 17:14 -0600  Trevor Williams  <Trevor Williams>  (214424519fbd)
 
-	* Merge
+	* lib/gui.tcl:
+	* Checkpointing work on find and find/replace UI.
 
-2018-11-08 17:06 -0600  Trevor Williams  <Trevor Williams>  (7832fff9589a)
+2018-11-09 23:24 -0600  Trevor Williams  <phase1geo@gmail.com>  (0227aa6daf55)
 
-	* data/syntax/_test.syntax: new file.
-	* data/syntax/HTML.syntax, data/syntax/_test.syntax,
-	lib/ctext/ctext.tcl, lib/emmet.tcl, lib/multicursor.tcl,
-	lib/select.tcl, lib/syntax.tcl, tests/ctext.tcl, tests/emmet.tcl,
-	tests/folding.tcl, tests/snippets.tcl, tests/syntax.tcl:
-	* Fixing BIST failures.
+	* lib/gui.tcl, lib/search.tcl, lib/version.tcl:
+	* Checkpointing improvements to Find and Find/Replace search bars,
+	including the ability to search with regexp, glob and exact methods.
 
-2018-11-08 19:51 -0600  Trevor Williams  <phase1geo@gmail.com>  (6f09542c359e)
+2018-11-10 22:55 -0600  Trevor Williams  <phase1geo@gmail.com>  (97558442c17c)
 
-	* data/syntax/MultiMarkdown.syntax, lib/version.tcl, tests/emmet.tcl,
-	tests/multicursor.tcl:
-	* Fixing regression failures.
+	* lib/gui.tcl, lib/version.tcl:
+	* Checkpointing more improvements to find and find/replace bar.
 
-2018-11-09 01:18 -0600  Trevor Williams  <phase1geo@gmail.com>  (e9c138b20d0a)
+2018-11-11 19:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3bc4bbe76993)
 
-	* lib/images/tke_plugin.svg, lib/images/tke_theme.svg: new file.
-	* install.tcl, lib/gui.tcl, lib/images/tke_plugin.svg,
-	lib/images/tke_theme.svg, lib/tke.tcl, lib/version.tcl:
-	* Checkpointing work on creating mimetypes for TKE theme and plugin
-	bundles in a Linux environment.
-	* If a theme or plugin bundle file is opened by TKE, have it
-	automatically ask for import.
+	* lib/api.tcl, lib/bgproc.tcl, lib/gui.tcl, lib/version.tcl,
+	plugins/todo/main.tcl:
+	* Fixing issues with todo plugin.
+	* Adding ability to edit list/todo titles in todo plugin.
+	* Adding ability to delete all completed tasks in todo plugin.
+	* Changing api::get_user_input so that if passed variable contains a
+	value, that value is displayed in the input field.
+	* Checkpointing work on Find and Find/Replace functionality.
+	* Fixing syntax error in bgproc.tcl.
 
-2018-11-09 08:30 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b012cf8d8133)
+2018-11-11 21:26 -0600  Trevor Williams  <phase1geo@gmail.com>  (8a1be2195206)
 
-	* lib/api.tcl, lib/interpreter.tcl, lib/version.tcl:
-	* Adding api::menu::enabled API function.
-	* Adding iplugins directory to the list of accessible filesystem
-	pathnames in safe interpreters.
+	* lib/version.tcl, plugins/todo/main.tcl:
+	* Fixing issues with using periods in todo plugin tasks/lists.
 
-2018-11-09 08:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (764bf7757854)
+2018-11-12 01:10 -0600  Trevor Williams  <phase1geo@gmail.com>  (371a395444dd)
 
-	* doc/md/TKE Developer Guide/Plugin API/api--menu--enabled.md: new
+	* lib/ctext/ctext.tcl, lib/gui.tcl, lib/search.tcl, lib/version.tcl,
+	lib/vim.tcl:
+	* Fixing ordering of search highlighting to place it above other
+	highlighting.
+	* Checkpointing more changes to the find and find/replace UI.
+
+2018-11-12 10:19 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3981c43875c1)
+
+	* lib/syntax.tcl, lib/version.tcl:
+	* Fixing issue with setting correct language of current tab in
+	certain cases.
+
+2018-11-12 10:53 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a2e97775e035)
+
+	* lib/gui.tcl, lib/syntax.tcl, lib/version.tcl:
+	* Fixing issue with setting language menubutton text when it is
+	changed with the menubutton.
+	* Improving load performance when a file's language is changed from
+	the default.
+
+2018-11-12 11:49 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (704da6067e1c)
+
+	* lib/gui.tcl, lib/search.tcl, lib/version.tcl:
+	* Checkpointing work on replace one button.
+
+2018-11-12 19:11 -0600  Trevor Williams  <phase1geo@gmail.com>  (3da2722a08e1)
+
+	* lib/completer.tcl, lib/ctext/ctext.tcl, lib/emmet.tcl,
+	lib/emmet_css.tcl, lib/gui.tcl, lib/interpreter.tcl, lib/search.tcl,
+	lib/select.tcl, lib/version.tcl:
+	* Checkpointing work on making search matches re-highlight.
+	* Updating code base to use "is" commands.
+
+2018-11-12 19:38 -0600  Trevor Williams  <phase1geo@gmail.com>  (ad500008bd7e)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing syntax errors from previous checkin.
+
+2018-11-12 20:56 -0600  Trevor Williams  <phase1geo@gmail.com>  (ad55442f30d2)
+
+	* doc/md/TKE Developer Guide/Plugin Action Types/on_pref_ui.md: new
 	file.
-	* doc/md/TKE Developer Guide/Plugin API/.tkesort, doc/md/TKE Developer
-	Guide/Plugin API/api--menu--enabled.md, doc/md/TKE Developer
-	Guide/Plugin API/api--menu--exists.md, doc/md/TKE Developer
-	Guide/Plugin API/api--menu--invoke.md, lib/version.tcl:
-	* Fixing syntax issues with API menu documentation.
-	* Adding api::menu::enabled documentation.
+	* doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.md:
+	deleted file.
+	* doc/md/TKE Developer Guide/Plugin Action Types/.tkesort, doc/md/TKE
+	Developer Guide/Plugin Action Types/do_pref_ui.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/on_pref_ui.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/on_reload.md, doc/md/TKE
+	Developer Guide/Plugin Development/Plugin GUI Element Creation.md,
+	doc/md/TKE Developer Guide/main.md, lib/search.tcl, lib/version.tcl:
+	* Fixing issues with developer guide.
+	* Fixing syntax error in search namespace.
 
-2018-11-09 08:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3d75536babf9 [tip])
+2018-11-12 21:46 -0600  Trevor Williams  <phase1geo@gmail.com>  (5116ff3c8a7f)
 
-	* doc/md/TKE Developer Guide/Plugin API/api--plugin--exec_exposed.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--is_exposed.md,
-	doc/md/TKE Developer Guide/Plugin API/api--plugin--reload.md,
-	doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted)
-	Interpreter Description.md, doc/md/TKE Developer Guide/Prefix/title-
-	TKE Developer Guide.md, lib/version.tcl:
-	* Development documentation repairs.
+	* lib/ctext/ctext.tcl, lib/search.tcl, lib/version.tcl:
+	* Adding current search highlighting.
+	* Adding 'syntax add' command.
+	* Fixing 'syntax clear' and 'syntax delete' commands.
+
+2018-11-12 23:53 -0600  Trevor Williams  <phase1geo@gmail.com>  (0e9a706b1e5c [tip])
+
+	* lib/completer.tcl, lib/gui.tcl, lib/search.tcl, lib/sidebar.tcl,
+	lib/version.tcl, tests/find.tcl:
+	* Fixing issues from previous checkin.
 
