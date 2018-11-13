@@ -839,6 +839,35 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Returns the text range for a bracketed block of text.
+  proc inBlockRange {win type index prange} {
+
+    upvar $prange range
+
+    set range [list "" ""]
+
+    # Search backwards
+    if {[lsearch [$win._t tag names $index] __${type}L] == -1} {
+      set startpos $index
+    } else {
+      set startpos "$index+1c"
+    }
+
+    if {[set left [getMatchBracket $win ${type}L $startpos]] ne ""} {
+      set right [getMatchBracket $win ${type}R $left]
+      if {($right eq "") || [$win._t compare $right < $index]} {
+        return 0
+      } else {
+        set range [list [$win._t index $left] [$win._t index $right]]
+        return 1
+      }
+    }
+
+    return 0
+
+  }
+
   proc handleFocusIn {win} {
 
     variable data
@@ -1913,10 +1942,15 @@ namespace eval ctext {
       reindentStart {
         return [expr [lsearch [$win._t tag names $extra] __$type] != -1]
       }
-      insquare        { return 0 }
-      incurly         { return 0 }
-      inparen         { return 0 }
-      inangled        { return 0 }
+      insquare -
+      incurly  -
+      inparen  -
+      inangled {
+        if {$index ne ""} {
+          upvar 2 $index range
+        }
+        return [inBlockRange $win [string range $type 2 end] $extra range]
+      }
       indouble        -
       insingle        -
       inbtick         -
@@ -1948,7 +1982,6 @@ namespace eval ctext {
           return [in$procs($type) $win [$win._t index $extra]]
         }
       }
-      intag           { return 0 }
       inclass         {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"

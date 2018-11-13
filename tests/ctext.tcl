@@ -342,8 +342,97 @@ namespace eval ctext {
 
   }
 
-  # Verify the clipboard append command
+  # Verify insquare functionality
   proc run_test11 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foo \[bar is \[goo\]\] hello"
+
+    foreach {index expect erange} [list 2.0 0 {{} {}} 2.7 0 {{} {}} 2.8 1 {2.8 2.21} 2.9 1 {2.8 2.21} 2.16 1 {2.16 2.20} 2.17 1 {2.16 2.20} 2.20 1 {2.16 2.20} 2.21 1 {2.8 2.21} 2.22 0 {{} {}}] {
+      set range ""
+      if {[$txt is insquare $index] != $expect} {
+        cleanup "index $index did not match expected value ($expect)"
+      } elseif {[$txt is insquare $index range] != $expect} {
+        cleanup "range index $index did not match expected value ($expect)"
+      } elseif {$range ne $erange} {
+        cleanup "index $index returned a bad range ($range)"
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify incurly functionality
+  proc run_test12 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foo {bar is {goo}} hello"
+
+    foreach {index expect erange} [list 2.0 0 {{} {}} 2.7 0 {{} {}} 2.8 1 {2.8 2.21} 2.9 1 {2.8 2.21} 2.16 1 {2.16 2.20} 2.17 1 {2.16 2.20} 2.20 1 {2.16 2.20} 2.21 1 {2.8 2.21} 2.22 0 {{} {}}] {
+      set range ""
+      if {[$txt is incurly $index] != $expect} {
+        cleanup "index $index did not match expected value ($expect)"
+      } elseif {[$txt is incurly $index range] != $expect} {
+        cleanup "range index $index did not match expected value ($expect)"
+      } elseif {$range ne $erange} {
+        cleanup "index $index returned a bad range ($range)"
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify inparen functionality
+  proc run_test13 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foo (bar is (goo)) hello"
+
+    foreach {index expect erange} [list 2.0 0 {{} {}} 2.7 0 {{} {}} 2.8 1 {2.8 2.21} 2.9 1 {2.8 2.21} 2.16 1 {2.16 2.20} 2.17 1 {2.16 2.20} 2.20 1 {2.16 2.20} 2.21 1 {2.8 2.21} 2.22 0 {{} {}}] {
+      set range ""
+      if {[$txt is inparen $index] != $expect} {
+        cleanup "index $index did not match expected value ($expect)"
+      } elseif {[$txt is inparen $index range] != $expect} {
+        cleanup "range index $index did not match expected value ($expect)"
+      } elseif {$range ne $erange} {
+        cleanup "index $index returned a bad range ($range)"
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify inangled functionality
+  proc run_test14 {} {
+
+    set txt [initialize]
+
+    $txt insert end "\nset foo <bar is <goo>> hello"
+    syntax::set_language $txt "HTML"
+
+    foreach {index expect erange} [list 2.0 0 {{} {}} 2.7 0 {{} {}} 2.8 1 {2.8 2.21} 2.9 1 {2.8 2.21} 2.16 1 {2.16 2.20} 2.17 1 {2.16 2.20} 2.20 1 {2.16 2.20} 2.21 1 {2.8 2.21} 2.22 0 {{} {}}] {
+      set range ""
+      if {[$txt is inangled $index] != $expect} {
+        cleanup "index $index did not match expected value ($expect)"
+      } elseif {[$txt is inangled $index range] != $expect} {
+        cleanup "range index $index did not match expected value ($expect)"
+      } elseif {$range ne $erange} {
+        cleanup "index $index returned a bad range ($range)"
+      }
+    }
+
+    cleanup
+
+  }
+
+  # Verify the clipboard append command
+  proc run_test15 {} {
 
     set txt [initialize]
 
@@ -374,7 +463,7 @@ namespace eval ctext {
   }
 
   # Verify the cget and configure commands
-  proc run_test12 {} {
+  proc run_test16 {} {
 
     set txt [initialize]
 
@@ -409,7 +498,7 @@ namespace eval ctext {
   }
 
   # Verify other flavors of configure
-  proc run_test13 {} {
+  proc run_test17 {} {
 
     set txt  [initialize]
     set opts [$txt configure]
@@ -452,7 +541,7 @@ namespace eval ctext {
   }
 
   # Verify the copy command
-  proc run_test14 {} {
+  proc run_test18 {} {
 
     set txt [initialize]
 
@@ -486,7 +575,7 @@ namespace eval ctext {
   }
 
   # Verify the cut command
-  proc run_test15 {} {
+  proc run_test19 {} {
 
     set txt [initialize]
 
@@ -522,7 +611,7 @@ namespace eval ctext {
   }
 
   # Verify the delete command
-  proc run_test16 {} {
+  proc run_test20 {} {
 
     set txt [initialize]
 
@@ -605,7 +694,7 @@ namespace eval ctext {
   }
 
   # Verify the fastdelete command
-  proc run_test17 {} {
+  proc run_test21 {} {
 
     set txt [initialize]
 
@@ -630,7 +719,7 @@ namespace eval ctext {
   }
 
   # Verify the fastinsert command
-  proc run_test18 {} {
+  proc run_test22 {} {
 
     set txt [initialize]
 
@@ -654,7 +743,7 @@ namespace eval ctext {
   }
 
   # Verify the highlight command
-  proc run_test19 {} {
+  proc run_test23 {} {
 
     set txt [initialize]
 
@@ -696,7 +785,7 @@ namespace eval ctext {
   }
 
   # Verify the insert command
-  proc run_test20 {} {
+  proc run_test24 {} {
 
     set txt [initialize]
 
@@ -720,7 +809,7 @@ namespace eval ctext {
   }
 
   # Verify the replace command
-  proc run_test21 {} {
+  proc run_test25 {} {
 
     set txt [initialize]
 
@@ -776,7 +865,7 @@ namespace eval ctext {
 
   }
 
-  proc run_test22 {} {
+  proc run_test26 {} {
 
     set txt [initialize]
 
