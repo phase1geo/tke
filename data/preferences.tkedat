@@ -271,6 +271,14 @@
 
 {Find/JumpDistance}          {2}
 
+# Specifies the default search method to use when performing "Find" or "Find and Replace"
+# The available values are:
+# - regexp (Regular Expression)
+# - glob   (Glob-style matching)
+# - exact  (Exact match)
+
+{Find/DefaultMethod}         {exact}
+
 # If this value is set to 1, the menubar will be displayed on application start,
 # If this value is set to 0, the menubar will be hidden on application start.
 # This option is only valid when not running as a Mac application.

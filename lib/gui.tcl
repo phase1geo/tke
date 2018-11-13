@@ -239,6 +239,7 @@ namespace eval gui {
   proc create {} {
 
     variable widgets
+    variable search_method
 
     # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
@@ -456,6 +457,11 @@ namespace eval gui {
 
     # Make sure that the browse directory is updated
     handle_browse_directory
+
+    # Set the default search method
+    if {![preferences::get Editor/VimMode]} {
+      set search_method [preferences::get Find/DefaultMethod]
+    }
 
     # Add the available encodings to the command launcher
     foreach encname [encoding names] {
