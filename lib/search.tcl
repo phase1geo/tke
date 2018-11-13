@@ -45,28 +45,28 @@ namespace eval search {
   # Performs string search
   proc do_find {txt search_data} {
 
-    lassign $search_data str search_method case_sensitive saved
+    array set data_array $search_data
 
     # If the user has specified a new search value, find all occurrences
-    if {$str ne ""} {
+    if {$data_array(find) ne ""} {
 
       # Gather any search options
-      if {$search_method eq "glob"} {
-        set search_opts [list -regexp]
-        set str         [string map {* .* ? .} $str]
+      if {$data_array(method) eq "glob"} {
+        set search_opts      [list -regexp]
+        set data_array(find) [string map {* .* ? .} $data_array(find)]
       } else {
-        set search_opts [list -$search_method]
+        set search_opts [list -$data_array(method)]
       }
 
-      if {!$case_sensitive} {
+      if {!$data_array(case)} {
         lappend search_opts -nocase
       }
 
       # Escape any parenthesis in the regular expression
-      set str [string map {{(} {\(} {)} {\)}} $str]
+      set data_array(find) [string map {{(} {\(} {)} {\)}} $data_array(find)]
 
       # Test the regular expression, if it is invalid, let the user know
-      if {($search_method ne "exact") && [catch { regexp $str "" } rc]} {
+      if {($data_array(method) ne "exact") && [catch { regexp $data_array(find) "" } rc]} {
         after 100 [list gui::set_info_message $rc]
         return
       }
@@ -79,7 +79,7 @@ namespace eval search {
 
       # Create a highlight class for the given search string
       $txt syntax addclass search -fgtheme search_foreground -bgtheme search_background -highpriority 1
-      $txt syntax search   search $str $search_opts
+      $txt syntax search   search $data_array(find) $search_opts
 
     }
 
@@ -114,14 +114,14 @@ namespace eval search {
   # Performs a resilient find operation in the given directory.  Resilient
   # searches keep the search panel visible and are started by clicking
   # either the next or previous buttons.
-  proc find_resilient {dir} {
+  proc find_resilient {dir {type find}} {
 
     variable data
 
     set txt [gui::current_txt]
 
     # Get the search data
-    set search_data [gui::get_search_data find]
+    set search_data [gui::get_search_data $type]
 
     # Get the search information
     if {$search_data ne [lindex $data(find,hist) end]} {
@@ -260,10 +260,10 @@ namespace eval search {
   # settings.
   proc replace_start {replace_all} {
 
-    lassign [set search_data [gui::get_search_data replace]] find replace search_method case_sensitive
+    array set data_array [set search_data [gui::get_search_data replace]]
 
     # Perform the search and replace
-    replace_do_raw 1.0 end $find $replace $search_method [expr !$case_sensitive] $replace_all
+    replace_do_raw 1.0 end $data_array(find) $data_array(replace) $data_array(method) [expr !$data_array(case)] $replace_all
 
     # Add the search data to history
     add_history replace $search_data
@@ -378,14 +378,14 @@ namespace eval search {
     gui::get_info {} current txt
 
     # Get the string to replace the current value with
-    lassign [gui::get_search_data] search replace
+    array set data_array [gui::get_search_data replace]
 
     # Get the range to replace
     lassign [$txt syntax prevrange search "insert+1c"] startpos endpos
 
     # Perform the replacement
     $txt configure -state normal
-    $txt replace $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+    $txt replace $startpos $endpos [regsub $data_array(find) [$txt get $startpos $endpos] $data_array(replace)]
     $txt configure -state disabled
 
     # Make sure that the insertion cursor is valid

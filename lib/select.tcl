@@ -1040,12 +1040,12 @@ namespace eval select {
     set type ""
 
     # If we are within a comment, return
-    if {[ctext::inComment $txtt $startpos]} {
+    if {[$txtt is incomment $startpos]} {
       return comment
-    } elseif {[ctext::inString $txtt $startpos]} {
-      if {[ctext::inSingleQuote $txtt $startpos]} {
+    } elseif {[$txtt is instring $startpos]} {
+      if {[$txtt is insingle $startpos]} {
         set type single
-      } elseif {[ctext::inDoubleQuote $txtt $startpos]} {
+      } elseif {[$txtt is indouble $startpos]} {
         set type double
       } else {
         set type btick

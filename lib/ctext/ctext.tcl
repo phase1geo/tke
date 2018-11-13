@@ -3741,6 +3741,30 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs any active searches on the given text range.
+  proc searches {win start end ptags} {
+
+    upvar $ptags tags
+
+    variable data
+
+    foreach {key data} [array get data $win,highlight,searches,*] {
+
+      set class [lindex [split $key ,] 3]
+      lappend $data str opts
+
+      # Perform the search now
+      set i 0
+      foreach res [$win._t search -count lengths {*}$opts -all -- $str $start $end] {
+        lappend tags($class) $res [$win._t index "$res + [lindex $lengths $i] chars"]
+        incr i
+      }
+
+    }
+
+  }
+
+  ######################################################################
   # Create a fontname (if one does not already exist) and configure it
   # with the given modifiers.  Returns the list of options that should
   # be applied to the tag
@@ -3847,17 +3871,20 @@ namespace eval ctext {
   # Performs a search and highlights all matches.
   proc highlightSearch {win class str {opts ""}} {
 
-    applyClassTheme $win $class
+    # Add the highlight class
+    addHighlightClass $win $class -fgtheme search -bgtheme search -priority high
 
-    $win._t tag raise __$class _visibleH
+    # Save the information
+    set data($win,highlight,searches,__$class) [list $str $opts]
 
-    # Perform the search
+    # Perform the search now
     set i 0
     foreach res [$win._t search -count lengths {*}$opts -all -- $str 1.0 end] {
-      set wordEnd [$win._t index "$res + [lindex $lengths $i] chars"]
-      $win._t tag add __$class $res $wordEnd
+      lappend matches $res [$win._t index "$res + [lindex $lengths $i] chars"]
       incr i
     }
+
+    catch { $win._t tag add __$class {*}$matches }
 
   }
 
@@ -3881,24 +3908,31 @@ namespace eval ctext {
     variable right_click
 
     array set opts {
-      -fgtheme      ""
-      -bgtheme      ""
-      -fontopts     ""
-      -clickcmd     ""
-      -highpriority 0
-      -immediate    0
+      -fgtheme   ""
+      -bgtheme   ""
+      -fontopts  ""
+      -clickcmd  ""
+      -priority  ""
+      -immediate 0
     }
     array set opts $args
 
     # Configure the class tag and place it in the correct position in the tag stack
     $win._t tag configure __$class
-    if {$opts(-bgtheme) ne ""} {
+    if {$opts(-priority) ne ""} {
+      switch $opts(-priority) {
+        1    { $win._t tag lower __$class _visibleH }
+        2    { $win._t tag raise __$class _visibleL }
+        3    { $win._t tag lower __$class _visibleL }
+        4    { $win._t tag raise __$class _invisible }
+        high { $win._t tag raise __$class _visibleH }
+      }
+    } elseif {$opts(-bgtheme) ne ""} {
       $win._t tag lower __$class _visibleL
     } elseif {($opts(-fgtheme) ne "") || ($opts(-fontopts) ne "")} {
       $win._t tag raise __$class _visibleL
     } else {
       $win._t tag lower __$class _invisible
-#      $win._t tag [expr {$opts(-highpriority) ? "raise" : "lower"}] __$class _visible
     }
 
     # If there is a command associated with the class, bind it to the right-click button
@@ -3972,6 +4006,7 @@ namespace eval ctext {
     array unset data $win,highlight,*,class,__$class
     unset data($win,classopts,$class)
     unset data($win,classimmediate,$class)
+    unset data($win,highlight,searches,__$class)
 
     $win._t tag delete __$class 1.0 end
 
@@ -4048,6 +4083,7 @@ namespace eval ctext {
         indentation $win $pstart $pend $lang tags
         words       $win $pstart $pend $lang $ins tags
         regexps     $win $pstart $pend $lang $ins tags
+        searches    $win $pstart $pend tags
 
       }
 

@@ -909,7 +909,7 @@ namespace eval emmet {
   # Toggles the current HTML node with an HTML comment.
   proc toggle_html_comment {txt} {
 
-    if {[ctext::inComment $txt insert]} {
+    if {[$txt is incomment insert]} {
 
       if {([set comment_end [lassign [$txt syntax prevrange comstr1c0 insert] comment_start]] eq "") || \
           [$txt compare insert > $comment_end]} {
@@ -1188,7 +1188,7 @@ namespace eval emmet {
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
-      if {([$txt get "$num_start-1c"] eq "-") && ![ctext::isEscaped $txt "$num_start-1c"]} {
+      if {([$txt get "$num_start-1c"] eq "-") && ![$txt is escaped "$num_start-1c"]} {
         set num_start "$num_start-1c"
       }
     }
