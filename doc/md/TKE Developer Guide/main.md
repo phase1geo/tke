@@ -39,7 +39,7 @@
 /Plugin Action Types/syntax.md
 /Plugin Action Types/vcs.md
 /Plugin Action Types/on_pref_load.md
-/Plugin Action Types/do_pref_ui.md
+/Plugin Action Types/on_pref_ui.md
 
 /Plugin API/Plugin API.md
 /Plugin API/api--auto_adjust_color.md

@@ -1,4 +1,4 @@
-## do\_pref\_ui
+## on\_pref\_ui
 
 #### Description
 
@@ -6,7 +6,7 @@ The “do\_pref\_ui” action is called when the preferences window needs to bui
 
 #### Tcl Registration
 
-`{do_pref_ui do_procedure}`
+`{on_pref_ui do_procedure}`
 
 #### Tcl Procedures
 
@@ -15,7 +15,7 @@ The “do\_pref\_ui” action is called when the preferences window needs to bui
 This procedure is responsible for creating and arranging the various GUI widgets that control the layout of the plugin’s preferences panel.  The following is a representation of what the body of the procedure might look like:
 
 ```Tcl
-proc do_pref_ui {w} {
+proc on_pref_ui {w} {
 
   api::preferences::widget checkbutton $w "Enable" "Enables this plugin”
   api::preferences::widget spacer $w
