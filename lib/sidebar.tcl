@@ -101,6 +101,16 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Returns the current width of the sidebar.
+  proc get_width {} {
+
+    variable widgets
+
+    return [expr [$widgets(tl) column #0 -width] - 4]
+
+  }
+
+  ######################################################################
   # Sets the state of the sidebar to the given value.  The legal values
   # are:  normal, disabled, viewonly.
   proc set_state {value} {
@@ -256,7 +266,7 @@ namespace eval sidebar {
     set widgets(sb)     [scroller::scroller $w.tf.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
     set widgets(insert) [frame $widgets(tl).ins -background black -height 2]
 
-    $widgets(tl) column #0 -width 300
+    $widgets(tl) column #0 -width [preferences::get Sidebar/DefaultWidth] -minwidth 100
 
     set tkdnd_press_cmd  ""
     set tkdnd_motion_cmd ""
