@@ -1525,6 +1525,11 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
 
+    $mb.emmetPopup add separator
+
+    $mb.emmetPopup add command -label [msgcat::mc "View Emmet Reference Guide"] -command [list emmet::view_reference]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View the Emmet reference guide"]] [list emmet::view_reference]
+
   }
 
   ######################################################################

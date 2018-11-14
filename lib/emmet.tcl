@@ -1367,6 +1367,14 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Displays the Emmet reference guide in a web browser.
+  proc view_reference {} {
+
+    utils::open_file_externally "https://docs.emmet.io" 1
+
+  }
+
+  ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
   # importing/exporting purposes.
   proc get_share_items {dir} {
