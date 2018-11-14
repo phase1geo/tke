@@ -171,9 +171,8 @@ namespace eval editorconfig {
 
   # Handles right-hand-side highlighting
   proc highlight_rhs {txt row str varlist ins} {
-    api::log "In handle_rhs, row: $row, str: $str"
     array set vars $varlist
-    return [list [list [list rhs {*}$vars(0)]] {}]
+    return [list [list rhs {*}$vars(1)] {}]
   }
 
 }

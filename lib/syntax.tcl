@@ -446,7 +446,7 @@ namespace eval syntax {
 
         # Get the command prefix and create a namespace for the language, if necessary
         if {$lang_array(interp) ne ""} {
-          set cmd_prefix "$lang_array(interp) eval "
+          set cmd_prefix "syntax::exec_plugin_command $lang_array(interp)"
           set lang_ns    ""
           $lang_array(interp) alias $txt $txt
         } else {
@@ -1083,6 +1083,14 @@ namespace eval syntax {
 
     # Write the association file
     catch { tkedat::write $assoc_file [array get associations] 0 }
+
+  }
+
+  ######################################################################
+  # Executes the plugin command and returns the result.
+  proc exec_plugin_command {interp command txt row str varlist ins} {
+
+    return [$interp eval [list $command $txt $row $str $varlist $ins]]
 
   }
 
