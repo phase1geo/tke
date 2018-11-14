@@ -1168,14 +1168,14 @@ namespace eval menus {
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode OFF]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode OFF]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_current_indent_mode OFF]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_current_indent_mode OFF]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode IND]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode IND]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_current_indent_mode IND]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_current_indent_mode IND]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode IND+]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode IND+]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_current_indent_mode IND+]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_current_indent_mode IND+]
 
     ######################
     # Populate cursor menu
