@@ -6,10 +6,7 @@ reference
   {{Language Reference} https://editorconfig.org}
 }
 
-completechars
-{curly square}
-
-matchchars
+matchcharsallowed
 {curly square}
 
 tabsallowed
@@ -20,7 +17,7 @@ casesensitive
 
 icomment {{#}}
 
-comments {{{#} {$}} {{;} {$}}}
+lcomments {{#} {;}}
 
 punctuation
 {
