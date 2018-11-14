@@ -138,6 +138,9 @@ namespace eval syntax {
     # Get the name of the syntax
     set name [file rootname [file tail $sfile]]
 
+    # See if the syntax type should be hidden from users
+    set hidden [expr {[string index $name 0] eq "_"}]
+
     # Initialize the language array
     array set lang_array [array get lang_template]
 
@@ -153,29 +156,34 @@ namespace eval syntax {
         return
       }
 
-      # Format the extension information
-      set extensions [list]
-      foreach pattern $lang_array(filepatterns) {
-        if {[regexp {^\.\w+$} [set extension [file extension $pattern]]]} {
-          lappend extensions $extension
-        }
-      }
-      set lang_array(extensions) $extensions
-      if {[llength $extensions] > 0} {
-        lappend filetypes [list "$name Files" $extensions TEXT]
-      }
+      if {!$hidden} {
 
-      # Sort the filetypes by name
-      set filetypes [lsort -index 0 $filetypes]
+        # Format the extension information
+        set extensions [list]
+        foreach pattern $lang_array(filepatterns) {
+          if {[regexp {^\.\w+$} [set extension [file extension $pattern]]]} {
+            lappend extensions $extension
+          }
+        }
+        set lang_array(extensions) $extensions
+
+        if {[llength $extensions] > 0} {
+          lappend filetypes [list "$name Files" $extensions TEXT]
+        }
+
+        # Sort the filetypes by name
+        set filetypes [lsort -index 0 $filetypes]
+
+        # Add the language to the command launcher
+        launcher::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list syntax::set_current_language $name]
+
+      }
 
       # Add the interpreter
       set lang_array(interp) $interp
 
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
-      if {[string index $name 0] ne "_"} {
-        launcher::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list syntax::set_current_language $name]
-      }
 
     }
 

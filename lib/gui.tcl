@@ -5690,7 +5690,7 @@ namespace eval gui {
     }
 
     # Change the insertion cursor to the matching character
-    if {$index != -1} {
+    if {($index ne "") && ($index != -1)} {
       ::tk::TextSetCursor $txt.t $index
     }
 
