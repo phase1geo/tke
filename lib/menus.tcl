@@ -1598,7 +1598,9 @@ namespace eval menus {
   # the menu option states to match the current UI state.
   proc edit_select_posting {mb} {
 
-    set state [expr {([gui::current_txt] eq "") ? "disabled" : "normal"}]
+    set txt       [gui::current_txt]
+    set state     [expr {($txt eq "") ? "disabled" : "normal"}]
+    set sel_state [expr {(($txt eq "") || ([$txt tag ranges sel] eq "")) ? "disabled" : "normal"}]
 
     $mb entryconfigure [msgcat::mc "All"]                  -state $state
     $mb entryconfigure [msgcat::mc "Current Line"]         -state $state
@@ -1606,8 +1608,8 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Current Sentence"]     -state $state
     $mb entryconfigure [msgcat::mc "Current Paragraph"]    -state $state
     $mb entryconfigure [msgcat::mc "Current Bounded Text"] -state $state
-    $mb entryconfigure [msgcat::mc "Add Next Line"]        -state $state
-    $mb entryconfigure [msgcat::mc "Add Previous Line"]    -state $state
+    $mb entryconfigure [msgcat::mc "Add Next Line"]        -state $sel_state
+    $mb entryconfigure [msgcat::mc "Add Previous Line"]    -state $sel_state
 
   }
 
