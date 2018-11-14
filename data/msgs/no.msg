@@ -272,6 +272,9 @@ msgcat::mcmset no {
   "Error"
   "Feil"
 
+  "Exact"
+  "Nøyaktig"
+
   "Favorited"
   "Favoritt"
 
@@ -280,6 +283,9 @@ msgcat::mcmset no {
 
   "File index is out of range"
   "File indeksen er utenfor rekkevidde"
+
+  "Glob"
+  "glob"
 
   "Hide Tab"
   "Skjul kategorien"
@@ -380,14 +386,23 @@ msgcat::mcmset no {
   "No write permissions.  Use '!' to force write."
   "Ingen skrivetilgang.  Bruk '!' tvinge skrive."
 
+  "Regexp"
+  "Reguttrykk"
+
   "Release Type"
   "Versjonstypen"
 
   "Replace"
   "Skift ut"
 
+  "Replace All"
+  "Byt ut alle"
+
   "Save request"
   "Lagre forespørsel"
+
+  "Save this search"
+  "Lagre søket?"
 
   "Starting number:"
   "Startnummeret:"
@@ -406,6 +421,14 @@ msgcat::mcmset no {
 
   "for"
   "for"
+
+}
+
+# indent.tcl
+msgcat::mcmset no {
+
+  "No Indent"
+  "Ingen innrykk"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset no {
 
   "Append current find text to selection"
   "Legge gjeldende søketeksten i utvalg"
-
-  "Auto-Indent"
-  "Auto-innrykk"
 
   "Balance Inward"
   "Balanse innover"
@@ -797,6 +817,9 @@ msgcat::mcmset no {
   "Export complete"
   "Eksporten er fullført"
 
+  "Export current plugin"
+  "Eksport gjeldende plugin"
+
   "Export file contents"
   "Eksportere innholdet"
 
@@ -958,6 +981,9 @@ msgcat::mcmset no {
 
   "Image"
   "Bilde"
+
+  "Import plugin bundle"
+  "Importer plugin bunt"
 
   "Increment by 0.1"
   "Øk med 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset no {
   "Show selected line change"
   "Vis valgte linjen endring"
 
-  "Smart Indent"
-  "Smart innrykk"
-
   "Sort Tabs"
   "Sorter Tabs"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset no {
   "Plugin Trust Requested"
   "Plugin Trust Spurt"
 
+  "Plugin export completed successfully"
+  "Plugin eksport fullført"
+
+  "Plugin import completed successfully"
+  "Plugin import fullført"
+
   "Plugin installed"
   "Plugin installert"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset no {
 
   "Syntax errors found in selected plugins"
   "Syntaksfeil som finnes i utvalgte plugins"
+
+  "Unable to unzip plugin"
+  "Kan ikke pakke ut plugin"
+
+  "Unable to zip plugin"
+  "Kan ikke zip-plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset no {
 
   "Default Theme Export Directory"
   "Standard Theme Export Directory"
+
+  "Default search method"
+  "Standard søkemetode"
 
   "Default theme"
   "Standard tema"
@@ -3300,9 +3338,6 @@ msgcat::mcmset no {
   "GIF Photo"
   "Bilde"
 
-  "Import"
-  "importere"
-
   "Import BMP Data"
   "Importer data"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset no {
 # tke.tcl
 msgcat::mcmset no {
 
+  "Import TKE plugin?"
+  "Importere TKE plugin?"
+
   "Import TKE theme?"
   "Import TKE tema?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset no {
   "Attributes"
   "Attributter"
 
+  "Auto-Indent"
+  "Auto-innrykk"
+
   "Back"
   "Tilbake"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset no {
   "Enable code folding"
   "Aktivere koden folding"
 
+  "Encoding"
+  "Kode"
+
   "Export"
   "Eksport"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset no {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Bildet som vises i sidepanelet dokumentinformasjonspanelet viser filen i sidepanelet"
+
+  "Import"
+  "importere"
 
   "Insert"
   "Sett inn"
@@ -3678,6 +3725,9 @@ msgcat::mcmset no {
 
   "Show tab bar"
   "Vis fanelinjen"
+
+  "Smart Indent"
+  "Smart innrykk"
 
   "Snippet"
   "Snippet"

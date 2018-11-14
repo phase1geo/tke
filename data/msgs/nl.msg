@@ -272,6 +272,9 @@ msgcat::mcmset nl {
   "Error"
   "Fout"
 
+  "Exact"
+  "Exact"
+
   "Favorited"
   "Favoriet"
 
@@ -280,6 +283,9 @@ msgcat::mcmset nl {
 
   "File index is out of range"
   "File index valt buiten het bereik"
+
+  "Glob"
+  "Algemene beoordeling"
 
   "Hide Tab"
   "Tab verbergen"
@@ -380,14 +386,23 @@ msgcat::mcmset nl {
   "No write permissions.  Use '!' to force write."
   "Geen schrijfrechten.  Gebruik '!' te dwingen schrijven."
 
+  "Regexp"
+  "Reg.exp."
+
   "Release Type"
   "Release"
 
   "Replace"
   "Vervangen"
 
+  "Replace All"
+  "Alles vervangen"
+
   "Save request"
   "Sparen verzoek"
+
+  "Save this search"
+  "Wil je deze zoekopdracht opslaan?"
 
   "Starting number:"
   "Begin Pagina Nummer"
@@ -406,6 +421,14 @@ msgcat::mcmset nl {
 
   "for"
   "voor"
+
+}
+
+# indent.tcl
+msgcat::mcmset nl {
+
+  "No Indent"
+  "Geen inspring"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset nl {
 
   "Append current find text to selection"
   "Huidige zoektekst toevoegen aan selectie"
-
-  "Auto-Indent"
-  "Automatisch inspringen"
 
   "Balance Inward"
   "Evenwicht naar binnen"
@@ -797,6 +817,9 @@ msgcat::mcmset nl {
   "Export complete"
   "Export voltooid."
 
+  "Export current plugin"
+  "Exporteren van huidige plugin"
+
   "Export file contents"
   "De inhoud van het bestand van de uitvoer"
 
@@ -958,6 +981,9 @@ msgcat::mcmset nl {
 
   "Image"
   "Afbeelding"
+
+  "Import plugin bundle"
+  "Import plugin bundel"
 
   "Increment by 0.1"
   "Toename met 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset nl {
   "Show selected line change"
   "Toon geselecteerde regel wijzigen"
 
-  "Smart Indent"
-  "Slimme streepje"
-
   "Sort Tabs"
   "Sorteren Tabs"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset nl {
   "Plugin Trust Requested"
   "Plugin Trust Gevraagde"
 
+  "Plugin export completed successfully"
+  "Plugin exporteren is voltooid"
+
+  "Plugin import completed successfully"
+  "Importeren is succesvol"
+
   "Plugin installed"
   "Plugin geïnstalleerd"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset nl {
 
   "Syntax errors found in selected plugins"
   "Syntax fouten gevonden in geselecteerde plugins"
+
+  "Unable to unzip plugin"
+  "Niet in staat om open te ritsen plugin"
+
+  "Unable to zip plugin"
+  "Niet in staat om zip plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset nl {
 
   "Default Theme Export Directory"
   "Standaardthema exportdirectory"
+
+  "Default search method"
+  "Standaardzoekmethode"
 
   "Default theme"
   "Standaardthema"
@@ -3300,9 +3338,6 @@ msgcat::mcmset nl {
   "GIF Photo"
   "Foto"
 
-  "Import"
-  "Invoer"
-
   "Import BMP Data"
   "Gegevens importeren"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset nl {
 # tke.tcl
 msgcat::mcmset nl {
 
+  "Import TKE plugin?"
+  "Plugin voor importeren van TKE?"
+
   "Import TKE theme?"
   "Importeer thema"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset nl {
   "Attributes"
   "Attributen"
 
+  "Auto-Indent"
+  "Automatisch inspringen"
+
   "Back"
   "Achterkant"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset nl {
   "Enable code folding"
   "Inschakelen code vouwen"
 
+  "Encoding"
+  "Codering"
+
   "Export"
   "Exporteer"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset nl {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor bestand weergeven in de zijbalk"
+
+  "Import"
+  "Invoer"
 
   "Insert"
   "Invoegen"
@@ -3678,6 +3725,9 @@ msgcat::mcmset nl {
 
   "Show tab bar"
   "Toon tabbalk"
+
+  "Smart Indent"
+  "Slimme streepje"
 
   "Snippet"
   "Fragment"

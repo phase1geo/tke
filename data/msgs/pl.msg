@@ -63,7 +63,7 @@ msgcat::mcmset pl {
   "Typ pętli"
 
   "New Test"
-  "New Test"
+  "\"
 
   "New Test File"
   "Nowy plik testowy"
@@ -267,10 +267,13 @@ msgcat::mcmset pl {
   "Deweloper"
 
   "Email"
-  "Email"
+  "E-mail"
 
   "Error"
   "Błąd"
+
+  "Exact"
+  "Dokładnie"
 
   "Favorited"
   "Jako ulubione"
@@ -280,6 +283,9 @@ msgcat::mcmset pl {
 
   "File index is out of range"
   "Wskaźnik pliku jest poza zakresem"
+
+  "Glob"
+  "Ogólnie"
 
   "Hide Tab"
   "Ukryj kartę"
@@ -380,14 +386,23 @@ msgcat::mcmset pl {
   "No write permissions.  Use '!' to force write."
   "Brak prawa do zapisu.  Użycie '!' wymusić zapisu."
 
+  "Regexp"
+  "Wyrażenie regularne"
+
   "Release Type"
   "Typ wydania"
 
   "Replace"
   "Zastąp"
 
+  "Replace All"
+  "Zamień wszystkie"
+
   "Save request"
   "Zapisz zlecenie"
+
+  "Save this search"
+  "Zapisz wyszukiwanie"
 
   "Starting number:"
   "Numer startowy:"
@@ -406,6 +421,14 @@ msgcat::mcmset pl {
 
   "for"
   "dla"
+
+}
+
+# indent.tcl
+msgcat::mcmset pl {
+
+  "No Indent"
+  "Bez wcięcia"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset pl {
 
   "Append current find text to selection"
   "Dołączyć aktualne Znajdź tekst do wyboru"
-
-  "Auto-Indent"
-  "Automatyczne wcięcia"
 
   "Balance Inward"
   "Równowagi wewnątrz"
@@ -797,6 +817,9 @@ msgcat::mcmset pl {
   "Export complete"
   "Eksportowanie zakończone."
 
+  "Export current plugin"
+  "Aktualne wtyczki eksportu"
+
   "Export file contents"
   "Zawartość pliku eksportu"
 
@@ -959,6 +982,9 @@ msgcat::mcmset pl {
   "Image"
   "Obraz"
 
+  "Import plugin bundle"
+  "Bundle plugin importu"
+
   "Increment by 0.1"
   "Przyrost o 0,1"
 
@@ -1116,7 +1142,7 @@ msgcat::mcmset pl {
   "Zawijanie linii"
 
   "Link"
-  "Link"
+  "Łącze"
 
   "Lock"
   "Zablokować"
@@ -1625,9 +1651,6 @@ msgcat::mcmset pl {
   "Show selected line change"
   "Pokaż zmiany wybranej linii"
 
-  "Smart Indent"
-  "Inteligentnego wcięcia"
-
   "Sort Tabs"
   "Sortuj Tabs"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset pl {
   "Plugin Trust Requested"
   "Plugin Zaufanie Wnioskowana"
 
+  "Plugin export completed successfully"
+  "Eksport zakończony pomyślnie"
+
+  "Plugin import completed successfully"
+  "Import zakończył się pomyślnie"
+
   "Plugin installed"
   "Plugin zainstalowałem"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset pl {
 
   "Syntax errors found in selected plugins"
   "Błędy składniowe w wybranych wtyczek znalezionych"
+
+  "Unable to unzip plugin"
+  "Nie można rozpakować plugin"
+
+  "Unable to zip plugin"
+  "Stanie zip wtyczka"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset pl {
 
   "Default Theme Export Directory"
   "Domyślny motyw Export katalog"
+
+  "Default search method"
+  "Domyślna metoda wyszukiwania"
 
   "Default theme"
   "Motyw domyślny"
@@ -3300,9 +3338,6 @@ msgcat::mcmset pl {
   "GIF Photo"
   "GIF zdjęcie"
 
-  "Import"
-  "Importuj"
-
   "Import BMP Data"
   "Import BMP danych"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset pl {
 # tke.tcl
 msgcat::mcmset pl {
 
+  "Import TKE plugin?"
+  "Zaimportować TKE plugin?"
+
   "Import TKE theme?"
   "Import TKE tematem?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset pl {
   "Attributes"
   "Atrybuty"
 
+  "Auto-Indent"
+  "Automatyczne wcięcia"
+
   "Back"
   "Cofnij"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset pl {
   "Enable code folding"
   "Włączyć kod składane"
 
+  "Encoding"
+  "Strona kodowa"
+
   "Export"
   "Exportuj"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset pl {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Obraz wyświetlany w bocznym panelu informacji dla pliku wyświetlone na pasku bocznym"
+
+  "Import"
+  "Importuj"
 
   "Insert"
   "Wstaw"
@@ -3678,6 +3725,9 @@ msgcat::mcmset pl {
 
   "Show tab bar"
   "Pasek kart"
+
+  "Smart Indent"
+  "Inteligentnego wcięcia"
 
   "Snippet"
   "Urywek"

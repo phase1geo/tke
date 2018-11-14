@@ -272,6 +272,9 @@ msgcat::mcmset it {
   "Error"
   "Errore"
 
+  "Exact"
+  "Esatta"
+
   "Favorited"
   "Favorito"
 
@@ -280,6 +283,9 @@ msgcat::mcmset it {
 
   "File index is out of range"
   "Indice non compreso nell'intervallo."
+
+  "Glob"
+  "Globale"
 
   "Hide Tab"
   "Nascondere la scheda"
@@ -380,14 +386,23 @@ msgcat::mcmset it {
   "No write permissions.  Use '!' to force write."
   "Senza autorizzazioni di scrittura.  Uso '!' per forzare la scrittura."
 
+  "Regexp"
+  "Espressione regolare"
+
   "Release Type"
   "Tipo di rilascio"
 
   "Replace"
   "Sostituisci"
 
+  "Replace All"
+  "Sostituisci tutto"
+
   "Save request"
   "Salva richiesta"
+
+  "Save this search"
+  "Salva ricerca"
 
   "Starting number:"
   "Primo numero"
@@ -406,6 +421,14 @@ msgcat::mcmset it {
 
   "for"
   "per"
+
+}
+
+# indent.tcl
+msgcat::mcmset it {
+
+  "No Indent"
+  "Nessun trattino"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset it {
 
   "Append current find text to selection"
   "Aggiungere testo trovare corrente alla selezione"
-
-  "Auto-Indent"
-  "Rientro automatico"
 
   "Balance Inward"
   "Equilibrio verso l'interno"
@@ -797,6 +817,9 @@ msgcat::mcmset it {
   "Export complete"
   "Esportazione completata."
 
+  "Export current plugin"
+  "Esportare l'attuale plugin"
+
   "Export file contents"
   "Contenuto del file di esportazione"
 
@@ -958,6 +981,9 @@ msgcat::mcmset it {
 
   "Image"
   "Immagine"
+
+  "Import plugin bundle"
+  "Bundle di plugin di importazione"
 
   "Increment by 0.1"
   "Aumenta di"
@@ -1625,9 +1651,6 @@ msgcat::mcmset it {
   "Show selected line change"
   "Mostrare il cambiamento di linea selezionata"
 
-  "Smart Indent"
-  "Trattino intelligente"
-
   "Sort Tabs"
   "Ordinare Tabs"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset it {
   "Plugin Trust Requested"
   "Plugin fiducia desiderata"
 
+  "Plugin export completed successfully"
+  "Esportazione completata."
+
+  "Plugin import completed successfully"
+  "Prenotazione Completata!"
+
   "Plugin installed"
   "Plugin installato"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset it {
 
   "Syntax errors found in selected plugins"
   "Gli errori di sintassi trovati in estensioni selezionate"
+
+  "Unable to unzip plugin"
+  "Impossibile decomprimere il plugin"
+
+  "Unable to zip plugin"
+  "Grado di zip plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset it {
 
   "Default Theme Export Directory"
   "directory di esportazione predefinita"
+
+  "Default search method"
+  "Metodo di ricerca predefinito"
 
   "Default theme"
   "Tema predefinito"
@@ -3300,9 +3338,6 @@ msgcat::mcmset it {
   "GIF Photo"
   "Foto GIF"
 
-  "Import"
-  "Importazione"
-
   "Import BMP Data"
   "Importa dati"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset it {
 # tke.tcl
 msgcat::mcmset it {
 
+  "Import TKE plugin?"
+  "Importazione TKE plugin?"
+
   "Import TKE theme?"
   "Tema Import TKE?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset it {
   "Attributes"
   "Attributi"
 
+  "Auto-Indent"
+  "Rientro automatico"
+
   "Back"
   "Indietro"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset it {
   "Enable code folding"
   "Attivare codice pieghevole"
 
+  "Encoding"
+  "Codifica"
+
   "Export"
   "Esporta"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset it {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Immagine visualizzata nel pannello informazioni sidebar per file che mostra nella barra laterale"
+
+  "Import"
+  "Importazione"
 
   "Insert"
   "Inserisci"
@@ -3679,6 +3726,9 @@ msgcat::mcmset it {
   "Show tab bar"
   "Mostra barra delle schede@info:whatsthis"
 
+  "Smart Indent"
+  "Trattino intelligente"
+
   "Snippet"
   "Frammento"
 
@@ -3695,7 +3745,7 @@ msgcat::mcmset it {
   "Modelli"
 
   "Test"
-  "Test"
+  "Casella di testo"
 
   "Theme Editor"
   "Editor tema"

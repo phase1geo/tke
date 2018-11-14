@@ -272,6 +272,9 @@ msgcat::mcmset zh {
   "Error"
   "錯誤"
 
+  "Exact"
+  "精确"
+
   "Favorited"
   "评选"
 
@@ -280,6 +283,9 @@ msgcat::mcmset zh {
 
   "File index is out of range"
   "文件索引超出范围"
+
+  "Glob"
+  "格洛布"
 
   "Hide Tab"
   "隐藏选项卡"
@@ -380,14 +386,23 @@ msgcat::mcmset zh {
   "No write permissions.  Use '!' to force write."
   "没有写权限。 使用 '!'，迫使写。"
 
+  "Regexp"
+  "正则表达式"
+
   "Release Type"
   "发行类型（特殊）"
 
   "Replace"
   "替换"
 
+  "Replace All"
+  "全部替换"
+
   "Save request"
   "保存请求"
+
+  "Save this search"
+  "保存此次搜索结果"
 
   "Starting number:"
   "开始点编号:"
@@ -406,6 +421,14 @@ msgcat::mcmset zh {
 
   "for"
   "对于"
+
+}
+
+# indent.tcl
+msgcat::mcmset zh {
+
+  "No Indent"
+  "没有缩进"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset zh {
 
   "Append current find text to selection"
   "将当前的查找文本追加到选择"
-
-  "Auto-Indent"
-  "自动缩进"
 
   "Balance Inward"
   "向内的平衡"
@@ -797,6 +817,9 @@ msgcat::mcmset zh {
   "Export complete"
   "导出完成"
 
+  "Export current plugin"
+  "导出当前插件"
+
   "Export file contents"
   "导出文件的内容"
 
@@ -958,6 +981,9 @@ msgcat::mcmset zh {
 
   "Image"
   "图片"
+
+  "Import plugin bundle"
+  "导入插件包"
 
   "Increment by 0.1"
   "增量由 0.1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset zh {
   "Show selected line change"
   "显示所选的行的变化"
 
-  "Smart Indent"
-  "智能缩进"
-
   "Sort Tabs"
   "分类标签"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset zh {
   "Plugin Trust Requested"
   "插件信任请求"
 
+  "Plugin export completed successfully"
+  "插件导出成功完成"
+
+  "Plugin import completed successfully"
+  "全部成功导入"
+
   "Plugin installed"
   "插件已安装"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset zh {
 
   "Syntax errors found in selected plugins"
   "在选定的外挂，发现语法错误"
+
+  "Unable to unzip plugin"
+  "无法解压缩插件"
+
+  "Unable to zip plugin"
+  "无法压缩插件"
 
 }
 
@@ -1980,6 +2015,9 @@ msgcat::mcmset zh {
   "Default Theme Export Directory"
   "默认主题导出目录"
 
+  "Default search method"
+  "默认搜索方法"
+
   "Default theme"
   "默認主題"
 
@@ -2002,7 +2040,7 @@ msgcat::mcmset zh {
   "已显示信息"
 
   "Double-quote"
-  "Double-quote"
+  "\"
 
   "Editor"
   "编辑"
@@ -3300,9 +3338,6 @@ msgcat::mcmset zh {
   "GIF Photo"
   "GIF图片"
 
-  "Import"
-  "進口"
-
   "Import BMP Data"
   "匯入資料"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset zh {
 # tke.tcl
 msgcat::mcmset zh {
 
+  "Import TKE plugin?"
+  "导入TKE插件？"
+
   "Import TKE theme?"
   "进口TKE主题？"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset zh {
   "Attributes"
   "属性"
 
+  "Auto-Indent"
+  "自动缩进"
+
   "Back"
   "返回"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset zh {
   "Enable code folding"
   "启用代码折叠"
 
+  "Encoding"
+  "编码"
+
   "Export"
   "导出"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset zh {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "在侧边栏显示文件的侧边栏信息面板中显示的图像"
+
+  "Import"
+  "進口"
 
   "Insert"
   "插入"
@@ -3678,6 +3725,9 @@ msgcat::mcmset zh {
 
   "Show tab bar"
   "显示选项栏"
+
+  "Smart Indent"
+  "智能缩进"
 
   "Snippet"
   "片段"

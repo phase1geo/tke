@@ -78,7 +78,7 @@ msgcat::mcmset de {
   "Erfolgreich"
 
   "Pass"
-  "Pass"
+  "Bestanden"
 
   "Pass Count"
   "Durchlauf"
@@ -117,7 +117,7 @@ msgcat::mcmset de {
   "Auswahlmethode"
 
   "Setup"
-  "Setup"
+  "Vorschau der Tabelle und Spalten aufsetzen"
 
   "Total"
   "Gesamt"
@@ -272,6 +272,9 @@ msgcat::mcmset de {
   "Error"
   "Fehler"
 
+  "Exact"
+  "Exact"
+
   "Favorited"
   "Favorit"
 
@@ -280,6 +283,9 @@ msgcat::mcmset de {
 
   "File index is out of range"
   "Datei-Index liegt außerhalb des Bereichs"
+
+  "Glob"
+  "Gesamtbeurteilung"
 
   "Hide Tab"
   "Registerkarte ausblenden"
@@ -380,14 +386,23 @@ msgcat::mcmset de {
   "No write permissions.  Use '!' to force write."
   "Keine Schreibrechte.  Verwendung '!' schreiben zu erzwingen."
 
+  "Regexp"
+  "Regulärer Ausdruck"
+
   "Release Type"
   "Releasetyp"
 
   "Replace"
   "Ersetzen"
 
+  "Replace All"
+  "Alles ersetzen"
+
   "Save request"
   "Speichern Anfrage"
+
+  "Save this search"
+  "Suche speichern"
 
   "Starting number:"
   "Startnummer:"
@@ -406,6 +421,14 @@ msgcat::mcmset de {
 
   "for"
   "für"
+
+}
+
+# indent.tcl
+msgcat::mcmset de {
+
+  "No Indent"
+  "Keine Einrückung"
 
 }
 
@@ -503,9 +526,6 @@ msgcat::mcmset de {
   "Append current find text to selection"
   "Auswahl aktueller finden Sie Text hinzufügen"
 
-  "Auto-Indent"
-  "Auto-Einzug"
-
   "Balance Inward"
   "Bilanz nach innen"
 
@@ -543,7 +563,7 @@ msgcat::mcmset de {
   "Nach Update suchen"
 
   "Checkbox"
-  "Checkbox"
+  "Auswahlkästchen"
 
   "Classic Mac"
   "Klassische Mac"
@@ -797,6 +817,9 @@ msgcat::mcmset de {
   "Export complete"
   "Export abgeschlossen."
 
+  "Export current plugin"
+  "Aktuelle Plugin exportieren"
+
   "Export file contents"
   "Inhalt der Datei exportieren"
 
@@ -959,6 +982,9 @@ msgcat::mcmset de {
   "Image"
   "Bild"
 
+  "Import plugin bundle"
+  "Plugin-Bundle importieren"
+
   "Increment by 0.1"
   "Schrittweite 0,1"
 
@@ -1116,7 +1142,7 @@ msgcat::mcmset de {
   "Zeilenumbruch"
 
   "Link"
-  "Link"
+  "Verbindung"
 
   "Lock"
   "Sperren"
@@ -1625,9 +1651,6 @@ msgcat::mcmset de {
   "Show selected line change"
   "Anzeigen der markierten Zeile ändern"
 
-  "Smart Indent"
-  "Smart Gedankenstrich"
-
   "Sort Tabs"
   "Tabs sortieren"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset de {
   "Plugin Trust Requested"
   "Plugin Vertrauen Fragt"
 
+  "Plugin export completed successfully"
+  "Export erfolgreich abgeschlossen."
+
+  "Plugin import completed successfully"
+  "Import erfolgreich beendet"
+
   "Plugin installed"
   "Plugin installiert"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset de {
 
   "Syntax errors found in selected plugins"
   "Syntax Fehler in ausgewählten Plugins gefunden"
+
+  "Unable to unzip plugin"
+  "Nicht in der Lage, Plugin entpacken"
+
+  "Unable to zip plugin"
+  "Nicht in der Lage, zip-plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset de {
 
   "Default Theme Export Directory"
   "Default Theme Exportverzeichnis"
+
+  "Default search method"
+  "Standardmäßige Suchmethode"
 
   "Default theme"
   "Standard-Thematik"
@@ -2454,7 +2492,7 @@ msgcat::mcmset de {
   "Remote Datei"
 
   "Optional"
-  "Optional"
+  "Optionaler"
 
   "Password"
   "Passwort"
@@ -3300,9 +3338,6 @@ msgcat::mcmset de {
   "GIF Photo"
   "GIF Foto"
 
-  "Import"
-  "Importieren"
-
   "Import BMP Data"
   "Daten importieren"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset de {
 # tke.tcl
 msgcat::mcmset de {
 
+  "Import TKE plugin?"
+  "TKE-Plugin importieren?"
+
   "Import TKE theme?"
   "Import TKE Thema?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset de {
   "Attributes"
   "Attribute"
 
+  "Auto-Indent"
+  "Auto-Einzug"
+
   "Back"
   "Zurück"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset de {
   "Enable code folding"
   "Aktivieren Code-Faltung"
 
+  "Encoding"
+  "Codierung"
+
   "Export"
   "Exportieren"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset de {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Im Sidebar-Informations-Panel zeigt Datei in Seitenleiste angezeigte Bild"
+
+  "Import"
+  "Importieren"
 
   "Insert"
   "Einfügen"
@@ -3617,7 +3664,7 @@ msgcat::mcmset de {
   "Ohne"
 
   "OK"
-  "OK"
+  "确定"
 
   "Open"
   "Geöffnet"
@@ -3678,6 +3725,9 @@ msgcat::mcmset de {
 
   "Show tab bar"
   "Tab-Leiste anzeigen"
+
+  "Smart Indent"
+  "Smart Gedankenstrich"
 
   "Snippet"
   "Snippet"

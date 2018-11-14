@@ -120,7 +120,7 @@ msgcat::mcmset he {
   "התקנה"
 
   "Total"
-  "Total"
+  "סה\"
 
   "hours"
   "שעות"
@@ -272,6 +272,9 @@ msgcat::mcmset he {
   "Error"
   "שגיאה"
 
+  "Exact"
+  "מדוייק"
+
   "Favorited"
   "שורי"
 
@@ -280,6 +283,9 @@ msgcat::mcmset he {
 
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
+
+  "Glob"
+  "גוש"
 
   "Hide Tab"
   "הסתר את הכרטיסייה"
@@ -380,14 +386,23 @@ msgcat::mcmset he {
   "No write permissions.  Use '!' to force write."
   "אין הרשאות כתיבה.  שימוש '!' לכפות כתיבה."
 
+  "Regexp"
+  "ביטוי־ סדיר"
+
   "Release Type"
   "סוג המהדורה"
 
   "Replace"
   "החלף"
 
+  "Replace All"
+  "החלף הכל"
+
   "Save request"
   "להציל את הבקשה"
+
+  "Save this search"
+  "לשמור חיפוש זה?"
 
   "Starting number:"
   "המספר ההתחלתי:"
@@ -406,6 +421,14 @@ msgcat::mcmset he {
 
   "for"
   "עבור"
+
+}
+
+# indent.tcl
+msgcat::mcmset he {
+
+  "No Indent"
+  "אין כניסה"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset he {
 
   "Append current find text to selection"
   "להוסיף טקסט חיפוש הנוכחי לבחירה"
-
-  "Auto-Indent"
-  "כניסה אוטומטית"
 
   "Balance Inward"
   "איזון פנימה"
@@ -797,6 +817,9 @@ msgcat::mcmset he {
   "Export complete"
   "ייצוא מלאה"
 
+  "Export current plugin"
+  "תוסף הנוכחי ייצוא"
+
   "Export file contents"
   "ייצוא תוכן הקובץ"
 
@@ -958,6 +981,9 @@ msgcat::mcmset he {
 
   "Image"
   "תמונה"
+
+  "Import plugin bundle"
+  "צרור תוסף הייבוא"
 
   "Increment by 0.1"
   "הגדל ב 0.1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset he {
   "Show selected line change"
   "להראות שינוי הקו הנבחר"
 
-  "Smart Indent"
-  "כניסה חכמה"
-
   "Sort Tabs"
   "מיון כרטיסיות"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset he {
   "Plugin Trust Requested"
   "תוסף אמון המבוקש"
 
+  "Plugin export completed successfully"
+  "תוסף ייצוא הושלמה בהצלחה"
+
+  "Plugin import completed successfully"
+  "הייבוא הושלם בהצלחה"
+
   "Plugin installed"
   "התוסף מותקן"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset he {
 
   "Syntax errors found in selected plugins"
   "שגיאות תחביר נמצאו הפלאגאינים שנבחרו"
+
+  "Unable to unzip plugin"
+  "אין אפשרות לפתוח תוסף"
+
+  "Unable to zip plugin"
+  "אין אפשרות מיקוד תוסף"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset he {
 
   "Default Theme Export Directory"
   "ספריית ברירת המחדל נושא הייצוא"
+
+  "Default search method"
+  "המחדל של שיטת החיפוש"
 
   "Default theme"
   "נושא שתשמש כברירת מחדל"
@@ -3300,9 +3338,6 @@ msgcat::mcmset he {
   "GIF Photo"
   "תמונה GIF"
 
-  "Import"
-  "ייבוא"
-
   "Import BMP Data"
   "ייבוא נתונים BMP"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset he {
 # tke.tcl
 msgcat::mcmset he {
 
+  "Import TKE plugin?"
+  "תוסף הייבוא בבית?"
+
   "Import TKE theme?"
   "האם לייבא את הנושא בבית?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset he {
   "Attributes"
   "מאפיינים"
 
+  "Auto-Indent"
+  "כניסה אוטומטית"
+
   "Back"
   "חזרה"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset he {
   "Enable code folding"
   "הפעלת קוד מתקפלים"
 
+  "Encoding"
+  "קידוד"
+
   "Export"
   "ייצא"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset he {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "התמונה המוצגת בחלונית המידע הצידי מציג קובץ בסרגל הצידי"
+
+  "Import"
+  "ייבוא"
 
   "Insert"
   "הוסף"
@@ -3678,6 +3725,9 @@ msgcat::mcmset he {
 
   "Show tab bar"
   "הצג סרגל הלשוניות"
+
+  "Smart Indent"
+  "כניסה חכמה"
 
   "Snippet"
   "גזיר"
