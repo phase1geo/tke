@@ -389,6 +389,10 @@
 
 {View/ShowLanguagesSubmenu} {0}
 
+# Sets the default width of the sidebar when the application starts.
+
+{Sidebar/DefaultWidth} 300
+
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
 

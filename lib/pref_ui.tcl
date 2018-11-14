@@ -2989,6 +2989,10 @@ namespace eval pref_ui {
     make_cb $a.nat   [msgcat::mc "Insert unsorted files at the top of a manually sorted directory"] Sidebar/ManualInsertNewAtTop
     make_spacer $a
     make_sb $a.kst   [msgcat::mc "Append characters to search string if entered within"] Sidebar/KeySearchTimeout 100 3000 100 0 [msgcat::mc "milliseconds"]
+    make_spacer $a
+    make_sb $a.dw    [msgcat::mc "Default sidebar width on startup"] Sidebar/DefaultWidth 100 600 10 0 [msgcat::mc "pixels"]
+
+    pack [ttk::button $a.dw.b -style BButton -text [msgcat::mc "Use current width"] -command [list pref_ui::sidebar_set_current_width $a.dw.sb]] -side left -padx 20 -pady 2
 
     ##############
     # HIDING TAB #
@@ -3037,6 +3041,22 @@ namespace eval pref_ui {
     pack $w.nb.c.if -fill x -padx 2 -pady 2
 
     pack $w.nb -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Sets the default sidebar width preference item to the current width
+  # of the sidebar.
+  proc sidebar_set_current_width {sb} {
+
+    # We will round the width to the nearest 10 pixel increment
+    set width [expr round( [sidebar::get_width] / 10.0 ) * 10]
+
+    # Set the spinbox value to the width of the
+    $sb set $width
+
+    # Update the variable
+    handle_sb_change $sb Sidebar/DefaultWidth
 
   }
 
