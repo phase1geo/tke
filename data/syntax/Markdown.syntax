@@ -92,7 +92,7 @@ advanced {
 
   HighlightProc header {
     array set vars $varlist
-    set num [string length [string range $str {*}$vars(1)]]
+    set num [string length [string trim [string range $str {*}$vars(1)]]]
     return [list [list h$num {*}$vars(2) \
                        meta  {*}$vars(1)] ""]
   } HighlightEndProc

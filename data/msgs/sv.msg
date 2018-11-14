@@ -272,6 +272,9 @@ msgcat::mcmset sv {
   "Error"
   "Fel"
 
+  "Exact"
+  "Uppmätt elförbrukning (från elfaktura)"
+
   "Favorited"
   "Favorit"
 
@@ -280,6 +283,9 @@ msgcat::mcmset sv {
 
   "File index is out of range"
   "File index är utanför intervallet"
+
+  "Glob"
+  "Samlad"
 
   "Hide Tab"
   "Dölj fliken"
@@ -380,14 +386,23 @@ msgcat::mcmset sv {
   "No write permissions.  Use '!' to force write."
   "Ingen skrivbehörighet.  Använd '!' tvinga skriva."
 
+  "Regexp"
+  "Reguljära uttryck"
+
   "Release Type"
   "Release typ"
 
   "Replace"
   "Ersätt"
 
+  "Replace All"
+  "Ersätt alla"
+
   "Save request"
   "Spara begäran"
+
+  "Save this search"
+  "Vill du spara den här sökningen?"
 
   "Starting number:"
   "Sidnummer för första sidan:"
@@ -406,6 +421,14 @@ msgcat::mcmset sv {
 
   "for"
   "för"
+
+}
+
+# indent.tcl
+msgcat::mcmset sv {
+
+  "No Indent"
+  "Inget indrag"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset sv {
 
   "Append current find text to selection"
   "Lägga till nuvarande hitta text i urval"
-
-  "Auto-Indent"
-  "Automatisk indentering"
 
   "Balance Inward"
   "Balansera inåt"
@@ -797,6 +817,9 @@ msgcat::mcmset sv {
   "Export complete"
   "Export klar."
 
+  "Export current plugin"
+  "Exportera nuvarande plugin"
+
   "Export file contents"
   "Exportera innehållet i filen"
 
@@ -958,6 +981,9 @@ msgcat::mcmset sv {
 
   "Image"
   "Bild"
+
+  "Import plugin bundle"
+  "Importera pluginpaket"
 
   "Increment by 0.1"
   "Ökning med 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset sv {
   "Show selected line change"
   "Visa markerad rad förändringar"
 
-  "Smart Indent"
-  "Smart strecksatsen"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset sv {
   "Plugin Trust Requested"
   "Plugin Förtroende Begärd"
 
+  "Plugin export completed successfully"
+  "Plugin export slutfördes"
+
+  "Plugin import completed successfully"
+  "Importen klar"
+
   "Plugin installed"
   "Plugin installerat"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset sv {
 
   "Syntax errors found in selected plugins"
   "Syntax fel i utvalda plugins"
+
+  "Unable to unzip plugin"
+  "Det går inte att packa upp plugin"
+
+  "Unable to zip plugin"
+  "Det går inte att zip plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset sv {
 
   "Default Theme Export Directory"
   "Standard Tema Export Directory"
+
+  "Default search method"
+  "Standard sökmetod"
 
   "Default theme"
   "standard tema"
@@ -3300,9 +3338,6 @@ msgcat::mcmset sv {
   "GIF Photo"
   "GIF-bild"
 
-  "Import"
-  "Importera"
-
   "Import BMP Data"
   "Importera BMP data"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset sv {
 # tke.tcl
 msgcat::mcmset sv {
 
+  "Import TKE plugin?"
+  "Importera TKE-plugin?"
+
   "Import TKE theme?"
   "Import TKE tema?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset sv {
   "Attributes"
   "Attribut"
 
+  "Auto-Indent"
+  "Automatisk indentering"
+
   "Back"
   "Tillbaka"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset sv {
   "Enable code folding"
   "Aktivera kod vikning"
 
+  "Encoding"
+  "Encoding"
+
   "Export"
   "Exportera"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset sv {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Bilden som visas i sidofältet informationspanelen för visar filen i sidofältet"
+
+  "Import"
+  "Importera"
 
   "Insert"
   "Infoga"
@@ -3679,6 +3726,9 @@ msgcat::mcmset sv {
   "Show tab bar"
   "Visa flikfältet"
 
+  "Smart Indent"
+  "Smart strecksatsen"
+
   "Snippet"
   "Fragment"
 
@@ -3716,7 +3766,7 @@ msgcat::mcmset sv {
   "Värde"
 
   "Version"
-  "Version"
+  "Uppgradera till den fullständiga versionen"
 
 }
 

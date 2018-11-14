@@ -96,7 +96,7 @@ msgcat::mcmset es {
   "Actualizar"
 
   "Results"
-  "Results"
+  "Resultados de búsqueda para \"
 
   "Run Count"
   "Ejecutar recuento"
@@ -272,6 +272,9 @@ msgcat::mcmset es {
   "Error"
   "Error: archivo no editable"
 
+  "Exact"
+  "Exacto"
+
   "Favorited"
   "Los favoritos"
 
@@ -280,6 +283,9 @@ msgcat::mcmset es {
 
   "File index is out of range"
   "Índice del archivo está fuera de rango"
+
+  "Glob"
+  "Glob."
 
   "Hide Tab"
   "Ocultar ficha"
@@ -380,14 +386,23 @@ msgcat::mcmset es {
   "No write permissions.  Use '!' to force write."
   "No hay permisos de escritura.  Uso '!' para forzar la escritura."
 
+  "Regexp"
+  "Regexp"
+
   "Release Type"
   "Tipo de versión"
 
   "Replace"
   "Reemplazar"
 
+  "Replace All"
+  "Reemplazar todo"
+
   "Save request"
   "Memorizar encargo"
+
+  "Save this search"
+  "Guardar esta búsqueda"
 
   "Starting number:"
   "Número inicial:"
@@ -406,6 +421,14 @@ msgcat::mcmset es {
 
   "for"
   "para"
+
+}
+
+# indent.tcl
+msgcat::mcmset es {
+
+  "No Indent"
+  "Sin sangría"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset es {
 
   "Append current find text to selection"
   "Anexar texto actual encuentra a selección"
-
-  "Auto-Indent"
-  "Sangrado automático"
 
   "Balance Inward"
   "Equilibrio interior"
@@ -797,6 +817,9 @@ msgcat::mcmset es {
   "Export complete"
   "Exportación completa."
 
+  "Export current plugin"
+  "Exportación actual plugin"
+
   "Export file contents"
   "Contenido del archivo de exportación"
 
@@ -958,6 +981,9 @@ msgcat::mcmset es {
 
   "Image"
   "Imagen"
+
+  "Import plugin bundle"
+  "Paquete de plugin de importación"
 
   "Increment by 0.1"
   "Incremento de 0.1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset es {
   "Show selected line change"
   "Cambio de línea seleccionada"
 
-  "Smart Indent"
-  "Guión inteligente"
-
   "Sort Tabs"
   "Ordenar pestañas"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset es {
   "Plugin Trust Requested"
   "Plugin de confianza solicitada"
 
+  "Plugin export completed successfully"
+  "La exportación se ha completado con éxito"
+
+  "Plugin import completed successfully"
+  "La importación se ha realizado correctamente"
+
   "Plugin installed"
   "Instalado el plugin"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset es {
 
   "Syntax errors found in selected plugins"
   "Los errores de sintaxis encontrados en plugins seleccionados"
+
+  "Unable to unzip plugin"
+  "No se puede descomprimir el plugin"
+
+  "Unable to zip plugin"
+  "No se puede comprimir el complemento"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset es {
 
   "Default Theme Export Directory"
   "Exportación de directorio por defecto del tema"
+
+  "Default search method"
+  "Método de búsqueda por defecto"
 
   "Default theme"
   "Tema predeterminado"
@@ -2350,7 +2388,7 @@ msgcat::mcmset es {
   "Variables"
 
   "Visible"
-  "Visible"
+  "Visible en la página del producto"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Han cambiado las preferencias globales que no será visibles porque está actualmente en una sesión con nombre."
@@ -3300,9 +3338,6 @@ msgcat::mcmset es {
   "GIF Photo"
   "GIF fotos"
 
-  "Import"
-  "Importar"
-
   "Import BMP Data"
   "Importar datos..."
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset es {
 # tke.tcl
 msgcat::mcmset es {
 
+  "Import TKE plugin?"
+  "¿Plugin TKE de importación?"
+
   "Import TKE theme?"
   "Tema Importación TKE?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset es {
   "Attributes"
   "Atributos"
 
+  "Auto-Indent"
+  "Sangrado automático"
+
   "Back"
   "Atrás"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset es {
   "Enable code folding"
   "Activar código plegable"
 
+  "Encoding"
+  "Codificación"
+
   "Export"
   "Exportar"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset es {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Imagen que se muestra en el panel de información del sidebar para archivo Mostrar en barra lateral"
+
+  "Import"
+  "Importar"
 
   "Insert"
   "Insertar"
@@ -3678,6 +3725,9 @@ msgcat::mcmset es {
 
   "Show tab bar"
   "Barra de solapas"
+
+  "Smart Indent"
+  "Guión inteligente"
 
   "Snippet"
   "De fragmentos"

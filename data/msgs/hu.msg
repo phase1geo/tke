@@ -272,6 +272,9 @@ msgcat::mcmset hu {
   "Error"
   "Hiba"
 
+  "Exact"
+  "pontos"
+
   "Favorited"
   "Kedvencek"
 
@@ -280,6 +283,9 @@ msgcat::mcmset hu {
 
   "File index is out of range"
   "Fájl index tartományon kívül"
+
+  "Glob"
+  "Általános értékelés"
 
   "Hide Tab"
   "Fül elrejtése"
@@ -380,14 +386,23 @@ msgcat::mcmset hu {
   "No write permissions.  Use '!' to force write."
   "Nincs írási jogosultsága. Használja a '!' kényszeríteni írni."
 
+  "Regexp"
+  "Reguláris kifejezés"
+
   "Release Type"
   "Kiadás típusa"
 
   "Replace"
   "Csere"
 
+  "Replace All"
+  "Mindent cserél"
+
   "Save request"
   "Mentés kérése"
+
+  "Save this search"
+  "Keresés mentése"
 
   "Starting number:"
   "A kezdő dia száma:"
@@ -406,6 +421,14 @@ msgcat::mcmset hu {
 
   "for"
   "mert"
+
+}
+
+# indent.tcl
+msgcat::mcmset hu {
+
+  "No Indent"
+  "Nincs behúzás"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset hu {
 
   "Append current find text to selection"
   "Jelenlegi keresés szöveg hozzáfűzése a kijelölt"
-
-  "Auto-Indent"
-  "Automatikus behúzás"
 
   "Balance Inward"
   "Befelé egyensúlyt"
@@ -797,6 +817,9 @@ msgcat::mcmset hu {
   "Export complete"
   "Az exportálás befejeződött."
 
+  "Export current plugin"
+  "Jelenlegi plugin exportálása"
+
   "Export file contents"
   "Export fájl tartalma"
 
@@ -958,6 +981,9 @@ msgcat::mcmset hu {
 
   "Image"
   "Kép"
+
+  "Import plugin bundle"
+  "Import plugin bundle"
 
   "Increment by 0.1"
   "Növekmény 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset hu {
   "Show selected line change"
   "Megjelenítése a kijelölt sor módosítása"
 
-  "Smart Indent"
-  "Intelligens francia"
-
   "Sort Tabs"
   "Rendezés lapok"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset hu {
   "Plugin Trust Requested"
   "Plugin Trust Kért"
 
+  "Plugin export completed successfully"
+  "Plugin export sikeresen befejeződött"
+
+  "Plugin import completed successfully"
+  "Plugin importálása sikeresen megtörtént"
+
   "Plugin installed"
   "Plugin telepítve"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset hu {
 
   "Syntax errors found in selected plugins"
   "Syntax hibát talált a kiválasztott plugins"
+
+  "Unable to unzip plugin"
+  "Képtelen-hoz cipzárat kinyitni a plugin"
+
+  "Unable to zip plugin"
+  "Nem sikerült a plugin zip"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset hu {
 
   "Default Theme Export Directory"
   "Alapértelmezett téma Export Directory"
+
+  "Default search method"
+  "Alapértelmezett keresési módszer"
 
   "Default theme"
   "Alapértelmezett Téma"
@@ -3300,9 +3338,6 @@ msgcat::mcmset hu {
   "GIF Photo"
   "GIF Fotó"
 
-  "Import"
-  "Importálás"
-
   "Import BMP Data"
   "Import BMP adatok"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset hu {
 # tke.tcl
 msgcat::mcmset hu {
 
+  "Import TKE plugin?"
+  "Importálja a TKE plugin?"
+
   "Import TKE theme?"
   "Import TKE témát?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset hu {
   "Attributes"
   "Attribútumok"
 
+  "Auto-Indent"
+  "Automatikus behúzás"
+
   "Back"
   "Vissza"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset hu {
   "Enable code folding"
   "Engedélyezi a kód összecsukható"
 
+  "Encoding"
+  "Kódolás"
+
   "Export"
   "Exportálás"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset hu {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Tálaló adatai a fájl megjelenítése az oldalsávon megjelenő kép"
+
+  "Import"
+  "Importálás"
 
   "Insert"
   "Beillesztés"
@@ -3678,6 +3725,9 @@ msgcat::mcmset hu {
 
   "Show tab bar"
   "A fülek megjelenítése"
+
+  "Smart Indent"
+  "Intelligens francia"
 
   "Snippet"
   "Töredék"

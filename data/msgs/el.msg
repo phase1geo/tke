@@ -272,6 +272,9 @@ msgcat::mcmset el {
   "Error"
   "Σφάλμα!"
 
+  "Exact"
+  "Ακριβής τίτλος"
+
   "Favorited"
   "Αγαπημένο"
 
@@ -280,6 +283,9 @@ msgcat::mcmset el {
 
   "File index is out of range"
   "Δείκτης αρχείου είναι εκτός ορίων"
+
+  "Glob"
+  "Συνολ. αξιολ."
 
   "Hide Tab"
   "Απόκρυψη της καρτέλας"
@@ -380,14 +386,23 @@ msgcat::mcmset el {
   "No write permissions.  Use '!' to force write."
   "Δεν δικαιώματα εγγραφής.  Χρήση «!» να αναγκάσει εγγραφής."
 
+  "Regexp"
+  "Κανονική έκφραση"
+
   "Release Type"
   "ΔΕΛΤΙΟ ΤΥΠΟΥ"
 
   "Replace"
   "Αντικαταστήστε"
 
+  "Replace All"
+  "Αντικατάσταση όλων"
+
   "Save request"
   "Αποθηκεύστε το αίτημα"
+
+  "Save this search"
+  "Αποθήκευση αυτής της αναζήτησης"
 
   "Starting number:"
   "Αρχικό αριθμό:"
@@ -406,6 +421,14 @@ msgcat::mcmset el {
 
   "for"
   "για"
+
+}
+
+# indent.tcl
+msgcat::mcmset el {
+
+  "No Indent"
+  "Καμία περίπτωση"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset el {
 
   "Append current find text to selection"
   "Προσάρτηση τρέχουσα Εύρεση κειμένου σε επιλογή"
-
-  "Auto-Indent"
-  "Αυτο-εντομή"
 
   "Balance Inward"
   "Ισορροπίας προς τα μέσα"
@@ -797,6 +817,9 @@ msgcat::mcmset el {
   "Export complete"
   "Η εξαγωγή ολοκληρώθηκε."
 
+  "Export current plugin"
+  "Εξαγωγή του τρέχοντος plugin"
+
   "Export file contents"
   "Εξαγάγετε τα περιεχόμενα του αρχείου"
 
@@ -958,6 +981,9 @@ msgcat::mcmset el {
 
   "Image"
   "Εικόνα"
+
+  "Import plugin bundle"
+  "Πακέτο plugin εισαγωγή"
 
   "Increment by 0.1"
   "Διαβάθμιση από 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset el {
   "Show selected line change"
   "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
 
-  "Smart Indent"
-  "Έξυπνες περίπτωση"
-
   "Sort Tabs"
   "Ταξινόμηση καρτελών"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset el {
   "Plugin Trust Requested"
   "Plugin Εμπιστοσύνη Αιτήματα"
 
+  "Plugin export completed successfully"
+  "Plugin εξαγωγή ολοκληρώθηκε με επιτυχία"
+
+  "Plugin import completed successfully"
+  "Plugin εισαγωγής ολοκληρώθηκε με επιτυχία"
+
   "Plugin installed"
   "Plugin εγκατεστημένο"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset el {
 
   "Syntax errors found in selected plugins"
   "Συντακτικά λάθη τα βρείτε σε επιλεγμένα plugins"
+
+  "Unable to unzip plugin"
+  "Δεν μπορείτε να αποσυμπιέσετε το plugin"
+
+  "Unable to zip plugin"
+  "Ανίκανος να zip plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset el {
 
   "Default Theme Export Directory"
   "Προεπιλεγμένο θέμα Export Directory"
+
+  "Default search method"
+  "Προεπιλεγμένη μέθοδος αναζήτησης"
 
   "Default theme"
   "Προεπιλεγμένο θέμα"
@@ -3300,9 +3338,6 @@ msgcat::mcmset el {
   "GIF Photo"
   "GIF Φωτογραφία"
 
-  "Import"
-  "Εισαγωγή"
-
   "Import BMP Data"
   "Εισαγωγή BMP Δεδομένων"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset el {
 # tke.tcl
 msgcat::mcmset el {
 
+  "Import TKE plugin?"
+  "Εισαγωγή TKE plugin;"
+
   "Import TKE theme?"
   "Θέμα Εισαγωγή ΤΚΕ;"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset el {
   "Attributes"
   "Χαρακτηριστικά"
 
+  "Auto-Indent"
+  "Αυτο-εντομή"
+
   "Back"
   "Πίσω"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset el {
   "Enable code folding"
   "Ενεργοποίηση κώδικα πτυσσόμενα"
 
+  "Encoding"
+  "Κωδικοποίηση"
+
   "Export"
   "Εξαγωγή"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset el {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για εμφάνιση αρχείου στην πλαϊνή μπάρα"
+
+  "Import"
+  "Εισαγωγή"
 
   "Insert"
   "Εισαγωγή"
@@ -3678,6 +3725,9 @@ msgcat::mcmset el {
 
   "Show tab bar"
   "Εμφάνιση γραμμής καρτελών"
+
+  "Smart Indent"
+  "Έξυπνες περίπτωση"
 
   "Snippet"
   "Απόσπασμα"

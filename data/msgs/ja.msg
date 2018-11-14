@@ -272,6 +272,9 @@ msgcat::mcmset ja {
   "Error"
   "エラー"
 
+  "Exact"
+  "正確に"
+
   "Favorited"
   "お気に入り"
 
@@ -280,6 +283,9 @@ msgcat::mcmset ja {
 
   "File index is out of range"
   "ファイルインデックスが範囲外である"
+
+  "Glob"
+  "グロブ"
 
   "Hide Tab"
   "タブを非表示します。"
@@ -380,14 +386,23 @@ msgcat::mcmset ja {
   "No write permissions.  Use '!' to force write."
   "書き込みのアクセス許可はありません。 使用 '!' 書き込みを強制します。"
 
+  "Regexp"
+  "正規表現"
+
   "Release Type"
   "リリースの種類"
 
   "Replace"
   "置換"
 
+  "Replace All"
+  "すべて置換"
+
   "Save request"
   "リクエストを保存"
+
+  "Save this search"
+  "この検索を保存したい?"
 
   "Starting number:"
   "開始番号:"
@@ -406,6 +421,14 @@ msgcat::mcmset ja {
 
   "for"
   "から"
+
+}
+
+# indent.tcl
+msgcat::mcmset ja {
+
+  "No Indent"
+  "インデントなし"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset ja {
 
   "Append current find text to selection"
   "現在の検索文字列を選択に追加します。"
-
-  "Auto-Indent"
-  "自動インデント"
 
   "Balance Inward"
   "内側のバランスをとる"
@@ -797,6 +817,9 @@ msgcat::mcmset ja {
   "Export complete"
   "サイト出力が完了しました。"
 
+  "Export current plugin"
+  "現在のプラグインをエクスポートします。"
+
   "Export file contents"
   "エクスポート ファイルの内容"
 
@@ -958,6 +981,9 @@ msgcat::mcmset ja {
 
   "Image"
   "画像"
+
+  "Import plugin bundle"
+  "インポート プラグインをバンドル"
 
   "Increment by 0.1"
   "0.1 ずつインクリメント"
@@ -1625,9 +1651,6 @@ msgcat::mcmset ja {
   "Show selected line change"
   "選択した行の変更を表示します。"
 
-  "Smart Indent"
-  "スマート インデント"
-
   "Sort Tabs"
   "並べタブ"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset ja {
   "Plugin Trust Requested"
   "プラグイントラストは、要求"
 
+  "Plugin export completed successfully"
+  "プラグインのエクスポートが完了しました"
+
+  "Plugin import completed successfully"
+  "インポートが正常に完了しました"
+
   "Plugin installed"
   "プラグインをインストール"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset ja {
 
   "Syntax errors found in selected plugins"
   "構文エラーは、選択したプラグインで発見"
+
+  "Unable to unzip plugin"
+  "プラグインを解凍できません。"
+
+  "Unable to zip plugin"
+  "プラグインを圧縮することができません。"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset ja {
 
   "Default Theme Export Directory"
   "デフォルトのテーマのエクスポートディレクトリ"
+
+  "Default search method"
+  "デフォルトの検索方法"
 
   "Default theme"
   "デフォルトテーマ"
@@ -3300,9 +3338,6 @@ msgcat::mcmset ja {
   "GIF Photo"
   "GIF写真"
 
-  "Import"
-  "輸入"
-
   "Import BMP Data"
   "インポートBMPデータ"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset ja {
 # tke.tcl
 msgcat::mcmset ja {
 
+  "Import TKE plugin?"
+  "TKE プラグインをインポートするか。"
+
   "Import TKE theme?"
   "インポートTKEのテーマ？"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset ja {
   "Attributes"
   "属性"
 
+  "Auto-Indent"
+  "自動インデント"
+
   "Back"
   "戻る"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset ja {
   "Enable code folding"
   "コード折り畳みを有効にします。"
 
+  "Encoding"
+  "エンコーディング"
+
   "Export"
   "エクスポート"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset ja {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "サイドバーに表示ファイルのサイドバー情報パネルに表示されるイメージ"
+
+  "Import"
+  "輸入"
 
   "Insert"
   "挿入"
@@ -3678,6 +3725,9 @@ msgcat::mcmset ja {
 
   "Show tab bar"
   "タブ バーを表示します。"
+
+  "Smart Indent"
+  "スマート インデント"
 
   "Snippet"
   "スニペット"

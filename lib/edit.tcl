@@ -25,6 +25,8 @@
 
 namespace eval edit {
 
+  variable columns ""
+
   array set patterns {
     nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]+)}
     pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]*)$}
@@ -2206,11 +2208,15 @@ namespace eval edit {
   # Moves multicursors in the modifier direction for the given text widget.
   proc move_cursors {txtt modifier} {
 
+    variable columns
+
     # Clear the selection
     $txtt tag remove sel 1.0 end
 
+    set columns ""
+
     # Adjust the cursors
-    multicursor::move $txtt $modifier
+    multicursor::move $txtt [list $modifier -column edit::columns]
 
   }
 

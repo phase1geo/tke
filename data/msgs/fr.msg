@@ -267,10 +267,13 @@ msgcat::mcmset fr {
   "Développeur"
 
   "Email"
-  "Email"
+  "E-mail"
 
   "Error"
   "Erreur"
+
+  "Exact"
+  "Exact"
 
   "Favorited"
   "Ajouté aux favoris"
@@ -280,6 +283,9 @@ msgcat::mcmset fr {
 
   "File index is out of range"
   "index du fichier est hors de portée"
+
+  "Glob"
+  "Glob."
 
   "Hide Tab"
   "Masquer l’onglet"
@@ -380,14 +386,23 @@ msgcat::mcmset fr {
   "No write permissions.  Use '!' to force write."
   "Aucune autorisation d'écriture.  Utilisation '!' pour forcer l'écriture."
 
+  "Regexp"
+  "Expression rationnelle"
+
   "Release Type"
   "Type de sortie"
 
   "Replace"
   "Remplacer"
 
+  "Replace All"
+  "Tout remplacer"
+
   "Save request"
   "Enregistrer la demande"
+
+  "Save this search"
+  "Sauvegarder la recherche"
 
   "Starting number:"
   "Changer le numéro de page de démarrage :"
@@ -406,6 +421,14 @@ msgcat::mcmset fr {
 
   "for"
   "pour"
+
+}
+
+# indent.tcl
+msgcat::mcmset fr {
+
+  "No Indent"
+  "Pas d'indentation"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset fr {
 
   "Append current find text to selection"
   "Ajouter texte actuel à rechercher à la sélection"
-
-  "Auto-Indent"
-  "Indentation automatique"
 
   "Balance Inward"
   "Balance vers l’intérieur"
@@ -797,6 +817,9 @@ msgcat::mcmset fr {
   "Export complete"
   "Exportation terminée."
 
+  "Export current plugin"
+  "Exporter le plugin courant"
+
   "Export file contents"
   "Exporter le contenu du fichier"
 
@@ -843,7 +866,7 @@ msgcat::mcmset fr {
   "Pliage"
 
   "Format"
-  "Format"
+  "Le format doit être: +code pays numéro de téléphone"
 
   "Format Text"
   "Format texte"
@@ -958,6 +981,9 @@ msgcat::mcmset fr {
 
   "Image"
   "Image"
+
+  "Import plugin bundle"
+  "Bundle de plugins d’import"
 
   "Increment by 0.1"
   "Incrément de 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset fr {
   "Show selected line change"
   "Montrer le changement de la ligne sélectionnée"
 
-  "Smart Indent"
-  "Smart tiret"
-
   "Sort Tabs"
   "Trier les onglets"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset fr {
   "Plugin Trust Requested"
   "Plugin fiducie demandé"
 
+  "Plugin export completed successfully"
+  "Export terminé avec succès"
+
+  "Plugin import completed successfully"
+  "Importation terminée avec succès"
+
   "Plugin installed"
   "Extension installé !"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset fr {
 
   "Syntax errors found in selected plugins"
   "Les erreurs de syntaxe trouvées dans les plugins sélectionnés"
+
+  "Unable to unzip plugin"
+  "Incapable de décompresser le plugin"
+
+  "Unable to zip plugin"
+  "Incapable de zip plugin"
 
 }
 
@@ -1972,13 +2007,16 @@ msgcat::mcmset fr {
   "Répertoire de travail courant"
 
   "Date"
-  "Date"
+  "Rendez-Vous"
 
   "Default Markdown Export Extension"
   "Extension d’exportation par défaut Markdown"
 
   "Default Theme Export Directory"
   "Thème par défaut Directory Export"
+
+  "Default search method"
+  "Méthode de recherche par défaut"
 
   "Default theme"
   "Thème par défaut"
@@ -3300,9 +3338,6 @@ msgcat::mcmset fr {
   "GIF Photo"
   "GIF photo"
 
-  "Import"
-  "Importer"
-
   "Import BMP Data"
   "Importer les données"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset fr {
 # tke.tcl
 msgcat::mcmset fr {
 
+  "Import TKE plugin?"
+  "Importer TKE plugin ?"
+
   "Import TKE theme?"
   "Importer TKE thème?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset fr {
   "Attributes"
   "Attributs"
 
+  "Auto-Indent"
+  "Indentation automatique"
+
   "Back"
   "Revenir"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset fr {
   "Enable code folding"
   "Activez le code folding"
 
+  "Encoding"
+  "Encodage"
+
   "Export"
   "Exporter"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset fr {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Image affichée dans le panneau informations sur le panneau latéral pour l’affichage du fichier dans la barre latérale"
+
+  "Import"
+  "Importer"
 
   "Insert"
   "Insérer"
@@ -3678,6 +3725,9 @@ msgcat::mcmset fr {
 
   "Show tab bar"
   "Barre d'onglets"
+
+  "Smart Indent"
+  "Smart tiret"
 
   "Snippet"
   "Fragment"

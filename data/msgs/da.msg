@@ -51,7 +51,7 @@ msgcat::mcmset da {
   "Iteration"
 
   "Iteration count"
-  "Iteration count"
+  "Iteration tæller"
 
   "Loop"
   "Løkke"
@@ -272,6 +272,9 @@ msgcat::mcmset da {
   "Error"
   "Fejl"
 
+  "Exact"
+  "Nøjagtig"
+
   "Favorited"
   "Favoriseret"
 
@@ -280,6 +283,9 @@ msgcat::mcmset da {
 
   "File index is out of range"
   "File indeks er uden for rækkevidde"
+
+  "Glob"
+  "Saml"
 
   "Hide Tab"
   "Skjul fanen"
@@ -380,14 +386,23 @@ msgcat::mcmset da {
   "No write permissions.  Use '!' to force write."
   "Ingen skrivetilladelser.  Brug '!' at tvinge skrive."
 
+  "Regexp"
+  "Regulære udtryk"
+
   "Release Type"
   "Udgave"
 
   "Replace"
   "Erstat"
 
+  "Replace All"
+  "Erstat alle"
+
   "Save request"
   "Spar anmodning"
+
+  "Save this search"
+  "Gem denne søgning?"
 
   "Starting number:"
   "Starttal"
@@ -405,7 +420,15 @@ msgcat::mcmset da {
   "Ikke kan med held parse nummer streng"
 
   "for"
-  "for"
+  "i"
+
+}
+
+# indent.tcl
+msgcat::mcmset da {
+
+  "No Indent"
+  "Ingen indent"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset da {
 
   "Append current find text to selection"
   "Føj nuværende søgeteksten til udvalg"
-
-  "Auto-Indent"
-  "Automatisk indryk"
 
   "Balance Inward"
   "Balance indad"
@@ -797,6 +817,9 @@ msgcat::mcmset da {
   "Export complete"
   "Eksport færdig."
 
+  "Export current plugin"
+  "Eksportere aktuelle plugin"
+
   "Export file contents"
   "Eksport filindhold"
 
@@ -958,6 +981,9 @@ msgcat::mcmset da {
 
   "Image"
   "Billede"
+
+  "Import plugin bundle"
+  "Import plugin bundle"
 
   "Increment by 0.1"
   "Tilvækst af 0,1"
@@ -1329,7 +1355,7 @@ msgcat::mcmset da {
   "Indsæt tekst fra udklipsholderen"
 
   "Plugin Developer Guide"
-  "Plugin Developer Guide"
+  "Udviklervejledning til plugin"
 
   "Previous Difference"
   "Forrige forskel"
@@ -1625,9 +1651,6 @@ msgcat::mcmset da {
   "Show selected line change"
   "Vis valgte linje ændring"
 
-  "Smart Indent"
-  "Smart led"
-
   "Sort Tabs"
   "Sorter faner"
 
@@ -1808,13 +1831,19 @@ msgcat::mcmset da {
   "Meddelelse af EF-sortsbeskyttelse"
 
   "Grant permission?"
-  "Grant permission?"
+  "\"
 
   "Plugin Errors"
   "Plugin fejl"
 
   "Plugin Trust Requested"
   "Plugin Trust Anmodet"
+
+  "Plugin export completed successfully"
+  "Plugin eksport fuldført"
+
+  "Plugin import completed successfully"
+  "Importeringen gennemført"
 
   "Plugin installed"
   "Plugin installeret"
@@ -1833,6 +1862,12 @@ msgcat::mcmset da {
 
   "Syntax errors found in selected plugins"
   "Syntaksfejl fundet i udvalgte plugins"
+
+  "Unable to unzip plugin"
+  "Afskåret unzip plugin"
+
+  "Unable to zip plugin"
+  "Afskåret fra zip plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset da {
 
   "Default Theme Export Directory"
   "Standard Tema Eksport Register"
+
+  "Default search method"
+  "Standardsøgemetode"
 
   "Default theme"
   "Standardtema"
@@ -3300,9 +3338,6 @@ msgcat::mcmset da {
   "GIF Photo"
   "GIF Billeder"
 
-  "Import"
-  "Et klik demo import"
-
   "Import BMP Data"
   "Import BMP data"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset da {
 # tke.tcl
 msgcat::mcmset da {
 
+  "Import TKE plugin?"
+  "Importere TKE plugin?"
+
   "Import TKE theme?"
   "Importer TKE tema?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset da {
   "Attributes"
   "Attributter"
 
+  "Auto-Indent"
+  "Automatisk indryk"
+
   "Back"
   "Tillbage"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset da {
   "Enable code folding"
   "Aktivere kode foldning"
 
+  "Encoding"
+  "Tegnkodning"
+
   "Export"
   "Eksportér"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset da {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Billedet vises i indholdsoversigten dokumentoplysningspanelet for viser filen i indholdsoversigten"
+
+  "Import"
+  "Et klik demo import"
 
   "Insert"
   "Indsæt"
@@ -3678,6 +3725,9 @@ msgcat::mcmset da {
 
   "Show tab bar"
   "Vis tab-linje"
+
+  "Smart Indent"
+  "Smart led"
 
   "Snippet"
   "Stump"

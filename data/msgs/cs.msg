@@ -272,6 +272,9 @@ msgcat::mcmset cs {
   "Error"
   "Chyba"
 
+  "Exact"
+  "Exact"
+
   "Favorited"
   "Oblíbené"
 
@@ -280,6 +283,9 @@ msgcat::mcmset cs {
 
   "File index is out of range"
   "Obsah souboru je mimo rozsah"
+
+  "Glob"
+  "Celkové"
 
   "Hide Tab"
   "Skrýt kartu"
@@ -380,14 +386,23 @@ msgcat::mcmset cs {
   "No write permissions.  Use '!' to force write."
   "Žádné oprávnění k zápisu.  Použijte '!' nutit psát."
 
+  "Regexp"
+  "Regulární výraz"
+
   "Release Type"
   "Typ vydání"
 
   "Replace"
   "Nahradit"
 
+  "Replace All"
+  "Nahradit vše"
+
   "Save request"
   "Uložte žádost"
+
+  "Save this search"
+  "Uložit toto hledání"
 
   "Starting number:"
   "Startovní číslo:"
@@ -406,6 +421,14 @@ msgcat::mcmset cs {
 
   "for"
   "za"
+
+}
+
+# indent.tcl
+msgcat::mcmset cs {
+
+  "No Indent"
+  "Bez odsazení"
 
 }
 
@@ -502,9 +525,6 @@ msgcat::mcmset cs {
 
   "Append current find text to selection"
   "Přidat aktuální hledání text na výběru"
-
-  "Auto-Indent"
-  "Automatické odsazení"
 
   "Balance Inward"
   "Vyvážení směrem dovnitř"
@@ -797,6 +817,9 @@ msgcat::mcmset cs {
   "Export complete"
   "Export dokončen"
 
+  "Export current plugin"
+  "Exportovat aktuální plugin"
+
   "Export file contents"
   "Obsah souboru exportu"
 
@@ -958,6 +981,9 @@ msgcat::mcmset cs {
 
   "Image"
   "Obrázek"
+
+  "Import plugin bundle"
+  "Importovat balík plugin"
 
   "Increment by 0.1"
   "Přírůstek po 0,1"
@@ -1625,9 +1651,6 @@ msgcat::mcmset cs {
   "Show selected line change"
   "Zobrazit vybranou linku změnu"
 
-  "Smart Indent"
-  "Chytré odsazení"
-
   "Sort Tabs"
   "Seřadit Záložky"
 
@@ -1816,6 +1839,12 @@ msgcat::mcmset cs {
   "Plugin Trust Requested"
   "Plugin Důvěra Požadované"
 
+  "Plugin export completed successfully"
+  "Exportní modul úspěšně dokončen"
+
+  "Plugin import completed successfully"
+  "Import byl úspěšně dokončen"
+
   "Plugin installed"
   "Plugin nainstalovaný"
 
@@ -1833,6 +1862,12 @@ msgcat::mcmset cs {
 
   "Syntax errors found in selected plugins"
   "Syntaktické chyby nalezené ve vybraných pluginů"
+
+  "Unable to unzip plugin"
+  "Nelze dekomprimovat plugin"
+
+  "Unable to zip plugin"
+  "Nepodařilo se zip plugin"
 
 }
 
@@ -1979,6 +2014,9 @@ msgcat::mcmset cs {
 
   "Default Theme Export Directory"
   "Default Theme Export Adresář"
+
+  "Default search method"
+  "Výchozí metoda vyhledávání"
 
   "Default theme"
   "Výchozí motiv"
@@ -3300,9 +3338,6 @@ msgcat::mcmset cs {
   "GIF Photo"
   "GIF foto"
 
-  "Import"
-  "Dovoz"
-
   "Import BMP Data"
   "Importovat data"
 
@@ -3424,6 +3459,9 @@ msgcat::mcmset cs {
 # tke.tcl
 msgcat::mcmset cs {
 
+  "Import TKE plugin?"
+  "Importovat TKE plugin?"
+
   "Import TKE theme?"
   "Dovoz TKE téma?"
 
@@ -3499,6 +3537,9 @@ msgcat::mcmset cs {
   "Attributes"
   "Atributy"
 
+  "Auto-Indent"
+  "Automatické odsazení"
+
   "Back"
   "Zpět"
 
@@ -3550,6 +3591,9 @@ msgcat::mcmset cs {
   "Enable code folding"
   "Povolit skládání kódu"
 
+  "Encoding"
+  "Kódování"
+
   "Export"
   "Exportovat"
 
@@ -3579,6 +3623,9 @@ msgcat::mcmset cs {
 
   "Image displayed in sidebar information panel for showing file in sidebar"
   "Obrázek zobrazený v panelu informace postranní panel pro zobrazení souboru v postranním panelu"
+
+  "Import"
+  "Dovoz"
 
   "Insert"
   "Vložit"
@@ -3678,6 +3725,9 @@ msgcat::mcmset cs {
 
   "Show tab bar"
   "Zobrazovat lištu karet"
+
+  "Smart Indent"
+  "Chytré odsazení"
 
   "Snippet"
   "úryvek"
