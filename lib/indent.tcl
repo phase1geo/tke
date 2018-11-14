@@ -158,14 +158,19 @@ namespace eval indent {
 
   ######################################################################
   # Sets the indentation mode for the current text widget.
-  proc set_indent_mode {mode} {
+  proc set_current_indent_mode {mode} {
+
+    set_indent_mode [gui::current_txt] $mode
+
+  }
+
+  ######################################################################
+  # Sets the indentation mode for the given text widget.
+  proc set_indent_mode {txt mode} {
 
     variable data
     variable indent_mode_map
     variable current_indent
-
-    # Get the current text widget
-    set txt [gui::current_txt]
 
     # Set the current mode
     set data($txt.t,mode) $indent_mode_map($mode)
@@ -740,7 +745,7 @@ namespace eval indent {
     # Populate the menu with the available languages
     foreach {lbl mode} [list [msgcat::mc "No Indent"] "OFF" [msgcat::mc "Auto-Indent"] "IND" [msgcat::mc "Smart Indent"] "IND+"] {
       $mnu add radiobutton -label $lbl -variable indent::current_indent \
-        -value $mode -command [list indent::set_indent_mode $mode]
+        -value $mode -command [list indent::set_current_indent_mode $mode]
     }
 
     return $mnu

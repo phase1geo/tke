@@ -210,7 +210,7 @@ namespace eval folding {
     # Get the starting and ending line
     } elseif {$method eq "indent"} {
       set startpos 1.0
-      if {[set range [$txt tag prevrange __prewhite "$startpos lineend"]] ne ""} {
+      if {[set range [$txt syntax prevrange prewhite "$startpos lineend"]] ne ""} {
         set startpos [lindex $range 0]
       }
     }
@@ -246,13 +246,13 @@ namespace eval folding {
         set unindent_cnt [indent::get_tag_count $txt.t unindent $line.0 $line.end]
       }
       indent {
-        if {[lsearch [$txt tag names $line.0] __prewhite] != -1} {
+        if {[$txt syntax contains prewhite $line.0]} {
           set prev 0
           set curr 0
           set next 0
-          catch { set prev [$txt count -chars {*}[$txt tag prevrange __prewhite $line.0]] }
-          catch { set curr [$txt count -chars {*}[$txt tag nextrange __prewhite $line.0]] }
-          catch { set next [$txt count -chars {*}[$txt tag nextrange __prewhite $line.0+1c]] }
+          catch { set prev [$txt count -chars {*}[$txt syntax prevrange prewhite $line.0]] }
+          catch { set curr [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0]] }
+          catch { set next [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0+1c]] }
           set indent_cnt   [expr $curr < $next]
           set unindent_cnt [expr $curr < $prev]
           if {$indent_cnt && $unindent_cnt} {
@@ -293,12 +293,12 @@ namespace eval folding {
 
     if {[get_method $txt] eq "indent"} {
 
-      set start_chars [$txt count -chars {*}[$txt tag nextrange __prewhite $line.0]]
+      set start_chars [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0]]
       set next_line   $line.0
       set final       [lindex [split [$txt index end] .] 0].0
       set all_chars   [list]
 
-      while {[set range [$txt tag nextrange __prewhite $next_line]] ne ""} {
+      while {[set range [$txt syntax nextrange prewhite $next_line]] ne ""} {
         set chars [$txt count -chars {*}$range]
         set tline [lindex [split [lindex $range 0] .] 0]
         set state [fold_state $txt $tline]

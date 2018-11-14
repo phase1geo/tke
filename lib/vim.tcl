@@ -525,12 +525,14 @@ namespace eval vim {
       {IND+,IND+,1} {IND+}
     }
 
+    set txt [gui::current_txt]
+
     # Get the current mode
-    set curr [indent::get_indent_mode [gui::current_txt]]
+    set curr [indent::get_indent_mode $txt]
 
     # If the indentation mode will change, set it to the new value
     if {$curr ne $newval($curr,$type,$value)} {
-      indent::set_indent_mode $newval($curr,$type,$value)
+      indent::set_indent_mode $txt $newval($curr,$type,$value)
     }
 
   }

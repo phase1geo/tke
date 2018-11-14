@@ -1671,13 +1671,17 @@ namespace eval plugins {
     set pwd [pwd]
 
     # Set the current working directory to the user themes directory
-    cd $odir
+    cd [file dirname $idir]
 
-    set file_list [get_file_list $idir]
+    # Get the list of files to use in list2zip
+    set file_list [get_file_list $idir $name]
+
+    # Make sure there isn't a zipfile of the same name
+    catch { file delete -force [file join $odir $name.tkeplugz] }
 
     # Perform the archive
-    if {[catch { zipper::list2zip $idir $file_list [file join $name.tkeplugz] } rc]} {
-      if {[catch { exec -ignorestderr zip -r [file join $name.tkeplugz] $idir } rc]} {
+    if {[catch { zipper::list2zip [file dirname $idir] $file_list [file join $odir $name.tkeplugz] } rc]} {
+      if {[catch { exec -ignorestderr zip -r [file join $odir $name.tkeplugz] $name } rc]} {
         tk_messageBox -parent $parent_win -icon error -type ok -default ok \
           -message [format "%s %s" [msgcat::mc "Unable to zip plugin"] $name]
       }
@@ -1729,8 +1733,8 @@ namespace eval plugins {
     }
 
     # Unzip the file contents
-    if {[catch { zipper::unzip $fname $odir } rc]} {
-      if {[catch { exec -ignorestderr unzip -u $fname -d $odir } rc]} {
+    if {[catch { zipper::unzip $fname [file dirname $odir] } rc]} {
+      if {[catch { exec -ignorestderr unzip -u $fname -d [file dirname $odir] } rc]} {
         catch { file rename $odir.old $odir }
         tk_messageBox -parent $parent_win -icon error -type ok -default ok \
           -message [format "%s %s" [msgcat::mc "Unable to unzip plugin"] $fname] -detail $rc
@@ -1739,7 +1743,12 @@ namespace eval plugins {
     }
 
     # Remove the old file if it exists
-    catch { file delete [file exists $odir.old] }
+    catch { file delete -force $odir.old }
+
+    # We need to set the file permissions to be readable
+    foreach ifile [get_file_list $odir] {
+      catch { file attributes [file join $odir $ifile] -permissions rw-r--r-- }
+    }
 
     return $odir
 

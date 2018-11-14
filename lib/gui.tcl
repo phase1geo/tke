@@ -465,7 +465,7 @@ namespace eval gui {
 
     # Add the available encodings to the command launcher
     foreach encname [encoding names] {
-      launcher::register [format "%s: %s" [msgcat::mc "Encoding"] [string toupper $encname]] [list gui::set_encoding $encname]
+      launcher::register [format "%s: %s" [msgcat::mc "Encoding"] [string toupper $encname]] [list gui::set_current_encoding $encname]
     }
 
     # If the user attempts to close the window via the window manager, treat
@@ -1200,10 +1200,10 @@ namespace eval gui {
               -xview $finfo(xview) -yview $finfo(yview) -cursor $finfo(cursor) -lang $finfo(language)]
             get_info $tab tab txt
             if {[info exists finfo(indent)]} {
-              indent::set_indent_mode $finfo(indent)
+              indent::set_indent_mode $txt $finfo(indent)
             }
             if {[info exists finfo(encode)]} {
-              set_encoding $finfo(encode) 0
+              set_encoding $tab $finfo(encode)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               diff::set_session_data $txt $finfo(diffdata)
@@ -5910,7 +5910,7 @@ namespace eval gui {
     set i 0
     foreach enc [lsort -dictionary [encoding names]] {
       $mnu add radiobutton -label [string toupper $enc] -variable gui::current_encoding \
-        -value $enc -command [list gui::set_encoding $enc] -columnbreak [expr (($i % 20) == 0) && $dobreak]
+        -value $enc -command [list gui::set_current_encoding $enc] -columnbreak [expr (($i % 20) == 0) && $dobreak]
       incr i
     }
 
@@ -5922,19 +5922,15 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Sets the encoding to the given value.
-  proc set_encoding {value {setfocus 1}} {
+  # Sets the encoding of the current buffer to the given value.
+  proc set_current_encoding {value} {
 
-    variable widgets
+    gui::get_info {} current tab
 
-    # Get the current tab info
-    get_info {} current fileindex encode
-
-    # If the value did not change, do nothing
-    if {$value eq $encode} return
-
-    # Save the file encoding
-    files::set_info $fileindex fileindex encode $value
+    # Set the encoding
+    if {![set_encoding $tab $value]} {
+      return
+    }
 
     # Update the encode button
     update_encode_button
@@ -5943,9 +5939,28 @@ namespace eval gui {
     update_file $fileindex
 
     # Set the focus back to the text editor
-    if {$setfocus} {
-      set_txt_focus [last_txt_focus]
+    set_txt_focus [last_txt_focus]
+
+  }
+
+  ######################################################################
+  # Sets the encoding of the given tab to the given value.
+  proc set_encoding {tab value {setfocus 1}} {
+
+    variable widgets
+
+    # Get the current tab info
+    get_info $tab tab fileindex encode
+
+    # If the value did not change, do nothing
+    if {$value eq $encode} {
+      return 0
     }
+
+    # Save the file encoding
+    files::set_info $fileindex fileindex encode $value
+
+    return 1
 
   }
 
