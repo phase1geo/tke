@@ -1,116 +1,44 @@
-2018-11-09 09:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (154cb582d5de [devel-3.4.13])
+2018-11-13 08:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (15ab5ad9caeb [devel-3.4.14])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.13 release
+	ChangeLog for devel-3.4.14 release
 
-2018-11-09 09:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0226d332e3b7)
+2018-11-13 08:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (11970a466377)
 
 	* .hgtags:
-	Added tag devel-3.4.13 for changeset 154cb582d5de
+	Added tag devel-3.4.14 for changeset 15ab5ad9caeb
 
-2018-11-09 12:31 -0600  Trevor Williams  <Trevor Williams>  (f80187c9271e)
+2018-11-13 10:15 -0600  Trevor Williams  <Trevor Williams>  (84131bcf4f12)
 
-	* lib/edit.tcl:
-	* Fixing selection issues with sentences and paragraphs.
+	* lib/ctext/ctext.tcl, tests/ctext.tcl:
+	* Adding insquare, inparen, incurly and inangled 'is' command
+	support.
+	* Adding tests for the above functionality.
 
-2018-11-09 17:14 -0600  Trevor Williams  <Trevor Williams>  (214424519fbd)
+2018-11-13 10:51 -0600  Trevor Williams  <Trevor Williams>  (6c35c6d73e18)
 
-	* lib/gui.tcl:
-	* Checkpointing work on find and find/replace UI.
+	* data/preferences.tkedat, lib/gui.tcl, lib/pref_ui.tcl:
+	* Adding Find/DefaultMethod preference value.
+	* If Vim Mode is enabled, force default search method to be regexp on
+	startup.
 
-2018-11-09 23:24 -0600  Trevor Williams  <phase1geo@gmail.com>  (0227aa6daf55)
+2018-11-13 14:46 -0600  Trevor Williams  <Trevor Williams>  (7e69e2f4c917)
 
-	* lib/gui.tcl, lib/search.tcl, lib/version.tcl:
-	* Checkpointing improvements to Find and Find/Replace search bars,
-	including the ability to search with regexp, glob and exact methods.
+	* lib/completer.tcl, lib/menus.tcl:
+	* Removing tripledouble completer code.
+	* Fixing issue with the Edit/Cursors/Move cursor to next/previous
+	word.
 
-2018-11-10 22:55 -0600  Trevor Williams  <phase1geo@gmail.com>  (97558442c17c)
+2018-11-13 23:22 -0600  Trevor Williams  <phase1geo@gmail.com>  (21e03ee205b9)
 
-	* lib/gui.tcl, lib/version.tcl:
-	* Checkpointing more improvements to find and find/replace bar.
+	* lib/folding.tcl, lib/gui.tcl, lib/indent.tcl, lib/menus.tcl,
+	lib/plugins.tcl, lib/version.tcl, lib/vim.tcl:
+	* Fixing issue with loading a session.
+	* Fixing issues with importing/exporting plugins.
 
-2018-11-11 19:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3bc4bbe76993)
+2018-11-13 23:55 -0600  Trevor Williams  <phase1geo@gmail.com>  (66aebcf432bd [tip])
 
-	* lib/api.tcl, lib/bgproc.tcl, lib/gui.tcl, lib/version.tcl,
-	plugins/todo/main.tcl:
-	* Fixing issues with todo plugin.
-	* Adding ability to edit list/todo titles in todo plugin.
-	* Adding ability to delete all completed tasks in todo plugin.
-	* Changing api::get_user_input so that if passed variable contains a
-	value, that value is displayed in the input field.
-	* Checkpointing work on Find and Find/Replace functionality.
-	* Fixing syntax error in bgproc.tcl.
-
-2018-11-11 21:26 -0600  Trevor Williams  <phase1geo@gmail.com>  (8a1be2195206)
-
-	* lib/version.tcl, plugins/todo/main.tcl:
-	* Fixing issues with using periods in todo plugin tasks/lists.
-
-2018-11-12 01:10 -0600  Trevor Williams  <phase1geo@gmail.com>  (371a395444dd)
-
-	* lib/ctext/ctext.tcl, lib/gui.tcl, lib/search.tcl, lib/version.tcl,
-	lib/vim.tcl:
-	* Fixing ordering of search highlighting to place it above other
-	highlighting.
-	* Checkpointing more changes to the find and find/replace UI.
-
-2018-11-12 10:19 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3981c43875c1)
-
-	* lib/syntax.tcl, lib/version.tcl:
-	* Fixing issue with setting correct language of current tab in
-	certain cases.
-
-2018-11-12 10:53 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a2e97775e035)
-
-	* lib/gui.tcl, lib/syntax.tcl, lib/version.tcl:
-	* Fixing issue with setting language menubutton text when it is
-	changed with the menubutton.
-	* Improving load performance when a file's language is changed from
-	the default.
-
-2018-11-12 11:49 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (704da6067e1c)
-
-	* lib/gui.tcl, lib/search.tcl, lib/version.tcl:
-	* Checkpointing work on replace one button.
-
-2018-11-12 19:11 -0600  Trevor Williams  <phase1geo@gmail.com>  (3da2722a08e1)
-
-	* lib/completer.tcl, lib/ctext/ctext.tcl, lib/emmet.tcl,
-	lib/emmet_css.tcl, lib/gui.tcl, lib/interpreter.tcl, lib/search.tcl,
-	lib/select.tcl, lib/version.tcl:
-	* Checkpointing work on making search matches re-highlight.
-	* Updating code base to use "is" commands.
-
-2018-11-12 19:38 -0600  Trevor Williams  <phase1geo@gmail.com>  (ad500008bd7e)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing syntax errors from previous checkin.
-
-2018-11-12 20:56 -0600  Trevor Williams  <phase1geo@gmail.com>  (ad55442f30d2)
-
-	* doc/md/TKE Developer Guide/Plugin Action Types/on_pref_ui.md: new
-	file.
-	* doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.md:
-	deleted file.
-	* doc/md/TKE Developer Guide/Plugin Action Types/.tkesort, doc/md/TKE
-	Developer Guide/Plugin Action Types/do_pref_ui.md, doc/md/TKE
-	Developer Guide/Plugin Action Types/on_pref_ui.md, doc/md/TKE
-	Developer Guide/Plugin Action Types/on_reload.md, doc/md/TKE
-	Developer Guide/Plugin Development/Plugin GUI Element Creation.md,
-	doc/md/TKE Developer Guide/main.md, lib/search.tcl, lib/version.tcl:
-	* Fixing issues with developer guide.
-	* Fixing syntax error in search namespace.
-
-2018-11-12 21:46 -0600  Trevor Williams  <phase1geo@gmail.com>  (5116ff3c8a7f)
-
-	* lib/ctext/ctext.tcl, lib/search.tcl, lib/version.tcl:
-	* Adding current search highlighting.
-	* Adding 'syntax add' command.
-	* Fixing 'syntax clear' and 'syntax delete' commands.
-
-2018-11-12 23:53 -0600  Trevor Williams  <phase1geo@gmail.com>  (0e9a706b1e5c [tip])
-
-	* lib/completer.tcl, lib/gui.tcl, lib/search.tcl, lib/sidebar.tcl,
-	lib/version.tcl, tests/find.tcl:
-	* Fixing issues from previous checkin.
+	* lib/menus.tcl, lib/version.tcl:
+	* Fixing state of Add next/previous lines to selection to disabled
+	when a selection does not currently exist.
 
