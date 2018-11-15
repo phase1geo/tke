@@ -59,9 +59,9 @@ namespace eval folding {
       foreach method [list manual indent syntax indent manual syntax] {
 
         switch $method {
-          manual { indent::set_indent_mode OFF }
-          indent { indent::set_indent_mode IND }
-          syntax { indent::set_indent_mode IND+ }
+          manual { indent::set_indent_mode $txt OFF }
+          indent { indent::set_indent_mode $txt IND }
+          syntax { indent::set_indent_mode $txt IND+ }
         }
 
         # Verify that we are disabled
@@ -257,7 +257,7 @@ namespace eval folding {
     }
 
     # Set the folding mode to manual
-    indent::set_indent_mode OFF
+    indent::set_indent_mode $txt OFF
 
     foreach type [list line range all] {
 
@@ -313,7 +313,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode OFF
+    indent::set_indent_mode $txt OFF
     folding::close_range $txt 7.0 9.0
     folding::close_range $txt 2.0 5.0
 
@@ -385,7 +385,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode OFF
+    indent::set_indent_mode $txt OFF
     folding::close_range $txt 2.0 5.0
     folding::close_range $txt 7.0 9.0
 
@@ -443,7 +443,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode OFF
+    indent::set_indent_mode $txt OFF
 
     $txt mark set insert 5.0
     folding::close_range $txt 2.0 9.0
@@ -600,7 +600,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     # Put the folding mode into manual
-    indent::set_indent_mode OFF
+    indent::set_indent_mode [winfo parent $txtt] OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
     $txtt mark set insert 2.0
@@ -641,7 +641,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     # Put the folding mode into manual
-    indent::set_indent_mode OFF
+    indent::set_indent_mode [winfo parent $txtt] OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
     $txtt mark set insert 2.0
@@ -663,7 +663,7 @@ namespace eval folding {
     # Initialize
     set txtt [initialize].t
 
-    indent::set_indent_mode OFF
+    indent::set_indent_mode [winfo parent $txtt] OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6"
     $txtt mark set insert 3.0
@@ -687,7 +687,7 @@ namespace eval folding {
     # Initialize
     set txtt [initialize].t
 
-    indent::set_indent_mode OFF
+    indent::set_indent_mode [winfo parent $txtt] OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6\nThis is line 7\nThis is line 8"
     $txtt mark set insert 3.0

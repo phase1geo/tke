@@ -2,7 +2,7 @@ filepatterns
 {*.thisisnotavalidsyntax}
 
 matchcharsallowed
-{triplesingle triplebtick}
+{}
 
 escapes
 {1}
