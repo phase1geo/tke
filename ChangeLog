@@ -1,44 +1,127 @@
-2018-11-13 08:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (15ab5ad9caeb [devel-3.4.14])
+2018-11-14 08:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (50248512ff41 [devel-3.4.15])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.14 release
+	ChangeLog for devel-3.4.15 release
 
-2018-11-13 08:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (11970a466377)
+2018-11-14 08:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ee2d74564322)
 
 	* .hgtags:
-	Added tag devel-3.4.14 for changeset 15ab5ad9caeb
+	Added tag devel-3.4.15 for changeset 50248512ff41
 
-2018-11-13 10:15 -0600  Trevor Williams  <Trevor Williams>  (84131bcf4f12)
+2018-11-14 09:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (11b38f70bedd)
 
-	* lib/ctext/ctext.tcl, tests/ctext.tcl:
-	* Adding insquare, inparen, incurly and inangled 'is' command
-	support.
-	* Adding tests for the above functionality.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, data/syntax/Markdown.syntax,
+	lib/edit.tcl, lib/version.tcl:
+	* Updating translations.
+	* Fixing parsing issue of headers in Markdown parser.
+	* Fixing issue with moving cursors up/down in main menu.
 
-2018-11-13 10:51 -0600  Trevor Williams  <Trevor Williams>  (6c35c6d73e18)
+2018-11-14 10:59 -0600  Trevor Williams  <Trevor Williams>  (f79f0066a7cf)
 
-	* data/preferences.tkedat, lib/gui.tcl, lib/pref_ui.tcl:
-	* Adding Find/DefaultMethod preference value.
-	* If Vim Mode is enabled, force default search method to be regexp on
-	startup.
+	* lib/gui.tcl, lib/syntax.tcl:
+	* Fixing error in bracket matching for languages that lack brackets.
+	* Removing syntaxes with leading underscore from the open/save
+	dialogs.
 
-2018-11-13 14:46 -0600  Trevor Williams  <Trevor Williams>  (7e69e2f4c917)
+2018-11-14 12:34 -0600  Trevor Williams  <Trevor Williams>  (ebd8bd00e59d)
 
-	* lib/completer.tcl, lib/menus.tcl:
-	* Removing tripledouble completer code.
-	* Fixing issue with the Edit/Cursors/Move cursor to next/previous
-	word.
+	* lib/emmet.tcl, lib/menus.tcl:
+	* Adding Emmet menu command to view Emmet reference guide in
+	browser.
 
-2018-11-13 23:22 -0600  Trevor Williams  <phase1geo@gmail.com>  (21e03ee205b9)
+2018-11-14 13:40 -0600  Trevor Williams  <Trevor Williams>  (1f500cb47ad6)
 
-	* lib/folding.tcl, lib/gui.tcl, lib/indent.tcl, lib/menus.tcl,
-	lib/plugins.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing issue with loading a session.
-	* Fixing issues with importing/exporting plugins.
+	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl:
+	* Adding preference option that will allow you to set the default
+	sidebar width.
 
-2018-11-13 23:55 -0600  Trevor Williams  <phase1geo@gmail.com>  (66aebcf432bd [tip])
+2018-11-14 16:17 -0600  Trevor Williams  <Trevor Williams>  (9710f4cd3b1e)
 
-	* lib/menus.tcl, lib/version.tcl:
-	* Fixing state of Add next/previous lines to selection to disabled
-	when a selection does not currently exist.
+	* lib/syntax.tcl, plugins/editorconfig/EditorConfig.syntax,
+	plugins/editorconfig/main.tcl:
+	* Fixing ability to call plugin command from advanced syntax parser.
+	* Fixing issues with editorconfig plugin.
+
+2018-11-14 19:53 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (9796a422a961)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2018-11-14 22:19 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ca32ea709c41)
+
+	* doc/md/TKE Developer Guide/Ctext Widget/syntax addcharstart.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax addclass.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax addregexp.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax addwords.md: new
+	file.
+	* doc/md/TKE Developer Guide/Ctext Widget/inBackTick -
+	inBackTickRange.md, doc/md/TKE Developer Guide/Ctext
+	Widget/inBlockComment - inBlockCommentRange.md, doc/md/TKE Developer
+	Guide/Ctext Widget/inComment - inCommentRange.md, doc/md/TKE
+	Developer Guide/Ctext Widget/inCommentString -
+	inCommentStringRange.md, doc/md/TKE Developer Guide/Ctext
+	Widget/inDoubleQuote - inDoubleQuoteRange.md, doc/md/TKE Developer
+	Guide/Ctext Widget/inLineComment - inLineCommentRange.md, doc/md/TKE
+	Developer Guide/Ctext Widget/inSingleQuote - inSingleQuoteRange.md,
+	doc/md/TKE Developer Guide/Ctext Widget/inString - inStringRange.md:
+	deleted file.
+	* doc/md/TKE Developer Guide/Ctext Widget/.tkesort, doc/md/TKE
+	Developer Guide/Ctext Widget/inBackTick - inBackTickRange.md,
+	doc/md/TKE Developer Guide/Ctext Widget/inBlockComment -
+	inBlockCommentRange.md, doc/md/TKE Developer Guide/Ctext
+	Widget/inComment - inCommentRange.md, doc/md/TKE Developer
+	Guide/Ctext Widget/inCommentString - inCommentStringRange.md,
+	doc/md/TKE Developer Guide/Ctext Widget/inDoubleQuote -
+	inDoubleQuoteRange.md, doc/md/TKE Developer Guide/Ctext
+	Widget/inLineComment - inLineCommentRange.md, doc/md/TKE Developer
+	Guide/Ctext Widget/inSingleQuote - inSingleQuoteRange.md, doc/md/TKE
+	Developer Guide/Ctext Widget/inString - inStringRange.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax addcharstart.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax addclass.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax addregexp.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax addwords.md,
+	lib/ctext/ctext.tcl, lib/sidebar.tcl, lib/syntax.tcl,
+	lib/version.tcl:
+	* Checkpointing work on syntax development documentation.
+	* Removing obsolete developer documentation.
+	* Fixing issue with sidebar sorting when files are deleted from a
+	sorted directory.
+	* Removing setEmbedLangPattern and replacing it with the new `syntax
+	addembedlang` command.
+
+2018-11-15 00:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (89051b891a03 [tip])
+
+	* doc/md/TKE Developer Guide/Ctext Widget/syntax addembedlang.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax classes.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax clear.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax contains.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax delete.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax highlight.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax nextrange.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax prevrange.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax ranges.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax search.md: new file.
+	* doc/.DS_Store, doc/md/TKE Developer Guide/.tkesort, doc/md/TKE
+	Developer Guide/Ctext Widget/.tkesort, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax addembedlang.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax classes.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax clear.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax contains.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax delete.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax highlight.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax nextrange.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax prevrange.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax ranges.md, doc/md/TKE Developer Guide/Ctext
+	Widget/syntax search.md, lib/version.tcl:
+	* Adding developer documentation for the syntax command.
 
