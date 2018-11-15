@@ -272,8 +272,8 @@ namespace eval bindings {
     # Delete all of the accelerators and bindings
     foreach {mnu_index binding} [array get bound_menus] {
       lassign [split $mnu_index ,] mnu index
-      $mnu entryconfigure $index -accelerator ""
-      bind all <$binding> ""
+      catch { $mnu entryconfigure $index -accelerator "" }
+      bind all [accelerator_to_sequence $binding] ""
     }
 
     # Delete the menu_bindings array
