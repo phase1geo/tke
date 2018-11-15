@@ -146,6 +146,8 @@ namespace eval multicursor {
 
     if {([string compare -length 5 $K "Shift"]   != 0) && \
         ([string compare -length 7 $K "Control"] != 0) && \
+        ([string compare -length 3 $K "Alt"]     != 0) && \
+        ($K ne "??") && \
         ![vim::in_vim_mode $W]} {
       if {[string length $A] == 0} {
         multicursor::disable $W
