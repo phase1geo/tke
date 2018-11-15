@@ -243,12 +243,7 @@ namespace eval bindings {
       }
       set menu_list [split $mnu_path /]
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        if {[string range [lindex $menu_list end] end-2 end] eq "..."} {
-          set tail_menu [format "%s..." [msgcat::mc [string range [lindex $menu_list end] 0 end-3]]]
-        } else {
-          set tail_menu [msgcat::mc [lindex $menu_list end]]
-        }
-        if {![catch { $mnu index $tail_menu } menu_index] && ($menu_index ne "none")} {
+        if {![catch { menus::get_menu_index $mnu [lindex $menu_list end] } menu_index] && ($menu_index ne "none")} {
           set value [list "" "" "" "" ""]
           if {[string range $binding end-1 end] eq "--"} {
             set binding [string range $binding 0 end-2]
