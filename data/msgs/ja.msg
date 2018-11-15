@@ -1780,6 +1780,12 @@ msgcat::mcmset ja {
   "View"
   "表示"
 
+  "View Emmet Reference Guide"
+  "Emmetリファレンスガイドの表示"
+
+  "View the Emmet reference guide"
+  "Emmetリファレンスガイドを表示する"
+
   "View tips & tricks articles"
   "ビューがヒント ・ テクニック記事"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset ja {
 
   "Default search method"
   "デフォルトの検索方法"
+
+  "Default sidebar width on startup"
+  "起動時のデフォルトのサイドバー幅"
 
   "Default theme"
   "デフォルトテーマ"
@@ -2366,6 +2375,9 @@ msgcat::mcmset ja {
   "Use carriate return linefeed sequence"
   "Carriate と改行シーケンスを使用します。"
 
+  "Use current width"
+  "現在の幅を使用します。"
+
   "Use directory"
   "使用ディレクトリ"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset ja {
 
   "milliseconds"
   "ミリ秒"
+
+  "pixels"
+  "ピクセル"
 
   "theme"
   "テーマ"

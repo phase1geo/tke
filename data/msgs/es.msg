@@ -96,7 +96,7 @@ msgcat::mcmset es {
   "Actualizar"
 
   "Results"
-  "Resultados de búsqueda para \"
+  "Resultados de búsqueda para"
 
   "Run Count"
   "Ejecutar recuento"
@@ -1780,6 +1780,12 @@ msgcat::mcmset es {
   "View"
   "Vista"
 
+  "View Emmet Reference Guide"
+  "Ver la guía de referencia de Emmet"
+
+  "View the Emmet reference guide"
+  "Ver la guía de referencia de Emmet."
+
   "View tips & tricks articles"
   "Ver consejos y trucos artículos"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset es {
 
   "Default search method"
   "Método de búsqueda por defecto"
+
+  "Default sidebar width on startup"
+  "Ancho de barra lateral predeterminado en el inicio"
 
   "Default theme"
   "Tema predeterminado"
@@ -2366,6 +2375,9 @@ msgcat::mcmset es {
   "Use carriate return linefeed sequence"
   "Utilizar secuencia de salto de línea de retorno de carriate"
 
+  "Use current width"
+  "Anchura"
+
   "Use directory"
   "Directorio de uso"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset es {
 
   "milliseconds"
   "milisegundos"
+
+  "pixels"
+  "pixeles"
 
   "theme"
   "Tema"

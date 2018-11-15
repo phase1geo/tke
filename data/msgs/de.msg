@@ -1780,6 +1780,12 @@ msgcat::mcmset de {
   "View"
   "Blick"
 
+  "View Emmet Reference Guide"
+  "Ansicht-Emmet-Referenz-Handbuch"
+
+  "View the Emmet reference guide"
+  "Emmet Referenzhandbuch anzeigen"
+
   "View tips & tricks articles"
   "Anzeigen Tipps & tricks Artikel"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset de {
 
   "Default search method"
   "Standardmäßige Suchmethode"
+
+  "Default sidebar width on startup"
+  "Standardbreite Sidebar beim Start"
 
   "Default theme"
   "Standard-Thematik"
@@ -2366,6 +2375,9 @@ msgcat::mcmset de {
   "Use carriate return linefeed sequence"
   "Verwenden Sie Carriate return Zeilenvorschub-Sequenz"
 
+  "Use current width"
+  "Aktuelle Breite:"
+
   "Use directory"
   "Verzeichnis verwenden"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset de {
 
   "milliseconds"
   "Millisekunden"
+
+  "pixels"
+  "Pixel"
 
   "theme"
   "Theme"

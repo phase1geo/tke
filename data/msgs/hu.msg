@@ -983,7 +983,7 @@ msgcat::mcmset hu {
   "Kép"
 
   "Import plugin bundle"
-  "Import plugin bundle"
+  "Import plugin csomag"
 
   "Increment by 0.1"
   "Növekmény 0,1"
@@ -1780,6 +1780,12 @@ msgcat::mcmset hu {
   "View"
   "Megjelenítés"
 
+  "View Emmet Reference Guide"
+  "Tekintse meg az Emmet Reference Guide-t"
+
+  "View the Emmet reference guide"
+  "Tekintse meg az Emmet referencia útmutatót"
+
   "View tips & tricks articles"
   "Kilátás porkoláb & trükkök cikkek"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset hu {
 
   "Default search method"
   "Alapértelmezett keresési módszer"
+
+  "Default sidebar width on startup"
+  "Alapértelmezett oldalsáv szélesség az indításkor"
 
   "Default theme"
   "Alapértelmezett Téma"
@@ -2366,6 +2375,9 @@ msgcat::mcmset hu {
   "Use carriate return linefeed sequence"
   "Carriate vissza-soremelés sorrendet alkalmazni"
 
+  "Use current width"
+  "Használja az aktuális szélességet"
+
   "Use directory"
   "Használja directory"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset hu {
 
   "milliseconds"
   "ezredmásodperc"
+
+  "pixels"
+  "pixel"
 
   "theme"
   "téma"

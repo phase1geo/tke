@@ -120,7 +120,7 @@ msgcat::mcmset he {
   "התקנה"
 
   "Total"
-  "סה\"
+  "סה"
 
   "hours"
   "שעות"
@@ -1780,6 +1780,12 @@ msgcat::mcmset he {
   "View"
   "תצוגה"
 
+  "View Emmet Reference Guide"
+  "הצג מדריך עזר של Emmet"
+
+  "View the Emmet reference guide"
+  "עיין במדריך הייחוס של Emmet"
+
   "View tips & tricks articles"
   "הצג טיפים & טריקים מאמרים"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset he {
 
   "Default search method"
   "המחדל של שיטת החיפוש"
+
+  "Default sidebar width on startup"
+  "ברירת המחדל של סרגל הצד ברוחב האתחול"
 
   "Default theme"
   "נושא שתשמש כברירת מחדל"
@@ -2366,6 +2375,9 @@ msgcat::mcmset he {
   "Use carriate return linefeed sequence"
   "להשתמש ברצף החזרה הזנת שורה carriate"
 
+  "Use current width"
+  "השתמש ברוחב הנוכחי"
+
   "Use directory"
   "השתמש בספריה"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset he {
 
   "milliseconds"
   "מילי שניות"
+
+  "pixels"
+  "פיקסלים"
 
   "theme"
   "עצם"

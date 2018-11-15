@@ -408,7 +408,7 @@ msgcat::mcmset sv {
   "Sidnummer för första sidan:"
 
   "Tcl/Tk Version"
-  "Tcl/Tk Version"
+  "Tcl / Tk Version"
 
   "Total Characters"
   "Totala tecken"
@@ -1652,7 +1652,7 @@ msgcat::mcmset sv {
   "Visa markerad rad förändringar"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Sortera flikar"
 
   "Sort tabs"
   "Sortera flikar"
@@ -1779,6 +1779,12 @@ msgcat::mcmset sv {
 
   "View"
   "Visa"
+
+  "View Emmet Reference Guide"
+  "Se Emmet Referenshandbok"
+
+  "View the Emmet reference guide"
+  "Se Emmet-referenshandboken"
 
   "View tips & tricks articles"
   "Visa tips & tricks artiklar"
@@ -2017,6 +2023,9 @@ msgcat::mcmset sv {
 
   "Default search method"
   "Standard sökmetod"
+
+  "Default sidebar width on startup"
+  "Sidofältet standardbredden på Start"
 
   "Default theme"
   "standard tema"
@@ -2366,6 +2375,9 @@ msgcat::mcmset sv {
   "Use carriate return linefeed sequence"
   "Använda carriate avkastning radmatning sekvens"
 
+  "Use current width"
+  "Använd nuvarande bredd"
+
   "Use directory"
   "Använd mapp"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset sv {
 
   "milliseconds"
   "Millisekund"
+
+  "pixels"
+  "pixlar"
 
   "theme"
   "tema"

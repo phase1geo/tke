@@ -1780,6 +1780,12 @@ msgcat::mcmset ru {
   "View"
   "Вид"
 
+  "View Emmet Reference Guide"
+  "Просмотр Emmet справочное руководство"
+
+  "View the Emmet reference guide"
+  "Посмотреть справочник Эммет"
+
   "View tips & tricks articles"
   "Статьи подсказок и советов"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset ru {
 
   "Default search method"
   "Метод поиска по умолчанию"
+
+  "Default sidebar width on startup"
+  "Ширина боковой панели по умолчанию при запуске"
 
   "Default theme"
   "Тема по умолчанию"
@@ -2366,6 +2375,9 @@ msgcat::mcmset ru {
   "Use carriate return linefeed sequence"
   "Использовать возврат каретки и перевод строки"
 
+  "Use current width"
+  "Использовать текущую ширину"
+
   "Use directory"
   "Использовать каталог"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset ru {
 
   "milliseconds"
   "миллисекунд"
+
+  "pixels"
+  "пикселей"
 
   "theme"
   "тема"
