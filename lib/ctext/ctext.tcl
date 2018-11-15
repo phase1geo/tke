@@ -2130,6 +2130,7 @@ namespace eval ctext {
       addwords     { addHighlightKeywords          $win {*}$args }
       addregexp    { addHighlightRegexp            $win {*}$args }
       addcharstart { addHighlightWithOnlyCharStart $win {*}$args }
+      addembedlang { addEmbedLangPattern           $win {*}$args }
       search       { highlightSearch               $win {*}$args }
       delete       {
         if {[llength $args] == 0} {
@@ -3202,7 +3203,7 @@ namespace eval ctext {
 
   }
 
-  proc setEmbedLangPattern {win lang patterns} {
+  proc addEmbedLangPattern {win lang patterns} {
 
     variable data
 

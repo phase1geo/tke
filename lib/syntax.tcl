@@ -518,7 +518,7 @@ namespace eval syntax {
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_tokens
           if {$embed_tokens ne ""} {
-            ctext::setEmbedLangPattern $txt $sublang $embed_tokens
+            $txt syntax addembedlang $sublang $embed_tokens
             add_sublanguage $txt $sublang $cmd_prefix "" $embed_tokens
           } else {
             add_sublanguage $txt $sublang $cmd_prefix "" {}
