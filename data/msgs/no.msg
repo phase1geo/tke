@@ -1780,6 +1780,12 @@ msgcat::mcmset no {
   "View"
   "Vis"
 
+  "View Emmet Reference Guide"
+  "Se Emmet Referansehåndbok"
+
+  "View the Emmet reference guide"
+  "Se referanseguide for Emmet"
+
   "View tips & tricks articles"
   "Vis tips & triks artikler"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset no {
 
   "Default search method"
   "Standard søkemetode"
+
+  "Default sidebar width on startup"
+  "Sidepanelet standardbredde ved oppstart"
 
   "Default theme"
   "Standard tema"
@@ -2366,6 +2375,9 @@ msgcat::mcmset no {
   "Use carriate return linefeed sequence"
   "Bruk carriate retur linefeed sekvens"
 
+  "Use current width"
+  "Linjebreidd:"
+
   "Use directory"
   "Bruk katalog"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset no {
 
   "milliseconds"
   "Millisekund"
+
+  "pixels"
+  "piksler"
 
   "theme"
   "Tema"

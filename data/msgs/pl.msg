@@ -63,7 +63,7 @@ msgcat::mcmset pl {
   "Typ pętli"
 
   "New Test"
-  "\"
+  "New Test"
 
   "New Test File"
   "Nowy plik testowy"
@@ -1780,6 +1780,12 @@ msgcat::mcmset pl {
   "View"
   "Widok"
 
+  "View Emmet Reference Guide"
+  "Zobacz Podręcznik Emmet"
+
+  "View the Emmet reference guide"
+  "Zobacz przewodnik Emmet"
+
   "View tips & tricks articles"
   "Zobacz Porady idealna sztuczki artykuły"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset pl {
 
   "Default search method"
   "Domyślna metoda wyszukiwania"
+
+  "Default sidebar width on startup"
+  "Domyślna szerokość paska bocznego podczas uruchamiania"
 
   "Default theme"
   "Motyw domyślny"
@@ -2366,6 +2375,9 @@ msgcat::mcmset pl {
   "Use carriate return linefeed sequence"
   "Użyj carriate zwrotu wysuwu wiersza sekwencji"
 
+  "Use current width"
+  "Użyj bieżącego Szerokość"
+
   "Use directory"
   "Użycie katalogu"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset pl {
 
   "milliseconds"
   "Milisekundy"
+
+  "pixels"
+  "piksele"
 
   "theme"
   "argument"

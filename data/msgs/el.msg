@@ -1780,6 +1780,12 @@ msgcat::mcmset el {
   "View"
   "Προβολή"
 
+  "View Emmet Reference Guide"
+  "Προβολή Emmet οδηγός αναφοράς"
+
+  "View the Emmet reference guide"
+  "Δείτε τον οδηγό αναφοράς Emmet"
+
   "View tips & tricks articles"
   "Δείτε συμβουλές & κόλπα άρθρα"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset el {
 
   "Default search method"
   "Προεπιλεγμένη μέθοδος αναζήτησης"
+
+  "Default sidebar width on startup"
+  "Προεπιλεγμένο πλάτος της πλευρικής εργαλειοθήκης κατά την εκκίνηση"
 
   "Default theme"
   "Προεπιλεγμένο θέμα"
@@ -2366,6 +2375,9 @@ msgcat::mcmset el {
   "Use carriate return linefeed sequence"
   "Χρησιμοποιήστε carriate ακολουθία αλλαγής γραμμής επιστροφής"
 
+  "Use current width"
+  "Χρησιμοποιήστε το τρέχον πλάτος"
+
   "Use directory"
   "Χρήση καταλόγου"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset el {
 
   "milliseconds"
   "χιλιοστά του δευτερολέπτου"
+
+  "pixels"
+  "εικονοστοιχεία"
 
   "theme"
   "θέμα"

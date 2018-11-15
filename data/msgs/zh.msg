@@ -1780,6 +1780,12 @@ msgcat::mcmset zh {
   "View"
   "查看"
 
+  "View Emmet Reference Guide"
+  "查看艾美特参考指南"
+
+  "View the Emmet reference guide"
+  "查看 emmet 参考指南"
+
   "View tips & tricks articles"
   "视图提示与技巧的文章"
 
@@ -2018,6 +2024,9 @@ msgcat::mcmset zh {
   "Default search method"
   "默认搜索方法"
 
+  "Default sidebar width on startup"
+  "启动时的默认边栏宽度"
+
   "Default theme"
   "默認主題"
 
@@ -2040,7 +2049,7 @@ msgcat::mcmset zh {
   "已显示信息"
 
   "Double-quote"
-  "\"
+  "Double-quote"
 
   "Editor"
   "编辑"
@@ -2366,6 +2375,9 @@ msgcat::mcmset zh {
   "Use carriate return linefeed sequence"
   "使用 carriate 返回换行符序列"
 
+  "Use current width"
+  "当前床次幅宽："
+
   "Use directory"
   "使用目录"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset zh {
 
   "milliseconds"
   "毫秒"
+
+  "pixels"
+  "像素"
 
   "theme"
   "主题"

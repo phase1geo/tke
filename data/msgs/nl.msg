@@ -1780,6 +1780,12 @@ msgcat::mcmset nl {
   "View"
   "Bekijken"
 
+  "View Emmet Reference Guide"
+  "Weergave Emmet Reference Guide"
+
+  "View the Emmet reference guide"
+  "Bekijk de Emmet reference guide"
+
   "View tips & tricks articles"
   "Bekijk tips & trucs artikelen"
 
@@ -1968,7 +1974,7 @@ msgcat::mcmset nl {
   "Command launcher vermelding"
 
   "Command launcher preview"
-  "Command launcher preview"
+  "Voorbeeld van opdrachtstartprogramma"
 
   "Convert to lowercase"
   "Converteren naar kleine letters"
@@ -2017,6 +2023,9 @@ msgcat::mcmset nl {
 
   "Default search method"
   "Standaardzoekmethode"
+
+  "Default sidebar width on startup"
+  "Standaardzijbalkbreedte bij opstarten"
 
   "Default theme"
   "Standaardthema"
@@ -2366,6 +2375,9 @@ msgcat::mcmset nl {
   "Use carriate return linefeed sequence"
   "Gebruikt u carriate terugkeer regelinvoer reeks"
 
+  "Use current width"
+  "Huidige breedte:"
+
   "Use directory"
   "Directory gebruiken"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset nl {
 
   "milliseconds"
   "Milliseconde"
+
+  "pixels"
+  "pixels"
 
   "theme"
   "thema"

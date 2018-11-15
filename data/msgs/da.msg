@@ -1780,6 +1780,12 @@ msgcat::mcmset da {
   "View"
   "Vis"
 
+  "View Emmet Reference Guide"
+  "Se Emmet Reference Guide"
+
+  "View the Emmet reference guide"
+  "Se Emmet-referencevejledningen"
+
   "View tips & tricks articles"
   "Se tips & tricks artikler"
 
@@ -1831,7 +1837,7 @@ msgcat::mcmset da {
   "Meddelelse af EF-sortsbeskyttelse"
 
   "Grant permission?"
-  "\"
+  "Grant permission?"
 
   "Plugin Errors"
   "Plugin fejl"
@@ -2017,6 +2023,9 @@ msgcat::mcmset da {
 
   "Default search method"
   "Standardsøgemetode"
+
+  "Default sidebar width on startup"
+  "Standard indholdsoversigten bredde ved opstart"
 
   "Default theme"
   "Standardtema"
@@ -2366,6 +2375,9 @@ msgcat::mcmset da {
   "Use carriate return linefeed sequence"
   "Bruge carriate tilbagevenden LineFeed (linjeskift) sekvens"
 
+  "Use current width"
+  "Brug den aktuelle bredde"
+
   "Use directory"
   "Brug Register"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset da {
 
   "milliseconds"
   "Millisekund"
+
+  "pixels"
+  "pixels"
 
   "theme"
   "tema"

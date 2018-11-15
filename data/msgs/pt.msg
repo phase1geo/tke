@@ -1780,6 +1780,12 @@ msgcat::mcmset pt {
   "View"
   "Vista"
 
+  "View Emmet Reference Guide"
+  "Ver Guia de Referência do Emmet"
+
+  "View the Emmet reference guide"
+  "Veja o guia de referência do Emmet"
+
   "View tips & tricks articles"
   "Vista dicas e truques-artigos"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset pt {
 
   "Default search method"
   "Método de pesquisa padrão"
+
+  "Default sidebar width on startup"
+  "Largura da barra lateral padrão na inicialização"
 
   "Default theme"
   "Tema padrão"
@@ -2366,6 +2375,9 @@ msgcat::mcmset pt {
   "Use carriate return linefeed sequence"
   "Use a seqüência de retorno de avanço de linha de carriate"
 
+  "Use current width"
+  "Use a largura atual"
+
   "Use directory"
   "Diretório de uso"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset pt {
 
   "milliseconds"
   "milisegundos (ms)"
+
+  "pixels"
+  "pixels"
 
   "theme"
   "Tema"

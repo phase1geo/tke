@@ -1780,6 +1780,12 @@ msgcat::mcmset cs {
   "View"
   "Náhled"
 
+  "View Emmet Reference Guide"
+  "Zobrazit referenční příručku Emmet"
+
+  "View the Emmet reference guide"
+  "Zobrazte referenční příručku Emmet"
+
   "View tips & tricks articles"
   "Zobrazit tipy & triky článků"
 
@@ -2017,6 +2023,9 @@ msgcat::mcmset cs {
 
   "Default search method"
   "Výchozí metoda vyhledávání"
+
+  "Default sidebar width on startup"
+  "Výchozí šířka postranního panelu při spuštění"
 
   "Default theme"
   "Výchozí motiv"
@@ -2366,6 +2375,9 @@ msgcat::mcmset cs {
   "Use carriate return linefeed sequence"
   "Použít carriate návrat odřádkování sekvence"
 
+  "Use current width"
+  "Použijte aktuální šířku"
+
   "Use directory"
   "Použít adresář"
 
@@ -2398,6 +2410,9 @@ msgcat::mcmset cs {
 
   "milliseconds"
   "milisekundy"
+
+  "pixels"
+  "body"
 
   "theme"
   "motiv"
