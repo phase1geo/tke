@@ -4188,7 +4188,7 @@ namespace eval pref_ui {
         checkbutton -
         radiobutton {
           set lbl  [string trim [$mnu entrycget $i -label]]
-          if {($type ne "command") || ([$mnu entrycget $i -command] ne "")} {
+          if {(($type ne "command") || ([$mnu entrycget $i -command] ne "")) && ([string index [$mnu entrycget $i -label] 0] ne " ")} {
             set name "$prefix$lbl"
             $widgets(shortcut_tl) insert end [list $name [$mnu entrycget $i -accelerator] [bindings::is_cleared $name]]
           }
