@@ -223,6 +223,9 @@ namespace eval plugins {
     # Update the file information panel
     ipanel::insert_info_panel_plugins
 
+    # Re-apply menu bindings in case the user added some for plugins
+    bindings::load_file 1
+
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
 
@@ -575,6 +578,9 @@ namespace eval plugins {
     # Update file information
     ipanel::insert_info_panel_plugins
 
+    # Re-apply menu bindings in case the user added some for plugins
+    bindings::load_file 1
+
     # Add all loaded preferences
     handle_on_pref_load
 
@@ -667,6 +673,9 @@ namespace eval plugins {
 
     # Update file information
     ipanel::insert_info_panel_plugins
+
+    # Re-apply menu bindings in case the user added some for plugins
+    bindings::load_file 1
 
     # Save the plugin information
     write_config
