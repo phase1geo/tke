@@ -166,6 +166,27 @@ namespace eval lang {
   }
 
   ######################################################################
+  # Writes the English translation file.
+  proc write_en {} {
+
+    variable phrases
+
+    if {![catch "open [file join $::tke_dir data msgs en.msg] w" rc]} {
+
+      puts $rc "msgcat::mcmset en \{\n"
+      foreach phrase [array names phrases] {
+        puts $rc "  \"$phrase\""
+        puts $rc "  \"$phrase\"\n"
+      }
+      puts $rc "\}\n"
+
+      close $rc
+
+    }
+
+  }
+
+  ######################################################################
   # Write the translation information to the file based on the table
   # contents.
   proc write_lang {lang} {
@@ -445,12 +466,20 @@ namespace eval lang {
     # For each language, perform the update
     foreach lang $langs {
 
-      # Read in the language, if it exists
-      fetch_lang $lang
+      if {$lang eq "en"} {
 
-      # Update the UI with the current language information
-      if {[populate_ui $auto $lang] == 0} {
-        break
+        write_en
+
+      } else {
+
+        # Read in the language, if it exists
+        fetch_lang $lang
+
+        # Update the UI with the current language information
+        if {[populate_ui $auto $lang] == 0} {
+          break
+        }
+
       }
 
     }

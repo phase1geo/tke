@@ -26,8 +26,10 @@ namespace eval bindings {
 
   variable base_bindings_file [file join $::tke_dir data bindings menu_bindings.[tk windowingsystem].tkedat]
   variable user_bindings_file [file join $::tke_home menu_bindings.[tk windowingsystem].tkedat]
+  variable reversed_loaded    0
 
   array set menu_bindings {}
+  array set reversed_translations {}
 
   #######################
   #  PUBLIC PROCEDURES  #
@@ -67,12 +69,15 @@ namespace eval bindings {
 
     variable user_bindings_file
 
+    # Make sure the the reversed translations are loaded
+    load_reversed_translations
+
     if {![catch { open $user_bindings_file w } rc]} {
 
       set last_mnu ""
 
       foreach shortcut $shortcuts {
-        set mnu_path [lindex $shortcut 0]
+        set mnu_path [translate_to_en [lindex $shortcut 0]]
         set mnu      [lindex [split $mnu_path /] 0]
         if {$mnu ne $last_mnu} {
           if {$last_mnu ne ""} {
@@ -152,6 +157,78 @@ namespace eval bindings {
   }
 
   ######################################################################
+  # This must be called prior to saving shortcut changes.  It must read
+  # the translation file and create a hash table so that we can convert
+  # a translated string back to an English string (we will store English
+  # menus to the bindings file to keep things working if the translation
+  # is changed).
+  proc load_reversed_translations {} {
+
+    variable reversed_translations
+    variable reversed_loaded
+
+    # If we have already reversed the translations, don't continue
+    if {$reversed_loaded > 0} {
+      return
+    }
+
+    # Get the list of translations that we support
+    set langs [glob -directory [file join $::tke_dir data msgs] -tails *.msg]
+
+    # Figure out which language file is being used
+    set lang_file ""
+    foreach locale [msgcat::mcpreferences] {
+      if {[lsearch $langs $locale.msg] != -1} {
+        set lang_file $locale.msg
+      }
+    }
+
+    # Indicate that we are loaded
+    set reversed_loaded 1
+
+    # If we didn't find a translation file, the strings are going to be in English anyways
+    # so just return
+    if {$lang_file eq ""} {
+      return
+    }
+
+    # We will remap the msgcat::mcmset procedure and create a new version of the command
+    rename ::msgcat::mcmset ::msgcat::mcmset_orig
+    proc ::msgcat::mcmset {lang translations} {
+      array set bindings::reversed_translations [lreverse $translations]
+    }
+    source -encoding utf-8 [file join $::tke_dir data msgs $lang_file]
+    rename ::msgcat::mcmset      ""
+    rename ::msgcat::mcmset_orig ::msgcat::mcmset
+
+  }
+
+  ######################################################################
+  # Translates the given menu path into the english version.
+  proc translate_to_en {mnu_path} {
+
+    variable reversed_translations
+
+    set new_mnu_path [list]
+
+    foreach part [split $mnu_path /] {
+      set suffix ""
+      if {[string range $part end-2 end] eq "..."} {
+        set part   [string range $part 0 end-3]
+        set suffix "..."
+      }
+      if {[info exists reversed_translations($part)]} {
+        lappend new_mnu_path $reversed_translations($part)$suffix
+      } else {
+        lappend new_mnu_path $part$suffix
+      }
+    }
+
+    return [join $new_mnu_path /]
+
+  }
+
+  ######################################################################
   # Applies the current bindings from the configuration file.
   proc apply_all_bindings {} {
 
@@ -166,7 +243,12 @@ namespace eval bindings {
       }
       set menu_list [split $mnu_path /]
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
+        if {[string range [lindex $menu_list end] end-2 end] eq "..."} {
+          set tail_menu [format "%s..." [msgcat::mc [string range [lindex $menu_list end] 0 end-3]]]
+        } else {
+          set tail_menu [msgcat::mc [lindex $menu_list end]]
+        }
+        if {![catch { $mnu index $tail_menu } menu_index] && ($menu_index ne "none")} {
           set value [list "" "" "" "" ""]
           if {[string range $binding end-1 end] eq "--"} {
             set binding [string range $binding 0 end-2]

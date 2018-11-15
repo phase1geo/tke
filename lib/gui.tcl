@@ -5925,7 +5925,7 @@ namespace eval gui {
   # Sets the encoding of the current buffer to the given value.
   proc set_current_encoding {value} {
 
-    gui::get_info {} current tab
+    gui::get_info {} current tab fileindex
 
     # Set the encoding
     if {![set_encoding $tab $value]} {
