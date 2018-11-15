@@ -1057,7 +1057,7 @@ namespace eval api {
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        if {![catch { $mnu index [lindex $menu_list end] } res] && ($res ne "none")} {
+        if {![catch { menus::get_menu_index $mnu [lindex $menu_list end] } res] && ($res ne "none")} {
           return 1
         }
       }
@@ -1074,8 +1074,8 @@ namespace eval api {
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        if {![catch { $mnu entrycget [lindex $menu_list end] -state } res] && ($res eq "normal")} {
-          return 1
+        if {![catch { menus::get_menu_index $mnu [lindex $menu_list end] } index] && ($index ne "none")} {
+          return [expr {[$mnu entrycget $index -state] eq "normal"}]
         }
       }
 
@@ -1096,8 +1096,10 @@ namespace eval api {
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
-        if {![catch { menus::invoke $mnu [lindex $menu_list end] }]} {
-          return 1
+        if {![catch { menus::get_menu_index $mnu [lindex $menu_list end] } index] && ($index ne "none")} {
+          if {![catch { menus::invoke $mnu $index }]} {
+            return 1
+          }
         }
       }
 

@@ -959,7 +959,7 @@ namespace eval pref_ui {
       ttk::frame .prefwin.sf
       set widgets(select_s) [ttk::menubutton        .prefwin.sf.sels -menu [set widgets(selsmenu) [menu .prefwin.sf.selectSessionMenu -tearoff 0]]]
       set widgets(select_l) [ttk::menubutton        .prefwin.sf.sell -menu [set widgets(sellmenu) [menu .prefwin.sf.selectLangMenu    -tearoff 0]]]
-      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 30 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
+      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 30 -watermark [msgcat::mc "Search"] -validate key -validatecommand [list pref_ui::perform_search %P]]
 
       # Initialize the syntax menu
       set selected_session  [expr {($session  eq "") ? [msgcat::mc "None"] : $session}]
@@ -1007,11 +1007,16 @@ namespace eval pref_ui {
       select "" "" $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor find sidebar view snippets emmet shortcuts plugins documentation advanced]
+      set panes [list general       [msgcat::mc "General"]       appearance [msgcat::mc "Appearance"] \
+                      editor        [msgcat::mc "Editor"]        find       [msgcat::mc "Find"] \
+                      sidebar       [msgcat::mc "Sidebar"]       view       [msgcat::mc "View"] \
+                      snippets      [msgcat::mc "Snippets"]      emmet      [msgcat::mc "Emmet"] \
+                      shortcuts     [msgcat::mc "Shortcuts"]     plugins    [msgcat::mc "Plugins"] \
+                      documentation [msgcat::mc "Documentation"] advanced   [msgcat::mc "Advanced"]]
 
       # Create and pack each of the panes
-      foreach pane $panes {
-        ttk::label $widgets(panes).$pane -compound left -image pref_$pane -text [string totitle $pane] -font {-size 14}
+      foreach {pane lbl} $panes {
+        ttk::label $widgets(panes).$pane -compound left -image pref_$pane -text $lbl -font {-size 14}
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
@@ -1023,7 +1028,7 @@ namespace eval pref_ui {
       update
 
       # Get the requested panel dimensions
-      foreach pane $panes {
+      foreach {pane lbl} $panes {
         lappend pheights [winfo reqheight $widgets($pane)]
         lappend pwidths  [winfo reqwidth  $widgets($pane)]
         lappend lwidths  [winfo reqwidth  $widgets(panes).$pane]
@@ -4173,15 +4178,20 @@ namespace eval pref_ui {
     }
 
     for {set i 0} {$i <= $last} {incr i} {
-      switch [$mnu type $i] {
+      set type [$mnu type $i]
+      switch $type {
         cascade {
-          populate_shortcut_table [$mnu entrycget $i -menu] "${prefix}[$mnu entrycget $i -label]/"
+          set lbl  [string trim [$mnu entrycget $i -label]]
+          populate_shortcut_table [$mnu entrycget $i -menu] "$prefix$lbl/"
         }
         command -
         checkbutton -
         radiobutton {
-          set name "${prefix}[$mnu entrycget $i -label]"
-          $widgets(shortcut_tl) insert end [list $name [$mnu entrycget $i -accelerator] [bindings::is_cleared $name]]
+          set lbl  [string trim [$mnu entrycget $i -label]]
+          if {($type ne "command") || ([$mnu entrycget $i -command] ne "")} {
+            set name "$prefix$lbl"
+            $widgets(shortcut_tl) insert end [list $name [$mnu entrycget $i -accelerator] [bindings::is_cleared $name]]
+          }
         }
       }
     }
