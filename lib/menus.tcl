@@ -63,6 +63,21 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Returns the menu index for the final menu item.  The value of tail
+  # must be the non-translated string value.
+  proc get_menu_index {mnu tail} {
+
+    if {[string range $tail end-2 end] eq "..."} {
+      set tail [msgcat::mc [string range $tail 0 end-3]]...
+    } else {
+      set tail [msgcat::mc $tail]
+    }
+
+    return [$mnu index $tail]
+
+  }
+
+  ######################################################################
   # Set the pane sync indicator to the given value (0 or 1).
   proc set_pane_sync_indicator {value} {
 
