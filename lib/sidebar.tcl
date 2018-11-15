@@ -1313,7 +1313,7 @@ namespace eval sidebar {
     if {($remote eq "") && ![catch { tkedat::read [file join $dir .tkesort] } rc]} {
       array set contents $rc
       if {![info exists contents(use)] || $contents(use) || ($sortby eq "manual")} {
-        set new_items   [lrepeat [llength $items] ""]
+        set new_items   [lrepeat [llength $contents(items)] ""]
         set extra_items [list]
         foreach item $items {
           set tail [file tail [lindex $item 0]]
