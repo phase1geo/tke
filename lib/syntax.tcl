@@ -428,10 +428,10 @@ namespace eval syntax {
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
       $txt syntax clear
-      ctext::setBlockCommentPatterns $txt {} {}
-      ctext::setLineCommentPatterns  $txt {} {}
-      ctext::setStringPatterns       $txt {} {}
-      ctext::setAutoMatchChars       $txt {} {}
+      $txt syntax addblockcomments {} {}
+      $txt syntax addlinecomments  {} {}
+      $txt syntax addstrings       {} {}
+      ctext::setAutoMatchChars $txt {} {}
     }
 
     # Set default indent/unindent strings
@@ -489,11 +489,11 @@ namespace eval syntax {
 
         # Add the comments, strings and indentations
         ctext::clearCommentStringPatterns $txt
-        ctext::setBlockCommentPatterns $txt {} $lang_array(bcomments)
-        ctext::setLineCommentPatterns  $txt {} $lang_array(lcomments)
-        ctext::setStringPatterns       $txt {} $lang_array(strings)
-        ctext::setIndentation          $txt {} $lang_array(indent)   indent
-        ctext::setIndentation          $txt {} $lang_array(unindent) unindent
+        $txt syntax addblockcomments {} $lang_array(bcomments)
+        $txt syntax addlinecomments  {} $lang_array(lcomments)
+        $txt syntax addstrings       {} $lang_array(strings)
+        ctext::setIndentation $txt {} $lang_array(indent)   indent
+        ctext::setIndentation $txt {} $lang_array(unindent) unindent
 
         set reindentStarts [list]
         set reindents      [list]
@@ -593,11 +593,11 @@ namespace eval syntax {
       set_language_section $txt precompile $lang_array(precompile) $language
 
       # Add the comments, strings and indentations
-      ctext::setBlockCommentPatterns $txt $language $lang_array(bcomments)
-      ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments)
-      ctext::setStringPatterns       $txt $language $lang_array(strings)
-      ctext::setIndentation          $txt $language [list {*}$embed_starts {*}$lang_array(indent)]   indent
-      ctext::setIndentation          $txt $language [list {*}$embed_ends   {*}$lang_array(unindent)] unindent
+      $txt syntax addblockcomments $language $lang_array(bcomments)
+      $txt syntax addlinecomments  $language $lang_array(lcomments)
+      $txt syntax addstrings       $language $lang_array(strings)
+      ctext::setIndentation $txt $language [list {*}$embed_starts {*}$lang_array(indent)]   indent
+      ctext::setIndentation $txt $language [list {*}$embed_ends   {*}$lang_array(unindent)] unindent
 
       set reindentStarts [list]
       set reindents      [list]

@@ -2125,14 +2125,17 @@ namespace eval ctext {
     set args [lassign $args subcmd]
 
     switch $subcmd {
-      add          { $win._t tag add __[lindex $args 0] {*}[lrange $args 1 end] }
-      addclass     { addHighlightClass             $win {*}$args }
-      addwords     { addHighlightKeywords          $win {*}$args }
-      addregexp    { addHighlightRegexp            $win {*}$args }
-      addcharstart { addHighlightWithOnlyCharStart $win {*}$args }
-      addembedlang { addEmbedLangPattern           $win {*}$args }
-      search       { highlightSearch               $win {*}$args }
-      delete       {
+      add              { $win._t tag add __[lindex $args 0] {*}[lrange $args 1 end] }
+      addclass         { addHighlightClass             $win {*}$args }
+      addwords         { addHighlightKeywords          $win {*}$args }
+      addregexp        { addHighlightRegexp            $win {*}$args }
+      addcharstart     { addHighlightWithOnlyCharStart $win {*}$args }
+      addlinecomments  { addLineCommentPatterns        $win {*}$args }
+      addblockcomments { addBlockCommentPatterns       $win {*}$args }
+      addstrings       { addStringPatterns             $win {*}$args }
+      addembedlang     { addEmbedLangPattern           $win {*}$args }
+      search           { highlightSearch               $win {*}$args }
+      delete           {
         if {[llength $args] == 0} {
           foreach class [getHighlightClasses $win] {
             deleteHighlightClass $win $class
@@ -3049,7 +3052,7 @@ namespace eval ctext {
 
   }
 
-  proc setBlockCommentPatterns {win lang patterns} {
+  proc addBlockCommentPatterns {win lang patterns} {
 
     variable data
 
@@ -3089,7 +3092,7 @@ namespace eval ctext {
 
   }
 
-  proc setLineCommentPatterns {win lang patterns} {
+  proc addLineCommentPatterns {win lang patterns} {
 
     variable data
 
@@ -3117,7 +3120,7 @@ namespace eval ctext {
 
   }
 
-  proc setStringPatterns {win lang types} {
+  proc addStringPatterns {win lang types} {
 
     variable data
 
