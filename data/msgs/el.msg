@@ -1777,9 +1777,6 @@ msgcat::mcmset el {
   "User Guide"
   "Οδηγός χρήστη"
 
-  "View"
-  "Προβολή"
-
   "View Emmet Reference Guide"
   "Προβολή Emmet οδηγός αναφοράς"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset el {
   "Addons"
   "Πρόσθετα"
 
+  "Advanced"
+  "Προηγμένα"
+
   "Alias"
   "Άλλως"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset el {
 
   "Angled bracket"
   "ΓΩΝΙΑΚΗ ΕΛΑΣΤΙΚΗ ΒΑΣΗ"
+
+  "Appearance"
+  "Εμφάνιση"
 
   "Append characters to search string if entered within"
   "Προσάρτηση χαρακτήρες στη συμβολοσειρά αναζήτησης εάν εισαχθεί εντός"
@@ -2047,6 +2050,9 @@ msgcat::mcmset el {
 
   "Displayed Information"
   "Εμφάνιση επιλογών γραμμής εντολών"
+
+  "Documentation"
+  "Τεκμηρίωση"
 
   "Double-quote"
   "Διπλών"
@@ -2305,6 +2311,9 @@ msgcat::mcmset el {
 
   "Show menubar"
   "Εμφάνιση γραμμής μενού"
+
+  "Sidebar"
+  "Πλευρική στήλη"
 
   "Single-quote"
   "Μονών εισαγωγικών"
@@ -2720,9 +2729,6 @@ msgcat::mcmset el {
 
 # share.tcl
 msgcat::mcmset el {
-
-  "Emmet"
-  "μυρμήγκι"
 
   "Export Settings Data"
   "Εξαγωγή ρυθμίσεων"
@@ -3603,6 +3609,9 @@ msgcat::mcmset el {
   "Edit"
   "Επεξεργασία"
 
+  "Emmet"
+  "μυρμήγκι"
+
   "Enable code folding"
   "Ενεργοποίηση κώδικα πτυσσόμενα"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset el {
 
   "Version"
   "Έκδοση"
+
+  "View"
+  "Προβολή"
 
 }
 

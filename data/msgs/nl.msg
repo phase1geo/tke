@@ -1777,9 +1777,6 @@ msgcat::mcmset nl {
   "User Guide"
   "Gebruikershandleiding"
 
-  "View"
-  "Bekijken"
-
   "View Emmet Reference Guide"
   "Weergave Emmet Reference Guide"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset nl {
   "Addons"
   "Addons"
 
+  "Advanced"
+  "Geavanceerd"
+
   "Alias"
   "Alias"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset nl {
 
   "Angled bracket"
   "Schuine beugel"
+
+  "Appearance"
+  "Uiterlijk"
 
   "Append characters to search string if entered within"
   "Toevoegen van tekens om te zoeken string als ingevoerd binnen"
@@ -2047,6 +2050,9 @@ msgcat::mcmset nl {
 
   "Displayed Information"
   "Getoonde informatie"
+
+  "Documentation"
+  "Documentatie"
 
   "Double-quote"
   "Aanhalingsteken"
@@ -2305,6 +2311,9 @@ msgcat::mcmset nl {
 
   "Show menubar"
   "Menubalk tonen"
+
+  "Sidebar"
+  "Zijbalk"
 
   "Single-quote"
   "Aanhalingsteken"
@@ -2720,9 +2729,6 @@ msgcat::mcmset nl {
 
 # share.tcl
 msgcat::mcmset nl {
-
-  "Emmet"
-  "mier"
 
   "Export Settings Data"
   "Exporteer Instellingen"
@@ -3603,6 +3609,9 @@ msgcat::mcmset nl {
   "Edit"
   "Bewerken"
 
+  "Emmet"
+  "mier"
+
   "Enable code folding"
   "Inschakelen code vouwen"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset nl {
 
   "Version"
   "Versie"
+
+  "View"
+  "Bekijken"
 
 }
 

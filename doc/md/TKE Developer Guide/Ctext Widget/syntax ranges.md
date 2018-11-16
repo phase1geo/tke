@@ -1,4 +1,4 @@
-## syntax ranges
+### syntax ranges
 
 Gets all of the starting/ending index positions of all text which has the given highlighting class applied to it.
 
@@ -14,4 +14,4 @@ Returns a Tcl list of starting and ending text index positions.
 
 | Parameter | Description |
 | - | - |
-| _classname_ | Highlight class to get applied ranges for. |
+| _classname_ | Highlight class to get applied ranges for. 

@@ -1777,9 +1777,6 @@ msgcat::mcmset de {
   "User Guide"
   "Benutzerhandbuch"
 
-  "View"
-  "Blick"
-
   "View Emmet Reference Guide"
   "Ansicht-Emmet-Referenz-Handbuch"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset de {
   "Addons"
   "Erweiterungen"
 
+  "Advanced"
+  "Erweitert"
+
   "Alias"
   "Alias"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset de {
 
   "Angled bracket"
   "Winkelhalter"
+
+  "Appearance"
+  "Erscheinungsbild"
 
   "Append characters to search string if entered within"
   "Fügen Sie Zeichen, um die Zeichenfolge zu suchen, wenn innerhalb von"
@@ -2047,6 +2050,9 @@ msgcat::mcmset de {
 
   "Displayed Information"
   "Angezeigte Informationen"
+
+  "Documentation"
+  "Dokumentation"
 
   "Double-quote"
   "Doppeltes Anführungszeichen"
@@ -2305,6 +2311,9 @@ msgcat::mcmset de {
 
   "Show menubar"
   "Menüleiste anzeigen"
+
+  "Sidebar"
+  "Blog Sidebar-Stil"
 
   "Single-quote"
   "Einfaches Anführungszeichen"
@@ -2720,9 +2729,6 @@ msgcat::mcmset de {
 
 # share.tcl
 msgcat::mcmset de {
-
-  "Emmet"
-  "Emmet"
 
   "Export Settings Data"
   "Einstellungen exportieren"
@@ -3603,6 +3609,9 @@ msgcat::mcmset de {
   "Edit"
   "Bearbeiten"
 
+  "Emmet"
+  "Emmet"
+
   "Enable code folding"
   "Aktivieren Code-Faltung"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset de {
 
   "Version"
   "Neue Font-Awesome-Version aktivieren"
+
+  "View"
+  "Blick"
 
 }
 

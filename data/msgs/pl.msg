@@ -63,7 +63,7 @@ msgcat::mcmset pl {
   "Typ pętli"
 
   "New Test"
-  "New Test"
+  "\"
 
   "New Test File"
   "Nowy plik testowy"
@@ -1777,9 +1777,6 @@ msgcat::mcmset pl {
   "User Guide"
   "podręcznik użytkownika"
 
-  "View"
-  "Widok"
-
   "View Emmet Reference Guide"
   "Zobacz Podręcznik Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset pl {
   "Addons"
   "Dodatki"
 
+  "Advanced"
+  "Zaawansowane"
+
   "Alias"
   "Alias"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset pl {
 
   "Angled bracket"
   "Wspornik kątowy"
+
+  "Appearance"
+  "Wygląd"
 
   "Append characters to search string if entered within"
   "Dołączanie znaków do wyszukiwania ciąg, jeżeli w terminie"
@@ -2047,6 +2050,9 @@ msgcat::mcmset pl {
 
   "Displayed Information"
   "Pokazywane informacje"
+
+  "Documentation"
+  "Dokumentacja"
 
   "Double-quote"
   "Cudzysłów"
@@ -2305,6 +2311,9 @@ msgcat::mcmset pl {
 
   "Show menubar"
   "Pokaż pasek menu"
+
+  "Sidebar"
+  "Panel boczny"
 
   "Single-quote"
   "Pojedynczego cudzysłowu"
@@ -2720,9 +2729,6 @@ msgcat::mcmset pl {
 
 # share.tcl
 msgcat::mcmset pl {
-
-  "Emmet"
-  "mrówka"
 
   "Export Settings Data"
   "Eksportuj ustawienia"
@@ -3603,6 +3609,9 @@ msgcat::mcmset pl {
   "Edit"
   "Edytować"
 
+  "Emmet"
+  "mrówka"
+
   "Enable code folding"
   "Włączyć kod składane"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset pl {
 
   "Version"
   "Wersja"
+
+  "View"
+  "Widok"
 
 }
 

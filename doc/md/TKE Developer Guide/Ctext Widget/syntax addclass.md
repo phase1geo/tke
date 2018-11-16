@@ -1,4 +1,4 @@
-## syntax addclass
+### syntax addclass
 
 Adds a new syntax highlighting class with the specified highlighting options. This procedure must be called prior to adding any syntax highlighting rules or indices.
 
@@ -53,4 +53,4 @@ None.
 | **1** | Second highest priority value. |
 | **2** | Third highest priority value. |
 | **3** | Fourth highest priority value. |
-| **4** | Fifth highest priority value. Generally used for highlighting classes that are not visible. |
+| **4** | Fifth highest priority value. Generally used for highlighting classes that are not visible. 

@@ -1,4 +1,4 @@
-## syntax nextrange
+### syntax nextrange
 
 Searches the text widget at the given _startpos_ index, moving towards the end of the widget until either _endpos_ index or the end of the text widget is reached.  Returns the first range of text that has the given highlight class applied to it.
 
@@ -16,4 +16,4 @@ Returns the starting and ending range of text which has the given highlight clas
 | - | - |
 | _classname_ | Name of class to get the next applied range to. |
 | _startpos_ | Text widget index to begin searching at. |
-| _endpos_ | Text widget index to stop searching at.  If this option is not specified, the end index is used. | 
+| _endpos_ | Text widget index to stop searching at.  If this option is not specified, the end index is used. |

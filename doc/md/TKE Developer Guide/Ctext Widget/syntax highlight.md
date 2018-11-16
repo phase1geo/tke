@@ -1,4 +1,4 @@
-## syntax highlight
+### syntax highlight
 
 Performs syntax highlighting on the given set of text ranges.  All applied highlight class parsing is performed and the highlighting is applied to the text.
 
@@ -25,4 +25,4 @@ None.
 | **-moddata** _data_ | TBD |
 | **-insert** _bool_ | TBD |
 | **-dotags** _tags_ | TBD |
-| **-modified** _bool_ | TBD |
+| **-modified** _bool_ | TBD 

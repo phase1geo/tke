@@ -1777,9 +1777,6 @@ msgcat::mcmset zh {
   "User Guide"
   "用户指南"
 
-  "View"
-  "查看"
-
   "View Emmet Reference Guide"
   "查看艾美特参考指南"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset zh {
   "Addons"
   "插件"
 
+  "Advanced"
+  "高级"
+
   "Alias"
   "别名"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset zh {
 
   "Angled bracket"
   "直角的支架"
+
+  "Appearance"
+  "人物外观"
 
   "Append characters to search string if entered within"
   "添加要搜索的字符串，如果在输入的字符"
@@ -2048,8 +2051,11 @@ msgcat::mcmset zh {
   "Displayed Information"
   "已显示信息"
 
+  "Documentation"
+  "文档"
+
   "Double-quote"
-  "Double-quote"
+  "\"
 
   "Editor"
   "编辑"
@@ -2305,6 +2311,9 @@ msgcat::mcmset zh {
 
   "Show menubar"
   "显示菜单栏"
+
+  "Sidebar"
+  "侧边栏"
 
   "Single-quote"
   "单引号"
@@ -2720,9 +2729,6 @@ msgcat::mcmset zh {
 
 # share.tcl
 msgcat::mcmset zh {
-
-  "Emmet"
-  "蚂蚁"
 
   "Export Settings Data"
   "导出设置"
@@ -3603,6 +3609,9 @@ msgcat::mcmset zh {
   "Edit"
   "编辑"
 
+  "Emmet"
+  "蚂蚁"
+
   "Enable code folding"
   "启用代码折叠"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset zh {
 
   "Version"
   "版本"
+
+  "View"
+  "查看"
 
 }
 

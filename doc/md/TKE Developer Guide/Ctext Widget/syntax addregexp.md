@@ -1,4 +1,4 @@
-## syntax addregexp
+### syntax addregexp
 
 Specifies a regular expression to apply a syntax highlighting class to. The regular expression is any valid Tcl regular expression which matches text that is limited to a single line of text in the widget.
 

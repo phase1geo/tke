@@ -1,4 +1,4 @@
-## syntax addcharstart
+### syntax addcharstart
 
 Specifies a character which will proceed a word of text which, when found, will have a highlighting class applied. Words are any group of consecutive characters that do not contain a list of delimiting characters. The default list of delimiters used by the ctext widget is the following:
 

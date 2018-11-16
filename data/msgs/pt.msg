@@ -1777,9 +1777,6 @@ msgcat::mcmset pt {
   "User Guide"
   "Guia do Usuário"
 
-  "View"
-  "Vista"
-
   "View Emmet Reference Guide"
   "Ver Guia de Referência do Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset pt {
   "Addons"
   "Módulos"
 
+  "Advanced"
+  "Avançado"
+
   "Alias"
   "Pseudônimo"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset pt {
 
   "Angled bracket"
   "Suporte angular"
+
+  "Appearance"
+  "Aparência"
 
   "Append characters to search string if entered within"
   "Acrescentar caracteres para pesquisar a cadeia de caracteres se inserido dentro"
@@ -2047,6 +2050,9 @@ msgcat::mcmset pt {
 
   "Displayed Information"
   "Informação Visível"
+
+  "Documentation"
+  "Documentação"
 
   "Double-quote"
   "Aspas duplas"
@@ -2305,6 +2311,9 @@ msgcat::mcmset pt {
 
   "Show menubar"
   "Mostrar o Menu"
+
+  "Sidebar"
+  "Barra Lateral"
 
   "Single-quote"
   "Aspas"
@@ -2720,9 +2729,6 @@ msgcat::mcmset pt {
 
 # share.tcl
 msgcat::mcmset pt {
-
-  "Emmet"
-  "formiga"
 
   "Export Settings Data"
   "Exportar Configurações"
@@ -3603,6 +3609,9 @@ msgcat::mcmset pt {
   "Edit"
   "Editar"
 
+  "Emmet"
+  "formiga"
+
   "Enable code folding"
   "Habilitar o dobramento de código"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset pt {
 
   "Version"
   "Versão"
+
+  "View"
+  "Vista"
 
 }
 
