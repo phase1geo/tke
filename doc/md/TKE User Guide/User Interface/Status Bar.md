@@ -6,6 +6,7 @@ The status bar is the area located at the bottom of the application window.  Itâ
 - Vim macro recording mode (only displayed when recording and includes the name of the buffer being recorded to).
 - Current row and column position of cursor within the current editor.
 - Informational, temporal messages provided by the application.
+- Character encoding control for the current editor.
 - Current mode of auto-insert for the current editor (includes ability to change the indentation mode for the current editor).
 - Display current syntax applied to current editor (and ability to change that language).
 

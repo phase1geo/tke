@@ -107,6 +107,7 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Emmet / Decrement by 1 | Ctrl-Up | Ctrl-Up | If the insertion cursor is placed within a number, this action will decrease the number by 1. |
 | Emmet / Decrement by 0.1 | Shift-Up | Shift-Up | If the insertion cursor is placed within a number, this action will decrease the number by 0.1 |
 | Emmet / Edit Custom Abbreviations | | | Displays the custom Emmet abbreviation file in a new editing buffer allowing the user to change, remove or add custom Emmet syntax to their liking. Saving the editing buffer will cause the file changes to go into effect immediately. |
+| Emmet / View Emmet Reference Guide | | | Displays the Emmet reference documentation in your preferred web browser. |
 | Preferences / Edit User - Global | Cmd-, | Ctrl-, | Displays the user’s global (cross-language) preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
 | Preferences / Edit User - Language | | | Displays the user’s current language preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
 | Preferences / Delete User - Language | | | Deletes the preferences file (and related preferences) associated with the current language. The preferences will come from the user global preferences after this action takes place. |
