@@ -33,3 +33,7 @@ The text editor pane allows text to be read and modified. The following table sp
 | Alt + Left mouse click | Adds a cursor to the multicursor list at the character under the mouse cursor.  Also makes the current cursor the anchor cursor. |
 | Alt + Right mouse click | Adds one or more cursors between the anchor cursor and the current cursor such that one cursor will be placed on each line at the same column location as the anchor cursor. |
 | Alt + Left mouse click + drag | Selects a column of text with the upper left corner of the selection starting at the button press position and the lower right corner ending at the button release position. |
+
+#### Auto-disabling of syntax highlighting
+
+Normally, syntax highlighting is applied to the displayed text when the file is first opened and whenever it is edited; however, in certain situations TKE will omit syntax highlighting when it detects that the file's structure will cause major performance issues when attempting to render the text (i.e., when a single line in the file exceeds a certain character threshold). If syntax highlighting is disabled for a file, some functions will also be disabled, including code folding support, bracket matching/auditing, etc. This file check is only performed when a file is initially opened or after the file is reopened via the `File` menu.

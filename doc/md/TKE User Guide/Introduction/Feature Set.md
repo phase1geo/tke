@@ -3,7 +3,7 @@
 The following is a high-level list of built-in features.
 
 - **Syntax highlighting**
-	- Over 90 languages currently supported, including:
+	- Over 95 languages currently supported, including:
 		- ABAP, ActionScript, Ada, AppleScript, Assembly, Awk
 		- Bash, Boo
 		- C#, C, C\+\+, Changelog, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
@@ -16,12 +16,12 @@ The following is a high-level list of built-in features.
 		- J, JSON, Jade, Java, JavaScript, Julia
 		- Kotlin
 		- LaTeX, Lex, Lisp, Lua
-		- MATLAB, Makefile, ManPage, Markdown, MathML, MultiMarkdown, MySQL
+		- MATLAB, Makefile, ManPage, Markdown, MathML, Meson, MultiMarkdown, MySQL
 		- Neko, Nim
 		- Objective-C, OCaml
-		- PHP, Pascal, Perl, Prolog, PropertyList, Python
+		- PHP, Pascal, Perl, Prolog, PropertyList, Puppet, Python
 		- R, RSS, Ruby, Rust
-		- SASS, SCSS, Scala, Scheme, ShellScript, Specman, SQL, Stylus, Swift, SystemVerilog
+		- SASS, SCSS, Scala, Scheme, ShellScript, Specman, SQL, Squirrel, Stylus, Swift, SystemVerilog
 		- Taccle, Tcl
 		- Vala, Verilog, VisualBasic, VHDL
 		- XML, Xojo, XSLT
