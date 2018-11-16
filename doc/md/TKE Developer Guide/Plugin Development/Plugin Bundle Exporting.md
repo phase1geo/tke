@@ -1,0 +1,5 @@
+### Plugin Bundle Exporting
+
+Once you have completed the development work on your plugin, it may be desirable to share that plugin with others. For this purpose, TKE now comes with a bundle export function which is available from the `Plugins / Export` menu option. Note that this option will only be enabled when either the header.tkedat or main.tcl file for the plugin to be exported is the current tab. Running the Export... menu command will prompt the user to select a directory to export the plugin bundle to.
+
+Once a directory has been selected, TKE will create a plugin bundle file which can be shared with other TKE users and imported into their editing environments in much the same way that theme bundle files are imported into TKE. Imported bundle files will be recreated in the user's .tke/iplugins directory.

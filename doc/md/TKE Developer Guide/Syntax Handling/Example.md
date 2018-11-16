@@ -27,7 +27,7 @@ The following example code is taken right from the Tcl syntax file (data/syntax/
 	
 	lcomments {{^[ \t]*#} {;#}}
 	
-	strings {{"}}
+	strings {double}
 	
 	keywords
 	{
@@ -101,7 +101,7 @@ Essentially this file is specifying the following about the Tcl language:
 6. Whenever an open curly bracket is found, increase the indentation level, and whenever a closing curly bracket is found, decrease the indentation level.
 7. Insert line comments with the HASH (#) character.
 8. All comments start with the HASH (#) character.
-9. All strings start and end with the QUOTE (“) character.
+9. All strings start and end with the double-quote (“) character.
 10. Apply keyword coloring to the list of keywords (ex., “after”, “bindtags”, “uplevel”, etc.)
 11. Whenever a “proc” keyword is found, use the name of the proc as a searchable symbol in the file.
 12. Highlight any integer values as numbers.

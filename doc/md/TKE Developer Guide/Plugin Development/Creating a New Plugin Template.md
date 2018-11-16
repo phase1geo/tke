@@ -6,7 +6,7 @@ Creating a new plugin file template is a straightforward process.  First, you mu
 
 After this command has been entered, run TKE from that same shell.  When the application is ready, go to the "Plugins / Create..." menu command (the "Create..." command will be missing from the Plugins menu if TKE is started without the TKE\_DEVEL environment variable set).
 
-This will display an entry field at the bottom of the window, prompting you to enter the name of the plugin being created.  This name must be a legal variable name (i.e., no whitespace, symbols, etc.)  Once a name has been provided and the RETURN key pressed, a new plugin bundle will be created (in the TKE installation's "plugins" directory) which is named the same as the entered name.  Within the bundle, TKE will create a partially filled out template for both the header.tkedat and main.tcl, and these files will displayed within two editor tabs so that the developer can start coding the new plugin behavior.
+This will display an entry field at the bottom of the window, prompting you to enter the name of the plugin being created.  This name must be a legal variable name (i.e., no whitespace, symbols, etc.)  Once a name has been provided and the RETURN key pressed, a new plugin bundle will be created (in the .tke/iplugins directory) which is named the same as the entered name.  Within the bundle, TKE will create a partially filled out template for both the header.tkedat and main.tcl, and these files will displayed within two editor tabs so that the developer can start coding the new plugin behavior.
 
 Supposing that we entered a plugin name of "foobar", the resulting directory (bundle) “foobar” would be created.  The following files will exist in the directory:
 

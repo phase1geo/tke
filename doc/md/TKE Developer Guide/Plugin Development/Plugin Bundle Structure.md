@@ -1,6 +1,6 @@
 ##  Plugin Bundle Structure
 
-As stated previously, all plugin bundles must reside in the TKE installation's "plugins" directory, must contain the header.tkedat and main.tcl files (with the required elements).  Optionally, the directory can also contain a README.md (Markdown formatted) file which should contain any plugin usage information for the user.  These elements are described in detail in this section.
+As stated previously, all plugin bundles must reside in either the TKE installation's "plugins" directory or the user's .tke/iplugins directory, and they must contain the header.tkedat and main.tcl files (with the required elements).  Optionally, the directory can also contain a README.md (Markdown formatted) file which should contain any plugin usage information for the user.  These elements are described in detail in this section.
 
 #### header.tkedat
 
