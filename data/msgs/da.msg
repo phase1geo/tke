@@ -1777,9 +1777,6 @@ msgcat::mcmset da {
   "User Guide"
   "Brugsanvisning"
 
-  "View"
-  "Vis"
-
   "View Emmet Reference Guide"
   "Se Emmet Reference Guide"
 
@@ -1837,7 +1834,7 @@ msgcat::mcmset da {
   "Meddelelse af EF-sortsbeskyttelse"
 
   "Grant permission?"
-  "Grant permission?"
+  "\"
 
   "Plugin Errors"
   "Plugin fejl"
@@ -1895,6 +1892,9 @@ msgcat::mcmset da {
   "Addons"
   "Tilføjelser"
 
+  "Advanced"
+  "Avancerede"
+
   "Alias"
   "Kaldenavn (alias)"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset da {
 
   "Angled bracket"
   "Vinklet beslag"
+
+  "Appearance"
+  "Udseende"
 
   "Append characters to search string if entered within"
   "Tilføj tegn for at søgestreng, hvis indtastet inden for"
@@ -2047,6 +2050,9 @@ msgcat::mcmset da {
 
   "Displayed Information"
   "Vist information"
+
+  "Documentation"
+  "Dokumentation"
 
   "Double-quote"
   "Citationstegn"
@@ -2305,6 +2311,9 @@ msgcat::mcmset da {
 
   "Show menubar"
   "Vis menulinje"
+
+  "Sidebar"
+  "Fuld bredde - ingen sidebar"
 
   "Single-quote"
   "Single-tilbud"
@@ -2720,9 +2729,6 @@ msgcat::mcmset da {
 
 # share.tcl
 msgcat::mcmset da {
-
-  "Emmet"
-  "myre"
 
   "Export Settings Data"
   "Eksportere indstillinger Data"
@@ -3603,6 +3609,9 @@ msgcat::mcmset da {
   "Edit"
   "Rediger"
 
+  "Emmet"
+  "myre"
+
   "Enable code folding"
   "Aktivere kode foldning"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset da {
 
   "Version"
   "Version"
+
+  "View"
+  "Vis"
 
 }
 

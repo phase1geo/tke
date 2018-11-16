@@ -1777,9 +1777,6 @@ msgcat::mcmset he {
   "User Guide"
   "מדריך למשתמש"
 
-  "View"
-  "תצוגה"
-
   "View Emmet Reference Guide"
   "הצג מדריך עזר של Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset he {
   "Addons"
   "הרחבות"
 
+  "Advanced"
+  "מתקדם"
+
   "Alias"
   "כינוי"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset he {
 
   "Angled bracket"
   "סוגר זוויתי"
+
+  "Appearance"
+  "תצוגה"
 
   "Append characters to search string if entered within"
   "צירוף תווים כדי לחפש מחרוזת אם נכנס בתוך"
@@ -2047,6 +2050,9 @@ msgcat::mcmset he {
 
   "Displayed Information"
   "מידע המוצג"
+
+  "Documentation"
+  "תיעוד"
 
   "Double-quote"
   "כפולות"
@@ -2305,6 +2311,9 @@ msgcat::mcmset he {
 
   "Show menubar"
   "הצג שורת תפריטים"
+
+  "Sidebar"
+  "סרגל צידי"
 
   "Single-quote"
   "הצעת המחיר האלקטרונית יחיד"
@@ -2720,9 +2729,6 @@ msgcat::mcmset he {
 
 # share.tcl
 msgcat::mcmset he {
-
-  "Emmet"
-  "נמליים"
 
   "Export Settings Data"
   "יצא הגדרות"
@@ -3603,6 +3609,9 @@ msgcat::mcmset he {
   "Edit"
   "עריכה"
 
+  "Emmet"
+  "נמליים"
+
   "Enable code folding"
   "הפעלת קוד מתקפלים"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset he {
 
   "Version"
   "גרסה"
+
+  "View"
+  "תצוגה"
 
 }
 

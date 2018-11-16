@@ -1777,9 +1777,6 @@ msgcat::mcmset es {
   "User Guide"
   "Guía del usuario"
 
-  "View"
-  "Vista"
-
   "View Emmet Reference Guide"
   "Ver la guía de referencia de Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset es {
   "Addons"
   "Complementos"
 
+  "Advanced"
+  "Avanzado"
+
   "Alias"
   "Alias"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset es {
 
   "Angled bracket"
   "Soporte ángulo"
+
+  "Appearance"
+  "Aspecto"
 
   "Append characters to search string if entered within"
   "Añadir caracteres para buscar cadena si entró dentro de"
@@ -2047,6 +2050,9 @@ msgcat::mcmset es {
 
   "Displayed Information"
   "Información mostrada"
+
+  "Documentation"
+  "Documentación"
 
   "Double-quote"
   "comilla doble"
@@ -2305,6 +2311,9 @@ msgcat::mcmset es {
 
   "Show menubar"
   "Mostrar barra de menú"
+
+  "Sidebar"
+  "Barra lateral"
 
   "Single-quote"
   "Comillas"
@@ -2720,9 +2729,6 @@ msgcat::mcmset es {
 
 # share.tcl
 msgcat::mcmset es {
-
-  "Emmet"
-  "Emmet"
 
   "Export Settings Data"
   "Exportar Ajustes"
@@ -3603,6 +3609,9 @@ msgcat::mcmset es {
   "Edit"
   "Edición"
 
+  "Emmet"
+  "Emmet"
+
   "Enable code folding"
   "Activar código plegable"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset es {
 
   "Version"
   "Versión"
+
+  "View"
+  "Vista"
 
 }
 

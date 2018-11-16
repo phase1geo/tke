@@ -1,4 +1,4 @@
-## syntax contains
+### syntax contains
 
 Checks to see if the given text index has the given highlight syntax applied to it.
 
@@ -15,4 +15,4 @@ Returns a boolean value indicating if the given highlight class is applied to th
 | Parameter | Description |
 | - | - |
 | _classname_ | Name of highlight class to check. |
-| _index_ | Text widget index to check. |
+| _index_ | Text widget index to check. 

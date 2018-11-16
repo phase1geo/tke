@@ -1,4 +1,4 @@
-## syntax delete
+### syntax delete
 
 Deletes one or more syntax highlighting classes from memory, removing their visual highlighting characteristics from the text widget.
 

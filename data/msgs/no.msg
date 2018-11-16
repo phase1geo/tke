@@ -1777,9 +1777,6 @@ msgcat::mcmset no {
   "User Guide"
   "Bruksanvisning"
 
-  "View"
-  "Vis"
-
   "View Emmet Reference Guide"
   "Se Emmet Referansehåndbok"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset no {
   "Addons"
   "Utvidelser"
 
+  "Advanced"
+  "Avansert"
+
   "Alias"
   "Alias"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset no {
 
   "Angled bracket"
   "Vinklet brakett"
+
+  "Appearance"
+  "Utseende"
 
   "Append characters to search string if entered within"
   "Lagt tegn å søkestrengen hvis angitt i"
@@ -2047,6 +2050,9 @@ msgcat::mcmset no {
 
   "Displayed Information"
   "Vist informasjon"
+
+  "Documentation"
+  "Dokumentasjon"
 
   "Double-quote"
   "Dobbelt anførselstegn"
@@ -2305,6 +2311,9 @@ msgcat::mcmset no {
 
   "Show menubar"
   "Vis menylinje"
+
+  "Sidebar"
+  "Sidekolonne"
 
   "Single-quote"
   "Enkelt anførselsteikn"
@@ -2720,9 +2729,6 @@ msgcat::mcmset no {
 
 # share.tcl
 msgcat::mcmset no {
-
-  "Emmet"
-  "maur"
 
   "Export Settings Data"
   "Eksportinnstillinger"
@@ -3603,6 +3609,9 @@ msgcat::mcmset no {
   "Edit"
   "Redigere"
 
+  "Emmet"
+  "maur"
+
   "Enable code folding"
   "Aktivere koden folding"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset no {
 
   "Version"
   "Versjon"
+
+  "View"
+  "Vis"
 
 }
 

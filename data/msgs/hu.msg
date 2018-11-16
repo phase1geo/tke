@@ -1777,9 +1777,6 @@ msgcat::mcmset hu {
   "User Guide"
   "Jogi keret"
 
-  "View"
-  "Megjelenítés"
-
   "View Emmet Reference Guide"
   "Tekintse meg az Emmet Reference Guide-t"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset hu {
   "Addons"
   "Kiegészítők"
 
+  "Advanced"
+  "Bővített"
+
   "Alias"
   "Álnév"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset hu {
 
   "Angled bracket"
   "Szögletes zárójel"
+
+  "Appearance"
+  "Megjelenés"
 
   "Append characters to search string if entered within"
   "Hozzáfűzés a keresési karakterlánc, ha belül megadott karakterek"
@@ -2047,6 +2050,9 @@ msgcat::mcmset hu {
 
   "Displayed Information"
   "Megjelenített információk"
+
+  "Documentation"
+  "Dokumentáció"
 
   "Double-quote"
   "Idézőjel"
@@ -2305,6 +2311,9 @@ msgcat::mcmset hu {
 
   "Show menubar"
   "A menüsáv megjelenítése"
+
+  "Sidebar"
+  "Oldalsáv"
 
   "Single-quote"
   "Idézőjel"
@@ -2720,9 +2729,6 @@ msgcat::mcmset hu {
 
 # share.tcl
 msgcat::mcmset hu {
-
-  "Emmet"
-  "hangya"
 
   "Export Settings Data"
   "BEÁLLÍTÁSOK EXPORTÁLÁSA"
@@ -3603,6 +3609,9 @@ msgcat::mcmset hu {
   "Edit"
   "Szerkesztés"
 
+  "Emmet"
+  "hangya"
+
   "Enable code folding"
   "Engedélyezi a kód összecsukható"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset hu {
 
   "Version"
   "Verzió"
+
+  "View"
+  "Megjelenítés"
 
 }
 

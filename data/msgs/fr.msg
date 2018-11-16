@@ -1777,9 +1777,6 @@ msgcat::mcmset fr {
   "User Guide"
   "Guide de l'utilisateur"
 
-  "View"
-  "Affichage"
-
   "View Emmet Reference Guide"
   "Guide de référence de vue Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset fr {
   "Addons"
   "Extensions"
 
+  "Advanced"
+  "Avancé"
+
   "Alias"
   "Pseudo"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset fr {
 
   "Angled bracket"
   "Support coudé"
+
+  "Appearance"
+  "Apparence"
 
   "Append characters to search string if entered within"
   "Ajouter des caractères pour la chaîne de recherche si entrée dans"
@@ -2047,6 +2050,9 @@ msgcat::mcmset fr {
 
   "Displayed Information"
   "Information affichée"
+
+  "Documentation"
+  "Nous vous encourageons fortement à obtenir une clé de console API et à publier le code dans les options de thème. Vous pouvez l'obtenir à <a target=\"
 
   "Double-quote"
   "Guillemets doubles"
@@ -2305,6 +2311,9 @@ msgcat::mcmset fr {
 
   "Show menubar"
   "Afficher la barre de menu"
+
+  "Sidebar"
+  "Barre latérale par défaut"
 
   "Single-quote"
   "Guillemet"
@@ -2720,9 +2729,6 @@ msgcat::mcmset fr {
 
 # share.tcl
 msgcat::mcmset fr {
-
-  "Emmet"
-  "fourmi"
 
   "Export Settings Data"
   "Exporter des données de paramètres"
@@ -3603,6 +3609,9 @@ msgcat::mcmset fr {
   "Edit"
   "Modification"
 
+  "Emmet"
+  "fourmi"
+
   "Enable code folding"
   "Activez le code folding"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset fr {
 
   "Version"
   "Version"
+
+  "View"
+  "Affichage"
 
 }
 

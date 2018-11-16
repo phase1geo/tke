@@ -1,4 +1,4 @@
-## syntax addwords
+### syntax addwords
 
 Specifies a list of keywords to apply a syntax highlighting class to. Words are any group of consecutive characters that do not contain a list of delimiting characters. The default list of delimiters used by the ctext widget is the following:
 

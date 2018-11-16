@@ -1777,9 +1777,6 @@ msgcat::mcmset sv {
   "User Guide"
   "Användarguide"
 
-  "View"
-  "Visa"
-
   "View Emmet Reference Guide"
   "Se Emmet Referenshandbok"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset sv {
   "Addons"
   "Tillägg"
 
+  "Advanced"
+  "Avancerad"
+
   "Alias"
   "Alias"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset sv {
 
   "Angled bracket"
   "Vinklat fäste"
+
+  "Appearance"
+  "Utseende"
 
   "Append characters to search string if entered within"
   "Lägg till tecken för att söka snöre om in inom"
@@ -2047,6 +2050,9 @@ msgcat::mcmset sv {
 
   "Displayed Information"
   "Visad information"
+
+  "Documentation"
+  "Dokumentation för tillägget"
 
   "Double-quote"
   "Dubbel-offert"
@@ -2305,6 +2311,9 @@ msgcat::mcmset sv {
 
   "Show menubar"
   "Visa menyrad"
+
+  "Sidebar"
+  "Sidofält"
 
   "Single-quote"
   "Singel-offert"
@@ -2720,9 +2729,6 @@ msgcat::mcmset sv {
 
 # share.tcl
 msgcat::mcmset sv {
-
-  "Emmet"
-  "myra"
 
   "Export Settings Data"
   "Exportera inställningar"
@@ -3603,6 +3609,9 @@ msgcat::mcmset sv {
   "Edit"
   "Ändra"
 
+  "Emmet"
+  "myra"
+
   "Enable code folding"
   "Aktivera kod vikning"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset sv {
 
   "Version"
   "Uppgradera till den fullständiga versionen"
+
+  "View"
+  "Visa"
 
 }
 

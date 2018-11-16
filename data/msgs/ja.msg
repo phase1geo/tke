@@ -1777,9 +1777,6 @@ msgcat::mcmset ja {
   "User Guide"
   "マニュアル"
 
-  "View"
-  "表示"
-
   "View Emmet Reference Guide"
   "Emmetリファレンスガイドの表示"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset ja {
   "Addons"
   "アドオン"
 
+  "Advanced"
+  "アドバンスド"
+
   "Alias"
   "别号"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset ja {
 
   "Angled bracket"
   "傾斜ブラケット"
+
+  "Appearance"
+  "外観"
 
   "Append characters to search string if entered within"
   "内で入力した場合、検索文字列に文字を追加します。"
@@ -2047,6 +2050,9 @@ msgcat::mcmset ja {
 
   "Displayed Information"
   "コマンドラインオプションを表示"
+
+  "Documentation"
+  "ドキュメント"
 
   "Double-quote"
   "引用符"
@@ -2305,6 +2311,9 @@ msgcat::mcmset ja {
 
   "Show menubar"
   "メニューバーを表示(&M)"
+
+  "Sidebar"
+  "サイドバー"
 
   "Single-quote"
   "引用符"
@@ -2720,9 +2729,6 @@ msgcat::mcmset ja {
 
 # share.tcl
 msgcat::mcmset ja {
-
-  "Emmet"
-  "蟻 [あり]"
 
   "Export Settings Data"
   "エクスポートを設定"
@@ -3603,6 +3609,9 @@ msgcat::mcmset ja {
   "Edit"
   "編集"
 
+  "Emmet"
+  "蟻 [あり]"
+
   "Enable code folding"
   "コード折り畳みを有効にします。"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset ja {
 
   "Version"
   "バージョン"
+
+  "View"
+  "表示"
 
 }
 

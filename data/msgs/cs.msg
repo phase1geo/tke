@@ -1777,9 +1777,6 @@ msgcat::mcmset cs {
   "User Guide"
   "Uživatelská příručka"
 
-  "View"
-  "Náhled"
-
   "View Emmet Reference Guide"
   "Zobrazit referenční příručku Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset cs {
   "Addons"
   "Addony"
 
+  "Advanced"
+  "Pokročilé"
+
   "Alias"
   "Přezdívka"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset cs {
 
   "Angled bracket"
   "Úhlový držák"
+
+  "Appearance"
+  "Vzhled"
 
   "Append characters to search string if entered within"
   "Připojit znaky Hledat řetězec, je-li zadán do"
@@ -2047,6 +2050,9 @@ msgcat::mcmset cs {
 
   "Displayed Information"
   "Informace"
+
+  "Documentation"
+  "Dokumentace"
 
   "Double-quote"
   "Uvozovky"
@@ -2305,6 +2311,9 @@ msgcat::mcmset cs {
 
   "Show menubar"
   "Zobrazit hlavní nabídku"
+
+  "Sidebar"
+  "Postranní panel"
 
   "Single-quote"
   "Uvozovky"
@@ -2720,9 +2729,6 @@ msgcat::mcmset cs {
 
 # share.tcl
 msgcat::mcmset cs {
-
-  "Emmet"
-  "mravenec"
 
   "Export Settings Data"
   "Exportovat nastavení"
@@ -3603,6 +3609,9 @@ msgcat::mcmset cs {
   "Edit"
   "Upravit"
 
+  "Emmet"
+  "mravenec"
+
   "Enable code folding"
   "Povolit skládání kódu"
 
@@ -3782,6 +3791,9 @@ msgcat::mcmset cs {
 
   "Version"
   "Verze"
+
+  "View"
+  "Náhled"
 
 }
 
