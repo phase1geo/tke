@@ -63,7 +63,7 @@ msgcat::mcmset pl {
   "Typ pętli"
 
   "New Test"
-  "\"
+  "New Test"
 
   "New Test File"
   "Nowy plik testowy"

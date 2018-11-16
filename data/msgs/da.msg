@@ -1834,7 +1834,7 @@ msgcat::mcmset da {
   "Meddelelse af EF-sortsbeskyttelse"
 
   "Grant permission?"
-  "\"
+  "Grant permission?"
 
   "Plugin Errors"
   "Plugin fejl"
