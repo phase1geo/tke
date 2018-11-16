@@ -1,90 +1,15 @@
-2018-11-15 01:24 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ecf82926a1d9 [devel-3.4.16])
+2018-11-16 00:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c25e08fe939e [devel-3.4.17])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.16 release
+	ChangeLog for devel-3.4.17 release
 
-2018-11-15 01:25 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (475474134e1f)
+2018-11-16 00:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (53b2787d68ca)
 
 	* .hgtags:
-	Added tag devel-3.4.16 for changeset ecf82926a1d9
+	Added tag devel-3.4.17 for changeset c25e08fe939e
 
-2018-11-15 14:51 -0600  Trevor Williams  <Trevor Williams>  (2137a978e6c2)
+2018-11-16 01:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (264819908dc5 [tip])
 
-	* lib/api.tcl, lib/bindings.tcl, lib/gui.tcl, lib/lang.tcl,
-	lib/pref_ui.tcl:
-	* Fixing issues with allowing plugins to make menu requests when we
-	are in a translated environment.
-	* Fixing issue with changing shortcuts via preferences when we are in
-	a translated environment.
-	* Fixing issue with applying menu bindings to menu commands that end
-	in a "...".
-	* Fixing syntax error when changing the current encoding via the
-	menubutton.
-	* Adding translations for some strings in the preferences window.
-
-2018-11-15 14:51 -0600  Trevor Williams  <Trevor Williams>  (6cbbccdc1ab5)
-
-	* lib/menus.tcl:
-	* Forgot to checkin the menus.tcl file with the last checkin.
-
-2018-11-15 14:54 -0600  Trevor Williams  <Trevor Williams>  (7ac4910e2ed9)
-
-	* lib/bindings.tcl:
-	* Refactoring recently checked in code to use shared procedure.
-
-2018-11-15 15:45 -0600  Trevor Williams  <Trevor Williams>  (fdd40fc0b07f)
-
-	* lib/multicursor.tcl, lib/pref_ui.tcl:
-	* Fixing issue with inserting space characters when inserting text
-	in multicursor mode.
-	* Removing any menu items from shortcuts which start with a space
-	character.
-
-2018-11-15 16:10 -0600  Trevor Williams  <Trevor Williams>  (b24c575d8cca)
-
-	* lib/bindings.tcl, lib/plugins.tcl:
-	* Fixing issue with removing menu bindings.
-	* Fixing issue of keyboard shortcuts being added/removed properly when
-	plugins are installed, reloaded or uninstalled.
-
-2018-11-15 17:35 -0600  Trevor Williams  <phase1geo@gmail.com>  (9a2bb39c7c61)
-
-	* data/syntax/_test.syntax, lib/version.tcl, tests/folding.tcl:
-	* Fixing syntax errors in BIST tests.
-
-2018-11-15 23:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1eb620e24f62)
-
-	* doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle
-	Exporting.md: new file.
-	* doc/md/TKE Developer Guide/Packages/Packages.md, doc/md/TKE
-	Developer Guide/Plugin API/api--get_user_input.md, doc/md/TKE
-	Developer Guide/Plugin API/api--menu--enabled.md, doc/md/TKE
-	Developer Guide/Plugin API/api--menu--exists.md, doc/md/TKE
-	Developer Guide/Plugin API/api--menu--invoke.md, doc/md/TKE
-	Developer Guide/Plugin Action Types/.tkesort, doc/md/TKE Developer
-	Guide/Plugin Development/.tkesort, doc/md/TKE Developer Guide/Plugin
-	Development/Creating a New Plugin Template.md, doc/md/TKE Developer
-	Guide/Plugin Development/Plugin Bundle Exporting.md, doc/md/TKE
-	Developer Guide/Plugin Development/Plugin Bundle Structure.md,
-	doc/md/TKE Developer Guide/Plugin Development/Starting up.md,
-	doc/md/TKE Developer Guide/Syntax Handling/Example.md, doc/md/TKE
-	Developer Guide/Syntax Handling/File Format.md, lib/version.tcl:
-	* Updating development documentation for 3.5.
-
-2018-11-16 00:53 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a58e9193a9d1 [tip])
-
-	* doc/md/TKE User Guide/Plugins/Importing Plugins.md, doc/md/TKE User
-	Guide/User Interface/Character Encoding.md: new file.
-	* doc/md/TKE User Guide/Introduction/Feature Set.md, doc/md/TKE User
-	Guide/Plugins/Importing Plugins.md, doc/md/TKE User
-	Guide/Prefix/title- TKE User Guide.md, doc/md/TKE User
-	Guide/Starting the Application/The Command-Line.md, doc/md/TKE User
-	Guide/User Interface/.tkesort, doc/md/TKE User Guide/User
-	Interface/Character Encoding.md, doc/md/TKE User Guide/User
-	Interface/Edit Menu.md, doc/md/TKE User Guide/User Interface/Editing
-	Buffer.md, doc/md/TKE User Guide/User Interface/Find
-	Highlighting.md, doc/md/TKE User Guide/User Interface/Status Bar.md,
-	lib/version.tcl:
-	* Updating the user guide with the features for the 3.5 stable
-	release.
+	* lib/version.tcl, specl_version.tcl:
+	* Updating specl_version.
 
