@@ -67,15 +67,15 @@ namespace eval search {
 
       # Test the regular expression, if it is invalid, let the user know
       if {($data_array(method) ne "exact") && [catch { regexp $data_array(find) "" } rc]} {
-        after 100 [list gui::set_info_message $rc]
+        after 100 [list gui::set_info_message $rc -win $txt]
         return
       }
 
       # Save the find text to history
       add_history find $search_data
 
-      # Clear the search highlight class
-      find_clear
+      # Clear the search class
+      catch { $txt syntax delete search search_curr }
 
       # Create a highlight class for the given search string
       $txt syntax addclass search_curr -fgtheme search_foreground -bgtheme marker -priority high
@@ -147,7 +147,7 @@ namespace eval search {
     # Clear the highlight class
     catch { $txt syntax delete search search_curr }
 
-    # Clear the search UI
+    # Clear the UI
     gui::search_clear
 
   }
@@ -184,10 +184,12 @@ namespace eval search {
       ::tk::TextSetCursor $txt.t $startpos
       $txt syntax add search_curr $startpos $endpos
       if {$wrapped} {
-        gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
+        gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"] -win $txt
+      } else {
+        gui::set_info_message "" -win $txt
       }
     } else {
-      gui::set_info_message [msgcat::mc "No search results found"]
+      gui::set_info_message [msgcat::mc "No search results found"] -win $txt
     }
 
   }
@@ -215,10 +217,12 @@ namespace eval search {
       ::tk::TextSetCursor $txt.t $startpos
       $txt syntax add search_curr $startpos $endpos
       if {$wrapped} {
-        gui::set_info_message [msgcat::mc "Search wrapped to end of file"]
+        gui::set_info_message [msgcat::mc "Search wrapped to end of file"] -win $txt
+      } else {
+        gui::set_info_message "" -win $txt
       }
     } else {
-      gui::set_info_message [msgcat::mc "No search results found"]
+      gui::set_info_message [msgcat::mc "No search results found"] -win $txt
     }
 
   }
@@ -338,11 +342,11 @@ namespace eval search {
       do_replace $txt $matches $search $replace
 
       # Specify the number of substitutions that we did
-      gui::set_info_message [format "%d %s" [llength $matches] [msgcat::mc "substitutions done"]]
+      gui::set_info_message [format "%d %s" [llength $matches] [msgcat::mc "substitutions done"]] -win $txt
 
     } else {
 
-      gui::set_info_message [msgcat::mc "No search results found"]
+      gui::set_info_message [msgcat::mc "No search results found"] -win $txt
 
     }
 

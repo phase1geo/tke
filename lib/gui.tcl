@@ -3190,7 +3190,10 @@ namespace eval gui {
 
     # If a line or less is selected, populate the search bar with it
     if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
+      $tab.sf.e delete 0 end
       $tab.sf.e insert end [$txt get {*}$ranges]
+    } else {
+      $tab.sf.e selection range 0 end
     }
 
     # Place the focus on the search bar
@@ -3198,6 +3201,21 @@ namespace eval gui {
 
     # Set the unfocussed insertion cursor to hollow
     catch { $txt configure -insertunfocussed hollow }
+
+  }
+
+  ######################################################################
+  # Performs the search operation.
+  proc find_resilient {dir {type find}} {
+
+    get_info {} current tab
+
+    # Clear the selection of the search entry
+    $tab.sf.e  selection clear
+    $tab.rf.fe selection clear
+
+    # Perform the search
+    search::find_resilient $dir $type
 
   }
 
@@ -3239,7 +3257,10 @@ namespace eval gui {
 
     # If a line or less is selected, populate the find entry with it
     if {([llength [set ranges [$txt tag ranges sel]]] == 2) && ([$txt count -lines {*}$ranges] == 0)} {
+      $tab.rf.fe delete 0 end
       $tab.rf.fe insert end [$txt get {*}$ranges]
+    } else {
+      $tab.rf.fe selection range 0 end
     }
 
     # Place the focus on the find entry field
@@ -4394,8 +4415,8 @@ namespace eval gui {
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab.sf.e     -validate key -validatecommand [list gui::handle_search_change $tab %P]
-    ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev] -state disabled
-    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next] -state disabled
+    ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list gui::find_resilient prev] -state disabled
+    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list gui::find_resilient next] -state disabled
     ttk::button      $tab.sf.type  -style BButton -width $max_width -command [list gui::handle_menu_popup $tab.sf.type $type_menu]
     ttk::checkbutton $tab.sf.case  -text " Aa" -variable gui::case_sensitive
     ttk::checkbutton $tab.sf.save  -text [format " %s" [msgcat::mc "Save"]] -variable gui::saved -command [list search::update_save find]
@@ -4433,8 +4454,8 @@ namespace eval gui {
     ttk::label       $tab.rf.rl    -text [format "%s:" [msgcat::mc "Replace"]]
     ttk::entry       $tab.rf.re
     ttk::frame       $tab.rf.act
-    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list search::find_resilient prev replace] -state disabled
-    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list search::find_resilient next replace] -state disabled
+    ttk::button      $tab.rf.act.prev  -style BButton -image search_prev -command [list gui::find_resilient prev replace] -state disabled
+    ttk::button      $tab.rf.act.next  -style BButton -image search_next -command [list gui::find_resilient next replace] -state disabled
     ttk::button      $tab.rf.act.rep   -style BButton -text [msgcat::mc "Replace"]     -command [list search::replace_one]     -state disabled
     ttk::button      $tab.rf.act.repa  -style BButton -text [msgcat::mc "Replace All"] -command [list search::replace_start 1] -state disabled
     ttk::frame       $tab.rf.opts

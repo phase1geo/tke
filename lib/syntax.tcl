@@ -255,6 +255,9 @@ namespace eval syntax {
     variable langs
     variable assoc_file
 
+    # Make sure that the filename is an absolute pathname
+    set filename [file normalize $filename]
+
     # Check to see if the user has specified a language override for files like
     # the filename.
     if {![catch { tkedat::read $assoc_file 0 } rc]} {
@@ -292,7 +295,7 @@ namespace eval syntax {
       }
       if {!$excluded} {
         foreach pattern $patterns {
-          if {[string match -nocase $pattern [file tail $filename]]} {
+          if {[string match -nocase [file join * $pattern] $filename]} {
             if {[string length $pattern] > $maxlen} {
               set maxlen     [string length $pattern]
               set best_match $lang
@@ -427,7 +430,7 @@ namespace eval syntax {
 
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
-      $txt syntax clear
+      $txt syntax delete
       $txt syntax addblockcomments {} {}
       $txt syntax addlinecomments  {} {}
       $txt syntax addstrings       {} {}
