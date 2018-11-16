@@ -2055,7 +2055,7 @@ msgcat::mcmset zh {
   "文档"
 
   "Double-quote"
-  "\"
+  "Double-quote"
 
   "Editor"
   "编辑"
