@@ -1,5 +1,5 @@
 filepatterns
-{*/plugins/*/header.tkedat *\\plugins\\*\\header.tkedat}
+{*/plugins/*/header.tkedat */iplugins/*/header.tkedat *\\plugins\\*\\header.tkedat *\\iplugins\\*\\header.tkedat}
 
 matchcharsallowed
 {curly double single}

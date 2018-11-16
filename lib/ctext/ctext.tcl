@@ -3887,9 +3887,15 @@ namespace eval ctext {
       set value __$value
     }
 
-    lappend data($win,highlight,regexps,$lang) "regexp,$type,$lang,$value"
+    if {![info exists data($win,highlight,regexps,$lang)]} {
+      set index 0
+    } else {
+      set index [llength $data($win,highlight,regexps,$lang)]
+    }
 
-    set data($win,highlight,regexp,$type,$lang,$value) [list $re $data($win,config,re_opts)]
+    lappend data($win,highlight,regexps,$lang) "regexp,$type,$lang,$value,$index"
+
+    set data($win,highlight,regexp,$type,$lang,$value,$index) [list $re $data($win,config,re_opts)]
 
   }
 
@@ -4036,11 +4042,8 @@ namespace eval ctext {
 
     variable data
 
-    # Verify that the specified highlight class exists
-    checkHighlightClass $win $class
-
     foreach key [array names data $win,highlight,regexps,*] {
-      if {[set index [lsearch -glob $data($key) *regexp,class,__$class]] != -1} {
+      if {[set index [lsearch -glob $data($key) *regexp,class,*,$class,*]] != -1} {
         set data($key) [lreplace $data($key) $index $index]
       }
     }
@@ -4076,6 +4079,11 @@ namespace eval ctext {
     }
 
     return $classes
+
+  }
+
+  ######################################################################
+  proc getHighlightCommands {win} {
 
   }
 
