@@ -1,12 +1,8 @@
 ## api::menu::enabled
 
-Determines whether the given menu path is able to be invoked within the main
-menu system.  The value of _menu-path_ is a slash (/) separated hierarchical
-string where each element of the string corresponds to a submenu within the
-main menus.
+Determines whether the given menu path is able to be invoked within the main menu system.  The value of _menu-path_ is a slash (/) separated hierarchical string where each element of the string corresponds to a submenu within the main menus. The _menu-path_ hierarchy must exactly match the English text for the menu.
 
-For example, to see if the `Find Next` command exists within the `Edit`
-menu, call this procedure as follows:
+For example, to see if the `Find Next` command exists within the `Edit` menu, call this procedure as follows:
 
 ```Tcl
 set enabled [api::menu::enabled "Find/Find Next"]
@@ -18,5 +14,4 @@ set enabled [api::menu::enabled "Find/Find Next"]
 
 **Return value**
 
-Returns a value of 1 if the specified menu path can be invoked in the main
-menus; otherwise, returns a value of 0.
+Returns a value of 1 if the specified menu path can be invoked in the main menus; otherwise, returns a value of 0.

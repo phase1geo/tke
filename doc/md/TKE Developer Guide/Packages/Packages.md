@@ -8,7 +8,7 @@ Documentation for the tclx package can be found at [http://www.tcl.tk/man/tclx8.
 
 ## Tablelist
 
-Documentation for the tablelist package can be found at [http://www.nemethi.de/tablelist/index.html](http://www.nemethi.de/tablelist/index.html).  TKE currently uses version 5.18.
+Documentation for the tablelist package can be found at [http://www.nemethi.de/tablelist/index.html](http://www.nemethi.de/tablelist/index.html).  TKE currently uses version 6.3.
 
 ## tooltip
 
@@ -16,7 +16,7 @@ Documentation for the tooltip package can be found at [http://docs.activestate.c
 
 ## msgcat
 
-Documentation for the msgcat package can be found at [http://www.tcl.tk/man/tcl8.5/TclCmd/msgcat.htm](http://www.tcl.tk/man/tcl8.5/TclCmd/msgcat.htm)
+Documentation for the msgcat package can be found at [http://www.tcl.tk/man/tcl8.6/TclCmd/msgcat.htm](http://www.tcl.tk/man/tcl8.6/TclCmd/msgcat.htm)
 
 ## tokenentry
 
