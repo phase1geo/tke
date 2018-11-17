@@ -75,7 +75,7 @@ namespace eval search {
       add_history find $search_data
 
       # Clear the search class
-      catch { $txt syntax delete search search_curr }
+      catch { $txt syntax delete classes search search_curr }
 
       # Create a highlight class for the given search string
       $txt syntax addclass search_curr -fgtheme search_foreground -bgtheme marker -priority high
@@ -145,7 +145,7 @@ namespace eval search {
     set txt [gui::current_txt]
 
     # Clear the highlight class
-    catch { $txt syntax delete search search_curr }
+    catch { $txt syntax delete classes search search_curr }
 
     # Clear the UI
     gui::search_clear

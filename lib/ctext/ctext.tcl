@@ -262,8 +262,8 @@ namespace eval ctext {
 
     catch { rename $win {} }
     interp alias {} $win.t {}
-    clearHighlightClasses $win
-    array unset data $win,config,*
+    # clearHighlightClasses $win
+    array unset data $win,*
 
   }
 
@@ -2136,13 +2136,27 @@ namespace eval ctext {
       addembedlang     { addEmbedLangPattern           $win {*}$args }
       search           { highlightSearch               $win {*}$args }
       delete           {
-        if {[llength $args] == 0} {
-          foreach class [getHighlightClasses $win] {
-            deleteHighlightClass $win $class
+        switch [lindex $args 0] {
+          class   -
+          classes {
+            foreach class [lrange $args 1 end] {
+              deleteHighlightClass $win $class
+            }
           }
-        } else {
-          foreach class $args {
-            deleteHighlightClass $win $class
+          command  -
+          commands {
+            foreach command [lrange $args 1 end] {
+              deleteHighlightCommand $win $command
+            }
+          }
+          all {
+            foreach class [getHighlightClasses $win] {
+              deleteHighlightClass $win $class
+            }
+            deleteHighlightCommand $win *
+          }
+          default {
+            return -code error "Unknown syntax delete specifier ([lindex $args 0])"
           }
         }
       }
@@ -3758,10 +3772,12 @@ namespace eval ctext {
               lassign $retval rtags goback
               if {([llength $rtags] % 3) == 0} {
                 foreach {rtag rstart rend} $rtags {
-                  if {$data($win,classimmediate,$rtag)} {
-                    lappend itags(__$rtag) $row.$rstart $row.[expr $rend + 1]
-                  } else {
-                    dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
+                  if {[info exists data($win,classimmediate,$rtag)]} {
+                    if {$data($win,classimmediate,$rtag)} {
+                      lappend itags(__$rtag) $row.$rstart $row.[expr $rend + 1]
+                    } else {
+                      dict lappend tags __$rtag $row.$rstart $row.[expr $rend + 1]
+                    }
                   }
                 }
               }
@@ -4042,18 +4058,43 @@ namespace eval ctext {
 
     variable data
 
+    puts "Deleting highlight class: $class"
+
     foreach key [array names data $win,highlight,regexps,*] {
-      if {[set index [lsearch -glob $data($key) *regexp,class,*,$class,*]] != -1} {
+      foreach index [lreverse [lsearch -all $data($key) *regexp,class,*,$class,*]] {
         set data($key) [lreplace $data($key) $index $index]
       }
     }
 
     array unset data $win,highlight,*,class,__$class
     array unset data $win,highlight,searches,__$class
-    unset data($win,classopts,$class)
-    unset data($win,classimmediate,$class)
+    array unset data $win,classopts,$class
+    array unset data $win,classimmediate,$class
 
     $win._t tag delete __$class 1.0 end
+
+  }
+
+  ######################################################################
+  # Deletes the given highlighting command from memory.
+  proc deleteHighlightCommand {win command} {
+
+    variable data
+
+    array unset data $win,highlight,regexp,command,*,$command,*
+    foreach key [array names data $win,highlight,regexps,*] {
+      foreach index [lreverse [lsearch -all $data($key) regexp,command,*,$command,*]] {
+        set data($key) [lreplace $data($key) $index $index]
+      }
+    }
+
+    foreach type [list wkeyword wcharstart] {
+      foreach key [array names data $win,highlight,$type,command,*] {
+        if {[string match $data($key) $command]} {
+          unset data($key)
+        }
+      }
+    }
 
   }
 
@@ -4079,11 +4120,6 @@ namespace eval ctext {
     }
 
     return $classes
-
-  }
-
-  ######################################################################
-  proc getHighlightCommands {win} {
 
   }
 
