@@ -430,7 +430,7 @@ namespace eval syntax {
 
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
-      $txt syntax delete
+      $txt syntax delete all
       $txt syntax addblockcomments {} {}
       $txt syntax addlinecomments  {} {}
       $txt syntax addstrings       {} {}
