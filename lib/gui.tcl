@@ -3296,9 +3296,10 @@ namespace eval gui {
     get_info {} current tab
 
     switch $type {
-      "find"    { return [list find [$tab.sf.e get] method $search_method case $case_sensitive save $saved] }
-      "replace" { return [list find [$tab.rf.fe get] replace [$tab.rf.re get] method $search_method case $case_sensitive save $saved] }
-      "fif"     { return [list find [$widgets(fif_find) get] in [$widgets(fif_in) tokenget] method $search_method case $case_sensitive save $saved] }
+      "find"      { return [list find [$tab.sf.e get] method $search_method case $case_sensitive save $saved] }
+      "replace"   { return [list find [$tab.rf.fe get] replace [$tab.rf.re get] method $search_method case $case_sensitive save $saved] }
+      "fif"       { return [list find [$widgets(fif_find) get] in [$widgets(fif_in) tokenget] method $search_method case $case_sensitive save $saved] }
+      "docsearch" { return [list find [$widgets(doc).e get] name [$widgets(doc).mb cget -text] save $saved] }
     }
 
   }
@@ -3347,8 +3348,7 @@ namespace eval gui {
         $widgets(fif_in) tokeninsert end $data_array(in)
       }
       "docsearch" {
-        set search_method  $data_array(method)
-        set saved          $data_array(save)
+        set saved $data_array(save)
         $widgets(doc).mb configure -text [expr {($data_array(name) eq "") ? [[$widgets(doc).mb cget -menu] entrycget 0 -label] : $data_array(name)}]
         $widgets(doc).e  delete 0 end
         $widgets(doc).e  insert end $data_array(find)
@@ -6031,9 +6031,9 @@ namespace eval gui {
 
       # Update the informational message if one exists for the text widget
       if {[info exists info_msgs($txt)]} {
-        set_info_message [lindex $info_msgs($txt) 0] -clear_delay [lindex $info_msgs($txt) 1]
+        set_info_message [lindex $info_msgs($txt) 0] -clear_delay [lindex $info_msgs($txt) 1] -win [winfo parent $txtt]
       } else {
-        set_info_message ""
+        set_info_message "" -win [winfo parent $txtt]
       }
 
       # Let the plugins know about the FocusIn event
