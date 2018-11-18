@@ -3322,7 +3322,7 @@ namespace eval gui {
       "find" {
         set search_method  $data_array(method)
         set case_sensitive $data_array(case)
-        set saved          $data_array(saved)
+        set saved          $data_array(save)
         $tab.sf.e delete 0 end
         $tab.sf.e insert end $data_array(find)
         handle_search_change $tab $data_array(find)
@@ -3330,7 +3330,7 @@ namespace eval gui {
       "replace" {
         set search_method  $data_array(method)
         set case_sensitive $data_array(case)
-        set saved          $data_array(saved)
+        set saved          $data_array(save)
         $tab.rf.fe delete 0 end
         $tab.rf.re delete 0 end
         $tab.rf.fe insert end $data_array(find)
@@ -3340,7 +3340,7 @@ namespace eval gui {
       "fif" {
         set search_method  $data_array(method)
         set case_sensitive $data_array(case)
-        set saved          $data_array(saved)
+        set saved          $data_array(save)
         $widgets(fif_find) delete 0 end
         $widgets(fif_find) insert end $data_array(find)
         $widgets(fif_in) tokendelete 0 end
@@ -3348,7 +3348,7 @@ namespace eval gui {
       }
       "docsearch" {
         set search_method  $data_array(method)
-        set saved          $data_array(saved)
+        set saved          $data_array(save)
         $widgets(doc).mb configure -text [expr {($data_array(name) eq "") ? [[$widgets(doc).mb cget -menu] entrycget 0 -label] : $data_array(name)}]
         $widgets(doc).e  delete 0 end
         $widgets(doc).e  insert end $data_array(find)
@@ -3782,7 +3782,7 @@ namespace eval gui {
     }
 
     # Gather the input to return
-    set rsp_list [list find [$widgets(fif_find) get] in $ins search_method $search_method case_sensitive $case_sensitive save $saved]
+    set rsp_list [list find [$widgets(fif_find) get] in $ins method $search_method case $case_sensitive save $saved]
 
     return [set gui::user_exit_status]
 
