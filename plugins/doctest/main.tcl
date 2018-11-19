@@ -27,7 +27,8 @@ Make the doctest blocks as
 See details in [api::get_plugin_directory]/README.md
 "
 
-  #===== Get line stripped of spaces and uppercased
+  ###################################################################
+  # Get line stripped of spaces and uppercased
 
   proc strip_upcase {st} {
 
@@ -35,7 +36,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Make string of args (1 2 3 ... be string of "1 2 3 ...")
+  ###################################################################
+  # Make string of args (1 2 3 ... be string of "1 2 3 ...")
 
   proc string_of_args {args} {
 
@@ -44,7 +46,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Show info message, e.g.: MES "Info title" $st == $BL_END \n\n ...
+  ###################################################################
+  # Show info message, e.g.: MES "Info title" $st == $BL_END \n\n ...
 
   proc MES {title args} {
 
@@ -53,7 +56,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Show error message, e.g.: ERR $st == $BL_END \n\n ...
+  ###################################################################
+  # Show error message, e.g.: ERR $st == $BL_END \n\n ...
 
   proc ERR {args} {
 
@@ -61,7 +65,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Show debug message, e.g.: D $st == $BL_END \n\n ...
+  ###################################################################
+  # Show debug message, e.g.: D $st == $BL_END \n\n ...
 
   proc D {args} {
 
@@ -69,7 +74,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Get current text command
+  ###################################################################
+  # Get current text command
 
   proc get_txt {} {
 
@@ -81,7 +87,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Get line's contents
+  ###################################################################
+  # Get line's contents
 
   proc get_line_contents {txt ind} {
 
@@ -90,7 +97,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #===== Get test blocks (TEST_BEGIN ... TEST_END)
+  ###################################################################
+  # Get test blocks (TEST_BEGIN ... TEST_END)
 
   proc get_test_blocks {txt} {
 
@@ -133,7 +141,8 @@ See details in [api::get_plugin_directory]/README.md
     return [list 0 $test_blocks]
   }
 
-  #===== Get line of command or command's waited result
+  ###################################################################
+  # Get line of command or command's waited result
 
   proc get_line {txt type i} {
 
@@ -147,7 +156,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #===== Get command/result lines
+  ###################################################################
+  # Get command/result lines
 
   # :Input:
   #   - txt  - current edited text
@@ -187,7 +197,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #===== Get commands' results
+  ###################################################################
+  # Get commands' results
 
   proc get_commands {txt i1 i2} {
 
@@ -196,7 +207,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #===== Get waited results
+  ###################################################################
+  # Get waited results
 
   proc get_results {txt i1 i2} {
 
@@ -205,7 +217,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #===== Execute commands and compare their results to waited ones
+  ###################################################################
+  # Execute commands and compare their results to waited ones
 
   proc execute_and_check {block safe commands results} {
 
@@ -233,7 +246,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #===== Test block of commands and their results
+  ###################################################################
+  # Test block of commands and their results
 
   proc test_block {txt begin end safe verbose} {
 
@@ -298,9 +312,9 @@ See details in [api::get_plugin_directory]/README.md
 
   #####################################################################
   #  DO procedures
-  #####################################################################
 
-  #===== Perform doctest
+  ###################################################################
+  # Perform doctest
 
   proc do_doctest {safe verbose} {
 
@@ -319,7 +333,8 @@ See details in [api::get_plugin_directory]/README.md
 
   }
 
-  #====== Insert doctest template before current line
+  ###################################################################
+  # Insert doctest template before current line
 
   proc do_doctest_init {} {
 
@@ -337,7 +352,8 @@ See details in [api::get_plugin_directory]/README.md
     $txt insert "insert linestart" $testinit
   }
 
-  #====== Procedures to register the plugin
+  ###################################################################
+  # Procedures to register the plugin
 
   proc handle_state {} {
 
@@ -348,9 +364,11 @@ See details in [api::get_plugin_directory]/README.md
 
 }
 
-#====== Register plugin action
+#####################################################################
+# Register plugin action
 
 api::register doctest {
+
   {menu command {Doctest TCL/Doctest Safe} \
       {doctest::do_doctest 1 0}  doctest::handle_state}
   {menu command {Doctest TCL/Doctest Safe Verbose} \
@@ -363,4 +381,6 @@ api::register doctest {
   {menu separator {Doctest TCL}}
   {menu command {Doctest TCL/Doctest Init} \
       doctest::do_doctest_init  doctest::handle_state}
+
 }
+
