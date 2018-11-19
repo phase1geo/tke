@@ -1777,9 +1777,6 @@ msgcat::mcmset ru {
   "User Guide"
   "Руководство пользователя"
 
-  "View"
-  "Вид"
-
   "View Emmet Reference Guide"
   "Руководство по Emmet"
 
@@ -1895,6 +1892,9 @@ msgcat::mcmset ru {
   "Addons"
   "Дополнения"
 
+  "Advanced"
+  "Раширенные"
+
   "Alias"
   "Псевдоним"
 
@@ -1903,6 +1903,9 @@ msgcat::mcmset ru {
 
   "Angled bracket"
   "Угловая скобка"
+
+  "Appearance"
+  "Внешний вид"
 
   "Append characters to search string if entered within"
   "Добавить символы в строку поиска, если вводятся за"
@@ -2047,6 +2050,9 @@ msgcat::mcmset ru {
 
   "Displayed Information"
   "Отображаемые сведения"
+
+  "Documentation"
+  "Документация"
 
   "Double-quote"
   "Двойные кавычки"
@@ -2305,6 +2311,9 @@ msgcat::mcmset ru {
 
   "Show menubar"
   "Показать линейку меню"
+
+  "Sidebar"
+  "Сайдбар"
 
   "Single-quote"
   "Одиночная кавычка"
@@ -2720,9 +2729,6 @@ msgcat::mcmset ru {
 
 # share.tcl
 msgcat::mcmset ru {
-
-  "Emmet"
-  "Emmet"
 
   "Export Settings Data"
   "Экспорт настроек"
@@ -3603,6 +3609,9 @@ msgcat::mcmset ru {
   "Edit"
   "Правка"
 
+  "Emmet"
+  "муравей"
+
   "Enable code folding"
   "Включить сворачивание кода"
 
@@ -3676,7 +3685,7 @@ msgcat::mcmset ru {
   "Узел"
 
   "None"
-  "None"
+  "Нет"
 
   "OK"
   "ОК"
@@ -3782,6 +3791,9 @@ msgcat::mcmset ru {
 
   "Version"
   "Версия"
+
+  "View"
+  "Вид"
 
 }
 
