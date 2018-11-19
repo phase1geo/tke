@@ -146,8 +146,8 @@ namespace eval e_menu {
         set s1_opt "s1=[fn [file tail $dir_name]]"
       }
       catch {
-        # z3=tail of project dir
-        set z3_opt "z3=[fn [file tail $::env(E_MENU_PD)]]"
+        # z3=project dir
+        set z3_opt "z3=[string map {/ _ \\ _ { } _} $::env(E_MENU_PD)]"
       }
     }
     set tke [file normalize [file join [api::get_plugin_directory]/../../../../bin tke]]

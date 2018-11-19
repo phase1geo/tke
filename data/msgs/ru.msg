@@ -1893,7 +1893,7 @@ msgcat::mcmset ru {
   "Дополнения"
 
   "Advanced"
-  "Раширенные"
+  "Расширенные"
 
   "Alias"
   "Псевдоним"
@@ -2313,7 +2313,7 @@ msgcat::mcmset ru {
   "Показать линейку меню"
 
   "Sidebar"
-  "Сайдбар"
+  "Боковая панель"
 
   "Single-quote"
   "Одиночная кавычка"
@@ -3610,7 +3610,7 @@ msgcat::mcmset ru {
   "Правка"
 
   "Emmet"
-  "муравей"
+  "Emmet"
 
   "Enable code folding"
   "Включить сворачивание кода"
@@ -3685,7 +3685,7 @@ msgcat::mcmset ru {
   "Узел"
 
   "None"
-  "Нет"
+  "None"
 
   "OK"
   "ОК"
