@@ -36,6 +36,7 @@ It would be convenient to assign the following shortkeys for "Plugin/ Edit utils
   *Ctrl-D* - Duplicate Selection
   *Ctrl-I* - Indent Selection
   *Alt-I*  - Unindent Selection
+  *F4*     - Normalize indentation
   *Alt-[*  - Comment TCL
   *Alt-]*  - Uncomment TCL
 

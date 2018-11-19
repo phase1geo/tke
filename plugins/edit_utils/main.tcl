@@ -11,7 +11,8 @@ namespace eval edit_utils {
   variable commmark  "#? "
   variable bracemark "${commmark}TODO "
 
-  #====== Get current text command
+  ###################################################################
+  # Get current text command
 
   proc get_txt {} {
 
@@ -23,15 +24,18 @@ namespace eval edit_utils {
 
   }
 
-  #====== Display the text widget
+  ###################################################################
+  # Display the text widget
 
   proc update_txt {txt} {
 
     api::reset_text_focus $txt
+    return
 
   }
 
-  #====== Get line's positions
+  ###################################################################
+  # Get line's positions
 
   proc get_line {txt ind} {
 
@@ -41,7 +45,8 @@ namespace eval edit_utils {
 
   }
 
-  #====== Get current line's positions
+  ###################################################################
+  # Get current line's positions
 
   proc get_current_line {txt} {
 
@@ -49,7 +54,8 @@ namespace eval edit_utils {
 
   }
 
-  #====== Get line's contents
+  ###################################################################
+  # Get line's contents
 
   proc get_line_contents {txt ind} {
 
@@ -58,9 +64,10 @@ namespace eval edit_utils {
 
   }
 
-  #====== Get text to process (current line or selection)
+  ###################################################################
+  # Get text to process (current line or selection)
 
-  proc text_to_process { {i_start "insert linestart"} {i_end "insert lineend"}} {
+  proc text_todo {{i_start "insert linestart"} {i_end "insert lineend"}} {
 
     set txt [get_txt]
     if {$txt == ""} {return [list]}
@@ -74,31 +81,36 @@ namespace eval edit_utils {
 
   }
 
-  #====== Delete line
+  ###################################################################
+  # Delete line
 
   proc delete_line {txt ind} {
 
     lassign [get_line $txt $ind] linestart lineend
     $txt delete $linestart $lineend
+    return
 
   }
 
-  #====== Delete current line/ lines of selection
+  ###################################################################
+  # Delete current line/ lines of selection
 
   proc do_delete_lines {} {
 
     set txt [get_txt]
     if {$txt == ""} return
-    foreach {i1 i2} [text_to_process] {  # process each selection
+    foreach {i1 i2} [text_todo] {  # process each selection
       for {set i [expr int($i2)]} {$i >= [expr int($i1)]} {incr i -1} {
         delete_line $txt $i.0
       }
     }
     update_txt $txt
+    return
 
   }
 
-  #====== Duplicate current line/ selection
+  ###################################################################
+  # Duplicate current line/ selection
 
   proc do_double_line {} {
 
@@ -115,12 +127,14 @@ namespace eval edit_utils {
     set duptext [$txt get $pos $pos2]
     $txt insert $pos3 $duptext
     update_txt $txt
+    return
 
   }
 
   #% doctest
 
-  #====== Calculate new position after indent/unindent
+  ###################################################################
+  # Calculate new position after indent/unindent
 
   # Problem: we can't use [$txt index "$ind - $cn chars"] because
   # after unindent $ind may point to non-existing trailing position,
@@ -153,7 +167,8 @@ namespace eval edit_utils {
   }
   #> doctest
 
-  #====== Get new selection start for line (after indent/unindent)
+  ###################################################################
+  # Get new selection start for line (after indent/unindent)
 
   proc new_selstart {txt ind oldlen} {
 
@@ -168,7 +183,7 @@ namespace eval edit_utils {
 
   }
 
-  ####################################################################
+  ###################################################################
   # borrowed from http://wiki.tcl.tk/15731
 
   proc count {string char} {
@@ -187,7 +202,8 @@ namespace eval edit_utils {
     return $count
   }
 
-  #====== Reformat the code
+  ###################################################################
+  # Reformat the code
 
   proc reformat {tclcode {pad 2}} {
 
@@ -215,10 +231,7 @@ namespace eval edit_utils {
       } else {
         set npad [expr {$indent * $pad}]
         set line [string repeat $padst $indent]$newline
-        set ns 0         ;# count of slashes
-        set nl 0         ;# count of left brace
-        set nr 0         ;# count of right brace
-        set body 0
+        set ns [set nl [set nr [set body 0]]]
         for {set i 0; set n [string length $newline]} {$i<$n} {incr i} {
           set ch [string index $newline $i]
           if {$ch=="\\"} {
@@ -229,8 +242,13 @@ namespace eval edit_utils {
             } elseif {!$nquot} {
               switch $ch {
                 "\{" {
-                  incr nl
-                  set body -1
+                  if {[string range $newline $i $i+2]=="\{\"\}"} {
+                    # quote in braces - correct (though tricky)
+                    incr i 2
+                  } else {
+                    incr nl
+                    set body -1
+                  }
                 }
                 "\}" {
                   incr nr
@@ -265,7 +283,8 @@ namespace eval edit_utils {
     return $out
   }
 
-  #====== Get indent shift width
+  ###################################################################
+  # Get indent shift width
 
   proc get_shiftwidth {txt} {
 
@@ -273,7 +292,7 @@ namespace eval edit_utils {
     if {$txt == ""} {
       return 0
     }
-    foreach {i1 i2} [text_to_process 1.0 end] {  ;# process all
+    foreach {i1 i2} [text_todo 1.0 end] {  ;# process all
       for {set i [expr int($i1)]} {$i <= [expr int($i2)]} {incr i} {
         set line [get_line_contents $txt $i.0]
         set linetrimmed [string trimleft $line]
@@ -288,7 +307,8 @@ namespace eval edit_utils {
     return 2
   }
 
-  #====== Normalize indention
+  ###################################################################
+  # Normalize indention
 
   proc normalize_indention {txt sel} {
 
@@ -305,7 +325,7 @@ namespace eval edit_utils {
       set contents [$txt get $i1 $i2]
       set contents [reformat $contents $indent]
       if {$contents != ""} {
-        if {$sel == "" && [tk_messageBox -default no -type yesno \
+        if {$sel == "" && [tk_messageBox -default yes -type yesno \
         -message "You are going to normalize\nthe indention of the whole\
         \n\n[file tail [api::file::get_info [api::file::current_index] fname]]\
         \n\nwith indent = $indent" -title "Total indentation"] ne "yes"} {
@@ -314,9 +334,11 @@ namespace eval edit_utils {
         $txt replace $i1 $i2 $contents
       }
     }
+    return
   }
 
-  #====== Indent line/ selected text
+  ###################################################################
+  # Indent line/ selected text
 
   proc do_indent_lines {inc} {
 
@@ -347,10 +369,12 @@ namespace eval edit_utils {
       $txt tag add sel $p1 $p2
     }
     update_txt $txt
+    return
 
   }
 
-  #====== Check if string is commented
+  ###################################################################
+  # Check if string is commented
 
   proc is_commented {st} {
 
@@ -359,16 +383,19 @@ namespace eval edit_utils {
 
   }
 
-  #====== Move cursor to next line
+  ###################################################################
+  # Move cursor to next line
 
   proc move_to_next_line {txt} {
 
     api::edit::move_cursor $txt \
       left -startpos "insert + 1 lines linestart" -num 0
+    return
 
   }
 
-  #====== Move cursor to next commented line if possible
+  ###################################################################
+  # Move cursor to next commented line if possible
 
   proc move_to_next_comm1 {txt line} {
 
@@ -391,7 +418,8 @@ namespace eval edit_utils {
 
   }
 
-  #====== Comment Tcl code (with checking for {} parity)
+  ###################################################################
+  # Comment Tcl code (with checking for {} parity)
 
   proc do_comment_tcl {} {
 
@@ -399,12 +427,15 @@ namespace eval edit_utils {
     variable bracemark
     set txt [get_txt]
     if {$txt == ""} return
-    set linelist [text_to_process]   ;# process each selection
+    set linelist [text_todo]   ;# process each selection
     foreach {i1 i2} $linelist {
       set lefts [set rights 0]
-      for {set i [expr int($i2)]} {$i >= [expr int($i1)]} {incr i -1} {
+      set beg [expr int($i1)]
+      set end [expr int($i2)]
+      for {set i $end} {$i >= $beg} {incr i -1} {
         set st [get_line_contents $txt $i.0]
-        if {![is_commented $st]} {
+        if {![is_commented $st] && \
+        ($st!="" || ($i != $end && $i != $beg))} {
           set l [count $st "\{"]
           set r [count $st "\}"]
           incr lefts $l
@@ -422,10 +453,12 @@ namespace eval edit_utils {
     }
     move_to_next_line $txt
     update_txt $txt
+    return
 
   }
 
-  #====== Uncomment Tcl code (commented by previous procedure)
+  ###################################################################
+  # Uncomment Tcl code (commented by previous procedure)
 
   proc do_uncomment_tcl {} {
 
@@ -434,7 +467,7 @@ namespace eval edit_utils {
     set txt [get_txt]
     if {$txt == ""} return
     set chars "[string length $commmark] chars"
-    set linelist [text_to_process]    ;# process each selection
+    set linelist [text_todo]    ;# process each selection
     foreach {i1 i2} $linelist {
       set lefts [set rights 0]
       for {set i [expr int($i2)]} {$i >= [expr int($i1)]} {incr i -1} {
@@ -454,10 +487,12 @@ namespace eval edit_utils {
       }
     }
     update_txt $txt
+    return
 
   }
 
-  #====== Procedures to register the plugin
+  ###################################################################
+  # Procedures to register the plugin
 
   proc handle_state {} {
 
@@ -468,9 +503,11 @@ namespace eval edit_utils {
 
 }
 
-#====== Register plugin action
+#####################################################################
+# Register plugin action
 
 api::register edit_utils {
+
   {menu command {Edit Utils/Delete Line} \
     edit_utils::do_delete_lines  edit_utils::handle_state}
   {menu command {Edit Utils/Duplicate Selection} \

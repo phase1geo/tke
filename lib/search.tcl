@@ -426,7 +426,7 @@ namespace eval search {
       array set rsp $rsp_list
 
       # Add the rsp(find) value to the history list
-      add_history fif [list $rsp(find) $rsp(in) $rsp(search_method) $rsp(case_sensitive) $rsp(save)]
+      add_history fif $rsp_list
 
       # Convert directories into files
       array set files {}
@@ -443,7 +443,7 @@ namespace eval search {
       }
 
       # Convert the pattern based on the given search method
-      switch $rsp(search_method) {
+      switch $rsp(method) {
         glob {
           set rsp(find) [string map {* .* ? . { \\{ } \\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
         }
@@ -454,7 +454,7 @@ namespace eval search {
 
       # Figure out any search options
       set egrep_opts [list]
-      if {!$rsp(case_sensitive)} {
+      if {!$rsp(case)} {
         lappend egrep_opts -i
       }
 
@@ -660,7 +660,7 @@ namespace eval search {
     variable data
 
     # Check to see if the search string exists within the history
-    if {[set index [lsearch -exact -index 0 $data($type,hist) [lindex $hist_info 0]]] != -1} {
+    if {[set index [lsearch -exact -index 1 $data($type,hist) [lindex $hist_info 1]]] != -1} {
       set data($type,hist) [lreplace $data($type,hist) $index $index]
 
     # Otherwise, reduce the size of the find history if adding another element will cause it to overflow
@@ -695,7 +695,7 @@ namespace eval search {
     set i 0
     foreach item $data($type,hist) {
       if {[lrange $item 0 end-1] eq [lrange $search_data 0 end-1]} {
-        lset data($type,hist) $i 0 [lindex $search_data end]
+        lset data($type,hist) $i end [lindex $search_data end]
         sessions::save find [sessions::current]
         break
       }
@@ -766,7 +766,7 @@ namespace eval search {
         return
       }
       array set rsp $rsplist
-      add_history docsearch [list $rsp(name) $rsp(str) $rsp(save)]
+      add_history docsearch [list find $rsp(str) name $rsp(name) save $rsp(save)]
     }
 
     # Substitute any space characters with %20

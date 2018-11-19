@@ -198,7 +198,7 @@ namespace eval ctext {
     bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                   [list event generate $win.t <4>]
     bind $win.l <5>                   [list event generate $win.t <5>]
-    bind $win   <Destroy>             [list ctext::event:Destroy $win %W]
+    bind $win.t <Destroy>             [list ctext::event:Destroy $win]
 
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
@@ -250,13 +250,9 @@ namespace eval ctext {
 
   }
 
-  proc event:Destroy {win dWin} {
+  proc event:Destroy {win} {
 
     variable data
-
-    if {![string equal $win $dWin]} {
-      return
-    }
 
     bgproc::killall ctext::*
 
@@ -4057,8 +4053,6 @@ namespace eval ctext {
   proc deleteHighlightClass {win class} {
 
     variable data
-
-    puts "Deleting highlight class: $class"
 
     foreach key [array names data $win,highlight,regexps,*] {
       foreach index [lreverse [lsearch -all $data($key) *regexp,class,*,$class,*]] {

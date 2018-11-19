@@ -41,8 +41,7 @@
  R:git diff master..%s R: cd %PD
  S:git diff master..%s S: git diff master..%s
 
- R:edit .gitignore R: cd %PD
- R:edit .gitignore R: %E .gitignore
+ R:edit .gitignore R: %E %PD/.gitignore
 
  MW: MISC git MW: #sets the menu item type = "M, MW, ME"
  R: MISC git R: %Q "DANGER!" "These commands are dangerous\nand can set the world on fire!\n\nContinue?"
