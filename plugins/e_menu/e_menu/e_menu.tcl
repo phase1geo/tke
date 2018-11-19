@@ -52,12 +52,15 @@ set maxitems 45    ;# maximum of menu.txt items
 set timeafter 5    ;# interval (in sec.) for updating times/dates
 
 # *******************************************************************
-# internal trifles: D - message, Q - question, S - console
+# internal trifles: D - message, Q - question, S - console,
+#                   IF - conditional execution, EXIT - close tclsh
 
 # called in I: menu item, $ escaped as \$, CLI commands devided with \n, e.g.:
 # I: Xterm in "%PD" I: D run bash in %PD; if {[Q BASH "Want to bash?"]} {cd "%PD"; S bash}
 # I: Xterm in "%PD" (mute) I: cd "%PD"; S bash
 # I: Console commands I: S dir \n echo \$PWD \n date
+
+namespace eval em {}
 
 proc D {args} {::em::message_box "$args"}
 proc Q {ttl mes {typ okcancel}} { return [::question_box $ttl $mes $typ] }
@@ -66,6 +69,33 @@ proc S {args} {
   ::em::shell_run "Nobutt" "S:" shell1 - "noamp" [string map {"\\n" "\r"} $cc]
 }
 proc EXIT {} {::em::on_exit}
+proc IF {rest} {
+  set pthen [string first " %THEN " $rest]
+  set pelse [string first " %ELSE " $rest]
+  if {$pthen > 0} {
+    if {$pelse < 0} {set pelse end}
+    set ifcond [string trim [string range $rest 0 $pthen-1]]
+    if {[catch {set res [expr $ifcond]} e]} {
+      message_box "ERROR: incorrect condition of IF:\n$ifcond\n\n($e)"
+      return false
+    }
+    set thencomm [string trim [string range $rest $pthen+6 $pelse-1]]
+    set comm     [string trim [string range $rest $pelse+6 end]]
+    if {$res} {
+      set comm $thencomm
+    }
+    if {$comm!=""} {
+      if {[::iswindows]} {
+        set comm "cmd.exe /c $comm"
+      }
+      if { [catch {exec {*}$comm} e] } {
+        message_box "ERROR: incorrect command of IF:\n$comm\n\n($e)"
+        return false
+      }
+    }
+  }
+  return true
+}
 
 # *******************************************************************
 # e_menu's procedures
@@ -465,9 +495,14 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
                 [string first "%B " $sel] == 0} {
         set sel "::eh::browse [list [string range $sel 3 end]]"
         {*}$sel
+      } elseif {[string first "%IF " $sel] == 0} {
+        return [IF [string range $sel 4 end]]
       } else {
-        set sel "$sel $amp"
-        if { [catch {exec {*}$sel} e] } {
+        set comm "$sel $amp"
+        if {[::iswindows]} {
+          set comm "cmd.exe /c $comm"
+        }
+        if { [catch {exec {*}$comm} e] } {
           if {$silent < 0} {
             message_box "ERROR of running\n\n$sel\n\n$e"
             return false
@@ -500,11 +535,15 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
         }
       }
     } else {
-      set lang "[lindex [split $::env(LANG) .] 0].utf8"  ;# = ru_RU.utf8
+      set lang [get_language]
       set sel [escape_quotes $sel "\\\""]
       set composite "$::lin_console $sel $amp"
-      if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
-      -geometry $::em::tg -bg white -fg black -title $sel \
+#?       if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
+#?       -geometry $::em::tg -bg white -fg black -title $sel \
+#?       -e {*}$composite  } e] } {
+#?       if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
+#? TODO }}}
+      if { [catch { exec lxterminal  \
       -e {*}$composite  } e] } {
         if {$silent < 0} {
           message_box "ERROR of running\n\n$sel\n\n$e"
@@ -695,6 +734,13 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
     }
     {*}$torun
   }
+  #====== to get current language, e.g. ru_RU.utf8
+  proc get_language {} {
+    if {[catch {set lang "[lindex [split $::env(LANG) .] 0].utf8"}]} {
+      return ""
+    }
+    return $lang
+  }
   #====== Mr. Preprocessor of s0-9, u0-9
   proc prepr_09 {refn refa t {inc 0}} {
     upvar $refn name
@@ -792,6 +838,7 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
     prepr_1 pn "m" $::menudir       ;# %m is e_menu.tcl dir
     prepr_1 pn "s" $::em::seltd     ;# %s is a selected text
     prepr_1 pn "u" $::em::useltd    ;# %u is %s underscored
+    prepr_1 pn "lg" [get_language]  ;# %lg is a locale info (e.g. ru_RU.utf8)
     set pndt [prepr_dt pn]
     if {$dt} { return $pndt } { return $pn }
   }

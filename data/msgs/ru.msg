@@ -18,7 +18,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Built-In Self Test"
-  "Встроенная система контроля"
+  "Встроенный самоконтроль"
 
   "Decrementing order"
   "Порядок уменьшения"
@@ -27,70 +27,70 @@ msgcat::mcmset ru {
   "Редактировать тест"
 
   "Edit Test File"
-  "Редактировать тестовый файл"
+  "Редактировать файл теста"
 
   "FAILED"
   "НЕУДАЧНО"
 
   "Fail"
-  "Окончилось неудачей"
+  "Неудача"
 
   "Fail Count"
-  "Количество сбоев"
+  "Количество неудач"
 
   "Failed"
-  "Не смогли:"
+  "Неудачно"
 
   "Filter"
   "Фильтр"
 
   "Incrementing order"
-  "Увеличивая заказ"
+  "Порядок увеличения"
 
   "Iteration"
   "Итерация"
 
   "Iteration count"
-  "Количество повторов"
+  "Счетчик итераций"
 
   "Loop"
   "Цикл"
 
   "Loop count"
-  "Количество прогонов"
+  "Счетчик циклов"
 
   "Loop type"
-  "Loop тип"
+  "Тип цикла"
 
   "New Test"
   "Новый тест"
 
   "New Test File"
-  "Новый тест"
+  "Новый файл теста"
 
   "New Test Name"
-  "Название испытания"
+  "Название теста"
 
   "Output"
-  "Выходная мощность"
+  "Выход"
 
   "PASSED"
   "ВЫПОЛНЕНО"
 
   "Pass"
-  "Пройдено успешно"
+  "Проход"
 
   "Pass Count"
-  "Количество пропусков"
+  "Счетчик проходов"
 
   "Passed"
   "Пройдено успешно"
 
   "RUNNING BIST"
-  "Активное"
+  "ВЫПОЛНЕНИЕ BIST"
 
   "Random"
-  "Случайный"
+  "Случайно"
 
   "Refresh"
   "Обновить"
@@ -99,37 +99,37 @@ msgcat::mcmset ru {
   "Результаты"
 
   "Run Count"
-  "Запустить Граф"
+  "Запустить счетчик"
 
   "Run iterations"
-  "Выполнение итераций"
+  "Запустить итерации"
 
   "Run loops"
-  "Витки"
+  "Запустить циклы"
 
   "Running"
-  "Активное"
+  "Выполняется"
 
   "Runtime"
-  "Продолжительность"
+  "Время исполнения"
 
   "Selection method"
-  "Метод выбора правила"
+  "Метод отбора"
 
   "Setup"
-  "Установки"
+  "Настройка"
 
   "Total"
   "Всего"
 
   "hours"
-  "godziny"
+  "часов"
 
   "minutes"
-  "minuty"
+  "минут"
 
   "seconds"
-  "sekundy"
+  "секунд"
 
 }
 
@@ -146,16 +146,16 @@ msgcat::mcmset ru {
   "Повернуть изображение вертикально"
 
   "Move image down"
-  "Переместить изображение"
+  "Изображение вниз"
 
   "Move image left"
-  "Изображение слева"
+  "Изображение налево"
 
   "Move image right"
-  "Изображение справа"
+  "Изображение направо"
 
   "Move image up"
-  "Переместить изображение"
+  "Изображение вверх"
 
   "Rotate image 90 degrees"
   "Повернуть на 90 градусов"
@@ -273,19 +273,19 @@ msgcat::mcmset ru {
   "Ошибка"
 
   "Exact"
-  "Точно"
+  "Точное совпадение"
 
   "Favorited"
   "Избранное"
 
   "File already exists.  Use '!' to force an overwrite"
-  "Файл уже существует.  Используйте '!' для принудительной записи"
+  "Файл уже существует.  Используйте '!' для перезаписи"
 
   "File index is out of range"
-  "Номер файла вне диапазона"
+  "Индекс файла вне диапазона"
 
   "Glob"
-  "Glob"
+  "Шаблон glob"
 
   "Hide Tab"
   "Скрыть вкладку"
@@ -384,10 +384,10 @@ msgcat::mcmset ru {
   "Должен быть режим multicursor для ввода чисел"
 
   "No write permissions.  Use '!' to force write."
-  "Нет разрешения на запись.  Используйте '!' для принудительной записи."
+  "Нет разрешения на запись.  Используйте '!' для перезаписи."
 
   "Regexp"
-  "Регулярные выражения"
+  "Регулярное выражение"
 
   "Release Type"
   "Тип выпуска"
@@ -402,7 +402,7 @@ msgcat::mcmset ru {
   "Запрос на сохранение"
 
   "Save this search"
-  "Сохранить результаты поиска"
+  "Сохранить этот поиск"
 
   "Starting number:"
   "Начальный номер:"
@@ -428,7 +428,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "No Indent"
-  "Не отступ"
+  "Без отступа"
 
 }
 
@@ -818,7 +818,7 @@ msgcat::mcmset ru {
   "Експортировать полностью"
 
   "Export current plugin"
-  "Экспорт текущего плагина"
+  "Экспортировать текущий плагин"
 
   "Export file contents"
   "Експортировать содержимое файла"
@@ -983,7 +983,7 @@ msgcat::mcmset ru {
   "Картинка"
 
   "Import plugin bundle"
-  "Импорт плагинов"
+  "Импортировать плагины"
 
   "Increment by 0.1"
   "Увеличить на 0,1"
@@ -1460,13 +1460,13 @@ msgcat::mcmset ru {
   "Перезапуск"
 
   "Run theme editor"
-  "Запуск редактора темы"
+  "Запуск редактора тем"
 
   "Save All"
   "Сохранить все"
 
   "Save As Remote"
-  "Сохранить как сетевой"
+  "Сохранить в сети"
 
   "Save As Template"
   "Сохранить как шаблон"
@@ -1595,7 +1595,7 @@ msgcat::mcmset ru {
   "Показать журнал диагностики"
 
   "Show File Difference"
-  "Показать отличия файла"
+  "Показать различия файла"
 
   "Show Installed"
   "Показать установленные"
@@ -1777,11 +1777,14 @@ msgcat::mcmset ru {
   "User Guide"
   "Руководство пользователя"
 
+  "View"
+  "Вид"
+
   "View Emmet Reference Guide"
-  "Просмотр Emmet справочное руководство"
+  "Руководство по Emmet"
 
   "View the Emmet reference guide"
-  "Посмотреть справочник Эммет"
+  "Руководство по Emmet"
 
   "View tips & tricks articles"
   "Статьи подсказок и советов"
@@ -1843,10 +1846,10 @@ msgcat::mcmset ru {
   "Запрошено доверие к плагину"
 
   "Plugin export completed successfully"
-  "Модуль экспорта успешно завершена"
+  "Экспорт плагина успешно завершен"
 
   "Plugin import completed successfully"
-  "Импорт успешно завершён"
+  "Импорт плагина успешно завершен"
 
   "Plugin installed"
   "Плагин установлен"
@@ -1867,10 +1870,10 @@ msgcat::mcmset ru {
   "Синтаксические ошибки, обнаруженные в выбранных плагинах"
 
   "Unable to unzip plugin"
-  "Не удалось разархивировать плагин"
+  "Не удалось распаковать плагин"
 
   "Unable to zip plugin"
-  "Не удается почтовый плагин"
+  "Не удалось упаковать плагин"
 
 }
 
@@ -1892,9 +1895,6 @@ msgcat::mcmset ru {
   "Addons"
   "Дополнения"
 
-  "Advanced"
-  "Дополнения"
-
   "Alias"
   "Псевдоним"
 
@@ -1903,9 +1903,6 @@ msgcat::mcmset ru {
 
   "Angled bracket"
   "Угловая скобка"
-
-  "Appearance"
-  "Внешний вид"
 
   "Append characters to search string if entered within"
   "Добавить символы в строку поиска, если вводятся за"
@@ -1977,7 +1974,7 @@ msgcat::mcmset ru {
   "Ввод команды запуска"
 
   "Command launcher preview"
-  "Предпросмотр команды запуска"
+  "Предосмотр команды запуска"
 
   "Convert to lowercase"
   "Преобразовать в нижний регистр"
@@ -2028,7 +2025,7 @@ msgcat::mcmset ru {
   "Метод поиска по умолчанию"
 
   "Default sidebar width on startup"
-  "Ширина боковой панели по умолчанию при запуске"
+  "Ширина боковой панели при запуске"
 
   "Default theme"
   "Тема по умолчанию"
@@ -2050,9 +2047,6 @@ msgcat::mcmset ru {
 
   "Displayed Information"
   "Отображаемые сведения"
-
-  "Documentation"
-  "Документация"
 
   "Double-quote"
   "Двойные кавычки"
@@ -2129,8 +2123,8 @@ msgcat::mcmset ru {
   "Insertion cursor width"
   "Ширина курсора вставки"
 
-  "Keep information panel visible when sidebar doesn't have focus"
-  "Сохранять информационную панель, если боковая панель не имеет фокуса"
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Оставить панель информации видимой, когда курсор не в боковой панели"
 
   "Keyword"
   "Ключевое слово"
@@ -2151,7 +2145,7 @@ msgcat::mcmset ru {
   "Число строк для режима modeline в Vim"
 
   "Line number alignment"
-  "Выравнивание номера строки"
+  "Выравнивание номеров строк"
 
   "Logfile Directory"
   "Каталог файла журнала"
@@ -2211,7 +2205,7 @@ msgcat::mcmset ru {
   "Сохранить регистр"
 
   "Return"
-  "Вернуться на панель инструментов"
+  "Вернуться"
 
   "Ruler column"
   "Столбец линейки"
@@ -2229,10 +2223,10 @@ msgcat::mcmset ru {
   "Поиск фрагментов кода"
 
   "Select Command Launcher Entry Font"
-  "Выбор шрифта ввода командной строки"
+  "Выбрать шрифт ввода командной строки"
 
   "Select Command Launcher Preview Font"
-  "Выберите Command Launcher Preview Font"
+  "Выбрать шрифт предосмотра командной строки"
 
   "Select Editor Font"
   "Выбрать шрифт редактора"
@@ -2312,9 +2306,6 @@ msgcat::mcmset ru {
   "Show menubar"
   "Показать линейку меню"
 
-  "Sidebar"
-  "Боковая панель"
-
   "Single-quote"
   "Одиночная кавычка"
 
@@ -2367,7 +2358,7 @@ msgcat::mcmset ru {
   "Неизвестно"
 
   "Update information panel whenever the sidebar selection changes"
-  "Обновлять панель информации всякий раз, когда изменяется выбор боковой панели"
+  "Обновлять панель информации при смене курсора в боковой панели"
 
   "Update using release type"
   "Обновление с помощью типа релиза"
@@ -2412,10 +2403,10 @@ msgcat::mcmset ru {
   "Видимый"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
-  "Вы изменили глобальные настройки, которые не будут видны, потому что вы находитесь сейчас в именной сессии."
+  "Вы изменили глобальные настройки, которые не будут видны, потому что вы находитесь сейчас в данной сессии."
 
-  "You have changed the current session's preferences which will not be applied globally."
-  "Вы изменили настройки текущего сеанса, которые не будут применяться глобально."
+  "You have changed the current session's preferences which will not be applied globally"
+  "Вы изменили настройки текущей сессии, которые не будут применяться глобально"
 
   "milliseconds"
   "миллисекунд"
@@ -2435,7 +2426,7 @@ msgcat::mcmset ru {
   "Закрыть соединение"
 
   "Connection does not exist"
-  "план подключения не существует"
+  "Нет соединения"
 
   "Connection failed"
   "Сбой соединения."
@@ -2468,7 +2459,7 @@ msgcat::mcmset ru {
   "Введите пароль"
 
   "File System"
-  "% 1 Файл)"
+  "Файловая система"
 
   "Folder Name"
   "Название каталога"
@@ -2729,6 +2720,9 @@ msgcat::mcmset ru {
 
 # share.tcl
 msgcat::mcmset ru {
+
+  "Emmet"
+  "Emmet"
 
   "Export Settings Data"
   "Экспорт настроек"
@@ -3438,7 +3432,7 @@ msgcat::mcmset ru {
   "Поиск таблицы"
 
   "The current theme has unsaved changes."
-  "Текущая тема имеет несохраненные изменения."
+  "Изменения текущей темы не сохранены."
 
   "Theme Name"
   "Название темы"
@@ -3515,13 +3509,13 @@ msgcat::mcmset ru {
   "Неизвестный метод свертки"
 
   "INSERT MODE"
-  "Режим вставки"
+  "РЕЖИМ ВСТАВКИ"
 
   "Illegal modelines value"
   "Некорректное значение modelines"
 
   "MULTIMOVE MODE"
-  "MULTIMOVE MODE"
+  "РЕЖИМ MULTIMOVE"
 
   "Number width not a number"
   "Значение ширины не число"
@@ -3542,10 +3536,10 @@ msgcat::mcmset ru {
   "РЕЖИМ ВИЗУАЛЬНОГО БЛОКА"
 
   "VISUAL LINE MODE"
-  "Режим VISUAL LINE"
+  "РЕЖИМ ВИЗУАЛЬНОЙ СТРОКИ"
 
   "VISUAL MODE"
-  "Визуально"
+  "ВИЗУАЛЬНЫЙ РЕЖИМ"
 
 }
 
@@ -3559,7 +3553,7 @@ msgcat::mcmset ru {
   "Атрибуты"
 
   "Auto-Indent"
-  "Автоматический отступ"
+  "Авто-отступ"
 
   "Back"
   "Назад"
@@ -3609,14 +3603,11 @@ msgcat::mcmset ru {
   "Edit"
   "Правка"
 
-  "Emmet"
-  "муравей"
-
   "Enable code folding"
   "Включить сворачивание кода"
 
   "Encoding"
-  "Encoding / Кодировка"
+  "Кодировка"
 
   "Export"
   "Экспорт"
@@ -3685,7 +3676,7 @@ msgcat::mcmset ru {
   "Узел"
 
   "None"
-  "Ничей"
+  "None"
 
   "OK"
   "ОК"
@@ -3709,7 +3700,7 @@ msgcat::mcmset ru {
   "Настройки"
 
   "Preview"
-  "Предпросмотр"
+  "Предосмотр"
 
   "Rename"
   "Переименовать"
@@ -3769,7 +3760,7 @@ msgcat::mcmset ru {
   "Шаблоны"
 
   "Test"
-  "Проверка"
+  "Тест"
 
   "Theme Editor"
   "Редактор тем"
@@ -3791,9 +3782,6 @@ msgcat::mcmset ru {
 
   "Version"
   "Версия"
-
-  "View"
-  "Вид"
 
 }
 
