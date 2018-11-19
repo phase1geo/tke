@@ -258,7 +258,6 @@ namespace eval ctext {
 
     catch { rename $win {} }
     interp alias {} $win.t {}
-    # clearHighlightClasses $win
     array unset data $win,*
 
   }
@@ -4054,13 +4053,21 @@ namespace eval ctext {
 
     variable data
 
+    array unset data $win,highlight,regexp,class,*,__$class,*
     foreach key [array names data $win,highlight,regexps,*] {
-      foreach index [lreverse [lsearch -all $data($key) *regexp,class,*,$class,*]] {
+      foreach index [lreverse [lsearch -all $data($key) *regexp,class,*,__$class,*]] {
         set data($key) [lreplace $data($key) $index $index]
       }
     }
 
-    array unset data $win,highlight,*,class,__$class
+    foreach type [list wkeyword wcharstart] {
+      foreach key [array names data $win,highlight,$type,class,*] {
+        if {[string match $data($key) __$class]} {
+          unset data($key)
+        }
+      }
+    }
+
     array unset data $win,highlight,searches,__$class
     array unset data $win,classopts,$class
     array unset data $win,classimmediate,$class
@@ -4114,23 +4121,6 @@ namespace eval ctext {
     }
 
     return $classes
-
-  }
-
-  ######################################################################
-  # Clears the highlight classes so that they can be freshly reapplied.
-  proc clearHighlightClasses {win} {
-
-    variable data
-
-    array unset data $win,highlight,*
-
-    # Delete the associated tags
-    if {[winfo exists $win]} {
-      foreach class [getHighlightClasses $win] {
-        $win._t tag delete __$class
-      }
-    }
 
   }
 
