@@ -194,7 +194,7 @@ namespace eval themes {
     variable themes_dir
 
     # If the directory exists, move it out of the way
-    set odir [file join $themes_dir [file basename [file tail $fname]]]
+    set odir [file join $themes_dir [file rootname [file tail $fname]]]
     if {[file exists $odir]} {
       file rename $odir $odir.old
     }
