@@ -33,9 +33,9 @@
 
  R: R: 2
 
- R:fossil commit -m "%z3 %PN %s at %t1" R: %q "Committing changes" "Commit with message\n\n'%z3 %PN %s at %t1' ?"
- R:fossil commit -m "%z3 %PN %s at %t1" R: cd %PD
- S:fossil commit -m "%z3 %PN %s at %t1" S: fossil commit -m "%z3 %PN %s at %t1"
+ R:fossil commit -m "%PN %s at %t1" R: %q "Committing changes" "Commit with message\n\n'%PN %s at %t1' ?"
+ R:fossil commit -m "%PN %s at %t1" R: cd %PD
+ S:fossil commit -m "%PN %s at %t1" S: fossil commit -m "%PN %s at %t1"
 
  R:fossil branch new "%dd" trunk R: %q "Branch" "Branch new %dd ?"
  R:fossil branch new "%dd" trunk R: cd %PD

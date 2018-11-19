@@ -13,11 +13,12 @@
  RE: Open in Firefox "%s" site RE: firefox "%s"
  RE: Search in Firefox for "%s" RE: firefox -search "%s"
  RE: Wikipedia for "%s" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
+ RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
  RE: GoldenDict for "%s" RE: goldendict %s
 
  M:  M: 4
- RE:Create backup of %s0 RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
- RE:Create backup of %s0 RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
+ RE: Create backup of %s0 RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
+ RE: Create backup of %s0 RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
 
  M:  M: 4
  M: Fossil M: m=menus/fossil.mnu "u=%s" o=0 w=50
