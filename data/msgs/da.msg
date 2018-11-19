@@ -983,7 +983,7 @@ msgcat::mcmset da {
   "Billede"
 
   "Import plugin bundle"
-  "Import plugin bundle"
+  "Importer plugin bundle"
 
   "Increment by 0.1"
   "Tilvækst af 0,1"
