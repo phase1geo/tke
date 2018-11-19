@@ -1,15 +1,125 @@
-2018-11-16 00:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c25e08fe939e [devel-3.4.17])
+2018-11-16 01:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (269bf7c076a3 [devel-3.4.18])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.4.17 release
+	ChangeLog for devel-3.4.18 release
 
-2018-11-16 00:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (53b2787d68ca)
+2018-11-16 01:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4c97842f6032)
 
 	* .hgtags:
-	Added tag devel-3.4.17 for changeset c25e08fe939e
+	Added tag devel-3.4.18 for changeset 269bf7c076a3
 
-2018-11-16 01:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (264819908dc5 [tip])
+2018-11-16 08:41 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2d852b2861bd)
 
-	* lib/version.tcl, specl_version.tcl:
-	* Updating specl_version.
+	* doc/md/TKE Developer Guide/Ctext Widget/Options.md,
+	lib/ctext/ctext.tcl, lib/syntax.tcl, lib/version.tcl:
+	* Updating ctext options documentation in developer guide.
+	* Adding new syntax subcommands: addblockcomments, addlinecomments and
+	addstrings.
+
+2018-11-16 08:59 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (90aed33b4218)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, doc/DeveloperGuide.html,
+	doc/UserGuide.html, doc/md/TKE Developer Guide/Ctext Widget/syntax
+	addcharstart.md, doc/md/TKE Developer Guide/Ctext Widget/syntax
+	addclass.md, doc/md/TKE Developer Guide/Ctext Widget/syntax
+	addembedlang.md, doc/md/TKE Developer Guide/Ctext Widget/syntax
+	addregexp.md, doc/md/TKE Developer Guide/Ctext Widget/syntax
+	addwords.md, doc/md/TKE Developer Guide/Ctext Widget/syntax
+	classes.md, doc/md/TKE Developer Guide/Ctext Widget/syntax clear.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax contains.md,
+	doc/md/TKE Developer Guide/Ctext Widget/syntax delete.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax highlight.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax nextrange.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax prevrange.md, doc/md/TKE
+	Developer Guide/Ctext Widget/syntax ranges.md, doc/md/TKE Developer
+	Guide/Ctext Widget/syntax search.md, lib/version.tcl:
+	* Updating translations.
+	* Updating User Guide HTML.
+	* Updating Developer Guide HTML.
+	* Fixing documentation hierarchy for the ctext syntax command Markdown
+	files.
+
+2018-11-16 10:21 -0600  Trevor Williams  <Trevor Williams>  (e39e676e8a0d)
+
+	* data/msgs/da.msg, data/msgs/fr.msg, data/msgs/pl.msg,
+	data/msgs/zh.msg:
+	* Fixing translation issues.
+
+2018-11-16 15:39 -0600  Trevor Williams  <Trevor Williams>  (4904341a3fda)
+
+	* data/syntax/PluginHeader.syntax, data/syntax/PluginTcl.syntax,
+	lib/ctext/ctext.tcl, lib/gui.tcl, lib/search.tcl, lib/syntax.tcl:
+	* Fixing issues that kept plugin header.tkedat and Tcl files from
+	having the PluginHeader/PluginTcl syntax automatically assigned.
+	* Fixed issue with default syntax determiner when checking a syntax
+	file pattern that spans more than the tail of a pathname.
+	* Fixed issue that caused regular expression highlighting to be
+	suppressed.
+	* Fixed issue that kept regular expression highlighting applied after
+	deleting all highlight classes.
+	* Fixed issue that caused selected text to show up twice in a Find or
+	Find/Replace field.
+	* Reworking several usability issues with the Find and Find/Replace
+	UI.
+	* Clearing out obsolete informational message when searching.
+
+2018-11-17 00:36 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a19ec1bfa693)
+
+	* lib/ctext/ctext.tcl, lib/search.tcl, lib/syntax.tcl,
+	lib/version.tcl, lib/vim.tcl:
+	* Checkpointing work on fixing issues with memory cleanup in ctext.
+
+2018-11-18 07:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (9977ba19dd46)
+
+	* lib/gui.tcl, lib/search.tcl, lib/version.tcl:
+	* Fixing issues with find history.
+
+2018-11-18 08:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (38c8e1da3492)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing issue with traversing documentation search history.
+	* Fixing message display in information bar.
+
+2018-11-18 18:17 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (91cb98f58083)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl, tests/find.tcl:
+	* Fixing find BIST failures.
+	* Fixing issue with handling a ctext destroy event.
+
+2018-11-18 18:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (332f0abc5053)
+
+	* data/msgs/ru.msg, lib/version.tcl, plugins/doctest/main.tcl,
+	plugins/e_menu/e_menu/e_menu.tcl,
+	plugins/e_menu/e_menu/menus/menu.mnu,
+	plugins/e_menu/e_menu/menus/side.mnu, plugins/e_menu/main.tcl,
+	plugins/edit_utils/README.md, plugins/edit_utils/header.tkedat,
+	plugins/edit_utils/main.tcl, plugins/highlight_matches/main.tcl:
+	* Updating Russian translation.
+	* Updating Alex Plotnikov's plugins.
+
+2018-11-18 20:04 -0600  Trevor Williams  <phase1geo@gmail.com>  (ecbb7b677290)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Removing the disablement of the UI when a search panel is
+	displayed.
+
+2018-11-18 20:06 -0600  Trevor Williams  <phase1geo@gmail.com>  (0c0da740b661)
+
+	* lib/gui.tcl:
+	Merge
+
+2018-11-18 21:29 -0600  Trevor Williams  <phase1geo@gmail.com>  (ecd0793a81dd)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Clearing up issues with deleting ctext syntax information.
+
+2018-11-18 22:32 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (277ffc231219 [tip])
+
+	* data/msgs/da.msg, data/msgs/ru.msg, lib/version.tcl:
+	* Updating translations.
 
