@@ -3,39 +3,7 @@
 # Plugin namespace
 namespace eval e_menu {
 
-  #====== Make string of args (1 2 3 ... be string of "1 2 3 ...")
-
-  proc string_of_args {args} {
-
-    set msg ""; foreach m $args {set msg "$msg $m"}
-    return [string trim $msg " \{\}"]
-
-  }
-
-  #====== Show info message, e.g.: MES "Info title" $st == $BL_END \n\n ...
-
-  proc MES {title args} {
-
-    tk_messageBox -parent . -title $title \
-      -type ok -default ok -message [string_of_args $args]
-
-  }
-
-  #====== Show error message, e.g.: ERR $st == $BL_END \n\n ...
-
-  proc ERR {args} {
-
-    api::show_error [string_of_args $args]
-
-  }
-
-  #====== Show debug message, e.g.: D $st == $BL_END \n\n ...
-
-  proc D {args} {
-
-    MES "Debug" $args
-
-  }
+  # proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
 
   proc get_txt {} {
 
@@ -91,7 +59,7 @@ namespace eval e_menu {
 
   }
 
-  # ====== Save the selected text to a temporary file
+  #====== Save the selected text to a temporary file
 
   proc save_to_tmp {sel} {
     set tmpname [file join [api::get_home_directory] "tmp_sel.tcl"]
@@ -105,11 +73,30 @@ namespace eval e_menu {
     return $tmpname
   }
 
+  #====== Check if the platform is MS Windows
+
+  proc iswindows {} {
+
+    return [expr {$::tcl_platform(platform) == "windows"} ? 1: 0]
+
+  }
+
+  #====== Normalize filename as for Windows
+
+    proc fn {fname} {
+
+    if {[iswindows]} {
+      set fname [string map {/ \\\\} $fname]
+    }
+    return $fname
+
+   }
+
   #####################################################################
   #  DO procedures
   #####################################################################
 
-  #===== Call user's menu
+  #====== Call user's menu
 
   proc do_e_menu {} {
 
@@ -149,26 +136,29 @@ namespace eval e_menu {
           break
         }
       }
-      set file_name [api::file::get_info $file_index fname]
+      set file_name [fn [api::file::get_info $file_index fname]]
       if {$file_name != "" && $file_name != "Untitled"} {
-        set dir_name [file dirname $file_name]
+        set dir_name [fn [file dirname $file_name]]
         set f_opt "f=$file_name"
         set d_opt "d=$dir_name"
         set D_opt "PD=$dir_name"
-        set s0_opt "s0=[file tail $file_name]"
-        set s1_opt "s1=[file tail $dir_name]"
+        set s0_opt "s0=[fn [file tail $file_name]]"
+        set s1_opt "s1=[fn [file tail $dir_name]]"
       }
       catch {
         # z3=tail of project dir
-        set z3_opt "z3=[file tail $::env(E_MENU_PD)]"
+        set z3_opt "z3=[fn [file tail $::env(E_MENU_PD)]]"
       }
     }
     set tke [file normalize [file join [api::get_plugin_directory]/../../../../bin tke]]
     set plugdir "[api::get_plugin_directory]/e_menu"
     set z1_opt "z1=$plugdir"
-    exec tclsh $plugdir/e_menu.tcl \
-    "m=menus/menu.mnu" "ed=$tke" fs=11 w=40 wc=1 \
-    $h_opt $s_opt $f_opt $d_opt $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $D_opt &
+    catch {
+      exec tclsh $plugdir/e_menu.tcl "m=menus/menu.mnu" "ed=$tke" \
+      fs=11 w=40 wc=1 $h_opt $s_opt $f_opt $d_opt \
+      $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $D_opt &
+    } e
+      return
   }
 
   #====== Procedures to register the plugin

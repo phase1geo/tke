@@ -8,7 +8,8 @@ namespace eval highlight_matches {
   variable opt1 "HLM_rows_to_span"
   variable prompt "(0 means NONE, blank or -1 means ALL):"
 
-  #====== Get current text command
+  ###################################################################
+  # Get current text command
 
   proc get_txt {} {
 
@@ -20,7 +21,8 @@ namespace eval highlight_matches {
 
   }
 
-  #====== Get checked rows_to_span from string
+  ###################################################################
+  # Get checked rows_to_span from string
 
   proc get_rows_to_span {inst} {
 
@@ -39,7 +41,8 @@ namespace eval highlight_matches {
 
   }
 
-  #====== Get spanned index as "row.0" or "row.end"
+  ###################################################################
+  # Get spanned index as "row.0" or "row.end"
 
   #  ins  - text inserting index (position of cursor)
   #  addn - number of rows to be added to ins
@@ -71,7 +74,8 @@ namespace eval highlight_matches {
 #?   }
 #?
 
-  #====== Get current word or selection
+  ###################################################################
+  # Get current word or selection
 
   # returns a list containing:
   # - starting position of selection/word or 0
@@ -90,7 +94,7 @@ namespace eval highlight_matches {
         set pos  [$txt index "insert wordstart"]
         set pos2 [$txt index "insert wordend"]
         set sel [string trim [$txt get $pos $pos2]]
-        if {![string is alnum -strict $sel]} {
+        if {![string is wordchar -strict $sel]} {
           # when cursor just at the right of word: take the word at the left
           # e.g. if "_" stands for cursor then "word_" means selecting "word"
           set pos  [$txt index "insert -1 char wordstart"]
@@ -114,7 +118,8 @@ namespace eval highlight_matches {
 
   }
 
-  #====== Seek the selected word forward/backward/to first/to last
+  ###################################################################
+  # Seek the selected word forward/backward/to first/to last
 
   proc do_seek {mode} {
 
@@ -142,10 +147,12 @@ namespace eval highlight_matches {
       api::edit::move_cursor $txt left -startpos $pos -num 0
       $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
     }
+    return
 
   }
 
-  #====== Get the selected word and highlight its matches
+  ###################################################################
+  # Get the selected word and highlight its matches
 
   proc highlight_operate {w fromto {frommenu 0}} {
 
@@ -168,10 +175,12 @@ namespace eval highlight_matches {
     }
     set mess "  $mmes highlighted  $scan"
     api::show_info $mess -clear_delay [expr 5000+[string length $mess]*50]
+    return
 
   }
 
-  #====== Highlight matches of selected text
+  ###################################################################
+  # Highlight matches of selected text
 
   proc highlight_from_menu {{frommenu true}} {
 
@@ -187,6 +196,8 @@ namespace eval highlight_matches {
       set to   [get_span $ins +$rows_to_span end]
     }
     highlight_operate $txt "$from $to" $frommenu
+    return
+
   }
 
   proc highlight_matches {} {
@@ -195,10 +206,12 @@ namespace eval highlight_matches {
     if {$rows_to_span ne "0"} {
       highlight_from_menu false
     }
+    return
 
   }
 
-  #====== Procedures to register the plugin
+  ###################################################################
+  # Procedures to register the plugin
 
   proc do_matches {btag} {
 
@@ -251,21 +264,28 @@ $prompt
 "] -fill x
     api::preferences::widget spinbox $w.sf "$opt1" \
       "   Enter rows to span" -from -1 -to 9999999 -increment 1 -grid 1
+    return
 
   }
 
   proc do_focusin {index} {
+
     do_pref_load
+    return
+
   }
 
 }
 
-#====== Register plugin action
+#####################################################################
+# Register plugin action
 
 api::register highlight_matches {
+
   {text_binding posttext himatch all highlight_matches::do_matches}
   {menu command {Highlight Matches/Highlight} \
-      highlight_matches::highlight_from_menu  highlight_matches::handle_highlight_state}
+      highlight_matches::highlight_from_menu \
+      highlight_matches::handle_highlight_state}
   {menu separator {Highlight Matches}}
   {menu command {Highlight Matches/Jump Backward} \
       {highlight_matches::do_seek 0}  highlight_matches::handle_seek_state}
@@ -279,7 +299,9 @@ api::register highlight_matches {
   {on_pref_load highlight_matches::do_pref_load}
   {on_pref_ui highlight_matches::do_pref_ui}
   {on_focusin highlight_matches::do_focusin}
+
 }
+
 #?   {menu separator {Highlight Matches}}
 #?   {menu command {Highlight Matches/Options...} \
 #?       highlight_matches::do_setup  highlight_matches::handle_options_state}
