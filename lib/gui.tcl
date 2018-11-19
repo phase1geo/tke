@@ -3622,7 +3622,7 @@ namespace eval gui {
     raise $w
 
     # Disable the UI
-    panel_set_ui_state disabled
+    # panel_set_ui_state disabled
 
     # Remember who has the focus
     set panel_focus [focus]
@@ -3646,7 +3646,7 @@ namespace eval gui {
     place forget $sep
 
     # Enable the UI
-    panel_set_ui_state normal
+    # panel_set_ui_state normal
 
     # Return the focus
     focus $panel_focus
