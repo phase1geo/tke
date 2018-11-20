@@ -1,895 +1,932 @@
-/home/trevorw/projects/tke-code/data/themes/Made of Code.tketheme
-/home/trevorw/projects/tke-code/data/themes/Cool Glow.tketheme
-/home/trevorw/projects/tke-code/data/themes/minimal_Theme.tketheme
-/home/trevorw/projects/tke-code/data/themes/idleFingers.tketheme
-/home/trevorw/projects/tke-code/data/themes/Ruby Blue.tketheme
-/home/trevorw/projects/tke-code/data/themes/Anatomy of Grey.tketheme
-/home/trevorw/projects/tke-code/data/themes/Turn of the Century.tketheme
-/home/trevorw/projects/tke-code/data/themes/Monokai.tketheme
-/home/trevorw/projects/tke-code/data/themes/Notebook.tketheme
-/home/trevorw/projects/tke-code/data/themes/Fluidvision.tketheme
-/home/trevorw/projects/tke-code/data/themes/Starlight.tketheme
-/home/trevorw/projects/tke-code/data/themes/Default.tketheme
-/home/trevorw/projects/tke-code/data/themes/choco.tketheme
-/home/trevorw/projects/tke-code/data/themes/yellowStone.tketheme
-/home/trevorw/projects/tke-code/data/themes/Juicy.tketheme
-/home/trevorw/projects/tke-code/data/themes/oscuro.tketheme
-/home/trevorw/projects/tke-code/data/themes/Aurora.tketheme
-/home/trevorw/projects/tke-code/data/themes/Quiverly.tketheme
-/home/trevorw/projects/tke-code/data/todo.list
-/home/trevorw/projects/tke-code/data/bindings/menu_bindings.aqua.tkedat
-/home/trevorw/projects/tke-code/data/bindings/menu_bindings.x11.tkedat
-/home/trevorw/projects/tke-code/data/bindings/menu_bindings.classic.tkedat
-/home/trevorw/projects/tke-code/data/bindings/menu_bindings.win32.tkedat
-/home/trevorw/projects/tke-code/data/syntax/Fortran.syntax
-/home/trevorw/projects/tke-code/data/syntax/Lisp.syntax
-/home/trevorw/projects/tke-code/data/syntax/Specman.syntax
-/home/trevorw/projects/tke-code/data/syntax/Haskell.syntax
-/home/trevorw/projects/tke-code/data/syntax/Ada.syntax
-/home/trevorw/projects/tke-code/data/syntax/Groovy.syntax
-/home/trevorw/projects/tke-code/data/syntax/Swift.syntax
-/home/trevorw/projects/tke-code/data/syntax/IDL.syntax
-/home/trevorw/projects/tke-code/data/syntax/VisualBasic.syntax
-/home/trevorw/projects/tke-code/data/syntax/Haml.syntax
-/home/trevorw/projects/tke-code/data/syntax/Scala.syntax
-/home/trevorw/projects/tke-code/data/syntax/Doxyfile.syntax
-/home/trevorw/projects/tke-code/data/syntax/PluginTcl.syntax
-/home/trevorw/projects/tke-code/data/syntax/Neko.syntax
-/home/trevorw/projects/tke-code/data/syntax/Go.syntax
-/home/trevorw/projects/tke-code/data/syntax/Squirrel.syntax
-/home/trevorw/projects/tke-code/data/syntax/Forth.syntax
-/home/trevorw/projects/tke-code/data/syntax/Ruby.syntax
-/home/trevorw/projects/tke-code/data/syntax/J.syntax
-/home/trevorw/projects/tke-code/data/syntax/Rust.syntax
-/home/trevorw/projects/tke-code/data/syntax/Java.syntax
-/home/trevorw/projects/tke-code/data/syntax/PHP.syntax
-/home/trevorw/projects/tke-code/data/syntax/Stylus.syntax
-/home/trevorw/projects/tke-code/data/syntax/Cuda.syntax
-/home/trevorw/projects/tke-code/data/syntax/Pascal.syntax
-/home/trevorw/projects/tke-code/data/syntax/JavaScript.syntax
-/home/trevorw/projects/tke-code/data/syntax/ManPage.syntax
-/home/trevorw/projects/tke-code/data/syntax/Elixir.syntax
-/home/trevorw/projects/tke-code/data/syntax/Julia.syntax
-/home/trevorw/projects/tke-code/data/syntax/Jade.syntax
-/home/trevorw/projects/tke-code/data/syntax/ABAP.syntax
-/home/trevorw/projects/tke-code/data/syntax/Haxe.syntax
-/home/trevorw/projects/tke-code/data/syntax/Erlang.syntax
-/home/trevorw/projects/tke-code/data/syntax/Delphi.syntax
-/home/trevorw/projects/tke-code/data/syntax/DesktopEntry.syntax
-/home/trevorw/projects/tke-code/data/syntax/Fickle.syntax
-/home/trevorw/projects/tke-code/data/syntax/CSS.syntax
-/home/trevorw/projects/tke-code/data/syntax/HTML.syntax
-/home/trevorw/projects/tke-code/data/syntax/Taccle.syntax
-/home/trevorw/projects/tke-code/data/syntax/Yacc.syntax
-/home/trevorw/projects/tke-code/data/syntax/Xojo.syntax
-/home/trevorw/projects/tke-code/data/syntax/YAML.syntax
-/home/trevorw/projects/tke-code/data/syntax/Changelog.syntax
-/home/trevorw/projects/tke-code/data/syntax/Lex.syntax
-/home/trevorw/projects/tke-code/data/syntax/C#.syntax
-/home/trevorw/projects/tke-code/data/syntax/Python.syntax
-/home/trevorw/projects/tke-code/data/syntax/XSLT.syntax
-/home/trevorw/projects/tke-code/data/syntax/CriticMarkup.syntax
-/home/trevorw/projects/tke-code/data/syntax/Cobol.syntax
-/home/trevorw/projects/tke-code/data/syntax/Elm.syntax
-/home/trevorw/projects/tke-code/data/syntax/AppleScript.syntax
-/home/trevorw/projects/tke-code/data/syntax/Eiffel.syntax
-/home/trevorw/projects/tke-code/data/syntax/Gherkin.syntax
-/home/trevorw/projects/tke-code/data/syntax/Lua.syntax
-/home/trevorw/projects/tke-code/data/syntax/Fountain.syntax
-/home/trevorw/projects/tke-code/data/syntax/Nim.syntax
-/home/trevorw/projects/tke-code/data/syntax/Assembly.syntax
-/home/trevorw/projects/tke-code/data/syntax/JSON.syntax
-/home/trevorw/projects/tke-code/data/syntax/Markdown.syntax
-/home/trevorw/projects/tke-code/data/syntax/R.syntax
-/home/trevorw/projects/tke-code/data/syntax/Makefile.syntax
-/home/trevorw/projects/tke-code/data/syntax/MultiMarkdown.syntax
-/home/trevorw/projects/tke-code/data/syntax/C++.syntax
-/home/trevorw/projects/tke-code/data/syntax/tkeTheme.syntax
-/home/trevorw/projects/tke-code/data/syntax/SQL.syntax
-/home/trevorw/projects/tke-code/data/syntax/tkeData.syntax
-/home/trevorw/projects/tke-code/data/syntax/Clojure.syntax
-/home/trevorw/projects/tke-code/data/syntax/PropertyList.syntax
-/home/trevorw/projects/tke-code/data/syntax/Meson.syntax
-/home/trevorw/projects/tke-code/data/syntax/Verilog.syntax
-/home/trevorw/projects/tke-code/data/syntax/SystemVerilog.syntax
-/home/trevorw/projects/tke-code/data/syntax/Bash.syntax
-/home/trevorw/projects/tke-code/data/syntax/Prolog.syntax
-/home/trevorw/projects/tke-code/data/syntax/VHDL.syntax
-/home/trevorw/projects/tke-code/data/syntax/RSS.syntax
-/home/trevorw/projects/tke-code/data/syntax/Tcl.syntax
-/home/trevorw/projects/tke-code/data/syntax/Awk.syntax
-/home/trevorw/projects/tke-code/data/syntax/MySQL.syntax
-/home/trevorw/projects/tke-code/data/syntax/LaTeX.syntax
-/home/trevorw/projects/tke-code/data/syntax/C.syntax
-/home/trevorw/projects/tke-code/data/syntax/syntax.syntax
-/home/trevorw/projects/tke-code/data/syntax/SASS.syntax
-/home/trevorw/projects/tke-code/data/syntax/PluginHeader.syntax
-/home/trevorw/projects/tke-code/data/syntax/D.syntax
-/home/trevorw/projects/tke-code/data/syntax/OCaml.syntax
-/home/trevorw/projects/tke-code/data/syntax/Vala.syntax
-/home/trevorw/projects/tke-code/data/syntax/Scheme.syntax
-/home/trevorw/projects/tke-code/data/syntax/CoffeeScript.syntax
-/home/trevorw/projects/tke-code/data/syntax/Objective-C.syntax
-/home/trevorw/projects/tke-code/data/syntax/DocBook.syntax
-/home/trevorw/projects/tke-code/data/syntax/snippets.syntax
-/home/trevorw/projects/tke-code/data/syntax/HelpSystem.syntax
-/home/trevorw/projects/tke-code/data/syntax/SCSS.syntax
-/home/trevorw/projects/tke-code/data/syntax/XML.syntax
-/home/trevorw/projects/tke-code/data/syntax/ShellScript.syntax
-/home/trevorw/projects/tke-code/data/syntax/MATLAB.syntax
-/home/trevorw/projects/tke-code/data/syntax/Perl.syntax
-/home/trevorw/projects/tke-code/data/syntax/Boo.syntax
-/home/trevorw/projects/tke-code/data/syntax/MathML.syntax
-/home/trevorw/projects/tke-code/data/syntax/ActionScript.syntax
-/home/trevorw/projects/tke-code/data/syntax/Kotlin.syntax
-/home/trevorw/projects/tke-code/data/msgs/nl.msg
-/home/trevorw/projects/tke-code/data/msgs/fr.msg
-/home/trevorw/projects/tke-code/data/msgs/zh.msg
-/home/trevorw/projects/tke-code/data/msgs/ja.msg
-/home/trevorw/projects/tke-code/data/msgs/cs.msg
-/home/trevorw/projects/tke-code/data/msgs/ru.msg
-/home/trevorw/projects/tke-code/data/msgs/pt.msg
-/home/trevorw/projects/tke-code/data/msgs/update.tcl
-/home/trevorw/projects/tke-code/data/msgs/pl.msg
-/home/trevorw/projects/tke-code/data/msgs/sv.msg
-/home/trevorw/projects/tke-code/data/msgs/Makefile
-/home/trevorw/projects/tke-code/data/msgs/check.tcl
-/home/trevorw/projects/tke-code/data/msgs/he.msg
-/home/trevorw/projects/tke-code/data/msgs/hu.msg
-/home/trevorw/projects/tke-code/data/msgs/no.msg
-/home/trevorw/projects/tke-code/data/msgs/da.msg
-/home/trevorw/projects/tke-code/data/msgs/es.msg
-/home/trevorw/projects/tke-code/data/msgs/de.msg
-/home/trevorw/projects/tke-code/data/msgs/it.msg
-/home/trevorw/projects/tke-code/data/msgs/el.msg
-/home/trevorw/projects/tke-code/data/msgs/README
-/home/trevorw/projects/tke-code/data/share.tkedat
-/home/trevorw/projects/tke-code/data/emmet.tkedat
-/home/trevorw/projects/tke-code/data/preferences.tkedat
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--title_case.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--format.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_info.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--log.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_foreground.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unformat.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_images_directory.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unindent.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_color_values.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--utils--open_file.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsl_to_rgb.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--get_index.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_plugin_directory.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_case.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--lower_case.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--normalize_filename.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--move_cursor.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsl.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--rot13.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--delete.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--theme--get_value.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_index.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--invoke_menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--get_value.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_info.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_file.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--reset_txt_focus.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_selected_indices.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--get_info.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--upper_case.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_error.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_up.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--widget.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--save_variable.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_background.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsv.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--tke_development.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--all_indices.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_user_input.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_mix_colors.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_down.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_to_rgb.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsv_to_rgb.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_home_directory.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_adjust_color.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_comment.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/Plugin API.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--uncomment.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--comment.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--load_variable.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--join_lines.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--export.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_buffer.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--register_launcher.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_complementary_mono_color.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--unregister_launcher.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_difference.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--indent.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--set_info.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/tab_popup.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_start.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_reload.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/dir_popup.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/root_popup.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_duplicate.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_quit.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_close.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_open.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_theme_changed.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_drop.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/vcs.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_delete.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_uninstall.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/file_popup.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/text_binding.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_trash.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/syntax.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_save.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_focusin.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/assets/Preference-Plugin.png
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_pref_load.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/Plugin Action Types.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/info_panel.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_rename.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Prefix/title- TKE Developer Guide.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Prefix/Table of Contents.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Packages/Packages.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Syntax Handling.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Example.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/File Format.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin GUI Element Creation.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Development.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted) Interpreter Description.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating a New Plugin Template.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Interpreter Creation.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Starting up.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating Launcher Commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle Structure.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin management.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Framework.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/main.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter clear.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inString - inStringRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter cget.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff add.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter delete.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter hide.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getMatchBracket.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getNextBracket - getPrevBracket.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/replace.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getLang.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff sub.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Command API.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/delete.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inComment - inCommentRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter configure.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inDoubleQuote - inDoubleQuoteRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/isEscaped.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter set.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/commentCharRanges.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBackTick - inBackTickRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Ctext Widget.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Options.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter get.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter destroy.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit redoable.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/highlight.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/insert.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit undoable.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit cursorhist.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff reset.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Differences from the original Ctext widget.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff ranges.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inLineComment - inLineCommentRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inCommentString - inCommentStringRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBlockComment - inBlockCommentRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter create.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter names.md
-/home/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inSingleQuote - inSingleQuoteRange.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Viewing a Language-Specific Website.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Editing Language References.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Searching a Language-Specific Website.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Language Reference Documentation.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/assets/Preferences-Documentation.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/assets/docsearch.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Transform Format.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippets, Emmet and Templates.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Templates.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippet Variables.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Emmet.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets-Editor.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/MacOS Desktop.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Windows.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Starting the Application.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/The Command-Line.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Changing Sharing Setup via Preferences GUI.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Settings.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Directory.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Complete.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Preferences.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Welcome.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up a Share Directory.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Application Settings.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Exit Commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Select Mode.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Miscellaneous Commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Motions.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Anchor.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/assets/infobar.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Object Types.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/Menu Binding.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/assets/Preferences-Shortcuts.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Introduction/Introduction.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Introduction/Feature Set.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Dependencies.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for MacOS.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installation.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Windows.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Linux.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Command Launcher/Command Launcher.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Sessions/Sessions.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Reloading Plugins.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Showing Installed Plugin Usage Information.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Uninstalling a Plugin.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Plugins.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Installing a Plugin.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Prefix/title- TKE User Guide.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Prefix/Table of Contents.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Option Description Pane.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Color Swatch Editor.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Title Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Button Action Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Interface.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Category Table.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Sharing New Themes.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Theme Editor.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Number.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Color.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Category-Sidebar.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Bitmap.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Bitmap2.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/export.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Relief.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Editor.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Swatch-Panel.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Gif.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Themes.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Tools Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Cursor Position Status.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Scrollbars.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/User Interface.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/View Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Directory.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Auto-Indent Indicator.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Title Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Plugins Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Help Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Syntax Display.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Line Number Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Menu Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Mode.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Status Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Main File Viewing Area.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Tab Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Root Directory.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Edit Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Line Number Bar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Find in Files.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Highlighting.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar Move-Reorder.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Viewer.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/File Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Bird’s Eye View.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Message Display.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Difference-Viewer.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Find-in-Files.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-File.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Editing-Panel.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Application-Window.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Status-Bar.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Root.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Directory.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Pane.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Files.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Buffer.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Macro Recording Status.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar Information Panel.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sessions Menu.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Searching-Replacing.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Modelines.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Deleting text.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Extended Vim Commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Options.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Object Selection.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Inserting-Replacing text.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Editing a file.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Undoing-Cancelling commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Miscellaneous.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Visual (Selection) mode.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Joining text.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Saving-Closing a file.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Repeating a command.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Text Transformation.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Pasting text.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Moving around in a file.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Line Numbers.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Indentation.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Copying text.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Standard Vim Commands.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Code Folding.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/main.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Difference Map/Control Panel.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Difference Map/Difference Map.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Preferences/Editing Preference Information.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Preferences/Preferences.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Preferences/assets/Preferences-Window.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Viewer.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Editor.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Bookmark Sidebar.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote Save File Dialog.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.md
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/assets/Remote-Site-Settings.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/assets/Remote-File-Dialog.png
-/home/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Main Sidebar.md
-/home/trevorw/projects/tke-code/doc/DeveloperGuide.html
-/home/trevorw/projects/tke-code/doc/UserGuide.html
-/home/trevorw/projects/tke-code/doc/Doxyfile
-/home/trevorw/projects/tke-code/doc/errors.txt
-/home/trevorw/projects/tke-code/lib/format_parser.tac
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_unix.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_generic.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/libtkdnd2.8.dll
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_macosx.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_windows.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_compat.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/win/expect/expect543.dll
-/home/trevorw/projects/tke-code/lib/win/expect/injector.dll
-/home/trevorw/projects/tke-code/lib/win/expect/teapot.txt
-/home/trevorw/projects/tke-code/lib/win/expect/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/win/expect/expect.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_unix.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_generic.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_macosx.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_windows.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_compat.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd28.dll
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/gui.tcl
-/home/trevorw/projects/tke-code/lib/windowlist.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_unix.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/libtkdnd2.8.dylib
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_generic.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_macosx.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_windows.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_compat.tcl
-/home/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/macOS/expect/license.terms
-/home/trevorw/projects/tke-code/lib/macOS/expect/libexpect5.45.dylib
-/home/trevorw/projects/tke-code/lib/macOS/expect/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/scrolledframe.tcl
-/home/trevorw/projects/tke-code/lib/restart.tcl
-/home/trevorw/projects/tke-code/lib/tkcon/README.txt
-/home/trevorw/projects/tke-code/lib/tkcon/ChangeLog
-/home/trevorw/projects/tke-code/lib/tkcon/tkcon-console.desktop
-/home/trevorw/projects/tke-code/lib/tkcon/docs/procs.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/dump.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/license.terms
-/home/trevorw/projects/tke-code/lib/tkcon/docs/dump.n.man
-/home/trevorw/projects/tke-code/lib/tkcon/docs/plugin.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/nontcl.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/demopic.png
-/home/trevorw/projects/tke-code/lib/tkcon/docs/observe.n.man
-/home/trevorw/projects/tke-code/lib/tkcon/docs/index.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/tkcon.n.man
-/home/trevorw/projects/tke-code/lib/tkcon/docs/perl.txt
-/home/trevorw/projects/tke-code/lib/tkcon/docs/tkcon.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/purpose.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/bindings.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/todo.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/changes.txt
-/home/trevorw/projects/tke-code/lib/tkcon/docs/style.css
-/home/trevorw/projects/tke-code/lib/tkcon/docs/idebug.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/tkcon.1.man
-/home/trevorw/projects/tke-code/lib/tkcon/docs/observe.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/idebug.n.man
-/home/trevorw/projects/tke-code/lib/tkcon/docs/start.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/limits.html
-/home/trevorw/projects/tke-code/lib/tkcon/docs/tkconrc.5.man
-/home/trevorw/projects/tke-code/lib/tkcon/index.html
-/home/trevorw/projects/tke-code/lib/tkcon/icons/tkcon-small48.png
-/home/trevorw/projects/tke-code/lib/tkcon/icons/tkcon-small.svg
-/home/trevorw/projects/tke-code/lib/tkcon/tkcon.tcl
-/home/trevorw/projects/tke-code/lib/tkcon/extra/console1_1.tcl
-/home/trevorw/projects/tke-code/lib/tkcon/extra/stripped.tcl
-/home/trevorw/projects/tke-code/lib/tkcon/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/tkcon/tclIndex
-/home/trevorw/projects/tke-code/lib/tkcon/install-desktop-menu.sh
-/home/trevorw/projects/tke-code/lib/bgproc.tcl
-/home/trevorw/projects/tke-code/lib/ftp_wrapper.tcl
-/home/trevorw/projects/tke-code/lib/emmet_lexer.fcl
-/home/trevorw/projects/tke-code/lib/snippets.tcl
-/home/trevorw/projects/tke-code/lib/pref_ui.tcl
-/home/trevorw/projects/tke-code/lib/logger.tcl
-/home/trevorw/projects/tke-code/lib/markers.tcl
-/home/trevorw/projects/tke-code/lib/theme.tcl
-/home/trevorw/projects/tke-code/lib/snip_lexer.fcl
-/home/trevorw/projects/tke-code/lib/plugins.tcl
-/home/trevorw/projects/tke-code/lib/remote.tcl
-/home/trevorw/projects/tke-code/lib/cliphist.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/bgproc.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/tokenframe.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown.pl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Markdown_1.0.1/License.text
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown Readme.text
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/gifblock.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclxslt-libxslt.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclparser-8.0.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/sgml-8.0.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xsltcache.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/process.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/dommap.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/sgml-8.1.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xml-8.1.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xmlswitch.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xml__tcl.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xpath.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xmldep.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/sgmlparser.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tcldom-libxml2.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/resources.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/dom.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclIndex
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xml-8.0.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/utilities.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclparser-8.1.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/htmllib.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/resize.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/common/stacktrace.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/ptwidgets12.dll
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/tokensearch.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/wmarkentry.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/testapp.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/toggleswitch.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy4.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/close.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy5.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy2.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/right.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy1.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy8.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/full.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy3.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/left.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy6.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy7.bmp
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/tabbar.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/timeline.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/chatlist.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/carousel.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/library/tokenentry.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/ptwidgets1.2/tclIndex
-/home/trevorw/projects/tke-code/lib/format_lexer.tcl
-/home/trevorw/projects/tke-code/lib/snip_parser.tac
-/home/trevorw/projects/tke-code/lib/bitmap.tcl
-/home/trevorw/projects/tke-code/lib/favorites.tcl
-/home/trevorw/projects/tke-code/lib/completer.tcl
-/home/trevorw/projects/tke-code/lib/startup.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/COPYRIGHT.txt
-/home/trevorw/projects/tke-code/lib/tablelist6.3/README.txt
-/home/trevorw/projects/tke-code/lib/tablelist6.3/tablelist.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/tablelistPublic.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/CHANGES.txt
-/home/trevorw/projects/tke-code/lib/tablelist6.3/tablelist_tile.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistImages.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistMove.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistEdit.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistSort.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistConfig.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistWidget.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistUtil.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistThemes.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/mwutil.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/pencil.cur
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tclIndex
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/repair.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistBind.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/tablelist6.3/tclIndex
-/home/trevorw/projects/tke-code/lib/socksend.tcl
-/home/trevorw/projects/tke-code/lib/edit.tcl
-/home/trevorw/projects/tke-code/lib/thumbnail.tcl
-/home/trevorw/projects/tke-code/lib/specl/doc/specl.html
-/home/trevorw/projects/tke-code/lib/specl/lib/bgproc.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/updater.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Markdown_1.0.1/Markdown.pl
-/home/trevorw/projects/tke-code/lib/specl/lib/Markdown_1.0.1/License.text
-/home/trevorw/projects/tke-code/lib/specl/lib/Markdown_1.0.1/Markdown Readme.text
-/home/trevorw/projects/tke-code/lib/specl/lib/gifblock.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tclxslt-libxslt.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tclparser-8.0.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/sgml-8.0.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xsltcache.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/process.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/dommap.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/sgml-8.1.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xml-8.1.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xmlswitch.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xml__tcl.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xpath.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xmldep.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/sgmlparser.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tcldom-libxml2.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/resources.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/dom.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xml-8.0.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/utilities.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tclparser-8.1.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/releaser.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/utils.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/htmllib.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/specl.tcl
-/home/trevorw/projects/tke-code/lib/specl/lib/resize.tcl
-/home/trevorw/projects/tke-code/lib/specl/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/specl/bin/binit.exe
-/home/trevorw/projects/tke-code/lib/specl/tclIndex
-/home/trevorw/projects/tke-code/lib/ipanel.tcl
-/home/trevorw/projects/tke-code/lib/scroller.tcl
-/home/trevorw/projects/tke-code/lib/format_lexer.fcl
-/home/trevorw/projects/tke-code/lib/launcher.tcl
-/home/trevorw/projects/tke-code/lib/search.tcl
-/home/trevorw/projects/tke-code/lib/select.tcl
-/home/trevorw/projects/tke-code/lib/diff.tcl
-/home/trevorw/projects/tke-code/lib/webdav/ChangeLog
-/home/trevorw/projects/tke-code/lib/webdav/webdav.tcl
-/home/trevorw/projects/tke-code/lib/webdav/webdav.man
-/home/trevorw/projects/tke-code/lib/webdav/davvfs.tcl
-/home/trevorw/projects/tke-code/lib/webdav/vfsUrl.tcl
-/home/trevorw/projects/tke-code/lib/webdav/davvfs.test
-/home/trevorw/projects/tke-code/lib/webdav/webdav.test
-/home/trevorw/projects/tke-code/lib/webdav/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/webdav/tclIndex
-/home/trevorw/projects/tke-code/lib/webdav/README
-/home/trevorw/projects/tke-code/lib/webdav/webdav.html
-/home/trevorw/projects/tke-code/lib/webdav/davdata.tgz
-/home/trevorw/projects/tke-code/lib/syntax.tcl
-/home/trevorw/projects/tke-code/lib/themer.tcl
-/home/trevorw/projects/tke-code/lib/emmet_lexer.tcl
-/home/trevorw/projects/tke-code/lib/image_size.php
-/home/trevorw/projects/tke-code/lib/sessions.tcl
-/home/trevorw/projects/tke-code/lib/bindings.tcl
-/home/trevorw/projects/tke-code/lib/files.tcl
-/home/trevorw/projects/tke-code/lib/zipper/zipper.tcl
-/home/trevorw/projects/tke-code/lib/zipper/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/zipper/tclIndex
-/home/trevorw/projects/tke-code/lib/images/color.bmp
-/home/trevorw/projects/tke-code/lib/images/find.gif
-/home/trevorw/projects/tke-code/lib/images/advanced.gif
-/home/trevorw/projects/tke-code/lib/images/smask.bmp
-/home/trevorw/projects/tke-code/lib/images/tke_specl.gif
-/home/trevorw/projects/tke-code/lib/images/close.bmp
-/home/trevorw/projects/tke-code/lib/images/emmet.gif
-/home/trevorw/projects/tke-code/lib/images/square32.bmp
-/home/trevorw/projects/tke-code/lib/images/startup.gif
-/home/trevorw/projects/tke-code/lib/images/plugins.gif
-/home/trevorw/projects/tke-code/lib/images/connected.bmp
-/home/trevorw/projects/tke-code/lib/images/case.bmp
-/home/trevorw/projects/tke-code/lib/images/check.gif
-/home/trevorw/projects/tke-code/lib/images/right.bmp
-/home/trevorw/projects/tke-code/lib/images/down10.bmp
-/home/trevorw/projects/tke-code/lib/images/down12.bmp
-/home/trevorw/projects/tke-code/lib/images/general.gif
-/home/trevorw/projects/tke-code/lib/images/editor.gif
-/home/trevorw/projects/tke-code/lib/images/tke.ico
-/home/trevorw/projects/tke-code/lib/images/refresh.bmp
-/home/trevorw/projects/tke-code/lib/images/shortcut.gif
-/home/trevorw/projects/tke-code/lib/images/plus.bmp
-/home/trevorw/projects/tke-code/lib/images/blank.bmp
-/home/trevorw/projects/tke-code/lib/images/tke_logo_64.gif
-/home/trevorw/projects/tke-code/lib/images/left.bmp
-/home/trevorw/projects/tke-code/lib/images/left10.bmp
-/home/trevorw/projects/tke-code/lib/images/show.bmp
-/home/trevorw/projects/tke-code/lib/images/down.bmp
-/home/trevorw/projects/tke-code/lib/images/right12.bmp
-/home/trevorw/projects/tke-code/lib/images/view.gif
-/home/trevorw/projects/tke-code/lib/images/split.bmp
-/home/trevorw/projects/tke-code/lib/images/checked.gif
-/home/trevorw/projects/tke-code/lib/images/snippets.gif
-/home/trevorw/projects/tke-code/lib/images/sopen.bmp
-/home/trevorw/projects/tke-code/lib/images/lock.bmp
-/home/trevorw/projects/tke-code/lib/images/global.gif
-/home/trevorw/projects/tke-code/lib/images/sidebar.gif
-/home/trevorw/projects/tke-code/lib/images/right10.bmp
-/home/trevorw/projects/tke-code/lib/images/diff.bmp
-/home/trevorw/projects/tke-code/lib/images/tke_logo_128.gif
-/home/trevorw/projects/tke-code/lib/images/global_dark.gif
-/home/trevorw/projects/tke-code/lib/images/documentation.gif
-/home/trevorw/projects/tke-code/lib/images/connecting.bmp
-/home/trevorw/projects/tke-code/lib/images/color_box.bmp
-/home/trevorw/projects/tke-code/lib/images/blank10.bmp
-/home/trevorw/projects/tke-code/lib/images/unchecked.gif
-/home/trevorw/projects/tke-code/lib/images/active_close.bmp
-/home/trevorw/projects/tke-code/lib/images/appearance.gif
-/home/trevorw/projects/tke-code/lib/menus.tcl
-/home/trevorw/projects/tke-code/lib/tkedat.tcl
-/home/trevorw/projects/tke-code/lib/bist.tcl
-/home/trevorw/projects/tke-code/lib/preferences.tcl
-/home/trevorw/projects/tke-code/lib/version.tcl
-/home/trevorw/projects/tke-code/lib/emmet.tcl
-/home/trevorw/projects/tke-code/lib/utils.tcl
-/home/trevorw/projects/tke-code/lib/test.tcl
-/home/trevorw/projects/tke-code/lib/interpreter.tcl
-/home/trevorw/projects/tke-code/lib/Makefile
-/home/trevorw/projects/tke-code/lib/snip_parser.tab.tcl
-/home/trevorw/projects/tke-code/lib/snip_parser.tcl
-/home/trevorw/projects/tke-code/lib/emmet_parser.tab.tcl
-/home/trevorw/projects/tke-code/lib/templates.tcl
-/home/trevorw/projects/tke-code/lib/api.tcl
-/home/trevorw/projects/tke-code/lib/remote/sftp.tcl
-/home/trevorw/projects/tke-code/lib/remote/ftp.tcl
-/home/trevorw/projects/tke-code/lib/remote/ftp_control.tcl
-/home/trevorw/projects/tke-code/lib/remote/README
-/home/trevorw/projects/tke-code/lib/format_parser.tab.tcl
-/home/trevorw/projects/tke-code/lib/share.tcl
-/home/trevorw/projects/tke-code/lib/commit.tcl
-/home/trevorw/projects/tke-code/lib/emmet_parser.tac
-/home/trevorw/projects/tke-code/lib/format_parser.tcl
-/home/trevorw/projects/tke-code/lib/snip_lexer.tcl
-/home/trevorw/projects/tke-code/lib/multicursor.tcl
-/home/trevorw/projects/tke-code/lib/emmet_parser.tcl
-/home/trevorw/projects/tke-code/lib/ctext/ChangeLog
-/home/trevorw/projects/tke-code/lib/ctext/function_finder.tcl
-/home/trevorw/projects/tke-code/lib/ctext/install.tcl
-/home/trevorw/projects/tke-code/lib/ctext/REGRESSION
-/home/trevorw/projects/tke-code/lib/ctext/ctext_test_c.tcl
-/home/trevorw/projects/tke-code/lib/ctext/ctext_tcl.tcl
-/home/trevorw/projects/tke-code/lib/ctext/ctext.man
-/home/trevorw/projects/tke-code/lib/ctext/ctext_scroll_test.tcl
-/home/trevorw/projects/tke-code/lib/ctext/ctext.tcl
-/home/trevorw/projects/tke-code/lib/ctext/ctext_test_ws.tcl
-/home/trevorw/projects/tke-code/lib/ctext/TODO
-/home/trevorw/projects/tke-code/lib/ctext/ctext_test.tcl
-/home/trevorw/projects/tke-code/lib/ctext/BUGS
-/home/trevorw/projects/tke-code/lib/ctext/test.c
-/home/trevorw/projects/tke-code/lib/ctext/pkgIndex.tcl
-/home/trevorw/projects/tke-code/lib/ctext/ctext_test_interactive.tcl
-/home/trevorw/projects/tke-code/lib/ctext/tclIndex
-/home/trevorw/projects/tke-code/lib/ctext/long_test_script
-/home/trevorw/projects/tke-code/lib/ctext/LICENSE
-/home/trevorw/projects/tke-code/lib/ctext/README
-/home/trevorw/projects/tke-code/lib/lang.tcl
-/home/trevorw/projects/tke-code/lib/sidebar.tcl
-/home/trevorw/projects/tke-code/lib/themes.tcl
-/home/trevorw/projects/tke-code/lib/emmet_css.tcl
-/home/trevorw/projects/tke-code/lib/vim.tcl
-/home/trevorw/projects/tke-code/lib/folding.tcl
-/home/trevorw/projects/tke-code/lib/indent.tcl
-/home/trevorw/projects/tke-code/lib/fontchooser.tcl
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/e_menu.tcl
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/utils.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/python.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/test1.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/links2.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/test3.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/test2.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/menu.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/git.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/git2.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/fossil.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/links.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/side.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/tcltk.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/fossil2.mnu
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/e_help.tcl
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/ch_.tcl
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/procs.tcl
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/run_pause.bat
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/rarrow.png
-/home/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/run_pause.sh
-/home/trevorw/projects/tke-code/plugins/e_menu/main.tcl
-/home/trevorw/projects/tke-code/plugins/e_menu/header.tkedat
-/home/trevorw/projects/tke-code/plugins/e_menu/README.md
-/home/trevorw/projects/tke-code/plugins/number_converter/main.tcl
-/home/trevorw/projects/tke-code/plugins/number_converter/header.tkedat
-/home/trevorw/projects/tke-code/plugins/mercurial/main.tcl
-/home/trevorw/projects/tke-code/plugins/mercurial/header.tkedat
-/home/trevorw/projects/tke-code/plugins/changebar/main.tcl
-/home/trevorw/projects/tke-code/plugins/changebar/header.tkedat
-/home/trevorw/projects/tke-code/plugins/choosers/main.tcl
-/home/trevorw/projects/tke-code/plugins/choosers/header.tkedat
-/home/trevorw/projects/tke-code/plugins/perforce/main.tcl
-/home/trevorw/projects/tke-code/plugins/perforce/header.tkedat
-/home/trevorw/projects/tke-code/plugins/publish_markdown/main.tcl
-/home/trevorw/projects/tke-code/plugins/publish_markdown/header.tkedat
-/home/trevorw/projects/tke-code/plugins/publish_markdown/README.md
-/home/trevorw/projects/tke-code/plugins/doctest/main.tcl
-/home/trevorw/projects/tke-code/plugins/doctest/header.tkedat
-/home/trevorw/projects/tke-code/plugins/doctest/README.md
-/home/trevorw/projects/tke-code/plugins/current_line/main.tcl
-/home/trevorw/projects/tke-code/plugins/current_line/header.tkedat
-/home/trevorw/projects/tke-code/plugins/markdown_color/main.tcl
-/home/trevorw/projects/tke-code/plugins/markdown_color/Markdown_color.syntax
-/home/trevorw/projects/tke-code/plugins/markdown_color/header.tkedat
-/home/trevorw/projects/tke-code/plugins/code_view/main.tcl
-/home/trevorw/projects/tke-code/plugins/code_view/header.tkedat
-/home/trevorw/projects/tke-code/plugins/todo/main.tcl
-/home/trevorw/projects/tke-code/plugins/todo/header.tkedat
-/home/trevorw/projects/tke-code/plugins/browser_me/main.tcl
-/home/trevorw/projects/tke-code/plugins/browser_me/header.tkedat
-/home/trevorw/projects/tke-code/plugins/test/main.tcl
-/home/trevorw/projects/tke-code/plugins/test/header.tkedat
-/home/trevorw/projects/tke-code/plugins/edit_utils/main.tcl
-/home/trevorw/projects/tke-code/plugins/edit_utils/header.tkedat
-/home/trevorw/projects/tke-code/plugins/edit_utils/README.md
-/home/trevorw/projects/tke-code/plugins/images/checked.gif
-/home/trevorw/projects/tke-code/plugins/images/unchecked.gif
-/home/trevorw/projects/tke-code/plugins/notes/main.tcl
-/home/trevorw/projects/tke-code/plugins/notes/header.tkedat
-/home/trevorw/projects/tke-code/plugins/regexp_checker/main.tcl
-/home/trevorw/projects/tke-code/plugins/regexp_checker/header.tkedat
-/home/trevorw/projects/tke-code/plugins/regexp_checker/README.md
-/home/trevorw/projects/tke-code/plugins/calendar/main.tcl
-/home/trevorw/projects/tke-code/plugins/calendar/header.tkedat
-/home/trevorw/projects/tke-code/plugins/trusted/main.tcl
-/home/trevorw/projects/tke-code/plugins/trusted/header.tkedat
-/home/trevorw/projects/tke-code/plugins/markdown_table_beautifier/main.tcl
-/home/trevorw/projects/tke-code/plugins/markdown_table_beautifier/header.tkedat
-/home/trevorw/projects/tke-code/plugins/render/main.tcl
-/home/trevorw/projects/tke-code/plugins/render/header.tkedat
-/home/trevorw/projects/tke-code/plugins/terminal/main.tcl
-/home/trevorw/projects/tke-code/plugins/terminal/header.tkedat
-/home/trevorw/projects/tke-code/plugins/lorem/main.tcl
-/home/trevorw/projects/tke-code/plugins/lorem/header.tkedat
-/home/trevorw/projects/tke-code/plugins/sidebar_test/main.tcl
-/home/trevorw/projects/tke-code/plugins/sidebar_test/header.tkedat
-/home/trevorw/projects/tke-code/plugins/drop_test/main.tcl
-/home/trevorw/projects/tke-code/plugins/drop_test/header.tkedat
-/home/trevorw/projects/tke-code/plugins/dired/main.tcl
-/home/trevorw/projects/tke-code/plugins/dired/header.tkedat
-/home/trevorw/projects/tke-code/plugins/file_info/main.tcl
-/home/trevorw/projects/tke-code/plugins/file_info/header.tkedat
-/home/trevorw/projects/tke-code/plugins/url_validator/main.tcl
-/home/trevorw/projects/tke-code/plugins/url_validator/header.tkedat
-/home/trevorw/projects/tke-code/plugins/url_validator/good.gif
-/home/trevorw/projects/tke-code/plugins/url_validator/README.md
-/home/trevorw/projects/tke-code/plugins/url_validator/bad.gif
-/home/trevorw/projects/tke-code/plugins/vcs_example/main.tcl
-/home/trevorw/projects/tke-code/plugins/vcs_example/header.tkedat
-/home/trevorw/projects/tke-code/plugins/pref_test/main.tcl
-/home/trevorw/projects/tke-code/plugins/pref_test/header.tkedat
-/home/trevorw/projects/tke-code/plugins/highlight_matches/main.tcl
-/home/trevorw/projects/tke-code/plugins/highlight_matches/header.tkedat
-/home/trevorw/projects/tke-code/plugins/highlight_matches/README.md
-/home/trevorw/projects/tke-code/plugins/css_colorize/main.tcl
-/home/trevorw/projects/tke-code/plugins/css_colorize/header.tkedat
-/home/trevorw/projects/tke-code/plugins/css_colorize/README.md
-/home/trevorw/projects/tke-code/plugins/markdown_drop/main.tcl
-/home/trevorw/projects/tke-code/plugins/markdown_drop/header.tkedat
-/home/trevorw/projects/tke-code/plugins/untrusted/main.tcl
-/home/trevorw/projects/tke-code/plugins/untrusted/header.tkedat
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_unix.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_generic.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_macosx.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_windows.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_compat.tcl
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd28.dll
-/home/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/pkgIndex.tcl
-/home/trevorw/projects/tke-code/Win/binit/binit.exe
+/Users/trevorw/projects/tke-code/data/share.tkedat
+/Users/trevorw/projects/tke-code/data/todo.list
+/Users/trevorw/projects/tke-code/data/emmet.tkedat
+/Users/trevorw/projects/tke-code/data/preferences.tkedat
+/Users/trevorw/projects/tke-code/data/msgs/pl.msg
+/Users/trevorw/projects/tke-code/data/msgs/el.msg
+/Users/trevorw/projects/tke-code/data/msgs/sv.msg
+/Users/trevorw/projects/tke-code/data/msgs/ja.msg
+/Users/trevorw/projects/tke-code/data/msgs/ru.msg
+/Users/trevorw/projects/tke-code/data/msgs/fr.msg
+/Users/trevorw/projects/tke-code/data/msgs/Makefile
+/Users/trevorw/projects/tke-code/data/msgs/no.msg
+/Users/trevorw/projects/tke-code/data/msgs/nl.msg
+/Users/trevorw/projects/tke-code/data/msgs/zh.msg
+/Users/trevorw/projects/tke-code/data/msgs/README
+/Users/trevorw/projects/tke-code/data/msgs/cs.msg
+/Users/trevorw/projects/tke-code/data/msgs/es.msg
+/Users/trevorw/projects/tke-code/data/msgs/hu.msg
+/Users/trevorw/projects/tke-code/data/msgs/da.msg
+/Users/trevorw/projects/tke-code/data/msgs/check.tcl
+/Users/trevorw/projects/tke-code/data/msgs/pt.msg
+/Users/trevorw/projects/tke-code/data/msgs/he.msg
+/Users/trevorw/projects/tke-code/data/msgs/de.msg
+/Users/trevorw/projects/tke-code/data/msgs/it.msg
+/Users/trevorw/projects/tke-code/data/msgs/update.tcl
+/Users/trevorw/projects/tke-code/data/bindings/menu_bindings.classic.tkedat
+/Users/trevorw/projects/tke-code/data/bindings/menu_bindings.aqua.tkedat
+/Users/trevorw/projects/tke-code/data/bindings/menu_bindings.win32.tkedat
+/Users/trevorw/projects/tke-code/data/bindings/menu_bindings.x11.tkedat
+/Users/trevorw/projects/tke-code/data/syntax/ManPage.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Swift.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Julia.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Lua.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Bash.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Prolog.syntax
+/Users/trevorw/projects/tke-code/data/syntax/tkeData.syntax
+/Users/trevorw/projects/tke-code/data/syntax/C.syntax
+/Users/trevorw/projects/tke-code/data/syntax/SASS.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Jade.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Puppet.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Specman.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Makefile.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Verilog.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Python.syntax
+/Users/trevorw/projects/tke-code/data/syntax/JavaScript.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Markdown.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Scala.syntax
+/Users/trevorw/projects/tke-code/data/syntax/VisualBasic.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Clojure.syntax
+/Users/trevorw/projects/tke-code/data/syntax/CSS.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Pascal.syntax
+/Users/trevorw/projects/tke-code/data/syntax/PluginHeader.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Awk.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Elixir.syntax
+/Users/trevorw/projects/tke-code/data/syntax/AppleScript.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Elm.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Boo.syntax
+/Users/trevorw/projects/tke-code/data/syntax/ShellScript.syntax
+/Users/trevorw/projects/tke-code/data/syntax/_test.syntax
+/Users/trevorw/projects/tke-code/data/syntax/ActionScript.syntax
+/Users/trevorw/projects/tke-code/data/syntax/HTML.syntax
+/Users/trevorw/projects/tke-code/data/syntax/C++.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Go.syntax
+/Users/trevorw/projects/tke-code/data/syntax/PHP.syntax
+/Users/trevorw/projects/tke-code/data/syntax/HelpSystem.syntax
+/Users/trevorw/projects/tke-code/data/syntax/MySQL.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Assembly.syntax
+/Users/trevorw/projects/tke-code/data/syntax/MathML.syntax
+/Users/trevorw/projects/tke-code/data/syntax/SQL.syntax
+/Users/trevorw/projects/tke-code/data/syntax/XML.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Lisp.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Fickle.syntax
+/Users/trevorw/projects/tke-code/data/syntax/SystemVerilog.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Lex.syntax
+/Users/trevorw/projects/tke-code/data/syntax/snippets.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Squirrel.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Eiffel.syntax
+/Users/trevorw/projects/tke-code/data/syntax/MATLAB.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Xojo.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Fortran.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Gherkin.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Taccle.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Haml.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Haxe.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Haskell.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Fountain.syntax
+/Users/trevorw/projects/tke-code/data/syntax/DesktopEntry.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Neko.syntax
+/Users/trevorw/projects/tke-code/data/syntax/IDL.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Objective-C.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Tcl.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Meson.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Scheme.syntax
+/Users/trevorw/projects/tke-code/data/syntax/SCSS.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Nim.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Delphi.syntax
+/Users/trevorw/projects/tke-code/data/syntax/MultiMarkdown.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Rust.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Ada.syntax
+/Users/trevorw/projects/tke-code/data/syntax/LaTeX.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Doxyfile.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Groovy.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Forth.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Stylus.syntax
+/Users/trevorw/projects/tke-code/data/syntax/RSS.syntax
+/Users/trevorw/projects/tke-code/data/syntax/tkeTheme.syntax
+/Users/trevorw/projects/tke-code/data/syntax/PluginTcl.syntax
+/Users/trevorw/projects/tke-code/data/syntax/D.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Changelog.syntax
+/Users/trevorw/projects/tke-code/data/syntax/OCaml.syntax
+/Users/trevorw/projects/tke-code/data/syntax/C#.syntax
+/Users/trevorw/projects/tke-code/data/syntax/YAML.syntax
+/Users/trevorw/projects/tke-code/data/syntax/JSON.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Ruby.syntax
+/Users/trevorw/projects/tke-code/data/syntax/PropertyList.syntax
+/Users/trevorw/projects/tke-code/data/syntax/CoffeeScript.syntax
+/Users/trevorw/projects/tke-code/data/syntax/J.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Cobol.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Vala.syntax
+/Users/trevorw/projects/tke-code/data/syntax/XSLT.syntax
+/Users/trevorw/projects/tke-code/data/syntax/R.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Cuda.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Java.syntax
+/Users/trevorw/projects/tke-code/data/syntax/VHDL.syntax
+/Users/trevorw/projects/tke-code/data/syntax/DocBook.syntax
+/Users/trevorw/projects/tke-code/data/syntax/CriticMarkup.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Perl.syntax
+/Users/trevorw/projects/tke-code/data/syntax/ABAP.syntax
+/Users/trevorw/projects/tke-code/data/syntax/syntax.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Yacc.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Kotlin.syntax
+/Users/trevorw/projects/tke-code/data/syntax/Erlang.syntax
+/Users/trevorw/projects/tke-code/data/themes/Fluidvision.tketheme
+/Users/trevorw/projects/tke-code/data/themes/idleFingers.tketheme
+/Users/trevorw/projects/tke-code/data/themes/minimal_Theme.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Aurora.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Cool Glow.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Quiverly.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Turn of the Century.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Monokai.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Notebook.tketheme
+/Users/trevorw/projects/tke-code/data/themes/choco.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Starlight.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Juicy.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Anatomy of Grey.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Ruby Blue.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Made of Code.tketheme
+/Users/trevorw/projects/tke-code/data/themes/yellowStone.tketheme
+/Users/trevorw/projects/tke-code/data/themes/oscuro.tketheme
+/Users/trevorw/projects/tke-code/data/themes/Default.tketheme
+/Users/trevorw/projects/tke-code/doc/errors.txt
+/Users/trevorw/projects/tke-code/doc/DeveloperGuide.html
+/Users/trevorw/projects/tke-code/doc/UserGuide.html
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up a Share Directory.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Changing Sharing Setup via Preferences GUI.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/Application Settings.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Settings.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Directory.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Complete.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Preferences.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Welcome.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Templates.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippet Variables.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Transform Format.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippets, Emmet and Templates.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets-Editor.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Snippets/Emmet.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Preferences/Preferences.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Preferences/assets/Preferences-Window.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Preferences/Editing Preference Information.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Importing Plugins.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Installing a Plugin.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Uninstalling a Plugin.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Showing Installed Plugin Usage Information.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Plugins.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Plugins/Reloading Plugins.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Prefix/Table of Contents.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Prefix/title- TKE User Guide.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Viewer.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Bookmark Sidebar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Main Sidebar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Editor.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/assets/Remote-File-Dialog.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/assets/Remote-Site-Settings.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote Save File Dialog.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Introduction/Feature Set.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Introduction/Introduction.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Dependencies.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Linux.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for MacOS.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Windows.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Installation/Installation.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/main.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/The Command-Line.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/MacOS Desktop.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Windows.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Starting the Application.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Sessions/Sessions.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Command Launcher/Command Launcher.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Viewing a Language-Specific Website.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Language Reference Documentation.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Editing Language References.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/assets/docsearch.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/assets/Preferences-Documentation.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Searching a Language-Specific Website.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Difference Map/Difference Map.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Difference Map/Control Panel.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/Menu Binding.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/assets/Preferences-Shortcuts.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Object Types.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Anchor.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Select Mode.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Exit Commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Miscellaneous Commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Motions.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Select Mode/assets/infobar.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Button Action Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Option Description Pane.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Category Table.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Title Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Sharing New Themes.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Themes.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Theme Editor.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Color Swatch Editor.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Color.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Swatch-Panel.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Number.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Editor.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/export.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Relief.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Category-Sidebar.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Bitmap2.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Gif.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Bitmap.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Interface.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Edit Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Syntax Display.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Scrollbars.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Pane.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Tools Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Main File Viewing Area.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/View Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Macro Recording Status.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Title Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Auto-Indent Indicator.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Help Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar Move-Reorder.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Buffer.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Directory.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Line Number Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Mode.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Line Number Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Viewer.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Highlighting.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Menu Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Status Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Cursor Position Status.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Files.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Find in Files.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Plugins Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Directory.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Application-Window.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Root.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Difference-Viewer.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Status-Bar.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Find-in-Files.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-File.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Editing-Panel.png
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Message Display.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Tab Bar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sessions Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/File Menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Root Directory.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/User Interface.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar Information Panel.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Bird’s Eye View.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/User Interface/Character Encoding.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Standard Vim Commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Modelines.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Miscellaneous.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Text Transformation.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Code Folding.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Moving around in a file.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Line Numbers.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Joining text.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Saving-Closing a file.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Undoing-Cancelling commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Deleting text.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Editing a file.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Repeating a command.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Visual (Selection) mode.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Object Selection.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Inserting-Replacing text.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Indentation.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Extended Vim Commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Pasting text.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Searching-Replacing.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Options.md
+/Users/trevorw/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Copying text.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/insert.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getMatchBracket.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter destroy.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter hide.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax delete.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff add.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit undoable.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter names.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is double.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is square.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit cursorhist.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is triplebtick.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is curly.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Ctext Widget.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/commentCharRanges.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax highlight.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax addembedlang.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getNextBracket - getPrevBracket.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getLang.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax addwords.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is escaped.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter delete.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/replace.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax addregexp.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is firstchar.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is indent.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is triplesingle.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax addclass.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit redoable.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/highlight.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter create.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax prevrange.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is single.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax clear.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff sub.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax addcharstart.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff reset.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is btick.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax ranges.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter clear.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Options.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/delete.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax classes.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is unindent.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax search.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Differences from the original Ctext widget.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is angled.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is tripledouble.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter configure.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax contains.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Command API.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter set.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/syntax nextrange.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff ranges.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter get.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/is paren.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter cget.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Example.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/File Format.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Syntax Handling.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/vcs.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_quit.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/syntax.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_duplicate.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/info_panel.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_trash.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/menu.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_uninstall.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/dir_popup.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_save.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_pref_ui.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_pref_load.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/expose.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/text_binding.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_close.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_rename.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_reload.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_delete.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_focusin.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_drop.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/root_popup.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/tab_popup.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_start.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/assets/Preference-Plugin.png
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_theme_changed.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/file_popup.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_open.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/Plugin Action Types.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Prefix/title- TKE Developer Guide.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Prefix/Table of Contents.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/main.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Packages/Packages.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--export.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--indent.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--reload.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unindent.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_info.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--set_info.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--log.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_index.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--comment.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--upper_case.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--join_lines.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_file.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--load_variable.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsv.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_info.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_images_directory.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--utils--open_file.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--menu--exists.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_adjust_color.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--get_value.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--theme--get_value.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsv_to_rgb.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_down.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_plugin_directory.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_error.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--menu--enabled.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_buffer.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--unregister_launcher.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_comment.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_complementary_mono_color.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--tke_development.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--title_case.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--get_index.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--delete.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--is_exposed.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_foreground.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--menu--invoke.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_background.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_to_rgb.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_user_input.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--get_info.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--lower_case.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--move_cursor.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--widget.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_home_directory.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_mix_colors.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--rot13.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_color_values.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_selected_indices.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_case.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_difference.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--save_variable.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsl_to_rgb.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--reset_txt_focus.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--register_launcher.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/Plugin API.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--uncomment.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unformat.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsl.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_up.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--format.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--exec_exposed.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--normalize_filename.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--all_indices.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Interpreter Creation.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle Exporting.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle Structure.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Framework.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Starting up.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin management.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating Launcher Commands.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin GUI Element Creation.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted) Interpreter Description.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Development.md
+/Users/trevorw/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating a New Plugin Template.md
+/Users/trevorw/projects/tke-code/doc/Doxyfile
+/Users/trevorw/projects/tke-code/lib/emmet_parser.tac
+/Users/trevorw/projects/tke-code/lib/bitmap.tcl
+/Users/trevorw/projects/tke-code/lib/sidebar.tcl
+/Users/trevorw/projects/tke-code/lib/interpreter.tcl
+/Users/trevorw/projects/tke-code/lib/emmet_lexer.tcl
+/Users/trevorw/projects/tke-code/lib/preferences.tcl
+/Users/trevorw/projects/tke-code/lib/snip_parser.tab.tcl
+/Users/trevorw/projects/tke-code/lib/format_parser.tab.tcl
+/Users/trevorw/projects/tke-code/lib/snip_lexer.fcl
+/Users/trevorw/projects/tke-code/lib/emmet_lexer.fcl
+/Users/trevorw/projects/tke-code/lib/edit.tcl
+/Users/trevorw/projects/tke-code/lib/api.tcl
+/Users/trevorw/projects/tke-code/lib/fontchooser.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_macosx.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_windows.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/libtkdnd2.8.dylib
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_unix.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_compat.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_generic.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/expect/license.terms
+/Users/trevorw/projects/tke-code/lib/macOS/expect/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/macOS/expect/libexpect5.45.dylib
+/Users/trevorw/projects/tke-code/lib/utils.tcl
+/Users/trevorw/projects/tke-code/lib/scroller.tcl
+/Users/trevorw/projects/tke-code/lib/select.tcl
+/Users/trevorw/projects/tke-code/lib/cliphist.tcl
+/Users/trevorw/projects/tke-code/lib/favorites.tcl
+/Users/trevorw/projects/tke-code/lib/snip_lexer.tcl
+/Users/trevorw/projects/tke-code/lib/bgproc.tcl
+/Users/trevorw/projects/tke-code/lib/snip_parser.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/COPYRIGHT.txt
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/tablelist.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/CHANGES.txt
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/tclIndex
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistEdit.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/pencil.cur
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistUtil.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/repair.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistBind.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistWidget.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/mwutil.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistSort.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistImages.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistMove.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tclIndex
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistThemes.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/scripts/tablelistConfig.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/README.txt
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/tablelist_tile.tcl
+/Users/trevorw/projects/tke-code/lib/tablelist6.3/tablelistPublic.tcl
+/Users/trevorw/projects/tke-code/lib/images/square32.bmp
+/Users/trevorw/projects/tke-code/lib/images/down12.bmp
+/Users/trevorw/projects/tke-code/lib/images/right10.bmp
+/Users/trevorw/projects/tke-code/lib/images/find.gif
+/Users/trevorw/projects/tke-code/lib/images/color.bmp
+/Users/trevorw/projects/tke-code/lib/images/right12.bmp
+/Users/trevorw/projects/tke-code/lib/images/down10.bmp
+/Users/trevorw/projects/tke-code/lib/images/sopen.bmp
+/Users/trevorw/projects/tke-code/lib/images/left.bmp
+/Users/trevorw/projects/tke-code/lib/images/tke_logo_128.gif
+/Users/trevorw/projects/tke-code/lib/images/view.gif
+/Users/trevorw/projects/tke-code/lib/images/startup.gif
+/Users/trevorw/projects/tke-code/lib/images/smask.bmp
+/Users/trevorw/projects/tke-code/lib/images/unchecked.gif
+/Users/trevorw/projects/tke-code/lib/images/advanced.gif
+/Users/trevorw/projects/tke-code/lib/images/split.bmp
+/Users/trevorw/projects/tke-code/lib/images/connecting.bmp
+/Users/trevorw/projects/tke-code/lib/images/left10.bmp
+/Users/trevorw/projects/tke-code/lib/images/close.bmp
+/Users/trevorw/projects/tke-code/lib/images/right.bmp
+/Users/trevorw/projects/tke-code/lib/images/color_box.bmp
+/Users/trevorw/projects/tke-code/lib/images/general.gif
+/Users/trevorw/projects/tke-code/lib/images/refresh.bmp
+/Users/trevorw/projects/tke-code/lib/images/sidebar.gif
+/Users/trevorw/projects/tke-code/lib/images/appearance.gif
+/Users/trevorw/projects/tke-code/lib/images/tke_logo_64.gif
+/Users/trevorw/projects/tke-code/lib/images/tke_plugin.svg
+/Users/trevorw/projects/tke-code/lib/images/diff.bmp
+/Users/trevorw/projects/tke-code/lib/images/emmet.gif
+/Users/trevorw/projects/tke-code/lib/images/check.gif
+/Users/trevorw/projects/tke-code/lib/images/global.gif
+/Users/trevorw/projects/tke-code/lib/images/snippets.gif
+/Users/trevorw/projects/tke-code/lib/images/lock.bmp
+/Users/trevorw/projects/tke-code/lib/images/case.bmp
+/Users/trevorw/projects/tke-code/lib/images/tke.ico
+/Users/trevorw/projects/tke-code/lib/images/connected.bmp
+/Users/trevorw/projects/tke-code/lib/images/plus.bmp
+/Users/trevorw/projects/tke-code/lib/images/tke_theme.svg
+/Users/trevorw/projects/tke-code/lib/images/active_close.bmp
+/Users/trevorw/projects/tke-code/lib/images/documentation.gif
+/Users/trevorw/projects/tke-code/lib/images/tke_specl.gif
+/Users/trevorw/projects/tke-code/lib/images/global_dark.gif
+/Users/trevorw/projects/tke-code/lib/images/shortcut.gif
+/Users/trevorw/projects/tke-code/lib/images/show.bmp
+/Users/trevorw/projects/tke-code/lib/images/blank.bmp
+/Users/trevorw/projects/tke-code/lib/images/plugins.gif
+/Users/trevorw/projects/tke-code/lib/images/checked.gif
+/Users/trevorw/projects/tke-code/lib/images/editor.gif
+/Users/trevorw/projects/tke-code/lib/images/tke_logo.svg
+/Users/trevorw/projects/tke-code/lib/images/blank10.bmp
+/Users/trevorw/projects/tke-code/lib/images/down.bmp
+/Users/trevorw/projects/tke-code/lib/pref_ui.tcl
+/Users/trevorw/projects/tke-code/lib/Makefile
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_macosx.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd28.dll
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_windows.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_unix.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_compat.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_generic.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_macosx.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/libtkdnd2.8.dll
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_windows.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_unix.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_compat.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8/tkdnd_generic.tcl
+/Users/trevorw/projects/tke-code/lib/win/expect/injector.dll
+/Users/trevorw/projects/tke-code/lib/win/expect/expect543.dll
+/Users/trevorw/projects/tke-code/lib/win/expect/teapot.txt
+/Users/trevorw/projects/tke-code/lib/win/expect/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/win/expect/expect.tcl
+/Users/trevorw/projects/tke-code/lib/scrolledframe.tcl
+/Users/trevorw/projects/tke-code/lib/startup.tcl
+/Users/trevorw/projects/tke-code/lib/format_parser.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/ctext_test_interactive.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/ctext_tcl.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/ctext.man
+/Users/trevorw/projects/tke-code/lib/ctext/LICENSE
+/Users/trevorw/projects/tke-code/lib/ctext/ChangeLog
+/Users/trevorw/projects/tke-code/lib/ctext/BUGS
+/Users/trevorw/projects/tke-code/lib/ctext/long_test_script
+/Users/trevorw/projects/tke-code/lib/ctext/function_finder.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/README
+/Users/trevorw/projects/tke-code/lib/ctext/TODO
+/Users/trevorw/projects/tke-code/lib/ctext/ctext_scroll_test.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/tclIndex
+/Users/trevorw/projects/tke-code/lib/ctext/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/ctext.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/ctext_test_ws.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/test.c
+/Users/trevorw/projects/tke-code/lib/ctext/install.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/ctext_test.tcl
+/Users/trevorw/projects/tke-code/lib/ctext/REGRESSION
+/Users/trevorw/projects/tke-code/lib/ctext/ctext_test_c.tcl
+/Users/trevorw/projects/tke-code/lib/thumbnail.tcl
+/Users/trevorw/projects/tke-code/lib/share.tcl
+/Users/trevorw/projects/tke-code/lib/ipanel.tcl
+/Users/trevorw/projects/tke-code/lib/menus.tcl
+/Users/trevorw/projects/tke-code/lib/socksend.tcl
+/Users/trevorw/projects/tke-code/lib/test.tcl
+/Users/trevorw/projects/tke-code/lib/completer.tcl
+/Users/trevorw/projects/tke-code/lib/zipper/zipper.tcl
+/Users/trevorw/projects/tke-code/lib/zipper/tclIndex
+/Users/trevorw/projects/tke-code/lib/zipper/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/ftp_wrapper.tcl
+/Users/trevorw/projects/tke-code/lib/version.tcl
+/Users/trevorw/projects/tke-code/lib/plugins.tcl
+/Users/trevorw/projects/tke-code/lib/format_lexer.tcl
+/Users/trevorw/projects/tke-code/lib/commit.tcl
+/Users/trevorw/projects/tke-code/lib/remote.tcl
+/Users/trevorw/projects/tke-code/lib/search.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/toggleswitch.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/tokensearch.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/tabbar.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/carousel.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy8.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/left.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/full.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/close.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/right.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy3.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy2.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy1.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy5.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy4.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy6.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/images/busy7.bmp
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/timeline.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/testapp.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/tokenentry.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/wmarkentry.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/chatlist.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/library/ptwidgets12.dll
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/tokenframe.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/resize.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/gifblock.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/bgproc.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/sgml-8.0.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/sgml-8.1.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclparser-8.1.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/process.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclparser-8.0.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xmldep.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xsltcache.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/dom.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/utilities.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/resources.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/dommap.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xml__tcl.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xmlswitch.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/sgmlparser.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclxslt-libxslt.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xpath.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tclIndex
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xml-8.0.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/xml-8.1.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Tclxml3.2/tcldom-libxml2.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/stacktrace.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown Readme.text
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Markdown_1.0.1/Markdown.pl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/Markdown_1.0.1/License.text
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/common/htmllib.tcl
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/tclIndex
+/Users/trevorw/projects/tke-code/lib/ptwidgets1.2/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/tkcon/index.html
+/Users/trevorw/projects/tke-code/lib/tkcon/tkcon.tcl
+/Users/trevorw/projects/tke-code/lib/tkcon/ChangeLog
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/index.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/nontcl.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/tkcon.1.man
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/idebug.n.man
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/observe.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/demopic.png
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/start.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/license.terms
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/perl.txt
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/plugin.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/changes.txt
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/tkcon.n.man
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/tkconrc.5.man
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/dump.n.man
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/limits.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/style.css
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/tkcon.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/idebug.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/observe.n.man
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/purpose.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/bindings.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/todo.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/procs.html
+/Users/trevorw/projects/tke-code/lib/tkcon/docs/dump.html
+/Users/trevorw/projects/tke-code/lib/tkcon/tclIndex
+/Users/trevorw/projects/tke-code/lib/tkcon/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/tkcon/extra/stripped.tcl
+/Users/trevorw/projects/tke-code/lib/tkcon/extra/console1_1.tcl
+/Users/trevorw/projects/tke-code/lib/tkcon/icons/tkcon-small.svg
+/Users/trevorw/projects/tke-code/lib/tkcon/icons/tkcon-small48.png
+/Users/trevorw/projects/tke-code/lib/tkcon/README.txt
+/Users/trevorw/projects/tke-code/lib/tkcon/install-desktop-menu.sh
+/Users/trevorw/projects/tke-code/lib/tkcon/tkcon-console.desktop
+/Users/trevorw/projects/tke-code/lib/tclIndex
+/Users/trevorw/projects/tke-code/lib/restart.tcl
+/Users/trevorw/projects/tke-code/lib/folding.tcl
+/Users/trevorw/projects/tke-code/lib/gui.tcl
+/Users/trevorw/projects/tke-code/lib/bist.tcl
+/Users/trevorw/projects/tke-code/lib/files.tcl
+/Users/trevorw/projects/tke-code/lib/format_parser.tac
+/Users/trevorw/projects/tke-code/lib/image_size.php
+/Users/trevorw/projects/tke-code/lib/tkedat.tcl
+/Users/trevorw/projects/tke-code/lib/format_lexer.fcl
+/Users/trevorw/projects/tke-code/lib/theme.tcl
+/Users/trevorw/projects/tke-code/lib/webdav/davvfs.tcl
+/Users/trevorw/projects/tke-code/lib/webdav/webdav.test
+/Users/trevorw/projects/tke-code/lib/webdav/ChangeLog
+/Users/trevorw/projects/tke-code/lib/webdav/webdav.tcl
+/Users/trevorw/projects/tke-code/lib/webdav/webdav.html
+/Users/trevorw/projects/tke-code/lib/webdav/davvfs.test
+/Users/trevorw/projects/tke-code/lib/webdav/README
+/Users/trevorw/projects/tke-code/lib/webdav/tclIndex
+/Users/trevorw/projects/tke-code/lib/webdav/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/webdav/vfsUrl.tcl
+/Users/trevorw/projects/tke-code/lib/webdav/davdata.tgz
+/Users/trevorw/projects/tke-code/lib/webdav/webdav.man
+/Users/trevorw/projects/tke-code/lib/diff.tcl
+/Users/trevorw/projects/tke-code/lib/specl/bin/binit.exe
+/Users/trevorw/projects/tke-code/lib/specl/tclIndex
+/Users/trevorw/projects/tke-code/lib/specl/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/resize.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/utils.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/updater.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/gifblock.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/bgproc.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/specl.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/sgml-8.0.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/sgml-8.1.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tclparser-8.1.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/process.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tclparser-8.0.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xmldep.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xsltcache.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/dom.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/utilities.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/resources.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/dommap.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xml__tcl.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xmlswitch.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/sgmlparser.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tclxslt-libxslt.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xpath.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xml-8.0.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/xml-8.1.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Tclxml3.2/tcldom-libxml2.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/releaser.tcl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Markdown_1.0.1/Markdown Readme.text
+/Users/trevorw/projects/tke-code/lib/specl/lib/Markdown_1.0.1/Markdown.pl
+/Users/trevorw/projects/tke-code/lib/specl/lib/Markdown_1.0.1/License.text
+/Users/trevorw/projects/tke-code/lib/specl/lib/htmllib.tcl
+/Users/trevorw/projects/tke-code/lib/specl/doc/specl.html
+/Users/trevorw/projects/tke-code/lib/templates.tcl
+/Users/trevorw/projects/tke-code/lib/snip_parser.tac
+/Users/trevorw/projects/tke-code/lib/launcher.tcl
+/Users/trevorw/projects/tke-code/lib/markers.tcl
+/Users/trevorw/projects/tke-code/lib/emmet_css.tcl
+/Users/trevorw/projects/tke-code/lib/bindings.tcl
+/Users/trevorw/projects/tke-code/lib/themer.tcl
+/Users/trevorw/projects/tke-code/lib/themes.tcl
+/Users/trevorw/projects/tke-code/lib/sessions.tcl
+/Users/trevorw/projects/tke-code/lib/emmet.tcl
+/Users/trevorw/projects/tke-code/lib/lang.tcl
+/Users/trevorw/projects/tke-code/lib/multicursor.tcl
+/Users/trevorw/projects/tke-code/lib/syntax.tcl
+/Users/trevorw/projects/tke-code/lib/indent.tcl
+/Users/trevorw/projects/tke-code/lib/emmet_parser.tcl
+/Users/trevorw/projects/tke-code/lib/emmet_parser.tab.tcl
+/Users/trevorw/projects/tke-code/lib/windowlist.tcl
+/Users/trevorw/projects/tke-code/lib/snippets.tcl
+/Users/trevorw/projects/tke-code/lib/logger.tcl
+/Users/trevorw/projects/tke-code/lib/remote/ftp.tcl
+/Users/trevorw/projects/tke-code/lib/remote/README
+/Users/trevorw/projects/tke-code/lib/remote/sftp.tcl
+/Users/trevorw/projects/tke-code/lib/remote/ftp_control.tcl
+/Users/trevorw/projects/tke-code/lib/vim.tcl
+/Users/trevorw/projects/tke-code/plugins/drop_test/main.tcl
+/Users/trevorw/projects/tke-code/plugins/drop_test/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/trusted/main.tcl
+/Users/trevorw/projects/tke-code/plugins/trusted/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/pref_test/main.tcl
+/Users/trevorw/projects/tke-code/plugins/pref_test/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/markdown_drop/main.tcl
+/Users/trevorw/projects/tke-code/plugins/markdown_drop/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/calendar/main.tcl
+/Users/trevorw/projects/tke-code/plugins/calendar/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/test/main.tcl
+/Users/trevorw/projects/tke-code/plugins/test/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/file_info/main.tcl
+/Users/trevorw/projects/tke-code/plugins/file_info/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/images/unchecked.gif
+/Users/trevorw/projects/tke-code/plugins/images/checked.gif
+/Users/trevorw/projects/tke-code/plugins/publish_markdown/README.md
+/Users/trevorw/projects/tke-code/plugins/publish_markdown/main.tcl
+/Users/trevorw/projects/tke-code/plugins/publish_markdown/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/doctest/README.md
+/Users/trevorw/projects/tke-code/plugins/doctest/main.tcl
+/Users/trevorw/projects/tke-code/plugins/doctest/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/changebar/main.tcl
+/Users/trevorw/projects/tke-code/plugins/changebar/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/render/main.tcl
+/Users/trevorw/projects/tke-code/plugins/render/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/terminal/main.tcl
+/Users/trevorw/projects/tke-code/plugins/terminal/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/code_view/main.tcl
+/Users/trevorw/projects/tke-code/plugins/code_view/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/todo/main.tcl
+/Users/trevorw/projects/tke-code/plugins/todo/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/lorem/main.tcl
+/Users/trevorw/projects/tke-code/plugins/lorem/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/dired/main.tcl
+/Users/trevorw/projects/tke-code/plugins/dired/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/browser_me/main.tcl
+/Users/trevorw/projects/tke-code/plugins/browser_me/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/vcs_example/main.tcl
+/Users/trevorw/projects/tke-code/plugins/vcs_example/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/number_converter/main.tcl
+/Users/trevorw/projects/tke-code/plugins/number_converter/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/editorconfig/EditorConfig.syntax
+/Users/trevorw/projects/tke-code/plugins/editorconfig/main.tcl
+/Users/trevorw/projects/tke-code/plugins/editorconfig/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/notes/main.tcl
+/Users/trevorw/projects/tke-code/plugins/notes/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/choosers/main.tcl
+/Users/trevorw/projects/tke-code/plugins/choosers/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/mercurial/main.tcl
+/Users/trevorw/projects/tke-code/plugins/mercurial/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/untrusted/main.tcl
+/Users/trevorw/projects/tke-code/plugins/untrusted/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/edit_utils/README.md
+/Users/trevorw/projects/tke-code/plugins/edit_utils/main.tcl
+/Users/trevorw/projects/tke-code/plugins/edit_utils/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/perforce/main.tcl
+/Users/trevorw/projects/tke-code/plugins/perforce/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/regexp_checker/README.md
+/Users/trevorw/projects/tke-code/plugins/regexp_checker/main.tcl
+/Users/trevorw/projects/tke-code/plugins/regexp_checker/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/current_line/main.tcl
+/Users/trevorw/projects/tke-code/plugins/current_line/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/url_validator/bad.gif
+/Users/trevorw/projects/tke-code/plugins/url_validator/README.md
+/Users/trevorw/projects/tke-code/plugins/url_validator/good.gif
+/Users/trevorw/projects/tke-code/plugins/url_validator/main.tcl
+/Users/trevorw/projects/tke-code/plugins/url_validator/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/highlight_matches/README.md
+/Users/trevorw/projects/tke-code/plugins/highlight_matches/main.tcl
+/Users/trevorw/projects/tke-code/plugins/highlight_matches/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/e_menu/README.md
+/Users/trevorw/projects/tke-code/plugins/e_menu/main.tcl
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/e_menu.tcl
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/git2.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/tcltk.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/links.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/utils.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/menu.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/test2.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/test3.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/fossil2.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/fossil.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/test1.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/side.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/links2.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/python.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/menus/git.mnu
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/e_help.tcl
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/ch_.tcl
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/procs.tcl
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/rarrow.png
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/run_pause.sh
+/Users/trevorw/projects/tke-code/plugins/e_menu/e_menu/src/run_pause.bat
+/Users/trevorw/projects/tke-code/plugins/e_menu/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/markdown_table_beautifier/main.tcl
+/Users/trevorw/projects/tke-code/plugins/markdown_table_beautifier/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/markdown_color/Markdown_color.syntax
+/Users/trevorw/projects/tke-code/plugins/markdown_color/main.tcl
+/Users/trevorw/projects/tke-code/plugins/markdown_color/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/sidebar_test/main.tcl
+/Users/trevorw/projects/tke-code/plugins/sidebar_test/header.tkedat
+/Users/trevorw/projects/tke-code/plugins/css_colorize/README.md
+/Users/trevorw/projects/tke-code/plugins/css_colorize/main.tcl
+/Users/trevorw/projects/tke-code/plugins/css_colorize/header.tkedat
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_macosx.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd28.dll
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/pkgIndex.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_windows.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_unix.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_compat.tcl
+/Users/trevorw/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_generic.tcl
+/Users/trevorw/projects/tke-code/Win/binit/binit.exe
