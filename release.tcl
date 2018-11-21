@@ -62,7 +62,7 @@ proc usage {} {
 
 }
 
-proc get_latest_major_minor_point {} {
+proc get_latest_major_minor_point {release_type} {
 
   if {![catch "exec -ignorestderr hg tags" rc]} {
     set last_major 0
@@ -77,7 +77,10 @@ proc get_latest_major_minor_point {} {
           set last_major $major
           set last_minor $minor
         }
-      } elseif {[regexp {^devel-(\d+)\.(\d+)\.(\d+)$} [lindex $line 0] -> major minor point]} {
+      } elseif {[regexp {^(devel|stable)-(\d+)\.(\d+)\.(\d+)$} [lindex $line 0] -> type major minor point]} {
+        if {($type eq "stable") && ($release_type eq "devel")} {
+          continue
+        }
         if {$major > $last_major} {
           set last_major $major
           set last_minor $minor
@@ -349,10 +352,11 @@ proc run_specl {type major minor point release_notes release_type} {
 catch {
 
   # Initialize variables that might be overridden on the command-line
-  set increment_major 0
-  set generate_only   0
-  set release_type    "devel"
-  set release_notes   ""
+  set increment_major  0
+  set generate_only    0
+  set release_type     "devel"
+  set release_notes    ""
+  set stable_point_rel 0
 
   # Parse command-line options
   set i 1
@@ -363,19 +367,24 @@ catch {
       -g      { set generate_only 1 }
       -f      { incr i; set release_notes [lindex $argv $i] }
       -s      { set release_type "stable" }
+      -p      { set stable_point_rel 1 }
       default { usage }
     }
     incr i
   }
 
   # Get the latest major/minor tag
-  lassign [get_latest_major_minor_point] major minor point
+  lassign [get_latest_major_minor_point $release_type] major minor point
 
   # Recreate last_tag
   if {$major == 0} {
     set last_tag ""
-  } elseif {($release_type eq "stable") || ($point == 0)} {
-    set last_tag "stable-$major.$minor"
+  } elseif {$release_type eq "stable"} {
+    if {$point == 0} {
+      set last_tag "stable-$major.$minor"
+    } else {
+      set last_tag "stable-$major.$minor.$point"
+    }
   } else {
     set last_tag "devel-$major.$minor.$point"
   }
@@ -391,11 +400,17 @@ catch {
         incr major
         set minor 0
         set point 0
+      } elseif {$stable_point_rel} {
+        incr point
       } else {
         incr minor
         set point 0
       }
-      set next_tag "stable-$major.$minor"
+      if {$stable_point_rel} {
+        set next_tag "stable-$major.$minor.$point"
+      } else {
+        set next_tag "stable-$major.$minor"
+      }
     } else {
       if {$major == 0} {
         set major 1
@@ -416,6 +431,9 @@ catch {
     }
     set next_tag $last_tag
   }
+
+  # puts "last_tag: $last_tag, next_tag: $next_tag"
+  # exit
 
   if {!$generate_only} {
 
