@@ -1240,7 +1240,7 @@ namespace eval specl::updater {
 
     } else {
 
-      set    sample_text "<h2>Version (3.4) Release Notes</h2><br>"
+      set    sample_text "<h2>Version (4.0) Release Notes</h2><br>"
       append sample_text "This is some <code>sample text</code> describing this release.<br><br>"
       append sample_text "<b>New Features</b>"
       append sample_text "<ul>"
@@ -1249,7 +1249,7 @@ namespace eval specl::updater {
       append sample_text "<li>Feature 3</li>"
       append sample_text "</ul>"
 
-      set rc [list description $sample_text download_url "" version "3.4" release 10 \
+      set rc [list description $sample_text download_url "" version "4.0" release 10 \
                    length 7042856 checksum foobar num_updates  1]
 
       # Display the desired window

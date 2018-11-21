@@ -23,8 +23,10 @@ namespace eval specl {
   proc load_specl_version {specl_version_dir} {
 
     # Read the version and URL information
-    if {[catch "source [file join $specl_version_dir specl_version.tcl]" rc]} {
-      return -code error $rc
+    if {[catch { source [file join $specl_version_dir specl_version.tcl] } rc]} {
+      if {[catch { source [file join $specl_version_dir specl specl_version.tcl] } rc]} {
+        return -code error $rc
+      }
     }
 
   }
