@@ -1038,6 +1038,9 @@ namespace eval menus {
     # Close all of the tabs
     gui::close_all -force 1 -exiting 1
 
+    # Force any panels that are waiting to stop waiting
+    set gui::user_exit_status 0
+
     # Save the clipboard history
     cliphist::save
 
