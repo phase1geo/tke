@@ -37,7 +37,7 @@ namespace eval specl {
 }
 
 source [file join lib version.tcl]
-source specl_version.tcl
+source [file join specl specl_version.tcl]
 
 proc usage {} {
 
@@ -379,7 +379,11 @@ catch {
       set last_tag "stable-$major.$minor.$point"
     }
   } else {
-    set last_tag "devel-$major.$minor.$point"
+    if {$point == 0} {
+      set last_tag "stable-$major.$minor"
+    } else {
+      set last_tag "devel-$major.$minor.$point"
+    }
   }
 
   # Update major/minor/point values and create next_tag value
