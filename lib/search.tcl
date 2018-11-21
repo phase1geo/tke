@@ -445,10 +445,10 @@ namespace eval search {
       # Convert the pattern based on the given search method
       switch $rsp(method) {
         glob {
-          set rsp(find) [string map {* .* ? . { \\{ } \\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
+          set rsp(find) [string map {* .* ? . . \\. \{ \\\{ \} \\\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
         }
         exact {
-          set rsp(find) [string map {* \\* ? \\? . \\. { \\{ } \\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
+          set rsp(find) [string map {* \\* ? \\? . \\. \{ \\\{ \} \\\} ( \\( ) \\) ^ \\^ - \\- + \\+} $rsp(find)]
         }
       }
 

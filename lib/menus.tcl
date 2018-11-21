@@ -200,8 +200,8 @@ namespace eval menus {
         launcher::unregister [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] * *
 
         set mb ".menubar.plugins"
-        $mb delete 3 4
         $mb delete 6
+        $mb delete 3 4
         launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] * *
         launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] * *
 
@@ -3445,7 +3445,9 @@ namespace eval menus {
   # Called when the plugins menu needs to be posted.
   proc plugins_posting {mb} {
 
-    $mb entryconfigure [format "%s..." [msgcat::mc "Export"]] -state [expr {[plugins::export_available] ? "normal" : "disabled"}]
+    if {[::tke_development]} {
+      $mb entryconfigure [format "%s..." [msgcat::mc "Export"]] -state [expr {[plugins::export_available] ? "normal" : "disabled"}]
+    }
 
   }
 
