@@ -309,7 +309,7 @@ if {[file exists [set mime_dir [file join / usr share mime packages]]]} {
 if {[file exists [set appdata_dir [file join / usr share appdata]]]} {
   puts -nonewline "Copying tke.appdata.xml to [file join $appdata_dir tke.appdata.xml]...  "
   flush stdout
-  if {[catch "file copy tke.appdata.xml $appdata_dir"]} {
+  if {[catch "file copy [file join data tke.appdata.xml] $appdata_dir"]} {
     puts "not done."
   } else {
     puts "done."

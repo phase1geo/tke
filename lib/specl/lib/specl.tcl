@@ -22,7 +22,9 @@ namespace eval specl {
   proc get_specl_version_dir {start_dir} {
 
     set current_dir [file normalize $start_dir]
-    while {($current_dir ne "/") && ![file exists [file join $current_dir specl_version.tcl]]} {
+    while {($current_dir ne "/") && \
+           ![file exists [file join $current_dir specl_version.tcl]] && \
+           ![file exists [file join $current_dir specl specl_version.tcl]]} {
       set current_dir [file dirname $current_dir]
     }
 
@@ -39,6 +41,11 @@ namespace eval specl {
 
       # Otherwise, specify that we could not find the specl_version.tcl file
       return -code error "Unable to find specl_version.tcl file"
+
+    # If we found a specl directory with the version file within it, adjust the current_dir
+    } elseif {[file exists [file join $current_dir specl specl_version.tc]]} {
+
+      set current_dir [file join $current_dir specl]
 
     }
 

@@ -193,7 +193,7 @@ proc generate_linux_tarball {tag} {
   puts -nonewline "Preparing Linux release directory...  "; flush stdout
 
   # Delete unnecessary directories and files
-  foreach item [list MacOSX Win release.tcl .hgignore .hgtags .hg_archival.txt .DS_Store dmg.sh pkgIndex.tcl] {
+  foreach item [list MacOSX Win release.tcl .hgignore .hgtags .hg_archival.txt .DS_Store] {
     set relitem [file join $release_dir $item]
     if {[file exists $relitem]} {
       if {[catch { file delete -force $relitem } rc]} {
