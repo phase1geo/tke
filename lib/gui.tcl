@@ -473,7 +473,7 @@ namespace eval gui {
     if {![preferences::get Editor/VimMode]} {
       set search_method [preferences::get Find/DefaultMethod]
     }
-    
+
     # Set the default Find in Files search method
     set fif_method [preferences::get Find/DefaultFIFMethod]
 
@@ -1657,7 +1657,7 @@ namespace eval gui {
 
     # Perform untitled tab check
     if {[untitled_check]} {
-      if {$name ne "Untitled"} {
+      if {($name ne "Untitled") && !$opts(-other)} {
         close_tab [get_info {} current tab] -keeptab 0
       }
     }
@@ -1808,7 +1808,7 @@ namespace eval gui {
     array set opts $args
 
     # If have a single untitled tab in view, close it before adding the file
-    if {[untitled_check]} {
+    if {[untitled_check] && !$opts(-other)} {
       close_tab [get_info {} current tab] -keeptab 0
     }
 
@@ -3774,7 +3774,7 @@ namespace eval gui {
     # Populate the fif_in tokenentry menu
     set fif_files [sidebar::get_fif_files]
     $widgets(fif_in) configure -listvar gui::fif_files -matchmode regexp -matchindex 0 -matchdisplayindex 0
-    
+
     switch $fif_method {
       "regexp" { $widgets(fif_type) configure -text [msgcat::mc "Regexp"] }
       "glob"   { $widgets(fif_type) configure -text [msgcat::mc "Glob"] }
