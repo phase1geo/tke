@@ -49,6 +49,7 @@ namespace eval gui {
   variable synced_txt       ""
   variable show_match_chars 0
   variable search_method    "regexp"
+  variable fif_method       "regexp"
 
   array set widgets         {}
   array set tab_tip         {}
@@ -240,6 +241,7 @@ namespace eval gui {
 
     variable widgets
     variable search_method
+    variable fif_method
 
     # Set the application icon photo
     wm iconphoto . [image create photo -file [file join $::tke_dir lib images tke_logo_128.gif]]
@@ -267,9 +269,11 @@ namespace eval gui {
     pack $widgets(nb_pw) -fill both -expand yes
 
     # Create the find_in_files widget
+    set max_width          [expr [msgcat::mcmax "Regexp" "Glob" "Exact"] + 1]
     set widgets(fif)       [ttk::frame .fif]
     ttk::label $widgets(fif).lf -text [format "%s: " [msgcat::mc "Find"]]
     set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
+    set widgets(fif_type)  [ttk::button $widgets(fif).type -style BButton -width $max_width -command [list gui::handle_menu_popup $widgets(fif).type .fif.typeMenu]]
     set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable gui::case_sensitive]
     ttk::label $widgets(fif).li -text [format "%s: " [msgcat::mc "In"]]
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font] \
@@ -277,6 +281,12 @@ namespace eval gui {
     set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text [msgcat::mc "Save"] \
       -variable gui::saved -command [list search::update_save fif]]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image form_close]
+
+    # Create the search type menu
+    set type_menu [menu $widgets(fif).typeMenu -tearoff 0]
+    $type_menu add radiobutton -label [msgcat::mc "Regexp"] -variable gui::fif_method -value "regexp" -command [list $widgets(fif_type) configure -text [msgcat::mc "Regexp"]]
+    $type_menu add radiobutton -label [msgcat::mc "Glob"]   -variable gui::fif_method -value "glob"   -command [list $widgets(fif_type) configure -text [msgcat::mc "Glob"]]
+    $type_menu add radiobutton -label [msgcat::mc "Exact"]  -variable gui::fif_method -value "exact"  -command [list $widgets(fif_type) configure -text [msgcat::mc "Exact"]]
 
     tooltip::tooltip $widgets(fif_case) [msgcat::mc "Case sensitivity"]
 
@@ -299,11 +309,12 @@ namespace eval gui {
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
     grid $widgets(fif).ef    -row 0 -column 1 -sticky ew -pady 2
-    grid $widgets(fif).case  -row 0 -column 2 -sticky news -padx 2 -pady 2
-    grid $widgets(fif).close -row 0 -column 3 -sticky news -padx 2 -pady 2
+    grid $widgets(fif).type  -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $widgets(fif).case  -row 0 -column 3 -sticky news -padx 2 -pady 2
+    grid $widgets(fif).close -row 0 -column 4 -sticky news -padx 2 -pady 2
     grid $widgets(fif).li    -row 1 -column 0 -sticky ew -pady 2
     grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2
-    grid $widgets(fif).save  -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid $widgets(fif).save  -row 1 -column 3 -sticky news -padx 2 -pady 2 -columnspan 2
 
     # Create the documentation search bar
     set widgets(doc) [ttk::frame .doc]
@@ -462,6 +473,9 @@ namespace eval gui {
     if {![preferences::get Editor/VimMode]} {
       set search_method [preferences::get Find/DefaultMethod]
     }
+    
+    # Set the default Find in Files search method
+    set fif_method [preferences::get Find/DefaultFIFMethod]
 
     # Add the available encodings to the command launcher
     foreach encname [encoding names] {
@@ -3743,7 +3757,7 @@ namespace eval gui {
 
     variable widgets
     variable fif_files
-    variable search_method
+    variable fif_method
     variable case_sensitive
     variable saved
 
@@ -3760,6 +3774,12 @@ namespace eval gui {
     # Populate the fif_in tokenentry menu
     set fif_files [sidebar::get_fif_files]
     $widgets(fif_in) configure -listvar gui::fif_files -matchmode regexp -matchindex 0 -matchdisplayindex 0
+    
+    switch $fif_method {
+      "regexp" { $widgets(fif_type) configure -text [msgcat::mc "Regexp"] }
+      "glob"   { $widgets(fif_type) configure -text [msgcat::mc "Glob"] }
+      "exact"  { $widgets(fif_type) configure -text [msgcat::mc "Exact"] }
+    }
 
     # Display the FIF widget
     panel_place $widgets(fif)
@@ -3782,7 +3802,7 @@ namespace eval gui {
     }
 
     # Gather the input to return
-    set rsp_list [list find [$widgets(fif_find) get] in $ins method $search_method case $case_sensitive save $saved]
+    set rsp_list [list find [$widgets(fif_find) get] in $ins method $fif_method case $case_sensitive save $saved]
 
     return [set gui::user_exit_status]
 

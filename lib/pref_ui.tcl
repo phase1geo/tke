@@ -2962,10 +2962,11 @@ namespace eval pref_ui {
     variable widgets
     variable prefs
 
-    make_sb $w.mh  [msgcat::mc "Set find history depth"]         Find/MaxHistory   0 100 10 1
-    make_sb $w.cn  [msgcat::mc "Set Find in Files line context"] Find/ContextNum   0  10  1 1
-    make_sb $w.jd  [msgcat::mc "Set jump distance"]              Find/JumpDistance 1  20  1 1
-    make_mb $w.dsm [msgcat::mc "Default search method"]          Find/DefaultMethod {regexp glob exact} 1
+    make_sb $w.mh  [msgcat::mc "Set find history depth"]              Find/MaxHistory   0 100 10 1
+    make_sb $w.cn  [msgcat::mc "Set Find in Files line context"]      Find/ContextNum   0  10  1 1
+    make_sb $w.jd  [msgcat::mc "Set jump distance"]                   Find/JumpDistance 1  20  1 1
+    make_mb $w.dsm [msgcat::mc "Default Find search method"]          Find/DefaultMethod {regexp glob exact} 1
+    make_mb $w.dfm [msgcat::mc "Default Find in Files search method"] Find/DefaultFIFMethod {regexp glob exact} 1
 
   }
 
