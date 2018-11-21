@@ -189,28 +189,21 @@ proc generate_linux_tarball {tag} {
 
   puts -nonewline "Preparing Linux release directory...  "; flush stdout
 
-  # Delete the MacOSX directory
-  if {[catch { file delete -force [file join $release_dir MacOSX] } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    file delete -force $release_dir
-    return -code error "Unable to delete MacOSX directory"
-  }
-
-  # Delete the Win directory
-  if {[catch { file delete -force [file join $release_dir Win] } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    file delete -force $release_dir
-    return -code error "Unable to delete Win directory"
-  }
-
-  # Delete the release.tcl file
-  if {[catch { file delete -force [file join $release_dir release.tcl] } rc]} {
-    puts "failed!"
-    puts "  $rc"
-    file delete -force $release_dir
-    return -code error "Unable to delete release.tcl"
+  # Delete unnecessary directories and files
+  foreach item [list MacOSX Win release.tcl .hgignore .hgtags .hg_archival.txt .DS_Store dmg.sh pkgIndex.tcl] {
+    set relitem [file join $release_dir $item]
+    if {[file exists $relitem]} {
+      if {[catch { file delete -force $relitem } rc]} {
+        puts "failed!"
+        puts "  $rc"
+        file delete -force $release_dir
+        if {[file isdirectory $relitem]} {
+          return -code error "Unable to delete $item directory"
+        } else {
+          return -code error "Unable to delete $item"
+        }
+      }
+    }
   }
 
   puts "done."
