@@ -35,7 +35,13 @@ namespace eval specl {
       # directories under start_dir, check to see if this is the case
       if {$::tcl_platform(os) eq "Darwin"} {
         if {![catch { exec -ignorestderr find $start_dir -name specl_version.tcl } rc] && ([set current_dir [string trim $rc]] ne "")} {
-          return [file dirname $current_dir]
+          foreach line [split $rc \n] {
+            set current_dir [file dirname [string trim $line]]
+            if {[file tail $current_dir] eq "specl"} {
+              return $current_dir
+            }
+          }
+          return $current_dir
         }
       }
 
