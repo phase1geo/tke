@@ -694,7 +694,13 @@ namespace eval specl::releaser {
 
     variable data
 
-    if {![catch { open specl_version.tcl w } rc]} {
+    if {[file exists specl] && [file isdirectory specl]} {
+      set ofile [file join specl specl_version.tcl]
+    } else {
+      set ofile specl_version.tcl
+    }
+
+    if {![catch { open $ofile w } rc]} {
 
       puts $rc "set specl::appname      \"$specl::appname\""
       puts $rc "set specl::version      \"$data(item_version)\""
