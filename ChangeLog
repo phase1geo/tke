@@ -99,8 +99,33 @@
 	* .hgtags:
 	Removed tag devel-3.5.1
 
-2018-11-21 18:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (25fbe13d356d [tip])
+2018-11-21 18:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (25fbe13d356d)
 
 	* lib/specl/lib/releaser.tcl, lib/version.tcl, release.tcl:
 	* Fixing release scripts.
+
+2018-11-21 18:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b898b07765ea [devel-3.5.1])
+
+	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
+	ChangeLog for devel-3.5.1 release
+
+2018-11-21 18:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f5294c692d15)
+
+	* .hgtags:
+	Added tag devel-3.5.1 for changeset b898b07765ea
+
+2018-11-21 18:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (05ef02c8975b)
+
+	* lib/version.tcl, release.tcl:
+	* Fixing issue with version calculations in release script.
+
+2018-11-21 18:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5a3661446c46)
+
+	* lib/version.tcl, release.tcl:
+	* More release script fixes.
+
+2018-11-21 18:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (770b637e6754 [tip])
+
+	* lib/version.tcl, release.tcl:
+	* Checkpointing.
 
