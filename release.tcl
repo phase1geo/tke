@@ -78,7 +78,7 @@ proc get_latest_major_minor_point {release_type} {
           set last_minor $minor
         }
       } elseif {[regexp {^(devel|stable)-(\d+)\.(\d+)\.(\d+)$} [lindex $line 0] -> type major minor point]} {
-        if {($type eq "stable") && ($release_type eq "devel")} {
+        if {$type ne $release_type} {
           continue
         }
         if {$major > $last_major} {
