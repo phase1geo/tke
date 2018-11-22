@@ -131,7 +131,7 @@
 
 # Specifies the point size of the font used in the command launcher preview field.
 
-{Appearance/CommandLauncherPreviewFont} {-size 6}
+{Appearance/CommandLauncherPreviewFont} {-size 10}
 
 # If set to a value of 1, the command launcher will be positioned at the last position the
 # command launcher was moved to.  If this value is 0, the command launcher will always be

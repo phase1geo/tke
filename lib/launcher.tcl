@@ -159,7 +159,7 @@ namespace eval launcher {
       grid $widgets(lf).vb -row 0 -column 1 -sticky ns
 
       # Create a special font for the text widget
-      set widgets(txt) [text $widgets(win).mf.txt -bd 0 -font [font create -size 7] \
+      set widgets(txt) [text $widgets(win).mf.txt -bd 0  \
         -highlightthickness 2 -highlightbackground $theme(-listbackground) \
         -highlightcolor $theme(-background) \
         -width 60 -height 15 -relief flat -wrap word -state disabled \
@@ -173,9 +173,9 @@ namespace eval launcher {
 
       grid rowconfigure    $widgets(mf) 1 -weight 1
       grid columnconfigure $widgets(mf) 0 -weight 1
-      grid $widgets(mf).spcr -row 0 -column 0 -sticky ew -columnspan 2
+      grid $widgets(mf).spcr -row 0 -column 0 -sticky ew
       grid $widgets(lf)      -row 1 -column 0 -sticky news
-      grid $widgets(txt)     -row 1 -column 1 -sticky news
+      grid $widgets(txt)     -row 2 -column 0 -sticky news
 
       # Hide the text widget
       grid remove $widgets(txt)
