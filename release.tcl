@@ -292,7 +292,7 @@ proc run_specl {type major minor point release_notes release_type} {
   set specl_cmd "[info nameofexecutable] [file join lib specl lib releaser.tcl] -- $type"
 
   # Create version name
-  if {$release_type eq "stable"} {
+  if {$point == 0} {
     set version "$major.$minor"
   } else {
     set version "$major.$minor.$point"
@@ -429,8 +429,8 @@ catch {
     set next_tag $last_tag
   }
 
-  # puts "last_tag: $last_tag, next_tag: $next_tag"
-  # exit
+  puts "last_tag: $last_tag, next_tag: $next_tag"
+  exit
 
   if {!$generate_only} {
 
