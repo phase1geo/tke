@@ -79,8 +79,28 @@
 	* lib/specl/lib/updater.tcl, lib/specl/lib/utils.tcl, lib/version.tcl:
 	* More specl updates.
 
-2018-11-21 17:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f6e617270f89 [tip])
+2018-11-21 17:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f6e617270f89)
 
 	* ChangeLog, lib/version.tcl, release.tcl:
 	* Fixing release script issues.
+
+2018-11-21 18:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4992130e3a48)
+
+	* ChangeLog, lib/version.tcl:
+	ChangeLog for devel-3.5.1 release
+
+2018-11-21 18:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0c88c5c12d3c)
+
+	* .hgtags:
+	Added tag devel-3.5.1 for changeset 4992130e3a48
+
+2018-11-21 18:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (13dca3297044)
+
+	* .hgtags:
+	Removed tag devel-3.5.1
+
+2018-11-21 18:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (25fbe13d356d [tip])
+
+	* lib/specl/lib/releaser.tcl, lib/version.tcl, release.tcl:
+	* Fixing release scripts.
 
