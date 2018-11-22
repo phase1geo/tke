@@ -1,0 +1,86 @@
+2018-11-19 18:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (30806e883515 [stable-3.5])
+
+	* ChangeLog, lib/version.tcl, specl_version.tcl:
+	ChangeLog for stable-3.5 release
+
+2018-11-19 18:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (43c4d55d341a)
+
+	* .hgtags:
+	Added tag stable-3.5 for changeset 30806e883515
+
+2018-11-19 19:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (009c1230c4f5)
+
+	* Win/freewrap.files, lib/images/tke.ico, lib/version.tcl:
+	* Updating ICO icon file.
+
+2018-11-21 10:20 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0dc285ed870c)
+
+	* data/preferences.tkedat, lib/gui.tcl, lib/menus.tcl,
+	lib/pref_ui.tcl, lib/search.tcl, lib/version.tcl:
+	* Adding Find/DefaultFIFMethod preference option.
+	* Adding ability to change search method in `Find in Files` panel.
+	* Fixing support for glob and exact search methods in `Find in Files`
+	panel.
+	* Fixing issue with Plugins menu when developer mode is disabled.
+	* Fixing issue with Plugins menu state when developer mode is changed.
+
+2018-11-21 10:35 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f08f646c8ec0)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing drawing issue when only an untitled document is displayed
+	and a document is opened immediately in the other pane.
+
+2018-11-21 12:26 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f49d10d45040)
+
+	* lib/version.tcl, release.tcl:
+	* Adding -p option to the release script to allow point releases for
+	the stable branch.
+
+2018-11-21 15:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8fc18fe56404)
+
+	* doc/md/TKE User Guide/User Interface/Find Menu.md, doc/md/TKE User
+	Guide/User Interface/Find in Files.md, doc/md/TKE User Guide/User
+	Interface/assets/Find-in-Files.png, lib/menus.tcl, lib/version.tcl:
+	* Fixing application hang when the `Find in Files` panel is
+	displayed and the application is exited.
+	* Updating User Guide for the Find-related panels and the Find in
+	Files panel image.
+
+2018-11-21 16:12 -0600  Trevor Williams  <phase1geo@gmail.com>  (8e4e75b9abc3)
+
+	* lib/version.tcl, release.tcl:
+	* Deleting more items from Linux packaging.
+
+2018-11-21 16:13 -0600  Trevor Williams  <phase1geo@gmail.com>  (f3b52d408af5)
+
+	* lib/version.tcl, release.tcl:
+	Merge
+
+2018-11-21 16:57 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0846ddeac9da)
+
+	* data/tke.appdata.xml, scripts/batch_export.tcl, scripts/dmg.sh,
+	specl/specl_customize.xml, specl/specl_version.tcl: new file.
+	* batch_export.tcl, dmg.sh, pkgIndex.tcl, specl_customize.xml,
+	specl_version.tcl, test/etke.tcl, tke.appdata.xml: deleted file.
+	* batch_export.tcl, data/tke.appdata.xml, dmg.sh, install.tcl,
+	lib/specl/lib/specl.tcl, lib/version.tcl, pkgIndex.tcl, release.tcl,
+	scripts/batch_export.tcl, scripts/dmg.sh, specl/specl_customize.xml,
+	specl/specl_version.tcl, specl_customize.xml, specl_version.tcl,
+	test/etke.tcl, tke.appdata.xml:
+	* Moving non-compliant files from the base directory.
+	* Starting to update specl library to find specl files in a specl
+	directory.
+	* Updating install.tcl to copy tke.appdata.xml from the data directory
+	to the installation directory.
+	* Removing etke.tcl file from the (now unnecessary) test directory.
+
+2018-11-21 17:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b6ac104e3f6e)
+
+	* lib/specl/lib/updater.tcl, lib/specl/lib/utils.tcl, lib/version.tcl:
+	* More specl updates.
+
+2018-11-21 17:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f6e617270f89 [tip])
+
+	* ChangeLog, lib/version.tcl, release.tcl:
+	* Fixing release script issues.
+
