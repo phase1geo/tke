@@ -429,8 +429,8 @@ catch {
     set next_tag $last_tag
   }
 
-  puts "last_tag: $last_tag, next_tag: $next_tag"
-  exit
+  # puts "last_tag: $last_tag, next_tag: $next_tag"
+  # exit
 
   if {!$generate_only} {
 
