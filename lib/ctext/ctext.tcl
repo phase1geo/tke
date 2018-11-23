@@ -3915,6 +3915,8 @@ namespace eval ctext {
 
     variable data
 
+    puts [utils::stacktrace]
+
     if {$type eq "class"} {
       checkHighlightClass $win $value
       set value __$value

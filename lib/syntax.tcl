@@ -48,6 +48,8 @@ namespace eval syntax {
     bcomments          {}
     strings            {}
     keywords           {}
+    functions          {}
+    variables          {}
     symbols            {}
     numbers            {}
     punctuation        {}
@@ -479,6 +481,8 @@ namespace eval syntax {
 
         # Add the rest of the sections
         set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix $lang_ns
+        set_language_section $txt functions      $lang_array(functions) ""
+        set_language_section $txt variables      $lang_array(variables) ""
         set_language_section $txt punctuation    $lang_array(punctuation) ""
         set_language_section $txt numbers        $lang_array(numbers) ""
         set_language_section $txt precompile     $lang_array(precompile) ""
@@ -573,6 +577,8 @@ namespace eval syntax {
 
     # Add the rest of the sections
     set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix $lang_ns
+    set_language_section $txt functions      $lang_array(functions) $language
+    set_language_section $txt variables      $lang_array(variables) $language
     set_language_section $txt punctuation    $lang_array(punctuation) $language
     set_language_section $txt miscellaneous1 $lang_array(miscellaneous1) $language
     set_language_section $txt miscellaneous2 $lang_array(miscellaneous2) $language
@@ -657,8 +663,10 @@ namespace eval syntax {
     variable meta_tags
 
     switch $section {
-      "advanced" -
-      "symbols" {
+      "advanced"  -
+      "symbols"   -
+      "functions" -
+      "variables" {
         while {[llength $section_list]} {
           set section_list [lassign $section_list type]
           switch -glob $type {
@@ -698,7 +706,7 @@ namespace eval syntax {
                   add_highlight_type $txt $type command syntax::${lang_ns}::$command $syntax $lang
                 }
               } else {
-                add_highlight_type $txt $type class [expr {($section eq "symbols") ? "symbols" : "none"}] $syntax $lang
+                add_highlight_type $txt $type class [expr {($section eq "advanced") ? "none" : $section}] $syntax $lang
               }
             }
             "TclBegin" {
@@ -1045,6 +1053,16 @@ namespace eval syntax {
     }
 
     return ""
+
+  }
+
+  ######################################################################
+  # Returns the information for syntax file functions.
+  proc get_syntax_function {txt row str varlist ins} {
+
+    array set vars $varlist
+
+    return [list functions {*}$vars(1)]
 
   }
 
