@@ -46,11 +46,12 @@ strings {}
 keywords
 {
   filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
-  casesensitive delimiters indent unindent reindent keywords symbols icomment
-  lcomments bcomments strings numbers punctuation precompile miscellaneous1
-  miscellaneous2 miscellaneous3 highlighter meta readmeta advanced escapes formatting
+  casesensitive delimiters indent unindent reindent keywords symbols functions
+  variables icomment lcomments bcomments strings numbers punctuation precompile
+  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta readmeta advanced
+  escapes formatting
 }
-
+ 
 symbols
 {
   HighlightKeywords {
@@ -58,8 +59,13 @@ symbols
     linewrap casesensitive delimiters indent unindent reindent icomment lcomments
     bcomments strings symbols numbers punctuation precompile miscellaneous1
     miscellaneous2 miscellaneous3 meta readmeta advanced escapes formatting
+    keywords functions variables
   } syntax::get_syntax_symbol
 }
+
+functions {}
+
+variables {}
 
 numbers {}
 

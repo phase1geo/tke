@@ -96,6 +96,8 @@ namespace eval theme {
     syntax,foreground               {color {white} {} {0} {msgcat::mc "Default color for non-syntax highlighted text."}}
     syntax,highlighter              {color {yellow} {} {0} {msgcat::mc "Background color used in highlighted text."}}
     syntax,keywords                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific keywords."}}
+    syntax,functions                {color {white} {} {0} {msgcat::mc "Foreground text color to use for function calls."}}
+    syntax,variables                {color {white} {} {0} {msgcat::mc "Foreground text color to use for variables."}}
     syntax,linemap                  {color {black} {} {0} {msgcat::mc "Background color of linemap area."}}
     syntax,linemap_separator        {color {grey} {} {0} {msgcat::mc "Color used to draw the line which separates the linemap from the text area."}}
     syntax,line_number              {color {grey} {} {0} {msgcat::mc "Foreground text color to use for displaying line numbers."}}
@@ -164,9 +166,9 @@ namespace eval theme {
     constant.numeric     numbers
     meta.tag             miscellaneous1
     support              miscellaneous1
-    support.function     miscellaneous1
+    support.function     functions
     support.type         miscellaneous1
-    variable             miscellaneous2
+    variable             variables
     variable.other       miscellaneous2
     variable.parameter   miscellaneous2
     storage              miscellaneous3

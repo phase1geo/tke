@@ -40,6 +40,8 @@ namespace eval pref_ui {
   array set prefs       {}
   array set colorizers {
     keywords       0
+    functions      0
+    variables      0
     comments       0
     strings        0
     numbers        0
@@ -2965,6 +2967,7 @@ namespace eval pref_ui {
     make_sb $w.mh  [msgcat::mc "Set find history depth"]              Find/MaxHistory   0 100 10 1
     make_sb $w.cn  [msgcat::mc "Set Find in Files line context"]      Find/ContextNum   0  10  1 1
     make_sb $w.jd  [msgcat::mc "Set jump distance"]                   Find/JumpDistance 1  20  1 1
+    make_spacer $w 1
     make_mb $w.dsm [msgcat::mc "Default Find search method"]          Find/DefaultMethod {regexp glob exact} 1
     make_mb $w.dfm [msgcat::mc "Default Find in Files search method"] Find/DefaultFIFMethod {regexp glob exact} 1
 

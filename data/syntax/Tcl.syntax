@@ -35,8 +35,7 @@ lcomments {{^[ \t]*#} {;#}}
 
 strings {double}
 
-keywords
-{
+keywords {
   after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
   auto_qualify auto_reset bgerror binary break catch cd chan clock close concat continue
   dde default dict else elseif encoding eof error eval exec exit expr fblocked fconfigure fcopy file
@@ -50,23 +49,23 @@ keywords
   variable vwait while bind bindtags destroy
 }
 
-symbols
-{
+symbols {
   HighlightKeywords {proc} syntax::get_prefixed_symbol
 }
 
-numbers
-{
+variables {
+  HighlightCharStart \$ {}
+}
+
+numbers {
   HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]*|0x[0-9a-fA-F]+)} {}
 }
 
-punctuation
-{
+punctuation {
   HighlightRegexp {[][\{\}]} {}
 }
 
-miscellaneous1
-{
+miscellaneous1 {
   HighlightKeywords {
     ctext button label text frame toplevel scrollbar checkbutton canvas
     listbox menu menubar menubutton radiobutton scale entry message
@@ -78,13 +77,10 @@ miscellaneous1
   } {}
 }
 
-miscellaneous2
-{
+miscellaneous2 {
   HighlightCharStart - {}
 }
 
-miscellaneous3
-{
+miscellaneous3 {
   HighlightRegexp {\m(\.[a-zA-Z0-9\_\-]+)+} {}
-  HighlightCharStart \$ {}
 }
