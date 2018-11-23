@@ -481,8 +481,8 @@ namespace eval syntax {
 
         # Add the rest of the sections
         set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix $lang_ns
-        set_language_section $txt functions      $lang_array(functions) ""
-        set_language_section $txt variables      $lang_array(variables) ""
+        set_language_section $txt functions      $lang_array(functions) "" $cmd_prefix $lang_ns
+        set_language_section $txt variables      $lang_array(variables) "" $cmd_prefix $lang_ns
         set_language_section $txt punctuation    $lang_array(punctuation) ""
         set_language_section $txt numbers        $lang_array(numbers) ""
         set_language_section $txt precompile     $lang_array(precompile) ""
@@ -577,8 +577,8 @@ namespace eval syntax {
 
     # Add the rest of the sections
     set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix $lang_ns
-    set_language_section $txt functions      $lang_array(functions) $language
-    set_language_section $txt variables      $lang_array(variables) $language
+    set_language_section $txt functions      $lang_array(functions) $language $cmd_prefix $lang_ns
+    set_language_section $txt variables      $lang_array(variables) $language $cmd_prefix $lang_ns
     set_language_section $txt punctuation    $lang_array(punctuation) $language
     set_language_section $txt miscellaneous1 $lang_array(miscellaneous1) $language
     set_language_section $txt miscellaneous2 $lang_array(miscellaneous2) $language
@@ -667,6 +667,9 @@ namespace eval syntax {
       "symbols"   -
       "functions" -
       "variables" {
+        if {($section eq "functions") || ($section eq "variables")} {
+          $txt syntax addclass $section -fgtheme $section
+        }
         while {[llength $section_list]} {
           set section_list [lassign $section_list type]
           switch -glob $type {
@@ -706,7 +709,9 @@ namespace eval syntax {
                   add_highlight_type $txt $type command syntax::${lang_ns}::$command $syntax $lang
                 }
               } else {
-                add_highlight_type $txt $type class [expr {($section eq "advanced") ? "none" : $section}] $syntax $lang
+                set classname [expr {($section eq "advanced") ? "none" : $section}]
+                $txt syntax addclass $classname -fgtheme $classname
+                add_highlight_type $txt $type class $classname $syntax $lang
               }
             }
             "TclBegin" {
@@ -1062,7 +1067,7 @@ namespace eval syntax {
 
     array set vars $varlist
 
-    return [list functions {*}$vars(1)]
+    return [list [list functions {*}$vars(1)] ""]
 
   }
 
