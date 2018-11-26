@@ -11,6 +11,13 @@ proc ::tk::TextSetCursor {w pos args} {
   event generate $w <<CursorChanged>> -data [list $ins {*}$args]
 }
 
+rename ::tk::TextButton1 ::tk::TextSetButton1Orig
+proc ::tk::TextButton1 {w x y args} {
+  set ins [$w index insert]
+  ::tk::TextSetButton1Orig $w $x $y
+  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
+}
+
 namespace eval ctext {
 
   array set REs {
