@@ -43,6 +43,10 @@ keywords
   auto extern register static const volatile
 }
 
+functions {
+  HighlightRegexp {[^.]+\s*\(} {syntax::get_syntax_functions}
+}
+
 numbers
 {
   HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
