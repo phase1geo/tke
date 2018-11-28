@@ -44,7 +44,7 @@ keywords
 }
 
 functions {
-  HighlightRegexp {[^.]+\s*\(} {syntax::get_syntax_functions}
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 numbers
