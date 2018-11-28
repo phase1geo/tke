@@ -3885,21 +3885,28 @@ namespace eval gui {
     grid .aboutwin.f.if.l7 -row 7 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v7 -row 7 -column 1 -sticky news -padx 2 -pady 2
 
-    ttk::labelframe .aboutwin.f.cf -text [msgcat::mc "Credits"] -labelanchor n
+    ttk::frame .aboutwin.f.cf
+    ttk::label .aboutwin.f.cf.l -text [msgcat::mc "Credits"] -anchor center
+    ttk::separator .aboutwin.f.cf.sep1 -orient horizontal
+    # ttk::labelframe .aboutwin.f.cf -text [msgcat::mc "Credits"] -labelanchor n
     set txt [text .aboutwin.f.cf.t -wrap word -height 5 -relief flat -highlightthickness 0 \
-      -font "TkDefaultFont" \
+      -font "TkDefaultFont" -width 80 \
       -background [utils::get_default_background] \
       -foreground [utils::get_default_foreground] \
       -yscrollcommand { utils::set_yscrollbar .aboutwin.f.cf.vb }]
     scroller::scroller .aboutwin.f.cf.vb -orient vertical -command { .aboutwin.f.cf.t yview }
+    ttk::separator .aboutwin.f.cf.sep2 -orient horizontal
 
     # Register the widget for theming
     theme::register_widget .aboutwin.f.cf.vb misc_scrollbar
 
-    grid rowconfigure    .aboutwin.f.cf 0 -weight 1
+    grid rowconfigure    .aboutwin.f.cf 2 -weight 1
     grid columnconfigure .aboutwin.f.cf 0 -weight 1
-    grid .aboutwin.f.cf.t  -row 0 -column 0 -sticky news
-    grid .aboutwin.f.cf.vb -row 0 -column 1 -sticky ns
+    grid .aboutwin.f.cf.l    -row 0 -column 0 -sticky ew -columnspan 2 -padx 2 -pady 4
+    grid .aboutwin.f.cf.sep1 -row 1 -column 0 -sticky ew -columnspan 2
+    grid .aboutwin.f.cf.t    -row 2 -column 0 -sticky news
+    grid .aboutwin.f.cf.vb   -row 2 -column 1 -sticky ns
+    grid .aboutwin.f.cf.sep2 -row 3 -column 0 -sticky ew -columnspan 2
 
     ttk::button .aboutwin.f.credits -style BButton -text [msgcat::mc "Credits"] -command {
       if {[.aboutwin.f.credits cget -text] eq [msgcat::mc "Credits"]} {
@@ -3946,11 +3953,11 @@ namespace eval gui {
     wm withdraw .aboutwin
     update
 
-    set x [expr [winfo reqwidth .aboutwin.f.logo] + [winfo reqwidth .aboutwin.f.credits] + [winfo reqwidth .aboutwin.f.copyright] + 4]
-    set y [expr [winfo reqwidth .aboutwin.f.logo] + [winfo reqwidth .aboutwin.f.credits] + [winfo reqwidth .aboutwin.f.copyright] + 20]
-    incr x [expr max( [winfo reqwidth  .aboutwin.f.if], [winfo reqwidth  .aboutwin.f.cf] )]
-    incr y [expr max( [winfo reqheight .aboutwin.f.if], [winfo reqheight .aboutwin.f.cf] )]
-    wm geometry .aboutwin 370x${y}
+    set x [expr [winfo reqwidth .aboutwin.f.cf] + 4]
+    # set x [expr max( [winfo reqwidth .aboutwin.f.logo], [winfo reqwidth .aboutwin.f.if], [winfo reqwidth .aboutwin.f.cf] ) + 4]
+    set y [expr [winfo reqheight .aboutwin.f.logo] + [winfo reqheight .aboutwin.f.credits] + [winfo reqheight .aboutwin.f.copyright] + 40]
+    incr y [winfo reqheight .aboutwin.f.if]
+    wm geometry .aboutwin ${x}x${y}
     wm deiconify .aboutwin
 
   }
