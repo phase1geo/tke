@@ -184,22 +184,22 @@ namespace eval files {
     return [expr [get_index $fname $remote] != -1]
 
   }
-  
+
   ######################################################################
   # Counts the number of opened files in the given directory.
   proc num_opened {fname remote} {
-    
+
     variable files
     variable fields
-    
+
     set count 0
-    
+
     foreach index [lsearch -all -index $fields(fname) $files $fname*] {
       incr count [expr {[lindex $files $index $fields(remote)] eq $remote}]
     }
-    
+
     return $count
-    
+
   }
 
   ######################################################################
@@ -591,10 +591,10 @@ namespace eval files {
   ######################################################################
   # Move the given filename to the given directory.
   proc move_file {fname remote dir} {
-    
+
     variable files
     variable fields
-    
+
     # Create the new name
     set new_name [file join $dir [file tail $fname]]
 
@@ -611,10 +611,10 @@ namespace eval files {
         return -code error ""
       }
     }
-    
+
     # Find the matching file in the files list and change its filename to the new name
     if {[set index [get_index $fname $remote]] != -1} {
-      
+
       # Update the stored name to the new name and modification time
       lset files $index $fields(fname) $new_name
       lset files $index $fields(mtime) [modtime $index]
@@ -800,13 +800,13 @@ namespace eval files {
       *Win*  {
         set binit [file join $::tke_dir Win binit binit.exe]
         if {[namespace exists ::freewrap] && [zvfs::exists $binit]} {
-          if {[catch { exec -ignorestderr [freewrap::unpack $binit] $fname } rc]} {
+          if {[catch { exec -ignorestderr [freewrap::unpack $binit] [file normalize $fname] } rc]} {
             return -code error $rc
           }
           close_tabs $fname $isdir
           return
         } elseif {[file exists $binit]} {
-          if {[catch { exec -ignorestderr $binit $fname } rc]} {
+          if {[catch { exec -ignorestderr $binit [file normalize $fname] } rc]} {
             return -code error $rc
           }
           close_tabs $fname $isdir
