@@ -3825,13 +3825,10 @@ namespace eval gui {
       set release_type "Stable"
     }
 
-    set scaling [tk scaling]
-
     toplevel     .aboutwin
     wm title     .aboutwin ""
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
-    wm geometry  .aboutwin [expr int( 500 / $scaling )]x[expr int( 500 / $scaling )]
 
     ttk::frame .aboutwin.f
     ttk::label .aboutwin.f.logo -compound left -image logo -text " TKE" \
@@ -3945,6 +3942,16 @@ namespace eval gui {
 
     # Make sure that the user cannot change the text.
     $txt configure -state disabled
+
+    wm withdraw .aboutwin
+    update
+
+    set x [expr [winfo reqwidth .aboutwin.f.logo] + [winfo reqwidth .aboutwin.f.credits] + [winfo reqwidth .aboutwin.f.copyright] + 4]
+    set y [expr [winfo reqwidth .aboutwin.f.logo] + [winfo reqwidth .aboutwin.f.credits] + [winfo reqwidth .aboutwin.f.copyright] + 20]
+    incr x [expr max( [winfo reqwidth  .aboutwin.f.if], [winfo reqwidth  .aboutwin.f.cf] )]
+    incr y [expr max( [winfo reqheight .aboutwin.f.if], [winfo reqheight .aboutwin.f.cf] )]
+    wm geometry .aboutwin 370x${y}
+    wm deiconify .aboutwin
 
   }
 
