@@ -57,6 +57,10 @@ symbols
   } syntax::get_prefixed_symbol
 }
 
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
 numbers {
   HighlightRegexp {\m([0-9_]+|[0-9_]+\.[0-9_]+|0[xX][0-9a-fA-F_]+|0[ocC][0-7_]+|0[bB][01_]+|true|false)} {}
 }

@@ -33,6 +33,10 @@ keywords
   while open fetch signal resignal show cache flush kill reset describe explain help use
 }
 
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
 numbers {
   HighlightRegexp {[0-9]+} {}
 }

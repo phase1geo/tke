@@ -27,6 +27,10 @@ keywords
   rename revoke rollback savepoint select set truncate update
 }
 
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
 numbers {
   HighlightRegexp {[0-9]+} {}
 }

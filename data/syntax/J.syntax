@@ -1,6 +1,10 @@
 filepatterns
 {*.j}
 
+reference {
+  {{Wiki} https://code.jsoftware.com/wiki/Main_Page}
+}
+
 matchcharsallowed
 {paren single}
 
