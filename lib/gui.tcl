@@ -3825,11 +3825,13 @@ namespace eval gui {
       set release_type "Stable"
     }
 
+    set scaling [tk scaling]
+
     toplevel     .aboutwin
     wm title     .aboutwin ""
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
-    wm geometry  .aboutwin 370x370
+    wm geometry  .aboutwin [expr int( 500 / $scaling )]x[expr int( 500 / $scaling )]
 
     ttk::frame .aboutwin.f
     ttk::label .aboutwin.f.logo -compound left -image logo -text " TKE" \
