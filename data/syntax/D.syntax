@@ -48,6 +48,10 @@ keywords
   volatile wchar while with
 }
 
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
 numbers
 {
   HighlightRegexp {\m([0-9_]+[lLuU]*|0[bB][0-1_]+|0[xX][0-9a-fA-F_]+[lLuU]*|[0-9_]*\.[0-9_]*([eE][+-]?[0-9_]+[fFLi]*))} {}

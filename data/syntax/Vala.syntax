@@ -58,7 +58,7 @@ keywords {
 }
 
 functions {
-  HighlightRegexp {([^.\s\(]+)\s*\(} {syntax::get_syntax_function}
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 numbers

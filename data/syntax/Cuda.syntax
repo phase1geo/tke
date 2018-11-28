@@ -6,7 +6,7 @@ vimsyntax
 
 reference
 {
-  {{Toolkit Documentation} http://docs.nvidia.com/cuda/#axzz4YXesizWJ}
+  {{Toolkit Documentation} http://docs.nvidia.com/cuda/}
 }
 
 embedded {
@@ -47,6 +47,10 @@ keywords
   ulong1 ulong2 ulong3 ulong4 float1 float2 float3 float4 ufloat1 ufloat2 ufloat3 ufloat4 dim3
   texture textureReference cudaError_t cudaDeviceProp cudaMemcpyKind cudaArray cudaChannelFormatKind
   cudaChannelFormatDesc cudaTextureAddressMode cudaTextureFilterMode cudaTextureReadMode
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 precompile {

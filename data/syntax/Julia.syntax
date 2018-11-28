@@ -3,7 +3,7 @@ filepatterns
 
 reference
 {
-  {{Language Reference} http://docs.julialang.org/en/stable/}
+  {{Language Reference} http://docs.julialang.org/en/v1/}
 }
 
 delimiters
@@ -53,6 +53,10 @@ symbols
   HighlightKeywords {
     function
   } syntax::get_syntax_symbol
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 numbers {

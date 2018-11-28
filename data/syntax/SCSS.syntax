@@ -41,7 +41,7 @@ punctuation
   HighlightRegexp {[][\{\}\(\);:,.<>+/~#*^$&!=%-]} {}
 }
 
-miscellaneous1 {
+variables {
   HighlightCharStart \$ {}
 }
 
