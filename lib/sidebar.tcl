@@ -1160,6 +1160,9 @@ namespace eval sidebar {
     }
     array set opts $args
 
+    # Normalize the directory
+    set dir [file normalize $dir]
+
     # If the directory is not remote, add it to the recently opened menu list
     if {$opts(-record) && ($opts(-remote) eq "")} {
       add_to_recently_opened $dir
@@ -2295,6 +2298,9 @@ namespace eval sidebar {
 
     # Create the file
     if {$remote eq ""} {
+      if {[catch { file mkdir [file dirname $fname] }]} {
+        return
+      }
       if {[catch { open $fname w } rc]} {
         return
       }
@@ -2305,8 +2311,12 @@ namespace eval sidebar {
       }
     }
 
-    # Expand the directory
-    expand_directory $row
+    if {[file pathtype $fname] eq "relative"} {
+
+      # Expand the directory
+      expand_directory $row
+
+    }
 
     # Create an empty file
     gui::add_file end $fname -remote $remote
@@ -2374,11 +2384,20 @@ namespace eval sidebar {
       }
     }
 
-    # Expand the directory
-    expand_directory $row
+    if {[file pathtype $dname] eq "relative"} {
 
-    # Update the directory
-    update_directory $row
+      # Expand the directory
+      expand_directory $row
+
+      # Update the directory
+      update_directory $row
+
+    } else {
+
+      # If we are absolute, add the directory to the sidebar
+      $widgets(tl) selection set [add_directory $dname -remote $remote]
+
+    }
 
   }
 
