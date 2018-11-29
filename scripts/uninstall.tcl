@@ -24,41 +24,29 @@
 # Description:  Handles the uninstallation of TKE.
 ######################################################################
 
-proc get_yes_or_no {question} {
+# We will read the tke.desktop file to get the installation directory
+proc get_install_dir {} {
 
-  set answer "x"
+  if {![catch { open [file join / usr share applications tke.desktop] r } rc]} {
 
-  while {![regexp {^([yn]?)$} [string tolower $answer] -> answer]} {
-    puts -nonewline "$question (Y/n)? "
-    flush stdout
-    set answer [gets stdin]
-  }
+    # Read the contents of the .desktop file
+    set contents [read $rc]
+    close $rc
 
-  return $answer
-
-}
-
-proc copy_lib_files {lib_dir} {
-
-  # Create the lib directory
-  file mkdir $lib_dir
-
-  # Copy each of the top-level directories recursively to the new lib directory
-  foreach directory [list data doc lib plugins specl_version.tcl specl_customize.xml LICENSE] {
-    puts -nonewline "Copying $directory to [file join $lib_dir $directory]...  "
-    flush stdout
-    if {[catch "file copy $directory $lib_dir" rc]} {
-      puts "error!"
-      puts "  $rc"
-      return
-    } else {
-      puts "done."
+    # Parse the contents for the icon line
+    foreach line [split $contents \n] {
+      if {[regexp {^Icon=(.*).lib.tke.lib.images.tke_logo.svg$} $line -> dir]} {
+        return $dir
+      }
     }
+
   }
+
+  return ""
 
 }
 
-set install_dir ""
+set install_dir [get_install_dir]
 
 while {$install_dir eq ""} {
 
@@ -67,13 +55,15 @@ while {$install_dir eq ""} {
   flush stdout
   set install_dir [file normalize [gets stdin]]
 
-  if {![file exists [file join $bin_dir tke]]} {
+  if {![file exists [file join $install_dir bin tke]]} {
     puts "\nERROR:  The specified installation directory ($install_dir) does not contain files\n"
     set install_dir ""
     continue
   }
 
 }
+
+puts "install_dir: $install_dir"
 
 # Delete the individual files
 set desktop     [file join / usr share applications tke.desktop]
@@ -82,15 +72,15 @@ set theme_svg   [file join / usr share icons hicolor scalable mimetypes applicat
 set plugin_svg  [file join / usr share icons hicolor scalable mimetypes application-x-tkeplugz.svg]
 set appdata     [file join / usr share appdata tke.appdata.xml]
 set libdir      [file join $install_dir lib tke]
-set bindir      [file join $install_dir bin tke]
+set bin         [file join $install_dir bin tke]
 
-foreach item [list $desktop $mime $theme_svg $plugin_svg $appdata $libdir $bindir] {
+foreach item [list $desktop $mime $theme_svg $plugin_svg $appdata $libdir $bin] {
   if {[file exists $item]} {
     puts -nonewline "Deleting $item...  "
-#    if {[catch { file delete -force $item } rc]} {
-#      puts "FAILED"
-#      exit 1
-#    }
+    if {[catch { file delete -force $item } rc]} {
+      puts "FAILED"
+      exit 1
+    }
     puts "DONE"
   }
 }
