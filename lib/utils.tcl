@@ -367,13 +367,13 @@ namespace eval utils {
     array set ::env [array get vars]
 
   }
-  
+
   ######################################################################
   # Returns true if the given string looks like a URL.
   proc is_url {str} {
-    
+
     return [regexp {^(([a-zA-Z0-9]+://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str]
-    
+
   }
 
   ######################################################################
@@ -1099,11 +1099,11 @@ namespace eval utils {
     return ""
 
   }
-  
+
   ######################################################################
   # Exports the given string to the given filename.
   proc export {str lang fname} {
-    
+
     # Perform any snippet substitutions
     set str [snippets::substitute $str $lang]
 
@@ -1133,7 +1133,20 @@ namespace eval utils {
     # Write and the close the file
     puts $rc $str
     close $rc
-    
+
+  }
+
+  ######################################################################
+  # Implements a do ... while style loop using Tcl syntax.
+  proc dowhile {body cond} {
+
+    while {1} {
+      uplevel $body
+      if {![uplevel [linsert $cond 0 expr]]} {
+        return 0
+      }
+    }
+
   }
 
 }
