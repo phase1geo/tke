@@ -1,5 +1,5 @@
 swatch {{#f1f1f1} #c9c9c9 #000000 #0085c3 #6c6c6c}
-date {1507436640}
+date {1543449924}
 images,form_close {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -300,9 +300,12 @@ syntax,difference_add {#e9ffe9}
 syntax,difference_sub {#ffe9e9}
 syntax,embedded {#e2e2e2}
 syntax,foreground {#000000}
+syntax,functions {#0099cc}
 syntax,highlighter {yellow}
 syntax,keywords {#993300}
 syntax,line_number {#c9c9c9}
+syntax,linemap {black}
+syntax,linemap_separator {grey}
 syntax,marker {orange}
 syntax,meta {#c9c9c9}
 syntax,miscellaneous1 {#0099cc}
@@ -317,6 +320,7 @@ syntax,search_foreground {black}
 syntax,select_background {blue}
 syntax,select_foreground {white}
 syntax,strings {#ff6600}
+syntax,variables {#f73041}
 syntax,warning_width {#c9c9c9}
 tabs,-activebackground {#f1f1f1}
 tabs,-activeforeground {#000000}
