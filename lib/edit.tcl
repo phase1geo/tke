@@ -1362,63 +1362,44 @@ namespace eval edit {
   # of the current word.
   proc get_wordstart {txt dir {num 1} {start insert} {exclusive 0}} {
 
+    lassign [split [$txt index $start] .] curr_row curr_col
+
     # If the direction is 'next', search forward
     if {$dir eq "next"} {
 
-      # Get the end of the current word (this will be the beginning of the next word)
-      set curr_index [$txt index "$start display wordend"]
-      set last_index $curr_index
+      utils::dowhile {
 
-      # This works around a text issue with wordend
-      if {[$txt count -displaychars $curr_index "$curr_index+1c"] == 0} {
-        set curr_index [$txt index "$curr_index display wordend"]
-      }
+        set line [$txt get -displaychars $curr_row.0 $curr_row.end]
+        set llen [string length $line]
 
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return $curr_index
-      }
-
-      # Use a brute-force method of finding the next word
-      while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index]]} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index display wordstart"]
+        while {1} {
+          set char [string index $line $curr_col]
+          if {[string is wordchar $char] && [regexp -indices -start $curr_col -- {\W} $line index]} {
+            set curr_col [lindex $index 1]
+          } elseif {[string is space $char] && [regexp -indices -start $curr_col -- {\S} $line index]} {
+            set curr_col [lindex $index 1]
+          } elseif {($curr_col + 1) < $llen} {
+            incr curr_col
+          } else {
+            break
           }
-        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"] && $exclusive} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index display wordstart"]
+          if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+            return [$txt index "$curr_row.0 + $curr_col display chars"]
           }
-        } elseif {!$exclusive && ([string first "\n" [$txt get $last_index $curr_index]] != -1) && ($num == 1)} {
-          return $curr_index
         }
-        set last_index $curr_index
-        set curr_index [$txt index "$curr_index display wordend"]
-      }
 
-      return [$txt index "$curr_index display wordstart"]
+        incr curr_row
+        set curr_col 0
+        if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+          return [$txt index "$curr_row.0 + $curr_col display chars"]
+        }
+
+      } {[$txt compare $curr_row.$curr_col < end]}
+
+      return [$txt index end]
 
     } else {
 
-      # Get the index of the current word
-      set curr_index [$txt index "$start display wordstart"]
-
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return $curr_index
-      }
-
-      while {[$txt compare $curr_index > 1.0]} {
-        if {(![string is space [$txt get $curr_index]] || [$txt compare "$curr_index linestart" == "$curr_index lineend"]) && \
-             [$txt compare $curr_index != $start]} {
-          if {[incr num -1] == 0} {
-            return $curr_index
-          }
-        }
-        set curr_index [$txt index "$curr_index-1 display chars wordstart"]
-      }
-
-      return $curr_index
 
     }
 
