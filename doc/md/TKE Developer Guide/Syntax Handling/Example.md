@@ -49,6 +49,10 @@ The following example code is taken right from the Tcl syntax file (data/syntax/
 	  HighlightClass proc syntax::get_prefixed_symbol
 	}
 	
+	variables {
+	  HighlightClassWithOnlyCharStart \$ {}
+	}
+	
 	numbers
 	{
 	  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]*|0x[0-9a-fA-F]+} {}
@@ -88,7 +92,6 @@ The following example code is taken right from the Tcl syntax file (data/syntax/
 	
 	miscellaneous3 {
 	  HighlightClassForRegexp {\m(\.[a-zA-Z0-9\_\-]+)+} {}
-	  HighlightClassWithOnlyCharStart \$ {}
 	}
 
 Essentially this file is specifying the following about the Tcl language:
@@ -110,4 +113,4 @@ Essentially this file is specifying the following about the Tcl language:
 15. Highlight Tk keywords in a different color than Tcl keywords.
 16. Highlight Tcl/Tk option values in a different color than normal Tcl keywords.
 17. Highlight Tk window pathnames in the miscellaneous3 color.
-18. Highlight variables in the miscellaneous3 color.
+18. Highlight variables in the variables color.

@@ -201,6 +201,32 @@ The value of _symbol\_keyword_ must be a literal value.  The value of _regular\_
 
 The value of _processing\_procedure_ is used in the same way as those specified in the advanced section of the syntax file. See the advanced section for details on the makeup of this procedure. If a processing procedure is not necessary, simply pass the empty Tcl list (`{}`) in its place.
 
+#### functions
+
+The functions value is a list of regular expressions that match the syntax of a function definition and/or a function call.  Any
+text matching one of these regular expressions will be highlighted with the functions syntax color.
+
+The following specified the syntax for this element:
+
+```
+  functions {
+    {HighlightRegexp {regular_expression} {processing_procedure}} *
+  }
+```
+
+#### variables
+
+The variables value is a list of expressions that match a variable.  Any text matching one of these highlight expressions will be highlighted with the variables syntax color.
+
+The following specifies the syntax for this element:
+
+```
+  variables {
+    {HighlightCharStart {starting_character} {processing_procedure}}*
+    {HighlightRegexp {regular_expression} {processing_procedure}}*
+  }
+```
+
 #### numbers
 
 The numbers value is a list of regular expressions that represent all valid numbers in the syntax.  Any text matching one of these regular expressions will be highlighted with the number syntax color.  Whitespace must be used to separate all number expressions in the list.
