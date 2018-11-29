@@ -1,5 +1,5 @@
 swatch {{#000000} #282828 #ffffff #4e5044}
-date {1507436517}
+date {1543449208}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -312,9 +312,12 @@ syntax,difference_add {#274622}
 syntax,difference_sub {#452822}
 syntax,embedded {#1d1e19}
 syntax,foreground {#dfdfdf}
+syntax,functions {#cccccc}
 syntax,highlighter {yellow}
 syntax,keywords {#ababa0}
 syntax,line_number {#4e5044}
+syntax,linemap {black}
+syntax,linemap_separator {grey}
 syntax,marker {orange}
 syntax,meta {#282828}
 syntax,miscellaneous1 {#cccccc}
@@ -329,6 +332,7 @@ syntax,search_foreground {black}
 syntax,select_background {blue}
 syntax,select_foreground {white}
 syntax,strings {#ffffff}
+syntax,variables {#575757}
 syntax,warning_width {#282828}
 tabs,-activebackground {#000000}
 tabs,-activeforeground {#ffffff}
