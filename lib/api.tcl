@@ -33,8 +33,26 @@ namespace eval api {
   }
 
   ######################################################################
-  ## \return Returns the pathname to the TKE directory.
-  proc get_plugin_directory {interp pname} {
+  ## \return Returns the pathname to the plugin source directory.
+  proc get_plugin_source_directory {interp pname} {
+
+    set iplugin_dir [file join $::tke_dir iplugins $pname]
+
+    if {[file exists $iplugin_dir]} {
+      if {[$interp issafe]} {
+        return [::safe::interpFindInAccessPath $interp $iplugin_dir]
+      } else {
+        return $iplugin_dir
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  ## \return Returns the pathname to the plugin data directory.
+  proc get_plugin_data_directory {interp pname} {
 
     set plugin_dir [file join $::tke_dir plugins $pname]
 
@@ -74,25 +92,6 @@ namespace eval api {
       return [::safe::interpFindInAccessPath $interp $home]
     } else {
       return $home
-    }
-
-  }
-
-  ######################################################################
-  # \return Returns the pathname to the user's plugin installation directory.
-  proc get_install_directory {interp pname} {
-
-    # Get the pathname to the installed plugins directory
-    set install [file join $::tke_home iplugins $pname]
-
-    if {![file exists $install]} {
-      set install [file join $::tke_dir plugins $pname]
-    }
-
-    if {[$interp issafe]} {
-      return [::safe::interpFindInAccessPath $interp $install]
-    } else {
-      return $install
     }
 
   }
@@ -1080,6 +1079,27 @@ namespace eval api {
       }
 
       return 0
+
+    }
+
+    ######################################################################
+    ## Returns the current value of the given menu path (only valid for
+    #  checkbutton or radiobutton menus).
+    proc get_value {interp pname mnu_path} {
+
+      set menu_list [split $mnu_path /]
+
+      if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
+        if {![catch { menus::get_menu_index $mnu [lindex $menu_list end] } index] && ($index ne "none")} {
+          switch [$mnu type $index] {
+            checkbutton -
+            radiobutton { return [$mnu entrycget $index -value] }
+            default     { return "" }
+          }
+        }
+      }
+
+      return ""
 
     }
 

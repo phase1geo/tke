@@ -1364,22 +1364,20 @@ namespace eval edit {
 
     lassign [split [$txt index $start] .] curr_row curr_col
 
-    # If the direction is 'next', search forward
     if {$dir eq "next"} {
 
-      utils::dowhile {
+      while {1} {
 
         set line [$txt get -displaychars $curr_row.0 $curr_row.end]
-        set llen [string length $line]
 
         while {1} {
           set char [string index $line $curr_col]
-          if {[string is wordchar $char] && [regexp -indices -start $curr_col -- {\W} $line index]} {
+          if {[set isword [string is wordchar $char]] && [regexp -indices -start $curr_col -- {\W} $line index]} {
             set curr_col [lindex $index 1]
-          } elseif {[string is space $char] && [regexp -indices -start $curr_col -- {\S} $line index]} {
+          } elseif {[set isspace [string is space $char]] && [regexp -indices -start $curr_col -- {\S} $line index]} {
             set curr_col [lindex $index 1]
-          } elseif {($curr_col + 1) < $llen} {
-            incr curr_col
+          } elseif {!$isword && !$isspace && [regexp -indices -start $curr_col -- {[\w\s]} $line index]} {
+            set curr_col [lindex $index 1]
           } else {
             break
           }
@@ -1388,18 +1386,42 @@ namespace eval edit {
           }
         }
 
-        incr curr_row
-        set curr_col 0
-        if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+        lassign [split [$txt index "$curr_row.end + 1 display chars"] .] curr_row curr_col
+
+        if {![$txt compare $curr_row.$curr_col < end]} {
+          return [$txt index end]
+        } elseif {(![string is space [string index $line $curr_col]] || [$txt compare $curr_row.0 == $curr_row.end]) && ([incr num -1] == 0)} {
           return [$txt index "$curr_row.0 + $curr_col display chars"]
         }
 
-      } {[$txt compare $curr_row.$curr_col < end]}
-
-      return [$txt index end]
+      }
 
     } else {
 
+      while {1} {
+
+        set line [$txt get -displaychars $curr_row.0 $curr_row.$curr_col]
+
+        while {1} {
+          if {[regexp -indices -- {(\w+|\s+|[^\w\s]+)$} [string range $line 0 [expr $curr_col - 1]] index]} {
+            set curr_col [lindex $index 0]
+          } else {
+            break
+          }
+          if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+            return [$txt index "$curr_row.0 + $curr_col display chars"]
+          }
+        }
+
+        lassign [split [$txt index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
+
+        if {![$txt compare $curr_row.$curr_col > 1.0]} {
+          return "1.0"
+        } elseif {(![string is space [string index $line $curr_col]] || ($curr_col == 0)) && ([incr num -1] == 0)} {
+          return [$txt index "$curr_row.0 + $curr_col display chars"]
+        }
+
+      }
 
     }
 
@@ -1412,53 +1434,66 @@ namespace eval edit {
   # of the current word.
   proc get_wordend {txt dir {num 1} {start insert} {exclusive 0}} {
 
+    lassign [split [$txt index $start] .] curr_row curr_col
+
     if {$dir eq "next"} {
 
-      set curr_index [$txt index "$start display wordend"]
-      set last_index $curr_index
+      while {1} {
 
-      while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index-1c]] && ([$txt compare "$curr_index-1c" != $start] || ($exclusive == 0))} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index-1c"]
+        set line [$txt get -displaychars $curr_row.0 $curr_row.end]
+
+        while {1} {
+          if {[regexp -indices -start [expr $curr_col + 1] -- {(\w+|\s+|[^\w\s]+)} $line index]} {
+            set curr_col [lindex $index 1]
+          } else {
+            break
           }
-        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"] && $exclusive} {
-          if {[incr num -1] == 0} {
-            return $curr_index
+          if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+            return [$txt index "$curr_row.0 + $curr_col display chars"]
           }
-        } elseif {([string first "\n" [$txt get $last_index $curr_index]] != -1) && !$exclusive && ($num == 1)} {
-          return $curr_index
         }
-        set last_index $curr_index
-        set curr_index [$txt index "$curr_index display wordend"]
-      }
 
-      return [$txt index "$curr_index display wordend"]
+        lassign [split [$txt index "$curr_row.end + 1 display chars"] .] curr_row curr_col
+
+        if {![$txt compare $curr_row.$curr_col < end]} {
+          return [$txt index end]
+        } elseif {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+          return [$txt index "$curr_row.0 + $curr_col display chars"]
+        }
+
+      }
 
     } else {
 
-      # Get the index of the current wordstart
-      set curr_index [$txt index "$start display wordstart"]
+      while {1} {
 
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return [$txt index "$curr_index-1c"]
-      }
+        set line [$txt get -displaychars $curr_row.0 $curr_row.end]
 
-      while {[$txt compare $curr_index > 1.0]} {
-        if {![string is space [$txt get $curr_index-1c]]} {
-          if {[incr num -1] == 0} {
-            return [$txt index "$curr_index-1c"]
+        while {1} {
+          set char [string index $line $curr_col]
+          if {[set isword [string is wordchar $char]] && [regexp -indices -- {\W\w*$} [string range $line 0 $curr_col] index]} {
+            set curr_col [lindex $index 0]
+          } elseif {[set isspace [string is space $char]] && [regexp -indices -- {\S\s*$} [string range $line 0 $curr_col] index]} {
+            set curr_col [lindex $index 0]
+          } elseif {!$isword && !$isspace && [regexp -indices -- {[\w\s][^\w\s]*$} [string range $line 0 $curr_col] index]} {
+            set curr_col [lindex $index 0]
+          } else {
+            break
           }
-        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"]} {
-          if {[incr num -1] == 0} {
-            return $curr_index
+          if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+            return [$txt index "$curr_row.0 + $curr_col display chars"]
           }
         }
-        set curr_index [$txt index "$curr_index-1 display chars wordstart"]
-      }
 
-      return $curr_index
+        lassign [split [$txt index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
+
+        if {![$txt compare $curr_row.$curr_col > 1.0]} {
+          return "1.0"
+        } elseif {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+          return [$txt index "$curr_row.0 + $curr_col display chars"]
+        }
+
+      }
 
     }
 
