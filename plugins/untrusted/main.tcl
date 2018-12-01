@@ -44,7 +44,7 @@ namespace eval untrusted {
     test file-exists-1 { expr [file exists [file join [api::get_home_directory] foobar.txt]] == 0 }
     
     # Verify that a file that exists in a valid directory returns 1
-    test file-exists-2 { file exists [api::get_plugin_directory] }
+    test file-exists-2 { file exists [api::get_plugin_data_directory] }
     
     # Verify that you cannot get the channels for a given file
     test file-channels-0 { catch { file channels } }
@@ -136,10 +136,10 @@ namespace eval untrusted {
     test file-isfile-1 { expr ![file isfile [api::get_images_directory]] }
     
     # Verify that a file cannot be linked
-    test file-link-0 { catch { file link [file join [api::get_plugin_directory] main.tcl] foobar.tcl } }
+    test file-link-0 { catch { file link [file join [api::get_plugin_data_directory] main.tcl] foobar.tcl } }
     
     # Verify that the lstat command cannot be used
-    test file-lstat-0 { catch { file lstat [api::get_plugin_directory] foobar } }
+    test file-lstat-0 { catch { file lstat [api::get_plugin_data_directory] foobar } }
     
     # Verify that we cannot create a directory in a directory that we don't own
     test file-mkdir-0 { catch { file mkdir [file join ~ foobar] } }
@@ -172,10 +172,10 @@ namespace eval untrusted {
     test file-mtime-0 { catch { file mtime ~ } }
     
     # Verify that the mtime command returns a good value for a valid file
-    test file-mtime-1 { file mtime [api::get_plugin_directory] }
+    test file-mtime-1 { file mtime [api::get_plugin_data_directory] }
     
     # Verify that the nativename command always returns an error
-    test file-nativename-0 { catch { file nativename [api::get_plugin_directory] } }
+    test file-nativename-0 { catch { file nativename [api::get_plugin_data_directory] } }
     
     # Verify that the normalize command always returns an error
     test file-normalize-0 { catch { file normalize [file join [api::get_home_directory] .. test] } }
@@ -249,7 +249,7 @@ namespace eval untrusted {
     test glob-0 { catch { glob -directory [file join ~] * } }
     
     # Verify that we can perform a glob on a trusted directory
-    test glob-1 { expr { [llength [glob -directory [api::get_plugin_directory] *]] > 0 } }
+    test glob-1 { expr { [llength [glob -directory [api::get_plugin_data_directory] *]] > 0 } }
     
     # Verify that we can perform a glob on a trusted subdirectory
     test glob-2 {
@@ -259,10 +259,10 @@ namespace eval untrusted {
     } { file delete -force [file join [api::get_home_directory] foobar] }
     
     # Verify that glob works properly with -tails option
-    test glob-3 { expr { [lsort [glob -directory [api::get_plugin_directory] -tails *]] eq [list header.tkedat main.tcl] } }
+    test glob-3 { expr { [lsort [glob -directory [api::get_plugin_data_directory] -tails *]] eq [list header.tkedat main.tcl] } }
     
     # Verify that glob works properly with the -path option
-    test glob-4 { expr { [llength [glob -path [api::get_plugin_directory] *]] > 0 } }
+    test glob-4 { expr { [llength [glob -path [api::get_plugin_data_directory] *]] > 0 } }
     
   }
   

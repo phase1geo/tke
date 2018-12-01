@@ -111,7 +111,7 @@ namespace eval e_menu {
     set z1_opt ""
     set z2_opt ""
     set z3_opt ""
-    set offline_help_dir "[api::get_plugin_directory]/www.tcl.tk/man/tcl8.6"
+    set offline_help_dir "[api::get_plugin_data_directory]/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
     } else {
@@ -150,8 +150,8 @@ namespace eval e_menu {
         set z3_opt "z3=[string map {/ _ \\ _ { } _} $::env(E_MENU_PD)]"
       }
     }
-    set tke [file normalize [file join [api::get_plugin_directory]/../../../../bin tke]]
-    set plugdir "[api::get_plugin_directory]/e_menu"
+    set tke [file normalize [file join [api::get_plugin_data_directory]/../../../../bin tke]]
+    set plugdir "[api::get_plugin_data_directory]/e_menu"
     set z1_opt "z1=$plugdir"
     catch {
       exec tclsh $plugdir/e_menu.tcl "m=menus/menu.mnu" "ed=$tke" \

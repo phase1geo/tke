@@ -101,8 +101,8 @@ namespace eval url_validator {
 
     # Create the images, if necessary
     if {[lsearch [image names] bad] == -1} {
-      image create photo bad  -file [file join [api::get_plugin_directory] bad.gif]
-      image create photo good -file [file join [api::get_plugin_directory] good.gif]
+      image create photo bad  -file [file join [api::get_plugin_source_directory] bad.gif]
+      image create photo good -file [file join [api::get_plugin_source_directory] good.gif]
     }
 
     # Populate the the table with the checked status
