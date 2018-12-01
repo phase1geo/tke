@@ -39,7 +39,7 @@ namespace eval api {
     set iplugin_dir [file join $::tke_home iplugins $pname]
 
     if {![file exists $iplugin_dir]} {
-      set iplugin_dir [file join $::tke_dir plugins $pname] 
+      set iplugin_dir [file join $::tke_dir plugins $pname]
     }
 
     if {[$interp issafe]} {
@@ -1085,15 +1085,15 @@ namespace eval api {
     ######################################################################
     ## Returns the current value of the given menu path (only valid for
     #  checkbutton or radiobutton menus).
-    proc get_value {interp pname mnu_path} {
+    proc selected {interp pname mnu_path} {
 
       set menu_list [split $mnu_path /]
 
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { menus::get_menu_index $mnu [lindex $menu_list end] } index] && ($index ne "none")} {
           switch [$mnu type $index] {
-            checkbutton -
-            radiobutton { return [$mnu entrycget $index -value] }
+            checkbutton { return [expr {[set [$mnu entrycget $index -variable]] eq [$mnu entrycget $index -onvalue]}] }
+            radiobutton { return [expr {[set [$mnu entrycget $index -variable]] eq [$mnu entrycget $index -value]}] }
             default     { return "" }
           }
         }
