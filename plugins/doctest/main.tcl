@@ -24,7 +24,7 @@ Make the doctest blocks as
 
   $doctest::TEST_END
 
-See details in [api::get_plugin_directory]/README.md
+See details in [api::get_plugin_data_directory]/README.md
 "
 
   ###################################################################

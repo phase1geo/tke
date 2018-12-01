@@ -36,17 +36,17 @@ namespace eval api {
   ## \return Returns the pathname to the plugin source directory.
   proc get_plugin_source_directory {interp pname} {
 
-    set iplugin_dir [file join $::tke_dir iplugins $pname]
+    set iplugin_dir [file join $::tke_home iplugins $pname]
 
-    if {[file exists $iplugin_dir]} {
-      if {[$interp issafe]} {
-        return [::safe::interpFindInAccessPath $interp $iplugin_dir]
-      } else {
-        return $iplugin_dir
-      }
+    if {![file exists $iplugin_dir]} {
+      set iplugin_dir [file join $::tke_dir plugins $pname] 
     }
 
-    return ""
+    if {[$interp issafe]} {
+      return [::safe::interpFindInAccessPath $interp $iplugin_dir]
+    } else {
+      return $iplugin_dir
+    }
 
   }
 
