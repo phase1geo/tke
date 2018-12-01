@@ -2565,7 +2565,14 @@ namespace eval vim {
       "" {
         switch $operator($txtt) {
           ""       { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 1]] }
-          "change" { return [do_operation $txtt [list wordend   -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
+          "change" {
+            set num [get_number $txtt]
+            if {[string is space [$txtt get insert]]} {
+              return [do_operation $txtt [list wordstart -dir next -num $num -exclusive 1]]
+            } else {
+              return [do_operation $txtt [list wordend -dir next -num $num -exclusive 0 -adjust +1c]]
+            }
+          }
           default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
         }
       }
@@ -2590,7 +2597,14 @@ namespace eval vim {
       "" {
         switch $operator($txtt) {
           ""       { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 1]] }
-          "change" { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
+          "change" {
+            set num [get_number $txtt]
+            if {[string is space [$txtt index insert]]} {
+              return [do_operation $txtt [list WORDstart -dir next -num $num -exclusive 1]]
+            } else {
+              return [do_operation $txtt [list WORDend -dir next -num $num -exclusive 0 -adjust +1c]]
+            }
+          }
           default  { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0]] }
         }
       }
