@@ -1,3 +1,28 @@
+2018-11-21 18:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b898b07765ea [devel-3.5.1])
+
+	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
+	ChangeLog for devel-3.5.1 release
+
+2018-11-21 18:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f5294c692d15)
+
+	* .hgtags:
+	Added tag devel-3.5.1 for changeset b898b07765ea
+
+2018-11-21 18:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (05ef02c8975b)
+
+	* lib/version.tcl, release.tcl:
+	* Fixing issue with version calculations in release script.
+
+2018-11-21 18:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5a3661446c46)
+
+	* lib/version.tcl, release.tcl:
+	* More release script fixes.
+
+2018-11-21 18:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (770b637e6754)
+
+	* lib/version.tcl, release.tcl:
+	* Checkpointing.
+
 2018-11-21 18:32 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3ea3a3c8c3d7 [stable-3.5.1])
 
 	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
@@ -8,8 +33,223 @@
 	* .hgtags:
 	Added tag stable-3.5.1 for changeset 3ea3a3c8c3d7
 
-2018-11-21 22:24 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (14e511644409 [tip])
+2018-11-21 22:24 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (14e511644409)
 
 	* lib/specl/lib/specl.tcl, lib/version.tcl:
 	* Fixing specl_version.tcl detection in macOS.
+
+2018-11-21 22:27 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (df9c91265ab0 [stable-3.5.2])
+
+	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
+	ChangeLog for stable-3.5.2 release
+
+2018-11-21 22:27 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ac56ad8985b0)
+
+	* .hgtags:
+	Added tag stable-3.5.2 for changeset df9c91265ab0
+
+2018-11-21 22:33 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ccb1091aad92)
+
+	* MacOSX/TKE.app/Contents/Resources/Scripts/tke/specl_version.tcl:
+	deleted file.
+	* MacOSX/TKE.app/Contents/Resources/Scripts/tke/specl_version.tcl,
+	lib/version.tcl:
+	* Removing obsolete file.
+
+2018-11-22 10:57 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0a54fc1fbf7e)
+
+	* .DS_Store, MacOSX/.DS_Store, data/preferences.tkedat,
+	lib/launcher.tcl, lib/version.tcl:
+	* Adjusting the text font used in the command launcher to default to
+	10 instead of 6.
+	* Moving command launcher text widget to be shown below the results
+	instead of to the side to increase the amount of text we can display
+	to make things more readable/usable.
+
+2018-11-22 21:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2fa3cdaa28b3)
+
+	* data/preferences.tkedat, data/syntax/C++.syntax,
+	data/syntax/Tcl.syntax, data/syntax/syntax.syntax,
+	lib/ctext/ctext.tcl, lib/pref_ui.tcl, lib/syntax.tcl, lib/theme.tcl,
+	lib/version.tcl:
+	* Checkpointing work on supporting syntax highlighting for functions
+	and variables.
+
+2018-11-22 22:44 -0600  Trevor Williams  <phase1geo@gmail.com>  (635bfc3caad8)
+
+	* data/syntax/Vala.syntax, data/themes/Quiverly.tketheme,
+	lib/ctext/ctext.tcl, lib/syntax.tcl, lib/version.tcl:
+	* Finishing syntax support for functions and variables.
+	* Updating Vala syntax file for function support.
+	* Updating Quiverly theme.
+
+2018-11-26 08:16 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (aab176e8132b)
+
+	* data/syntax/C++.syntax, data/syntax/C.syntax, lib/ctext/ctext.tcl,
+	lib/version.tcl:
+	* Adding function call highlighting to C syntax.
+	* Fixing issue with left-click <<CursorChanged>> detection when not
+	operating in Vim mode.
+
+2018-11-28 00:53 -0600  Trevor Williams  <phase1geo@gmail.com>  (bf01fe2a4ebc)
+
+	* lib/gui.tcl:
+	* Attempting to fix About window sizing issues in certain
+	environments.
+
+2018-11-28 08:26 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (659c0d6f0fe9)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2018-11-28 10:01 -0600  Trevor Williams  <Trevor Williams>  (f520a861595f)
+
+	* data/syntax/ActionScript.syntax, data/syntax/Ada.syntax,
+	data/syntax/Awk.syntax, data/syntax/Boo.syntax,
+	data/syntax/C#.syntax, data/syntax/C.syntax, data/syntax/CSS.syntax,
+	data/syntax/CoffeeScript.syntax:
+	* Updating syntax files with function call syntax highlighting.
+
+2018-11-28 10:01 -0600  Trevor Williams  <Trevor Williams>  (dc5aee7ca00a)
+
+	* Merge
+
+2018-11-28 10:47 -0600  Trevor Williams  <Trevor Williams>  (aeb3a89ea0a2)
+
+	* lib/gui.tcl:
+	* Fixing window sizing issues with About window.
+	* Making some UI adjustments to the About window.
+
+2018-11-28 14:14 -0600  Trevor Williams  <Trevor Williams>  (ff621a54d138)
+
+	* data/syntax/Cuda.syntax, data/syntax/D.syntax,
+	data/syntax/Delphi.syntax, data/syntax/Eiffel.syntax,
+	data/syntax/Elixir.syntax, data/syntax/Erlang.syntax,
+	data/syntax/Go.syntax, data/syntax/Groovy.syntax,
+	data/syntax/Haxe.syntax, data/syntax/IDL.syntax,
+	data/syntax/J.syntax, data/syntax/Java.syntax,
+	data/syntax/JavaScript.syntax, data/syntax/Julia.syntax,
+	data/syntax/Kotlin.syntax, data/syntax/Lua.syntax,
+	data/syntax/MATLAB.syntax, data/syntax/Meson.syntax,
+	data/syntax/MySQL.syntax, data/syntax/Neko.syntax,
+	data/syntax/Nim.syntax, data/syntax/Objective-C.syntax,
+	data/syntax/PHP.syntax, data/syntax/Pascal.syntax,
+	data/syntax/Perl.syntax, data/syntax/Puppet.syntax,
+	data/syntax/Python.syntax, data/syntax/R.syntax,
+	data/syntax/Ruby.syntax, data/syntax/Rust.syntax,
+	data/syntax/SASS.syntax, data/syntax/SCSS.syntax,
+	data/syntax/SQL.syntax, data/syntax/Scala.syntax,
+	data/syntax/Specman.syntax, data/syntax/Squirrel.syntax,
+	data/syntax/Swift.syntax, data/syntax/VHDL.syntax,
+	data/syntax/Vala.syntax, data/syntax/Verilog.syntax,
+	data/syntax/VisualBasic.syntax, data/syntax/Xojo.syntax,
+	lib/cliphist.tcl:
+	* Completing updating syntax files for function/variable
+	highlighting.
+	* Fixing clipboard history issue where inserting from the clipboard
+	did not refresh the clipboard.
+
+2018-11-28 16:25 -0600  Trevor Williams  <Trevor Williams>  (e0c2ce1e2691)
+
+	* lib/files.tcl, lib/sidebar.tcl:
+	* Fixing issue with creating a directory with an absolute pathname.
+	* Fixing issue with displaying a newly created directory.
+	* Fixing issue with trashing a non-normalized file.
+
+2018-11-28 17:17 -0600  Trevor Williams  <Trevor Williams>  (4eaa3e4d01a2)
+
+	* uninstall.tcl: new file.
+	* uninstall.tcl:
+	* Adding initial version of uninstall script.
+
+2018-11-28 20:20 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (04b154266802)
+
+	* data/themes/Anatomy of Grey.tketheme, data/themes/Aurora.tketheme,
+	data/themes/Cool Glow.tketheme, data/themes/Default.tketheme,
+	data/themes/Fluidvision.tketheme, data/themes/Juicy.tketheme,
+	data/themes/Made of Code.tketheme, data/themes/Monokai.tketheme,
+	data/themes/Notebook.tketheme, data/themes/Ruby Blue.tketheme,
+	data/themes/Turn of the Century.tketheme,
+	data/themes/choco.tketheme, data/themes/idleFingers.tketheme,
+	data/themes/minimal_Theme.tketheme, data/themes/oscuro.tketheme,
+	data/themes/yellowStone.tketheme, lib/version.tcl:
+	* Updating themes.
+
+2018-11-28 20:28 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a0ded513b38d)
+
+	* doc/md/TKE Developer Guide/Syntax Handling/Example.md, doc/md/TKE
+	Developer Guide/Syntax Handling/File Format.md, lib/version.tcl:
+	* Updating syntax description documentation to include functions and
+	variables.
+
+2018-11-28 21:17 -0600  Trevor Williams  <phase1geo@gmail.com>  (c8d054229120)
+
+	* scripts/uninstall.tcl: new file.
+	* uninstall.tcl: deleted file.
+	* install.tcl, lib/version.tcl, scripts/uninstall.tcl, uninstall.tcl:
+	* Enhancing installation script.
+	* Fixing uninstallaction script.
+
+2018-11-28 21:38 -0600  Trevor Williams  <phase1geo@gmail.com>  (e48ae7383697)
+
+	* doc/md/TKE User Guide/Installation/Uninstalling on Linux.md,
+	doc/md/TKE User Guide/Installation/Uninstalling on MacOS.md,
+	doc/md/TKE User Guide/Installation/Uninstalling on Windows.md,
+	doc/md/TKE User Guide/Installation/Uninstalling.md: new file.
+	* doc/md/TKE User Guide/Installation/.tkesort, doc/md/TKE User
+	Guide/Installation/Uninstalling on Linux.md, doc/md/TKE User
+	Guide/Installation/Uninstalling on MacOS.md, doc/md/TKE User
+	Guide/Installation/Uninstalling on Windows.md, doc/md/TKE User
+	Guide/Installation/Uninstalling.md, lib/version.tcl:
+	* Adding uninstallation instructions to User Guide.
+
+2018-11-29 16:53 -0600  Trevor Williams  <Trevor Williams>  (2f128446d2a3)
+
+	* data/syntax/Terraform.syntax: new file.
+	* data/syntax/Terraform.syntax, lib/edit.tcl, lib/utils.tcl:
+	* Adding Terraform syntax highlighter.
+	* Checkpointing work on new edit::get_wordstart procedure (work in
+	progress).
+
+2018-11-30 17:30 -0600  Trevor Williams  <Trevor Williams>  (43b930268d11)
+
+	* lib/api.tcl, lib/edit.tcl:
+	* Renaming api::get_install_directory to
+	api::get_plugin_source_directory.
+	* Renaming api::get_plugin_directory to
+	api::get_plugin_data_directory.
+	* Adding api::menu::get_value procedure.
+	* Completing work on updating wordstart/wordend procedures to
+	eliminate need for text index suffix "display wordstart".
+
+2018-11-30 21:40 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4b1db3166988)
+
+	* lib/api.tcl, lib/version.tcl, plugins/doctest/main.tcl,
+	plugins/e_menu/main.tcl, plugins/test/main.tcl,
+	plugins/trusted/main.tcl, plugins/untrusted/main.tcl,
+	plugins/url_validator/main.tcl:
+	* Updating built-in plugins for API change.
+
+2018-12-01 00:56 -0600  Trevor Williams  <phase1geo@gmail.com>  (fda5a66e8470)
+
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
+	* Fixing issues with get_wordstart and get_wordend.
+	* Fixing `cw` command issue when cursor is on a non-blank character.
+
+2018-12-01 09:56 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1d23f0f4de33 [tip])
+
+	* doc/md/TKE Developer Guide/Plugin API/api--
+	get_plugin_data_directory.md, doc/md/TKE Developer Guide/Plugin
+	API/api--get_plugin_source_directory.md, doc/md/TKE Developer
+	Guide/Plugin API/api--menu--selected.md: new file.
+	* doc/md/TKE Developer Guide/Plugin API/api--get_plugin_directory.md:
+	deleted file.
+	* doc/md/TKE Developer Guide/Plugin API/.tkesort, doc/md/TKE Developer
+	Guide/Plugin API/api--get_plugin_data_directory.md, doc/md/TKE
+	Developer Guide/Plugin API/api--get_plugin_directory.md, doc/md/TKE
+	Developer Guide/Plugin API/api--get_plugin_source_directory.md,
+	doc/md/TKE Developer Guide/Plugin API/api--menu--selected.md,
+	lib/api.tcl, lib/version.tcl:
+	* Adding support for api::menu::selected functionality.
+	* Updating Developer Guide source files.
 
