@@ -1889,7 +1889,7 @@ namespace eval gui {
     variable undo_count
 
     # Get some of the file information
-    get_info $tab tab tabbar txt fname diff loaded lock readonly xview yview cursor
+    get_info $tab tab tabbar txt fname diff loaded lock readonly xview yview cursor remember
 
     # Indicate that we are loading the tab
     $tabbar tab $tab -busy 1
@@ -1940,7 +1940,9 @@ namespace eval gui {
       }
 
       # Add the file to the list of recently opened files
-      add_to_recently_opened $fname
+      if {$remember} {
+        add_to_recently_opened $fname
+      }
 
       # Parse Vim modeline information, if needed
       vim::parse_modeline $txt
