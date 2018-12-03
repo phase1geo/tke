@@ -2386,7 +2386,14 @@ namespace eval ctext {
         }
       }
       undocount {
-        return $data($win,config,undo_sep_count)
+        puts "In undocount, undo_hist_size: $data($win,config,undo_hist_size)"
+              undo_display $win
+        if {$data($win,config,undo_hist_size) == 0} {
+          return 0
+        } else {
+          puts "undo_hist end: [lindex $data($win,config,undo_hist) end]"
+          return [expr $data($win,config,undo_sep_count) + ([lindex $data($win,config,undo_hist) end 4] ^ 1)]
+        }
       }
       reset {
         set data($win,config,undo_hist)      [list]
