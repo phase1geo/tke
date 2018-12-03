@@ -54,7 +54,12 @@ namespace eval api {
   ## \return Returns the pathname to the plugin data directory.
   proc get_plugin_data_directory {interp pname} {
 
-    set plugin_dir [file join $::tke_dir plugins $pname]
+    set plugin_dir [file join $::tke_home plugins $pname]
+
+    # Create the plugin directory if it does not exist
+    if {![file exists $plugin_dir]} {
+      catch { file mkdir $plugin_dir }
+    }
 
     if {[$interp issafe]} {
       return [::safe::interpFindInAccessPath $interp $plugin_dir]

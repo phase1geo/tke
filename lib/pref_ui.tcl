@@ -4511,6 +4511,7 @@ namespace eval pref_ui {
     make_mb $a.dme  [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
     make_spacer $a 1
     make_fp $a.dted [msgcat::mc "Default Theme Export Directory"] General/DefaultThemeExportDirectory dir {} 1
+    make_fp $a.dped [msgcat::mc "Default Plugin Export Directory"] General/DefaultPluginExportDirectory dir {} 1
 
     ###############
     # DEVELOPMENT #

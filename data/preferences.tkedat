@@ -97,6 +97,11 @@
 
 {General/DefaultThemeExportDirectory} {}
 
+# Specifies a default directory to use when exporting plugin packages from the
+# plugin menu.
+
+{General/DefaultPluginExportDirectory} {}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.
