@@ -207,6 +207,22 @@ proc version {} {
 }
 
 ######################################################################
+# We will parse the given file pathname for wildcard characters and
+# perform substitutions as necessary.  This is only needed in Windows
+# environments if we are executing from the command-line.
+proc get_files {path pfiles} {
+
+  upvar $pfiles files
+
+  if {[string map {* {} ? {}} $path] ne $path} {
+    lappend files {*}[glob -nocomplain -- $path]
+  } else {
+    lappend files $path
+  }
+
+}
+
+######################################################################
 # Parse the command-line options
 proc parse_cmdline {argc argv} {
 
@@ -233,7 +249,7 @@ proc parse_cmdline {argc argv} {
       -port { incr i; set ::cl_testport [lindex $argv $i] }
       default {
         if {[lindex $argv $i] ne ""} {
-          lappend ::cl_files [file normalize [lindex $argv $i]]
+          get_files [file normalize [lindex $argv $i]] ::cl_files
         }
       }
     }
