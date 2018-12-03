@@ -11,6 +11,7 @@ proc ::tk::TextSetCursor {w pos args} {
   event generate $w <<CursorChanged>> -data [list $ins {*}$args]
 }
 
+# Override the tk::TextButton1 to add a <<CursorChanged>> event
 rename ::tk::TextButton1 ::tk::TextSetButton1Orig
 proc ::tk::TextButton1 {w x y args} {
   set ins [$w index insert]
@@ -1175,9 +1176,9 @@ namespace eval ctext {
       }
 
       # Update undo separator info
-      set data($win,config,undo_sep_next) [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
-      set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
-      incr data($win,config,undo_sep_size) -1
+      set  data($win,config,undo_sep_next)  [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
+      set  data($win,config,undo_sep_last)  [expr $data($win,config,undo_hist_size) - 1]
+      incr data($win,config,undo_sep_size)  -1
       incr data($win,config,undo_sep_count) -1
 
       ::tk::TextSetCursor $win.t $last_cursor
@@ -1264,8 +1265,8 @@ namespace eval ctext {
 
       # Update undo separator structures
       incr data($win,config,undo_hist_size) $i
-      set data($win,config,undo_sep_next) [expr ($data($win,config,undo_sep_next) == -1) ? [expr $data($win,config,undo_hist_size) - 1] : $data($win,config,undo_sep_next)]
-      set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
+      set  data($win,config,undo_sep_next)  [expr ($data($win,config,undo_sep_next) == -1) ? [expr $data($win,config,undo_hist_size) - 1] : $data($win,config,undo_sep_next)]
+      set  data($win,config,undo_sep_last)  [expr $data($win,config,undo_hist_size) - 1]
       incr data($win,config,undo_sep_size)
       incr data($win,config,undo_sep_count)
 
@@ -2386,13 +2387,12 @@ namespace eval ctext {
         }
       }
       undocount {
-        puts "In undocount, undo_hist_size: $data($win,config,undo_hist_size)"
-              undo_display $win
         if {$data($win,config,undo_hist_size) == 0} {
           return 0
         } else {
-          puts "undo_hist end: [lindex $data($win,config,undo_hist) end]"
-          return [expr $data($win,config,undo_sep_count) + ([lindex $data($win,config,undo_hist) end 4] ^ 1)]
+          set undo_count [expr $data($win,config,undo_sep_count) + (([lindex $data($win,config,undo_hist) end 4] == 0) ? 1 : 0)]
+          puts "undo_count: $undo_count"
+          return $undo_count
         }
       }
       reset {
