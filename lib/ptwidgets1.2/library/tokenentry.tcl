@@ -1703,7 +1703,7 @@ namespace eval tokenentry {
       tokenselection { eval "tokenentry::tokenselection $w $opts" }
       tokenget       { return [eval "tokenentry::get_tokens $w"] }
       tokenconfigure { eval "tokenentry::tokenconfigure $w $opts" }
-      tokencget      { return [eval "tokenentry::tokencget $w $opts" }
+      tokencget      { return [eval "tokenentry::tokencget $w $opts"] }
       tokeninsert    { eval "tokenentry::tokeninsert $w $opts" }
       tokendelete    { eval "tokenentry::tokendelete $w $opts" }
       entryget       { return [$w.txt get 1.0 end-1c] }
@@ -1947,11 +1947,11 @@ namespace eval tokenentry {
           }
         }
         -shape {
-          if {([llength $value] < 0) || ([llength $value] > 2)} {
+          if {([llength $value] < 1) || ([llength $value] > 2)} {
             return -code error "ERROR:  Token -shape list must be contain either 1 or 2 values"
           }
           foreach val $value {
-            switch $value {
+            switch $val {
               pill   -
               tag    -
               square -
