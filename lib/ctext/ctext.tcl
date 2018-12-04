@@ -1118,13 +1118,18 @@ namespace eval ctext {
       set ranges      [list]
       set do_tags     [list]
       set changed     ""
+      set sep_dec     0
 
       foreach element [lreverse $data($win,config,undo_hist)] {
 
         lassign $element cmd val1 val2 cursor sep
 
-        if {($i > 0) && $sep} {
-          break
+        if {$sep} {
+          if {$i == 0} {
+            set sep_dec -1
+          } else {
+            break
+          }
         }
 
         switch $cmd {
@@ -1179,7 +1184,7 @@ namespace eval ctext {
       set  data($win,config,undo_sep_next)  [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
       set  data($win,config,undo_sep_last)  [expr $data($win,config,undo_hist_size) - 1]
       incr data($win,config,undo_sep_size)  -1
-      incr data($win,config,undo_sep_count) -1
+      incr data($win,config,undo_sep_count) $sep_dec
 
       ::tk::TextSetCursor $win.t $last_cursor
       modified $win 1 [list undo $ranges ""]
