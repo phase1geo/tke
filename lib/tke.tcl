@@ -170,7 +170,8 @@ set right_click 3
 # Display the usage information to standard output and exits.
 proc usage {} {
 
-  puts "tke \[<options>\] <file>*"
+  puts ""
+  puts "tke \[<options>\] \[<files>|<directories>\]"
   puts ""
   puts "Options:"
   puts "  -h                 Displays usage information"
@@ -186,6 +187,12 @@ proc usage {} {
   puts "                       with an existing window or last saved session."
   puts "  -s <session_name>  Opens the specified session name.  This option"
   puts "                       is ignored if the -n option is specified."
+  puts ""
+  puts "Files and directories can be specified using relative or absolute"
+  puts "pathnames and can contain the wildcard characters: * and ?.  Any"
+  puts "filenames specified will be immediately opened in the editor and"
+  puts "their directories will be added to the sidebar.  Any directories"
+  puts "specified will be added to the sidebar."
   puts ""
 
   exit

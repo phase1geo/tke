@@ -19,7 +19,9 @@ If TKE is already running, this command will simply bring the application to the
 
 This, however, is not the only way of starting the application from the command-line, you can also specify any number of directories and/or files as arguments to TKE.  Any directories specified will be added to the sidebar while any specified files will be opened in new tabs in the editor and their respective directories will be added to the sidebar (if they don’t already exist).
 
-In addition to files and directories, the following options are also available on the command-line invocation.
+When specifying file and directory paths, you may specify these using relative or absolute pathnames and you may use the `*` and `?` wildcard characters.
+
+In addition to files and directories, the following options are also available on the command-line invocation.  If options are added to the command-line, they must be placed prior to the list of files/directories to open.
 
 | Option | Description |
 | - | - |
