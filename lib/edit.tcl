@@ -1457,8 +1457,6 @@ namespace eval edit {
 
         if {![$txt compare $curr_row.$curr_col < end]} {
           return [$txt index end]
-        } elseif {($line ne "") && ![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-          return [$txt index "$curr_row.0 + $curr_col display chars"]
         }
 
       }
@@ -2001,12 +1999,12 @@ namespace eval edit {
       # Count spaces and non-spaces
       set endpos [expr {($type eq "word") ? "$cursor-1c" : $cursor}]
       for {set i 0} {$i < $num} {incr i} {
-        set endpos [$txtt index "$endpos+1c"]
         if {[string is space [$txtt get $endpos]]} {
           set endpos [get_index $txtt spaceend -dir next -startpos $endpos]
         } else {
           set endpos [get_index $txtt ${type}end -dir next -startpos $endpos]
         }
+        puts "i: $i, endpos: $endpos"
       }
 
     } else {
