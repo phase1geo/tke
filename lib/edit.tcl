@@ -1457,7 +1457,7 @@ namespace eval edit {
 
         if {![$txt compare $curr_row.$curr_col < end]} {
           return [$txt index end]
-        } elseif {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
+        } elseif {($line ne "") && ![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
           return [$txt index "$curr_row.0 + $curr_col display chars"]
         }
 

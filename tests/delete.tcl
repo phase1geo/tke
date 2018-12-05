@@ -375,11 +375,11 @@ namespace eval delete {
     do_test $txtt 0 {d w} 2.1 "\nT... is a line" "his"
 
     foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d w} $index 2] 2.1 "\nT.. is a line" "his."
+      do_test $txtt [expr $index + 1] [linsert {d w} $index 2] 2.1 "\nTis a line" "his... "
     }
 
     do_test $txtt 3 {d w} 2.1 "\nT... is a line" "his" 0
-    do_test $txtt 4 {d w} 2.1 "\nT.. is a line" "."
+    do_test $txtt 4 {d w} 2.1 "\nTis a line" "... "
 
     # Cleanup
     cleanup
@@ -422,14 +422,14 @@ namespace eval delete {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {d b} 2.6 "\nThis..is a line" ". "
+    do_test $txtt 0 {d b} 2.4 "\nThisis a line" "... "
 
     foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d b} $index 2] 2.5 "\nThis.is a line" ".. "
+      do_test $txtt [expr $index + 1] [linsert {d b} $index 2] 2.0 "\nis a line" "This... "
     }
 
-    do_test $txtt 3 {d b} 2.6 "\nThis..is a line" ". " 0
-    do_test $txtt 4 {d b} 2.5 "\nThis.is a line" "."
+    do_test $txtt 3 {d b} 2.4 "\nThisis a line" "... " 0
+    do_test $txtt 4 {d b} 2.0 "\nis a line" "This"
 
     # Cleanup
     cleanup
@@ -475,11 +475,11 @@ namespace eval delete {
     do_test $txtt 0 {d e} 2.0 "\n... is a line" "This"
 
     foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d e} $index 2] 2.0 "\n.. is a line" "This."
+      do_test $txtt [expr $index + 1] [linsert {d e} $index 2] 2.0 "\n is a line" "This..."
     }
 
     do_test $txtt 3 {d e} 2.0 "\n... is a line" "This" 0
-    do_test $txtt 4 {d e} 2.0 "\n. is a line" ".."
+    do_test $txtt 4 {d e} 2.0 "\n is a line" "..."
 
     # Cleanup
     cleanup
@@ -525,7 +525,7 @@ namespace eval delete {
     do_test $txtt 0 {d g e} 2.9 "\nThis is.. line" ". a"
 
     foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d g e} $index 2] 2.8 "\nThis is. line" ".. a"
+      do_test $txtt [expr $index + 1] [linsert {d g e} $index 2] 2.6 "\nThis i line" "s... a"
     }
 
     do_test $txtt 3 {d g e} 2.9 "\nThis is.. line" ". a" 0

@@ -2289,8 +2289,8 @@ namespace eval sidebar {
     }
 
     # Normalize the pathname
-    if {[file pathtype $fname] eq "relative"} {
-      set fname [file join [$widgets(tl) set $row name] $fname]
+    if {[set pathtype [file pathtype $fname]] eq "relative"} {
+      set fname    [file join [$widgets(tl) set $row name] $fname]
     }
 
     # Get the remote status
@@ -2311,7 +2311,7 @@ namespace eval sidebar {
       }
     }
 
-    if {[file pathtype $fname] eq "relative"} {
+    if {$pathtype eq "relative"} {
 
       # Expand the directory
       expand_directory $row
@@ -2366,7 +2366,7 @@ namespace eval sidebar {
     }
 
     # Normalize the pathname
-    if {[file pathtype $dname] eq "relative"} {
+    if {[set pathtype [file pathtype $dname]] eq "relative"} {
       set dname [file join [$widgets(tl) set $row name] $dname]
     }
 
@@ -2384,7 +2384,7 @@ namespace eval sidebar {
       }
     }
 
-    if {[file pathtype $dname] eq "relative"} {
+    if {$pathtype eq "relative"} {
 
       # Expand the directory
       expand_directory $row
