@@ -387,7 +387,7 @@ namespace eval multicursor {
     multicursor::add_cursor $txt.t 2.6
     multicursor::add_cursor $txt.t 3.0
 
-    multicursor::delete $txt.t [list wordend -num 2 -adjust +1c]
+    multicursor::delete $txt.t [list wordend -num 2]
 
     if {[$txt get 2.0 end-1c] ne "this i\n not good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
