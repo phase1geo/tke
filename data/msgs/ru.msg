@@ -66,16 +66,16 @@ msgcat::mcmset ru {
   "Новый тест"
 
   "New Test File"
-  "Новый файл теста"
+  "Новый тестовый файл"
 
   "New Test Name"
-  "Название теста"
+  "Название нового теста"
 
   "Output"
-  "Выход"
+  "Вывод"
 
   "PASSED"
-  "ВЫПОЛНЕНО"
+  "ПРОЙДЕНО"
 
   "Pass"
   "Проход"
@@ -99,7 +99,7 @@ msgcat::mcmset ru {
   "Результаты"
 
   "Run Count"
-  "Запустить счетчик"
+  "Запустить счет"
 
   "Run iterations"
   "Запустить итерации"
@@ -137,7 +137,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Center image"
-  "Центровать изображение"
+  "Центрировать изображение"
 
   "Flip image horizontally"
   "Повернуть изображение горизонтально"
@@ -161,7 +161,7 @@ msgcat::mcmset ru {
   "Повернуть на 90 градусов"
 
   "Transform Tools"
-  "Инструменты преобразования"
+  "Трансформации"
 
 }
 
@@ -240,7 +240,7 @@ msgcat::mcmset ru {
   "Чувствительность к регистру символов"
 
   "Close All Other Tabs"
-  "Закрыть другие вкладки"
+  "Закрыть все другие вкладки"
 
   "Close All Tabs"
   "Закрыть все вкладки"
@@ -267,7 +267,7 @@ msgcat::mcmset ru {
   "Разработчик"
 
   "Email"
-  "Эл-почта"
+  "Эл.почта"
 
   "Error"
   "Ошибка"
@@ -288,37 +288,37 @@ msgcat::mcmset ru {
   "Шаблон glob"
 
   "Hide Tab"
-  "Скрыть вкладку"
+  "Спрятать вкладку"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
-  "Изображение, отображаемое в диалоге для его закрытия.  Используется в диалогах поиска, поиска/замены и поиска в файлах."
+  "Изображение для закрытия диалога.  Используется в диалогах типа поиска, поиска/замены и поиска в файлах."
 
   "Image displayed in find field to search for next match."
-  "Изображение в поле Поиск для поиска следующего совпадения."
+  "Изображение в поле поиска следующего совпадения."
 
   "Image displayed in find field to search for previous match."
-  "Изображение в поле Поиск для поиска предыдущего совпадения."
+  "Изображение в поле поиска предыдущего совпадения."
 
   "Image used in tab menus to indicate that the file is associated with a difference view."
-  "Изображение в меню вкладок для указания, что файл связан с просмотром различий."
+  "Изображение во вкладках означающее, что этот файл для просмотра различий."
 
   "Image used in tab menus to indicate that the file is locked."
-  "Изображение в меню вкладок для указания, что файл заблокирован."
+  "Изображение во вкладках означающее, что файл заблокирован."
 
   "Image used in tab menus to indicate that the file is readonly."
-  "Изображение в меню вкладок для указания, что файл только для чтения."
+  "Изображение во вкладках означающее, что файл только для чтения."
 
   "Image used in tab to indicate that the tab contains a difference view."
-  "Изображение во вкладке для указания, что вкладка содержит просмотр различий."
+  "Изображение во вкладках означающее, что это просмотр различий."
 
   "Image used in tab to indicate that the tab's file is readonly."
-  "Изображение во вкладке для указания, что файл только для чтения."
+  "Изображение во вкладках означающее, что файл только для чтения."
 
   "Image used in tab to indicate that the tab’s file is locked."
-  "Изображение во вкладке для указания, что файл заблокирован."
+  "Изображение во вкладках означающее, что файл заблокирован."
 
   "Image used in tab which, when clicked, closes the tab."
-  "Изображение во вкладке, закрывающее вкладку."
+  "Изображение во вкладках, при клике на котором вкладка закрывается."
 
   "Image used in the preferences window in the Advanced tab."
   "Изображение в окне Настройки для вкладки Дополнительно."
@@ -357,13 +357,13 @@ msgcat::mcmset ru {
   "Изображение в окне Настройки для вкладки Вид."
 
   "Image used in the preferences window to indicate that a table item is deselected."
-  "Изображение в окне Настройки для указания, что элемент таблицы не выбран."
+  "Изображение в окне Настройки означающее, что элемент таблицы не выбран."
 
   "Image used in the preferences window to indicate that a table item is selected."
-  "Изображение в окне Настройки для указания, что элемент таблицы выбран."
+  "Изображение в окне Настройки означающее, что элемент таблицы выбран."
 
   "Image used in the preferences window to indicate that something is true."
-  "Изображение в окне настройки для указания, что что-то верно."
+  "Изображение в окне настройки означающее, что что-то истинно."
 
   "Images used in tab which will be displayed when the mouse enters the close button area"
   "Изображение во вкладке, отображаемое при наведении курсора мыши на кнопку Закрыть"
@@ -390,10 +390,10 @@ msgcat::mcmset ru {
   "Регулярное выражение"
 
   "Release Type"
-  "Тип выпуска"
+  "Тип релиза"
 
   "Replace"
-  "Замена"
+  "Заменить"
 
   "Replace All"
   "Заменить все"
@@ -518,25 +518,25 @@ msgcat::mcmset ru {
   "Все уровни"
 
   "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
-  "Будут удалены все языковые настройки для текущего сеанса и глобальные параметры будут применяться для указанного языка."
+  "Будут удалены все языковые настройки для текущего сеанса и глобальные настройки будут применяться для указанного языка."
 
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
-  "Будут удалены все языковые настройки и глобальные параметры будут применяться для указанного языка."
+  "Будут удалены все языковые настройки и глобальные настройки будут применяться для указанного языка."
 
   "Append current find text to selection"
   "Добавить текущий найденный текст в выделение"
 
   "Balance Inward"
-  "Выровнять внутрь"
+  "Сбалансировать внутри"
 
   "Balance Outward"
-  "Выровнять наружу"
+  "Сбалансировать снаружи"
 
   "Balance tag pair moving inward"
-  "Выровнять пару тегов, перемещая внутрь"
+  "Сбалансировать пары тегов, перемещая внутрь"
 
   "Balance tag pair moving outward"
-  "Выровнять пару тегов, перемещая наружу"
+  "Сбалансировать пары тегов, перемещая наружу"
 
   "Bold"
   "Жирный"
@@ -623,7 +623,7 @@ msgcat::mcmset ru {
   "Преобразовать в нижний регистр"
 
   "Convert case to title"
-  "Преобразовать в регистр названий"
+  "Преобразовать в титульный регистр"
 
   "Convert case to upper"
   "Преобразовать в верхний регистр"
@@ -704,13 +704,13 @@ msgcat::mcmset ru {
   "Удалить текущий файл"
 
   "Delete fold at current line"
-  "Удалять складки на текущую строку"
+  "Удалить складки на текущей строке"
 
   "Delete language preferences?"
   "Удалить настройки языка?"
 
   "Delete session"
-  "Удалить сеанс"
+  "Удалить сессию"
 
   "Delete session language preferences?"
   "Удалить языковые настройки сессии?"
@@ -743,7 +743,7 @@ msgcat::mcmset ru {
   "Редактировать настройки языка"
 
   "Edit Session"
-  "Редактировать настройки сеанса"
+  "Редактировать настройки сессии"
 
   "Edit User"
   "Редактировать настройки пользователя"
@@ -791,7 +791,7 @@ msgcat::mcmset ru {
   "Кодировать/декодировать изображение в data:URL"
 
   "Enter selection mode"
-  "Введите режим выделения"
+  "В режим выделения"
 
   "Enumeration"
   "Перечисление"
@@ -812,7 +812,7 @@ msgcat::mcmset ru {
   "Експортировать как"
 
   "Export Custom Themes"
-  "Експортировать темы"
+  "Експортировать настроенные темы"
 
   "Export complete"
   "Експортировать полностью"
@@ -866,7 +866,7 @@ msgcat::mcmset ru {
   "Сворачивание"
 
   "Format"
-  "Форматирование"
+  "Форматировать"
 
   "Format Text"
   "Форматировать текст"
@@ -884,7 +884,7 @@ msgcat::mcmset ru {
   "Перейти к совпадающей паре"
 
   "Go to matching tag pair"
-  "Перейти к совпадающей паре тега"
+  "Перейти к совпадающей паре тегов"
 
   "Go to next edit point"
   "Перейти к следующей точке редактирования"
@@ -950,7 +950,7 @@ msgcat::mcmset ru {
   "Скрыть строку состояния"
 
   "Hide Tab Bar"
-  "Скрыть панель вкладок,"
+  "Скрыть панель вкладок"
 
   "Hide Tcl Console"
   "Скрыть консоль Tcl"
@@ -980,13 +980,13 @@ msgcat::mcmset ru {
   "Подсветить"
 
   "Image"
-  "Картинка"
+  "Изображение"
 
   "Import plugin bundle"
   "Импортировать плагины"
 
   "Increment by 0.1"
-  "Увеличить на 0,1"
+  "Увеличить на 0.1"
 
   "Increment by 1"
   "Увеличить на 1"
@@ -1004,13 +1004,13 @@ msgcat::mcmset ru {
   "Увеличить число на 10"
 
   "Indent"
-  "Отступить"
+  "Отступ"
 
   "Indent Off"
   "Отключить отступ"
 
   "Indent selected text"
-  "Отступ выделенного текста"
+  "Отступ для выделенного текста"
 
   "Indentation"
   "Отступ"
@@ -1019,7 +1019,7 @@ msgcat::mcmset ru {
   "Вставить жирный текст"
 
   "Insert checklist formatting"
-  "Вставить список пунктов"
+  "Вставить список"
 
   "Insert code formatting"
   "Вставить форматированный код"
@@ -1037,7 +1037,7 @@ msgcat::mcmset ru {
   "Вставить из буфера обмена"
 
   "Insert header style"
-  "Вставить стиль заголовка"
+  "Вставить заголовок"
 
   "Insert highlight formatting"
   "Вставить подсветку"
@@ -1046,7 +1046,7 @@ msgcat::mcmset ru {
   "Вставить изображение"
 
   "Insert italics formatting"
-  "Вставить текст курсивом"
+  "Вставить курсив"
 
   "Insert line above current line"
   "Вставить строку над текущей строкой"
@@ -1058,7 +1058,7 @@ msgcat::mcmset ru {
   "Вставить ссылку"
 
   "Insert ordered list formatting"
-  "Вставить упорядоченный список пунктов"
+  "Вставить упорядоченный список"
 
   "Insert snippet"
   "Вставить фрагмент кода"
@@ -1070,13 +1070,13 @@ msgcat::mcmset ru {
   "Вставить подстрочные знаки"
 
   "Insert superscript formatting"
-  "Включить надстрочные знаки"
+  "Вставить надстрочные знаки"
 
   "Insert underline formatting"
-  "Вставка подчеркнутый текст"
+  "Вставить подчеркнутый текст"
 
   "Insert unordered list formatting"
-  "Вставить неупорядоченный список пунктов"
+  "Вставить неупорядоченный список"
 
   "Install"
   "Установить"
@@ -1112,7 +1112,7 @@ msgcat::mcmset ru {
   "Перейти к следующей складке"
 
   "Jump to Previous Fold Mark"
-  "Перейти в предыдущей складке"
+  "Перейти к предыдущей складке"
 
   "Jump to line"
   "Перейти к строке"
@@ -1148,7 +1148,7 @@ msgcat::mcmset ru {
   "Блокировать"
 
   "Lock file"
-  "Файл блокировки"
+  "Блокировать файл"
 
   "Lower Case"
   "Нижний регистр"
@@ -1181,7 +1181,7 @@ msgcat::mcmset ru {
   "Переместить курсоры вверх"
 
   "Move cursor to bottom of screen"
-  "Переместить курсор вниз экрана"
+  "Переместить курсор в низ экрана"
 
   "Move cursor to end of current line"
   "Переместить курсор в конец текущей строки"
@@ -1193,43 +1193,43 @@ msgcat::mcmset ru {
   "Переместить курсор в последнюю строку"
 
   "Move cursor to middle of screen"
-  "Переместить курсор на середину экрана"
+  "Переместить курсор в середину экрана"
 
   "Move cursor to next page"
   "Переместить курсор на следующую страницу"
 
   "Move cursor to next word"
-  "Переместить курсор к следующему слову"
+  "Переместить курсор на следующее слово"
 
   "Move cursor to previous page"
-  "Переместить курсор к предыдущей странице"
+  "Переместить курсор на предыдущую страницу"
 
   "Move cursor to previous word"
-  "Переместить курсор к предыдущему слову"
+  "Переместить курсор на предыдущее слово"
 
   "Move cursor to start of current line"
   "Переместить курсор в начало текущей строки"
 
   "Move cursor to top of screen"
-  "Переместить курсор вверх экрана"
+  "Переместить курсор в верх экрана"
 
   "Move multicursors down one line"
   "Переместить мультикурсоры на одну строку вниз"
 
   "Move multicursors left one line"
-  "Переместить мультикурсоры влево на одну строку"
+  "Переместить мультикурсоры на одну строку влево"
 
   "Move multicursors right one line"
-  "Переместить мультикурсоры вправо на одну строку"
+  "Переместить мультикурсоры на одну строку вправо"
 
   "Move multicursors up one line"
   "Переместить мультикурсоры на одну строку вверх"
 
   "Move to First Line"
-  "Перейти к первой строке"
+  "Перейти на первую строку"
 
   "Move to Last Line"
-  "Перейти к последней строке"
+  "Перейти на последнюю строку"
 
   "Move to Line End"
   "Перейти на конец строки"
@@ -1238,13 +1238,13 @@ msgcat::mcmset ru {
   "Перейти на начало строки"
 
   "Move to Next Page"
-  "Перейти к следующей странице"
+  "Перейти на следующую страницу"
 
   "Move to Next Word"
   "Перейти на следующее слово"
 
   "Move to Previous Page"
-  "Перейти к предыдущей странице"
+  "Перейти на предыдущую страницу"
 
   "Move to Previous Word"
   "Перейти на предыдущее слово"
@@ -1277,7 +1277,7 @@ msgcat::mcmset ru {
   "Новое окно"
 
   "Next Difference"
-  "Следующее отличие"
+  "Следующее различие"
 
   "Next Edit Point"
   "Следующая точка редактирования"
@@ -1304,7 +1304,7 @@ msgcat::mcmset ru {
   "Открыть недавние"
 
   "Open Remote"
-  "Открыть из сети"
+  "Открыть удаленные"
 
   "Open Selected Folds"
   "Открыть выделенные складки"
@@ -1319,10 +1319,10 @@ msgcat::mcmset ru {
   "Открыть файл"
 
   "Open fold at current line - all levels"
-  "Открыть складку на текущей строке - все уровни"
+  "Открыть складку в текущей строке - все уровни"
 
   "Open fold at current line - one level"
-  "Открыть складку на текущей строке - один уровень"
+  "Открыть складку в текущей строке - один уровень"
 
   "Open folds to show cursor"
   "Открыть складки, чтобы показать курсор"
@@ -1424,7 +1424,7 @@ msgcat::mcmset ru {
   "Удалить из текущей строки"
 
   "Remove Tag"
-  "Удалить метку"
+  "Удалить тег"
 
   "Remove all markers"
   "Удалить все маркеры"
@@ -1433,7 +1433,7 @@ msgcat::mcmset ru {
   "Удалить все маркеры из текущего буфера"
 
   "Remove formatting from selected text"
-  "Удалить форматирование выделенного текста"
+  "Удалить форматирование в выделенном тексте"
 
   "Remove marker from current line"
   "Удалить маркер из текущей строки"
@@ -1445,10 +1445,10 @@ msgcat::mcmset ru {
   "Переименовать текущий файл"
 
   "Reopen File"
-  "Открыть файл"
+  "Переоткрыть файл"
 
   "Reopen current file"
-  "Открыть текущий файл"
+  "Переоткрыть текущий файл"
 
   "Replace Line With Script"
   "Заменить строку скриптом"
@@ -1460,19 +1460,19 @@ msgcat::mcmset ru {
   "Перезапуск"
 
   "Run theme editor"
-  "Запуск редактора тем"
+  "Вызов редактора тем"
 
   "Save All"
   "Сохранить все"
 
   "Save As Remote"
-  "Сохранить в сети"
+  "Сохранить как сетевой"
 
   "Save As Template"
   "Сохранить как шаблон"
 
   "Save Current"
-  "Сохранить текущую"
+  "Сохранить текущий"
 
   "Save Selection As"
   "Сохранить выделенное как"
@@ -1490,7 +1490,7 @@ msgcat::mcmset ru {
   "Сохранить файл как"
 
   "Save file as remote file"
-  "Сохранить файл как сетевой файл"
+  "Сохранить файл как сетевой"
 
   "Save file as template"
   "Сохранить файл как шаблон"
@@ -1502,7 +1502,7 @@ msgcat::mcmset ru {
   "Сохранить сессии как"
 
   "Search References"
-  "Поиск ссылок"
+  "Поиск справочной информации"
 
   "Search language reference documentation"
   "Поиск справочной документации по языку"
@@ -1511,7 +1511,7 @@ msgcat::mcmset ru {
   "Поиск справочной документации"
 
   "Select"
-  "Выделение"
+  "Выделить"
 
   "Select All Matches"
   "Выделить все совпадения"
@@ -1574,13 +1574,13 @@ msgcat::mcmset ru {
   "Установить тему"
 
   "Set current file line ending to CR for Classic Mac"
-  "Установить окончание строк текущего файла в CR для классического Mac"
+  "Установить окончание строк файла в CR для классического Mac"
 
   "Set current file line ending to CRLF for Windows"
-  "Установить окончание строк текущего файла в CRLF для Windows"
+  "Установить окончание строк файла в CRLF для Windows"
 
   "Set current file line ending to LF for Unix"
-  "Установить окончание строк текущего файла в LF для Unix"
+  "Установить окончание строк файла в LF для Unix"
 
   "Set indent mode to"
   "Установить режим отступа"
@@ -1634,7 +1634,7 @@ msgcat::mcmset ru {
   "Показать журнал диагностики"
 
   "Show file difference"
-  "Показать файл отличий"
+  "Показать файл различий"
 
   "Show installed plugins"
   "Показать установленные плагины"
@@ -1658,10 +1658,10 @@ msgcat::mcmset ru {
   "Сортировать вкладки"
 
   "Split/Join Tag"
-  "Разделить/Объединить тег"
+  "Разбить/Объединить тег"
 
   "Split/Join tag"
-  "Разделить/Объединить тег"
+  "Разбить/Объединить тег"
 
   "Start Profiling"
   "Начать профилирование"
@@ -1685,10 +1685,10 @@ msgcat::mcmset ru {
   "Надстрочный"
 
   "Switch To"
-  "Переключиться на"
+  "Переключить на"
 
   "Switch to session"
-  "Переключиться на сессию"
+  "Переключить на сессию"
 
   "Tabs"
   "Вкладки"
@@ -1697,13 +1697,13 @@ msgcat::mcmset ru {
   "Советы и подсказки"
 
   "Title Case"
-  "Заглавный регистр"
+  "Титульный регистр"
 
   "Toggle Case"
   "Переключить регистр"
 
   "Toggle Comment"
-  "Переключить комментарий"
+  "Переключить комментирование"
 
   "Toggle bird's eye view mode"
   "Переключить режим просмотра с птичьего полета"
@@ -1727,10 +1727,10 @@ msgcat::mcmset ru {
   "Преобразование"
 
   "Unable to delete file"
-  "Новозможно удалить файл"
+  "Невозможно удалить файл"
 
   "Unable to write export file"
-  "Новозможно экспортировать файл"
+  "Невозможно экспортировать файл"
 
   "Underline"
   "Подчеркивание"
@@ -1784,22 +1784,22 @@ msgcat::mcmset ru {
   "Руководство по Emmet"
 
   "View tips & tricks articles"
-  "Статьи подсказок и советов"
+  "Просмотр подсказок и советов"
 
   "View user guide"
-  "Руководство пользователя"
+  "Просмотр руководства пользователя"
 
   "Vim Mode"
   "Режим Vim"
 
   "Windows"
-  "Windows"
+  "Окна"
 
   "Wrap With Abbreviation"
   "Свернуть с тегом"
 
   "Wrap tag with Emmet abbreviation"
-  "Свернуть тег с тегом Emmet"
+  "Свернуть тег с Emmet"
 
   "formatting"
   "форматирование"
@@ -1825,22 +1825,22 @@ msgcat::mcmset ru {
   "ОШИБКА: Невозможно создать каталог плагина"
 
   "ERROR:  Unable to write plugin files"
-  "ОШИБКА: Невозможно записать файлы плагина"
+  "ОШИБКА: Невозможно сохранить файлы плагина"
 
   "Enter plugin name"
   "Введите имя плагина"
 
   "Grant"
-  "Позволить"
+  "Разрешить"
 
   "Grant permission?"
-  "Дать разрешение?"
+  "Разрешить?"
 
   "Plugin Errors"
   "Ошибки плагина"
 
   "Plugin Trust Requested"
-  "Запрошено доверие к плагину"
+  "Требуется разрешение для плагина"
 
   "Plugin export completed successfully"
   "Экспорт плагина успешно завершен"
@@ -1852,7 +1852,7 @@ msgcat::mcmset ru {
   "Плагин установлен"
 
   "Plugin requires permission to view or modify your system."
-  "Плагин требует разрешения на просмотр или изменение системы."
+  "Требуется разрешение плагину на просмотр или изменение системы."
 
   "Plugin uninstalled"
   "Установка плагина отменена"
@@ -1864,7 +1864,7 @@ msgcat::mcmset ru {
   "Отклонить"
 
   "Syntax errors found in selected plugins"
-  "Синтаксические ошибки, обнаруженные в выбранных плагинах"
+  "В выбранных плагинах обнаружены ошибки"
 
   "Unable to unzip plugin"
   "Не удалось распаковать плагин"
@@ -1884,7 +1884,7 @@ msgcat::mcmset ru {
   "Добавить"
 
   "Add Language Reference"
-  "Добавить справочник по языку"
+  "Добавить руководство по языку"
 
   "Additional space between lines"
   "Дополнительное пространство между строками"
@@ -1893,7 +1893,7 @@ msgcat::mcmset ru {
   "Дополнения"
 
   "Advanced"
-  "Расширенные"
+  "Расширения"
 
   "Alias"
   "Псевдоним"
@@ -1908,10 +1908,10 @@ msgcat::mcmset ru {
   "Внешний вид"
 
   "Append characters to search string if entered within"
-  "Добавить символы в строку поиска, если вводятся за"
+  "Добавить символы в строку поиска, если вводятся внутри"
 
   "Auto-match Characters"
-  "Символы для автосовпадения"
+  "Символы автосовпадения"
 
   "Automatically check for updates on start"
   "Автоматически проверять наличие обновлений при запуске"
@@ -1953,7 +1953,7 @@ msgcat::mcmset ru {
   "Выбрать цвет"
 
   "Choose Logfile Directory"
-  "Выбрать каталог файла журнала"
+  "Выбрать каталог для журнала"
 
   "Clear"
   "Очистить"
@@ -1971,7 +1971,7 @@ msgcat::mcmset ru {
   "Закрытие"
 
   "Color value case"
-  "Номер цвета"
+  "Регистр значения цвета"
 
   "Command launcher entry"
   "Ввод команды запуска"
@@ -1986,7 +1986,7 @@ msgcat::mcmset ru {
   "Преобразовать в верхний регистр"
 
   "Creator"
-  "Создатель"
+  "Автор"
 
   "Curly bracket"
   "Фигурная скобка"
@@ -2004,7 +2004,7 @@ msgcat::mcmset ru {
   "Путь к текущему файлу"
 
   "Current Line Column"
-  "Текущий столбец строки"
+  "Позиция в текущей строке"
 
   "Current Line Number"
   "Номер текущей строки"
@@ -2021,8 +2021,8 @@ msgcat::mcmset ru {
   "Default Markdown Export Extension"
   "Расширение по умолчанию для Markdown"
 
-  "Default Theme Export Directory"
-  "Каталог по умолчанию для экспорта тем"
+  "Default Export Directory"
+  "Каталог для экспорта по умолчанию"
 
   "Default search method"
   "Метод поиска по умолчанию"
@@ -2034,16 +2034,16 @@ msgcat::mcmset ru {
   "Тема по умолчанию"
 
   "Default unit for floating point values"
-  "Единица по умолчанию для вещественных чисел"
+  "Единица вещественных чисел по умолчанию"
 
   "Default unit for integer values"
-  "Единица по умолчанию для целых чисел"
+  "Единица целых чисел по умолчанию"
 
   "Delete snippet"
   "Удалить фрагмент кода"
 
   "Delete user bindings and use default?"
-  "Удалить привязки пользователя и использовать привязки по умолчанию?"
+  "Удалить настройки пользователя и использовать стандартные?"
 
   "Development"
   "Разработка"
@@ -2079,10 +2079,10 @@ msgcat::mcmset ru {
   "Включен"
 
   "End-of-line character when saving"
-  "Символ конца строки при сохранении"
+  "Символы конца строки при сохранении"
 
   "Exit the application after the last tab is closed"
-  "Выход из приложения после закрытия последней вкладки"
+  "Выйти из приложения после закрытия последней вкладки"
 
   "Export Settings"
   "Настройки экспорта"
@@ -2094,22 +2094,22 @@ msgcat::mcmset ru {
   "Шрифты"
 
   "Format snippet indentation after insert"
-  "Форматировать отступ фрагмента после вставки"
+  "Делать отступ фрагмента после вставки"
 
   "General"
   "Общие"
 
   "Get More Themes"
-  "Больше тем"
+  "Получить другие темы"
 
   "Hide Patterns"
-  "Образцы скрытия"
+  "Шаблоны скрытия файлов"
 
   "Hide binary files"
-  "Скрывать двоичные файлы"
+  "Не показывать двоичные файлы"
 
   "Hiding"
-  "Скрытие"
+  "Скрытие файлов"
 
   "Host"
   "Хост"
@@ -2145,7 +2145,7 @@ msgcat::mcmset ru {
   "Последний доступ"
 
   "Line Wrapping Default"
-  "Линия сворачивания по умолчанию"
+  "Линия сворачивания"
 
   "Line count to find Vim modeline information"
   "Число строк для режима modeline в Vim"
@@ -2163,13 +2163,13 @@ msgcat::mcmset ru {
   "Управление видимостью тем"
 
   "Maximum undo history (set to 0 for unlimited)"
-  "Максимальное число отмен (0 для неограниченного)"
+  "Максимальное число отмен (0 - без ограничений)"
 
   "Menu Item"
   "Пункт меню"
 
   "Menu bindings"
-  "Привязки меню"
+  "Горячие клавиши меню"
 
   "Mounts"
   "Монтирования"
@@ -2181,7 +2181,7 @@ msgcat::mcmset ru {
   "Параметры профилировщика"
 
   "Prompt user to save preference changes in global or named session"
-  "Запрос на сохранение изменений настроек в глобальной или именной сессии"
+  "Запрос на сохранение изменений настроек в глобальной или данной сессии"
 
   "Properties"
   "Свойства"
@@ -2190,16 +2190,16 @@ msgcat::mcmset ru {
   "Время чтения (слов в минуту)"
 
   "Recently opened history depth"
-  "Глубина истории недавно открытых файлов"
+  "Длина списка недавно открытых файлов"
 
   "Remember last position of command launcher"
   "Запомнить последнюю позицию запуска команды"
 
   "Remote Base Directory"
-  "Сетевой основной каталог"
+  "Основной сетевой каталог"
 
   "Remove root directory after last sub-file is closed"
-  "Удалить корневой каталог после закрытия его последнего файла"
+  "Убрать каталог после закрытия его последнего файла"
 
   "Remove trailing whitespace on save"
   "Удалить хвостовые пробелы при сохранении"
@@ -2208,7 +2208,7 @@ msgcat::mcmset ru {
   "Параметры отчета"
 
   "Retain case"
-  "Сохранить регистр"
+  "Оставить регистр"
 
   "Return"
   "Вернуться"
@@ -2238,13 +2238,13 @@ msgcat::mcmset ru {
   "Выбрать шрифт редактора"
 
   "Select Settings Sharing Directory"
-  "Выбрать общий каталог настроек"
+  "Выбрать общую директорию настроек"
 
   "Select a plugin"
   "Выбрать плагин"
 
   "Select default browsing directory"
-  "Выбрать каталог просмотра по умолчанию"
+  "Выбрать директорию просмотра по умолчанию"
 
   "Selected Text"
   "Выделенный текст"
@@ -2259,7 +2259,7 @@ msgcat::mcmset ru {
   "Контекст строки поиска в файлах"
 
   "Set default open/save browsing directory to"
-  "Каталог по умолчанию для открытия/сохранения"
+  "Директория по умолчанию для открытия/сохранения"
 
   "Set find history depth"
   "Глубина истории поиска"
@@ -2268,7 +2268,7 @@ msgcat::mcmset ru {
   "Расстояние перехода"
 
   "Sharing"
-  "Совместные"
+  "Общие"
 
   "Sharing Items"
   "Совместно используемые элементы"
@@ -2286,7 +2286,7 @@ msgcat::mcmset ru {
   "Перемещение в корзину локальных файлов/каталогов вместо Удаления"
 
   "Show Tcl console at startup"
-  "Показать консоль Tcl при запуске"
+  "Вызов консоли Tcl при запуске"
 
   "Show bird's eye view"
   "Показать просмотр с высоты птичьего полета"
@@ -2310,7 +2310,7 @@ msgcat::mcmset ru {
   "Показать подменю языков"
 
   "Show menubar"
-  "Показать линейку меню"
+  "Показать меню"
 
   "Sidebar"
   "Боковая панель"
@@ -2367,10 +2367,10 @@ msgcat::mcmset ru {
   "Неизвестно"
 
   "Update information panel whenever the sidebar selection changes"
-  "Обновлять панель информации при смене курсора в боковой панели"
+  "Обновлять панель информации при смене выделенной строки боковой панели"
 
   "Update using release type"
-  "Обновление с помощью типа релиза"
+  "Обновление согласно типу релиза"
 
   "Updates"
   "Обновления"
@@ -2388,16 +2388,16 @@ msgcat::mcmset ru {
   "Использовать текущую ширину"
 
   "Use directory"
-  "Использовать каталог"
+  "Использовать директорию"
 
   "Use linefeed character"
   "Использовать символ перевода строки"
 
   "Use original EOL character from file"
-  "Использовать исходный EOL символ из файла"
+  "Использовать символ EOL файла"
 
   "Use shortened colors"
-  "Использовать сокращения цветов"
+  "Использовать сокращенные значения цветов"
 
   "Use single carriage return character"
   "Использовать символ возврата каретки"
@@ -2477,10 +2477,10 @@ msgcat::mcmset ru {
   "Группа"
 
   "Group Name"
-  "Имя группы"
+  "Название группы"
 
   "Group Name: "
-  "Имя группы: "
+  "Название группы: "
 
   "Image used in remote file selector for the history back button."
   "Изображение при выборе сетевых файлов для кнопки Назад в истории."
@@ -2549,7 +2549,7 @@ msgcat::mcmset ru {
   "Невозможно соединиться с"
 
   "Unable to read remote directory contents."
-  "Не удается прочитать содержимое удаленного каталога."
+  "Не удается прочитать удаленный каталог."
 
   "Username"
   "Логин"
@@ -2566,7 +2566,7 @@ msgcat::mcmset ru {
   "В указанных каталогах файлы не найдены"
 
   "No search results found"
-  "Поиск не дал результата"
+  "Поиск безуспешен"
 
   "Search wrapped to beginning of file"
   "Повторный поиск до начала файла"
@@ -2628,16 +2628,16 @@ msgcat::mcmset ru {
   "Выход из режима выделения"
 
   "Invert Selected Text"
-  "Обратить выделение"
+  "Инвертировать выделение"
 
   "Keep Selection"
-  "Оставить выделение"
+  "Сохранить выделение"
 
   "Left"
   "Влево"
 
   "Line To"
-  "Строка"
+  "Строка до"
 
   "Miscellaneous"
   "Разное"
@@ -2649,7 +2649,7 @@ msgcat::mcmset ru {
   "Перемещения"
 
   "Next Sibling"
-  "Следующий элемент"
+  "Следующий потомок"
 
   "Paragraph"
   "Параграф"
@@ -2661,7 +2661,7 @@ msgcat::mcmset ru {
   "Предыдущий"
 
   "Previous Sibling"
-  "Предыдущий элемент"
+  "Предыдущий потомок"
 
   "Right"
   "Вправо"
@@ -2691,7 +2691,7 @@ msgcat::mcmset ru {
   "Квадратные скобки"
 
   "Swap Anchor"
-  "Якорь свопа"
+  "Обменять якорь"
 
   "Toggle Help"
   "Переключить справку"
@@ -2703,7 +2703,7 @@ msgcat::mcmset ru {
   "Нажмите '?' для справки.  Нажмите ESCAPE для выхода из режима выделения"
 
   "Undo Last Change"
-  "Отменить изменение"
+  "Отменить последнее изменение"
 
   "Up"
   "Вверх"
@@ -2723,7 +2723,7 @@ msgcat::mcmset ru {
   "Сохранить сессию?"
 
   "Session state will be lost if not saved"
-  "Состояние сессии будет потеряно, если не сохранить."
+  "Состояние сессии будет потеряно, если не сохранить"
 
 }
 
@@ -2781,7 +2781,7 @@ msgcat::mcmset ru {
   "Имя каталога:"
 
   "Disconnect From Server"
-  "Отключиться от сервера"
+  "Отсоединиться от сервера"
 
   "Folder Name:"
   "Имя каталога:"
@@ -2793,31 +2793,31 @@ msgcat::mcmset ru {
   "Скрыть файлы каталога"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
-  "Изображение в боковой панели для указания свернутого каталога"
+  "Изображение в боковой панели для свернутого каталога"
 
   "Image displayed in sidebar to indicate a directory that is showing its contents"
-  "Изображение в боковой панели для указания развернутого каталога"
+  "Изображение в боковой панели для развернутого каталога"
 
   "Image displayed in sidebar to indicate a file"
-  "Изображение в боковой панели для указания файла"
+  "Изображение в боковой панели для файла"
 
   "Image displayed in sidebar to indicate a selected directory that is collapsed"
-  "Изображение в боковой панели для указания выбранного свернутого каталога"
+  "Изображение в боковой панели для выбранного свернутого каталога"
 
   "Image displayed in sidebar to indicate a selected directory that is expanded"
-  "Изображение в боковой панели для указания выбранного развернутого каталога"
+  "Изображение в боковой панели для выбранного развернутого каталога"
 
   "Image displayed in sidebar to indicate that a file is currently opened but hidden"
-  "Изображение в боковой панели для указания открытия скрытого файла"
+  "Изображение в боковой панели для открытия скрытого файла"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
-  "Изображение в боковой панели для указания, что файл сейчас открыт в буфере редактора."
+  "Изображение в боковой панели для открытого в редакторе файла."
 
   "Increasing"
   "Увеличение"
 
   "Make Current Working Directory"
-  "Сделать текущий рабочий каталог"
+  "Создать текущий рабочий каталог"
 
   "Manually"
   "Вручную"
@@ -2844,7 +2844,7 @@ msgcat::mcmset ru {
   "Показать"
 
   "Show Difference"
-  "Показать отличия"
+  "Показать различия"
 
   "Show Directory Files"
   "Показать файлы каталога"
@@ -2890,7 +2890,7 @@ msgcat::mcmset ru {
   "Конец"
 
   "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
-  "Если вы хотите изменить общие настройки, вы можете сделать это в Настройках на вкладке General/Общие."
+  "Если вы хотите изменить общие настройки, вы можете сделать это в Настройках на вкладке Общие."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Выбранные элементы будут скопированы в ваш локальный домашний каталог. Невыбранные элементы будут созданы в вашем домашнем каталоге."
@@ -2917,7 +2917,7 @@ msgcat::mcmset ru {
   "Делает общими настройки из нового или существующего каталога (напр., iCloud Drive, Google Drive, Dropbox и т.д.). Любые изменения, внесенные в настройки, будут доступны другим пользователям."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
-  "Спасибо за использование TKE, продвинутого редактора для программистов.  Поскольку это новая установка TKE, давайте настроим ее. \\n \\n Кликните «Next» для продолжения."
+  "Спасибо за использование TKE, редактора для продвинутых программистов.  Поскольку это новая установка TKE, давайте настроим ее. \\n \\n Кликните 'Далее' для продолжения."
 
   "Use shared settings"
   "Использовать общие настройки"
@@ -2937,7 +2937,7 @@ msgcat::mcmset ru {
   "Синтаксис"
 
   "Syntax error in syntax file"
-  "Синтаксическая ошибка в файле синтаксиса"
+  "Ошибка в файле синтаксиса"
 
 }
 
@@ -2992,16 +2992,16 @@ msgcat::mcmset ru {
   "Цвет фона для маркеров в линейках желоба и прокрутки"
 
   "Background color for matching search text"
-  "Цвет фона для найденного искомого текста"
+  "Цвет фона для найденного текста"
 
   "Background color in difference viewer that shows added lines."
-  "Цвет фона в окне просмотра отличий при показе добавленных строк."
+  "Цвет фона в окне просмотра различий для добавленных строк."
 
   "Background color in difference viewer that shows deleted lines."
-  "Цвет фона в окне просмотра отличий при показе удаленных строк."
+  "Цвет фона в окне просмотра различий для удаленных строк."
 
   "Background color of insertion cursor and background marker colors."
-  "Цвет фона курсора вставки и маркеров фона."
+  "Цвет фона курсора вставки и маркеров."
 
   "Background color of linemap area."
   "Цвет фона полосы номеров строк."
@@ -3013,100 +3013,100 @@ msgcat::mcmset ru {
   "Цвет фона полосы перемещения."
 
   "Background color of selection in command launcher"
-  "Цвет фона для выбора команды запуска"
+  "Цвет фона выделения в команде запуска"
 
   "Background color of textual display in command launcher"
   "Цвет фона отображения текста в команде запуска"
 
   "Background color of the editing buffer."
-  "Цвет фона буфера редактора."
+  "Цвет фона текста редактора."
 
   "Background color to display when a button-like ttk widget is pressed."
-  "Цвет фона для отображения при нажатии ttk виджета в виде кнопки."
+  "Цвет фона отображения при нажатии виджетов типа ttk кнопок."
 
   "Background color to use for active information values to indicate they are clickable."
-  "Цвет фона для активных сообщений, с целью указать, что они кликабельны."
+  "Цвет фона активных сообщений для указания, что они кликабельны."
 
   "Background color to use for displaying character information that requires the user's attention."
-  "Цвет фона для отображения текстовой информации, требующей внимания пользователя."
+  "Цвет фона для отображения информации, требующей внимания пользователя."
 
   "Background color to use for selected text."
-  "Цвет фона для выбранного текста."
+  "Цвет фона выделенного текста."
 
   "Background color to use for the file information panel."
-  "Цвет фона для информационной панели файлов."
+  "Цвет фона информационной панели файлов."
 
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
-  "Цвет фона для всех вкладок, которые не текущие/активные в панели вкладок."
+  "Цвет фона всех вкладок, которые не являются текущими/активными в панели вкладок."
 
   "Background color used for the current/active menu item."
-  "Цвет фона для текущего/активного пункта меню."
+  "Цвет фона текущего/активного пункта меню."
 
   "Background color used for the current/active tab in the tabbar."
-  "Цвет фона для текущей/активной вкладки в панели вкладок."
+  "Цвет фона текущей/активной вкладки в панели вкладок."
 
   "Background color used in highlighted text."
   "Цвет фона, используемый в выделенном тексте."
 
   "Background color used in menus."
-  "Цвет фона, используемый в меню."
+  "Цвет фона меню."
 
   "Background color used in the tabbar area."
-  "Цвет фона, используемый в панели вкладок."
+  "Цвет фона области панели вкладок."
 
   "Color of border around command launcher"
-  "Цвет границы вокруг команды запуска"
+  "Цвет бордюра вокруг команды запуска"
 
   "Color of border drawn around active editing buffer."
-  "Цвет границы вокруг активного буфера редактора."
+  "Цвет бордюра вокруг текущего текста редактора."
 
   "Color of space between tabs."
-  "Цвет пространства между вкладками."
+  "Цвет области между вкладками."
 
   "Color of the spacer between the command launcher entry field and the result list"
-  "Цвет разделителя между полем ввода команды запуска и списком результатов"
+  "Цвет области между полем ввода команды запуска и списком результатов"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
-  "Цвет границы ttk виджета текста, когда на нем стоит курсор ввода."
+  "Цвет бордюра ttk текста, когда на нем стоит курсор ввода."
 
   "Color to use for highlighting closed folds in the line number gutter"
-  "Цвет для выделения закрытых складок в желобе номеров строк"
+  "Цвет выделения закрытых складок в полосе номеров строк"
 
   "Color used to draw the line which separates the linemap from the text area."
   "Цвет разделительной линии между номерами строк и редактируемым текстом."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
-  "Цвет для рисования полосы предупреждений в буфере редактора (а также линии, отделяющей желоб от буфера)."
+  "Цвет строки предупреждений в тексте редактора (и линии, отделяющей желоб от текста)."
 
   "Command Launcher Options"
   "Параметры запуска команд"
 
   "Default 'darkcolor' for all ttk widgets."
-  "По умолчанию 'темный цвет' для всех ttk виджетов."
+  "'Темный цвет' по умолчанию для всех ttk виджетов."
 
   "Default background color to use for all ttk widgets that are in a disabled state."
-  "По умолчанию цвет фона для всех ttk виджетов в неактивном состоянии."
+  "Цвет фона по умолчанию для всех ttk виджетов в неактивном состоянии."
 
   "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
-  "По умолчанию цвет фона для всех ttk виджетов при наведении на них курсора мыши."
+  "Цвет фона по умолчанию для всех ttk виджетов при наведении на них курсора мыши."
 
   "Default background color to use for all ttk widgets."
-  "По умолчанию цвет фона для всех ttk виджетов."
+  "Цвет фона по умолчанию для всех ttk виджетов."
 
   "Default border color for all ttk widgets."
-  "По умолчанию цвет границы для всех ttk виджетов."
+  "Цвет бордюра по умолчанию для всех ttk виджетов."
 
   "Default color for non-syntax highlighted text."
-  "По умолчанию цвет для выделенного несинтаксического текста."
+  "Цвет по умолчанию для выделенного несинтаксического текста."
 
   "Default foreground text color to use for all ttk widgets that are in a disabled state."
-  "По умолчанию цвет фона текста всех ttk виджетов в неактивном состоянии."
+  "Цвет фона текста по умолчанию для всех ttk виджетов в неактивном состоянии."
 
   "Default foreground text color to use for all ttk widgets."
-  "По умолчанию цвет фона текста всех ttk виджетов."
+  "Цвет фона текста по умолчанию для всех ttk виджетов."
 
   "Determines the number of grips strips to display in the grip area between resizable panes."
-  "Определяет размер ручек в области захвата между панелями с изменяемыми размерами."
+  "Определяет размер полоски в области захвата между панелями с изменяемыми размерами."
 
   "Determines the thickness of the grip area between resizable panes."
   "Определяет толщину области захвата между панелями с изменяемыми размерами."
@@ -3127,7 +3127,7 @@ msgcat::mcmset ru {
   "Цвет текста (бегунка) в линейке прокрутки текста."
 
   "Foreground color for matching search text"
-  "Цвет текста для найденного искомого текста"
+  "Цвет текста для найденного текста"
 
   "Foreground color of list items when not selected"
   "Цвет текста для невыбранных элементов списка"
@@ -3142,13 +3142,13 @@ msgcat::mcmset ru {
   "Цвет текста в команде запуска"
 
   "Foreground color to use for title text in the information panel."
-  "Цвет текста для отображения заголовка в панели информации."
+  "Цвет текста заголовка в панели информации."
 
   "Foreground color to use for value text in the information panel."
-  "Цвет текста для отображения значения в панели информации."
+  "Цвет текста значения в панели информации."
 
   "Foreground color used in menu items with checks or buttons."
-  "Цвет текста в пунктах меню с переключателями или кнопками."
+  "Цвет текста переключателей или кнопок меню."
 
   "Foreground text color for strings."
   "Цвет текста для строк."
@@ -3163,40 +3163,40 @@ msgcat::mcmset ru {
   "Цвет текста для всех текстов, помеченных miscellaneous3."
 
   "Foreground text color to use for comments."
-  "Цвет текста для комментариев."
+  "Цвет текста комментариев."
 
   "Foreground text color to use for displaying line numbers."
-  "Цвет текста для отображения номеров строк."
+  "Цвет текста номеров строк."
 
   "Foreground text color to use for displaying numbers."
-  "Цвет текста для отображения чисел."
+  "Цвет текста чисел."
 
   "Foreground text color to use for language-specific keywords."
-  "Цвет текста для ключевых слов конкретного языка."
+  "Цвет текста ключевых слов конкретного языка."
 
   "Foreground text color to use for language-specific punctuation."
-  "Цвет текста для языковых знаков препинания."
+  "Цвет текста знаков препинания."
 
   "Foreground text color to use for meta syntax."
-  "Цвет текста для метасинтаксиса."
+  "Цвет текста метасинтаксиса."
 
   "Foreground text color to use for precompiler syntax."
-  "Цвет текста для предкомпилированного синтаксиса."
+  "Цвет текста предкомпилированного синтаксиса."
 
   "Foreground text color to use for readable meta syntax."
-  "Цвет текста для читаемого метасинтаксиса."
+  "Цвет текста читаемого метасинтаксиса."
 
   "Foreground text color to use for selected text."
   "Цвет текста для выделенного текста."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
-  "Цвет текста для всех вкладок, которые не являются текущими/активными в панели вкладок."
+  "Цвет текста вкладок, которые не являются текущими/активными в панели вкладок."
 
   "Foreground text color used for menus item that are disabled."
-  "Цвет текста для неактивных пунктов меню."
+  "Цвет текста неактивных пунктов меню."
 
   "Foreground text color used for the current/active menu item."
-  "Цвет текста для активного/текущего пункта меню."
+  "Цвет текста активного/текущего пункта меню."
 
   "Foreground text color used for the current/active tab in the tabbar."
   "Цвет текста текущей/активной вкладки в панели вкладок."
@@ -3205,7 +3205,7 @@ msgcat::mcmset ru {
   "Цвет текста, используемый в меню."
 
   "Foreground text/image color used in tabbar and tabs."
-  "Цвет текста/изображения, используемый в панели вкладок и вкладках."
+  "Цвет текста/изображения в панели вкладок и вкладках."
 
   "Images"
   "Изображения"
@@ -3223,7 +3223,7 @@ msgcat::mcmset ru {
   "Настройки меню"
 
   "Menu relief value."
-  "Значение рельефа меню."
+  "Рельеф отображения меню."
 
   "Pixel height of the spacer between the command launcher entry field and the result list"
   "Высота в пикселях разделителя между полем ввода команды запуска и списком результатов"
@@ -3256,19 +3256,19 @@ msgcat::mcmset ru {
   "Задает цвет текста в полях ввода команды запуска и списка"
 
   "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
-  "Задает цвет вокруг границы боковой панели при опускании перетаскиваемого файла"
+  "Задает цвет вокруг бордюра боковой панели при опускании перетаскиваемого файла"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
-  "Задает цвет для отображения вокруг боковой панели, когда она не имеет фокус."
+  "Задает цвет для бордюра боковой панели, когда она не имеет фокус."
 
   "Specifies the color to display around the sidebar when the sidebar has the focus."
-  "Задает цвет для отображения вокруг боковой панели, когда она имеет фокус."
+  "Задает цвет для бордюра боковой панели, когда она имеет фокус."
 
   "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
-  "Задает цвет фона по умолчанию для текста, выделенного в стандартном ttk виджете (это не включает буфер редактора)."
+  "Задает цвет фона текста, выделенного в стандартном ttk виджете (исключая текст редактора)."
 
   "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
-  "Задает цвет текста по умолчанию для текста, выделенного в стандартном ttk виджете (это не включает буфер редактора)."
+  "Задает цвет текста по умолчанию для текста, выделенного в стандартном ttk виджете (исключая текст редактора)."
 
   "Specifies the default relief to use when drawing ttk widgets."
   "Задает рельеф по умолчанию для отображения ttk виджетов."
@@ -3289,10 +3289,10 @@ msgcat::mcmset ru {
   "Параметры линейки прокрутки текста"
 
   "Text color for all sidebar items that are not selected."
-  "Цвет текста для всех невыбранных элементов боковой панели."
+  "Цвет текста всех невыделенных строк боковой панели."
 
   "Text color for all sidebar items that are selected."
-  "Цвет текста для всех выбранных элементов боковой панели."
+  "Цвет текста всех выделенных строк боковой панели."
 
   "ttk Widget Colors"
   "Цвета ttk виджетов"
@@ -3348,7 +3348,7 @@ msgcat::mcmset ru {
   "Экспорт данных BMP"
 
   "Export BMP Mask"
-  "Экспорт BMP-маски"
+  "Экспорт маски BMP"
 
   "Export Bitmap Data"
   "Экспорт растровых данных"
@@ -3357,13 +3357,13 @@ msgcat::mcmset ru {
   "Экспортировать тему как"
 
   "GIF Photo"
-  "GIF фото"
+  "Фото GIF"
 
   "Import BMP Data"
   "Импорт данных BMP"
 
   "Import BMP Mask"
-  "Импорт BMP-маски"
+  "Импорт маски BMP"
 
   "Import Bitmap Data"
   "Импорт растровых данных"
@@ -3378,22 +3378,22 @@ msgcat::mcmset ru {
   "Каталог установки"
 
   "License File"
-  "Лицензия"
+  "Файл лицензии"
 
   "Modifications"
-  "Изменения"
+  "Модификации"
 
   "One-Color Bitmap"
   "Монохромное изображение"
 
   "Output Directory"
-  "Каталог сохранения"
+  "Каталог для сохранения"
 
   "Paste Theme Items"
   "Вставить элементы темы"
 
   "Relief: "
-  "Рельеф:"
+  "Рельеф: "
 
   "Save As:"
   "Сохранить как:"
@@ -3435,10 +3435,10 @@ msgcat::mcmset ru {
   "Фильтры таблицы"
 
   "Table Search"
-  "Поиск таблицы"
+  "Табличный поиск"
 
   "The current theme has unsaved changes."
-  "Изменения текущей темы не сохранены."
+  "Есть несохраненные изменения текущей темы."
 
   "Theme Name"
   "Название темы"
@@ -3467,7 +3467,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Batch custom theme export completed successfully"
-  "Пакетный экспорт пользовательской темы успешно завершен"
+  "Экспорт темы успешно завершен"
 
   "Theme"
   "Тема"
@@ -3512,7 +3512,7 @@ msgcat::mcmset ru {
   "Каталог с таким именем не существует"
 
   "Folding method unrecognized"
-  "Неизвестный метод свертки"
+  "Неизвестный метод сворачивания"
 
   "INSERT MODE"
   "РЕЖИМ ВСТАВКИ"
@@ -3530,19 +3530,19 @@ msgcat::mcmset ru {
   "Выбранное значение не поддерживается"
 
   "Shiftwidth value is not an integer"
-  "Смещение не является целым числом"
+  "Ширина смещения - не целое число"
 
   "Tabstop value is not an integer"
-  "Значение табулостопа не является целым числом"
+  "Значение табулостопа - не целое число"
 
   "Unrecognized vim option"
   "Неизвестная опция vim"
 
   "VISUAL BLOCK MODE"
-  "РЕЖИМ ВИЗУАЛЬНОГО БЛОКА"
+  "ВИЗУАЛЬНЫЙ РЕЖИМ БЛОКА"
 
   "VISUAL LINE MODE"
-  "РЕЖИМ ВИЗУАЛЬНОЙ СТРОКИ"
+  "ВИЗУАЛЬНЫЙ РЕЖИМ СТРОКИ"
 
   "VISUAL MODE"
   "ВИЗУАЛЬНЫЙ РЕЖИМ"
@@ -3661,7 +3661,7 @@ msgcat::mcmset ru {
   "Документация по языку"
 
   "Launcher"
-  "Выполнить команду"
+  "Запуск команды"
 
   "Line"
   "Строка"
@@ -3739,7 +3739,7 @@ msgcat::mcmset ru {
   "Показать номера строк"
 
   "Show marker map"
-  "Показать карту маркеров"
+  "Показать маркеры"
 
   "Show sidebar"
   "Показать боковую панель"
