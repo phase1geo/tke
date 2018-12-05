@@ -930,7 +930,7 @@ namespace eval ctext {
     # undo_display $win
 
     # If a separator is being added (and it was not already added), add it
-    if {![lindex $data($win,config,undo_hist) end 4]} {
+    if {$data($win,config,undo_sep_last) != ($data($win,config,undo_hist_size) - 1)} {
 
       # Set the separator
       lset data($win,config,undo_hist) end 4 -1
@@ -1228,7 +1228,7 @@ namespace eval ctext {
           d {
             set str [$win get $val1 $val2]
             append changed $str
-            comments_chars_deleted $win.t $val1 $val2 do_tags
+            comments_chars_deleted $win $val1 $val2 do_tags
             $win._t delete $val1 $val2
             lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
             if {$cursor != $val1} {
@@ -2395,9 +2395,7 @@ namespace eval ctext {
         if {$data($win,config,undo_hist_size) == 0} {
           return 0
         } else {
-          set undo_count [expr $data($win,config,undo_sep_count) + (([lindex $data($win,config,undo_hist) end 4] == 0) ? 1 : 0)]
-          puts "undo_count: $undo_count"
-          return $undo_count
+          return [expr $data($win,config,undo_sep_count) + (([lindex $data($win,config,undo_hist) end 4] == 0) ? 1 : 0)]
         }
       }
       reset {
