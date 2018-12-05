@@ -115,6 +115,7 @@ namespace eval sidebar {
     initialize
 
     set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+    puts "children: [$sidebar::widgets(tl) children $parent]"
 
     # Add the file to the given folder
     sidebar::add_file_to_folder $parent -testname "test.tcl"
