@@ -1036,7 +1036,7 @@ namespace eval menus {
     sessions::save "last"
 
     # Close all of the tabs
-    gui::close_all -force 1 -exiting 1
+    gui::close_all -exiting 1
 
     # Force any panels that are waiting to stop waiting
     set gui::user_exit_status 0
