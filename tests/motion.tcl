@@ -797,7 +797,7 @@ namespace eval motion {
     $txtt mark set insert 3.3
 
     do_test $txtt 13 0 3.2
-    do_test $txtt 14 b 2.12
+    do_test $txtt 14 b 2.11
 
     $txtt tag remove foobar 1.0 end
     $txtt tag add foobar 3.2 3.end
