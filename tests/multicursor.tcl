@@ -389,10 +389,10 @@ namespace eval multicursor {
 
     multicursor::delete $txt.t [list wordend -num 2]
 
-    if {[$txt get 2.0 end-1c] ne "this i\n not good"} {
+    if {[$txt get 2.0 end-1c] ne "this is not good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
     }
-    if {[$txt tag ranges mcursor] ne [list 2.5 2.6 3.0 3.1]} {
+    if {[$txt tag ranges mcursor] ne [list 2.6 2.7]} {
       cleanup "mcursor mismatched ([$txt tag ranges mcursor])"
     }
 
