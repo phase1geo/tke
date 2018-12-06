@@ -175,9 +175,11 @@ namespace eval menus {
         $mb insert 3 separator
         $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command [list plugins::create_new_plugin]
         $mb insert 6 command -label [format "%s..." [msgcat::mc "Export"]] -underline 0 -command [list plugins::export]
+        $mb insert 7 command -label [msgcat::mc "Show plugins directory in sidebar"]    -command [list plugins::show_iplugins]
 
         launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]]     [list plugins::create_new_plugin]
         launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] [list plugins::export]
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Show plugin source directory in sidebar"]] [list plugins::show_iplugins]]
 
         set mb ".menubar.help"
         $mb insert 2 separator

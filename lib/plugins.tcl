@@ -831,9 +831,11 @@ namespace eval plugins {
       puts $rc "name           {$name}"
       puts $rc "author         {}"
       puts $rc "email          {}"
+      puts $rc "website        {}"
       puts $rc "version        {1.0}"
       puts $rc "include        {yes}"
       puts $rc "trust_required {no}"
+      puts $rc "category       {}"
       puts $rc "description    {}"
       close $rc
 
@@ -1601,6 +1603,14 @@ namespace eval plugins {
     } else {
       return $status
     }
+
+  }
+
+  ######################################################################
+  # Show the iplugins directory in the sidebar.
+  proc show_iplugins {} {
+
+    sidebar::add_directory [file join $::tke_home iplugins] -record 0
 
   }
 
