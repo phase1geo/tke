@@ -539,8 +539,6 @@ namespace eval selection {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    puts "dspace: [$txtt tag ranges dspace]"
-
     do_object_test $txtt 0 {Escape 0 v i w}   $value {2.0 2.4}
     do_object_test $txtt 1 {Escape 0 V i w}   $value {2.0 2.4}
     do_object_test $txtt 2 {Escape 0 v 2 i w} $value {2.0 2.5}
