@@ -352,13 +352,11 @@ namespace eval sidebar {
     grid $widgets(info,psep2) -row 2 -column 0 -sticky ew
 
     # Create directory popup
-    set widgets(menu)     [menu $w.popupMenu       -tearoff 0 -postcommand "sidebar::menu_post"]
-    set widgets(sortmenu) [menu $w.popupSortbyMenu -tearoff 0 -postcommand "sidebar::sort_menu_post"]
+    set widgets(menu)     [menu $w.popupMenu            -tearoff 0 -postcommand "sidebar::menu_post"]
+    set widgets(sortmenu) [menu $w.popupMenu.sortbyMenu -tearoff 0 -postcommand "sidebar::sort_menu_post"]
 
     # Setup the sort menu
     setup_sort_menu
-
-
 
     # Register the sidebar and sidebar scrollbar for theming purposes
     theme::register_widget $widgets(tl)       sidebar
