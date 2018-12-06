@@ -220,30 +220,30 @@ namespace eval selectmode {
 
     do_test $txtt 0  {} {1.5 1.7}  0 word
     do_test $txtt 1  c  {1.5 1.7}  0 char
-    do_test $txtt 2  w  {1.5 1.7}  0 word
+    do_test $txtt 2  w  {1.5 1.9}  0 word
     do_test $txtt 3  E  {1.5 1.16} 0 lineto
-    do_test $txtt 4  w  {1.5 1.16} 0 word
-    do_test $txtt 5  E  {1.5 1.16} 0 lineto
-    do_test $txtt 6  c  {1.5 1.16} 0 char
-    do_test $txtt 7  e  {1.0 1.16} 0 line
-    do_test $txtt 8  E  {1.0 1.16} 0 lineto
-    do_test $txtt 9  e  {1.0 1.16} 0 line
-    do_test $txtt 10 w  {1.0 1.16} 0 word
-    do_test $txtt 11 e  {1.0 1.16} 0 line
-    do_test $txtt 12 c  {1.0 1.16} 0 char
-    do_test $txtt 13 s  {1.0 2.7}  0 sentence
-    do_test $txtt 14 w  {1.0 2.7}  0 word
-    do_test $txtt 15 s  {1.0 2.7}  0 sentence
-    do_test $txtt 16 c  {1.0 2.7}  0 char
-    do_test $txtt 17 E  {1.0 2.16} 0 lineto
-    do_test $txtt 18 p  {1.0 3.12} 0 paragraph
-    do_test $txtt 19 s  {1.0 3.12} 0 sentence
-    do_test $txtt 20 p  {1.0 3.12} 0 paragraph
-    do_test $txtt 21 e  {1.0 3.12} 0 line
-    do_test $txtt 22 p  {1.0 3.12} 0 paragraph
-    do_test $txtt 23 w  {1.0 3.12} 0 word
-    do_test $txtt 24 p  {1.0 3.12} 0 paragraph
-    do_test $txtt 25 c  {1.0 3.12} 0 char
+    do_test $txtt 4  w  {1.5 2.4}  0 word
+    do_test $txtt 5  E  {1.5 2.16} 0 lineto
+    do_test $txtt 6  c  {1.5 2.16} 0 char
+    do_test $txtt 7  e  {1.5 2.16} 0 line
+    do_test $txtt 8  E  {1.5 2.16} 0 lineto
+    do_test $txtt 9  e  {1.5 2.16} 0 line
+    do_test $txtt 10 w  {1.5 3.11} 0 word
+    do_test $txtt 11 e  {1.5 3.12} 0 line
+    do_test $txtt 12 c  {1.5 3.12} 0 char
+    do_test $txtt 13 s  {1.5 3.12} 0 sentence
+    do_test $txtt 14 w  {1.5 3.12} 0 word
+    do_test $txtt 15 s  {1.5 3.12} 0 sentence
+    do_test $txtt 16 c  {1.5 3.12} 0 char
+    do_test $txtt 17 E  {1.5 3.12} 0 lineto
+    do_test $txtt 18 p  {1.5 3.12} 0 paragraph
+    do_test $txtt 19 s  {1.5 3.12} 0 sentence
+    do_test $txtt 20 p  {1.5 3.12} 0 paragraph
+    do_test $txtt 21 e  {1.5 3.12} 0 line
+    do_test $txtt 22 p  {1.5 3.12} 0 paragraph
+    do_test $txtt 23 w  {1.5 3.12} 0 word
+    do_test $txtt 24 p  {1.5 3.12} 0 paragraph
+    do_test $txtt 25 c  {1.5 3.12} 0 char
 
     do_test $txtt 26 Escape {} 0 none
 
@@ -482,8 +482,8 @@ namespace eval selectmode {
     $txtt mark set insert 1.45
     select::set_select_mode $txtt 1
 
-    do_test $txtt 11 w     {1.45 1.49} 0 word
-    do_test $txtt 12 a     {1.45 1.49} 1 word
+    do_test $txtt 11 w     {1.45 1.52} 0 word
+    do_test $txtt 12 a     {1.45 1.52} 1 word
     do_test $txtt 13 s     {1.45 1.58} 1 sentence
     do_test $txtt 14 h     {1.30 1.58} 1 sentence
     do_test $txtt 15 {2 h} {1.0 1.58}  1 sentence
@@ -557,7 +557,7 @@ namespace eval selectmode {
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}        {1.0 1.5}   0 word
+    do_test $txtt 0  {}        {1.1 1.5}   0 word
     do_test $txtt 1  braceleft {1.1 1.28}  0 curly
     do_test $txtt 2  h         {1.0 1.29}  0 curly
     do_test $txtt 3  l         {1.1 1.28}  0 curly
@@ -609,7 +609,7 @@ namespace eval selectmode {
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}          {1.0 1.5}   0 word
+    do_test $txtt 0  {}          {1.1 1.5}   0 word
     do_test $txtt 1  bracketleft {1.1 1.29}  0 square
     do_test $txtt 2  h           {1.0 1.30}  0 square
     do_test $txtt 3  l           {1.1 1.29}  0 square
@@ -664,7 +664,7 @@ namespace eval selectmode {
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}        {1.0 1.5}   0 word
+    do_test $txtt 0  {}        {1.1 1.5}   0 word
     do_test $txtt 1  parenleft {1.1 1.28}  0 paren
     do_test $txtt 2  h         {1.0 1.29}  0 paren
     do_test $txtt 3  l         {1.1 1.28}  0 paren
@@ -718,7 +718,7 @@ namespace eval selectmode {
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0  {}   {1.0 1.5}   0 word
+    do_test $txtt 0  {}   {1.1 1.5}   0 word
     do_test $txtt 1  less {1.1 1.29}  0 angled
     do_test $txtt 2  h    {1.0 1.30}  0 angled
     do_test $txtt 3  l    {1.1 1.29}  0 angled
@@ -951,7 +951,7 @@ namespace eval selectmode {
 
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0 {} {1.0 1.5}   0 word
+    do_test $txtt 0 {} {1.1 1.5}   0 word
     do_test $txtt 1 n  {1.0 14.7}  0 node
     do_test $txtt 2 l  {1.6 14.0}  0 node
     do_test $txtt 3 l  {2.2 7.7}   0 node

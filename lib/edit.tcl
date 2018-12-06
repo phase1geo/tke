@@ -1389,7 +1389,7 @@ namespace eval edit {
         lassign [split [$txt index "$curr_row.end + 1 display chars"] .] curr_row curr_col
 
         if {![$txt compare $curr_row.$curr_col < end]} {
-          return [$txt index end]
+          return [$txt index "end-1 display chars"]
         } elseif {(![string is space [$txt index $curr_row.$curr_col]] || [$txt compare $curr_row.0 == $curr_row.end]) && ([incr num -1] == 0)} {
           return [$txt index "$curr_row.0 + $curr_col display chars"]
         }
@@ -1456,7 +1456,7 @@ namespace eval edit {
         lassign [split [$txt index "$curr_row.end + 1 display chars"] .] curr_row curr_col
 
         if {![$txt compare $curr_row.$curr_col < end]} {
-          return [$txt index end]
+          return [$txt index "end-1 display chars"]
         }
 
       }
@@ -1997,8 +1997,11 @@ namespace eval edit {
       }
 
       # Count spaces and non-spaces
-      set endpos [expr {($type eq "word") ? "$cursor-1c" : $cursor}]
+      set endpos $cursor
       for {set i 0} {$i < $num} {incr i} {
+        if {$type eq "WORD"} {
+          set endpos [$txtt index "$endpos+1c"]
+        }
         if {[string is space [$txtt get $endpos]]} {
           set endpos [get_index $txtt spaceend -dir next -startpos $endpos]
         } else {
