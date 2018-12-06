@@ -2007,7 +2007,6 @@ namespace eval edit {
         } else {
           set endpos [get_index $txtt ${type}end -dir next -startpos $endpos]
         }
-        puts "i: $i, endpos: $endpos"
       }
 
     } else {

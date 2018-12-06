@@ -387,7 +387,6 @@ namespace eval files {
     set fin [open $file rb]
     set header [dict create filename $file time [file mtime $file] comment "Created by Tclinfo patchlevel"]
     set fout [open $file.gz wb]
-    puts "fin: $fin, fout: $fout"
     zlib push gzip $fout -header $header
     fcopy $fin $fout
     close $fin
