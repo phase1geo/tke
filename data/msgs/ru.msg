@@ -2021,7 +2021,7 @@ msgcat::mcmset ru {
   "Default Markdown Export Extension"
   "Расширение по умолчанию для Markdown"
 
-  "Default Export Directory"
+  "Default Theme Export Directory"
   "Каталог для экспорта по умолчанию"
 
   "Default search method"
@@ -2129,7 +2129,7 @@ msgcat::mcmset ru {
   "Insertion cursor width"
   "Ширина курсора вставки"
 
-  "Keep file information panel visible when sidebar doesn't have focus"
+  "Keep information panel visible when sidebar doesn't have focus"
   "Оставить панель информации видимой, когда курсор не в боковой панели"
 
   "Keyword"
@@ -2414,8 +2414,8 @@ msgcat::mcmset ru {
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Вы изменили глобальные настройки, которые не будут видны, потому что вы находитесь сейчас в данной сессии."
 
-  "You have changed the current session's preferences which will not be applied globally"
-  "Вы изменили настройки текущей сессии, которые не будут применяться глобально"
+  "You have changed the current session's preferences which will not be applied globally."
+  "Вы изменили настройки текущей сессии, которые не будут применяться глобально."
 
   "milliseconds"
   "миллисекунд"
