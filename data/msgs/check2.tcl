@@ -1,23 +1,44 @@
 #!tclsh
 
+######################################################################
+#
+# This untidy script checks the *.msg files for:
+#  - mismatching quotes
+#  - absence/presence of lines against each other
+#
+# Call:
+#   cd data/msgs
+#   tclsh ./check2.tcl
+# or, if you want to get all English messages,
+#   tclsh ./check2.tcl 1
+#
+######################################################################
+
+set displayfile [expr $::argc>0]
 set title ""
 set under "\n[string repeat "=" 60]\n"
-set find 1
+set under2 "\n[string repeat "-" 60]\n"
 set etal  {}
 set etal2 {}
 set f1 ""
 set f2 ""
 
-proc putsit {line {ind ""}} {
-  if {$::find==1} {
-    lappend ::etal $line
-    puts $ind$line
-  } elseif {$::find==2} {
-    lappend ::etal2 $line
+# output "line" (to a list and, optionally, to stdout)
+proc putsit {line {ind ""} {out 1}} {
+  if {$line!="\}"} {
+    if {$::find==1} {
+      lappend ::etal $line
+      if {$out && $::displayfile} {
+        puts $ind$line
+      }
+    } elseif {$::find==2} {
+      lappend ::etal2 $line
+    }
   }
   return
 }
 
+# check if "line" is present in "ieta" list
 proc compit {line ieta} {
   if {[string first "#" $line]!=0 \
   && [string first "msg" $line]!=0 && $::find>1} {
@@ -31,6 +52,7 @@ proc compit {line ieta} {
   return 0
 }
 
+# 1st step of checks: for mismatching quotes
 puts $under
 puts "1st step - find mismatching \{\"\}"
 puts $under
@@ -50,18 +72,20 @@ foreach f [glob ??.msg] {
   if {!$err} {puts "  - no mismatching \{\"\}"}
 }
 
+# 2nd step of checks: for new lines against "file found first"
+set find 1
 foreach f [glob ??.msg] {
   if {$find==1} {
     set f1 $f
+    puts ""
     puts $under
-    puts "2nd step - find new lines against $f1"
+    puts "2nd step - find new lines of all against $f1"
     puts $under
   } elseif {$find==2} {
     set f2 $f
   }
   set rc [open $f r]
   puts "FILE: $f"
-  puts ""
   set msg 0
   set ::title "New line of $f "
   foreach line [split [read $rc] \n] {
@@ -86,20 +110,51 @@ foreach f [glob ??.msg] {
     }
   }
   close $rc
-  puts "-----------------------------------------------------\n"
+  puts $under2
   incr find
 }
 
-puts $under
-puts "3rd step - find new lines of $f1 against $f2"
-puts $under
-set ::title "New line of $f1 "
-set err 0
-foreach line $etal {
-  incr err [compit $line etal2]
-}
-if {!$err} {
-  puts "$::title - not found"
-}
+# 3rd step of checks: for new lines of "file found first" against all
 puts ""
+puts $under
+puts "3rd step - find new lines of $f1 against all"
+puts $under
+set find 1
+foreach f [glob ??.msg] {
+  if {$find>1} {
+    puts $under2
+    puts "FILE: $f"
+    set ::title "New line of $f1 against $f"
+    set etal2 {}
+    set err [set msg 0]
+    set rc [open $f r]
+    set find 2 ;# to save lines in etal2 list
+    foreach line [split [read $rc] \n] {
+      set line [string trim $line]
+      if {$line==""} continue
+      if {[string first "msg" $line]==0} {
+        set msg [set eng 1]
+      } elseif {[string first "\}" $line]==0} {
+        set msg 0
+      } else {
+        if {$msg} {
+          if {$eng} {
+            putsit $line "" 0
+          }
+          set eng [expr !$eng]
+        }
+      }
+    }
+    foreach line $etal {
+      incr err [compit $line etal2]
+    }
+    close $rc
+#?     if {!$err} {
+#?       puts "$::title - not found"
+#?     }
+#?     puts ""
+  }
+  incr find
+}
+puts $under
 
