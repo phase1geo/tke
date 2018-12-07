@@ -1149,4 +1149,19 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Performs a word-by-word translation of the given string to title case
+  # (ex. "The new PLANET" -> "The New Planet").
+  proc str2titlecase {str} {
+
+    set start 0
+    while {[regexp -indices -start $start -- {\S+} $str match]} {
+      set str   [string replace $str {*}$match [string totitle [string range $str {*}$match]]]
+      set start [expr [lindex $match 1] + 1]
+    }
+
+    return $str
+
+  }
+
 }

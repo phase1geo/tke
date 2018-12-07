@@ -67,6 +67,19 @@ namespace eval plugins {
   array set menu_vars    {}
   array set exposed      {}
 
+  array set categories [list \
+    miscellaneous [msgcat::mc "Miscellaneous"] \
+    editing       [msgcat::mc "Editing"] \
+    tools         [msgcat::mc "Tools"] \
+    sessions      [msgcat::mc "Sessions"] \
+    search        [msgcat::mc "Search"] \
+    filesystem    [msgcat::mc "File System"] \
+    vcs           [msgcat::mc "Version Control"] \
+    documentation [msgcat::mc "Documentation"] \
+    syntax        [msgcat::mc "Syntax"] \
+    sidebar       [msgcat::mc "Sidebar"] \
+  ]
+
   set plugins_file [file join $::tke_home plugins.tkedat]
 
   ######################################################################
@@ -135,17 +148,20 @@ namespace eval plugins {
 
         # Store this information if the name is specified and it should be included
         if {[info exists header(name)] && ($header(name) ne "") && [info exists header(include)] && ($header(include) eq "yes")} {
-          set registry($registry_size,selected)    0
-          set registry($registry_size,status)      ""
-          set registry($registry_size,interp)      ""
-          set registry($registry_size,tgntd)       0
-          set registry($registry_size,file)        [file join $plugin main.tcl]
-          set registry($registry_size,name)        $header(name)
-          set registry($registry_size,author)      [expr {[info exists header(author)]         ? $header(author)         : ""}]
-          set registry($registry_size,email)       [expr {[info exists header(email)]          ? $header(email)          : ""}]
-          set registry($registry_size,version)     [expr {[info exists header(version)]        ? $header(version)        : ""}]
-          set registry($registry_size,description) [expr {[info exists header(description)]    ? $header(description)    : ""}]
-          set registry($registry_size,treqd)       [expr {[info exists header(trust_required)] ? ([string compare -nocase $header(trust_required) "yes"] == 0) : 0}]
+          set registry($registry_size,selected)     0
+          set registry($registry_size,status)       ""
+          set registry($registry_size,interp)       ""
+          set registry($registry_size,tgntd)        0
+          set registry($registry_size,file)         [file join $plugin main.tcl]
+          set registry($registry_size,name)         $header(name)
+          set registry($registry_size,display_name) [expr {[info exists header(display_name)]   ? $header(display_name)   : [make_display_name $header(name)]}]
+          set registry($registry_size,author)       [expr {[info exists header(author)]         ? $header(author)         : ""}]
+          set registry($registry_size,website)      [expr {[info exists header(website)]        ? $header(website)        : ""}]
+          set registry($registry_size,email)        [expr {[info exists header(email)]          ? $header(email)          : ""}]
+          set registry($registry_size,version)      [expr {[info exists header(version)]        ? $header(version)        : ""}]
+          set registry($registry_size,category)     [expr {[info exists header(category)]       ? [string tolower $header(category)] : "miscellaneous"}]
+          set registry($registry_size,description)  [expr {[info exists header(description)]    ? $header(description)    : ""}]
+          set registry($registry_size,treqd)        [expr {[info exists header(trust_required)] ? ([string compare -nocase $header(trust_required) "yes"] == 0) : 0}]
           incr registry_size
         }
 
@@ -762,6 +778,22 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Generates the Tcl name based on the given display name.
+  proc make_tcl_name {display_name} {
+
+    return [string tolower [string map {{ } _} $display_name]]
+
+  }
+
+  ######################################################################
+  # Generates a display name based on the given Tcl name.
+  proc make_display_name {name} {
+
+    return [utils::str2titlecase [string map {_ { }} $name]]
+
+  }
+
+  ######################################################################
   # Creates a new plugin.  If 'install_dir' is true, the plugin will be
   # created in the TKE installed directory (only valid for TKE development).
   # If 'install_dir' is false, the plugin will be created in the user's
@@ -804,6 +836,9 @@ namespace eval plugins {
         return
       }
 
+      # Create the display name
+      set display_name [utils::str2titlecase [string map {_ { }} $name]]
+
       # Create the main file
       puts $rc "# Plugin namespace"
       puts $rc "namespace eval $name {"
@@ -829,13 +864,14 @@ namespace eval plugins {
 
       # Create the header file
       puts $rc "name           {$name}"
+      puts $rc "display_name   {$display_name}"
       puts $rc "author         {}"
       puts $rc "email          {}"
       puts $rc "website        {}"
       puts $rc "version        {1.0}"
       puts $rc "include        {yes}"
       puts $rc "trust_required {no}"
-      puts $rc "category       {}"
+      puts $rc "category       {miscellaneous}"
       puts $rc "description    {}"
       close $rc
 
@@ -843,6 +879,61 @@ namespace eval plugins {
       gui::add_file end $header
 
     }
+
+  }
+
+  ######################################################################
+  # Returns the list of available categories in a sorted list.
+  proc get_categories {type} {
+
+    variable categories
+
+    if {$type eq "lower"} {
+      return [lsort [array names categories]]
+    } else {
+      set cats [list]
+      foreach {lower display} [array get categories] {
+        lappend cats $display
+      }
+      return [lsort $cats]
+    }
+
+  }
+
+  ######################################################################
+  # Called when the user clicks on a category within the text editor.
+  # We will display a popup menu that will list the possible categories.
+  # If the user clicks on a category, automatically replaces the existing
+  # category with the selected one.
+  proc edit_categories {txt startpos endpos} {
+
+    variable categories
+    variable current_category
+
+    # Get the current category from the text
+    set current_category [string map {\{ {} \} {}} [$txt get $startpos $endpos]]
+
+    if {[winfo exists [set mnu $txt.categoryPopup]]} {
+      destroy $mnu
+    }
+
+    menu $mnu -tearoff 0
+
+    foreach category [lsort [array names categories]] {
+      $mnu add radiobutton -label $categories($category) -variable plugins::current_category -value $category -command [list plugins::change_category $txt $startpos $endpos $category]
+    }
+
+    lassign [$txt bbox $startpos] x y w h
+
+    tk_popup $mnu [expr [winfo rootx $txt] + $x] [expr [winfo rooty $txt] + ($y + $h)]
+
+  }
+
+  ######################################################################
+  # Changes the category
+  proc change_category {txt startpos endpos category} {
+
+    $txt replace $startpos $endpos "\{$category\}"
 
   }
 
@@ -1777,6 +1868,38 @@ namespace eval plugins {
     }
 
     return $odir
+
+  }
+
+  ######################################################################
+  # Returns the value of the given plugin attribute.
+  proc get_header_info {plugin attr} {
+
+    variable registry
+
+    array set fields {
+      display_name   display_name
+      name           name
+      email          email
+      website        website
+      version        version
+      trust_required treqd
+      description    description
+      category       category
+    }
+
+    if {![info exists fields($attr)]} {
+      return -code "Unsupported header field requested ($attr)"
+    }
+
+    # Find the associated plugin and, when found, return the attribute value
+    for {set i 0} {$i < $registry_size} {incr i} {
+      if {$registry($i,name) eq $plugin} {
+        return $registry($i,$fields($attr))
+      }
+    }
+
+    return ""
 
   }
 
