@@ -15,16 +15,29 @@ icomment {{#}}
 lcomments {{#}}
 
 keywords {
-  name author email version include trust_required description
+  name display_name author email website version include trust_required category description
 }
 
-punctuation
-{
+punctuation {
   HighlightRegexp {[\{\}]} {}
 }
 
 miscellaneous3 {
   HighlightKeywords {
     yes no
+    miscellaneous editing tools sessions search filesystem vcs documentation syntax sidebar
   }
+}
+
+advanced {
+
+  HighlightClass category {-fontopts underline -clickcmd plugins::edit_categories}
+
+  HighlightRegexp {category\s+(.*)\s*$} category
+
+  HighlightProc category {
+    array set vars $varlist
+    return [list [list category {*}$vars(1)] ""]
+  } HighlightEndProc
+
 }

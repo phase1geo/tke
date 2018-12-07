@@ -903,6 +903,25 @@ namespace eval api {
 
     }
 
+    ######################################################################
+    ## Returns the value of the requested field from the header.tkedat file
+    #  associated with the calling plugin.
+    #
+    #  The supported values for the 'attr' parameter are the following:
+    #  - name
+    #  - display_name
+    #  - email
+    #  - website
+    #  - version
+    #  - trust_required
+    #  - description
+    #  - category
+    proc get_header_info {interp pname attr} {
+
+      return [plugins::get_header_info $pname $attr]
+
+    }
+
   }
 
   namespace eval preferences {
