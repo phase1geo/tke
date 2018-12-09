@@ -910,6 +910,7 @@ namespace eval api {
     #  The supported values for the 'attr' parameter are the following:
     #  - name
     #  - display_name
+    #  - author
     #  - email
     #  - website
     #  - version
