@@ -51,19 +51,23 @@ namespace eval search {
     if {$data_array(find) ne ""} {
 
       # Gather any search options
-      if {$data_array(method) eq "glob"} {
-        set search_opts      [list -regexp]
-        set data_array(find) [string map {* .* ? .} $data_array(find)]
-      } else {
-        set search_opts [list -$data_array(method)]
+      switch $data_array(method) {
+        "glob" {
+          set search_opts      [list -regexp]
+          set data_array(find) [string map {* .* ? . {(} {\(} {)} {\)}} $data_array(find)]
+        }
+        "exact" {
+          set search_opts [list -exact]
+        }
+        "regexp" {
+          set search_opts [list -regexp]
+          set data_array(find) [string map {{(} {\(} {)} {\)}} $data_array(find)]
+        }
       }
 
       if {!$data_array(case)} {
         lappend search_opts -nocase
       }
-
-      # Escape any parenthesis in the regular expression
-      set data_array(find) [string map {{(} {\(} {)} {\)}} $data_array(find)]
 
       # Test the regular expression, if it is invalid, let the user know
       if {($data_array(method) ne "exact") && [catch { regexp $data_array(find) "" } rc]} {
