@@ -1876,10 +1876,12 @@ namespace eval plugins {
   proc get_header_info {plugin attr} {
 
     variable registry
+    variable registry_size
 
     array set fields {
       display_name   display_name
       name           name
+      author         author
       email          email
       website        website
       version        version
