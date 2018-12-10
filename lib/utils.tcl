@@ -1164,4 +1164,21 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Recursively updates permissions starting at the given path such that
+  # all directories will have a permission value of 700 and all files will
+  # have a permission value of 600.
+  proc update_permissions {path} {
+
+    if {[file isdirectory $path]} {
+      catch { file attributes $path -permissions rwx------ }
+      foreach item [glob -directory $path *] {
+        update_permissions $item
+      }
+    } else {
+      catch { file attributes $path -permissions rw------- }
+    }
+
+  }
+
 }
