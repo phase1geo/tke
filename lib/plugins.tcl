@@ -1729,27 +1729,12 @@ namespace eval plugins {
       return
     }
 
-    # Figure out the initial directory
-    if {[preferences::get General/DefaultPluginExportDirectory] ne ""} {
-      set initial_dir [preferences::get General/DefaultPluginExportDirectory]
-    } else {
-      set initial_dir [gui::get_browse_directory]
-    }
-
-    # Get the directory to save the file to
-    if {[set odir [tk_chooseDirectory -parent . -initialdir $initial_dir]] eq ""} {
-      return
-    }
-
     # Get the currently selected file
     gui::get_info {} current txt fname
-    set fname [file split $fname]
-    set index [lsearch $fname iplugins]
+    set plugdir [file dirname $fname]
 
     # Perform the export
-    if {[export_plugin . [lindex $fname [expr $index + 1]] $odir]} {
-      gui::set_info_message [msgcat::mc "Plugin export completed successfully"]
-    }
+    plugmgr::export_win $plugdir
 
   }
 

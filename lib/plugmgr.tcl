@@ -87,7 +87,7 @@ namespace eval plugmgr {
     ttk::frame     $w.tf
     ttk::label     $w.tf.vl  -text [format "%s: " [msgcat::mc "Version"]]
     ttk::combobox  $w.tf.vcb
-    ttk::label     $w.tf.rl  -text [format "%s: \n\n(%s)" [msgcat::mc "Release Notes"] [msgcat::mc "Markdown"]] -justify center
+    ttk::label     $w.tf.rl  -text [format "%s: \n(%s)" [msgcat::mc "Release Notes"] [msgcat::mc "Markdown"]] -justify center
     ttk::label     $w.tf.ol  -text [format "%s: " [msgcat::mc "Output Directory"]]
     ttk::entry     $w.tf.oe
     ttk::button    $w.tf.ob  -style BButton -text [msgcat::mc "Choose"] -command [list plugmgr::choose_output_dir $w]
@@ -290,7 +290,9 @@ namespace eval plugmgr {
     update_release_notes $plugdir $release_notes
 
     # Create the plugin bundle
-    plugins::export_plugin . [file tail $plugdir] $odir
+    if {[plugins::export_plugin . [file tail $plugdir] $odir]} {
+      gui::set_info_message [msgcat::mc "Plugin export completed successfully"]
+    }
 
     # Destroy the window
     destroy $w
