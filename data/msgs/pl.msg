@@ -63,7 +63,7 @@ msgcat::mcmset pl {
   "Typ pętli"
 
   "New Test"
-  "New Test"
+  "\"
 
   "New Test File"
   "Nowy plik testowy"
@@ -1648,6 +1648,12 @@ msgcat::mcmset pl {
   "Show plugin developer guide"
   "Przewodnik dewelopera plugin Pokaż"
 
+  "Show plugin source directory in sidebar"
+  "Pokaż katalog źródłowy wtyczki na pasku bocznym"
+
+  "Show plugins directory in sidebar"
+  "Pokaż katalog wtyczek na pasku bocznym"
+
   "Show selected line change"
   "Pokaż zmiany wybranej linii"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset pl {
 
   "Toggle tag/rule comment"
   "Przełącznik tag/reguły komentarz"
-
-  "Tools"
-  "Narzędzia"
 
   "Transform"
   "przekształcać"
@@ -1827,6 +1830,9 @@ msgcat::mcmset pl {
   "ERROR:  Unable to write plugin files"
   "BŁĄD: Nie można zapisać plików wtyczek"
 
+  "Editing"
+  "Edytowanie"
+
   "Enter plugin name"
   "Wpisz nazwę wtyczki"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset pl {
 
   "Unable to zip plugin"
   "Stanie zip wtyczka"
+
+  "Version Control"
+  "Kontrola wersji"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset pl {
+
+  "Export Plugin"
+  "Eksportuj wtyczkę"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Menedżer wtyczek"
+
+  "Release Notes"
+  "Informacje o wersji"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset pl {
   "Date"
   "Data"
 
+  "Default Find in Files search method"
+  "Znajdź domyślny w metodę wyszukiwania plików"
+
+  "Default Find search method"
+  "Domyślna Znajdź metodę wyszukiwania"
+
   "Default Markdown Export Extension"
   "Domyślne rozszerzenie eksportu Markdown"
 
+  "Default Plugin Export Directory"
+  "Domyślny katalog eksportu wtyczek"
+
   "Default Theme Export Directory"
   "Domyślny motyw Export katalog"
-
-  "Default search method"
-  "Domyślna metoda wyszukiwania"
 
   "Default sidebar width on startup"
   "Domyślna szerokość paska bocznego podczas uruchamiania"
@@ -2050,9 +2082,6 @@ msgcat::mcmset pl {
 
   "Displayed Information"
   "Pokazywane informacje"
-
-  "Documentation"
-  "Dokumentacja"
 
   "Double-quote"
   "Cudzysłów"
@@ -2312,9 +2341,6 @@ msgcat::mcmset pl {
   "Show menubar"
   "Pokaż pasek menu"
 
-  "Sidebar"
-  "Panel boczny"
-
   "Single-quote"
   "Pojedynczego cudzysłowu"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset pl {
 
   "Enter Password"
   "Wpisz hasło"
-
-  "File System"
-  "System plików"
 
   "Folder Name"
   "Nazwa katalogu"
@@ -2638,9 +2661,6 @@ msgcat::mcmset pl {
 
   "Line To"
   "Linia do"
-
-  "Miscellaneous"
-  "Różne"
 
   "Modes"
   "Moda"
@@ -2933,9 +2953,6 @@ msgcat::mcmset pl {
 # syntax.tcl
 msgcat::mcmset pl {
 
-  "Syntax"
-  "Składnia"
-
   "Syntax error in syntax file"
   "Błąd składni w składni pliku"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset pl {
   "Foreground text color to use for displaying numbers."
   "Kolorem tekstu użyć do wyświetlania liczb."
 
+  "Foreground text color to use for function calls."
+  "Kolor tekstu pierwszego planu do wykorzystania w wywołaniach funkcji."
+
   "Foreground text color to use for language-specific keywords."
   "Kolorem tekstu, aby użyć słów kluczowych języka."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset pl {
 
   "Foreground text color to use for selected text."
   "Kolorem tekstu dla zaznaczonego tekstu."
+
+  "Foreground text color to use for variables."
+  "Kolor tekstu pierwszego planu dla zmiennych."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Tekstu kolorem używane dla wszystkich innych kart, które są nie prąd/aktywnej karty w tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset pl {
 
   "One-Color Bitmap"
   "Bitmap jednokolorowa"
-
-  "Output Directory"
-  "Katalog wyjściowy kompilacji"
 
   "Paste Theme Items"
   "Wklej elementy kompozycji"
@@ -3603,6 +3623,9 @@ msgcat::mcmset pl {
   "Directory"
   "Katalog"
 
+  "Documentation"
+  "Dokumentacja"
+
   "Duplicate"
   "Duplikuj"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset pl {
 
   "File Name:"
   "Nazwie pliku:"
+
+  "File System"
+  "System plików"
 
   "Find"
   "Odnaleźć"
@@ -3666,6 +3692,9 @@ msgcat::mcmset pl {
   "Line"
   "Linia"
 
+  "Miscellaneous"
+  "Różne"
+
   "Move To Trash"
   "Przenieś do kosza"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset pl {
 
   "Options"
   "Opcje"
+
+  "Output Directory"
+  "Katalog wyjściowy kompilacji"
 
   "Parenthesis"
   "Nawias"
@@ -3750,6 +3782,9 @@ msgcat::mcmset pl {
   "Show tab bar"
   "Pasek kart"
 
+  "Sidebar"
+  "Panel boczny"
+
   "Smart Indent"
   "Inteligentnego wcięcia"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset pl {
   "Split View"
   "Podziel widok"
 
+  "Syntax"
+  "Składnia"
+
   "TKE Updater"
   "Zaktualizuj koszyk"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset pl {
 
   "Theme Editor"
   "Motyw Editor"
+
+  "Tools"
+  "Narzędzia"
 
   "Unable to rename file"
   "Nie można zmienić nazwy pliku"

@@ -1648,6 +1648,12 @@ msgcat::mcmset ru {
   "Show plugin developer guide"
   "Показать руководство разработчика плагинов"
 
+  "Show plugin source directory in sidebar"
+  "Показать исходный каталог плагин в боковой панели"
+
+  "Show plugins directory in sidebar"
+  "Показать каталог плагинов в боковой панели"
+
   "Show selected line change"
   "Показать изменения выбранных строк"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset ru {
 
   "Toggle tag/rule comment"
   "Переключить комментарий тег/правило"
-
-  "Tools"
-  "Инструменты"
 
   "Transform"
   "Преобразование"
@@ -1827,6 +1830,9 @@ msgcat::mcmset ru {
   "ERROR:  Unable to write plugin files"
   "ОШИБКА: Невозможно сохранить файлы плагина"
 
+  "Editing"
+  "Редактирование"
+
   "Enter plugin name"
   "Введите имя плагина"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset ru {
 
   "Unable to zip plugin"
   "Не удалось упаковать плагин"
+
+  "Version Control"
+  "Управление версиями"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset ru {
+
+  "Export Plugin"
+  "Экспорта плагин"
+
+  "Markdown"
+  "Уценок"
+
+  "Plugin Manager"
+  "ÐÐ¾Ð´ÑÐ»Ñ RSS"
+
+  "Release Notes"
+  "Примечания к выпуску"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset ru {
   "Date"
   "Дата"
 
+  "Default Find in Files search method"
+  "Метод поиска по умолчанию в файлах"
+
+  "Default Find search method"
+  "По умолчанию метод Find Поиск"
+
   "Default Markdown Export Extension"
   "Расширение по умолчанию для Markdown"
 
+  "Default Plugin Export Directory"
+  "По умолчанию модуль экспорта каталога"
+
   "Default Theme Export Directory"
   "Каталог для экспорта по умолчанию"
-
-  "Default search method"
-  "Метод поиска по умолчанию"
 
   "Default sidebar width on startup"
   "Ширина боковой панели при запуске"
@@ -2050,9 +2082,6 @@ msgcat::mcmset ru {
 
   "Displayed Information"
   "Отображаемые сведения"
-
-  "Documentation"
-  "Документация"
 
   "Double-quote"
   "Двойные кавычки"
@@ -2312,9 +2341,6 @@ msgcat::mcmset ru {
   "Show menubar"
   "Показать меню"
 
-  "Sidebar"
-  "Боковая панель"
-
   "Single-quote"
   "Одиночная кавычка"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset ru {
 
   "Enter Password"
   "Введите пароль"
-
-  "File System"
-  "Файловая система"
 
   "Folder Name"
   "Название каталога"
@@ -2638,9 +2661,6 @@ msgcat::mcmset ru {
 
   "Line To"
   "Строка до"
-
-  "Miscellaneous"
-  "Разное"
 
   "Modes"
   "Режимы"
@@ -2933,9 +2953,6 @@ msgcat::mcmset ru {
 # syntax.tcl
 msgcat::mcmset ru {
 
-  "Syntax"
-  "Синтаксис"
-
   "Syntax error in syntax file"
   "Ошибка в файле синтаксиса"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset ru {
   "Foreground text color to use for displaying numbers."
   "Цвет текста чисел."
 
+  "Foreground text color to use for function calls."
+  "Цвет текста для вызовов функций."
+
   "Foreground text color to use for language-specific keywords."
   "Цвет текста ключевых слов конкретного языка."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset ru {
 
   "Foreground text color to use for selected text."
   "Цвет текста для выделенного текста."
+
+  "Foreground text color to use for variables."
+  "Цвет текста для использования переменных."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Цвет текста вкладок, которые не являются текущими/активными в панели вкладок."
@@ -3385,9 +3408,6 @@ msgcat::mcmset ru {
 
   "One-Color Bitmap"
   "Монохромное изображение"
-
-  "Output Directory"
-  "Каталог для сохранения"
 
   "Paste Theme Items"
   "Вставить элементы темы"
@@ -3603,6 +3623,9 @@ msgcat::mcmset ru {
   "Directory"
   "Каталог"
 
+  "Documentation"
+  "Документация"
+
   "Duplicate"
   "Дублировать"
 
@@ -3610,7 +3633,7 @@ msgcat::mcmset ru {
   "Правка"
 
   "Emmet"
-  "Emmet"
+  "муравей"
 
   "Enable code folding"
   "Включить сворачивание кода"
@@ -3629,6 +3652,9 @@ msgcat::mcmset ru {
 
   "File Name:"
   "Имя файла:"
+
+  "File System"
+  "Файловая система"
 
   "Find"
   "Поиск"
@@ -3666,6 +3692,9 @@ msgcat::mcmset ru {
   "Line"
   "Строка"
 
+  "Miscellaneous"
+  "Разное"
+
   "Move To Trash"
   "Удалить в корзину"
 
@@ -3685,7 +3714,7 @@ msgcat::mcmset ru {
   "Узел"
 
   "None"
-  "None"
+  "нет"
 
   "OK"
   "ОК"
@@ -3695,6 +3724,9 @@ msgcat::mcmset ru {
 
   "Options"
   "Опции"
+
+  "Output Directory"
+  "Каталог для сохранения"
 
   "Parenthesis"
   "Скобки"
@@ -3750,6 +3782,9 @@ msgcat::mcmset ru {
   "Show tab bar"
   "Показать панель вкладок"
 
+  "Sidebar"
+  "Боковая панель"
+
   "Smart Indent"
   "Умный отступ"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset ru {
   "Split View"
   "Расщепленный вид"
 
+  "Syntax"
+  "Синтаксис"
+
   "TKE Updater"
   "Обновление TKE"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset ru {
 
   "Theme Editor"
   "Редактор тем"
+
+  "Tools"
+  "Инструменты"
 
   "Unable to rename file"
   "Не удается переименовать файл"

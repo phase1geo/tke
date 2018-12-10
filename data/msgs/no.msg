@@ -1648,6 +1648,12 @@ msgcat::mcmset no {
   "Show plugin developer guide"
   "Vis plugin utvikler guide"
 
+  "Show plugin source directory in sidebar"
+  "Vis plugin kilde adresseliste i Sidepanel"
+
+  "Show plugins directory in sidebar"
+  "Vis plugins katalogen i Sidepanel"
+
   "Show selected line change"
   "Vis valgte linjen endring"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset no {
 
   "Toggle tag/rule comment"
   "Veksle tag/regel kommentar"
-
-  "Tools"
-  "Redskap"
 
   "Transform"
   "transformere"
@@ -1827,6 +1830,9 @@ msgcat::mcmset no {
   "ERROR:  Unable to write plugin files"
   "FEIL: Kan ikke skrive plugin-filer"
 
+  "Editing"
+  "Redaksjon"
+
   "Enter plugin name"
   "Skriv inn plugin navn"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset no {
 
   "Unable to zip plugin"
   "Kan ikke zip-plugin"
+
+  "Version Control"
+  "Versjonskontroll"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset no {
+
+  "Export Plugin"
+  "Eksporter plugin"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Handsamar for programtillegg"
+
+  "Release Notes"
+  "Utgåvesamlingar"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset no {
   "Date"
   "Dato"
 
+  "Default Find in Files search method"
+  "Standard Finn i filer søkemetode"
+
+  "Default Find search method"
+  "Standard Finn søkemetode"
+
   "Default Markdown Export Extension"
   "Standard Markdown eksportutvidelse"
 
+  "Default Plugin Export Directory"
+  "Standard Plugin Export Directory"
+
   "Default Theme Export Directory"
   "Standard Theme Export Directory"
-
-  "Default search method"
-  "Standard søkemetode"
 
   "Default sidebar width on startup"
   "Sidepanelet standardbredde ved oppstart"
@@ -2050,9 +2082,6 @@ msgcat::mcmset no {
 
   "Displayed Information"
   "Vist informasjon"
-
-  "Documentation"
-  "Dokumentasjon"
 
   "Double-quote"
   "Dobbelt anførselstegn"
@@ -2312,9 +2341,6 @@ msgcat::mcmset no {
   "Show menubar"
   "Vis menylinje"
 
-  "Sidebar"
-  "Sidekolonne"
-
   "Single-quote"
   "Enkelt anførselsteikn"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset no {
 
   "Enter Password"
   "Angi passord"
-
-  "File System"
-  "Filsystem"
 
   "Folder Name"
   "Mappenavn"
@@ -2638,9 +2661,6 @@ msgcat::mcmset no {
 
   "Line To"
   "Linjen til"
-
-  "Miscellaneous"
-  "Diverse"
 
   "Modes"
   "Modus"
@@ -2933,9 +2953,6 @@ msgcat::mcmset no {
 # syntax.tcl
 msgcat::mcmset no {
 
-  "Syntax"
-  "Syntaks"
-
   "Syntax error in syntax file"
   "Syntaksfeil i syntaks fil"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset no {
   "Foreground text color to use for displaying numbers."
   "Forgrunnsfargen for tekst skal brukes for visning av tall."
 
+  "Foreground text color to use for function calls."
+  "Forgrunns tekstfarge for bruk for funksjonssamtaler."
+
   "Foreground text color to use for language-specific keywords."
   "Forgrunnsfargen for tekst bruke språkspesifikke søkeord."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset no {
 
   "Foreground text color to use for selected text."
   "Forgrunnsfargen for tekst bruke for merket tekst."
+
+  "Foreground text color to use for variables."
+  "Forgrunns tekstfarge for bruk for variabler."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Tekst forgrunnsfargen brukes for alle andre kategorier som ikke kategorien gjeldende/aktiv i Tabb."
@@ -3384,10 +3407,7 @@ msgcat::mcmset no {
   "Modifikasjoner"
 
   "One-Color Bitmap"
-  "One-Color Bitmap"
-
-  "Output Directory"
-  "Utdatamappen"
+  "Ensfarget punktgrafikk"
 
   "Paste Theme Items"
   "Lime Theme"
@@ -3423,7 +3443,7 @@ msgcat::mcmset no {
   "Valgt verdi"
 
   "Swatch"
-  "Swatch"
+  "Fargeprøve"
 
   "Swatch Colors"
   "Swatch Farger"
@@ -3521,7 +3541,7 @@ msgcat::mcmset no {
   "Ugyldig modelines-verdi"
 
   "MULTIMOVE MODE"
-  "MULTIMOVE MODE"
+  "MULTIMOVE MODUS"
 
   "Number width not a number"
   "Antall bredde ikke et tall"
@@ -3545,7 +3565,7 @@ msgcat::mcmset no {
   "VISUAL LINE MODE"
 
   "VISUAL MODE"
-  "VISUAL MODE"
+  "VISUAL MODUS"
 
 }
 
@@ -3603,6 +3623,9 @@ msgcat::mcmset no {
   "Directory"
   "Stedskatalog"
 
+  "Documentation"
+  "Dokumentasjon"
+
   "Duplicate"
   "Duplikat"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset no {
 
   "File Name:"
   "Fil navn:"
+
+  "File System"
+  "Filsystem"
 
   "Find"
   "Søk"
@@ -3666,6 +3692,9 @@ msgcat::mcmset no {
   "Line"
   "Linje"
 
+  "Miscellaneous"
+  "Diverse"
+
   "Move To Trash"
   "Flytt til papirkurven"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset no {
 
   "Options"
   "Valg"
+
+  "Output Directory"
+  "Utdatamappen"
 
   "Parenthesis"
   "Parentes"
@@ -3750,6 +3782,9 @@ msgcat::mcmset no {
   "Show tab bar"
   "Vis fanelinjen"
 
+  "Sidebar"
+  "Sidekolonne"
+
   "Smart Indent"
   "Smart innrykk"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset no {
   "Split View"
   "Delt visning"
 
+  "Syntax"
+  "Syntaks"
+
   "TKE Updater"
   "Oppdaterer"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset no {
 
   "Theme Editor"
   "Tema Editor"
+
+  "Tools"
+  "Redskap"
 
   "Unable to rename file"
   "Kan ikke endre"

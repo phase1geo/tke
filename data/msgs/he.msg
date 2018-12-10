@@ -1648,6 +1648,12 @@ msgcat::mcmset he {
   "Show plugin developer guide"
   "מדריך מפתחים תוסף"
 
+  "Show plugin source directory in sidebar"
+  "הצג ספריית התוספים של מקור הסרגל הצידי"
+
+  "Show plugins directory in sidebar"
+  "הצג ספריית התוספים בסרגל הצידי"
+
   "Show selected line change"
   "להראות שינוי הקו הנבחר"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset he {
 
   "Toggle tag/rule comment"
   "תגובה תג/כלל דו-מצבי"
-
-  "Tools"
-  "כלי"
 
   "Transform"
   "שינוי צורה"
@@ -1827,6 +1830,9 @@ msgcat::mcmset he {
   "ERROR:  Unable to write plugin files"
   "שגיאה: אין אפשרות לכתוב קבצים תוסף"
 
+  "Editing"
+  "עריכת"
+
   "Enter plugin name"
   "הזן שם התוסף"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset he {
 
   "Unable to zip plugin"
   "אין אפשרות מיקוד תוסף"
+
+  "Version Control"
+  "ניהול גרסאות"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset he {
+
+  "Export Plugin"
+  "ייצוא תוסף"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "מנהל התוספים"
+
+  "Release Notes"
+  "הערות שחרור"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset he {
   "Date"
   "תאריך"
 
+  "Default Find in Files search method"
+  "ברירת מחדל חיפוש בשיטת חיפוש קבצים"
+
+  "Default Find search method"
+  "ברירת מחדל מצא את שיטת החיפוש"
+
   "Default Markdown Export Extension"
   "סיומת ברירת המחדל הוזלה ייצוא"
 
+  "Default Plugin Export Directory"
+  "ייצוא ברירת המחדל"
+
   "Default Theme Export Directory"
   "ספריית ברירת המחדל נושא הייצוא"
-
-  "Default search method"
-  "המחדל של שיטת החיפוש"
 
   "Default sidebar width on startup"
   "ברירת המחדל של סרגל הצד ברוחב האתחול"
@@ -2050,9 +2082,6 @@ msgcat::mcmset he {
 
   "Displayed Information"
   "מידע המוצג"
-
-  "Documentation"
-  "תיעוד"
 
   "Double-quote"
   "כפולות"
@@ -2312,9 +2341,6 @@ msgcat::mcmset he {
   "Show menubar"
   "הצג שורת תפריטים"
 
-  "Sidebar"
-  "סרגל צידי"
-
   "Single-quote"
   "הצעת המחיר האלקטרונית יחיד"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset he {
 
   "Enter Password"
   "להזין סיסמא"
-
-  "File System"
-  "מערכת־ קבצים"
 
   "Folder Name"
   "שם תיקיה"
@@ -2638,9 +2661,6 @@ msgcat::mcmset he {
 
   "Line To"
   "קו ל"
-
-  "Miscellaneous"
-  "שונות"
 
   "Modes"
   "מצבים"
@@ -2933,9 +2953,6 @@ msgcat::mcmset he {
 # syntax.tcl
 msgcat::mcmset he {
 
-  "Syntax"
-  "תחביר"
-
   "Syntax error in syntax file"
   "שגיאת תחביר בקובץ תחביר"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset he {
   "Foreground text color to use for displaying numbers."
   "צבע טקסט הקידמה להשתמש להצגת מספרים."
 
+  "Foreground text color to use for function calls."
+  "צבע טקסט קדמי לשימוש לשיחות פונקציה."
+
   "Foreground text color to use for language-specific keywords."
   "צבע טקסט הקידמה לשימוש עבור מילות מפתח ספציפיות לשפה."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset he {
 
   "Foreground text color to use for selected text."
   "צבע הקידמה טקסט לשימוש עבור טקסט נבחר."
+
+  "Foreground text color to use for variables."
+  "צבע טקסט קדמי לשימוש במשתנים."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "צבע טקסט הקידמה משמש כל כרטיסיות אחרות שאינן הכרטיסיה הנוכחית/פעיל tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset he {
 
   "One-Color Bitmap"
   "מפת סיביות צבע אחד"
-
-  "Output Directory"
-  "ספריית פלט"
 
   "Paste Theme Items"
   "הדבקת פריטים דירוג"
@@ -3603,6 +3623,9 @@ msgcat::mcmset he {
   "Directory"
   "אינדקס"
 
+  "Documentation"
+  "תיעוד"
+
   "Duplicate"
   "שכפל"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset he {
 
   "File Name:"
   "שם קובץ"
+
+  "File System"
+  "מערכת־ קבצים"
 
   "Find"
   "לימצו (limtzo)"
@@ -3666,6 +3692,9 @@ msgcat::mcmset he {
   "Line"
   "שורה"
 
+  "Miscellaneous"
+  "שונות"
+
   "Move To Trash"
   "להעביר לפח"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset he {
 
   "Options"
   "אפשרויות"
+
+  "Output Directory"
+  "ספריית פלט"
 
   "Parenthesis"
   "סוגריים"
@@ -3750,6 +3782,9 @@ msgcat::mcmset he {
   "Show tab bar"
   "הצג סרגל הלשוניות"
 
+  "Sidebar"
+  "סרגל צידי"
+
   "Smart Indent"
   "כניסה חכמה"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset he {
   "Split View"
   "צפו פיצול"
 
+  "Syntax"
+  "תחביר"
+
   "TKE Updater"
   "מעדכן"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset he {
 
   "Theme Editor"
   "דירוג העורך"
+
+  "Tools"
+  "כלי"
 
   "Unable to rename file"
   "אין אפשרות לשנות שם קובץ"

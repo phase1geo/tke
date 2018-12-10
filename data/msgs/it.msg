@@ -258,7 +258,7 @@ msgcat::mcmset it {
   "Colonna"
 
   "Copyright"
-  "Copyright"
+  "Contattaci"
 
   "Credits"
   "Crediti"
@@ -267,7 +267,7 @@ msgcat::mcmset it {
   "Sviluppatore"
 
   "Email"
-  "Email"
+  "E-mail"
 
   "Error"
   "Errore"
@@ -1648,6 +1648,12 @@ msgcat::mcmset it {
   "Show plugin developer guide"
   "Visualizza la guida per sviluppatori di plugin"
 
+  "Show plugin source directory in sidebar"
+  "Visualizza plugin directory di origine nella barra laterale"
+
+  "Show plugins directory in sidebar"
+  "Visualizza directory plugins nella barra laterale"
+
   "Show selected line change"
   "Mostrare il cambiamento di linea selezionata"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset it {
 
   "Toggle tag/rule comment"
   "Commento tag/regola Toggle"
-
-  "Tools"
-  "Strumenti"
 
   "Transform"
   "Trasforma"
@@ -1827,6 +1830,9 @@ msgcat::mcmset it {
   "ERROR:  Unable to write plugin files"
   "ERRORE: Impossibile scrivere file dei plugin"
 
+  "Editing"
+  "Modifica"
+
   "Enter plugin name"
   "Immettere il nome del plug-in."
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset it {
 
   "Unable to zip plugin"
   "Grado di zip plugin"
+
+  "Version Control"
+  "Controllo Versione"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset it {
+
+  "Export Plugin"
+  "Plugin di esportazione"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Gestore plugin"
+
+  "Release Notes"
+  "Note di rilascio"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset it {
   "Date"
   "Data"
 
+  "Default Find in Files search method"
+  "Trovare predefinito nel metodo di ricerca di file"
+
+  "Default Find search method"
+  "Metodo di ricerca di ricerca predefinito"
+
   "Default Markdown Export Extension"
   "Estensione predefinita Markdown esportazione"
 
-  "Default Theme Export Directory"
+  "Default Plugin Export Directory"
   "directory di esportazione predefinita"
 
-  "Default search method"
-  "Metodo di ricerca predefinito"
+  "Default Theme Export Directory"
+  "directory di esportazione predefinita"
 
   "Default sidebar width on startup"
   "Larghezza della barra laterale predefinita all&#39;avvio"
@@ -2050,9 +2082,6 @@ msgcat::mcmset it {
 
   "Displayed Information"
   "Informazioni visualizzate"
-
-  "Documentation"
-  "Documentazione"
 
   "Double-quote"
   "Virgolette"
@@ -2312,9 +2341,6 @@ msgcat::mcmset it {
   "Show menubar"
   "Mostra barra dei menu"
 
-  "Sidebar"
-  "Barra laterale"
-
   "Single-quote"
   "Apice"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset it {
 
   "Enter Password"
   "Inserisci la password"
-
-  "File System"
-  "File system"
 
   "Folder Name"
   "Nome cartella"
@@ -2638,9 +2661,6 @@ msgcat::mcmset it {
 
   "Line To"
   "Linea a"
-
-  "Miscellaneous"
-  "Varie"
 
   "Modes"
   "Modi"
@@ -2933,9 +2953,6 @@ msgcat::mcmset it {
 # syntax.tcl
 msgcat::mcmset it {
 
-  "Syntax"
-  "Sintassi"
-
   "Syntax error in syntax file"
   "Errore di sintassi nel file di sintassi"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset it {
   "Foreground text color to use for displaying numbers."
   "Colore testo in primo piano da utilizzare per la visualizzazione dei numeri."
 
+  "Foreground text color to use for function calls."
+  "Colore del testo in primo piano da utilizzare per chiamate di funzione."
+
   "Foreground text color to use for language-specific keywords."
   "Colore del testo di primo piano da utilizzare per le parole chiave specifiche della lingua."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset it {
 
   "Foreground text color to use for selected text."
   "Colore testo in primo piano da utilizzare per il testo selezionato."
+
+  "Foreground text color to use for variables."
+  "Colore del testo in primo piano da utilizzare per le variabili."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Colore del testo in primo piano utilizzato per tutte le altre schede che non sono nella scheda corrente/attivo nella tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset it {
 
   "One-Color Bitmap"
   "Bitmap One-Color"
-
-  "Output Directory"
-  "Cartella di output"
 
   "Paste Theme Items"
   "Incollare gli elementi del tema"
@@ -3603,6 +3623,9 @@ msgcat::mcmset it {
   "Directory"
   "Directory"
 
+  "Documentation"
+  "Documentazione"
+
   "Duplicate"
   "Duplica"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset it {
 
   "File Name:"
   "Nome File:"
+
+  "File System"
+  "File system"
 
   "Find"
   "Cerca"
@@ -3666,6 +3692,9 @@ msgcat::mcmset it {
   "Line"
   "Linea"
 
+  "Miscellaneous"
+  "Varie"
+
   "Move To Trash"
   "Sposta nel cestino@action:inmenu"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset it {
 
   "Options"
   "Opzioni"
+
+  "Output Directory"
+  "Cartella di output"
 
   "Parenthesis"
   "Parentesi"
@@ -3750,6 +3782,9 @@ msgcat::mcmset it {
   "Show tab bar"
   "Mostra barra delle schede@info:whatsthis"
 
+  "Sidebar"
+  "Barra laterale"
+
   "Smart Indent"
   "Trattino intelligente"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset it {
   "Split View"
   "Dividi la vista"
 
+  "Syntax"
+  "Sintassi"
+
   "TKE Updater"
   "Aggiorna Cestino"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset it {
 
   "Theme Editor"
   "Editor tema"
+
+  "Tools"
+  "Strumenti"
 
   "Unable to rename file"
   "Impossibile rinominare"

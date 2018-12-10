@@ -1648,6 +1648,12 @@ msgcat::mcmset zh {
   "Show plugin developer guide"
   "显示插件开发人员指南"
 
+  "Show plugin source directory in sidebar"
+  "在边栏中显示插件源目录"
+
+  "Show plugins directory in sidebar"
+  "在边栏中显示插件目录"
+
   "Show selected line change"
   "显示所选的行的变化"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset zh {
 
   "Toggle tag/rule comment"
   "开启/关闭标记/规则注释"
-
-  "Tools"
-  "工具"
 
   "Transform"
   "变换"
@@ -1827,6 +1830,9 @@ msgcat::mcmset zh {
   "ERROR:  Unable to write plugin files"
   "错误：无法写入文件的插件"
 
+  "Editing"
+  "编辑"
+
   "Enter plugin name"
   "输入插件名称"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset zh {
 
   "Unable to zip plugin"
   "无法压缩插件"
+
+  "Version Control"
+  "版本控制"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset zh {
+
+  "Export Plugin"
+  "出口插件"
+
+  "Markdown"
+  "降价"
+
+  "Plugin Manager"
+  "插件管理器"
+
+  "Release Notes"
+  "发行说明"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset zh {
   "Date"
   "日期"
 
+  "Default Find in Files search method"
+  "默认在文件中查找搜索方法"
+
+  "Default Find search method"
+  "默认查找搜索方法"
+
   "Default Markdown Export Extension"
   "默认降价出口扩展名"
 
+  "Default Plugin Export Directory"
+  "默认插件导出目录"
+
   "Default Theme Export Directory"
   "默认主题导出目录"
-
-  "Default search method"
-  "默认搜索方法"
 
   "Default sidebar width on startup"
   "启动时的默认边栏宽度"
@@ -2051,11 +2083,8 @@ msgcat::mcmset zh {
   "Displayed Information"
   "已显示信息"
 
-  "Documentation"
-  "文档"
-
   "Double-quote"
-  "Double-quote"
+  "\"
 
   "Editor"
   "编辑"
@@ -2312,9 +2341,6 @@ msgcat::mcmset zh {
   "Show menubar"
   "显示菜单栏"
 
-  "Sidebar"
-  "侧边栏"
-
   "Single-quote"
   "单引号"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset zh {
 
   "Enter Password"
   "输入密码"
-
-  "File System"
-  "文件系统"
 
   "Folder Name"
   "文件夹名"
@@ -2638,9 +2661,6 @@ msgcat::mcmset zh {
 
   "Line To"
   "至   行"
-
-  "Miscellaneous"
-  "复杂度"
 
   "Modes"
   "模式"
@@ -2933,9 +2953,6 @@ msgcat::mcmset zh {
 # syntax.tcl
 msgcat::mcmset zh {
 
-  "Syntax"
-  "语法"
-
   "Syntax error in syntax file"
   "在语法文件中的语法错误"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset zh {
   "Foreground text color to use for displaying numbers."
   "用来显示数字的前景文本颜色。"
 
+  "Foreground text color to use for function calls."
+  "用于函数调用的前景文本颜色。"
+
   "Foreground text color to use for language-specific keywords."
   "用于语言特定的关键字的前景文本颜色。"
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset zh {
 
   "Foreground text color to use for selected text."
   "要用于所选文本的前景文本颜色。"
+
+  "Foreground text color to use for variables."
+  "要用于变量的前景文本颜色。"
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "用其他的选项卡，是不是在 tabbar 电流/活动选项卡的前景文本颜色。"
@@ -3385,9 +3408,6 @@ msgcat::mcmset zh {
 
   "One-Color Bitmap"
   "单色位图"
-
-  "Output Directory"
-  "输出目录"
 
   "Paste Theme Items"
   "粘贴主题项目"
@@ -3603,6 +3623,9 @@ msgcat::mcmset zh {
   "Directory"
   "目錄"
 
+  "Documentation"
+  "文档"
+
   "Duplicate"
   "复制"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset zh {
 
   "File Name:"
   "文件名："
+
+  "File System"
+  "文件系统"
 
   "Find"
   "查找"
@@ -3666,6 +3692,9 @@ msgcat::mcmset zh {
   "Line"
   "线条"
 
+  "Miscellaneous"
+  "复杂度"
+
   "Move To Trash"
   "移动到回收站"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset zh {
 
   "Options"
   "选项"
+
+  "Output Directory"
+  "输出目录"
 
   "Parenthesis"
   "括号"
@@ -3750,6 +3782,9 @@ msgcat::mcmset zh {
   "Show tab bar"
   "显示选项栏"
 
+  "Sidebar"
+  "侧边栏"
+
   "Smart Indent"
   "智能缩进"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset zh {
   "Split View"
   "拆分視圖"
 
+  "Syntax"
+  "语法"
+
   "TKE Updater"
   "更新器"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset zh {
 
   "Theme Editor"
   "主题编辑器"
+
+  "Tools"
+  "工具"
 
   "Unable to rename file"
   "無法重新命名檔案 ..."

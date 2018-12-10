@@ -1648,6 +1648,12 @@ msgcat::mcmset nl {
   "Show plugin developer guide"
   "Toon de gids van de ontwikkelaar van de plugin"
 
+  "Show plugin source directory in sidebar"
+  "Plugin bronmap in de zijbalk weergeven"
+
+  "Show plugins directory in sidebar"
+  "Plugins directory in de zijbalk weergeven"
+
   "Show selected line change"
   "Toon geselecteerde regel wijzigen"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset nl {
 
   "Toggle tag/rule comment"
   "Toggle tag/regel commentaar"
-
-  "Tools"
-  "hulpmiddelen;"
 
   "Transform"
   "Transformeren"
@@ -1827,6 +1830,9 @@ msgcat::mcmset nl {
   "ERROR:  Unable to write plugin files"
   "FOUT: Kan plugin bestanden weg te schrijven"
 
+  "Editing"
+  "Bewerken"
+
   "Enter plugin name"
   "Voer plugin naam"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset nl {
 
   "Unable to zip plugin"
   "Niet in staat om zip plugin"
+
+  "Version Control"
+  "Versiebeheer"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset nl {
+
+  "Export Plugin"
+  "Export Plugin"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Plugin beheren"
+
+  "Release Notes"
+  "Release Notes"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset nl {
   "Date"
   "Datum"
 
+  "Default Find in Files search method"
+  "Standaard Zoek in bestanden zoekmethode"
+
+  "Default Find search method"
+  "Standaard Zoekmethode zoeken"
+
   "Default Markdown Export Extension"
   "Standaardextensie Markdown Export"
 
+  "Default Plugin Export Directory"
+  "Standaard invoegmap voor invoegtoepassingen"
+
   "Default Theme Export Directory"
   "Standaardthema exportdirectory"
-
-  "Default search method"
-  "Standaardzoekmethode"
 
   "Default sidebar width on startup"
   "Standaardzijbalkbreedte bij opstarten"
@@ -2050,9 +2082,6 @@ msgcat::mcmset nl {
 
   "Displayed Information"
   "Getoonde informatie"
-
-  "Documentation"
-  "Documentatie"
 
   "Double-quote"
   "Aanhalingsteken"
@@ -2312,9 +2341,6 @@ msgcat::mcmset nl {
   "Show menubar"
   "Menubalk tonen"
 
-  "Sidebar"
-  "Zijbalk"
-
   "Single-quote"
   "Aanhalingsteken"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset nl {
 
   "Enter Password"
   "Voer wachtwoord in"
-
-  "File System"
-  "Bestandssysteem"
 
   "Folder Name"
   "Folder Naam"
@@ -2638,9 +2661,6 @@ msgcat::mcmset nl {
 
   "Line To"
   "Lijn aan"
-
-  "Miscellaneous"
-  "Diversen"
 
   "Modes"
   "Modi"
@@ -2933,9 +2953,6 @@ msgcat::mcmset nl {
 # syntax.tcl
 msgcat::mcmset nl {
 
-  "Syntax"
-  "Syntaxis"
-
   "Syntax error in syntax file"
   "Syntaxisfout in syntaxis bestand"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset nl {
   "Foreground text color to use for displaying numbers."
   "Voorgrond tekstkleur te gebruiken voor de weergave van getallen."
 
+  "Foreground text color to use for function calls."
+  "Voorgrond tekstkleur om te gebruiken voor functieaanroepen."
+
   "Foreground text color to use for language-specific keywords."
   "Voorgrond tekstkleur te gebruiken voor de taal-specifieke zoekwoorden."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset nl {
 
   "Foreground text color to use for selected text."
   "Voorgrond tekstkleur te gebruiken voor geselecteerde tekst."
+
+  "Foreground text color to use for variables."
+  "Voorgrond tekstkleur om te gebruiken voor variabelen."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Voorgrond tekstkleur die wordt gebruikt voor alle andere tabbladen die niet de huidige/actieve tabblad in de tabbar zijn."
@@ -3385,9 +3408,6 @@ msgcat::mcmset nl {
 
   "One-Color Bitmap"
   "One-Color Bitmap"
-
-  "Output Directory"
-  "EMC Debug Locatie"
 
   "Paste Theme Items"
   "Thema Items plakken"
@@ -3603,6 +3623,9 @@ msgcat::mcmset nl {
   "Directory"
   "Bedrijvengids"
 
+  "Documentation"
+  "Documentatie"
+
   "Duplicate"
   "Dupliceren"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset nl {
 
   "File Name:"
   "Bestandsnaam:"
+
+  "File System"
+  "Bestandssysteem"
 
   "Find"
   "Query"
@@ -3666,6 +3692,9 @@ msgcat::mcmset nl {
   "Line"
   "Regel"
 
+  "Miscellaneous"
+  "Diversen"
+
   "Move To Trash"
   "In de Prullenbak"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset nl {
 
   "Options"
   "Opties"
+
+  "Output Directory"
+  "EMC Debug Locatie"
 
   "Parenthesis"
   "Haakje"
@@ -3750,6 +3782,9 @@ msgcat::mcmset nl {
   "Show tab bar"
   "Toon tabbalk"
 
+  "Sidebar"
+  "Zijbalk"
+
   "Smart Indent"
   "Slimme streepje"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset nl {
   "Split View"
   "Venster opsplitsen"
 
+  "Syntax"
+  "Syntaxis"
+
   "TKE Updater"
   "TKE Updater"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset nl {
 
   "Theme Editor"
   "Thema-editor"
+
+  "Tools"
+  "hulpmiddelen;"
 
   "Unable to rename file"
   "Niet in staat om bestand te hernoemen"

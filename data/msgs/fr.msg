@@ -1648,6 +1648,12 @@ msgcat::mcmset fr {
   "Show plugin developer guide"
   "Voir la guide du développeur plugin"
 
+  "Show plugin source directory in sidebar"
+  "Afficher le répertoire source du plugin dans la barre latérale"
+
+  "Show plugins directory in sidebar"
+  "Afficher le répertoire des plugins dans la barre latérale"
+
   "Show selected line change"
   "Montrer le changement de la ligne sélectionnée"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset fr {
 
   "Toggle tag/rule comment"
   "Commentaire de tag/règle de bascule"
-
-  "Tools"
-  "Outils"
 
   "Transform"
   "Transformer"
@@ -1827,6 +1830,9 @@ msgcat::mcmset fr {
   "ERROR:  Unable to write plugin files"
   "ERREUR: impossible d`écrire des fichiers plugins"
 
+  "Editing"
+  "En préparation"
+
   "Enter plugin name"
   "Entrez le nom du plug-in"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset fr {
 
   "Unable to zip plugin"
   "Incapable de zip plugin"
+
+  "Version Control"
+  "Contrôle de la version"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset fr {
+
+  "Export Plugin"
+  "Module externe Hit Export :"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Gestionnaire de greffons"
+
+  "Release Notes"
+  "Notes de version"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset fr {
   "Date"
   "Rendez-Vous"
 
+  "Default Find in Files search method"
+  "Trouver par défaut dans la méthode de recherche de fichiers"
+
+  "Default Find search method"
+  "Méthode de recherche par défaut Find"
+
   "Default Markdown Export Extension"
   "Extension d’exportation par défaut Markdown"
 
+  "Default Plugin Export Directory"
+  "Répertoire de Plugin Export par défaut"
+
   "Default Theme Export Directory"
   "Thème par défaut Directory Export"
-
-  "Default search method"
-  "Méthode de recherche par défaut"
 
   "Default sidebar width on startup"
   "Largeur de barre latérale par défaut au démarrage"
@@ -2050,9 +2082,6 @@ msgcat::mcmset fr {
 
   "Displayed Information"
   "Information affichée"
-
-  "Documentation"
-  "Documentation"
 
   "Double-quote"
   "Guillemets doubles"
@@ -2312,9 +2341,6 @@ msgcat::mcmset fr {
   "Show menubar"
   "Afficher la barre de menu"
 
-  "Sidebar"
-  "Barre latérale par défaut"
-
   "Single-quote"
   "Guillemet"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset fr {
 
   "Enter Password"
   "Entrez un mot de passe"
-
-  "File System"
-  "Système de fichiers"
 
   "Folder Name"
   "Nom de dossier"
@@ -2638,9 +2661,6 @@ msgcat::mcmset fr {
 
   "Line To"
   "Un fil qui"
-
-  "Miscellaneous"
-  "Divers"
 
   "Modes"
   "de la machine"
@@ -2933,9 +2953,6 @@ msgcat::mcmset fr {
 # syntax.tcl
 msgcat::mcmset fr {
 
-  "Syntax"
-  "Syntaxe"
-
   "Syntax error in syntax file"
   "Erreur de syntaxe dans le fichier de syntaxe"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset fr {
   "Foreground text color to use for displaying numbers."
   "Premier plan couleur du texte à utiliser pour l`affichage des nombres."
 
+  "Foreground text color to use for function calls."
+  "Couleur du texte de premier plan à utiliser pour les appels de fonction."
+
   "Foreground text color to use for language-specific keywords."
   "Couleur de premier plan de texte à utiliser pour les mots clés spécifiques à la langue."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset fr {
 
   "Foreground text color to use for selected text."
   "Couleur de premier plan de texte à utiliser pour le texte sélectionné."
+
+  "Foreground text color to use for variables."
+  "Couleur du texte au premier plan à utiliser pour les variables."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Couleur du texte de premier plan utilisé pour tous les autres onglets qui ne sont pas l'onglet courant/actif dans le tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset fr {
 
   "One-Color Bitmap"
   "Bitmap une couleur"
-
-  "Output Directory"
-  "Répertoire de sortie"
 
   "Paste Theme Items"
   "Coller des éléments de thème"
@@ -3603,6 +3623,9 @@ msgcat::mcmset fr {
   "Directory"
   "Répertoire"
 
+  "Documentation"
+  "Nous vous encourageons fortement à obtenir une clé de console API et à publier le code dans les options de thème. Vous pouvez l'obtenir à <a target=\"
+
   "Duplicate"
   "Dupliquer"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset fr {
 
   "File Name:"
   "Nom du fichier :"
+
+  "File System"
+  "Système de fichiers"
 
   "Find"
   "Trouvez"
@@ -3666,6 +3692,9 @@ msgcat::mcmset fr {
   "Line"
   "Ligne"
 
+  "Miscellaneous"
+  "Divers"
+
   "Move To Trash"
   "Envoyer dans la corbeille"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset fr {
 
   "Options"
   "Оptions"
+
+  "Output Directory"
+  "Répertoire de sortie"
 
   "Parenthesis"
   "Parenthèse"
@@ -3750,6 +3782,9 @@ msgcat::mcmset fr {
   "Show tab bar"
   "Barre d'onglets"
 
+  "Sidebar"
+  "Barre latérale par défaut"
+
   "Smart Indent"
   "Smart tiret"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset fr {
   "Split View"
   "Scinder la vue"
 
+  "Syntax"
+  "Syntaxe"
+
   "TKE Updater"
   "Mises à jour"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset fr {
 
   "Theme Editor"
   "éditeur de thèmes"
+
+  "Tools"
+  "Outils"
 
   "Unable to rename file"
   "Impossible de renommer le fichier."
