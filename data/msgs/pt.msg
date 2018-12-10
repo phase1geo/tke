@@ -1648,6 +1648,12 @@ msgcat::mcmset pt {
   "Show plugin developer guide"
   "Mostrar a guia desenvolvedor de plugin"
 
+  "Show plugin source directory in sidebar"
+  "Mostrar o diretório de origem do plugin na barra lateral"
+
+  "Show plugins directory in sidebar"
+  "Mostrar diretório de plugins na barra lateral"
+
   "Show selected line change"
   "Mostrar a mudança de linha selecionada"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset pt {
 
   "Toggle tag/rule comment"
   "Comentário de marca/regra de alternância"
-
-  "Tools"
-  "Ferramentas"
 
   "Transform"
   "Transformar"
@@ -1827,6 +1830,9 @@ msgcat::mcmset pt {
   "ERROR:  Unable to write plugin files"
   "ERRO: Não é possível gravar arquivos de plugin"
 
+  "Editing"
+  "Editar"
+
   "Enter plugin name"
   "Digite o nome do plugin"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset pt {
 
   "Unable to zip plugin"
   "Incapaz de fechar-plugin"
+
+  "Version Control"
+  "Controlo de versões"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset pt {
+
+  "Export Plugin"
+  "Exportar Plugin"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Ficheiro documentação"
+
+  "Release Notes"
+  "Notas de lançamento"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset pt {
   "Date"
   "Data"
 
+  "Default Find in Files search method"
+  "Procura padrão no método de pesquisa de arquivos"
+
+  "Default Find search method"
+  "Método de pesquisa padrão"
+
   "Default Markdown Export Extension"
   "Extensão de exportação padrão Markdown"
 
+  "Default Plugin Export Directory"
+  "Diretório de exportação de plug-in padrão"
+
   "Default Theme Export Directory"
   "Directory Export padrão Tema"
-
-  "Default search method"
-  "Método de pesquisa padrão"
 
   "Default sidebar width on startup"
   "Largura da barra lateral padrão na inicialização"
@@ -2050,9 +2082,6 @@ msgcat::mcmset pt {
 
   "Displayed Information"
   "Informação Visível"
-
-  "Documentation"
-  "Documentação"
 
   "Double-quote"
   "Aspas duplas"
@@ -2312,9 +2341,6 @@ msgcat::mcmset pt {
   "Show menubar"
   "Mostrar o Menu"
 
-  "Sidebar"
-  "Barra Lateral"
-
   "Single-quote"
   "Aspas"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset pt {
 
   "Enter Password"
   "Inserir Senha"
-
-  "File System"
-  "Sistema de arquivos"
 
   "Folder Name"
   "Nome da Pasta"
@@ -2638,9 +2661,6 @@ msgcat::mcmset pt {
 
   "Line To"
   "Linha para"
-
-  "Miscellaneous"
-  "Diversos"
 
   "Modes"
   "Modos"
@@ -2933,9 +2953,6 @@ msgcat::mcmset pt {
 # syntax.tcl
 msgcat::mcmset pt {
 
-  "Syntax"
-  "Sintaxe"
-
   "Syntax error in syntax file"
   "Erro de sintaxe no arquivo de sintaxe"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset pt {
   "Foreground text color to use for displaying numbers."
   "Cor do texto do primeiro plano para usar para exibir os números."
 
+  "Foreground text color to use for function calls."
+  "Cor do texto em primeiro plano a ser usada para chamadas de função."
+
   "Foreground text color to use for language-specific keywords."
   "Cor do primeiro plano de texto a ser usado para palavras-chave específicas de idioma."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset pt {
 
   "Foreground text color to use for selected text."
   "Cor do texto do primeiro plano para o texto selecionado."
+
+  "Foreground text color to use for variables."
+  "Cor do texto em primeiro plano a ser usada para variáveis."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Cor do texto do primeiro plano usado para todas as outras abas que não sejam a guia de corrente/ativo no tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset pt {
 
   "One-Color Bitmap"
   "Bitmap de uma cor"
-
-  "Output Directory"
-  "Diretório destino:"
 
   "Paste Theme Items"
   "Colar itens do tema"
@@ -3603,6 +3623,9 @@ msgcat::mcmset pt {
   "Directory"
   "A directoria"
 
+  "Documentation"
+  "Documentação"
+
   "Duplicate"
   "Duplicação"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset pt {
 
   "File Name:"
   "Nome do arquivo:"
+
+  "File System"
+  "Sistema de arquivos"
 
   "Find"
   "Encontrar"
@@ -3666,6 +3692,9 @@ msgcat::mcmset pt {
   "Line"
   "Linha"
 
+  "Miscellaneous"
+  "Diversos"
+
   "Move To Trash"
   "Mover para a lixeira"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset pt {
 
   "Options"
   "Opções"
+
+  "Output Directory"
+  "Diretório destino:"
 
   "Parenthesis"
   "Colchete"
@@ -3750,6 +3782,9 @@ msgcat::mcmset pt {
   "Show tab bar"
   "Barra de Páginas"
 
+  "Sidebar"
+  "Barra Lateral"
+
   "Smart Indent"
   "Travessão inteligente"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset pt {
   "Split View"
   "Dividir a Vista"
 
+  "Syntax"
+  "Sintaxe"
+
   "TKE Updater"
   "TKE Updater"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset pt {
 
   "Theme Editor"
   "Editor de temas"
+
+  "Tools"
+  "Ferramentas"
 
   "Unable to rename file"
   "Não é possível renomear o ficheiro."

@@ -1648,6 +1648,12 @@ msgcat::mcmset da {
   "Show plugin developer guide"
   "Vis plugin developer guide"
 
+  "Show plugin source directory in sidebar"
+  "Vis plugin kildemappe i indholdsoversigten"
+
+  "Show plugins directory in sidebar"
+  "Vis plugins mappe i indholdsoversigten"
+
   "Show selected line change"
   "Vis valgte linje ændring"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset da {
 
   "Toggle tag/rule comment"
   "Skifte tag/regel kommentar"
-
-  "Tools"
-  "Værktøjer"
 
   "Transform"
   "transformere, transformere"
@@ -1827,6 +1830,9 @@ msgcat::mcmset da {
   "ERROR:  Unable to write plugin files"
   "FEJL: Kan ikke skrive plugin filer"
 
+  "Editing"
+  "Redigering"
+
   "Enter plugin name"
   "Indtast plugin navn"
 
@@ -1834,7 +1840,7 @@ msgcat::mcmset da {
   "Meddelelse af EF-sortsbeskyttelse"
 
   "Grant permission?"
-  "Grant permission?"
+  "\"
 
   "Plugin Errors"
   "Plugin fejl"
@@ -1871,6 +1877,26 @@ msgcat::mcmset da {
 
   "Unable to zip plugin"
   "Afskåret fra zip plugin"
+
+  "Version Control"
+  "versionsstyring"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset da {
+
+  "Export Plugin"
+  "Eksporter plugin"
+
+  "Markdown"
+  "valutaterminsdiskonto"
+
+  "Plugin Manager"
+  "Plugin- håndtering"
+
+  "Release Notes"
+  "Udgivelsesnoter"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset da {
   "Date"
   "Dato"
 
+  "Default Find in Files search method"
+  "Standard Find i filer søgemetode"
+
+  "Default Find search method"
+  "Standard Find søgemetode"
+
   "Default Markdown Export Extension"
   "Standard Markdown eksportudvidelse"
 
+  "Default Plugin Export Directory"
+  "Standard Plugin Export Directory"
+
   "Default Theme Export Directory"
   "Standard Tema Eksport Register"
-
-  "Default search method"
-  "Standardsøgemetode"
 
   "Default sidebar width on startup"
   "Standard indholdsoversigten bredde ved opstart"
@@ -2050,9 +2082,6 @@ msgcat::mcmset da {
 
   "Displayed Information"
   "Vist information"
-
-  "Documentation"
-  "Dokumentation"
 
   "Double-quote"
   "Citationstegn"
@@ -2312,9 +2341,6 @@ msgcat::mcmset da {
   "Show menubar"
   "Vis menulinje"
 
-  "Sidebar"
-  "Fuld bredde - ingen sidebar"
-
   "Single-quote"
   "Single-tilbud"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset da {
 
   "Enter Password"
   "Adgangskode"
-
-  "File System"
-  "Filsystem"
 
   "Folder Name"
   "Mappe Navn"
@@ -2638,9 +2661,6 @@ msgcat::mcmset da {
 
   "Line To"
   "mødeafvikling"
-
-  "Miscellaneous"
-  "Diverse"
 
   "Modes"
   "Tilstande"
@@ -2933,9 +2953,6 @@ msgcat::mcmset da {
 # syntax.tcl
 msgcat::mcmset da {
 
-  "Syntax"
-  "Syntaks"
-
   "Syntax error in syntax file"
   "Syntaksfejl i syntaks fil"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset da {
   "Foreground text color to use for displaying numbers."
   "Forgrund tekstfarve skal bruges til visning af tal."
 
+  "Foreground text color to use for function calls."
+  "Forgrunds tekstfarve til brug for funktionsopkald."
+
   "Foreground text color to use for language-specific keywords."
   "Forgrund tekstfarve bruge til sprogspecifikke søgeord."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset da {
 
   "Foreground text color to use for selected text."
   "Forgrund tekstfarve til at bruge den valgte tekst."
+
+  "Foreground text color to use for variables."
+  "Forgrunds tekstfarve til brug for variabler."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Forgrunden tekstfarve bruges til alle andre faner, der ikke er aktuelle/aktiv fane i tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset da {
 
   "One-Color Bitmap"
   "One-farve bitmap"
-
-  "Output Directory"
-  "Enhedens uddatakatalog:"
 
   "Paste Theme Items"
   "Indsætte tema elementer"
@@ -3603,6 +3623,9 @@ msgcat::mcmset da {
   "Directory"
   "Brugere"
 
+  "Documentation"
+  "Dokumentation"
+
   "Duplicate"
   "Dupliker"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset da {
 
   "File Name:"
   "Filnavn"
+
+  "File System"
+  "Filsystem"
 
   "Find"
   "Søg"
@@ -3666,6 +3692,9 @@ msgcat::mcmset da {
   "Line"
   "Linje"
 
+  "Miscellaneous"
+  "Diverse"
+
   "Move To Trash"
   "Læg i pairkurven"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset da {
 
   "Options"
   "Indstillinger"
+
+  "Output Directory"
+  "Enhedens uddatakatalog:"
 
   "Parenthesis"
   "Parentes"
@@ -3750,6 +3782,9 @@ msgcat::mcmset da {
   "Show tab bar"
   "Vis tab-linje"
 
+  "Sidebar"
+  "Fuld bredde - ingen sidebar"
+
   "Smart Indent"
   "Smart led"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset da {
   "Split View"
   "Opdel visning"
 
+  "Syntax"
+  "Syntaks"
+
   "TKE Updater"
   "TKE Updater"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset da {
 
   "Theme Editor"
   "Tema Editor"
+
+  "Tools"
+  "Værktøjer"
 
   "Unable to rename file"
   "Afskåret fra omdøbe filen"

@@ -1648,6 +1648,12 @@ msgcat::mcmset cs {
   "Show plugin developer guide"
   "Zobrazit Průvodce vývojáře pluginu"
 
+  "Show plugin source directory in sidebar"
+  "Zobrazit modul zdrojový adresář v postranním panelu"
+
+  "Show plugins directory in sidebar"
+  "Zobrazit adresáře plugins v postranním panelu"
+
   "Show selected line change"
   "Zobrazit vybranou linku změnu"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset cs {
 
   "Toggle tag/rule comment"
   "Přepnout značky/pravidlo komentář"
-
-  "Tools"
-  "nástroje"
 
   "Transform"
   "Transformovat"
@@ -1827,6 +1830,9 @@ msgcat::mcmset cs {
   "ERROR:  Unable to write plugin files"
   "Chyba: Nelze zapsat plugin soubory"
 
+  "Editing"
+  "Editování"
+
   "Enter plugin name"
   "Zadejte plugin jméno"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset cs {
 
   "Unable to zip plugin"
   "Nepodařilo se zip plugin"
+
+  "Version Control"
+  "NAME OF TRANSLATORS"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset cs {
+
+  "Export Plugin"
+  "Exportujte plugin"
+
+  "Markdown"
+  "Snížení"
+
+  "Plugin Manager"
+  "Správce modulů"
+
+  "Release Notes"
+  "Poznámky o vydání"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset cs {
   "Date"
   "Datum"
 
+  "Default Find in Files search method"
+  "Výchozí metoda Vyhledávání v souboru"
+
+  "Default Find search method"
+  "Výchozí metoda vyhledávání"
+
   "Default Markdown Export Extension"
   "Výchozí rozšíření exportu Markdown"
 
+  "Default Plugin Export Directory"
+  "Výchozí adresář exportu pluginů"
+
   "Default Theme Export Directory"
   "Default Theme Export Adresář"
-
-  "Default search method"
-  "Výchozí metoda vyhledávání"
 
   "Default sidebar width on startup"
   "Výchozí šířka postranního panelu při spuštění"
@@ -2050,9 +2082,6 @@ msgcat::mcmset cs {
 
   "Displayed Information"
   "Informace"
-
-  "Documentation"
-  "Dokumentace"
 
   "Double-quote"
   "Uvozovky"
@@ -2312,9 +2341,6 @@ msgcat::mcmset cs {
   "Show menubar"
   "Zobrazit hlavní nabídku"
 
-  "Sidebar"
-  "Postranní panel"
-
   "Single-quote"
   "Uvozovky"
 
@@ -2467,9 +2493,6 @@ msgcat::mcmset cs {
   "Enter Password"
   "Zadejte heslo"
 
-  "File System"
-  "Souborový systém"
-
   "Folder Name"
   "Název složky:"
 
@@ -2586,7 +2609,7 @@ msgcat::mcmset cs {
   "Přidat výběrové shody"
 
   "All To"
-  "All To"
+  "Vše"
 
   "Anchor"
   "Kotva"
@@ -2638,9 +2661,6 @@ msgcat::mcmset cs {
 
   "Line To"
   "Vedení k"
-
-  "Miscellaneous"
-  "Různé"
 
   "Modes"
   "Mód"
@@ -2933,9 +2953,6 @@ msgcat::mcmset cs {
 # syntax.tcl
 msgcat::mcmset cs {
 
-  "Syntax"
-  "Syntax"
-
   "Syntax error in syntax file"
   "Syntaktická chyba v syntaxi souboru"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset cs {
   "Foreground text color to use for displaying numbers."
   "Popředí Barva textu použít pro zobrazování čísel."
 
+  "Foreground text color to use for function calls."
+  "Barva textu v popředí, která se používá pro volání funkcí."
+
   "Foreground text color to use for language-specific keywords."
   "Popředí Barva textu použít pro specifické pro jazyk klíčová slova."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset cs {
 
   "Foreground text color to use for selected text."
   "Popředí textu barva se použije pro vybraný text."
+
+  "Foreground text color to use for variables."
+  "Barva textu v popředí, která se používá pro proměnné."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Pro všechny ostatní karty, které nejsou aktuální/aktivní kartu v tabbar barvu popředí textu."
@@ -3385,9 +3408,6 @@ msgcat::mcmset cs {
 
   "One-Color Bitmap"
   "Jednobarevná bitová mapa"
-
-  "Output Directory"
-  "Výstupní adresář"
 
   "Paste Theme Items"
   "Vložit položky"
@@ -3603,6 +3623,9 @@ msgcat::mcmset cs {
   "Directory"
   "Adresář"
 
+  "Documentation"
+  "Dokumentace"
+
   "Duplicate"
   "Duplicita"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset cs {
 
   "File Name:"
   "&Jméno souboru:"
+
+  "File System"
+  "Souborový systém"
 
   "Find"
   "Najít"
@@ -3666,6 +3692,9 @@ msgcat::mcmset cs {
   "Line"
   "Linka"
 
+  "Miscellaneous"
+  "Různé"
+
   "Move To Trash"
   "Přesunout do koše"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset cs {
 
   "Options"
   "Možnosti"
+
+  "Output Directory"
+  "Výstupní adresář"
 
   "Parenthesis"
   "Závorky"
@@ -3750,6 +3782,9 @@ msgcat::mcmset cs {
   "Show tab bar"
   "Zobrazovat lištu karet"
 
+  "Sidebar"
+  "Postranní panel"
+
   "Smart Indent"
   "Chytré odsazení"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset cs {
   "Split View"
   "Rozd?lený panel"
 
+  "Syntax"
+  "Syntax"
+
   "TKE Updater"
   "TKE Updater"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset cs {
 
   "Theme Editor"
   "Editor téma"
+
+  "Tools"
+  "nástroje"
 
   "Unable to rename file"
   "Soubor nelze přejmenovat"

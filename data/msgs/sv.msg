@@ -1648,6 +1648,12 @@ msgcat::mcmset sv {
   "Show plugin developer guide"
   "Visa plugin Utvecklarguide"
 
+  "Show plugin source directory in sidebar"
+  "Visa plugin-källkatalog i sidofältet"
+
+  "Show plugins directory in sidebar"
+  "Visa plugin-katalog i sidofältet"
+
   "Show selected line change"
   "Visa markerad rad förändringar"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset sv {
 
   "Toggle tag/rule comment"
   "Toggle tagg/regel kommentar"
-
-  "Tools"
-  "Verktyg"
 
   "Transform"
   "transformera"
@@ -1827,6 +1830,9 @@ msgcat::mcmset sv {
   "ERROR:  Unable to write plugin files"
   "FEL: Det går inte att skriva plugin-filer"
 
+  "Editing"
+  "Redigering"
+
   "Enter plugin name"
   "Ange plugin namn"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset sv {
 
   "Unable to zip plugin"
   "Det går inte att zip plugin"
+
+  "Version Control"
+  "Versionskontroll"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset sv {
+
+  "Export Plugin"
+  "Exportera Plugin"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Insticksprogramhanterare"
+
+  "Release Notes"
+  "Anteckningar för release"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset sv {
   "Date"
   "Datum"
 
+  "Default Find in Files search method"
+  "Standard hitta i filer sökmetod"
+
+  "Default Find search method"
+  "Hitta Sök standardmetoden"
+
   "Default Markdown Export Extension"
   "Standardtillägget Markdown Export"
 
+  "Default Plugin Export Directory"
+  "Standardkatalogen för Plugin Export"
+
   "Default Theme Export Directory"
   "Standard Tema Export Directory"
-
-  "Default search method"
-  "Standard sökmetod"
 
   "Default sidebar width on startup"
   "Sidofältet standardbredden på Start"
@@ -2050,9 +2082,6 @@ msgcat::mcmset sv {
 
   "Displayed Information"
   "Visad information"
-
-  "Documentation"
-  "Dokumentation för tillägget"
 
   "Double-quote"
   "Dubbel-offert"
@@ -2312,9 +2341,6 @@ msgcat::mcmset sv {
   "Show menubar"
   "Visa menyrad"
 
-  "Sidebar"
-  "Sidofält"
-
   "Single-quote"
   "Singel-offert"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset sv {
 
   "Enter Password"
   "ange lösenord"
-
-  "File System"
-  "i filsystem"
 
   "Folder Name"
   "Mappnamn"
@@ -2638,9 +2661,6 @@ msgcat::mcmset sv {
 
   "Line To"
   "Linje till"
-
-  "Miscellaneous"
-  "Övrigt"
 
   "Modes"
   "Lägen"
@@ -2933,9 +2953,6 @@ msgcat::mcmset sv {
 # syntax.tcl
 msgcat::mcmset sv {
 
-  "Syntax"
-  "Syntax"
-
   "Syntax error in syntax file"
   "Syntaxfel i syntax filen"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset sv {
   "Foreground text color to use for displaying numbers."
   "Förgrundsfärgen text att använda för att visa numren."
 
+  "Foreground text color to use for function calls."
+  "Text på förgrundsfärgen för att använda för funktionsanrop."
+
   "Foreground text color to use for language-specific keywords."
   "Förgrundsfärgen text att använda för språkspecifika sökord."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset sv {
 
   "Foreground text color to use for selected text."
   "Förgrundsfärgen text ska användas för markerad text."
+
+  "Foreground text color to use for variables."
+  "Förgrundsfärgen som texten ska användas för variabler."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Text Förgrundsfärgen används för alla andra flikar som inte fliken ström/aktiv i tabbar."
@@ -3386,9 +3409,6 @@ msgcat::mcmset sv {
   "One-Color Bitmap"
   "Enfärgs Bitmap"
 
-  "Output Directory"
-  "Målkatalog:"
-
   "Paste Theme Items"
   "Klistra in tema objekt"
 
@@ -3521,7 +3541,7 @@ msgcat::mcmset sv {
   "Olagliga lägesrader värde"
 
   "MULTIMOVE MODE"
-  "MULTIMOVE MODE"
+  "MULTIMOVE LÄGE"
 
   "Number width not a number"
   "Nummer bredd inte ett antal"
@@ -3603,6 +3623,9 @@ msgcat::mcmset sv {
   "Directory"
   "Katalog"
 
+  "Documentation"
+  "Dokumentation för tillägget"
+
   "Duplicate"
   "Duplicera"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset sv {
 
   "File Name:"
   "Filnamn:"
+
+  "File System"
+  "i filsystem"
 
   "Find"
   "Sök i"
@@ -3666,6 +3692,9 @@ msgcat::mcmset sv {
   "Line"
   "Linje"
 
+  "Miscellaneous"
+  "Övrigt"
+
   "Move To Trash"
   "Flytta till papperskorgen"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset sv {
 
   "Options"
   "Alternativ"
+
+  "Output Directory"
+  "Målkatalog:"
 
   "Parenthesis"
   "Klammer"
@@ -3750,6 +3782,9 @@ msgcat::mcmset sv {
   "Show tab bar"
   "Visa flikfältet"
 
+  "Sidebar"
+  "Sidofält"
+
   "Smart Indent"
   "Smart strecksatsen"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset sv {
   "Split View"
   "Dela vy"
 
+  "Syntax"
+  "Syntax"
+
   "TKE Updater"
   "Update Basket"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset sv {
 
   "Theme Editor"
   "Temaredigeraren"
+
+  "Tools"
+  "Verktyg"
 
   "Unable to rename file"
   "Det går inte att byta namn på filen."

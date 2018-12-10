@@ -258,7 +258,7 @@ msgcat::mcmset es {
   "Columna"
 
   "Copyright"
-  "Copyright"
+  "Derechos de autor"
 
   "Credits"
   "Créditos"
@@ -1648,6 +1648,12 @@ msgcat::mcmset es {
   "Show plugin developer guide"
   "Ver a Guía del desarrollador del plugin"
 
+  "Show plugin source directory in sidebar"
+  "Directorio de fuente plugin Mostrar en barra lateral"
+
+  "Show plugins directory in sidebar"
+  "Mostrar Directorio de plugins en la barra lateral"
+
   "Show selected line change"
   "Cambio de línea seleccionada"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset es {
 
   "Toggle tag/rule comment"
   "Comentario de etiqueta de la regla de alternar"
-
-  "Tools"
-  "Herramientas"
 
   "Transform"
   "Transformar"
@@ -1813,7 +1816,7 @@ msgcat::mcmset es {
   "Siempre conceder contenido del programador"
 
   "ERROR"
-  "ERROR"
+  "Error"
 
   "ERROR:  Plugin name already exists"
   "ERROR: nombre Plugin ya existe"
@@ -1826,6 +1829,9 @@ msgcat::mcmset es {
 
   "ERROR:  Unable to write plugin files"
   "ERROR: No se puede escribir archivos de plugin"
+
+  "Editing"
+  "Editando"
 
   "Enter plugin name"
   "Ingrese nombre del plugin"
@@ -1871,6 +1877,26 @@ msgcat::mcmset es {
 
   "Unable to zip plugin"
   "No se puede comprimir el complemento"
+
+  "Version Control"
+  "Control de Versiones"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset es {
+
+  "Export Plugin"
+  "Plugin de exportación"
+
+  "Markdown"
+  "Descuento"
+
+  "Plugin Manager"
+  "Administrar Plugin"
+
+  "Release Notes"
+  "Notas de publicación"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset es {
   "Date"
   "Fecha"
 
+  "Default Find in Files search method"
+  "Encontrar por defecto en el método de búsqueda de archivos"
+
+  "Default Find search method"
+  "Método de búsqueda de búsqueda por defecto"
+
   "Default Markdown Export Extension"
   "Extensión predeterminada de exportación para el descuento"
 
+  "Default Plugin Export Directory"
+  "Directorio de Plugin de exportación por defecto"
+
   "Default Theme Export Directory"
   "Exportación de directorio por defecto del tema"
-
-  "Default search method"
-  "Método de búsqueda por defecto"
 
   "Default sidebar width on startup"
   "Ancho de barra lateral predeterminado en el inicio"
@@ -2050,9 +2082,6 @@ msgcat::mcmset es {
 
   "Displayed Information"
   "Información mostrada"
-
-  "Documentation"
-  "Documentación"
 
   "Double-quote"
   "comilla doble"
@@ -2112,7 +2141,7 @@ msgcat::mcmset es {
   "Ocultación"
 
   "Host"
-  "Host"
+  "Hospedero"
 
   "Imported"
   "Importado"
@@ -2312,9 +2341,6 @@ msgcat::mcmset es {
   "Show menubar"
   "Mostrar barra de menú"
 
-  "Sidebar"
-  "Barra lateral"
-
   "Single-quote"
   "Comillas"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset es {
 
   "Enter Password"
   "Introducir la contraseña"
-
-  "File System"
-  "Sistema de Archivos"
 
   "Folder Name"
   "Nombre de carpeta:"
@@ -2638,9 +2661,6 @@ msgcat::mcmset es {
 
   "Line To"
   "De la línea a"
-
-  "Miscellaneous"
-  "Misceláneos"
 
   "Modes"
   "Modos"
@@ -2933,9 +2953,6 @@ msgcat::mcmset es {
 # syntax.tcl
 msgcat::mcmset es {
 
-  "Syntax"
-  "Sintaxis"
-
   "Syntax error in syntax file"
   "Error de sintaxis en el archivo de sintaxis"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset es {
   "Foreground text color to use for displaying numbers."
   "Color del texto primer plano a utilizar para la visualización de los números."
 
+  "Foreground text color to use for function calls."
+  "Color de texto de primer plano para las llamadas de función."
+
   "Foreground text color to use for language-specific keywords."
   "Color del texto primer plano a utilizar para palabras clave específicas del idioma."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset es {
 
   "Foreground text color to use for selected text."
   "Color del texto primer plano a utilizar para el texto seleccionado."
+
+  "Foreground text color to use for variables."
+  "Color de texto de primer plano para las variables."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Color de texto de primer plano utilizado para todas las otras fichas que no son la ficha de corriente/activo en el tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset es {
 
   "One-Color Bitmap"
   "Bitmap Uno-Color"
-
-  "Output Directory"
-  "EMC directorio de salida"
 
   "Paste Theme Items"
   "Pegar elementos de tema"
@@ -3603,6 +3623,9 @@ msgcat::mcmset es {
   "Directory"
   "Directorio"
 
+  "Documentation"
+  "Documentación"
+
   "Duplicate"
   "Duplicar"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset es {
 
   "File Name:"
   "Nombre del archivo:"
+
+  "File System"
+  "Sistema de Archivos"
 
   "Find"
   "Búsqueda"
@@ -3666,6 +3692,9 @@ msgcat::mcmset es {
   "Line"
   "Línea"
 
+  "Miscellaneous"
+  "Misceláneos"
+
   "Move To Trash"
   "Papelera"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset es {
 
   "Options"
   "Opciones"
+
+  "Output Directory"
+  "EMC directorio de salida"
 
   "Parenthesis"
   "Paréntesis"
@@ -3750,6 +3782,9 @@ msgcat::mcmset es {
   "Show tab bar"
   "Barra de solapas"
 
+  "Sidebar"
+  "Barra lateral"
+
   "Smart Indent"
   "Guión inteligente"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset es {
   "Split View"
   "Dividir la vista"
 
+  "Syntax"
+  "Sintaxis"
+
   "TKE Updater"
   "Módulo de actualización"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset es {
 
   "Theme Editor"
   "Editor de temas"
+
+  "Tools"
+  "Herramientas"
 
   "Unable to rename file"
   "No se puede cambiar el nombre"

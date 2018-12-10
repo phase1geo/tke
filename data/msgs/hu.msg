@@ -1648,6 +1648,12 @@ msgcat::mcmset hu {
   "Show plugin developer guide"
   "Térkép a plugin fejlesztő útmutató"
 
+  "Show plugin source directory in sidebar"
+  "Mutassa be a plugin source könyvtárat az oldalsávon"
+
+  "Show plugins directory in sidebar"
+  "Megjelenik a plugins könyvtár az oldalsávon"
+
   "Show selected line change"
   "Megjelenítése a kijelölt sor módosítása"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset hu {
 
   "Toggle tag/rule comment"
   "Ki-/ bekapcsolása cédula, a szabály comment"
-
-  "Tools"
-  "Eszközök"
 
   "Transform"
   "transzformáció"
@@ -1827,6 +1830,9 @@ msgcat::mcmset hu {
   "ERROR:  Unable to write plugin files"
   "HIBA: Nem lehet írni a plugin fájlok"
 
+  "Editing"
+  "vágó"
+
   "Enter plugin name"
   "Adja meg a bővítmény név"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset hu {
 
   "Unable to zip plugin"
   "Nem sikerült a plugin zip"
+
+  "Version Control"
+  "Verziókövetés"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset hu {
+
+  "Export Plugin"
+  "Plugin exportálása"
+
+  "Markdown"
+  "Árleszállítás"
+
+  "Plugin Manager"
+  "Bővítménykezelő"
+
+  "Release Notes"
+  "Kiadási megjegyzések"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset hu {
   "Date"
   "Dátum"
 
+  "Default Find in Files search method"
+  "Alapértelmezett keresés a fájlok keresési módjában"
+
+  "Default Find search method"
+  "Alapértelmezett Keresési módszer keresése"
+
   "Default Markdown Export Extension"
   "Markdown Export árbevétel"
 
+  "Default Plugin Export Directory"
+  "Alapértelmezett plugin export könyvtár"
+
   "Default Theme Export Directory"
   "Alapértelmezett téma Export Directory"
-
-  "Default search method"
-  "Alapértelmezett keresési módszer"
 
   "Default sidebar width on startup"
   "Alapértelmezett oldalsáv szélesség az indításkor"
@@ -2050,9 +2082,6 @@ msgcat::mcmset hu {
 
   "Displayed Information"
   "Megjelenített információk"
-
-  "Documentation"
-  "Dokumentáció"
 
   "Double-quote"
   "Idézőjel"
@@ -2312,9 +2341,6 @@ msgcat::mcmset hu {
   "Show menubar"
   "A menüsáv megjelenítése"
 
-  "Sidebar"
-  "Oldalsáv"
-
   "Single-quote"
   "Idézőjel"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset hu {
 
   "Enter Password"
   "Adja meg a jelszót"
-
-  "File System"
-  "Fájlrendszer"
 
   "Folder Name"
   "Mappa"
@@ -2638,9 +2661,6 @@ msgcat::mcmset hu {
 
   "Line To"
   "Vonal"
-
-  "Miscellaneous"
-  "Muhtelif Konular"
 
   "Modes"
   "& Módok"
@@ -2933,9 +2953,6 @@ msgcat::mcmset hu {
 # syntax.tcl
 msgcat::mcmset hu {
 
-  "Syntax"
-  "Szintaxis"
-
   "Syntax error in syntax file"
   "Szintaktikai hiba a fájl szintaxisa"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset hu {
   "Foreground text color to use for displaying numbers."
   "Előtér szöveget használandó színt megjelenítő számokat."
 
+  "Foreground text color to use for function calls."
+  "A funkcióhívásokhoz használt előtér szövegszíne."
+
   "Foreground text color to use for language-specific keywords."
   "Előtér szöveg színe használni nyelv-specifikus kulcsszavakat."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset hu {
 
   "Foreground text color to use for selected text."
   "Előtér szöveg színe használni a kiválasztott szöveget."
+
+  "Foreground text color to use for variables."
+  "A változókhoz használt előtér szövegszíne."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Előtérben lévő szöveg színe más lapok, amelyek nem az aktuális aktív lap kalanderez."
@@ -3385,9 +3408,6 @@ msgcat::mcmset hu {
 
   "One-Color Bitmap"
   "Egy-Color Bitmap"
-
-  "Output Directory"
-  "Kimeneti könyvtár"
 
   "Paste Theme Items"
   "Téma elemek beillesztése"
@@ -3603,6 +3623,9 @@ msgcat::mcmset hu {
   "Directory"
   "Cégjegyzék"
 
+  "Documentation"
+  "Dokumentáció"
+
   "Duplicate"
   "Megkettőzés"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset hu {
 
   "File Name:"
   "A fájlnév"
+
+  "File System"
+  "Fájlrendszer"
 
   "Find"
   "Keresés"
@@ -3666,6 +3692,9 @@ msgcat::mcmset hu {
   "Line"
   "Vonal"
 
+  "Miscellaneous"
+  "Muhtelif Konular"
+
   "Move To Trash"
   "Kukába mozgatás"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset hu {
 
   "Options"
   "Beállítások"
+
+  "Output Directory"
+  "Kimeneti könyvtár"
 
   "Parenthesis"
   "Zárójel"
@@ -3750,6 +3782,9 @@ msgcat::mcmset hu {
   "Show tab bar"
   "A fülek megjelenítése"
 
+  "Sidebar"
+  "Oldalsáv"
+
   "Smart Indent"
   "Intelligens francia"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset hu {
   "Split View"
   "Osztott nézet"
 
+  "Syntax"
+  "Szintaxis"
+
   "TKE Updater"
   "TKE frissítő"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset hu {
 
   "Theme Editor"
   "Témaszerkesztő"
+
+  "Tools"
+  "Eszközök"
 
   "Unable to rename file"
   "Képtelen-hoz átnevez reszelő"

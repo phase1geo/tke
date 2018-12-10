@@ -1648,6 +1648,12 @@ msgcat::mcmset de {
   "Show plugin developer guide"
   "Plugin-Entwickler Messeführer"
 
+  "Show plugin source directory in sidebar"
+  "Plugin-Quellverzeichnis in der Seitenleiste anzeigen"
+
+  "Show plugins directory in sidebar"
+  "Plugins-Verzeichnis in der Seitenleiste anzeigen"
+
   "Show selected line change"
   "Anzeigen der markierten Zeile ändern"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset de {
 
   "Toggle tag/rule comment"
   "Toggle Tag/Regel Kommentar"
-
-  "Tools"
-  "Instrument"
 
   "Transform"
   "Transformieren"
@@ -1827,6 +1830,9 @@ msgcat::mcmset de {
   "ERROR:  Unable to write plugin files"
   "ERROR: Unable to Plugin-Dateien zu schreiben"
 
+  "Editing"
+  "Bearbeiten"
+
   "Enter plugin name"
   "Geben Sie Name des Plugins"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset de {
 
   "Unable to zip plugin"
   "Nicht in der Lage, zip-plugin"
+
+  "Version Control"
+  "Versionskontrolle"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset de {
+
+  "Export Plugin"
+  "Exportiere Plugins jetzt"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "插件管理"
+
+  "Release Notes"
+  "发布说明"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset de {
   "Date"
   "Datum"
 
+  "Default Find in Files search method"
+  "Standard-Suche in Dateien Suchmethode"
+
+  "Default Find search method"
+  "Standard-Find-Suche-Methode"
+
   "Default Markdown Export Extension"
   "Markdown Export Standarderweiterung"
 
+  "Default Plugin Export Directory"
+  "Standard-Export-Plugin-Verzeichnis"
+
   "Default Theme Export Directory"
   "Default Theme Exportverzeichnis"
-
-  "Default search method"
-  "Standardmäßige Suchmethode"
 
   "Default sidebar width on startup"
   "Standardbreite Sidebar beim Start"
@@ -2051,14 +2083,11 @@ msgcat::mcmset de {
   "Displayed Information"
   "Angezeigte Informationen"
 
-  "Documentation"
-  "Dokumentation"
-
   "Double-quote"
   "Doppeltes Anführungszeichen"
 
   "Editor"
-  "Editor"
+  "Markdown-Editor"
 
   "Enable Vim Mode"
   "Vim-Modus aktivieren"
@@ -2250,7 +2279,7 @@ msgcat::mcmset de {
   "Ausgewählter Text"
 
   "Session"
-  "Session"
+  "Sitzung"
 
   "Set"
   "User-Status wurde erfolgreich auf %s gesetzt"
@@ -2311,9 +2340,6 @@ msgcat::mcmset de {
 
   "Show menubar"
   "Menüleiste anzeigen"
-
-  "Sidebar"
-  "Blog Sidebar-Stil"
 
   "Single-quote"
   "Einfaches Anführungszeichen"
@@ -2466,9 +2492,6 @@ msgcat::mcmset de {
 
   "Enter Password"
   "Passwort eingeben"
-
-  "File System"
-  "Dateisystem"
 
   "Folder Name"
   "Ordnername"
@@ -2638,9 +2661,6 @@ msgcat::mcmset de {
 
   "Line To"
   "Linie zu"
-
-  "Miscellaneous"
-  "Sonstiges"
 
   "Modes"
   "Modi"
@@ -2933,9 +2953,6 @@ msgcat::mcmset de {
 # syntax.tcl
 msgcat::mcmset de {
 
-  "Syntax"
-  "syntax"
-
   "Syntax error in syntax file"
   "Syntax-Fehler in Syntaxdatei"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset de {
   "Foreground text color to use for displaying numbers."
   "Vordergrund Textfarbe für die Anzeige von Zahlen verwenden."
 
+  "Foreground text color to use for function calls."
+  "Text Vordergrundfarbe für Funktionsaufrufe verwenden."
+
   "Foreground text color to use for language-specific keywords."
   "Vordergrund Textfarbe für sprachspezifische Keywords verwenden."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset de {
 
   "Foreground text color to use for selected text."
   "Vordergrund Textfarbe für ausgewählten Text zu verwenden."
+
+  "Foreground text color to use for variables."
+  "Text Vordergrundfarbe für Variablen verwenden."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Text Vordergrundfarbe für alle anderen Registerkarten, die nicht der Strom/aktiv-Registerkarte in der Tabbar sind."
@@ -3385,9 +3408,6 @@ msgcat::mcmset de {
 
   "One-Color Bitmap"
   "Einfarbige Bitmap"
-
-  "Output Directory"
-  "Ausgabeverzeichnis"
 
   "Paste Theme Items"
   "Einfügen von Design-Elementen"
@@ -3603,6 +3623,9 @@ msgcat::mcmset de {
   "Directory"
   "Alle Nachrichten"
 
+  "Documentation"
+  "Dokumentation"
+
   "Duplicate"
   "Duplikation"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset de {
 
   "File Name:"
   "Dateiname:"
+
+  "File System"
+  "Dateisystem"
 
   "Find"
   "Finden"
@@ -3666,6 +3692,9 @@ msgcat::mcmset de {
   "Line"
   "Linie"
 
+  "Miscellaneous"
+  "Sonstiges"
+
   "Move To Trash"
   "in den Papierkorb legen"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset de {
 
   "Options"
   "Optionen"
+
+  "Output Directory"
+  "Ausgabeverzeichnis"
 
   "Parenthesis"
   "Klammer"
@@ -3750,6 +3782,9 @@ msgcat::mcmset de {
   "Show tab bar"
   "Tab-Leiste anzeigen"
 
+  "Sidebar"
+  "Blog Sidebar-Stil"
+
   "Smart Indent"
   "Smart Gedankenstrich"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset de {
   "Split View"
   "Split anzeigen"
 
+  "Syntax"
+  "syntax"
+
   "TKE Updater"
   "Updater"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset de {
 
   "Theme Editor"
   "Motiv-Bearbeitung"
+
+  "Tools"
+  "Instrument"
 
   "Unable to rename file"
   "Die Datei kann nicht umbenannt werden."

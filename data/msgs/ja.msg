@@ -1648,6 +1648,12 @@ msgcat::mcmset ja {
   "Show plugin developer guide"
   "プラグイン開発者ガイドを表示します。"
 
+  "Show plugin source directory in sidebar"
+  "サイドバーにプラグインのソースディレクトリを表示する"
+
+  "Show plugins directory in sidebar"
+  "サイドバーにプラグインディレクトリを表示する"
+
   "Show selected line change"
   "選択した行の変更を表示します。"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset ja {
 
   "Toggle tag/rule comment"
   "タグ/ルール コメント切り替え"
-
-  "Tools"
-  "道具"
 
   "Transform"
   "トランスフォーム"
@@ -1827,6 +1830,9 @@ msgcat::mcmset ja {
   "ERROR:  Unable to write plugin files"
   "エラー：プラグインファイルを書き込むことができません"
 
+  "Editing"
+  "編集"
+
   "Enter plugin name"
   "プラグイン名を入力してください"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset ja {
 
   "Unable to zip plugin"
   "プラグインを圧縮することができません。"
+
+  "Version Control"
+  "バージョン管理システム"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset ja {
+
+  "Export Plugin"
+  "エクスポートプラグイン"
+
+  "Markdown"
+  "値下げ"
+
+  "Plugin Manager"
+  "プラグインマネージャ"
+
+  "Release Notes"
+  "リリースノート"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset ja {
   "Date"
   "日付"
 
+  "Default Find in Files search method"
+  "ファイル検索のデフォルトの検索方法"
+
+  "Default Find search method"
+  "デフォルトの検索方法を検索"
+
   "Default Markdown Export Extension"
   "既定の値下げのエクスポートの拡張"
 
+  "Default Plugin Export Directory"
+  "デフォルトのプラグインエクスポートディレクトリ"
+
   "Default Theme Export Directory"
   "デフォルトのテーマのエクスポートディレクトリ"
-
-  "Default search method"
-  "デフォルトの検索方法"
 
   "Default sidebar width on startup"
   "起動時のデフォルトのサイドバー幅"
@@ -2050,9 +2082,6 @@ msgcat::mcmset ja {
 
   "Displayed Information"
   "コマンドラインオプションを表示"
-
-  "Documentation"
-  "ドキュメント"
 
   "Double-quote"
   "引用符"
@@ -2312,9 +2341,6 @@ msgcat::mcmset ja {
   "Show menubar"
   "メニューバーを表示(&M)"
 
-  "Sidebar"
-  "サイドバー"
-
   "Single-quote"
   "引用符"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset ja {
 
   "Enter Password"
   "パスワードの入力"
-
-  "File System"
-  "ファイルシステム"
 
   "Folder Name"
   "フォルダー名"
@@ -2638,9 +2661,6 @@ msgcat::mcmset ja {
 
   "Line To"
   "行します。"
-
-  "Miscellaneous"
-  "その他"
 
   "Modes"
   "モード"
@@ -2933,9 +2953,6 @@ msgcat::mcmset ja {
 # syntax.tcl
 msgcat::mcmset ja {
 
-  "Syntax"
-  "統語論"
-
   "Syntax error in syntax file"
   "構文ファイルの構文エラー"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset ja {
   "Foreground text color to use for displaying numbers."
   "前景テキストの色は、番号を表示するために使用します。"
 
+  "Foreground text color to use for function calls."
+  "関数呼び出しに使用するフォアグラウンドテキストの色。"
+
   "Foreground text color to use for language-specific keywords."
   "前景テキストの色は、言語固有のキーワードを使用しています。"
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset ja {
 
   "Foreground text color to use for selected text."
   "前景テキストの色は、選択したテキストに使用します。"
+
+  "Foreground text color to use for variables."
+  "変数に使用するフォアグラウンドテキストの色。"
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "他のすべてのタブをタブバーの現在/アクティブ タブの使用前景のテキストの色。"
@@ -3385,9 +3408,6 @@ msgcat::mcmset ja {
 
   "One-Color Bitmap"
   "ワンカラービットマップ"
-
-  "Output Directory"
-  "出力ディレクトリ"
 
   "Paste Theme Items"
   "テーマ アイテムを貼り付ける"
@@ -3603,6 +3623,9 @@ msgcat::mcmset ja {
   "Directory"
   "ディレクトリ"
 
+  "Documentation"
+  "ドキュメント"
+
   "Duplicate"
   "複製"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset ja {
 
   "File Name:"
   "ファイル名"
+
+  "File System"
+  "ファイルシステム"
 
   "Find"
   "見つけます"
@@ -3666,6 +3692,9 @@ msgcat::mcmset ja {
   "Line"
   "直線"
 
+  "Miscellaneous"
+  "その他"
+
   "Move To Trash"
   "ゴミ箱に移動"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset ja {
 
   "Options"
   "オプション"
+
+  "Output Directory"
+  "出力ディレクトリ"
 
   "Parenthesis"
   "括弧"
@@ -3750,6 +3782,9 @@ msgcat::mcmset ja {
   "Show tab bar"
   "タブ バーを表示します。"
 
+  "Sidebar"
+  "サイドバー"
+
   "Smart Indent"
   "スマート インデント"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset ja {
   "Split View"
   "分割表示"
 
+  "Syntax"
+  "統語論"
+
   "TKE Updater"
   "TKE のアップデーター"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset ja {
 
   "Theme Editor"
   "テーマエディタ"
+
+  "Tools"
+  "道具"
 
   "Unable to rename file"
   "ファイルを改名できません"

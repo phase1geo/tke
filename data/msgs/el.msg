@@ -1648,6 +1648,12 @@ msgcat::mcmset el {
   "Show plugin developer guide"
   "Προβολή στον οδηγό για προγραμματιστές plugin"
 
+  "Show plugin source directory in sidebar"
+  "Εμφάνιση του καταλόγου προέλευσης του plugin στην πλευρική γραμμή"
+
+  "Show plugins directory in sidebar"
+  "Εμφάνιση κατάλογο plugins στην πλαϊνή μπάρα"
+
   "Show selected line change"
   "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
 
@@ -1719,9 +1725,6 @@ msgcat::mcmset el {
 
   "Toggle tag/rule comment"
   "Εναλλαγή ετικέτας/κανόνα σχόλιο"
-
-  "Tools"
-  "Μέσα δράσης"
 
   "Transform"
   "Μετασχηματισμός"
@@ -1827,6 +1830,9 @@ msgcat::mcmset el {
   "ERROR:  Unable to write plugin files"
   "ΣΦΑΛΜΑ: Δεν είναι για να γράψει plugin αρχεία"
 
+  "Editing"
+  "Î§ÏÏÎ¯Ï ÎµÏÎ¹ÎºÎ­ÏÎµÏ"
+
   "Enter plugin name"
   "Πληκτρολογήστε το όνομα του plugin"
 
@@ -1871,6 +1877,26 @@ msgcat::mcmset el {
 
   "Unable to zip plugin"
   "Ανίκανος να zip plugin"
+
+  "Version Control"
+  "Έλεγχος εκδόσεων"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset el {
+
+  "Export Plugin"
+  "Εξαγωγή πρόσθετου"
+
+  "Markdown"
+  "ζημία συναλλάγματος"
+
+  "Plugin Manager"
+  "Διαχειριστής προσθέτων"
+
+  "Release Notes"
+  "Σημειώσεις έκδοσης"
 
 }
 
@@ -2018,14 +2044,20 @@ msgcat::mcmset el {
   "Date"
   "Ημερομηνία"
 
+  "Default Find in Files search method"
+  "Προεπιλεγμένη εύρεση μεθόδου αναζήτησης αρχείων"
+
+  "Default Find search method"
+  "Προεπιλεγμένη μέθοδος εύρεσης αναζήτησης"
+
   "Default Markdown Export Extension"
   "Προεπιλεγμένη επέκταση εξαγωγή Markdown"
 
+  "Default Plugin Export Directory"
+  "Προεπιλεγμένος κατάλογος εξαγωγής πρόσθετου"
+
   "Default Theme Export Directory"
   "Προεπιλεγμένο θέμα Export Directory"
-
-  "Default search method"
-  "Προεπιλεγμένη μέθοδος αναζήτησης"
 
   "Default sidebar width on startup"
   "Προεπιλεγμένο πλάτος της πλευρικής εργαλειοθήκης κατά την εκκίνηση"
@@ -2050,9 +2082,6 @@ msgcat::mcmset el {
 
   "Displayed Information"
   "Εμφάνιση επιλογών γραμμής εντολών"
-
-  "Documentation"
-  "Τεκμηρίωση"
 
   "Double-quote"
   "Διπλών"
@@ -2312,9 +2341,6 @@ msgcat::mcmset el {
   "Show menubar"
   "Εμφάνιση γραμμής μενού"
 
-  "Sidebar"
-  "Πλευρική στήλη"
-
   "Single-quote"
   "Μονών εισαγωγικών"
 
@@ -2466,9 +2492,6 @@ msgcat::mcmset el {
 
   "Enter Password"
   "Κωδικός πρόσβασης"
-
-  "File System"
-  "Σύστημα κατασκευής:"
 
   "Folder Name"
   "Κατάλογος"
@@ -2638,9 +2661,6 @@ msgcat::mcmset el {
 
   "Line To"
   "Γραμμή"
-
-  "Miscellaneous"
-  "Διάφορα"
 
   "Modes"
   "ÎÎµÎ¹ÏÎ¿ÏÏÎ³Î¯ÎµÏ"
@@ -2933,9 +2953,6 @@ msgcat::mcmset el {
 # syntax.tcl
 msgcat::mcmset el {
 
-  "Syntax"
-  "Σύνταξη"
-
   "Syntax error in syntax file"
   "Συντακτικό σφάλμα στο αρχείο σύνταξη"
 
@@ -3171,6 +3188,9 @@ msgcat::mcmset el {
   "Foreground text color to use for displaying numbers."
   "Χρώμα κειμένου στο προσκήνιο για να χρησιμοποιήσει για την εμφάνιση αριθμών."
 
+  "Foreground text color to use for function calls."
+  "Χρώμα κειμένου προσκηνίου για χρήση σε κλήσεις λειτουργίας."
+
   "Foreground text color to use for language-specific keywords."
   "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιούν για τη γλώσσα-συγκεκριμένες λέξεις-κλειδιά."
 
@@ -3188,6 +3208,9 @@ msgcat::mcmset el {
 
   "Foreground text color to use for selected text."
   "Χρώμα κειμένου στο προσκήνιο για να χρησιμοποιήσετε για το επιλεγμένο κείμενο."
+
+  "Foreground text color to use for variables."
+  "Χρώμα κειμένου προσκηνίου για χρήση για μεταβλητές."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Χρώμα προσκηνίου κείμενο χρησιμοποιείται για όλες τις άλλες καρτέλες που δεν είναι καρτέλα ρεύμα/ενεργό στην το tabbar."
@@ -3385,9 +3408,6 @@ msgcat::mcmset el {
 
   "One-Color Bitmap"
   "Ένα-Color Bitmap"
-
-  "Output Directory"
-  "Κατάλογος εξόδου"
 
   "Paste Theme Items"
   "Επικόλληση στοιχείων θέμα"
@@ -3603,6 +3623,9 @@ msgcat::mcmset el {
   "Directory"
   "Φάκελος"
 
+  "Documentation"
+  "Τεκμηρίωση"
+
   "Duplicate"
   "Αναπαραγωγή"
 
@@ -3629,6 +3652,9 @@ msgcat::mcmset el {
 
   "File Name:"
   "Όνομα αρχείου:"
+
+  "File System"
+  "Σύστημα κατασκευής:"
 
   "Find"
   "Εύρεση"
@@ -3666,6 +3692,9 @@ msgcat::mcmset el {
   "Line"
   "Γραμμή"
 
+  "Miscellaneous"
+  "Διάφορα"
+
   "Move To Trash"
   "Μετακίνηση στο καλάθι αχρήστων"
 
@@ -3695,6 +3724,9 @@ msgcat::mcmset el {
 
   "Options"
   "Eπιλογές"
+
+  "Output Directory"
+  "Κατάλογος εξόδου"
 
   "Parenthesis"
   "Παρένθεση."
@@ -3750,6 +3782,9 @@ msgcat::mcmset el {
   "Show tab bar"
   "Εμφάνιση γραμμής καρτελών"
 
+  "Sidebar"
+  "Πλευρική στήλη"
+
   "Smart Indent"
   "Έξυπνες περίπτωση"
 
@@ -3762,6 +3797,9 @@ msgcat::mcmset el {
   "Split View"
   "Διαίρεση προβολής"
 
+  "Syntax"
+  "Σύνταξη"
+
   "TKE Updater"
   "ΤΚΕ Updater"
 
@@ -3773,6 +3811,9 @@ msgcat::mcmset el {
 
   "Theme Editor"
   "Θέμα Εκδότης"
+
+  "Tools"
+  "Μέσα δράσης"
 
   "Unable to rename file"
   "Δεν είναι δυνατή η μετονομασία αρχείου"
