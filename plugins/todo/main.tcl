@@ -89,12 +89,11 @@ namespace eval todo {
 
     # Populate the menu with the todo lists
     set list_index 0
-    puts "todo_lists: $todo_lists"
     foreach todo_list $todo_lists {
 
       # Create a menu item for each todo list
       set list_menu [menu $mnu.list$list_index -tearoff 0]
-      $mnu add cascade -label [lindex $todo_list 0] -menu $list_menu
+      $mnu add cascade -label "  [lindex $todo_list 0]" -menu $list_menu
 
       # Add the todo items for the given list
       set todo_index 0
@@ -102,7 +101,6 @@ namespace eval todo {
 
         # Create the todo menu
         set todo_menu [menu $list_menu.todo$todo_index -tearoff 0]
-        puts "todo_menu: $todo_menu"
 
         # Figure out the appropriate checkbutton image to draw
         if {[lindex $todo 1]} {
@@ -143,6 +141,7 @@ namespace eval todo {
 
     # Add a command entry to allow the user to create a new list
     if {$list_index > 0} {
+      $mnu insert 0 command -label "Lists" -state disabled
       $mnu add separator
     }
     $mnu add command -label "Create new list" -command "todo::create_new_list"

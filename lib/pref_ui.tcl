@@ -3656,7 +3656,7 @@ namespace eval pref_ui {
     }
 
     ttk::frame $w.sf
-    wmarkentry::wmarkentry $w.sf.search -width 20 -watermark [msgcat::mc "Search Shortcuts"] \
+    wmarkentry::wmarkentry $w.sf.search -width 30 -watermark [msgcat::mc "Search Shortcuts"] \
       -validate key -validatecommand [list pref_ui::shortcut_search %P]
     ttk::button $w.sf.revert -style BButton -text [msgcat::mc "Use Default"] -command [list pref_ui::shortcut_use_default]
 
@@ -3667,12 +3667,13 @@ namespace eval pref_ui {
     set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl \
       -columns [list 0 [msgcat::mc "Menu Item"] 0 [msgcat::mc "Shortcut"] 0 {}] \
       -height 20 -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
+      -tooltipaddcommand pref_ui::shortcut_show_tooltip -tooltipdelcommand pref_ui::shortcut_hide_tooltip \
       -yscrollcommand [list $w.tf.vb set]]
     scroller::scroller $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
 
     utils::tablelist_configure $widgets(shortcut_tl)
 
-    $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1
+    $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1 -maxwidth 50
     $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
     $widgets(shortcut_tl) columnconfigure 2 -name clear    -hide 1
 
@@ -3876,6 +3877,24 @@ namespace eval pref_ui {
     # Set the widgets
     $widgets(shortcut_mod) configure -values [dict values $mods]
     $widgets(shortcut_sym) configure -values [dict values $syms]
+
+  }
+
+  ######################################################################
+  # Displays a tooltip if the current cell contains snipped text.
+  proc shortcut_show_tooltip {tbl row col} {
+
+    if {[$tbl iselemsnipped $row,$col full_text]} {
+      tooltip::tooltip $tbl $full_text
+    }
+
+  }
+
+  ######################################################################
+  # Removes the tooltip.
+  proc shortcut_hide_tooltip {tbl} {
+
+    tooltip::tooltip clear $tbl
 
   }
 
@@ -4185,8 +4204,10 @@ namespace eval pref_ui {
       set type [$mnu type $i]
       switch $type {
         cascade {
-          set lbl  [string trim [$mnu entrycget $i -label]]
-          populate_shortcut_table [$mnu entrycget $i -menu] "$prefix$lbl/"
+          if {[string index [$mnu entrycget $i -label] 0] ne " "} {
+            set lbl [string trim [$mnu entrycget $i -label]]
+            populate_shortcut_table [$mnu entrycget $i -menu] "$prefix$lbl/"
+          }
         }
         command -
         checkbutton -
