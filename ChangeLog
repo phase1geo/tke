@@ -1,134 +1,100 @@
-2018-12-01 10:11 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f222f939ba8a [devel-3.5.2])
+2018-12-06 07:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (54bf2b4c332a [devel-3.5.3])
 
 	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
-	ChangeLog for devel-3.5.2 release
+	ChangeLog for devel-3.5.3 release
 
-2018-12-01 10:11 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (31b1f8ec4ab8)
+2018-12-06 07:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (06493210ca7b)
 
 	* .hgtags:
-	Added tag devel-3.5.2 for changeset f222f939ba8a
+	Added tag devel-3.5.3 for changeset 54bf2b4c332a
 
-2018-12-02 21:13 -0600  Trevor Williams  <phase1geo@gmail.com>  (05f180717a17)
+2018-12-06 16:26 -0600  Trevor Williams  <Trevor Williams>  (f71470e0956d)
 
-	* data/preferences.tkedat, lib/api.tcl, lib/plugins.tcl,
-	lib/pref_ui.tcl:
-	* Adding preference option to specify a default plugin export
-	directory in the Advanced panel.
-	* Fixing the get_plugin_data_directory to return the correct directory
-	and create the directory if it does not exist.
+	* lib/menus.tcl, lib/plugins.tcl, scripts/extract_plugin.tcl,
+	tests/selection.tcl:
+	* Adding Plugins menu item to display plugin source directory when
+	in development mode.
+	* Checkpointing work on the extract_plugin script.
+	* Cleaning up debug output in selection BIST test.
+	* Starting work on plugin manager.
 
-2018-12-02 21:22 -0600  Trevor Williams  <phase1geo@gmail.com>  (fd2940296704)
+2018-12-07 08:23 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4dc89271838b)
 
-	* lib/gui.tcl, lib/version.tcl:
-	* Using the `remember` file value to indicate whether a file should
-	be placed in the recently opened list.
+	* data/msgs/check2.tcl, data/msgs/ru.msg, lib/version.tcl:
+	* Updating Russian translation.
+	* Updating check2.tcl script.
 
-2018-12-03 09:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c99cabe5d745)
+2018-12-07 09:21 -0600  Trevor Williams  <Trevor Williams>  (80d621cb18ee)
 
-	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* lib/plugmgr.tcl: new file.
+	* lib/plugmgr.tcl:
+	* Adding plugin manager source file.
+
+2018-12-07 12:14 -0600  Trevor Williams  <Trevor Williams>  (96459d8c59be)
+
+	* data/syntax/PluginHeader.syntax, lib/api.tcl, lib/plugins.tcl,
+	lib/utils.tcl:
+	* Adding api::plugin::get_header_info API procedure.
+	* Adding more support for new `display_name`, `website` and `category`
+	header fields.
+	* Enhancing PluginHeader syntax handler to allow the user to change
+	the category by right-clicking with the mouse.
+
+2018-12-07 12:15 -0600  Trevor Williams  <Trevor Williams>  (8497ca8a01a6)
+
+	* Merge
+
+2018-12-08 13:26 -0600  Trevor Williams  <phase1geo@gmail.com>  (64e485d1c032)
+
+	* lib/plugmgr.tcl, lib/tke.tcl, lib/version.tcl:
+	* Adding new plugin export facitility.
+	* Adding plugin manager to application source list.
+
+2018-12-09 00:02 -0600  Trevor Williams  <phase1geo@gmail.com>  (7d3ebf2e78c2)
+
+	* lib/plugmgr.tcl, lib/version.tcl:
 	* Checkpointing.
 
-2018-12-03 14:08 -0600  Trevor Williams  <Trevor Williams>  (e1d2654c82e9)
+2018-12-09 14:34 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (09ee46ab4f45)
 
-	* lib/tke.tcl:
-	* Fixing globbing issue on Windows.
+	* lib/search.tcl, lib/version.tcl:
+	* Fixing issues with including parenthesis in exact searches.
 
-2018-12-03 17:34 -0600  Trevor Williams  <Trevor Williams>  (6543e8c13ee1)
+2018-12-09 15:24 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7b231fe19bcb)
 
-	* lib/ctext/ctext.tcl:
-	* Checkpointing.
+	* lib/menus.tcl, lib/version.tcl:
+	* Removing favorites from shortcuts table.
 
-2018-12-04 03:14 -0600  Trevor Williams  <phase1geo@gmail.com>  (7ea66771f225)
+2018-12-09 16:06 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (9f36df75a639)
 
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Checkpointing.
+	* lib/plugins.tcl, lib/version.tcl:
+	* Fixing api::plugin::get_header_info functionality.
 
-2018-12-04 08:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (74e949d3cf6a)
+2018-12-09 16:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (90ee4f59a592)
 
-	* doc/md/TKE User Guide/Starting the Application/The Command-Line.md,
-	lib/tke.tcl, lib/version.tcl:
-	* Adding more information about command-line operation in User
-	Guide.
-	* Adding more information to command-line help output and improving
-	readability.
+	* lib/api.tcl, lib/version.tcl:
+	* Fixing get_header_info documentation.
 
-2018-12-04 08:19 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0f3b9708c001)
+2018-12-09 19:36 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (aab8356390b2)
 
-	* lib/ptwidgets1.2/library/tokenentry.tcl,
-	lib/ptwidgets1.2/library/tokensearch.tcl, lib/version.tcl:
-	* Fixing tokenentry and tokensearch issues reported by user.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translation files.
 
-2018-12-04 08:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (35f8c62ab98b)
+2018-12-10 00:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2ffaad06f1f6)
 
-	* doc/md/TKE User Guide/Installation/Installing for MacOS.md,
-	lib/version.tcl:
-	* Updating macOS installation instructions.
+	* lib/plugins.tcl, lib/plugmgr.tcl, lib/version.tcl,
+	plugins/todo/main.tcl:
+	* Switching old plugin exporter with new one.
+	* Fixing issue that could cause todo to crash the application if a
+	todo contained colons.
 
-2018-12-04 08:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e5403dc1e2f8)
+2018-12-10 00:36 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4166967beda6 [tip])
 
-	* README, lib/version.tcl:
-	* Updating README with macOS installation updates.
-
-2018-12-05 00:35 -0600  Trevor Williams  <phase1geo@gmail.com>  (6aa24bd1fdd8)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing undocount calculation.
-	* Fixing syntax error in redo.
-
-2018-12-05 01:59 -0600  Trevor Williams  <phase1geo@gmail.com>  (6c582745c56c)
-
-	* lib/edit.tcl, lib/sidebar.tcl, lib/version.tcl, tests/delete.tcl,
-	tests/sidebar.tcl:
-	* Checkpointing work on cleaning up regression issues.
-	* Fixing sidebar handling of files/folders.
-
-2018-12-05 08:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (44d57be79cd7)
-
-	* lib/version.tcl, tests/motion.tcl, tests/multicursor.tcl:
-	* Fixing regression issues.
-
-2018-12-05 08:39 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b9d3a16f26be)
-
-	* data/msgs/check2.tcl: new file.
-	* data/msgs/check2.tcl, lib/version.tcl:
-	* Adding check2 script from Alex.
-
-2018-12-05 08:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ddcc6a64f4dd)
-
-	* data/msgs/ru.msg, lib/version.tcl:
-	* Updating Russian translation file.
-
-2018-12-05 12:41 -0600  Trevor Williams  <Trevor Williams>  (f694a48843c0)
-
-	* lib/menus.tcl:
-	* Fixing issue where a tab is modified and application is exiting
-	which caused changes to be lost.
-
-2018-12-05 17:10 -0600  Trevor Williams  <Trevor Williams>  (318791794871)
-
-	* lib/edit.tcl:
-	* Fixing issue with iw.
-
-2018-12-05 23:59 -0600  Trevor Williams  <phase1geo@gmail.com>  (d462ecc773b3)
-
-	* lib/edit.tcl, lib/version.tcl, tests/multicursor.tcl,
-	tests/selection.tcl, tests/selectmode.tcl:
-	* Checkpointing work on fixing regression failures.
-
-2018-12-06 00:00 -0600  Trevor Williams  <phase1geo@gmail.com>  (8e832a69a7e2)
-
-	* lib/edit.tcl, lib/files.tcl, lib/version.tcl:
-	* Cleaning up debug output.
-
-2018-12-06 00:17 -0600  Trevor Williams  <phase1geo@gmail.com>  (45e2577fd337)
-
-	* lib/sidebar.tcl, lib/version.tcl:
-	* Fixing issue with "Sort By" sidebar submenu activation.
-
-2018-12-06 01:04 -0600  Trevor Williams  <phase1geo@gmail.com>  (f3c20edd1afd [tip])
-
-	* scripts/extract_plugin.tcl: new file.
-	* lib/version.tcl, scripts/extract_plugin.tcl:
-	* Starting script to extract a plugin for website update
-	information.
+	* lib/version.tcl, specl/specl_version.tcl:
+	* Fixing specl_version release number.
 
