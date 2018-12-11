@@ -3706,7 +3706,7 @@ namespace eval pref_ui {
     pack $w.tf.sf.clear  -side right -padx 2 -pady 2
 
     set widgets(shortcut_note) [ttk::frame $w.tf.nf]
-    ttk::label $w.tf.nf.l -text [msgcat::mc "Select a shortcut and hit the Return or Space key to edit the shortcut"]
+    ttk::label $w.tf.nf.l -style HLabel -text [msgcat::mc "Select a shortcut and hit the Return or Space key to edit the shortcut"]
 
     pack $w.tf.nf.l -fill x -padx 2 -pady 2
 
