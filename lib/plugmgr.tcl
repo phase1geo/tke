@@ -243,7 +243,7 @@ namespace eval plugmgr {
 
     set header [file join $plugdir header.tkedat]
 
-    if {[catch { tkedat::read $header } rc]} {
+    if {[catch { tkedat::read $header 0 } rc]} {
       return -code error "Unable to read header.tkedat"
     }
 
@@ -251,7 +251,7 @@ namespace eval plugmgr {
 
     if {$version ne $contents(version)} {
       set contents(version) $version
-      if {[catch { tkedat::write $header [array get contents] } rc]} {
+      if {[catch { tkedat::write $header [array get contents] 0 } rc]} {
         return -code error "Unable to write header.tkedat"
       }
     }

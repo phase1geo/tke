@@ -112,7 +112,7 @@ namespace eval zipper {
           set mode [dict get ${sdict} mode]
           set mtime [dict get ${sdict} mtime]
           set atime [dict get ${sdict} atime]
-          catch { file attributes ${to} -permissions ${mode} }
+          catch { file attributes ${to} -permissions $mode }
           file mtime ${to} ${mtime}
           file atime ${to} ${atime}
           ::vfs::zip::Unmount ${zid} ${zmount}
@@ -202,6 +202,7 @@ namespace eval zipper {
         set fsize [string length $contents]
         set csize $fsize
         set fnlen [string length $name]
+        set mode  [expr ([file attributes $name -permissions] << 16) | 128]
 
         if {$force > 0 && $force != [string length $contents]} {
             set csize $fsize
@@ -222,7 +223,7 @@ namespace eval zipper {
 
         lappend v::toc "[binary format a2c6ssssiiiss4ii PK {1 2 20 0 20 0} \
         $flag $type $time $date $crc $csize $fsize $fnlen \
-        {0 0 0 0} 128 [tell $v::fd]]$name"
+        {0 0 0 0} $mode [tell $v::fd]]$name"
 
         emit [binary format a2c4ssssiiiss PK {3 4 20 0} \
         $flag $type $time $date $crc $csize $fsize $fnlen 0]
