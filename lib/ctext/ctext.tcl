@@ -110,6 +110,7 @@ namespace eval ctext {
     set data($win,config,undo_sep_size)            0
     set data($win,config,undo_sep_count)           0
     set data($win,config,redo_hist)                [list]
+    set data($win,config,linemap_cmd_ip)           0
 
     set data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
     -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -4215,11 +4216,18 @@ namespace eval ctext {
 
     variable data
 
-    if {!$data($win,config,-linemap_markable)} {
+    # If the linemap is not markable or the linemap command is in progress, ignore
+    # further attempts to toggle the mark.
+    if {!$data($win,config,-linemap_markable) || $data($win,config,linemap_cmd_ip)} {
       return
     }
 
     set tline [lindex [split [set tmarkChar [$win.t index @0,$y]] .] 0]
+
+    # If the line is empty, we can't mark the line so just return now
+    if {[$win._t compare "$tline.0 linestart" == "$tline.0 lineend"]} {
+      return
+    }
 
     if {[set lmark [lsearch -inline -glob [$win.t tag names $tline.0] lmark*]] ne ""} {
       $win.t tag delete $lmark
@@ -4233,6 +4241,9 @@ namespace eval ctext {
     # Update the linemap
     linemapUpdate $win 1
 
+    # Indicate that the linemap command is in progress
+    set data($win,config,linemap_cmd_ip) 1
+
     # Call the mark command, if one exists.  If it returns a value of 0, remove
     # the mark.
     set cmd $data($win,config,-linemap_mark_command)
@@ -4241,13 +4252,16 @@ namespace eval ctext {
       linemapUpdate $win 1
     }
 
+    # Indicate that the linemap command is no longer in progress
+    set data($win,config,linemap_cmd_ip) 0
+
   }
 
   proc linemapSetMark {win line} {
 
     variable data
 
-    if {[lsearch -inline -glob [$win.t tag names $line.0] lmark*] eq ""} {
+    if {[$win._t compare "$line.0 linestart" != "$line.0 lineend"] && [lsearch -inline -glob [$win.t tag names $line.0] lmark*] eq ""} {
       set lmark "lmark[incr data($win,linemap,id)]"
       $win.t tag add $lmark $line.0
       linemapUpdate $win 1
