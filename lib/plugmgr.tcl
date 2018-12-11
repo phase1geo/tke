@@ -141,6 +141,9 @@ namespace eval plugmgr {
     # Set the focus on the version entry field
     focus $w.tf.vcb
 
+    # Make sure that the state of the export button is set properly
+    handle_export_button_state $w
+
   }
 
   ######################################################################
@@ -309,9 +312,64 @@ namespace eval plugmgr {
     wm title     $w [msgcat::mc "Plugin Manager"]
     wm transient $w .
 
-    ttk::frame $w.lf
-    tablelist::tablelist $w.lf.tl -yscrollcommand
+    set widgets(pw) [ttk::panedwindow $w.pw -orient vertical]
+
+    $widgets(pw) add [ttk::frame $widgets(pw).tf]
+    $widgets(pw) add [ttk::frame $widgets(pw).bf]
+
+    ttk::frame $w.pw.tf.sf
+    set widgets(search) [wmarkentry::wmarkentry $w.pw.tf.sf.e -validate key -validatecommand [list plugmgr::do_search %P] -watermark [msgcat::mc "Search"]]
+
+    pack $w.pw.tf.sf.e -fill x -expand yes
+
+    ttk::frame     $w.pw.tf.lf
+    set widgets(table) [tablelist::tablelist $w.pw.tf.lf.tl -columns [list 0 [msgcat::mc "Plugins"]] \
+      -stretch all -exportselection 1 -selectmode browse \
+      -yscrollcommand [list $w.pw.tf.lf.vb set]]
+    ttk::scrollbar $w.pw.tf.lf.vb -orient vertical -command [list $w.pw.tf.lf.tl yview]
+
+    $widgets(table) columnconfigure 0 -name plugin -stretchable 1 -wrap 1
+
+    grid rowconfigure    $w.pw.tf.lf 0 -weight 1
+    grid columnconfigure $w.pw.tf.lf 0 -weight 1
+    grid $w.pw.tf.lf.tl -row 0 -column 0 -sticky news
+    grid $w.pw.tf.lf.vb -row 0 -column 1 -sticky ns
+
+    pack $w.pw.tf.sf -fill x                -padx 2 -pady 4
+    pack $w.pw.tf.lf -fill both -expand yes -padx 2 -pady 4
+
+    ttk::frame $w.pw.bf.bf
+    set widgets(install) [ttk::button $w.pw.bf.bf.install -text [msgcat::mc "Install"] -command [list plugmgr::install]]
+    set widgets(delete)  [ttk::button $w.pw.bf.bf.delete  -text [msgcat::mc "Delete"]  -command [list plugmgr::delete]]
+
+    pack $w.pw.bf.bf.delete  -side right -padx 4 -pady 2
+    pack $w.pw.bf.bf.install -side right -padx 4 -pady 2
+
+    # Create HTML viewer
+    ttk::frame $w.pw.bf.hf
+    set widgets(html) [text $w.pw.bf.hf.t \
+      -xscrollcommand [list utils::set_xscrollbar $w.pw.bf.hf.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $w.pw.bf.hf.vb]]
+    ttk::scrollbar $w.pw.bf.hf.vb -orient vertical   -command [list $w.pw.bf.hf.t yview]
+    ttk::scrollbar $w.pw.bf.hf.hb -orient horizontal -command [list $w.pw.bf.hf.t xview]
+
+    grid rowconfigure    $w.pw.bf.hf 0 -weight 1
+    grid columnconfigure $w.pw.bf.hf 0 -weight 1
+    grid $w.pw.bf.hf.t  -row 0 -column 0 -sticky news
+    grid $w.pw.bf.hf.vb -row 0 -column 1 -sticky ns
+    grid $w.pw.bf.hf.hb -row 1 -column 0 -sticky ew
+
+    pack $w.pw.bf.bf -fill x
+    pack $w.pw.bf.hf -fill both -expand yes
+
+    pack $w.pw -fill both -expand yes
+
+    focus $widgets(table)
 
   }
 
+  ######################################################################
+  proc populate_manager {} {
+
+  }
 }
