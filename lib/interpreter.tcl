@@ -557,9 +557,6 @@ namespace eval interpreter {
       return -code error $rc
     }
 
-    # Share the file stream with the interpreter
-    interp share {} $rc $interps($pname,interp)
-
     # Save the file descriptor
     lappend interps($pname,files) $rc
 
@@ -569,16 +566,15 @@ namespace eval interpreter {
 
   ######################################################################
   # Executes the close command.
-  proc close_command {pname channel} {
+  proc close_command {pname channel args} {
 
     variable interps
 
-    puts "In close_command"
-
     if {[set index [lsearch $interps($pname,files) $channel]] != -1} {
-      close $channel
-      $interps($pname,interp) eval close $channel
+      close $channel {*}$args
       set interps($pname,files) [lreplace $interps($pname,files) $index $index]
+    } else {
+      return -code error "permission error"
     }
 
   }
@@ -591,6 +587,61 @@ namespace eval interpreter {
 
     if {[lsearch $interps($pname,files) $channel] != -1} {
       flush $channel
+    } else {
+      return -code error "permission error"
+    }
+
+  }
+
+  ######################################################################
+  proc read_command {pname args} {
+
+    variable interps
+
+    if {[lindex $args 0] eq "-nonewline"} {
+      set channel [lindex $args 1]
+    } else {
+      set channel [lindex $args 0]
+    }
+
+    if {[lsearch $interps($pname,files) $channel] != -1} {
+      return [read {*}$args]
+    } else {
+      return -code error "permission error"
+    }
+
+  }
+
+  ######################################################################
+  # Executes the puts command with a channel identifier.
+  proc puts_command {pname args} {
+
+    variable interps
+
+    if {[lindex $args 0] eq "-nonewline"} {
+      set channel [lindex $args 1]
+    } else {
+      set channel [lindex $args 0]
+    }
+
+    if {[lsearch $interps($pname,files) $channel] != -1} {
+      puts {*}$args
+    } else {
+      return -code error "permission error"
+    }
+
+  }
+
+  ######################################################################
+  # Executes the fconfigure command.
+  proc fconfigure_command {pname args} {
+
+    variable interps
+
+    if {[lsearch $interps($pname,files) [lindex $args 0]] != -1} {
+      return [fconfigure {*}$args]
+    } else {
+      return -code error "permission error"
     }
 
   }
@@ -772,7 +823,7 @@ namespace eval interpreter {
 
     # Create Tcl command aliases if we are running in untrusted mode
     if {!$trust_granted} {
-      foreach cmd [list close exec file flush glob open] {
+      foreach cmd [list close exec file flush glob open puts fconfigure read] {
         $interp alias $cmd interpreter::${cmd}_command $pname
       }
       $interp hide exit my_exit
