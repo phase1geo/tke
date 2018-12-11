@@ -3680,6 +3680,7 @@ namespace eval pref_ui {
     bind [$widgets(shortcut_tl) bodytag] <Return>          [list pref_ui::shortcut_table_select]
     bind [$widgets(shortcut_tl) bodytag] <Key-space>       [list pref_ui::shortcut_table_select]
     bind [$widgets(shortcut_tl) bodytag] <Escape>          [list pref_ui::shortcut_cancel]
+    bind [$widgets(shortcut_tl) bodytag] <Delete>          [list pref_ui::shortcut_clear]
     bind [$widgets(shortcut_tl) bodytag] <Double-Button-1> [list pref_ui::shortcut_table_select]
 
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
