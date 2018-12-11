@@ -92,12 +92,12 @@
 
 {General/PromptCrossSessionSave} {1}
 
-# Specifies a default directory to use when exporting theme packages from the theme
+# Specifies the default directory to use when exporting theme packages from the theme
 # editor.
 
 {General/DefaultThemeExportDirectory} {}
 
-# Specifies a default directory to use when exporting plugin packages from the
+# Specifies the default directory to use when exporting plugin packages from the
 # plugin menu.
 
 {General/DefaultPluginExportDirectory} {}
