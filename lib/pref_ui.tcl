@@ -3677,7 +3677,10 @@ namespace eval pref_ui {
     $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
     $widgets(shortcut_tl) columnconfigure 2 -name clear    -hide 1
 
-    bind $widgets(shortcut_tl) <<TablelistSelect>> [list pref_ui::shortcut_table_select]
+    bind [$widgets(shortcut_tl) bodytag] <Return>          [list pref_ui::shortcut_table_select]
+    bind [$widgets(shortcut_tl) bodytag] <Key-space>       [list pref_ui::shortcut_table_select]
+    bind [$widgets(shortcut_tl) bodytag] <Escape>          [list pref_ui::shortcut_cancel]
+    bind [$widgets(shortcut_tl) bodytag] <Double-Button-1> [list pref_ui::shortcut_table_select]
 
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
     ttk::label  $w.tf.sf.l -text [format "%s: " [msgcat::mc "Shortcut"]]
@@ -3687,8 +3690,13 @@ namespace eval pref_ui {
     set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Set"]   -width 6 -state disabled -command [list pref_ui::shortcut_update]]
     ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::shortcut_cancel]
 
-    bind $widgets(shortcut_mod) <<ComboboxSelected>> [list pref_ui::shortcut_changed]
-    bind $widgets(shortcut_sym) <<ComboboxSelected>> [list pref_ui::shortcut_changed]
+    bind $widgets(shortcut_mod)    <<ComboboxSelected>> [list pref_ui::shortcut_changed]
+    bind $widgets(shortcut_mod)    <Escape>             [list pref_ui::shortcut_cancel]
+    bind $widgets(shortcut_sym)    <<ComboboxSelected>> [list pref_ui::shortcut_changed]
+    bind $widgets(shortcut_sym)    <Escape>             [list pref_ui::shortcut_cancel]
+    bind $widgets(shortcut_clear)  <Escape>             [list pref_ui::shortcut_cancel]
+    bind $widgets(shortcut_update) <Escape>             [list pref_ui::shortcut_cancel]
+    bind $w.tf.sf.cancel           <Escape>             [list pref_ui::shortcut_cancel]
 
     pack $w.tf.sf.l      -side left -padx 2 -pady 2
     pack $w.tf.sf.mod    -side left -padx 2 -pady 2
@@ -3697,12 +3705,18 @@ namespace eval pref_ui {
     pack $w.tf.sf.update -side right -padx 2 -pady 2
     pack $w.tf.sf.clear  -side right -padx 2 -pady 2
 
+    set widgets(shortcut_note) [ttk::frame $w.tf.nf]
+    ttk::label $w.tf.nf.l -text [msgcat::mc "Select a shortcut and hit the Return or Space key to edit the shortcut"]
+
+    pack $w.tf.nf.l -fill x -padx 2 -pady 2
+
     grid rowconfigure    $w.tf 1 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
     grid $w.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
     grid [$w.tf.tl cornerpath] -row 0 -column 1 -sticky news
     grid $w.tf.vb              -row 1 -column 1 -sticky ns
     grid $w.tf.sf              -row 2 -column 0 -sticky ew -columnspan 2
+    grid $w.tf.nf              -row 3 -column 0 -sticky ew -columnspan 2
 
     # Hide the shortcut frame
     grid remove $w.tf.sf
@@ -3884,7 +3898,7 @@ namespace eval pref_ui {
   # Displays a tooltip if the current cell contains snipped text.
   proc shortcut_show_tooltip {tbl row col} {
 
-    if {[$tbl iselemsnipped $row,$col full_text]} {
+    if {($row >= 0) && [$tbl iselemsnipped $row,$col full_text]} {
       tooltip::tooltip $tbl $full_text
     }
 
@@ -3947,6 +3961,7 @@ namespace eval pref_ui {
 
       # Hide the shortcut frame
       grid remove $widgets(shortcut_frame)
+      grid        $widgets(shortcut_note)
 
     } else {
 
@@ -3993,6 +4008,7 @@ namespace eval pref_ui {
       shortcut_check_matches
 
       # Display the shortcut frame
+      grid remove $widgets(shortcut_note)
       grid $widgets(shortcut_frame)
 
       # Set the focus on the modifier
@@ -4162,9 +4178,10 @@ namespace eval pref_ui {
 
     # Remove the shortcut editor frame
     grid remove $widgets(shortcut_frame)
+    grid        $widgets(shortcut_note)
 
-    # Clear the table selection
-    $widgets(shortcut_tl) selection clear 0 end
+    # Put the focus back on the shortcut table
+    focus $widgets(shortcut_tl)
 
   }
 
