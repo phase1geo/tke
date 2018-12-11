@@ -379,7 +379,6 @@ namespace eval search {
     }
 
     # Perform the highlight
-    $txt configure -state disabled
     $txt syntax highlight -dotags $do_tags -insert 1 -modified 1 {*}$matches
 
     # Set the insertion cursor to the last match and make that line visible
@@ -404,9 +403,7 @@ namespace eval search {
     lassign [$txt syntax prevrange search "insert+1c"] startpos endpos
 
     # Perform the replacement
-    $txt configure -state normal
     $txt replace $startpos $endpos [regsub $data_array(find) [$txt get $startpos $endpos] $data_array(replace)]
-    $txt configure -state disabled
 
     # Make sure that the insertion cursor is valid
     vim::adjust_insert $txt
