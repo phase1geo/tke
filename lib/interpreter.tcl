@@ -573,8 +573,11 @@ namespace eval interpreter {
 
     variable interps
 
+    puts "In close_command"
+
     if {[set index [lsearch $interps($pname,files) $channel]] != -1} {
       close $channel
+      $interps($pname,interp) eval close $channel
       set interps($pname,files) [lreplace $interps($pname,files) $index $index]
     }
 
