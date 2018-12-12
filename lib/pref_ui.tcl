@@ -4253,7 +4253,7 @@ namespace eval pref_ui {
     variable prefs
 
     set widgets(plugins_mb) [ttk::menubutton $w.mb -text [msgcat::mc "Select a plugin"] -menu [menu $w.pluginsMenu -tearoff 0]]
-    set widgets(plugins_nb) [ttk::notebook $w.nb -style HNotebook]
+    set widgets(plugins_nb) [ttk::notebook $w.nb -style Plain.TNotebook]
 
     pack $widgets(plugins_mb) -padx 2 -pady 2
     pack $widgets(plugins_nb) -fill both -expand yes -padx 2 -pady 2

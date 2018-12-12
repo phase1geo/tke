@@ -594,6 +594,7 @@ namespace eval interpreter {
   }
 
   ######################################################################
+  # Executes the read command.
   proc read_command {pname args} {
 
     variable interps
