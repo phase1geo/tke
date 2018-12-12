@@ -1,7 +1,7 @@
-R: Tkcon R: tkcon
+RE: Tkcon RE: tkcon
 
-S: Tclsh S: tclsh
+SE: Tclsh SE: tclsh
 
-R: Wish R: wish
+RE: Wish RE: wish
 
-R: Console R: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
+RE: Console RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white

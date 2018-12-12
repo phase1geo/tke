@@ -1649,7 +1649,7 @@ msgcat::mcmset ru {
   "Показать руководство разработчика плагинов"
 
   "Show plugin source directory in sidebar"
-  "Показать исходный каталог плагин в боковой панели"
+  "Показать каталог исходников плагинов в боковой панели"
 
   "Show plugins directory in sidebar"
   "Показать каталог плагинов в боковой панели"
@@ -1887,13 +1887,13 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Export Plugin"
-  "Экспорта плагин"
+  "Экспортировать плагин"
 
   "Markdown"
-  "Уценок"
+  "Разметка"
 
   "Plugin Manager"
-  "ÐÐ¾Ð´ÑÐ»Ñ RSS"
+  "Менеджер плагинов"
 
   "Release Notes"
   "Примечания к выпуску"
@@ -2045,19 +2045,19 @@ msgcat::mcmset ru {
   "Дата"
 
   "Default Find in Files search method"
-  "Метод поиска по умолчанию в файлах"
+  "Метод поиска в файлах по умолчанию"
 
   "Default Find search method"
-  "По умолчанию метод Find Поиск"
+  "Метод поиска по умолчанию"
 
   "Default Markdown Export Extension"
-  "Расширение по умолчанию для Markdown"
+  "Расширение по умолчанию для разметки"
 
   "Default Plugin Export Directory"
-  "По умолчанию модуль экспорта каталога"
+  "Каталог экспорта плагинов по умолчанию "
 
   "Default Theme Export Directory"
-  "Каталог для экспорта по умолчанию"
+  "Каталог экспорта тем по умолчанию"
 
   "Default sidebar width on startup"
   "Ширина боковой панели при запуске"
@@ -2916,7 +2916,7 @@ msgcat::mcmset ru {
   "Выбранные элементы будут скопированы в ваш локальный домашний каталог. Невыбранные элементы будут созданы в вашем домашнем каталоге."
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
-  "Выбранные элементы будут доступны с других компьютеров. Невыбранные элементы будут храниться локально и не будут общими."
+  "Выбранные элементы будут доступны с других компьютеров. Невыбранные элементы будут храниться локально и не будут расшарены."
 
   "Select Settings Directory"
   "Выбрать каталог настроек"
@@ -2931,7 +2931,7 @@ msgcat::mcmset ru {
   "Установка завершена"
 
   "Share"
-  "Поделиться"
+  "Совместный доступ"
 
   "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
   "Делает общими настройки из нового или существующего каталога (напр., iCloud Drive, Google Drive, Dropbox и т.д.). Любые изменения, внесенные в настройки, будут доступны другим пользователям."
@@ -2940,7 +2940,7 @@ msgcat::mcmset ru {
   "Спасибо за использование TKE, редактора для продвинутых программистов.  Поскольку это новая установка TKE, давайте настроим ее. \\n \\n Кликните 'Далее' для продолжения."
 
   "Use shared settings"
-  "Использовать общие настройки"
+  "Использовать настройки совместного доступа"
 
   "Welcome"
   "Привет"
@@ -3192,7 +3192,7 @@ msgcat::mcmset ru {
   "Цвет текста для вызовов функций."
 
   "Foreground text color to use for language-specific keywords."
-  "Цвет текста ключевых слов конкретного языка."
+  "Цвет текста ключевых слов языка программирования."
 
   "Foreground text color to use for language-specific punctuation."
   "Цвет текста знаков препинания."
@@ -3210,7 +3210,7 @@ msgcat::mcmset ru {
   "Цвет текста для выделенного текста."
 
   "Foreground text color to use for variables."
-  "Цвет текста для использования переменных."
+  "Цвет текста для переменных."
 
   "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
   "Цвет текста вкладок, которые не являются текущими/активными в панели вкладок."
@@ -3633,7 +3633,7 @@ msgcat::mcmset ru {
   "Правка"
 
   "Emmet"
-  "муравей"
+  "Emmet"
 
   "Enable code folding"
   "Включить сворачивание кода"
@@ -3714,7 +3714,7 @@ msgcat::mcmset ru {
   "Узел"
 
   "None"
-  "нет"
+  "None"
 
   "OK"
   "ОК"

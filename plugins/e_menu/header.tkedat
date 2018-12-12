@@ -1,7 +1,7 @@
 name           {e_menu}
 author         {Alex Plotnikov}
 email          {aplsimple@mail.ru}
-version        {1.3}
+version        {1.4}
 include        {yes}
 trust_required {yes}
 description    {This plugin allows the user to invoke the hierarchical menus to execute the commands closely bound to TKE environment. In particular, you get a context help for Tcl/Tk commands/keywords.}

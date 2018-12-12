@@ -69,33 +69,6 @@ proc S {args} {
   ::em::shell_run "Nobutt" "S:" shell1 - "noamp" [string map {"\\n" "\r"} $cc]
 }
 proc EXIT {} {::em::on_exit}
-proc IF {rest} {
-  set pthen [string first " %THEN " $rest]
-  set pelse [string first " %ELSE " $rest]
-  if {$pthen > 0} {
-    if {$pelse < 0} {set pelse end}
-    set ifcond [string trim [string range $rest 0 $pthen-1]]
-    if {[catch {set res [expr $ifcond]} e]} {
-      message_box "ERROR: incorrect condition of IF:\n$ifcond\n\n($e)"
-      return false
-    }
-    set thencomm [string trim [string range $rest $pthen+6 $pelse-1]]
-    set comm     [string trim [string range $rest $pelse+6 end]]
-    if {$res} {
-      set comm $thencomm
-    }
-    if {$comm!=""} {
-      if {[::iswindows]} {
-        set comm "cmd.exe /c $comm"
-      }
-      if { [catch {exec {*}$comm} e] } {
-        message_box "ERROR: incorrect command of IF:\n$comm\n\n($e)"
-        return false
-      }
-    }
-  }
-  return true
-}
 
 # *******************************************************************
 # e_menu's procedures
@@ -177,6 +150,7 @@ namespace eval em {
   set prjset 0
   set skipfocused 0
   set cb ""
+  set basedir ""
   ;#====== own message box
   proc message_box {mes {typ ok} {ttl ""}} {
     set colr [. cget -bg]
@@ -472,58 +446,26 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
     }
     return $retlist
   }
-  #====== to run a program of sel
-  proc run0 {sel amp silent} {
-    if {![vip $sel]} {
-      if {[string first "%q " $sel] == 0 ||
-      [string first "%Q " $sel] == 0} {
-        set sel "Q [string range $sel 3 end]"
-        return [{*}$sel]
-      } elseif {[string first "%D " $sel] == 0} {
-        set sel "D [string range $sel 3 end]"
-        if {[catch [{*}$sel] e]} {
-          D $e
-          return false
-        }
-      } elseif {[string first "%S " $sel] == 0} {
-        set sel "S [string range $sel 3 end]"
-        if {[catch [{*}$sel] e]} {
-          D $e
-          return false
-        }
-      } elseif {[string first "%b " $sel] == 0 || \
-                [string first "%B " $sel] == 0} {
-        set sel "::eh::browse [list [string range $sel 3 end]]"
-        {*}$sel
-      } elseif {[string first "%IF " $sel] == 0} {
-        return [IF [string range $sel 4 end]]
-      } else {
-        set comm "$sel $amp"
-        if {[::iswindows]} {
-          set comm "cmd.exe /c $comm"
-        }
-        if { [catch {exec {*}$comm} e] } {
-          if {$silent < 0} {
-            message_box "ERROR of running\n\n$sel\n\n$e"
-            return false
-          }
-        }
-      }
+  #====== replace first %b with browser pathname
+  proc checkForBrowser {rsel} {
+    upvar $rsel sel
+    if {[string first "%b " $sel] == 0 || [string first "%B " $sel] == 0} {
+      set sel "::eh::browse [list [string range $sel 3 end]]"
+      return true
     }
-    return true
+    return false
   }
-  #====== to run a program of menu item
-  proc run1 {typ sel amp silent} {
-    prepr_prog sel $typ  ;# prep
-    prepr_idiotic sel 0
-    return [run0 $sel $amp $silent]
+  #====== replace first %t with terminal pathname
+  proc checkForShell {rsel} {
+    upvar $rsel sel
+    if {[string first "%t " $sel] == 0 || [string first "%T " $sel] == 0} {
+      set sel "[string range $sel 3 end]"
+      return true
+    }
+    return false
   }
   #====== to call command in shell
-  proc shell1 {typ sel amp silent} {
-    prepr_prog sel $typ  ;# prep
-    prepr_idiotic sel 0
-    if {[vip $sel]} {return true}
-    if {[iswindows] || $amp!="&"} {focused_win false}
+  proc shell0 {sel amp} {
     set ret true
     if {[::iswindows]} {
       set composite "$::win_console $sel $amp"
@@ -551,8 +493,97 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
         }
       }
     }
+    return $ret
+  }
+  #====== to run a program of sel
+  proc run0 {sel amp silent} {
+    if {![vip $sel]} {
+      if {[string first "%q " $sel] == 0 ||
+      [string first "%Q " $sel] == 0} {
+        set sel "Q [string range $sel 3 end]"
+        return [{*}$sel]
+      } elseif {[string first "%D " $sel] == 0} {
+        set sel "D [string range $sel 3 end]"
+        if {[catch [{*}$sel] e]} {
+          D $e
+          return false
+        }
+      } elseif {[string first "%S " $sel] == 0} {
+        set sel "S [string range $sel 3 end]"
+        if {[catch [{*}$sel] e]} {
+          D $e
+          return false
+        }
+      } elseif {[string first "%IF " $sel] == 0} {
+        return [IF [string range $sel 4 end]]
+      } elseif {[checkForBrowser sel]} {
+        {*}$sel
+      } elseif {[checkForShell sel]} {
+        shell0 $sel $amp
+      } else {
+        set comm "$sel $amp"
+        if {[::iswindows]} {
+          set comm "cmd.exe /c $comm"
+        }
+        if { [catch {exec {*}$comm} e] } {
+          if {$silent < 0} {
+            message_box "ERROR of running\n\n$sel\n\n$e"
+            return false
+          }
+        }
+      }
+    }
+    return true
+  }
+  #====== to run a program of menu item
+  proc run1 {typ sel amp silent} {
+    prepr_prog sel $typ  ;# prep
+    prepr_idiotic sel 0
+    return [run0 $sel $amp $silent]
+  }
+  #====== to call command in shell
+  proc shell1 {typ sel amp silent} {
+    prepr_prog sel $typ  ;# prep
+    prepr_idiotic sel 0
+    if {[vip $sel]} {return true}
+    if {[iswindows] || $amp!="&"} {focused_win false}
+    set ret [shell0 $sel $amp]
     if {[iswindows] || $amp!="&"} {focused_win true}
     return $ret
+  }
+  #====== to process %IF wildcard
+  proc IF {rest} {
+    set pthen [string first " %THEN " $rest]
+    set pelse [string first " %ELSE " $rest]
+    if {$pthen > 0} {
+      if {$pelse < 0} {set pelse 9999}
+      set ifcond [string trim [string range $rest 0 $pthen-1]]
+      if {[catch {set res [expr $ifcond]} e]} {
+        message_box "ERROR: incorrect condition of IF:\n$ifcond\n\n($e)"
+        return false
+      }
+      set thencomm [string trim [string range $rest $pthen+6 $pelse-1]]
+      set comm     [string trim [string range $rest $pelse+6 end]]
+      if {$res} {
+        set comm $thencomm
+      }
+      if {$comm!=""} {
+        if {[checkForBrowser comm]} {
+          {*}$comm
+        } elseif {[checkForShell comm]} {
+          shell0 $comm &
+        } else {
+          if {[::iswindows]} {
+            set comm "cmd.exe /c $comm"
+          }
+          if { [catch {exec {*}$comm &} e] } {
+            message_box "ERROR: incorrect command of IF:\n$comm\n\n($e)"
+          }
+        }
+        return false ;# to run the command and exit
+      }
+    }
+    return true
   }
   #====== to update item name (with inc)
   proc update_itname {it inc {pr ""}} {
@@ -900,8 +931,10 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
     if {$domenu} {
       set ::em::menuttl \
         "[string map {"\\" "/"} [file tail $seltd]] - E_menu"
-      if {![file exists "$seltd"]} {
-        set seltd [file join $::menudir "$seltd"]
+      if {$::em::basedir!=""} {
+        set seltd [file join $::em::basedir $seltd]
+      } elseif {![file exists "$seltd"]} {
+        set seltd [file join $::menudir $seltd]
       }
       set seltd [file normalize $seltd]
       if { [catch {set chan [open "$seltd"]} e] } {
@@ -1282,7 +1315,7 @@ as a context menu\n(see readme.md for details)." }
     }
     foreach s1 { a0= P= N= PD= PN= o= s= \
         u= w= qq= dd= pa= ah= wi= += bd= b1= b2= b3= b4= \
-        f1= f2= fs= ch= a1= a2= ed= tf= tg= \
+        f1= f2= fs= ch= a1= a2= ed= tf= tg= md= \
         t0= t1= t2= t3= t4= t5= t6= t7= t8= t9= \
         s0= s1= s2= s3= s4= s5= s6= s7= s8= s9= \
         u0= u1= u2= u3= u4= u5= u6= u7= u8= u9= \
@@ -1398,6 +1431,7 @@ as a context menu\n(see readme.md for details)." }
           b4= { set ::em::b4 [::getN $seltd $::em::b4]}
           ed= { set ::em::editor $seltd}
           tg= { set ::em::tg $seltd}
+          md= { set ::em::basedir $seltd}
           tf= { set ::em::tf [::getN $seltd $::em::tf]}
           om= { set ::em::om $seltd}
           cb= { set ::em::cb $seltd}

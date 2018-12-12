@@ -3,7 +3,11 @@
 # Plugin namespace
 namespace eval e_menu {
 
-  # proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
+  variable plugdir [api::get_plugin_source_directory]/e_menu
+
+  variable datadir [api::get_plugin_data_directory]
+
+  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
 
   proc get_txt {} {
 
@@ -83,35 +87,48 @@ namespace eval e_menu {
 
   #====== Normalize filename as for Windows
 
-    proc fn {fname} {
+  proc fn {fname} {
 
     if {[iswindows]} {
       set fname [string map {/ \\\\} $fname]
     }
     return $fname
 
-   }
+  }
 
   #####################################################################
   #  DO procedures
   #####################################################################
 
+  #====== initialize the plugin's directory
+
+  proc init_e_menu {} {
+
+    variable plugdir
+    variable datadir
+    if {![file exists "$datadir/menus"]} {
+      catch "file delete -force $datadir"
+      catch "file mkdir $datadir"
+      if {[catch {file copy -force $plugdir/menus $datadir} e]} {
+        api::show_error "\nCannot create:\n$datadir\n------------\n$e"
+        return false
+      }
+    }
+    return true
+
+  }
+
   #====== Call user's menu
 
   proc do_e_menu {} {
 
-    set h_opt ""
-    set s_opt ""
-    set f_opt ""
-    set d_opt ""
-    set D_opt ""
-    set s0_opt ""
-    set s1_opt ""
-    set s2_opt ""
-    set z1_opt ""
-    set z2_opt ""
-    set z3_opt ""
-    set offline_help_dir "[api::get_plugin_data_directory]/www.tcl.tk/man/tcl8.6"
+    variable plugdir
+    variable datadir
+    if {![init_e_menu]} return
+    set h_opt [set s_opt [set f_opt [set d_opt [set D_opt ""]]]]
+    set s0_opt [set s1_opt [set s2_opt ""]]
+    set z1_opt [set z2_opt [set z3_opt  [set z4_opt ""]]]
+    set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
     } else {
@@ -142,23 +159,32 @@ namespace eval e_menu {
         set f_opt "f=$file_name"
         set d_opt "d=$dir_name"
         set D_opt "PD=$dir_name"
-        set s0_opt "s0=[fn [file tail $file_name]]"
-        set s1_opt "s1=[fn [file tail $dir_name]]"
+        set s0_opt "s0=[file tail $file_name]"
+        set s1_opt "s1=[file tail $dir_name]"
+        set s2_opt "s2=[file extension $file_name]"
       }
       catch {
-        # z3=project dir
-        set z3_opt "z3=[string map {/ _ \\ _ { } _} $::env(E_MENU_PD)]"
+        #
+        # here we use env.variables E_MENU_PD and E_MENU_PN
+        #
+        # z3=all projects dir stripped of special symbols (to use in fossil menus)
+        set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $::env(E_MENU_PD)]"
+        # z4=current project dir (to use for opening the project dir in TKE)
+        set z4_opt "z4=$::env(E_MENU_PN)"
       }
     }
-    set tke [file normalize [file join [api::get_plugin_data_directory]/../../../../bin tke]]
-    set plugdir "[api::get_plugin_data_directory]/e_menu"
     set z1_opt "z1=$plugdir"
-    catch {
-      exec tclsh $plugdir/e_menu.tcl "m=menus/menu.mnu" "ed=$tke" \
-      fs=11 w=40 wc=1 $h_opt $s_opt $f_opt $d_opt \
-      $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $D_opt &
-    } e
-      return
+    if {[catch {
+        exec tclsh $plugdir/e_menu.tcl "md=$datadir" "m=menus/menu.mnu" "ed=tke" \
+          fs=11 w=40 wc=1 $h_opt $s_opt $f_opt $d_opt \
+          $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $z4_opt $D_opt &
+      } e]} {
+      api::show_error "\nError of run:\n
+        tclsh $plugdir/e_menu.tcl\n
+        with arguments:\nmd=$datadir\nm=menus/menu.mnu\n
+        ----------------------\n$e"
+    }
+    return
   }
 
   #====== Procedures to register the plugin
