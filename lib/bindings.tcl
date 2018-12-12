@@ -260,6 +260,13 @@ namespace eval bindings {
       }
     }
 
+    # Add bindings to entry, combobox and spinboxes
+    foreach win [list TEntry TCombobox TSpinbox] {
+      bind $win <Control-c> "event generate %W <<Copy>>;  break"
+      bind $win <Control-x> "event generate %W <<Cut>>;   break"
+      bind $win <Control-v> "event generate %W <<Paste>>; break"
+    }
+
   }
 
   ######################################################################
