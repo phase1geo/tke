@@ -4182,7 +4182,7 @@ namespace eval pref_ui {
     grid        $widgets(shortcut_note)
 
     # Put the focus back on the shortcut table
-    focus $widgets(shortcut_tl)
+    focus [$widgets(shortcut_tl) bodypath]
 
   }
 
