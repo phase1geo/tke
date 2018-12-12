@@ -4252,14 +4252,17 @@ namespace eval pref_ui {
     variable widgets
     variable prefs
 
-    set widgets(plugins_mb)    [ttk::menubutton $w.mb -text [msgcat::mc "Select a plugin"] -menu [menu $w.pluginsMenu -tearoff 0]]
-    set widgets(plugins_frame) [ttk::frame $w.pf]
+    set widgets(plugins_mb) [ttk::menubutton $w.mb -text [msgcat::mc "Select a plugin"] -menu [menu $w.pluginsMenu -tearoff 0]]
+    set widgets(plugins_nb) [ttk::notebook $w.nb -style HNotebook]
 
-    pack $widgets(plugins_mb)    -padx 2 -pady 2
-    pack $widgets(plugins_frame) -fill both -expand yes -padx 2 -pady 2
+    pack $widgets(plugins_mb) -padx 2 -pady 2
+    pack $widgets(plugins_nb) -fill both -expand yes -padx 2 -pady 2
+
+    $widgets(plugins_nb) add [ttk::frame $widgets(plugins_nb)._none]
+    $widgets(plugins_nb) hide $widgets(plugins_nb)._none
 
     # Create the plugin frames
-    foreach plugin [plugins::handle_on_pref_ui $widgets(plugins_frame)] {
+    foreach plugin [plugins::handle_on_pref_ui $widgets(plugins_nb)] {
       $w.pluginsMenu add command -label $plugin -command [list pref_ui::handle_plugins_change $plugin]
     }
 
@@ -4275,11 +4278,9 @@ namespace eval pref_ui {
     # Change the menubutton text
     $widgets(plugins_mb) configure -text $plugin
 
-    # Remove any packed slaves in the plugins frame
-    catch { pack forget {*}[pack slaves $widgets(plugins_frame)] }
+    # Select the needed frame
+    $widgets(plugins_nb) select $widgets(plugins_nb).$plugin
 
-    # Pack the selected frame
-    pack $widgets(plugins_frame).$plugin -fill both -expand yes
 
   }
 

@@ -211,6 +211,17 @@ namespace eval theme {
     ttk::style map       SBFrame [ttk::style map TFrame]
     ttk::style layout    SBFrame [ttk::style layout TFrame]
 
+    # HNotebook
+    puts "HERE!"
+    catch {
+    ttk::style configure HNotebook [ttk::style configure TNotebook]
+    ttk::style configure HNotebook -relief flat
+    ttk::style map       HNotebook [ttk::style map TNotebook]
+    ttk::style layout    HNotebook [ttk::style layout TNotebook]
+    puts [ttk::style configure HNotebook]
+    } rc
+    puts "  rc: $rc"
+
   }
 
   # Use the clam style by default
@@ -1285,7 +1296,7 @@ namespace eval theme {
       ttk::style configure TSeparator -relief raised
 
       # Configure TNotebook widgets
-      ttk::style configure TNotebook.Tab -padding {10 3}
+      ttk::style configure TNotebook.Tab -padding {10 3} -relief flat
 
       # Configure Treeview widgets
       ttk::style configure Treeview -fieldbackground $opts(background)

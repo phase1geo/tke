@@ -1502,7 +1502,8 @@ namespace eval plugins {
     set plugins [list]
 
     foreach entry [find_registry_entries "on_pref_ui"] {
-      ttk::frame [set win $w.$registry([lindex $entry 0],name)]
+      $w add [ttk::frame [set win $w.$registry([lindex $entry 0],name)]]
+      $w hide $w.$registry([lindex $entry 0],name)
       scrolledframe::scrolledframe $win.f  -yscrollcommand [list utils::set_yscrollbar $win.vb]
       scroller::scroller           $win.vb -orient vertical -command [list $win.f yview]
       grid rowconfigure    $win 0 -weight 1
