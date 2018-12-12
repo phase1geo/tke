@@ -14,7 +14,7 @@ about details of creating and using menus.
 
 This help is available also in the plugin by pressing F1 key or through its popup menu.
 
-Note:
+*Note:*
 The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
 
 

@@ -1,16 +1,15 @@
 # utils menu for e_menu.tcl
 
- R: caja "%d"           R: caja "%d"
- R: tkcon               R: tkcon
- R: edit all            R: %e readme.md main.tcl header.tkedat
+ RE: tkcon               RE: tkcon
+ RE: caja here           RE: caja "%d"
+ RE: xterminal here      RE: cd %d
+ RE: xterminal here      RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
 
- MW: Tcl/Tk            MW: m=menus/tcltk.mnu w=20
- MW: Python            MW: m=menus/python.mnu w=30
- MW: System            MW: m=menus/system.mnu w=40
- MW: Wiki & Dicts      MW: m=menus/wiki.mnu w=40
- MW: Misc              MW: m=menus/misc.mnu w=40
+ ME: Tcl/Tk            ME: m=tcltk.mnu w=20
+ ME: Python            ME: m=python.mnu w=30
+ ME: System            ME: m=system.mnu w=40
+ ME: Wiki & Dicts      ME: m=wiki.mnu w=40
+ ME: Misc              ME: m=misc.mnu w=40
 
-[HIDDEN]
-1.
-; R: edit R: %g mod1.c mod2.c mod3.c mod4.c mod1.h mod2.h mod3.h mod4.h
-2.
+[OPTIONS]
+o=0
