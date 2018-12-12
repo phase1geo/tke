@@ -1283,6 +1283,9 @@ namespace eval plugins {
 
     variable menus
 
+    # Add the menu to the list of menus to update
+    set menus(root_popup) $mnu
+
     # Add the menu items
     menu_add $mnu root_popup
 
@@ -1294,6 +1297,9 @@ namespace eval plugins {
 
     variable menus
 
+    # Add the menu to the list of menus to update
+    set menus(dir_popup) $mnu
+
     # Add the menu items
     menu_add $mnu dir_popup
 
@@ -1304,6 +1310,9 @@ namespace eval plugins {
   proc handle_file_popup {mnu} {
 
     variable menus
+
+    # Add the menu to the list of menus to update
+    set menus(file_popup) $mnu
 
     # Add the menu items
     menu_add $mnu file_popup
