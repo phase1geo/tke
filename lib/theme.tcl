@@ -211,16 +211,8 @@ namespace eval theme {
     ttk::style map       SBFrame [ttk::style map TFrame]
     ttk::style layout    SBFrame [ttk::style layout TFrame]
 
-    # HNotebook
-    puts "HERE!"
-    catch {
-    ttk::style configure HNotebook [ttk::style configure TNotebook]
-    ttk::style configure HNotebook -relief flat
-    ttk::style map       HNotebook [ttk::style map TNotebook]
-    ttk::style layout    HNotebook [ttk::style layout TNotebook]
-    puts [ttk::style configure HNotebook]
-    } rc
-    puts "  rc: $rc"
+    # Notebook that hides the tabs from view (use -style Plain.TNotebook)
+    ttk::style layout Plain.TNotebook.Tab null
 
   }
 
