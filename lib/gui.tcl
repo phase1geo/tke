@@ -6074,6 +6074,12 @@ namespace eval gui {
         set_info_message "" -win [winfo parent $txtt]
       }
 
+      # Remove the find or find/replace panels if we are told to do so
+      if {[preferences::get Find/ClosePanelsOnTextFocus]} {
+        panel_forget $tab.sf
+        panel_forget $tab.rf
+      }
+
       # Let the plugins know about the FocusIn event
       plugins::handle_on_focusin $tab
 
