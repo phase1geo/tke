@@ -543,8 +543,14 @@ namespace eval syntax {
 
     }
 
+    # Get the current language
+    set prev_lang $current_lang
+
     # Save the language
     set curr_lang($txt) [set current_lang $language]
+
+    # Update the syntax menus
+    update_syntax_menus $prev_lang
 
     # Re-highlight
     if {$opts(-highlight)} {
@@ -794,6 +800,24 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # This should be called whenever the current language is changed.  This
+  # will update the syntax menu states to make them consistent with the
+  # current language.
+  proc update_syntax_menus {prev_lang} {
+
+    variable syntax_menus
+    variable current_lang
+
+    if {[preferences::get View/ShowLanguagesSubmenu]} {
+      foreach mnu $syntax_menus {
+        $mnu entryconfigure [string toupper [string index $prev_lang 0]]    -image menu_nocheck
+        $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+      }
+    }
+
+  }
+
+  ######################################################################
   # Repopulates the specified syntax selection menu.
   proc populate_syntax_menu {mnu command varname dflt languages} {
 
@@ -811,7 +835,7 @@ namespace eval syntax {
       }
       $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
       foreach letter [lsort [array names letters]] {
-        $mnu add cascade -label $letter -menu $mnu.submenu$letter
+        $mnu add cascade -compound left -label $letter -image menu_nocheck -menu $mnu.submenu$letter
       }
       return
     }
