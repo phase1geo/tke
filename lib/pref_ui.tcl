@@ -2970,6 +2970,8 @@ namespace eval pref_ui {
     make_spacer $w 1
     make_mb $w.dsm [msgcat::mc "Default Find search method"]          Find/DefaultMethod {regexp glob exact} 1
     make_mb $w.dfm [msgcat::mc "Default Find in Files search method"] Find/DefaultFIFMethod {regexp glob exact} 1
+    make_spacer $w 1
+    make_cb $w.cp  [msgcat::mc "Close find panels when editing buffer gets focus"] Find/ClosePanelsOnTextFocus 1
 
   }
 
