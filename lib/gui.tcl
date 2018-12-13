@@ -50,6 +50,7 @@ namespace eval gui {
   variable show_match_chars 0
   variable search_method    "regexp"
   variable fif_method       "regexp"
+  variable panel_focus      ""
 
   array set widgets         {}
   array set tab_tip         {}
@@ -3194,7 +3195,8 @@ namespace eval gui {
     update_search_method $tab
 
     # Display the search bar and separator
-    panel_place $tab.sf
+    panel_forget $tab.rf
+    panel_place  $tab.sf
 
     # Add bindings
     bind $tab.sf.e    <Return> [list search::find_start $dir]
@@ -3266,7 +3268,8 @@ namespace eval gui {
     update_search_method $tab
 
     # Display the search bar and separator
-    panel_place $tab.rf
+    panel_forget $tab.sf
+    panel_place  $tab.rf
 
     # Reset the saved indicator
     set saved 0
@@ -3665,7 +3668,10 @@ namespace eval gui {
     # panel_set_ui_state normal
 
     # Return the focus
-    focus $panel_focus
+    if {$panel_focus ne ""} {
+      focus $panel_focus
+      set panel_focus ""
+    }
 
   }
 
