@@ -949,8 +949,8 @@ namespace eval vim {
     bind vim$txt <B1-Motion>             "vim::handle_motion %W %x %y; break"
 
     # Insert the vim binding just after all
-    set period_index [lsearch [bindtags $txt.t] .]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $period_index + 1] vim$txt]
+    set all_index [lsearch [bindtags $txt.t] all]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $all_index + 1] vim$txt]
 
     # Put ourselves into start mode
     command_mode $txt.t

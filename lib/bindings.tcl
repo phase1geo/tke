@@ -255,7 +255,7 @@ namespace eval bindings {
           set binding [join [concat {*}$value] -]
           set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
-          bind . [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
+          bind all [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
         }
       }
     }
@@ -280,7 +280,7 @@ namespace eval bindings {
     foreach {mnu_index binding} [array get bound_menus] {
       lassign [split $mnu_index ,] mnu index
       catch { $mnu entryconfigure $index -accelerator "" }
-      bind . [accelerator_to_sequence $binding] ""
+      bind all [accelerator_to_sequence $binding] ""
     }
 
     # Delete the menu_bindings array
