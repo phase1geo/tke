@@ -3248,11 +3248,13 @@ namespace eval pref_ui {
 
     pack $w.sf.ef.tf.tf -fill both -expand yes
 
+    set bwidth [msgcat::mcmax "Insert" "Save" "Cancel"]
+
     ttk::frame  $w.sf.ef.bf
-    set widgets(snippets_ins)  [ttk::button $w.sf.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]]
+    set widgets(snippets_ins)  [ttk::button $w.sf.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width $bwidth -command [list pref_ui::snippets_insert]]
     set widgets(snippets_save) [ttk::button $w.sf.ef.bf.save -style BButton -text [msgcat::mc "Save"] \
-      -width 6 -command [list pref_ui::snippets_save] -state disabled]
-    ttk::button $w.sf.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::snippets_cancel]
+      -width $bwidth -command [list pref_ui::snippets_save] -state disabled]
+    ttk::button $w.sf.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list pref_ui::snippets_cancel]
 
     pack $w.sf.ef.bf.insert -side left  -padx 2 -pady 2
     pack $w.sf.ef.bf.cancel -side right -padx 2 -pady 2
@@ -3685,13 +3687,15 @@ namespace eval pref_ui {
     bind [$widgets(shortcut_tl) bodytag] <Delete>          [list pref_ui::shortcut_clear]
     bind [$widgets(shortcut_tl) bodytag] <Double-Button-1> [list pref_ui::shortcut_table_select]
 
+    set bwidth [msgcat::mcmax "Clear" "Set" "Cancel"]
+
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
     ttk::label  $w.tf.sf.l -text [format "%s: " [msgcat::mc "Shortcut"]]
     set widgets(shortcut_mod)    [ttk::combobox $w.tf.sf.mod -width $mod_width -height 5 -state readonly]
     set widgets(shortcut_sym)    [ttk::combobox $w.tf.sf.sym -width 5          -height 5 -state readonly]
-    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"] -width 6 -command [list pref_ui::shortcut_clear]]
-    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Set"]   -width 6 -state disabled -command [list pref_ui::shortcut_update]]
-    ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::shortcut_cancel]
+    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"] -width $bwidth -command [list pref_ui::shortcut_clear]]
+    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Set"]   -width $bwidth -state disabled -command [list pref_ui::shortcut_update]]
+    ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list pref_ui::shortcut_cancel]
 
     bind $widgets(shortcut_mod)    <<ComboboxSelected>> [list pref_ui::shortcut_changed]
     bind $widgets(shortcut_mod)    <Escape>             [list pref_ui::shortcut_cancel]
@@ -4377,8 +4381,10 @@ namespace eval pref_ui {
     pack .prefwin.docwin.f.ul  -side left -padx 2 -pady 2
     pack .prefwin.docwin.f.url -side left -padx 2 -pady 2
 
+    set bwidth [msgcat::mcmax "Add" "Cancel"]
+
     ttk::frame  .prefwin.docwin.bf
-    ttk::button .prefwin.docwin.bf.ok -style BButton -text [msgcat::mc "Add"] -width 6 -command {
+    ttk::button .prefwin.docwin.bf.ok -style BButton -text [msgcat::mc "Add"] -width $bwidth -command {
       set url  [.prefwin.docwin.f.url get]
       set name [pref_ui::docwin_get_title $url]
       set row  [$pref_ui::widgets(doc,table) insert end [list $name $url]]
@@ -4390,7 +4396,7 @@ namespace eval pref_ui {
       after idle [list pref_ui::documentation_save]
       destroy .prefwin.docwin
     } -state disabled
-    ttk::button .prefwin.docwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
+    ttk::button .prefwin.docwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command {
       destroy .prefwin.docwin
     }
 
