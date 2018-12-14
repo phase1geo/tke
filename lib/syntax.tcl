@@ -123,9 +123,13 @@ namespace eval syntax {
 
     variable syntax_menus
 
+    # Populate the syntax menus to match the required view type
     foreach syntax_menu $syntax_menus {
       populate_syntax_menu $syntax_menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]
     }
+
+    # Make sure that the syntax menus are updated
+    update_syntax_menus
 
   }
 
@@ -544,7 +548,7 @@ namespace eval syntax {
     }
 
     # Get the current language
-    set prev_lang $current_lang
+    set prev_lang [get_language $txt]
 
     # Save the language
     set curr_lang($txt) [set current_lang $language]
@@ -803,15 +807,21 @@ namespace eval syntax {
   # This should be called whenever the current language is changed.  This
   # will update the syntax menu states to make them consistent with the
   # current language.
-  proc update_syntax_menus {prev_lang} {
+  proc update_syntax_menus {{prev_lang ""}} {
 
     variable syntax_menus
     variable current_lang
 
     if {[preferences::get View/ShowLanguagesSubmenu]} {
-      foreach mnu $syntax_menus {
-        $mnu entryconfigure [string toupper [string index $prev_lang 0]]    -image menu_nocheck
-        $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+      if {$prev_lang ne ""} {
+        foreach mnu $syntax_menus {
+          $mnu entryconfigure [string toupper [string index $prev_lang 0]]    -image menu_nocheck
+          $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+        }
+      } else {
+        foreach mnu $syntax_menus {
+          $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+        }
       }
     }
 
