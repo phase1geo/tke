@@ -186,12 +186,16 @@ namespace eval gui {
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
       -foreground black
-    theme::register_image menu_check photo menus -background \
+    theme::register_image menu_check bitmap menus -background \
       {msgcat::mc "Image used in the menus to indicate that a menu item is selected."} \
-      -file     [file join $::tke_dir lib images menu_check.gif]
-    theme::register_image menu_nocheck photo menus -background \
+      -file     [file join $::tke_dir lib images menu_check.bmp] \
+      -maskfile [file join $::tke_dir lib images menu_check.bmp] \
+      -foreground black
+    theme::register_image menu_nocheck bitmap menus -background \
       {msgcat::mc "Image used in the menus to indicate that a menu item is not selected."} \
-      -file     [file join $::tke_dir lib images menu_nocheck.gif]
+      -file     [file join $::tke_dir lib images menu_nocheck.bmp] \
+      -maskfile [file join $::tke_dir lib images menu_nocheck.bmp] \
+      -foreground black
 
     # Create preference images
     theme::register_image pref_checked photo ttk_style background \
