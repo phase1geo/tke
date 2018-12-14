@@ -1748,7 +1748,9 @@ namespace eval plugins {
 
     # Get the currently selected file
     gui::get_info {} current txt fname
-    set plugdir [file dirname $fname]
+    set split_fname   [file split $fname]
+    set iplugin_index [lsearch $split_fname iplugins]
+    set plugdir       [file join {*}[lrange $split_fname 0 [expr $iplugin_index + 1]]]
 
     # Perform the export
     plugmgr::export_win $plugdir
