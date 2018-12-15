@@ -156,6 +156,8 @@ source [file join $tke_dir lib thumbnail.tcl]
 source [file join $tke_dir lib select.tcl]
 source [file join $tke_dir lib ipanel.tcl]
 source [file join $tke_dir lib plugmgr.tcl]
+source [file join $tke_dir lib ptwidgets1.2 common htmllib.tcl]
+source [file join $tke_dir lib ptwidgets1.2 common gifblock.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
