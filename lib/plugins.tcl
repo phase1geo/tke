@@ -946,6 +946,24 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Returns the index of the plugin that matches the given name if found;
+  # otherwise, returns the empty string.
+  proc get_plugin_index {name} {
+
+    variable registry
+    variable registry_size
+
+    for {set i 0} {$i < $registry_size} {incr i} {
+      if {$registry($i,name) eq $name} {
+        return $i
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
   # Finds all of the registry entries that match the given action.
   proc find_registry_entries {type} {
 
