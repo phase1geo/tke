@@ -24,6 +24,8 @@
 
 namespace eval plugmgr {
 
+  variable current_id ""
+
   array set default_pdata {
     author        "Anonymous"
     email         ""
@@ -32,9 +34,11 @@ namespace eval plugmgr {
     category      "Miscellaneous"
     description   ""
     release_notes ""
+    overview      ""
   }
 
-  array set widgets {}
+  array set database {}
+  array set widgets  {}
 
   ######################################################################
   # Adds a single plugin to the plugin database file.  Returns the
@@ -351,6 +355,9 @@ namespace eval plugmgr {
     # Make sure that everything looks correct theme-wise
     update_theme
 
+    # Load the plugin database from the server
+    # load_database
+
     # Make the available notebook pane the visible panel
     available_selected
 
@@ -423,11 +430,12 @@ namespace eval plugmgr {
 
     ttk::frame $w
 
-    set bwidth [msgcat::mcmax "Back" "Install" "Uninstall" "Delete"]
+    set bwidth [msgcat::mcmax "Back" "Install" "Uninstall" "Update" "Delete"]
 
     ttk::frame $w.bf
     set widgets(back)      [ttk::button $w.bf.back      -style BButton -text [msgcat::mc "Back"]      -width $bwidth -command [list plugmgr::go_back]]
     set widgets(install)   [ttk::button $w.bf.install   -style BButton -text [msgcat::mc "Install"]   -width $bwidth -command [list plugmgr::install]]
+    set widgets(pupdate)   [ttk::button $w.bf.update    -style BButton -text [msgcat::mc "Update"]    -width $bwidth -command [list plugmgr::pupdate]
     set widgets(uninstall) [ttk::button $w.bf.uninstall -style BButton -text [msgcat::mc "Uninstall"] -width $bwidth -command [list plugmgr::uninstall]]
     set widgets(delete)    [ttk::button $w.bf.delete    -style BButton -text [msgcat::mc "Delete"]    -width $bwidth -command [list plugmgr::delete]]
 
@@ -435,8 +443,9 @@ namespace eval plugmgr {
     grid columnconfigure $w.bf 1 -weight 1
     grid $w.bf.back      -row 0 -column 0 -sticky news -padx 4 -pady 2
     grid $w.bf.install   -row 0 -column 2 -sticky news -padx 4 -pady 2
-    grid $w.bf.uninstall -row 0 -column 3 -sticky news -padx 4 -pady 2
-    grid $w.bf.delete    -row 0 -column 4 -sticky news -padx 4 -pady 2
+    grid $w.bf.pupdate   -row 0 -column 3 -sticky news -padx 4 -pady 2
+    grid $w.bf.uninstall -row 0 -column 4 -sticky news -padx 4 -pady 2
+    grid $w.bf.delete    -row 0 -column 5 -sticky news -padx 4 -pady 2
 
     # Create HTML viewer
     ttk::frame $w.hf
@@ -525,6 +534,7 @@ namespace eval plugmgr {
   proc populate_plugin_table {type} {
 
     variable widgets
+    variable database
 
     # Clear the table
     $widgets($type,table) delete 0 end
@@ -537,6 +547,19 @@ namespace eval plugmgr {
       append_plugin $type "Installed Plugin #1" "You already know that this plugin does" 2
       append_plugin $type "Installed Plugin #2" "You already know that this plugin does, too" 2
     }
+
+    foreach name [lsort [array names database]] {
+      array set data $database($name)
+      append_plugin $type $data(display_name) $data(FOOBAR) $name
+    }
+
+    # author        "Anonymous"
+    # email         ""
+    # website       ""
+    # version       "1.0"
+    # category      "Miscellaneous"
+    # description   ""
+    # release_notes ""
 
   }
 
@@ -602,11 +625,36 @@ namespace eval plugmgr {
   }
 
   ######################################################################
+  # Creates the overview HTML code and returns this value.
+  proc make_overview_html {name} {
+
+    variable database
+
+    if {![info exists database($name)]} {
+      return ""
+    }
+
+    array set data $database($name)
+
+    # Create the HTML code to display
+    append html "<h1>$data(display_name)</h1>"
+    append html "<h3>Version</h3>$data(version)<br/>"
+    append html "$data(overview)<br/>"
+    append html "<h3>Author</h3>$data(author)<br/>"
+    append html "<h3>E-mail</h3>$data(author)<br/>"
+    append html "<h3>Website</h3>$data(website)<br/>"
+
+    return $html
+
+  }
+
+  ######################################################################
   # Displays the plugin detail in the detail pane.
   proc show_detail {type} {
 
     variable widgets
     variable current_id
+    variable database
 
     # Get the currently selected row
     set selected [$widgets($type,table) curselection]
@@ -614,11 +662,11 @@ namespace eval plugmgr {
     # Get the plugin ID
     set current_id [lindex [$widgets($type,table) cellcget $selected,plugin -text] 2]
 
-    # TBD - Show some content
-    set content "<h1>Super Cool</h1><p>This is very nice indeed!</p>"
+    # Get the content to display
+    set html [make_overview_html $current_id]
 
     # Add the HTML to the HTML widget
-    HMparse_html $content "HMrender $widgets(html)"
+    HMparse_html $html "HMrender $widgets(html)"
 
     # Configure the text widget to be disabled
     $widgets(html) configure -state disabled
@@ -644,14 +692,60 @@ namespace eval plugmgr {
   proc install {} {
 
     variable widgets
+    variable current_id
 
-    # TBD
+    set url "https://FOOBAR/$current_id.tkeplugz"
+
+    # Download the file
+    if {[set fname [download_url $url]] eq ""} {
+      return -code error "Failed to download plugin bundle"
+    }
+
+    # Import the file
+    plugins::import_plugin .pmwin $fname
+ 
+    # Reload the plugin information
+    plugins::load
+
+    # Get the plugin index
+    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
+      return
+    }
+
+    # Perform the plugin install
+    plugins::install_item $index
 
     # Update the UI state of the pane
     grid remove $widgets(install)
+    grid remove $widgets(pupdate)
     grid $widgets(uninstall)
     grid $widgets(delete)
     $widgets(delete) configure -state normal
+
+  }
+
+  ######################################################################
+  # Updates the given plugin from memory.
+  proc pupdate {} {
+
+    variable widgets
+    variable current_id
+
+    set url "https://FOOBAR/$current_id.tkeplugz"
+
+    # Download the file
+    if {[set fname [download_url $url]] eq ""} {
+      return -code error "Failed to download plugin bundle"
+    }
+
+    # Import the file
+    plugins::import_plugin .pmwin $fname
+ 
+    # Perform the plugin install
+    plugins::reload
+
+    # Update the UI state of the pane
+    grid remove $widgets(pupdate)
 
   }
 
@@ -660,11 +754,19 @@ namespace eval plugmgr {
   proc uninstall {} {
 
     variable widgets
+    variable current_id
 
-    # TBD
+    # Get the plugin index
+    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
+      return
+    }
+
+    # Uninstall the item
+    plugins::uninstall_item $index
 
     # Update the UI state of the pane
     grid remove $widgets(uninstall)
+    grid remove $widgets(pupdate)
     grid $widgets(install)
 
   }
@@ -673,9 +775,18 @@ namespace eval plugmgr {
   # Deletes the given plugin from the user's installed plugin directory.
   proc delete {} {
 
-    variable widgets
+    variable current_id
 
-    # TBD
+    # Get the plugin index
+    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
+      return
+    }
+
+    # Uninstall the item
+    plugins::uninstall_item $index
+
+    # Delete the data
+    catch { file delete -force [file join $::tke_home iplugins $current_id] }
 
     # Update the UI state of the pane
     go_back
@@ -702,6 +813,63 @@ namespace eval plugmgr {
     $widgets(html)             configure -background $theme(background) -foreground $theme(foreground)
     $widgets(html,vb)          configure -background $theme(background) -foreground $theme(foreground)
     $widgets(html,hb)          configure -background $theme(background) -foreground $theme(foreground)
+
+  }
+
+  ######################################################################
+  # Loads the plugin database file from the server.
+  proc load_database {} {
+
+    variable database
+
+    set url "https://TBD/plugins.tkedat"
+
+    # Download the database to a local file
+    if {[set fname [utils::download_url $url]] eq ""} {
+      return -code error "Unable to fetch plugin database"
+    }
+
+    # Load the downloaded file
+    if {[catch { tkedat::read $fname } rc]} {
+      return -code error "Unable to load plugin database file"
+    }
+
+    # Make sure that the database is cleared
+    array unset database
+
+    array set data     $rc
+    array set database $data(plugins)
+
+    # Load the local file and compare the old versions to the new versions
+    if {![catch { tkedata::read $fname } rc]} {
+
+      array set old_data    $rc
+      array set old_plugins $old_data(plugins)
+      array set new_plugins $database(plugins)
+
+      # Initialize the new plugins database
+      foreach name [array names new_plugins] {
+        array set new_plugin $new_plugins($name)
+        set new_plugin(update_avail) 0
+        set new_plugin(installed)    0
+        set new_plugins($name) [array get new_plugin]
+      }
+
+      # Cross-reference the old database with the new, updating the new
+      foreach name [array names old_plugins] {
+        if {[info exists new_plugins($name)]} {
+          array set old_plugin $old_plugins($name)
+          array set new_plugin $new_plugins($name)
+          set new_plugin(update_avail) [expr {$old_plugin(version) ne $new_plugin(version)}]
+          set new_plugin(installed)    1
+          set new_plugins($name) [array get new_plugin]
+        }
+      }
+
+      # Save the new plugins data back to the database
+      set database(plugins) [array get new_plugins]
+
+    }
 
   }
 
