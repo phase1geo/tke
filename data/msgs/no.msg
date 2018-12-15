@@ -320,6 +320,12 @@ msgcat::mcmset no {
   "Image used in tab which, when clicked, closes the tab."
   "Bildet som brukes i kategorien som når den klikkes, lukker fanen."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Bilde som brukes i menyene for å indikere at et menyelement ikke er valgt."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Bilde som brukes i menyene for å indikere at et menyelement er valgt."
+
   "Image used in the preferences window in the Advanced tab."
   "Bildet som brukes i vinduet innstillinger i kategorien Avansert."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset no {
   "Insert unordered list formatting"
   "Sett inn sorterte listeformatering"
 
-  "Install"
-  "Installer"
-
   "Install plugin"
   "Installere plugin"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset no {
   "Unindent selected text"
   "Ikke rykk inn merket tekst"
 
-  "Uninstall"
-  "Avinstaller"
-
   "Uninstall plugin"
   "Avinstallere plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Oppheve låsing"
@@ -1794,9 +1791,6 @@ msgcat::mcmset no {
 
   "Vim Mode"
   "Vim-modus"
-
-  "Windows"
-  "Microsoft Windows"
 
   "Wrap With Abbreviation"
   "Bryte med forkortelse"
@@ -1848,9 +1842,6 @@ msgcat::mcmset no {
   "Plugin Trust Requested"
   "Plugin Trust Spurt"
 
-  "Plugin export completed successfully"
-  "Plugin eksport fullført"
-
   "Plugin import completed successfully"
   "Plugin import fullført"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset no {
 # plugmgr.tcl
 msgcat::mcmset no {
 
+  "Available"
+  "Tilgjengelig"
+
   "Export Plugin"
   "Eksporter plugin"
+
+  "Installed"
+  "Installert"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "Handsamar for programtillegg"
+
+  "Plugin export completed successfully"
+  "Plugin eksport fullført"
 
   "Release Notes"
   "Utgåvesamlingar"
@@ -1992,6 +1992,9 @@ msgcat::mcmset no {
 
   "Clipboard history depth"
   "Utklippstavle historie dybde"
+
+  "Close find panels when editing buffer gets focus"
+  "Lukk søkepaneler når redigering av buffer blir fokusert"
 
   "Closing"
   "Lukker"
@@ -2271,6 +2274,9 @@ msgcat::mcmset no {
 
   "Select a plugin"
   "Velg en plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Velg en snarvei og trykk Retur eller Mellom-tasten for å redigere snarveien"
 
   "Select default browsing directory"
   "Velg standard leser katalog"
@@ -3632,9 +3638,6 @@ msgcat::mcmset no {
   "Edit"
   "Redigere"
 
-  "Emmet"
-  "maur"
-
   "Enable code folding"
   "Aktivere koden folding"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset no {
   "Insert"
   "Sett inn"
 
+  "Install"
+  "Installer"
+
   "Language"
   "Språk"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset no {
 
   "Node"
   "Node"
-
-  "None"
-  "Ingen"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset no {
 
   "Unfavorite"
   "Ikke Favoritt"
+
+  "Uninstall"
+  "Avinstaller"
 
   "Update"
   "Oppdater"

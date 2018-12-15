@@ -320,6 +320,12 @@ msgcat::mcmset he {
   "Image used in tab which, when clicked, closes the tab."
   "התמונה בשימוש ב- tab אשר, בעת לחיצה על הכרטיסיה נסגרת."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "התמונה בשימוש בתפריטים כדי לציין כי פריט תפריט לא נבחרה."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "התמונה בשימוש בתפריטים כדי לציין כי פריט תפריט נבחרה."
+
   "Image used in the preferences window in the Advanced tab."
   "תמונת שימוש בחלון העדפות בכרטיסיה ' מתקדם '."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset he {
   "Insert unordered list formatting"
   "הוספת עיצוב של רשימה לא מסודרים"
 
-  "Install"
-  "התקן"
-
   "Install plugin"
   "להתקין תוסף"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset he {
   "Unindent selected text"
   "הקטנת כניסת הטקסט הנבחר"
 
-  "Uninstall"
-  "הסר התקנה"
-
   "Uninstall plugin"
   "להסיר את ההתקנה של תוסף"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "לבטל את הנעילה"
@@ -1794,9 +1791,6 @@ msgcat::mcmset he {
 
   "Vim Mode"
   "מצב vim"
-
-  "Windows"
-  "חלונות"
 
   "Wrap With Abbreviation"
   "לעטוף עם ראשי תבות"
@@ -1848,9 +1842,6 @@ msgcat::mcmset he {
   "Plugin Trust Requested"
   "תוסף אמון המבוקש"
 
-  "Plugin export completed successfully"
-  "תוסף ייצוא הושלמה בהצלחה"
-
   "Plugin import completed successfully"
   "הייבוא הושלם בהצלחה"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset he {
 # plugmgr.tcl
 msgcat::mcmset he {
 
+  "Available"
+  "זמין"
+
   "Export Plugin"
   "ייצוא תוסף"
+
+  "Installed"
+  "מותקן"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "מנהל התוספים"
+
+  "Plugin export completed successfully"
+  "תוסף ייצוא הושלמה בהצלחה"
 
   "Release Notes"
   "הערות שחרור"
@@ -1992,6 +1992,9 @@ msgcat::mcmset he {
 
   "Clipboard history depth"
   "הלוח היסטוריה עומק"
+
+  "Close find panels when editing buffer gets focus"
+  "קרוב למצוא לוחות בעת עריכת מאגר מקבל פוקוס"
 
   "Closing"
   "נסגר"
@@ -2271,6 +2274,9 @@ msgcat::mcmset he {
 
   "Select a plugin"
   "בחר תוסף"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "בחר קיצור ולחץ על מקש Return או רווח כדי לערוך את קיצור הדרך"
 
   "Select default browsing directory"
   "בחר באפשרויות ברירת מחדל גלישה מדריך"
@@ -3632,9 +3638,6 @@ msgcat::mcmset he {
   "Edit"
   "עריכה"
 
-  "Emmet"
-  "נמליים"
-
   "Enable code folding"
   "הפעלת קוד מתקפלים"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset he {
   "Insert"
   "הוסף"
 
+  "Install"
+  "התקן"
+
   "Language"
   "שפה"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset he {
 
   "Node"
   "צומת"
-
-  "None"
-  "ללא"
 
   "OK"
   "אשר"
@@ -3823,6 +3826,9 @@ msgcat::mcmset he {
 
   "Unfavorite"
   "בטל סימון כמועדף"
+
+  "Uninstall"
+  "הסר התקנה"
 
   "Update"
   "עדכן"

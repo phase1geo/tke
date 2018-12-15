@@ -320,6 +320,12 @@ msgcat::mcmset el {
   "Image used in tab which, when clicked, closes the tab."
   "Εικόνα που χρησιμοποιούνται στην καρτέλα που, όταν πατηθεί, κλείνει την καρτέλα."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Εικόνα που χρησιμοποιείται στα μενού για να υποδείξει ότι δεν έχει επιλεγεί στοιχείο μενού."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Εικόνα που χρησιμοποιείται στα μενού για να υποδείξει ότι έχει επιλεγεί ένα στοιχείο μενού."
+
   "Image used in the preferences window in the Advanced tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Για προχωρημένους."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset el {
   "Insert unordered list formatting"
   "Εισαγωγή μη ταξινομημένη λίστα μορφοποίηση"
 
-  "Install"
-  "Εγκατάσταση"
-
   "Install plugin"
   "Εγκαταστήσετε το plugin"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset el {
   "Unindent selected text"
   "Κατάργηση εσοχής του επιλεγμένου κειμένου"
 
-  "Uninstall"
-  "Απεγκατάσταση"
-
   "Uninstall plugin"
   "Καταργήσετε την εγκατάσταση του plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Ξεκλείδωμα"
@@ -1794,9 +1791,6 @@ msgcat::mcmset el {
 
   "Vim Mode"
   "Λειτουργία Vim"
-
-  "Windows"
-  "Παράθυρα"
 
   "Wrap With Abbreviation"
   "Τυλίξτε με σύντμηση"
@@ -1848,9 +1842,6 @@ msgcat::mcmset el {
   "Plugin Trust Requested"
   "Plugin Εμπιστοσύνη Αιτήματα"
 
-  "Plugin export completed successfully"
-  "Plugin εξαγωγή ολοκληρώθηκε με επιτυχία"
-
   "Plugin import completed successfully"
   "Plugin εισαγωγής ολοκληρώθηκε με επιτυχία"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset el {
 # plugmgr.tcl
 msgcat::mcmset el {
 
+  "Available"
+  "Διαθέσιμο"
+
   "Export Plugin"
   "Εξαγωγή πρόσθετου"
+
+  "Installed"
+  "Εγκατεστημένο"
 
   "Markdown"
   "ζημία συναλλάγματος"
 
   "Plugin Manager"
   "Διαχειριστής προσθέτων"
+
+  "Plugin export completed successfully"
+  "Plugin εξαγωγή ολοκληρώθηκε με επιτυχία"
 
   "Release Notes"
   "Σημειώσεις έκδοσης"
@@ -1992,6 +1992,9 @@ msgcat::mcmset el {
 
   "Clipboard history depth"
   "Βάθος ιστορίας Πρόχειρο"
+
+  "Close find panels when editing buffer gets focus"
+  "Κλείστε τα πάνελ εύρεσης κατά την επεξεργασία buffer γίνεται εστίαση"
 
   "Closing"
   "петырымаш"
@@ -2271,6 +2274,9 @@ msgcat::mcmset el {
 
   "Select a plugin"
   "Επιλέξτε ένα plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Επιλέξτε μια συντόμευση και πατήστε το πλήκτρο Επιστροφή ή Διάστημα για να επεξεργαστείτε τη συντόμευση"
 
   "Select default browsing directory"
   "Επιλέξτε περιήγηση καταλόγου προεπιλογή"
@@ -3632,9 +3638,6 @@ msgcat::mcmset el {
   "Edit"
   "Επεξεργασία"
 
-  "Emmet"
-  "μυρμήγκι"
-
   "Enable code folding"
   "Ενεργοποίηση κώδικα πτυσσόμενα"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset el {
   "Insert"
   "Εισαγωγή"
 
+  "Install"
+  "Εγκατάσταση"
+
   "Language"
   "Μητρική Γλώσσα"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset el {
 
   "Node"
   "Κόμβος"
-
-  "None"
-  "Κανένα"
 
   "OK"
   "ΟΚ"
@@ -3823,6 +3826,9 @@ msgcat::mcmset el {
 
   "Unfavorite"
   "Μη αγαπημένα"
+
+  "Uninstall"
+  "Απεγκατάσταση"
 
   "Update"
   "Ενημέρωση"

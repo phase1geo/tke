@@ -469,10 +469,10 @@ namespace eval menus {
     launcher::register [make_menu_cmd "File" [msgcat::mc "Quit application"]] [list menus::exit_command]
 
     # Populate the end-of-line menu
-    $mb.eolPopup add radiobutton -label [msgcat::mc "Windows"]     -variable menus::line_ending -value "crlf" -command [list menus::text_only gui::set_current_eol_translation crlf]
+    $mb.eolPopup add radiobutton -label "Windows" -variable menus::line_ending -value "crlf" -command [list menus::text_only gui::set_current_eol_translation crlf]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CRLF for Windows"]] [list menus::text_only gui::set_current_eol_translation crlf]
 
-    $mb.eolPopup add radiobutton -label [msgcat::mc "Unix"]        -variable menus::line_ending -value "lf"   -command [list menus::text_only gui::set_current_eol_translation lf]
+    $mb.eolPopup add radiobutton -label "Unix"    -variable menus::line_ending -value "lf"   -command [list menus::text_only gui::set_current_eol_translation lf]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to LF for Unix"]] [list menus::text_only gui::set_current_eol_translation lf]
 
     $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"] -variable menus::line_ending -value "cr"   -command [list menus::text_only gui::set_current_eol_translation cr]

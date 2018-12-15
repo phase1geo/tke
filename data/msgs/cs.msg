@@ -320,6 +320,12 @@ msgcat::mcmset cs {
   "Image used in tab which, when clicked, closes the tab."
   "Image používané v kartě, které po kliknutí, uzavře kartu."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Obrázek použitý v nabídkách, který indikuje, že položka nabídky není vybrána."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Obrázek použitý v nabídkách, který označuje, že je vybrána položka nabídky."
+
   "Image used in the preferences window in the Advanced tab."
   "Obrázek v okně Předvolby na kartě Upřesnit."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset cs {
   "Insert unordered list formatting"
   "Vložení formátování neuspořádaný seznam"
 
-  "Install"
-  "Instalovat"
-
   "Install plugin"
   "Nainstalovat plugin"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset cs {
   "Unindent selected text"
   "Zrušit odsazení vybraného textu"
 
-  "Uninstall"
-  "Odinstalovat"
-
   "Uninstall plugin"
   "Odinstalovat plugin"
-
-  "Unix"
-  "systém UNIX"
 
   "Unlock"
   "Odemknout"
@@ -1794,9 +1791,6 @@ msgcat::mcmset cs {
 
   "Vim Mode"
   "Režim Vim"
-
-  "Windows"
-  "Windows"
 
   "Wrap With Abbreviation"
   "Zabalte je zkratka"
@@ -1848,9 +1842,6 @@ msgcat::mcmset cs {
   "Plugin Trust Requested"
   "Plugin Důvěra Požadované"
 
-  "Plugin export completed successfully"
-  "Exportní modul úspěšně dokončen"
-
   "Plugin import completed successfully"
   "Import byl úspěšně dokončen"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset cs {
 # plugmgr.tcl
 msgcat::mcmset cs {
 
+  "Available"
+  "Dostupný"
+
   "Export Plugin"
   "Exportujte plugin"
+
+  "Installed"
+  "Nainstalováno"
 
   "Markdown"
   "Snížení"
 
   "Plugin Manager"
   "Správce modulů"
+
+  "Plugin export completed successfully"
+  "Exportní modul úspěšně dokončen"
 
   "Release Notes"
   "Poznámky o vydání"
@@ -1992,6 +1992,9 @@ msgcat::mcmset cs {
 
   "Clipboard history depth"
   "Hloubka historie schránky"
+
+  "Close find panels when editing buffer gets focus"
+  "Zavřete vyhledávací panely při úpravě vyrovnávací paměti se zaostří"
 
   "Closing"
   "Uzavření"
@@ -2271,6 +2274,9 @@ msgcat::mcmset cs {
 
   "Select a plugin"
   "Vyberte zásuvný modul"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Vyberte zástupce a stiskněte klávesu Return nebo prostor upravit zástupce"
 
   "Select default browsing directory"
   "Vyberte výchozí procházení adresářů"
@@ -3632,9 +3638,6 @@ msgcat::mcmset cs {
   "Edit"
   "Upravit"
 
-  "Emmet"
-  "mravenec"
-
   "Enable code folding"
   "Povolit skládání kódu"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset cs {
   "Insert"
   "Vložit"
 
+  "Install"
+  "Instalovat"
+
   "Language"
   "Jazyk"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset cs {
 
   "Node"
   "Uzel"
-
-  "None"
-  "Žádné"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset cs {
 
   "Unfavorite"
   "Vyjmout z oblíbených"
+
+  "Uninstall"
+  "Odinstalovat"
 
   "Update"
   "Aktualizovat"
