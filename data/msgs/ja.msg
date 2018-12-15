@@ -320,6 +320,12 @@ msgcat::mcmset ja {
   "Image used in tab which, when clicked, closes the tab."
   "画像は、クリックすると、タブを閉じたタブに使用されます。"
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "メニュー項目が選択されていないことを示すためにメニューで使用されるイメージ。"
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "メニュー項目が選択されたことを示すためにメニューで使用されるイメージ。"
+
   "Image used in the preferences window in the Advanced tab."
   "詳細設定タブの設定ウィンドウで使用するイメージ。"
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset ja {
   "Insert unordered list formatting"
   "箇条書きの書式設定を挿入します。"
 
-  "Install"
-  "インストール"
-
   "Install plugin"
   "プラグインをインストール"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset ja {
   "Unindent selected text"
   "選択したテキストのインデントを解除します。"
 
-  "Uninstall"
-  "アンインストール"
-
   "Uninstall plugin"
   "プラグインをアンインストールします。"
-
-  "Unix"
-  "UNIX"
 
   "Unlock"
   "アンロック"
@@ -1794,9 +1791,6 @@ msgcat::mcmset ja {
 
   "Vim Mode"
   "Vimのモード"
-
-  "Windows"
-  "窓"
 
   "Wrap With Abbreviation"
   "省略形でラップ"
@@ -1848,9 +1842,6 @@ msgcat::mcmset ja {
   "Plugin Trust Requested"
   "プラグイントラストは、要求"
 
-  "Plugin export completed successfully"
-  "プラグインのエクスポートが完了しました"
-
   "Plugin import completed successfully"
   "インポートが正常に完了しました"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset ja {
 # plugmgr.tcl
 msgcat::mcmset ja {
 
+  "Available"
+  "利用可能"
+
   "Export Plugin"
   "エクスポートプラグイン"
+
+  "Installed"
+  "インストール済"
 
   "Markdown"
   "値下げ"
 
   "Plugin Manager"
   "プラグインマネージャ"
+
+  "Plugin export completed successfully"
+  "プラグインのエクスポートが完了しました"
 
   "Release Notes"
   "リリースノート"
@@ -1992,6 +1992,9 @@ msgcat::mcmset ja {
 
   "Clipboard history depth"
   "クリップボードの履歴の深さ"
+
+  "Close find panels when editing buffer gets focus"
+  "バッファのフォーカスを編集するときにパネルを閉じる"
 
   "Closing"
   "交渉をまとめる"
@@ -2271,6 +2274,9 @@ msgcat::mcmset ja {
 
   "Select a plugin"
   "プラグインを選択します。"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "ショートカットを選択し、ReturnキーまたはSpaceキーを押してショートカットを編集します"
 
   "Select default browsing directory"
   "デフォルトのディレクトリをブラウズを選択します。"
@@ -3632,9 +3638,6 @@ msgcat::mcmset ja {
   "Edit"
   "編集"
 
-  "Emmet"
-  "蟻 [あり]"
-
   "Enable code folding"
   "コード折り畳みを有効にします。"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset ja {
   "Insert"
   "挿入"
 
+  "Install"
+  "インストール"
+
   "Language"
   "言語"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset ja {
 
   "Node"
   "ノード"
-
-  "None"
-  "なし"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset ja {
 
   "Unfavorite"
   "気に入らない"
+
+  "Uninstall"
+  "アンインストール"
 
   "Update"
   "の編集"

@@ -320,6 +320,12 @@ msgcat::mcmset ru {
   "Image used in tab which, when clicked, closes the tab."
   "Изображение во вкладках, при клике на котором вкладка закрывается."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Изображение, используемое в меню для указания, что не выбран пункт меню."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Изображение, используемое для указания, что элемент меню выбран в меню."
+
   "Image used in the preferences window in the Advanced tab."
   "Изображение в окне Настройки для вкладки Дополнительно."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset ru {
   "Insert unordered list formatting"
   "Вставить неупорядоченный список"
 
-  "Install"
-  "Установить"
-
   "Install plugin"
   "Установить плагин"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset ru {
   "Unindent selected text"
   "Убрать отступ выделенного текста"
 
-  "Uninstall"
-  "Отменить установку"
-
   "Uninstall plugin"
   "Отменить установку плагина"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Разблокировать"
@@ -1794,9 +1791,6 @@ msgcat::mcmset ru {
 
   "Vim Mode"
   "Режим Vim"
-
-  "Windows"
-  "Окна"
 
   "Wrap With Abbreviation"
   "Свернуть с тегом"
@@ -1848,9 +1842,6 @@ msgcat::mcmset ru {
   "Plugin Trust Requested"
   "Требуется разрешение для плагина"
 
-  "Plugin export completed successfully"
-  "Экспорт плагина успешно завершен"
-
   "Plugin import completed successfully"
   "Импорт плагина успешно завершен"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset ru {
 # plugmgr.tcl
 msgcat::mcmset ru {
 
+  "Available"
+  "Свободно"
+
   "Export Plugin"
   "Экспортировать плагин"
+
+  "Installed"
+  "Установлен"
 
   "Markdown"
   "Разметка"
 
   "Plugin Manager"
   "Менеджер плагинов"
+
+  "Plugin export completed successfully"
+  "Экспорт плагина успешно завершен"
 
   "Release Notes"
   "Примечания к выпуску"
@@ -1992,6 +1992,9 @@ msgcat::mcmset ru {
 
   "Clipboard history depth"
   "Глубина истории буфера обмена"
+
+  "Close find panels when editing buffer gets focus"
+  "Закрыть найти панелей, когда буфер редактирования получает фокус"
 
   "Closing"
   "Закрытие"
@@ -2271,6 +2274,9 @@ msgcat::mcmset ru {
 
   "Select a plugin"
   "Выбрать плагин"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Выберите ярлык и ударил возвращения или пробел ключ к редактировать ярлык"
 
   "Select default browsing directory"
   "Выбрать директорию просмотра по умолчанию"
@@ -3632,9 +3638,6 @@ msgcat::mcmset ru {
   "Edit"
   "Правка"
 
-  "Emmet"
-  "Emmet"
-
   "Enable code folding"
   "Включить сворачивание кода"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset ru {
   "Insert"
   "Вставка"
 
+  "Install"
+  "Установить"
+
   "Language"
   "Язык"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset ru {
 
   "Node"
   "Узел"
-
-  "None"
-  "None"
 
   "OK"
   "ОК"
@@ -3823,6 +3826,9 @@ msgcat::mcmset ru {
 
   "Unfavorite"
   "Удалить из избранного"
+
+  "Uninstall"
+  "Отменить установку"
 
   "Update"
   "Обновить"

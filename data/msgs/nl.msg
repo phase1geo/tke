@@ -320,6 +320,12 @@ msgcat::mcmset nl {
   "Image used in tab which, when clicked, closes the tab."
   "Afbeelding gebruikt in de tab die, wanneer geklikt, sluit het tabblad."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Afbeelding gebruikt in de menu&#39;s om aan te geven dat een menu-item niet is geselecteerd."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Afbeelding gebruikt in de menu&#39;s om aan te geven dat een menu-item is geselecteerd."
+
   "Image used in the preferences window in the Advanced tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Geavanceerd."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset nl {
   "Insert unordered list formatting"
   "Invoegen opmaak van de ongeordende lijsten"
 
-  "Install"
-  "Installeer"
-
   "Install plugin"
   "Installeer plugin"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset nl {
   "Unindent selected text"
   "Geselecteerde tekst inspringen"
 
-  "Uninstall"
-  "Deïnstalleren"
-
   "Uninstall plugin"
   "Verwijderen plugin"
-
-  "Unix"
-  "Linux"
 
   "Unlock"
   "Ontgrendelen"
@@ -1794,9 +1791,6 @@ msgcat::mcmset nl {
 
   "Vim Mode"
   "Vim-modus"
-
-  "Windows"
-  "Windows"
 
   "Wrap With Abbreviation"
   "Wikkel met afkorting"
@@ -1848,9 +1842,6 @@ msgcat::mcmset nl {
   "Plugin Trust Requested"
   "Plugin Trust Gevraagde"
 
-  "Plugin export completed successfully"
-  "Plugin exporteren is voltooid"
-
   "Plugin import completed successfully"
   "Importeren is succesvol"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset nl {
 # plugmgr.tcl
 msgcat::mcmset nl {
 
+  "Available"
+  "Beschikbaar"
+
   "Export Plugin"
   "Export Plugin"
+
+  "Installed"
+  "Geïnstalleerd"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "Plugin beheren"
+
+  "Plugin export completed successfully"
+  "Plugin exporteren is voltooid"
 
   "Release Notes"
   "Release Notes"
@@ -1992,6 +1992,9 @@ msgcat::mcmset nl {
 
   "Clipboard history depth"
   "Klembord geschiedenis diepte"
+
+  "Close find panels when editing buffer gets focus"
+  "Sluit zoekvensters bij het bewerken van de buffer krijgt focus"
 
   "Closing"
   "Afsluiting"
@@ -2271,6 +2274,9 @@ msgcat::mcmset nl {
 
   "Select a plugin"
   "Selecteer een plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Selecteer een snelkoppeling en druk op de Return- of Spatie-toets om de snelkoppeling te bewerken"
 
   "Select default browsing directory"
   "Selecteer standaard directory browsing"
@@ -3632,9 +3638,6 @@ msgcat::mcmset nl {
   "Edit"
   "Bewerken"
 
-  "Emmet"
-  "mier"
-
   "Enable code folding"
   "Inschakelen code vouwen"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset nl {
   "Insert"
   "Invoegen"
 
+  "Install"
+  "Installeer"
+
   "Language"
   "Taal"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset nl {
 
   "Node"
   "Knooppunt"
-
-  "None"
-  "Geen"
 
   "OK"
   "Ok"
@@ -3823,6 +3826,9 @@ msgcat::mcmset nl {
 
   "Unfavorite"
   "Verwijder uit favorieten"
+
+  "Uninstall"
+  "Deïnstalleren"
 
   "Update"
   "Bijwerken"

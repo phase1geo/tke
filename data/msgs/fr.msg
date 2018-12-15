@@ -320,6 +320,12 @@ msgcat::mcmset fr {
   "Image used in tab which, when clicked, closes the tab."
   "Image utilisée dans l`onglet qui, lorsqu`on clique dessus, ferme l`onglet."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Image utilisée dans les menus pour indiquer qu&#39;un élément de menu n&#39;est pas sélectionné."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Image utilisée dans les menus pour indiquer qu&#39;un élément de menu est sélectionné."
+
   "Image used in the preferences window in the Advanced tab."
   "Image utilisée dans la fenêtre de préférences dans l’onglet Avancé."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset fr {
   "Insert unordered list formatting"
   "Insérer la mise en forme de liste non ordonnée"
 
-  "Install"
-  "Installer"
-
   "Install plugin"
   "Installer l'extension"
 
@@ -1157,7 +1160,7 @@ msgcat::mcmset fr {
   "Marqueur"
 
   "Menu"
-  "Menu"
+  "Menu de navigation"
 
   "Merge Lines"
   "Fusionner des lignes"
@@ -1750,14 +1753,8 @@ msgcat::mcmset fr {
   "Unindent selected text"
   "Unindent texte sélectionné"
 
-  "Uninstall"
-  "Désinstaller"
-
   "Uninstall plugin"
   "Désinstaller l'extension"
-
-  "Unix"
-  "UNIX"
 
   "Unlock"
   "Déverrouiller"
@@ -1794,9 +1791,6 @@ msgcat::mcmset fr {
 
   "Vim Mode"
   "Vim mode"
-
-  "Windows"
-  "Fenêtres"
 
   "Wrap With Abbreviation"
   "Envelopper d’une abréviation"
@@ -1848,9 +1842,6 @@ msgcat::mcmset fr {
   "Plugin Trust Requested"
   "Plugin fiducie demandé"
 
-  "Plugin export completed successfully"
-  "Export terminé avec succès"
-
   "Plugin import completed successfully"
   "Importation terminée avec succès"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset fr {
 # plugmgr.tcl
 msgcat::mcmset fr {
 
+  "Available"
+  "Disponible"
+
   "Export Plugin"
   "Module externe Hit Export :"
+
+  "Installed"
+  "Non installé"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "Gestionnaire de greffons"
+
+  "Plugin export completed successfully"
+  "Export terminé avec succès"
 
   "Release Notes"
   "Notes de version"
@@ -1992,6 +1992,9 @@ msgcat::mcmset fr {
 
   "Clipboard history depth"
   "Profondeur de l’histoire de presse-papiers"
+
+  "Close find panels when editing buffer gets focus"
+  "Rechercher près des panneaux lors de l’édition tampon obtient le focus"
 
   "Closing"
   "Clôture"
@@ -2271,6 +2274,9 @@ msgcat::mcmset fr {
 
   "Select a plugin"
   "Sélectionnez un plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Sélectionnez un raccourci et appuyez sur la touche Retour ou Espace pour modifier le raccourci."
 
   "Select default browsing directory"
   "Sélectionnez par défaut navigation directory"
@@ -3632,9 +3638,6 @@ msgcat::mcmset fr {
   "Edit"
   "Modification"
 
-  "Emmet"
-  "fourmi"
-
   "Enable code folding"
   "Activez le code folding"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset fr {
   "Insert"
   "Insérer"
 
+  "Install"
+  "Installer"
+
   "Language"
   "Langue"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset fr {
 
   "Node"
   "nœud"
-
-  "None"
-  "Aucun"
 
   "OK"
   "Ok"
@@ -3823,6 +3826,9 @@ msgcat::mcmset fr {
 
   "Unfavorite"
   "Retirer des favoris"
+
+  "Uninstall"
+  "Désinstaller"
 
   "Update"
   "Mis à jour"
