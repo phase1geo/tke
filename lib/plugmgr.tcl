@@ -316,8 +316,23 @@ namespace eval plugmgr {
 
     ttk::frame  $w.nf
     ttk::frame  $w.nf.f
-    ttk::button $w.nf.f.avail   -style BButton -text [msgcat::mc "Available"] -width $bwidth -command plugmgr::available_selected
-    ttk::button $w.nf.f.install -style BButton -text [msgcat::mc "Installed"] -width $bwidth -command plugmgr::installed_selected
+    set widgets(available_btn) [ttk::button $w.nf.f.avail   -style BButton -text [msgcat::mc "Available"] -width $bwidth -command plugmgr::available_selected]
+    set widgets(installed_btn) [ttk::button $w.nf.f.install -style BButton -text [msgcat::mc "Installed"] -width $bwidth -command plugmgr::installed_selected]
+
+    bind $widgets(available_btn) <Leave> {
+      after idle {
+        if {$plugmgr::last_pane eq "available"} {
+          %W state active
+        }
+      }
+    }
+    bind $widgets(installed_btn) <Leave> {
+      after idle {
+        if {$plugmgr::last_pane eq "installed"} {
+          %W state active
+        }
+      }
+    }
 
     pack $w.nf.f.avail   -side left -padx 4 -pady 2
     pack $w.nf.f.install -side left -padx 4 -pady 2
@@ -332,6 +347,9 @@ namespace eval plugmgr {
 
     pack $w.nf        -fill x
     pack $widgets(nb) -fill both -expand yes
+
+    # Make sure that everything looks correct theme-wise
+    update_theme
 
     # Make the available notebook pane the visible panel
     available_selected
@@ -353,13 +371,13 @@ namespace eval plugmgr {
 
     ttk::frame     $w.lf
     set widgets($type,table) [tablelist::tablelist $w.lf.tl -columns [list 0 [msgcat::mc "Plugins"]] \
-      -stretch all -exportselection 1 -selectmode browse -showlabels 0 -relief flat \
+      -stretch all -exportselection 1 -selectmode browse -showlabels 0 -relief flat -bd 0 -highlightthickness 0 \
       -yscrollcommand [list $w.lf.vb set]]
-    scroller::scroller $w.lf.vb -orient vertical -command [list $w.lf.tl yview]
+    set widgets($type,scroll) [scroller::scroller $w.lf.vb -orient vertical -command [list $w.lf.tl yview]]
 
     $widgets($type,table) columnconfigure 0 -name plugin -stretchable 1 -wrap 1 -editable 0 -formatcommand plugmgr::format_plugin_cell
 
-    bind $widgets($type,table) <<TablelistSelect>> [list plugmgr::show_detail $type]
+    bind [$widgets($type,table) bodytag] <Return> [list plugmgr::show_detail $type]
 
     grid rowconfigure    $w.lf 0 -weight 1
     grid columnconfigure $w.lf 0 -weight 1
@@ -405,13 +423,13 @@ namespace eval plugmgr {
 
     ttk::frame $w
 
-    set bwidth [msgcat::mcmax "Back" "Install" "Delete"]
+    set bwidth [msgcat::mcmax "Back" "Install" "Uninstall" "Delete"]
 
     ttk::frame $w.bf
-    set widgets(back)      [ttk::button $w.bf.back      -style BButton -text [msgcat::mc "Back"]    -width $bwidth -command [list plugmgr::go_back]]
-    set widgets(install)   [ttk::button $w.bf.install   -style BButton -text [msgcat::mc "Install"] -width $bwidth -command [list plugmgr::install]]
-    set widgets(uninstall) [ttk::button $w.bf.uninstall -style BButton -text [msgcat::mc "Install"] -width $bwidth -command [list plugmgr::uninstall]]
-    set widgets(delete)    [ttk::button $w.bf.delete    -style BButton -text [msgcat::mc "Delete"]  -width $bwidth -command [list plugmgr::delete]]
+    set widgets(back)      [ttk::button $w.bf.back      -style BButton -text [msgcat::mc "Back"]      -width $bwidth -command [list plugmgr::go_back]]
+    set widgets(install)   [ttk::button $w.bf.install   -style BButton -text [msgcat::mc "Install"]   -width $bwidth -command [list plugmgr::install]]
+    set widgets(uninstall) [ttk::button $w.bf.uninstall -style BButton -text [msgcat::mc "Uninstall"] -width $bwidth -command [list plugmgr::uninstall]]
+    set widgets(delete)    [ttk::button $w.bf.delete    -style BButton -text [msgcat::mc "Delete"]    -width $bwidth -command [list plugmgr::delete]]
 
     grid rowconfigure    $w.bf 0 -weight 1
     grid columnconfigure $w.bf 1 -weight 1
@@ -422,9 +440,13 @@ namespace eval plugmgr {
 
     # Create HTML viewer
     ttk::frame $w.hf
-    set widgets(html) [text $w.hf.t -xscrollcommand [list $w.hf.hb set] -yscrollcommand [list $w.hf.vb set]]
-    scroller::scroller $w.hf.vb -orient vertical   -command [list $w.hf.t yview]
-    scroller::scroller $w.hf.hb -orient horizontal -command [list $w.hf.t xview]
+    set widgets(html)    [text $w.hf.t -highlightthickness 0 -bd 0 \
+                                       -xscrollcommand [list $w.hf.hb set] -yscrollcommand [list $w.hf.vb set]]
+    set widgets(html,vb) [scroller::scroller $w.hf.vb -orient vertical   -command [list $w.hf.t yview]]
+    set widgets(html,hb) [scroller::scroller $w.hf.hb -orient horizontal -command [list $w.hf.t xview]]
+
+    # Make the HTML text widget setup to show HTML syntax
+    HMinitialize $widgets(html)
 
     grid rowconfigure    $w.hf 0 -weight 1
     grid columnconfigure $w.hf 0 -weight 1
@@ -463,6 +485,9 @@ namespace eval plugmgr {
     # Select the available pane
     $widgets(nb) select $widgets(available)
 
+    $widgets(available_btn) state  active
+    $widgets(installed_btn) state !active
+
     # Give the search panel the focus
     focus $widgets(available,search)
 
@@ -484,6 +509,9 @@ namespace eval plugmgr {
     # Select the installed pane
     $widgets(nb) select $widgets(installed)
 
+    $widgets(available_btn) state !active
+    $widgets(installed_btn) state  active
+
     # Give the search panel the focus
     focus $widgets(installed,search)
 
@@ -503,7 +531,7 @@ namespace eval plugmgr {
 
     # Put some dummy data in it
     if {$type eq "available"} {
-      append_plugin $type "Best Plugin Ever" "This plugin does some really incredible things so you gotta get it!" 0
+      append_plugin $type "Best Plugin Ever" "This plugin does some really incredible things so you gotta get it!  I am so inspired to do something really great right now.\n\nAre you too?" 0
       append_plugin $type "Good Plugin" "Doing everything all over again" 1
     } else {
       append_plugin $type "Installed Plugin #1" "You already know that this plugin does" 2
@@ -527,21 +555,31 @@ namespace eval plugmgr {
   # Create the plugin cell and populate it with the appropriate text.
   proc make_plugin_cell {tbl row col win} {
 
-    set bgcolor "white"
-    set fgcolor "black"
+    variable last_pane
 
     lassign [$tbl cellcget $row,$col -text] name detail id
 
-    set txt [text $win -background $bgcolor -foreground $fgcolor -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0]
-    bind $txt <Configure> [list plugmgr::update_height %W]
+    ttk::frame $win
+    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor arrow
+    ttk::separator $win.sep -orient horizontal
 
-    $txt tag configure header -font [list -size 14 -weight bold] -underline 1
-    $txt insert end $name header "\n\n$detail"
-    $txt configure -state disabled
+    bind $win.t <Configure>       [list plugmgr::update_height %W]
+    bind $win.t <Double-Button-1> [list plugmgr::show_detail $last_pane]
+    bindtags $win.t [linsert [bindtags $win.t] 1 TablelistBody]
 
-    pack $txt -fill both -expand yes
+    pack $win.t   -fill both -expand yes
+    pack $win.sep -fill x
 
-    return $txt
+    array set theme [theme::get_syntax_colors]
+
+    $win.t tag configure header -font [list -size 14 -weight bold] -foreground $theme(keywords)
+    $win.t tag configure body   -lmargin1 20 -lmargin2 20
+    $win.t insert end "\n" {} $name header "\n\n$detail\n" body
+    $win.t configure -state disabled
+
+    pack $win -fill both -expand yes
+
+    return $win
 
   }
 
@@ -549,7 +587,7 @@ namespace eval plugmgr {
   # Updates the given plugin cell contents.
   proc update_plugin_cell {tbl row col win args} {
 
-    $win configure {*}$args
+    $win.t configure {*}$args
 
   }
 
@@ -573,12 +611,17 @@ namespace eval plugmgr {
     # Get the currently selected row
     set selected [$widgets($type,table) curselection]
 
-    puts "selected: $selected"
-
     # Get the plugin ID
     set current_id [lindex [$widgets($type,table) cellcget $selected,plugin -text] 2]
 
-    # TBD
+    # TBD - Show some content
+    set content "<h1>Super Cool</h1><p>This is very nice indeed!</p>"
+
+    # Add the HTML to the HTML widget
+    HMparse_html $content "HMrender $widgets(html)"
+
+    # Configure the text widget to be disabled
+    $widgets(html) configure -state disabled
 
     if {$type eq "available"} {
       grid remove $widgets(uninstall)
@@ -607,6 +650,7 @@ namespace eval plugmgr {
     # Update the UI state of the pane
     grid remove $widgets(install)
     grid $widgets(uninstall)
+    grid $widgets(delete)
     $widgets(delete) configure -state normal
 
   }
@@ -638,5 +682,29 @@ namespace eval plugmgr {
 
   }
 
+  ######################################################################
+  # This is called whenever the theme changes.
+  proc update_theme {} {
+
+    variable widgets
+
+    # If the window does not exist, just return
+    if {![winfo exists .pmwin]} {
+      return
+    }
+
+    array set theme [theme::get_category_options ttk_style 1]
+
+    $widgets(available,table)  configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(available,scroll) configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(installed,table)  configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(installed,scroll) configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(html)             configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(html,vb)          configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(html,hb)          configure -background $theme(background) -foreground $theme(foreground)
+
+  }
+
 }
+
 

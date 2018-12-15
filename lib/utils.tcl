@@ -1182,3 +1182,123 @@ namespace eval utils {
   }
 
 }
+
+######################################################################
+# Initializes the given text widget to render HTML via htmllib.
+proc HMinitialize {win} {
+
+  # Initialize the text widget to display HTML
+  HMinit_win $win
+
+  # Set <ul> symbols
+  HMset_state $win -symbols [string repeat \u2022\u2023\u25e6\u2043 5]
+
+}
+
+######################################################################
+# Handles the creation of an image.
+proc HMhandle_image {win handle src} {
+
+  variable animation_ids
+
+  # Initialize tfile to indicate that it was not used
+  set tfile ""
+
+  # If the file is from the web, download it
+  if {[string first "http" $src] == 0} {
+    set tfile [file join / tmp tmp.[pid]]
+    set outfl [open $tfile w]
+    http::geturl $src -channel $outfl
+    close $outfl
+    set src $tfile
+  }
+
+  # Load the GIF information
+  set depth 0
+  if {![catch { gifblock::gif.load blocks $tfile } rc]} {
+    set depth [llength [set gc_blocks [lsearch -all [gifblock::gif.blocknames blocks] {Graphic Control}]]]
+  }
+
+  # Create the image from the file
+  if {$depth == 0} {
+    if {[catch { image create photo -file $src } img_list]} {
+      puts $::errorInfo
+      return
+    }
+  } else {
+    for {set i 0} {$i < $depth} {incr i} {
+      if {![catch { image create photo -file $tfile -format "gif -index $i" } img]} {
+        lappend img_list [list $img [expr [gifblock::gif.get blocks [lindex $gc_blocks $i] {delay time}] * 10]]
+      }
+    }
+  }
+
+  # Delete the temporary file if set
+  if {$tfile ne ""} {
+    file delete $tfile
+  }
+
+  # If this is an animated GIF, display the next image in the series after the given period of time
+  if {[llength $img_list] > 1} {
+    set animation_ids($handle) [after [lindex $img_list 0 1] [list specl::utils::HMcycle_image $handle 1 $img_list]]
+  }
+
+  # Display the image
+  HMgot_image $handle [lindex $img_list 0 0]
+
+}
+
+######################################################################
+# Handles an animated GIF.
+proc HMcycle_image {handle pos img_list} {
+
+  variable animation_ids
+
+  if {[winfo exists $handle]} {
+
+    lassign [lindex $img_list $pos] img delay
+
+    # Display the image
+    HMgot_image $handle $img
+
+    # Increment the position
+    incr pos
+    if {$pos >= [llength $img_list]} { set pos 0 }
+
+    # Cycle again
+    set animation_ids($handle) [after $delay [list specl::utils::HMcycle_image $handle $pos $img_list]]
+
+  }
+
+}
+
+######################################################################
+# Cancels all animations for the current window.
+proc HMcancel_animations {} {
+
+  variable animation_ids
+
+  # Cancel all of the outstanding IDs
+  foreach {handle id} [array get animation_ids] {
+    after cancel $id
+  }
+
+  # Clear all of the IDs
+  array unset animation_ids
+
+}
+
+# Handles a click on a link
+proc HMlink_callback {win href} {
+
+  utils::open_file_externally $href
+
+}
+
+# Handles an image
+proc HMset_image {win handle src} {
+
+  ::HMhandle_image $win $handle $src
+
+}
+
