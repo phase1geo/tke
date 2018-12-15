@@ -213,7 +213,7 @@ namespace eval theme {
 
     # Notebook that hides the tabs from view (use -style Plain.TNotebook)
     ttk::style configure Plain.TNotebook.Tab -relief flat -bd 0
-    ttk::style layout Plain.TNotebook.Tab null
+    ttk::style layout    Plain.TNotebook.Tab null
 
   }
 

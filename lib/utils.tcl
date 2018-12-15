@@ -1291,7 +1291,7 @@ proc HMcancel_animations {} {
 # Handles a click on a link
 proc HMlink_callback {win href} {
 
-  utils::open_file_externally $href
+  utils::open_file_externally $href 1
 
 }
 

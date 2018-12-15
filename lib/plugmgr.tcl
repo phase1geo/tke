@@ -40,6 +40,13 @@ namespace eval plugmgr {
   array set database {}
   array set widgets  {}
 
+  # TEMPORARY
+  array set database {
+    0 {display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description {Quick description} release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
+    1 {display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
+    2 {display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
+  }
+
   ######################################################################
   # Adds a single plugin to the plugin database file.  Returns the
   # data that is stored in the plugin entry.
@@ -433,9 +440,9 @@ namespace eval plugmgr {
     set bwidth [msgcat::mcmax "Back" "Install" "Uninstall" "Update" "Delete"]
 
     ttk::frame $w.bf
-    set widgets(back)      [ttk::button $w.bf.back      -style BButton -text [msgcat::mc "Back"]      -width $bwidth -command [list plugmgr::go_back]]
+    set widgets(back)      [ttk::button $w.bf.back      -style BButton -compound left -image search_prev -text [msgcat::mc "Back"]      -width $bwidth -command [list plugmgr::go_back]]
     set widgets(install)   [ttk::button $w.bf.install   -style BButton -text [msgcat::mc "Install"]   -width $bwidth -command [list plugmgr::install]]
-    set widgets(pupdate)   [ttk::button $w.bf.update    -style BButton -text [msgcat::mc "Update"]    -width $bwidth -command [list plugmgr::pupdate]
+    set widgets(pupdate)   [ttk::button $w.bf.pupdate   -style BButton -text [msgcat::mc "Update"]    -width $bwidth -command [list plugmgr::pupdate]]
     set widgets(uninstall) [ttk::button $w.bf.uninstall -style BButton -text [msgcat::mc "Uninstall"] -width $bwidth -command [list plugmgr::uninstall]]
     set widgets(delete)    [ttk::button $w.bf.delete    -style BButton -text [msgcat::mc "Delete"]    -width $bwidth -command [list plugmgr::delete]]
 
@@ -449,7 +456,7 @@ namespace eval plugmgr {
 
     # Create HTML viewer
     ttk::frame $w.hf
-    set widgets(html)    [text $w.hf.t -highlightthickness 0 -bd 0 \
+    set widgets(html)    [text $w.hf.t -highlightthickness 0 -bd 0 -cursor arrow \
                                        -xscrollcommand [list $w.hf.hb set] -yscrollcommand [list $w.hf.vb set]]
     set widgets(html,vb) [scroller::scroller $w.hf.vb -orient vertical   -command [list $w.hf.t yview]]
     set widgets(html,hb) [scroller::scroller $w.hf.hb -orient horizontal -command [list $w.hf.t xview]]
@@ -539,18 +546,9 @@ namespace eval plugmgr {
     # Clear the table
     $widgets($type,table) delete 0 end
 
-    # Put some dummy data in it
-    if {$type eq "available"} {
-      append_plugin $type "Best Plugin Ever" "This plugin does some really incredible things so you gotta get it!  I am so inspired to do something really great right now.\n\nAre you too?" 0
-      append_plugin $type "Good Plugin" "Doing everything all over again" 1
-    } else {
-      append_plugin $type "Installed Plugin #1" "You already know that this plugin does" 2
-      append_plugin $type "Installed Plugin #2" "You already know that this plugin does, too" 2
-    }
-
     foreach name [lsort [array names database]] {
       array set data $database($name)
-      append_plugin $type $data(display_name) $data(FOOBAR) $name
+      append_plugin $type $data(display_name) $data(description) $name
     }
 
     # author        "Anonymous"
@@ -637,12 +635,32 @@ namespace eval plugmgr {
     array set data $database($name)
 
     # Create the HTML code to display
-    append html "<h1>$data(display_name)</h1>"
-    append html "<h3>Version</h3>$data(version)<br/>"
-    append html "$data(overview)<br/>"
-    append html "<h3>Author</h3>$data(author)<br/>"
-    append html "<h3>E-mail</h3>$data(author)<br/>"
-    append html "<h3>Website</h3>$data(website)<br/>"
+    append html "<h1>$data(display_name)</h1><hr>"
+
+    if {$data(overview) ne ""} {
+      append html "$data(overview)<br><br><hr>"
+    }
+
+    if {$data(release_notes) ne ""} {
+      append html "<h4>Release Notes</h4><br>"
+      append html "<dl>$data(release_notes)</dl><br>"
+    }
+
+    append html "<h4>Version</h4><dl>$data(version)</dl>"
+
+    if {$data(author) ne ""} {
+      append html "<h4>Author</h4><dl>$data(author)</dl>"
+    } else {
+      append html "<h4>Author</h4><dl>Anonymous</dl>"
+    }
+
+    if {$data(email) ne ""} {
+      append html "<h4>E-mail</h4><dl><a href=\"mailto:$data(email)\">$data(email)</a></dl>"
+    }
+
+    if {$data(website) ne ""} {
+      append html "<h4>Website</h4><dl><a href=\"$data(website)\">$data(website)</a></dl>"
+    }
 
     return $html
 
@@ -676,7 +694,6 @@ namespace eval plugmgr {
       grid remove $widgets(delete)
       grid $widgets(install)
     } else {
-      $widgets(delete)  configure -state normal
       grid remove $widgets(install)
       grid $widgets(uninstall)
       grid $widgets(delete)
@@ -703,7 +720,7 @@ namespace eval plugmgr {
 
     # Import the file
     plugins::import_plugin .pmwin $fname
- 
+
     # Reload the plugin information
     plugins::load
 
@@ -720,7 +737,6 @@ namespace eval plugmgr {
     grid remove $widgets(pupdate)
     grid $widgets(uninstall)
     grid $widgets(delete)
-    $widgets(delete) configure -state normal
 
   }
 
@@ -740,7 +756,7 @@ namespace eval plugmgr {
 
     # Import the file
     plugins::import_plugin .pmwin $fname
- 
+
     # Perform the plugin install
     plugins::reload
 
