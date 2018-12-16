@@ -42,9 +42,11 @@ namespace eval plugmgr {
 
   # TEMPORARY
   array set database {
-    0 {display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description {Quick description} release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
+    0 {display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description "Quick\ndescription\nYes" release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
     1 {display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
     2 {display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
+    3 {display_name {Plugin 3} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.4.1} category filesystem description {Quick description 3} release_notes {My release notes} overview {<p>This is a really great overview of 3!</p>}}
+    4 {display_name {Plugin 4} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {1.5.2} category filesystem description {Quick description 4} release_notes {My release notes} overview {<p>This is a really great overview of 4!</p>}}
   }
 
   ######################################################################
@@ -104,9 +106,8 @@ namespace eval plugmgr {
     ttk::button    $w.tf.ob  -style BButton -text [msgcat::mc "Choose"] -command [list plugmgr::choose_output_dir $w]
 
     ttk::frame     $w.tf.tf
-    text           $w.tf.tf.t  -wrap word -xscrollcommand [list $w.tf.tf.vb set] -yscrollcommand [list $w.tf.tf.hb set]
-    ttk::scrollbar $w.tf.tf.vb -orient vertical   -command [list $w.tf.tf.t yview]
-    ttk::scrollbar $w.tf.tf.hb -orient horizontal -command [list $w.tf.tf.t xview]
+    text           $w.tf.tf.t  -wrap word -yscrollcommand [list $w.tf.tf.vb set]
+    ttk::scrollbar $w.tf.tf.vb -orient vertical -command [list $w.tf.tf.t xview]
 
     grid rowconfigure    $w.tf.tf 0 -weight 1
     grid columnconfigure $w.tf.tf 0 -weight 1
@@ -383,7 +384,7 @@ namespace eval plugmgr {
 
     pack $w.sf.e -side left -padx 2 -pady 2
 
-    ttk::frame     $w.lf
+    ttk::frame $w.lf
     set widgets($type,table) [tablelist::tablelist $w.lf.tl -columns [list 0 [msgcat::mc "Plugins"]] \
       -stretch all -exportselection 1 -selectmode browse -showlabels 0 -relief flat -bd 0 -highlightthickness 0 \
       -yscrollcommand [list $w.lf.vb set]]
@@ -456,10 +457,8 @@ namespace eval plugmgr {
 
     # Create HTML viewer
     ttk::frame $w.hf
-    set widgets(html)    [text $w.hf.t -highlightthickness 0 -bd 0 -cursor arrow \
-                                       -xscrollcommand [list $w.hf.hb set] -yscrollcommand [list $w.hf.vb set]]
+    set widgets(html)    [text $w.hf.t -highlightthickness 0 -bd 0 -cursor arrow -yscrollcommand [list $w.hf.vb set]]
     set widgets(html,vb) [scroller::scroller $w.hf.vb -orient vertical   -command [list $w.hf.t yview]]
-    set widgets(html,hb) [scroller::scroller $w.hf.hb -orient horizontal -command [list $w.hf.t xview]]
 
     # Make the HTML text widget setup to show HTML syntax
     HMinitialize $widgets(html)
@@ -468,7 +467,6 @@ namespace eval plugmgr {
     grid columnconfigure $w.hf 0 -weight 1
     grid $w.hf.t  -row 0 -column 0 -sticky news
     grid $w.hf.vb -row 0 -column 1 -sticky ns
-    grid $w.hf.hb -row 1 -column 0 -sticky ew
 
     pack $w.bf -fill x                -padx 2 -pady 2
     pack $w.hf -fill both -expand yes -padx 2 -pady 2
@@ -578,20 +576,19 @@ namespace eval plugmgr {
 
     variable last_pane
 
+    array set ttk_theme [theme::get_category_options ttk_style 1]
+    array set theme     [theme::get_syntax_colors]
+
     lassign [$tbl cellcget $row,$col -text] name detail id
 
-    ttk::frame $win
-    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor arrow
-    ttk::separator $win.sep -orient horizontal
+    frame $win -background $ttk_theme(background)
+    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor arrow -background $theme(background) -foreground $theme(foreground)
 
     bind $win.t <Configure>       [list plugmgr::update_height %W]
-    bind $win.t <Double-Button-1> [list plugmgr::show_detail $last_pane]
+    bind $win   <Double-Button-1> [list plugmgr::show_detail $last_pane]
     bindtags $win.t [linsert [bindtags $win.t] 1 TablelistBody]
 
-    pack $win.t   -fill both -expand yes
-    pack $win.sep -fill x
-
-    array set theme [theme::get_syntax_colors]
+    pack $win.t -fill both -expand yes -padx 4 -pady 4
 
     $win.t tag configure header -font [list -size 14 -weight bold] -foreground $theme(keywords)
     $win.t tag configure body   -lmargin1 20 -lmargin2 20
@@ -608,7 +605,9 @@ namespace eval plugmgr {
   # Updates the given plugin cell contents.
   proc update_plugin_cell {tbl row col win args} {
 
-    $win.t configure {*}$args
+    array set opts $args
+
+    $win configure -background $opts(-background)
 
   }
 
@@ -682,6 +681,10 @@ namespace eval plugmgr {
 
     # Get the content to display
     set html [make_overview_html $current_id]
+
+    # Clear the detail text widget
+    $widgets(html) configure -state normal
+    $widgets(html) delete 1.0 end
 
     # Add the HTML to the HTML widget
     HMparse_html $html "HMrender $widgets(html)"
@@ -828,7 +831,6 @@ namespace eval plugmgr {
     $widgets(installed,scroll) configure -background $theme(background) -foreground $theme(foreground)
     $widgets(html)             configure -background $theme(background) -foreground $theme(foreground)
     $widgets(html,vb)          configure -background $theme(background) -foreground $theme(foreground)
-    $widgets(html,hb)          configure -background $theme(background) -foreground $theme(foreground)
 
   }
 
