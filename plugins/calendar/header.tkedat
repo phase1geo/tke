@@ -1,0 +1,7 @@
+name           {calendar}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {Inserts a textual calendar into the current editing buffer based on user input.}

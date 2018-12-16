@@ -1,0 +1,17 @@
+Package Expect 5.43.2
+Meta as::author      {Don Libes}
+Meta as::build::date 2015-07-09
+Meta as::origin      http://expect.nist.gov
+Meta as::origin      http://sourceforge.net/projects/expect
+Meta category        Automation
+Meta description     Expect is a tool for automating interactive
+Meta description     applications such as telnet, ftp, passwd, fsck,
+Meta description     rlogin, tip, etc. Expect really makes this stuff
+Meta description     trivial. Expect is also useful for testing these
+Meta description     same applications. And by adding Tk, you can also
+Meta description     wrap interactive applications in X11 GUIs.
+Meta license         {Public Domain}
+Meta platform        win32-ix86
+Meta require         {Tcl 8.4}
+Meta subject         automation interactive pty {pseudo tty}
+Meta summary         Automating interactive applications

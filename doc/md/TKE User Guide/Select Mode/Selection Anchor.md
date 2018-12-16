@@ -1,0 +1,5 @@
+## Selection Anchor
+
+Every selection object type has an anchor point either at the beginning or end of the selection. In the case of a block selection, the anchor point is either in the northwest corner of the selection or the southeast corner. Selection objects are always added to or removed from the selection point that is opposite the selection anchor (i.e., the current selection anchor can never move). TKE will always place the insertion cursor on the end of the selection opposite the selection anchor to help you visually see which end of the selection can be moved.
+
+However, you can, at any time, change the anchor point to be at the other end of the selection using the **a** command key when in select mode. This will not change the selection in any way but will allow you to move the other end of the selection using the selection motion key commands.

@@ -1,0 +1,3 @@
+## Difference Map
+
+The difference map on the right-hand side of the window is displayed in lieu of the standard scrollbar, functioning in the same way but providing a quick view of the difference information in the entire file.  Click on an area in the scrollbar to display that portion of the file in the file viewing area.  Drag the scrollbar to any position in the difference map to also view that portion of the file.  The inside of the slider is empty, allowing the user to easily see the difference information in the area that the slider resides.

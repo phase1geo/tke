@@ -1,0 +1,64 @@
+filepatterns
+{*.md *.markdown *.txt}
+
+reference
+{
+  {{User Guide} http://criticmarkup.com/users-guide.php}
+}
+
+casesensitive
+{1}
+
+advanced {
+
+  HighlightClass add    {-fgtheme miscellaneous1}
+  HighlightClass del    {-fgtheme miscellaneous2 -fontopts {overstrike}}
+  HighlightClass comm   {-fgtheme comments}
+  HighlightClass hilite {-fgtheme background -bgtheme highlighter}
+  HighlightClass meta   {-fgtheme meta}
+
+  HighlightRegexp {(\{\+\+)(.+?)(\+\+\})}      addition
+  HighlightRegexp {(\{\-\-)(.+?)(\-\-\})}      deletion
+  HighlightRegexp {(\{~~)(.+?)(~>)(.+?)(~~\})} substitution
+  HighlightRegexp {(\{>>)(.+?)(<<\})}          comment
+  HighlightRegexp {(\{==)(.+?)(==\})}          highlight
+
+  HighlightProc addition {
+    array set vars $varlist
+    return [list [list add  {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3)] ""]
+  } HighlightEndProc
+
+  HighlightProc deletion {
+    array set vars $varlist
+    return [list [list del  {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3)] ""]
+  } HighlightEndProc
+
+  HighlightProc substitution {
+    array set vars $varlist
+    return [list [list del  {*}$vars(2) \
+                       add  {*}$vars(4) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3) \
+                       meta {*}$vars(5)] ""]
+  } HighlightEndProc
+
+  HighlightProc comment {
+    array set vars $varlist
+    return [list [list comm {*}$vars(2) \
+                       meta {*}$vars(1) \
+                       meta {*}$vars(3)] ""]
+  } HighlightEndProc
+
+  HighlightProc highlight {
+    array set vars $varlist
+    return [list [list hilite {*}$vars(2) \
+                       meta   {*}$vars(1) \
+                       meta   {*}$vars(3)] ""]
+  } HighlightEndProc
+
+}
+

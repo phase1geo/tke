@@ -1,0 +1,46 @@
+filepatterns
+{*.m}
+
+vimsyntax
+{matlab}
+
+reference
+{
+  {{Language Reference} http://www.mathworks.com/help/matlab/index.html}
+}
+
+matchcharsallowed
+{curly square paren}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{%}}
+
+lcomments {{%[^\{\}]}}
+
+bcomments {{{^%\{} {^%\}}}}
+
+strings {single}
+
+keywords
+{
+  break case catch classdef continue else elseif end for function global if otherwise parfor persistent
+  return spmd switch try while
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+[ij]?|[0-9]+\.[0-9]+)} {}
+}
+
+punctuation {
+  HighlightRegexp {[][\{\}();:,=^<>&|~*/+-]} {}
+}
+

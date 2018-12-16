@@ -1,0 +1,81 @@
+filepatterns
+{*.kt}
+
+reference {
+  {{Language Reference} http://kotlinlang.org/docs/reference/}
+}
+
+delimiters {[^\s\(\{\[\}\]\)\.\t\n\r@;:=\"'\|,<>]+}
+
+matchcharsallowed
+{curly paren square double btick}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double}
+
+keywords
+{
+  abstract annotation as
+  break by
+  catch class companion const constructor continue crossinline
+  data delegate do dynamic
+  else enum external
+  field file final finally for fun
+  get
+  if import in infix init inline interface internal is
+  lateinit
+  noinline
+  object open operator out override
+  package param private property protected public
+  receiver reified return
+  sealed set setparam super suspend
+  tailrec this throw try typealias
+  val var vararg
+  when where while
+}
+
+symbols
+{
+  HighlightKeywords {
+    fun
+  } syntax::get_prefixed_symbol
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
+numbers {
+  HighlightRegexp {\m([0-9_]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F_]+|true|false|null)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}()@.,:;?!<>+/*%\$\\&\|=-]} {}
+}
+
+miscellaneous1 {}
+
+miscellaneous2 {}
+
+miscellaneous3 {}

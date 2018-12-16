@@ -1,6 +1,14 @@
 filepatterns
 {*.php}
 
+vimsyntax
+{php}
+
+reference
+{
+  {{Language Reference} http://php.net/manual/en/langref.php}
+}
+
 matchcharsallowed
 {curly square paren double single}
 
@@ -12,31 +20,40 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+reindent
+{{switch case default}}
+
+icomment {{//}}
 
 lcomments {{#} {//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
-  array var_dump class public new echo var const static echo foreach for print as unset while
+  array var_dump class public new echo var const static echo foreach for function print as unset while
   extends if return include global and or xor switch case break elseif else instanceof
   implements interface continue declare require require_once include_once goto do endif
   endwhile endfor endforeach endswitch default
 }
 
 symbols {
-  function
+  HighlightKeywords {function} syntax::get_prefixed_symbol
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 numbers {
-  HighlightClassForRegexp {\m(0b[0-1]+|[1-9][0-9]*|0[0-7]+|0x[0-9a-fA-F]+)} {}
-  HighlightClass          {
+  HighlightRegexp   {\m(0b[0-1]+|[1-9][0-9]*|0[0-7]+|0x[0-9a-fA-F]+)} {}
+  HighlightKeywords {
     TRUE FALSE True False true false
     PHP_INT_SIZE PHP_INT_MAX NAN NULL
     __LINE__ __FILE__ __DIR__ __FUNCTION__ __CLASS__ __TRAIT__ __METHOD__ __NAMESPACE__
@@ -44,13 +61,11 @@ numbers {
 }
 
 punctuation {
-  HighlightClassForRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
+  HighlightRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
 }
 
-precompile {}
- 
-miscellaneous {
-  HighlightClass {
+miscellaneous1 {
+  HighlightKeywords {
     is_nan substr substr_replace isset print_r printf array_values array_diff sort opendir readdir closedir
     array_merge range is_null call_user_func call_user_func_array usort empty eval exit list create_function
     import_request_variables setcookie time gettype is_array is_float is_int is_object is_string define constant
@@ -59,8 +74,14 @@ miscellaneous {
     count register_tick_function unregister_tick_function phpinfo fopen file is_file get_included_files readfile
     virtual
   } {}
-  HighlightClass {
+}
+
+miscellaneous2 {
+  HighlightKeywords {
     $GLOBALS $_GET $_REQUEST $_POST $_COOKIE $php_errormsg
   } {}
-  HighlightClassWithOnlyCharStart \$ {}
+}
+
+miscellaneous3 {
+  HighlightCharStart \$ {}
 }

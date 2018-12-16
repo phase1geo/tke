@@ -1,0 +1,31 @@
+filepatterns
+{.editorconfig}
+
+reference
+{
+  {{Language Reference} https://editorconfig.org}
+}
+
+matchcharsallowed
+{curly square}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{#} {;}}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}=*!?.,]} {}
+}
+
+advanced {
+  HighlightClass rhs {-fgtheme numbers}
+
+  HighlightRegexp {=\s*(.*)$} editorconfig::highlight_rhs
+}

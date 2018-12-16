@@ -1,0 +1,65 @@
+ ; git menu for e_menu.tcl
+
+ R:git status R: cd %PD
+ S:git status S:pwd\ndir\necho PD=%PD\ngit status
+
+ R:git gui R: cd %PD
+ R:git gui R: git gui
+
+ R:git add * R: cd %PD
+ S:git add * S: git add *
+
+ R:git commit -m "%dd_on_%t2" R: %q "Committing changes" "Commit with message\n\n'%dd_on_%t2' ?"
+ R:git commit -m "%dd_on_%t2" R: cd %PD
+ S:git commit -m "%dd_on_%t2" S: git commit -m "%dd_on_%t2"
+
+ R:git commit -am "%s on %t2" R: %q "Committing changes" "Add and commit with message\n\n'%s at %t2' ?"
+ R:git commit -am "%s on %t2" R: cd %PD
+ S:git commit -am "%s on %t2" S: git commit -am "%s on %t2"
+
+ R:git commit --amend -am "%s %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%s %t1 #%i1' ?"
+ R:git commit --amend -am "%s %t1 #%i1" R: cd %PD
+ S:git commit --amend -am "%s %t1 #%i1" S: git commit --amend -am "%s %t1 #%i1"
+
+ R:git log "1 hour ago" R: cd %PD
+ S:git log "1 hour ago" S: git log --since="1 hour ago"
+
+ R:git log "1 day ago" R: cd %PD
+ S:git log "1 day ago" S: git log --since="1 day ago"
+
+ R:git log -p "1 hour ago" R: cd %PD
+ S:git log -p "1 hour ago" S: git log -p --since="1 hour ago"
+
+ R:git log -p "1 day ago" R: cd %PD
+ S:git log -p "1 day ago" S: git log -p --since="1 day ago"
+
+ R:git log R: cd %PD
+ S:git log S: git log
+
+ S:git log --merge S: git log --merge
+
+ R:git branch R: cd %PD
+ S:git branch S: git branch
+
+ R:git branch "%s" R: %q "Branch" "Create new branch\n\n'%s' ?"
+ R:git branch "%s" R: cd %PD
+ S:git branch "%s" S: git branch -f "%s"
+
+ R:git checkout "%s" R: %q "Checkout" "Checkout to\n\n'%s' ?"
+ R:git checkout "%s" R: cd %PD
+ S:git checkout "%s" S: git checkout "%s"
+
+ R:edit .gitignore R: cd %PD
+ R:edit .gitignore R: %e .gitignore
+
+ MW: Dangerous MW: m=git2.mnu w=
+
+; R: edit ./wiki.txt R: ?  some.err.   ./wiki.txt
+
+;S: echo "эхо - %i3 %i4" S: echo "эхо - %i3 %i4"
+;S: echo "эхо - %i8 %i9" S: echo "эхо - %i8 %i9"
+
+[OPTIONS]
+b1=1
+b2=7
+

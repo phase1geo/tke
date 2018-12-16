@@ -1,10 +1,29 @@
 filepatterns
 {*.syntax}
 
+vimsyntax
+{}
+
+reference {}
+
+embedded
+{
+  {Tcl {{HighlightProc HighlightEndProc} {TclBegin TclEnd}}}
+}
+
+delimiters
+{}
+
 matchcharsallowed
 {curly}
 
+escapes
+{1}
+
 tabsallowed
+{0}
+
+linewrap
 {0}
 
 casesensitive
@@ -12,39 +31,76 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
 
-lcomments {{^[ \t]*#}}
+reindent {}
 
-bcomments {}
+icomment {{#}}
+
+lcomments {{^[ \t]*#}}
 
 strings {}
 
 keywords
 {
-  filepatterns matchcharsallowed tabsallowed casesensitive indent unindent keywords symbols
-  lcomments bcomments strings numbers punctuation precompile miscellaneous 
-  HighlightClass
-  HighlightClassForSpecialChars
-  HighlightClassForRegexp
-  HighlightClassWithOnlyCharStart
+  filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
+  casesensitive delimiters indent unindent reindent keywords symbols functions
+  variables icomment lcomments bcomments strings numbers punctuation precompile
+  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta readmeta advanced
+  escapes formatting
 }
-
+ 
 symbols
 {
-  filepatterns keywords symbols lcomments ccomments strings numbers punctuation precompile miscellaneous 
+  HighlightKeywords {
+    filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed
+    linewrap casesensitive delimiters indent unindent reindent icomment lcomments
+    bcomments strings symbols numbers punctuation precompile miscellaneous1
+    miscellaneous2 miscellaneous3 meta readmeta advanced escapes formatting
+    keywords functions variables
+  } syntax::get_syntax_symbol
 }
+
+functions {}
+
+variables {}
 
 numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]} {}
+  HighlightRegexp {[\{\}]} {}
 }
 
-precompile {}
+precompile {
+  HighlightKeywords {
+    HighlightClass HighlightKeywords HighlightRegexp HighlightCharStart
+    HighlightProc HighlightEndProc TclBegin TclEnd
+  } {}
+}
 
-miscellaneous {}
+miscellaneous1 {
+  HighlightRegexp {https?://[^ \t\n\}]+} {}
+}
 
+miscellaneous2 {
+  HighlightRegexp {\{(TEXT|REF)\}} {}
+}
+
+miscellaneous3 {
+  HighlightKeywords {
+    bold italics underline strikethrough highlight superscript subscript code
+    header1 header2 header3 header4 header5 header6 unordered ordered checkbox
+    link image
+  }
+}
+
+highlighter {}
+
+meta {}
+
+advanced {}
+
+formatting {}

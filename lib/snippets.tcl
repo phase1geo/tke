@@ -1,501 +1,700 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
 # Name:    snippets.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/11/2013
 # Brief:   Namespace containing functionality to support snippets
+######################################################################
 
 namespace eval snippets {
 
-  source [file join $::tke_dir lib ns.tcl]
-    
-  variable snippets_dir [file join $::tke_home snippets]
+  array set widgets    {}
+  array set snippets   {}
+  array set timestamps {}
+  array set within     {}
+  array set expandtabs {}
 
-  array set widgets  {}
-  array set snippets {}
-  array set within   {}
-  
+  set snippets_dir [file join $::tke_home snippets]
+
   ######################################################################
   # Loads the snippet information.
   proc load {} {
-  
+
     variable snippets_dir
-    
+
     # If the snippets directory does not exist, create it
     if {![file exists $snippets_dir]} {
       file mkdir $snippets_dir
     }
-    
+
   }
-  
+
   ######################################################################
   # Reloads the current snippet.
   proc reload_snippets {} {
-    
+
     # Get the current language
-    set language [syntax::get_current_language [gui::current_txt $tid]]
-    
+    set language [syntax::get_language [gui::current_txt]]
+
     # Reload the snippet file for the current language
     set_language $language
-    
+
   }
-  
+
   ######################################################################
   # Load the snippets file.
-  proc set_language {language} {
-    
-    variable snippets_dir
+  proc set_language {language {dummy 0}} {
+
     variable snippets
-    
-    # Create language-specific snippets filename
-    set sfile [file join $snippets_dir $language.snippets]
+    variable timestamps
+    variable snippets_dir
+
+    # Remove any launcher commands that would be associated with this file
+    launcher::unregister [msgcat::mc "Snippet: *"]
+
+    foreach lang [list user $language] {
+
+      # Create language-specific snippets filename if it exists
+      if {[file exists [set sfile [file join $snippets_dir $lang.snippets]]]} {
+
+        # Get the file status
+        file stat $sfile fstat
+
+        # Check to see if the language file timestamp has been updated
+        if {![info exists timestamps($lang)] || ($fstat(mtime) > $timestamps($lang))} {
+          set timestamps($lang) $fstat(mtime)
+          parse_snippets $lang
+        }
+
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Sets the expandtabs memory for the given text widget to the given value.
+  proc set_expandtabs {txt val} {
+
+    variable expandtabs
+
+    set expandtabs($txt.t) $val
+
+  }
+
+  ######################################################################
+  # Parses snippets for the given language.
+  proc parse_snippets {language} {
+
+    variable snippets
+    variable snippets_dir
 
     # Clear the snippets for the given file
     array unset snippets $language,*
-      
-    # Remove any launcher commands that would be associated with this file
-    [ns launcher]::unregister [msgcat::mc "Snippet: *"]
+
+    # Create snippet file name
+    set sfile [file join $snippets_dir $language.snippets]
 
     if {![catch { open $sfile r } rc]} {
-      
+
       # Read the contents of the snippets file
       set contents [read $rc]
       close $rc
-      
+
       set in_snippet 0
-     
+      set tab_seen   0
+
       # Do a quick parse of the snippets file
       foreach line [concat [split $contents \n] ""] {
         if {$in_snippet} {
           if {[regexp {^\t(.*)$} $line -> txt]} {
             append snippet "[string trimright $txt]\n"
-          } else {
+            set tab_seen 1
+          } elseif {([string trim $line] eq "endsnippet") || (([string trim $line] eq "") && $tab_seen)} {
             set in_snippet 0
-            if {![catch { parse_snippet [string range $snippet 0 end-1] } rc]} {
-              set snippets($language,$name) $rc
-#              array set snip $snippets($language,$name)
-#              [ns launcher]::register [msgcat::mc "Snippet: %s: %s" $name [string range $snip(raw_string) 0 30]] \
-#                [list [ns snippets]::insert_snippet_into_current {} $snippets($language,$name)] 
-            }
+            set snippets($language,$name) [string range $snippet 0 end-1]
+          } else {
+            append snippet "[string trimright $line]\n"
           }
         }
         if {[regexp {^snippet\s+(\w+)} $line -> name]} {
           set in_snippet 1
           set snippet    ""
+          set tab_seen   0
         }
-        
-      }
-      
-    }
-    
-  }
-  
-  ######################################################################
-  # Returns a list array containing the information obtained from parsing
-  # the given snippet.
-  proc parse_snippet {snippet} {
-    
-    set in_dollar  0
-    set in_tick    0
-    set in_escape  0
-    set from_start 0
-    set linenum    0
-    set shell_str  ""
-    set raw_string ""
-    set tabs       [list]
-    set dynamics   [list]
-    
-    set i 0
-    while {$i < [string length $snippet]} {
-      
-      # Get the current character
-      set char [string index $snippet $i]
-      
-      # We have found a dollar sign
-      if {!$in_escape && !$in_tick && ($char eq "\$")} {
 
-        # Handle a tab stop
-        if {[regexp {^(\d+)} [string range $snippet [expr $i + 1] end] -> number]} {
-          if {![info exists tabstop_string($number)]} {
-            lappend tabs [list snippet_mark_$number $from_start [expr $from_start + 1]]
-          } else {
-            lappend tabs [list snippet_mirror_$number $from_start [expr $from_start + [string length $tabstop_string($number)]]]
-            append raw_string $tabstop_string($number)
-            incr from_start [string length $tabstop_string($number)]
-          }
-          incr i [string length $number]
-          
-        # Handle a single variable substitution
-        } elseif {[regexp {^(\w+)} [string range $snippet [expr $i + 1] end] -> varname]} {
-          
-          lappend dynamics [list var $varname $from_start ""]
-          incr i [string length $varname]
-          
-        } else {
-          incr i
-          
-          # Handle a more complex dollar operator
-          if {[string index $snippet $i] eq "\{"} {
-            incr in_dollar
-            incr i
-          
-            # Start handling a complex tab stop
-            if {[regexp {^(\d+):} [string range $snippet $i end] -> number]} {
-              set dollar($in_dollar,string)  ""
-              set dollar($in_dollar,start)   $from_start
-              set dollar($in_dollar,tabstop) $number
-              incr i [string length $number]
-              
-            # Handle a tab stop mirror
-            } elseif {[regexp {^(\d+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> number expr format opts]} {
-              set dollar($in_dollar,string)  ""
-              set dollar($in_dollar,start)   $from_start
-              set dollar($in_dollar,tabstop) $number
-              set dollar($in_dollar,regsub)  [list $expr $format $opts]
-              incr i [expr [string length $number] + [string length $expr] + [string length $format] + [string length $opts] + 3]
-              
-            # Start handling a complex variable substitution  
-            } elseif {[regexp {^(\w+):} [string range $snippet $i end] -> varname]} {
-              set dollar($in_dollar,string)  ""
-              set dollar($in_dollar,start)   $from_start
-              set dollar($in_dollar,varname) $varname
-              incr i [string length $varname]
-              
-            # Handle a variable with regular expression substitution
-            } elseif {[regexp {^(\w+)/(.*)/(.*)/(.*)} [string range $snippet $i end] -> varname expr format opts]} {
-              set dollar($in_dollar,string)  ""
-              set dollar($in_dollar,start)   $from_start
-              set dollar($in_dollar,varname) $varname
-              set dollar($in_dollar,regsub)  [list $expr $format $opts]
-              incr i [expr [string length $varname] + [string length $expr] + [string length $format] + [string length $opts] + 3]
-            }
-            
-          }
-          
-        }
-        
-      # We have found an unescaped right brace
-      } elseif {$in_dollar && !$in_escape && ($char eq "\}")} {
-        if {[info exists dollar($in_dollar,varname)]} {
-          lappend dynamics [list var $dollar($in_dollar,varname) $dollar($in_dollar,start) $dollar($in_dollar,string)]
-        } else {
-          set tabstop_string($dollar($in_dollar,tabstop)) $dollar($in_dollar,string)
-          lappend tabs [list snippet_sel_$dollar($in_dollar,tabstop) $dollar($in_dollar,start) [expr $dollar($in_dollar,start) + [string length $dollar($in_dollar,string)]]]
-        }
-        array unset dollar $in_dollar,*
-        incr in_dollar -1
-        
-      # We have found a tick, se we are either starting or stopping a shell command
-      } elseif {!$in_escape && ($char eq "`")} {
-        if {$in_tick} {
-          set in_tick 0
-          lappend dynamics [list cmd $shell_str $from_start ""]
-        } else {
-          set in_tick    1
-          set sub_string ""
-        }
-        
-      # We have found an escape character
-      } elseif {!$in_escape && ($char eq "\\")} {
-        set in_escape 1
-        
-      # We are in a shell command
-      } elseif {$in_tick} {
-        append shell_str $char
-        set in_escape 0
-        
-      # We are in a dollar sign expression
-      } elseif {$in_dollar} {
-        append dollar($in_dollar,string) $char
-        append raw_string $char
-        set in_escape 0
-        incr from_start
-        
-      # This is just a raw expression
-      } else {
-        append raw_string [expr {($char eq "\$") ? "\$" : $char}]
-        set in_escape 0
-        incr from_start
       }
 
-      incr i
-      
     }
-    
-    return [list raw_string $raw_string tabs $tabs dynamics $dynamics snippet $snippet]   
-    
+
+    if {$language eq "snippets"} {
+      set_language snippets
+    }
+
   }
-  
+
   ######################################################################
   # Adds the text widget bindings.
   proc add_bindings {txt} {
-    
+
     variable within
-    
+    variable expandtabs
+
     # Initialize the within array
-    set within($txt.t) 0
-    
+    set within($txt.t)     0
+    set expandtabs($txt.t) [expr [syntax::get_tabs_allowed $txt] ? 0 : 1]
+
     # Bind whitespace
-    bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W\]} { break }"
-    bind snippet$txt <Return>    "if {\[[ns snippets]::check_snippet %W\]} { break }"
-    bind snippet$txt <Tab>       "if {\[[ns snippets]::handle_tab %W\]} { break }"
-    
-    bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
-    
+    bind snippet$txt <Key-space> "if {\[snippets::check_snippet %W %K\]} { break }"
+    bind snippet$txt <Return>    "if {\[snippets::check_snippet %W %K\]} { break }"
+    bind snippet$txt <Tab>       "if {\[snippets::handle_tab %W\]} { break }"
+
+    set all_index [lsearch -exact [bindtags $txt.t] all]
+    bindtags $txt.t [linsert [bindtags $txt.t] $all_index snippet$txt]
+
   }
-  
+
+  ######################################################################
+  # Called whenever the given text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable within
+    variable expandtabs
+
+    unset -nocomplain within($txt.t)
+    unset -nocomplain expandtabs($txt.t)
+
+  }
+
   ######################################################################
   # Handles a tab key event.
-  proc handle_tab {W} {
-  
-    if {![tab_clicked $W]} {
-      if {![[ns vim]::in_vim_mode $W] && ![[ns syntax]::get_tabs_allowed [winfo parent $W]]} {
-        $W insert insert [string repeat " " [[ns preferences]::get Editor/SpacesPerTab]]
-        return 1
+  proc handle_tab {txtt} {
+
+    variable expandtabs
+
+    if {![tab_clicked $txtt]} {
+      if {![vim::in_vim_mode $txtt]} {
+        if {[string is space [$txtt get insert]] || ([lsearch [$txtt tag names insert] __prewhite] != -1)} {
+          if {$expandtabs($txtt)} {
+            $txtt insert insert [string repeat " " [indent::get_tabstop $txtt]]
+            return 1
+          }
+        } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
+          ::tk::TextSetCursor $txtt $index
+          return 1
+        }
       }
     } else {
       return 1
     }
-    
+
     return 0
-  
+
   }
-  
+
   ######################################################################
   # Checks the text widget to see if a snippet name was just typed in
   # the text widget.  If it was, delete the string and replace it with
   # the snippet string.
-  proc check_snippet {txt} {
-    
+  proc check_snippet {txtt keysym} {
+
     variable snippets
-    variable within
-    
-    # Get the last word
-    set last_word [string trim [$txt get "insert-1c wordstart" "insert-1c wordend"]]
-        
-    # If the last word is not a valid word, stop now
-    if {![regexp {^[a-zA-Z0-9_]+$} $last_word]} {
+    variable tabpoints
+
+    # If the given key symbol is not one of the snippet completers, stop now
+    if {[lsearch [preferences::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
       return 0
     }
-    
+
+    # Get the last word
+    set last_word [string trim [$txtt get "insert-1c wordstart" "insert-1c wordend"]]
+
+    # Get the current language
+    set lang [utils::get_current_lang [winfo parent $txtt]]
+
     # If the snippet exists, perform the replacement.
-    if {[llength [set snippet [array names snippets *,$last_word]]] == 1} {
-      
-      # Delete the last_word
-      $txt delete "insert-1c wordstart" "insert-1c wordend"
-      
-      # Insert the new text in its place
-      insert_snippet $txt $snippets($snippet)
-      
-      # Make sure that the whitespace character is not inserted into the widget
-      return 1
-      
+    foreach type [list $lang user] {
+      if {[info exists snippets($type,$last_word)]} {
+        return [insert_snippet $txtt $snippets($type,$last_word) -delrange [list "insert-1c wordstart" "insert-1c wordend"]]
+      }
     }
-    
+
     return 0
-    
+
   }
-  
+
   ######################################################################
-  # Inserts the given snippet into the text widget, adhering to indentation.
-  proc insert_snippet {txt snippet} {
-  
+  # Inserts the given snippet contents at the current insertion point.
+  proc insert_snippet {txtt snippet args} {
+
     variable tabpoints
-    variable within
-    
-    # Assign the snippet array information to an array
-    array set snip $snippet
-    
-    # Initialize the tabpoints counter
-    set tabpoints($txt) 1
-    set within($txt)    0
-    set insert_index    [$txt index insert]
-    set current_line    [$txt get "insert linestart" "insert lineend"]
-    
-    # Insert the raw string into the text widget
-    [winfo parent $txt] insert insert $snip(raw_string)
-    
-    # Create a tag for the inserted text
-    $txt tag add snippet_raw $insert_index "$insert_index+[string length $snip(raw_string)]c"
-    
-    # Create the tab point selection tags
-    foreach tab $snip(tabs) {
-      $txt tag add [lindex $tab 0] "$insert_index+[lindex $tab 1]c" "$insert_index+[lindex $tab 2]c"
-      set within($txt) 1
+
+    array set opts {
+      -delrange  ""
+      -traverse  1
+      -separator 1
+    }
+    array set opts $args
+
+    # Clear any residual tabstops
+    clear_tabstops $txtt
+
+    # Initialize tabpoints
+    set tabpoints($txtt) 1
+
+    # Mark the change
+    if {$opts(-separator)} {
+      $txtt edit separator
     }
 
-    # Insert the dynamics into the raw string
-    foreach dynamic [lreverse $snip(dynamics)] {
-      if {[lindex $dynamic 0] eq "var"} {
-        switch [lindex $dynamic 1] {
-          CLIPBOARD      { set str [expr {![catch "clipboard get" rc] ? $rc : ""}] }
-          CURRENT_LINE   { set str $current_line }
-          CURRENT_WORD   { set str [$txt get "insert wordstart" "insert wordend"] }
-          DIRECTORY      { set str [file dirname [gui::current_filename]] }
-          FILEPATH       { set str [gui::current_filename] }
-          FILENAME       { set str [file tail [gui::current_filename]] }
-          FILENAME_UPPER { set str [string toupper [file tail [gui::current_filename]]] }
-          LINE_INDEX     { set str [lindex [split [$txt index insert] .] 1] }
-          LINE_NUMBER    { set str [lindex [split [$txt index insert] .] 0] }
-          CURRENT_DATE   { set str [clock format [clock seconds] -format "%m/%d/%Y"] }
-          default        { set str "" }
-        }
-      } elseif {[lindex $dynamic 0] eq "cmd"} {
-        if {[catch "exec sh -c [lindex $dynamic 1]" str]} {
-          set str ""
-        }
-      }
-      if {$str ne ""} {
-        $txt replace "$insert_index+[lindex $dynamic 2]c" "$insert_index+[expr [lindex $dynamic 2] + [string length [lindex $dynamic 3]]]c" $str snippet_raw
-      }
+    # Delete the last_word, if specified
+    if {$opts(-delrange) ne ""} {
+      $txtt delete {*}$opts(-delrange)
     }
 
-    # Indent the text
-    indent::format_text $txt [$txt index snippet_raw.first] [$txt index snippet_raw.last]
+    # Call the snippet parser
+    if {[set result [parse_snippet $txtt $snippet]] ne ""} {
 
-    # Delete the snippet_raw tag
-    $txt tag delete snippet_raw
-    
-    # Start to traverse the snippet
-    traverse_snippet $txt
-    
+      # Get the snippet marks
+      set marks [lsearch -glob -inline -all [$txtt tag names] snippet_*]
+
+      # Add a $0 tabstop (if one was not specified)
+      if {([llength $marks] > 0) && ([lsearch $marks snippet_mark_0] == -1)} {
+        set_tabstop $txtt 0
+        lappend result \$0 snippet_mark_0
+      }
+
+      # Get the insertion cursor
+      set insert [$txtt index insert]
+
+      # Insert the text
+      $txtt insert insert {*}$result
+
+      # Format the text to match indentation
+      if {[preferences::get Editor/SnippetFormatAfterInsert]} {
+        set datalen 0
+        foreach {str tags} $result {
+          incr datalen [string length $str]
+        }
+        indent::format_text $txtt $insert "$insert+${datalen}c" 0
+      }
+
+      # Traverse the inserted snippet
+      if {$opts(-traverse)} {
+        traverse_snippet $txtt
+      }
+
+    }
+
+    # Adjust the cursor, if necessary
+    vim::adjust_insert $txtt
+
+    # Create a separator
+    $txtt edit separator
+
+    return 1
+
   }
-  
+
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
-  proc insert_snippet_into_current {tid snippet} {
-    
-    insert_snippet [gui::current_txt $tid].t $snippet
-    
+  proc insert_snippet_into_current {snippet args} {
+
+    insert_snippet [gui::current_txt].t $snippet {*}$args
+
   }
-  
+
   ######################################################################
-  # Handles a tab insertion
-  proc tab_clicked {txt} {
-    
-    variable within
-    
-    if {$within($txt)} {
-      traverse_snippet $txt
-      return 1
-    } else {
-      return [check_snippet $txt]
+  # Parses the given snippet string and returns
+  proc parse_snippet {txtt str} {
+
+    # Flush the parsing buffer
+    SNIP__FLUSH_BUFFER
+
+    # Insert the string to scan
+    snip__scan_string $str
+
+    # Initialize some values
+    set ::snip_txtt   $txtt
+    set ::snip_begpos 0
+    set ::snip_endpos 0
+
+    # Parse the string
+    if {[catch { snip_parse } rc] || ($rc != 0)} {
+      display_error $str $::snip_errstr $::snip_errmsg
+      return ""
     }
-    
+
+    return $::snip_value
+
   }
-  
+
   ######################################################################
-  # Moves the insertion cursor or selection to the next position in the
-  # snippet.
-  proc traverse_snippet {txt} {
-  
+  # Creates a tab stop or tab mirror.
+  proc set_tabstop {txtt index {default_value ""}} {
+
     variable tabpoints
     variable within
-    variable tabstart
-    
-    # Update any mirrored tab points
-    if {[info exists tabstart($txt)]} {
-      set mirrored_value [$txt get $tabstart($txt) insert]
-      foreach {endpos startpos} [lreverse [$txt tag ranges snippet_mirror_[expr $tabpoints($txt) - 1]]] {
-        $txt delete $startpos $endpos
-        $txt insert $startpos $mirrored_value
+
+    # Indicate that the text widget contains a tabstop
+    set within($txtt) 1
+
+    # Set the lowest tabpoint value
+    if {($index > 0) && ($tabpoints($txtt) > $index)} {
+      set tabpoints($txtt) $index
+    }
+
+    # Get the list of tags
+    set tags [$txtt tag names]
+
+    if {[lsearch -regexp $tags snippet_(sel|mark)_$index] != -1} {
+      if {[lsearch $tags snippet_mirror_$index] == -1} {
+        $txtt tag configure snippet_mirror_$index -elide 1
+      }
+      return "snippet_mirror_$index"
+    } else {
+      if {$default_value eq ""} {
+        $txtt tag configure snippet_mark_$index -elide 1
+        return "snippet_mark_$index"
+      } else {
+        $txtt tag configure snippet_sel_$index -background blue
+        return "snippet_sel_$index"
       }
     }
 
-    # Remove the selection
-    $txt tag remove sel 1.0 end
+  }
 
-    # Find the current tab point tag
-    if {[llength [set range [$txt tag ranges snippet_sel_$tabpoints($txt)]]] == 2} {
-      $txt tag add sel {*}$range
-      $txt tag delete snippet_sel_$tabpoints($txt)
-      $txt mark set insert [lindex $range 1]
-      set tabstart($txt) [lindex $range 0]
-    } elseif {[llength [set range [$txt tag ranges snippet_mark_$tabpoints($txt)]]] == 2} {
-      $txt mark set insert [lindex $range 0]
-      $txt tag delete snippet_mark_$tabpoints($txt)
-      set tabstart($txt) [lindex $range 0]
-    } elseif {[llength [set range [$txt tag ranges snippet_mark_0]]] == 2} {
-      $txt mark set insert [lindex $range 0]
-      $txt tag delete snippet_mark_0
-      set tabstart($txt) [lindex $range 0]
-      set within($txt)   0
-    }
-    
-    # Increment the tabpoint
-    incr tabpoints($txt)
-    
-  }
-  
   ######################################################################
-  # If a snippet file does not exist for the current language, creates
-  # an empty snippet file in the user's local snippet directory.  Opens
-  # the snippet file for editing.
-  proc add_new_snippet {tid} {
-    
-    variable snippets_dir
-    
-    # Get the current language
-    set language [syntax::get_current_language [gui::current_txt $tid]]
-    
-    # Get the snippet file name
-    set fname [file join $::tke_home snippets $language.snippets]
-    
-    # If the snippet file does not exist, create the file
-    if {![file exists $fname]} {
-      exec touch $fname
+  # Returns the value of the given tabstop.
+  proc get_tabstop {txtt index} {
+
+    variable tabvals
+
+    if {[info exists tabvals($txtt,$index)]} {
+      return $tabvals($txtt,$index)
     }
-    
-    # Add the snippet file to the editor
-    gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
-    
+
+    return ""
+
   }
-  
+
+  ######################################################################
+  # Clears any residual tabstops embedded in code.
+  proc clear_tabstops {txtt} {
+
+    variable tabvals
+
+    # Delete all text that is tagged with a snippet tag
+    foreach tabstop [lsearch -inline -all -glob [$txtt tag names] snippet_*] {
+      foreach {start end} [$txtt tag ranges $tabstop] {
+        $txtt fastdelete $start $end
+      }
+      $txtt tag delete $tabstop
+    }
+
+    array unset tabvals $txtt,*
+
+  }
+
+  ######################################################################
+  # Handles a tab insertion
+  proc tab_clicked {txtt} {
+
+    variable within
+
+    if {$within($txtt)} {
+      traverse_snippet $txtt
+      return 1
+    } else {
+      return [check_snippet $txtt Tab]
+    }
+
+  }
+
+  ######################################################################
+  # Moves the insertion cursor or selection to the next position in the
+  # snippet.
+  proc traverse_snippet {txtt} {
+
+    variable tabpoints
+    variable within
+    variable tabstart
+    variable tabvals
+
+    if {[info exists tabpoints($txtt)]} {
+
+      # Update any mirrored tab points
+      if {[info exists tabstart($txtt)]} {
+        set index [expr $tabpoints($txtt) - 1]
+        set tabvals($txtt,$index) [$txtt get $tabstart($txtt) insert]
+        foreach {endpos startpos} [lreverse [$txtt tag ranges snippet_mirror_$index]] {
+          set str [parse_snippet $txtt [$txtt get $startpos $endpos]]
+          $txtt fastdelete $startpos $endpos
+          $txtt insert $startpos {*}$str
+        }
+      }
+
+      # Remove the selection
+      $txtt tag remove sel 1.0 end
+
+      # Find the current tab point tag
+      if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {
+        $txtt tag delete snippet_sel_$tabpoints($txtt)
+        ::tk::TextSetCursor $txtt [lindex $range 1]
+        $txtt tag add sel {*}$range
+        set tabstart($txtt) [lindex $range 0]
+      } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
+        $txtt fastdelete {*}$range
+        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt tag delete snippet_mark_$tabpoints($txtt)
+        set tabstart($txtt) [lindex $range 0]
+      } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
+        $txtt fastdelete {*}$range
+        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt tag delete snippet_mark_0
+        set tabstart($txtt) [lindex $range 0]
+      }
+
+      # Increment the tabpoint
+      incr tabpoints($txtt)
+
+      # Clear the within indicator if we are out of tab stops
+      if {([$txtt tag ranges snippet_sel_$tabpoints($txtt)]  eq "") && \
+          ([$txtt tag ranges snippet_mark_$tabpoints($txtt)] eq "") && \
+          ([$txtt tag ranges snippet_mark_0] eq "")} {
+        set within($txtt) 0
+      }
+
+    }
+
+  }
+
   ######################################################################
   # Returns the list of snippets
   proc get_current_snippets {} {
-    
+
     variable snippets
-    
-    # Get the current language
-    set language [syntax::get_current_language [gui::current_txt {}]]
-    
+
     set names [list]
-    
-    foreach name [array names snippets $language,*] {
-      lappend names [list [lindex [split $name ,] 1] $snippets($name)]
+    set lang  [utils::get_current_lang [gui::current_txt]]
+
+    foreach type [list user $lang] {
+      foreach name [array names snippets $type,*] {
+        lappend names [list [lindex [split $name ,] 1] $snippets($name)]
+      }
     }
-    
+
     return $names
-    
+
   }
-  
+
   ######################################################################
   # Displays all of the available snippets in the current editor in the
   # command launcher.
   proc show_snippets {} {
-    
+
     # Add temporary registries to launcher
     set i 0
     foreach snippet [get_current_snippets] {
       lassign $snippet name value
-      array set snip $value
       launcher::register_temp "`SNIPPET:$name" \
-        [list [ns snippets]::insert_snippet_into_current {} $value] \
-        $name $i [list snippets::add_detail $snip(snippet)]
+        [list snippets::insert_snippet_into_current $value] \
+        $name $i [list snippets::add_detail $value]
       incr i
     }
-    
+
     # Display the launcher in SNIPPET: mode
     launcher::launch "`SNIPPET:" 1
-    
+
   }
-  
+
   ######################################################################
   # Adds the given detail
   proc add_detail {str txt} {
-    
+
     $txt insert end $str
-    
+
   }
-  
+
+  ######################################################################
+  # Displays the error information when a snippet parsing error is detected.
+  proc display_error {snip_str ptr_str error_info} {
+
+    if {![winfo exists .snipwin]} {
+
+      toplevel     .snipwin
+      wm title     .snipwin "Snippet Error"
+      wm transient .snipwin .
+      wm resizable .snipwin 0 0
+
+      ttk::labelframe .snipwin.f -text "Error Information"
+      text            .snipwin.f.t -wrap none -width 60 -relief flat -borderwidth 0 \
+        -highlightthickness 0 \
+        -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
+        -xscrollcommand { .snipwin.f.hb set } -yscrollcommand { .snipwin.f.vb set }
+      scroller::scroller .snipwin.f.vb -orient vertical   -command { .snipwin.f.t xview }
+      scroller::scroller .snipwin.f.hb -orient horizontal -command { .snipwin.f.t yview }
+
+      grid rowconfigure    .snipwin.f 0 -weight 1
+      grid columnconfigure .snipwin.f 0 -weight 1
+      grid .snipwin.f.t  -row 0 -column 0 -sticky news
+      grid .snipwin.f.vb -row 0 -column 1 -sticky ns
+      grid .snipwin.f.hb -row 1 -column 0 -sticky ew
+
+      ttk::frame  .snipwin.bf
+      ttk::button .snipwin.bf.okay -style BButton -text "Close" -width 5 -command { destroy .snipwin }
+
+      pack .snipwin.bf.okay -padx 2 -pady 2
+
+      pack .snipwin.f  -fill both -expand yes
+      pack .snipwin.bf -fill x
+
+      # Make sure that the window is centered in the window
+      ::tk::PlaceWindow .snipwin widget .
+
+    } else {
+
+      # Clear the text widget
+      .snipwin.f.t configure -state normal
+      .snipwin.f.t delete 1.0 end
+
+    }
+
+    # Insert the error information into the text widget
+    foreach line [split $snip_str \n] {
+      set ptr     [string range $ptr_str 0 [string length $line]]
+      set ptr_str [string range $ptr_str [expr [string length $line] + 1] end]
+      .snipwin.f.t insert end "$line\n"
+      if {[string trim $ptr] ne ""} {
+        .snipwin.f.t insert end "$ptr\n"
+      }
+    }
+    .snipwin.f.t insert end "\n$error_info"
+    .snipwin.f.t configure -state disabled
+    .snipwin.f.t configure -height [expr {([set lines [.snipwin.f.t count -lines 1.0 end]] < 20) ? $lines : 20}]
+
+  }
+
+  ######################################################################
+  # Perform snippet substitutions of the given text string.
+  proc substitute {str lang} {
+
+    # Returns the string if there are no snippets to expand
+    if {![regexp {<tke:ExportString>.*</tke:ExportString>} $str]} {
+      return $str
+    }
+
+    # Place an escape character before dollar signs and backticks
+    set str [string map {\$ {\$} ` {\`}} $str]
+
+    # Convert the string
+    while {[regexp {^(.*)<tke:ExportString>(.*?)</tke:ExportString>(.*)$} $str -> pre snip post]} {
+      set snip [string map {{\$} \$ {\`} `} $snip]
+      set str "$pre$snip$post"
+    }
+
+    # Create a temporary editing buffer
+    set tab [gui::add_buffer end temporary [list] -lang $lang -background 1]
+
+    # Get the current text widget
+    gui::get_info $tab tab txt
+
+    # Insert the content as a snippet
+    snippets::insert_snippet $txt.t $str -traverse 0
+
+    # Get the text
+    set str [gui::scrub_text $txt]
+
+    # Close the tab
+    gui::close_tab {} $tab -keeptab 0 -check 0
+
+    return $str
+
+  }
+
+  ######################################################################
+  # Returns a list of snippet information from the given file.
+  proc load_list {language} {
+
+    variable snippets_dir
+    variable snippets
+
+    if {$language eq "All"} {
+      set language "user"
+    }
+
+    # Parse the snippets file
+    parse_snippets $language
+
+    # Configure the snippets into a list
+    set items [list]
+    foreach key [array names snippets $language,*] {
+      lappend items [list [lindex [split $key ,] 1] $snippets($key)]
+    }
+
+    return $items
+
+  }
+
+  ######################################################################
+  # Saves the given snippet items to the appropriate snippet file.
+  proc save_list {items language} {
+
+    variable snippets_dir
+
+    if {$language eq "All"} {
+      set language "user"
+    }
+
+    if {![catch { open [file join $snippets_dir $language.snippets] w } rc]} {
+      foreach item $items {
+        lassign $item keyword snippet
+        puts $rc "snippet $keyword"
+        puts $rc $snippet
+        puts $rc "endsnippet\n"
+      }
+      close $rc
+    }
+
+    # Re-parse the file
+    set_language $language
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_share_items {dir} {
+
+    return [list snippets]
+
+  }
+
+  ######################################################################
+  # Called whenever the share directory changes.
+  proc share_changed {dir} {
+
+    variable snippets_dir
+
+    set snippets_dir [file join $dir snippets]
+
+  }
+
 }
+

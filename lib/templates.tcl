@@ -1,0 +1,258 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    templates.tcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    12/24/2015
+# Brief:   Namespace handling file templates.
+######################################################################
+
+namespace eval templates {
+
+  array set data {}
+
+  set data(templates_dir) [file join $::tke_home templates]
+
+  ######################################################################
+  # Loads the contents of the templates directory.
+  proc preload {} {
+
+    variable data
+
+    # Create the template directory
+    set data(templates) [glob -nocomplain -tails -directory $data(templates_dir) *]
+
+  }
+
+  ######################################################################
+  # Loads the contents of the specified template into a new buffer and
+  # perform the snippet insertion.
+  proc load {name fname args} {
+
+    variable data
+
+    # Open the template file for reading
+    if {[catch { open [get_pathname $name] r } rc]} {
+      return -code error "Unable to read template $name"
+    }
+
+    # Get the template contents
+    set contents [read $rc]
+    close $rc
+
+    # Add the buffer
+    gui::get_info [gui::add_new_file end -name $fname -sidebar 1 {*}$args] tab txt
+
+    # Insert the content as a snippet
+    snippets::insert_snippet $txt.t $contents
+
+    # Take the extension of the template file (if there is one) and set the
+    # current syntax highlighting to it
+    syntax::set_language $txt [syntax::get_default_language $name]
+
+  }
+
+  ######################################################################
+  # Opens a TK save dialog box to specify the filename to save.
+  proc load_abs {name args} {
+
+    # Get the browse directory
+    set dirname [gui::get_browse_directory]
+
+    # Get the filename from the user
+    if {[set fname [tk_getSaveFile -parent . -initialdir $dirname -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
+      load $name $fname {*}$args
+    }
+
+  }
+
+  ######################################################################
+  # Displays the user input field to get the basename of the file to
+  # create.
+  proc load_rel {name args} {
+
+    set fname ""
+
+    if {[gui::get_user_response "File Name:" fname -allow_vars 1]} {
+
+      # Normalize the pathname
+      set fname [file join [lindex $args 0] [file tail $fname]]
+
+      # Load the template
+      load $name $fname {*}[lrange $args 1 end]
+
+    }
+
+  }
+
+  ######################################################################
+  # Allows the user to edit the template.
+  proc edit {name args} {
+
+    variable data
+
+    # Add the file for editing (but don't display the other themes in the sidebar
+    gui::add_file end [get_pathname $name] -sidebar 0
+
+  }
+
+  ######################################################################
+  # Allows the user to specify the name of the template to save.
+  proc save_as {} {
+
+    variable data
+
+    set name ""
+
+    # Get the template name from the user
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Template Name"]] name]} {
+
+      # Create the templates directory if it does not exist
+      file mkdir $data(templates_dir)
+
+      # Open the file for writing
+      if {[catch { open [get_pathname $name] w } rc]} {
+        return -code error "Unable to open template $name for writing"
+      }
+
+      # Write the file contents
+      puts $rc [gui::scrub_text [gui::current_txt]]
+      close $rc
+
+      # Add the file to our list if it does not already exist
+      if {[lsearch $data(templates) $name] == -1} {
+        lappend data(templates) $name
+      }
+
+      # Specify that the file was saved in the information bar
+      gui::set_info_message [format "%s $name %s" [msgcat::mc "Template"] [msgcat::mc "saved"]]
+
+    }
+
+  }
+
+  ######################################################################
+  # Deletes the given template.
+  proc delete {name args} {
+
+    variable data
+
+    # Confirm the deletion
+    set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete template?"] \
+      -detail [format "%s %s" $name [msgcat::mc "will be permanently deleted"]] -type yesno -default yes]
+
+    # If we are told not to delete, exit this procedure now
+    if {$answer eq "no"} {
+      return
+    }
+
+    # Delete the file
+    if {[catch { file delete -force [get_pathname $name] } rc]} {
+      delete -code error "Unable to delete template"
+    }
+
+    # Remove the template from the list
+    if {[set index [lsearch $data(templates) $name]] != -1} {
+      set data(templates) [lreplace $data(templates) $index $index]
+    }
+
+    # Specify that the file was deleted in the information bar
+    gui::set_info_message [format "%s $name %s" [msgcat::mc "Template"] [msgcat::mc "deleted"]]
+
+  }
+
+  ######################################################################
+  # Returns true if we have at least one template available.
+  proc valid {} {
+
+    variable data
+
+    return [expr [llength $data(templates)] > 0]
+
+  }
+
+  ######################################################################
+  # Returns the full pathname of the given template name.
+  proc get_pathname {name} {
+
+    variable data
+
+    return [file join $data(templates_dir) $name]
+
+  }
+
+  ######################################################################
+  # Displays the templates in the command launcher.  If one is selected,
+  # performs the specified command based on type.
+  #
+  # Legal values for cmd_type are:
+  #   - load_abs
+  #   - load_rel
+  #   - edit
+  #   - delete
+  proc show_templates {cmd_type args} {
+
+    variable data
+
+    # Add temporary registries to launcher
+    set i 0
+    foreach name [lsort $data(templates)] {
+      launcher::register_temp "`TEMPLATE:$name" [list templates::$cmd_type $name {*}$args] $name $i [list templates::add_detail $name]
+      incr i
+    }
+
+    # Display the launcher in SNIPPET: mode
+    launcher::launch "`TEMPLATE:" 1
+
+  }
+
+  ######################################################################
+  # Returns the contents of the given file.
+  proc add_detail {name txt} {
+
+    if {[catch { open [get_pathname $name] r } rc]} {
+      return ""
+    }
+
+    $txt insert end [read $rc]
+    close $rc
+
+  }
+
+  ######################################################################
+  # Returns the list of files/directories used by the template engine
+  # for the purposes of importing/exporting.
+  proc get_share_items {dir} {
+
+    return [list templates]
+
+  }
+
+  ######################################################################
+  # Called when the share directory has changed.
+  proc share_changed {dir} {
+
+    variable data
+
+    # Create the template directory
+    set data(templates_dir) [file join $dir templates]
+    set data(templates)     [glob -nocomplain -tails -directory $data(templates_dir) *]
+
+  }
+
+}

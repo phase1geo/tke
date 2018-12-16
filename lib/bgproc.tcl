@@ -1,12 +1,29 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
 # Name:    bgproc.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    5/13/2013
 # Brief:   Provides services for performing system and Tcl commands in
 #          the background.
+######################################################################
 
 namespace eval bgproc {
-
-  source [file join $::tke_dir lib ns.tcl]
 
   variable last_update     0
   variable update_interval 100
@@ -40,7 +57,7 @@ namespace eval bgproc {
       # If the given resource list is in existence, wait for it to complete.
       if {[info exists resources($resource)]} {
         if {![info exists resource_completed($resource)]} {
-          set resource_completed($resource)] 0
+          set resource_completed($resource) 0
         }
         vwait bgproc::resource_completed($resource)
       }
@@ -111,15 +128,15 @@ namespace eval bgproc {
 
     variable last_update
     variable update_interval
-    
+
     # Get the current time
     set curr_time [clock milliseconds]
-    
+
     # If we are initializing, don't update
     if {$initialize} {
       set last_update $curr_time
 
-    # If the difference between the last update time and the current time exceeds the 
+    # If the difference between the last update time and the current time exceeds the
     # maximum allowed update interval, perform the update and save the current time as
     # the last update time.
     } elseif {($curr_time - $last_update) >= $update_interval} {
@@ -130,7 +147,7 @@ namespace eval bgproc {
   }
 
   if {[string first wish [info nameofexecutable]] != -1} {
- 
+
     #############################################################
     # Displays a progress dialog box that performs a local grab with
     # a potential cancel button (available if the resource is killable).
@@ -283,14 +300,14 @@ namespace eval bgproc {
     if {![lindex $resources($resource) 0 2] || ([llength $resources($resource)] == 1)} {
 
       # Start the executable in the background
-      if {[catch "open {| $cmd} r" cmd_id]} {
+      if {[catch "open {| $cmd 2>@1} r" cmd_id]} {
         if {$callback ne ""} {
           if {[catch "$callback 1 [list $cmd_id]" rc]} {
             bgerror $rc
           }
         } else {
           notifier::notify -type error -parent $::top_window \
-            -message [msgcat::mc "Unable to run system command (%s)" $cmd] -detail $cmd_id
+            -message [format "%s (%s)" [msgcat::mc "Unable to run system command"] $cmd] -detail $cmd_id
         }
         pop_resource $resource
         return
@@ -335,20 +352,20 @@ namespace eval bgproc {
   #############################################################
   # Interrupts the given PID and frees the resource_pid, if necessary.
   proc interrupt_pid {resource} {
-  
+
     variable resource_pid
     variable resource_tmo
-    
+
     if {[info exists resource_pid($resource)]} {
       if {![catch "exec kill -s INT $resource_pid($resource)" rc]} {
         unset resource_pid($resource)
       }
     }
-    
+
     catch "unset resource_tmo($resource)"
-  
+
   }
-  
+
   #############################################################
   # Kills the given PID and frees the resource_pid, if necessary.
   proc kill_pid {resource} {
@@ -385,7 +402,7 @@ namespace eval bgproc {
 
   #############################################################
   # Kills/removes all resources from the given resource queue
-  # pattern.  Returns 1 if a process was successfully killed; 
+  # pattern.  Returns 1 if a process was successfully killed;
   # otherwise, returns 0.
   proc killall {{pattern *}} {
 
@@ -393,9 +410,9 @@ namespace eval bgproc {
     variable resource_pid
 
     set retval 0
-    
+
     foreach resource [array names resources $pattern] {
-    
+
       if {[info exists resources($resource)] && [lindex $resources($resource) 0 2]} {
 
         if {[info exists resource_pid($resource)]} {
@@ -415,9 +432,9 @@ namespace eval bgproc {
         set retval 1
 
       }
-      
+
     }
-    
+
     return $retval
 
   }

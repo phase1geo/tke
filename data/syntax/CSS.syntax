@@ -1,6 +1,18 @@
 filepatterns
 {*.css}
 
+vimsyntax
+{css}
+
+reference
+{
+  {{Language Reference} http://www.w3schools.com/cssref/default.asp}
+  {{Emmet Reference} https://docs.emmet.io}
+  {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
+}
+
+delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>@]+}
+
 matchcharsallowed
 {curly paren double single}
 
@@ -12,15 +24,17 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
 
-lcomments {}
+icomment {{//}}
+
+lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
@@ -55,19 +69,27 @@ keywords
   z-index
 }
 
-symbols {}
+functions {
+  HighlightRegexp {([^.\s\(]+)\s*\(} {syntax::get_syntax_function}
+}
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|#[0-9a-fA-F]+|[0-9]+%|[0-9]*\.[0-9]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+%|[0-9]*\.[0-9]+)|#[0-9a-fA-F]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,.>+~*^$=]} {}
+  HighlightRegexp {[][\{\};:,.>+~*^$=]} {}
 }
 
-precompile {}
+miscellaneous1 {
+  HighlightRegexp {--\w+} {}
+}
 
-miscellaneous {}
- 
+miscellaneous2 {
+  HighlightKeywords {
+    media and
+  }
+}
+

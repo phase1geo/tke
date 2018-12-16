@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['plugins',['plugins',['../namespaceplugins.html',1,'']]],
-  ['preferences',['preferences',['../namespacepreferences.html',1,'']]]
+  ['markers',['markers',['../namespacemarkers.html',1,'']]],
+  ['menus',['menus',['../namespacemenus.html',1,'']]],
+  ['multicursor',['multicursor',['../namespacemulticursor.html',1,'']]]
 ];

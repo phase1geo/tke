@@ -1,0 +1,69 @@
+filepatterns
+{*.cs}
+
+vimsyntax
+{cs}
+
+reference
+{
+  {{Language Reference} https://msdn.microsoft.com/en-us/library/618ayhy6.aspx}
+}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//} {///}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double single}
+
+keywords
+{
+  abstract
+  base bool break
+  case catch char class
+  decimal default do
+  else enum
+  false finally float for foreach
+  get
+  if int in internal interface
+  namespace new null
+  object out override
+  params private protected public
+  ref return
+  set static string struct switch
+  this true try typeof
+  using
+  virtual void
+  while
+}
+
+functions {
+  HighlightRegexp {([^.\s\(]+)\s*\(} {syntax::get_syntax_function}
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
+

@@ -1,0 +1,7 @@
+name           {vcs_example}
+author         {Trevor Williams}
+email          {phase1geo@gmai.com}
+version        {1.0}
+include        {no}
+trust_required {yes}
+description    {Example of how to write a VCS plugin.}

@@ -16,23 +16,11 @@ indent
 unindent
 {\}}
 
+icomment {{#}}
+
 lcomments {{#}}
-
-bcomments {}
-
-strings {}
-
-keywords {}
-
-symbols {}
-
-numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]} {}
+  HighlightRegexp {[\{\}]} {}
 }
-
-precompile {}
-
-miscellaneous {}

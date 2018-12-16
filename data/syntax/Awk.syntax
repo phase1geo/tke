@@ -1,0 +1,85 @@
+filepatterns
+{*.awk}
+
+vimsyntax
+{awk}
+
+reference
+{
+  {{User Guide} https://www.gnu.org/software/gawk/manual/gawk.html}
+}
+
+matchcharsallowed
+{curly square paren double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+bcomments {}
+
+strings {double}
+
+keywords
+{
+  BEGIN END
+  break continue delete do else exit export for function getline if in
+  next nextfile print printf return while
+}
+
+symbols
+{
+  HighlightKeywords {function} syntax::get_prefixed_symbol
+}
+
+functions {
+  HighlightRegexp {([^.\s\(]+)\s*\(} {syntax::get_syntax_function}
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F]+)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}\(\);+*/%\.,<>=!?:&\|\^\$~-]} {}
+}
+
+precompile
+{
+  HighlightCharStart \@ {}
+}
+
+miscellaneous1
+{
+  HighlightCharStart \$ {}
+}
+
+miscellaneous2
+{
+  HighlightKeywords {
+    CONVFMT FIELDWIDTHS FS IGNORECASE OFMT OFS ORS RS SUBSEP ARGC ARGV ARGIND
+    ENVIRON ERRNO FILENAME FNR NF NR RLENGTH RSTART RT
+  }
+}
+
+miscellaneous3
+{
+  HighlightKeywords {
+    int sqrt exp log sin cos atan2 rand srand index length match split sprintf
+    sub gsub gensub substr tolower toupper close fflush system systime strftime
+  }
+}

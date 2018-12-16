@@ -1,0 +1,17 @@
+set ::IDENTIFIER 257
+set ::NUMBER 258
+set ::CHILD 259
+set ::SIBLING 260
+set ::CLIMB 261
+set ::OPEN_GROUP 262
+set ::CLOSE_GROUP 263
+set ::MULTIPLY 264
+set ::OPEN_ATTR 265
+set ::CLOSE_ATTR 266
+set ::ASSIGN 267
+set ::ID 268
+set ::CLASS 269
+set ::VALUE 270
+set ::TEXT 271
+set ::LOREM 272
+set ::emmet_lval {}

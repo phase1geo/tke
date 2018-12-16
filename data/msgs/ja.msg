@@ -9,82 +9,458 @@ msgcat::mcmset ja {
 # bgproc.tcl
 msgcat::mcmset ja {
 
-  "Unable to run system command (%s)"
-  "システム·コマンド（％s）を実行することができません"
+  "Unable to run system command"
+  "システム コマンドを実行することができません。"
+
+}
+
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset ja {
+
+  "Built-In Self Test"
+  "ビルトインセルフテスト"
+
+  "Decrementing order"
+  "注文の減少"
+
+  "Edit Test"
+  "テストの編集"
+
+  "Edit Test File"
+  "テストの編集"
+
+  "FAILED"
+  "失敗"
+
+  "Fail"
+  "失敗"
+
+  "Fail Count"
+  "カウント"
+
+  "Failed"
+  "失敗"
+
+  "Filter"
+  "フィルター"
+
+  "Incrementing order"
+  "昇順"
+
+  "Iteration"
+  "繰り返し数"
+
+  "Iteration count"
+  "反復回数"
+
+  "Loop"
+  "スライドを停止"
+
+  "Loop count"
+  "ループ数"
+
+  "Loop type"
+  "ループタイプ"
+
+  "New Test"
+  "新しいテストを追加します。"
+
+  "New Test File"
+  "新しいテストを追加します。"
+
+  "New Test Name"
+  "新しいテストを追加します。"
+
+  "Output"
+  "出力"
+
+  "PASSED"
+  "成功"
+
+  "Pass"
+  "申し訳ありませんが、テストに合格しませんでした"
+
+  "Pass Count"
+  "ひととおり実行"
+
+  "Passed"
+  "空のフィールドは子サイトに渡されません。"
+
+  "RUNNING BIST"
+  "実行中"
+
+  "Random"
+  "ランダム"
+
+  "Refresh"
+  "更新"
+
+  "Results"
+  "結果"
+
+  "Run Count"
+  "カウント"
+
+  "Run iterations"
+  "検証の反復回数 (Iteration)"
+
+  "Run loops"
+  "ループを実行する"
+
+  "Running"
+  "実行中"
+
+  "Runtime"
+  "ランタイム"
+
+  "Selection method"
+  "選択方法"
+
+  "Setup"
+  "設定"
+
+  "Total"
+  "合計"
+
+  "hours"
+  "時"
+
+  "minutes"
+  "分"
+
+  "seconds"
+  "秒"
+
+}
+
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
+msgcat::mcmset ja {
+
+  "Center image"
+  "画像の中央揃え"
+
+  "Flip image horizontally"
+  "イメージを水平方向に反転します。"
+
+  "Flip image vertically"
+  "イメージを垂直方向に反転します。"
+
+  "Move image down"
+  "画像を移動"
+
+  "Move image left"
+  "画像左"
+
+  "Move image right"
+  "画像右"
+
+  "Move image up"
+  "画像を移動"
+
+  "Rotate image 90 degrees"
+  "画像を 90 度回転"
+
+  "Transform Tools"
+  "トランスフォームツール"
+
+}
+
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
+msgcat::mcmset ja {
+
+  "    End: "
+  "終了日"
+
+  "    Start: "
+  "開始日"
+
+  "Enter difference command"
+  "Difference コマンドを入力してください。"
+
+  "Enter starting file"
+  "開始ファイルを入力してください。"
+
+}
+
+# edit.tcl
+msgcat::mcmset ja {
+
+  "File successfully written"
+  "ファイルが正常に書き込まれました。"
+
+  "Filename already exists"
+  "ファイル名が既に存在します。"
+
+  "Image URL"
+  "画像 URL"
+
+  "Link URL"
+  "リンク先URL"
+
+}
+
+# emmet.tcl
+msgcat::mcmset ja {
+
+  "Abbreviation"
+  "略語"
+
+  "Select File to Save"
+  "保存するファイルを選択します。"
+
+}
+
+# files.tcl
+msgcat::mcmset ja {
+
+  "Delete tab?"
+  "タブを削除しますか？"
+
+  "Reload file?"
+  "ファイルをリロード？"
+
+  "Unable to determine how to move to trash"
+  "ゴミ箱に移動する方法を決定できません。"
+
+  "Unable to determine platform"
+  "プラットフォームを決定できません。"
+
+  "Unable to write file"
+  "ファイルを書き込めません。"
+
+  "Unable to write remote file"
+  "リモート ファイルを書き込めません。"
 
 }
 
 # gui.tcl
 msgcat::mcmset ja {
 
-  "%s, Line: %d, Column: %d"
-  "％sの、ライン：％d、列％dの"
+  "Case sensitivity"
+  "大文字と小文字を区別する"
+
+  "Close All Other Tabs"
+  "他のタブをすべて閉じる"
 
   "Close All Tabs"
   "すべてのタブを閉じる"
 
-  "Close Other Tab(s)"
-  "閉じるその他のタブ（S）"
+  "Close All Tabs In Pane"
+  "ウィンドウのすべてのタブを閉じる"
 
-  "Close Other*"
-  "その他の*を閉じ"
+  "Close Other Tabs In Pane"
+  "ウィンドウの他のタブを閉じる"
 
   "Close Tab"
   "タブを閉じる"
 
-  "Copyright %d-%d"
-  "著作権％D-％dの"
+  "Column"
+  "列"
 
-  "Delete tab?"
-  "タブを削除しますか？"
+  "Copyright"
+  "著作権"
 
-  "Developer:"
+  "Credits"
+  "クレジット"
+
+  "Developer"
   "デベロッパー"
 
-  "Email:"
-  "メール"
+  "Email"
+  "Eメール"
+
+  "Error"
+  "エラー"
+
+  "Exact"
+  "正確に"
 
   "Favorited"
   "お気に入り"
 
-  "File attribute (%s) does not exist"
-  "ファイル属性（％s）は存在しません"
+  "File already exists.  Use '!' to force an overwrite"
+  "ファイルは既に存在します。 使用 '!' 強制的に上書きする"
 
   "File index is out of range"
   "ファイルインデックスが範囲外である"
 
-  "Line: %d, Column: %d"
-  "ライン：％dが、カラム：％dの"
+  "Glob"
+  "グロブ"
+
+  "Hide Tab"
+  "タブを非表示します。"
+
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "フォームUIを閉じフィルインの形で表示された画像。検索などの形で使用され、検索/置換、およびファイルで見つけます。"
+
+  "Image displayed in find field to search for next match."
+  "次の一致項目を検索する検索フィールドに表示されるイメージ。"
+
+  "Image displayed in find field to search for previous match."
+  "前の一致文字列を検索する検索フィールドに表示されるイメージ。"
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "イメージファイルは、差分ビューに関連付けられていることを示すために、タブメニューで使用。"
+
+  "Image used in tab menus to indicate that the file is locked."
+  "イメージファイルがロックされていることを示すためのタブメニューで使用。"
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "イメージファイルが読み取り専用であることを示すために、タブメニューで使用。"
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "イメージタブが違いビューが含まれていることを示すためにタブで使用されます。"
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "タブで使用される画像は、タブのファイルが読み取り専用であることを示します。"
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "画像は、タブのファイルがロックされていることを示すためにタブに使用されます。"
+
+  "Image used in tab which, when clicked, closes the tab."
+  "画像は、クリックすると、タブを閉じたタブに使用されます。"
+
+  "Image used in the preferences window in the Advanced tab."
+  "詳細設定タブの設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Appearance tab."
+  "[外観] タブでの基本設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Documentation tab."
+  "[ドキュメント] タブで設定ウィンドウで使用する画像。"
+
+  "Image used in the preferences window in the Editor tab."
+  "[エディター] タブ設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Emmet tab."
+  "エメット タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Find tab."
+  "[検索] タブでの基本設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the General tab."
+  "[全般] タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Plugins tab."
+  "プラグイン」タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "[ショートカット] タブでの基本設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Sidebar tab."
+  "[サイドバー] タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Snippets tab."
+  "イメージ設定ウィンドウの [スニペット] タブで使用します。"
+
+  "Image used in the preferences window in the View tab."
+  "[表示] タブの設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "イメージ設定ウィンドウのテーブルの項目が選択されていないことを示すために使用します。"
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "テーブルの項目が選択されていることを示すに設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window to indicate that something is true."
+  "何かが真であることを示すに設定ウィンドウで使用するイメージ。"
+
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "マウスが閉じるボタン領域に入ったときに表示されるタブで使用される画像"
+
+  "In"
+  "イン"
+
+  "License"
+  "ナンバープレート"
 
   "Locked"
   "ロックする"
 
-  "Move to Other Pane"
-  "他のペインに移動します"
+  "Move"
+  "引き延ばす"
 
-  "Move*"
-  "ムーブ"
+  "Must be in multicursor mode to insert numbers"
+  "数字を挿入する multicursor モードでなければなりません"
 
-  "Reload file?"
-  "ファイルをリロード？"
+  "No write permissions.  Use '!' to force write."
+  "書き込みのアクセス許可はありません。 使用 '!' 書き込みを強制します。"
+
+  "Regexp"
+  "正規表現"
+
+  "Release Type"
+  "リリースの種類"
+
+  "Replace"
+  "置換"
+
+  "Replace All"
+  "すべて置換"
 
   "Save request"
   "リクエストを保存"
 
-  "Show in Sidebar"
-  "サイドバーで表示"
+  "Save this search"
+  "この検索を保存したい?"
 
-  "Total Lines: %d, Total Characters: %d"
-  "総行：％dが、合計文字：％D"
+  "Starting number:"
+  "開始番号:"
 
-  "Unable to find current file (tab: %s)"
-  "現在のファイルが見つかりません（ペ：％s）を"
+  "Tcl/Tk Version"
+  "Tcl/Tk バージョン"
 
-  "Untitled"
-  "無題"
+  "Total Characters"
+  "合計文字"
 
-  "Version:"
-  "Version:"
+  "Total Lines"
+  "集計行"
+
+  "Unable to successfully parse number string"
+  "番号の文字列を正しく解析することができません。"
+
+  "for"
+  "から"
+
+}
+
+# indent.tcl
+msgcat::mcmset ja {
+
+  "No Indent"
+  "インデントなし"
+
+}
+
+# ipanel.tcl (Information panel displayed in the sidebar)
+msgcat::mcmset ja {
+
+  "Binary"
+  "バイナリ"
+
+  "Close Panel"
+  "パネルを閉じる"
+
+  "Counts"
+  "伯爵"
+
+  "Modified"
+  "変更日時"
+
+  "No"
+  "いいえ"
+
+  "Read Time"
+  "読み取り時間"
+
+  "Update Info"
+  "更新情報"
+
+  "Yes"
+  "はい"
+
+  "value copied to clipboard"
+  "値をクリップボードにコピー"
 
 }
 
@@ -99,23 +475,98 @@ msgcat::mcmset ja {
 # menus.tcl
 msgcat::mcmset ja {
 
-  "                                  Profiling Report Sorted By (%s)"
-  "ソート順プロファイリングレポート（％s）が"
+  "About"
+  "について"
 
-  "About TKE"
-  "TKEについて"
+  "Absolute"
+  "絶対"
 
-  "Align cursors"
-  "カーソルを合わせ"
+  "Absolute line numbering"
+  "絶対行番号"
 
-  "All"
-  "ALL"
+  "Add Next Line"
+  "次の行を追加"
 
-  "Append next occurrence"
-  "次のオカレンスを追加"
+  "Add Previous Line"
+  "前の行を追加"
 
-  "Check for Update"
+  "Add next line to selection"
+  "選択に次の行を追加する"
+
+  "Add previous line to selection"
+  "前の行を選択に追加"
+
+  "Align Cursors Only"
+  "のみカーソルの位置合わせ"
+
+  "Align Cursors and Text"
+  "カーソルとテキストを揃える"
+
+  "Align Panes"
+  "ウィンドウを整列します。"
+
+  "Align current lines in both panes"
+  "両方のペインの現在のラインを揃える"
+
+  "Align cursors and text"
+  "カーソルとテキストを揃える"
+
+  "Align cursors only"
+  "のみカーソルの位置合わせ"
+
+  "All Levels"
+  "すべてのレベル"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "現在のセッションのすべての言語固有の設定が削除され、指定した言語のグローバル設定が適用されます。"
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "すべての言語固有の設定が削除され、指定した言語のグローバル設定が適用されます。"
+
+  "Append current find text to selection"
+  "現在の検索文字列を選択に追加します。"
+
+  "Balance Inward"
+  "内側のバランスをとる"
+
+  "Balance Outward"
+  "外側のバランスをとる"
+
+  "Balance tag pair moving inward"
+  "内側へ動かしてバランス タグのペア"
+
+  "Balance tag pair moving outward"
+  "外側に移動バランス タグのペア"
+
+  "Bold"
+  "ボールド"
+
+  "Bubble Down"
+  "バブルのダウン"
+
+  "Bubble Up"
+  "バブルアップします。"
+
+  "Bubble lines down one line"
+  "バブルの行 1 行下"
+
+  "Bubble lines up one line"
+  "バブルの行を 1 行"
+
+  "Change Working Directory"
+  "作業ディレクトリの変更"
+
+  "Change working directory"
+  "作業ディレクトリを変更"
+
+  "Check for update"
   "アップデートの確認"
+
+  "Checkbox"
+  "チェックボックス"
+
+  "Classic Mac"
+  "古典的な Mac"
 
   "Clear All"
   "すべてクリア"
@@ -123,56 +574,323 @@ msgcat::mcmset ja {
   "Close All"
   "すべて閉じる"
 
-  "Comment"
-  "コメント"
+  "Close All Folds"
+  "すべてのフォールドを閉じる"
 
-  "Copy"
-  "コピー"
+  "Close Current"
+  "閉じる現在"
 
-  "Create new..."
-  "新しい作成..."
+  "Close Current Fold"
+  "現在のフォールドを閉じる"
 
-  "Create..."
-  "する"
+  "Close Selected Folds"
+  "閉じる選択ひだ"
+
+  "Close all folds"
+  "すべてのフォールドを閉じる"
+
+  "Close all tabs"
+  "すべてのタブを閉じる"
+
+  "Close current session"
+  "現在のセッションを閉じる"
+
+  "Close current tab"
+  "現在のタブを閉じる"
+
+  "Close fold at current line - all levels"
+  "現在の行のすべてのレベルに近い倍"
+
+  "Close fold at current line - one level"
+  "現在の行の 1 つのレベルに近い倍"
+
+  "Close selected folds - all levels"
+  "閉じる選択した襞 - すべてのレベル"
+
+  "Close selected folds - one level"
+  "閉じる選択した襞 - 1 レベル"
+
+  "Code"
+  "コード"
+
+  "Command"
+  "命令"
+
+  "Command Result"
+  "コマンドの結果"
+
+  "Convert case to lower"
+  "下げる場合に変換します。"
+
+  "Convert case to title"
+  "ケースをタイトルに変換します。"
+
+  "Convert case to upper"
+  "ケースを上部に変換します。"
+
+  "Copy text"
+  "テキストをコピーします。"
+
+  "Create Fold From Selection"
+  "倍を選択範囲から作成します。"
+
+  "Create at Current Line"
+  "現在の行で作成します。"
+
+  "Create fold from selection"
+  "倍を選択範囲から作成します。"
+
+  "Create marker at current line"
+  "現在の行でのマーカーを作成します。"
+
+  "Create new plugin"
+  "新しいプラグインを作成します。"
+
+  "Current Bounded Text"
+  "現在のバインドされたテキスト"
+
+  "Current Paragraph"
+  "現在の段落"
+
+  "Current Sentence"
+  "現在の文章"
 
   "Cut"
   "CUT"
 
-  "Edit"
-  "編集"
+  "Cut text"
+  "テキストを切り取る"
 
-  "Edit current"
-  "編集現在"
+  "Decrement by 0.1"
+  "0.1 をデクリメントします。"
 
-  "Edit user"
-  "ユーザーの編集"
+  "Decrement by 1"
+  "1 だけデクリメントします。"
 
-  "Edit..."
-  "編集"
+  "Decrement by 10"
+  "10 によってデクリメントします。"
 
-  "File"
-  "ファイル"
+  "Decrement number by 0.1"
+  "0.1 で番号をデクリメントします。"
 
-  "Find"
-  "Find"
+  "Decrement number by 1"
+  "数を 1 つずつ減らす"
+
+  "Decrement number by 10"
+  "10 で番号をデクリメントします。"
+
+  "Delete All Folds"
+  "すべてのフォールドを削除します。"
+
+  "Delete Current Fold"
+  "現在のフォールドを削除します。"
+
+  "Delete Selected Folds"
+  "選択した襞を削除します。"
+
+  "Delete Session"
+  "セッションを削除します。"
+
+  "Delete User"
+  "ユーザーを削除"
+
+  "Delete all folds"
+  "すべてのフォールドを削除します。"
+
+  "Delete all selected folds"
+  "選択したすべてのフォールドを削除します。"
+
+  "Delete current file"
+  "現在のファイルを削除します。"
+
+  "Delete fold at current line"
+  "現在の行に倍を削除します。"
+
+  "Delete language preferences?"
+  "言語設定を削除しますか。"
+
+  "Delete session"
+  "セッションを削除します。"
+
+  "Delete session language preferences?"
+  "セッション言語の設定を削除しますか。"
+
+  "Delete template"
+  "テンプレートの削除"
+
+  "Disable Vim mode"
+  "Vim モードを無効にします。"
+
+  "Disable code folding"
+  "コードの折りたたみを無効にします。"
+
+  "Disable two-pane scrolling Synchronization"
+  "2 つのペインのスクロールの同期を無効にします。"
+
+  "Display Text Info"
+  "表示テキスト"
+
+  "Display text information"
+  "テキスト情報を表示します。"
+
+  "Duplicate current file"
+  "現在ファイルが重複して"
+
+  "Edit Custom Abbreviations"
+  "カスタムの略語を編集します。"
+
+  "Edit Language"
+  "言語を編集します。"
+
+  "Edit Session"
+  "編集セッション"
+
+  "Edit User"
+  "ユーザーを編集"
+
+  "Edit custom Emmet abbreviations"
+  "カスタムのエメット略語を編集します。"
+
+  "Edit language snippets"
+  "言語のスニペットを編集します。"
+
+  "Edit session current language preferences"
+  "セッションの現在の言語設定を編集します。"
+
+  "Edit session global preferences"
+  "セッションのグローバル設定を編集します。"
+
+  "Edit template"
+  "テンプレートの編集"
+
+  "Edit user current language preferences"
+  "ユーザーの現在の言語設定を編集します。"
+
+  "Edit user global preferences"
+  "ユーザーのグローバル設定を編集します。"
+
+  "Edit user snippets"
+  "ユーザーのスニペットを編集します。"
+
+  "Enable Code Folding"
+  "コード折り畳みを有効にします。"
+
+  "Enable Synchronized Scrolling"
+  "同期されたスクロールを有効にします。"
+
+  "Enable Vim mode"
+  "Vim モードを有効にします。"
+
+  "Enable two-pane scrolling synchronization"
+  "2 つのペインのスクロールの同期を有効にします。"
+
+  "Encode/Decode Image to Data:URL"
+  "データ: URL にエンコード/デコード イメージ"
+
+  "Encode/Decode image to data:URL"
+  "データ: URL に画像のエンコード/デコード"
+
+  "Enter selection mode"
+  "選択モードを入力してください。"
+
+  "Enumeration"
+  "数え上げ"
+
+  "Evaluate Math Expression"
+  "数学式を評価します。"
+
+  "Evaluate the current math expression"
+  "現在の数学式を評価します。"
+
+  "Expand Abbreviation"
+  "省略名を展開します。"
+
+  "Expand Emmet abbreviation"
+  "エメットの略語を展開します。"
+
+  "Export As"
+  "CSV形式でエクスポート"
+
+  "Export Custom Themes"
+  "カスタム テーマをエクスポートします。"
+
+  "Export complete"
+  "サイト出力が完了しました。"
+
+  "Export current plugin"
+  "現在のプラグインをエクスポートします。"
+
+  "Export file contents"
+  "エクスポート ファイルの内容"
+
+  "Favorite file"
+  "お気に入りファイル"
+
+  "File Contents"
+  "ファイルの内容"
+
+  "Find In Files"
+  "ファイルから検索"
+
+  "Find Matching Bracket"
+  "一致した括弧を見つける"
+
+  "Find Next"
+  "次を検索"
+
+  "Find Next Bracket Mismatch"
+  "次の角かっこの不一致を見つける"
+
+  "Find Previous"
+  "前を検索"
+
+  "Find Previous Bracket Mismatch"
+  "前の角かっこの不一致を見つける"
 
   "Find and Replace"
   "検索と置換"
 
   "Find in files"
-  "ファイルから検索"
+  "ファイル内の検索します。"
 
-  "Find marker"
-  "マーカーを見つける"
+  "Find matching character pair"
+  "一致する文字のペアを見つける"
 
-  "Find matching pair"
-  "一致するペアを見つける"
+  "Find next mismatching bracket"
+  "次の組合わせを誤まるかっこを検索します。"
+
+  "Find previous mismatching bracket"
+  "以前の組合わせを誤まるラケットを見つける"
+
+  "Folding"
+  "折り畳み式の"
+
+  "Format"
+  "フォーマット"
 
   "Format Text"
   "テキストをフォーマットする"
 
+  "Format indentation for text"
+  "テキスト形式のインデント"
+
   "From Clipboard"
   "クリップボードから"
+
+  "Global"
+  "グローバル"
+
+  "Go to Matching Pair"
+  "ペアに一致するへ"
+
+  "Go to matching tag pair"
+  "タグのペアに一致するへ"
+
+  "Go to next edit point"
+  "次の編集ポイントに移動"
+
+  "Go to previous edit point"
+  "前の編集ポイントに移動します。"
 
   "Goto Last Tab"
   "後藤最後のタブ"
@@ -186,11 +904,44 @@ msgcat::mcmset ja {
   "Goto Previous Tab"
   "後藤前のタブ"
 
+  "Goto last tab"
+  "後藤最後のタブ"
+
+  "Goto next difference"
+  "後藤次の相違点"
+
+  "Goto next tab"
+  "後藤次のタブ"
+
+  "Goto other pane"
+  "後藤もう一方のペイン"
+
+  "Goto previous difference"
+  "後藤前の相違点"
+
+  "Goto previous tab"
+  "後藤の前のタブ"
+
+  "Header"
+  "ヘッダー"
+
   "Help"
   "ヘルプ"
 
-  "Hide Console"
-  "コンソールを隠す"
+  "Hide All Tabs"
+  "すべて表示しない"
+
+  "Hide Current Tab"
+  "現在のタブを非表示します。"
+
+  "Hide Line Numbers"
+  "行番号を非表示します。"
+
+  "Hide Marker Map"
+  "マーカー マップを非表示します。"
+
+  "Hide Meta Characters"
+  "メタ文字を隠します"
 
   "Hide Sidebar"
   "隠すサイドバー"
@@ -201,284 +952,395 @@ msgcat::mcmset ja {
   "Hide Tab Bar"
   "タブバーを非表示"
 
-  "Import TextMate theme..."
-  "TextMateのテーマをインポート..."
+  "Hide Tcl Console"
+  "Tcl コンソールを非表示します。"
+
+  "Hide Tcl console"
+  "Tcl コンソールを非表示します。"
+
+  "Hide line numbers"
+  "行番号を非表示します。"
+
+  "Hide marker map"
+  "マーカー マップを非表示します。"
+
+  "Hide meta characters"
+  "メタ文字を非表示します。"
+
+  "Hide sidebar"
+  "サイドバーを非表示します。"
+
+  "Hide status bar"
+  "ステータス バーを非表示します。"
+
+  "Hide tab bar"
+  "タブ バーを非表示します。"
+
+  "Highlight"
+  "ハイライト"
+
+  "Image"
+  "画像"
+
+  "Import plugin bundle"
+  "インポート プラグインをバンドル"
+
+  "Increment by 0.1"
+  "0.1 ずつインクリメント"
+
+  "Increment by 1"
+  "1 ずつ増加"
+
+  "Increment by 10"
+  "10 ずつインクリメント"
+
+  "Increment number by 0.1"
+  "増加数は 0.1"
+
+  "Increment number by 1"
+  "1 数を増やす."
+
+  "Increment number by 10"
+  "10 数を増やす."
 
   "Indent"
   "インデント"
 
-  "Insert Text"
-  "テキストの挿入"
+  "Indent Off"
+  "オフにインデントを設定します。"
+
+  "Indent selected text"
+  "選択したテキストにインデントを設定します。"
+
+  "Indentation"
+  "字下げ"
+
+  "Insert bold formatting"
+  "太字の書式を挿入します。"
+
+  "Insert checklist formatting"
+  "チェックリスト書式を挿入します。"
+
+  "Insert code formatting"
+  "コードの書式設定を挿入します。"
+
+  "Insert command result after current line"
+  "現在の行の後にコマンドの結果を挿入します。"
 
   "Insert enumeration"
-  "列挙型を挿入"
+  "列挙体を挿入します。"
 
-  "Install..."
+  "Insert file contents after current line"
+  "現在の行の後にファイルの内容を挿入します。"
+
+  "Insert from clipboard"
+  "クリップボードからの挿入"
+
+  "Insert header style"
+  "ヘッダー スタイルを挿入します。"
+
+  "Insert highlight formatting"
+  "蛍光ペン書式を挿入します。"
+
+  "Insert image formatting"
+  "挿入画像の書式設定"
+
+  "Insert italics formatting"
+  "斜体の書式を挿入します。"
+
+  "Insert line above current line"
+  "現在の行の上に行を挿入します。"
+
+  "Insert line below current line"
+  "現在の行の下に行を挿入します。"
+
+  "Insert link formatting"
+  "リンクの書式設定を挿入します。"
+
+  "Insert ordered list formatting"
+  "順序付きリストの書式設定を挿入します。"
+
+  "Insert snippet"
+  "スニペットを挿入します。"
+
+  "Insert strikethrough formatting"
+  "取り消し線の書式を挿入します。"
+
+  "Insert subscript formatting"
+  "下付き文字の書式を挿入します。"
+
+  "Insert superscript formatting"
+  "上付き文字の書式を挿入します。"
+
+  "Insert underline formatting"
+  "下線の書式を挿入します。"
+
+  "Insert unordered list formatting"
+  "箇条書きの書式設定を挿入します。"
+
+  "Install"
   "インストール"
 
-  "Launcher"
-  "ランチャー"
+  "Install plugin"
+  "プラグインをインストール"
+
+  "Italics"
+  "イタリック体"
+
+  "Join Lines"
+  "行に参加します。"
+
+  "Join lines"
+  "行に参加します。"
+
+  "Jump Backward"
+  "後方ジャンプ"
+
+  "Jump Forward"
+  "前方ジャンプ"
+
+  "Jump To Line"
+  "行にジャンプします。"
+
+  "Jump backward"
+  "後方ジャンプします。"
+
+  "Jump forward"
+  "前方ジャンプします。"
+
+  "Jump to Next Fold Mark"
+  "次の折りたたみマークにジャンプします。"
+
+  "Jump to Previous Fold Mark"
+  "以前の折りたたみマークにジャンプします。"
+
+  "Jump to line"
+  "行にジャンプします。"
+
+  "Jump to the next fold indicator"
+  "次の展開インジケーターにジャンプします。"
+
+  "Jump to the previous fold indicator"
+  "以前の倍インジケーターへジャンプします。"
+
+  "Line Above Current"
+  "現在の上行"
+
+  "Line Below Current"
+  "現在下の行"
+
+  "Line Ending"
+  "行の終わり"
+
+  "Line Number"
+  "行番号"
+
+  "Line Numbering"
+  "行番号の表示"
+
+  "Line Wrapping"
+  "行の折り返し"
+
+  "Link"
+  "リンク名"
 
   "Lock"
   "固定"
 
-  "Menu Bindings"
-  "メニューバインディング"
+  "Lock file"
+  "ロック ファイル"
 
-  "Menu: About TKE"
-  "メニュー：TKEについて"
+  "Lower Case"
+  "小文字"
 
-  "Menu: Align cursors"
-  "メニュー：カーソルを合わせ"
+  "Markers"
+  "マーカー"
 
-  "Menu: Append next occurrence"
-  "メニュー：次のオカレンスを追加"
+  "Menu"
+  "MENU"
 
-  "Menu: Check for Update"
-  "アップデートの確認"
+  "Merge Lines"
+  "行をマージします。"
 
-  "Menu: Close all tabs"
-  "すべてのタブを閉じる"
+  "Merge Panes"
+  "ペインのマージ"
 
-  "Menu: Close current tab"
-  "メニュー：現在のタブを閉じる"
+  "Merge panes"
+  "ウィンドウを結合します。"
 
-  "Menu: Comment selected text"
-  "メニュー：選択したテキストをコメント"
+  "Move Cursors Down"
+  "カーソルを下に移動します。"
 
-  "Menu: Copy selected text"
-  "メニュー：コピー選択したテキスト"
+  "Move Cursors Left"
+  "カーソル左を移動します。"
 
-  "Menu: Create new plugin"
-  "メニュー：新しいプラグインを作成"
+  "Move Cursors Right"
+  "カーソルを右へ移動します。"
 
-  "Menu: Create new theme"
-  "メニュー：新しいテーマを作成する"
+  "Move Cursors Up"
+  "カーソルを上に移動します。"
 
-  "Menu: Cut selected text"
-  "メニュー：カット選択したテキスト"
+  "Move cursor to bottom of screen"
+  "画面の下部にカーソルを移動します。"
 
-  "Menu: Disable Vim mode"
-  "メニュー：Vimのモードを無効にします"
+  "Move cursor to end of current line"
+  "終わりへのカーソルの移動の現在の行"
 
-  "Menu: Edit Tke theme"
-  "メニュー：編集TKEテーマ"
+  "Move cursor to first line"
+  "最初の行にカーソルを移動します。"
 
-  "Menu: Edit current snippets"
-  "メニュー：現在のスニペットを編集"
+  "Move cursor to last line"
+  "最後の行にカーソルを移動します。"
 
-  "Menu: Edit user menu bindings"
-  "メニュー：編集ユーザーメニューバインディング"
+  "Move cursor to middle of screen"
+  "画面の中央にカーソルを移動します"
 
-  "Menu: Edit user preferences"
-  "メニュー：編集ユーザー設定"
+  "Move cursor to next page"
+  "カーソルを次のページに移動します。"
 
-  "Menu: Enable Vim mode"
-  "メニュー：Vimのモードを有効に"
+  "Move cursor to next word"
+  "カーソルを次の単語に移動します。"
 
-  "Menu: Favorite file"
-  "メニュー：好きなファイル"
+  "Move cursor to previous page"
+  "前のページにカーソルを移動します。"
 
-  "Menu: Find"
-  "メニュー：見つける"
+  "Move cursor to previous word"
+  "カーソルを前の単語に移動します。"
 
-  "Menu: Find and Replace"
-  "検索と置換"
+  "Move cursor to start of current line"
+  "現在の行の先頭にカーソルを移動します。"
 
-  "Menu: Find in files"
-  "メニュー：ファイルから検索"
+  "Move cursor to top of screen"
+  "画面の上部にカーソルを移動します。"
 
-  "Menu: Find matching character pair"
-  "メニュー：一致する文字のペアを探す"
+  "Move multicursors down one line"
+  "Multicursors を 1 行下に移動します。"
 
-  "Menu: Find next occurrence"
-  "メニュー：次の出現箇所を検索"
+  "Move multicursors left one line"
+  "Multicursors の左の 1 つの行を移動します。"
 
-  "Menu: Find previous occurrence"
-  "メニュー：前の発生を検索"
+  "Move multicursors right one line"
+  "Multicursors の右に 1 行を移動します。"
 
-  "Menu: Format all text"
-  "メニュー：すべてのテキストの書式設定"
+  "Move multicursors up one line"
+  "上に 1 行移動 multicursors"
 
-  "Menu: Format selected text"
-  "メニュー：選択したテキストのフォーマット"
+  "Move to First Line"
+  "最初の行に移動します。"
 
-  "Menu: Goto last tab"
-  "メニュー：後藤最後のタブ"
+  "Move to Last Line"
+  "最後の行に移動します。"
 
-  "Menu: Goto next tab"
-  "メニュー：後藤次のタブ"
+  "Move to Line End"
+  "最後の行に移動します。"
 
-  "Menu: Goto other pane"
-  "メニュー：後藤他のペイン"
+  "Move to Line Start"
+  "スタート ラインに移動します。"
 
-  "Menu: Goto previous tab"
-  "メニュー：後藤前のタブ"
+  "Move to Next Page"
+  "次のページへ移動します。"
 
-  "Menu: Hide Tab Bar"
-  "メニュー：タブバーを非表示に"
+  "Move to Next Word"
+  "次の単語に移動します。"
 
-  "Menu: Hide console"
-  "メニュー：コンソールを非表示に"
+  "Move to Previous Page"
+  "前のページへ移動します。"
 
-  "Menu: Hide sidebar"
-  "メニュー：サイドバーを隠す"
+  "Move to Previous Word"
+  "前の単語に移動します。"
 
-  "Menu: Hide status bar"
-  "メニュー：非表示のステータスバー"
+  "Move to Screen Bottom"
+  "画面の一番下に移動します。"
 
-  "Menu: Import TextMate theme"
-  "メニュー：輸入TextMateのテーマ"
+  "Move to Screen Middle"
+  "画面の中央に移動します。"
 
-  "Menu: Indent selected text"
-  "メニュー：選択したテキストをインデント"
-
-  "Menu: Insert enumeration"
-  "メニュー：列挙型を挿入します"
-
-  "Menu: Insert from clipboard"
-  "クリップボードからの挿入"
-
-  "Menu: Insert snippet"
-  "メニュー：挿入スニペット"
-
-  "Menu: Install plugin"
-  "メニュー：インストールプラグイン"
-
-  "Menu: Lock file"
-  "メニュー：ロックファイル"
-
-  "Menu: Move to other pane"
-  "メニュー：他のウィンドウに移動"
-
-  "Menu: New file"
-  "メニュー：新ファイル"
-
-  "Menu: Open Favorite"
-  "メニュー：オープン好き"
-
-  "Menu: Open Recent"
-  "メニュー：最近のオープン"
-
-  "Menu: Open directory"
-  "メニュー：オープンディレクトリ"
-
-  "Menu: Open file"
-  "メニュー：ファイルを開く"
-
-  "Menu: Paste and format text from clipboard"
-  "メニュー：クリップボードからの貼り付けやテキストの書式設定"
-
-  "Menu: Paste text from clipboard"
-  "クリップボードから貼り付け"
-
-  "Menu: Quit application"
-  "メニュー：アプリケーションを終了し"
-
-  "Menu: Redo"
-  "メニュー：やり直し"
-
-  "Menu: Reload all plugins"
-  "メニュー：すべてのプラグインを再ロード"
-
-  "Menu: Reload current snippets"
-  "メニュー：現在のスニペットを再読み込み"
-
-  "Menu: Restart tke"
-  "メニュー：TKEを再起動します"
-
-  "Menu: Save all files"
-  "メニュー：すべてのファイルを保存"
-
-  "Menu: Save file"
-  "メニュー：ファイルを保存します"
-
-  "Menu: Save file as"
-  "メニュー：ファイルとして保存"
-
-  "Menu: Select all occurrences"
-  "メニュー：すべてのオカレンスを選択"
-
-  "Menu: Select all text"
-  "メニュー：すべてのテキストを選択"
-
-  "Menu: Set user bindings to global bindings"
-  "メニュー：グローバルバインディングに設定し、ユーザーのバインド"
-
-  "Menu: Set user preferences to global preferences"
-  "メニュー：グローバル設定へのユーザープリファレンスを設定"
-
-  "Menu: Show Tab Bar"
-  "メニュー：表示タブバー"
-
-  "Menu: Show console"
-  "メニュー：表示するコンソール"
-
-  "Menu: Show last profiling report"
-  "メニュー：ショー最後のプロファイリングレポート"
-
-  "Menu: Show sidebar"
-  "メニュー：表示するサイドバー"
-
-  "Menu: Show status bar"
-  "メニュー：表示するステータスバー"
-
-  "Menu: Sort tabs"
-  "メニュー：ソートタブ"
-
-  "Menu: Start profiling"
-  "メニュー：スタートプロファイリング"
-
-  "Menu: Stop profiling"
-  "メニュー：ストッププロファイリング"
-
-  "Menu: Toggle split view mode"
-  "メニュー：トグル分割ビューモード"
-
-  "Menu: Uncomment selected text"
-  "メニュー：コメント解除選択したテキスト"
-
-  "Menu: Undo"
-  "メニュー：元に戻す"
-
-  "Menu: Unfavorite file"
-  "メニュー：気に入らないファイル"
-
-  "Menu: Unindent selected text"
-  "メニュー：インデント解除選択したテキスト"
-
-  "Menu: Uninstall plugin"
-  "メニュー：アンプラグ"
-
-  "Menu: Unlock file"
-  "メニュー：ロック解除ファイル"
-
-  "Menu: View User Guide"
-  "メニュー：表示ユーザガイド"
-
-  "Menu: View global menu bindings"
-  "メニュー：表示グローバルメニューバインディング"
-
-  "Menu: View global preferences"
-  "メニュー：表示グローバルプリファレンス"
+  "Move to Screen Top"
+  "画面の一番上に移動します。"
 
   "Move to other pane"
-  "他のウィンドウに移動する"
+  "他のペインに移動します。"
 
-  "New"
-  "新しい"
+  "New From Template"
+  "新しいテンプレートを作成"
 
-  "Open Directory..."
-  "ディレクトリを開きます。..."
+  "New Window"
+  "新しいウィンドウ"
+
+  "New file"
+  "新しいファイル"
+
+  "New file from template"
+  "テンプレートから新しいファイル"
+
+  "New window"
+  "新しいウィンドウ"
+
+  "Next Difference"
+  "次の違い"
+
+  "Next Edit Point"
+  "ポイント編集"
+
+  "One Level"
+  "1 つのレベル"
+
+  "Open All Folds"
+  "すべてのフォールドを開く"
+
+  "Open Current Fold"
+  "現在展開"
+
+  "Open Directory"
+  "オープン ディレクトリ"
 
   "Open Favorite"
   "オープン好き"
 
-  "Open File..."
+  "Open File"
   "ファイルを開く"
 
   "Open Recent"
   "最近のオープン"
+
+  "Open Remote"
+  "リモート"
+
+  "Open Selected Folds"
+  "選択した襞を開く"
+
+  "Open all folds"
+  "すべてのフォールドを開く"
+
+  "Open directory"
+  "オープン ディレクトリ"
+
+  "Open file"
+  "ファイルを開く"
+
+  "Open fold at current line - all levels"
+  "現在の行のすべてのレベルで展開"
+
+  "Open fold at current line - one level"
+  "現在の行の 1 つのレベルで展開"
+
+  "Open folds to show cursor"
+  "カーソルを表示する開いているひだ"
+
+  "Open remote file or directory"
+  "リモート ファイルを開くまたはディレクトリ"
+
+  "Open selected folds - all levels"
+  "開いている選択した襞 - すべてのレベル"
+
+  "Open selected folds - one level"
+  "開いている選択した襞 - 1 レベル"
+
+  "Ordered Bullet"
+  "順序付けられた箇条書き"
+
+  "Panes"
+  "パネル"
 
   "Paste"
   "貼り付け"
@@ -486,11 +1348,23 @@ msgcat::mcmset ja {
   "Paste and Format"
   "ペーストとフォーマット"
 
-  "Plugins"
-  "プラグイン"
+  "Paste and format text from clipboard"
+  "クリップボードからテキストをペーストおよび書式設定"
 
-  "Preferences"
-  "選好"
+  "Paste text from clipboard"
+  "クリップボードから貼り付け"
+
+  "Plugin Developer Guide"
+  "プラグイン開発者ガイド"
+
+  "Previous Difference"
+  "前の違い"
+
+  "Previous Edit Point"
+  "前の編集ポイント"
+
+  "Profiling Report Sorted By"
+  "プロファイリング レポート順"
 
   "Profiling started"
   "プロファイリングが開始されました"
@@ -501,41 +1375,197 @@ msgcat::mcmset ja {
   "Quit"
   "やめる"
 
+  "Quit application"
+  "アプリケーションを終了"
+
+  "Recent Directories"
+  "最近使用したディレクトリ"
+
+  "Recent Files"
+  "最近使用したファイル"
+
   "Redo"
   "やり直す"
+
+  "Reflect CSS Value"
+  "CSS 値を反映します。"
+
+  "Reflect current CSS value"
+  "現在の CSS 値を反映します。"
+
+  "Relative"
+  "パーセント表示"
+
+  "Relative line numbering"
+  "相対行番号"
 
   "Reload"
   "再読み込み"
 
-  "Reload current"
-  "現在の再読み込み"
+  "Reload all plugins"
+  "すべてのプラグインを再読み込み"
 
-  "Reset user to base"
-  "ベースにユーザーのリセット"
+  "Reload snippets"
+  "スニペットを再読み込み"
 
-  "Restart tke"
-  "TKEを再起動します"
+  "Reload template information"
+  "テンプレート情報を再読み込み"
+
+  "Remove All From Current Buffer"
+  "現在のバッファーからすべて削除します。"
+
+  "Remove All Markers"
+  "すべてのマーカーを削除します"
+
+  "Remove Formatting"
+  "装飾を除去"
+
+  "Remove From Current Line"
+  "現在の行から削除"
+
+  "Remove Tag"
+  "タグを削除"
+
+  "Remove all markers"
+  "すべてのマーカーを削除します。"
+
+  "Remove all markers from current buffer"
+  "現在のバッファーからすべてのマーカーを削除します。"
+
+  "Remove formatting from selected text"
+  "選択したテキストから書式を削除します。"
+
+  "Remove marker from current line"
+  "現在の行からマーカーを削除します。"
+
+  "Remove tag"
+  "タグを外す"
+
+  "Rename current file"
+  "現在のファイルの名前を変更します。"
+
+  "Reopen File"
+  "ファイルを再び開く"
+
+  "Reopen current file"
+  "現在のファイルを再度開く"
+
+  "Replace Line With Script"
+  "ラインでスクリプトを交換してください"
+
+  "Replace line with script"
+  "スクリプト行を置き換えます"
+
+  "Restart"
+  "再試行"
+
+  "Run theme editor"
+  "テーマエディターを実行します。"
 
   "Save All"
   "すべて保存"
 
-  "Save As..."
-  "名前を付けて保存..."
+  "Save As Remote"
+  "リモートとして保存します。"
 
-  "Select All"
+  "Save As Template"
+  "テンプレートの保存"
+
+  "Save Current"
+  "保存現在"
+
+  "Save Selection As"
+  "選択範囲を保存します。"
+
+  "Save all files"
+  "すべてのファイル"
+
+  "Save current session"
+  "現在のセッションを保存します。"
+
+  "Save file"
+  "ファイルを保存します。"
+
+  "Save file as"
+  "ファイルを保存します。"
+
+  "Save file as remote file"
+  "リモート ファイルとしてファイルを保存します。"
+
+  "Save file as template"
+  "テンプレートの保存"
+
+  "Save selected lines"
+  "選択した行"
+
+  "Save sessions as"
+  "としてセッションを保存します。"
+
+  "Search References"
+  "検索参照"
+
+  "Search language reference documentation"
+  "言語リファレンスのドキュメントを検索"
+
+  "Search reference documentation"
+  "検索リファレンス ドキュメント"
+
+  "Select"
+  "選択"
+
+  "Select All Matches"
+  "すべての一致項目を選択します。"
+
+  "Select Current Match"
+  "現在の一致項目を選択します。"
+
+  "Select Mode"
+  "モード選択"
+
+  "Select Next Item"
+  "次の項目を選択します。"
+
+  "Select Previous Item"
+  "前の項目を選択します。"
+
+  "Select all find matches"
+  "選択すべてを検索します。"
+
+  "Select all text"
   "すべて選択"
 
-  "Select all occurrences"
-  "すべてのオカレンスを選択"
+  "Select current bracketed text, strings or comment block"
+  "現在の括弧で囲まれたテキスト、文字列またはコメントブロックを選択する"
 
-  "Select next occurrence"
-  "次のオカレンスを選択してください"
+  "Select current line"
+  "現在の行を選択"
 
-  "Select previous occurrence"
-  "以前の発生を選択"
+  "Select current paragraph"
+  "現在の段落を選択"
 
-  "Selected"
-  "選択"
+  "Select current sentence"
+  "現在の文章を選択"
+
+  "Select current word"
+  "現在の単語を選択"
+
+  "Select next tag item"
+  "タグの次の項目を選択します。"
+
+  "Select previous tag item"
+  "以前のタグ項目を選択します。"
+
+  "Send Bug Report"
+  "バグ報告を送る"
+
+  "Send Feedback"
+  "﻿フィードバックを送る"
+
+  "Send bug report"
+  "報告の送信"
+
+  "Send feedback"
+  "フィードバックを送信"
 
   "Set Syntax"
   "構文を設定"
@@ -543,14 +1573,47 @@ msgcat::mcmset ja {
   "Set Theme"
   "設定テーマ"
 
-  "Set user to global"
-  "グローバルにユーザーを設定する"
+  "Set current file line ending to CR for Classic Mac"
+  "古典的な Mac 用 CR に現在ファイル行末を設定します。"
 
-  "Show Console"
-  "コンソールの表示"
+  "Set current file line ending to CRLF for Windows"
+  "Windows の CRLF 終了現在のファイルの行を設定します。"
+
+  "Set current file line ending to LF for Unix"
+  "Unix 用 LF に現在ファイル行末を設定します。"
+
+  "Set indent mode to"
+  "インデント モードに設定します。"
+
+  "Show All Tabs"
+  "すべて表示"
+
+  "Show Cursor"
+  "カーソルを表示します。"
+
+  "Show Diagnostic Logfile"
+  "診断ログ ファイルを表示します。"
+
+  "Show File Difference"
+  "ファイルの相違点を表示します。"
+
+  "Show Installed"
+  "インストール済み"
 
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
+
+  "Show Line Numbers"
+  "行番号を表示します。"
+
+  "Show Marker Map"
+  "地図のマーカー"
+
+  "Show Meta Characters"
+  "メタ文字を表示"
+
+  "Show Selected Line Change"
+  "表示選択したラインの変更"
 
   "Show Sidebar"
   "表示するサイドバー"
@@ -561,73 +1624,199 @@ msgcat::mcmset ja {
   "Show Tab Bar"
   "表示タブバー"
 
-  "Show*Profiling*"
-  "表示*プロファイリング*"
+  "Show Tcl Console"
+  "Tcl コンソールを表示します。"
 
-  "Snippet"
-  "スニペット"
+  "Show Tcl console"
+  "Tcl コンソールを表示します。"
 
-  "Snippets"
-  "スニペット"
+  "Show diagnostic logfile"
+  "診断ログ ファイルを表示します。"
+
+  "Show file difference"
+  "ファイルの相違点を表示します。"
+
+  "Show installed plugins"
+  "インストール済みのプラグイン"
+
+  "Show last profiling report"
+  "最後のプロファイル レポートを表示します。"
+
+  "Show meta characters"
+  "メタ文字を表示"
+
+  "Show plugin developer guide"
+  "プラグイン開発者ガイドを表示します。"
+
+  "Show plugin source directory in sidebar"
+  "サイドバーにプラグインのソースディレクトリを表示する"
+
+  "Show plugins directory in sidebar"
+  "サイドバーにプラグインディレクトリを表示する"
+
+  "Show selected line change"
+  "選択した行の変更を表示します。"
 
   "Sort Tabs"
   "並べタブ"
 
-  "Split view"
-  "2 画面分割表示"
+  "Sort tabs"
+  "並び替えタブ"
+
+  "Split/Join Tag"
+  "分割/結合タグ"
+
+  "Split/Join tag"
+  "分割/結合タグ"
 
   "Start Profiling"
   "プロファイリング開始"
 
+  "Start profiling"
+  "プロファイリングを開始します。"
+
   "Stop Profiling"
   "プロファイリングを停止"
+
+  "Stop profiling"
+  "プロファイリングを停止します。"
+
+  "Strikethrough"
+  "取り消し線"
+
+  "Subscript"
+  "下付き文字"
+
+  "Superscript"
+  "上付き文字"
+
+  "Switch To"
+  "切り替える"
+
+  "Switch to session"
+  "セッションに切り替える"
 
   "Tabs"
   "タブ"
 
-  "Text"
-  "Text"
+  "Tips & Tricks"
+  "ヒント＆トリック"
 
-  "Theme Creator"
-  "テーマ作成者"
+  "Title Case"
+  "タイトル ケース"
 
-  "Tools"
-  "道具"
+  "Toggle Case"
+  "トグル ケース"
 
-  "Uncomment"
-  "コメントを解除"
+  "Toggle Comment"
+  "トグルコメント"
+
+  "Toggle bird's eye view mode"
+  "鳥の目のビュー モードを切り替える"
+
+  "Toggle case of current character"
+  "現在の文字の切り替えの場合"
+
+  "Toggle comment"
+  "トグルのコメント"
+
+  "Toggle split view mode"
+  "トグル分割表示モード"
+
+  "Toggle tag/rule comment"
+  "タグ/ルール コメント切り替え"
+
+  "Transform"
+  "トランスフォーム"
+
+  "Unable to delete file"
+  "ファイルを削除できません："
+
+  "Unable to write export file"
+  "エクスポート ファイルを書き込めません。"
+
+  "Underline"
+  "下線"
 
   "Undo"
   "アンドゥ"
 
+  "Unfavorite file"
+  "Unfavorite ファイル"
+
   "Unindent"
   "インデント解除"
 
-  "Uninstall..."
+  "Unindent selected text"
+  "選択したテキストのインデントを解除します。"
+
+  "Uninstall"
   "アンインストール"
+
+  "Uninstall plugin"
+  "プラグインをアンインストールします。"
+
+  "Unix"
+  "UNIX"
 
   "Unlock"
   "アンロック"
 
+  "Unlock file"
+  "ファイルのロックを解除します。"
+
+  "Unordered Bullet"
+  "記号付き箇条書き"
+
+  "Update Image Size"
+  "画像更新"
+
+  "Update img tag width and height attributes"
+  "Img タグの幅と高さの属性を更新します。"
+
+  "Upper Case"
+  "大文字"
+
   "User Guide"
   "マニュアル"
 
-  "View"
-  "表示"
+  "View Emmet Reference Guide"
+  "Emmetリファレンスガイドの表示"
 
-  "View base"
-  "ビュー·ベース"
+  "View the Emmet reference guide"
+  "Emmetリファレンスガイドを表示する"
 
-  "View global"
-  "グローバルを表示"
+  "View tips & tricks articles"
+  "ビューがヒント ・ テクニック記事"
+
+  "View user guide"
+  "ユーザ ガイドの表示"
 
   "Vim Mode"
   "Vimのモード"
+
+  "Windows"
+  "窓"
+
+  "Wrap With Abbreviation"
+  "省略形でラップ"
+
+  "Wrap tag with Emmet abbreviation"
+  "エメットの略語でタグを囲む"
+
+  "formatting"
+  "서식"
 
 }
 
 # plugins.tcl
 msgcat::mcmset ja {
+
+  "Always grant from developer"
+  "常に開発者から付与"
+
+  "ERROR"
+  "エラー"
 
   "ERROR:  Plugin name already exists"
   "エラー：プラグイン名がすでに存在"
@@ -641,23 +1830,940 @@ msgcat::mcmset ja {
   "ERROR:  Unable to write plugin files"
   "エラー：プラグインファイルを書き込むことができません"
 
+  "Editing"
+  "編集"
+
   "Enter plugin name"
   "プラグイン名を入力してください"
 
-  "Plugin %s installed"
-  "プラグイン％sのインストール"
+  "Grant"
+  "グラント"
 
-  "Plugin %s uninstalled"
-  "プラグイン％sをアンインストール"
+  "Grant permission?"
+  "許可を与えますか？"
 
   "Plugin Errors"
   "プラグインエラー"
 
+  "Plugin Trust Requested"
+  "プラグイントラストは、要求"
+
+  "Plugin export completed successfully"
+  "プラグインのエクスポートが完了しました"
+
+  "Plugin import completed successfully"
+  "インポートが正常に完了しました"
+
+  "Plugin installed"
+  "プラグインをインストール"
+
+  "Plugin requires permission to view or modify your system."
+  "プラグインはお使いのシステムを表示または変更する権限が必要です。"
+
+  "Plugin uninstalled"
+  "プラグインのアンインストール"
+
   "Plugins successfully reloaded"
   "プラグインが正常にリロード"
 
+  "Reject"
+  "差し戻し"
+
   "Syntax errors found in selected plugins"
   "構文エラーは、選択したプラグインで発見"
+
+  "Unable to unzip plugin"
+  "プラグインを解凍できません。"
+
+  "Unable to zip plugin"
+  "プラグインを圧縮することができません。"
+
+  "Version Control"
+  "バージョン管理システム"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset ja {
+
+  "Export Plugin"
+  "エクスポートプラグイン"
+
+  "Markdown"
+  "値下げ"
+
+  "Plugin Manager"
+  "プラグインマネージャ"
+
+  "Release Notes"
+  "リリースノート"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset ja {
+
+  "Abbreviation Aliases"
+  "略語の別名"
+
+  "Add"
+  "追加"
+
+  "Add Language Reference"
+  "言語リファレンスを追加します。"
+
+  "Additional space between lines"
+  "行の間にスペース"
+
+  "Addons"
+  "アドオン"
+
+  "Advanced"
+  "アドバンスド"
+
+  "Alias"
+  "别号"
+
+  "Allow scrolling in tab bar"
+  "タブ ・ バーでスクロール可能します。"
+
+  "Angled bracket"
+  "傾斜ブラケット"
+
+  "Appearance"
+  "外観"
+
+  "Append characters to search string if entered within"
+  "内で入力した場合、検索文字列に文字を追加します。"
+
+  "Auto-match Characters"
+  "自動一致文字"
+
+  "Automatically check for updates on start"
+  "起動時に更新プログラムを自動的にチェックします。"
+
+  "Automatically highlight matching bracket"
+  "自動的に一致した括弧を強調表示します。"
+
+  "Automatically highlight mismatching brackets"
+  "自動的に一致しないかっこを強調表示します。"
+
+  "Automatically insert vendor prefixes"
+  "ベンダー プレフィックスを自動的に挿入します。"
+
+  "Automatically load last session on start"
+  "起動時に前回のセッションを自動的に読み込む"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "自動的に現在のタブのディレクトリに現在の作業ディレクトリを設定します。"
+
+  "Backtick"
+  "バックティック"
+
+  "Base Directory"
+  "ベース ディレクトリ"
+
+  "Behaviors"
+  "行動"
+
+  "Bird's Eye View Font Size"
+  "鳥の目のビューのフォント サイズ"
+
+  "Bird's Eye View Width"
+  "鳥の目のビューの幅"
+
+  "Buffer"
+  "バッファー"
+
+  "Choose Color"
+  "色を選択"
+
+  "Choose Logfile Directory"
+  "ログ ファイルのディレクトリを選択します。"
+
+  "Clear"
+  "クリア"
+
+  "Clipboard"
+  "クリップボード"
+
+  "Clipboard History"
+  "クリップボードの履歴"
+
+  "Clipboard history depth"
+  "クリップボードの履歴の深さ"
+
+  "Closing"
+  "交渉をまとめる"
+
+  "Color value case"
+  "色の値"
+
+  "Command launcher entry"
+  "ランチャーのコマンド エントリ"
+
+  "Command launcher preview"
+  "コマンド ランチャー プレビュー"
+
+  "Convert to lowercase"
+  "小文字に変換します。"
+
+  "Convert to uppercase"
+  "大文字に変換します。"
+
+  "Creator"
+  "作成者"
+
+  "Curly bracket"
+  "中かっこ"
+
+  "Current"
+  "現在"
+
+  "Current Directory"
+  "カレントディレクトリ"
+
+  "Current File Pathname"
+  "現在のファイルのパス名"
+
+  "Current Filename"
+  "現在のファイル名"
+
+  "Current Line Column"
+  "現在の行の列"
+
+  "Current Line Number"
+  "現在の行番号"
+
+  "Current editing buffer directory"
+  "現在の編集バッファーのディレクトリ"
+
+  "Current working directory"
+  "現在の作業ディレクトリ"
+
+  "Date"
+  "日付"
+
+  "Default Find in Files search method"
+  "ファイル検索のデフォルトの検索方法"
+
+  "Default Find search method"
+  "デフォルトの検索方法を検索"
+
+  "Default Markdown Export Extension"
+  "既定の値下げのエクスポートの拡張"
+
+  "Default Plugin Export Directory"
+  "デフォルトのプラグインエクスポートディレクトリ"
+
+  "Default Theme Export Directory"
+  "デフォルトのテーマのエクスポートディレクトリ"
+
+  "Default sidebar width on startup"
+  "起動時のデフォルトのサイドバー幅"
+
+  "Default theme"
+  "デフォルトテーマ"
+
+  "Default unit for floating point values"
+  "デフォルトの浮動小数点値の単位"
+
+  "Default unit for integer values"
+  "整数値の既定の単位"
+
+  "Delete snippet"
+  "スニペットを削除します。"
+
+  "Delete user bindings and use default?"
+  "ユーザー バインドを削除し、既定を使用して?"
+
+  "Development"
+  "開発"
+
+  "Displayed Information"
+  "コマンドラインオプションを表示"
+
+  "Double-quote"
+  "引用符"
+
+  "Editor"
+  "エディタ"
+
+  "Enable Vim Mode"
+  "Vim モードを有効にします。"
+
+  "Enable auto-indentation"
+  "自動インデントを有効にします。"
+
+  "Enable development mode"
+  "開発モードを有効にします。"
+
+  "Enable fuzzy search"
+  "あいまい検索を有効にします。"
+
+  "Enable relative line numbering"
+  "相対行番号の表示を有効にします。"
+
+  "Enabled"
+  "有効化"
+
+  "End-of-line character when saving"
+  "行の最後の文字を保存するとき"
+
+  "Exit the application after the last tab is closed"
+  "最後のタブを閉じた後、アプリケーションを終了します。"
+
+  "Export Settings"
+  "エクスポートを設定"
+
+  "Extensions"
+  "追加エクステンション"
+
+  "Fonts"
+  "フォント"
+
+  "Format snippet indentation after insert"
+  "形式スニペット インデント挿入後"
+
+  "General"
+  "総論"
+
+  "Get More Themes"
+  "多くのテーマを取得します。"
+
+  "Hide Patterns"
+  "パターンを隠す"
+
+  "Hide binary files"
+  "バイナリ ファイルを隠す"
+
+  "Hiding"
+  "非表示"
+
+  "Host"
+  "ホスト"
+
+  "Imported"
+  "輸入品。"
+
+  "Indentation spaces"
+  "インデント スペース"
+
+  "Info Panel"
+  "[情報] パネル"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "手動で並べ替えられたディレクトリの先頭にソートされていないファイルを挿入します。"
+
+  "Insertion cursor width"
+  "挿入カーソルの幅"
+
+  "Keep information panel visible when sidebar doesn't have focus"
+  "サイドバーにフォーカスがないときは情報パネルを表示したままにする"
+
+  "Keyword"
+  "キーワード"
+
+  "Languages"
+  "言語"
+
+  "Last"
+  "最後へ"
+
+  "Last accessed"
+  "最後にアクセスされた"
+
+  "Line Wrapping Default"
+  "既定の折り返し"
+
+  "Line count to find Vim modeline information"
+  "行カウントを Vim modeline 情報を検索するには"
+
+  "Line number alignment"
+  "行番号の整列"
+
+  "Logfile Directory"
+  "ログ ファイル ディレクトリ"
+
+  "Manage Themes"
+  "テーマを管理"
+
+  "Manage theme visibility"
+  "テーマの可視性を管理します。"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "最大元に戻す履歴 (0 に設定無制限)"
+
+  "Menu Item"
+  "このホーム ・ ページは、ホーム ページのサイドバーのウィジェットを介してセットアップです。これは、外観 [ウィジェット] メニュー項目を介してアクセスすることができます。"
+
+  "Menu bindings"
+  "メニューのバインディング"
+
+  "Mounts"
+  "マウント"
+
+  "Node Aliases"
+  "仮名"
+
+  "Profiler Options"
+  "「Profiler オプション"
+
+  "Prompt user to save preference changes in global or named session"
+  "グローバルまたは名前付きセッションの設定の変更を保存するプロンプト ユーザー"
+
+  "Properties"
+  "プロパティ"
+
+  "Reading time words per minute"
+  "毎分の時間の単語を読む"
+
+  "Recently opened history depth"
+  "最近の履歴の深さを開いた"
+
+  "Remember last position of command launcher"
+  "コマンド起動ツールの最後の位置を覚えています。"
+
+  "Remote Base Directory"
+  "リモートのベース ディレクトリ"
+
+  "Remove root directory after last sub-file is closed"
+  "最後のサブ ファイルを閉じた後、ルート ディレクトリを削除します。"
+
+  "Remove trailing whitespace on save"
+  "削除の末尾の空白を保存します。"
+
+  "Report Options"
+  "レポート オプション"
+
+  "Retain case"
+  "ケースを保持します。"
+
+  "Return"
+  "戻る"
+
+  "Ruler column"
+  "定規コラム"
+
+  "Save changes to current session?"
+  "変更を現在のセッションに保存しますか。"
+
+  "Save changes to global preferences?"
+  "グローバル設定への変更を保存しますか。"
+
+  "Search Shortcuts"
+  "検索ショートカット"
+
+  "Search Snippets"
+  "検索のスニペット"
+
+  "Select Command Launcher Entry Font"
+  "コマンドランチャーの選択フォントを選択"
+
+  "Select Command Launcher Preview Font"
+  "コマンドランチャーのプレビューフォントを選択"
+
+  "Select Editor Font"
+  "エディタのフォントを選択"
+
+  "Select Settings Sharing Directory"
+  "ディレクトリの共有の設定を選択します。"
+
+  "Select a plugin"
+  "プラグインを選択します。"
+
+  "Select default browsing directory"
+  "デフォルトのディレクトリをブラウズを選択します。"
+
+  "Selected Text"
+  "選択したテキスト"
+
+  "Session"
+  "セッション"
+
+  "Set"
+  "セット"
+
+  "Set Find in Files line context"
+  "ファイルの行コンテキストで検索を設定します。"
+
+  "Set default open/save browsing directory to"
+  "既定開く/保存するディレクトリを設定します。"
+
+  "Set find history depth"
+  "セットの履歴の深さを見つける"
+
+  "Set jump distance"
+  "セット移動距離"
+
+  "Sharing"
+  "共有中"
+
+  "Sharing Items"
+  "アイテムの共有"
+
+  "Shortcut"
+  "ショートカットキー"
+
+  "Shortcuts"
+  "ショートカット"
+
+  "Show 'Find in Files' result in other pane"
+  "他のウィンドウに 'ファイル内の検索' の結果を表示します。"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "ゴミ箱に移動を削除ではなくローカルのファイル/ディレクトリの表示します。"
+
+  "Show Tcl console at startup"
+  "起動時に Tcl コンソールを表示します。"
+
+  "Show bird's eye view"
+  "鳥瞰図"
+
+  "Show diagnostic logfile at startup"
+  "起動時に診断ログ ファイルを表示します。"
+
+  "Show difference file in other pane than original"
+  "差分ファイルをオリジナルよりも他のウィンドウで表示します。"
+
+  "Show difference file version information"
+  "ファイルのバージョン情報を表示します。"
+
+  "Show folders at top"
+  "上部のフォルダーを表示します。"
+
+  "Show hidden files"
+  "表示 隠し"
+
+  "Show language submenu"
+  "表示言語の選択]"
+
+  "Show menubar"
+  "メニューバーを表示(&M)"
+
+  "Single-quote"
+  "引用符"
+
+  "Snippet Completion Characters"
+  "スニペット補完文字"
+
+  "Snippet Text"
+  "スニペットのテキスト"
+
+  "Sort tabs alphabetically on open"
+  "開いたときにアルファベット順に並び替えタブ"
+
+  "Sorting Column"
+  "列の並べ替え"
+
+  "Space"
+  "スペース"
+
+  "Spaces per tab"
+  "タブごとのスペース"
+
+  "Square bracket"
+  "括弧"
+
+  "Stable"
+  "安定版"
+
+  "Symbol between CSS property and value"
+  "CSS のプロパティと値をシンボルします。"
+
+  "Symbol placed at end of CSS property"
+  "CSS プロパティの末尾に配置記号"
+
+  "Syntax Coloring"
+  "構文の色指定"
+
+  "Tab"
+  "タブ"
+
+  "Tab Stop"
+  "タブ"
+
+  "This operation cannot be reversed."
+  "この操作を元に戻すことはできません。"
+
+  "Time"
+  "時間"
+
+  "Unknown"
+  "不明"
+
+  "Update information panel whenever the sidebar selection changes"
+  "サイドバーの選択が変わるたびに情報パネルを更新する"
+
+  "Update using release type"
+  "リリースの型を使用して更新します。"
+
+  "Updates"
+  "更新"
+
+  "Use Default"
+  "1行目をデフォルトにする"
+
+  "Use appropriate EOL character on system"
+  "システムに適切な EOL 文字を使用します。"
+
+  "Use carriate return linefeed sequence"
+  "Carriate と改行シーケンスを使用します。"
+
+  "Use current width"
+  "現在の幅を使用します。"
+
+  "Use directory"
+  "使用ディレクトリ"
+
+  "Use linefeed character"
+  "改行文字を使用します。"
+
+  "Use original EOL character from file"
+  "ファイルから元の EOL 文字を使用します。"
+
+  "Use shortened colors"
+  "短縮色を使用します。"
+
+  "Use single carriage return character"
+  "単一のキャリッジ リターン文字を使用します。"
+
+  "Variable"
+  "変数を追加"
+
+  "Variables"
+  "変数"
+
+  "Visible"
+  "管理者とモデレータのみに表示されます"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "名前付きセッション内の現在、あなたは表示されません、グローバル設定を変更しました。"
+
+  "You have changed the current session's preferences which will not be applied globally."
+  "グローバルに適用されない現在のセッションの設定を変更しました。"
+
+  "milliseconds"
+  "ミリ秒"
+
+  "pixels"
+  "ピクセル"
+
+  "theme"
+  "テーマ"
+
+}
+
+# remote.tcl
+msgcat::mcmset ja {
+
+  "Close Connection"
+  "接続を閉じる"
+
+  "Connection does not exist"
+  "接続が存在しません"
+
+  "Connection failed"
+  "連携に失敗しました"
+
+  "Connection passed"
+  "渡された接続"
+
+  "Connections"
+  "接続"
+
+  "Create New Folder"
+  "新しいフォルダの作成"
+
+  "Delete Connection"
+  "連携を削除"
+
+  "Delete Group"
+  "グループを削除"
+
+  "Delete connection?"
+  "連携を削除"
+
+  "Delete group?"
+  "グループを削除"
+
+  "Edit Connection"
+  "接続を編集します。"
+
+  "Enter Password"
+  "パスワードの入力"
+
+  "Folder Name"
+  "フォルダー名"
+
+  "Group"
+  "グループ"
+
+  "Group Name"
+  "グループ名"
+
+  "Group Name: "
+  "グループ名"
+
+  "Image used in remote file selector for the history back button."
+  "履歴のバックボタンのリモート ファイル セレクターで使用する画像。"
+
+  "Image used in remote file selector for the history forward button."
+  "歴史 [進む] ボタンのリモート ファイル セレクターで使用する画像。"
+
+  "Image used in remote file selector to indicate a file."
+  "イメージ ファイルを指定するリモート ファイル セレクターで使用されます。"
+
+  "Image used in remote file selector to indicate a folder."
+  "画像フォルダーを指すリモート ファイル セレクターで使用します。"
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "接続が開かれていることを示すリモート ファイル セレクターで使用するイメージ。"
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "接続が開かれることを示すリモート ファイル セレクターで使用する画像。"
+
+  "New Connection"
+  "接続"
+
+  "New Folder"
+  "新規フォルダー"
+
+  "New Group"
+  "新規グループ"
+
+  "Open Connection"
+  "接続を開く"
+
+  "Open Remote File"
+  "リモート ファイルを開く"
+
+  "Optional"
+  "オプショナル"
+
+  "Password"
+  "パスワード"
+
+  "Password: "
+  "パスワード:"
+
+  "Port"
+  "ポート"
+
+  "Remote Directory"
+  "リモート ディレクトリ"
+
+  "Rename Group"
+  "グループ名の変更"
+
+  "Save File Remotely"
+  "リモートからファイルを保存します。"
+
+  "Server"
+  "サーバー"
+
+  "Test Connection"
+  "テスト接続"
+
+  "Type"
+  "種類"
+
+  "Unable to connect to"
+  "連携できません"
+
+  "Unable to read remote directory contents."
+  "リモートディレクトリの内容を読み取ることができません。"
+
+  "Username"
+  "ユーザーネーム"
+
+  "server"
+  "サーバー"
+
+}
+
+# search.tcl
+msgcat::mcmset ja {
+
+  "No files found in specified directories"
+  "ファイルの指定されたディレクトリが見つかりません"
+
+  "No search results found"
+  "検索結果は見つかりませんでした。"
+
+  "Search wrapped to beginning of file"
+  "ファイルの先頭に折り返し検索"
+
+  "Search wrapped to end of file"
+  "ファイルの最後に折り返し検索"
+
+  "substitutions done"
+  "置換実行"
+
+}
+
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
+msgcat::mcmset ja {
+
+  "Add Selection Matches"
+  "選択一致を追加"
+
+  "All To"
+  "すべてのTo"
+
+  "Anchor"
+  "アンカー"
+
+  "Angled Brackets"
+  "っこ"
+
+  "Backticks"
+  "バッククォート"
+
+  "Block"
+  "ブロック"
+
+  "Character"
+  "性格"
+
+  "Child"
+  "子供"
+
+  "Clear Selection"
+  "選択を解除"
+
+  "Comment"
+  "コメント"
+
+  "Curly Brackets"
+  "中かっこ"
+
+  "Delete Selected Text"
+  "選択したアイテムを削除"
+
+  "Double Quotes"
+  "ダブルクォーテーションマーク"
+
+  "Down"
+  "下"
+
+  "Exit Selection Mode"
+  "選択モード"
+
+  "Invert Selected Text"
+  "選択したテキストを反転する"
+
+  "Keep Selection"
+  "選択"
+
+  "Left"
+  "左向き"
+
+  "Line To"
+  "行します。"
+
+  "Modes"
+  "モード"
+
+  "Motions"
+  "動"
+
+  "Next Sibling"
+  "家族構"
+
+  "Paragraph"
+  "段落のテキスト範囲"
+
+  "Parent"
+  "親"
+
+  "Previous"
+  "前へ"
+
+  "Previous Sibling"
+  "前の兄弟"
+
+  "Right"
+  "右向き"
+
+  "Selection Mode Command Help"
+  "選択モード コマンドのヘルプ"
+
+  "Sentence"
+  "文章"
+
+  "Shift Down"
+  "下にシフト"
+
+  "Shift Left"
+  "左にシフト"
+
+  "Shift Right"
+  "右に"
+
+  "Shift Up"
+  "上にシフト"
+
+  "Single Quotes"
+  "単引用符"
+
+  "Square Brackets"
+  "大かっこ"
+
+  "Swap Anchor"
+  "アンカー"
+
+  "Toggle Help"
+  "トグル"
+
+  "Toggle Quote Inclusion"
+  "見積もりをトグルする"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "型 '?' の助け。 選択モードを終了するエスケープ キーを押す"
+
+  "Undo Last Change"
+  "最後の変更を元に戻す..."
+
+  "Up"
+  "上向き"
+
+  "Word"
+  "言葉"
+
+  "matching instances"
+  "一致するインスタンス"
+
+}
+
+# sessions.tcl
+msgcat::mcmset ja {
+
+  "Save session?"
+  "セッションを保存"
+
+  "Session state will be lost if not saved"
+  "保存されていない場合は、セッション状態が失われます"
+
+}
+
+# share.tcl
+msgcat::mcmset ja {
+
+  "Export Settings Data"
+  "エクスポートを設定"
+
+  "Favorites"
+  "お気に入り"
+
+  "Remote Connections"
+  "リモート接続"
+
+  "Settings to export"
+  "設定をエクスポートするには"
+
+  "Themes"
+  "テーマ"
 
 }
 
@@ -667,11 +2773,20 @@ msgcat::mcmset ja {
   "Add Parent Directory"
   "親ディレクトリ"
 
+  "By Name"
+  "名前で"
+
   "Close Directory Files"
   "閉じるディレクトリファイル"
 
-  "Delete"
-  "削除"
+  "Copy Pathname"
+  "コピーのパス名"
+
+  "Decreasing"
+  "単調写像"
+
+  "Delete directories?"
+  "ディレクトリを削除しますか。"
 
   "Delete directory?"
   "ディレクトリを削除しますか？"
@@ -679,20 +2794,59 @@ msgcat::mcmset ja {
   "Delete file?"
   "ファイルを削除しますか？"
 
-  "Duplicate"
-  "複製"
+  "Delete files?"
+  "ファイルを削除しますか。"
+
+  "Directory Name:"
+  "ディレクトリ名:"
+
+  "Disconnect From Server"
+  "サーバーから切断します。"
+
+  "Folder Name:"
+  "フォルダ名:"
+
+  "Hide"
+  "非表示"
+
+  "Hide Directory Files"
+  "ディレクトリのファイルを隠す"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "折りたたまれているディレクトリを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "その内容を表示しているディレクトリを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a file"
+  "ファイルを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "サイドバーが折りたたまれている選択したディレクトリを示すために表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "展開は、選択したディレクトリを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "ファイルは、開いた現在ですが、非表示を指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "サイドバーに表示される画像はファイルが現在編集バッファで開かれることを示します。"
+
+  "Increasing"
+  "増加"
 
   "Make Current Working Directory"
   "現在の作業ディレクトリを作る"
 
+  "Manually"
+  "手動"
+
   "New Directory"
   "新しいディレクトリ"
 
-  "New File"
-  "新規ファイル"
-
-  "Open"
-  "オープン"
+  "New File From Template"
+  "テンプレートから新しいファイル"
 
   "Open Directory Files"
   "オープンディレクトリのファイル"
@@ -706,91 +2860,651 @@ msgcat::mcmset ja {
   "Remove from Sidebar"
   "サイドバーから削除"
 
-  "Rename"
-  "名前の変更"
+  "Show"
+  "表示"
+
+  "Show Difference"
+  "違いを示す"
+
+  "Show Directory Files"
+  "ディレクトリのファイルを表示します。"
+
+  "Show Info"
+  "説明を表示"
+
+  "Sort"
+  "ソート"
+
+  "Unable to duplicate file"
+  "重複するファイルを開けません"
 
 }
 
 # snippets.tcl
 msgcat::mcmset ja {
 
-  "Snippet: %s: %s"
-  "スニペットた：％s：％sの"
-
   "Snippet: *"
   "スニペット：*"
+
+}
+
+# startup.tcl
+msgcat::mcmset ja {
+
+  "Change Directory"
+  "Cd"
+
+  "Copies settings data from an existing directory to your home directory."
+  "あなたのホーム ディレクトリに既存のディレクトリからに設定データをコピーします。"
+
+  "Copy settings from directory"
+  "設定ディレクトリからコピーします。"
+
+  "Create settings locally"
+  "ローカル設定を作成します。"
+
+  "Creates new settings information and places it in your home directory"
+  "新しい設定情報を作成し、あなたのホーム ディレクトリに配置"
+
+  "Finish"
+  "フィニッシュ"
+
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "必要な場合は、共有の設定を変更したい一般/共有] タブの下で設定内でそうことができます。"
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "選択されている項目は、あなたのローカルのホーム ディレクトリにコピーされます。選択されていないアイテムは、あなたのホーム ディレクトリに作成されます。"
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "選択されている項目は、他のコンピューターと共有されます。選択されていない項目は、ローカルに格納して共有されません。"
+
+  "Select Settings Directory"
+  "設定ディレクトリを選択します。"
+
+  "Settings"
+  "設定"
+
+  "Settings Options"
+  "設定オプション"
+
+  "Setup Complete"
+  "セットアップが完了しました"
+
+  "Share"
+  "共有"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "新規または既存のディレクトリから設定データを共有する (例、iCloud Google ドライブ、Dropbox など。)。 設定データに加えられた変更は、他の共有者になります。"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "TKE、先進的なプログラマのエディターを使用していただきありがとうございます。 これは TKE の新しいインストールは、あなたが物事を設定を助けましょう。\\n \\n 行くことに下「次へ」をクリックしてします。"
+
+  "Use shared settings"
+  "共有設定を使用します。"
+
+  "Welcome"
+  "お迎え"
+
+  "Welcome To"
+  "ようこそ"
 
 }
 
 # syntax.tcl
 msgcat::mcmset ja {
 
-  "Syntax error in %s.syntax file"
-  "パーセントs.syntaxファイルの構文エラー"
-
-  "Syntax:  %s"
-  "構文：％sは"
-
-  "Theme:  %s"
-  "テーマ：％sは"
+  "Syntax error in syntax file"
+  "構文ファイルの構文エラー"
 
 }
 
-# themer.tcl
+# templates.tcl
 msgcat::mcmset ja {
 
-  "Create"
-  "作る"
+  "Delete template?"
+  "テンプレートの削除"
 
-  "Create New Theme"
-  "新しいテーマを作成する"
+  "Template"
+  "テンプレート"
 
-  "Create custom"
-  "カスタム作成"
+  "Template Name"
+  "テンプレート名:"
 
-  "ERROR:  Unable to read %s"
-  "ERROR：％sのを読み取ることができません"
+  "deleted"
+  "削除済み"
 
-  "ERROR:  Unable to write %s"
-  "ERROR：％sを書き込むことができません"
+  "saved"
+  "保存中…"
 
-  "Edit theme"
-  "テーマを編集"
+  "will be permanently deleted"
+  "恒久的に削除されます。"
 
-  "Enter theme name"
-  "テーマ名を入力してください"
+}
 
-  "Error:  Theme is not a supported theme"
-  "エラー：テーマは、サポートされているテーマではない"
+# theme.tcl
+msgcat::mcmset ja {
 
-  "Import"
-  "輸入"
+  "Amount of border to display around command launcher in pixels"
+  "コマンドランチャー ピクセルの周囲に表示する境界線の量"
 
-  "Import TextMate Theme"
-  "TextMateのテーマをインポート"
+  "Background (trough) color used in a standard scrollbar."
+  "標準のスクロール バーで使用される (トラフ) の背景色。"
 
-  "Name:"
-  "名"
+  "Background (trough) color used in the sidebar scrollbar."
+  "サイドバーのスクロールバーで使用される背景（トラフ）色。"
 
-  "OK"
-  "Okay"
+  "Background (trough) color used in the text scrollbars."
+  "テキストスクロールバーで使用される背景（トラフ）色。"
 
-  "Reset"
-  "リセット"
+  "Background color displayed in embedded language code."
+  "埋め込まれた言語コードで表示する背景色。"
 
-  "Select theme"
-  "テーマの選択"
+  "Background color for all sidebar items that are not selected."
+  "選択されていないすべてのサイドバーの項目の背景色です。"
+
+  "Background color for all sidebar items that are selected."
+  "選択されているすべてのサイドバーの項目の背景色です。"
+
+  "Background color for markers in the line gutter and scrollbar"
+  "線樋とスクロール バーのマーカーの背景色"
+
+  "Background color for matching search text"
+  "一致する検索テキストの背景色"
+
+  "Background color in difference viewer that shows added lines."
+  "追加された行を示し、差分ビューアで背景色です。"
+
+  "Background color in difference viewer that shows deleted lines."
+  "削除された行を示し、差分ビューアで背景色です。"
+
+  "Background color of insertion cursor and background marker colors."
+  "挿入カーソルと背景マーカ色の背景色です。"
+
+  "Background color of linemap area."
+  "ラインマップ領域の背景色。"
+
+  "Background color of list items when not selected"
+  "選択されていない場合、リスト アイテムの背景色"
+
+  "Background color of move bar."
+  "移動バーの背景色。"
+
+  "Background color of selection in command launcher"
+  "コマンド起動ツールの選択の背景色"
+
+  "Background color of textual display in command launcher"
+  "コマンド ランチャーでテキスト表示の背景色"
+
+  "Background color of the editing buffer."
+  "編集バッファの背景色です。"
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "ボタンのようなTTKウィジェットが押されたときに表示する背景色です。"
+
+  "Background color to use for active information values to indicate they are clickable."
+  "クリックを示すため積極的な情報値に使用する背景色です。"
+
+  "Background color to use for displaying character information that requires the user's attention."
+  "ユーザーの注意を必要とする文字情報の表示に使用する背景色。"
+
+  "Background color to use for selected text."
+  "選択したテキストに使用する背景色です。"
+
+  "Background color to use for the file information panel."
+  "ファイル情報パネルで使用する背景色。"
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "タブバーで現在/アクティブなタブでない他のすべてのタブに使用する背景色です。"
+
+  "Background color used for the current/active menu item."
+  "現在の/アクティブなメニュー項目に使用する背景色です。"
+
+  "Background color used for the current/active tab in the tabbar."
+  "タブバーで現在/アクティブなタブに使用する背景色です。"
+
+  "Background color used in highlighted text."
+  "ハイライトされたテキストに使用される背景色。"
+
+  "Background color used in menus."
+  "メニューで使用背景色です。"
+
+  "Background color used in the tabbar area."
+  "タブバーのエリアで使用される背景色。"
+
+  "Color of border around command launcher"
+  "コマンド ランチャーの境界線の色"
+
+  "Color of border drawn around active editing buffer."
+  "アクティブな編集バッファ周りに描か境界線の色です。"
+
+  "Color of space between tabs."
+  "タブ間のスペースの色です。"
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "コマンド起動入力フィールドと、結果の一覧の間のスペーサーの色"
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "エントリにキーボードフォーカスがTTKエントリウィジェットのテキストの境界線の色です。"
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "行番号余白で閉じた襞を強調表示に使用する色"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "ラインマップをテキスト領域から分離する線を描画するために使用される色。"
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "色は、編集バッファに警告幅ライン（並びに編集バッファから樋を分離線）を描画するために使用されます。"
+
+  "Command Launcher Options"
+  "ランチャーのコマンド オプション"
+
+  "Default 'darkcolor' for all ttk widgets."
+  "すべてのTTKのウィジェットのデフォルトの「darkcolor」。"
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "無効状態にあるすべてのTTKのウィジェットに使用するデフォルトの背景色。"
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "マウスカーソルがウィジェットの上に置いたときに、すべてのTTKのウィジェットに使用するデフォルトの背景色。"
+
+  "Default background color to use for all ttk widgets."
+  "すべてのTTKのウィジェットに使用するデフォルトの背景色。"
+
+  "Default border color for all ttk widgets."
+  "すべてのTTKのウィジェットのデフォルト境界線の色。"
+
+  "Default color for non-syntax highlighted text."
+  "非構文のデフォルトの色は、テキストを強調しました。"
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "無効状態にあるすべてのTTKのウィジェットに使用するテキストの前景色をデフォルト。"
+
+  "Default foreground text color to use for all ttk widgets."
+  "すべてのTTKのウィジェットに使用するテキストの前景色をデフォルト。"
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "サイズ変更可能なペイン間のグリップエリアに表示するグリップストリップの数を決定します。"
+
+  "Determines the thickness of the grip area between resizable panes."
+  "サイズ変更可能なペイン間のグリップ領域の厚さを決定します。"
+
+  "ERROR:  Unable to read"
+  "エラー: を読み取れません。"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "標準のスクロール バーで使用されるフォア グラウンド (スライダー) 色。"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "サイドバーのスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "ウィンドウの同期が有効になっているときにテキスト スクロール バー内使用前景 (スライダー) 色。"
+
+  "Foreground (slider) color used in the text scrollbars."
+  "テキストスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground color for matching search text"
+  "検索文字列に一致する前景色の色"
+
+  "Foreground color of list items when not selected"
+  "選択されていない場合、リスト アイテムの前景の色"
+
+  "Foreground color of move bar."
+  "移動バーの前景色。"
+
+  "Foreground color of selection in command launcher"
+  "コマンド起動ツールの選択の前景色"
+
+  "Foreground color of textual display in command launcher"
+  "コマンド ランチャーでテキスト表示の背景色"
+
+  "Foreground color to use for title text in the information panel."
+  "枠線の色"
+
+  "Foreground color to use for value text in the information panel."
+  "枠線の色"
+
+  "Foreground color used in menu items with checks or buttons."
+  "チェックやボタンとメニュー項目で使用される前景色です。"
+
+  "Foreground text color for strings."
+  "文字列のテキストの前景色。"
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "すべてmiscellaneous1というテキストに使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "すべてmiscellaneous2というテキストに使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "すべてmiscellaneous3というテキストに使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for comments."
+  "前景テキストの色は、コメントに使用します。"
+
+  "Foreground text color to use for displaying line numbers."
+  "前景テキストの色は、行番号を表示するために使用します。"
+
+  "Foreground text color to use for displaying numbers."
+  "前景テキストの色は、番号を表示するために使用します。"
+
+  "Foreground text color to use for function calls."
+  "関数呼び出しに使用するフォアグラウンドテキストの色。"
+
+  "Foreground text color to use for language-specific keywords."
+  "前景テキストの色は、言語固有のキーワードを使用しています。"
+
+  "Foreground text color to use for language-specific punctuation."
+  "言語固有の句読点に使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for meta syntax."
+  "メタ構文に使用するフォアグラウンドのテキストの色。"
+
+  "Foreground text color to use for precompiler syntax."
+  "前景テキストの色は、プリコンパイラの構文に使用します。"
+
+  "Foreground text color to use for readable meta syntax."
+  "読解可能なメタ構文を使用して前景のテキストの色。"
+
+  "Foreground text color to use for selected text."
+  "前景テキストの色は、選択したテキストに使用します。"
+
+  "Foreground text color to use for variables."
+  "変数に使用するフォアグラウンドテキストの色。"
+
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "他のすべてのタブをタブバーの現在/アクティブ タブの使用前景のテキストの色。"
+
+  "Foreground text color used for menus item that are disabled."
+  "無効になっているメニュー項目に使用するテキストの前景色。"
+
+  "Foreground text color used for the current/active menu item."
+  "現在の/アクティブなメニュー項目に使用するテキストの前景色。"
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "タブバーの現在/アクティブ タブに使用前景のテキストの色。"
+
+  "Foreground text color used in menus."
+  "メニューで使用テキストの前景色。"
+
+  "Foreground text/image color used in tabbar and tabs."
+  "タブバーとタブで使用される前景テキスト/画像の​​色。"
+
+  "Images"
+  "画像"
+
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "コマンド ランチャーのスクロール バーがアクティブなときの最大厚さは。"
+
+  "Maximum thickness of the text scrollbar when it is active."
+  "それがアクティブになっているテキストスクロールバーの最大厚さ。"
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "彼らはアクティブなテキストスクロールバーの最大厚さ。"
+
+  "Menu Options"
+  "メニューオプション"
+
+  "Menu relief value."
+  "メニューリリーフ値。"
+
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "コマンド起動入力フィールドと、結果の一覧の間のスペーサーのピクセルの高さ"
+
+  "Pixel height of the tabbar widget."
+  "タブバーウィジェットのピクセルの高さ。"
+
+  "Relief used in drawing the tabs."
+  "救済は、タブの描画に使用されます。"
+
+  "Relief value of the sidebar area."
+  "サイドバー領域の救済値。"
+
+  "Scrollbar slider color used in the command launcher results list"
+  "コマンド起動プログラムの結果一覧で使用されるスクロール バー スライダーの色"
+
+  "Sidebar Info Panel Options"
+  "サイドバーの情報パネルのオプション"
+
+  "Sidebar Options"
+  "﻿サイドバーオプション"
+
+  "Sidebar Scrollbar Options"
+  "サイドバースクロールバーのオプション"
+
+  "Specifies background color of command launcher entry and list"
+  "ランチャーのコマンド エントリと一覧の背景色を指定します"
+
+  "Specifies foreground color of command launcher entry and list"
+  "ランチャーのコマンド エントリと一覧の背景色を指定します"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "ドラッグしたファイルがドロップ可能なときにサイドバーの境界線の描画色を指定します"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "サイドバーにフォーカスがないときに、サイドバーの周りに表示する色を指定します。"
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "サイドバーにフォーカスがあるときに、サイドバーの周りに表示する色を指定します。"
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "（これは編集バッファが含まれていません）標準TTKウィジェットで選択されているテキストに使用するデフォルトの背景色を指定します。"
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "（これは編集バッファが含まれていません）標準TTKウィジェットで選択されているテキストに使用するデフォルトのフォアグラウンド・テキストの色を指定します。"
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "TTKのウィジェットを描画するときに使用するデフォルトの救済を指定します。"
+
+  "Specifies the pixel thickness of the highlight line."
+  "ハイライト線のピクセルの太さを指定します。"
+
+  "Standard Scrollbars"
+  "標準"
+
+  "Syntax Colors"
+  "構文の色"
+
+  "Tab Options"
+  "タブのオプション"
+
+  "Text Scrollbar Options"
+  "テキストスクロールバーのオプション"
+
+  "Text color for all sidebar items that are not selected."
+  "選択されていないすべてのサイドバーの項目のテキストの色。"
+
+  "Text color for all sidebar items that are selected."
+  "選択されているすべてのサイドバーの項目のテキストの色。"
+
+  "ttk Widget Colors"
+  "TTKウィジェットの色"
+
+}
+
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
+msgcat::mcmset ja {
+
+  "   Show Selected Option"
+  "表示選択したオプション"
+
+  "   Show Selected Value"
+  "表示選択した値"
+
+  "By"
+  "によって"
+
+  "Categories"
+  "カテゴリー"
+
+  "Change Base Color"
+  "変更ベースカラー"
+
+  "Choose Theme"
+  "テーマを選択"
+
+  "Created By"
+  "作成者"
+
+  "Custom Directory"
+  "カスタムディレクトリ"
+
+  "Custom..."
+  "カスタム..."
+
+  "Delete swatch?"
+  "スウォッチを削除しますか？"
+
+  "Description"
+  "内容："
+
+  "Details"
+  "詳細"
+
+  "Done"
+  "決定"
+
+  "Enable Copy Mode"
+  "コピー モードを有効にします。"
+
+  "Export BMP Data"
+  "BMPデータのエクスポート"
+
+  "Export BMP Mask"
+  "輸出BMPマスク"
+
+  "Export Bitmap Data"
+  "ビットマップデータを書き出す"
+
+  "Export Theme As"
+  "テーマとしてのエクスポートします。"
+
+  "GIF Photo"
+  "GIF写真"
+
+  "Import BMP Data"
+  "インポートBMPデータ"
+
+  "Import BMP Mask"
+  "インポートBMPマスク"
+
+  "Import Bitmap Data"
+  "ビットマップデータをインポートする"
+
+  "Import Error"
+  "インポートエラー"
+
+  "Import Theme File"
+  "インポートテーマファイル"
+
+  "Installation Directory"
+  "インストールディレクトリ"
+
+  "License File"
+  "ライセンス ファイル"
+
+  "Modifications"
+  "修正"
+
+  "One-Color Bitmap"
+  "ワンカラービットマップ"
+
+  "Paste Theme Items"
+  "テーマ アイテムを貼り付ける"
+
+  "Relief: "
+  "救援"
+
+  "Save As:"
+  "保存する："
+
+  "Save error"
+  "保存エラー"
+
+  "Save theme changes?"
+  "テーマの変更を保存しますか？"
+
+  "Select Directory"
+  "ディレクトリを選択"
+
+  "Show All"
+  "全て表示"
+
+  "Show Category"
+  "カテゴリーを表示"
+
+  "Show Color"
+  "表示色"
+
+  "Show Selected Option"
+  "選択したオプションを表示します。"
+
+  "Show Selected Value"
+  "選択した値を表示します。"
+
+  "Swatch"
+  "スウォッチ"
+
+  "Swatch Colors"
+  "スウォッチの色"
+
+  "Table Copy"
+  "テーブルのコピー"
+
+  "Table Filters"
+  "テーブルのフィルター"
+
+  "Table Search"
+  "テーブル検索"
+
+  "The current theme has unsaved changes."
+  "現在のテーマに変更が保存されていません。"
+
+  "Theme Name"
+  "テーマ名"
+
+  "Tree Style: "
+  "ツリーのスタイル："
+
+  "Two-Color Bitmap"
+  "二つの色のビットマップ"
+
+  "Unknown color value format"
+  "不明な色の値の形式"
+
+  "User Directory"
+  "ユーザーのディレクトリ"
+
+  "Value: "
+  "価格:"
+
+  "Website"
+  "ウェブサイト"
+
+}
+
+# themes.tcl
+msgcat::mcmset ja {
+
+  "Batch custom theme export completed successfully"
+  "正常に完了したバッチのカスタム テーマのエクスポート"
+
+  "Theme"
+  "テーマ"
+
+  "Theme:*"
+  "テーマ"
 
 }
 
 # tke.tcl
 msgcat::mcmset ja {
 
-  "ERROR:  %s"
-  "ERROR：％sは"
+  "Import TKE plugin?"
+  "TKE プラグインをインポートするか。"
 
-  "Edit theme?"
-  "テーマを編集？"
+  "Import TKE theme?"
+  "インポートTKEのテーマ？"
 
   "Import TextMate theme?"
   "TextMateのテーマをインポート？"
@@ -800,31 +3514,240 @@ msgcat::mcmset ja {
 # tkedat.tcl
 msgcat::mcmset ja {
 
-  "Unable to open %s for reading"
-  "読み取るための％sを開けません"
+  "Unable to read"
+  "読み取ることができません。"
 
-  "Unable to open %s for writing"
-  "書き込み用の％sを開けません"
+}
+
+# vim.tcl
+msgcat::mcmset ja {
+
+  "COMMAND MODE"
+  "コマンド"
+
+  "File format unrecognized"
+  "ファイル形式を認識できません。"
+
+  "Filename directory does not exist"
+  "ファイル名のディレクトリが存在しません"
+
+  "Folding method unrecognized"
+  "折り畳み方法が認識されていません。"
+
+  "INSERT MODE"
+  "挿入モード"
+
+  "Illegal modelines value"
+  "違法なモードライン値"
+
+  "MULTIMOVE MODE"
+  "マルチモード"
+
+  "Number width not a number"
+  "番号ではなく幅を数します。"
+
+  "Selection value is unsupported"
+  "選択値はサポートされていません"
+
+  "Shiftwidth value is not an integer"
+  "シフト値が整数ではありません。"
+
+  "Tabstop value is not an integer"
+  "Tabstop の値が整数ではありません。"
+
+  "Unrecognized vim option"
+  "認識されない vim のオプション"
+
+  "VISUAL BLOCK MODE"
+  "ビジュアルブロックモード"
+
+  "VISUAL LINE MODE"
+  "ビジュアルラインモード"
+
+  "VISUAL MODE"
+  "ビジュアル モード"
 
 }
 
 # General
 msgcat::mcmset ja {
 
+  "All"
+  "ALL"
+
+  "Attributes"
+  "属性"
+
+  "Auto-Indent"
+  "自動インデント"
+
+  "Back"
+  "戻る"
+
+  "Bird's Eye View"
+  "鳥瞰図"
+
+  "Browse"
+  "ブラウズ"
+
   "Cancel"
   "キャンセル"
+
+  "Check for Update"
+  "アップデートの確認"
+
+  "Choose"
+  "選択"
 
   "Close"
   "閉じる"
 
+  "Copy"
+  "コピー"
+
+  "Create"
+  "作成"
+
+  "Current Line"
+  "現在の行"
+
+  "Current Word"
+  "現在の単語"
+
+  "Cursor"
+  "カーソル"
+
+  "Delete"
+  "削除"
+
+  "Directory"
+  "ディレクトリ"
+
+  "Documentation"
+  "ドキュメント"
+
+  "Duplicate"
+  "複製"
+
+  "Edit"
+  "編集"
+
+  "Emmet"
+  "蟻 [あり]"
+
+  "Enable code folding"
+  "コード折り畳みを有効にします。"
+
+  "Encoding"
+  "エンコーディング"
+
+  "Export"
+  "エクスポート"
+
   "Favorite"
   "お気に入り"
 
-  "Find:"
-  "Find"
+  "File"
+  "ファイル"
 
-  "Replace:"
-  "置換："
+  "File Name:"
+  "ファイル名"
+
+  "File System"
+  "ファイルシステム"
+
+  "Find"
+  "見つけます"
+
+  "Find next occurrence"
+  "次の出現を検索します。"
+
+  "Find previous occurrence"
+  "前の出現箇所を見つける"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "パネルを閉じるのサイドバー情報パネルに表示されるイメージ"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "コンテンツ更新のサイドバー情報パネルに表示されるイメージ"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "サイドバーに表示ファイルのサイドバー情報パネルに表示されるイメージ"
+
+  "Import"
+  "輸入"
+
+  "Insert"
+  "挿入"
+
+  "Language"
+  "言語"
+
+  "Language Documentation"
+  "言語のドキュメント"
+
+  "Launcher"
+  "ランチャー"
+
+  "Line"
+  "直線"
+
+  "Miscellaneous"
+  "その他"
+
+  "Move To Trash"
+  "ゴミ箱に移動"
+
+  "Move to Other Pane"
+  "他のペインに移動します"
+
+  "Name"
+  "名"
+
+  "New File"
+  "新規ファイル"
+
+  "Next"
+  "次へ"
+
+  "Node"
+  "ノード"
+
+  "None"
+  "なし"
+
+  "OK"
+  "OK"
+
+  "Open"
+  "オープン"
+
+  "Options"
+  "オプション"
+
+  "Output Directory"
+  "出力ディレクトリ"
+
+  "Parenthesis"
+  "括弧"
+
+  "Plugin"
+  "プラグイン"
+
+  "Plugins"
+  "プラグイン"
+
+  "Preferences"
+  "選好"
+
+  "Preview"
+  "プレビュー"
+
+  "Rename"
+  "名前の変更"
+
+  "Run"
+  "クリックして"
 
   "Save"
   "保存"
@@ -832,8 +3755,86 @@ msgcat::mcmset ja {
   "Save As"
   "名前を付けて保存"
 
+  "Search"
+  "検索"
+
+  "Selected"
+  "選択した画像はありません。"
+
+  "Sessions"
+  "セッション"
+
+  "Show in Sidebar"
+  "サイドバーで表示"
+
+  "Show line numbers"
+  "行番号を表示します。"
+
+  "Show marker map"
+  "地図のマーカー"
+
+  "Show sidebar"
+  "サイドバーを表示します。"
+
+  "Show status bar"
+  "ステータスバーを表示する(&B)"
+
+  "Show tab bar"
+  "タブ バーを表示します。"
+
+  "Sidebar"
+  "サイドバー"
+
+  "Smart Indent"
+  "スマート インデント"
+
+  "Snippet"
+  "スニペット"
+
+  "Snippets"
+  "スニペット"
+
+  "Split View"
+  "分割表示"
+
+  "Syntax"
+  "統語論"
+
+  "TKE Updater"
+  "TKE のアップデーター"
+
+  "Templates"
+  "テンプレート"
+
+  "Test"
+  "テスト"
+
+  "Theme Editor"
+  "テーマエディタ"
+
+  "Tools"
+  "道具"
+
+  "Unable to rename file"
+  "ファイルを改名できません"
+
+  "Unable to write"
+  "書き込めません。"
+
   "Unfavorite"
   "気に入らない"
+
+  "Update"
+  "の編集"
+
+  "Value"
+  "明度"
+
+  "Version"
+  "バージョン"
+
+  "View"
+  "表示"
 
 }
 

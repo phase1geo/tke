@@ -1,8 +1,24 @@
 filepatterns
 {*.htm *.html}
 
+vimsyntax
+{html}
+
+reference
+{
+  {{5.0 Reference} https://dev.w3.org/html5/html-author/}
+  {{Emmet Reference} https://docs.emmet.io}
+  {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
+}
+
+embedded {
+  {PHP        {{<\\?php$ \\?>}}}
+  {CSS        {{<style(.*type=["']text/css["'].*)?>$         </style>}}}
+  {JavaScript {{<script(.*type=["']text/javascript["'].*)?>$ </script>}}}
+}
+
 matchcharsallowed
-{paren angled double single}
+{paren angled double}
 
 tabsallowed
 {0}
@@ -11,46 +27,46 @@ casesensitive
 {0}
 
 indent
-{<\\s*(\\w+)[^/>]*>}
-  
+{<[^/>] <\\?}
+
 unindent
-{</[^>]*>}
- 
-lcomments {}
+{</ /> \\?>}
+
+icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
-keywords
-{
-  b /b i /i del /del big /big small /small sub /sub sup /sup
-  xmp /xmp a /a span /span div /div img br hr ul /ul li /li
-  ol /ol table /table tr /tr td /td th /th !DOCTYPE script /script
-  html /html head /head body /body title /title code /code pre /pre
-  abbr /abbr acronym /acronym address /address area /area base /base
-  bdo /bdo blockquote /blockquote button /button caption /caption
-  cite /cite col /col colgroup /colgroup dfn /dfn dl /dl dt /dt
-  em /em fieldset /fieldset form /form h1 /h1 h2 /h2 h3 /h3 h4 /h4
-  h5 /h5 h6 /h6 input /input ins /ins kbd /kbd label /label
-  legend /legend link /link map /map meta /meta noscript /noscript
-  object /object optgroup /optgroup option /option p /p param /param
-  q /q samp /samp select /select small /small strong /strong style /style
-  tbody /tbody textarea /textarea tfoot /tfoot thead /thread tt /tt var
-  /var
+punctuation {
+  HighlightRegexp {[=<>]} {}
 }
 
-symbols
-{}
+advanced {
+  HighlightClass tag       {-fgtheme miscellaneous3}
+  HighlightClass attribute {-fgtheme miscellaneous2}
 
-numbers {}
-
-punctuation
-{
-  HighlightClassForRegexp {[<>&;=/]} {}
+  HighlightRegexp {<([^>\s]+)} syntax::get_xml_tag
+  HighlightRegexp {(\w+)\s*=}  syntax::get_xml_attribute
 }
 
-precompile {}
-
-miscellaneous {}
-
+formatting {
+  bold          {word <b>{TEXT}</b>}
+  italics       {word <i>{TEXT}</i>}
+  underline     {word <u>{TEXT}</u>}
+  strikethrough {word <strike>{TEXT}</strike>}
+  highlight     {word <mark>{TEXT}</mark>}
+  superscript   {word <super>{TEXT}</super>}
+  subscript     {word <sub>{TEXT}</sub>}
+  code          {word <code>{TEXT}</code>}
+  header1       {word <h1>{TEXT}</h1>}
+  header2       {word <h2>{TEXT}</h2>}
+  header3       {word <h3>{TEXT}</h3>}
+  header4       {word <h4>{TEXT}</h4>}
+  header5       {word <h5>{TEXT}</h5>}
+  header6       {word <h6>{TEXT}</h6>}
+  unordered     {word <li>{TEXT}</li>}
+  ordered       {word <li>{TEXT}</li>}
+  link          {word {<a href="{REF}">{TEXT}</a>}}
+  image         {word {<img src="{REF}" alt="{TEXT}"/>}}
+}

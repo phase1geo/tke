@@ -1,6 +1,13 @@
 filepatterns
 {Makefile makefile Makefile.* makefile.*}
 
+vimsyntax
+{make}
+
+reference {
+  {{Language Reference} https://www.gnu.org/software/make/manual/make.html}
+}
+
 matchcharsallowed
 {curly paren double single}
 
@@ -12,15 +19,13 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
 
+icomment {{#}}
+
 lcomments {{#}}
-
-bcomments {}
-
-strings {}
 
 keywords
 {
@@ -29,18 +34,18 @@ keywords
   override define endef undefine ifeq else endif ifneq ifdef ifndef export unexport private
 }
 
-symbols {}
-
-numbers {}
-
 punctuation {
-  HighlightClassForRegexp {[\{\};:()=%/$+?,*]} {}
+  HighlightRegexp {[\{\};:()=%/$+?,*]} {}
 }
 
-precompile {}
- 
-miscellaneous {
-  HighlightClassForRegexp {\t[^\n\r]+}  {}
-  HighlightClassForRegexp {@[^\n\r]+}   {}
-  HighlightClassForRegexp {$\([^\)]*\)} {}
+miscellaneous1 {
+  HighlightRegexp {\t[^\n\r]+}  {}
+}
+
+miscellaneous2 {
+  HighlightRegexp {@[^\n\r]+}   {}
+}
+
+miscellaneous3 {
+  HighlightRegexp {$\([^\)]*\)} {}
 }

@@ -1,4 +1,4 @@
-#windowlist.tcl: provides routines for managing windows from menu, i.e. minimize, raise, bring all to front; standard menu item on Mac OS X. 
+#windowlist.tcl: provides routines for managing windows from menu, i.e. minimize, raise, bring all to front; standard menu item on Mac OS X.
 
 #(c) 2010 WordTech Communications LLC. License: standard Tcl license, http://www.tcl.tk/software/tcltk/license.html
 
@@ -15,13 +15,13 @@ namespace eval windowlist {
 
 	menu $mainmenu.windowlist
 
-	$mainmenu.windowlist add command -label "Minimize" -command [namespace current]::minimizeFrontWindow -accelerator Command-M
+	$mainmenu.windowlist add command -label "Minimize" -command [namespace current]::minimizeFrontWindow -accelerator Cmd-M
 	$mainmenu.windowlist add separator
 	$mainmenu.windowlist add command -label "Bring All to Front" -command [namespace current]::raiseAllWindows
 	$mainmenu.windowlist add separator
 	$mainmenu.windowlist add command -label "Cycle Through Windows" \
 	    -command  {raise [lindex [wm stackorder .] 0]} \
-	    -accelerator "Command-`"
+	    -accelerator "Cmd-`"
        	bind all <Command-quoteleft> {raise [lindex [wm stackorder .] 0]}
 	$mainmenu.windowlist add separator
 	$mainmenu.windowlist add command -label "Main Window" -command ::tk::mac::ReopenApplication
@@ -40,7 +40,7 @@ namespace eval windowlist {
 
     }
 
-    
+
     #update the window menu with windows
     proc updateWindowMenu {windowmenu} {
 
@@ -78,7 +78,7 @@ namespace eval windowlist {
 
 	#use [winfo children .] here to get windows that are minimized
 	foreach item [winfo children .] {
-	    
+	
 	    #get all toplevel windows, exclude menubar windows
 	    if { [string equal [winfo toplevel $item] $item] && [catch {$item cget -tearoff}]} {
 		wm deiconify $item
@@ -105,7 +105,7 @@ namespace eval windowlist {
 
 	}
     }
-    
+
     namespace export *
 }
 

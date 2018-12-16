@@ -1,8 +1,20 @@
 filepatterns
-{*.v *.sv *.vg}
+{*.sv *.svh}
+
+vimsyntax
+{verilog}
+
+reference
+{
+  {{Language Reference} http://www.ece.uah.edu/~gaede/cpe526/SystemVerilog_3.1a.pdf}
+}
+
+embedded {
+  {Verilog {}}
+}
 
 matchcharsallowed
-{curly square paren double single}
+{curly square paren double}
 
 tabsallowed
 {0}
@@ -10,32 +22,26 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{begin task function casex casez module generate}
+indent {
+  begin task function casex casez module generate class clocking group
+  interface package program property sequence
+}
 
-unindent
-{end endtask endfunction endcase endmodule endgenerate}
+unindent {
+  end endtask endfunction endcase endmodule endgenerate endclass endclocking endgroup
+  endinterface endpackage endprogram endproperty endsequence
+}
+
+icomment {{//}}
 
 lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {
-  always and assign begin buf bufif0 bufif1 case casex casez cmos deassign default defparam
-  disable edge else end endcase endfunction endmodule endprimitive endspecify endtable endtask
-  event for force forever fork function highz0 highz1 if initial inout input integer join
-  large macromodule medium module nand negedge nmos nor not notif0 notif1 or output parameter
-  pmos posedge primitive pull0 pull1 pulldown pullup rcmos real realtime reg release repeat
-  rnmos rpmos rtran rtranif0 rtranif1 scalered signed small specify specparam strong0 strong1
-  supply0 supply1 table task time tran tranif0 tranif1 tri tri0 tri1 triand trior trireg
-  vectored wait wand weak0 weak1 while wire wor xnor xor
-  
-  automatic cell config design endconfig endgenerate generate genvar instance liblist library
-  localparam noshowcancelled pulsestyle_onevent pulsestyle_ondetect showcancelled use
-  
   alias always_comb always_ff always_latch assert assume bind bins binsof bit before break byte
   chandle char class clocking const constraint context continue cover covergroup coverpoint
   cross dist do endclass endclocking endgroup endinterface endpackage endprogram endproperty
@@ -43,31 +49,23 @@ keywords
   ignore_bins illegal_bins import include inside instance int interface intersect join_any
   join_none local logic longint matches modport new null option. package packed priority
   program property protected pure rand randc randcase randomize randsequence ref return scalared
-  sequence shortint shortreal solve static struct super tagged this throughout timeprecision
-  timeunit type typedef type_option. union unique unsigned virtual void wait_order wildcard with
-  within 
+  sequence shortint shortreal solve static string struct super tagged this throughout timeprecision
+  timeunit type typedef type_option union unique unsigned virtual void wait_order wildcard with
+  within
 }
-
-symbols {}
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+} {}
+  HighlightRegexp {\m[0-9]+|\m[0-9]*'[sS]?[hHdDoObB]\s*[0-9a-fA-F_]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
 
 precompile
 {
-  HighlightClassForRegexp {#line|`\w+} {}
-}
-
-miscellaneous
-{
-  HighlightClassWithOnlyCharStart \$ {}
-  HighlightClassForRegexp         {#line|`\w+} {}
+  HighlightRegexp {#line|`\w+} {}
 }
 

@@ -1,0 +1,52 @@
+filepatterns
+{*.desktop}
+
+vimsyntax
+{desktop}
+
+reference
+{
+  {{Language Reference} https://specifications.freedesktop.org/desktop-entry-spec/latest/index.html}
+}
+
+matchcharsallowed
+{square}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+strings {double single}
+
+keywords
+{
+  Type Version Name GenericName NoDisplay Comment Icon Hidden OnlyShowIn NotShowIn
+  DBusActivatable TryExec Exec Path Terminal Actions MimeType MimeTypes Categories Implements
+  Keywords StartupNotify StartupWMClass URL
+}
+
+punctuation
+{
+  HighlightRegexp {[][;@=]} {}
+}
+
+miscellaneous1
+{
+  HighlightRegexp {^\[.+?\]} {}
+}
+
+miscellaneous2
+{
+  HighlightKeywords {
+    true false
+  }
+}

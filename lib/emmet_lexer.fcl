@@ -1,0 +1,297 @@
+%{
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    emmet_lexer.fcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    2/17/2016
+# Brief:   Lexer for emmet syntax.
+######################################################################
+
+source [file join $::tke_dir lib emmet_parser.tab.tcl]
+
+array set emmet_block_aliases {
+
+  # HTML
+  !         {!!!+doc[lang=en]}
+  doc       {html>(head>meta[charset=UTF-8]+title{{|Document}})+body}
+  doc4      {html>(head>meta[http-equiv="Content-Type" content="text/html;charset=${charset}"]+title{{|Document}})+body}
+  html:4t   {!!!4t+doc4[lang=en]}
+  html:4s   {!!!4s+doc4[lang=en]}
+  html:xt   {!!!xt+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
+  html:xs   {!!!xs+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
+  html:xxs  {!!!xxs+doc4[xmlns="http://www.w3.org/1999/xhtml" xml:lang=en]}
+  html:5    {!!!+doc[lang=en]}
+  ol+       {ol>li}
+  dl+       {dl>dt+dd}
+  map+      {map>area}
+  table+    {table>tr>td}
+  colgroup+ {colgroup>col}
+  colg+     {colgroup>col}
+  tr+       {tr>td}
+  select+   {select>option}
+  optgroup+ {optgroup>option}
+  optg+     {optgroup>option}
+
+  # CSS
+
+  # XSLT
+  choose+   {xml:choose>xsl:when+xsl:otherwise}
+  xsl       {xsl:stylesheet[version=1.0 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"]}
+}
+
+proc emmet_get_item_value {} {
+
+  if {!$::emmet_multi} {
+    if {[llength $::emmet_wrap_strs] == 1} {
+      return $::emmet_wrap_str
+    } else {
+      return "\n$::emmet_wrap_str\n"
+    }
+  } else {
+    return [lindex $::emmet_wrap_str $::emmet_curr]
+  }
+
+}
+
+proc emmet_get_item_name {str} {
+
+  set formatted_str ""
+  set values        [list]
+
+  while {[set index [string first \$ $str]] != -1} {
+    append formatted_str [string range $str 0 [expr $index - 1]]
+    if {[regexp {^\$#} [string range $str $index end] match rest]} {
+      append formatted_str "%s"
+      lappend values [list emmet_get_item_value]
+    } elseif {[regexp {^(\$+)(@(-)?(\d*))?} [string range $str $index end] match numbering dummy reverse start]} {
+      if {$dummy ne ""} {
+        append formatted_str "%0[string length $numbering]d"
+        if {$reverse ne ""} {
+          if {$start ne ""} {
+            lappend values [list expr (\$::emmet_max - \$::emmet_curr) + ($start - 1)]
+          } else {
+            lappend values [list expr \$::emmet_max - \$::emmet_curr]
+          }
+        } else {
+          if {$start ne ""} {
+            lappend values [list expr \$::emmet_curr + $start]
+          } else {
+            lappend values [list expr \$::emmet_curr + 1]
+          }
+        }
+      } else {
+        append formatted_str "%0[string length $numbering]d"
+        lappend values [list expr \$::emmet_curr + 1]
+      }
+    } else {
+      return -code error "Unknown item name format ([string range $str $index end])"
+    }
+    set str [string range $str [expr $index + [string length $match]] end]
+  }
+
+  append formatted_str $str
+
+  return [list $formatted_str $values]
+
+}
+
+proc emmet_get_matching {str start end} {
+
+  set strlen [string length $str]
+  set count  1
+  set skip   0
+
+  for {set i 1} {$i < $strlen} {incr i} {
+    if {$skip} {
+      set skip 0
+    } else {
+      set char [string index $str $i]
+      if {$char eq "\\"} {
+        set skip 1
+      } elseif {$char eq $end} {
+        if {[incr count -1] == 0} {
+          unput [string range $str [expr $i + 1] end]
+          return [string range $str 1 [expr $i - 1]]
+        }
+      } elseif {$char eq $start} {
+        incr count
+      }
+    }
+  }
+
+}
+
+%}
+
+%option stack
+
+%%
+
+[ \n\t\b\f]+ {
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+}
+
+[a-zA-Z$!][a-zA-Z0-9:!@$-]*\+? {
+  if {[set alias [emmet::lookup_abbr_alias $emmet_text]] ne ""} {
+    unput $alias
+  } elseif {[info exists ::emmet_block_aliases($emmet_text)]} {
+    unput $::emmet_block_aliases($emmet_text)
+  } elseif {[string range $emmet_text 0 4] eq "lorem"} {
+    unput [string range $emmet_text 5 end]
+    set ::emmet_begpos $::emmet_endpos
+    incr ::emmet_endpos 5
+    return $::LOREM
+  } elseif {[string range $emmet_text 0 5] eq "lipsum"} {
+    unput [string range $emmet_text 6 end]
+    set ::emmet_begpos $::emmet_endpos
+    incr ::emmet_endpos 6
+    return $::LOREM
+  } else {
+    if {[string index $emmet_text end] eq "+"} {
+      unput "+"
+      set emmet_text [string range $emmet_text 0 end-1]
+    }
+    set ::emmet_lval [emmet_get_item_name $emmet_text]
+    set ::emmet_begpos $::emmet_endpos
+    incr ::emmet_endpos [string length $emmet_text]
+    return $::IDENTIFIER
+  }
+}
+
+[1-9][0-9]*(\.[0-9]+)? {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::NUMBER
+}
+
+\> {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::CHILD
+}
+
+\+ {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::SIBLING
+}
+
+\^+ {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::CLIMB
+}
+
+\( {
+  set ::emmet_lval [llength [$::emmet_dom children root]]
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::OPEN_GROUP
+}
+
+\) {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::CLOSE_GROUP
+}
+
+\* {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::MULTIPLY
+}
+
+\[ {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::OPEN_ATTR
+}
+
+\] {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::CLOSE_ATTR
+}
+
+\{.+\} {
+  set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \{ \}]]
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::TEXT
+}
+
+'.*' {
+  set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \' \']]
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::VALUE
+}
+
+\".*\" {
+  set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \" \"]]
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::VALUE
+}
+
+\$# {
+  set ::emmet_lval   [emmet_get_item_name $emmet_text]
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::VALUE
+}
+
+= {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::ASSIGN
+}
+
+\# {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::ID
+}
+
+\. {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::CLASS
+}
+
+. {
+  set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emment_endpos [string length $emmet_text]
+  return $emmet_text
+}
+
+%%

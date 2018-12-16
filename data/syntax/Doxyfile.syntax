@@ -1,0 +1,43 @@
+filepatterns
+{*.dox *.doxy *.doxygen *.doxyfile Doxyfile doxyfile}
+
+reference
+{
+  {{Configuration Description} http://www.stack.nl/~dimitri/doxygen/manual/config.html}
+}
+
+escapes
+{1}
+
+tabsallowed
+{1}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{^[ \t]*#}}
+
+strings {double}
+
+numbers {
+  HighlightRegexp {\m[0-9]+|[0-9]+\.[0-9]+} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[=]} {}
+}
+
+advanced {
+  HighlightClass var {-fgtheme keywords}
+
+  HighlightRegexp {^\s*(\w+)\s*=} handle_variable
+
+  HighlightProc handle_variable {
+    array set vars $varlist
+    return [list [list var {*}$vars(1)] ""]
+  } HighlightEndProc
+}
+

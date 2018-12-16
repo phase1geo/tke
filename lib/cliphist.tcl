@@ -1,3 +1,20 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 ######################################################################
 # Name:    cliphist.tcl
 # Author:  Trevor Williams  (trevorw@sgi.com)
@@ -6,8 +23,6 @@
 ######################################################################
 
 namespace eval cliphist {
-
-  source [file join $::tke_dir lib ns.tcl]
 
   variable cliphist_file [file join $::tke_home cliphist.dat]
   variable hist          {}
@@ -39,12 +54,12 @@ namespace eval cliphist {
           lappend hist $clipping
         }
       }
-      
+
     }
 
     # Handle any changes to the clipboard history depth
-    trace variable preferences::prefs(Tools/ClipboardHistoryDepth) w cliphist::handle_cliphist_depth
-    
+    trace variable preferences::prefs(Editor/ClipboardHistoryDepth) w cliphist::handle_cliphist_depth
+
   }
 
   ######################################################################
@@ -78,15 +93,15 @@ namespace eval cliphist {
     set str [string map {\{ \\\{} [clipboard get]]
 
     if {[string trim $str] ne ""} {
-          
+
       # If the string doesn't exist in history, add it
       if {[set index [lsearch -exact $hist $str]] == -1} {
 
         # Append the string to the history file
         lappend hist $str
-      
+
         # Trim the history to meet the maxsize requirement, if necessary
-        if {[llength $hist] > [preferences::get Tools/ClipboardHistoryDepth]} {
+        if {[llength $hist] > [preferences::get Editor/ClipboardHistoryDepth]} {
           set hist [lrange $hist 1 end]
         }
 
@@ -94,19 +109,19 @@ namespace eval cliphist {
       } else {
 
         set hist [linsert [lreplace $hist $index $index] end $str]
-          
+
       }
-          
+
     }
 
   }
-  
+
   ######################################################################
   # Adds the given string to the text widget.
   proc add_detail {str txt} {
-    
+
     $txt insert end $str
-    
+
   }
 
   ######################################################################
@@ -119,21 +134,24 @@ namespace eval cliphist {
     clipboard clear
     clipboard append [string map {\\\{ \{} $str]
 
+    # We need to make sure that this string is updated within the clipboard
+    add_from_clipboard
+
     # Insert the string in the current text widget
-    gui::paste_and_format {}
+    gui::paste_and_format
 
   }
-  
+
   ######################################################################
   # Returns the clipboard history as a list of string pairs where the
   # first item is the value to use in the listbox while the second pair
   # should be used in the full detail.
   proc get_history {} {
-    
+
     variable hist
-            
+
     set items [list]
-            
+
     foreach item [lreverse $hist] {
       set lines [split $item \n]
       set short [lindex $lines 0]
@@ -142,17 +160,17 @@ namespace eval cliphist {
       }
       lappend items [list [string map {\\\{ \{} $short] [string map {\\\{ \{} $item]]
     }
-                    
+
     return $items
-    
+
   }
-  
+
   ######################################################################
   # Creates a launcher window that contains clipboard history with a preview.
   proc show_cliphist {} {
-    
+
     variable hist
-    
+
     # Add temporary registries to launcher
     set i 0
     foreach strs [get_history] {
@@ -160,33 +178,33 @@ namespace eval cliphist {
       launcher::register_temp "`CLIPHIST:$name" [list cliphist::add_to_clipboard $str] $name $i [list cliphist::add_detail $str]
       incr i
     }
-    
+
     # Display the launcher in CLIPHIST: mode
     launcher::launch "`CLIPHIST:" 1
-    
+
   }
-  
+
   ######################################################################
   # Debugging procedure.
   proc printable_hist {} {
-    
+
     variable hist
-    
+
     return [format {  -%s } [join $hist "\n  -"]]
-    
+
   }
-                  
+
   ######################################################################
   # Handles any changes to the clipboard history depth preference value.
   proc handle_cliphist_depth {name1 name2 op} {
-    
+
     variable hist
-    
-    if {[set diff [expr [llength $hist] - [preferences::get Tools/ClipboardHistoryDepth]]] > 0} {
+
+    if {[set diff [expr [llength $hist] - [preferences::get Editor/ClipboardHistoryDepth]]] > 0} {
       set hist [lrange $hist $diff end]
     }
-    
+
   }
-  
+
 }
 

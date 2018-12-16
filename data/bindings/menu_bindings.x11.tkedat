@@ -1,41 +1,111 @@
 # File menu bindings
-{File/New}                        Ctrl-N
-{File/Open File...}               Ctrl-O
-{File/Open Directory...}          Ctrl-Shift-O
-{File/Save}                       Ctrl-S
-{File/Save As...}                 Ctrl-Shift-S
-{File/Lock}                       Ctrl-L
-{File/Close}                      Ctrl-W
-{File/Quit}                       Ctrl-Q
+{File/New File}                           Ctrl-N
+{File/Open File...}                       Ctrl-O
+{File/Open Directory...}                  Shift-Ctrl-O
+{File/Show File Difference}               Ctrl-D
+{File/Save}                               Ctrl-S
+{File/Save As...}                         Shift-Ctrl-S
+{File/Export...}                          Shift-Ctrl-E
+{File/Rename}                             Shift-Ctrl-R
+{File/Duplicate}                          Shift-Ctrl-D
+{File/Delete}                             Shift-Ctrl-T
+{File/Lock}                               Ctrl-L
+{File/Close}                              Ctrl-W
+{File/Close All}                          Ctrl-Shift-W
+{File/Quit}                               Ctrl-Q
 
 # Edit menu bindings
-{Edit/Undo}                       Ctrl-Z
-{Edit/Redo}                       Ctrl-R
-{Edit/Cut}                        Ctrl-X
-{Edit/Copy}                       Ctrl-C
-{Edit/Paste}                      Ctrl-V
-{Edit/Paste and Format}           Ctrl-Shift-V
+{Edit/Undo}                               Ctrl-Z
+{Edit/Redo}                               Ctrl-R
+{Edit/Cut}                                Ctrl-X
+{Edit/Copy}                               Ctrl-C
+{Edit/Paste}                              Ctrl-V
+{Edit/Paste and Format}                   Shift-Ctrl-V
+{Edit/Select All}                         Shift-Ctrl-A
+{Edit/Select Mode}                        Ctrl-A
+{Edit/Toggle Comment}                     Ctrl-/
+{Edit/Indentation/Indent}                 Ctrl-]
+{Edit/Indentation/Unindent}               Ctrl-[
+{Edit/Indentation/Format Text}            Ctrl-|
+{Edit/Cursor/Move to First Line}          Ctrl-Alt-0
+{Edit/Cursor/Move to Last Line}           Ctrl-Alt-9
+{Edit/Cursor/Move to Next Page}           Ctrl-F
+{Edit/Cursor/Move to Previous Page}       Ctrl-B
+{Edit/Cursor/Move to Screen Top}          Ctrl-Alt-H
+{Edit/Cursor/Move to Screen Middle}       Ctrl-Alt-M
+{Edit/Cursor/Move to Screen Bottom}       Ctrl-Alt-L
+{Edit/Cursor/Move to Line Start}          Ctrl-Alt-^
+{Edit/Cursor/Move to Line End}            Ctrl-Alt-$
+{Edit/Cursor/Move to Next Word}           Ctrl-Alt-W
+{Edit/Cursor/Move to Previous Word}       Ctrl-Alt-P
+{Edit/Cursor/Move Cursors Up}             Ctrl-Alt-Up
+{Edit/Cursor/Move Cursors Down}           Ctrl-Alt-Down
+{Edit/Cursor/Move Cursors Left}           Ctrl-Alt-Left
+{Edit/Cursor/Move Cursors Right}          Ctrl-Alt-Right
+{Edit/Cursor/Align Cursors Only}          Shift-Ctrl-Alt-A
+{Edit/Cursor/Align Cursors and Text}      Ctrl-Alt-A
+{Edit/Insert/Line Above Current}          Shift-Alt-O
+{Edit/Insert/Line Below Current}          Alt-O
+{Edit/Insert/From Clipboard}              Alt-C
+{Edit/Insert/Snippet}                     Alt-S
+{Edit/Insert/Enumeration}                 Alt-1
+{Edit/Transform/Lower Case}               Alt-L
+{Edit/Transform/Upper Case}               Alt-U
+{Edit/Transform/Title Case}               Alt-T
+{Edit/Transform/Join Lines}               Ctrl-J
+{Edit/Transform/Bubble Up}                Alt-Up
+{Edit/Transform/Bubble Down}              Alt-Down
+{Edit/Format/Bold}                        Shift-Alt-B
+{Edit/Format/Italics}                     Shift-Alt-I
+{Edit/Format/Underline}                   Shift-Alt-U
+{Edit/Format/Remove Formatting}           Ctrl--
+{Edit/Emmet/Expand Abbreviation}          Ctrl-E
+{Edit/Emmet/Select Next Item}             Ctrl->
+{Edit/Emmet/Select Previous Item}         Ctrl-<
+{Edit/Emmet/Increment by 10}              Shift-Ctrl-Up
+{Edit/Emmet/Increment by 1}               Ctrl-Up
+{Edit/Emmet/Increment by 0.1}             Shift-Up
+{Edit/Emmet/Decrement by 10}              Shift-Ctrl-Down
+{Edit/Emmet/Decrement by 1}               Ctrl-Down
+{Edit/Emmet/Decrement by 0.1}             Shift-Down
+{Edit/Preferences/Edit User - Global}     Ctrl-,
+{Edit/Preferences/Edit Session - Global}  Ctrl-;
 
 # Find menu bindings
-{Find/Find}                       Ctrl-F
-{Find/Find and Replace}           Ctrl-Shift-F
-{Find/Select next occurrence}     Alt-N
-{Find/Select previous occurrence} Alt-P
-{Find/Append next occurrence}     Alt-D
-{Find/Select all occurrences}     Alt-A
-{Find/Find matching pair}         Ctrl-P
-
-# Text menu bindings
-{Text/Comment}                    Ctrl-I
-{Text/Uncomment}                  Ctrl-Shift-I
-{Text/Indent}                     Ctrl-[
-{Text/Unindent}                   Ctrl-]
-{Text/Align cursors}              Ctrl-A
+{Find/Find}                               Alt-F
+{Find/Find Next}                          Alt-N
+{Find/Find Previous}                      Alt-P
+{Find/Select Current Match}               Alt-D
+{Find/Select All Matches}                 Alt-A
+{Find/Find and Replace}                   Alt-Shift-F
+{Find/Jump Backward}                      Ctrl-Left
+{Find/Jump Forward}                       Ctrl-Right
+{Find/Jump To Line}                       Alt-G
+{Find/Find Matching Bracket}              Ctrl-%
+{Find/Find In Files}                      Ctrl-Alt-F
 
 # View menu bindings
-{View/Hide Sidebar}               Ctrl-K
+{View/Hide Sidebar}                       Ctrl-Y
+{View/Display Text Info}                  Ctrl-G
+{View/Split View}                         Ctrl-P
+{View/Move to Other Pane}                 Ctrl-M
+{View/Panes/Merge Panes}                  Ctrl-Alt-G
+{View/Tabs/Goto Next Tab}                 Shift-Alt-N
+{View/Tabs/Goto Previous Tab}             Shift-Alt-P
+{View/Tabs/Goto Last Tab}                 Shift-Alt-L
+{View/Tabs/Goto Other Pane}               Shift-Alt-A
 
 # Tools menu bindings
-{Tools/Launcher}                  Ctrl-Space
-{Tools/Vim Mode}                  Ctrl-M
+{Tools/Launcher}                          Ctrl-Space
 
+# Sessions menu bindings
+{Sessions/Close Current}                  Shift-Alt-C
+{Sessions/Save Current}                   Shift-Alt-S
+
+# Plugins menu bindings
+{Plugins/Install...}                      Shift-Ctrl-I
+{Plugins/Uninstall...}                    Shift-Ctrl-U
+{Plugins/Show Installed...}               Shift-Ctrl-P
+
+# Help menu bindings
+{Help/Search References}                  Ctrl-K

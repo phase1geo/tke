@@ -1,0 +1,133 @@
+%{
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+######################################################################
+# Name:    format_parser.fcl
+# Author:  Trevor Williams  (phase1geo@gmail.com)
+# Date:    8/10/2015
+# Brief:   Lexer for snippet format strings.
+######################################################################
+
+source [file join $::tke_dir lib format_parser.tab.tcl]
+%}
+
+%option stack
+
+%%
+
+[ \n\t\b\f]+ {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  return $::CHAR
+}
+
+  # Handle escape sequences
+\\[luLUEnt\\$] {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  switch [string index $format_text 1] {
+    l       { return $::LOWER }
+    u       { return $::UPPER }
+    L       { return $::LOWER_BLOCK }
+    U       { return $::UPPER_BLOCK }
+    E       { return $::END_BLOCK }
+    n       { return $::NEWLINE }
+    t       { return $::TAB }
+    default {
+      set ::format_lval $format_text
+      return $::CHAR
+    }
+  }
+}
+
+  # Special-case the dollar sign character
+\$ {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $::DOLLAR_SIGN
+}
+
+  # Handle the open bracket character
+\{ {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $::OPEN_BRACKET
+}
+
+  # Handle the close bracket character
+\} {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $::CLOSE_BRACKET
+}
+
+  # Handle the open parenthesis character
+\( {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $::OPEN_PAREN
+}
+
+  # Handle the close parenthesis character
+\) {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $::CLOSE_PAREN
+}
+
+  # Single character symbols
+[`:/\?] {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos
+  return $format_text
+}
+
+  # Decimal number
+[0-9][0-9]* {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  return $::DECIMAL
+}
+
+  # Variable names
+(CLIPBOARD|CURRENT_LINE|CURRENT_WORD|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CURRENT_DATE) {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  return $::VARNAME
+}
+
+  # Final catch-all
+. {
+  set ::format_lval $format_text
+  set ::format_begpos $::format_endpos
+  incr ::format_endpos [string length $format_text]
+  return $::CHAR
+}
+
+%%
+

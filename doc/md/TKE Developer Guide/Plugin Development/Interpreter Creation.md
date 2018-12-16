@@ -1,0 +1,5 @@
+### Interpreter Creation
+
+Two types of plugin interpreters are available.  The first interpreter is a “safe” interpreter that restricts a plugin’s ability to view and modify the file system and eliminates the ability to execute subprocesses (i.e., exec and network calls).  It essentially provides a clean “sandboxed” environment for the plugin to run in.  By default, all plugins are run in this mode of operation.  If the plugin requires extended functionality, it can mark its _trust\_required_ header option to a value of “yes”.  If a plugin has this attribute set, when the plugin is installed it will notify the user that the plugin requires extended functionality.  The user can then decide whether to grant the plugin trust or reject the request.  If trust is granted, the plugin will be installed in an interpreter that will have the full Tcl command library available to do what the plugin requires.  If trust is rejected, the plugin will not be installed.
+
+It is preferable that all plugins are written with the intention of running in sandboxed mode, if at all possible.

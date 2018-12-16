@@ -2,7 +2,7 @@ filepatterns
 {*.help}
 
 matchcharsallowed
-{angled double single}
+{angled double}
 
 tabsallowed
 {0}
@@ -12,15 +12,15 @@ casesensitive
 
 indent
 {<\w+>}
-  
+
 unindent
 {</\w+>}
 
-lcomments {{;}}
+icomment {{;}}
 
-bcomments {}
+lcomments {{^\s*;}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {
@@ -31,20 +31,32 @@ keywords
   span /span strong /strong title /title tt /tt u /u ul /ul var /var
 }
 
-symbols {
-}
-
 numbers {
-  HighlightClassForRegexp {[0-9]+} {}
+  HighlightRegexp {[0-9]+} {}
 }
 
 punctuation {
-  HighlightClassForRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
+  HighlightRegexp {[][\{\}()<>?;^:!=+*/%,&|.~`-]} {}
 }
 
-precompile {}
- 
-miscellaneous {
-  HighlightClassForRegexp {\.(\$|alinkcolor|backcolor|buttons|controls|font|fontfixed|fontsize|forecolor|h_appendlist|h_ignore|h_contents|h_topics|image|include|linkcolor|lmargin|rmargin|title|topic)}
-  HighlightClassForRegexp {</?(a|address|b|blockquote|body|br|center|cite|code|dir|div|em|font|h1|h2|h3|h4|h5|h6|i|img|kbd|li|menu|nobr|ol|p|pre|samp|script|span|strong|title|tt|u|ul|var)>?} {}
+miscellaneous1 {
+  HighlightRegexp {\.(\$|alinkcolor|backcolor|buttons|controls|font|fontfixed|fontsize|forecolor|h_appendlist|h_ignore|h_contents|h_topics|image|include|linkcolor|lmargin|rmargin|title|topic)}
+  HighlightRegexp {</?(a|address|b|blockquote|body|br|center|cite|code|dir|div|em|font|h1|h2|h3|h4|h5|h6|i|img|kbd|li|menu|nobr|ol|p|pre|samp|script|span|strong|title|tt|u|ul|var)>?} {}
+}
+
+formatting {
+  bold          {word <b>{TEXT}</b>}
+  italics       {word <i>{TEXT}</i>}
+  underline     {word <u>{TEXT}</u>}
+  code          {word <code>{TEXT}</code>}
+  header1       {word <h1>{TEXT}</h1>}
+  header2       {word <h2>{TEXT}</h2>}
+  header3       {word <h3>{TEXT}</h3>}
+  header4       {word <h4>{TEXT}</h4>}
+  header5       {word <h5>{TEXT}</h5>}
+  header6       {word <h6>{TEXT}</h6>}
+  unordered     {word <li>{TEXT}</li>}
+  ordered       {word <li>{TEXT}</li>}
+  link          {word {<a href="{REF}">{TEXT}</a>}}
+  image         {word {<img src="{REF}" alt="{TEXT}"/>}}
 }
