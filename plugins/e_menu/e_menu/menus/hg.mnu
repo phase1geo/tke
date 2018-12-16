@@ -53,6 +53,8 @@ SW: hg commit SW: hg status
  R: hg merge R: %q "MERGE" "This will merge changes in:\n\n%PD"
  R: hg merge R: cd %PD
  S: hg merge S: hg merge
+ R: hg merge R: %q "COMMIT" "This will COMMIT with message:\n\nMerge on %t2"
+ S: hg merge S: hg commit -m "Merge on %t2"
 
  R: hg outgoing R: cd %PD
  S: hg outgoing S: hg outgoing

@@ -321,10 +321,10 @@ msgcat::mcmset ru {
   "Изображение во вкладках, при клике на котором вкладка закрывается."
 
   "Image used in the menus to indicate that a menu item is not selected."
-  "Изображение, используемое в меню для указания, что не выбран пункт меню."
+  "Изображение в меню для указания, что пункт меню не выбран."
 
   "Image used in the menus to indicate that a menu item is selected."
-  "Изображение, используемое для указания, что элемент меню выбран в меню."
+  "Изображение в меню для указания, что пункт меню выбран."
 
   "Image used in the preferences window in the Advanced tab."
   "Изображение в окне Настройки для вкладки Дополнительно."
@@ -1878,7 +1878,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Available"
-  "Свободно"
+  "Доступно"
 
   "Export Plugin"
   "Экспортировать плагин"
@@ -1994,7 +1994,7 @@ msgcat::mcmset ru {
   "Глубина истории буфера обмена"
 
   "Close find panels when editing buffer gets focus"
-  "Закрыть найти панелей, когда буфер редактирования получает фокус"
+  "Закрыть панели поиска, когда редактируемый буфер получит фокус"
 
   "Closing"
   "Закрытие"
@@ -2276,7 +2276,7 @@ msgcat::mcmset ru {
   "Выбрать плагин"
 
   "Select a shortcut and hit the Return or Space key to edit the shortcut"
-  "Выберите ярлык и ударил возвращения или пробел ключ к редактировать ярлык"
+  "Выберите строку и нажмите Return или пробел для редактирования"
 
   "Select default browsing directory"
   "Выбрать директорию просмотра по умолчанию"
