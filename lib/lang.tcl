@@ -241,7 +241,7 @@ namespace eval lang {
     }
 
     ttk::frame .tf
-    set widgets(tbl) [tablelist::tablelist .tf.tl -columns {0 String 0 Translation 0 {}} \
+    set widgets(tbl) [tablelist::tablelist .tf.tl -columns {0 String 0 Translation 0 Re-translation 0 {}} \
       -editselectedonly 1 -selectmode extended -exportselection 0 \
       -editendcommand "lang::edit_end_command" \
       -yscrollcommand ".tf.vb set"]
@@ -251,9 +251,10 @@ namespace eval lang {
       .tf.tl configure -$key $value
     }
 
-    .tf.tl columnconfigure 0 -name str   -editable 0
-    .tf.tl columnconfigure 1 -name xlate -editable 1
-    .tf.tl columnconfigure 2 -name src   -editable 0 -hide 1
+    .tf.tl columnconfigure 0 -name str     -editable 0
+    .tf.tl columnconfigure 1 -name xlate   -editable 1
+    .tf.tl columnconfigure 2 -name rexlate -editable 0
+    .tf.tl columnconfigure 3 -name src     -editable 0 -hide 1
 
     grid rowconfigure    .tf 0 -weight 1
     grid columnconfigure .tf 0 -weight 1
@@ -261,16 +262,18 @@ namespace eval lang {
     grid .tf.vb -row 0 -column 1 -sticky ns
 
     ttk::frame .bf
-    set widgets(xlate) [ttk::button      .bf.xlate -text "Add Translations"]
-    set widgets(hide)  [ttk::checkbutton .bf.hide  -text "Hide translated" -variable lang::hide_xlates \
+    set widgets(xlate)   [ttk::button      .bf.xlate   -text "Add Translations"]
+    set widgets(rexlate) [ttk::button      .bf.rexlate -text "Re-translate"]
+    set widgets(hide)    [ttk::checkbutton .bf.hide    -text "Hide translated" -variable lang::hide_xlates \
       -command "lang::show_hide_xlates"]
     set widgets(update) [ttk::button .bf.upd -text "Update" -width 6 -command "set ::update_lang 1; set ::update_done 1"]
     ttk::button .bf.cancel -text "Cancel" -width 6 -command "set ::update_done 1"
 
-    pack .bf.xlate  -side left  -padx 2 -pady 2
-    pack .bf.hide   -side left  -padx 2 -pady 2
-    pack .bf.cancel -side right -padx 2 -pady 2
-    pack .bf.upd    -side right -padx 2 -pady 2
+    pack .bf.xlate   -side left  -padx 2 -pady 2
+    pack .bf.rexlate -side left  -padx 2 -pady 2
+    pack .bf.hide    -side left  -padx 2 -pady 2
+    pack .bf.cancel  -side right -padx 2 -pady 2
+    pack .bf.upd     -side right -padx 2 -pady 2
 
     pack .tf -fill both -expand yes
     pack .bf -fill x
@@ -305,7 +308,7 @@ namespace eval lang {
     # Populate the table
     set xlate_list [list]
     foreach xlate [lsort [array names xlates]] {
-      lappend xlate_list [list $xlate [lindex $xlates($xlate) 1] [lindex $xlates($xlate) 0]]
+      lappend xlate_list [list $xlate [lindex $xlates($xlate) 1]  [list] [lindex $xlates($xlate) 0]]
     }
     $widgets(tbl) insertlist end $xlate_list
 
@@ -314,7 +317,8 @@ namespace eval lang {
     set ::update_done 0
 
     # Setup the translations button
-    $widgets(xlate) configure -command "lang::perform_translations $lang"
+    $widgets(xlate)   configure -command "lang::perform_translations $lang"
+    $widgets(rexlate) configure -command "lang::perform_retranslations $lang"
 
     if {$auto} {
 
@@ -406,7 +410,7 @@ namespace eval lang {
         } else {
           set xlated [subst [string map {{[} {\[} {]} {\]}} $ttext]]
         }
-        $widgets(tbl) cellconfigure $row,xlate -text $xlated
+        $widgets(tbl) cellconfigure $row,xlate -text [string trim $xlated]
         $widgets(tbl) see $row
         show_hide_xlate $row
       }
@@ -424,8 +428,9 @@ namespace eval lang {
     variable widgets
 
     # Disable the "Add Translations" button from being clicked again
-    $widgets(xlate)  configure -state disabled
-    $widgets(update) configure -state disabled
+    $widgets(xlate)   configure -state disabled
+    $widgets(rexlate) configure -state disabled
+    $widgets(update)  configure -state disabled
 
     # Get any selected rows
     set selected [$widgets(tbl) curselection]
@@ -449,8 +454,89 @@ namespace eval lang {
     }
 
     # Enable the 'Add Translations' button
-    $widgets(xlate)  configure -state normal
-    $widgets(update) configure -state normal
+    $widgets(xlate)   configure -state normal
+    $widgets(rexlate) configure -state normal
+    $widgets(update)  configure -state normal
+
+  }
+
+  ######################################################################
+  # Re-translates the item at the given row.  Throws an exception if there
+  # was an error with the translation.
+  proc perform_retranslation {row lang} {
+
+    variable widgets
+
+    # Prepare the search string for URL usage
+    set str2xlate [$widgets(tbl) cellcget $row,xlate -text]
+    set str       [http::formatQuery q $str2xlate]
+    set str       "https://mymemory.translated.net/api/get?$str&langpair=$lang|en&de=phase1geo@gmail.com"
+
+    # Perform http request
+    set token [http::geturl $str -strict 0]
+
+    # Get the data returned from the request
+    if {[http::status $token] eq "ok"} {
+      set data [http::data $token]
+      if {[regexp {translatedText\":\"([^\"]+)\"} $data -> ttext]} {
+        if {[string compare -length 17 "MYMEMORY WARNING:" $ttext] == 0} {
+          http::cleanup $token
+          return -code error "Row: $row, $ttext"
+        }
+        if {([string first "??" $ttext] != -1)} {
+          set xlated $str2xlate
+        } else {
+          set xlated [subst [string map {{[} {\[} {]} {\]}} $ttext]]
+        }
+        $widgets(tbl) cellconfigure $row,rexlate -text [string trim $xlated]
+        if {[string map {{ } {}} [string tolower $xlated]] ne [string map {{ } {}} [string tolower [$widgets(tbl) cellcget $row,str -text]]]} {
+          $widgets(tbl) cellconfigure $row,rexlate -background red -foreground white
+        }
+        $widgets(tbl) see $row
+      }
+    }
+
+    # Cleanup request
+    http::cleanup $token
+
+  }
+
+  ######################################################################
+  # Re-translate any items that are empty.
+  proc perform_retranslations {lang} {
+
+    variable widgets
+
+    # Disable the "Add Translations" button from being clicked again
+    $widgets(xlate)   configure -state disabled
+    $widgets(rexlate) configure -state disabled
+    $widgets(update)  configure -state disabled
+
+    # Get any selected rows
+    set selected [$widgets(tbl) curselection]
+
+    if {[catch {
+        if {[llength $selected] > 0} {
+          foreach row $selected {
+            perform_retranslation $row $lang
+          }
+        } else {
+          for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
+            set str     [$widgets(tbl) cellcget $i,str   -text]
+            set rexlate [$widgets(tbl) cellcget $i,rexlate -text]
+            if {($rexlate eq "") || ([string first "??" $rexlate] != -1)} {
+              perform_retranslation $i $lang
+            }
+          }
+        }
+      } rc]} {
+      tk_messageBox -parent . -default ok -message "Re-translation error" -detail $rc -type ok
+    }
+
+    # Enable the 'Add Translations' button
+    $widgets(xlate)   configure -state normal
+    $widgets(rexlate) configure -state normal
+    $widgets(update)  configure -state normal
 
   }
 

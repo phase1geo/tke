@@ -40,7 +40,7 @@ namespace eval share {
   proc get_share_items {} {
 
     return [list \
-      emmet     emmet       [msgcat::mc "Emmet"] \
+      emmet     emmet       "Emmet" \
       favorites favorites   [msgcat::mc "Favorites"] \
       launcher  launcher    [msgcat::mc "Launcher"] \
       plugins   plugins     [msgcat::mc "Plugins"] \

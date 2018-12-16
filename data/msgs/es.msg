@@ -320,6 +320,12 @@ msgcat::mcmset es {
   "Image used in tab which, when clicked, closes the tab."
   "Imagen utilizada en la pestaña que, cuando se hace clic, se cierra la pestaña."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Imagen utilizada en los menús para indicar que un elemento de menú no está seleccionado."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Imagen utilizada en los menús para indicar que un elemento de menú está seleccionado."
+
   "Image used in the preferences window in the Advanced tab."
   "Imagen utilizada en la ventana de preferencias en la ficha avanzadas."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset es {
   "Insert unordered list formatting"
   "Insertar formato de lista desordenada"
 
-  "Install"
-  "Instalar"
-
   "Install plugin"
   "Instalar complemento"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset es {
   "Unindent selected text"
   "No sangría de texto seleccionado"
 
-  "Uninstall"
-  "Desinstalar"
-
   "Uninstall plugin"
   "Desinstalar plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Descubrir"
@@ -1794,9 +1791,6 @@ msgcat::mcmset es {
 
   "Vim Mode"
   "Modo de Vim"
-
-  "Windows"
-  "Ventanas"
 
   "Wrap With Abbreviation"
   "Envuelva con la abreviatura"
@@ -1848,9 +1842,6 @@ msgcat::mcmset es {
   "Plugin Trust Requested"
   "Plugin de confianza solicitada"
 
-  "Plugin export completed successfully"
-  "La exportación se ha completado con éxito"
-
   "Plugin import completed successfully"
   "La importación se ha realizado correctamente"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset es {
 # plugmgr.tcl
 msgcat::mcmset es {
 
+  "Available"
+  "Disponible"
+
   "Export Plugin"
   "Plugin de exportación"
+
+  "Installed"
+  "Instalada"
 
   "Markdown"
   "Descuento"
 
   "Plugin Manager"
   "Administrar Plugin"
+
+  "Plugin export completed successfully"
+  "La exportación se ha completado con éxito"
 
   "Release Notes"
   "Notas de publicación"
@@ -1992,6 +1992,9 @@ msgcat::mcmset es {
 
   "Clipboard history depth"
   "Profundidad de la historia de Portapapeles"
+
+  "Close find panels when editing buffer gets focus"
+  "Cerrar los paneles de búsqueda cuando la edición del buffer se enfoca"
 
   "Closing"
   "Cierre"
@@ -2272,6 +2275,9 @@ msgcat::mcmset es {
   "Select a plugin"
   "Un plug-in"
 
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Seleccione un acceso directo y presione la tecla Retorno o Espacio para editar el acceso directo"
+
   "Select default browsing directory"
   "Seleccione predeterminado directorio de navegación"
 
@@ -2429,7 +2435,7 @@ msgcat::mcmset es {
   "Utilice el carácter de retorno del carro solo"
 
   "Variable"
-  "Variable"
+  "Identificador único del producto variable."
 
   "Variables"
   "Variables"
@@ -3632,9 +3638,6 @@ msgcat::mcmset es {
   "Edit"
   "Edición"
 
-  "Emmet"
-  "Emmet"
-
   "Enable code folding"
   "Activar código plegable"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset es {
   "Insert"
   "Insertar"
 
+  "Install"
+  "Instalar"
+
   "Language"
   "Idioma"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset es {
 
   "Node"
   "Nodo"
-
-  "None"
-  "Ninguno"
 
   "OK"
   "Aceptar"
@@ -3823,6 +3826,9 @@ msgcat::mcmset es {
 
   "Unfavorite"
   "Quitar de mis favoritas"
+
+  "Uninstall"
+  "Desinstalar"
 
   "Update"
   "Actualizar"

@@ -50,6 +50,7 @@ namespace eval gui {
   variable show_match_chars 0
   variable search_method    "regexp"
   variable fif_method       "regexp"
+  variable panel_focus      ""
 
   array set widgets         {}
   array set tab_tip         {}
@@ -184,6 +185,16 @@ namespace eval gui {
       {msgcat::mc "Image used in tab menus to indicate that the file is associated with a difference view."} \
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
+      -foreground black
+    theme::register_image menu_check bitmap menus -background \
+      {msgcat::mc "Image used in the menus to indicate that a menu item is selected."} \
+      -file     [file join $::tke_dir lib images menu_check.bmp] \
+      -maskfile [file join $::tke_dir lib images menu_check.bmp] \
+      -foreground black
+    theme::register_image menu_nocheck bitmap menus -background \
+      {msgcat::mc "Image used in the menus to indicate that a menu item is not selected."} \
+      -file     [file join $::tke_dir lib images menu_nocheck.bmp] \
+      -maskfile [file join $::tke_dir lib images menu_nocheck.bmp] \
       -foreground black
 
     # Create preference images
@@ -3194,7 +3205,8 @@ namespace eval gui {
     update_search_method $tab
 
     # Display the search bar and separator
-    panel_place $tab.sf
+    panel_forget $tab.rf
+    panel_place  $tab.sf
 
     # Add bindings
     bind $tab.sf.e    <Return> [list search::find_start $dir]
@@ -3266,7 +3278,8 @@ namespace eval gui {
     update_search_method $tab
 
     # Display the search bar and separator
-    panel_place $tab.rf
+    panel_forget $tab.sf
+    panel_place  $tab.rf
 
     # Reset the saved indicator
     set saved 0
@@ -3665,7 +3678,10 @@ namespace eval gui {
     # panel_set_ui_state normal
 
     # Return the focus
-    focus $panel_focus
+    if {$panel_focus ne ""} {
+      focus $panel_focus
+      set panel_focus ""
+    }
 
   }
 
@@ -4428,8 +4444,8 @@ namespace eval gui {
     bind Text   <Control-i>           ""
 
     # Move the all bindtag ahead of the Text bindtag
-    set text_index [lsearch [bindtags $txt.t] Text]
-    set all_index  [lsearch [bindtags $txt.t] all]
+    set text_index  [lsearch [bindtags $txt.t] Text]
+    set all_index   [lsearch [bindtags $txt.t] all]
     bindtags $txt.t [lreplace [bindtags $txt.t] $all_index $all_index]
     bindtags $txt.t [linsert  [bindtags $txt.t] $text_index all]
 
@@ -4678,8 +4694,8 @@ namespace eval gui {
     bind $txt2   <Motion>              [list gui::clear_tab_tooltip $tabbar]
 
     # Move the all bindtag ahead of the Text bindtag
-    set text_index [lsearch [bindtags $txt2.t] Text]
-    set all_index  [lsearch [bindtags $txt2.t] all]
+    set text_index   [lsearch [bindtags $txt2.t] Text]
+    set all_index    [lsearch [bindtags $txt2.t] all]
     bindtags $txt2.t [lreplace [bindtags $txt2.t] $all_index $all_index]
     bindtags $txt2.t [linsert  [bindtags $txt2.t] $text_index all]
 
@@ -6072,6 +6088,12 @@ namespace eval gui {
         set_info_message [lindex $info_msgs($txt) 0] -clear_delay [lindex $info_msgs($txt) 1] -win [winfo parent $txtt]
       } else {
         set_info_message "" -win [winfo parent $txtt]
+      }
+
+      # Remove the find or find/replace panels if we are told to do so
+      if {[preferences::get Find/ClosePanelsOnTextFocus]} {
+        panel_forget $tab.sf
+        panel_forget $tab.rf
       }
 
       # Let the plugins know about the FocusIn event

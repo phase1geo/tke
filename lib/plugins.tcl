@@ -310,7 +310,7 @@ namespace eval plugins {
       set names [list]
       foreach bad_source $bad_sources {
         set registry($bad_source,selected) 0
-        lappend names $registry($bad_source,name)
+        lappend names $registry($bad_source,display_name)
       }
       tk_messageBox -default ok -type ok -icon warning -parent . -title [msgcat::mc "Plugin Errors"] \
         -message [msgcat::mc "Syntax errors found in selected plugins"] -detail [join $names \n]
@@ -337,7 +337,7 @@ namespace eval plugins {
     set registry($index,status) $status
 
     # Get the name of the plugin
-    set name $registry($index,name)
+    set name $registry($index,display_name)
 
     # If we are doing development, send the full error info to standard output
     if {[::tke_development]} {
@@ -429,8 +429,9 @@ namespace eval plugins {
     # Add registries to launcher
     for {set i 0} {$i < $registry_size} {incr i} {
       if {!$registry($i,selected)} {
-        set name $registry($i,name)
-        launcher::register_temp "`PLUGIN:$name" "plugins::install_item $i" $name 0 "plugins::show_detail $i"
+        set name         $registry($i,name)
+        set display_name $registry($i,display_name)
+        launcher::register_temp "`PLUGIN:$display_name" "plugins::install_item $i" $display_name 0 "plugins::show_detail $i"
       }
     }
 
@@ -562,7 +563,7 @@ namespace eval plugins {
         set registry($index,selected) 0
         interpreter::destroy $registry($index,name)
       } else {
-        gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin installed"] $registry($index,name)]
+        gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin installed"] $registry($index,display_name)]
         set registry($index,selected) 1
         set registry($index,interp)   $interpreter
         handle_reloading $index
@@ -571,7 +572,7 @@ namespace eval plugins {
 
     # Otherwise, just mark the plugin as being selected
     } else {
-      gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin installed"] $registry($index,name)]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin installed"] $registry($index,display_name)]
       set registry($index,selected) 1
       run_on_start_after_install $index
     }
@@ -631,8 +632,9 @@ namespace eval plugins {
 
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected)} {
-        set name $registry($i,name)
-        launcher::register_temp "`PLUGIN:$name" "plugins::uninstall_item $i" $name
+        set name         $registry($i,name)
+        set display_name $registry($i,display_name)
+        launcher::register_temp "`PLUGIN:$display_name" "plugins::uninstall_item $i" $display_name
       }
     }
 
@@ -697,7 +699,7 @@ namespace eval plugins {
     write_config
 
     # Display the uninstall message
-    gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin uninstalled"] $registry($index,name)]
+    gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin uninstalled"] $registry($index,display_name)]
 
   }
 
@@ -710,8 +712,9 @@ namespace eval plugins {
 
     for {set i 0} {$i < $registry_size} {incr i} {
       if {$registry($i,selected)} {
-        set name $registry($i,name)
-        launcher::register_temp "`PLUGIN:$name" [list plugins::show_installed_item $i] $name 0 [list plugins::show_detail $i]
+        set name         $registry($i,name)
+        set display_name $registry($i,display_name)
+        launcher::register_temp "`PLUGIN:$display_name" [list plugins::show_installed_item $i] $display_name 0 [list plugins::show_detail $i]
       }
     }
 
@@ -726,10 +729,10 @@ namespace eval plugins {
 
     variable registry
 
-    set name $registry($index,name)
+    set display_name $registry($index,display_name)
 
     # Create a buffer
-    gui::add_buffer end [format "%s: %s" [msgcat::mc "Plugin"] $name] "" -readonly 1 -lang "Markdown"
+    gui::add_buffer end [format "%s: %s" [msgcat::mc "Plugin"] $display_name] "" -readonly 1 -lang "Markdown"
 
     # Get the newly added buffer
     gui::get_info {} current txt
@@ -742,6 +745,10 @@ namespace eval plugins {
     $txt insert end "$registry($index,version)\n\n\n"
     $txt insert end "__Author:__\n\n"
     $txt insert end "$registry($index,author)  ($registry($index,email))\n\n\n"
+    if {$registry($index,website) ne ""} {
+      $txt insert end "__Website:__\n\n"
+      $txt insert end "\[$registry($index,website)\]($registry($index,website))\n\n\n"
+    }
     $txt insert end "__Description:__\n\n"
     $txt insert end $registry($index,description)
 
@@ -768,10 +775,11 @@ namespace eval plugins {
 
     $txt tag configure bold -underline 1
 
-    $txt insert end "Version:\n\n" bold
-    $txt insert end "$registry($index,version)\n\n\n"
-    $txt insert end "Author:\n\n" bold
-    $txt insert end "$registry($index,author)  ($registry($index,email))\n\n\n"
+    $txt insert end "Version:" bold "  $registry($index,version)\n\n"
+    $txt insert end "Author:" bold "  $registry($index,author)  ($registry($index,email))\n\n"
+    if {$registry($index,website) ne ""} {
+      $txt insert end "Website:" bold "  $registry($index,website)\n\n"
+    }
     $txt insert end "Description:\n\n" bold
     $txt insert end $registry($index,description)
 
@@ -934,6 +942,24 @@ namespace eval plugins {
   proc change_category {txt startpos endpos category} {
 
     $txt replace $startpos $endpos "\{$category\}"
+
+  }
+
+  ######################################################################
+  # Returns the index of the plugin that matches the given name if found;
+  # otherwise, returns the empty string.
+  proc get_plugin_index {name} {
+
+    variable registry
+    variable registry_size
+
+    for {set i 0} {$i < $registry_size} {incr i} {
+      if {$registry($i,name) eq $name} {
+        return $i
+      }
+    }
+
+    return ""
 
   }
 
@@ -1283,6 +1309,9 @@ namespace eval plugins {
 
     variable menus
 
+    # Add the menu to the list of menus to update
+    set menus(root_popup) $mnu
+
     # Add the menu items
     menu_add $mnu root_popup
 
@@ -1294,6 +1323,9 @@ namespace eval plugins {
 
     variable menus
 
+    # Add the menu to the list of menus to update
+    set menus(dir_popup) $mnu
+
     # Add the menu items
     menu_add $mnu dir_popup
 
@@ -1304,6 +1336,9 @@ namespace eval plugins {
   proc handle_file_popup {mnu} {
 
     variable menus
+
+    # Add the menu to the list of menus to update
+    set menus(file_popup) $mnu
 
     # Add the menu items
     menu_add $mnu file_popup
@@ -1503,7 +1538,6 @@ namespace eval plugins {
 
     foreach entry [find_registry_entries "on_pref_ui"] {
       $w add [ttk::frame [set win $w.$registry([lindex $entry 0],name)]]
-      $w hide $w.$registry([lindex $entry 0],name)
       scrolledframe::scrolledframe $win.f  -yscrollcommand [list utils::set_yscrollbar $win.vb]
       scroller::scroller           $win.vb -orient vertical -command [list $win.f yview]
       grid rowconfigure    $win 0 -weight 1
@@ -1732,7 +1766,9 @@ namespace eval plugins {
 
     # Get the currently selected file
     gui::get_info {} current txt fname
-    set plugdir [file dirname $fname]
+    set split_fname   [file split $fname]
+    set iplugin_index [lsearch $split_fname iplugins]
+    set plugdir       [file join {*}[lrange $split_fname 0 [expr $iplugin_index + 1]]]
 
     # Perform the export
     plugmgr::export_win $plugdir

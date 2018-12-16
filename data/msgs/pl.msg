@@ -320,6 +320,12 @@ msgcat::mcmset pl {
   "Image used in tab which, when clicked, closes the tab."
   "Obraz używany w karcie, po kliknięciu, zamknięcie karty."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Obraz używany w menu do wskazania, że element menu nie jest wybrany."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Obraz używany w menu do wskazania, że wybrano element menu."
+
   "Image used in the preferences window in the Advanced tab."
   "Obraz używany w oknie Preferencje na zakładce Zaawansowane."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset pl {
   "Insert unordered list formatting"
   "Wstaw listę nieuporządkowaną formatowanie"
 
-  "Install"
-  "Instaluj"
-
   "Install plugin"
   "Zainstaluj wtyczkę"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset pl {
   "Unindent selected text"
   "Zmniejszenie wcięcia zaznaczonego tekstu"
 
-  "Uninstall"
-  "Odinstalowanie"
-
   "Uninstall plugin"
   "Odinstaluj wtyczkę"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Odblokować"
@@ -1794,9 +1791,6 @@ msgcat::mcmset pl {
 
   "Vim Mode"
   "Tryb vim"
-
-  "Windows"
-  "Windows"
 
   "Wrap With Abbreviation"
   "Okład z skrót"
@@ -1848,9 +1842,6 @@ msgcat::mcmset pl {
   "Plugin Trust Requested"
   "Plugin Zaufanie Wnioskowana"
 
-  "Plugin export completed successfully"
-  "Eksport zakończony pomyślnie"
-
   "Plugin import completed successfully"
   "Import zakończył się pomyślnie"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset pl {
 # plugmgr.tcl
 msgcat::mcmset pl {
 
+  "Available"
+  "Dostępna"
+
   "Export Plugin"
   "Eksportuj wtyczkę"
+
+  "Installed"
+  "Zainstalowane"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "Menedżer wtyczek"
+
+  "Plugin export completed successfully"
+  "Eksport zakończony pomyślnie"
 
   "Release Notes"
   "Informacje o wersji"
@@ -1992,6 +1992,9 @@ msgcat::mcmset pl {
 
   "Clipboard history depth"
   "Schowka historia Głębokość"
+
+  "Close find panels when editing buffer gets focus"
+  "Zamknij panele znajdowania podczas edycji bufora dostaje fokus"
 
   "Closing"
   "Zamykanie"
@@ -2271,6 +2274,9 @@ msgcat::mcmset pl {
 
   "Select a plugin"
   "Wybierz polecenie wtyczka"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Wybierz skrót i naciśnij klawisz Return lub Spacja, aby edytować skrót"
 
   "Select default browsing directory"
   "Wybierz domyślny, przeglądanie katalogów"
@@ -3632,9 +3638,6 @@ msgcat::mcmset pl {
   "Edit"
   "Edytować"
 
-  "Emmet"
-  "mrówka"
-
   "Enable code folding"
   "Włączyć kod składane"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset pl {
   "Insert"
   "Wstaw"
 
+  "Install"
+  "Instaluj"
+
   "Language"
   "Język"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset pl {
 
   "Node"
   "Węzeł"
-
-  "None"
-  "Brak"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset pl {
 
   "Unfavorite"
   "Usuń z ulub"
+
+  "Uninstall"
+  "Odinstalowanie"
 
   "Update"
   "Aktualizuj"

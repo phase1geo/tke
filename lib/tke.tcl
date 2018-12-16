@@ -108,6 +108,9 @@ if {[catch { package require Scrolledframe }]} {
   package require Scrolledframe
 }
 
+source [file join $tke_dir lib ptwidgets1.2 common htmllib.tcl]
+source [file join $tke_dir lib ptwidgets1.2 common gifblock.tcl]
+
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib share.tcl]
 source [file join $tke_dir lib startup.tcl]

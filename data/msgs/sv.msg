@@ -320,6 +320,12 @@ msgcat::mcmset sv {
   "Image used in tab which, when clicked, closes the tab."
   "Bilden används i fliken som, när du klickar på stänger fliken."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Bild som används i menyerna för att indikera att ett menyalternativ inte är valt."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Bild som används i menyerna för att indikera att ett menyalternativ är valt."
+
   "Image used in the preferences window in the Advanced tab."
   "Bild som används i inställningsfönstret på fliken Avancerat."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset sv {
   "Insert unordered list formatting"
   "Infoga oordnad lista formatering"
 
-  "Install"
-  "Installera"
-
   "Install plugin"
   "Installera insticksprogram"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset sv {
   "Unindent selected text"
   "Ångra indrag av markerad text"
 
-  "Uninstall"
-  "Avinstallera"
-
   "Uninstall plugin"
   "Avinstallera plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Lås upp"
@@ -1794,9 +1791,6 @@ msgcat::mcmset sv {
 
   "Vim Mode"
   "Vim Läge"
-
-  "Windows"
-  "Windows"
 
   "Wrap With Abbreviation"
   "Wrap med förkortning"
@@ -1848,9 +1842,6 @@ msgcat::mcmset sv {
   "Plugin Trust Requested"
   "Plugin Förtroende Begärd"
 
-  "Plugin export completed successfully"
-  "Plugin export slutfördes"
-
   "Plugin import completed successfully"
   "Importen klar"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset sv {
 # plugmgr.tcl
 msgcat::mcmset sv {
 
+  "Available"
+  "Tillgängliga"
+
   "Export Plugin"
   "Exportera Plugin"
+
+  "Installed"
+  "Installerat"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "Insticksprogramhanterare"
+
+  "Plugin export completed successfully"
+  "Plugin export slutfördes"
 
   "Release Notes"
   "Anteckningar för release"
@@ -1992,6 +1992,9 @@ msgcat::mcmset sv {
 
   "Clipboard history depth"
   "Klippborden historia djup"
+
+  "Close find panels when editing buffer gets focus"
+  "Stäng hitta paneler när redigering buffert blir fokus"
 
   "Closing"
   "Stänger"
@@ -2271,6 +2274,9 @@ msgcat::mcmset sv {
 
   "Select a plugin"
   "Välj en plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Välj en genväg och tryck på Retur eller mellanslag för att redigera genvägen"
 
   "Select default browsing directory"
   "Välj standard bläddra katalog"
@@ -3562,7 +3568,7 @@ msgcat::mcmset sv {
   "VISUAL BLOCK MODE"
 
   "VISUAL LINE MODE"
-  "VISUAL LINE MODE"
+  "VISUELLA RADLÄGE"
 
   "VISUAL MODE"
   "visuellt objekt"
@@ -3632,9 +3638,6 @@ msgcat::mcmset sv {
   "Edit"
   "Ändra"
 
-  "Emmet"
-  "myra"
-
   "Enable code folding"
   "Aktivera kod vikning"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset sv {
   "Insert"
   "Infoga"
 
+  "Install"
+  "Installera"
+
   "Language"
   "Språk"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset sv {
 
   "Node"
   "Nod"
-
-  "None"
-  "Ingen"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset sv {
 
   "Unfavorite"
   "Bort från favoriter"
+
+  "Uninstall"
+  "Avinstallera"
 
   "Update"
   "Uppdatera"

@@ -24,6 +24,8 @@
 
 namespace eval plugmgr {
 
+  variable current_id ""
+
   array set default_pdata {
     author        "Anonymous"
     email         ""
@@ -32,9 +34,20 @@ namespace eval plugmgr {
     category      "Miscellaneous"
     description   ""
     release_notes ""
+    overview      ""
   }
 
-  array set widgets {}
+  array set database {}
+  array set widgets  {}
+
+  # TEMPORARY
+  array set database {
+    0 {display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description "Quick\ndescription\nYes" release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
+    1 {display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
+    2 {display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
+    3 {display_name {Plugin 3} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.4.1} category filesystem description {Quick description 3} release_notes {My release notes} overview {<p>This is a really great overview of 3!</p>}}
+    4 {display_name {Plugin 4} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {1.5.2} category filesystem description {Quick description 4} release_notes {My release notes} overview {<p>This is a really great overview of 4!</p>}}
+  }
 
   ######################################################################
   # Adds a single plugin to the plugin database file.  Returns the
@@ -93,9 +106,8 @@ namespace eval plugmgr {
     ttk::button    $w.tf.ob  -style BButton -text [msgcat::mc "Choose"] -command [list plugmgr::choose_output_dir $w]
 
     ttk::frame     $w.tf.tf
-    text           $w.tf.tf.t  -wrap word -xscrollcommand [list $w.tf.tf.vb set] -yscrollcommand [list $w.tf.tf.hb set]
-    ttk::scrollbar $w.tf.tf.vb -orient vertical   -command [list $w.tf.tf.t yview]
-    ttk::scrollbar $w.tf.tf.hb -orient horizontal -command [list $w.tf.tf.t xview]
+    text           $w.tf.tf.t  -wrap word -yscrollcommand [list $w.tf.tf.vb set]
+    ttk::scrollbar $w.tf.tf.vb -orient vertical -command [list $w.tf.tf.t xview]
 
     grid rowconfigure    $w.tf.tf 0 -weight 1
     grid columnconfigure $w.tf.tf 0 -weight 1
@@ -312,64 +324,573 @@ namespace eval plugmgr {
     wm title     $w [msgcat::mc "Plugin Manager"]
     wm transient $w .
 
-    set widgets(pw) [ttk::panedwindow $w.pw -orient vertical]
+    set bwidth [msgcat::mcmax "Available" "Installed"]
 
-    $widgets(pw) add [ttk::frame $widgets(pw).tf]
-    $widgets(pw) add [ttk::frame $widgets(pw).bf]
+    ttk::frame  $w.nf
+    ttk::frame  $w.nf.f
+    set widgets(available_btn) [ttk::button $w.nf.f.avail   -style BButton -text [msgcat::mc "Available"] -width $bwidth -command plugmgr::available_selected]
+    set widgets(installed_btn) [ttk::button $w.nf.f.install -style BButton -text [msgcat::mc "Installed"] -width $bwidth -command plugmgr::installed_selected]
 
-    ttk::frame $w.pw.tf.sf
-    set widgets(search) [wmarkentry::wmarkentry $w.pw.tf.sf.e -validate key -validatecommand [list plugmgr::do_search %P] -watermark [msgcat::mc "Search"]]
+    bind $widgets(available_btn) <Leave> {
+      after idle {
+        if {$plugmgr::last_pane eq "available"} {
+          %W state active
+        }
+      }
+    }
+    bind $widgets(installed_btn) <Leave> {
+      after idle {
+        if {$plugmgr::last_pane eq "installed"} {
+          %W state active
+        }
+      }
+    }
 
-    pack $w.pw.tf.sf.e -fill x -expand yes
+    pack $w.nf.f.avail   -side left -padx 4 -pady 2
+    pack $w.nf.f.install -side left -padx 4 -pady 2
 
-    ttk::frame     $w.pw.tf.lf
-    set widgets(table) [tablelist::tablelist $w.pw.tf.lf.tl -columns [list 0 [msgcat::mc "Plugins"]] \
-      -stretch all -exportselection 1 -selectmode browse \
-      -yscrollcommand [list $w.pw.tf.lf.vb set]]
-    ttk::scrollbar $w.pw.tf.lf.vb -orient vertical -command [list $w.pw.tf.lf.tl yview]
+    pack $w.nf.f -side top
 
-    $widgets(table) columnconfigure 0 -name plugin -stretchable 1 -wrap 1
+    set widgets(nb) [ttk::notebook $w.nb -style Plain.TNotebook]
 
-    grid rowconfigure    $w.pw.tf.lf 0 -weight 1
-    grid columnconfigure $w.pw.tf.lf 0 -weight 1
-    grid $w.pw.tf.lf.tl -row 0 -column 0 -sticky news
-    grid $w.pw.tf.lf.vb -row 0 -column 1 -sticky ns
+    $widgets(nb) add [set widgets(available) [create_available_pane $widgets(nb).avail]]
+    $widgets(nb) add [set widgets(installed) [create_installed_pane $widgets(nb).install]]
+    $widgets(nb) add [set widgets(detail)    [create_detail_pane    $widgets(nb).detail]]
 
-    pack $w.pw.tf.sf -fill x                -padx 2 -pady 4
-    pack $w.pw.tf.lf -fill both -expand yes -padx 2 -pady 4
+    pack $w.nf        -fill x
+    pack $widgets(nb) -fill both -expand yes
 
-    ttk::frame $w.pw.bf.bf
-    set widgets(install) [ttk::button $w.pw.bf.bf.install -text [msgcat::mc "Install"] -command [list plugmgr::install]]
-    set widgets(delete)  [ttk::button $w.pw.bf.bf.delete  -text [msgcat::mc "Delete"]  -command [list plugmgr::delete]]
+    # Make sure that everything looks correct theme-wise
+    update_theme
 
-    pack $w.pw.bf.bf.delete  -side right -padx 4 -pady 2
-    pack $w.pw.bf.bf.install -side right -padx 4 -pady 2
+    # Load the plugin database from the server
+    # load_database
 
-    # Create HTML viewer
-    ttk::frame $w.pw.bf.hf
-    set widgets(html) [text $w.pw.bf.hf.t \
-      -xscrollcommand [list utils::set_xscrollbar $w.pw.bf.hf.hb] \
-      -yscrollcommand [list utils::set_yscrollbar $w.pw.bf.hf.vb]]
-    ttk::scrollbar $w.pw.bf.hf.vb -orient vertical   -command [list $w.pw.bf.hf.t yview]
-    ttk::scrollbar $w.pw.bf.hf.hb -orient horizontal -command [list $w.pw.bf.hf.t xview]
-
-    grid rowconfigure    $w.pw.bf.hf 0 -weight 1
-    grid columnconfigure $w.pw.bf.hf 0 -weight 1
-    grid $w.pw.bf.hf.t  -row 0 -column 0 -sticky news
-    grid $w.pw.bf.hf.vb -row 0 -column 1 -sticky ns
-    grid $w.pw.bf.hf.hb -row 1 -column 0 -sticky ew
-
-    pack $w.pw.bf.bf -fill x
-    pack $w.pw.bf.hf -fill both -expand yes
-
-    pack $w.pw -fill both -expand yes
-
-    focus $widgets(table)
+    # Make the available notebook pane the visible panel
+    available_selected
 
   }
 
   ######################################################################
-  proc populate_manager {} {
+  # Create the available plugin pane.
+  proc create_table_pane {w type} {
+
+    variable widgets
+
+    ttk::frame $w
+
+    ttk::frame $w.sf
+    set widgets($type,search) [wmarkentry::wmarkentry $w.sf.e -validate key -validatecommand [list plugmgr::do_search $type %P] -width 30 -watermark [msgcat::mc "Search"]]
+
+    pack $w.sf.e -side left -padx 2 -pady 2
+
+    ttk::frame $w.lf
+    set widgets($type,table) [tablelist::tablelist $w.lf.tl -columns [list 0 [msgcat::mc "Plugins"]] \
+      -stretch all -exportselection 1 -selectmode browse -showlabels 0 -relief flat -bd 0 -highlightthickness 0 \
+      -yscrollcommand [list $w.lf.vb set]]
+    set widgets($type,scroll) [scroller::scroller $w.lf.vb -orient vertical -command [list $w.lf.tl yview]]
+
+    $widgets($type,table) columnconfigure 0 -name plugin -stretchable 1 -wrap 1 -editable 0 -formatcommand plugmgr::format_plugin_cell
+
+    bind [$widgets($type,table) bodytag] <Return> [list plugmgr::show_detail $type]
+
+    grid rowconfigure    $w.lf 0 -weight 1
+    grid columnconfigure $w.lf 0 -weight 1
+    grid $w.lf.tl -row 0 -column 0 -sticky news
+    grid $w.lf.vb -row 0 -column 1 -sticky ns
+
+    pack $w.sf -fill x                -padx 2 -pady 4
+    pack $w.lf -fill both -expand yes -padx 2 -pady 4
+
+    return $w
 
   }
+
+  ######################################################################
+  # Make sure that the plugin cell does not display the data natively.
+  proc format_plugin_cell {value} {
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Creates the available plugin pane.
+  proc create_available_pane {w} {
+
+    return [create_table_pane $w available]
+
+  }
+
+  ######################################################################
+  # Creates the installed plugin pane.
+  proc create_installed_pane {w} {
+
+    return [create_table_pane $w installed]
+
+  }
+
+  ######################################################################
+  # Creates the detail pane.
+  proc create_detail_pane {w} {
+
+    variable widgets
+
+    ttk::frame $w
+
+    set bwidth [msgcat::mcmax "Back" "Install" "Uninstall" "Update" "Delete"]
+
+    ttk::frame $w.bf
+    set widgets(back)      [ttk::button $w.bf.back      -style BButton -compound left -image search_prev -text [msgcat::mc "Back"]      -width $bwidth -command [list plugmgr::go_back]]
+    set widgets(install)   [ttk::button $w.bf.install   -style BButton -text [msgcat::mc "Install"]   -width $bwidth -command [list plugmgr::install]]
+    set widgets(pupdate)   [ttk::button $w.bf.pupdate   -style BButton -text [msgcat::mc "Update"]    -width $bwidth -command [list plugmgr::pupdate]]
+    set widgets(uninstall) [ttk::button $w.bf.uninstall -style BButton -text [msgcat::mc "Uninstall"] -width $bwidth -command [list plugmgr::uninstall]]
+    set widgets(delete)    [ttk::button $w.bf.delete    -style BButton -text [msgcat::mc "Delete"]    -width $bwidth -command [list plugmgr::delete]]
+
+    grid rowconfigure    $w.bf 0 -weight 1
+    grid columnconfigure $w.bf 1 -weight 1
+    grid $w.bf.back      -row 0 -column 0 -sticky news -padx 4 -pady 2
+    grid $w.bf.install   -row 0 -column 2 -sticky news -padx 4 -pady 2
+    grid $w.bf.pupdate   -row 0 -column 3 -sticky news -padx 4 -pady 2
+    grid $w.bf.uninstall -row 0 -column 4 -sticky news -padx 4 -pady 2
+    grid $w.bf.delete    -row 0 -column 5 -sticky news -padx 4 -pady 2
+
+    # Create HTML viewer
+    ttk::frame $w.hf
+    set widgets(html)    [text $w.hf.t -highlightthickness 0 -bd 0 -cursor arrow -yscrollcommand [list $w.hf.vb set]]
+    set widgets(html,vb) [scroller::scroller $w.hf.vb -orient vertical   -command [list $w.hf.t yview]]
+
+    # Make the HTML text widget setup to show HTML syntax
+    HMinitialize $widgets(html)
+
+    grid rowconfigure    $w.hf 0 -weight 1
+    grid columnconfigure $w.hf 0 -weight 1
+    grid $w.hf.t  -row 0 -column 0 -sticky news
+    grid $w.hf.vb -row 0 -column 1 -sticky ns
+
+    pack $w.bf -fill x                -padx 2 -pady 2
+    pack $w.hf -fill both -expand yes -padx 2 -pady 2
+
+    return $w
+
+  }
+
+  ######################################################################
+  # Handle the Back button being pressed in the detail pane.
+  proc go_back {} {
+
+    variable last_pane
+
+    # Run the last pane's select command
+    ${last_pane}_selected
+
+  }
+
+  ######################################################################
+  # Called when the available tab is selected.
+  proc available_selected {} {
+
+    variable widgets
+    variable last_pane
+
+    # Remember that this pane was selected
+    set last_pane available
+
+    # Select the available pane
+    $widgets(nb) select $widgets(available)
+
+    $widgets(available_btn) state  active
+    $widgets(installed_btn) state !active
+
+    # Give the search panel the focus
+    focus $widgets(available,search)
+
+    # Populate the table
+    populate_plugin_table "available"
+
+  }
+
+  ######################################################################
+  # Called when the available tab is selected.
+  proc installed_selected {} {
+
+    variable widgets
+    variable last_pane
+
+    # Remember that this pane was selected
+    set last_pane installed
+
+    # Select the installed pane
+    $widgets(nb) select $widgets(installed)
+
+    $widgets(available_btn) state !active
+    $widgets(installed_btn) state  active
+
+    # Give the search panel the focus
+    focus $widgets(installed,search)
+
+    # Populate the plugin table
+    populate_plugin_table "installed"
+
+  }
+
+  ######################################################################
+  # Populates the table of the given type with the needed plugin data.
+  proc populate_plugin_table {type} {
+
+    variable widgets
+    variable database
+
+    # Clear the table
+    $widgets($type,table) delete 0 end
+
+    foreach name [lsort [array names database]] {
+      array set data $database($name)
+      append_plugin $type $data(display_name) $data(description) $name
+    }
+
+    # author        "Anonymous"
+    # email         ""
+    # website       ""
+    # version       "1.0"
+    # category      "Miscellaneous"
+    # description   ""
+    # release_notes ""
+
+  }
+
+  ######################################################################
+  # Adds the given plugin to the given table.
+  proc append_plugin {type name detail id} {
+
+    variable widgets
+
+    $widgets($type,table) insert end [list [list $name $detail $id]]
+    $widgets($type,table) cellconfigure end,plugin -stretchwindow 1 -window plugmgr::make_plugin_cell -windowupdate plugmgr::update_plugin_cell
+
+  }
+
+  ######################################################################
+  # Create the plugin cell and populate it with the appropriate text.
+  proc make_plugin_cell {tbl row col win} {
+
+    variable last_pane
+
+    array set ttk_theme [theme::get_category_options ttk_style 1]
+    array set theme     [theme::get_syntax_colors]
+
+    lassign [$tbl cellcget $row,$col -text] name detail id
+
+    frame $win -background $ttk_theme(background)
+    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor arrow -background $theme(background) -foreground $theme(foreground)
+
+    bind $win.t <Configure>       [list plugmgr::update_height %W]
+    bind $win   <Double-Button-1> [list plugmgr::show_detail $last_pane]
+    bindtags $win.t [linsert [bindtags $win.t] 1 TablelistBody]
+
+    pack $win.t -fill both -expand yes -padx 4 -pady 4
+
+    $win.t tag configure header -font [list -size 14 -weight bold] -foreground $theme(keywords)
+    $win.t tag configure body   -lmargin1 20 -lmargin2 20
+    $win.t insert end "\n" {} $name header "\n\n$detail\n" body
+    $win.t configure -state disabled
+
+    pack $win -fill both -expand yes
+
+    return $win
+
+  }
+
+  ######################################################################
+  # Updates the given plugin cell contents.
+  proc update_plugin_cell {tbl row col win args} {
+
+    array set opts $args
+
+    $win configure -background $opts(-background)
+
+  }
+
+  ######################################################################
+  # Updates the height of the given text widget.
+  proc update_height {txt} {
+
+    $txt configure -height [expr [$txt count -displaylines 1.0 end] + 1]
+
+    [winfo parent $txt] configure -height [winfo reqheight $txt]
+
+  }
+
+  ######################################################################
+  # Creates the overview HTML code and returns this value.
+  proc make_overview_html {name} {
+
+    variable database
+
+    if {![info exists database($name)]} {
+      return ""
+    }
+
+    array set data $database($name)
+
+    # Create the HTML code to display
+    append html "<h1>$data(display_name)</h1><hr>"
+
+    if {$data(overview) ne ""} {
+      append html "$data(overview)<br><br><hr>"
+    }
+
+    if {$data(release_notes) ne ""} {
+      append html "<h4>Release Notes</h4><br>"
+      append html "<dl>$data(release_notes)</dl><br>"
+    }
+
+    append html "<h4>Version</h4><dl>$data(version)</dl>"
+
+    if {$data(author) ne ""} {
+      append html "<h4>Author</h4><dl>$data(author)</dl>"
+    } else {
+      append html "<h4>Author</h4><dl>Anonymous</dl>"
+    }
+
+    if {$data(email) ne ""} {
+      append html "<h4>E-mail</h4><dl><a href=\"mailto:$data(email)\">$data(email)</a></dl>"
+    }
+
+    if {$data(website) ne ""} {
+      append html "<h4>Website</h4><dl><a href=\"$data(website)\">$data(website)</a></dl>"
+    }
+
+    return $html
+
+  }
+
+  ######################################################################
+  # Displays the plugin detail in the detail pane.
+  proc show_detail {type} {
+
+    variable widgets
+    variable current_id
+    variable database
+
+    # Get the currently selected row
+    set selected [$widgets($type,table) curselection]
+
+    # Get the plugin ID
+    set current_id [lindex [$widgets($type,table) cellcget $selected,plugin -text] 2]
+
+    # Get the content to display
+    set html [make_overview_html $current_id]
+
+    # Clear the detail text widget
+    $widgets(html) configure -state normal
+    $widgets(html) delete 1.0 end
+
+    # Add the HTML to the HTML widget
+    HMparse_html $html "HMrender $widgets(html)"
+
+    # Configure the text widget to be disabled
+    $widgets(html) configure -state disabled
+
+    if {$type eq "available"} {
+      grid remove $widgets(uninstall)
+      grid remove $widgets(delete)
+      grid $widgets(install)
+    } else {
+      grid remove $widgets(install)
+      grid $widgets(uninstall)
+      grid $widgets(delete)
+    }
+
+    # Display the detail pane
+    $widgets(nb) select $widgets(detail)
+
+  }
+
+  ######################################################################
+  # Installs the given plugin from memory.
+  proc install {} {
+
+    variable widgets
+    variable current_id
+
+    set url "https://FOOBAR/$current_id.tkeplugz"
+
+    # Download the file
+    if {[set fname [download_url $url]] eq ""} {
+      return -code error "Failed to download plugin bundle"
+    }
+
+    # Import the file
+    plugins::import_plugin .pmwin $fname
+
+    # Reload the plugin information
+    plugins::load
+
+    # Get the plugin index
+    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
+      return
+    }
+
+    # Perform the plugin install
+    plugins::install_item $index
+
+    # Update the UI state of the pane
+    grid remove $widgets(install)
+    grid remove $widgets(pupdate)
+    grid $widgets(uninstall)
+    grid $widgets(delete)
+
+  }
+
+  ######################################################################
+  # Updates the given plugin from memory.
+  proc pupdate {} {
+
+    variable widgets
+    variable current_id
+
+    set url "https://FOOBAR/$current_id.tkeplugz"
+
+    # Download the file
+    if {[set fname [download_url $url]] eq ""} {
+      return -code error "Failed to download plugin bundle"
+    }
+
+    # Import the file
+    plugins::import_plugin .pmwin $fname
+
+    # Perform the plugin install
+    plugins::reload
+
+    # Update the UI state of the pane
+    grid remove $widgets(pupdate)
+
+  }
+
+  ######################################################################
+  # Uninstalls the given plugin from memory.
+  proc uninstall {} {
+
+    variable widgets
+    variable current_id
+
+    # Get the plugin index
+    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
+      return
+    }
+
+    # Uninstall the item
+    plugins::uninstall_item $index
+
+    # Update the UI state of the pane
+    grid remove $widgets(uninstall)
+    grid remove $widgets(pupdate)
+    grid $widgets(install)
+
+  }
+
+  ######################################################################
+  # Deletes the given plugin from the user's installed plugin directory.
+  proc delete {} {
+
+    variable current_id
+
+    # Get the plugin index
+    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
+      return
+    }
+
+    # Uninstall the item
+    plugins::uninstall_item $index
+
+    # Delete the data
+    catch { file delete -force [file join $::tke_home iplugins $current_id] }
+
+    # Update the UI state of the pane
+    go_back
+
+  }
+
+  ######################################################################
+  # This is called whenever the theme changes.
+  proc update_theme {} {
+
+    variable widgets
+
+    # If the window does not exist, just return
+    if {![winfo exists .pmwin]} {
+      return
+    }
+
+    array set theme [theme::get_category_options ttk_style 1]
+
+    $widgets(available,table)  configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(available,scroll) configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(installed,table)  configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(installed,scroll) configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(html)             configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(html,vb)          configure -background $theme(background) -foreground $theme(foreground)
+
+  }
+
+  ######################################################################
+  # Loads the plugin database file from the server.
+  proc load_database {} {
+
+    variable database
+
+    set url "https://TBD/plugins.tkedat"
+
+    # Download the database to a local file
+    if {[set fname [utils::download_url $url]] eq ""} {
+      return -code error "Unable to fetch plugin database"
+    }
+
+    # Load the downloaded file
+    if {[catch { tkedat::read $fname } rc]} {
+      return -code error "Unable to load plugin database file"
+    }
+
+    # Make sure that the database is cleared
+    array unset database
+
+    array set data     $rc
+    array set database $data(plugins)
+
+    # Load the local file and compare the old versions to the new versions
+    if {![catch { tkedata::read $fname } rc]} {
+
+      array set old_data    $rc
+      array set old_plugins $old_data(plugins)
+      array set new_plugins $database(plugins)
+
+      # Initialize the new plugins database
+      foreach name [array names new_plugins] {
+        array set new_plugin $new_plugins($name)
+        set new_plugin(update_avail) 0
+        set new_plugin(installed)    0
+        set new_plugins($name) [array get new_plugin]
+      }
+
+      # Cross-reference the old database with the new, updating the new
+      foreach name [array names old_plugins] {
+        if {[info exists new_plugins($name)]} {
+          array set old_plugin $old_plugins($name)
+          array set new_plugin $new_plugins($name)
+          set new_plugin(update_avail) [expr {$old_plugin(version) ne $new_plugin(version)}]
+          set new_plugin(installed)    1
+          set new_plugins($name) [array get new_plugin]
+        }
+      }
+
+      # Save the new plugins data back to the database
+      set database(plugins) [array get new_plugins]
+
+    }
+
+  }
+
 }
+
+

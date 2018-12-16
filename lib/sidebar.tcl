@@ -329,6 +329,8 @@ namespace eval sidebar {
     bind $widgets(tl) <Key>      [list sidebar::handle_any %K %A]
     bind $widgets(tl) <FocusIn>  [list sidebar::handle_focus_in]
     bind $widgets(tl) <FocusOut> [list sidebar::handle_focus_out]
+    bind $widgets(tl) <Alt-Up>   "sidebar::handle_move_up; break"
+    bind $widgets(tl) <Alt-Down> "sidebar::handle_move_down; break"
 
     grid rowconfigure    $w.tf 0 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
@@ -428,6 +430,78 @@ namespace eval sidebar {
     variable widgets
 
     $widgets(tl) delete [$widgets(tl) children {}]
+
+  }
+
+  ######################################################################
+  # Returns true if the current selection (if it exists) can be manually
+  # moved.
+  proc is_selection_movable {} {
+
+    variable widgets
+
+    # If nothing is currently selected, do nothing
+    if {[set selected [$widgets(tl) selection]] eq ""} {
+      return 0
+    }
+
+    # Verify that all selected lines belong to the same parent
+    set parent [$widgets(tl) parent [lindex $selected 0]]
+    foreach item [lrange $selected 1 end] {
+      if {[$widgets(tl) parent $item] ne $parent} {
+        return 0
+      }
+    }
+
+    # Verify that the parent is set to manually sort
+    if {[$widgets(tl) set $parent sortby] ne "manual"} {
+      return 0
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Moves the currently selected lines (if applicable) up by one.
+  proc handle_move_up {} {
+
+    variable widgets
+
+    # If the selection cannot be moved, return immediately
+    if {![is_selection_movable]} {
+      return
+    }
+
+    foreach item [$widgets(tl) selection] {
+      set index  [$widgets(tl) index $item]
+      if {$index == 0} {
+        return
+      }
+      $widgets(tl) move $item [$widgets(tl) parent $item] [expr $index - 1]
+    }
+
+  }
+
+  ######################################################################
+  # Moves the currently selected lines (if applicable) down by one.
+  proc handle_move_down {} {
+
+    variable widgets
+
+    # If the selection cannot be moved, return immediately
+    if {![is_selection_movable]} {
+      return
+    }
+
+    foreach item [lreverse [$widgets(tl) selection]] {
+      set parent [$widgets(tl) parent $item]
+      set index  [$widgets(tl) index $item]
+      if {($index + 1) == [llength [$widgets(tl) children $parent]]} {
+        break
+      }
+      $widgets(tl) move $item $parent [expr $index + 1]
+    }
 
   }
 

@@ -320,6 +320,12 @@ msgcat::mcmset da {
   "Image used in tab which, when clicked, closes the tab."
   "Billede anvendes i fanen, der, når der klikkes, lukker fanen."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Billedet i menuerne til at angive, at et menupunkt ikke er valgt."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Billedet bruges i menuer til at angive, at et menupunkt er valgt."
+
   "Image used in the preferences window in the Advanced tab."
   "Billedet i indstillingsvinduet i fanen Avanceret."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset da {
   "Insert unordered list formatting"
   "Indsæt uordnet listeformatering"
 
-  "Install"
-  "Installer"
-
   "Install plugin"
   "Installere plugin"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset da {
   "Unindent selected text"
   "Unindent markeret tekst"
 
-  "Uninstall"
-  "Afinstallér"
-
   "Uninstall plugin"
   "Afinstallere plugin"
-
-  "Unix"
-  "UNIX"
 
   "Unlock"
   "Lås"
@@ -1794,9 +1791,6 @@ msgcat::mcmset da {
 
   "Vim Mode"
   "Vim-tilstand"
-
-  "Windows"
-  "Windows"
 
   "Wrap With Abbreviation"
   "Wrap med forkortelsen"
@@ -1848,9 +1842,6 @@ msgcat::mcmset da {
   "Plugin Trust Requested"
   "Plugin Trust Anmodet"
 
-  "Plugin export completed successfully"
-  "Plugin eksport fuldført"
-
   "Plugin import completed successfully"
   "Importeringen gennemført"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset da {
 # plugmgr.tcl
 msgcat::mcmset da {
 
+  "Available"
+  "Tilgængelig"
+
   "Export Plugin"
   "Eksporter plugin"
+
+  "Installed"
+  "Installeret"
 
   "Markdown"
   "valutaterminsdiskonto"
 
   "Plugin Manager"
   "Plugin- håndtering"
+
+  "Plugin export completed successfully"
+  "Plugin eksport fuldført"
 
   "Release Notes"
   "Udgivelsesnoter"
@@ -1992,6 +1992,9 @@ msgcat::mcmset da {
 
   "Clipboard history depth"
   "Clipboard historie dybde"
+
+  "Close find panels when editing buffer gets focus"
+  "Luk søgepaneler, når redigering af buffer får fokus"
 
   "Closing"
   "Lukker"
@@ -2271,6 +2274,9 @@ msgcat::mcmset da {
 
   "Select a plugin"
   "Vælg en plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Vælg en genvej og slå tasten Return eller plads for at redigere genvejen"
 
   "Select default browsing directory"
   "Vælg standard gennemser Register"
@@ -3632,9 +3638,6 @@ msgcat::mcmset da {
   "Edit"
   "Rediger"
 
-  "Emmet"
-  "myre"
-
   "Enable code folding"
   "Aktivere kode foldning"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset da {
   "Insert"
   "Indsæt"
 
+  "Install"
+  "Installer"
+
   "Language"
   "Sprog"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset da {
 
   "Node"
   "Node"
-
-  "None"
-  "Ingen"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset da {
 
   "Unfavorite"
   "Fjern favorit"
+
+  "Uninstall"
+  "Afinstallér"
 
   "Update"
   "Opdater"
