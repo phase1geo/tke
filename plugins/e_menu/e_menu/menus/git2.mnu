@@ -1,4 +1,54 @@
- ; git menu for e_menu.tcl
+; git menu for e_menu.tcl
+
+ R:git status R: cd %d
+ S:git status S: echo %d\ndir\necho ---\ngit status
+
+ R:git gui R: cd %d
+ R:git gui R: git gui
+
+ R:git add * R: cd %d
+ S:git add * S: git add *\ngit status
+
+ R:git commit -am "%x1 %x2 at %t2" R: %q "Committing changes" "Add and commit with message\n\n'%x1 %x2 at %t2' ?"
+ R:git commit -am "%x1 %x2 at %t2" R: cd %d
+ S:git commit -am "%x1 %x2 at %t2" S: git commit -am "%x1 %x2 at %t2"
+
+ R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%x1 %x2 %t1 #%i1' ?"
+ R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %d
+ S:git commit --amend -am "%x1 %x2 %t1 #%i1" S: git commit --amend -am "%x1 %x2 %t1 #%i1"
+
+ R:git log -p "1 hour ago" R: cd %d
+ S:git log -p "1 hour ago" S: git log -p "--since=1 hour ago"
+
+ R:git log -p "1 day ago" R: cd %d
+ S:git log -p "1 day ago" S: git log -p "--since=1 day ago"
+
+ R:git log --since="1 week ago" R: cd %d
+ S:git log --since="1 week ago" S: git log "--since=1 week ago"
+
+ R:git log R: cd %d
+ S:git log S: git log
+
+ R:git branch R: cd %d
+ S:git branch S: git branch
+
+ R:git diff master..%s R: cd %d
+ S:git diff master..%s S: git diff master..%s
+
+ R: - R: 15
+
+ R:git init R: %q "INIT" "This will initialize GIT in:\n%d"
+ R:git init R: cd %d
+ S:git init S: git init
+
+ RE:edit .gitignore RE: %E %d/.gitignore
+
+[OPTIONS]
+
+# git directory #2
+d=~/.tke
+x1=plugins
+x2=: add_shortcut, e_menu
 
  R:git revert HEAD R: %q "REVERT" "This cancels the last commit!\n\nDo you want to REVERT\nlast commit?\n\n(IT'S CANNOT BE UNDONE)"
  R:git revert HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
@@ -20,8 +70,7 @@
  R:git reset --hard HEAD R: cd %PD
  S:git reset --hard HEAD S: git reset --hard HEAD
 
-[OPTIONS]
 om=1
 o=0
-c=5
+c=1
 

@@ -1,6 +1,6 @@
 
 
-### What is this?
+# What is this?
 
 The e_menu plugin provides a context help on Tcl/Tk commands/keywords while editing a Tcl script.
 
@@ -18,7 +18,7 @@ This help is available also in the plugin by pressing F1 key or through its popu
 The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
 
 
-### Prerequisites
+# Prerequisites
 
 The following Tcl packages need to be installed:
 
@@ -27,7 +27,7 @@ tklib
 tls (tcl-tls in Debian)
 
 
-### List of features
+# List of features
 
 The e_menu has the following features:
 
@@ -76,7 +76,35 @@ Besides, the TKE e_menu plugin supplies the following Tcl features:
  - executing the selected Tcl code in tclsh
 
 
-### Few hints
+# Making the menus project-sensitive
+
+In addition to the info of
+  http://aplsimple.ucoz.ru/e_menu/e_menu.html
+there is something else you can use to make your menus "fully project-sensitive" for a current TKE file.
+
+In the menus is often used the %PD wildcard. It is defined as "a directory of current project". If you work with one project, you can rightly set the "PD=" argument of e_menu as "PD=your-project-dir".
+
+But what can you do when the TKE files are from various projects (hence various directories)? In such case you may define PD= argument as a name of file containing the list of project directory names.
+
+For example, you pass to e_menu the "PD=/home/me/PD-tke-dirs.txt" argument where the PD-tke-dirs.txt contains:
+
+  *# list of project directories for e_menu*
+
+  *# directory of various projects*
+  */home/apl/PG/Tcl-Tk/projects*
+
+  *# directory of TKE clone*
+  */home/apl/TKE-clone/TKE-clone*
+
+  *# directory of TKE data (incl. iplugins, plugins, themes)*
+  */home/apl/.tke*
+
+Note that the blank lines and the # comments are ignored. All other lines are considered to be directory names of your projects.
+
+When your edited file is located in one of those directories (or its subdirectory), the corresponding project directory is used as %PD wildcard of menu.
+
+
+# Few hints
 
 Please, view tke/plugins/e_menu/main.tcl for the calling format of the plugin. You can include your own arguments in the call.
 
@@ -85,7 +113,7 @@ You may consider the start of TKE from a command .sh/.bat file with setting the 
 Having the Desktop TKE folder and a heap of command files in it, you can run the TKE and its plugins being sensitive to your project's location.
 
 
-### Example of use
+# Example of use
 
 Here is an example of bash file that runs TKE and e_menu application positioned at right side of screen:
 
