@@ -1,61 +1,74 @@
 ; hg menu for e_menu.tcl
 
- R: hg status R: cd %d
- S: hg status S: echo %d\ndir\necho ---\nhg status
+ R: hg status R: cd %PD
+ S: hg status S: echo %PD\ndir\necho ---\nhg status
 
- R: hg add * R: %q "ADD" "This will add changes in:\n%d"
- R: hg add * R: cd %d
- S: hg add * S: hg add *\nhg status
+ R: hg addremove * R: %q "ADD" "This will add & remove all changes in:\n\n%PD"
+ R: hg addremove * R: cd %PD
+ S: hg addremove * S: hg addremove *\nhg status
 
+SW: hg commit SW: hg status
  R: hg commit R: %q "Committing changes" "Commit with input message?"
- R: hg commit R: cd %d
+ R: hg commit R: cd %PD
  S: hg commit S: hg commit
 
  R:  R: 5
 
- R: hg log -l 7 -v R: cd %d
- S: hg log -l 7 -v S: hg log -l 5 -v
+ RE: kdiff3 of %s0 RE: cd %d
+ RE: kdiff3 of %s0 RE: hg extdiff -p kdiff3 %f
 
- R: hg diff R: cd %d
- S: hg diff S: hg diff
-
- R: hg diff -r tip %s0 R: cd %d
+ R: hg diff -r tip %s0 R: cd %PD
  S: hg diff -r tip %s0 S: hg diff -r tip %f
 
- R: hg annotate %s0 R: cd %d
+ R: hg diff R: cd %PD
+ S: hg diff S: hg diff
+
+ R: hg annotate %s0 R: cd %PD
  S: hg annotate %s0 S: hg annotate %f
 
- R: hg log -p -l 1 %s0 R: cd %d
+ R: hg log -l 7 -v R: cd %PD
+ S: hg log -l 7 -v S: hg log -l 5 -v
+
+ R: hg log -p -l 1 %s0 R: cd %PD
  S: hg log -p -l 1 %s0 S: hg log -p -l 1 %f
 
  R:  R: 5
 
- R: hg incoming R: cd %d
+ R: hg fetch R: %q "FETCH" "This will PULL, MERGE and COMMIT changes in:\n\n%PD"
+ R: hg fetch R: cd %PD
+ S: hg fetch S: hg fetch
+
+ R: hg incoming R: cd %PD
  S: hg incoming S: hg incoming
 
- R: hg pull R: %q "PULL" "This will pull changes in:\n%d"
- R: hg pull R: cd %d
+ R: hg pull R: %q "PULL" "This will pull changes in:\n\n%PD"
+ R: hg pull R: cd %PD
  S: hg pull S: hg pull
 
  R:  R: 5
 
- R: hg heads R: cd %d
+ R: hg heads R: cd %PD
  S: hg heads S: hg heads
 
- R: hg merge R: %q "MERGE" "This will merge changes in:\n%d"
- R: hg merge R: cd %d
+ R: hg merge R: %q "MERGE" "This will merge changes in:\n\n%PD"
+ R: hg merge R: cd %PD
  S: hg merge S: hg merge
 
- R: hg outgoing R: cd %d
+ R: hg outgoing R: cd %PD
  S: hg outgoing S: hg outgoing
 
- R: hg push R: %q "PUSH" "This will push changes from:\n%d"
- R: hg push R: cd %d
+ R: hg push R: %q "PUSH" "This will push changes from:\n\n%PD"
+ R: hg push R: cd %PD
  S: hg push S: hg push
 
  R:  R: 5
 
- RE: edit .hgignore RE: %E %d/.hgignore
+ R: hg init (in %PD) R: %Q "MERCURIAL INIT" "Initialize the new Mercurial repository in\n\n%PD?"
+ R: hg init (in %PD) R: cd %PD
+ R: hg init (in %PD) R: %P echo "syntax: glob\n.*\n*~\n*.swp\n*.tmp\n*.bak\n*.log\n*.zip\n*.rar\n*.tgz\n*.cur\n*.dll\n*.dylib\n*.ico\n*.gif\n*.bmp\n*.png\n*.jpg\n*.o" > %PD/.hgignore
+ S: hg init (in %PD) S: dir\necho ------------\nhg init\nhg status
+ RE: edit ~/.hgrc RE: %P %E $::env(HOME)/.hgrc
+ RE: edit .hgignore RE: %E %PD/.hgignore
 
 [OPTIONS]
 o=0

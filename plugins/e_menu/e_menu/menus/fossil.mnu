@@ -4,9 +4,9 @@
  R:fossil ui R: cd %PD
  R:fossil ui R: fossil ui -port 8081
 
- R:fossil addremove (to/from %z3.fossil) R: %Q "Add remove" "Add the new and remove the deleted\nin %PD?"
- R:fossil addremove (to/from %z3.fossil) R: cd %PD
- S:fossil addremove (to/from %z3.fossil) S: pwd\necho ---\ndir\necho ---\nfossil addremove
+ R:fossil addremove (to/from %P_.fossil) R: %Q "Add remove" "Add the new and remove the deleted\nin %PD?"
+ R:fossil addremove (to/from %P_.fossil) R: cd %PD
+ S:fossil addremove (to/from %P_.fossil) S: pwd\necho ---\ndir\necho ---\nfossil addremove
 
  R:fossil changes R: cd %PD
  S:fossil changes S: pwd\necho ---\necho --+%PD+--\ndir\necho ---\nfossil changes
@@ -33,17 +33,17 @@
 
  R: R: 2
 
- R:fossil commit -m "%PN %s at %t1" R: %q "Committing changes" "Commit with message\n\n'%PN %s at %t1' ?"
- R:fossil commit -m "%PN %s at %t1" R: cd %PD
- S:fossil commit -m "%PN %s at %t1" S: fossil commit -m "%PN %s at %t1"
+ R:fossil commit -m "%u on %t2" R: %q "Committing changes" "Commit with message\n\n'%u on %t2' ?"
+ R:fossil commit -m "%u on %t2" R: cd %PD
+ S:fossil commit -m "%u on %t2" S: fossil commit -m "%u on %t2"
 
  R:fossil branch new "%dd" trunk R: %q "Branch" "Branch new %dd ?"
  R:fossil branch new "%dd" trunk R: cd %PD
  R:fossil branch new "%dd" trunk R: fossil branch new "%dd" trunk -bgcolor 0xffc0ff
 
- R:fossil commit -m "Try %s" --branch Try%t4 R: %q "Commit" "Commit 'Try' and branch Try%t4 ?"
- R:fossil commit -m "Try %s" --branch Try%t4 R: cd %PD
- S:fossil commit -m "Try %s" --branch Try%t4 S: fossil commit -m "Try %s" --branch Try%t4 -bgcolor 0xc0f0ff
+ R:fossil commit -m "Try %u" --branch Try%t4 R: %q "Commit" "Commit 'Try' and branch Try%t4 ?"
+ R:fossil commit -m "Try %u" --branch Try%t4 R: cd %PD
+ S:fossil commit -m "Try %u" --branch Try%t4 S: fossil commit -m "Try %u" --branch Try%t4 -bgcolor 0xc0f0ff
 
  S:fossil merge Try%t4 S: fossil merge -n
  R:fossil merge Try%t4 R: %q "To merge" "Merge to trunk ?"
@@ -81,9 +81,9 @@
 
  R: R: 2
 
- R:fossil new ~/FOSSIL/%z3.fossil R: %q "FOSSIL INIT" "Initialize the new fossil repository\nas\n   %z3.fossil\nin\n   %PD?"
- R:fossil new ~/FOSSIL/%z3.fossil R: cd %PD
- S:fossil new ~/FOSSIL/%z3.fossil S: dir\necho ------------\nfossil new ~/FOSSIL/%z3.fossil\nfossil open ~/FOSSIL/%z3.fossil\nfossil status
+ R:fossil init ~/FOSSIL/%P_.fossil R: %q "FOSSIL INIT" "Initialize the new fossil repository\nas\n   %P_.fossil\nin\n   %PD?"
+ R:fossil init ~/FOSSIL/%P_.fossil R: cd %PD
+ S:fossil init ~/FOSSIL/%P_.fossil S: dir\necho ------------\nfossil init ~/FOSSIL/%P_.fossil\nfossil open ~/FOSSIL/%P_.fossil\nfossil status
 
  R:fossil all list R: cd %PD
  S:fossil all list S: fossil all list
@@ -93,10 +93,10 @@
 
  R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?"
  R:set standard settings of fossil (ignore etc.) R: cd %PD
- S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*.zip,*.rar,*.tgz,*.cur,*.dll,*.dylib,*.bak,*.tmp,*.ico,*.gif,*.bmp,*.png,*.jpg"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings
+ S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.zip,*.rar,*.tgz,*.cur,*.dll,*.dylib,*.ico,*.gif,*.bmp,*.png,*.jpg"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings
 
  R:  R: 3
-M: Stash M:m=menus/fossil2.mnu
+M: Stash M:m=fossil2.mnu
 
 [OPTIONS]
 n=< fossil >

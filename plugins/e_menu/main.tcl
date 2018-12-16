@@ -66,7 +66,7 @@ namespace eval e_menu {
   #====== Save the selected text to a temporary file
 
   proc save_to_tmp {sel} {
-    set tmpname [file join [api::get_home_directory] "tmp_sel.tcl"]
+    set tmpname [file join [api::get_home_directory] "sel_tcl.tmp"]
     try {
       set tmpfile [open $tmpname w]
       puts -nonewline $tmpfile $sel
@@ -133,7 +133,9 @@ namespace eval e_menu {
       set h_opt "h=$offline_help_dir"
     } else {
       # try 2nd location of offline help ~/DOC/www.tcl.tk
-      set offline_help_dir "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"
+      if {[catch {set offline_help_dir "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"}]} {
+        set offline_help_dir "$datadir/www.tcl.tk/man/tcl8.6"
+      }
       if {[file exists $offline_help_dir]} {
         set h_opt "h=$offline_help_dir"
       }
@@ -155,7 +157,9 @@ namespace eval e_menu {
       }
       set file_name [fn [api::file::get_info $file_index fname]]
       if {$file_name != "" && $file_name != "Untitled"} {
-        set dir_name [fn [file dirname $file_name]]
+        set dir_name [file dirname $file_name]
+        catch {cd $dir_name}
+        set dir_name [fn $dir_name]
         set f_opt "f=$file_name"
         set d_opt "d=$dir_name"
         set D_opt "PD=$dir_name"
@@ -175,13 +179,13 @@ namespace eval e_menu {
     }
     set z1_opt "z1=$plugdir"
     if {[catch {
-        exec tclsh $plugdir/e_menu.tcl "md=$datadir" "m=menus/menu.mnu" "ed=tke" \
+        exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" "ed=tke" \
           fs=11 w=40 wc=1 $h_opt $s_opt $f_opt $d_opt \
           $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $z4_opt $D_opt &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
-        with arguments:\nmd=$datadir\nm=menus/menu.mnu\n
+        with arguments:\nmd=$datadir/menus\nm=menu.mnu\n
         ----------------------\n$e"
     }
     return

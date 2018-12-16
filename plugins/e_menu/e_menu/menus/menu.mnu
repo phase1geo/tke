@@ -13,7 +13,7 @@
 
  RE: Edit/create file "%s" RE:%E %s
 
- RE: Open directory "%s1" RE: %Q "CHANGE ME!" "The directory\n\n%d\n\nwould be open by \"caja\" file manager.\n\nYou can change it in\n\n%z1/menus/menu.mnu"
+ RE: Open directory "%s1" RE: %Q "CHANGE ME" "The directory\n\n%d\n\nwould be open by \"caja\" file manager.\n\nYou can change it in\n\n%mn"
  RE: Open directory "%s1" RE: %IF [::iswindows] %THEN explorer.exe "%d" %ELSE caja "%d"
 
  RE: Open terminal in "%s1" RE: cd %d
@@ -29,23 +29,23 @@
  M:  M: 4
  RE: Backup of %s0 RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
  RE: Backup of %s0 RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
- RE: Commit "%dd_at_%t2" RE: %q "FOSSIL" "Add all changes\nand commit with message\n\n'%dd_at_%t2' ?"
- RE: Commit "%dd_at_%t2" RE: cd %PD
- SE: Commit "%dd_at_%t2" SE: fossil addremove\nfossil commit -m "%dd_at_%t2"
+ RE: Commit "%dd_on_%t2" RE: %q "MERCURIAL" "Add all changes\nand HG COMMIT with message\n\n'%dd_at_%t2' ?"
+ RE: Commit "%dd_on_%t2" RE: cd %PD
+ SE: Commit "%dd_on_%t2" SE: hg addremove\nhg commit -m "%dd_on_%t2"
 
- RE: Differences of %s0 (in Fossil) RE: cd %d
- RE: Differences of %s0 (in Fossil) RE: fossil gdif %f
+ RE: Differences of %s0 (hg extdiff) RE: cd %d
+ RE: Differences of %s0 (hg extdiff) RE: hg extdiff -p kdiff3 %f
 
  # call TKE with directory of current project
  RE: Edit all %z4 RE: %e "%z4"
 
  M:  M: 4
- ME: Fossil ME: m=menus/fossil.mnu "u=%s" o=0 w=50
- ME: Git  ME: m=menus/git.mnu "u=%s" o=0 w=50
- ME: Hg ME: m=menus/hg.mnu
- ME: Utils ME: m=menus/utils.mnu
- ME: Links ME: m=menus/links.mnu
- ME: Tests ME: m=menus/test3.mnu
+ ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50
+ ME: Git  ME: m=git.mnu "u=%s" o=0 w=50
+ ME: Hg ME: m=hg.mnu
+ ME: Utils ME: m=utils.mnu
+ ME: Links ME: m=links.mnu
+ ME: Tests ME: m=test3.mnu
 
 [OPTIONS]
 n=< e_menu >
