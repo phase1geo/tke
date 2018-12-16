@@ -1,6 +1,14 @@
 filepatterns
 {*.xml}
 
+vimsyntax
+{xml}
+
+reference {
+  {{Emmet Reference} https://docs.emmet.io}
+  {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
+}
+
 matchcharsallowed
 {paren angled double single}
 
@@ -8,34 +16,24 @@ tabsallowed
 {0}
 
 casesensitive
-{0}
+{1}
 
 indent
-{<[^/>][^>]*[^/]?>}
-  
+{<[^/>](.*?[^/])?>}
+
 unindent
-{</[^>]*>}
- 
-lcomments {}
+{</.+?>}
+
+icomment {{<!--} {-->}}
 
 bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 
-strings {{"}}
+strings {double}
 
-keywords
-{}
-
-symbols
-{}
-
-numbers {}
-
-punctuation
-{
-  HighlightClassForRegexp {[<>&;=/]} {}
+punctuation {
+  HighlightRegexp {[<>&;=/]} {}
 }
 
-precompile {}
-
-miscellaneous {}
-
+miscellaneous1 {
+  HighlightRegexp {<.+?>} {}
+}

@@ -9,82 +9,458 @@ msgcat::mcmset pt {
 # bgproc.tcl
 msgcat::mcmset pt {
 
-  "Unable to run system command (%s)"
-  "Não é possível executar comandos do sistema (% s)"
+  "Unable to run system command"
+  "Não é possível executar o comando do sistema"
+
+}
+
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset pt {
+
+  "Built-In Self Test"
+  "Built-in-Test:"
+
+  "Decrementing order"
+  "Ordem decrescente"
+
+  "Edit Test"
+  "Editar teste"
+
+  "Edit Test File"
+  "Teste Arquivo"
+
+  "FAILED"
+  "ERRO"
+
+  "Fail"
+  "Reprovado"
+
+  "Fail Count"
+  "Falha Conde"
+
+  "Failed"
+  "Reprovado"
+
+  "Filter"
+  "Filtro"
+
+  "Incrementing order"
+  "Ordem de incremento"
+
+  "Iteration"
+  "2.a Iteração"
+
+  "Iteration count"
+  "Contagem de Iteração"
+
+  "Loop"
+  "Loop"
+
+  "Loop count"
+  "Contagem de Repetições"
+
+  "Loop type"
+  "Tipo de ciclo:"
+
+  "New Test"
+  "Teste Novo"
+
+  "New Test File"
+  "Teste Arquivo"
+
+  "New Test Name"
+  "Nome do Teste"
+
+  "Output"
+  "Realizações"
+
+  "PASSED"
+  "APROVADO"
+
+  "Pass"
+  "Aprovado"
+
+  "Pass Count"
+  "Contagem de Transmissão"
+
+  "Passed"
+  "Aprovado"
+
+  "RUNNING BIST"
+  "Corrida"
+
+  "Random"
+  "Aleatório"
+
+  "Refresh"
+  "Atualizar"
+
+  "Results"
+  "Resultados"
+
+  "Run Count"
+  "Executar contagem"
+
+  "Run iterations"
+  "Executar iterações"
+
+  "Run loops"
+  "Laços"
+
+  "Running"
+  "Corrida"
+
+  "Runtime"
+  "Tempo de execução"
+
+  "Selection method"
+  "Método de seleção"
+
+  "Setup"
+  "Configurações"
+
+  "Total"
+  "Total"
+
+  "hours"
+  "horas"
+
+  "minutes"
+  "minutos"
+
+  "seconds"
+  "segundos"
+
+}
+
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
+msgcat::mcmset pt {
+
+  "Center image"
+  "Imagem do centro"
+
+  "Flip image horizontally"
+  "Faz um espelho da imagem na horizontal."
+
+  "Flip image vertically"
+  "Faz um espelho da imagem na vertical."
+
+  "Move image down"
+  "Mover a Imagem"
+
+  "Move image left"
+  "Imagem a Esquerda"
+
+  "Move image right"
+  "Imagem à Direita"
+
+  "Move image up"
+  "Mover a Imagem"
+
+  "Rotate image 90 degrees"
+  "Rodar a imagem 90 graus"
+
+  "Transform Tools"
+  "Ferramentas de transformação"
+
+}
+
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
+msgcat::mcmset pt {
+
+  "    End: "
+  "Término:"
+
+  "    Start: "
+  "Início:"
+
+  "Enter difference command"
+  "Digite o comando de diferença"
+
+  "Enter starting file"
+  "Insira o arquivo inicial"
+
+}
+
+# edit.tcl
+msgcat::mcmset pt {
+
+  "File successfully written"
+  "Arquivo gravado com êxito"
+
+  "Filename already exists"
+  "Nome do arquivo já existe."
+
+  "Image URL"
+  "URL da Imagem"
+
+  "Link URL"
+  "URL do Link"
+
+}
+
+# emmet.tcl
+msgcat::mcmset pt {
+
+  "Abbreviation"
+  "Abreviação"
+
+  "Select File to Save"
+  "Selecione o arquivo para salvar"
+
+}
+
+# files.tcl
+msgcat::mcmset pt {
+
+  "Delete tab?"
+  "Excluir guia?"
+
+  "Reload file?"
+  "Actualizar o Ficheiro"
+
+  "Unable to determine how to move to trash"
+  "Não é possível determinar como mover para o lixo"
+
+  "Unable to determine platform"
+  "Não é possível determinar a plataforma"
+
+  "Unable to write file"
+  "não foi possível escrever no arquivo"
+
+  "Unable to write remote file"
+  "Não foi possível gravar o ficheiro"
 
 }
 
 # gui.tcl
 msgcat::mcmset pt {
 
-  "%s, Line: %d, Column: %d"
-  "% S, linha% d, coluna% d"
+  "Case sensitivity"
+  "Distinção entre maiúsculas e minúsculas"
+
+  "Close All Other Tabs"
+  "Feche os outros separadores"
 
   "Close All Tabs"
   "Fechar todas as guias"
 
-  "Close Other Tab(s)"
-  "Fechar Outros Tab (s)"
+  "Close All Tabs In Pane"
+  "Fechar todas as guias no painel"
 
-  "Close Other*"
-  "Feche os outros separadores"
+  "Close Other Tabs In Pane"
+  "Fechar outras guias no painel"
 
   "Close Tab"
   "Fechar a Página"
 
-  "Copyright %d-%d"
-  "Copyright% d-% d"
+  "Column"
+  "Coluna"
 
-  "Delete tab?"
-  "Excluir guia?"
+  "Copyright"
+  "Direitos de Autor"
 
-  "Developer:"
+  "Credits"
+  "Creditos"
+
+  "Developer"
   "Desenvolvedor"
 
-  "Email:"
-  "E-mail:"
+  "Email"
+  "E-mail"
+
+  "Error"
+  "Erro"
+
+  "Exact"
+  "Exato:"
 
   "Favorited"
   "Favorito"
 
-  "File attribute (%s) does not exist"
-  "Atributo do arquivo (% s) não existe"
+  "File already exists.  Use '!' to force an overwrite"
+  "Arquivo já existe.  Uso '!' para forçar uma sobrescrever"
 
   "File index is out of range"
   "Índice arquivo está fora do intervalo"
 
-  "Line: %d, Column: %d"
-  "Linha:% d, coluna% d"
+  "Glob"
+  "Global"
+
+  "Hide Tab"
+  "Ocultar guia"
+
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "Imagem exibida em formulários de preenchimento que fecha o formulário da interface do usuário.  Usado em formulários como busca, busca/substituição e localizar em arquivos."
+
+  "Image displayed in find field to search for next match."
+  "Imagem exibida no campo localizar para procurar o próximo jogo."
+
+  "Image displayed in find field to search for previous match."
+  "Imagem exibida no campo localizar para procurar a correspondência anterior."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Imagem usada nos menus de guia para indicar que o arquivo está associado uma visão de diferença."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Imagem usada nos menus de guia para indicar que o arquivo está bloqueado."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Imagem usada nos menus de guia para indicar que o arquivo é somente leitura."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Imagem usada no guia para indicar que o guia contém uma visão de diferença."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Imagem usada no guia para indicar que arquivo a aba é somente leitura."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Imagem usada no guia para indicar que arquivo a aba é bloqueada."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Imagem usada no guia que, quando clicado, fecha a guia."
+
+  "Image used in the preferences window in the Advanced tab."
+  "Imagem usada na janela de preferências, na guia Avançado."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Imagem usada na janela de preferências, na guia aparência."
+
+  "Image used in the preferences window in the Documentation tab."
+  "Imagem usada na janela de preferências, na guia de documentação."
+
+  "Image used in the preferences window in the Editor tab."
+  "Imagem usada na janela de preferências, na aba Editor."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Imagem usada na janela de preferências, na aba de Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "Imagem usada na janela de preferências na guia localizar."
+
+  "Image used in the preferences window in the General tab."
+  "Imagem usada na janela de preferências, na guia geral."
+
+  "Image used in the preferences window in the Plugins tab."
+  "Imagem usada na janela de preferências, na aba Plugins."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Imagem usada na janela de preferências na guia atalhos."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Imagem usada na janela de preferências, na aba lateral."
+
+  "Image used in the preferences window in the Snippets tab."
+  "Imagem usada na janela de preferências, na aba de trechos."
+
+  "Image used in the preferences window in the View tab."
+  "Imagem usada na janela de preferências, na guia Exibir."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Imagem usada na janela de preferências para indicar que um item da tabela está desmarcado."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Imagem usada na janela de preferências para indicar que um item da tabela está seleccionado."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Imagem usada na janela de preferências para indicar que algo é verdadeiro."
+
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Imagens usadas na guia que serão exibidas quando o mouse entrar na área do botão fechar"
+
+  "In"
+  "Em"
+
+  "License"
+  "Licença"
 
   "Locked"
   "Bloqueado"
 
-  "Move to Other Pane"
-  "Mover para outro painel"
+  "Move"
+  "Mover"
 
-  "Move*"
-  "Mudar"
+  "Must be in multicursor mode to insert numbers"
+  "Deve estar no modo de multicursor para inserir números"
 
-  "Reload file?"
-  "Actualizar o Ficheiro"
+  "No write permissions.  Use '!' to force write."
+  "Sem permissões.  Uso '!' para forçar a escrever."
+
+  "Regexp"
+  "Expressão regular"
+
+  "Release Type"
+  "Tipo de lançamento"
+
+  "Replace"
+  "Substituir"
+
+  "Replace All"
+  "Substituir tudo"
 
   "Save request"
   "Salvar Pedido"
 
-  "Show in Sidebar"
-  "Show em Sidebar"
+  "Save this search"
+  "Guardar esta pesquisa?"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Total de linhas:% d, Total Personagens:% d"
+  "Starting number:"
+  "Número de página inicial:"
 
-  "Unable to find current file (tab: %s)"
-  "Não foi possível localizar o arquivo atual (guia:% s)"
+  "Tcl/Tk Version"
+  "Versão do Tcl/Tk"
 
-  "Untitled"
-  "Untitled"
+  "Total Characters"
+  "Personagens totais"
 
-  "Version:"
-  "Versão:"
+  "Total Lines"
+  "Linhas totais"
+
+  "Unable to successfully parse number string"
+  "Não é possível analisar com êxito a cadeia numérica"
+
+  "for"
+  "por"
+
+}
+
+# indent.tcl
+msgcat::mcmset pt {
+
+  "No Indent"
+  "Sem recuo"
+
+}
+
+# ipanel.tcl (Information panel displayed in the sidebar)
+msgcat::mcmset pt {
+
+  "Binary"
+  "Binário"
+
+  "Close Panel"
+  "Fechar Painel"
+
+  "Counts"
+  "Totais"
+
+  "Modified"
+  "Modificado"
+
+  "No"
+  "Não"
+
+  "Read Time"
+  "Tempo de leitura"
+
+  "Update Info"
+  "Atualizar Perfil"
+
+  "Yes"
+  "Sim"
+
+  "value copied to clipboard"
+  "valor copiado para a área de transferência"
 
 }
 
@@ -99,23 +475,98 @@ msgcat::mcmset pt {
 # menus.tcl
 msgcat::mcmset pt {
 
-  "                                  Profiling Report Sorted By (%s)"
-  "Profiling Relatório Ordenado por (% s)"
+  "About"
+  "Sobre"
 
-  "About TKE"
-  "Sobre TKE"
+  "Absolute"
+  "Absoluta"
 
-  "Align cursors"
-  "Alinhe cursores"
+  "Absolute line numbering"
+  "Numeração de linha absoluta"
 
-  "All"
-  "Tudo"
+  "Add Next Line"
+  "Próxima Linha"
 
-  "Append next occurrence"
-  "Acrescente próxima ocorrência"
+  "Add Previous Line"
+  "Adicionar linha anterior"
 
-  "Check for Update"
-  "Procurar atualização agora"
+  "Add next line to selection"
+  "Adicione a próxima linha à seleção"
+
+  "Add previous line to selection"
+  "Adicionar linha anterior à seleção"
+
+  "Align Cursors Only"
+  "Alinhar os cursores somente"
+
+  "Align Cursors and Text"
+  "Alinhar texto e cursores"
+
+  "Align Panes"
+  "Alinhar os painéis"
+
+  "Align current lines in both panes"
+  "Alinhar linhas de corrente em ambos os painéis"
+
+  "Align cursors and text"
+  "Alinhar texto e cursores"
+
+  "Align cursors only"
+  "Alinhar os cursores somente"
+
+  "All Levels"
+  "﻿Todos as dificuldade"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Todas as configurações de idioma específico para a sessão atual serão removidas e serão aplicadas as configurações globais para o idioma especificado."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Todas as configurações de idioma específico serão removidas e serão aplicadas as configurações globais para o idioma especificado."
+
+  "Append current find text to selection"
+  "Acrescentar texto atual encontrar a seleção"
+
+  "Balance Inward"
+  "Equilíbrio interior"
+
+  "Balance Outward"
+  "Equilíbrio para o exterior"
+
+  "Balance tag pair moving inward"
+  "Equilíbrio marca par se movendo para dentro"
+
+  "Balance tag pair moving outward"
+  "Equilíbrio marca par movendo-se para o exterior"
+
+  "Bold"
+  "Negrito"
+
+  "Bubble Down"
+  "Bolha para baixo"
+
+  "Bubble Up"
+  "Forem surgindo"
+
+  "Bubble lines down one line"
+  "Linhas de bolha para baixo uma linha"
+
+  "Bubble lines up one line"
+  "Linhas de bolha, uma linha"
+
+  "Change Working Directory"
+  "Alterar o diretório de trabalho"
+
+  "Change working directory"
+  "Altere o diretório de trabalho"
+
+  "Check for update"
+  "Buscar por atualizações"
+
+  "Checkbox"
+  "Caixa de Seleção"
+
+  "Classic Mac"
+  "Com seu clássico Mac"
 
   "Clear All"
   "Limpar Tudo"
@@ -123,38 +574,278 @@ msgcat::mcmset pt {
   "Close All"
   "Fechar Tudo"
 
-  "Comment"
-  "Comentário"
+  "Close All Folds"
+  "Fechar todas as dobras"
 
-  "Copy"
-  "Copiar"
+  "Close Current"
+  "Fechar a Vista Actual"
 
-  "Create new..."
-  "Criar uma nova"
+  "Close Current Fold"
+  "Fechar dobra atual"
 
-  "Create..."
-  "Criar..."
+  "Close Selected Folds"
+  "Fechar selecionado dobras"
+
+  "Close all folds"
+  "Fechar todas as dobras"
+
+  "Close all tabs"
+  "Fechar todas as guias"
+
+  "Close current session"
+  "Fecha a página actual e a sessão residente nesta."
+
+  "Close current tab"
+  "Fechar o separador actual"
+
+  "Close fold at current line - all levels"
+  "Dobra estreita na atual linha - todos os níveis"
+
+  "Close fold at current line - one level"
+  "Dobra estreita na atual linha - um nível"
+
+  "Close selected folds - all levels"
+  "Fechar dobras selecionadas - todos os níveis"
+
+  "Close selected folds - one level"
+  "Feche o selecionado dobras - um nível"
+
+  "Code"
+  "Código Postal"
+
+  "Command"
+  "Comando"
+
+  "Command Result"
+  "Resultado do comando"
+
+  "Convert case to lower"
+  "Converter o caso para baixar"
+
+  "Convert case to title"
+  "Converter o caso para o título"
+
+  "Convert case to upper"
+  "Converter o caso ao superior"
+
+  "Copy text"
+  "Copiar o Texto"
+
+  "Create Fold From Selection"
+  "Criar a Partir da Selecção"
+
+  "Create at Current Line"
+  "Criar na linha atual"
+
+  "Create fold from selection"
+  "Criar a Partir da Selecção"
+
+  "Create marker at current line"
+  "Criar marcador na linha atual"
+
+  "Create new plugin"
+  "Criar novo plugin"
+
+  "Current Bounded Text"
+  "Texto limitado atual"
+
+  "Current Paragraph"
+  "Parágrafo atual"
+
+  "Current Sentence"
+  "are you angry with me"
 
   "Cut"
   "Cortar"
 
-  "Edit"
+  "Cut text"
+  "Recorta o texto"
+
+  "Decrement by 0.1"
+  "Decrementar por 0.1"
+
+  "Decrement by 1"
+  "Decrementar por 1"
+
+  "Decrement by 10"
+  "Decrementar por 10"
+
+  "Decrement number by 0.1"
+  "Diminuir o número por 0,1"
+
+  "Decrement number by 1"
+  "Diminuir o número por 1"
+
+  "Decrement number by 10"
+  "Diminuir o número por 10"
+
+  "Delete All Folds"
+  "Excluir todas as dobras"
+
+  "Delete Current Fold"
+  "Apagar a Actual"
+
+  "Delete Selected Folds"
+  "Excluir selecionadas dobras"
+
+  "Delete Session"
+  "Remover sessão"
+
+  "Delete User"
+  "Deletar Usuários"
+
+  "Delete all folds"
+  "Excluir todas as dobras"
+
+  "Delete all selected folds"
+  "Excluir todas as dobras selecionadas"
+
+  "Delete current file"
+  "Apagar a Actual"
+
+  "Delete fold at current line"
+  "Excluir a dobra na linha atual"
+
+  "Delete language preferences?"
+  "Excluir as preferências de idioma?"
+
+  "Delete session"
+  "Remover sessão"
+
+  "Delete session language preferences?"
+  "Excluir as preferências de idioma de sessão?"
+
+  "Delete template"
+  "Excluir"
+
+  "Disable Vim mode"
+  "Desativar o modo de Vim"
+
+  "Disable code folding"
+  "Desativar o dobramento de código"
+
+  "Disable two-pane scrolling Synchronization"
+  "Desativar sincronização de rolagem de dois painéis"
+
+  "Display Text Info"
+  "Informações do visor"
+
+  "Display text information"
+  "Informações do Display"
+
+  "Duplicate current file"
+  "Arquivo atual duplicado"
+
+  "Edit Custom Abbreviations"
+  "Editar abreviaturas personalizadas"
+
+  "Edit Language"
+  "Editar idioma"
+
+  "Edit Session"
+  "Editar a sessão"
+
+  "Edit User"
+  "Editar Usuário"
+
+  "Edit custom Emmet abbreviations"
+  "Editar abreviaturas personalizadas de Emmet"
+
+  "Edit language snippets"
+  "Editar trechos de linguagem"
+
+  "Edit session current language preferences"
+  "Editar preferências de idioma atual sessão"
+
+  "Edit session global preferences"
+  "Editar preferências de sessão global"
+
+  "Edit template"
   "Editar"
 
-  "Edit current"
-  "Editar atual"
+  "Edit user current language preferences"
+  "Editar preferências de idioma atual do usuário"
 
-  "Edit user"
-  "Editar usuário"
+  "Edit user global preferences"
+  "Editar preferências de usuário global"
 
-  "Edit..."
-  "Editar..."
+  "Edit user snippets"
+  "Editar trechos de usuário"
 
-  "File"
-  "Arquivo"
+  "Enable Code Folding"
+  "Habilitar o dobramento de código"
 
-  "Find"
-  "Encontrar"
+  "Enable Synchronized Scrolling"
+  "Habilitar a rolagem sincronizada"
+
+  "Enable Vim mode"
+  "Ativar o modo de Vim"
+
+  "Enable two-pane scrolling synchronization"
+  "Habilitar a sincronização de rolagem de dois painéis"
+
+  "Encode/Decode Image to Data:URL"
+  "Imagem de codificar/decodificar dados: URL"
+
+  "Encode/Decode image to data:URL"
+  "Imagem de dados: URL Encode/Decode"
+
+  "Enter selection mode"
+  "Entrar no modo de seleção"
+
+  "Enumeration"
+  "Enumeração"
+
+  "Evaluate Math Expression"
+  "Avaliar a expressão matemática"
+
+  "Evaluate the current math expression"
+  "Avaliar a expressão matemática atual"
+
+  "Expand Abbreviation"
+  "Expandir a abreviatura"
+
+  "Expand Emmet abbreviation"
+  "Expandir a abreviatura de Emmet"
+
+  "Export As"
+  "Exportar Como"
+
+  "Export Custom Themes"
+  "Temas personalizados de exportação"
+
+  "Export complete"
+  "Exportação completa"
+
+  "Export current plugin"
+  "Plugin de exportação atual"
+
+  "Export file contents"
+  "Conteúdo do arquivo de exportação"
+
+  "Favorite file"
+  "Arquivo favorito"
+
+  "File Contents"
+  "conteúdo de ficheiro"
+
+  "Find In Files"
+  "Procurar nos Ficheiros..."
+
+  "Find Matching Bracket"
+  "Encontrar correspondência colchete"
+
+  "Find Next"
+  "Localizar Seguinte"
+
+  "Find Next Bracket Mismatch"
+  "Encontrar o próximo suporte incompatibilidade"
+
+  "Find Previous"
+  "Localizar Anterior"
+
+  "Find Previous Bracket Mismatch"
+  "Localizar anterior incompatibilidade de suporte"
 
   "Find and Replace"
   "Localizar e substituir"
@@ -162,17 +853,44 @@ msgcat::mcmset pt {
   "Find in files"
   "Procurar nos Ficheiros..."
 
-  "Find marker"
-  "Encontre marcador"
+  "Find matching character pair"
+  "Encontrar o par de caracteres correspondente"
 
-  "Find matching pair"
-  "Encontre par combinando"
+  "Find next mismatching bracket"
+  "Encontrar o próximo suporte incompatível"
+
+  "Find previous mismatching bracket"
+  "Encontrar suporte incompatível anterior"
+
+  "Folding"
+  "Dobragem"
+
+  "Format"
+  "Formato"
 
   "Format Text"
   "Text Format"
 
+  "Format indentation for text"
+  "Recuo de formato para texto"
+
   "From Clipboard"
   "Correcção da Área de Transferência"
+
+  "Global"
+  "Global"
+
+  "Go to Matching Pair"
+  "Ir a par de correspondência"
+
+  "Go to matching tag pair"
+  "Ir a correspondente marca par"
+
+  "Go to next edit point"
+  "Vá para editar próximo ponto"
+
+  "Go to previous edit point"
+  "Vá para o ponto de edição anterior"
 
   "Goto Last Tab"
   "Ir à última guia"
@@ -186,11 +904,44 @@ msgcat::mcmset pt {
   "Goto Previous Tab"
   "Ir à aba anterior"
 
+  "Goto last tab"
+  "Última guia goto"
+
+  "Goto next difference"
+  "Ir para a próxima diferença"
+
+  "Goto next tab"
+  "Ir para a próxima guia"
+
+  "Goto other pane"
+  "Ir para outro painel"
+
+  "Goto previous difference"
+  "Diferença Anterior"
+
+  "Goto previous tab"
+  "Aba anterior"
+
+  "Header"
+  "Cabeçalho"
+
   "Help"
   "Ajuda"
 
-  "Hide Console"
-  "Ocultar Console"
+  "Hide All Tabs"
+  "Ocultar tudo"
+
+  "Hide Current Tab"
+  "Tab Atual"
+
+  "Hide Line Numbers"
+  "Esconder os números de linha"
+
+  "Hide Marker Map"
+  "Esconder mapa marcador"
+
+  "Hide Meta Characters"
+  "Esconder os Meta caracteres"
 
   "Hide Sidebar"
   "Esconder a Barra Lateral"
@@ -201,284 +952,395 @@ msgcat::mcmset pt {
   "Hide Tab Bar"
   "Esconder Tab Bar"
 
-  "Import TextMate theme..."
-  "Importação tema TextMate ..."
+  "Hide Tcl Console"
+  "Esconder o Console Tcl"
+
+  "Hide Tcl console"
+  "Esconder o console Tcl"
+
+  "Hide line numbers"
+  "Números de linha"
+
+  "Hide marker map"
+  "Esconder mapa marcador"
+
+  "Hide meta characters"
+  "Esconder os meta caracteres"
+
+  "Hide sidebar"
+  "Ocultar barra lateral"
+
+  "Hide status bar"
+  "Ocultar barra de Status"
+
+  "Hide tab bar"
+  "Ocultar barra de guia"
+
+  "Highlight"
+  "Realçar"
+
+  "Image"
+  "Imagem"
+
+  "Import plugin bundle"
+  "Pacote de plugin de importação"
+
+  "Increment by 0.1"
+  "Incremento de 0.1"
+
+  "Increment by 1"
+  "Incremento de 1"
+
+  "Increment by 10"
+  "Incremento de 10"
+
+  "Increment number by 0.1"
+  "Número de incremento por 0,1"
+
+  "Increment number by 1"
+  "Número de incremento por 1"
+
+  "Increment number by 10"
+  "Número de incremento por 10"
 
   "Indent"
   "Avançar"
 
-  "Insert Text"
-  "Inserir um Índice"
+  "Indent Off"
+  "Travessão fora"
+
+  "Indent selected text"
+  "Recuar o texto selecionado"
+
+  "Indentation"
+  "Indentação"
+
+  "Insert bold formatting"
+  "Inserir a formatação em negrito"
+
+  "Insert checklist formatting"
+  "Inserir a formatação de lista de verificação"
+
+  "Insert code formatting"
+  "Inserir código de formatação"
+
+  "Insert command result after current line"
+  "Inserir o resultado do comando depois da linha atual"
 
   "Insert enumeration"
-  "Insira enumeração"
+  "Inserir a enumeração"
 
-  "Install..."
-  "Instalação"
+  "Insert file contents after current line"
+  "Inserir o conteúdo do arquivo depois da linha atual"
 
-  "Launcher"
-  "Lançador"
+  "Insert from clipboard"
+  "Inserir a partir da área de transferência"
+
+  "Insert header style"
+  "Inserir o estilo do cabeçalho"
+
+  "Insert highlight formatting"
+  "Inserir a formatação de destaque"
+
+  "Insert image formatting"
+  "Inserir imagem formatação"
+
+  "Insert italics formatting"
+  "Inserir a formatação de itálico"
+
+  "Insert line above current line"
+  "Inserir linha acima da linha atual"
+
+  "Insert line below current line"
+  "Inserir linha abaixo da linha atual"
+
+  "Insert link formatting"
+  "Inserir link formatação"
+
+  "Insert ordered list formatting"
+  "Inserir a formatação de lista ordenada"
+
+  "Insert snippet"
+  "Inserir trecho"
+
+  "Insert strikethrough formatting"
+  "Inserir a formatação tachado"
+
+  "Insert subscript formatting"
+  "Inserir a formatação de subscrito"
+
+  "Insert superscript formatting"
+  "Inserir a formatação sobrescrito"
+
+  "Insert underline formatting"
+  "Inserir a formatação de sublinhado"
+
+  "Insert unordered list formatting"
+  "Inserir a formatação de lista não ordenada"
+
+  "Install"
+  "Instalar"
+
+  "Install plugin"
+  "Instalar Plugin"
+
+  "Italics"
+  "Itálico"
+
+  "Join Lines"
+  "Unir Linhas"
+
+  "Join lines"
+  "Unir Linhas"
+
+  "Jump Backward"
+  "Saltar para trás"
+
+  "Jump Forward"
+  "Saltar para a frente"
+
+  "Jump To Line"
+  "Saltar para a linha"
+
+  "Jump backward"
+  "Saltar para trás"
+
+  "Jump forward"
+  "Saltar para a frente"
+
+  "Jump to Next Fold Mark"
+  "Saltar para a próxima marca de dobra"
+
+  "Jump to Previous Fold Mark"
+  "Saltar para a marca de dobra anterior"
+
+  "Jump to line"
+  "Saltar para a linha"
+
+  "Jump to the next fold indicator"
+  "Saltar para o próximo indicador de dobra"
+
+  "Jump to the previous fold indicator"
+  "Saltar para o indicador anterior de dobra"
+
+  "Line Above Current"
+  "Linha superior corrente"
+
+  "Line Below Current"
+  "Linha abaixo a corrente"
+
+  "Line Ending"
+  "Linha final"
+
+  "Line Number"
+  "Número de Linha"
+
+  "Line Numbering"
+  "Numeração de Linhas"
+
+  "Line Wrapping"
+  "Quebra de linha"
+
+  "Link"
+  "Ligação"
 
   "Lock"
   "Fixar"
 
-  "Menu Bindings"
-  "Ligações de Menu"
+  "Lock file"
+  "Bloqueio de arquivo"
 
-  "Menu: About TKE"
-  "Menu: Sobre TKE"
+  "Lower Case"
+  "caixa baixa"
 
-  "Menu: Align cursors"
-  "Menu: Alinhe cursores"
+  "Markers"
+  "Marcadores"
 
-  "Menu: Append next occurrence"
-  "Menu: Anexar próxima ocorrência"
+  "Menu"
+  "Menu"
 
-  "Menu: Check for Update"
-  "Menu: Verificar Atualizações"
+  "Merge Lines"
+  "Mesclar linhas"
 
-  "Menu: Close all tabs"
-  "Fechar todas as guias"
+  "Merge Panes"
+  "Mesclar painéis"
 
-  "Menu: Close current tab"
-  "Menu: guia atual Fechar"
+  "Merge panes"
+  "Mesclar painéis"
 
-  "Menu: Comment selected text"
-  "Menu: Comentário texto selecionado"
+  "Move Cursors Down"
+  "Mova os cursores para baixo"
 
-  "Menu: Copy selected text"
-  "Menu: Copiar texto selecionado"
+  "Move Cursors Left"
+  "Mover cursores esquerda"
 
-  "Menu: Create new plugin"
-  "Menu: Criar novo plugin"
+  "Move Cursors Right"
+  "Mover para a direita de cursores"
 
-  "Menu: Create new theme"
-  "Criar um Novo Tema..."
+  "Move Cursors Up"
+  "Mova os cursores para cima"
 
-  "Menu: Cut selected text"
-  "Menu: Cortar um texto selecionado"
+  "Move cursor to bottom of screen"
+  "Mova o cursor para o fundo da tela"
 
-  "Menu: Disable Vim mode"
-  "Menu: modo Disable Vim"
+  "Move cursor to end of current line"
+  "Mover o cursor para o fim da linha atual"
 
-  "Menu: Edit Tke theme"
-  "Menu: Editar tema Tke"
+  "Move cursor to first line"
+  "Mova o cursor para a primeira linha"
 
-  "Menu: Edit current snippets"
-  "Menu: Editar trechos atuais"
+  "Move cursor to last line"
+  "Mova o cursor para a última linha"
 
-  "Menu: Edit user menu bindings"
-  "Ligações do menu Editar usuário: Menu"
+  "Move cursor to middle of screen"
+  "Mova o cursor para o meio da tela"
 
-  "Menu: Edit user preferences"
-  "Editar preferências de usuário: Menu"
+  "Move cursor to next page"
+  "Mova o cursor para a próxima página"
 
-  "Menu: Enable Vim mode"
-  "Menu: Ative o modo Vim"
+  "Move cursor to next word"
+  "Mova o cursor para a próxima palavra"
 
-  "Menu: Favorite file"
-  "Menu: arquivo Favorita"
+  "Move cursor to previous page"
+  "Mova o cursor para a página anterior"
 
-  "Menu: Find"
-  "Menu: Encontre"
+  "Move cursor to previous word"
+  "Mova o cursor para a palavra anterior"
 
-  "Menu: Find and Replace"
-  "Localizar e substituir"
+  "Move cursor to start of current line"
+  "Mover o cursor para o início da linha atual"
 
-  "Menu: Find in files"
-  "Procurar nos Ficheiros"
+  "Move cursor to top of screen"
+  "Mova o cursor para a parte superior da tela"
 
-  "Menu: Find matching character pair"
-  "Menu: Encontre correspondência par de caracteres"
+  "Move multicursors down one line"
+  "Multicursors mover para baixo uma linha"
 
-  "Menu: Find next occurrence"
-  "Menu: Encontre próxima ocorrência"
+  "Move multicursors left one line"
+  "Mover o multicursors esquerdo de uma linha"
 
-  "Menu: Find previous occurrence"
-  "Menu: Encontre ocorrência anterior"
+  "Move multicursors right one line"
+  "Mover multicursors bem uma linha"
 
-  "Menu: Format all text"
-  "Menu: Formate todo o texto"
+  "Move multicursors up one line"
+  "Multicursors mover uma linha"
 
-  "Menu: Format selected text"
-  "Menu: Formato texto selecionado"
+  "Move to First Line"
+  "Mover para a primeira linha"
 
-  "Menu: Goto last tab"
-  "Menu: Ir à última guia"
+  "Move to Last Line"
+  "Mover para a última linha"
 
-  "Menu: Goto next tab"
-  "Menu: Ir à guia ao lado"
+  "Move to Line End"
+  "Mover para o fim de linha"
 
-  "Menu: Goto other pane"
-  "Menu: outro painel Goto"
+  "Move to Line Start"
+  "Mover para a linha de início"
 
-  "Menu: Goto previous tab"
-  "Menu: Ir à guia anterior"
+  "Move to Next Page"
+  "Mover para a próxima página"
 
-  "Menu: Hide Tab Bar"
-  "Menu: Esconder Tab Bar"
+  "Move to Next Word"
+  "Mover para a próxima palavra"
 
-  "Menu: Hide console"
-  "Menu: Esconder consola"
+  "Move to Previous Page"
+  "Ir para página anterior"
 
-  "Menu: Hide sidebar"
-  "Menu: ocultar barra lateral"
+  "Move to Previous Word"
+  "Mover para a palavra anterior"
 
-  "Menu: Hide status bar"
-  "Menu: Ocultar barra de status"
+  "Move to Screen Bottom"
+  "Mover para o fundo de tela"
 
-  "Menu: Import TextMate theme"
-  "Menu: tema Import TextMate"
+  "Move to Screen Middle"
+  "Mover para o meio da tela"
 
-  "Menu: Indent selected text"
-  "Menu: Recuo texto selecionado"
-
-  "Menu: Insert enumeration"
-  "Menu: Inserir enumeração"
-
-  "Menu: Insert from clipboard"
-  "Inserir a partir da área de transferência"
-
-  "Menu: Insert snippet"
-  "Menu: Inserir trecho"
-
-  "Menu: Install plugin"
-  "Menu: Instalar plug-in"
-
-  "Menu: Lock file"
-  "Menu: arquivo de bloqueio"
-
-  "Menu: Move to other pane"
-  "Menu: Mover para outro painel"
-
-  "Menu: New file"
-  "Menu: Novo arquivo"
-
-  "Menu: Open Favorite"
-  "Menu: Abra Favorita"
-
-  "Menu: Open Recent"
-  "Menu: Abrir recente"
-
-  "Menu: Open directory"
-  "Menu: Abrir diretório"
-
-  "Menu: Open file"
-  "Menu: Abrir arquivo"
-
-  "Menu: Paste and format text from clipboard"
-  "Menu: Colar e formato de texto da área de transferência"
-
-  "Menu: Paste text from clipboard"
-  "Colar texto da área de transferência"
-
-  "Menu: Quit application"
-  "Menu: Sair da aplicação"
-
-  "Menu: Redo"
-  "Menu: Refazer"
-
-  "Menu: Reload all plugins"
-  "Menu: Atualizar todos os plugins"
-
-  "Menu: Reload current snippets"
-  "Menu: Atualizar trechos atuais"
-
-  "Menu: Restart tke"
-  "Menu: Restart tke"
-
-  "Menu: Save all files"
-  "Menu: Salve todos os arquivos"
-
-  "Menu: Save file"
-  "Menu: Salve o arquivo"
-
-  "Menu: Save file as"
-  "Menu: Salvar arquivo como"
-
-  "Menu: Select all occurrences"
-  "Menu: Selecione todas as ocorrências"
-
-  "Menu: Select all text"
-  "Seleccionar Todo o Texto"
-
-  "Menu: Set user bindings to global bindings"
-  "Menu: Define ligações de usuários para ligações globais"
-
-  "Menu: Set user preferences to global preferences"
-  "Menu: Definir as preferências do usuário para preferências globais"
-
-  "Menu: Show Tab Bar"
-  "Menu: Visualizar Tab Bar"
-
-  "Menu: Show console"
-  "Menu: Visualizar consola"
-
-  "Menu: Show last profiling report"
-  "Menu: Mostrar último relatório de profiling"
-
-  "Menu: Show sidebar"
-  "Menu: Mostrar barra lateral"
-
-  "Menu: Show status bar"
-  "Barra de Estado"
-
-  "Menu: Sort tabs"
-  "Menu: Ordenação de guias"
-
-  "Menu: Start profiling"
-  "Menu: Iniciar profiling"
-
-  "Menu: Stop profiling"
-  "Menu: Pare de perfis"
-
-  "Menu: Toggle split view mode"
-  "Menu: Alterna modo de exibição de divisão"
-
-  "Menu: Uncomment selected text"
-  "Menu: Descomente texto selecionado"
-
-  "Menu: Undo"
-  "Menu: Desfazer"
-
-  "Menu: Unfavorite file"
-  "Menu: arquivo Unfavorite"
-
-  "Menu: Unindent selected text"
-  "Menu: texto selecionado Unindent"
-
-  "Menu: Uninstall plugin"
-  "Menu: Desinstalar Plugin"
-
-  "Menu: Unlock file"
-  "Menu: Desbloquear arquivo"
-
-  "Menu: View User Guide"
-  "Menu: Ver Guia do Usuário"
-
-  "Menu: View global menu bindings"
-  "Menu: Ver ligações de menu global"
-
-  "Menu: View global preferences"
-  "Menu: Exibir preferências globais"
+  "Move to Screen Top"
+  "Mover para o topo da tela"
 
   "Move to other pane"
   "Mover para outro painel"
 
-  "New"
-  "Novo"
+  "New From Template"
+  "Novo a Partir de Modelo"
 
-  "Open Directory..."
-  "Abrir diretório..."
+  "New Window"
+  "Nova Janela"
+
+  "New file"
+  "Novo arquivo"
+
+  "New file from template"
+  "Novo a partir do modelo"
+
+  "New window"
+  "Nova janela"
+
+  "Next Difference"
+  "Próxima Diferença"
+
+  "Next Edit Point"
+  "Editar Ponto"
+
+  "One Level"
+  "Um nível"
+
+  "Open All Folds"
+  "Abrir todas as dobras"
+
+  "Open Current Fold"
+  "Abrir atual"
+
+  "Open Directory"
+  "Abrir uma Pasta"
 
   "Open Favorite"
   "Abrir Favorita"
 
-  "Open File..."
-  "Abrir um Ficheiro..."
+  "Open File"
+  "Abrir Ficheiro"
 
   "Open Recent"
   "Abrir um Recente"
+
+  "Open Remote"
+  "Controlo Remoto"
+
+  "Open Selected Folds"
+  "Abrir selecionado dobras"
+
+  "Open all folds"
+  "Abrir todas as dobras"
+
+  "Open directory"
+  "Abrir diretório..."
+
+  "Open file"
+  "Abrir um ficheiro"
+
+  "Open fold at current line - all levels"
+  "Abrir na atual linha - todos os níveis"
+
+  "Open fold at current line - one level"
+  "Abrir na atual linha - um nível"
+
+  "Open folds to show cursor"
+  "Dobras abertas para mostrar o cursor"
+
+  "Open remote file or directory"
+  "Abrir arquivo remoto ou diretório"
+
+  "Open selected folds - all levels"
+  "Dobras de selecionado abertas - todos os níveis"
+
+  "Open selected folds - one level"
+  "Dobras de selecionado abertas - um nível"
+
+  "Ordered Bullet"
+  "Bala de ordenada"
+
+  "Panes"
+  "Janelas"
 
   "Paste"
   "Colar"
@@ -486,11 +1348,23 @@ msgcat::mcmset pt {
   "Paste and Format"
   "Colar formato"
 
-  "Plugins"
-  "Plugins"
+  "Paste and format text from clipboard"
+  "Formato e colar texto da área de transferência"
 
-  "Preferences"
-  "Preferências"
+  "Paste text from clipboard"
+  "Colar da área de transferência"
+
+  "Plugin Developer Guide"
+  "Guia do desenvolvedor do plugin"
+
+  "Previous Difference"
+  "Diferença Anterior"
+
+  "Previous Edit Point"
+  "Ponto de edição anterior"
+
+  "Profiling Report Sorted By"
+  "Relatório de perfil classificado por"
 
   "Profiling started"
   "Profiling começou"
@@ -501,41 +1375,197 @@ msgcat::mcmset pt {
   "Quit"
   "Desistir"
 
+  "Quit application"
+  "Sair da aplicação"
+
+  "Recent Directories"
+  "Diretórios recentes"
+
+  "Recent Files"
+  "Arquivos Recentes"
+
   "Redo"
   "Refazer"
+
+  "Reflect CSS Value"
+  "Refletem o valor CSS"
+
+  "Reflect current CSS value"
+  "Refletem o valor atual do CSS"
+
+  "Relative"
+  "Relativo"
+
+  "Relative line numbering"
+  "Numeração de linha relativa"
 
   "Reload"
   "Recarregar"
 
-  "Reload current"
-  "Atual Reload"
+  "Reload all plugins"
+  "Recarregar os 'Plugins'"
 
-  "Reset user to base"
-  "Redefinir usuário basear"
+  "Reload snippets"
+  "Trechos de recarga"
 
-  "Restart tke"
-  "Restart tke"
+  "Reload template information"
+  "Informações do modelo de recarga"
+
+  "Remove All From Current Buffer"
+  "Retire tudo do Buffer atual"
+
+  "Remove All Markers"
+  "Remova todos os marcadores"
+
+  "Remove Formatting"
+  "Remover formatação"
+
+  "Remove From Current Line"
+  "Remover da linha atual"
+
+  "Remove Tag"
+  "Remover marcação"
+
+  "Remove all markers"
+  "Remova todos os marcadores"
+
+  "Remove all markers from current buffer"
+  "Remova todos os marcadores do buffer atual"
+
+  "Remove formatting from selected text"
+  "Remover a formatação do texto selecionado"
+
+  "Remove marker from current line"
+  "Remover o marcador de linha atual"
+
+  "Remove tag"
+  "Remover tag"
+
+  "Rename current file"
+  "Renomeie o arquivo atual"
+
+  "Reopen File"
+  "Reabrir o arquivo."
+
+  "Reopen current file"
+  "Reabrir o arquivo corrente"
+
+  "Replace Line With Script"
+  "Substituir a linha com Script"
+
+  "Replace line with script"
+  "Substituir a linha com script"
+
+  "Restart"
+  "Reiniciar"
+
+  "Run theme editor"
+  "Execute o editor de temas"
 
   "Save All"
   "Gravar Tudo"
 
-  "Save As..."
-  "Salvar como..."
+  "Save As Remote"
+  "Salve como controle remoto"
 
-  "Select All"
-  "Selecionar tudo"
+  "Save As Template"
+  "Salvar como modelo"
 
-  "Select all occurrences"
-  "Selecione todas as ocorrências"
+  "Save Current"
+  "Salvar a skin atual"
 
-  "Select next occurrence"
-  "Selecione próxima ocorrência"
+  "Save Selection As"
+  "Salvar seleção como"
 
-  "Select previous occurrence"
-  "Selecione ocorrência anterior"
+  "Save all files"
+  "Guardar todos os ficheiros"
 
-  "Selected"
-  "Selecionado"
+  "Save current session"
+  "Deseja gravar a sessão actual?"
+
+  "Save file"
+  "Salvar arquivo"
+
+  "Save file as"
+  "Gravar o Ficheiro Como..."
+
+  "Save file as remote file"
+  "Salve o arquivo como arquivo remoto"
+
+  "Save file as template"
+  "Salve o arquivo como modelo"
+
+  "Save selected lines"
+  "Salvar as linhas selecionadas"
+
+  "Save sessions as"
+  "Guardar as sessões como"
+
+  "Search References"
+  "Referências de pesquisa"
+
+  "Search language reference documentation"
+  "Documentação de referência de linguagem de pesquisa"
+
+  "Search reference documentation"
+  "Documentação de referência de pesquisa"
+
+  "Select"
+  "Selecionar"
+
+  "Select All Matches"
+  "Selecione todas as correspondências"
+
+  "Select Current Match"
+  "Selecione o jogo atual"
+
+  "Select Mode"
+  "Modo de Seleção"
+
+  "Select Next Item"
+  "Selecionar o próximo Item"
+
+  "Select Previous Item"
+  "Selecione o Item anterior"
+
+  "Select all find matches"
+  "Selecionar tudo localizar correspondências"
+
+  "Select all text"
+  "Seleccionar Todo o Texto"
+
+  "Select current bracketed text, strings or comment block"
+  "Selecione o texto, strings ou bloqueio de comentários atual entre corpões"
+
+  "Select current line"
+  "Selecione a linha atual"
+
+  "Select current paragraph"
+  "Selecione o parágrafo atual"
+
+  "Select current sentence"
+  "Selecione a frase atual"
+
+  "Select current word"
+  "Selecione a palavra atual"
+
+  "Select next tag item"
+  "Selecionar o próximo item de marca"
+
+  "Select previous tag item"
+  "Selecione o item anterior da marca"
+
+  "Send Bug Report"
+  "Comunicar um erro."
+
+  "Send Feedback"
+  "Enviar Comentário"
+
+  "Send bug report"
+  "Comunicar um erro."
+
+  "Send feedback"
+  "Enviar opinião"
 
   "Set Syntax"
   "Definir Sintaxe"
@@ -543,14 +1573,47 @@ msgcat::mcmset pt {
   "Set Theme"
   "Definir Tema"
 
-  "Set user to global"
-  "Definir usuário mundial"
+  "Set current file line ending to CR for Classic Mac"
+  "Definir a linha atual do arquivo final para CR para Mac Classic"
 
-  "Show Console"
-  "Mostrar Console"
+  "Set current file line ending to CRLF for Windows"
+  "Definir o atual arquivo linha final de CRLF para Windows"
+
+  "Set current file line ending to LF for Unix"
+  "Definir a linha atual do arquivo final para se para Unix"
+
+  "Set indent mode to"
+  "Definir modo de travessão"
+
+  "Show All Tabs"
+  "Mostrar Guias"
+
+  "Show Cursor"
+  "Mostrar o Cursor"
+
+  "Show Diagnostic Logfile"
+  "Mostrar arquivo de log de diagnóstico"
+
+  "Show File Difference"
+  "Mostrar a diferença de arquivo."
+
+  "Show Installed"
+  "Mostrar apenas instaladas"
 
   "Show Last Profiling Report"
   "Mostrar Último Relatório Profiling"
+
+  "Show Line Numbers"
+  "Mostrar os Números de Linha"
+
+  "Show Marker Map"
+  "Exibir Marcador"
+
+  "Show Meta Characters"
+  "Mostrar os Meta caracteres"
+
+  "Show Selected Line Change"
+  "Mostrar a mudança de linha selecionada"
 
   "Show Sidebar"
   "Mostrar a Barra Lateral"
@@ -561,73 +1624,199 @@ msgcat::mcmset pt {
   "Show Tab Bar"
   "Barra de Páginas"
 
-  "Show*Profiling*"
-  "Show * Profiling *"
+  "Show Tcl Console"
+  "Mostrar o Console Tcl"
 
-  "Snippet"
-  "﻿Trecho"
+  "Show Tcl console"
+  "Mostrar o console Tcl"
 
-  "Snippets"
-  "Trechos"
+  "Show diagnostic logfile"
+  "Mostrar arquivo de log de diagnóstico"
+
+  "Show file difference"
+  "Mostrar a diferença de arquivo"
+
+  "Show installed plugins"
+  "Plugins Instalados"
+
+  "Show last profiling report"
+  "Mostrar o último relatório de perfil"
+
+  "Show meta characters"
+  "Mostrar os meta caracteres"
+
+  "Show plugin developer guide"
+  "Mostrar a guia desenvolvedor de plugin"
+
+  "Show plugin source directory in sidebar"
+  "Mostrar o diretório de origem do plugin na barra lateral"
+
+  "Show plugins directory in sidebar"
+  "Mostrar diretório de plugins na barra lateral"
+
+  "Show selected line change"
+  "Mostrar a mudança de linha selecionada"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Classificar guias"
 
-  "Split view"
-  "Vista Dividida"
+  "Sort tabs"
+  "Guias de classificação"
+
+  "Split/Join Tag"
+  "Tag de divisão/junção"
+
+  "Split/Join tag"
+  "Marca de Split/Join"
 
   "Start Profiling"
   "Comece Profiling"
 
+  "Start profiling"
+  "Iniciar criação de perfil"
+
   "Stop Profiling"
   "Pare Profiling"
+
+  "Stop profiling"
+  "Impedir a criação de perfil"
+
+  "Strikethrough"
+  "Tachado"
+
+  "Subscript"
+  "Subscrito"
+
+  "Superscript"
+  "Sobrescrito"
+
+  "Switch To"
+  "Trocar para"
+
+  "Switch to session"
+  "Alterne para a sessão"
 
   "Tabs"
   "Guias"
 
-  "Text"
-  "Texto"
+  "Tips & Tricks"
+  "DICAS"
 
-  "Theme Creator"
-  "Theme Creator"
+  "Title Case"
+  "Capitalização do título"
 
-  "Tools"
-  "Ferramentas"
+  "Toggle Case"
+  "Mudar a capitalização"
 
-  "Uncomment"
-  "Descomente"
+  "Toggle Comment"
+  "Comentário de alternância"
+
+  "Toggle bird's eye view mode"
+  "Alternar entre o modo de exibição de olho de pássaro"
+
+  "Toggle case of current character"
+  "Caso de alternância de caractere atual"
+
+  "Toggle comment"
+  "Comentário de alternância"
+
+  "Toggle split view mode"
+  "Alternar modo de exibição dividido"
+
+  "Toggle tag/rule comment"
+  "Comentário de marca/regra de alternância"
+
+  "Transform"
+  "Transformar"
+
+  "Unable to delete file"
+  "Não é possível excluir o arquivo {0}"
+
+  "Unable to write export file"
+  "Não foi possível gravar o ficheiro"
+
+  "Underline"
+  "Sublinhado"
 
   "Undo"
   "Anular"
 
-  "Unindent"
-  "Unindent"
+  "Unfavorite file"
+  "Arquivo favoritas"
 
-  "Uninstall..."
-  "Desinstalação..."
+  "Unindent"
+  "Desindentar"
+
+  "Unindent selected text"
+  "Remover o recuo texto selecionado"
+
+  "Uninstall"
+  "Desinstalar"
+
+  "Uninstall plugin"
+  "Desinstalar plugin"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
-  "Unlock"
+  "Desbloquear"
+
+  "Unlock file"
+  "Desbloquear arquivo"
+
+  "Unordered Bullet"
+  "Bala não ordenada"
+
+  "Update Image Size"
+  "Atualizar a imagem"
+
+  "Update img tag width and height attributes"
+  "Atualizar os atributos de largura e altura de tag img"
+
+  "Upper Case"
+  "CAIXA SUPERIOR"
 
   "User Guide"
   "Guia do Usuário"
 
-  "View"
-  "Vista"
+  "View Emmet Reference Guide"
+  "Ver Guia de Referência do Emmet"
 
-  "View base"
-  "Visão da base"
+  "View the Emmet reference guide"
+  "Veja o guia de referência do Emmet"
 
-  "View global"
-  "Visão global"
+  "View tips & tricks articles"
+  "Vista dicas e truques-artigos"
+
+  "View user guide"
+  "Guia de Usuário"
 
   "Vim Mode"
   "Modo Vim"
+
+  "Windows"
+  "Janelas"
+
+  "Wrap With Abbreviation"
+  "Envolva-a com a abreviatura"
+
+  "Wrap tag with Emmet abbreviation"
+  "Envolva a marca com a abreviatura de Emmet"
+
+  "formatting"
+  "formatação"
 
 }
 
 # plugins.tcl
 msgcat::mcmset pt {
+
+  "Always grant from developer"
+  "Sempre conceder a partir desenvolvedor"
+
+  "ERROR"
+  "Erro"
 
   "ERROR:  Plugin name already exists"
   "ERRO: Nome do Plugin já existe"
@@ -641,23 +1830,940 @@ msgcat::mcmset pt {
   "ERROR:  Unable to write plugin files"
   "ERRO: Não é possível gravar arquivos de plugin"
 
+  "Editing"
+  "Editar"
+
   "Enter plugin name"
   "Digite o nome do plugin"
 
-  "Plugin %s installed"
-  "Plugin% s instalado"
+  "Grant"
+  "Conceda"
 
-  "Plugin %s uninstalled"
-  "Plugin% s desinstalado"
+  "Grant permission?"
+  "Conceda permission?"
 
   "Plugin Errors"
   "Erros Plugin"
 
+  "Plugin Trust Requested"
+  "Plugin Confiança solicitada"
+
+  "Plugin export completed successfully"
+  "Exportação concluída com sucesso."
+
+  "Plugin import completed successfully"
+  "Importação concluída com sucesso"
+
+  "Plugin installed"
+  "Plugin instalado"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin requer permissão para exibir ou modificar o seu sistema."
+
+  "Plugin uninstalled"
+  "Plugin desinstalado"
+
   "Plugins successfully reloaded"
   "Plugins recarregados com sucesso"
 
+  "Reject"
+  "Rejeitado"
+
   "Syntax errors found in selected plugins"
   "Os erros de sintaxe encontrados em plugins selecionados"
+
+  "Unable to unzip plugin"
+  "Incapaz de Descompacte o plugin"
+
+  "Unable to zip plugin"
+  "Incapaz de fechar-plugin"
+
+  "Version Control"
+  "Controlo de versões"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset pt {
+
+  "Export Plugin"
+  "Exportar Plugin"
+
+  "Markdown"
+  "Markdown"
+
+  "Plugin Manager"
+  "Ficheiro documentação"
+
+  "Release Notes"
+  "Notas de lançamento"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset pt {
+
+  "Abbreviation Aliases"
+  "Abreviatura de Aliases"
+
+  "Add"
+  "Adicionar"
+
+  "Add Language Reference"
+  "Adicionar a referência de linguagem"
+
+  "Additional space between lines"
+  "Espaço adicional entre linhas"
+
+  "Addons"
+  "Módulos"
+
+  "Advanced"
+  "Avançado"
+
+  "Alias"
+  "Pseudônimo"
+
+  "Allow scrolling in tab bar"
+  "Permitir a rolagem na barra de guia"
+
+  "Angled bracket"
+  "Suporte angular"
+
+  "Appearance"
+  "Aparência"
+
+  "Append characters to search string if entered within"
+  "Acrescentar caracteres para pesquisar a cadeia de caracteres se inserido dentro"
+
+  "Auto-match Characters"
+  "Selecção automática de caracteres"
+
+  "Automatically check for updates on start"
+  "Verificar automaticamente se há atualizações no início"
+
+  "Automatically highlight matching bracket"
+  "Realce automaticamente suporte correspondente"
+
+  "Automatically highlight mismatching brackets"
+  "Realce automaticamente suportes incompatível"
+
+  "Automatically insert vendor prefixes"
+  "Inserir automaticamente prefixos de fornecedor"
+
+  "Automatically load last session on start"
+  "Carregar a última sessão ao iniciar"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Definir automaticamente o diretório de trabalho atual para o diretório atual de guias"
+
+  "Backtick"
+  "Crase"
+
+  "Base Directory"
+  "Pasta de base:"
+
+  "Behaviors"
+  "Comportamentos"
+
+  "Bird's Eye View Font Size"
+  "Tamanho de fonte do pássaro Eye View"
+
+  "Bird's Eye View Width"
+  "Largura de exibição de olho do pássaro"
+
+  "Buffer"
+  "Tampão"
+
+  "Choose Color"
+  "Escolha a cor"
+
+  "Choose Logfile Directory"
+  "Escolha o diretório de arquivo de log"
+
+  "Clear"
+  "Limpar"
+
+  "Clipboard"
+  "Área de transferência"
+
+  "Clipboard History"
+  "Tamanho do histórico da área de transferência"
+
+  "Clipboard history depth"
+  "Profundidade de história de transferência"
+
+  "Closing"
+  "Fechamento"
+
+  "Color value case"
+  "Caso de valor de cor"
+
+  "Command launcher entry"
+  "Entrada de lançador de comando"
+
+  "Command launcher preview"
+  "Visualização de lançador de comando"
+
+  "Convert to lowercase"
+  "Converter para minúsculo"
+
+  "Convert to uppercase"
+  "Converter para maiúsculo"
+
+  "Creator"
+  "Criador"
+
+  "Curly bracket"
+  "chaveta"
+
+  "Current"
+  "Atual"
+
+  "Current Directory"
+  "directório actual"
+
+  "Current File Pathname"
+  "Caminho de arquivo atual"
+
+  "Current Filename"
+  "Nome do arquivo atual"
+
+  "Current Line Column"
+  "Coluna da linha atual"
+
+  "Current Line Number"
+  "Número da linha atual"
+
+  "Current editing buffer directory"
+  "Diretório de buffer de edição atual"
+
+  "Current working directory"
+  "Diretório de trabalho atual"
+
+  "Date"
+  "Data"
+
+  "Default Find in Files search method"
+  "Procura padrão no método de pesquisa de arquivos"
+
+  "Default Find search method"
+  "Método de pesquisa padrão"
+
+  "Default Markdown Export Extension"
+  "Extensão de exportação padrão Markdown"
+
+  "Default Plugin Export Directory"
+  "Diretório de exportação de plug-in padrão"
+
+  "Default Theme Export Directory"
+  "Directory Export padrão Tema"
+
+  "Default sidebar width on startup"
+  "Largura da barra lateral padrão na inicialização"
+
+  "Default theme"
+  "Tema padrão"
+
+  "Default unit for floating point values"
+  "Padrão de unidade para os valores de ponto flutuante"
+
+  "Default unit for integer values"
+  "Unidade padrão para valores inteiros"
+
+  "Delete snippet"
+  "Excluir o trecho"
+
+  "Delete user bindings and use default?"
+  "Exclua as ligações do usuário e usar o padrão?"
+
+  "Development"
+  "Desenvolvimento"
+
+  "Displayed Information"
+  "Informação Visível"
+
+  "Double-quote"
+  "Aspas duplas"
+
+  "Editor"
+  "Editor"
+
+  "Enable Vim Mode"
+  "Ativar o modo de Vim"
+
+  "Enable auto-indentation"
+  "Habilitar o auto-recuo"
+
+  "Enable development mode"
+  "Ativar o modo de desenvolvimento"
+
+  "Enable fuzzy search"
+  "Habilitar a pesquisa difusa"
+
+  "Enable relative line numbering"
+  "Habilitar a numeração de linha relativa"
+
+  "Enabled"
+  "Ativado"
+
+  "End-of-line character when saving"
+  "Caractere de final de linha ao salvar"
+
+  "Exit the application after the last tab is closed"
+  "Sair do aplicativo após a última aba é fechada"
+
+  "Export Settings"
+  "Exportar Configurações"
+
+  "Extensions"
+  "Extensões"
+
+  "Fonts"
+  "Fontes;"
+
+  "Format snippet indentation after insert"
+  "Recuo de trecho formato após inserção"
+
+  "General"
+  "Geral"
+
+  "Get More Themes"
+  "Mais templates"
+
+  "Hide Patterns"
+  "Esconder os padrões"
+
+  "Hide binary files"
+  "Esconder arquivos binários"
+
+  "Hiding"
+  "Esconderijo"
+
+  "Host"
+  "Hospedeiro"
+
+  "Imported"
+  "Importado"
+
+  "Indentation spaces"
+  "Espaços de recuo"
+
+  "Info Panel"
+  "Painel informações"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Inserir arquivos não seleccionados no topo de um diretório manualmente classificado"
+
+  "Insertion cursor width"
+  "Largura do cursor de inserção"
+
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Manter o painel de informações visível quando a barra lateral não tem foco"
+
+  "Keyword"
+  "Escreva como pensa Ex. T2"
+
+  "Languages"
+  "Linguagens"
+
+  "Last"
+  "Último"
+
+  "Last accessed"
+  "Último acesso:"
+
+  "Line Wrapping Default"
+  "Linha padrão de embrulho"
+
+  "Line count to find Vim modeline information"
+  "Contagem de linha para encontrar o Vim modeline informações"
+
+  "Line number alignment"
+  "Alinhamento de números de linha"
+
+  "Logfile Directory"
+  "Diretório do arquivo de log"
+
+  "Manage Themes"
+  "Gerir Temas"
+
+  "Manage theme visibility"
+  "Gerenciar a visibilidade do tema"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "História de desfazer máxima (definido como 0 para ilimitado)"
+
+  "Menu Item"
+  "Item de Menu"
+
+  "Menu bindings"
+  "Ligações de menu"
+
+  "Mounts"
+  "Montagens"
+
+  "Node Aliases"
+  "Aliases"
+
+  "Profiler Options"
+  "Opções do analisador:"
+
+  "Prompt user to save preference changes in global or named session"
+  "Perguntar ao usuário para salvar as alterações de preferência na sessão global ou nomeado"
+
+  "Properties"
+  "Imóveis"
+
+  "Reading time words per minute"
+  "Leitura tempo palavras por minuto"
+
+  "Recently opened history depth"
+  "Abriu recentemente a profundidade da história"
+
+  "Remember last position of command launcher"
+  "Lembre-se a última posição do lançador de comando"
+
+  "Remote Base Directory"
+  "Diretório Base remoto"
+
+  "Remove root directory after last sub-file is closed"
+  "Remova o diretório raiz após último arquivo sub está fechado"
+
+  "Remove trailing whitespace on save"
+  "Remover espaço em branco à direita em salvar"
+
+  "Report Options"
+  "Opções de Relatórios"
+
+  "Retain case"
+  "Reter o caso"
+
+  "Return"
+  "Retornar"
+
+  "Ruler column"
+  "Coluna de régua"
+
+  "Save changes to current session?"
+  "Salvar as alterações para a sessão atual?"
+
+  "Save changes to global preferences?"
+  "Salvar alterações em preferências globais?"
+
+  "Search Shortcuts"
+  "Atalhos de pesquisa"
+
+  "Search Snippets"
+  "Pesquisa Snippets"
+
+  "Select Command Launcher Entry Font"
+  "Selecione a fonte de entrada de inicialização de comando"
+
+  "Select Command Launcher Preview Font"
+  "Selecione a fonte de visualização do iniciador de comando"
+
+  "Select Editor Font"
+  "Selecione a fonte do editor"
+
+  "Select Settings Sharing Directory"
+  "Selecione as configurações de compartilhamento de arquivos"
+
+  "Select a plugin"
+  "Selecione um plugin"
+
+  "Select default browsing directory"
+  "Selecione o padrão de navegação de diretório"
+
+  "Selected Text"
+  "Texto Seleccionado"
+
+  "Session"
+  "Sessão"
+
+  "Set"
+  "Definir"
+
+  "Set Find in Files line context"
+  "Conjunto de localizar no contexto da linha de arquivos"
+
+  "Set default open/save browsing directory to"
+  "Conjunto padrão abrir/salvar navegação de diretório para"
+
+  "Set find history depth"
+  "Conjunto encontrar profundidade de história"
+
+  "Set jump distance"
+  "Conjunto de saltar a distância"
+
+  "Sharing"
+  "Partilha"
+
+  "Sharing Items"
+  "Compartilhamento de itens"
+
+  "Shortcut"
+  "Atalho"
+
+  "Shortcuts"
+  "Atalhos"
+
+  "Show 'Find in Files' result in other pane"
+  "Mostrar resultado 'Localizar em arquivos' em outro painel"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Mostrar as mover para o lixo de arquivos/diretórios locais em vez de excluir"
+
+  "Show Tcl console at startup"
+  "Console de Tcl mostrar na inicialização"
+
+  "Show bird's eye view"
+  "Vista de pássaro"
+
+  "Show diagnostic logfile at startup"
+  "Mostrar arquivo de log de diagnóstico na inicialização"
+
+  "Show difference file in other pane than original"
+  "Mostrar arquivo de diferença no outro painel do que o original"
+
+  "Show difference file version information"
+  "Mostrar informações de versão do arquivo de diferença"
+
+  "Show folders at top"
+  "Mostrar pastas no topo"
+
+  "Show hidden files"
+  "Mostrar os ficheiros escondidos"
+
+  "Show language submenu"
+  "Mostrar o submenu idioma"
+
+  "Show menubar"
+  "Mostrar o Menu"
+
+  "Single-quote"
+  "Aspas"
+
+  "Snippet Completion Characters"
+  "Caracteres de conclusão de trecho"
+
+  "Snippet Text"
+  "Trecho de texto"
+
+  "Sort tabs alphabetically on open"
+  "Guias de classificação em ordem alfabética em aberto"
+
+  "Sorting Column"
+  "Coluna de classificação"
+
+  "Space"
+  "Espaço"
+
+  "Spaces per tab"
+  "Espaços por guia"
+
+  "Square bracket"
+  "Colchete"
+
+  "Stable"
+  "Estável"
+
+  "Symbol between CSS property and value"
+  "Entre a propriedade CSS e o valor do símbolo"
+
+  "Symbol placed at end of CSS property"
+  "Símbolo, colocado no final da propriedade CSS"
+
+  "Syntax Coloring"
+  "Coloração de sintaxe"
+
+  "Tab"
+  "Separador"
+
+  "Tab Stop"
+  "Marca de tabulação"
+
+  "This operation cannot be reversed."
+  "Esta operação não pode ser revertida."
+
+  "Time"
+  "Hora"
+
+  "Unknown"
+  "Desconhecido"
+
+  "Update information panel whenever the sidebar selection changes"
+  "Atualizar o painel de informações sempre que a seleção da barra lateral for alterada"
+
+  "Update using release type"
+  "Atualizar usando o tipo de lançamento"
+
+  "Updates"
+  "Atualizações"
+
+  "Use Default"
+  "Use Padrão"
+
+  "Use appropriate EOL character on system"
+  "Use o caractere de EOL apropriado no sistema"
+
+  "Use carriate return linefeed sequence"
+  "Use a seqüência de retorno de avanço de linha de carriate"
+
+  "Use current width"
+  "Use a largura atual"
+
+  "Use directory"
+  "Diretório de uso"
+
+  "Use linefeed character"
+  "Use o caractere de avanço de linha"
+
+  "Use original EOL character from file"
+  "Use o caractere de EOL original do arquivo."
+
+  "Use shortened colors"
+  "Usar cores encurtadas"
+
+  "Use single carriage return character"
+  "Usar o único caractere de retorno"
+
+  "Variable"
+  "Variável"
+
+  "Variables"
+  "Variáveis"
+
+  "Visible"
+  "Visível"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Você mudou as preferências globais que não será visíveis porque você está atualmente em uma sessão nomeada."
+
+  "You have changed the current session's preferences which will not be applied globally."
+  "Você alterou as preferências da sessão atual, que não serão aplicadas globalmente."
+
+  "milliseconds"
+  "milisegundos (ms)"
+
+  "pixels"
+  "pixels"
+
+  "theme"
+  "Tema"
+
+}
+
+# remote.tcl
+msgcat::mcmset pt {
+
+  "Close Connection"
+  "Terminar a Ligação"
+
+  "Connection does not exist"
+  "Class method não existe"
+
+  "Connection failed"
+  "Falha de conexão"
+
+  "Connection passed"
+  "Conexão passado"
+
+  "Connections"
+  "Ligações"
+
+  "Create New Folder"
+  "Criar uma Nova Pasta"
+
+  "Delete Connection"
+  "Remover a Ligação"
+
+  "Delete Group"
+  "Excluir Grupo"
+
+  "Delete connection?"
+  "Eliminar conexão"
+
+  "Delete group?"
+  "Excluir grupo?"
+
+  "Edit Connection"
+  "Editar conexão"
+
+  "Enter Password"
+  "Inserir Senha"
+
+  "Folder Name"
+  "Nome da Pasta"
+
+  "Group"
+  "Grupo"
+
+  "Group Name"
+  "Nome do Grupo"
+
+  "Group Name: "
+  "Nome do Grupo:"
+
+  "Image used in remote file selector for the history back button."
+  "Imagem usada no seletor de arquivo remoto para o botão voltar história."
+
+  "Image used in remote file selector for the history forward button."
+  "Imagem usada no seletor de arquivo remoto para o botão de avanço da história."
+
+  "Image used in remote file selector to indicate a file."
+  "Usado no seletor de arquivo remoto para indicar um arquivo de imagem."
+
+  "Image used in remote file selector to indicate a folder."
+  "Imagem usada no seletor de arquivo remoto para indicar uma pasta."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Imagem usada no seletor de arquivo remoto para indicar que uma conexão está sendo aberto."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Imagem usada no seletor de arquivo remoto para indicar que uma conexão é aberta."
+
+  "New Connection"
+  "Nova Ligação"
+
+  "New Folder"
+  "Nova Pasta"
+
+  "New Group"
+  "Novo Grupo"
+
+  "Open Connection"
+  "Conexão aberta"
+
+  "Open Remote File"
+  "Arquivo remoto"
+
+  "Optional"
+  "Opcional"
+
+  "Password"
+  "Senha"
+
+  "Password: "
+  "Senha:"
+
+  "Port"
+  "Porta"
+
+  "Remote Directory"
+  "Diretório &remoto:"
+
+  "Rename Group"
+  "Mudar nome do grupo"
+
+  "Save File Remotely"
+  "Salve o arquivo remotamente"
+
+  "Server"
+  "Servidor"
+
+  "Test Connection"
+  "Testar Conexão"
+
+  "Type"
+  "Tipo"
+
+  "Unable to connect to"
+  "﻿Impossível conectar ao host:"
+
+  "Unable to read remote directory contents."
+  "Não é possível ler o conteúdo do diretório remoto."
+
+  "Username"
+  "Nome de Usuário"
+
+  "server"
+  "servidor"
+
+}
+
+# search.tcl
+msgcat::mcmset pt {
+
+  "No files found in specified directories"
+  "Não há arquivos encontrados em diretórios especificados"
+
+  "No search results found"
+  "Resultados Encontrados da Pesquisa"
+
+  "Search wrapped to beginning of file"
+  "Busca ajustada para início do arquivo."
+
+  "Search wrapped to end of file"
+  "Pesquisa envolto ao final do arquivo"
+
+  "substitutions done"
+  "feito de substituições"
+
+}
+
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
+msgcat::mcmset pt {
+
+  "Add Selection Matches"
+  "Adicionar Seleção de Jogos"
+
+  "All To"
+  "Tudo para"
+
+  "Anchor"
+  "Âncora"
+
+  "Angled Brackets"
+  "Colchetes angulares"
+
+  "Backticks"
+  "aspas"
+
+  "Block"
+  "Bloquear"
+
+  "Character"
+  "Personagem"
+
+  "Child"
+  "Menor"
+
+  "Clear Selection"
+  "Limpar seleção"
+
+  "Comment"
+  "Comentário"
+
+  "Curly Brackets"
+  "Chaves"
+
+  "Delete Selected Text"
+  "Excluir Selecionado"
+
+  "Double Quotes"
+  "Aspas duplas"
+
+  "Down"
+  "Pra baixo"
+
+  "Exit Selection Mode"
+  "Modo de Seleção"
+
+  "Invert Selected Text"
+  "Inverter texto selecionado"
+
+  "Keep Selection"
+  "Seleção"
+
+  "Left"
+  "Esquerda"
+
+  "Line To"
+  "Linha para"
+
+  "Modes"
+  "Modos"
+
+  "Motions"
+  "Movimentos"
+
+  "Next Sibling"
+  "Irmão(ã)"
+
+  "Paragraph"
+  "Parágrafo"
+
+  "Parent"
+  "Grupo de origem"
+
+  "Previous"
+  "Anterior"
+
+  "Previous Sibling"
+  "Irmão anterior"
+
+  "Right"
+  "Direito"
+
+  "Selection Mode Command Help"
+  "Ajuda de comando do modo de seleção"
+
+  "Sentence"
+  "Frase"
+
+  "Shift Down"
+  "reduzir para velocidades inferiores"
+
+  "Shift Left"
+  "Mover para a esquerda"
+
+  "Shift Right"
+  "Deslocar para a direita"
+
+  "Shift Up"
+  "Mover para cima"
+
+  "Single Quotes"
+  "Aspas Simples"
+
+  "Square Brackets"
+  "Colchete"
+
+  "Swap Anchor"
+  "Âncora"
+
+  "Toggle Help"
+  "Alternar"
+
+  "Toggle Quote Inclusion"
+  "Inclusão da opção Toggle"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Tipo '?' para obter ajuda.  Pressione a tecla ESCAPE para sair do modo de seleção"
+
+  "Undo Last Change"
+  "Anular a última alteração..."
+
+  "Up"
+  "Acima"
+
+  "Word"
+  "Palavra"
+
+  "matching instances"
+  "instâncias de correspondência"
+
+}
+
+# sessions.tcl
+msgcat::mcmset pt {
+
+  "Save session?"
+  "Gravar a Sessão?"
+
+  "Session state will be lost if not saved"
+  "O estado da sessão será perdido se não for salvo"
+
+}
+
+# share.tcl
+msgcat::mcmset pt {
+
+  "Export Settings Data"
+  "Exportar Configurações"
+
+  "Favorites"
+  "Favoritos"
+
+  "Remote Connections"
+  "Conexões remotas"
+
+  "Settings to export"
+  "Configurações de exportação"
+
+  "Themes"
+  "Temas"
 
 }
 
@@ -667,11 +2773,20 @@ msgcat::mcmset pt {
   "Add Parent Directory"
   "Directório pai"
 
+  "By Name"
+  "Nome"
+
   "Close Directory Files"
   "Fechar Arquivos Diretório"
 
-  "Delete"
-  "Excluir"
+  "Copy Pathname"
+  "Copie o caminho do"
+
+  "Decreasing"
+  "Decrescente"
+
+  "Delete directories?"
+  "Apagar Diretórios Antigos"
 
   "Delete directory?"
   "Excluir diretório?"
@@ -679,20 +2794,59 @@ msgcat::mcmset pt {
   "Delete file?"
   "Excluir arquivo"
 
-  "Duplicate"
-  "Duplicação"
+  "Delete files?"
+  "Excluir Arquivos"
+
+  "Directory Name:"
+  "Nome do diretório:"
+
+  "Disconnect From Server"
+  "Desconectar do servidor"
+
+  "Folder Name:"
+  "Nome da Pasta:"
+
+  "Hide"
+  "Esconder"
+
+  "Hide Directory Files"
+  "Ocultar arquivos do diretório"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Imagem exibida na lateral para indicar um diretório que é recolhido"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Imagem exibida na lateral para indicar um diretório que está mostrando o seu conteúdo"
+
+  "Image displayed in sidebar to indicate a file"
+  "Imagem exibida na lateral para indicar um arquivo"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Imagem exibida na lateral para indicar um diretório selecionado é recolhido"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Imagem exibida na lateral para indicar um diretório selecionado que é expandido"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Imagem exibida na lateral para indicar que um arquivo está atualmente aberto mas escondido"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "Imagem exibida na lateral para indicar que um arquivo é aberto no momento em um buffer de edição."
+
+  "Increasing"
+  "Crescente"
 
   "Make Current Working Directory"
   "Faça diretório de trabalho atual"
 
+  "Manually"
+  "Manualmente"
+
   "New Directory"
   "Novo Diretório"
 
-  "New File"
-  "Novo arquivo"
-
-  "Open"
-  "Abrir"
+  "New File From Template"
+  "Novo a partir do modelo"
 
   "Open Directory Files"
   "Arquivos Open Directory"
@@ -706,91 +2860,651 @@ msgcat::mcmset pt {
   "Remove from Sidebar"
   "Retire do Sidebar"
 
-  "Rename"
-  "Renomear"
+  "Show"
+  "Mostrar"
+
+  "Show Difference"
+  "Mostrar a diferença"
+
+  "Show Directory Files"
+  "Mostrar arquivos de diretório"
+
+  "Show Info"
+  "Mostrar as Informações"
+
+  "Sort"
+  "Ordenar"
+
+  "Unable to duplicate file"
+  "Incapaz de arquivo duplicado"
 
 }
 
 # snippets.tcl
 msgcat::mcmset pt {
 
-  "Snippet: %s: %s"
-  "Trecho:% s:% s"
-
   "Snippet: *"
   "﻿Trecho"
+
+}
+
+# startup.tcl
+msgcat::mcmset pt {
+
+  "Change Directory"
+  "Mudar pasta"
+
+  "Copies settings data from an existing directory to your home directory."
+  "Copia dados de configurações de um diretório existente para seu diretório home."
+
+  "Copy settings from directory"
+  "Copiar configurações de diretório"
+
+  "Create settings locally"
+  "Criar configurações localmente"
+
+  "Creates new settings information and places it in your home directory"
+  "Cria novas informações de configurações e coloca-o no seu diretório home"
+
+  "Finish"
+  "Finalizar"
+
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Se você precisa gostaria de alterar as configurações de compartilhamento, você pode fazê-lo dentro de preferências sob a guia Geral/compartilhamento."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Itens que estão selecionados serão copiados para o directório local. Itens que não estão selecionados serão criados em seu diretório home."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Itens que estão selecionados serão compartilhados com outros computadores. Itens que não estão selecionados serão armazenados localmente e não serão partilhados."
+
+  "Select Settings Directory"
+  "Selecione o diretório de configurações"
+
+  "Settings"
+  "Opções"
+
+  "Settings Options"
+  "Opções de configurações"
+
+  "Setup Complete"
+  "Configuração Completa"
+
+  "Share"
+  "Compartilhar"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Partilha de dados de configurações de um diretório novo ou já existente (ex., iCloud, Google rígido, Dropbox, etc.).  Quaisquer alterações feitas nos dados de configurações estarão disponíveis para outros participantes."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Obrigado por usar o TKE, editor do programador avançado.  Pois esta é uma nova instalação da TKE, vamos ajudá-lo obter coisas configurar. \\n \\n clique em 'Avançar' abaixo para obter a coisa vai."
+
+  "Use shared settings"
+  "Usar configurações compartilhadas"
+
+  "Welcome"
+  "Bem Vindo"
+
+  "Welcome To"
+  "Bem-vindo"
 
 }
 
 # syntax.tcl
 msgcat::mcmset pt {
 
-  "Syntax error in %s.syntax file"
-  "Erro de sintaxe no arquivo de s.syntax%"
-
-  "Syntax:  %s"
-  "Sintaxe:% s"
-
-  "Theme:  %s"
-  "Tema:% s"
+  "Syntax error in syntax file"
+  "Erro de sintaxe no arquivo de sintaxe"
 
 }
 
-# themer.tcl
+# templates.tcl
 msgcat::mcmset pt {
 
-  "Create"
-  "Criar"
+  "Delete template?"
+  "Excluir"
 
-  "Create New Theme"
-  "Criar um Novo Tema..."
+  "Template"
+  "Tema"
 
-  "Create custom"
-  "Criar personalizado"
+  "Template Name"
+  "Nome do Template"
 
-  "ERROR:  Unable to read %s"
-  "ERRO: Não foi possível ler% s"
+  "deleted"
+  "deletado"
 
-  "ERROR:  Unable to write %s"
-  "ERRO: Não foi possível gravar% s"
+  "saved"
+  "salvo"
 
-  "Edit theme"
-  "Editar tema"
+  "will be permanently deleted"
+  "será permanentemente excluído"
 
-  "Enter theme name"
-  "Digite o nome do tema"
+}
 
-  "Error:  Theme is not a supported theme"
-  "Erro: Tema não é um tema apoiado"
+# theme.tcl
+msgcat::mcmset pt {
 
-  "Import"
-  "Importe"
+  "Amount of border to display around command launcher in pixels"
+  "Quantidade de borda para exibir em torno de lançador de comando em pixels"
 
-  "Import TextMate Theme"
-  "Importação TextMate Tema"
+  "Background (trough) color used in a standard scrollbar."
+  "Cor de fundo (calha) usado em uma padrão barra de rolagem."
 
-  "Name:"
-  "Nome:"
+  "Background (trough) color used in the sidebar scrollbar."
+  "Cor de fundo (calha) usado na barra de rolagem lateral."
 
-  "OK"
-  "OK"
+  "Background (trough) color used in the text scrollbars."
+  "Cor de fundo (calha) utilizado em barras de rolagem de texto."
 
-  "Reset"
-  "Reset"
+  "Background color displayed in embedded language code."
+  "Cor de plano de fundo exibida no código incorporado a linguagem."
 
-  "Select theme"
-  "Seleccione o Ficheiro do Tema"
+  "Background color for all sidebar items that are not selected."
+  "Cor de fundo para todos os itens da barra lateral que não estão selecionados."
+
+  "Background color for all sidebar items that are selected."
+  "Cor de fundo para todos os itens da barra lateral que estão selecionados."
+
+  "Background color for markers in the line gutter and scrollbar"
+  "Cor de fundo para os marcadores na barra de rolagem e calha de linha"
+
+  "Background color for matching search text"
+  "Cor de fundo para combinar o texto de pesquisa"
+
+  "Background color in difference viewer that shows added lines."
+  "Cor de fundo no Visualizador de diferença que mostra adicionou linhas."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Cor de fundo no Visualizador de diferença que mostra excluído linhas."
+
+  "Background color of insertion cursor and background marker colors."
+  "A cor do fundo do cursor de inserção e marcadores fundo cores."
+
+  "Background color of linemap area."
+  "Cor de fundo da área do linemap."
+
+  "Background color of list items when not selected"
+  "Cor de fundo dos itens de lista, quando não selecionada"
+
+  "Background color of move bar."
+  "Cor de fundo da barra de movimento."
+
+  "Background color of selection in command launcher"
+  "Cor de fundo da seleção no lançador de comando"
+
+  "Background color of textual display in command launcher"
+  "Cor de fundo do visor textual no lançador de comando"
+
+  "Background color of the editing buffer."
+  "Cor de fundo do buffer de edição."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Cor de fundo a ser exibido quando um widget ttk como botão é pressionado."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Cor de fundo a ser usado para valores de informação activa para indicar que eles são clicáveis."
+
+  "Background color to use for displaying character information that requires the user's attention."
+  "Cor de fundo para usar para exibir informações de caráter que requer atenção do usuário."
+
+  "Background color to use for selected text."
+  "Cor de fundo a ser usado para o texto selecionado."
+
+  "Background color to use for the file information panel."
+  "Cor de fundo para o painel de informações do arquivo."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Cor de fundo usada para todas as outras abas que não sejam a guia de corrente/ativo no tabbar."
+
+  "Background color used for the current/active menu item."
+  "Cor de fundo usada para o item de menu atual/ativo."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Cor de fundo usado para guia de corrente/ativo no tabbar."
+
+  "Background color used in highlighted text."
+  "Cor de fundo usada no texto realçado."
+
+  "Background color used in menus."
+  "Cor de fundo usado em menus."
+
+  "Background color used in the tabbar area."
+  "Cor de fundo usada na área tabbar."
+
+  "Color of border around command launcher"
+  "Cor da borda ao redor de lançador de comando"
+
+  "Color of border drawn around active editing buffer."
+  "Cor da borda desenhada ao redor de buffer de edição ativa."
+
+  "Color of space between tabs."
+  "Cor do espaço entre as abas."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Cor do espaçador entre o campo de entrada de lançador de comando e a lista de resultados"
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Cor da borda de texto de ttk entrada widget quando a entrada tem o foco do teclado."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Cor para usar para destacar dobras fechadas na sarjeta linha número"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "Cor usada para desenhar a linha que separa o mapa de linha da área de texto."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Cor usada para desenhar a linha de largura de aviso no buffer de edição (bem como a linha que separa a calha do buffer de edição)."
+
+  "Command Launcher Options"
+  "Opções de comando do lançador"
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Padrão 'darkcolor' para todos os widgets ttk."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Cor de fundo padrão a ser usado para todos os widgets ttk que estão em um estado desabilitado."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Cor de fundo a ser usado para todos os widgets ttk quando o cursor do mouse passa sobre o widget padrão."
+
+  "Default background color to use for all ttk widgets."
+  "Cor de fundo padrão a ser usado para todos os widgets ttk."
+
+  "Default border color for all ttk widgets."
+  "Cor da borda padrão para todos os widgets ttk."
+
+  "Default color for non-syntax highlighted text."
+  "Cor padrão para non-sintaxe texto realçado."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Padrão de cor do primeiro plano de texto a ser usado para todos os widgets ttk que estão em um estado desabilitado."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Padrão de cor do primeiro plano de texto a ser usado para todos os widgets ttk."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Determina o número de tiras de apertos para exibir na área de aderência entre painéis redimensionáveis."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Determina a espessura da área de aderência entre painéis redimensionáveis."
+
+  "ERROR:  Unable to read"
+  "ERRO: Não é possível ler"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Cor (utilizado em (...) )"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Cor de primeiro plano (slider) usado na barra de rolagem lateral."
+
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "Cor de primeiro plano (slider) usado em barras de rolagem de texto quando a sincronização do painel está habilitada."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Cor de primeiro plano (slider) utilizado em barras de rolagem de texto."
+
+  "Foreground color for matching search text"
+  "Cor do primeiro plano para combinar o texto de pesquisa"
+
+  "Foreground color of list items when not selected"
+  "Cor do primeiro plano de itens de lista, quando não selecionada"
+
+  "Foreground color of move bar."
+  "Cor de primeiro plano da barra de movimento."
+
+  "Foreground color of selection in command launcher"
+  "Cor do primeiro plano de seleção no lançador de comando"
+
+  "Foreground color of textual display in command launcher"
+  "Cor do primeiro plano de exposição textual no lançador de comando"
+
+  "Foreground color to use for title text in the information panel."
+  "Cor do primeiro plano para usar para o texto de título no painel de informações."
+
+  "Foreground color to use for value text in the information panel."
+  "Cor do primeiro plano para usar valor texto no painel de informações."
+
+  "Foreground color used in menu items with checks or buttons."
+  "Usado em itens de menu com cheques ou botões de cor de primeiro plano."
+
+  "Foreground text color for strings."
+  "Cor do texto do primeiro plano para seqüências de caracteres."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Cor do primeiro plano de texto a ser usado para todos os miscellaneous1 rotulado de texto."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Cor do primeiro plano de texto a ser usado para todos os miscellaneous2 rotulado de texto."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Cor do primeiro plano de texto a ser usado para todos os miscellaneous3 rotulado de texto."
+
+  "Foreground text color to use for comments."
+  "Cor do primeiro plano de texto a ser usado para comentários."
+
+  "Foreground text color to use for displaying line numbers."
+  "Cor do texto do primeiro plano para usar para exibir números de linha."
+
+  "Foreground text color to use for displaying numbers."
+  "Cor do texto do primeiro plano para usar para exibir os números."
+
+  "Foreground text color to use for function calls."
+  "Cor do texto em primeiro plano a ser usada para chamadas de função."
+
+  "Foreground text color to use for language-specific keywords."
+  "Cor do primeiro plano de texto a ser usado para palavras-chave específicas de idioma."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Cor do primeiro plano de texto a ser usado para Pontuação de específicos do idioma."
+
+  "Foreground text color to use for meta syntax."
+  "Cor do texto do primeiro plano para usar sintaxe de meta."
+
+  "Foreground text color to use for precompiler syntax."
+  "Cor do texto do primeiro plano para usar sintaxe pré-compilador."
+
+  "Foreground text color to use for readable meta syntax."
+  "Cor do texto do primeiro plano para usar sintaxe legível de meta."
+
+  "Foreground text color to use for selected text."
+  "Cor do texto do primeiro plano para o texto selecionado."
+
+  "Foreground text color to use for variables."
+  "Cor do texto em primeiro plano a ser usada para variáveis."
+
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Cor do texto do primeiro plano usado para todas as outras abas que não sejam a guia de corrente/ativo no tabbar."
+
+  "Foreground text color used for menus item that are disabled."
+  "Cor do texto do primeiro plano usado para item de menus que estão desativados."
+
+  "Foreground text color used for the current/active menu item."
+  "Cor de primeiro plano texto usado para o item de menu atual/ativo."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Cor do texto do primeiro plano usado para guia de corrente/ativo no tabbar."
+
+  "Foreground text color used in menus."
+  "Cor de primeiro plano texto usado nos menus."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Cor do texto/imagem de primeiro plano usado em tabbar e guias."
+
+  "Images"
+  "Imagens"
+
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Espessura máxima do comando lançador scrollbar quando está ativo."
+
+  "Maximum thickness of the text scrollbar when it is active."
+  "Espessura máxima da barra de rolagem de texto quando ele estiver ativo."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Espessura máxima das barras de rolagem de texto quando estão ativos."
+
+  "Menu Options"
+  "Opções de menu"
+
+  "Menu relief value."
+  "Valor de alívio do menu."
+
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Altura de pixel do espaçador entre o campo de entrada de lançador de comando e a lista de resultados"
+
+  "Pixel height of the tabbar widget."
+  "Altura de pixel do tabbar widget."
+
+  "Relief used in drawing the tabs."
+  "Utilizados na elaboração das guias de alívio."
+
+  "Relief value of the sidebar area."
+  "Valor de relevo da área da barra lateral."
+
+  "Scrollbar slider color used in the command launcher results list"
+  "Cor de controle deslizante Barra de rolagem usada na lista de resultados do lançador de comando"
+
+  "Sidebar Info Panel Options"
+  "Opções do painel de informação de barra lateral"
+
+  "Sidebar Options"
+  "Opção de Barra Lateral"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Opções de barra de rolagem"
+
+  "Specifies background color of command launcher entry and list"
+  "Especifica a cor de fundo da entrada de lançador de comando e lista"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Especifica a cor de primeiro plano do comando lançador entrada e lista"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Especifica a cor desenhado ao redor da borda da barra lateral quando um arquivo arrastado é droppable"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Especifica a cor para exibir em torno de barra lateral quando a barra lateral não tem o foco."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Especifica a cor para exibir em torno de barra lateral quando a barra lateral tem o foco."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Especifica a cor de fundo padrão a ser usado para o texto selecionado em um widget de ttk padrão (isso não inclui o buffer de edição)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Especifica a cor do texto do primeiro plano padrão a ser usado para o texto selecionado em um widget de ttk padrão (isso não inclui o buffer de edição)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Especifica o alívio de padrão para usar quando desenho ttk widgets."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Especifica a espessura de pixel da linha de destaque."
+
+  "Standard Scrollbars"
+  "Barras de deslocamento"
+
+  "Syntax Colors"
+  "Sintaxe Colors"
+
+  "Tab Options"
+  "Opções da Aba"
+
+  "Text Scrollbar Options"
+  "Opções de texto barra de rolagem"
+
+  "Text color for all sidebar items that are not selected."
+  "Cor do texto para todos os itens da barra lateral que não estão selecionados."
+
+  "Text color for all sidebar items that are selected."
+  "Cor do texto para todos os itens da barra lateral que estão selecionados."
+
+  "ttk Widget Colors"
+  "Cores dos Elementos"
+
+}
+
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
+msgcat::mcmset pt {
+
+  "   Show Selected Option"
+  "Mostrar opção selecionada"
+
+  "   Show Selected Value"
+  "Mostrar o valor selecionado"
+
+  "By"
+  "Por"
+
+  "Categories"
+  "Categorias"
+
+  "Change Base Color"
+  "Mudar a cor"
+
+  "Choose Theme"
+  "Escolha um Tema"
+
+  "Created By"
+  "Criado Por"
+
+  "Custom Directory"
+  "Directório Personalizado"
+
+  "Custom..."
+  "Personalizadas..."
+
+  "Delete swatch?"
+  "Excluir amostra?"
+
+  "Description"
+  "Descrição Longa"
+
+  "Details"
+  "Leia Mais ..."
+
+  "Done"
+  "Finalizado"
+
+  "Enable Copy Mode"
+  "Ativar o modo de cópia"
+
+  "Export BMP Data"
+  "Exportar dados BMP"
+
+  "Export BMP Mask"
+  "Exportar BMP Mask"
+
+  "Export Bitmap Data"
+  "Exportar dados de bitmap"
+
+  "Export Theme As"
+  "Exportar Tema"
+
+  "GIF Photo"
+  "GIF Foto"
+
+  "Import BMP Data"
+  "Importar dados"
+
+  "Import BMP Mask"
+  "Importar máscara"
+
+  "Import Bitmap Data"
+  "Importar dados de bitmap"
+
+  "Import Error"
+  "Erro de Importação!"
+
+  "Import Theme File"
+  "Importar Arquivo de Tema"
+
+  "Installation Directory"
+  "Diretório de Instalação"
+
+  "License File"
+  "Licença:"
+
+  "Modifications"
+  "Modificações"
+
+  "One-Color Bitmap"
+  "Bitmap de uma cor"
+
+  "Paste Theme Items"
+  "Colar itens do tema"
+
+  "Relief: "
+  "Válvula de"
+
+  "Save As:"
+  "Salvar como:"
+
+  "Save error"
+  "Erro ao guardar"
+
+  "Save theme changes?"
+  "Salve as alterações do tema?"
+
+  "Select Directory"
+  "Selecionar diretório"
+
+  "Show All"
+  "Mostrar tudo"
+
+  "Show Category"
+  "Exibir Categoria"
+
+  "Show Color"
+  "Mostrar Cor de Fundo"
+
+  "Show Selected Option"
+  "Mostrar a opção selecionada"
+
+  "Show Selected Value"
+  "Mostrar o valor selecionado"
+
+  "Swatch"
+  "Swatch"
+
+  "Swatch Colors"
+  "Cores de Amostra"
+
+  "Table Copy"
+  "Cópia de mesa"
+
+  "Table Filters"
+  "Filtros de Mesa"
+
+  "Table Search"
+  "pesquisa por cálculo de endereço"
+
+  "The current theme has unsaved changes."
+  "O tema atual tem alterações não salvas."
+
+  "Theme Name"
+  "Nome do Tema"
+
+  "Tree Style: "
+  "Estilo Tree:"
+
+  "Two-Color Bitmap"
+  "Bitmap de duas cores"
+
+  "Unknown color value format"
+  "Formato de valor de cor desconhecido"
+
+  "User Directory"
+  "Directório de utilizador"
+
+  "Value: "
+  "Valor:"
+
+  "Website"
+  "WhatsApp"
+
+}
+
+# themes.tcl
+msgcat::mcmset pt {
+
+  "Batch custom theme export completed successfully"
+  "Exportação de tema personalizado do lote foi concluída com êxito"
+
+  "Theme"
+  "Tema"
+
+  "Theme:*"
+  "Tema"
 
 }
 
 # tke.tcl
 msgcat::mcmset pt {
 
-  "ERROR:  %s"
-  "ERRO:% s"
+  "Import TKE plugin?"
+  "TKE plugin de importação?"
 
-  "Edit theme?"
-  "Edite tema?"
+  "Import TKE theme?"
+  "Tema Import TKE?"
 
   "Import TextMate theme?"
   "Importe tema TextMate?"
@@ -800,31 +3514,240 @@ msgcat::mcmset pt {
 # tkedat.tcl
 msgcat::mcmset pt {
 
-  "Unable to open %s for reading"
-  "Não foi possível abrir o ficheiro%1 para leitura."
+  "Unable to read"
+  "Não foi possível ler o ficheiro."
 
-  "Unable to open %s for writing"
-  "Não foi possível abrir%1 para escrita"
+}
+
+# vim.tcl
+msgcat::mcmset pt {
+
+  "COMMAND MODE"
+  "modo de comando"
+
+  "File format unrecognized"
+  "Formato de arquivo não reconhecido"
+
+  "Filename directory does not exist"
+  "Diretório de nome de arquivo não existe"
+
+  "Folding method unrecognized"
+  "Método não reconhecido de dobramento"
+
+  "INSERT MODE"
+  "Modo de inserção"
+
+  "Illegal modelines value"
+  "Valor ilegal modelines"
+
+  "MULTIMOVE MODE"
+  "MODO MULTIMOVE"
+
+  "Number width not a number"
+  "Número de largura não é um número"
+
+  "Selection value is unsupported"
+  "Valor de seleção não é suportado"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth valor não é um número inteiro"
+
+  "Tabstop value is not an integer"
+  "TabStop valor não é um número inteiro"
+
+  "Unrecognized vim option"
+  "Opção de não reconhecido o vim"
+
+  "VISUAL BLOCK MODE"
+  "MODO DE BLOCO VISUAL"
+
+  "VISUAL LINE MODE"
+  "linha visual"
+
+  "VISUAL MODE"
+  "Modo visual"
 
 }
 
 # General
 msgcat::mcmset pt {
 
+  "All"
+  "Tudo"
+
+  "Attributes"
+  "Atributos"
+
+  "Auto-Indent"
+  "Auto Indentar"
+
+  "Back"
+  "Voltar"
+
+  "Bird's Eye View"
+  "Vista de pássaro"
+
+  "Browse"
+  "Carregar"
+
   "Cancel"
   "Cancelar"
+
+  "Check for Update"
+  "Procurar atualização agora"
+
+  "Choose"
+  "Escolha"
 
   "Close"
   "Fecho"
 
+  "Copy"
+  "Copiar"
+
+  "Create"
+  "Criar"
+
+  "Current Line"
+  "Linha actual:"
+
+  "Current Word"
+  "Palavra atual"
+
+  "Cursor"
+  "Cursores"
+
+  "Delete"
+  "Excluir"
+
+  "Directory"
+  "A directoria"
+
+  "Documentation"
+  "Documentação"
+
+  "Duplicate"
+  "Duplicação"
+
+  "Edit"
+  "Editar"
+
+  "Emmet"
+  "formiga"
+
+  "Enable code folding"
+  "Habilitar o dobramento de código"
+
+  "Encoding"
+  "Codificação"
+
+  "Export"
+  "Exportar"
+
   "Favorite"
   "Favorito"
 
-  "Find:"
+  "File"
+  "Arquivo"
+
+  "File Name:"
+  "Nome do arquivo:"
+
+  "File System"
+  "Sistema de arquivos"
+
+  "Find"
   "Encontrar"
 
-  "Replace:"
-  "Substituir:"
+  "Find next occurrence"
+  "Localizar a próxima ocorrência"
+
+  "Find previous occurrence"
+  "Localizar a ocorrência anterior"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Imagem exibida no painel de informações do sidebar para fechar o painel"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Imagem exibida no painel de informações do sidebar para conteúdo refrescante"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Imagem exibida no painel de informações do sidebar para arquivo apresentando na lateral"
+
+  "Import"
+  "Importe"
+
+  "Insert"
+  "Inserir"
+
+  "Language"
+  "Idioma"
+
+  "Language Documentation"
+  "Documentação da linguagem"
+
+  "Launcher"
+  "Lançador"
+
+  "Line"
+  "Linha"
+
+  "Miscellaneous"
+  "Diversos"
+
+  "Move To Trash"
+  "Mover para a lixeira"
+
+  "Move to Other Pane"
+  "Mover para outro painel"
+
+  "Name"
+  "Nome"
+
+  "New File"
+  "Novo arquivo"
+
+  "Next"
+  "Próximo"
+
+  "Node"
+  "nós"
+
+  "None"
+  "Nenhum"
+
+  "OK"
+  "Ok"
+
+  "Open"
+  "Abrir"
+
+  "Options"
+  "Opções"
+
+  "Output Directory"
+  "Diretório destino:"
+
+  "Parenthesis"
+  "Colchete"
+
+  "Plugin"
+  "Plugin"
+
+  "Plugins"
+  "Plugins"
+
+  "Preferences"
+  "Preferências"
+
+  "Preview"
+  "Visualizar"
+
+  "Rename"
+  "Renomear"
+
+  "Run"
+  "Executar"
 
   "Save"
   "Salvar"
@@ -832,8 +3755,86 @@ msgcat::mcmset pt {
   "Save As"
   "Salvar como"
 
+  "Search"
+  "Buscar"
+
+  "Selected"
+  "Selecionado"
+
+  "Sessions"
+  "Sessões"
+
+  "Show in Sidebar"
+  "Show em Sidebar"
+
+  "Show line numbers"
+  "Mostrar números de linha"
+
+  "Show marker map"
+  "Exibir Marcador"
+
+  "Show sidebar"
+  "Mostrar a barra lateral"
+
+  "Show status bar"
+  "Mostrar barra de Status"
+
+  "Show tab bar"
+  "Barra de Páginas"
+
+  "Sidebar"
+  "Barra Lateral"
+
+  "Smart Indent"
+  "Travessão inteligente"
+
+  "Snippet"
+  "﻿Trecho"
+
+  "Snippets"
+  "Trechos"
+
+  "Split View"
+  "Dividir a Vista"
+
+  "Syntax"
+  "Sintaxe"
+
+  "TKE Updater"
+  "TKE Updater"
+
+  "Templates"
+  "Modelos"
+
+  "Test"
+  "Testar"
+
+  "Theme Editor"
+  "Editor de temas"
+
+  "Tools"
+  "Ferramentas"
+
+  "Unable to rename file"
+  "Não é possível renomear o ficheiro."
+
+  "Unable to write"
+  "Não foi possível gravar o ficheiro"
+
   "Unfavorite"
-  "Unfavorite"
+  "Não é favorito"
+
+  "Update"
+  "Atualizar"
+
+  "Value"
+  "Valor"
+
+  "Version"
+  "Versão"
+
+  "View"
+  "Vista"
 
 }
 

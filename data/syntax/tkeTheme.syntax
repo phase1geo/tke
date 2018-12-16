@@ -12,35 +12,33 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
 
+icomment {{#}}
+
 lcomments {{#}}
 
-bcomments {}
-
-strings {{"}}
+strings {double}
 
 keywords
 {
   background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
-  keywords comments strings numbers punctuation precompile miscellaneous
+  keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
+  highlighter meta
 }
 
 symbols
 {
-  background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
-  keywords comments strings numbers punctuation precompile miscellaneous
+  HighlightKeywords {
+    background foreground selectbackground selectforeground highlightcolor cursor warnwidthcolor
+    keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3
+    highlighter meta
+  } {}
 }
-
-numbers {}
 
 punctuation
 {
-  HighlightClassForRegexp {[\{\}]} {}
+  HighlightRegexp {[\{\}]} {}
 }
-
-precompile {}
-
-miscellaneous {}

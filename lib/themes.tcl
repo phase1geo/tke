@@ -1,3 +1,20 @@
+# TKE - Advanced Programmer's Editor
+# Copyright (C) 2014-2018  Trevor Williams (phase1geo@gmail.com)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 ######################################################################
 # Name:    themes.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
@@ -6,197 +23,382 @@
 ######################################################################
 
 namespace eval themes {
-  
-  array set themes {
-    dark {"#303030" "#b0b0b0"}
-  }
-  
+
+  variable curr_theme ""
+
+  array set files {}
+
+  set themes_dir [file join $::tke_home themes]
+
   ######################################################################
-  # Initializes the themes list.
-  proc initialize {} {
-    
-    variable themes
-    
-    # Add a few styles to the default (light) theme
-    ttk::style theme settings clam {
-      
-      # BButton
-      ttk::style configure BButton [ttk::style configure TButton]
-      ttk::style configure BButton -anchor center -padding 2 -relief flat
-      ttk::style map       BButton [ttk::style map TButton]
-      ttk::style layout    BButton [ttk::style layout TButton]
-      
+  # Updates the user's home themes directory
+  proc update_themes_dir {} {
+
+    variable themes_dir
+
+    foreach fname [glob -nocomplain -directory $themes_dir *.tketheme] {
+      file mkdir [file rootname $fname]
+      file rename $fname [file rootname $fname]
     }
-    
-    # Add the light theme colors
-    array set themes [list light [list [ttk::style configure "." -background] [ttk::style configure "." -foreground]]]
-    
-    foreach name [array names themes] {
-      
-      # Get the primary and secondary colors for the given theme
-      lassign $themes($name) primary secondary
-      
-      # Create the lighter version of the primary color
-      lassign [winfo rgb . $primary] r g b
-      set hsv [utils::rgb_to_hsv [expr $r >> 8] [expr $g >> 8] [expr $b >> 8]]
-      lset hsv 2 [expr [lindex $hsv 2] + 25]
-      set rgb [utils::hsv_to_rgb {*}$hsv]
-      set light_primary [format {#%02x%02x%02x} {*}$rgb]
 
-      # Create colors palette
-      array set colors [list \
-        -disabledfg "#999999" \
-        -frame      $primary \
-        -lightframe $light_primary \
-        -window     $primary \
-        -dark       "#cfcdc8" \
-        -darker     "#bab5ab" \
-        -darkest    "#9e9a91" \
-        -lighter    $secondary \
-        -lightest   $secondary \
-        -selectbg   "#4a6984" \
-        -selectfg   "#ffffff" \
-      ]
-      
-      ttk::style theme create $name -parent clam
-      
-      ttk::style theme settings $name {
-        
-        ttk::style configure "." \
-          -background        $colors(-frame) \
-          -foreground        $colors(-lighter) \
-          -bordercolor       $colors(-darkest) \
-          -darkcolor         $colors(-dark) \
-          -troughcolor       $colors(-darker) \
-          -arrowcolor        $colors(-lighter) \
-          -selectbackground  $colors(-selectbg) \
-          -selectforeground  $colors(-selectfg) \
-          -selectborderwidth 0 \
-          -font              TkDefaultFont
+  }
 
-        ttk::style map "." \
-          -background       [list disabled $colors(-frame) \
-                                  active   $colors(-lighter)] \
-          -foreground       [list disabled $colors(-disabledfg)] \
-          -selectbackground [list !focus   $colors(-darkest)] \
-          -selectforeground [list !focus   white]
-    
-        ttk::style configure TButton \
-          -anchor center -width -11 -padding 5 -relief raised -background $colors(-lighter) -foreground $colors(-frame)
-        ttk::style map TButton \
-          -background  [list disabled  $colors(-lighter) \
-                             pressed   $colors(-darker) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
-          
-#        ttk::style configure DButton \
-#          -anchor center -width -11 -padding 5 -relief sunken -background $colors(-darker) -foreground $colors(-frame)
-#        ttk::style map DButton \
-#          -background  [list disabled  $colors(-lighter) \
-#                             pressed   $colors(-darker) \
-#                             active    $colors(-darker)] \
-#          -lightcolor  [list pressed   $colors(-darker)] \
-#          -darkcolor   [list pressed   $colors(-darker)] \
-#          -bordercolor [list alternate "#000000"]
+  ######################################################################
+  # Loads the theme information.
+  proc load {} {
 
-#        ttk::style configure FButton \
-#          -anchor center -padding 2 -relief flat -background $colors(-lightframe) -foreground $colors(-frame)
-#        ttk::style map FButton \
-#          -background  [list disabled  $colors(-lighter) \
-#                             pressed   $colors(-darker) \
-#                             active    $colors(-dark)] \
-#          -lightcolor  [list pressed   $colors(-darker)] \
-#          -darkcolor   [list pressed   $colors(-darker)] \
-#          -bordercolor [list alternate "#000000"]
-    
-        ttk::style configure BButton \
-          -anchor center -padding 2 -relief flat -background $colors(-frame) -foreground $colors(-frame)
-        ttk::style map BButton \
-          -background  [list disabled  $colors(-frame) \
-                             pressed   $colors(-darker) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
+    variable files
+    variable themes_dir
 
-#        ttk::style configure LButton \
-#          -anchor center -padding 4 -relief flat -background $colors(-frame) -foreground $colors(-frame)
-#        ttk::style map LButton \
-#          -background  [list disabled  $colors(-frame) \
-#                             pressed   $colors(-darker) \
-#                             active    $colors(-dark)] \
-#          -lightcolor  [list pressed   $colors(-darker)] \
-#          -darkcolor   [list pressed   $colors(-darker)] \
-#          -bordercolor [list alternate "#000000"]
+    # Update the user's themes directory
+    update_themes_dir
 
-#        ttk::style configure Toolbutton \
-#          -anchor center -padding 2 -relief flat
-#        ttk::style map Toolbutton \
-#          -relief     [list disabled flat \
-#                            selected sunken \
-#                            pressed  sunken \
-#                            active   raised] \
-#          -background [list disabled $colors(-frame) \
-#                            pressed  $colors(-darker) \
-#                            active   $colors(-lighter)] \
-#          -lightcolor [list pressed  $colors(-darker)] \
-#          -darkcolor  [list pressed  $colors(-darker)]
-        
-        ttk::style configure TMenubutton \
-          -width 0 -padding 0 -relief flat -background $colors(-frame) -foreground $colors(-lighter)
-        ttk::style map TMenubutton \
-          -background  [list disabled  $colors(-frame) \
-                             pressed   $colors(-lightframe) \
-                             active    $colors(-lightframe)] \
-          -lightcolor  [list pressed   $colors(-darker)] \
-          -darkcolor   [list pressed   $colors(-darker)] \
-          -bordercolor [list alternate "#000000"]
+    # Trace changes to syntax preference values
+    if {[array size files] == 0} {
+      trace variable preferences::prefs(Appearance/Theme)        w themes::handle_theme_change
+      trace variable preferences::prefs(Appearance/Colorize)     w themes::handle_colorize_change
+      trace variable preferences::prefs(Appearance/HiddenThemes) w themes::handle_hidden_change
+    }
 
-        # ttk::style configure TEntry -padding 1 -insertwidth 1 -fieldbackground $colors(-lighter) -foreground black
-        ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
-        ttk::style map TEntry \
-          -background  [list readonly $colors(-frame)] \
-          -foreground  [list readonly $colors(-lighter)] \
-          -bordercolor [list focus    $colors(-selectbg)] \
-          -lightcolor  [list focus    "#6f9dc6"] \
-          -darkcolor   [list focus    "#6f9dc6"]
-            
-        ttk::style map TScrollbar \
-          -background  [list disabled $colors(-frame) \
-                             active   $colors(-lightframe)]
-          
-        ttk::style configure TLabelframe \
-          -labeloutside true -labelmargins {0 0 0 4} \
-          -borderwidth 2 -relief raised
-    
-        ttk::style configure Sash -sashthickness 5 -gripcount 10
-        
+    # Reset the files/themes arrays and unregister launcher items
+    array unset files
+    launcher::unregister [msgcat::mc "Theme:*"]
+
+    # Load the tke_dir theme files
+    set tfiles [utils::glob_install [file join $::tke_dir data themes] *.tketheme]
+
+    # Load the theme files
+    foreach item [glob -nocomplain -directory $themes_dir -types d *] {
+      if {[file exists [file join $item [file tail $item].tketheme]]} {
+        lappend tfiles [file join $item [file tail $item].tketheme]
       }
-      
     }
-    
-    # Watch for any changes to the General/WindowTheme preference value
-    trace variable preferences::prefs(General/WindowTheme) w "themes::handle_theme_change"
-  
+
+    # Get the theme information
+    foreach tfile $tfiles {
+      set name         [file rootname [file tail $tfile]]
+      set files($name) $tfile
+    }
+
+    # Create the launcher items (only display the visible themes)
+    foreach name [get_visible_themes] {
+      launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $files($name)] "" [list themes::theme_okay]
+    }
+
+    # Allow the preferences UI to be updated, if it exists
+    pref_ui::themes_populate_table
+
   }
-  
+
   ######################################################################
-  # Handles any changes to the General/WindowTheme preference variable.
-  proc handle_theme_change {{name1 ""} {name2 ""} {op ""}} {
-    
-    variable themes
-    
-    set theme $preferences::prefs(General/WindowTheme)
-    
-    if {[info exists themes($theme)]} {
-      ttk::style theme use         $theme
-      menus::handle_window_theme   $theme
-      gui::handle_window_theme     $theme
-      sidebar::handle_window_theme $theme
+  # Deletes the given theme from the file system.
+  proc delete_theme {name} {
+
+    variable files
+
+    # If the theme file exists, delete the file
+    if {[info exists files($name)] && [file exists $files($name)]} {
+      file delete -force $files($name)
     }
-    
+
+    # Reload the theme information
+    load
+
   }
-  
+
+  ######################################################################
+  # Returns true if it is okay to change the theme.
+  proc theme_okay {} {
+
+    return [expr [themer::window_exists] ^ 1]
+
+  }
+
+  ######################################################################
+  # Returns the filename associated with the given theme name.  If the
+  # theme name does not exist, returns an error.
+  proc get_file {theme_name} {
+
+    variable files
+
+    if {[info exists files($theme_name)]} {
+      return $files($theme_name)
+    }
+
+    return -code error "Filename for theme $theme_name does not exist"
+
+  }
+
+  ######################################################################
+  # Returns a sorted list of all the themes.
+  proc get_all_themes {} {
+
+    variable files
+
+    return [lsort [array names files]]
+
+  }
+
+  ######################################################################
+  # Returns the list of themes that will be visible from the theme menu.
+  proc get_visible_themes {} {
+
+    variable files
+
+    # Create list of files to
+    return [lsort [::struct::set difference [array names files] [preferences::get Appearance/HiddenThemes]]]
+
+  }
+
+  ######################################################################
+  # Called whenever the Appearance/Theme preference value is changed.
+  proc handle_theme_change {{name1 ""} {name2 ""} {op ""}} {
+
+    variable files
+
+    set user_theme [preferences::get Appearance/Theme]
+
+    if {[info exists files($user_theme)]} {
+      theme::load_theme $files($user_theme)
+    } else {
+      theme::load_theme $files(Default)
+    }
+
+  }
+
+  ######################################################################
+  # Called whenever the Appearance/Colorize preference value is changed.
+  proc handle_colorize_change {name1 name2 op} {
+
+    theme::update_syntax
+
+  }
+
+  ######################################################################
+  # Handle a change to the Appearance/HiddenThemes preference value.
+  proc handle_hidden_change {name1 name2 op} {
+
+    # Reload the themes
+    load
+
+  }
+
+  ######################################################################
+  # Imports the contents of the given theme file (which must have either
+  # the .tketheme or .tkethemz file extensions).  Imports the theme into
+  # the user directory.  Returns the name of the installed .tketheme file
+  # if successful; otherwise, returns the empty string.
+  proc import {parent_win fname} {
+
+    variable files
+    variable themes_dir
+
+    # If the directory exists, move it out of the way
+    set odir [file join $themes_dir [file rootname [file tail $fname]]]
+    if {[file exists $odir]} {
+      file rename $odir $odir.old
+    }
+
+    # Unzip the file contents
+    if {[catch { zipper::unzip $fname $themes_dir } rc]} {
+      if {[catch { exec -ignorestderr unzip -u $fname -d $themes_dir } rc]} {
+        catch { file rename $odir.old $odir }
+        tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+          -message "Unable to unzip theme file" -detail $rc
+        return ""
+      }
+    }
+
+    # Remove the old file if it exists
+    catch { file delete [file exists $odir.old] }
+
+    # Reload the available themes
+    load
+
+    # Return the pathname of the installed .tketheme file
+    return $files([file rootname [file tail $fname]])
+
+  }
+
+  ######################################################################
+  # Exports the contents of the given theme to the given .tkethemz
+  # directory.
+  proc export {parent_win theme odir creator website license} {
+
+    # Create the theme directory
+    file mkdir [set theme_dir [file join $odir $theme]]
+
+    # Populate the theme directory with the given contents
+    if {![theme::export $theme $theme_dir $creator $website $license]} {
+      tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+        -message "Unable to export theme contents"
+    }
+
+    # Get the current working directory
+    set pwd [pwd]
+
+    # Set the current working directory to the user themes directory
+    cd $odir
+
+    # Perform the archive
+    if {[catch { zipper::list2zip $theme [glob -directory $theme -tails *] [file join $theme.tkethemz] } rc]} {
+      if {[catch { exec -ignorestderr zip -r [file join $theme.tkethemz] $theme } rc]} {
+        tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+          -message "Unable to zip theme file"
+      }
+    }
+
+    # Restore the current working directory
+    cd $pwd
+
+    # Delete the theme directory and its contents
+    file delete {*}[glob -nocomplain -directory $theme_dir *]
+    file delete -force $theme_dir
+
+  }
+
+  ######################################################################
+  # Batch exports all custom themes to a directory on the Desktop.
+  proc export_custom {{parent_win .}} {
+
+    variable files
+    variable themes_dir
+
+    # Create the themes directory
+    set output_dir [file join ~ Desktop UpdatedThemes]
+    set current    [theme::get_current_theme]
+
+    # If the output directory exists, delete it
+    if {[file exists $output_dir]} {
+      file delete -force $output_dir
+    }
+
+    # Make the output directory
+    file mkdir $output_dir
+
+    # Load each theme and then export it
+    foreach {name theme_file} [array get files] {
+
+      # Only consider themes from the themes_dir
+      if {[string compare -length [string length $themes_dir] $theme_file $themes_dir] != 0} {
+        continue
+      }
+
+      # Initialize some variables
+      set license [file join [file dirname $theme_file] LICENSE]
+
+      # Load the theme
+      theme::read_tketheme $theme_file
+
+      # Export the theme to the output directory
+      array set attrs [list creator "" website "" date ""]
+      array set attrs [theme::get_attributions]
+
+      # Export the loaded theme
+      export $parent_win $name $output_dir $attrs(creator) $attrs(website) $license
+
+    }
+
+    # Restore the theme namespace with the current theme contents
+    theme::load_theme $files($current)
+
+    # Tell the user that the export was successful
+    gui::set_info_message [msgcat::mc "Batch custom theme export completed successfully"]
+
+  }
+
+  ######################################################################
+  # Repopulates the specified theme selection menu.
+  proc populate_theme_menu {mnu} {
+
+    variable files
+    variable curr_theme
+
+    # Get the current theme
+    set curr_theme [theme::get_current_theme]
+
+    # Figure out the state for the items
+    set state [expr {[themer::window_exists] ? "disabled" : "normal"}]
+
+    # Clear the menu
+    $mnu delete 0 end
+
+    # Populate the menu with the available themes
+    foreach name [get_visible_themes] {
+      $mnu add radiobutton -label $name -variable themes::curr_theme -value $name -command [list theme::load_theme $files($name)] -state $state
+    }
+
+    return $mnu
+
+  }
+
+  ######################################################################
+  # Returns the name of the currently displayed theme.
+  proc get_current_theme {} {
+
+    variable curr_theme
+
+    return $curr_theme
+
+  }
+
+  ######################################################################
+  # Returns 1 if the given file is imported; otherwise, returns 0.
+  proc get_imported {name} {
+
+    variable files
+    variable themes_dir
+
+    if {[info exists files($name)]} {
+      return [expr [string compare -length [string length $themes_dir] $themes_dir $files($name)] == 0]
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Returns the creator, website and/or date information from the file in array format.
+  proc get_attributions {name} {
+
+    variable files
+
+    array set attrs [list creator "" website "" date ""]
+
+    if {[info exists files($name)]} {
+      array set attrs [theme::get_file_attributions $files($name)]
+    }
+
+    return [array get attrs]
+
+  }
+
+  ######################################################################
+  # Returns the location of the user themes directory.
+  proc get_user_directory {} {
+
+    variable themes_dir
+
+    return $themes_dir
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_share_items {dir} {
+
+    return [list themes]
+
+  }
+
+  ######################################################################
+  # Called whenever the share directory changes.
+  proc share_changed {dir} {
+
+    variable themes_dir
+
+    set themes_dir [file join $dir themes]
+
+  }
+
 }

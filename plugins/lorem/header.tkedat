@@ -1,0 +1,7 @@
+name           {lorem}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {Inserts Ipsum Lorem filler text at the current insertion cursor.}

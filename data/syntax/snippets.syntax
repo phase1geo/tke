@@ -3,7 +3,7 @@ filepatterns
 
 matchcharsallowed
 {curly square paren double single}
- 
+
 tabsallowed
 {1}
 
@@ -16,28 +16,21 @@ indent
 unindent
 {\}}
 
+icomment {{#}}
+
 lcomments {{#}}
-
-bcomments {}
-
-strings {}
 
 keywords
 {
-  snippet
+  snippet endsnippet
 }
 
 symbols
 {
-  snippet
+  HighlightKeywords {snippet} syntax::get_prefixed_symbol
 }
 
-numbers {}
-
-punctuation {}
-
-precompile {}
-
-miscellaneous {
-  HighlightClassForRegexp {^\t.*$} {}
+miscellaneous1
+{
+  HighlightRegexp {^(\t.*|(?!snippet|endsnippet).+)$} {}
 }

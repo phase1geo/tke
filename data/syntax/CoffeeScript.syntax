@@ -1,6 +1,11 @@
 filepatterns
 {*.coffee *.litcoffee}
 
+reference
+{
+  {{Language Reference} http://coffeescript.org/}
+}
+
 matchcharsallowed
 {paren double single}
 
@@ -10,17 +15,13 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
+icomment {{#}}
 
-lcomments {{//}}
+lcomments {{#}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
@@ -28,19 +29,16 @@ keywords
   or super switch then this true try unless until when while yes
 }
 
-symbols {}
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
+  HighlightRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
-
-precompile
-{}
-
-miscellaneous {}

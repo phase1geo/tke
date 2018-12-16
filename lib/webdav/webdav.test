@@ -1,0 +1,184 @@
+#! /usr/bin/env tclkit
+
+# webdav.test:  tests for the webdav package
+
+if {1} {
+  lappend auto_path ..
+}
+
+# -------------------------------------------------------------------------
+# Initialize the test package
+#
+if {[lsearch [namespace children] ::tcltest] == -1} {
+    package require tcltest
+    namespace import ::tcltest::*
+}
+
+# -------------------------------------------------------------------------
+# Ensure we test _this_ local copy and not one installed somewhere else.
+#
+package forget webdav
+catch {namespace delete ::webdav}
+if {[catch {source [file join [file dirname [info script]] webdav.tcl]} msg]} {
+    puts "skipped [file tail [info script]]: $msg"
+    return
+}
+
+# -------------------------------------------------------------------------
+# Setup any constraints
+#
+
+# -------------------------------------------------------------------------
+# Now the package specific tests....
+# -------------------------------------------------------------------------
+
+puts "- webdav [package present webdav]"
+
+# -------------------------------------------------------------------------
+
+test webdav-1.0 {open requires args} {
+    catch {webdav::open} msg
+} {1}
+
+test webdav-1.1 {open connection} {
+    webdav::open http://hushie/testdav/
+} {dav1}
+
+test webdav-1.2 {getlist root} {
+    webdav::getlist dav1
+} {a b d/ e/ f}
+
+test webdav-1.3 {getlist subdir} {
+    webdav::getlist dav1 d
+} {c}
+
+test webdav-1.4 {getstat file} {
+    webdav::getstat dav1 a
+} {mtime 1099562588 ctime 1099562605 type file size 29}
+
+test webdav-1.5 {getstat subdir} {
+    webdav::getstat dav1 d
+} {mtime 1100511288 ctime 1100511296 type directory}
+
+test webdav-1.6 {getstat root} -body {
+    webdav::getstat dav1 "" ;# ctime & mtime change each time
+} -match glob -result {mtime * ctime * type directory}
+
+test webdav-1.7 {get file contents} {
+    webdav::get dav1 d/c
+} "Mon Nov 15 10:34:48 CET 2004\n"
+
+test webdav-2.1 {create directory} {
+    webdav::mkdir dav1 y
+} {}
+
+test webdav-2.2 {create directory again} {
+    webdav::mkdir dav1 y
+} {}
+
+test webdav-2.3 {getlist new subdir} {
+    webdav::getlist dav1 y
+} {}
+
+test webdav-2.4 {copy file} {
+    webdav::copy dav1 d/c y/c
+} {}
+
+test webdav-2.5 {get copied file contents} {
+    webdav::get dav1 y/c
+} "Mon Nov 15 10:34:48 CET 2004\n"
+
+test webdav-2.6 {copy over file} {
+    webdav::copy dav1 b y/c
+} {}
+
+test webdav-2.7 {get new copied file contents} {
+    webdav::get dav1 y/c
+} "Thu Nov  4 13:24:28 CET 2004\n"
+
+test webdav-3.1 {put new file} {
+    webdav::put dav1 y/x blahblahblah
+} {}
+
+test webdav-3.2 {getstat new file} -body {
+    webdav::getstat dav1 y/x ;# ctime & mtime change each time
+} -match glob -result {mtime * ctime * type file size 12}
+
+test webdav-3.3 {get new put file contents} {
+    webdav::get dav1 y/x
+} {blahblahblah}
+
+test webdav-3.4 {put over existing file} {
+    webdav::put dav1 y/x woohoo
+} {}
+
+test webdav-3.5 {get new put file contents} {
+    webdav::get dav1 y/x
+} {woohoo}
+
+test webdav-4.1 {delete subdir} {
+    webdav::delete dav1 y
+} {}
+
+test webdav-5.1 {getlist bad directory} -body {
+    webdav::getlist dav1 m/m/m
+} -returnCodes 1 -result {m/m/m: Not Found}
+
+test webdav-5.2 {create bad directory} -body {
+    webdav::mkdir dav1 n/n/n
+} -returnCodes 1 -result {n/n/n: Forbidden}
+
+test webdav-5.3 {create bad file} -body {
+    webdav::put dav1 o/o/o oops
+} -returnCodes 1 -result {o/o/o: Forbidden}
+
+test webdav-5.4 {get bad file} -body {
+    webdav::get dav1 p/p/p
+} -returnCodes 1 -result {p/p/p: Not Found}
+
+test webdav-5.5 {getstat bad file} -body {
+    webdav::getstat dav1 q/q/q
+} -returnCodes 1 -result {q/q/q: Not Found}
+
+test webdav-5.6 {put bad file} -body {
+    webdav::put dav1 r/r/r junk
+} -returnCodes 1 -result {r/r/r: Forbidden}
+
+test webdav-5.7 {delete bad file} -body {
+    webdav::delete dav1 s/s/s
+} -returnCodes 1 -result {s/s/s: Not Found}
+
+test webdav-5.8 {put over dir} -body {
+    webdav::put dav1 d junk
+} -returnCodes 1 -result {d: Conflict}
+
+test webdav-6.1 {copy bad source} -body {
+    webdav::copy dav1 g h
+} -returnCodes 1 -result {g: Not Found}
+
+test webdav-6.2 {copy bad dest} -body {
+    webdav::copy dav1 a t/t/t
+} -returnCodes 1 -result {a: Internal Server Error}
+
+test webdav-6.3 {copy file over dir} -body {
+    webdav::mkdir dav1 g
+    webdav::copy dav1 a g
+    webdav::getstat dav1 g ;# ctime & mtime change each time
+} -match glob -result {mtime * ctime * type directory} -cleanup {
+    webdav::delete dav1 g
+}
+
+test webdav-6.4 {copy dir over file} -body {
+    webdav::put dav1 h foo
+    webdav::copy dav1 d h
+    webdav::getstat dav1 h ;# ctime & mtime change each time
+} -match glob -result {mtime * ctime * type directory} -cleanup {
+    webdav::delete dav1 h
+}
+
+# -------------------------------------------------------------------------
+
+cleanupTests
+
+# -------------------------------------------------------------------------
+# vim: set ft=tcl :

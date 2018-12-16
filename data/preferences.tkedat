@@ -22,53 +22,139 @@
 
 {General/Variables}          {}
 
-# Specifies the window UI theme to use.  The valid values are:
-#  - light
-#  - dark
+# If set to a value of 1, a check for application updates will occur when the application
+# is started.  A value of 0 will not perform the update check on start.
 
-{General/WindowTheme}        {light}
+{General/UpdateCheckOnStart} {0}
+
+# Setting this to a value of "devel" will update the application with any development releases.
+# Setting this to a value of "stable" will only update the application with stable releases.  It
+# is recommended that non-developers keep this value at "stable".  Setting it to "devel" may affect
+# the tool stability.
+
+{General/UpdateReleaseType} {stable}
+
+# Specifies a list of languages and a list of file patterns to associate with each language.
+# This option can be useful if you are constantly changing the language for a file
+# with a given file pattern after opening it.  The value for this option must be formated
+# as follows where each pattern list is a whitespace list of string patterns (i.e., '*' is
+# a wildcard for one or more characters) where each pattern is preceded with either a '+'
+# symbol to add the pattern to the default list or a '-' symbol to delete the pattern from
+# the default list:
+#
+#   {language {(+|-)pattern ...} language {(+|-)pattern ...} ...}
+#
+# For example, to all files with a .cxx extension with the C++ language and unassociate
+# any files with a .cc extension from being considered a C++ file, do the following:
+#
+#   {C++ {-*.cc +*.cxx}}
+
+{General/LanguagePatternOverrides} {}
+
+# Specifies a list of languages to avoid displaying from the languages
+# menu and menubutton.  The languages names must match exactly to cause
+# them to be properly disabled from view.
+
+{General/DisabledLanguages} {}
+
+# If set to 1, the current working directory will automatically change to be the
+# directory containing the current file.
+
+{General/AutoChangeWorkingDirectory} {0}
+
+# Specifies the initial default directory that will be displayed whenever the Save/Open dialog
+# is displayed.  The legal values are:
+#  - last    = Uses the last directory selected within a Save/Open dialog
+#  - buffer  = Uses the directory containing the current editing buffer file
+#  - current = Uses the current working directory path.
+#  - <path>  = Uses the specified pathname.  If <path> does not exist, we will default to "last".
+
+{General/DefaultFileBrowserDirectory} {last}
+
+# Specifies the default extension to use when exporting Markdown files.  The
+# supported values are the following:
+#  - html
+#  - htm
+#  - xhtml
+
+{General/DefaultMarkdownExportExtension} {html}
+
+# If set to 1, displays the "Move to Trash" sidebar and menu option for local
+# files/directories instead of the "Delete" option.  This allows the user to
+# undelete the file by restoring the file from the trash.
+
+{General/UseMoveToTrash}     {1}
+
+# If set to 1, TKE will prompt the user to save the current preference settings
+# to the global preferences (if a named session's preferences have been changed)
+# or to the named session's preferences (if the current session is a named session
+# and the global preferences are being changed).
+
+{General/PromptCrossSessionSave} {1}
+
+# Specifies the default directory to use when exporting theme packages from the theme
+# editor.
+
+{General/DefaultThemeExportDirectory} {}
+
+# Specifies the default directory to use when exporting plugin packages from the
+# plugin menu.
+
+{General/DefaultPluginExportDirectory} {}
 
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
-# color and selection background/foreground colors.  The following
-# values are valid by default:
-#  - Cool Glow
-#  - Juicy
-#  - Made of Code
-#  - Monokai
-#  - Notebook
-#  - Ruby Blue
-#  - choco
-#  - default
-#  - idleFingers
-#  - minimal_Theme
+# color and selection background/foreground colors.
 
-{Appearance/Theme}           {default}
+{Appearance/Theme}           {Monokai}
+
+# Specifies a Tcl list of theme names to hide from the "View / Set Theme" menu.
+
+{Appearance/HiddenThemes}    {}
 
 # Specifies which syntax highlighting elements should be colorized.  The following
 # element names are valid:
 #  - keywords
+#  - functions
+#  - variables
 #  - comments
 #  - strings
 #  - numbers
 #  - punctuation
 #  - precompile
-#  - miscellaneous
+#  - miscellaneous1
+#  - miscellaneous2
+#  - miscellaneous3
 
-{Appearance/Colorize}        {keywords comments strings numbers punctuation precompile miscellaneous}
+{Appearance/Colorize}        {keywords functions variables comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
 
 # Specifies the point size of the font used in the editor window
 
-{Appearance/EditorFontSize}  {9}
+{Appearance/EditorFont}  {-size 10}
 
 # Specifies the point size of the font used in the command launcher entry field.
 
-{Appearance/CommandLauncherEntryFontSize} {12}
-  
+{Appearance/CommandLauncherEntryFont} {-size 12}
+
 # Specifies the point size of the font used in the command launcher preview field.
 
-{Appearance/CommandLauncherPreviewFontSize} {6}
- 
+{Appearance/CommandLauncherPreviewFont} {-size 10}
+
+# If set to a value of 1, the command launcher will be positioned at the last position the
+# command launcher was moved to.  If this value is 0, the command launcher will always be
+# positioned approximately a quarter of the way down in the middle of the window regardless of
+# its position being previously moved.
+
+{Appearance/CommandLauncherRememberLastPosition} {1}
+
+# Specifies the amount of width (in pixels) to draw the insertion cursor.
+
+{Appearance/CursorWidth}     {1}
+
+# Specifies the amount of space (in pixels) that will be added between two lines.
+
+{Appearance/ExtraLineSpacing}     {0}
+
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 
@@ -92,8 +178,18 @@
 #   paren  - Inserts a matching parenthesis (())
 #   double - Inserts a matching double-quote (")
 #   single - Inserts a matching single-quote (')
+#   btick  - Inserts a matching backtick (`)
 
-{Editor/AutoMatchChars}      {square curly angled paren double single}
+{Editor/AutoMatchChars}      {square curly angled paren double single btick}
+
+# If set to a value of 1, causes the character that matches the current character to be highlighted.
+
+{Editor/HighlightMatchingChar} {0}
+
+# If set to a value of 1, causes characters that do not have a matching character
+# to be highlighted.
+
+{Editor/HighlightMismatchingChar} {0}
 
 # Specifies the number of spaces that will be automatically inserted when an
 # auto-indent event occurs.
@@ -105,11 +201,98 @@
 
 {Editor/RemoveTrailingWhitespace} {1}
 
+# Specifies how the default method for how editor should translate newline characters when saving.
+# The following values are valid:
+#   auto - Detect and use the original end of line character of the file (defaults to 'sys' for new files)
+#   sys  - Use the appropriate end of line character depending on the system
+#   cr   - Use a single carriage-return character (i.e., Classic Mac mode)
+#   crlf - Use a carriage-return-linefeed sequence (i.e., Windows mode)
+#   lf   - Use a linefeed character (i.e., Mac OS X/Linux mode)
+
+{Editor/EndOfLineTranslation}     {auto}
+
+# Specifies the maximum number of undo operations stored.  Set this value to 0 to get unlimited
+# undo capability.
+
+{Editor/MaxUndo}             {0}
+
+# Specifies which characters will cause a snippet completion check to occur for characters
+# immediately proceding the given character.  The valid values are:  space, tab, return
+
+{Editor/SnippetCompleters}   {space tab return}
+
+# If this value is set to 1, causes snippet text to be formatted to fit the current indentation
+# when the snippet is initially inserted.  If this value is set to 0, the snippet text will be
+# inserted as it is found in the snippet file.
+
+{Editor/SnippetFormatAfterInsert} {1}
+
+# Specifies the number of lines at the top of the file that will be parsed for Vim modelines.
+# If the value is set to 0, Vim modeline information will be ignored.
+
+{Editor/VimModelines}        {5}
+
+# Specifies whether relative line numbering is used in the line number gutter, by default.  If set
+# to 1, relative line numbering is used; otherwise, a value of 0 uses absolute line numbering.
+# This value is only used when the file is first added to the editing buffer.
+#
+# The following example code illustrates the difference between relative and absolute line numbering:
+#
+# Relative #        Absolute #
+#   2                 1
+#   1                 2
+#   0   cursor line   3
+#   1                 4
+#   2                 5
+
+{Editor/RelativeLineNumbers} {0}
+
+# Specifies whether line numbers should be left or right justified in the linemap area of each editor.
+# The possible legal values are: 'left' or 'right'
+
+{Editor/LineNumberAlignment} {left}
+
+# If this value is set to a value of 1, the application will start in Vim mode;
+# otherwise, if the value is set to a value of 0, the application will start in
+# normal mode.
+
+{Editor/VimMode}               {0}
+
+# Specifies the number of elements to keep in the clipboard history buffer.
+
+{Editor/ClipboardHistoryDepth} {10}
+
+# Specifies the maximum number of find history items to store in memory.  This value must be a
+# value of 0 (do not record history) or greater.
+
+{Find/MaxHistory}            {10}
+
 # When searching within a group of files (external to the current file), specifies
 # the number of contextual lines that will be displayed above and below the
 # matched line.
 
 {Find/ContextNum}            {3}
+
+# When using the "Jump Backward" or "Jump Forward" find functions, this value determines the
+# minimum line distance to use to perform the jump.
+
+{Find/JumpDistance}          {2}
+
+# Specifies the default search method to use when performing "Find" or "Find and Replace"
+# The available values are:
+# - regexp (Regular Expression)
+# - glob   (Glob-style matching)
+# - exact  (Exact match)
+
+{Find/DefaultMethod}         {exact}
+
+# Specifies the default search method to use when performing "Find in Files"
+# The available values are:
+# - regexp (Regular Expression)
+# - glob   (Glob-style matching)
+# - exact  (Exact match)
+
+{Find/DefaultFIFMethod}      {regexp}
 
 # If this value is set to 1, the menubar will be displayed on application start,
 # If this value is set to 0, the menubar will be hidden on application start.
@@ -137,6 +320,51 @@
 
 {View/ShowTabBar}            {1}
 
+# If this value is set to 1, the line numbers will be displayed on application start;
+# otherwise, the line numbers will be hidden on application start.
+
+{View/ShowLineNumbers}       {1}
+
+# If this value is set to 1, the marker map in the vertical scrollbar will be displayed
+# on application start; otherwise, the marker map will be hidden on application start.
+
+{View/ShowMarkerMap}         {1}
+
+# If this value is set to 1, the bird's eye view will be displayed in all editing
+# buffers.  If this value is set to 0, the bird's eye view will be removed from all
+# editing buffers.
+#
+# Note:  You may show/hide the bird's eye view panel per editing buffer using either the
+# View menu or the contextual tab menu.
+
+{View/ShowBirdsEyeView}      {0}
+
+# Specifies the size of the bird's eye view font.  It is recommended that this value only be
+# set to values of 1 or 2 to allow the bird's eye viewer to display as much text as possible.
+
+{View/BirdsEyeViewFontSize}  {1}
+
+# Specifies the width of the bird's eye view in terms of characters as specified by the
+# View/BirdsEyeViewFontSize.
+
+{View/BirdsEyeViewWidth}     {70}
+
+# If this value is set to 1, displaying a difference view of a file will automatically
+# display it in the other editor pane.
+
+{View/ShowDifferenceInOtherPane} {0}
+
+# If this value is set to 1, displays the currently selected file version information
+# in a tooltip-like window above the control bar in a difference view whenever one of
+# the version selection scrollboxes receive input focus.
+
+{View/ShowDifferenceVersionInfo} {1}
+
+# If this value is set to 1, displays the results from a "find in files" operation in the
+# pane that is not the current editing pane.
+
+{View/ShowFindInFileResultsInOtherPane} {0}
+
 # When the number of opened tabs in a notebook exceeds the number of tabs that can
 # be readably displayed, a value of 1 will cause some of the tabs to be "hidden" from
 # view, allowing their display via scrolling buttons and a dropdown menu.  If this
@@ -145,9 +373,9 @@
 
 {View/AllowTabScrolling}     {1}
 
-# Displays the specified number of most recently opened files.  This value can be
-# set to any value between 0 and 20, inclusive.  A value of zero will disable the
-# "Open Recent" menu item.
+# Displays the specified number of most recently opened directories and files each.
+# This value can be set to any value between 0 and 20, inclusive.  A value of zero
+# will disable the "Open Recent" menu item.
 
 {View/ShowRecentlyOpened}    {10}
 
@@ -157,10 +385,37 @@
 
 {View/OpenTabsAlphabetically} {0}
 
+# Specifies the default enable value for code folding when a new file is created or an
+# existing file is opened.
+
+{View/EnableCodeFolding} {0}
+
+# Specifies the default enable value for editing buffer line wrapping when a new editing
+# buffer is created.  The valid values are as follows:
+#
+#  - syntax  = Each syntax description indicates whether line wrapping should be enabled by default.  Use this value.
+#  - enable  = Enables line wrapping regardless of syntax.
+#  - disable = Disables line wrapping regardless of syntax.
+
+{View/EnableLineWrapping} {syntax}
+
+# If this option is set, displays the syntax menu as a list of first letters of supported
+# languages.
+
+{View/ShowLanguagesSubmenu} {0}
+
+# Sets the default width of the sidebar when the application starts.
+
+{Sidebar/DefaultWidth} 300
+
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
 
 {Sidebar/IgnoreFilePatterns} {}
+
+# If set to a value of 1, does not display any binary files in the sidebar.
+
+{Sidebar/IgnoreBinaries}  {0}
 
 # When a file is closed in the editor and the file was last opened file within
 # a "rooted" directory in the sidebar, a value of 1 to this option will automatically
@@ -176,20 +431,72 @@
 
 {Sidebar/FoldersAtTop} {1}
 
-# If this value is set to a value of 1, the application will start in Vim mode;
-# otherwise, if the value is set to a value of 0, the application will start in
-# normal mode.
+# If a directory is specified to be sorted manually, this option will determine
+# whether new unsorted files added to the directory are inserted at the top (1) of the
+# directory list or at the bottom (0).
 
-{Tools/VimMode}              {0}
+{Sidebar/ManualInsertNewAtTop} {0}
 
-# Specifies the number of elements to keep in the clipboard history buffer.
+# Specifies the amount of time (in milliseconds) after a key is entered when the
+# sidebar has keyboard focus before the current search string is forgotton.  If
+# the user enters a key prior to the timeout, the character will be appended to
+# the current search string and the files will be compared to that string.
 
-{Tools/ClipboardHistoryDepth} {10}
+{Sidebar/KeySearchTimeout} {1000}
+
+# If set to 1, shows hidden files in the sidebar along with other files/directories.
+# If set to 0, hidden files will not be visible in the sidebar.
+
+{Sidebar/ShowHiddenFiles} {0}
+
+# If View/ShowFileInfo is set to true, this option, if set, will keep the file
+# information panel visible even when the sidebar does not have keyboard focus.
+# If it is set to 0, the file information panel will be hidden when sidebar
+# focus is lost.
+
+{Sidebar/KeepInfoPanelVisible} {0}
+
+# If View/ShowFileInfo is set to true, this option, if set, will cause the information panel to
+# automatically update to display the currently selected item in the sidebar.  If this option
+# is not set, the information panel will always display the file information for the same file
+# until the user displays a different file's information in the panel.
+
+{Sidebar/InfoPanelFollowsSelection} {0}
+
+# Specifies which file attributes will be displayed in the sidebar information panel.  The legal
+# values that can be specified are as follows:
+#
+#  - preview      (controls if the image preview is displayed)
+#  - syntax       (default syntax that is automatically detected by TKE)
+#  - filesize     (size of the file)
+#  - imagesize    (only valid for images, specifies the width x height information of the image)
+#  - modified     (date the file was last modified)
+#  - permissions  (file permissions in the form of rwxrwxrwx (owner, group, global permissions)
+#  - owner        (username of person who owns the file)
+#  - group        (Unix group name of file - not valid on Windows)
+#  - linecount    (Count of number of lines within file)
+#  - wordcount    (Count of number of words within file)
+#  - charcount    (Count of number of chars within file)
+#  - readtime     (Average number of minutes required to read article)
+#  - checksum     (MD5 checksum of file contents)
+#  - sha1         (SHA1 hash of file contents)
+#  - version      (Current version of file within the version control system defined by file)
+#  - favorite     (Specifies if the file is a TKE favorited file)
+
+{Sidebar/InfoPanelAttributes} {preview syntax filesize imagesize modified permissions owner group version favorite}
+
+# Specifies the number of words per minute to use in the calculation of reading time displayed within
+# the sidebar information panel.
+
+{Sidebar/InfoPanelReadingTimeWordsPerMinute} 275
 
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:
 #  - calls
-#  - FOOBAR
+#  - real
+#  - cpu
+#  - real_per_call
+#  - cpu_per_call
 
 {Tools/ProfileReportSortby}  {calls}
 
@@ -210,3 +517,117 @@
 # the <remote base directory> directory on the remote machine.
 
 {NFSMounts}                  {}
+
+# If specified to a non-empty string, specifies an alternative directory to store
+# any diagnostic output from the application.  If this value is set to the empty string,
+# the default directory will be the ~/.tke/logs directory.
+
+{Debug/LogDirectory}         {}
+
+# This option enables some additional features of TKE used for development purposes.
+# This value should be kept at a value of 0 for normal usage.
+
+{Debug/DevelopmentMode}      {0}
+
+# This option, when set, will automatically open the diagnostic logfile
+# associated with the application instance at startup.  Only valid when the
+# Debug/DevelopmentMode option is set to a value of 1.
+
+{Debug/ShowDiagnosticLogfileAtStartup} {0}
+
+# Automatically generate vendor-prefixed copies of expanded CSS property.  By default,
+# Emmet will generate vendor-prefixed properties only when you put dash before
+# abbreviation (e.g. -bxsh).  With this option enabled, you don’t need dashes before
+# abbreviations -- Emmet will produce vendor-prefixed properties for you.
+
+{Emmet/CSSAutoInsertVendorPrefixes} {1}
+
+# Letter case of color values generated by abbreviations with color (like c#0).
+#
+# The available options are:
+#   upper - Convert all characters to uppercase.
+#   lower - Convert all characters to lowercase.
+#   keep  - Retain the case of the characters.
+
+{Emmet/CSSColorCase} {keep}
+
+# Specifies if color values like #ffffff be shortened to #fff after abbreviation with
+# color was expanded.
+
+{Emmet/CSSColorShort} {1}
+
+# Default unit for integer values.
+
+{Emmet/CSSIntUnit} {px}
+
+# Default unit for float values.
+
+{Emmet/CSSFloatUnit} {em}
+
+# Enable fuzzy search among CSS snippet names.  When enabled, every unknown snippet
+# will be scored against available snippet names (not values or CSS properties).
+# Names are sorted alphabetically and the first match found will be returned.
+
+{Emmet/CSSFuzzySearch} {1}
+
+# A whitespace-separated list of additional CSS properties for -moz- properties
+# preference.  You should use this list if you want to add or remove a few CSS
+# properties to original set.  To add a new property, simply write its name, to
+# remove it, precede property with hyphen.
+#
+# For example, to add foo property and remove border-radius one, the preference
+# value will look like this:  {foo -border-radius}
+
+{Emmet/CSSMozPropertiesAddon} {}
+
+# A whitespace-separated list of additional CSS properties for -ms- properties
+# preference.  You should use this list if you want to add or remove a few CSS
+# properties to original set.  To add a new property, simply write its name, to
+# remove it, precede property with hyphen.
+#
+# For example, to add foo property and remove border-radius one, the preference
+# value will look like this:  {foo -border-radius}
+
+{Emmet/CSSMSPropertiesAddon} {}
+
+# A whitespace-separated list of additional CSS properties for -o- properties
+# preference.  You should use this list if you want to add or remove a few CSS
+# properties to original set.  To add a new property, simply write its name, to
+# remove it, precede property with hyphen.
+#
+# For example, to add foo property and remove border-radius one, the preference
+# value will look like this:  {foo -border-radius}
+
+{Emmet/CSSOPropertiesAddon} {}
+
+# A whitespace-separated list of additional CSS properties for -webkit- properties
+# preference.  You should use this list if you want to add or remove a few CSS
+# properties to original set.  To add a new property, simply write its name, to
+# remove it, precede property with hyphen.
+#
+# For example, to add foo property and remove border-radius one, the preference
+# value will look like this:  {foo -border-radius}
+
+{Emmet/CSSWebkitPropertiesAddon} {}
+
+# Defines a symbol that should be placed between CSS property and value when
+# expanding CSS abbreviations.
+
+{Emmet/CSSValueSeparator} {: }
+
+# Defines a symbol that should be placed at the end of CSS property when
+# expanding CSS abbreviations.
+
+{Emmet/CSSPropertyEnd} {;}
+
+# Specifies a list containing name/URL pairs which describe websites containing reference documentation
+# that will be displayed in a web browser when selected within the the Help/Language Documentation menu.
+# If a URL contains the substring {query}, the substring will be replaced with a search string.  The URL
+# will not be directly available in the Help/Language Documentation menu but it will be used in
+# documentation searches.
+#
+# Each item must be formatted as follows:
+#
+# {<name> <HTTP or HTTPS URL>}
+
+{Documentation/References} {}

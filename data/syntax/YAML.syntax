@@ -1,0 +1,45 @@
+filepatterns
+{*.yaml}
+
+reference
+{
+  {{Language Reference} http://yaml.org/spec/1.2/spec.html}
+}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double single}
+
+numbers
+{
+  HighlightRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}&*!?:|>%@`,-]} {}
+}
+
+advanced {
+  HighlightClass key {-fgtheme keywords}
+
+  HighlightRegexp {(\S+)\s*:} keyword
+
+  HighlightProc keyword {
+    return [list [list key {*}$var(1)] ""]
+  } HighlightEndProc
+
+}

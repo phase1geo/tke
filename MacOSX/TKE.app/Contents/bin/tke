@@ -1,0 +1,7 @@
+#!/bin/sh
+
+get_abs_dirname() {
+  echo "$(cd "$(dirname "$1")" && pwd)"
+}
+
+$(get_abs_dirname $0)/../MacOS/Wish -- $@

@@ -1,0 +1,2 @@
+{items} {assets {Plugin Action Types.md} menu.md tab_popup.md root_popup.md dir_popup.md file_popup.md info_panel.md text_binding.md on_start.md on_open.md on_focusin.md on_close.md on_quit.md on_reload.md on_save.md on_uninstall.md on_rename.md on_duplicate.md on_delete.md on_trash.md on_drop.md on_theme_changed.md syntax.md vcs.md expose.md on_pref_load.md on_pref_ui.md}
+{use} {1}

@@ -31,11 +31,6 @@ package ifneeded timeline 1.2 [list apply { dir {
   source [file join $dir library timeline.tcl]
 }} $dir]
 
-package ifneeded specl 1.2 [list apply { dir {
-  namespace eval specl [list proc DIR {} [list return $dir]]
-  source [file join $dir library specl.tcl]
-}} $dir]
-
 package ifneeded tabbar 1.2 [list apply { dir {
   namespace eval tabbar [list proc DIR {} [list return $dir]]
   source [file join $dir library tabbar.tcl]

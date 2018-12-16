@@ -1,0 +1,187 @@
+[manpage_begin webdav n 0.2]
+[moddesc {webdav}]
+[copyright {2004, Jean-Claude Wippler <jcw@equi4.com>}]
+[titledesc {WebDAV client}]
+[require Tcl 8.4]
+[require webdav [opt 0.2]]
+[description]
+[para]
+
+This package implements a client for the WebDAV protocol.  DAV stands for
+"Distributed Authoring and Versioning" - it can be used to browse and modify
+remote sites such as webservers, treating the hierarchy like a filesystem.
+See [uri http://www.webdav.org] for specifications and details.
+
+[para]
+
+Since one of the uses of this package is to support a VFS handler, the
+terminology used in this package corresponds to that of file systems, i.e.
+"files" and "directories" (the WebDAV standard uses the terms "resource" and 
+"collection" for these same terms, respectively).
+
+[section {COMMANDS}]
+
+[list_begin definitions]
+
+[call [cmd "::webdav::open"] [arg url] [opt [arg options]]]
+
+Set up a new connection to the webdav server identified by [arg url].
+This webdav package operates conceptually in terms of "connections",
+although connections are in fact stateless, so this is not entirely accurate.
+In reality, the open call just verifies that the url is valid and sets
+things up for all other calls to use the same path and options.
+
+[list_begin definitions]
+
+Additional options:
+
+[lst_item "[option -username] [arg name]"]
+
+Username to use for authorization.
+Must be used in combination with the [arg -password] option.
+
+[lst_item "[option -password] [arg pass]"]
+
+Password to use for authorization.
+Must be used in combination with the [arg -username] option.
+
+[list_end]
+
+The return value is a descriptor which can be used for all other functions.
+The descriptor should be released at the end by calling [cmd ::webdav::close].
+
+[call [cmd "::webdav::close"] [arg "conn"]]
+
+Closes a previously opened wevdab connection.
+Since connections are stateless, this only cleans up internal state:
+no network actions take place, servers are not aware of this closing step.
+
+[call [cmd "::webdav::enumerate"] [arg "conn"] [arg path] [arg depth]]
+
+Returns a pairwise list of all entries in a directory as well as filestat
+details.  The first pair in the list describes the directory itself.
+[nl]
+
+The [arg path] argument can be a file or a directory.
+It can also be "." or "" or absent to use the root of the tree.
+Use [arg depth] 1 to list all items in the directory, or 0 to only return
+status info about the directory or file itself.
+This command is mostly for use by [cmd ::webdav::getstat] and
+[cmd ::webdav::getlist].
+[nl]
+
+See below for a description of the status details.
+
+[call [cmd "::webdav::getstat"] [arg "conn"] [arg path]]
+
+Returns some information about the specified file or directory.
+
+[list_begin definitions]
+
+The return value is a list of key/value pairs, suitable for "array get":
+
+[lst_item "[option type] [arg type]"]
+
+Type of resource, either "file" or "directory".
+
+[lst_item "[option ctime] [arg secs]"]
+
+Creation time of resource.
+
+[lst_item "[option mtime] [arg secs]"]
+
+Modification time of resource.
+
+[lst_item "[option size] [arg bytes]"]
+
+Size of resource (files only).
+
+[list_end]
+
+[call [cmd "::webdav::getlist"] [arg "conn"] [opt [arg path]]]
+
+Returns a list of all entries in a directory.
+
+[arg Path] should be a subdirectory of the location specified as url during the
+open call, it can also be "." or "" or absent to use the root of the tree.
+
+[call [cmd "::webdav::get"] [arg "conn"] [arg path]]
+
+Return the contents of the specified file.  Not meaningul for directories.
+
+[call [cmd "::webdav::put"] [arg "conn"] [arg path] [arg data]]
+
+Store new data in the specified file.
+The file is either created or overwritten.
+
+[call [cmd "::webdav::copy"] [arg "conn"] [arg srcpath] [arg destpath]]
+
+Copy the specified file or directory to a new location.
+Directories are copied recursively, i.e. including all contents.
+
+[call [cmd "::webdav::mkdir"] [arg "conn"] [arg path]]
+
+Create a directory in the specified location.
+Fails if the parent directory does not exist,
+or if the directory itself already exists.
+
+[call [cmd "::webdav::delete"] [arg "conn"] [arg path]]
+
+Delete the specified file or directory.
+Directories are deleted recursively, i.e. including all contents.
+Fails if the file or directory does not exist.
+
+[call [cmd "::webdav::connect"] [arg url] [opt [arg options]]]
+
+This is an OO variant of the [cmd ::webdav::open] command.
+See below for an example of use.
+
+[list_end]
+
+[section {EXAMPLES}]
+
+The following example expects a server with an empty home directory:
+
+[example {% set dav [::webdav::open http://some.site/some/dir]
+dav1
+% ::webdav::put $dav myfile "here is some data"
+% ::webdav::getlist $dav
+myfile
+% puts [::webdav::get $dav myfile]
+here is some data
+% ::webdav::delete $dav myfile
+% ::webdav::close $dav
+%
+}]
+
+There is also an object-oriented interface in the webdav package.
+It works by using [cmd ::webdav::connect] instead of [cmd ::webdav::open].
+The above example can be re-written to do exactly the same in OO style:
+
+[example {% set dav [::webdav::connect http://some.site/some/dir]
+::webdav::obj::dav1
+% $dav put myfile "here is some data"
+% $dav getlist
+myfile
+% puts [$dav get myfile]
+here is some data
+% $dav delete myfile
+% $dav close
+%
+}]
+
+The choice between commands and OO is a matter of preference.
+Both calls can be mixed, the OO style is just a thin wrapper.
+
+[section {REFERENCES}]
+
+[list_begin enum]
+
+[enum]
+    RFC 2518 - HTTP Extensions for Distributed Authoring -- WEBDAV
+    ([uri http://www.webdav.org/specs/rfc2518.html])
+
+[list_end]
+
+[keywords WebDAV DAV]
+[manpage_end]

@@ -1,0 +1,67 @@
+filepatterns
+{*.m *.h}
+
+vimsyntax
+{objc}
+
+reference
+{
+  {{Language Reference} https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html}
+}
+
+delimiters
+{[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,@<>]+}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent
+{{switch case default}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double single}
+
+keywords
+{
+  auto break case char const continue default do double NSObject property weak
+  else enum extern float for goto if int protocol NSInteger nonatomic
+  unsafe_unretained long register return short signed sizeof static struct
+  interface NSNumber retain readwrite switch typedef union unsigned void volatile
+  while _Packed implementation CGFloat strong readonly
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+[ul]*|0[0-7]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
+
+precompile
+{
+  HighlightCharStart {#} {}
+}

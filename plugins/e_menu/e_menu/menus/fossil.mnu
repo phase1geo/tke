@@ -1,0 +1,111 @@
+ R:fossil status %PD R: cd %PD
+ S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
+
+ R:fossil ui R: cd %PD
+ R:fossil ui R: fossil ui -port 8081
+
+ R:fossil addremove (to/from %P_.fossil) R: %Q "Add remove" "Add the new and remove the deleted\nin %PD?"
+ R:fossil addremove (to/from %P_.fossil) R: cd %PD
+ S:fossil addremove (to/from %P_.fossil) S: pwd\necho ---\ndir\necho ---\nfossil addremove
+
+ R:fossil changes R: cd %PD
+ S:fossil changes S: pwd\necho ---\necho --+%PD+--\ndir\necho ---\nfossil changes
+
+ R:fossil extras R: cd %PD
+ S:fossil extras S: pwd\necho ---\ndir\necho ---\nfossil extras
+
+ R: R: 2
+
+ R:fossil finfo %s0 R: cd %PD
+ S:fossil finfo %s0 S: fossil finfo %f
+
+ R:fossil gdiff %s0 R: cd %PD
+ S:fossil gdiff %s0 S: fossil gdiff %f
+
+ R:fossil revert %s0 R: %q "Reverting changes" "Revert changes of \n   %f?"
+ R:fossil revert %s0 R: cd %PD
+ S:fossil revert %s0 S: fossil revert %f
+
+ S:fossil undo %s0 S: fossil undo -n %f
+ R:fossil undo %s0 R: %q "Undoing changes" "Undo changes of \n   %f?"
+ R:fossil undo %s0 R: cd %PD
+ S:fossil undo %s0 S: fossil undo %f
+
+ R: R: 2
+
+ R:fossil commit -m "%u on %t2" R: %q "Committing changes" "Commit with message\n\n'%u on %t2' ?"
+ R:fossil commit -m "%u on %t2" R: cd %PD
+ S:fossil commit -m "%u on %t2" S: fossil commit -m "%u on %t2"
+
+ R:fossil branch new "%dd" trunk R: %q "Branch" "Branch new %dd ?"
+ R:fossil branch new "%dd" trunk R: cd %PD
+ R:fossil branch new "%dd" trunk R: fossil branch new "%dd" trunk -bgcolor 0xffc0ff
+
+ R:fossil commit -m "Try %u" --branch Try%t4 R: %q "Commit" "Commit 'Try' and branch Try%t4 ?"
+ R:fossil commit -m "Try %u" --branch Try%t4 R: cd %PD
+ S:fossil commit -m "Try %u" --branch Try%t4 S: fossil commit -m "Try %u" --branch Try%t4 -bgcolor 0xc0f0ff
+
+ S:fossil merge Try%t4 S: fossil merge -n
+ R:fossil merge Try%t4 R: %q "To merge" "Merge to trunk ?"
+ R:fossil merge Try%t4 R: cd %PD
+ S:fossil merge Try%t4 S: fossil merge Try%t4
+
+ R:fossil commit -f -tag "%dd" R: %q "Tag commit" "To tag commit with "%dd" ?"
+ R:fossil commit -f -tag "%dd" R: cd %PD
+ S:fossil commit -f -tag "%dd" S: fossil commit -f -tag "%dd" -bgcolor '#F8A4F6'
+
+ S:fossil update trunk S: fossil update trunk -n
+ R:fossil update trunk R: %q "To trunk" "Update to trunk ?"
+ R:fossil update trunk R: cd %PD
+ S:fossil update trunk S: fossil update trunk
+
+ R:fossil revert R: %q "Reverting ALL" "Revert ALL changes?"
+ R:fossil revert R: cd %PD
+ S:fossil revert S: fossil revert
+
+ S:fossil undo S: fossil undo -n
+ R:fossil undo R: %q "Undoing ALL" "Undo ALL changes?"
+ R:fossil undo R: cd %PD
+ S:fossil undo S: fossil undo
+
+ R: R: 2
+
+ R:fossil timeline R: cd %PD
+ S:fossil timeline S: fossil timeline
+
+ R:fossil timeline --showfiles R: cd %PD
+ S:fossil timeline --showfiles S: fossil timeline --showfiles -n 0
+
+ R:fossil timeline after %t1 --showfiles R: cd %PD
+ S:fossil timeline after %t1 --showfiles S: fossil timeline after %t1 --showfiles -n 0
+
+ R: R: 2
+
+ R:fossil init ~/FOSSIL/%P_.fossil R: %q "FOSSIL INIT" "Initialize the new fossil repository\nas\n   %P_.fossil\nin\n   %PD?"
+ R:fossil init ~/FOSSIL/%P_.fossil R: cd %PD
+ S:fossil init ~/FOSSIL/%P_.fossil S: dir\necho ------------\nfossil init ~/FOSSIL/%P_.fossil\nfossil open ~/FOSSIL/%P_.fossil\nfossil status
+
+ R:fossil all list R: cd %PD
+ S:fossil all list S: fossil all list
+
+ R:fossil settings R: cd %PD
+ S:fossil settings S: fossil settings
+
+ R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?"
+ R:set standard settings of fossil (ignore etc.) R: cd %PD
+ S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.zip,*.rar,*.tgz,*.cur,*.dll,*.dylib,*.ico,*.gif,*.bmp,*.png,*.jpg"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings
+
+ R:  R: 3
+M: Stash M:m=fossil2.mnu
+
+[OPTIONS]
+n=< fossil >
+b3=0
+b2=7
+c=11
+w=64
+t4==%b-%Y/%U-week
+u=%s
+
+[HIDDEN]
+

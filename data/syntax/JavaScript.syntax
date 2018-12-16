@@ -1,8 +1,20 @@
 filepatterns
 {*.js}
 
+vimsyntax
+{javascript}
+
+reference
+{
+  {{Language Reference} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference?redirectlocale=en-US&redirectslug=JavaScript%2FReference}
+}
+
+embedded {
+  {JSON {}}
+}
+
 matchcharsallowed
-{curly square paren double single}
+{curly square paren double single btick}
 
 tabsallowed
 {0}
@@ -12,38 +24,70 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+icomment {{//}}
 
 lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'}}
+strings {double single btick}
 
 keywords
 {
-  return var function undefined null typeof void undefined new true false throw
-  if else switch case default break for in while do with continue goto this
-  delete instanceof prototype try catch finally
+  async
+  block break
+  case class const continue
+  debugger default delete do
+  else export extends
+  finally for from function
+  if import in instanceof
+  new
+  return
+  super switch
+  this throw try typeof
+  var void
+  while with
+  yield
+  enum implements interface let package private protected public static await
+  abstract boolean byte char double final float goto int long native short
+  synchronized throws transient volatile
 }
 
 symbols {
-  function
+  HighlightKeywords {function} syntax::get_prefixed_symbol
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 numbers
 {
-  HighlightClassForRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0x[0-9a-fA-F]+|Infinity|NaN} {}
+  HighlightRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|Infinity|NaN} {}
+  HighlightKeywords {
+    null true false
+  }
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
 
-precompile
-{}
+miscellaneous1 {
+  HighlightKeywords {
+    document
+  }
+}
 
-miscellaneous {}
+advanced
+{
+  HighlightClass tag       {-fgtheme miscellaneous3}
+  HighlightClass attribute {-fgtheme miscellaneous2}
+
+  HighlightRegexp {<([^>\s]+)} syntax::get_xml_tag
+}

@@ -1,0 +1,7 @@
+name           {url_validator}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {Validates URLs both within a file and for a specific URL.}

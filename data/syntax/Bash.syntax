@@ -1,6 +1,14 @@
 filepatterns
 {*.sh}
 
+vimsyntax
+{sh}
+
+reference
+{
+  {{User Guide} https://www.gnu.org/software/bash/manual/bashref.html}
+}
+
 matchcharsallowed
 {paren double single}
 
@@ -10,17 +18,11 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
+icomment {{#}}
 
 lcomments {{^[ \t]*#}}
 
-bcomments {}
-
-strings {{"} {'} {`}}
+strings {double single btick}
 
 keywords
 {
@@ -28,18 +30,12 @@ keywords
   declare typeset export readonly local wait disown kill
 }
 
-symbols {}
-
 numbers {
-  HighlightClassForRegexp {[0-9]+} {}
+  HighlightRegexp {\m[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][=+~|>$:@^,%*?<&;!\{\}()]} {}
+  HighlightRegexp {[][\{\}()=+~|>$:@^,%*?<&;!]} {}
 }
-
-precompile {}
-
-miscellaneous {}
 

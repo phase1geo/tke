@@ -1953,7 +1953,7 @@ namespace eval tokensearch {
       tokenselection { eval "tokensearch::tokenselection $w $opts" }
       tokenget       { return [eval "tokensearch::get_tokens $w"] }
       tokenconfigure { eval "tokensearch::tokenconfigure $w $opts" }
-      tokencget      { return [eval "tokensearch::tokencget $w $opts" }
+      tokencget      { return [eval "tokensearch::tokencget $w $opts"] }
       tokeninsert    { eval "tokensearch::tokeninsert $w $opts" }
       tokendelete    { eval "tokensearch::tokendelete $w $opts" }
       tokenedit      { eval "tokensearch::tokenedit $w $opts" }
@@ -2201,11 +2201,11 @@ namespace eval tokensearch {
           }
         }
         -shape {
-          if {([llength $value] < 0) || ([llength $value] > 2)} {
+          if {([llength $value] < 1) || ([llength $value] > 2)} {
             return -code error "ERROR:  Token -shape list must be contain either 1 or 2 values"
           }
           foreach val $value {
-            switch $value {
+            switch $val {
               pill   -
               tag    -
               square -

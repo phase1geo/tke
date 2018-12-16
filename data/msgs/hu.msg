@@ -9,82 +9,458 @@ msgcat::mcmset hu {
 # bgproc.tcl
 msgcat::mcmset hu {
 
-  "Unable to run system command (%s)"
-  "Nem lehet futtatni a rendszer parancs (% s)"
+  "Unable to run system command"
+  "Képtelen-hoz fuss követel rendszer"
+
+}
+
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset hu {
+
+  "Built-In Self Test"
+  "Beépített önteszt"
+
+  "Decrementing order"
+  "A rendeléscsökkenés"
+
+  "Edit Test"
+  "Teszt szerkesztése"
+
+  "Edit Test File"
+  "Testfájl szerkesztése"
+
+  "FAILED"
+  "MEGBUKTÁL"
+
+  "Fail"
+  "Hibás"
+
+  "Fail Count"
+  "Számláló"
+
+  "Failed"
+  "Sikertelen"
+
+  "Filter"
+  "Szűrő"
+
+  "Incrementing order"
+  "Rendezés növelése"
+
+  "Iteration"
+  "Közelítés"
+
+  "Iteration count"
+  "Ismétlés száma"
+
+  "Loop"
+  "Ismétlés"
+
+  "Loop count"
+  "Ismétlések száma"
+
+  "Loop type"
+  "Loop típus:"
+
+  "New Test"
+  "Új teszt"
+
+  "New Test File"
+  "Új tesztfájl"
+
+  "New Test Name"
+  "Teszt neve"
+
+  "Output"
+  "Kimenet"
+
+  "PASSED"
+  "MEGFELELTÉL"
+
+  "Pass"
+  "Helyes"
+
+  "Pass Count"
+  "Menetek száma"
+
+  "Passed"
+  "Minimum eredmény"
+
+  "RUNNING BIST"
+  "Folyamatban"
+
+  "Random"
+  "véletlenszerű"
+
+  "Refresh"
+  "Frissítés"
+
+  "Results"
+  "Eredmények"
+
+  "Run Count"
+  "Számláló"
+
+  "Run iterations"
+  "Run iterációk"
+
+  "Run loops"
+  "Futasson hurkot"
+
+  "Running"
+  "Folyamatban"
+
+  "Runtime"
+  "futási idő"
+
+  "Selection method"
+  "Kiválasztási Módszer:"
+
+  "Setup"
+  "Beállítás"
+
+  "Total"
+  "Összeg"
+
+  "hours"
+  "óra"
+
+  "minutes"
+  "PERC"
+
+  "seconds"
+  "másodperc"
+
+}
+
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
+msgcat::mcmset hu {
+
+  "Center image"
+  "Kép közepén"
+
+  "Flip image horizontally"
+  "Kép vízszintes tükrözése"
+
+  "Flip image vertically"
+  "Megfricskáz kép függőlegesen"
+
+  "Move image down"
+  "Kép áthelyezés"
+
+  "Move image left"
+  "Kép balra"
+
+  "Move image right"
+  "Kép jobbra"
+
+  "Move image up"
+  "Kép áthelyezés"
+
+  "Rotate image 90 degrees"
+  "A kép elforgatása 90 fokkal"
+
+  "Transform Tools"
+  "Átalakító eszközök"
+
+}
+
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
+msgcat::mcmset hu {
+
+  "    End: "
+  "Vége:"
+
+  "    Start: "
+  "Kezdete:"
+
+  "Enter difference command"
+  "Adja meg a differencia parancs"
+
+  "Enter starting file"
+  "Adja meg a kezdő fájl"
+
+}
+
+# edit.tcl
+msgcat::mcmset hu {
+
+  "File successfully written"
+  "Fájl írása sikeresen"
+
+  "Filename already exists"
+  "Fájlnév már létezik"
+
+  "Image URL"
+  "Kép URL"
+
+  "Link URL"
+  "Hivatkozás webcíme"
+
+}
+
+# emmet.tcl
+msgcat::mcmset hu {
+
+  "Abbreviation"
+  "Rövidítés"
+
+  "Select File to Save"
+  "A következő mentése:"
+
+}
+
+# files.tcl
+msgcat::mcmset hu {
+
+  "Delete tab?"
+  "Törlés lap?"
+
+  "Reload file?"
+  "A fájl újratöltése"
+
+  "Unable to determine how to move to trash"
+  "Nem határozható meg, hogyan kell mozgatni a szemét"
+
+  "Unable to determine platform"
+  "Nem lehet meghatározni a platform"
+
+  "Unable to write file"
+  "Nem lehet írni a fájlt"
+
+  "Unable to write remote file"
+  "Nem lehet írni a távoli fájl"
 
 }
 
 # gui.tcl
 msgcat::mcmset hu {
 
-  "%s, Line: %d, Column: %d"
-  "% S, Sor:% d oszlop:% d"
+  "Case sensitivity"
+  "Kisbetű-nagybetű érzékenység"
+
+  "Close All Other Tabs"
+  "Többi böngészőlap bezárása"
 
   "Close All Tabs"
   "Összes fül bezárása"
 
-  "Close Other Tab(s)"
-  "Bezárni a másik fület (ek)"
+  "Close All Tabs In Pane"
+  "Zár minden Tabs, ablak"
 
-  "Close Other*"
-  "A többi lap bezárása"
+  "Close Other Tabs In Pane"
+  "Egyéb lapok ablaktábla bezárása"
 
   "Close Tab"
   "A lap bezárása"
 
-  "Copyright %d-%d"
-  "Szerzői% d-% d"
+  "Column"
+  "Oszlop"
 
-  "Delete tab?"
-  "Delete tab?"
+  "Copyright"
+  "Szerzői jogok"
 
-  "Developer:"
-  "Állások"
+  "Credits"
+  "Jóváírások"
 
-  "Email:"
-  "E-mail:"
+  "Developer"
+  "Fejlesztő"
+
+  "Email"
+  "E-mail cím"
+
+  "Error"
+  "Hiba"
+
+  "Exact"
+  "pontos"
 
   "Favorited"
   "Kedvencek"
 
-  "File attribute (%s) does not exist"
-  "Fájl attribútum (% s) nem létezik"
+  "File already exists.  Use '!' to force an overwrite"
+  "A fájl már létezik. Használja a '!' kényszeríteni felülíró"
 
   "File index is out of range"
   "Fájl index tartományon kívül"
 
-  "Line: %d, Column: %d"
-  "Sor:% d oszlop:% d"
+  "Glob"
+  "Általános értékelés"
+
+  "Hide Tab"
+  "Fül elrejtése"
+
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "A kép megjelenik a nyomtatványok, amely lezárja a formában UI. Használt formák, mint a keresés, keresés / csere, és megtalálni a fájlokat."
+
+  "Image displayed in find field to search for next match."
+  "Kép jelenik meg a Keresés mező keresés a következő mérkőzést."
+
+  "Image displayed in find field to search for previous match."
+  "Kép jelenik meg a Keresés mező előző egyezés kereséséhez."
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "Kép használt lap menük, jelezve, hogy a fájl társítva van különbség kilátás."
+
+  "Image used in tab menus to indicate that the file is locked."
+  "Kép használt lap menük, jelezve, hogy a fájl zárolva van."
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "Kép használt lap menük, jelezve, hogy a fájl csak olvasható."
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "Kép használt lapon jelzi, hogy a lapon található különbség kilátás."
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "Kép használt lap, jelezve, hogy a lap a fájl csak olvasható."
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "Kép használt lap, jelezve, hogy a lap fájl zárolva van."
+
+  "Image used in tab which, when clicked, closes the tab."
+  "Kép használt lap, amely, ha rákattintunk, bezárja a lapot."
+
+  "Image used in the preferences window in the Advanced tab."
+  "A Speciális lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Appearance tab."
+  "A megjelenés lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Documentation tab."
+  "A dokumentumok lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Editor tab."
+  "Az Editor fülön a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Emmet tab."
+  "A Emmet lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Find tab."
+  "A keresés lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the General tab."
+  "Az Általános lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Plugins tab."
+  "A Bővítmények lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "A beállítások ablakban a parancsikon lapon használt kép."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "A beállítások ablakban a tálaló lapon használt kép."
+
+  "Image used in the preferences window in the Snippets tab."
+  "A kódtöredékek fülre a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the View tab."
+  "A Nézet lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Jelzi, hogy egy elem nincs bejelölve a beállítások ablakban használt kép."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Jelzi, hogy a tábla elem van-e jelölve a beállítások ablakban használt kép."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Azt jelzi, hogy valami igaz a beállítások ablakban használt kép."
+
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "A lapon használt képek, amelyek akkor jelennek meg, amikor az egér belép a bezárás gomb területére"
+
+  "In"
+  "Azokban"
+
+  "License"
+  "Licenc"
 
   "Locked"
   "Zárolt"
 
-  "Move to Other Pane"
-  "Áthelyezni más ablak"
+  "Move"
+  "Mozgatás"
 
-  "Move*"
-  "hat"
+  "Must be in multicursor mode to insert numbers"
+  "Számok be multicursor üzemmódban kell lennie"
 
-  "Reload file?"
-  "A fájl újratöltése"
+  "No write permissions.  Use '!' to force write."
+  "Nincs írási jogosultsága. Használja a '!' kényszeríteni írni."
+
+  "Regexp"
+  "Reguláris kifejezés"
+
+  "Release Type"
+  "Kiadás típusa"
+
+  "Replace"
+  "Csere"
+
+  "Replace All"
+  "Mindent cserél"
 
   "Save request"
   "Mentés kérése"
 
-  "Show in Sidebar"
-  "Show Sidebar"
+  "Save this search"
+  "Keresés mentése"
 
-  "Total Lines: %d, Total Characters: %d"
-  "Teljes sorok:% d, Total karakterek:% d"
+  "Starting number:"
+  "A kezdő dia száma:"
 
-  "Unable to find current file (tab: %s)"
-  "Nem található aktuális fájlt (tab:% s)"
+  "Tcl/Tk Version"
+  "Tcl/Tk változat"
 
-  "Untitled"
-  "Névtelen"
+  "Total Characters"
+  "Teljes karakter"
 
-  "Version:"
-  "Verzió"
+  "Total Lines"
+  "Teljes sorok"
+
+  "Unable to successfully parse number string"
+  "Nem lehet elemezni a biztonsági szám karakterlánc"
+
+  "for"
+  "mert"
+
+}
+
+# indent.tcl
+msgcat::mcmset hu {
+
+  "No Indent"
+  "Nincs behúzás"
+
+}
+
+# ipanel.tcl (Information panel displayed in the sidebar)
+msgcat::mcmset hu {
+
+  "Binary"
+  "Bináris"
+
+  "Close Panel"
+  "Panel bezárása"
+
+  "Counts"
+  "Statisztika"
+
+  "Modified"
+  "Módosítva"
+
+  "No"
+  "Nem"
+
+  "Read Time"
+  "Olvasási idő"
+
+  "Update Info"
+  "Információ frissítése"
+
+  "Yes"
+  "Igen"
+
+  "value copied to clipboard"
+  "érték másolása vágólapra"
 
 }
 
@@ -99,23 +475,98 @@ msgcat::mcmset hu {
 # menus.tcl
 msgcat::mcmset hu {
 
-  "                                  Profiling Report Sorted By (%s)"
-  "A profilalkotás jelentés Rendezés By (% s)"
+  "About"
+  "Névjegy"
 
-  "About TKE"
-  "Körülbelül TKE"
+  "Absolute"
+  "Abszolút"
 
-  "Align cursors"
-  "Állítsa kurzorok"
+  "Absolute line numbering"
+  "Abszolút sorszámozás"
 
-  "All"
-  "Minden"
+  "Add Next Line"
+  "Következő sor hozzáadása"
 
-  "Append next occurrence"
-  "Adja hozzá a következő esemény"
+  "Add Previous Line"
+  "Előző sor hozzáadása"
 
-  "Check for Update"
-  "Ellenőrizze a Frissítés"
+  "Add next line to selection"
+  "A következő sor hozzáadása a kiválasztáshoz"
+
+  "Add previous line to selection"
+  "Adja hozzá az előző sort a kiválasztáshoz"
+
+  "Align Cursors Only"
+  "Igazítás kurzorok csak"
+
+  "Align Cursors and Text"
+  "Kurzor és a szöveg igazítása"
+
+  "Align Panes"
+  "Összehangolják az üvegtáblák"
+
+  "Align current lines in both panes"
+  "Mindkét aktuális sorok igazítása"
+
+  "Align cursors and text"
+  "Kurzor és a szöveg igazítása"
+
+  "Align cursors only"
+  "Kurzorok csak igazítása"
+
+  "All Levels"
+  "Minden szint"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Minden nyelv-specifikus beállításokat a jelenlegi munkamenet törlődik, és a globális beállítások maradnak érvényben a megadott nyelvhez."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Minden nyelv-specifikus beállításokat el kell távolítani, és a globális beállítások maradnak érvényben a megadott nyelvhez."
+
+  "Append current find text to selection"
+  "Jelenlegi keresés szöveg hozzáfűzése a kijelölt"
+
+  "Balance Inward"
+  "Befelé egyensúlyt"
+
+  "Balance Outward"
+  "Passzív egyenleg"
+
+  "Balance tag pair moving inward"
+  "Mozgó befelé egyensúlyt tag-pár"
+
+  "Balance tag pair moving outward"
+  "Egyensúly tag-pár kifelé halad"
+
+  "Bold"
+  "Félkövér"
+
+  "Bubble Down"
+  "Buborék le"
+
+  "Bubble Up"
+  "Buborék fel"
+
+  "Bubble lines down one line"
+  "Buborék vonalak egy sorral lefelé"
+
+  "Bubble lines up one line"
+  "Buborék vonalak felfelé egy sornyit"
+
+  "Change Working Directory"
+  "Munkakönyvtár megváltoztatása"
+
+  "Change working directory"
+  "Változás működő címtár"
+
+  "Check for update"
+  "Frissítések keresése most"
+
+  "Checkbox"
+  "Jelölőnégyzet"
+
+  "Classic Mac"
+  "Klasszikus Mac"
 
   "Clear All"
   "Minden törlése"
@@ -123,56 +574,323 @@ msgcat::mcmset hu {
   "Close All"
   "Az összes ablak bezárása"
 
-  "Comment"
-  "8. Megjegyzés"
+  "Close All Folds"
+  "Zárja be az összes redők"
 
-  "Copy"
-  "Másolás"
+  "Close Current"
+  "Az aktuális lap bezárása"
 
-  "Create new..."
-  "ÚJ LÉTREHOZÁSA"
+  "Close Current Fold"
+  "Zárja be a jelenlegi szeres"
 
-  "Create..."
-  "Létrehozás..."
+  "Close Selected Folds"
+  "Bezárás kiválasztott redők"
+
+  "Close all folds"
+  "Zárja be az összes redők"
+
+  "Close all tabs"
+  "Összes fül bezárása"
+
+  "Close current session"
+  "Az aktív munkafolyamat nevének megváltoztatása"
+
+  "Close current tab"
+  "Az aktuális lap bezárása"
+
+  "Close fold at current line - all levels"
+  "Aktuális sor - minden szinten szoros szeres"
+
+  "Close fold at current line - one level"
+  "Szoros szeres aktuális sor - egy szinttel"
+
+  "Close selected folds - all levels"
+  "Zárja be a kijelölt ráncok - minden szinten"
+
+  "Close selected folds - one level"
+  "Zárja be a kijelölt ráncok - egy szinttel"
+
+  "Code"
+  "Kód"
+
+  "Command"
+  "Parancs"
+
+  "Command Result"
+  "A parancs eredménye"
+
+  "Convert case to lower"
+  "Megtérít eset, hogy az alacsonyabb"
+
+  "Convert case to title"
+  "Megtérít eset, cím"
+
+  "Convert case to upper"
+  "Megtérít eset, felső"
+
+  "Copy text"
+  "A szöveg másolása"
+
+  "Create Fold From Selection"
+  "A kijelölt képrész megtartása"
+
+  "Create at Current Line"
+  "Az aktuális sor létrehozása"
+
+  "Create fold from selection"
+  "A kijelölt képrész megtartása"
+
+  "Create marker at current line"
+  "Marker létrehozása az aktuális sorhoz"
+
+  "Create new plugin"
+  "Hozzon létre új plugin"
+
+  "Current Bounded Text"
+  "Jelenlegi határolt szöveg"
+
+  "Current Paragraph"
+  "Aktuális bekezdés"
+
+  "Current Sentence"
+  "Aktuális mondat"
 
   "Cut"
   "Kivágás"
 
-  "Edit"
-  "Szerkesztés"
+  "Cut text"
+  "Vágott szöveg"
 
-  "Edit current"
-  "A jelenlegi módosítása..."
+  "Decrement by 0.1"
+  "Ennyivel 0,1"
 
-  "Edit user"
+  "Decrement by 1"
+  "Ennyivel 1"
+
+  "Decrement by 10"
+  "Ennyivel 10"
+
+  "Decrement number by 0.1"
+  "Számos ennyivel 0,1"
+
+  "Decrement number by 1"
+  "Csökkentő a szám 1"
+
+  "Decrement number by 10"
+  "Csökkentő a szám 10"
+
+  "Delete All Folds"
+  "Törölje az összes redők"
+
+  "Delete Current Fold"
+  "Az aktuális törlése"
+
+  "Delete Selected Folds"
+  "Törli a kijelölt redők"
+
+  "Delete Session"
+  "Munkamenetek törlése"
+
+  "Delete User"
+  "A felhasználó törlése"
+
+  "Delete all folds"
+  "Törölje az összes redők"
+
+  "Delete all selected folds"
+  "Töröl minden kijelölt redők"
+
+  "Delete current file"
+  "Az aktuális törlése"
+
+  "Delete fold at current line"
+  "Szeres aktuális sor törlése"
+
+  "Delete language preferences?"
+  "Nyelv beállítások törlése?"
+
+  "Delete session"
+  "Munkamenetek törlése"
+
+  "Delete session language preferences?"
+  "Törli a munkamenet nyelvi beállításai?"
+
+  "Delete template"
+  "Sablon törlése"
+
+  "Disable Vim mode"
+  "Vim mód letiltása"
+
+  "Disable code folding"
+  "Megbénít kód összecsukható"
+
+  "Disable two-pane scrolling Synchronization"
+  "Két ablaktáblából tekerő-szinkronizálás"
+
+  "Display Text Info"
+  "Szöveg adatainak megjelenítése"
+
+  "Display text information"
+  "Megjeleníti a szöveges információk"
+
+  "Duplicate current file"
+  "Ismétlődő aktuális fájl"
+
+  "Edit Custom Abbreviations"
+  "Egyéni rövidítések szerkesztése"
+
+  "Edit Language"
+  "Nyelvre"
+
+  "Edit Session"
+  "Élő munkamenet szerkesztése"
+
+  "Edit User"
   "Felhasználó szerkesztése"
 
-  "Edit..."
-  "Szerkesztés..."
+  "Edit custom Emmet abbreviations"
+  "Egyéni Emmet rövidítések szerkesztése"
 
-  "File"
-  "Fájl"
+  "Edit language snippets"
+  "Sajtó alá helyez a nyelvi mozaik"
 
-  "Find"
-  "Keresés"
+  "Edit session current language preferences"
+  "Munkamenet aktuális nyelvi beállítások szerkesztése"
+
+  "Edit session global preferences"
+  "Munkamenet globális beállítások szerkesztése"
+
+  "Edit template"
+  "Sablon szerkesztése"
+
+  "Edit user current language preferences"
+  "Szerkesztheti a felhasználó aktuális nyelvi beállításai"
+
+  "Edit user global preferences"
+  "Felhasználói globális beállítások szerkesztése"
+
+  "Edit user snippets"
+  "Kódrészletek felhasználó szerkesztése"
+
+  "Enable Code Folding"
+  "Engedélyezi a kód összecsukható"
+
+  "Enable Synchronized Scrolling"
+  "Engedélyezi a szinkronizált görgetés"
+
+  "Enable Vim mode"
+  "Vim-üzemmód engedélyezése"
+
+  "Enable two-pane scrolling synchronization"
+  "Két ablaktáblából görgetés szinkronizálásának engedélyezése"
+
+  "Encode/Decode Image to Data:URL"
+  "Adatok: URL rejtjelez/megfejt kép"
+
+  "Encode/Decode image to data:URL"
+  "Adatok: az URL-kódolás/dekódolás kép"
+
+  "Enter selection mode"
+  "Adja meg a kijelölési mód"
+
+  "Enumeration"
+  "számláló"
+
+  "Evaluate Math Expression"
+  "Matematikai kifejezést értékeli"
+
+  "Evaluate the current math expression"
+  "A jelenlegi matematikai kifejezés kiértékelése"
+
+  "Expand Abbreviation"
+  "A rövidítések kibontása"
+
+  "Expand Emmet abbreviation"
+  "Bontsa ki a Emmet rövidítése"
+
+  "Export As"
+  "Exportálás mint"
+
+  "Export Custom Themes"
+  "Export egyéni témák"
+
+  "Export complete"
+  "Az exportálás befejeződött."
+
+  "Export current plugin"
+  "Jelenlegi plugin exportálása"
+
+  "Export file contents"
+  "Export fájl tartalma"
+
+  "Favorite file"
+  "Kedvenc"
+
+  "File Contents"
+  "Fájl tartalma"
+
+  "Find In Files"
+  "Keresés fájlokban"
+
+  "Find Matching Bracket"
+  "Zárójel párjának keresése"
+
+  "Find Next"
+  "Következő"
+
+  "Find Next Bracket Mismatch"
+  "Talál a következő zárójeles eltérés"
+
+  "Find Previous"
+  "Az előző keresése"
+
+  "Find Previous Bracket Mismatch"
+  "Még előző zárójel eltérés"
 
   "Find and Replace"
   "Keresés és csere"
 
   "Find in files"
-  "Keresés fájlokban..."
+  "Keresés fájlokban"
 
-  "Find marker"
-  "Keresés marker"
+  "Find matching character pair"
+  "Találni párja karakter"
 
-  "Find matching pair"
-  "Keresés párja"
+  "Find next mismatching bracket"
+  "Még a következő nem megfelelő zárójel"
+
+  "Find previous mismatching bracket"
+  "Még a korábbi hibás konzol"
+
+  "Folding"
+  "Összecsukható"
+
+  "Format"
+  "Formátum"
 
   "Format Text"
   "Szöveg formázása"
 
+  "Format indentation for text"
+  "Formátum a behúzás a szöveg"
+
   "From Clipboard"
   "A vágólapról"
+
+  "Global"
+  "Összes"
+
+  "Go to Matching Pair"
+  "Egyezési pár megy"
+
+  "Go to matching tag pair"
+  "Megy a megfelelő tag-pár"
+
+  "Go to next edit point"
+  "Ugrás a következő pont módosítása"
+
+  "Go to previous edit point"
+  "Ugrás az előző pont módosítása"
 
   "Goto Last Tab"
   "Ugrás az utolsó lap"
@@ -186,11 +904,44 @@ msgcat::mcmset hu {
   "Goto Previous Tab"
   "Ugrás az előző lap"
 
+  "Goto last tab"
+  "Goto utolsó pánt"
+
+  "Goto next difference"
+  "Goto következő különbség"
+
+  "Goto next tab"
+  "Ugrás a következő lapra"
+
+  "Goto other pane"
+  "Ugrás másik ablaktábla"
+
+  "Goto previous difference"
+  "Az előző eltérés"
+
+  "Goto previous tab"
+  "﻿Előző lap"
+
+  "Header"
+  "Fejléc"
+
   "Help"
   "Segítség"
 
-  "Hide Console"
-  "Elrejtése Console"
+  "Hide All Tabs"
+  "Minden fül elrejtése"
+
+  "Hide Current Tab"
+  "Aktuális fül"
+
+  "Hide Line Numbers"
+  "Sorszámok elrejtése"
+
+  "Hide Marker Map"
+  "Elrejtése jelölőtérkép"
+
+  "Hide Meta Characters"
+  "Meta-karakterek elrejtése"
 
   "Hide Sidebar"
   "Az oldalsáv elrejtése"
@@ -201,284 +952,395 @@ msgcat::mcmset hu {
   "Hide Tab Bar"
   "A fülek elrejtése"
 
-  "Import TextMate theme..."
-  "Import TextMate téma ..."
+  "Hide Tcl Console"
+  "Tcl konzolhoz elrejtése"
+
+  "Hide Tcl console"
+  "Tcl konzolhoz elrejtése"
+
+  "Hide line numbers"
+  "Sorszámok elrejtése"
+
+  "Hide marker map"
+  "Elrejtése jelölőtérkép"
+
+  "Hide meta characters"
+  "Meta-karakterek elrejtése"
+
+  "Hide sidebar"
+  "Az oldalsáv elrejtése"
+
+  "Hide status bar"
+  "Az állapotsor elrejtése"
+
+  "Hide tab bar"
+  "A fülek elrejtése"
+
+  "Highlight"
+  "Kiemel"
+
+  "Image"
+  "Kép"
+
+  "Import plugin bundle"
+  "Import plugin csomag"
+
+  "Increment by 0.1"
+  "Növekmény 0,1"
+
+  "Increment by 1"
+  "Növekmény 1"
+
+  "Increment by 10"
+  "Növekmény 10"
+
+  "Increment number by 0.1"
+  "Növekmény szám 0,1"
+
+  "Increment number by 1"
+  "Növekmény száma 1"
+
+  "Increment number by 10"
+  "Növekmény szám 10"
 
   "Indent"
   "Behúzás"
 
-  "Insert Text"
-  "Szöveg beszúrása"
+  "Indent Off"
+  "Francia le"
+
+  "Indent selected text"
+  "Kijelölt szöveg behúzása"
+
+  "Indentation"
+  "benyomódás"
+
+  "Insert bold formatting"
+  "Félkövér formázás beillesztése"
+
+  "Insert checklist formatting"
+  "Feladatlista formázás beillesztése"
+
+  "Insert code formatting"
+  "Helyezze be a Kódformázás"
+
+  "Insert command result after current line"
+  "Aktuális sor után helyezze be a parancs eredménye"
 
   "Insert enumeration"
-  "Helyezze felsorolás"
+  "Helyezze be a számbavétel"
 
-  "Install..."
-  "telepít"
+  "Insert file contents after current line"
+  "Aktuális sor után helyezze be a fájl tartalma"
 
-  "Launcher"
-  "Rakétaindító állvány"
+  "Insert from clipboard"
+  "Beszúrás a vágólapról"
+
+  "Insert header style"
+  "Helyezze be a fejléc stílusa"
+
+  "Insert highlight formatting"
+  "Helyezze be a kijelölés formázása"
+
+  "Insert image formatting"
+  "Beszúrás, kép formázása"
+
+  "Insert italics formatting"
+  "Dőlt formázás beillesztése"
+
+  "Insert line above current line"
+  "Aktuális sor fölött sor beszúrása"
+
+  "Insert line below current line"
+  "Helyezze be a sorral lejjebb a sort"
+
+  "Insert link formatting"
+  "Beszúrás a hivatkozás-formázás"
+
+  "Insert ordered list formatting"
+  "Helyezze be a rendezett lista formázása"
+
+  "Insert snippet"
+  "Kódrészlet beszúrása"
+
+  "Insert strikethrough formatting"
+  "Helyezze be az áthúzás"
+
+  "Insert subscript formatting"
+  "Alsó index formázás beillesztése"
+
+  "Insert superscript formatting"
+  "Beszúrása, felső index"
+
+  "Insert underline formatting"
+  "Aláhúzás formázás beillesztése"
+
+  "Insert unordered list formatting"
+  "Helyezze be a Rendezetlen lista formázása"
+
+  "Install"
+  "Telepítés"
+
+  "Install plugin"
+  "A plugin telepítése"
+
+  "Italics"
+  "Dőlt"
+
+  "Join Lines"
+  "Sorok összevonása"
+
+  "Join lines"
+  "Sorok összevonása"
+
+  "Jump Backward"
+  "Ugrás hátra"
+
+  "Jump Forward"
+  "Ugrás elõre"
+
+  "Jump To Line"
+  "Ugrás a sor"
+
+  "Jump backward"
+  "Ugrás hátra"
+
+  "Jump forward"
+  "Ugrás elõre"
+
+  "Jump to Next Fold Mark"
+  "Ugrás a következő Fold Mark"
+
+  "Jump to Previous Fold Mark"
+  "Ugrás az előző Fold Mark"
+
+  "Jump to line"
+  "Ugrás a sor"
+
+  "Jump to the next fold indicator"
+  "Ugrás a következő fold-jelző"
+
+  "Jump to the previous fold indicator"
+  "Ugrás az előző fold-jelző"
+
+  "Line Above Current"
+  "Folyó feletti line"
+
+  "Line Below Current"
+  "Vonal alatt folyó"
+
+  "Line Ending"
+  "Vonal vége"
+
+  "Line Number"
+  "Sor száma"
+
+  "Line Numbering"
+  "Sorszámozás"
+
+  "Line Wrapping"
+  "Sortörés"
+
+  "Link"
+  "Hivatkozás"
 
   "Lock"
   "Zárolás"
 
-  "Menu Bindings"
-  "Menü Bindings"
+  "Lock file"
+  "Zároló fájl"
 
-  "Menu: About TKE"
-  "Menü: Körülbelül TKE"
+  "Lower Case"
+  "Alsó-ügy"
 
-  "Menu: Align cursors"
-  "Menü: Align kurzorok"
+  "Markers"
+  "Markerek"
 
-  "Menu: Append next occurrence"
-  "Menü: hozzáfűzése következő előfordulását"
+  "Menu"
+  "Menü"
 
-  "Menu: Check for Update"
-  "Menü: Frissítés keresése"
+  "Merge Lines"
+  "Sorok egyesítése"
 
-  "Menu: Close all tabs"
-  "Összes fül bezárása"
+  "Merge Panes"
+  "Összeolvad ablaktáblát"
 
-  "Menu: Close current tab"
-  "Az aktuális lap bezárása"
+  "Merge panes"
+  "Összeolvad ablaktáblát"
 
-  "Menu: Comment selected text"
-  "Menü: Megjegyzés kijelölt szöveg"
+  "Move Cursors Down"
+  "Kurzorok lejjebb"
 
-  "Menu: Copy selected text"
-  "Menü: A kijelölt szöveg másolása"
+  "Move Cursors Left"
+  "Kurzor balra"
 
-  "Menu: Create new plugin"
-  "Menü: Új bővítmény"
+  "Move Cursors Right"
+  "Kurzorok jobbra"
 
-  "Menu: Create new theme"
-  "Új téma létrehozása..."
+  "Move Cursors Up"
+  "Kurzorok feljebb"
 
-  "Menu: Cut selected text"
-  "Menü: A kijelölt szöveg kivágása"
+  "Move cursor to bottom of screen"
+  "Mozgassa a kurzort a képernyő alsó részén"
 
-  "Menu: Disable Vim mode"
-  "Menü: Disable Vim mód"
+  "Move cursor to end of current line"
+  "Mozgassa a kurzort a végéig az aktuális sorhoz"
 
-  "Menu: Edit Tke theme"
-  "Menü: Szerkesztés TKE téma"
+  "Move cursor to first line"
+  "Vigye a kurzort az első sorban"
 
-  "Menu: Edit current snippets"
-  "Menü: szerkesztése jelenlegi töredék"
+  "Move cursor to last line"
+  "Mozog kurzor-hoz utolsó vonal"
 
-  "Menu: Edit user menu bindings"
-  "Menü: Felhasználói menü szerkesztése kötések"
+  "Move cursor to middle of screen"
+  "Mozgassa a kurzort a képernyő közepén"
 
-  "Menu: Edit user preferences"
-  "Menü: Edit felhasználói beállítások"
+  "Move cursor to next page"
+  "Mozog kurzor-hoz következő oldal"
 
-  "Menu: Enable Vim mode"
-  "Menü: engedélyezése Vim mód"
+  "Move cursor to next word"
+  "Kurzor áthelyezése a következő szó"
 
-  "Menu: Favorite file"
-  "Menü: Kedvenc fájl"
+  "Move cursor to previous page"
+  "Kurzor mozgatása az előző oldalra"
 
-  "Menu: Find"
-  "Menü: Keresés"
+  "Move cursor to previous word"
+  "Kurzor áthelyezése az előző szó"
 
-  "Menu: Find and Replace"
-  "Keresés és csere"
+  "Move cursor to start of current line"
+  "Mozgassa a kurzort a jelenlegi sor elejére"
 
-  "Menu: Find in files"
-  "Menü: Keresés fájlokban"
+  "Move cursor to top of screen"
+  "Mozgassa a kurzort a képernyő felső részén"
 
-  "Menu: Find matching character pair"
-  "Menü: Find megfelelő karakter pár"
+  "Move multicursors down one line"
+  "Multicursors lefelé lépés egy sorral"
 
-  "Menu: Find next occurrence"
-  "Menü: következő előfordulásának keresése"
+  "Move multicursors left one line"
+  "Multicursors balra egy sor mozgatása"
 
-  "Menu: Find previous occurrence"
-  "Menü: Find korábbi előfordulása"
+  "Move multicursors right one line"
+  "Multicursors jobb egy sor mozgatása"
 
-  "Menu: Format all text"
-  "Menü: Formátum minden szöveg"
+  "Move multicursors up one line"
+  "Áthelyezés multicursors felfelé egy sornyit"
 
-  "Menu: Format selected text"
-  "Menü: Formátum kijelölt szöveg"
+  "Move to First Line"
+  "Első sorban áthelyezése"
 
-  "Menu: Goto last tab"
-  "Menü: Ugrás az utolsó lapra"
+  "Move to Last Line"
+  "Mozog-hoz utolsó vonal"
 
-  "Menu: Goto next tab"
-  "Menü: Ugrás a következő lapra"
+  "Move to Line End"
+  "Áthelyezése a vonal végén"
 
-  "Menu: Goto other pane"
-  "Menü: Goto másik panel"
+  "Move to Line Start"
+  "Mozog-hoz elkezd vonal"
 
-  "Menu: Goto previous tab"
-  "Menü: Ugrás az előző lapra"
+  "Move to Next Page"
+  "Mozog-hoz következő oldal"
 
-  "Menu: Hide Tab Bar"
-  "Menü: Hide Tab Bar"
+  "Move to Next Word"
+  "Áthelyezése a következő szó"
 
-  "Menu: Hide console"
-  "Menü: Hide konzol"
+  "Move to Previous Page"
+  "Mozog-hoz előző oldal"
 
-  "Menu: Hide sidebar"
-  "Menü: Hide sidebar"
+  "Move to Previous Word"
+  "Mozog-hoz előző szó"
 
-  "Menu: Hide status bar"
-  "Az állapotsor elrejtése"
+  "Move to Screen Bottom"
+  "Mozgassa a képernyő alján"
 
-  "Menu: Import TextMate theme"
-  "Menü: Import TextMate téma"
+  "Move to Screen Middle"
+  "Mozgassa a képernyő közepén"
 
-  "Menu: Indent selected text"
-  "Menü: Behúzás kijelölt szöveg"
-
-  "Menu: Insert enumeration"
-  "Menü: Helyezze felsorolás"
-
-  "Menu: Insert from clipboard"
-  "Beszúrás a vágólapról"
-
-  "Menu: Insert snippet"
-  "Menü: Beszúrás részlet"
-
-  "Menu: Install plugin"
-  "Menü: Install bővítmény"
-
-  "Menu: Lock file"
-  "Menü: Lock fájl"
-
-  "Menu: Move to other pane"
-  "Menü: Áthelyezés másik ablakban"
-
-  "Menu: New file"
-  "Menü: Új fájl"
-
-  "Menu: Open Favorite"
-  "Menü: Open Favorite"
-
-  "Menu: Open Recent"
-  "Menü: Open Recent"
-
-  "Menu: Open directory"
-  "Menü: Open Directory"
-
-  "Menu: Open file"
-  "Menü: Fájl megnyitása"
-
-  "Menu: Paste and format text from clipboard"
-  "Menü: Beillesztés és formátumú szöveget a vágólapról"
-
-  "Menu: Paste text from clipboard"
-  "Szöveg beillesztése a vágólapról"
-
-  "Menu: Quit application"
-  "Menü: Kilépés alkalmazás"
-
-  "Menu: Redo"
-  "Menü: Újra"
-
-  "Menu: Reload all plugins"
-  "Menü: Minden újratöltése plugins"
-
-  "Menu: Reload current snippets"
-  "Menü: Frissíti az aktuális töredék"
-
-  "Menu: Restart tke"
-  "Menü: Restart TKE"
-
-  "Menu: Save all files"
-  "Menü: Mentse el az összes fájl"
-
-  "Menu: Save file"
-  "Menü: Fájl mentése"
-
-  "Menu: Save file as"
-  "Menü: Fájl mentése másként"
-
-  "Menu: Select all occurrences"
-  "Menü: Válassza összes előfordulását"
-
-  "Menu: Select all text"
-  "Az összes szöveg kijelölése"
-
-  "Menu: Set user bindings to global bindings"
-  "Menü: Állítsa be a felhasználó kötések a globális kötés"
-
-  "Menu: Set user preferences to global preferences"
-  "Menü: Állítsa be a felhasználói preferenciák globális beállítások"
-
-  "Menu: Show Tab Bar"
-  "Menü: Show Tab Bar"
-
-  "Menu: Show console"
-  "Menü: Show konzol"
-
-  "Menu: Show last profiling report"
-  "Menü: Az utolsó profil jelentés"
-
-  "Menu: Show sidebar"
-  "Menü: Show sidebar"
-
-  "Menu: Show status bar"
-  "Az állapotsor megjelenítése"
-
-  "Menu: Sort tabs"
-  "Menü: Sort tabs"
-
-  "Menu: Start profiling"
-  "Menü: Start profil"
-
-  "Menu: Stop profiling"
-  "Menü: Stop profil"
-
-  "Menu: Toggle split view mode"
-  "Menü: Váltás osztott nézet mód"
-
-  "Menu: Uncomment selected text"
-  "Menü: Vedd kijelölt szöveg"
-
-  "Menu: Undo"
-  "Menü: Visszavonás"
-
-  "Menu: Unfavorite file"
-  "Menü: Unfavorite fájl"
-
-  "Menu: Unindent selected text"
-  "Menü: behúzásának megszüntetése kijelölt szöveg"
-
-  "Menu: Uninstall plugin"
-  "Menü: Eltávolítás bővítmény"
-
-  "Menu: Unlock file"
-  "Menü: Oldja fájl"
-
-  "Menu: View User Guide"
-  "Menü: Nézet Használati útmutató"
-
-  "Menu: View global menu bindings"
-  "Menü: Tekintse meg a globális menüt kötések"
-
-  "Menu: View global preferences"
-  "Menü: Nézet globális beállításokat"
+  "Move to Screen Top"
+  "Mozgatni a képernyőn tetején"
 
   "Move to other pane"
-  "Áthelyezés másik ablakban"
+  "Áthelyezése másik ablaktábla"
 
-  "New"
-  "Új"
+  "New From Template"
+  "Új sablonból"
 
-  "Open Directory..."
-  "Felső szintű könyvtár:"
+  "New Window"
+  "Új ablak"
+
+  "New file"
+  "Új fájl"
+
+  "New file from template"
+  "Új sablonból"
+
+  "New window"
+  "Új ablakban"
+
+  "Next Difference"
+  "A következ? eltérés"
+
+  "Next Edit Point"
+  "Tovább szerkesztése pont"
+
+  "One Level"
+  "Egy szinttel"
+
+  "Open All Folds"
+  "Nyissa meg az összes kiszáll"
+
+  "Open Current Fold"
+  "Nyitott aktuális Fold"
+
+  "Open Directory"
+  "Felső szintű könyvtár"
 
   "Open Favorite"
   "Nyílt Favorite"
 
-  "Open File..."
-  "Fájl megnyitása..."
+  "Open File"
+  "Fájl megnyitása"
 
   "Open Recent"
   "Legutóbbi megnyitása"
+
+  "Open Remote"
+  "Nyissa meg a távoli"
+
+  "Open Selected Folds"
+  "Nyissa meg a kiválasztott redők"
+
+  "Open all folds"
+  "Nyissa meg az összes kiszáll"
+
+  "Open directory"
+  "Felső szintű könyvtár"
+
+  "Open file"
+  "Fájl megnyitása"
+
+  "Open fold at current line - all levels"
+  "Aktuális sor - minden szinten nyitott szeres"
+
+  "Open fold at current line - one level"
+  "Nyitott szeres aktuális sor - egy szinttel"
+
+  "Open folds to show cursor"
+  "Nyitott redők kurzor megjelenítése"
+
+  "Open remote file or directory"
+  "Nyissa meg a távoli fájl vagy könyvtár"
+
+  "Open selected folds - all levels"
+  "Nyitott kijelölt ráncok - minden szinten"
+
+  "Open selected folds - one level"
+  "Nyitott kijelölt ráncok - egy szinttel"
+
+  "Ordered Bullet"
+  "Megrendelt golyó"
+
+  "Panes"
+  "Panelek"
 
   "Paste"
   "Beillesztés"
@@ -486,11 +1348,23 @@ msgcat::mcmset hu {
   "Paste and Format"
   "Paste és formátum"
 
-  "Plugins"
-  "Pluginek"
+  "Paste and format text from clipboard"
+  "Beillesztés és a formátum a vágólapon levő szöveget"
 
-  "Preferences"
-  "Preferencia"
+  "Paste text from clipboard"
+  "Szöveg beillesztése a vágólapról"
+
+  "Plugin Developer Guide"
+  "A plugin fejlesztő útmutató"
+
+  "Previous Difference"
+  "Előző különbség"
+
+  "Previous Edit Point"
+  "Korábbi Csomópontszerkesztőből"
+
+  "Profiling Report Sorted By"
+  "Profilkészítés jelentés szerint rendezve"
 
   "Profiling started"
   "Profilozási kezdődött"
@@ -501,56 +1375,245 @@ msgcat::mcmset hu {
   "Quit"
   "Kilépés"
 
+  "Quit application"
+  "Kilépés az alkalmazásból"
+
+  "Recent Directories"
+  "Legutóbbi könyvtárak"
+
+  "Recent Files"
+  "Legutóbbi fájlok"
+
   "Redo"
   "Ismét"
+
+  "Reflect CSS Value"
+  "CSS-értéket tükrözi"
+
+  "Reflect current CSS value"
+  "Tükrözi a jelenlegi CSS-értéket"
+
+  "Relative"
+  "Átlagos"
+
+  "Relative line numbering"
+  "Relatív sorszámozás"
 
   "Reload"
   "Újratölt"
 
-  "Reload current"
-  "Reload áram"
+  "Reload all plugins"
+  "Újratöltése minden dugó"
 
-  "Reset user to base"
-  "Reset Felhasználói alapozni"
+  "Reload snippets"
+  "Reload-töredék"
 
-  "Restart tke"
-  "Újraindítás TKE"
+  "Reload template information"
+  "Reload információjához"
+
+  "Remove All From Current Buffer"
+  "Minden aktuális puffer eltávolítása"
+
+  "Remove All Markers"
+  "Összes jelöl?jének eltávolítása"
+
+  "Remove Formatting"
+  "Formázás eltávolítása"
+
+  "Remove From Current Line"
+  "Távolítsa el az aktuális sorból"
+
+  "Remove Tag"
+  "Elem eltávolítása"
+
+  "Remove all markers"
+  "Összes jelölőjének eltávolítása"
+
+  "Remove all markers from current buffer"
+  "Összes jelölőjének eltávolítása a jelenlegi puffer"
+
+  "Remove formatting from selected text"
+  "A kijelölt szöveg formázásának eltávolítása"
+
+  "Remove marker from current line"
+  "Jelölő eltávolítása az aktuális sorhoz"
+
+  "Remove tag"
+  "Elem eltávolítása"
+
+  "Rename current file"
+  "Aktuális fájl átnevezése"
+
+  "Reopen File"
+  "Nyissa meg a fájlt"
+
+  "Reopen current file"
+  "Nyissa meg az aktuális fájl"
+
+  "Replace Line With Script"
+  "Helyettesít a vonal kézírás"
+
+  "Replace line with script"
+  "Helyettesít a vonal kézírás"
+
+  "Restart"
+  "Újraindítás"
+
+  "Run theme editor"
+  "Fuss téma szerkesztő"
 
   "Save All"
   "Az összes dokumentum mentése"
 
-  "Save As..."
-  "A kép mentése másként"
+  "Save As Remote"
+  "Távoli mentése"
 
-  "Select All"
-  "Összes kijelölése"
+  "Save As Template"
+  "A sablon mentése"
 
-  "Select all occurrences"
-  "Válassza ki az összes eseményt"
+  "Save Current"
+  "Aktuális mentése"
 
-  "Select next occurrence"
-  "Válassza ki a következő esemény"
+  "Save Selection As"
+  "Save kiválasztás"
 
-  "Select previous occurrence"
-  "Válassza ki a korábbi előfordulása"
+  "Save all files"
+  "Minden fájl mentése"
 
-  "Selected"
-  "Szelekció"
+  "Save current session"
+  "El szeretné menteni az aktuális munkamenetet?"
+
+  "Save file"
+  "Fájl mentése"
+
+  "Save file as"
+  "Mentés másként"
+
+  "Save file as remote file"
+  "Fájl mentése a távoli fájl"
+
+  "Save file as template"
+  "A fájl mentése sablonként"
+
+  "Save selected lines"
+  "Kijelölt sorok mentése"
+
+  "Save sessions as"
+  "Megment a gyűlés mint"
+
+  "Search References"
+  "Hivatkozások keresése"
+
+  "Search language reference documentation"
+  "Keresés nyelvi referencia dokumentáció"
+
+  "Search reference documentation"
+  "Szálláshelyek keresése referencia dokumentáció"
+
+  "Select"
+  "Kiválasztás"
+
+  "Select All Matches"
+  "Jelölje be a minden mérkőzés"
+
+  "Select Current Match"
+  "Válassza ki az aktuális mérkőzés"
+
+  "Select Mode"
+  "Válassz"
+
+  "Select Next Item"
+  "Következő elem kijelölése"
+
+  "Select Previous Item"
+  "Előző elem kijelölése"
+
+  "Select all find matches"
+  "Összes kijelölése halmazt"
+
+  "Select all text"
+  "Az összes szöveg kijelölése"
+
+  "Select current bracketed text, strings or comment block"
+  "Válassza ki a jelenlegi bracketed szöveget, karakterláncokat vagy megjegyzésblokkot"
+
+  "Select current line"
+  "Válassza ki az aktuális sort"
+
+  "Select current paragraph"
+  "Válassza ki az aktuális bekezdést"
+
+  "Select current sentence"
+  "Válassza ki az aktuális mondatot"
+
+  "Select current word"
+  "Válassza ki az aktuális szót"
+
+  "Select next tag item"
+  "Következő címke elem kijelölése"
+
+  "Select previous tag item"
+  "Előző tag elem kijelölése"
+
+  "Send Bug Report"
+  "Hibajelentés küldése."
+
+  "Send Feedback"
+  "Visszajelzés küldése"
+
+  "Send bug report"
+  "Hibajelentés küldése."
+
+  "Send feedback"
+  "Visszajelzés küldése"
 
   "Set Syntax"
   "Beállítása Syntax"
 
   "Set Theme"
-  "Set Theme"
+  "Állítsa téma"
 
-  "Set user to global"
-  "Állítsa be a felhasználó a globális"
+  "Set current file line ending to CR for Classic Mac"
+  "Állítsa be az aktuális fájl vonal megszüntetése a CR klasszikus Mac"
 
-  "Show Console"
-  "Megjelenítése Console"
+  "Set current file line ending to CRLF for Windows"
+  "Állítsa be az aktuális fájl sorvégi CRLF for Windows"
+
+  "Set current file line ending to LF for Unix"
+  "Állítsa be az aktuális fájl vonal megszüntetése az LF UNIX"
+
+  "Set indent mode to"
+  "Rovátka mód beállítása"
+
+  "Show All Tabs"
+  "Minden lapfülek megjelenítése"
+
+  "Show Cursor"
+  "Kurzor megjelenítése"
+
+  "Show Diagnostic Logfile"
+  "Diagnosztikai naplófájl megjelenítése"
+
+  "Show File Difference"
+  "Térkép fájl különbség"
+
+  "Show Installed"
+  "telepítve"
 
   "Show Last Profiling Report"
   "Az utolsó Profiling jelentés"
+
+  "Show Line Numbers"
+  "A sorszámok megjelenítése"
+
+  "Show Marker Map"
+  "Jelölős Térkép megjelenítése"
+
+  "Show Meta Characters"
+  "Meta-karakterek megjelenítése"
+
+  "Show Selected Line Change"
+  "Megjelenítése a kijelölt sor módosítása"
 
   "Show Sidebar"
   "Az oldalpanel megjelenítése"
@@ -561,79 +1624,205 @@ msgcat::mcmset hu {
   "Show Tab Bar"
   "A fülek megjelenítése"
 
-  "Show*Profiling*"
-  "Megjelenítése * Profiling *"
+  "Show Tcl Console"
+  "Térkép-Tcl konzol"
 
-  "Snippet"
-  "Töredék"
+  "Show Tcl console"
+  "Térkép-Tcl konzol"
 
-  "Snippets"
-  "Snippets"
+  "Show diagnostic logfile"
+  "Diagnosztikai naplófájl megjelenítése"
+
+  "Show file difference"
+  "Térkép fájl különbség"
+
+  "Show installed plugins"
+  "Telepített bővítmények"
+
+  "Show last profiling report"
+  "Utolsó profil jelentés megjelenítése"
+
+  "Show meta characters"
+  "Meta-karakterek megjelenítése"
+
+  "Show plugin developer guide"
+  "Térkép a plugin fejlesztő útmutató"
+
+  "Show plugin source directory in sidebar"
+  "Mutassa be a plugin source könyvtárat az oldalsávon"
+
+  "Show plugins directory in sidebar"
+  "Megjelenik a plugins könyvtár az oldalsávon"
+
+  "Show selected line change"
+  "Megjelenítése a kijelölt sor módosítása"
 
   "Sort Tabs"
-  "Sort Tabs"
+  "Rendezés lapok"
 
-  "Split view"
-  "Osztott nézet"
+  "Sort tabs"
+  "Lapok rendezése"
+
+  "Split/Join Tag"
+  "Split / Join tag"
+
+  "Split/Join tag"
+  "Split / Join tag"
 
   "Start Profiling"
   "Kezdje Profiling"
 
+  "Start profiling"
+  "Profilkészítés indítása"
+
   "Stop Profiling"
   "Állítsa Profiling"
+
+  "Stop profiling"
+  "Profilkészítés leállítása"
+
+  "Strikethrough"
+  "Áthúzott"
+
+  "Subscript"
+  "alsó index"
+
+  "Superscript"
+  "Alsó index"
+
+  "Switch To"
+  "Kapcsol-hoz"
+
+  "Switch to session"
+  "Kapcsol-hoz gyűlés"
 
   "Tabs"
   "Lapfülek"
 
-  "Text"
-  "Szöveg"
+  "Tips & Tricks"
+  "Tippek és trükkök"
 
-  "Theme Creator"
-  "Theme Creator"
+  "Title Case"
+  "Szókezdő nagybetű"
 
-  "Tools"
-  "Eszközök"
+  "Toggle Case"
+  "Kisbetű-nagybetű váltás"
 
-  "Uncomment"
-  "Vedd"
+  "Toggle Comment"
+  "Toggle megjegyzés"
+
+  "Toggle bird's eye view mode"
+  "Bird's eye view mód váltása"
+
+  "Toggle case of current character"
+  "Váltás az aktuális karakter"
+
+  "Toggle comment"
+  "Toggle megjegyzés"
+
+  "Toggle split view mode"
+  "Toggle osztott nézetben"
+
+  "Toggle tag/rule comment"
+  "Ki-/ bekapcsolása cédula, a szabály comment"
+
+  "Transform"
+  "transzformáció"
+
+  "Unable to delete file"
+  "Nem sikerült törölni ezt a fájlt: %1"
+
+  "Unable to write export file"
+  "Nem lehet írni az exportfájl"
+
+  "Underline"
+  "Aláhúzott"
 
   "Undo"
   "Visszavonás"
 
+  "Unfavorite file"
+  "Unfavorite fájl"
+
   "Unindent"
   "Behúzásának megszüntetése"
 
-  "Uninstall..."
+  "Unindent selected text"
+  "A kijelölt szöveg kiengedése"
+
+  "Uninstall"
   "Eltávolítás"
+
+  "Uninstall plugin"
+  "Távolítsa el a plugin"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "Kinyit"
 
+  "Unlock file"
+  "Fájl kinyit"
+
+  "Unordered Bullet"
+  "Számozatlan felsorolás"
+
+  "Update Image Size"
+  "Kép feltöltése"
+
+  "Update img tag width and height attributes"
+  "Frissítse a címke img width és height attribútumokkal"
+
+  "Upper Case"
+  "Nagybetű"
+
   "User Guide"
   "Jogi keret"
 
-  "View"
-  "Megjelenítés"
+  "View Emmet Reference Guide"
+  "Tekintse meg az Emmet Reference Guide-t"
 
-  "View base"
-  "Nézet alap"
+  "View the Emmet reference guide"
+  "Tekintse meg az Emmet referencia útmutatót"
 
-  "View global"
-  "Tekintse meg a globális"
+  "View tips & tricks articles"
+  "Kilátás porkoláb & trükkök cikkek"
+
+  "View user guide"
+  "Használati útmutató"
 
   "Vim Mode"
-  "Vim Mode"
+  "Vim mód"
+
+  "Windows"
+  "Windows"
+
+  "Wrap With Abbreviation"
+  "Wrap rövidítése"
+
+  "Wrap tag with Emmet abbreviation"
+  "Körülzárás címkével a Emmet rövidítése"
+
+  "formatting"
+  "formázás"
 
 }
 
 # plugins.tcl
 msgcat::mcmset hu {
 
+  "Always grant from developer"
+  "Mindig megadja a fejlesztőtől"
+
+  "ERROR"
+  "HIB"
+
   "ERROR:  Plugin name already exists"
-  "ERROR: Plugin már létezik"
+  "HIBA: Plugin már létezik"
 
   "ERROR:  Plugin name is not valid (only alphanumeric and underscores are allowed)"
-  "ERROR: Plugin neve nem érvényes (csak alfanumerikus és aláhúzás megengedett)"
+  "HIBA: Plugin neve nem érvényes (csak alfanumerikus és aláhúzás megengedett)"
 
   "ERROR:  Unable to create plugin directory"
   "HIBA: Nem sikerült létrehozni a plugin könyvtárban"
@@ -641,23 +1830,940 @@ msgcat::mcmset hu {
   "ERROR:  Unable to write plugin files"
   "HIBA: Nem lehet írni a plugin fájlok"
 
+  "Editing"
+  "vágó"
+
   "Enter plugin name"
   "Adja meg a bővítmény név"
 
-  "Plugin %s installed"
-  "% S plugin telepítése"
+  "Grant"
+  "Az oltalom megadása"
 
-  "Plugin %s uninstalled"
-  "Plugin% s eltávolításakor"
+  "Grant permission?"
+  "Engedélyt adhat?"
 
   "Plugin Errors"
   "Plugin hibák"
 
+  "Plugin Trust Requested"
+  "Plugin Trust Kért"
+
+  "Plugin export completed successfully"
+  "Plugin export sikeresen befejeződött"
+
+  "Plugin import completed successfully"
+  "Plugin importálása sikeresen megtörtént"
+
+  "Plugin installed"
+  "Plugin telepítve"
+
+  "Plugin requires permission to view or modify your system."
+  "Plugin engedélye szükséges megtekintheti és módosíthatja a rendszer."
+
+  "Plugin uninstalled"
+  "Eltávolította a plugin"
+
   "Plugins successfully reloaded"
   "Plugins sikeresen reloaded"
 
+  "Reject"
+  "Elutasítás"
+
   "Syntax errors found in selected plugins"
   "Syntax hibát talált a kiválasztott plugins"
+
+  "Unable to unzip plugin"
+  "Képtelen-hoz cipzárat kinyitni a plugin"
+
+  "Unable to zip plugin"
+  "Nem sikerült a plugin zip"
+
+  "Version Control"
+  "Verziókövetés"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset hu {
+
+  "Export Plugin"
+  "Plugin exportálása"
+
+  "Markdown"
+  "Árleszállítás"
+
+  "Plugin Manager"
+  "Bővítménykezelő"
+
+  "Release Notes"
+  "Kiadási megjegyzések"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset hu {
+
+  "Abbreviation Aliases"
+  "Aliasok rövidítése"
+
+  "Add"
+  "Hozzáadás"
+
+  "Add Language Reference"
+  "Nyelv-hivatkozás hozzáadása"
+
+  "Additional space between lines"
+  "További sorok közötti térköz"
+
+  "Addons"
+  "Kiegészítők"
+
+  "Advanced"
+  "Bővített"
+
+  "Alias"
+  "Álnév"
+
+  "Allow scrolling in tab bar"
+  "Lehetővé teszi, hogy görgetés a fülsávon"
+
+  "Angled bracket"
+  "Szögletes zárójel"
+
+  "Appearance"
+  "Megjelenés"
+
+  "Append characters to search string if entered within"
+  "Hozzáfűzés a keresési karakterlánc, ha belül megadott karakterek"
+
+  "Auto-match Characters"
+  "Auto-mérkőzés karakter"
+
+  "Automatically check for updates on start"
+  "Gépiesen ellenőriz részére korszerűsít-ra elkezd"
+
+  "Automatically highlight matching bracket"
+  "Automatikusan kiemelhetők a megfelelő zárójel"
+
+  "Automatically highlight mismatching brackets"
+  "Automatikusan kiemelhetők eldobhatja zárójelben"
+
+  "Automatically insert vendor prefixes"
+  "Automatikusan illessze be a szállító előtagok"
+
+  "Automatically load last session on start"
+  "Automatikusan betölti a legutóbbi ülésén a start"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Automatikusan beállítja az aktuális munkakönyvtár az aktuális fülek könyvtár"
+
+  "Backtick"
+  "Végrehajtó"
+
+  "Base Directory"
+  "Alapkönyvtára"
+
+  "Behaviors"
+  "Viselkedés"
+
+  "Bird's Eye View Font Size"
+  "Bird's Eye View betűméret"
+
+  "Bird's Eye View Width"
+  "Bird's Eye View szélessége"
+
+  "Buffer"
+  "Buffer"
+
+  "Choose Color"
+  "Színválasztás"
+
+  "Choose Logfile Directory"
+  "Válassza ki a Logfile könyvtár"
+
+  "Clear"
+  "Törlés"
+
+  "Clipboard"
+  "Vágólap"
+
+  "Clipboard History"
+  "A vágólapnapló mérete"
+
+  "Clipboard history depth"
+  "Csipeszes írótábla történelem mélység"
+
+  "Closing"
+  "Befejezés"
+
+  "Color value case"
+  "Szín érték esetén"
+
+  "Command launcher entry"
+  "Parancs launcher bejegyzés"
+
+  "Command launcher preview"
+  "Parancs launcher előnézet"
+
+  "Convert to lowercase"
+  "Konvertálása kisbetűs"
+
+  "Convert to uppercase"
+  "Konvertálása nagybetűs"
+
+  "Creator"
+  "Készítő"
+
+  "Curly bracket"
+  "Kapcsos zárójel hozzáadása"
+
+  "Current"
+  "Aktuális"
+
+  "Current Directory"
+  "aktuális könyvtár"
+
+  "Current File Pathname"
+  "Aktuális fájl útneve"
+
+  "Current Filename"
+  "Jelenlegi fájlnév"
+
+  "Current Line Column"
+  "Aktuális sor-oszlop"
+
+  "Current Line Number"
+  "Aktuális sor száma"
+
+  "Current editing buffer directory"
+  "Aktuális szerkesztési puffer könyvtár"
+
+  "Current working directory"
+  "Időszerű működő címtár"
+
+  "Date"
+  "Dátum"
+
+  "Default Find in Files search method"
+  "Alapértelmezett keresés a fájlok keresési módjában"
+
+  "Default Find search method"
+  "Alapértelmezett Keresési módszer keresése"
+
+  "Default Markdown Export Extension"
+  "Markdown Export árbevétel"
+
+  "Default Plugin Export Directory"
+  "Alapértelmezett plugin export könyvtár"
+
+  "Default Theme Export Directory"
+  "Alapértelmezett téma Export Directory"
+
+  "Default sidebar width on startup"
+  "Alapértelmezett oldalsáv szélesség az indításkor"
+
+  "Default theme"
+  "Alapértelmezett Téma"
+
+  "Default unit for floating point values"
+  "Alapértelmezett egység a lebegőpontos értékek"
+
+  "Default unit for integer values"
+  "Alapértelmezett egység egészszám-értékek"
+
+  "Delete snippet"
+  "Részlet törlése"
+
+  "Delete user bindings and use default?"
+  "Törli a felhasználó kötések, és alapértelmezett?"
+
+  "Development"
+  "Fejlesztés"
+
+  "Displayed Information"
+  "Megjelenített információk"
+
+  "Double-quote"
+  "Idézőjel"
+
+  "Editor"
+  "Szerkesztő"
+
+  "Enable Vim Mode"
+  "Vim-üzemmód engedélyezése"
+
+  "Enable auto-indentation"
+  "Automatikus kiegészítés engedélyezése"
+
+  "Enable development mode"
+  "Fejlesztési-üzemmód engedélyezése"
+
+  "Enable fuzzy search"
+  "Engedélyezi a fuzzy keresési"
+
+  "Enable relative line numbering"
+  "Engedélyezi a relatív sorszámozás"
+
+  "Enabled"
+  "Engedélyezve"
+
+  "End-of-line character when saving"
+  "A sor végén karakter mentésekor"
+
+  "Exit the application after the last tab is closed"
+  "Az alkalmazás bezárásáig, az utolsó lap bezárása után"
+
+  "Export Settings"
+  "Beállítások exportálása"
+
+  "Extensions"
+  "Kiterjesztések"
+
+  "Fonts"
+  "Betűk"
+
+  "Format snippet indentation after insert"
+  "Formátum részlet behúzás után beszúrása"
+
+  "General"
+  "Általános"
+
+  "Get More Themes"
+  "Kapni további témák"
+
+  "Hide Patterns"
+  "Mintáinak elrejtéséhez"
+
+  "Hide binary files"
+  "Bináris fájlok elrejtése"
+
+  "Hiding"
+  "Elrejtése"
+
+  "Host"
+  "Munkaállomás"
+
+  "Imported"
+  "Importálva"
+
+  "Indentation spaces"
+  "Szóközök behúzása"
+
+  "Info Panel"
+  "hálómező"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Helyezze be a szétválogatás nélküli fájlokat kézzel rendezett könyvtár tetején"
+
+  "Insertion cursor width"
+  "Beszúrási kurzor szélessége"
+
+  "Keep information panel visible when sidebar doesn't have focus"
+  "Az információs panel látható akkor, ha az oldalsáv nem rendelkezik élességgel"
+
+  "Keyword"
+  "Kulcsszó"
+
+  "Languages"
+  "Nyelvek"
+
+  "Last"
+  "Utolsó"
+
+  "Last accessed"
+  "Utolsó hozzáférés:"
+
+  "Line Wrapping Default"
+  "Sortörés alapértelmezett"
+
+  "Line count to find Vim modeline information"
+  "Sorok száma Vim modeline talál?"
+
+  "Line number alignment"
+  "Sorszám igazítás"
+
+  "Logfile Directory"
+  "Logfile-könyvtár"
+
+  "Manage Themes"
+  "Sablonok kezelése"
+
+  "Manage theme visibility"
+  "Láthatóság téma kezelése"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maximális visszavonás történelem (készlet-hoz 0 részére határtalan)"
+
+  "Menu Item"
+  "Menüelem"
+
+  "Menu bindings"
+  "Menü kötések"
+
+  "Mounts"
+  "Tartók"
+
+  "Node Aliases"
+  "Csomópont-aliasok"
+
+  "Profiler Options"
+  "A profilozó beállításai:"
+
+  "Prompt user to save preference changes in global or named session"
+  "Gyors preferencia módosítások mentését a globális vagy elnevezett munkamenet"
+
+  "Properties"
+  "Ingatlanok"
+
+  "Reading time words per minute"
+  "Leolvasási idő percenként"
+
+  "Recently opened history depth"
+  "A közelmúltban megnyílt történelem mélység"
+
+  "Remember last position of command launcher"
+  "Ne feledje, utolsó pozícióban parancs Launcher"
+
+  "Remote Base Directory"
+  "Távoli alapkönyvtára"
+
+  "Remove root directory after last sub-file is closed"
+  "Távolítsa el a gyökér könyvtárban, utolsó Al fájl bezárása után"
+
+  "Remove trailing whitespace on save"
+  "Távolítsa el a záró szóköz a Mentés"
+
+  "Report Options"
+  "A jelentés beállításai"
+
+  "Retain case"
+  "Esetben megtartása"
+
+  "Return"
+  "Visszaút"
+
+  "Ruler column"
+  "Vonalzó oszlop"
+
+  "Save changes to current session?"
+  "Menti a módosításokat a jelenlegi munkamenet?"
+
+  "Save changes to global preferences?"
+  "Menti a módosításokat a globális előnyök?"
+
+  "Search Shortcuts"
+  "Keresés parancsikonok"
+
+  "Search Snippets"
+  "Keresés töredék"
+
+  "Select Command Launcher Entry Font"
+  "Válassza a Command Launcher Entry Font elemet"
+
+  "Select Command Launcher Preview Font"
+  "Válassza a Parancsindító előnézeti betűtípus parancsot"
+
+  "Select Editor Font"
+  "Válassza a Szerkesztõ betût"
+
+  "Select Settings Sharing Directory"
+  "Válassza a beállítások könyvtár megosztása"
+
+  "Select a plugin"
+  "Válassza ki a plugin"
+
+  "Select default browsing directory"
+  "Válassza ki az alapértelmezett könyvtár böngészés"
+
+  "Selected Text"
+  "A kijelölt szöveg"
+
+  "Session"
+  "Munkafolyamat"
+
+  "Set"
+  "Beállítás"
+
+  "Set Find in Files line context"
+  "Set talál fájlok vonal összefüggésben"
+
+  "Set default open/save browsing directory to"
+  "Állítsa be az alapértelmezett nyit/megment böngészés a könyvtárban"
+
+  "Set find history depth"
+  "Beállított keresési előzmények mélység"
+
+  "Set jump distance"
+  "Állítsa ugrás távolság"
+
+  "Sharing"
+  "Megosztás"
+
+  "Sharing Items"
+  "Megosztása tételek"
+
+  "Shortcut"
+  "Gyorsbillentyű"
+
+  "Shortcuts"
+  "Billentyűparancsok"
+
+  "Show 'Find in Files' result in other pane"
+  "Más ablakban jelenítse meg a &quot;Find in Files&quot; találatot"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Mutatják, mozog-hoz szemét helyett Delete helyi fájlok/könyvtárak"
+
+  "Show Tcl console at startup"
+  "Térkép-Tcl konzol indításkor"
+
+  "Show bird's eye view"
+  "Térkép madártávlatból"
+
+  "Show diagnostic logfile at startup"
+  "Diagnosztikai naplófájl megjelenítése indításkor"
+
+  "Show difference file in other pane than original"
+  "Különbség fájlra mutat a másik ablaktábla, mint eredeti"
+
+  "Show difference file version information"
+  "Különbség a fájl verzióadatok megjelenítése"
+
+  "Show folders at top"
+  "Térkép-mappák tetején"
+
+  "Show hidden files"
+  "Rejtett fájlok megjelenítése"
+
+  "Show language submenu"
+  "Nyelv almenü"
+
+  "Show menubar"
+  "A menüsáv megjelenítése"
+
+  "Single-quote"
+  "Idézőjel"
+
+  "Snippet Completion Characters"
+  "Részlet befejezése karakterek"
+
+  "Snippet Text"
+  "Kódtöredék szövege"
+
+  "Sort tabs alphabetically on open"
+  "Rendezés lapok ABC sorrendben a nyílt"
+
+  "Sorting Column"
+  "Rendezési oszlop"
+
+  "Space"
+  "Hely"
+
+  "Spaces per tab"
+  "Laponkénti terek"
+
+  "Square bracket"
+  "Szögletes zárójel hozzáadása"
+
+  "Stable"
+  "Stabil"
+
+  "Symbol between CSS property and value"
+  "CSS-tulajdonság és az érték közötti szimbólum"
+
+  "Symbol placed at end of CSS property"
+  "Jel végére CSS tulajdonság"
+
+  "Syntax Coloring"
+  "Szintaxis színezés"
+
+  "Tab"
+  "Fül"
+
+  "Tab Stop"
+  "Tabulátor"
+
+  "This operation cannot be reversed."
+  "Ezt a műveletet nem lehet visszavonni."
+
+  "Time"
+  "Idő"
+
+  "Unknown"
+  "Ismeretlen"
+
+  "Update information panel whenever the sidebar selection changes"
+  "Frissítse az információs panelt, amikor az oldalsáv-kiválasztás megváltozik"
+
+  "Update using release type"
+  "Frissítse a kiadás típusú"
+
+  "Updates"
+  "Frissítések"
+
+  "Use Default"
+  "Alapértelmezett használata"
+
+  "Use appropriate EOL character on system"
+  "Használja a megfelelő EOL karakter a rendszer"
+
+  "Use carriate return linefeed sequence"
+  "Carriate vissza-soremelés sorrendet alkalmazni"
+
+  "Use current width"
+  "Használja az aktuális szélességet"
+
+  "Use directory"
+  "Használja directory"
+
+  "Use linefeed character"
+  "Soremelés karaktert"
+
+  "Use original EOL character from file"
+  "Használja az eredeti EOL karakter fájlból"
+
+  "Use shortened colors"
+  "Rövidített színek"
+
+  "Use single carriage return character"
+  "Használ egy kocsivissza karakternek"
+
+  "Variable"
+  "Változó"
+
+  "Variables"
+  "Változók"
+
+  "Visible"
+  "Láthatóság"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Globális beállítások, ami nem látható, mert jelenleg egy névvel ellátott munkameneten belül változott."
+
+  "You have changed the current session's preferences which will not be applied globally."
+  "Megváltoztatta az aktuális munkamenet beállításait, amelyeket nem alkalmaz globálisan."
+
+  "milliseconds"
+  "ezredmásodperc"
+
+  "pixels"
+  "pixel"
+
+  "theme"
+  "téma"
+
+}
+
+# remote.tcl
+msgcat::mcmset hu {
+
+  "Close Connection"
+  "A kapcsolat bezárása"
+
+  "Connection does not exist"
+  "A kapcsolat nem létezik"
+
+  "Connection failed"
+  "Sikertelen csatlakozás"
+
+  "Connection passed"
+  "Kapcsolat telt el"
+
+  "Connections"
+  "Kapcsolatok"
+
+  "Create New Folder"
+  "Új könyvtár létrehozása"
+
+  "Delete Connection"
+  "Csatlakozás törlése"
+
+  "Delete Group"
+  "Csoport törlése"
+
+  "Delete connection?"
+  "Csatlakozás törlése"
+
+  "Delete group?"
+  "Csoport törlése"
+
+  "Edit Connection"
+  "Kapcsolat szerkesztése"
+
+  "Enter Password"
+  "Adja meg a jelszót"
+
+  "Folder Name"
+  "Mappa"
+
+  "Group"
+  "Csoport"
+
+  "Group Name"
+  "Csoport neve"
+
+  "Group Name: "
+  "Csoport neve"
+
+  "Image used in remote file selector for the history back button."
+  "Kép használt távoli fájl választóval a történelem vissza gombot."
+
+  "Image used in remote file selector for the history forward button."
+  "Kép használt távoli fájl választóval a történelem továbbít gomb."
+
+  "Image used in remote file selector to indicate a file."
+  "A kép a távoli fájl választóval hozzászokott jelez egy fájl."
+
+  "Image used in remote file selector to indicate a folder."
+  "A kép a távoli fájl kiválasztó egy mappában jelzésére használható."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Kép használt távoli fájl választóval annak jelzésére, hogy egy kapcsolat nyitotta meg."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Megjelenítéséhez használt kép a távoli fájl kiválasztó jelezze, hogy a kapcsolat meg van nyitva."
+
+  "New Connection"
+  "Új kapcsolat"
+
+  "New Folder"
+  "gyöngyike"
+
+  "New Group"
+  "Új csoport"
+
+  "Open Connection"
+  "Kapcsolat"
+
+  "Open Remote File"
+  "Távoli fájl megnyitása"
+
+  "Optional"
+  "Nem kötelező."
+
+  "Password"
+  "Jelszó"
+
+  "Password: "
+  "Jelszó:"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Távoli könyvtár"
+
+  "Rename Group"
+  "Csoport átnevezése"
+
+  "Save File Remotely"
+  "Mentse a fájlt távolról"
+
+  "Server"
+  "Szerver"
+
+  "Test Connection"
+  "Kapcsolat ellenőrzése"
+
+  "Type"
+  "Típus"
+
+  "Unable to connect to"
+  "Nem lehet csatlakozni"
+
+  "Unable to read remote directory contents."
+  "Nem lehet olvasni a távoli könyvtár tartalmát."
+
+  "Username"
+  "Felhasználónév"
+
+  "server"
+  "szerver"
+
+}
+
+# search.tcl
+msgcat::mcmset hu {
+
+  "No files found in specified directories"
+  "Nem található a megadott könyvtárak fájl"
+
+  "No search results found"
+  "Nincs találat"
+
+  "Search wrapped to beginning of file"
+  "Keresés becsomagolt fájl elejére"
+
+  "Search wrapped to end of file"
+  "Keresés csomagolva, hogy a fájl vége"
+
+  "substitutions done"
+  "helyettesítések tenni"
+
+}
+
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
+msgcat::mcmset hu {
+
+  "Add Selection Matches"
+  "Választási mérkőzések hozzáadása"
+
+  "All To"
+  "Mindet ide: [%]"
+
+  "Anchor"
+  "Horgony"
+
+  "Angled Brackets"
+  "Zárójelek"
+
+  "Backticks"
+  "fordított aposztróffal"
+
+  "Block"
+  "Blokk"
+
+  "Character"
+  "Karakter"
+
+  "Child"
+  "Gyermek"
+
+  "Clear Selection"
+  "A kijelölés megszüntetése"
+
+  "Comment"
+  "Hozzászólás"
+
+  "Curly Brackets"
+  "Kapcsos zárójelekkel"
+
+  "Delete Selected Text"
+  "A kijelölt szöveg törlése"
+
+  "Double Quotes"
+  "Kettős idézőjelek"
+
+  "Down"
+  "Lefelé"
+
+  "Exit Selection Mode"
+  "Kijelölési mód"
+
+  "Invert Selected Text"
+  "A kiválasztott szöveg megfordítása"
+
+  "Keep Selection"
+  "kiválasztás"
+
+  "Left"
+  "Bal"
+
+  "Line To"
+  "Vonal"
+
+  "Modes"
+  "& Módok"
+
+  "Motions"
+  "Defaecatio emelkedett frekvenciája"
+
+  "Next Sibling"
+  "Következő testvér"
+
+  "Paragraph"
+  "Bekezdés"
+
+  "Parent"
+  "Szülő"
+
+  "Previous"
+  "Előző"
+
+  "Previous Sibling"
+  "Korábbi testvér"
+
+  "Right"
+  "Jobb"
+
+  "Selection Mode Command Help"
+  "Kijelölési mód"
+
+  "Sentence"
+  "Ítélet"
+
+  "Shift Down"
+  "Lefelé tolás"
+
+  "Shift Left"
+  "Balra tolás"
+
+  "Shift Right"
+  "Jobbra tolás"
+
+  "Shift Up"
+  "Felfelé tolás"
+
+  "Single Quotes"
+  "Egyszeres idézőjelek"
+
+  "Square Brackets"
+  "Szögletes zárójel"
+
+  "Swap Anchor"
+  "Devizaswap horgony"
+
+  "Toggle Help"
+  "Összezárás"
+
+  "Toggle Quote Inclusion"
+  "Toggle Quote Inclusion"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Típus '?' segítségért.  Az ESCAPE billentyű kijelölési módból való kilépéshez nyomja"
+
+  "Undo Last Change"
+  "Az utolsó módosítás visszavonása..."
+
+  "Up"
+  "Fel"
+
+  "Word"
+  "Szó"
+
+  "matching instances"
+  "illeszkedő példányok"
+
+}
+
+# sessions.tcl
+msgcat::mcmset hu {
+
+  "Save session?"
+  "A munkamenet mentése"
+
+  "Session state will be lost if not saved"
+  "Sessionnel elvész, ha nem mentette"
+
+}
+
+# share.tcl
+msgcat::mcmset hu {
+
+  "Export Settings Data"
+  "BEÁLLÍTÁSOK EXPORTÁLÁSA"
+
+  "Favorites"
+  "Extrák"
+
+  "Remote Connections"
+  "Távoli kapcsolatok"
+
+  "Settings to export"
+  "Beállítások exportálása"
+
+  "Themes"
+  "Sablonok"
 
 }
 
@@ -667,11 +2773,20 @@ msgcat::mcmset hu {
   "Add Parent Directory"
   "Szülő mappa"
 
+  "By Name"
+  "Név szerint"
+
   "Close Directory Files"
   "Bezárása Directory fájlok"
 
-  "Delete"
-  "Törlés"
+  "Copy Pathname"
+  "Elérési út másolása"
+
+  "Decreasing"
+  "Zsírtalanítás"
+
+  "Delete directories?"
+  "Törli a könyvtárakat?"
 
   "Delete directory?"
   "Könyvtár törlése?"
@@ -679,20 +2794,59 @@ msgcat::mcmset hu {
   "Delete file?"
   "A fájl törlése"
 
-  "Duplicate"
-  "Megkettőzés"
+  "Delete files?"
+  "A fájlok törlése"
+
+  "Directory Name:"
+  "Könyvtár neve:"
+
+  "Disconnect From Server"
+  "Bontása a szerver"
+
+  "Folder Name:"
+  "Mappa"
+
+  "Hide"
+  "Elrejt"
+
+  "Hide Directory Files"
+  "Elrejteni fájlokat címtár"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Kép bemutatás-ban tálaló jelzi, egy könyvtár, amely össze van csukva"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Kép bemutatás-ban tálaló-hoz egy címtár amit van bemutatás a tartalom jelzésére"
+
+  "Image displayed in sidebar to indicate a file"
+  "Kép bemutatás-ban tálaló jelzi, a fájl"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Kép bemutatás-ban tálaló jelzi a kijelölt könyvtár, hogy összeomlott"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Kép bemutatás-ban tálaló jelzi a kijelölt könyvtár van bontva"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Jelzi, hogy a fájl jelenleg nyitott, de rejtett tálaló megjelenő kép"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "A kép megjelenik a sidebar, jelezve, hogy a fájl jelenleg megnyitott egy szerkesztési puffer."
+
+  "Increasing"
+  "Növekvő"
 
   "Make Current Working Directory"
   "Legyen aktuális könyvtár"
 
+  "Manually"
+  "Manuális"
+
   "New Directory"
   "Új könyvtár"
 
-  "New File"
-  "Új fájl"
-
-  "Open"
-  "Nyissa"
+  "New File From Template"
+  "Új sablonból"
 
   "Open Directory Files"
   "Open Directory fájlok"
@@ -706,91 +2860,651 @@ msgcat::mcmset hu {
   "Remove from Sidebar"
   "Eltávolítás a Sidebar"
 
-  "Rename"
-  "Átnevezés"
+  "Show"
+  "Mutasd"
+
+  "Show Difference"
+  "Különbség Térkép"
+
+  "Show Directory Files"
+  "Könyvtár-fájlok megjelenítése"
+
+  "Show Info"
+  "A jellemzÅk elrejtÃ©se"
+
+  "Sort"
+  "Rendezés"
+
+  "Unable to duplicate file"
+  "Nem lehet másolat reszelő"
 
 }
 
 # snippets.tcl
 msgcat::mcmset hu {
 
-  "Snippet: %s: %s"
-  "Részlet:% s:% s"
-
   "Snippet: *"
   "Töredék: *"
+
+}
+
+# startup.tcl
+msgcat::mcmset hu {
+
+  "Change Directory"
+  "Cd"
+
+  "Copies settings data from an existing directory to your home directory."
+  "Másolatok beállítások adatokat egy létező könyvtár a haza címtár."
+
+  "Copy settings from directory"
+  "Beállítások másolása könyvtárba"
+
+  "Create settings locally"
+  "Helyben-beállítások létrehozása"
+
+  "Creates new settings information and places it in your home directory"
+  "Hozza létre az új beállításokra vonatkozó adatok, és elhelyezi a saját könyvtárában"
+
+  "Finish"
+  "Kész"
+
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Ha módosítani szeretné a megosztási beállítások, akkor erre belül beállítások, általános/megosztás lapján."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "A kijelölt elem bekerül a helyi kezdőkönyvtárat. Nem kijelölt elem jön létre a saját könyvtáradba."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "A kijelölt elem lesz osztva más számítógépekkel. Nem kijelölt elem helyileg tárolni, és nem lesz megosztva."
+
+  "Select Settings Directory"
+  "Válassza ki Settings könyvtárában"
+
+  "Settings"
+  "Beállítások"
+
+  "Settings Options"
+  "A beállításokhoz"
+
+  "Setup Complete"
+  "TelepφtΘs befejezΘse"
+
+  "Share"
+  "Megosztás"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Megosztja a beállítások adatait új vagy meglévő könyvtárból (ex., iCloud Drive, a Google-meghajtó, Dropbox, stb.).  Adatok beállításainak módosításai más osztozik elérhető lesz."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Köszönjük, hogy használta a TKE, a speciális programmer's szerkesztő.  Mivel ez egy új bevezetés-ból TKE, segítsünk Önnek a dolgokat létrehozni. \\n \\n Kattintsona 'Next' alatt, hogy mennek a dolgok."
+
+  "Use shared settings"
+  "Megosztott beállításokkal"
+
+  "Welcome"
+  "Üdvözölünk"
+
+  "Welcome To"
+  "Üdvözlet kedves"
 
 }
 
 # syntax.tcl
 msgcat::mcmset hu {
 
-  "Syntax error in %s.syntax file"
-  "Szintaktikai hiba% s.syntax fájlban"
-
-  "Syntax:  %s"
-  "Syntax:% s"
-
-  "Theme:  %s"
-  "Téma:% s"
+  "Syntax error in syntax file"
+  "Szintaktikai hiba a fájl szintaxisa"
 
 }
 
-# themer.tcl
+# templates.tcl
 msgcat::mcmset hu {
 
-  "Create"
-  "Létrehozás"
+  "Delete template?"
+  "Sablon törlése?"
 
-  "Create New Theme"
-  "Új téma létrehozása..."
+  "Template"
+  "Sablon"
 
-  "Create custom"
-  "Egyéni"
+  "Template Name"
+  "Sablon neve"
 
-  "ERROR:  Unable to read %s"
-  "HIBA: Nem olvasható:% s"
+  "deleted"
+  "törölve"
 
-  "ERROR:  Unable to write %s"
-  "HIBA: Nem lehet írni% s"
+  "saved"
+  "Mentve."
 
-  "Edit theme"
-  "Téma szerkesztése"
+  "will be permanently deleted"
+  "véglegesen törlődnek"
 
-  "Enter theme name"
-  "Adja meg a téma nevét"
+}
 
-  "Error:  Theme is not a supported theme"
-  "Hiba: A téma nem támogatott téma"
+# theme.tcl
+msgcat::mcmset hu {
 
-  "Import"
-  "Import"
+  "Amount of border to display around command launcher in pixels"
+  "Összeg szegély megjelenítéséhez, ezen a környéken: parancs launcher pixelben"
 
-  "Import TextMate Theme"
-  "Import TextMate Theme"
+  "Background (trough) color used in a standard scrollbar."
+  "(Vályú) használt háttérszín egy szabványos kézirattekercs-ban."
 
-  "Name:"
-  "Név:"
+  "Background (trough) color used in the sidebar scrollbar."
+  "Háttér (maradék) használt szín a tálaló görgetősáv."
 
-  "OK"
-  "OK"
+  "Background (trough) color used in the text scrollbars."
+  "Háttér (maradék) használt szín a szövegben gördítősávját."
 
-  "Reset"
-  "Alaphelyzet"
+  "Background color displayed in embedded language code."
+  "Háttérszín jelenik meg a beágyazott nyelvkódot."
 
-  "Select theme"
-  "Témafájl kiválasztása"
+  "Background color for all sidebar items that are not selected."
+  "Háttérszíne minden sidebar elem, hogy nem választott."
+
+  "Background color for all sidebar items that are selected."
+  "Háttérszíne minden oldalsáv elemek vannak jelölve."
+
+  "Background color for markers in the line gutter and scrollbar"
+  "Háttérszín markerek a vonal ereszcsatorna és a görgetősáv"
+
+  "Background color for matching search text"
+  "Háttérszínét egyezés keresése a szövegben"
+
+  "Background color in difference viewer that shows added lines."
+  "Háttérszíne különbség nézőt, amely megmutatja hozzáadott sorokat."
+
+  "Background color in difference viewer that shows deleted lines."
+  "Háttérszíne különbség nézőt, amely azt mutatja törölt sor."
+
+  "Background color of insertion cursor and background marker colors."
+  "Háttérszíne behelyezés kurzor és a háttér marker színek."
+
+  "Background color of linemap area."
+  "A vonalterület területének háttérszíne."
+
+  "Background color of list items when not selected"
+  "Háttérszín lista elem, ha nincs kijelölve"
+
+  "Background color of move bar."
+  "Lépés bár háttérszíne."
+
+  "Background color of selection in command launcher"
+  "Háttérszínt a kijelölés parancs launcher"
+
+  "Background color of textual display in command launcher"
+  "Háttér színét szöveges kijelző az indító parancs"
+
+  "Background color of the editing buffer."
+  "Háttérszíne szerkesztési puffer."
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "Háttérszínt jelenik meg, amikor egy gomb-szerű TTK widgetet van nyomva."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Háttérszín feltüntetik kattintható aktív információs értékek segítségével."
+
+  "Background color to use for displaying character information that requires the user's attention."
+  "Jellegű információt, a felhasználó a figyelmet igénylő megjelenítésére használt háttérszín."
+
+  "Background color to use for selected text."
+  "Háttérszínt használja a kiválasztott szöveget."
+
+  "Background color to use for the file information panel."
+  "A fájl adatai használandó háttérszíne."
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "Háttér színe mint az összes többi fülek, amelyek nem a jelenlegi / aktív lap tabbar."
+
+  "Background color used for the current/active menu item."
+  "Háttérszínt használják a jelenlegi / aktív menüpontot."
+
+  "Background color used for the current/active tab in the tabbar."
+  "Háttérszínt használják a jelenlegi / aktív lap tabbar."
+
+  "Background color used in highlighted text."
+  "Háttérszínt használják kijelölt szöveget."
+
+  "Background color used in menus."
+  "Háttér színe a menükben alkalmazott."
+
+  "Background color used in the tabbar area."
+  "Háttérszínt használt tabbar területen."
+
+  "Color of border around command launcher"
+  "A következő reptér környékén: indító parancs szegély színét"
+
+  "Color of border drawn around active editing buffer."
+  "Színe határ köré rajzolt aktív szerkesztési puffer."
+
+  "Color of space between tabs."
+  "Színes lapok közötti térköz."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Színe a távtartó között a parancs launcher mező, és a találati lista"
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "Színe TTK beviteli dobozon szöveget határt, amikor a bejegyzésnek a fókuszt."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Kiemelve a zárt bedobja a vonal szám ereszcsatorna a használandó színt"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "A linktól elválasztó vonal rajzolásához használt szín."
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "Színes hívják fel a figyelmeztető széles vonal a szerkesztési puffer (valamint az elválasztó vonal az ereszcsatorna a szerkesztési puffer)."
+
+  "Command Launcher Options"
+  "Parancs Launcher beállításai"
+
+  "Default 'darkcolor' for all ttk widgets."
+  "Alapértelmezett &quot;darkcolor&quot; minden TTK kütyü."
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "Alapértelmezett háttérszín használható minden TTK widgeteket letiltott állapotú."
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "Alapértelmezett háttérszín használható minden TTK kütyü, amikor a egérkurzora a widget."
+
+  "Default background color to use for all ttk widgets."
+  "Alapértelmezett háttérszín használható minden TTK kütyü."
+
+  "Default border color for all ttk widgets."
+  "Alapértelmezett keret színe minden TTK kütyü."
+
+  "Default color for non-syntax highlighted text."
+  "Alapértelmezett színe nem szintaxis kijelölt szöveget."
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "Alapértelmezett előtérben szöveg színe használható minden TTK widgeteket letiltott állapotú."
+
+  "Default foreground text color to use for all ttk widgets."
+  "Alapértelmezett előtérben szöveg színe használható minden TTK kütyü."
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "Meghatározza száma markolatok csíkok jelennek meg a markolat között átméretezhető táblát."
+
+  "Determines the thickness of the grip area between resizable panes."
+  "Meghatározza a vastagsága a markolat között átméretezhető táblát."
+
+  "ERROR:  Unable to read"
+  "HIBA: Nem lehet olvasni"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "(Csúszka) használt előtérszín egy szabványos kézirattekercs-ban."
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "Előtér (slider) használt szín a tálaló görgetősáv."
+
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "(Csúszka) előtérszíne használt a szöveg scrollbars, ha engedélyezve van a szinkronizálási ablaktáblán."
+
+  "Foreground (slider) color used in the text scrollbars."
+  "Előtér (slider) használt szín a szövegben gördítősávját."
+
+  "Foreground color for matching search text"
+  "Festőszín megfelelő keresése a szövegben"
+
+  "Foreground color of list items when not selected"
+  "Listaelemek, ha nincs kijelölve előtérszíne"
+
+  "Foreground color of move bar."
+  "Sáv áthelyezése előtérszíne."
+
+  "Foreground color of selection in command launcher"
+  "Festőszín kiválasztása az indító parancs"
+
+  "Foreground color of textual display in command launcher"
+  "Előtér színét szöveges kijelző az indító parancs"
+
+  "Foreground color to use for title text in the information panel."
+  "A kiválasztott szöveg előterének színe a szerkesztő területen."
+
+  "Foreground color to use for value text in the information panel."
+  "Használandó érték szöveg az információ panel előtérszíne."
+
+  "Foreground color used in menu items with checks or buttons."
+  "A festőszín használt menüpontok ellenőrzéseket és a gombok."
+
+  "Foreground text color for strings."
+  "Előtérben szövegszínt szálakat."
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "Előtér szöveg színe használható minden miscellaneous1 jelölt szöveget."
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "Előtér szöveg színe használható minden miscellaneous2 jelölt szöveget."
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "Előtér szöveg színe használható minden miscellaneous3 jelölt szöveget."
+
+  "Foreground text color to use for comments."
+  "Előtér szöveg színe használni véleményezésre."
+
+  "Foreground text color to use for displaying line numbers."
+  "Előtér szöveget használandó színt megjelenítő sorszámok."
+
+  "Foreground text color to use for displaying numbers."
+  "Előtér szöveget használandó színt megjelenítő számokat."
+
+  "Foreground text color to use for function calls."
+  "A funkcióhívásokhoz használt előtér szövegszíne."
+
+  "Foreground text color to use for language-specific keywords."
+  "Előtér szöveg színe használni nyelv-specifikus kulcsszavakat."
+
+  "Foreground text color to use for language-specific punctuation."
+  "Előtér szöveg színe használni nyelvspecifikus írásjelek."
+
+  "Foreground text color to use for meta syntax."
+  "Előtér szöveg színe használni meta szintaxist."
+
+  "Foreground text color to use for precompiler syntax."
+  "Előtér szöveg színe használni előfordítóra szintaxist."
+
+  "Foreground text color to use for readable meta syntax."
+  "Festőszín szöveg olvasható meta-szintaxis használata."
+
+  "Foreground text color to use for selected text."
+  "Előtér szöveg színe használni a kiválasztott szöveget."
+
+  "Foreground text color to use for variables."
+  "A változókhoz használt előtér szövegszíne."
+
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "Előtérben lévő szöveg színe más lapok, amelyek nem az aktuális aktív lap kalanderez."
+
+  "Foreground text color used for menus item that are disabled."
+  "Előtérben szöveg színe használt menük elem, hogy le van tiltva."
+
+  "Foreground text color used for the current/active menu item."
+  "Előtérben szöveg színét használják az aktuális / aktív menüpontot."
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "Előtérben az aktuális aktív lap kalanderez használt szövegszín."
+
+  "Foreground text color used in menus."
+  "Előtérben szöveg színe a menükben alkalmazott."
+
+  "Foreground text/image color used in tabbar and tabs."
+  "Előtérben a szöveg / kép használt szín a tabbar és a lapok."
+
+  "Images"
+  "Képek"
+
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Maximális vastagsága a parancs launcher görgetősáv, ha az aktív."
+
+  "Maximum thickness of the text scrollbar when it is active."
+  "Maximális vastagsága a szöveg görgetősávot amikor aktív."
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "Maximális vastagsága a szöveg görgetősávok, amikor azok aktívak."
+
+  "Menu Options"
+  "Menü beállítások"
+
+  "Menu relief value."
+  "Menü megkönnyebbülés értéket."
+
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Pixel magassága a távtartó között a parancs launcher mező, és a találati lista"
+
+  "Pixel height of the tabbar widget."
+  "Pixel magassága tabbar widget."
+
+  "Relief used in drawing the tabs."
+  "Relief a rajzoláshoz a lapok."
+
+  "Relief value of the sidebar area."
+  "Relief értéke az oldalsáv terület."
+
+  "Scrollbar slider color used in the command launcher results list"
+  "Görgetősáv csúszka színe indító parancs eredménylistájában"
+
+  "Sidebar Info Panel Options"
+  "Tálaló információ Panel beállításai"
+
+  "Sidebar Options"
+  "Oldalsáv beállítások"
+
+  "Sidebar Scrollbar Options"
+  "Sidebar Scrollbar opciók"
+
+  "Specifies background color of command launcher entry and list"
+  "Megadja a háttérszín parancs launcher és lista"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Adja meg a parancs launcher belépés és lista előtérszíne"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Megadja a szín látszódjék a határ a tálaló, ha a húzott fájl droppable"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "Meghatározza a színt megjeleníteni körül a tálaló, amikor a oldalsáv nem rendelkezik a hangsúly."
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "Meghatározza a színt megjeleníteni körül a tálaló, amikor a oldalsáv a hangsúly."
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Megadja az alapértelmezett háttérszínt használja a szöveges kiválasztott szabványos TTK widgetet (ez nem tartalmazza a szerkesztési puffer)."
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "Megadja az alapértelmezett előtér szöveget használandó színt szöveget kiválasztott szabványos TTK widgetet (ez nem tartalmazza a szerkesztési puffer)."
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "Megadja az alapértelmezett megkönnyebbülés használni, ha rajz TTK kütyü."
+
+  "Specifies the pixel thickness of the highlight line."
+  "Meghatározza a pixel vastagságú fénypontja sor."
+
+  "Standard Scrollbars"
+  "Szabványos görgetősávok"
+
+  "Syntax Colors"
+  "Syntax színek"
+
+  "Tab Options"
+  "Alap profilbeállítások"
+
+  "Text Scrollbar Options"
+  "Szöveg Scrollbar opciók"
+
+  "Text color for all sidebar items that are not selected."
+  "Szöveg színe minden sidebar elem, hogy nem választott."
+
+  "Text color for all sidebar items that are selected."
+  "Szöveg színe minden oldalsáv elemek vannak jelölve."
+
+  "ttk Widget Colors"
+  "TTK Widget színek"
+
+}
+
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
+msgcat::mcmset hu {
+
+  "   Show Selected Option"
+  "Mutasd a kiválasztott opció"
+
+  "   Show Selected Value"
+  "Mutasd a kiválasztott érték"
+
+  "By"
+  "Szerző"
+
+  "Categories"
+  "Kategóriák"
+
+  "Change Base Color"
+  "Változás alapszín"
+
+  "Choose Theme"
+  "Válasszon téma"
+
+  "Created By"
+  "Készítette:"
+
+  "Custom Directory"
+  "más könyvtárból:"
+
+  "Custom..."
+  "Egyedi…"
+
+  "Delete swatch?"
+  "Törlés Swatch?"
+
+  "Description"
+  "Leírás"
+
+  "Details"
+  "Részletek"
+
+  "Done"
+  "Kész"
+
+  "Enable Copy Mode"
+  "Másolási üzemmód engedélyezése"
+
+  "Export BMP Data"
+  "BMP adatok exportálása"
+
+  "Export BMP Mask"
+  "BMP maszk exportálása"
+
+  "Export Bitmap Data"
+  "Bitmap adatok exportálása"
+
+  "Export Theme As"
+  "Export téma mint"
+
+  "GIF Photo"
+  "GIF Fotó"
+
+  "Import BMP Data"
+  "Import BMP adatok"
+
+  "Import BMP Mask"
+  "Import BMP maszk"
+
+  "Import Bitmap Data"
+  "Bitmapadatok importálása"
+
+  "Import Error"
+  "Importálási hiba"
+
+  "Import Theme File"
+  "Import témafájlt"
+
+  "Installation Directory"
+  "Telepítési könyvtár"
+
+  "License File"
+  "Licenc"
+
+  "Modifications"
+  "Módosítások"
+
+  "One-Color Bitmap"
+  "Egy-Color Bitmap"
+
+  "Paste Theme Items"
+  "Téma elemek beillesztése"
+
+  "Relief: "
+  "Megkönnyebbülés"
+
+  "Save As:"
+  "Mentés másként"
+
+  "Save error"
+  "Mentési hiba"
+
+  "Save theme changes?"
+  "Mentsd téma változik?"
+
+  "Select Directory"
+  "Válasszon ki egy könyvtárat"
+
+  "Show All"
+  "Mindent mutat"
+
+  "Show Category"
+  "~Kategória megjelenítése"
+
+  "Show Color"
+  "A következő szálláshely színe"
+
+  "Show Selected Option"
+  "Térkép-beállítást"
+
+  "Show Selected Value"
+  "A kiválasztott érték megjelenítése"
+
+  "Swatch"
+  "Mintadarab"
+
+  "Swatch Colors"
+  "Swatch színek"
+
+  "Table Copy"
+  "Táblázat másolása"
+
+  "Table Filters"
+  "Táblázat szűrők"
+
+  "Table Search"
+  "Táblázat-keresés"
+
+  "The current theme has unsaved changes."
+  "A jelenlegi téma mentetlen változásokat tartalmaz."
+
+  "Theme Name"
+  "Téma neve"
+
+  "Tree Style: "
+  "Fa Stílus:"
+
+  "Two-Color Bitmap"
+  "Két-Color Bitmap"
+
+  "Unknown color value format"
+  "Ismeretlen szín érték formátum"
+
+  "User Directory"
+  "Saját könyvtár"
+
+  "Value: "
+  "Érték:"
+
+  "Website"
+  "Weboldal"
+
+}
+
+# themes.tcl
+msgcat::mcmset hu {
+
+  "Batch custom theme export completed successfully"
+  "Tétel egyéni téma export sikeresen befejeződött"
+
+  "Theme"
+  "Sablon"
+
+  "Theme:*"
+  "Sablon*"
 
 }
 
 # tke.tcl
 msgcat::mcmset hu {
 
-  "ERROR:  %s"
-  "HIBA:% s"
+  "Import TKE plugin?"
+  "Importálja a TKE plugin?"
 
-  "Edit theme?"
-  "Szerkesztés témát?"
+  "Import TKE theme?"
+  "Import TKE témát?"
 
   "Import TextMate theme?"
   "Import TextMate témát?"
@@ -800,31 +3514,240 @@ msgcat::mcmset hu {
 # tkedat.tcl
 msgcat::mcmset hu {
 
-  "Unable to open %s for reading"
-  "Nem sikerült megnyitni ezt a fájlt olvasásra:%1."
+  "Unable to read"
+  "A fájl beolvasása nem sikerült."
 
-  "Unable to open %s for writing"
-  "Nem sikerült megnyitni írásra a(z)%1 fájlt."
+}
+
+# vim.tcl
+msgcat::mcmset hu {
+
+  "COMMAND MODE"
+  "Parancs"
+
+  "File format unrecognized"
+  "Ismeretlen fájlformátum"
+
+  "Filename directory does not exist"
+  "Fájlnév könyvtár nem létezik"
+
+  "Folding method unrecognized"
+  "Ismeretlen módszer összecsukható"
+
+  "INSERT MODE"
+  "beszúró üzemmód"
+
+  "Illegal modelines value"
+  "Illegális hardverednek érték"
+
+  "MULTIMOVE MODE"
+  "MULTIMOVE MÓD"
+
+  "Number width not a number"
+  "Szám szélessége nem szám"
+
+  "Selection value is unsupported"
+  "Kiválasztási értékkel nem támogatott"
+
+  "Shiftwidth value is not an integer"
+  "Shiftwidth értéke nem egész szám"
+
+  "Tabstop value is not an integer"
+  "TabStop értéke nem egész szám"
+
+  "Unrecognized vim option"
+  "Ismeretlen vim lehetőség"
+
+  "VISUAL BLOCK MODE"
+  "VIZUÁLIS BLOCK MÓD"
+
+  "VISUAL LINE MODE"
+  "VISUAL LINE MÓD"
+
+  "VISUAL MODE"
+  "Vizuális"
 
 }
 
 # General
 msgcat::mcmset hu {
 
+  "All"
+  "Minden"
+
+  "Attributes"
+  "Attribútumok"
+
+  "Auto-Indent"
+  "Automatikus behúzás"
+
+  "Back"
+  "Vissza"
+
+  "Bird's Eye View"
+  "Madártávlat"
+
+  "Browse"
+  "Böngészés"
+
   "Cancel"
   "Mégsem"
+
+  "Check for Update"
+  "Ellenőrizze a Frissítés"
+
+  "Choose"
+  "Kiválasztás"
 
   "Close"
   "Bezárás"
 
+  "Copy"
+  "Másolás"
+
+  "Create"
+  "Létrehozás"
+
+  "Current Line"
+  "Az aktuális sor:"
+
+  "Current Word"
+  "Aktuális szó"
+
+  "Cursor"
+  "Kurzor"
+
+  "Delete"
+  "Törlés"
+
+  "Directory"
+  "Cégjegyzék"
+
+  "Documentation"
+  "Dokumentáció"
+
+  "Duplicate"
+  "Megkettőzés"
+
+  "Edit"
+  "Szerkesztés"
+
+  "Emmet"
+  "hangya"
+
+  "Enable code folding"
+  "Engedélyezi a kód összecsukható"
+
+  "Encoding"
+  "Kódolás"
+
+  "Export"
+  "Exportálás"
+
   "Favorite"
   "Kedvenc"
 
-  "Find:"
-  "felfedez"
+  "File"
+  "Fájl"
 
-  "Replace:"
-  "Csere:"
+  "File Name:"
+  "A fájlnév"
+
+  "File System"
+  "Fájlrendszer"
+
+  "Find"
+  "Keresés"
+
+  "Find next occurrence"
+  "Talál a következő alkalom emlékeztetője"
+
+  "Find previous occurrence"
+  "Még a korábbi előfordulása"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Tálaló adatai munkaablak bezárása a panelen megjelenített kép"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Frissítő tartalmának tálaló információk panelen megjelenített kép"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Tálaló adatai a fájl megjelenítése az oldalsávon megjelenő kép"
+
+  "Import"
+  "Importálás"
+
+  "Insert"
+  "Beillesztés"
+
+  "Language"
+  "Nyelv"
+
+  "Language Documentation"
+  "Nyelvű dokumentáció"
+
+  "Launcher"
+  "Rakétaindító állvány"
+
+  "Line"
+  "Vonal"
+
+  "Miscellaneous"
+  "Muhtelif Konular"
+
+  "Move To Trash"
+  "Kukába mozgatás"
+
+  "Move to Other Pane"
+  "Áthelyezni más ablak"
+
+  "Name"
+  "Név"
+
+  "New File"
+  "Új fájl"
+
+  "Next"
+  "Következő"
+
+  "Node"
+  "Csomópont"
+
+  "None"
+  "Egysem"
+
+  "OK"
+  "OK"
+
+  "Open"
+  "Nyissa"
+
+  "Options"
+  "Beállítások"
+
+  "Output Directory"
+  "Kimeneti könyvtár"
+
+  "Parenthesis"
+  "Zárójel"
+
+  "Plugin"
+  "Bővítmény"
+
+  "Plugins"
+  "Pluginek"
+
+  "Preferences"
+  "Preferencia"
+
+  "Preview"
+  "Előnézet"
+
+  "Rename"
+  "Átnevezés"
+
+  "Run"
+  "Futtatás"
 
   "Save"
   "Mentés"
@@ -832,8 +3755,86 @@ msgcat::mcmset hu {
   "Save As"
   "Mentés másként"
 
+  "Search"
+  "Keresés"
+
+  "Selected"
+  "Kiválasztva"
+
+  "Sessions"
+  "Ülések"
+
+  "Show in Sidebar"
+  "Show Sidebar"
+
+  "Show line numbers"
+  "A sorszámok megjelenítése"
+
+  "Show marker map"
+  "Jelölős Térkép megjelenítése"
+
+  "Show sidebar"
+  "Oldalsáv megjelenítése?"
+
+  "Show status bar"
+  "Az állapotsor megjelenítése"
+
+  "Show tab bar"
+  "A fülek megjelenítése"
+
+  "Sidebar"
+  "Oldalsáv"
+
+  "Smart Indent"
+  "Intelligens francia"
+
+  "Snippet"
+  "Töredék"
+
+  "Snippets"
+  "Kóddarabok"
+
+  "Split View"
+  "Osztott nézet"
+
+  "Syntax"
+  "Szintaxis"
+
+  "TKE Updater"
+  "TKE frissítő"
+
+  "Templates"
+  "Sablonok"
+
+  "Test"
+  "Teszt"
+
+  "Theme Editor"
+  "Témaszerkesztő"
+
+  "Tools"
+  "Eszközök"
+
+  "Unable to rename file"
+  "Képtelen-hoz átnevez reszelő"
+
+  "Unable to write"
+  "Nem lehet írni"
+
   "Unfavorite"
-  "Unfavorite"
+  "Nem kedvenc"
+
+  "Update"
+  "Frissítés"
+
+  "Value"
+  "Érték"
+
+  "Version"
+  "Verzió"
+
+  "View"
+  "Megjelenítés"
 
 }
 

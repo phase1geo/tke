@@ -1,5 +1,13 @@
 filepatterns
-{*.pl *.PL}
+{*.pl *.PL *.pm}
+
+vimsyntax
+{perl perl6}
+
+reference
+{
+  {{Language Reference} http://perldoc.perl.org/index-language.html}
+}
 
 matchcharsallowed
 {curly square paren double single}
@@ -12,19 +20,21 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+icomment {{#}}
 
 lcomments {{(^|[^\$])#}}
 
 bcomments {{{^=} {=cut}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
-  print eq ne lt gt le ge cmp and or not keys values exists if elsif unless switch
+  print eq ne lt gt le ge cmp and or not keys values exists if else elsif unless switch
   while until for foreach do next last continue redo goto localtime gmtime printf
   time strftime sub scalar my local state use format write select open sysopen
   close die exit getc read rename unlink tell seek join glob opendir closedir readdir
@@ -34,25 +44,26 @@ keywords
 
 symbols
 {
-  HighlightClass sub
+  HighlightKeywords {sub} syntax::get_prefixed_symbol
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
 }
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+|0x[0-9a-fA-F]+)} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\}\(\);+*/%\.<>=!?:&\|\^~-]} {}
+  HighlightRegexp {[][\{\}\(\);+*/%\.<>=!?:&\|\^~-]} {}
 }
 
-precompile {}
- 
-miscellaneous
+miscellaneous1
 {
-  HighlightClassWithOnlyCharStart \$ {}
-  HighlightClassWithOnlyCharStart \@ {}
-  HighlightClassWithOnlyCharStart \% {}
+  HighlightCharStart \$ {}
+  HighlightCharStart \@ {}
+  HighlightCharStart \% {}
 }
-

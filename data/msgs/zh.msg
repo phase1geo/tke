@@ -9,82 +9,458 @@ msgcat::mcmset zh {
 # bgproc.tcl
 msgcat::mcmset zh {
 
-  "Unable to run system command (%s)"
-  "无法执行系统命令（％S）"
+  "Unable to run system command"
+  "无法运行系统命令"
+
+}
+
+# bist.tcl (In development mode -- selectable in the Advanced preferences section -- select "Tools / Run BIST")
+msgcat::mcmset zh {
+
+  "Built-In Self Test"
+  "内置自测"
+
+  "Decrementing order"
+  "减少订单"
+
+  "Edit Test"
+  "编辑测验"
+
+  "Edit Test File"
+  "编辑测试文件"
+
+  "FAILED"
+  "失败"
+
+  "Fail"
+  "失败"
+
+  "Fail Count"
+  "计数"
+
+  "Failed"
+  "失败"
+
+  "Filter"
+  "过滤器"
+
+  "Incrementing order"
+  "增加订单"
+
+  "Iteration"
+  "迭代"
+
+  "Iteration count"
+  "重复计数"
+
+  "Loop"
+  "循环"
+
+  "Loop count"
+  "循环播放次数"
+
+  "Loop type"
+  "循环类型"
+
+  "New Test"
+  "新测试"
+
+  "New Test File"
+  "新测试"
+
+  "New Test Name"
+  "测试名称"
+
+  "Output"
+  "输出"
+
+  "PASSED"
+  "通过"
+
+  "Pass"
+  "通过"
+
+  "Pass Count"
+  "穿透"
+
+  "Passed"
+  "通过"
+
+  "RUNNING BIST"
+  "进行中"
+
+  "Random"
+  "随机"
+
+  "Refresh"
+  "再刷新"
+
+  "Results"
+  "结果"
+
+  "Run Count"
+  "运行数量"
+
+  "Run iterations"
+  "复述"
+
+  "Run loops"
+  "二手过渡 (循环订单)"
+
+  "Running"
+  "进行中"
+
+  "Runtime"
+  "运行时"
+
+  "Selection method"
+  "规则选择方法"
+
+  "Setup"
+  "建立"
+
+  "Total"
+  "总"
+
+  "hours"
+  "小时"
+
+  "minutes"
+  "分钟"
+
+  "seconds"
+  "秒"
+
+}
+
+# bitmap.tcl (Strings are found in the theme editor for a bitmapped image)
+msgcat::mcmset zh {
+
+  "Center image"
+  "图像居中"
+
+  "Flip image horizontally"
+  "水平翻转图像"
+
+  "Flip image vertically"
+  "垂直翻转图像"
+
+  "Move image down"
+  "移动图像"
+
+  "Move image left"
+  "图像左"
+
+  "Move image right"
+  "图片居右"
+
+  "Move image up"
+  "移动图像"
+
+  "Rotate image 90 degrees"
+  "图像旋转 90 度"
+
+  "Transform Tools"
+  "变换工具"
+
+}
+
+# diff.tcl (Go to File menu and select "Show File Differences".  Strings are shown at bottom of editor.)
+msgcat::mcmset zh {
+
+  "    End: "
+  "结束："
+
+  "    Start: "
+  "开始："
+
+  "Enter difference command"
+  "请输入不同的命令"
+
+  "Enter starting file"
+  "输入起始文件"
+
+}
+
+# edit.tcl
+msgcat::mcmset zh {
+
+  "File successfully written"
+  "成功地写入文件"
+
+  "Filename already exists"
+  "文件名已经存在"
+
+  "Image URL"
+  "图片网址"
+
+  "Link URL"
+  "链接URL"
+
+}
+
+# emmet.tcl
+msgcat::mcmset zh {
+
+  "Abbreviation"
+  "缩写"
+
+  "Select File to Save"
+  "选择日志文件保存"
+
+}
+
+# files.tcl
+msgcat::mcmset zh {
+
+  "Delete tab?"
+  "删除标签？"
+
+  "Reload file?"
+  "重装文件？"
+
+  "Unable to determine how to move to trash"
+  "无法确定如何将移动到垃圾"
+
+  "Unable to determine platform"
+  "无法确定平台"
+
+  "Unable to write file"
+  "无法写入文件"
+
+  "Unable to write remote file"
+  "无法写入远程文件"
 
 }
 
 # gui.tcl
 msgcat::mcmset zh {
 
-  "%s, Line: %d, Column: %d"
-  "％s的，行数：％d，列数：％d"
+  "Case sensitivity"
+  "区分大小写"
+
+  "Close All Other Tabs"
+  "关闭所有其他选项卡"
 
   "Close All Tabs"
   "關閉全部的頁籤"
 
-  "Close Other Tab(s)"
-  "关闭其他选项卡（S）"
+  "Close All Tabs In Pane"
+  "关闭所有选项卡的窗格"
 
-  "Close Other*"
-  "关闭其他*"
+  "Close Other Tabs In Pane"
+  "关闭窗格中的其他选项卡"
 
   "Close Tab"
   "关闭标签页"
 
-  "Copyright %d-%d"
-  "版权所有％的d-％d个"
+  "Column"
+  "列"
 
-  "Delete tab?"
-  "删除标签？"
+  "Copyright"
+  "版权"
 
-  "Developer:"
-  "开发商："
+  "Credits"
+  "贡献"
 
-  "Email:"
-  "电子邮件："
+  "Developer"
+  "开发者"
+
+  "Email"
+  "电子邮箱"
+
+  "Error"
+  "錯誤"
+
+  "Exact"
+  "精确"
 
   "Favorited"
   "评选"
 
-  "File attribute (%s) does not exist"
-  "文件属性（％s）不存在"
+  "File already exists.  Use '!' to force an overwrite"
+  "文件已存在。 使用 '!' 强制覆盖"
 
   "File index is out of range"
   "文件索引超出范围"
 
-  "Line: %d, Column: %d"
-  "行数：％d，列数：％d"
+  "Glob"
+  "格洛布"
+
+  "Hide Tab"
+  "隐藏选项卡"
+
+  "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
+  "图像显示在填充窗体关闭窗体的用户界面。 用于形式，如搜索，搜索/替换，并在文件中查找。"
+
+  "Image displayed in find field to search for next match."
+  "若要搜索下一个匹配的查找字段中显示的图像。"
+
+  "Image displayed in find field to search for previous match."
+  "要搜索的上一个匹配的查找字段中显示的图像。"
+
+  "Image used in tab menus to indicate that the file is associated with a difference view."
+  "在选项卡菜单用于指示该文件是与差异视图相关联的图像。"
+
+  "Image used in tab menus to indicate that the file is locked."
+  "图像选项卡菜单中用于指示该文件已锁定。"
+
+  "Image used in tab menus to indicate that the file is readonly."
+  "选项卡菜单中用于指示该文件是只读的图像。"
+
+  "Image used in tab to indicate that the tab contains a difference view."
+  "在选项卡用于指示选项卡包含不同视图的图像。"
+
+  "Image used in tab to indicate that the tab's file is readonly."
+  "在选项卡用于指示该标签的文件是只读的图像。"
+
+  "Image used in tab to indicate that the tab’s file is locked."
+  "在选项卡用于指示该标签的文件被锁定的图像。"
+
+  "Image used in tab which, when clicked, closes the tab."
+  "用图像的选项卡，单击时，将关闭选项卡。"
+
+  "Image used in the preferences window in the Advanced tab."
+  "在首选项窗口中高级选项卡所用的图像。"
+
+  "Image used in the preferences window in the Appearance tab."
+  "在首选项窗口中外观选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Documentation tab."
+  "在首选项窗口中文件选项卡所用的图像。"
+
+  "Image used in the preferences window in the Editor tab."
+  "在首选项窗口中编辑器选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Emmet tab."
+  "在首选项窗口中的埃米特选项卡所用的图像。"
+
+  "Image used in the preferences window in the Find tab."
+  "在首选项窗口中查找选项卡中使用的图像。"
+
+  "Image used in the preferences window in the General tab."
+  "在首选项窗口中的常规选项卡所用的图像。"
+
+  "Image used in the preferences window in the Plugins tab."
+  "在首选项窗口中插件选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "在首选项窗口中快捷方式选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Sidebar tab."
+  "在首选项窗口中的侧边栏选项卡所用的图像。"
+
+  "Image used in the preferences window in the Snippets tab."
+  "在首选项窗口中代码段选项卡中使用的图像。"
+
+  "Image used in the preferences window in the View tab."
+  "在视图选项卡中的首选项窗口中使用的图像。"
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "在首选项窗口用于显示一个表项取消选择图像。"
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "在首选项窗口用于指示表项选中的图像。"
+
+  "Image used in the preferences window to indicate that something is true."
+  "在首选项窗口用于指示某事是真实的图像。"
+
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "在鼠标进入关闭按钮区域时将显示的选项卡中使用的图像"
+
+  "In"
+  "归档于"
+
+  "License"
+  "许可证"
 
   "Locked"
   "已锁定"
 
-  "Move to Other Pane"
-  "移动到另一个窗格"
-
-  "Move*"
+  "Move"
   "移动"
 
-  "Reload file?"
-  "重装文件？"
+  "Must be in multicursor mode to insert numbers"
+  "必须在 multicursor 模式下插入数字"
+
+  "No write permissions.  Use '!' to force write."
+  "没有写权限。 使用 '!'，迫使写。"
+
+  "Regexp"
+  "正则表达式"
+
+  "Release Type"
+  "发行类型（特殊）"
+
+  "Replace"
+  "替换"
+
+  "Replace All"
+  "全部替换"
 
   "Save request"
   "保存请求"
 
-  "Show in Sidebar"
-  "显示在侧栏"
+  "Save this search"
+  "保存此次搜索结果"
 
-  "Total Lines: %d, Total Characters: %d"
-  "行总数：％d个，总字符数：％d"
+  "Starting number:"
+  "开始点编号:"
 
-  "Unable to find current file (tab: %s)"
-  "找不到当前文件（制表：％S）"
+  "Tcl/Tk Version"
+  "Tcl/Tk 版本"
 
-  "Untitled"
-  "未命名"
+  "Total Characters"
+  "总字符数"
 
-  "Version:"
-  "版本："
+  "Total Lines"
+  "总行数"
+
+  "Unable to successfully parse number string"
+  "无法成功分析数字字符串"
+
+  "for"
+  "对于"
+
+}
+
+# indent.tcl
+msgcat::mcmset zh {
+
+  "No Indent"
+  "没有缩进"
+
+}
+
+# ipanel.tcl (Information panel displayed in the sidebar)
+msgcat::mcmset zh {
+
+  "Binary"
+  "二进制"
+
+  "Close Panel"
+  "关闭"
+
+  "Counts"
+  "计数"
+
+  "Modified"
+  "修改"
+
+  "No"
+  "不"
+
+  "Read Time"
+  "阅读时间"
+
+  "Update Info"
+  "更新资料"
+
+  "Yes"
+  "是"
+
+  "value copied to clipboard"
+  "值复制到剪贴板"
 
 }
 
@@ -99,23 +475,98 @@ msgcat::mcmset zh {
 # menus.tcl
 msgcat::mcmset zh {
 
-  "                                  Profiling Report Sorted By (%s)"
-  "剖析报告排序方法（％S）"
+  "About"
+  "关于"
 
-  "About TKE"
-  "关于将军澳支线"
+  "Absolute"
+  "绝对值"
 
-  "Align cursors"
-  "游标对齐"
+  "Absolute line numbering"
+  "绝对行编号"
 
-  "All"
-  "所有"
+  "Add Next Line"
+  "下一行"
 
-  "Append next occurrence"
-  "追加下一个出现"
+  "Add Previous Line"
+  "添加上一行"
 
-  "Check for Update"
-  "检查更新"
+  "Add next line to selection"
+  "添加下一行到选择"
+
+  "Add previous line to selection"
+  "将上一行添加到选择"
+
+  "Align Cursors Only"
+  "只调整光标"
+
+  "Align Cursors and Text"
+  "游标和文本对齐"
+
+  "Align Panes"
+  "对齐窗格"
+
+  "Align current lines in both panes"
+  "对齐两个窗格中的当前行"
+
+  "Align cursors and text"
+  "游标和文本对齐"
+
+  "Align cursors only"
+  "调整光标只"
+
+  "All Levels"
+  "所有级别"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "将删除当前会话的所有特定语言设置和全局设置将应用于指定的语言。"
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "将删除所有语言特定的设置和全局设置将应用于指定的语言。"
+
+  "Append current find text to selection"
+  "将当前的查找文本追加到选择"
+
+  "Balance Inward"
+  "向内的平衡"
+
+  "Balance Outward"
+  "向外平衡"
+
+  "Balance tag pair moving inward"
+  "向内移动的平衡标记双"
+
+  "Balance tag pair moving outward"
+  "向外移动的平衡标记双"
+
+  "Bold"
+  "粗体"
+
+  "Bubble Down"
+  "泡下来"
+
+  "Bubble Up"
+  "向上冒泡"
+
+  "Bubble lines down one line"
+  "泡沫行下移一行"
+
+  "Bubble lines up one line"
+  "泡沫排成一条线"
+
+  "Change Working Directory"
+  "改变工作目录"
+
+  "Change working directory"
+  "改变工作目录"
+
+  "Check for update"
+  "檢查更新"
+
+  "Checkbox"
+  "复选框"
+
+  "Classic Mac"
+  "经典的 Mac"
 
   "Clear All"
   "全部清除"
@@ -123,38 +574,278 @@ msgcat::mcmset zh {
   "Close All"
   "全部关闭"
 
-  "Comment"
-  "备注"
+  "Close All Folds"
+  "关闭所有折叠"
 
-  "Copy"
-  "复制"
+  "Close Current"
+  "關閉電流"
 
-  "Create new..."
-  "新建"
+  "Close Current Fold"
+  "关闭当前折叠"
 
-  "Create..."
-  "建立..."
+  "Close Selected Folds"
+  "关闭选定的褶皱"
+
+  "Close all folds"
+  "关闭所有折叠"
+
+  "Close all tabs"
+  "关闭全部标签页"
+
+  "Close current session"
+  "关闭当前会话"
+
+  "Close current tab"
+  "关闭当前选项卡"
+
+  "Close fold at current line - all levels"
+  "在当前行-各级紧密褶皱"
+
+  "Close fold at current line - one level"
+  "在当前行-一个级别的紧密褶皱"
+
+  "Close selected folds - all levels"
+  "关闭选定的褶皱-所有级别"
+
+  "Close selected folds - one level"
+  "关闭选定的褶皱-一个级别"
+
+  "Code"
+  "折扣代码"
+
+  "Command"
+  "命令"
+
+  "Command Result"
+  "命令结果"
+
+  "Convert case to lower"
+  "转换大小写来降低"
+
+  "Convert case to title"
+  "转换标题为例"
+
+  "Convert case to upper"
+  "转换为上部的案例"
+
+  "Copy text"
+  "复制文本"
+
+  "Create Fold From Selection"
+  "从选择创建折叠"
+
+  "Create at Current Line"
+  "創建於當前行"
+
+  "Create fold from selection"
+  "从所选内容创建折叠"
+
+  "Create marker at current line"
+  "在当前行上创建标记"
+
+  "Create new plugin"
+  "创建新的插件"
+
+  "Current Bounded Text"
+  "当前有界文本"
+
+  "Current Paragraph"
+  "现行段落"
+
+  "Current Sentence"
+  "当前句子"
 
   "Cut"
   "剪切"
 
-  "Edit"
-  "编辑"
+  "Cut text"
+  "剪切文本"
 
-  "Edit current"
-  "编辑当前"
+  "Decrement by 0.1"
+  "递减 0.1"
 
-  "Edit user"
+  "Decrement by 1"
+  "递减 1"
+
+  "Decrement by 10"
+  "递减 10"
+
+  "Decrement number by 0.1"
+  "减量数目由 0.1"
+
+  "Decrement number by 1"
+  "递减数量 1"
+
+  "Decrement number by 10"
+  "递减数量由 10"
+
+  "Delete All Folds"
+  "删除所有折叠"
+
+  "Delete Current Fold"
+  "删除当前折叠"
+
+  "Delete Selected Folds"
+  "删除选定的褶皱"
+
+  "Delete Session"
+  "删除会话？"
+
+  "Delete User"
+  "删除用户"
+
+  "Delete all folds"
+  "删除所有折叠"
+
+  "Delete all selected folds"
+  "删除所有选定的褶皱"
+
+  "Delete current file"
+  "删除当前文件"
+
+  "Delete fold at current line"
+  "删除当前行折叠"
+
+  "Delete language preferences?"
+  "删除语言首选项？"
+
+  "Delete session"
+  "删除会话？"
+
+  "Delete session language preferences?"
+  "删除会话语言首选项？"
+
+  "Delete template"
+  "删除模板"
+
+  "Disable Vim mode"
+  "禁用 Vim 模式"
+
+  "Disable code folding"
+  "禁用代码折叠"
+
+  "Disable two-pane scrolling Synchronization"
+  "禁用两个窗格滚动同步"
+
+  "Display Text Info"
+  "显示文字"
+
+  "Display text information"
+  "显示文本信息"
+
+  "Duplicate current file"
+  "重复当前文件"
+
+  "Edit Custom Abbreviations"
+  "编辑自定义缩写"
+
+  "Edit Language"
+  "编辑语言"
+
+  "Edit Session"
+  "编辑日程"
+
+  "Edit User"
   "編輯用戶"
 
-  "Edit..."
-  "編輯..."
+  "Edit custom Emmet abbreviations"
+  "编辑自定义埃米特缩写"
 
-  "File"
-  "文件"
+  "Edit language snippets"
+  "编辑语言片段"
 
-  "Find"
-  "查找"
+  "Edit session current language preferences"
+  "编辑会话当前语言首选项"
+
+  "Edit session global preferences"
+  "编辑会话全球首选项"
+
+  "Edit template"
+  "删除模板"
+
+  "Edit user current language preferences"
+  "编辑用户当前的语言首选项"
+
+  "Edit user global preferences"
+  "编辑用户全球首选项"
+
+  "Edit user snippets"
+  "编辑片段"
+
+  "Enable Code Folding"
+  "启用代码折叠"
+
+  "Enable Synchronized Scrolling"
+  "启用同步滚动"
+
+  "Enable Vim mode"
+  "启用 Vim 模式"
+
+  "Enable two-pane scrolling synchronization"
+  "使两个窗格滚动同步"
+
+  "Encode/Decode Image to Data:URL"
+  "数据︰ URL 编码解码图像"
+
+  "Encode/Decode image to data:URL"
+  "到数据︰ URL 编码/解码图像"
+
+  "Enter selection mode"
+  "进入选择模式"
+
+  "Enumeration"
+  "列举法"
+
+  "Evaluate Math Expression"
+  "计算数学表达式"
+
+  "Evaluate the current math expression"
+  "评估当前的数学表达式"
+
+  "Expand Abbreviation"
+  "展开缩写"
+
+  "Expand Emmet abbreviation"
+  "展开埃米特缩写"
+
+  "Export As"
+  "匯出為："
+
+  "Export Custom Themes"
+  "导出自定义主题"
+
+  "Export complete"
+  "导出完成"
+
+  "Export current plugin"
+  "导出当前插件"
+
+  "Export file contents"
+  "导出文件的内容"
+
+  "Favorite file"
+  "最喜欢的文件"
+
+  "File Contents"
+  "強製文件獲取內容"
+
+  "Find In Files"
+  "在文件中查找"
+
+  "Find Matching Bracket"
+  "查找匹配的括号"
+
+  "Find Next"
+  "查找下一个"
+
+  "Find Next Bracket Mismatch"
+  "查找下一个括号不匹配"
+
+  "Find Previous"
+  "查找上一个"
+
+  "Find Previous Bracket Mismatch"
+  "找到前括号不匹配"
 
   "Find and Replace"
   "查找和替换"
@@ -162,17 +853,44 @@ msgcat::mcmset zh {
   "Find in files"
   "在文件中查找"
 
-  "Find marker"
-  "標記"
+  "Find matching character pair"
+  "找到匹配的字符对"
 
-  "Find matching pair"
-  "找到匹配的一对"
+  "Find next mismatching bracket"
+  "查找下一个匹配括号"
+
+  "Find previous mismatching bracket"
+  "发现以前不匹配的括号"
+
+  "Folding"
+  "摺頁"
+
+  "Format"
+  "格式"
 
   "Format Text"
   "设置文本格式"
 
+  "Format indentation for text"
+  "文本的缩进格式"
+
   "From Clipboard"
   "从剪贴板"
+
+  "Global"
+  "全局"
+
+  "Go to Matching Pair"
+  "转到匹配对"
+
+  "Go to matching tag pair"
+  "转到匹配标记对"
+
+  "Go to next edit point"
+  "转到下一个编辑点"
+
+  "Go to previous edit point"
+  "转到上一个编辑点"
 
   "Goto Last Tab"
   "转到最后一个标签页"
@@ -186,11 +904,44 @@ msgcat::mcmset zh {
   "Goto Previous Tab"
   "转到前一个标签"
 
+  "Goto last tab"
+  "转到最后一个选项卡"
+
+  "Goto next difference"
+  "下一个差异"
+
+  "Goto next tab"
+  "转到下一个选项卡"
+
+  "Goto other pane"
+  "转到另一窗格"
+
+  "Goto previous difference"
+  "上一个差异"
+
+  "Goto previous tab"
+  "上一选项卡"
+
+  "Header"
+  "顶部"
+
   "Help"
   "帮助"
 
-  "Hide Console"
-  "隐藏控制台"
+  "Hide All Tabs"
+  "隐藏所有"
+
+  "Hide Current Tab"
+  "当前标签页"
+
+  "Hide Line Numbers"
+  "隐藏行号"
+
+  "Hide Marker Map"
+  "隐藏标记地图"
+
+  "Hide Meta Characters"
+  "隱藏元字符"
 
   "Hide Sidebar"
   "隐藏边栏"
@@ -201,284 +952,395 @@ msgcat::mcmset zh {
   "Hide Tab Bar"
   "隐藏标签栏"
 
-  "Import TextMate theme..."
-  "进口TextMate的主题..."
+  "Hide Tcl Console"
+  "隐藏 Tcl 控制台"
+
+  "Hide Tcl console"
+  "隐藏 Tcl 控制台"
+
+  "Hide line numbers"
+  "行号"
+
+  "Hide marker map"
+  "隐藏标记地图"
+
+  "Hide meta characters"
+  "隐藏 meta 字符"
+
+  "Hide sidebar"
+  "隱藏側邊攔"
+
+  "Hide status bar"
+  "显示/隐藏状态栏"
+
+  "Hide tab bar"
+  "隐藏选项卡栏"
+
+  "Highlight"
+  "高亮"
+
+  "Image"
+  "图片"
+
+  "Import plugin bundle"
+  "导入插件包"
+
+  "Increment by 0.1"
+  "增量由 0.1"
+
+  "Increment by 1"
+  "以 1 递增"
+
+  "Increment by 10"
+  "增量的 10"
+
+  "Increment number by 0.1"
+  "增量数由 0.1"
+
+  "Increment number by 1"
+  "1 号的增加"
+
+  "Increment number by 10"
+  "10 号的增加"
 
   "Indent"
   "縮排"
 
-  "Insert Text"
-  "插入文字"
+  "Indent Off"
+  "关闭缩进"
+
+  "Indent selected text"
+  "缩进选定的文本"
+
+  "Indentation"
+  "缩进"
+
+  "Insert bold formatting"
+  "插入加粗格式"
+
+  "Insert checklist formatting"
+  "插入清单格式"
+
+  "Insert code formatting"
+  "插入代码格式"
+
+  "Insert command result after current line"
+  "在当前行之后插入命令结果"
 
   "Insert enumeration"
-  "将枚举"
+  "插入枚举"
 
-  "Install..."
+  "Insert file contents after current line"
+  "在当前行之后插入文件的内容"
+
+  "Insert from clipboard"
+  "通过剪贴板插入内容"
+
+  "Insert header style"
+  "插入标题样式"
+
+  "Insert highlight formatting"
+  "插入突出显示格式"
+
+  "Insert image formatting"
+  "插入图像格式"
+
+  "Insert italics formatting"
+  "插入斜体格式"
+
+  "Insert line above current line"
+  "当前行前面插入一行"
+
+  "Insert line below current line"
+  "插入当前行下方"
+
+  "Insert link formatting"
+  "插入链接格式"
+
+  "Insert ordered list formatting"
+  "插入排序的列表格式"
+
+  "Insert snippet"
+  "插入代码段"
+
+  "Insert strikethrough formatting"
+  "插入删除线格式"
+
+  "Insert subscript formatting"
+  "插入下标格式"
+
+  "Insert superscript formatting"
+  "插入上标格式"
+
+  "Insert underline formatting"
+  "插入下划线格式"
+
+  "Insert unordered list formatting"
+  "插入无序的列表格式"
+
+  "Install"
   "安装"
 
-  "Launcher"
-  "发射台"
+  "Install plugin"
+  "安装新插件"
+
+  "Italics"
+  "斜体"
+
+  "Join Lines"
+  "联接线"
+
+  "Join lines"
+  "联接线"
+
+  "Jump Backward"
+  "向後跳"
+
+  "Jump Forward"
+  "跳躍前進"
+
+  "Jump To Line"
+  "跳转到行"
+
+  "Jump backward"
+  "往後跳"
+
+  "Jump forward"
+  "往前跳"
+
+  "Jump to Next Fold Mark"
+  "跳转到下一个摺痕"
+
+  "Jump to Previous Fold Mark"
+  "跳转到以前的摺痕"
+
+  "Jump to line"
+  "跳转到行"
+
+  "Jump to the next fold indicator"
+  "跳转到下一个折叠指示器"
+
+  "Jump to the previous fold indicator"
+  "跳转到以前的折叠指示器"
+
+  "Line Above Current"
+  "高于当前行"
+
+  "Line Below Current"
+  "当前下面一行"
+
+  "Line Ending"
+  "行尾"
+
+  "Line Number"
+  "行號"
+
+  "Line Numbering"
+  "行編號"
+
+  "Line Wrapping"
+  "换行"
+
+  "Link"
+  "链接"
 
   "Lock"
   "鎖定"
 
-  "Menu Bindings"
-  "菜单绑定"
+  "Lock file"
+  "锁定文件"
 
-  "Menu: About TKE"
-  "菜单：关于将军澳支线"
+  "Lower Case"
+  "小写字母"
 
-  "Menu: Align cursors"
-  "菜单：游标对齐"
+  "Markers"
+  "标记"
 
-  "Menu: Append next occurrence"
-  "菜单：追加下一个出现"
+  "Menu"
+  "菜单"
 
-  "Menu: Check for Update"
-  "菜单：检查更新"
+  "Merge Lines"
+  "合并行"
 
-  "Menu: Close all tabs"
-  "关闭全部标签页"
+  "Merge Panes"
+  "合併窗格"
 
-  "Menu: Close current tab"
-  "菜单：关闭当前标签页"
+  "Merge panes"
+  "合并窗格"
 
-  "Menu: Comment selected text"
-  "菜单：注释选定的文本"
+  "Move Cursors Down"
+  "将光标向下移动"
 
-  "Menu: Copy selected text"
-  "菜单：复制选中的文本"
+  "Move Cursors Left"
+  "光标左移"
 
-  "Menu: Create new plugin"
-  "菜单：创建新的插件"
+  "Move Cursors Right"
+  "光标右移"
 
-  "Menu: Create new theme"
-  "菜单：创建新的主题"
+  "Move Cursors Up"
+  "向上移动光标"
 
-  "Menu: Cut selected text"
-  "菜单：剪切选中的文本"
+  "Move cursor to bottom of screen"
+  "将光标移动到屏幕的底部"
 
-  "Menu: Disable Vim mode"
-  "菜单：禁用Vim的模式"
+  "Move cursor to end of current line"
+  "移动光标以结束当前行"
 
-  "Menu: Edit Tke theme"
-  "菜单：编辑将军澳支线主题"
+  "Move cursor to first line"
+  "将光标移动到第一行"
 
-  "Menu: Edit current snippets"
-  "菜单：编辑当前片段"
+  "Move cursor to last line"
+  "将光标移动到最后一行"
 
-  "Menu: Edit user menu bindings"
-  "菜单：编辑用户菜单绑定"
+  "Move cursor to middle of screen"
+  "将光标移动到屏幕的中间"
 
-  "Menu: Edit user preferences"
-  "菜单：编辑用户首选项"
+  "Move cursor to next page"
+  "将光标移动到下一个页面"
 
-  "Menu: Enable Vim mode"
-  "菜单：启动Vim的模式"
+  "Move cursor to next word"
+  "将光标移动到下一个单词"
 
-  "Menu: Favorite file"
-  "菜单：最喜欢的文件"
+  "Move cursor to previous page"
+  "将光标移动到前一页"
 
-  "Menu: Find"
-  "菜单：查找"
+  "Move cursor to previous word"
+  "将光标移动到前一个单词"
 
-  "Menu: Find and Replace"
-  "查找和替换"
+  "Move cursor to start of current line"
+  "将光标移至当前行首"
 
-  "Menu: Find in files"
-  "菜单：在文件中查找"
+  "Move cursor to top of screen"
+  "将光标移动到屏幕的顶部"
 
-  "Menu: Find matching character pair"
-  "菜单：查找匹配字符对"
+  "Move multicursors down one line"
+  "Multicursors 下移一行"
 
-  "Menu: Find next occurrence"
-  "菜单：查找下一个出现"
+  "Move multicursors left one line"
+  "移动 multicursors 左的一行"
 
-  "Menu: Find previous occurrence"
-  "菜单：查找上一个匹配"
+  "Move multicursors right one line"
+  "移动 multicursors 右一线"
 
-  "Menu: Format all text"
-  "菜单：格式化所有文字"
+  "Move multicursors up one line"
+  "移动 multicursors 上一行"
 
-  "Menu: Format selected text"
-  "菜单：格式选定的文本"
+  "Move to First Line"
+  "移动到第一行"
 
-  "Menu: Goto last tab"
-  "菜单：转到最后一个标签页"
+  "Move to Last Line"
+  "移动，最后一行"
 
-  "Menu: Goto next tab"
-  "菜单：转到下一个标签"
+  "Move to Line End"
+  "移动行结束"
 
-  "Menu: Goto other pane"
-  "菜单：转到另一个窗格"
+  "Move to Line Start"
+  "移动线开始"
 
-  "Menu: Goto previous tab"
-  "菜单：跳转到前一个标签"
+  "Move to Next Page"
+  "移到下一页"
 
-  "Menu: Hide Tab Bar"
-  "菜单：隐藏标签栏"
+  "Move to Next Word"
+  "移动到下一个单词"
 
-  "Menu: Hide console"
-  "菜单：隐藏控制台"
+  "Move to Previous Page"
+  "移动到前一页"
 
-  "Menu: Hide sidebar"
-  "菜单：隐藏侧边栏"
+  "Move to Previous Word"
+  "移动到前一个单词"
 
-  "Menu: Hide status bar"
-  "菜单：隐藏状态栏"
+  "Move to Screen Bottom"
+  "移动到屏幕底部"
 
-  "Menu: Import TextMate theme"
-  "菜单：进口TextMate的主题"
+  "Move to Screen Middle"
+  "移动屏幕中间"
 
-  "Menu: Indent selected text"
-  "菜单：缩进选定的文本"
-
-  "Menu: Insert enumeration"
-  "菜单：将枚举"
-
-  "Menu: Insert from clipboard"
-  "通过剪贴板插入内容"
-
-  "Menu: Insert snippet"
-  "菜单：插入片段"
-
-  "Menu: Install plugin"
-  "菜单：安装插件"
-
-  "Menu: Lock file"
-  "菜单：文件锁定"
-
-  "Menu: Move to other pane"
-  "菜单：移动到另一个窗格"
-
-  "Menu: New file"
-  "菜单：新建文件"
-
-  "Menu: Open Favorite"
-  "菜单：打开收藏"
-
-  "Menu: Open Recent"
-  "菜单：打开最近"
-
-  "Menu: Open directory"
-  "菜单：打开目录"
-
-  "Menu: Open file"
-  "菜单：打开文件"
-
-  "Menu: Paste and format text from clipboard"
-  "菜单：粘贴和格式从剪贴板中的文本"
-
-  "Menu: Paste text from clipboard"
-  "从剪贴板粘贴文本"
-
-  "Menu: Quit application"
-  "菜单：退出应用程序"
-
-  "Menu: Redo"
-  "菜单：重做"
-
-  "Menu: Reload all plugins"
-  "菜单：重新载入所有插件"
-
-  "Menu: Reload current snippets"
-  "菜单：刷新当前片段"
-
-  "Menu: Restart tke"
-  "菜单：重新启动将军澳支线"
-
-  "Menu: Save all files"
-  "菜单：保存所有文件"
-
-  "Menu: Save file"
-  "菜单：保存文件"
-
-  "Menu: Save file as"
-  "菜单：文件另存为"
-
-  "Menu: Select all occurrences"
-  "菜单：选择所有出现"
-
-  "Menu: Select all text"
-  "菜单：选择所有文本"
-
-  "Menu: Set user bindings to global bindings"
-  "菜单：设置用户绑定到全局绑定"
-
-  "Menu: Set user preferences to global preferences"
-  "菜单：设置用户首选项，以全局首选项"
-
-  "Menu: Show Tab Bar"
-  "菜单：显示标签栏"
-
-  "Menu: Show console"
-  "菜单：显示控制台"
-
-  "Menu: Show last profiling report"
-  "菜单：显示最近分析报告"
-
-  "Menu: Show sidebar"
-  "菜单：显示侧边栏"
-
-  "Menu: Show status bar"
-  "菜单：显示状态栏"
-
-  "Menu: Sort tabs"
-  "菜单：排序选项卡"
-
-  "Menu: Start profiling"
-  "菜单：剖析"
-
-  "Menu: Stop profiling"
-  "菜单：停止剖析"
-
-  "Menu: Toggle split view mode"
-  "菜单：切换分割视图模式"
-
-  "Menu: Uncomment selected text"
-  "菜单：取消对选定的文本"
-
-  "Menu: Undo"
-  "菜单：撤消"
-
-  "Menu: Unfavorite file"
-  "菜单：不喜欢的文件"
-
-  "Menu: Unindent selected text"
-  "菜单：取消缩进选定的文本"
-
-  "Menu: Uninstall plugin"
-  "菜单：卸载插件"
-
-  "Menu: Unlock file"
-  "菜单：文件解锁"
-
-  "Menu: View User Guide"
-  "菜单：查看用户指南"
-
-  "Menu: View global menu bindings"
-  "菜单：查看全局菜单绑定"
-
-  "Menu: View global preferences"
-  "菜单：检视全球首选项"
+  "Move to Screen Top"
+  "移动屏幕顶部"
 
   "Move to other pane"
   "移动到另一个窗格"
 
-  "New"
-  "新建"
+  "New From Template"
+  "由模板新建"
 
-  "Open Directory..."
-  "开放目录..."
+  "New Window"
+  "新窗口"
+
+  "New file"
+  "新建文件"
+
+  "New file from template"
+  "模板新建的文件"
+
+  "New window"
+  "新建窗口"
+
+  "Next Difference"
+  "接下來差異"
+
+  "Next Edit Point"
+  "编辑积分"
+
+  "One Level"
+  "一个级别"
+
+  "Open All Folds"
+  "打开所有折叠"
+
+  "Open Current Fold"
+  "打开当前折叠"
+
+  "Open Directory"
+  "打开目录"
 
   "Open Favorite"
   "打开收藏"
 
-  "Open File..."
-  "開啟檔案"
+  "Open File"
+  "打开文件"
 
   "Open Recent"
   "打开最近"
+
+  "Open Remote"
+  "远程"
+
+  "Open Selected Folds"
+  "打开选择的褶皱"
+
+  "Open all folds"
+  "打开所有折叠"
+
+  "Open directory"
+  "開啟目錄"
+
+  "Open file"
+  "打开文件"
+
+  "Open fold at current line - all levels"
+  "在当前行的所有级别打开折叠"
+
+  "Open fold at current line - one level"
+  "在当前行-一个级别打开折叠"
+
+  "Open folds to show cursor"
+  "开放的褶皱，显示光标"
+
+  "Open remote file or directory"
+  "打开远程文件或目录"
+
+  "Open selected folds - all levels"
+  "打开选定的褶皱-所有级别"
+
+  "Open selected folds - one level"
+  "打开选定的褶皱-一个级别"
+
+  "Ordered Bullet"
+  "序的子弹"
+
+  "Panes"
+  "窗格"
 
   "Paste"
   "粘贴"
@@ -486,11 +1348,23 @@ msgcat::mcmset zh {
   "Paste and Format"
   "粘贴和格式"
 
-  "Plugins"
-  "插件"
+  "Paste and format text from clipboard"
+  "从剪贴板粘贴和格式文本"
 
-  "Preferences"
-  "首选项"
+  "Paste text from clipboard"
+  "从剪贴板粘贴文本"
+
+  "Plugin Developer Guide"
+  "插件开发者指南"
+
+  "Previous Difference"
+  "上一頁差異"
+
+  "Previous Edit Point"
+  "以前的编辑点"
+
+  "Profiling Report Sorted By"
+  "按排序的分析报告"
 
   "Profiling started"
   "分析开始"
@@ -501,41 +1375,197 @@ msgcat::mcmset zh {
   "Quit"
   "退出"
 
+  "Quit application"
+  "退出应用程序"
+
+  "Recent Directories"
+  "最近的目录"
+
+  "Recent Files"
+  "最近的文件"
+
   "Redo"
   "重複"
+
+  "Reflect CSS Value"
+  "反映了 CSS 值"
+
+  "Reflect current CSS value"
+  "反映当前 CSS 值"
+
+  "Relative"
+  "亲戚"
+
+  "Relative line numbering"
+  "相对行号"
 
   "Reload"
   "重新加载"
 
-  "Reload current"
-  "刷新电流"
+  "Reload all plugins"
+  "重新加载所有的插件"
 
-  "Reset user to base"
-  "重设用户基础"
+  "Reload snippets"
+  "重新加载的代码段"
 
-  "Restart tke"
-  "重新启动TKE"
+  "Reload template information"
+  "重新加载模板信息"
+
+  "Remove All From Current Buffer"
+  "所有从当前缓冲区中删除"
+
+  "Remove All Markers"
+  "刪除所有標記"
+
+  "Remove Formatting"
+  "清除格式"
+
+  "Remove From Current Line"
+  "從當前行中刪除"
+
+  "Remove Tag"
+  "選取目標標籤"
+
+  "Remove all markers"
+  "删除所有标记"
+
+  "Remove all markers from current buffer"
+  "从当前缓冲区中删除所有标记"
+
+  "Remove formatting from selected text"
+  "删除所选文本的格式"
+
+  "Remove marker from current line"
+  "删除从当前行的标记"
+
+  "Remove tag"
+  "移除标记"
+
+  "Rename current file"
+  "重命名当前文件"
+
+  "Reopen File"
+  "重新打开文件"
+
+  "Reopen current file"
+  "重新打开当前文件"
+
+  "Replace Line With Script"
+  "替換線隨著腳本"
+
+  "Replace line with script"
+  "用脚本替换行"
+
+  "Restart"
+  "重新启动"
+
+  "Run theme editor"
+  "运行主题编辑器"
 
   "Save All"
   "全部儲存"
 
-  "Save As..."
-  "保存为"
+  "Save As Remote"
+  "另存为远程"
 
-  "Select All"
-  "全选"
+  "Save As Template"
+  "另保存模板"
 
-  "Select all occurrences"
-  "选择所有事件"
+  "Save Current"
+  "保存當前"
 
-  "Select next occurrence"
-  "选择下一个出现"
+  "Save Selection As"
+  "保存作为选择"
 
-  "Select previous occurrence"
-  "选择上发生"
+  "Save all files"
+  "保存所有文件"
 
-  "Selected"
-  "选定"
+  "Save current session"
+  "当前会话"
+
+  "Save file"
+  "另存文件"
+
+  "Save file as"
+  "保存文件为..."
+
+  "Save file as remote file"
+  "将文件另存为远程文件"
+
+  "Save file as template"
+  "保存模板"
+
+  "Save selected lines"
+  "保存所选的行"
+
+  "Save sessions as"
+  "保存会话作为"
+
+  "Search References"
+  "搜索引用"
+
+  "Search language reference documentation"
+  "搜索语言参考文档"
+
+  "Search reference documentation"
+  "搜索参考文档"
+
+  "Select"
+  "选择"
+
+  "Select All Matches"
+  "选择的所有匹配项"
+
+  "Select Current Match"
+  "选择当前匹配"
+
+  "Select Mode"
+  "选择模式"
+
+  "Select Next Item"
+  "选择下一项"
+
+  "Select Previous Item"
+  "选择上一项"
+
+  "Select all find matches"
+  "请选择所有查找匹配项"
+
+  "Select all text"
+  "选择文本"
+
+  "Select current bracketed text, strings or comment block"
+  "选择当前括号内的文本，字符串或注释块"
+
+  "Select current line"
+  "选择当前行"
+
+  "Select current paragraph"
+  "选择当前段落"
+
+  "Select current sentence"
+  "选择当前句子"
+
+  "Select current word"
+  "选择当前字"
+
+  "Select next tag item"
+  "选择下一个标记项目"
+
+  "Select previous tag item"
+  "选择上一个标记项目"
+
+  "Send Bug Report"
+  "发送报告"
+
+  "Send Feedback"
+  "发送 feedback"
+
+  "Send bug report"
+  "缺陷跟踪管理系统"
+
+  "Send feedback"
+  "发送反馈"
 
   "Set Syntax"
   "设置语法"
@@ -543,14 +1573,47 @@ msgcat::mcmset zh {
   "Set Theme"
   "设置主题"
 
-  "Set user to global"
-  "设置用户对全球"
+  "Set current file line ending to CR for Classic Mac"
+  "设置当前文件行 CR 为经典 Mac 的结局"
 
-  "Show Console"
-  "显示控制台"
+  "Set current file line ending to CRLF for Windows"
+  "设置当前文件行到 CRLF Windows 结束"
+
+  "Set current file line ending to LF for Unix"
+  "设置当前文件行结束到 LF unix"
+
+  "Set indent mode to"
+  "将缩进模式设置为"
+
+  "Show All Tabs"
+  "显示所有选项卡"
+
+  "Show Cursor"
+  "显示光标"
+
+  "Show Diagnostic Logfile"
+  "显示诊断日志文件"
+
+  "Show File Difference"
+  "显示不同"
+
+  "Show Installed"
+  "已安装"
 
   "Show Last Profiling Report"
   "显示最后剖析报告"
+
+  "Show Line Numbers"
+  "显示数字"
+
+  "Show Marker Map"
+  "显示标记"
+
+  "Show Meta Characters"
+  "顯示元字符"
+
+  "Show Selected Line Change"
+  "顯示選定的線路變化"
 
   "Show Sidebar"
   "显示侧边栏"
@@ -561,73 +1624,199 @@ msgcat::mcmset zh {
   "Show Tab Bar"
   "显示标签栏"
 
-  "Show*Profiling*"
-  "显示*评测*"
+  "Show Tcl Console"
+  "显示 Tcl 控制台"
 
-  "Snippet"
-  "片段"
+  "Show Tcl console"
+  "显示 Tcl 控制台"
 
-  "Snippets"
-  "片段"
+  "Show diagnostic logfile"
+  "显示诊断日志文件"
+
+  "Show file difference"
+  "显示不同"
+
+  "Show installed plugins"
+  "已安装的插件"
+
+  "Show last profiling report"
+  "显示上次分析报告"
+
+  "Show meta characters"
+  "显示 meta 字符"
+
+  "Show plugin developer guide"
+  "显示插件开发人员指南"
+
+  "Show plugin source directory in sidebar"
+  "在边栏中显示插件源目录"
+
+  "Show plugins directory in sidebar"
+  "在边栏中显示插件目录"
+
+  "Show selected line change"
+  "显示所选的行的变化"
 
   "Sort Tabs"
   "分类标签"
 
-  "Split view"
-  "分割顯示"
+  "Sort tabs"
+  "排序选项卡"
+
+  "Split/Join Tag"
+  "拆分/联接标记"
+
+  "Split/Join tag"
+  "拆分/联接标记"
 
   "Start Profiling"
   "开始分析"
 
+  "Start profiling"
+  "启动性能分析"
+
   "Stop Profiling"
   "停止分析"
+
+  "Stop profiling"
+  "停止性能分析"
+
+  "Strikethrough"
+  "刪除线"
+
+  "Subscript"
+  "下标"
+
+  "Superscript"
+  "上标"
+
+  "Switch To"
+  "切換到"
+
+  "Switch to session"
+  "切换到会话"
 
   "Tabs"
   "標籤"
 
-  "Text"
-  "文本"
+  "Tips & Tricks"
+  "自定义"
 
-  "Theme Creator"
-  "主题造物主"
+  "Title Case"
+  "词首字母大写"
 
-  "Tools"
-  "工具"
+  "Toggle Case"
+  "切换大小写"
 
-  "Uncomment"
-  "取消注释"
+  "Toggle Comment"
+  "切換註釋"
+
+  "Toggle bird's eye view mode"
+  "切换鸟眼视图模式"
+
+  "Toggle case of current character"
+  "切换大小写的当前字符"
+
+  "Toggle comment"
+  "开启/关闭注释"
+
+  "Toggle split view mode"
+  "拆分视图模式切换:"
+
+  "Toggle tag/rule comment"
+  "开启/关闭标记/规则注释"
+
+  "Transform"
+  "变换"
+
+  "Unable to delete file"
+  "无法删除"
+
+  "Unable to write export file"
+  "无法写入导出文件"
+
+  "Underline"
+  "下划线"
 
   "Undo"
   "復原"
 
+  "Unfavorite file"
+  "太罗嗦的文件"
+
   "Unindent"
   "取消缩进"
 
-  "Uninstall..."
+  "Unindent selected text"
+  "取消所選文本的縮排"
+
+  "Uninstall"
   "卸载"
+
+  "Uninstall plugin"
+  "卸载插件"
+
+  "Unix"
+  "Unix"
 
   "Unlock"
   "解锁用户"
 
+  "Unlock file"
+  "解锁文件"
+
+  "Unordered Bullet"
+  "无序的子弹"
+
+  "Update Image Size"
+  "更新图像"
+
+  "Update img tag width and height attributes"
+  "更新 img 标签的宽度和高度属性"
+
+  "Upper Case"
+  "大寫字母"
+
   "User Guide"
   "用户指南"
 
-  "View"
-  "查看"
+  "View Emmet Reference Guide"
+  "查看艾美特参考指南"
 
-  "View base"
-  "查看基地"
+  "View the Emmet reference guide"
+  "查看 emmet 参考指南"
 
-  "View global"
-  "查看全球"
+  "View tips & tricks articles"
+  "视图提示与技巧的文章"
+
+  "View user guide"
+  "用户指南"
 
   "Vim Mode"
   "Vim的模式"
+
+  "Windows"
+  "窗口"
+
+  "Wrap With Abbreviation"
+  "用缩写包裹"
+
+  "Wrap tag with Emmet abbreviation"
+  "包装与埃米特缩写标记"
+
+  "formatting"
+  "文稿格式"
 
 }
 
 # plugins.tcl
 msgcat::mcmset zh {
+
+  "Always grant from developer"
+  "从开发人员总是给予"
+
+  "ERROR"
+  "错误"
 
   "ERROR:  Plugin name already exists"
   "错误：插件名称已存在"
@@ -641,23 +1830,940 @@ msgcat::mcmset zh {
   "ERROR:  Unable to write plugin files"
   "错误：无法写入文件的插件"
 
+  "Editing"
+  "编辑"
+
   "Enter plugin name"
   "输入插件名称"
 
-  "Plugin %s installed"
-  "插件％s的安装"
+  "Grant"
+  "授予"
 
-  "Plugin %s uninstalled"
-  "插件％s的卸载"
+  "Grant permission?"
+  "格兰特PERMSSION？"
 
   "Plugin Errors"
   "插件错误"
 
+  "Plugin Trust Requested"
+  "插件信任请求"
+
+  "Plugin export completed successfully"
+  "插件导出成功完成"
+
+  "Plugin import completed successfully"
+  "全部成功导入"
+
+  "Plugin installed"
+  "插件已安装"
+
+  "Plugin requires permission to view or modify your system."
+  "插件需要权限来查看或修改您的系统。"
+
+  "Plugin uninstalled"
+  "插件已卸载"
+
   "Plugins successfully reloaded"
   "插件重新加载成功"
 
+  "Reject"
+  "拒绝"
+
   "Syntax errors found in selected plugins"
   "在选定的外挂，发现语法错误"
+
+  "Unable to unzip plugin"
+  "无法解压缩插件"
+
+  "Unable to zip plugin"
+  "无法压缩插件"
+
+  "Version Control"
+  "版本控制"
+
+}
+
+# plugmgr.tcl
+msgcat::mcmset zh {
+
+  "Export Plugin"
+  "出口插件"
+
+  "Markdown"
+  "降价"
+
+  "Plugin Manager"
+  "插件管理器"
+
+  "Release Notes"
+  "发行说明"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset zh {
+
+  "Abbreviation Aliases"
+  "缩写别名"
+
+  "Add"
+  "添加"
+
+  "Add Language Reference"
+  "添加语言参考"
+
+  "Additional space between lines"
+  "字里行间的额外空间"
+
+  "Addons"
+  "插件"
+
+  "Advanced"
+  "高级"
+
+  "Alias"
+  "别名"
+
+  "Allow scrolling in tab bar"
+  "允许在标签栏中滚动"
+
+  "Angled bracket"
+  "直角的支架"
+
+  "Appearance"
+  "人物外观"
+
+  "Append characters to search string if entered within"
+  "添加要搜索的字符串，如果在输入的字符"
+
+  "Auto-match Characters"
+  "自动匹配字符"
+
+  "Automatically check for updates on start"
+  "自动检查更新开始"
+
+  "Automatically highlight matching bracket"
+  "自动突出显示匹配的括号"
+
+  "Automatically highlight mismatching brackets"
+  "自动突出显示不匹配的括号"
+
+  "Automatically insert vendor prefixes"
+  "自动插入供应商前缀"
+
+  "Automatically load last session on start"
+  "自动加载上一届会议上开始"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "自动将当前的工作目录设置为当前选项卡目录"
+
+  "Backtick"
+  "引号"
+
+  "Base Directory"
+  "基目录"
+
+  "Behaviors"
+  "行为"
+
+  "Bird's Eye View Font Size"
+  "鸟的眼睛查看字体大小"
+
+  "Bird's Eye View Width"
+  "鸟的眼睛视图宽度"
+
+  "Buffer"
+  "缓冲区"
+
+  "Choose Color"
+  "选择颜色"
+
+  "Choose Logfile Directory"
+  "选择日志文件目录"
+
+  "Clear"
+  "清空"
+
+  "Clipboard"
+  "剪贴板"
+
+  "Clipboard History"
+  "剪贴板历史"
+
+  "Clipboard history depth"
+  "剪贴板历史深度"
+
+  "Closing"
+  "正在关闭"
+
+  "Color value case"
+  "颜色值"
+
+  "Command launcher entry"
+  "命令启动程序项"
+
+  "Command launcher preview"
+  "命令启动程序预览"
+
+  "Convert to lowercase"
+  "转换为小写"
+
+  "Convert to uppercase"
+  "轉換為大寫"
+
+  "Creator"
+  "创建者"
+
+  "Curly bracket"
+  "花括号"
+
+  "Current"
+  "现金"
+
+  "Current Directory"
+  "目前的目錄"
+
+  "Current File Pathname"
+  "当前的文件路径名"
+
+  "Current Filename"
+  "当前文件名"
+
+  "Current Line Column"
+  "当前列"
+
+  "Current Line Number"
+  "当前行号"
+
+  "Current editing buffer directory"
+  "当前编辑缓冲区目录"
+
+  "Current working directory"
+  "当前工作目录"
+
+  "Date"
+  "日期"
+
+  "Default Find in Files search method"
+  "默认在文件中查找搜索方法"
+
+  "Default Find search method"
+  "默认查找搜索方法"
+
+  "Default Markdown Export Extension"
+  "默认降价出口扩展名"
+
+  "Default Plugin Export Directory"
+  "默认插件导出目录"
+
+  "Default Theme Export Directory"
+  "默认主题导出目录"
+
+  "Default sidebar width on startup"
+  "启动时的默认边栏宽度"
+
+  "Default theme"
+  "默認主題"
+
+  "Default unit for floating point values"
+  "默认单位为浮点值"
+
+  "Default unit for integer values"
+  "默认单位为整数值的"
+
+  "Delete snippet"
+  "删除代码段"
+
+  "Delete user bindings and use default?"
+  "删除用户绑定并使用默认值吗？"
+
+  "Development"
+  "开发"
+
+  "Displayed Information"
+  "已显示信息"
+
+  "Double-quote"
+  "\"
+
+  "Editor"
+  "编辑"
+
+  "Enable Vim Mode"
+  "启用 Vim 模式"
+
+  "Enable auto-indentation"
+  "启用自动缩进"
+
+  "Enable development mode"
+  "使发展模式"
+
+  "Enable fuzzy search"
+  "使模糊搜索"
+
+  "Enable relative line numbering"
+  "启用相对行号"
+
+  "Enabled"
+  "激活"
+
+  "End-of-line character when saving"
+  "行尾字符保存时"
+
+  "Exit the application after the last tab is closed"
+  "最后一个选项卡关闭后退出应用程序"
+
+  "Export Settings"
+  "导出设置"
+
+  "Extensions"
+  "扩展"
+
+  "Fonts"
+  "字体"
+
+  "Format snippet indentation after insert"
+  "格式代码段缩进后插入"
+
+  "General"
+  "通用"
+
+  "Get More Themes"
+  "更多主题"
+
+  "Hide Patterns"
+  "隐藏模式"
+
+  "Hide binary files"
+  "隐藏的二进制文件"
+
+  "Hiding"
+  "棄保潛逃"
+
+  "Host"
+  "主机"
+
+  "Imported"
+  "导入"
+
+  "Indentation spaces"
+  "缩进空格"
+
+  "Info Panel"
+  "信息面板"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "插入排序的文件顶部的手动排序目录"
+
+  "Insertion cursor width"
+  "插入光标宽度"
+
+  "Keep information panel visible when sidebar doesn't have focus"
+  "当侧边栏没有焦点时，保持信息面板可见"
+
+  "Keyword"
+  "关键词"
+
+  "Languages"
+  "语言"
+
+  "Last"
+  "最后"
+
+  "Last accessed"
+  "最后访问："
+
+  "Line Wrapping Default"
+  "默认自动换行"
+
+  "Line count to find Vim modeline information"
+  "要找到 Vim modeline 信息的行计数"
+
+  "Line number alignment"
+  "行号对齐"
+
+  "Logfile Directory"
+  "日志文件目录"
+
+  "Manage Themes"
+  "管理主题"
+
+  "Manage theme visibility"
+  "管理主题可见性"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "最大撤消历史记录 (设置为 0 表示无限制)"
+
+  "Menu Item"
+  "選單項目"
+
+  "Menu bindings"
+  "菜单绑定"
+
+  "Mounts"
+  "坐骑"
+
+  "Node Aliases"
+  "别名"
+
+  "Profiler Options"
+  "探查器选项"
+
+  "Prompt user to save preference changes in global or named session"
+  "提示用户保存在全局或命名会话中的偏好的变化"
+
+  "Properties"
+  "房源"
+
+  "Reading time words per minute"
+  "每分钟读取时间字"
+
+  "Recently opened history depth"
+  "最近打开历史深度"
+
+  "Remember last position of command launcher"
+  "请记住命令启动程序的最后一个位置"
+
+  "Remote Base Directory"
+  "远程的基目录"
+
+  "Remove root directory after last sub-file is closed"
+  "最后一个子文件关闭后删除根目录"
+
+  "Remove trailing whitespace on save"
+  "删除尾随空格上保存"
+
+  "Report Options"
+  "报表选项"
+
+  "Retain case"
+  "保留案例"
+
+  "Return"
+  "返回"
+
+  "Ruler column"
+  "统治者列"
+
+  "Save changes to current session?"
+  "将更改保存到当前会话？"
+
+  "Save changes to global preferences?"
+  "将更改保存到全球优惠吗？"
+
+  "Search Shortcuts"
+  "搜尋捷徑鍵"
+
+  "Search Snippets"
+  "搜索代码段"
+
+  "Select Command Launcher Entry Font"
+  "选择Command Launcher Entry Font"
+
+  "Select Command Launcher Preview Font"
+  "选择命令启动器预览字体"
+
+  "Select Editor Font"
+  "选择编辑器字体"
+
+  "Select Settings Sharing Directory"
+  "选择设置共享目录"
+
+  "Select a plugin"
+  "选择某个插件"
+
+  "Select default browsing directory"
+  "选择默认浏览目录"
+
+  "Selected Text"
+  "所选文字"
+
+  "Session"
+  "会议"
+
+  "Set"
+  "设置"
+
+  "Set Find in Files line context"
+  "在文件行上下文中设置查找"
+
+  "Set default open/save browsing directory to"
+  "设置默认打开/保存浏览目录"
+
+  "Set find history depth"
+  "设置的查找历史深度"
+
+  "Set jump distance"
+  "设置的跳距离"
+
+  "Sharing"
+  "分享"
+
+  "Sharing Items"
+  "共享项目"
+
+  "Shortcut"
+  "快捷键"
+
+  "Shortcuts"
+  "快捷键"
+
+  "Show 'Find in Files' result in other pane"
+  "在其他窗格中显示在文件中查找结果"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "显示本地文件/目录而不是删除移到废纸篓"
+
+  "Show Tcl console at startup"
+  "启动时显示 Tcl 控制台"
+
+  "Show bird's eye view"
+  "俯视图"
+
+  "Show diagnostic logfile at startup"
+  "启动时显示诊断日志文件"
+
+  "Show difference file in other pane than original"
+  "在其他窗格中比原始显示差异文件"
+
+  "Show difference file version information"
+  "显示差异文件版本信息"
+
+  "Show folders at top"
+  "显示在顶部的文件夹"
+
+  "Show hidden files"
+  "显示隐藏文件"
+
+  "Show language submenu"
+  "显示语言菜单"
+
+  "Show menubar"
+  "显示菜单栏"
+
+  "Single-quote"
+  "单引号"
+
+  "Snippet Completion Characters"
+  "代码段完成字符"
+
+  "Snippet Text"
+  "文字片段"
+
+  "Sort tabs alphabetically on open"
+  "排序按字母顺序在打开的标签页"
+
+  "Sorting Column"
+  "列进行排序"
+
+  "Space"
+  "空间"
+
+  "Spaces per tab"
+  "每个制表位"
+
+  "Square bracket"
+  "方括号"
+
+  "Stable"
+  "稳定"
+
+  "Symbol between CSS property and value"
+  "CSS 属性和值之间的符号"
+
+  "Symbol placed at end of CSS property"
+  "将符号放置在 CSS 属性的结尾"
+
+  "Syntax Coloring"
+  "语法着色"
+
+  "Tab"
+  "Tab標籤"
+
+  "Tab Stop"
+  "制表符"
+
+  "This operation cannot be reversed."
+  "此操作不是可逆的。"
+
+  "Time"
+  "时间"
+
+  "Unknown"
+  "未知"
+
+  "Update information panel whenever the sidebar selection changes"
+  "侧栏选择更改时更新信息面板"
+
+  "Update using release type"
+  "更新使用释放类型"
+
+  "Updates"
+  "更新"
+
+  "Use Default"
+  "默认用户"
+
+  "Use appropriate EOL character on system"
+  "在系统上使用适当的 EOL 字符"
+
+  "Use carriate return linefeed sequence"
+  "使用 carriate 返回换行符序列"
+
+  "Use current width"
+  "当前床次幅宽："
+
+  "Use directory"
+  "使用目录"
+
+  "Use linefeed character"
+  "使用换行符的字符"
+
+  "Use original EOL character from file"
+  "使用文件的原始的 EOL 字符"
+
+  "Use shortened colors"
+  "使用缩短的颜色"
+
+  "Use single carriage return character"
+  "使用单个回车符"
+
+  "Variable"
+  "变量"
+
+  "Variables"
+  "變量"
+
+  "Visible"
+  "顯示"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "你改变了全球的首选项，因为你是命名会话中当前不可见。"
+
+  "You have changed the current session's preferences which will not be applied globally."
+  "您已更改当前会话的首选项，这些首选项不会全局应用。"
+
+  "milliseconds"
+  "毫秒"
+
+  "pixels"
+  "像素"
+
+  "theme"
+  "主题"
+
+}
+
+# remote.tcl
+msgcat::mcmset zh {
+
+  "Close Connection"
+  "关闭连接？"
+
+  "Connection does not exist"
+  "连接不存在"
+
+  "Connection failed"
+  "连接失败"
+
+  "Connection passed"
+  "通过连接"
+
+  "Connections"
+  "连接设备"
+
+  "Create New Folder"
+  "创建新文件夹"
+
+  "Delete Connection"
+  "删除连接"
+
+  "Delete Group"
+  "删除群组"
+
+  "Delete connection?"
+  "删除连接吗？"
+
+  "Delete group?"
+  "删除群组"
+
+  "Edit Connection"
+  "编辑连接"
+
+  "Enter Password"
+  "输入密码"
+
+  "Folder Name"
+  "文件夹名"
+
+  "Group"
+  "群组"
+
+  "Group Name"
+  "群组名称"
+
+  "Group Name: "
+  "分组名称："
+
+  "Image used in remote file selector for the history back button."
+  "在历史上的后退按钮的远程文件选择器中使用的图像。"
+
+  "Image used in remote file selector for the history forward button."
+  "在远程文件选择器历史前进按钮使用的图像。"
+
+  "Image used in remote file selector to indicate a file."
+  "在远程文件选择器中用于指示文件的图像。"
+
+  "Image used in remote file selector to indicate a folder."
+  "在远程文件选择器中用于指示文件夹中的图像。"
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "在远程文件选择器中用于指示连接被打开的图像。"
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "在远程文件选择器中用于指示连接打开的图像。"
+
+  "New Connection"
+  "新建连接"
+
+  "New Folder"
+  "新文件夹"
+
+  "New Group"
+  "新集团"
+
+  "Open Connection"
+  "打开连接"
+
+  "Open Remote File"
+  "远程文件"
+
+  "Optional"
+  "選擇性"
+
+  "Password"
+  "密码"
+
+  "Password: "
+  "密码："
+
+  "Port"
+  "端口号"
+
+  "Remote Directory"
+  "远程目录"
+
+  "Rename Group"
+  "重新命名群組"
+
+  "Save File Remotely"
+  "将文件保存到远程"
+
+  "Server"
+  "服务器"
+
+  "Test Connection"
+  "测试连接"
+
+  "Type"
+  "类型"
+
+  "Unable to connect to"
+  "无法连接"
+
+  "Unable to read remote directory contents."
+  "无法读取远程目录内容。"
+
+  "Username"
+  "用户名"
+
+  "server"
+  "服务器"
+
+}
+
+# search.tcl
+msgcat::mcmset zh {
+
+  "No files found in specified directories"
+  "指定的目录中未找到文件"
+
+  "No search results found"
+  "个搜索结果"
+
+  "Search wrapped to beginning of file"
+  "搜索到文件的开头包裹"
+
+  "Search wrapped to end of file"
+  "搜索包裹到文件结尾"
+
+  "substitutions done"
+  "换人做"
+
+}
+
+# select.tcl (Go to Edit menu, select "Select Mode" and hit the '?' key to view strings.)
+msgcat::mcmset zh {
+
+  "Add Selection Matches"
+  "添加选择匹配"
+
+  "All To"
+  "全部到"
+
+  "Anchor"
+  "锚"
+
+  "Angled Brackets"
+  "尖括号"
+
+  "Backticks"
+  "反引号"
+
+  "Block"
+  "屏蔽"
+
+  "Character"
+  "字符"
+
+  "Child"
+  "孩子"
+
+  "Clear Selection"
+  "清空选项"
+
+  "Comment"
+  "评论"
+
+  "Curly Brackets"
+  "大括号"
+
+  "Delete Selected Text"
+  "删除所选"
+
+  "Double Quotes"
+  "雙引號"
+
+  "Down"
+  "沮丧"
+
+  "Exit Selection Mode"
+  "選取模式"
+
+  "Invert Selected Text"
+  "反转所选文本"
+
+  "Keep Selection"
+  "保留选项"
+
+  "Left"
+  "居左"
+
+  "Line To"
+  "至   行"
+
+  "Modes"
+  "模式"
+
+  "Motions"
+  "运动"
+
+  "Next Sibling"
+  "兄弟姊妹"
+
+  "Paragraph"
+  "段落"
+
+  "Parent"
+  "上層"
+
+  "Previous"
+  "前一个"
+
+  "Previous Sibling"
+  "上一个同级"
+
+  "Right"
+  "右边"
+
+  "Selection Mode Command Help"
+  "選取模式"
+
+  "Sentence"
+  "句子"
+
+  "Shift Down"
+  "下移"
+
+  "Shift Left"
+  "左移"
+
+  "Shift Right"
+  "右移"
+
+  "Shift Up"
+  "上移"
+
+  "Single Quotes"
+  "单引号"
+
+  "Square Brackets"
+  "方括号"
+
+  "Swap Anchor"
+  "锚"
+
+  "Toggle Help"
+  "切换"
+
+  "Toggle Quote Inclusion"
+  "切换报价包含"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "类型 '？ ' 的帮助。 使用 ESC 键退出选择模式"
+
+  "Undo Last Change"
+  "取消最后的改变..."
+
+  "Up"
+  "上"
+
+  "Word"
+  "字"
+
+  "matching instances"
+  "匹配实例"
+
+}
+
+# sessions.tcl
+msgcat::mcmset zh {
+
+  "Save session?"
+  "保存会话"
+
+  "Session state will be lost if not saved"
+  "如果不保存会话状态都将丢失"
+
+}
+
+# share.tcl
+msgcat::mcmset zh {
+
+  "Export Settings Data"
+  "导出设置"
+
+  "Favorites"
+  "收藏"
+
+  "Remote Connections"
+  "远程连接"
+
+  "Settings to export"
+  "要导出的设置"
+
+  "Themes"
+  "主題"
 
 }
 
@@ -667,11 +2773,20 @@ msgcat::mcmset zh {
   "Add Parent Directory"
   "母目錄"
 
+  "By Name"
+  "按名字"
+
   "Close Directory Files"
   "关闭目录文件"
 
-  "Delete"
-  "刪除"
+  "Copy Pathname"
+  "複製路徑名"
+
+  "Decreasing"
+  "下降"
+
+  "Delete directories?"
+  "删除目录吗?"
 
   "Delete directory?"
   "删除目录？"
@@ -679,20 +2794,59 @@ msgcat::mcmset zh {
   "Delete file?"
   "删除文件？"
 
-  "Duplicate"
-  "复制"
+  "Delete files?"
+  "删除文件?"
+
+  "Directory Name:"
+  "目录名称:"
+
+  "Disconnect From Server"
+  "从服务器断开连接"
+
+  "Folder Name:"
+  "文件夾名稱:"
+
+  "Hide"
+  "隐藏"
+
+  "Hide Directory Files"
+  "隐藏目录文件"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "在侧边栏来指示折叠目录中显示图像"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "在侧边栏来指示显示其内容的目录中显示图像"
+
+  "Image displayed in sidebar to indicate a file"
+  "在侧边栏来指示文件中显示图像"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "在侧边栏来指示折叠所选的目录中显示图像"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "在侧边栏来指示扩展所选的目录中显示图像"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "图像显示在侧栏以指示文件当前是打开，但隐藏"
+
+  "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
+  "在侧边栏来指示在编辑缓冲区中当前打开文件中显示的图像。"
+
+  "Increasing"
+  "上升"
 
   "Make Current Working Directory"
   "使当前工作目录"
 
+  "Manually"
+  "手动"
+
   "New Directory"
   "新目录"
 
-  "New File"
-  "新文件"
-
-  "Open"
-  "打开"
+  "New File From Template"
+  "模板新建的文件"
 
   "Open Directory Files"
   "打开目录文件"
@@ -706,91 +2860,651 @@ msgcat::mcmset zh {
   "Remove from Sidebar"
   "从边栏移除"
 
-  "Rename"
-  "重命名"
+  "Show"
+  "显示"
+
+  "Show Difference"
+  "显示不同"
+
+  "Show Directory Files"
+  "显示目录文件"
+
+  "Show Info"
+  "显示信息"
+
+  "Sort"
+  "分类"
+
+  "Unable to duplicate file"
+  "无法复制文件"
 
 }
 
 # snippets.tcl
 msgcat::mcmset zh {
 
-  "Snippet: %s: %s"
-  "片段：％S：％s的"
-
   "Snippet: *"
   "片段"
+
+}
+
+# startup.tcl
+msgcat::mcmset zh {
+
+  "Change Directory"
+  "切换目录"
+
+  "Copies settings data from an existing directory to your home directory."
+  "将设置数据从现有的目录复制到您的主目录。"
+
+  "Copy settings from directory"
+  "从目录复制设置"
+
+  "Create settings locally"
+  "创建本地设置"
+
+  "Creates new settings information and places it in your home directory"
+  "创建新设置信息，并将其放在您的主目录"
+
+  "Finish"
+  "完成"
+
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "如果你需要想要改变你的共享设置，你可以在首选项中一般/共享选项卡下。"
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "选定的项将复制到您当地的主目录。未选中的项目将在您的主目录中创建。"
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "选定的项将与其他计算机共享。未选中的项目将存储在本地，并不会被共享。"
+
+  "Select Settings Directory"
+  "选择设置目录"
+
+  "Settings"
+  "设置"
+
+  "Settings Options"
+  "設置選項"
+
+  "Setup Complete"
+  "安装完成"
+
+  "Share"
+  "分享"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "共享设置数据从一个新的或现有的目录 (例如，iCloud 谷歌驱动器，Dropbox，等.)。 对设置数据所做的任何更改将提供到其他的共享资源文件。"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "感谢您使用将军澳支线，高级的程序员编辑器。 由于这是一个新安装的将军澳支线，让我们帮助你把事情设置。\\n \\n 点击下一步来维持生活。"
+
+  "Use shared settings"
+  "使用共享的设置"
+
+  "Welcome"
+  "歡迎"
+
+  "Welcome To"
+  "欢迎来到"
 
 }
 
 # syntax.tcl
 msgcat::mcmset zh {
 
-  "Syntax error in %s.syntax file"
-  "在％s.syntax文件中的语法错误"
-
-  "Syntax:  %s"
-  "语法：％s的"
-
-  "Theme:  %s"
-  "主题：％S"
+  "Syntax error in syntax file"
+  "在语法文件中的语法错误"
 
 }
 
-# themer.tcl
+# templates.tcl
 msgcat::mcmset zh {
 
-  "Create"
-  "创建"
+  "Delete template?"
+  "删除模板"
 
-  "Create New Theme"
-  "创建新主题"
+  "Template"
+  "模板"
 
-  "Create custom"
-  "创建自定义"
+  "Template Name"
+  "模板名称"
 
-  "ERROR:  Unable to read %s"
-  "错误：无法读取％s的"
+  "deleted"
+  "已删除"
 
-  "ERROR:  Unable to write %s"
-  "错误：无法写入％s的"
+  "saved"
+  "已经保存"
 
-  "Edit theme"
+  "will be permanently deleted"
+  "將被永久刪除"
+
+}
+
+# theme.tcl
+msgcat::mcmset zh {
+
+  "Amount of border to display around command launcher in pixels"
+  "量的边界周围命令发射器以像素为单位显示"
+
+  "Background (trough) color used in a standard scrollbar."
+  "用在一个标准的滚动条的背景 （槽） 颜色。"
+
+  "Background (trough) color used in the sidebar scrollbar."
+  "用在侧边栏滚动条的背景 (槽) 颜色。"
+
+  "Background (trough) color used in the text scrollbars."
+  "用在文本滚动条的背景 (槽) 颜色。"
+
+  "Background color displayed in embedded language code."
+  "在嵌入式的语言代码中显示的背景色。"
+
+  "Background color for all sidebar items that are not selected."
+  "所有未选中的侧边栏项的背景色。"
+
+  "Background color for all sidebar items that are selected."
+  "所有选定的侧边栏项的背景色。"
+
+  "Background color for markers in the line gutter and scrollbar"
+  "标记线装订线和滚动条的背景色"
+
+  "Background color for matching search text"
+  "匹配的搜索文本的背景色"
+
+  "Background color in difference viewer that shows added lines."
+  "在差异查看器中显示的背景色添加行。"
+
+  "Background color in difference viewer that shows deleted lines."
+  "背景颜色显示的差异查看器中删除行。"
+
+  "Background color of insertion cursor and background marker colors."
+  "插入光标和背景颜色标记背景颜色。"
+
+  "Background color of linemap area."
+  "线图区域的背景颜色。"
+
+  "Background color of list items when not selected"
+  "当未选中的列表项的背景色"
+
+  "Background color of move bar."
+  "移动栏的背景颜色。"
+
+  "Background color of selection in command launcher"
+  "背景色选择的命令启动程序"
+
+  "Background color of textual display in command launcher"
+  "背景颜色的文本显示在命令启动程序"
+
+  "Background color of the editing buffer."
+  "编辑缓冲区的背景色。"
+
+  "Background color to display when a button-like ttk widget is pressed."
+  "要显示按下一个按钮类似 ttk 小部件时的背景颜色。"
+
+  "Background color to use for active information values to indicate they are clickable."
+  "要用于主动信息值，以指示它们是可点击的背景颜色。"
+
+  "Background color to use for displaying character information that requires the user's attention."
+  "用来显示字符信息，需要用户注意的背景色。"
+
+  "Background color to use for selected text."
+  "要用于所选文本的背景色。"
+
+  "Background color to use for the file information panel."
+  "用于文件信息面板的背景颜色。"
+
+  "Background color used for all other tabs that are not the current/active tab in the tabbar."
+  "用其他的选项卡，是不是在 tabbar 电流/活动选项卡的背景颜色。"
+
+  "Background color used for the current/active menu item."
+  "用当前/主菜单项的背景颜色。"
+
+  "Background color used for the current/active tab in the tabbar."
+  "用 tabbar 在当前/活动选项卡的背景颜色。"
+
+  "Background color used in highlighted text."
+  "在突出显示的文本所用的背景颜色。"
+
+  "Background color used in menus."
+  "在菜单中所用的背景颜色。"
+
+  "Background color used in the tabbar area."
+  "在 tabbar 地区所用的背景颜色。"
+
+  "Color of border around command launcher"
+  "命令发射器周围边框的颜色"
+
+  "Color of border drawn around active editing buffer."
+  "在活跃的编辑缓冲区周围绘制的边框的颜色。"
+
+  "Color of space between tabs."
+  "选项卡之间空间的颜色。"
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "命令启动程序输入字段和结果列表之间间隔的颜色"
+
+  "Color of ttk entry widget text border when the entry has keyboard focus."
+  "当该条目具有键盘焦点时 ttk 条目构件文本边框的颜色。"
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "颜色要用于突出显示行数滚动条槽中的闭的褶皱"
+
+  "Color used to draw the line which separates the linemap from the text area."
+  "用于绘制线条图和文本区域的线条的颜色。"
+
+  "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
+  "用来绘制中编辑缓冲区 (以及线装订线分离编辑缓冲区) 的警告宽度线的颜色。"
+
+  "Command Launcher Options"
+  "命令启动程序选项"
+
+  "Default 'darkcolor' for all ttk widgets."
+  "默认为所有 ttk 部件 ' 灯光'。"
+
+  "Default background color to use for all ttk widgets that are in a disabled state."
+  "默认背景颜色用于所有 ttk 部件处于禁用状态。"
+
+  "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."
+  "默认背景颜色时鼠标光标悬停在小部件要使用的所有 ttk 部件。"
+
+  "Default background color to use for all ttk widgets."
+  "默认背景颜色用于所有 ttk 部件。"
+
+  "Default border color for all ttk widgets."
+  "所有的 ttk 部件的默认边框颜色。"
+
+  "Default color for non-syntax highlighted text."
+  "非语法突出显示的文本的默认颜色。"
+
+  "Default foreground text color to use for all ttk widgets that are in a disabled state."
+  "默认前景色文本颜色用于所有 ttk 部件处于禁用状态。"
+
+  "Default foreground text color to use for all ttk widgets."
+  "默认前景色文本颜色用于所有 ttk 部件。"
+
+  "Determines the number of grips strips to display in the grip area between resizable panes."
+  "决定握把带在了抓地力之间可调整大小的窗格中显示的数目。"
+
+  "Determines the thickness of the grip area between resizable panes."
+  "确定了抓地力可调整大小的窗格之间的厚度。"
+
+  "ERROR:  Unable to read"
+  "错误: 无法读取"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "（滑块） 使用前景色在一个标准的滚动条。"
+
+  "Foreground (slider) color used in the sidebar scrollbar."
+  "(滑块) 使用前景色在侧边栏滚动条。"
+
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "（滑块） 使用前景色在文本滚动条时启用窗格同步。"
+
+  "Foreground (slider) color used in the text scrollbars."
+  "(滑块) 使用前景色在文本滚动条。"
+
+  "Foreground color for matching search text"
+  "前景颜色匹配搜索文本"
+
+  "Foreground color of list items when not selected"
+  "当未选中的列表项的前景色"
+
+  "Foreground color of move bar."
+  "移动栏的前景颜色。"
+
+  "Foreground color of selection in command launcher"
+  "命令启动程序选择前景色"
+
+  "Foreground color of textual display in command launcher"
+  "前景颜色的文本显示在命令启动程序"
+
+  "Foreground color to use for title text in the information panel."
+  "要使用信息面板中的标题文本的前景颜色。"
+
+  "Foreground color to use for value text in the information panel."
+  "使用信息面板中的值文本的前景颜色。"
+
+  "Foreground color used in menu items with checks or buttons."
+  "在用支票或按钮的菜单项所用的前景颜色。"
+
+  "Foreground text color for strings."
+  "字符串文本景色。"
+
+  "Foreground text color to use for all miscellaneous1 labeled text."
+  "用于所有 miscellaneous1 的前景文本颜色标记文本。"
+
+  "Foreground text color to use for all miscellaneous2 labeled text."
+  "用于所有 miscellaneous2 的前景文本颜色标记文本。"
+
+  "Foreground text color to use for all miscellaneous3 labeled text."
+  "用于所有 miscellaneous3 的前景文本颜色标记文本。"
+
+  "Foreground text color to use for comments."
+  "用于注释的前景文本颜色。"
+
+  "Foreground text color to use for displaying line numbers."
+  "用于显示行号的前景文本颜色。"
+
+  "Foreground text color to use for displaying numbers."
+  "用来显示数字的前景文本颜色。"
+
+  "Foreground text color to use for function calls."
+  "用于函数调用的前景文本颜色。"
+
+  "Foreground text color to use for language-specific keywords."
+  "用于语言特定的关键字的前景文本颜色。"
+
+  "Foreground text color to use for language-specific punctuation."
+  "要用于特定语言的标点符号的前景文本颜色。"
+
+  "Foreground text color to use for meta syntax."
+  "用于元语法的前景文本颜色。"
+
+  "Foreground text color to use for precompiler syntax."
+  "用于预编译器语法的前景文本颜色。"
+
+  "Foreground text color to use for readable meta syntax."
+  "用于可读元语法的前景文本颜色。"
+
+  "Foreground text color to use for selected text."
+  "要用于所选文本的前景文本颜色。"
+
+  "Foreground text color to use for variables."
+  "要用于变量的前景文本颜色。"
+
+  "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."
+  "用其他的选项卡，是不是在 tabbar 电流/活动选项卡的前景文本颜色。"
+
+  "Foreground text color used for menus item that are disabled."
+  "文本使用前景色为被禁用的菜单项。"
+
+  "Foreground text color used for the current/active menu item."
+  "用当前/主菜单项的前景文本颜色。"
+
+  "Foreground text color used for the current/active tab in the tabbar."
+  "用当前/活动选项卡中的 tabbar 前景文本颜色。"
+
+  "Foreground text color used in menus."
+  "在菜单中所用的前景文本颜色。"
+
+  "Foreground text/image color used in tabbar and tabs."
+  "文本/图像使用前景色 tabbar 和选项卡中。"
+
+  "Images"
+  "图像"
+
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "当它处于活动状态的命令发射器滚动条的最大厚度。"
+
+  "Maximum thickness of the text scrollbar when it is active."
+  "文本滚动条时处于活动状态的最大厚度。"
+
+  "Maximum thickness of the text scrollbars when they are active."
+  "最大厚度的文本滚动条时他们是活跃的。"
+
+  "Menu Options"
+  "菜单选项"
+
+  "Menu relief value."
+  "菜单救济值。"
+
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "命令启动程序输入字段和结果列表之间间隔像素高度"
+
+  "Pixel height of the tabbar widget."
+  "Tabbar 小部件的像素高度。"
+
+  "Relief used in drawing the tabs."
+  "使用绘图选项卡中的救济。"
+
+  "Relief value of the sidebar area."
+  "救济的侧栏区域的值。"
+
+  "Scrollbar slider color used in the command launcher results list"
+  "使用命令启动程序结果列表中的滚动条滑块颜色"
+
+  "Sidebar Info Panel Options"
+  "侧边栏信息面板选项"
+
+  "Sidebar Options"
+  "侧边栏选项"
+
+  "Sidebar Scrollbar Options"
+  "侧边栏滚动条选项"
+
+  "Specifies background color of command launcher entry and list"
+  "指定命令发射器项和列表的背景的色"
+
+  "Specifies foreground color of command launcher entry and list"
+  "指定命令发射器项和列表中的前景色"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "指定的颜色绘制在侧边栏的边框拖动的文件时投掷"
+
+  "Specifies the color to display around the sidebar when the sidebar does not have the focus."
+  "指定要显示在侧边栏时侧边栏没有焦点的颜色。"
+
+  "Specifies the color to display around the sidebar when the sidebar has the focus."
+  "指定要显示在侧边栏侧边栏获得焦点时的颜色。"
+
+  "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "指定要用于在标准 ttk 窗口小部件 (这不包括编辑缓冲区) 中选择的文本的默认背景色。"
+
+  "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."
+  "指定要用于在标准 ttk 窗口小部件 (这不包括编辑缓冲区) 中选择的文本的默认前景文本颜色。"
+
+  "Specifies the default relief to use when drawing ttk widgets."
+  "指定绘制 ttk 部件时要使用的默认救济。"
+
+  "Specifies the pixel thickness of the highlight line."
+  "指定像素的突出显示线的粗细。"
+
+  "Standard Scrollbars"
+  "标准的滚动条"
+
+  "Syntax Colors"
+  "语法颜色"
+
+  "Tab Options"
+  "TAB选项"
+
+  "Text Scrollbar Options"
+  "文字滚动条选项"
+
+  "Text color for all sidebar items that are not selected."
+  "所有未选中的侧边栏项目的文本颜色。"
+
+  "Text color for all sidebar items that are selected."
+  "所有选定的侧边栏项的文本颜色。"
+
+  "ttk Widget Colors"
+  "TTK的Widget颜色"
+
+}
+
+# themer.tcl (Select "Tools / Theme Editor" to view window containing these strings)
+msgcat::mcmset zh {
+
+  "   Show Selected Option"
+  "显示当前选项"
+
+  "   Show Selected Value"
+  "選擇值"
+
+  "By"
+  "由"
+
+  "Categories"
+  "分类"
+
+  "Change Base Color"
+  "更改颜色"
+
+  "Choose Theme"
+  "选择主题"
+
+  "Created By"
+  "由...制作"
+
+  "Custom Directory"
+  "自定义目录"
+
+  "Custom..."
+  "自定义..."
+
+  "Delete swatch?"
+  "删除色盘"
+
+  "Description"
+  "描述"
+
+  "Details"
+  "详细"
+
+  "Done"
+  "完成"
+
+  "Enable Copy Mode"
+  "启用复制模式"
+
+  "Export BMP Data"
+  "导出BMP数据"
+
+  "Export BMP Mask"
+  "导出BMP面具"
+
+  "Export Bitmap Data"
+  "导出位图数据"
+
+  "Export Theme As"
+  "导出主题"
+
+  "GIF Photo"
+  "GIF图片"
+
+  "Import BMP Data"
+  "匯入資料"
+
+  "Import BMP Mask"
+  "导入BMP面膜"
+
+  "Import Bitmap Data"
+  "导入位图数据"
+
+  "Import Error"
+  "﻿导入错误"
+
+  "Import Theme File"
+  "导入主题文件"
+
+  "Installation Directory"
+  "安装目录"
+
+  "License File"
+  "许可文件"
+
+  "Modifications"
+  "其他"
+
+  "One-Color Bitmap"
+  "单色位图"
+
+  "Paste Theme Items"
+  "粘贴主题项目"
+
+  "Relief: "
+  "救济"
+
+  "Save As:"
+  "另存為:"
+
+  "Save error"
+  "保存错误"
+
+  "Save theme changes?"
+  "保存主题的变化？"
+
+  "Select Directory"
+  "选择目录"
+
+  "Show All"
+  "显示全部"
+
+  "Show Category"
+  "显示类别"
+
+  "Show Color"
+  "显示背景颜色"
+
+  "Show Selected Option"
+  "显示所选的选项"
+
+  "Show Selected Value"
+  "選擇值"
+
+  "Swatch"
+  "色盘"
+
+  "Swatch Colors"
+  "斯沃琪颜色"
+
+  "Table Copy"
+  "表复制"
+
+  "Table Filters"
+  "表过滤器"
+
+  "Table Search"
+  "表搜索"
+
+  "The current theme has unsaved changes."
+  "当前主题有未保存的更改。"
+
+  "Theme Name"
+  "主题名称"
+
+  "Tree Style: "
+  "树风格："
+
+  "Two-Color Bitmap"
+  "双色位图"
+
+  "Unknown color value format"
+  "未知的颜色值格式"
+
+  "User Directory"
+  "用户目录"
+
+  "Value: "
+  "值:"
+
+  "Website"
+  "站点"
+
+}
+
+# themes.tcl
+msgcat::mcmset zh {
+
+  "Batch custom theme export completed successfully"
+  "已成功完成的批处理自定义主题出口"
+
+  "Theme"
   "主题"
 
-  "Enter theme name"
-  "进入主题名称"
-
-  "Error:  Theme is not a supported theme"
-  "错误：主题是不受支持的主题"
-
-  "Import"
-  "進口"
-
-  "Import TextMate Theme"
-  "进口TextMate的主题"
-
-  "Name:"
-  "名称："
-
-  "OK"
-  "确定"
-
-  "Reset"
-  "重置"
-
-  "Select theme"
-  "选择主题"
+  "Theme:*"
+  "主题"
 
 }
 
 # tke.tcl
 msgcat::mcmset zh {
 
-  "ERROR:  %s"
-  "错误：％s"
+  "Import TKE plugin?"
+  "导入TKE插件？"
 
-  "Edit theme?"
-  "编辑主题？"
+  "Import TKE theme?"
+  "进口TKE主题？"
 
   "Import TextMate theme?"
   "进口TextMate的主题？"
@@ -800,31 +3514,240 @@ msgcat::mcmset zh {
 # tkedat.tcl
 msgcat::mcmset zh {
 
-  "Unable to open %s for reading"
-  "无法打开％s的读取"
+  "Unable to read"
+  "无法读取"
 
-  "Unable to open %s for writing"
-  "无法打开％s的写入"
+}
+
+# vim.tcl
+msgcat::mcmset zh {
+
+  "COMMAND MODE"
+  "命令"
+
+  "File format unrecognized"
+  "无法识别的文件格式"
+
+  "Filename directory does not exist"
+  "文件名的目录不存在"
+
+  "Folding method unrecognized"
+  "折叠方法无法识别"
+
+  "INSERT MODE"
+  "插入模式"
+
+  "Illegal modelines value"
+  "非法 modeline 值"
+
+  "MULTIMOVE MODE"
+  "多模式"
+
+  "Number width not a number"
+  "数字宽度不是一个数字"
+
+  "Selection value is unsupported"
+  "选择值不受支持"
+
+  "Shiftwidth value is not an integer"
+  "数值非整数。"
+
+  "Tabstop value is not an integer"
+  "数值非整数。"
+
+  "Unrecognized vim option"
+  "无法识别的 vim 选项"
+
+  "VISUAL BLOCK MODE"
+  "视觉块模式"
+
+  "VISUAL LINE MODE"
+  "视线模式"
+
+  "VISUAL MODE"
+  "预览模式"
 
 }
 
 # General
 msgcat::mcmset zh {
 
+  "All"
+  "所有"
+
+  "Attributes"
+  "属性"
+
+  "Auto-Indent"
+  "自动缩进"
+
+  "Back"
+  "返回"
+
+  "Bird's Eye View"
+  "俯视图"
+
+  "Browse"
+  "瀏覽"
+
   "Cancel"
   "取消"
+
+  "Check for Update"
+  "检查更新"
+
+  "Choose"
+  "選擇"
 
   "Close"
   "关闭"
 
+  "Copy"
+  "复制"
+
+  "Create"
+  "创建"
+
+  "Current Line"
+  "当前行"
+
+  "Current Word"
+  "当前的单词"
+
+  "Cursor"
+  "光标"
+
+  "Delete"
+  "刪除"
+
+  "Directory"
+  "目錄"
+
+  "Documentation"
+  "文档"
+
+  "Duplicate"
+  "复制"
+
+  "Edit"
+  "编辑"
+
+  "Emmet"
+  "蚂蚁"
+
+  "Enable code folding"
+  "启用代码折叠"
+
+  "Encoding"
+  "编码"
+
+  "Export"
+  "导出"
+
   "Favorite"
   "我的最愛"
 
-  "Find:"
+  "File"
+  "文件"
+
+  "File Name:"
+  "文件名："
+
+  "File System"
+  "文件系统"
+
+  "Find"
   "查找"
 
-  "Replace:"
-  "替换:"
+  "Find next occurrence"
+  "查找下一个实例"
+
+  "Find previous occurrence"
+  "查找上一个"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "在侧边栏信息面板关闭面板中显示图像"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "在侧边栏的刷新内容信息面板中显示图像"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "在侧边栏显示文件的侧边栏信息面板中显示的图像"
+
+  "Import"
+  "進口"
+
+  "Insert"
+  "插入"
+
+  "Language"
+  "语言"
+
+  "Language Documentation"
+  "用语言的文档"
+
+  "Launcher"
+  "发射台"
+
+  "Line"
+  "线条"
+
+  "Miscellaneous"
+  "复杂度"
+
+  "Move To Trash"
+  "移动到回收站"
+
+  "Move to Other Pane"
+  "移动到另一个窗格"
+
+  "Name"
+  "您的姓名"
+
+  "New File"
+  "新文件"
+
+  "Next"
+  "下一个"
+
+  "Node"
+  "節點"
+
+  "None"
+  "无"
+
+  "OK"
+  "確定"
+
+  "Open"
+  "打开"
+
+  "Options"
+  "选项"
+
+  "Output Directory"
+  "输出目录"
+
+  "Parenthesis"
+  "括号"
+
+  "Plugin"
+  "插件"
+
+  "Plugins"
+  "插件"
+
+  "Preferences"
+  "首选项"
+
+  "Preview"
+  "預覽"
+
+  "Rename"
+  "重命名"
+
+  "Run"
+  "运行"
 
   "Save"
   "保存"
@@ -832,8 +3755,86 @@ msgcat::mcmset zh {
   "Save As"
   "保存为"
 
+  "Search"
+  "搜索"
+
+  "Selected"
+  "選"
+
+  "Sessions"
+  "會議"
+
+  "Show in Sidebar"
+  "显示在侧栏"
+
+  "Show line numbers"
+  "显示行号"
+
+  "Show marker map"
+  "显示标记"
+
+  "Show sidebar"
+  "显示侧边栏"
+
+  "Show status bar"
+  "显示状态栏"
+
+  "Show tab bar"
+  "显示选项栏"
+
+  "Sidebar"
+  "侧边栏"
+
+  "Smart Indent"
+  "智能缩进"
+
+  "Snippet"
+  "片段"
+
+  "Snippets"
+  "片段"
+
+  "Split View"
+  "拆分視圖"
+
+  "Syntax"
+  "语法"
+
+  "TKE Updater"
+  "更新器"
+
+  "Templates"
+  "模板"
+
+  "Test"
+  "测试"
+
+  "Theme Editor"
+  "主题编辑器"
+
+  "Tools"
+  "工具"
+
+  "Unable to rename file"
+  "無法重新命名檔案 ..."
+
+  "Unable to write"
+  "无法写入<％s>"
+
   "Unfavorite"
   "不喜欢的"
+
+  "Update"
+  "升级"
+
+  "Value"
+  "數值"
+
+  "Version"
+  "版本"
+
+  "View"
+  "查看"
 
 }
 

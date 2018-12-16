@@ -39,9 +39,9 @@ namespace eval trusted {
     
     # Verify that you can copy a file
     test file-copy-0 { 
-      file copy [file join [api::get_plugin_directory] main.tcl] [file join [api::get_plugin_directory] foobar.tcl]
-      file exists [file join [api::get_plugin_directory] foobar.tcl]
-    } { file delete [file join [api::get_plugin_directory] foobar.tcl] }
+      file copy [file join [api::get_plugin_data_directory] main.tcl] [file join [api::get_plugin_data_directory] foobar.tcl]
+      file exists [file join [api::get_plugin_data_directory] foobar.tcl]
+    } { file delete [file join [api::get_plugin_data_directory] foobar.tcl] }
     
     # Verify that you cannot delete a file you don't have permissions for
     test file-delete-0 {
@@ -67,11 +67,11 @@ namespace eval trusted {
     test file-isfile-0 { expr ![file isfile ~] }
     
     # Verify that a file cannot be linked
-    test file-link-0 { catch { file link [file join [api::get_plugin_directory] main.tcl] foobar.tcl } }
+    test file-link-0 { catch { file link [file join [api::get_plugin_data_directory] main.tcl] foobar.tcl } }
     
     # Verify that the lstat command returns a value
     test file-lstat-0 {
-      file lstat [api::get_plugin_directory] foobar
+      file lstat [api::get_plugin_data_directory] foobar
       expr [array size foobar] > 0
     }
     
@@ -85,7 +85,7 @@ namespace eval trusted {
     test file-mtime-0 { string is integer [file mtime ~] }
     
     # Verify that the nativename command returns a value
-    test file-nativename-0 { expr { [file nativename [api::get_plugin_directory]] eq [api::get_plugin_directory] } }
+    test file-nativename-0 { expr { [file nativename [api::get_plugin_data_directory]] eq [api::get_plugin_data_directory] } }
     
     # Verify that the normalize command returns a value
     test file-normalize-0 { expr { [file normalize [file join [api::get_home_directory] .. trusted]] eq [api::get_home_directory] } }

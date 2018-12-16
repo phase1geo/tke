@@ -1,0 +1,86 @@
+filepatterns
+{*.nim}
+
+reference {
+  {{Language Reference} https://nim-lang.org/docs/manual.html}
+}
+
+matchcharsallowed
+{curly paren square double btick}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{(?!\]#?)#(?!#?\[)}}
+
+bcomments {{{#\[} {\]#}} {{##\[} {\]##}}}
+
+strings {double}
+
+keywords
+{
+  addr and as asm atomic
+  bind block break
+  case cast concept const continue converter
+  defer discard distinct div do
+  elif else end enum except export
+  finally for from func
+  generic
+  if import in include interface is isnot iterator
+  let
+  macro method mixin mod
+  nil not notin
+  object of or out
+  proc ptr
+  raise ref return
+  shl shr static
+  template try tuple type
+  using
+  var
+  when while with without
+  xor
+  yield
+}
+
+symbols
+{
+  HighlightKeywords {
+    proc
+  } syntax::get_prefixed_symbol
+}
+
+functions {
+  HighlightRegexp {(\w+)\s*\(} {syntax::get_syntax_function}
+}
+
+numbers {
+  HighlightRegexp {\m([0-9_]+|[0-9_]+\.[0-9_]+|0[xX][0-9a-fA-F_]+|0[ocC][0-7_]+|0[bB][01_]+|true|false)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}()`=*/<>@$~%&|!?^.,;:\\+-]} {}
+}
+
+precompile {
+  HighlightRegexp {\{\..*?\.\}} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    int int8 int16 int32 int64 uint uint8 uint16 uint32 uint64 float float32 float64
+    char string array cstring seq varargs
+  }
+}
+
+miscellaneous2 {}
+
+miscellaneous3 {}

@@ -1,0 +1,70 @@
+THIS IS A PRE-RELEASE, DATE: 2005-02-03
+
+These Tcl scripts define two packages:
+
+    webdav      a WebDAV client with a basic file-system like interface
+    davvfs      VFS driver for remote mounting of WebDAV servers
+
+This WebDAV client code can be used in a number of ways:
+
+    1)	Using calls to webdav::* procs, as in:
+
+		package require webdav
+		set dav [webdav::open http://mysite.org/some/path/]
+		puts [webdav::get $dav foo/bar]
+		webdav::close $dav
+
+    2)	Via an object command wrapper to do the same:
+
+		package require webdav
+		set dav [webdav::connect http://mysite.org/some/path/]
+		puts [$dav get foo/bar]
+		$dav close
+
+    3)  As a mounted VFS file system:
+
+		package require vfs::dav
+		vfs::dav::Mount http://mysite.org/some/path/ mydav
+		set fd [open mydav/foo/bar]
+		puts [read $fd]
+		close $fd
+		vfs::unmount mydav
+
+    4)  By registering a new url type handler:
+
+		package require vfs::urltype
+		vfs::urltype::Mount dav
+		set fd [open dav://mysite.org/some/path/foo/bar]
+		puts [read $fd]
+		close $fd
+
+The "webdav" package depends on a number of other packages:
+
+    base64      in tcllib
+    uri         in tcllib
+    TclXML      see http://wiki.tcl.tk/tclxml
+    http        modified version from TclSOAP (included here)
+
+The modified http package supports the "-method" option to pass PROPFIND
+and other requests as well as chunked transfers and a first cut at supporting
+keepalive connections (does not work with webdav yet).  A copy is included
+here for convenience, this is a modified version of code by Pat Thoyts.
+
+The "davvfs" package depends on the "vfs" and "webdav" packages, as well as
+"vfs::urltype" when registering the "dav:" prefix.  Included here because it
+is not part of a standard Tclkit configuration (it's in the full TclVFS pkg)..
+
+Performance is considerably lower with a pure-Tcl XML parser, i.e. if there
+is no suitable compiled Tclexpat extension.
+
+The "*.test" scripts use hardcoded server urls and need to be adjusted to run.
+All files needed on the server are available in the "davdata.tgz" archive.
+
+<blurb>
+
+Written by Jean-Claude Wippler <jcw@equi4.com>.  All code will be released
+using a Tcl-compatible open source license once the 1.0 version is ready.
+With thanks to Vince Darley, Pat Thoyts, and others for their code and tips.
+This project has been made possible through financial support by Primetime.
+
+</blurb>

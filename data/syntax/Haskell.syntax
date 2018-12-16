@@ -1,6 +1,14 @@
 filepatterns
 {*.haskell}
 
+vimsyntax
+{haskell}
+
+reference
+{
+  {{Documentation} https://www.haskell.org/documentation}
+}
+
 matchcharsallowed
 {curly square paren double single}
 
@@ -12,15 +20,17 @@ casesensitive
 
 indent
 {\{}
-  
+
 unindent
 {\}}
+
+icomment {{--}}
 
 lcomments {{--}}
 
 bcomments {{\{- -\}}}
 
-strings {{"} {'}}
+strings {double single}
 
 keywords
 {
@@ -28,20 +38,11 @@ keywords
   instance let module newtype of then type where __
 }
 
-symbols
-{
-}
-
 numbers {
-  HighlightClassForRegexp {[0-9]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|[eE][+-]?[0-9]+} {}
+  HighlightRegexp {[0-9]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|[eE][+-]?[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {(..|:\::\=|\||<-|->|@|~|=>)} {}
+  HighlightRegexp {(..|:\::\=|\||<-|->|@|~|=>)} {}
 }
-
-precompile {}
-
-miscellaneous {}
-

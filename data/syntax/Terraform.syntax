@@ -1,0 +1,42 @@
+filepatterns
+{*.tf *.tf.json}
+
+reference {
+  {{Reference} https://www.terraform.io/intro/getting-started/install.html}
+}
+
+matchcharsallowed
+{curly square double}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{#}}
+
+lcomments {{^[ \t]*#}}
+
+bcomments {
+  {{/\*} {\*/}}
+}
+
+strings {double}
+
+keywords {
+  connection data default locals module output provider provisioner resource
+  terraform timeouts variable
+}
+
+numbers {
+  HighlightRegexp   {\m([0-9]+|0[xX][0-9a-fA-F]+)} {}
+  HighlightKeywords {true false} {}
+}
+
+punctuation {
+  HighlightRegexp {[][\{\},:=]} {}
+}

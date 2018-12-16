@@ -1,6 +1,11 @@
 filepatterns
 {*.scpt}
 
+reference
+{
+  {{Language Reference} https://developer.apple.com/library/content/documentation/AppleScript/Conceptual/AppleScriptLangGuide/introduction/ASLR_intro.html}
+}
+
 matchcharsallowed
 {paren double single}
 
@@ -10,17 +15,13 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{}
-  
-unindent
-{}
+icomment {{--}}
 
 lcomments {{--} {#}}
 
-bcomments {{{(\*} {\*)}}}
+bcomments {{{\(\*} {\*\)}}}
 
-strings {{"}}
+strings {double}
 
 keywords
 {
@@ -36,44 +37,18 @@ keywords
 
 symbols
 {
-  script on property
+  HighlightKeywords {
+    script on property
+  } syntax::get_prefixed_symbol
 }
 
 numbers
 {
-  HighlightClassForRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
 }
 
 punctuation
 {
-  HighlightClassForRegexp {[][\{\},:*/+-]} {}
-}
-
-precompile {}
-
-miscellaneous
-{
-  HighlightClass {
-    ctext button label text frame toplevel scrollbar checkbutton canvas
-    listbox menu menubar menubutton radiobutton scale entry message
-    tk_chooseDirectory tk_getSaveFile tk_getOpenFile tk_chooseColor tk_optionMenu
-    ttk::button ttk::checkbutton ttk::combobox ttk::entry ttk::frame ttk::label
-    ttk::labelframe ttk::menubutton ttk::notebook ttk::panedwindow
-    ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator
-    ttk::sizegrip ttk::treeview
-  } {}
-  HighlightClass {
-    -text -command -yscrollcommand -xscrollcommand -background -foreground -fg
-    -bg -highlightbackground -y -x -highlightcolor -relief -width -height -wrap
-    -font -fill -side -outline -style -insertwidth  -textvariable -activebackground
-    -activeforeground -insertbackground -anchor -orient -troughcolor -nonewline
-    -expand -type -message -title -offset -in -after -yscroll -xscroll -forward
-    -regexp -count -exact -padx -ipadx -filetypes -all -from -to -label -value
-    -variable -regexp -backwards -forwards -bd -pady -ipady -state -row -column
-    -cursor -highlightcolors -linemap -menu -tearoff -displayof -cursor -underline
-    -tags -tag -weight -sticky -rowspan -columnspan
-  } {}
-  HighlightClassForRegexp {\.[a-zA-Z0-9\_\-]+} {}
-  HighlightClassWithOnlyCharStart \$ {}
+  HighlightRegexp {[][\{\},:*/+-]} {}
 }
 

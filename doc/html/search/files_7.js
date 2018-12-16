@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['lang_2etcl',['lang.tcl',['../lang_8tcl.html',1,'']]],
-  ['launcher_2etcl',['launcher.tcl',['../launcher_8tcl.html',1,'']]]
+  ['indent_2etcl',['indent.tcl',['../indent_8tcl.html',1,'']]],
+  ['interpreter_2etcl',['interpreter.tcl',['../interpreter_8tcl.html',1,'']]],
+  ['ipanel_2etcl',['ipanel.tcl',['../ipanel_8tcl.html',1,'']]]
 ];

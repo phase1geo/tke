@@ -1,0 +1,20 @@
+filepatterns
+{*.thisisnotavalidsyntax}
+
+matchcharsallowed
+{}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+strings
+{triplesingle triplebtick}

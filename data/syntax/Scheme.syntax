@@ -1,0 +1,55 @@
+filepatterns
+{*.scheme}
+
+vimsyntax
+{scheme}
+
+reference
+{
+  {{Language Reference} http://www.scheme.com/tspl3/}
+}
+
+matchcharsallowed
+{paren square double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\\(}
+
+unindent
+{\\)}
+
+icomment {{;}}
+
+lcomments {{^[ \t]*;}}
+
+bcomments {{{#\|} {\|#}}}
+
+strings {double}
+
+keywords
+{
+  access and begin bkpt case cond cons-stream declare default-object define define-integrable
+  define-macro define-structure define-syntax delay do fluid-let if in-package lambda
+  let let-syntax letrec local-declare macro make-environment named-lambda or
+  quasiquote quote scode-quote sequence set the-environment unassigned
+  using-syntax
+}
+
+symbols
+{
+  HighlightKeywords {
+    define
+  } syntax::get_syntax_symbol
+}
+
+punctuation
+{
+  HighlightRegexp {[][\(\).#*]} {}
+}
+

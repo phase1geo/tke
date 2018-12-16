@@ -1,0 +1,43 @@
+filepatterns
+{*/plugins/*/header.tkedat */iplugins/*/header.tkedat *\\plugins\\*\\header.tkedat *\\iplugins\\*\\header.tkedat}
+
+matchcharsallowed
+{curly double single}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+keywords {
+  name display_name author email website version include trust_required category description
+}
+
+punctuation {
+  HighlightRegexp {[\{\}]} {}
+}
+
+miscellaneous3 {
+  HighlightKeywords {
+    yes no
+    miscellaneous editing tools sessions search filesystem vcs documentation syntax sidebar
+  }
+}
+
+advanced {
+
+  HighlightClass category {-fontopts underline -clickcmd plugins::edit_categories}
+
+  HighlightRegexp {category\s+(.*)\s*$} category
+
+  HighlightProc category {
+    array set vars $varlist
+    return [list [list category {*}$vars(1)] ""]
+  } HighlightEndProc
+
+}

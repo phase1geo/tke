@@ -1,0 +1,40 @@
+filepatterns
+{*.mml}
+
+vimsyntax
+{html}
+
+reference
+{
+  {{Language Reference} https://www.w3.org/TR/MathML/}
+}
+
+matchcharsallowed
+{paren angled double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+indent
+{<[^/>](.*?[^/])?> <\\?}
+
+unindent
+{</.+?> \\?>}
+
+icomment {{<!--} {-->}}
+
+bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
+
+strings {double}
+
+punctuation {
+  HighlightRegexp {=} {}
+}
+
+miscellaneous1 {
+  HighlightRegexp {<[^?>].*?>} {}
+}
+
