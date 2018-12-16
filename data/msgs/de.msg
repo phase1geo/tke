@@ -320,6 +320,12 @@ msgcat::mcmset de {
   "Image used in tab which, when clicked, closes the tab."
   "Bild in Register, die, wenn geklickt wird, schließt das Register verwendet."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Bild, das in den Menüs verwendet wird, um anzuzeigen, dass kein Menüelement ausgewählt ist."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Bild, das in den Menüs verwendet wird, um anzuzeigen, dass ein Menüelement ausgewählt ist."
+
   "Image used in the preferences window in the Advanced tab."
   "Bild, das im Einstellungsfenster auf der Registerkarte Erweitert verwendet wird."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset de {
   "Insert unordered list formatting"
   "Ungeordnete Liste Formatierung einfügen"
 
-  "Install"
-  "Installieren"
-
   "Install plugin"
   "Plugin installieren"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset de {
   "Unindent selected text"
   "Markierten Text ausrücken"
 
-  "Uninstall"
-  "Deinstallieren"
-
   "Uninstall plugin"
   "Uninstall-Plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Schalte"
@@ -1794,9 +1791,6 @@ msgcat::mcmset de {
 
   "Vim Mode"
   "Vim-Modus"
-
-  "Windows"
-  "Fenster"
 
   "Wrap With Abbreviation"
   "Wrap mit Abkürzung"
@@ -1848,9 +1842,6 @@ msgcat::mcmset de {
   "Plugin Trust Requested"
   "Plugin Vertrauen Fragt"
 
-  "Plugin export completed successfully"
-  "Export erfolgreich abgeschlossen."
-
   "Plugin import completed successfully"
   "Import erfolgreich beendet"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset de {
 # plugmgr.tcl
 msgcat::mcmset de {
 
+  "Available"
+  "Verfügbar"
+
   "Export Plugin"
   "Exportiere Plugins jetzt"
+
+  "Installed"
+  "Installiert"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "插件管理"
+
+  "Plugin export completed successfully"
+  "Export erfolgreich abgeschlossen."
 
   "Release Notes"
   "发布说明"
@@ -1992,6 +1992,9 @@ msgcat::mcmset de {
 
   "Clipboard history depth"
   "Zwischenablage-Geschichte-Tiefe"
+
+  "Close find panels when editing buffer gets focus"
+  "Schließen Sie Suchfenster, wenn der Puffer bearbeitet wird"
 
   "Closing"
   "Abschluss"
@@ -2271,6 +2274,9 @@ msgcat::mcmset de {
 
   "Select a plugin"
   "Wählen Sie eine plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Wählen Sie eine Verknüpfung aus und drücken Sie die Eingabetaste oder die Leertaste, um die Verknüpfung zu bearbeiten"
 
   "Select default browsing directory"
   "Wählen Sie Standard-Verzeichnis durchsuchen"
@@ -3632,9 +3638,6 @@ msgcat::mcmset de {
   "Edit"
   "Bearbeiten"
 
-  "Emmet"
-  "Emmet"
-
   "Enable code folding"
   "Aktivieren Code-Faltung"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset de {
   "Insert"
   "Einfügen"
 
+  "Install"
+  "Installieren"
+
   "Language"
   "Sprache"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset de {
 
   "Node"
   "Knoten"
-
-  "None"
-  "Ohne"
 
   "OK"
   "确定"
@@ -3823,6 +3826,9 @@ msgcat::mcmset de {
 
   "Unfavorite"
   "Gefällt mir nicht mehr"
+
+  "Uninstall"
+  "Deinstallieren"
 
   "Update"
   "Aktualisieren"

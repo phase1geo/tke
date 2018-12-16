@@ -320,6 +320,12 @@ msgcat::mcmset hu {
   "Image used in tab which, when clicked, closes the tab."
   "Kép használt lap, amely, ha rákattintunk, bezárja a lapot."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "A menükben használt kép azt jelzi, hogy a menüpont nincs kiválasztva."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "A menükben használt kép azt jelzi, hogy egy menüelem van kiválasztva."
+
   "Image used in the preferences window in the Advanced tab."
   "A Speciális lapon a beállítások ablakban használt kép."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset hu {
   "Insert unordered list formatting"
   "Helyezze be a Rendezetlen lista formázása"
 
-  "Install"
-  "Telepítés"
-
   "Install plugin"
   "A plugin telepítése"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset hu {
   "Unindent selected text"
   "A kijelölt szöveg kiengedése"
 
-  "Uninstall"
-  "Eltávolítás"
-
   "Uninstall plugin"
   "Távolítsa el a plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Kinyit"
@@ -1794,9 +1791,6 @@ msgcat::mcmset hu {
 
   "Vim Mode"
   "Vim mód"
-
-  "Windows"
-  "Windows"
 
   "Wrap With Abbreviation"
   "Wrap rövidítése"
@@ -1848,9 +1842,6 @@ msgcat::mcmset hu {
   "Plugin Trust Requested"
   "Plugin Trust Kért"
 
-  "Plugin export completed successfully"
-  "Plugin export sikeresen befejeződött"
-
   "Plugin import completed successfully"
   "Plugin importálása sikeresen megtörtént"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset hu {
 # plugmgr.tcl
 msgcat::mcmset hu {
 
+  "Available"
+  "Elérhető"
+
   "Export Plugin"
   "Plugin exportálása"
+
+  "Installed"
+  "Telepítve"
 
   "Markdown"
   "Árleszállítás"
 
   "Plugin Manager"
   "Bővítménykezelő"
+
+  "Plugin export completed successfully"
+  "Plugin export sikeresen befejeződött"
 
   "Release Notes"
   "Kiadási megjegyzések"
@@ -1992,6 +1992,9 @@ msgcat::mcmset hu {
 
   "Clipboard history depth"
   "Csipeszes írótábla történelem mélység"
+
+  "Close find panels when editing buffer gets focus"
+  "Zárja be a paneleket, amikor a puffer szerkesztése fókuszba kerül"
 
   "Closing"
   "Befejezés"
@@ -2271,6 +2274,9 @@ msgcat::mcmset hu {
 
   "Select a plugin"
   "Válassza ki a plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Válasszon ki egy parancsikont, és nyomja meg a Vissza vagy a Szóköz billentyűt a parancsikon szerkesztéséhez"
 
   "Select default browsing directory"
   "Válassza ki az alapértelmezett könyvtár böngészés"
@@ -3632,9 +3638,6 @@ msgcat::mcmset hu {
   "Edit"
   "Szerkesztés"
 
-  "Emmet"
-  "hangya"
-
   "Enable code folding"
   "Engedélyezi a kód összecsukható"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset hu {
   "Insert"
   "Beillesztés"
 
+  "Install"
+  "Telepítés"
+
   "Language"
   "Nyelv"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset hu {
 
   "Node"
   "Csomópont"
-
-  "None"
-  "Egysem"
 
   "OK"
   "OK"
@@ -3823,6 +3826,9 @@ msgcat::mcmset hu {
 
   "Unfavorite"
   "Nem kedvenc"
+
+  "Uninstall"
+  "Eltávolítás"
 
   "Update"
   "Frissítés"

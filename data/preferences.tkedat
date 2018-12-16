@@ -294,6 +294,12 @@
 
 {Find/DefaultFIFMethod}      {regexp}
 
+# If this value is set to 1, the find and find/replace panels will be automatically
+# closed when keyboard focus is placed on the text buffer associated with the find
+# panel.
+
+{Find/ClosePanelsOnTextFocus} {0}
+
 # If this value is set to 1, the menubar will be displayed on application start,
 # If this value is set to 0, the menubar will be hidden on application start.
 # This option is only valid when not running as a Mac application.

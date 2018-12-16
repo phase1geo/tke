@@ -816,7 +816,7 @@ namespace eval pref_ui {
     $widgets(selsmenu) delete 0 end
 
     # Populate the selection menu
-    $widgets(selsmenu) add radiobutton -label [msgcat::mc "None"] -variable pref_ui::selected_session -value [msgcat::mc "None"] -command [list pref_ui::select $selected_session $language [msgcat::mc "None"] $language]
+    $widgets(selsmenu) add radiobutton -label "None" -variable pref_ui::selected_session -value "None" -command [list pref_ui::select $selected_session $language "None" $language]
     $widgets(selsmenu) add separator
     foreach name [sessions::get_names] {
       $widgets(selsmenu) add radiobutton -label $name -variable pref_ui::selected_session -value $name -command [list pref_ui::select $selected_session $language $name $language]
@@ -865,7 +865,7 @@ namespace eval pref_ui {
     }
 
     # Translate the session and language values
-    if {$session eq [msgcat::mc "None"]} {
+    if {$session eq "None"} {
       set session ""
     }
     if {$language eq [msgcat::mc "All"]} {
@@ -964,7 +964,7 @@ namespace eval pref_ui {
       set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 30 -watermark [msgcat::mc "Search"] -validate key -validatecommand [list pref_ui::perform_search %P]]
 
       # Initialize the syntax menu
-      set selected_session  [expr {($session  eq "") ? [msgcat::mc "None"] : $session}]
+      set selected_session  [expr {($session  eq "") ? "None" : $session}]
       set selected_language [expr {($language eq "") ? [msgcat::mc "All"]  : $language}]
       populate_session_menu $selected_language
       populate_lang_menu $selected_session
@@ -1012,7 +1012,7 @@ namespace eval pref_ui {
       set panes [list general       [msgcat::mc "General"]       appearance [msgcat::mc "Appearance"] \
                       editor        [msgcat::mc "Editor"]        find       [msgcat::mc "Find"] \
                       sidebar       [msgcat::mc "Sidebar"]       view       [msgcat::mc "View"] \
-                      snippets      [msgcat::mc "Snippets"]      emmet      [msgcat::mc "Emmet"] \
+                      snippets      [msgcat::mc "Snippets"]      emmet      "Emmet" \
                       shortcuts     [msgcat::mc "Shortcuts"]     plugins    [msgcat::mc "Plugins"] \
                       documentation [msgcat::mc "Documentation"] advanced   [msgcat::mc "Advanced"]]
 
@@ -1189,7 +1189,7 @@ namespace eval pref_ui {
       return
     }
 
-    if {$session eq [msgcat::mc "None"]} {
+    if {$session eq "None"} {
 
       if {[sessions::current] ne ""} {
 
@@ -1285,7 +1285,7 @@ namespace eval pref_ui {
     # Get the list of matches
     if {$value ne ""} {
       if {$selected_language eq [msgcat::mc "All"]} {
-        if {$selected_session eq [msgcat::mc "None"]} {
+        if {$selected_session eq "None"} {
           set matches [array names search -regexp (?i).*$value.*::a.*]
         } else {
           set matches [array names search -regexp (?i).*$value.*::.*b.*]
@@ -2970,6 +2970,8 @@ namespace eval pref_ui {
     make_spacer $w 1
     make_mb $w.dsm [msgcat::mc "Default Find search method"]          Find/DefaultMethod {regexp glob exact} 1
     make_mb $w.dfm [msgcat::mc "Default Find in Files search method"] Find/DefaultFIFMethod {regexp glob exact} 1
+    make_spacer $w 1
+    make_cb $w.cp  [msgcat::mc "Close find panels when editing buffer gets focus"] Find/ClosePanelsOnTextFocus 1
 
   }
 
@@ -3246,11 +3248,13 @@ namespace eval pref_ui {
 
     pack $w.sf.ef.tf.tf -fill both -expand yes
 
+    set bwidth [msgcat::mcmax "Insert" "Save" "Cancel"]
+
     ttk::frame  $w.sf.ef.bf
-    set widgets(snippets_ins)  [ttk::button $w.sf.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]]
+    set widgets(snippets_ins)  [ttk::button $w.sf.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width $bwidth -command [list pref_ui::snippets_insert]]
     set widgets(snippets_save) [ttk::button $w.sf.ef.bf.save -style BButton -text [msgcat::mc "Save"] \
-      -width 6 -command [list pref_ui::snippets_save] -state disabled]
-    ttk::button $w.sf.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::snippets_cancel]
+      -width $bwidth -command [list pref_ui::snippets_save] -state disabled]
+    ttk::button $w.sf.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list pref_ui::snippets_cancel]
 
     pack $w.sf.ef.bf.insert -side left  -padx 2 -pady 2
     pack $w.sf.ef.bf.cancel -side right -padx 2 -pady 2
@@ -3683,13 +3687,15 @@ namespace eval pref_ui {
     bind [$widgets(shortcut_tl) bodytag] <Delete>          [list pref_ui::shortcut_clear]
     bind [$widgets(shortcut_tl) bodytag] <Double-Button-1> [list pref_ui::shortcut_table_select]
 
+    set bwidth [msgcat::mcmax "Clear" "Set" "Cancel"]
+
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
     ttk::label  $w.tf.sf.l -text [format "%s: " [msgcat::mc "Shortcut"]]
     set widgets(shortcut_mod)    [ttk::combobox $w.tf.sf.mod -width $mod_width -height 5 -state readonly]
     set widgets(shortcut_sym)    [ttk::combobox $w.tf.sf.sym -width 5          -height 5 -state readonly]
-    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"] -width 6 -command [list pref_ui::shortcut_clear]]
-    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Set"]   -width 6 -state disabled -command [list pref_ui::shortcut_update]]
-    ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::shortcut_cancel]
+    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"] -width $bwidth -command [list pref_ui::shortcut_clear]]
+    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Set"]   -width $bwidth -state disabled -command [list pref_ui::shortcut_update]]
+    ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command [list pref_ui::shortcut_cancel]
 
     bind $widgets(shortcut_mod)    <<ComboboxSelected>> [list pref_ui::shortcut_changed]
     bind $widgets(shortcut_mod)    <Escape>             [list pref_ui::shortcut_cancel]
@@ -4375,8 +4381,10 @@ namespace eval pref_ui {
     pack .prefwin.docwin.f.ul  -side left -padx 2 -pady 2
     pack .prefwin.docwin.f.url -side left -padx 2 -pady 2
 
+    set bwidth [msgcat::mcmax "Add" "Cancel"]
+
     ttk::frame  .prefwin.docwin.bf
-    ttk::button .prefwin.docwin.bf.ok -style BButton -text [msgcat::mc "Add"] -width 6 -command {
+    ttk::button .prefwin.docwin.bf.ok -style BButton -text [msgcat::mc "Add"] -width $bwidth -command {
       set url  [.prefwin.docwin.f.url get]
       set name [pref_ui::docwin_get_title $url]
       set row  [$pref_ui::widgets(doc,table) insert end [list $name $url]]
@@ -4388,7 +4396,7 @@ namespace eval pref_ui {
       after idle [list pref_ui::documentation_save]
       destroy .prefwin.docwin
     } -state disabled
-    ttk::button .prefwin.docwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
+    ttk::button .prefwin.docwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width $bwidth -command {
       destroy .prefwin.docwin
     }
 

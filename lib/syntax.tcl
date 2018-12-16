@@ -25,7 +25,7 @@
 namespace eval syntax {
 
   variable filetypes    {}
-  variable current_lang [msgcat::mc "None"]
+  variable current_lang "None"
   variable assoc_file
   variable syntax_menus {}
 
@@ -123,9 +123,13 @@ namespace eval syntax {
 
     variable syntax_menus
 
+    # Populate the syntax menus to match the required view type
     foreach syntax_menu $syntax_menus {
-      populate_syntax_menu $syntax_menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]
+      populate_syntax_menu $syntax_menu syntax::set_current_language syntax::current_lang "None" [get_enabled_languages]
     }
+
+    # Make sure that the syntax menus are updated
+    update_syntax_menus
 
   }
 
@@ -274,7 +278,7 @@ namespace eval syntax {
     array set overrides [preferences::get {General/LanguagePatternOverrides}]
 
     set maxlen     0
-    set best_match [msgcat::mc "None"]
+    set best_match "None"
 
     foreach lang [array names langs] {
       array set lang_array $langs($lang)
@@ -325,7 +329,7 @@ namespace eval syntax {
       }
     }
 
-    return [msgcat::mc "None"]
+    return "None"
 
   }
 
@@ -339,7 +343,7 @@ namespace eval syntax {
       return $curr_lang($txt)
     }
 
-    return [msgcat::mc "None"]
+    return "None"
 
   }
 
@@ -543,8 +547,14 @@ namespace eval syntax {
 
     }
 
+    # Get the current language
+    set prev_lang [get_language $txt]
+
     # Save the language
     set curr_lang($txt) [set current_lang $language]
+
+    # Update the syntax menus
+    update_syntax_menus $prev_lang
 
     # Re-highlight
     if {$opts(-highlight)} {
@@ -794,6 +804,30 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # This should be called whenever the current language is changed.  This
+  # will update the syntax menu states to make them consistent with the
+  # current language.
+  proc update_syntax_menus {{prev_lang ""}} {
+
+    variable syntax_menus
+    variable current_lang
+
+    if {[preferences::get View/ShowLanguagesSubmenu]} {
+      if {$prev_lang ne ""} {
+        foreach mnu $syntax_menus {
+          $mnu entryconfigure [string toupper [string index $prev_lang 0]]    -image menu_nocheck
+          $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+        }
+      } else {
+        foreach mnu $syntax_menus {
+          $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
   # Repopulates the specified syntax selection menu.
   proc populate_syntax_menu {mnu command varname dflt languages} {
 
@@ -811,7 +845,7 @@ namespace eval syntax {
       }
       $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
       foreach letter [lsort [array names letters]] {
-        $mnu add cascade -label $letter -menu $mnu.submenu$letter
+        $mnu add cascade -compound left -label $letter -image menu_nocheck -menu $mnu.submenu$letter
       }
       return
     }
@@ -876,7 +910,7 @@ namespace eval syntax {
     }
 
     # Populate the menu
-    populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]
+    populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang "None" [get_enabled_languages]
 
     # Register the menu
     theme::register_widget ${w}Menu menus
@@ -950,7 +984,7 @@ namespace eval syntax {
     }
 
     # Get the current language
-    if {$language eq [msgcat::mc "None"]} {
+    if {$language eq "None"} {
       return [list]
     } else {
       array set lang_array $langs($language)
@@ -972,7 +1006,7 @@ namespace eval syntax {
       set language $curr_lang([gui::current_txt])
     }
 
-    if {$language eq [msgcat::mc "None"]} {
+    if {$language eq "None"} {
       return [list]
     } else {
       array set lang_array $langs($language)
@@ -989,7 +1023,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current language
-    if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
+    if {[set language $curr_lang($txt)] eq "None"} {
       return 1
     } else {
       array set lang_array $langs($language)
@@ -1006,7 +1040,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current language
-    if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
+    if {[set language $curr_lang($txt)] eq "None"} {
       return [list [list] [list] [list]]
     } else {
       array set lang_array $langs($language)
@@ -1023,7 +1057,7 @@ namespace eval syntax {
     variable curr_lang
 
     # Get the current language
-    if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
+    if {[set language $curr_lang($txt)] eq "None"} {
       return [list]
     } else {
       array set lang_array $langs($language)

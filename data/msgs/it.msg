@@ -320,6 +320,12 @@ msgcat::mcmset it {
   "Image used in tab which, when clicked, closes the tab."
   "Immagine utilizzata in scheda che, se cliccato, chiude la scheda."
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "Immagine utilizzata nei menu per indicare che una voce di menu non è selezionata."
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "Immagine utilizzata nei menu per indicare che una voce di menu è selezionata."
+
   "Image used in the preferences window in the Advanced tab."
   "Immagine utilizzata nella finestra Preferenze nella scheda Avanzate."
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset it {
   "Insert unordered list formatting"
   "Inserire formattazione di elenco non ordinato"
 
-  "Install"
-  "Installa"
-
   "Install plugin"
   "Installa il plugin"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset it {
   "Unindent selected text"
   "Riduci rientro testo selezionato"
 
-  "Uninstall"
-  "Disinstalla"
-
   "Uninstall plugin"
   "Disinstalla plugin"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "Sblocca"
@@ -1794,9 +1791,6 @@ msgcat::mcmset it {
 
   "Vim Mode"
   "Modalità di Vim"
-
-  "Windows"
-  "Finestre"
 
   "Wrap With Abbreviation"
   "Avvolgere con abbreviazione"
@@ -1848,9 +1842,6 @@ msgcat::mcmset it {
   "Plugin Trust Requested"
   "Plugin fiducia desiderata"
 
-  "Plugin export completed successfully"
-  "Esportazione completata."
-
   "Plugin import completed successfully"
   "Prenotazione Completata!"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset it {
 # plugmgr.tcl
 msgcat::mcmset it {
 
+  "Available"
+  "Disponibile"
+
   "Export Plugin"
   "Plugin di esportazione"
+
+  "Installed"
+  "Installato"
 
   "Markdown"
   "Markdown"
 
   "Plugin Manager"
   "Gestore plugin"
+
+  "Plugin export completed successfully"
+  "Esportazione completata."
 
   "Release Notes"
   "Note di rilascio"
@@ -1992,6 +1992,9 @@ msgcat::mcmset it {
 
   "Clipboard history depth"
   "Profondità della cronologia degli Appunti"
+
+  "Close find panels when editing buffer gets focus"
+  "Nelle vicinanze di trovare pannelli quando il buffer di editing ottiene lo stato attivo"
 
   "Closing"
   "Fase di"
@@ -2271,6 +2274,9 @@ msgcat::mcmset it {
 
   "Select a plugin"
   "Selezionare un plugin"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "Selezionare un collegamento e premi il tasto spazio per modificare il collegamento"
 
   "Select default browsing directory"
   "Selezionare predefinito, esplorazione directory"
@@ -3632,9 +3638,6 @@ msgcat::mcmset it {
   "Edit"
   "Modifica"
 
-  "Emmet"
-  "Emmet"
-
   "Enable code folding"
   "Attivare codice pieghevole"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset it {
   "Insert"
   "Inserisci"
 
+  "Install"
+  "Installa"
+
   "Language"
   "Lingua"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset it {
 
   "Node"
   "Nodo"
-
-  "None"
-  "Nessuno"
 
   "OK"
   "Ok"
@@ -3823,6 +3826,9 @@ msgcat::mcmset it {
 
   "Unfavorite"
   "Elimina dai preferiti"
+
+  "Uninstall"
+  "Disinstalla"
 
   "Update"
   "Aggiorna"

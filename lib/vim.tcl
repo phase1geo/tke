@@ -62,9 +62,13 @@ namespace eval vim {
 
   ######################################################################
   # Enables/disables Vim mode for all text widgets.
-  proc set_vim_mode_all {} {
+  proc set_vim_mode_all {{value ""}} {
 
     variable command_entries
+
+    if {$value ne ""} {
+      set preferences::prefs(Editor/VimMode) $value
+    }
 
     # Set the Vim mode on all text widgets
     foreach txtt [array names command_entries] {

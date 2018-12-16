@@ -320,6 +320,12 @@ msgcat::mcmset zh {
   "Image used in tab which, when clicked, closes the tab."
   "用图像的选项卡，单击时，将关闭选项卡。"
 
+  "Image used in the menus to indicate that a menu item is not selected."
+  "菜单中使用的图像表示未选择菜单项。"
+
+  "Image used in the menus to indicate that a menu item is selected."
+  "菜单中使用的图像表示已选择菜单项。"
+
   "Image used in the preferences window in the Advanced tab."
   "在首选项窗口中高级选项卡所用的图像。"
 
@@ -1078,9 +1084,6 @@ msgcat::mcmset zh {
   "Insert unordered list formatting"
   "插入无序的列表格式"
 
-  "Install"
-  "安装"
-
   "Install plugin"
   "安装新插件"
 
@@ -1750,14 +1753,8 @@ msgcat::mcmset zh {
   "Unindent selected text"
   "取消所選文本的縮排"
 
-  "Uninstall"
-  "卸载"
-
   "Uninstall plugin"
   "卸载插件"
-
-  "Unix"
-  "Unix"
 
   "Unlock"
   "解锁用户"
@@ -1794,9 +1791,6 @@ msgcat::mcmset zh {
 
   "Vim Mode"
   "Vim的模式"
-
-  "Windows"
-  "窗口"
 
   "Wrap With Abbreviation"
   "用缩写包裹"
@@ -1848,9 +1842,6 @@ msgcat::mcmset zh {
   "Plugin Trust Requested"
   "插件信任请求"
 
-  "Plugin export completed successfully"
-  "插件导出成功完成"
-
   "Plugin import completed successfully"
   "全部成功导入"
 
@@ -1886,14 +1877,23 @@ msgcat::mcmset zh {
 # plugmgr.tcl
 msgcat::mcmset zh {
 
+  "Available"
+  "可订"
+
   "Export Plugin"
   "出口插件"
+
+  "Installed"
+  "安装"
 
   "Markdown"
   "降价"
 
   "Plugin Manager"
   "插件管理器"
+
+  "Plugin export completed successfully"
+  "插件导出成功完成"
 
   "Release Notes"
   "发行说明"
@@ -1992,6 +1992,9 @@ msgcat::mcmset zh {
 
   "Clipboard history depth"
   "剪贴板历史深度"
+
+  "Close find panels when editing buffer gets focus"
+  "编辑缓冲区获得焦点时关闭查找面板"
 
   "Closing"
   "正在关闭"
@@ -2271,6 +2274,9 @@ msgcat::mcmset zh {
 
   "Select a plugin"
   "选择某个插件"
+
+  "Select a shortcut and hit the Return or Space key to edit the shortcut"
+  "选择一个快捷方式，然后单击Return或Space键以编辑快捷方式"
 
   "Select default browsing directory"
   "选择默认浏览目录"
@@ -3632,9 +3638,6 @@ msgcat::mcmset zh {
   "Edit"
   "编辑"
 
-  "Emmet"
-  "蚂蚁"
-
   "Enable code folding"
   "启用代码折叠"
 
@@ -3680,6 +3683,9 @@ msgcat::mcmset zh {
   "Insert"
   "插入"
 
+  "Install"
+  "安装"
+
   "Language"
   "语言"
 
@@ -3712,9 +3718,6 @@ msgcat::mcmset zh {
 
   "Node"
   "節點"
-
-  "None"
-  "无"
 
   "OK"
   "確定"
@@ -3823,6 +3826,9 @@ msgcat::mcmset zh {
 
   "Unfavorite"
   "不喜欢的"
+
+  "Uninstall"
+  "卸载"
 
   "Update"
   "升级"
