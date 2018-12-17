@@ -8,8 +8,8 @@
  RE: Run me (tcl, html...) RE: ###########################################################
  SE: Run me (tcl, html...) SE: echo Customize the menu for file extention: %s2
 
- RE: Run Tcl {%s} ... RE: cd %d
- SE: Run Tcl {%s} ... SE: dir\ntclsh %z1/src/ch_.tcl "%z2"
+ SE: Run Tcl {%s} ... SE: cd %d
+ SE: Run Tcl {%s} ... SE: tclsh %z1/src/ch_.tcl "%z2"
 
  RE: Edit/create file "%s" RE:%E %s
 
@@ -37,7 +37,7 @@
  RE: Differences of %s0 (hg extdiff) RE: hg extdiff -p kdiff3 %f
 
  # call TKE with directory of current project
- RE: Edit all %z4 RE: %e "%z4"
+ RE: Edit all %PD RE: %e "%PD"
 
  M:  M: 4
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50

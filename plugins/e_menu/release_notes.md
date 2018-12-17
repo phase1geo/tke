@@ -1,5 +1,11 @@
 =Last changes:
 
+
+Version 1.5 (17 Dec'18)
+
+  - Windows issue fixed: multiline command batch formed 'on fly'
+
+
 Version 1.4 (16 Dec'18)
 
   - sel_tcl.tmp instead of tmp_sel.tcl as a temporary file name (for SCM ignoring).
