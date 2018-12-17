@@ -3719,6 +3719,9 @@ msgcat::mcmset de {
   "Node"
   "Knoten"
 
+  "None"
+  "Keine"
+
   "OK"
   "确定"
 

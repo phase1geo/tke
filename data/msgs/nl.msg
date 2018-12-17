@@ -3719,6 +3719,9 @@ msgcat::mcmset nl {
   "Node"
   "Knooppunt"
 
+  "None"
+  "Geen"
+
   "OK"
   "Ok"
 

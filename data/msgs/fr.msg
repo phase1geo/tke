@@ -3719,6 +3719,9 @@ msgcat::mcmset fr {
   "Node"
   "nœud"
 
+  "None"
+  "Aucun"
+
   "OK"
   "Ok"
 

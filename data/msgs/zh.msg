@@ -3719,6 +3719,9 @@ msgcat::mcmset zh {
   "Node"
   "節點"
 
+  "None"
+  "无"
+
   "OK"
   "確定"
 

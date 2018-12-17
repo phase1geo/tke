@@ -3719,6 +3719,9 @@ msgcat::mcmset it {
   "Node"
   "Nodo"
 
+  "None"
+  "Nessuna"
+
   "OK"
   "Ok"
 

@@ -3719,6 +3719,9 @@ msgcat::mcmset ja {
   "Node"
   "ノード"
 
+  "None"
+  "なし"
+
   "OK"
   "OK"
 

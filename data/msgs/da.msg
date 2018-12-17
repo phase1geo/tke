@@ -3719,6 +3719,9 @@ msgcat::mcmset da {
   "Node"
   "Node"
 
+  "None"
+  "Ingen"
+
   "OK"
   "OK"
 

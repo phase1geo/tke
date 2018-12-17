@@ -3719,6 +3719,9 @@ msgcat::mcmset cs {
   "Node"
   "Uzel"
 
+  "None"
+  "Žádný"
+
   "OK"
   "OK"
 

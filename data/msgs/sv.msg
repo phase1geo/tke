@@ -3719,6 +3719,9 @@ msgcat::mcmset sv {
   "Node"
   "Nod"
 
+  "None"
+  "Inga"
+
   "OK"
   "OK"
 
