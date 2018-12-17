@@ -473,6 +473,15 @@ proc ::em::shell0 {sel amp} {
   set ret true
   if {[::iswindows]} {
     set composite "$::win_console $sel $amp"
+    catch {
+      # here we construct new .bat containing all lines of the command
+      set lines "@echo off\n"
+      append lines [string map {"\\n" "\n"} $sel] "\npause"
+      set cho [open "$::win_console.bat" w]
+      puts $cho $lines
+      close $cho
+      set composite "$::win_console.bat $amp"
+    }
     if { [catch { exec {*}[auto_execok start] \
       cmd.exe /c {*}"$composite" } e] } {
       if {$silent < 0} {
