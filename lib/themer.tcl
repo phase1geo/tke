@@ -832,7 +832,7 @@ namespace eval themer {
 
     # Create the modification frames
     ttk::labelframe $data(widgets,color).mod -text [msgcat::mc "Modifications"]
-    grid [ttk::radiobutton $data(widgets,color).mod.lnone -text "None" -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
+    grid [ttk::radiobutton $data(widgets,color).mod.lnone -text [msgcat::mc "None"] -value none -variable themer::data(mod) -command [list themer::color_mod_changed none]] -row 0 -column 0 -sticky w -padx 2 -pady 2
     set i 1
     foreach {lbl mod max} [list [msgcat::mc "Value"] v 127 "R" r 255 "G" g 255 "B" b 255] {
       grid [ttk::radiobutton $data(widgets,color).mod.l$mod -text "$lbl:" -value $mod -variable themer::data(mod) -command [list themer::color_mod_changed $mod]] -row $i -column 0 -sticky w -padx 2 -pady 2

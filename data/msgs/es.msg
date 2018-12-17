@@ -3719,6 +3719,9 @@ msgcat::mcmset es {
   "Node"
   "Nodo"
 
+  "None"
+  "Ninguno"
+
   "OK"
   "Aceptar"
 

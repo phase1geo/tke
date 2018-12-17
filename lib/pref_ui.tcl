@@ -816,7 +816,7 @@ namespace eval pref_ui {
     $widgets(selsmenu) delete 0 end
 
     # Populate the selection menu
-    $widgets(selsmenu) add radiobutton -label "None" -variable pref_ui::selected_session -value "None" -command [list pref_ui::select $selected_session $language "None" $language]
+    $widgets(selsmenu) add radiobutton -label [msgcat::mc "None"] -variable pref_ui::selected_session -value [msgcat::mc "None"] -command [list pref_ui::select $selected_session $language [msgcat::mc "None"] $language]
     $widgets(selsmenu) add separator
     foreach name [sessions::get_names] {
       $widgets(selsmenu) add radiobutton -label $name -variable pref_ui::selected_session -value $name -command [list pref_ui::select $selected_session $language $name $language]
@@ -865,7 +865,7 @@ namespace eval pref_ui {
     }
 
     # Translate the session and language values
-    if {$session eq "None"} {
+    if {$session eq [msgcat::mc "None"]} {
       set session ""
     }
     if {$language eq [msgcat::mc "All"]} {
@@ -964,7 +964,7 @@ namespace eval pref_ui {
       set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 30 -watermark [msgcat::mc "Search"] -validate key -validatecommand [list pref_ui::perform_search %P]]
 
       # Initialize the syntax menu
-      set selected_session  [expr {($session  eq "") ? "None" : $session}]
+      set selected_session  [expr {($session  eq "") ? [msgcat::mc "None"] : $session}]
       set selected_language [expr {($language eq "") ? [msgcat::mc "All"]  : $language}]
       populate_session_menu $selected_language
       populate_lang_menu $selected_session
@@ -1189,7 +1189,7 @@ namespace eval pref_ui {
       return
     }
 
-    if {$session eq "None"} {
+    if {$session eq [msgcat::mc "None"]} {
 
       if {[sessions::current] ne ""} {
 
@@ -1285,7 +1285,7 @@ namespace eval pref_ui {
     # Get the list of matches
     if {$value ne ""} {
       if {$selected_language eq [msgcat::mc "All"]} {
-        if {$selected_session eq "None"} {
+        if {$selected_session eq [msgcat::mc "None"]} {
           set matches [array names search -regexp (?i).*$value.*::a.*]
         } else {
           set matches [array names search -regexp (?i).*$value.*::.*b.*]

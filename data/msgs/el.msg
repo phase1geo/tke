@@ -3719,6 +3719,9 @@ msgcat::mcmset el {
   "Node"
   "Κόμβος"
 
+  "None"
+  "Κανένα"
+
   "OK"
   "ΟΚ"
 

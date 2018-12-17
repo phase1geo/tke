@@ -3719,6 +3719,9 @@ msgcat::mcmset pt {
   "Node"
   "nós"
 
+  "None"
+  "Nenhum"
+
   "OK"
   "Ok"
 

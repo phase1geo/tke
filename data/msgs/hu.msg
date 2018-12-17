@@ -2723,7 +2723,7 @@ msgcat::mcmset hu {
   "Összezárás"
 
   "Toggle Quote Inclusion"
-  "Toggle Quote Inclusion"
+  "Toggle ajánlat felvétele"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Típus '?' segítségért.  Az ESCAPE billentyű kijelölési módból való kilépéshez nyomja"
@@ -3718,6 +3718,9 @@ msgcat::mcmset hu {
 
   "Node"
   "Csomópont"
+
+  "None"
+  "Nincs"
 
   "OK"
   "OK"

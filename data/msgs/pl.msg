@@ -3719,6 +3719,9 @@ msgcat::mcmset pl {
   "Node"
   "Węzeł"
 
+  "None"
+  "Brak"
+
   "OK"
   "OK"
 
