@@ -547,14 +547,8 @@ namespace eval syntax {
 
     }
 
-    # Get the current language
-    set prev_lang [get_language $txt]
-
     # Save the language
     set curr_lang($txt) [set current_lang $language]
-
-    # Update the syntax menus
-    update_syntax_menus $prev_lang
 
     # Re-highlight
     if {$opts(-highlight)} {
@@ -807,19 +801,17 @@ namespace eval syntax {
   # This should be called whenever the current language is changed.  This
   # will update the syntax menu states to make them consistent with the
   # current language.
-  proc update_syntax_menus {{prev_lang ""}} {
+  proc update_syntax_menus {} {
 
     variable syntax_menus
     variable current_lang
 
-    if {[preferences::get View/ShowLanguagesSubmenu]} {
-      if {$prev_lang ne ""} {
-        foreach mnu $syntax_menus {
-          $mnu entryconfigure [string toupper [string index $prev_lang 0]]    -image menu_nocheck
-          $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
+    foreach mnu $syntax_menus {
+      if {[winfo exists $mnu.submenuA]} {
+        for {set i 1} {$i < [$mnu index last]} {incr i} {
+          $mnu entryconfigure $i -image menu_nocheck
         }
-      } else {
-        foreach mnu $syntax_menus {
+        if {$current_lang ne [msgcat::mc "None"]} {
           $mnu entryconfigure [string toupper [string index $current_lang 0]] -image menu_check
         }
       }
@@ -928,6 +920,9 @@ namespace eval syntax {
 
     # Get the current language
     set current_lang $curr_lang([gui::current_txt])
+
+    # Update the syntax menus
+    update_syntax_menus
 
     # Configures the current language for the specified text widget
     $w configure -text $current_lang
