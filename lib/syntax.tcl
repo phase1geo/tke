@@ -548,7 +548,7 @@ namespace eval syntax {
     }
 
     # Save the language
-    set curr_lang($txt) [set current_lang $language]
+    set curr_lang($txt) $language
 
     # Re-highlight
     if {$opts(-highlight)} {
@@ -872,6 +872,19 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Called just prior to posting the menu.
+  proc post_menu {} {
+
+    variable current_lang
+
+    # Gets the current language
+    gui::get_info {} current lang
+
+    set current_lang $lang
+
+  }
+
+  ######################################################################
   # Displays language submenu.
   proc post_submenu {mnu letter} {
 
@@ -894,7 +907,7 @@ namespace eval syntax {
     variable syntax_menus
 
     # Create the menubutton menu
-    lappend syntax_menus [menu ${w}Menu -tearoff 0]
+    lappend syntax_menus [menu ${w}Menu -tearoff 0 -postcommand syntax::post_menu]
 
     # Create submenus
     foreach letter [list A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] {
