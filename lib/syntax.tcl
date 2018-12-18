@@ -807,7 +807,7 @@ namespace eval syntax {
     variable current_lang
 
     foreach mnu $syntax_menus {
-      if {[winfo exists $mnu.submenuA]} {
+      if {[$mnu type 1] eq "cascade"} {
         for {set i 1} {$i < [$mnu index last]} {incr i} {
           $mnu entryconfigure $i -image menu_nocheck
         }
