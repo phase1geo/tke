@@ -3720,7 +3720,7 @@ msgcat::mcmset ru {
   "Узел"
 
   "None"
-  "нет"
+  "None"
 
   "OK"
   "ОК"

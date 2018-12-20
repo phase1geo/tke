@@ -1,0 +1,25 @@
+ SE: GREP EXACT : '%s' SE: cd %d
+ SE: GREP EXACT : '%s' SE: grep -F -H -n -I -s -d skip * -e '%s'
+ SE: GREP REGEXP: '%s' SE: cd %d
+ SE: GREP REGEXP: '%s' SE: grep -H -n -I -s -d skip * -e '%s'
+
+ M:  M: 4
+ SE: GREP EXACT  recursive: '%s' SE: cd %d
+ SE: GREP EXACT  recursive: '%s' SE: grep -F -H -n -I -s -d recurse * -e '%s'
+ SE: GREP REGEXP recursive: '%s' SE: cd %d
+ SE: GREP REGEXP recursive: '%s' SE: grep -H -n -I -s -d recurse * -e '%s'
+
+ M:  M: 4
+ SE: GREP EXACT  ignoring case: '%s' SE: cd %d
+ SE: GREP EXACT  ignoring case: '%s' SE: grep -F -H -n -I -s -i -d skip * -e '%s'
+ SE: GREP REGEXP ignoring case: '%s' SE: cd %d
+ SE: GREP REGEXP ignoring case: '%s' SE: grep -H -n -I -s -i -d skip * -e '%s'
+
+ M:  M: 4
+ SE: GREP EXACT  recursive ignoring case: '%s' SE: cd %d
+ SE: GREP EXACT  recursive ignoring case: '%s' SE: grep -F -H -n -I -s -i -d recurse * -e '%s'
+ SE: GREP REGEXP recursive ignoring case: '%s' SE: cd %d
+ SE: GREP REGEXP recursive ignoring case: '%s' SE: grep -H -n -I -s -i -d recurse * -e '%s'
+
+[OPTIONS]
+w=70
