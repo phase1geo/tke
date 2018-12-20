@@ -23,10 +23,11 @@
  RE: Open in Firefox "%s" site RE: firefox "%s"
  RE: Search in Firefox for "%s" RE: firefox -search "%s"
  RE: Wikipedia for "%s" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
- RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
+# RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
  RE: GoldenDict for "%s" RE: goldendict %s
 
  M:  M: 4
+ ME: Search All %s in %s1  ME: m=grep.mnu "u=%s" o=0 w=50
  RE: Backup of %s0 RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
  RE: Backup of %s0 RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
  RE: Commit "%dd_on_%t2" RE: %q "MERCURIAL" "Add all changes\nand HG COMMIT with message\n\n'%dd_at_%t2' ?"
@@ -36,16 +37,15 @@
  RE: Differences of %s0 (hg extdiff) RE: cd %d
  RE: Differences of %s0 (hg extdiff) RE: hg extdiff -p kdiff3 %f
 
- # call TKE with directory of current project
- RE: Edit all %PD RE: %e "%PD"
+ # call TKE with all *.tcl of current file's directory
+ RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
+ RE: Edit *.tcl of %d RE: %e "%d/*.tcl"
 
  M:  M: 4
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50
  ME: Git  ME: m=git.mnu "u=%s" o=0 w=50
  ME: Hg ME: m=hg.mnu
  ME: Utils ME: m=utils.mnu
- ME: Links ME: m=links.mnu
- ME: Tests ME: m=test3.mnu
 
 [OPTIONS]
 n=< e_menu >

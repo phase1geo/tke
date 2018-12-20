@@ -173,7 +173,7 @@ namespace eval e_menu {
         #
         # z3=all projects dir stripped of special symbols (to use in fossil menus)
         set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $::env(E_MENU_PD)]"
-        # z4=current project dir (to use for opening the project dir in TKE)
+        # z4=prjname seen as E_MENU_PN env.variable
         set z4_opt "z4=$::env(E_MENU_PN)"
       }
     }

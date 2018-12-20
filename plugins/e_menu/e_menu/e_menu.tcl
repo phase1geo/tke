@@ -453,7 +453,7 @@ proc ::em::s_assign {refsel {trl 1}} {
 #=== replace first %b with browser pathname
 proc ::em::checkForBrowser {rsel} {
   upvar $rsel sel
-  if {[string first "%b " $sel] == 0 || [string first "%B " $sel] == 0} {
+  if {[string first "%b " $sel] == 0} {
     set sel "::eh::browse [list [string range $sel 3 end]]"
     return true
   }
@@ -462,7 +462,7 @@ proc ::em::checkForBrowser {rsel} {
 #=== replace first %t with terminal pathname
 proc ::em::checkForShell {rsel} {
   upvar $rsel sel
-  if {[string first "%t " $sel] == 0 || [string first "%T " $sel] == 0} {
+  if {[string first "%t " $sel] == 0} {
     set sel "[string range $sel 3 end]"
     return true
   }
@@ -524,17 +524,26 @@ proc ::em::run0 {sel amp silent} {
       set sel "Q [string range $sel 3 end]"
       return [{*}$sel]
     } elseif {[string first "%D " $sel] == 0} {
-      set sel "D [string range $sel 3 end]"
-      if {[catch [{*}$sel] e]} {
-        D $e
-        return false
-      }
+      D [string range $sel 3 end]
     } elseif {[string first "%S " $sel] == 0} {
+      # run shell command(s)
       set sel "S [string range $sel 3 end]"
-      if {[catch [{*}$sel] e]} {
+      if {[catch {[{*}$sel]} e]} {
         D $e
         return false
       }
+    } elseif {[string first "%C " $sel] == 0} {
+      # run Tcl code with messaging errors
+      set sel "[string range $sel 3 end]"
+      if {[catch {[{*}$sel]} e]} {
+        D $e
+        return false
+      }
+    } elseif {[string first "%T " $sel] == 0} {
+      # run Tcl code without messaging errors
+      # e.g. when deleting/overwriting a read-only file
+      set sel "[string range $sel 3 end]"
+      catch {[{*}$sel]}
     } elseif {[string first "%IF " $sel] == 0} {
       return [IF [string range $sel 4 end]]
     } elseif {[checkForBrowser sel]} {

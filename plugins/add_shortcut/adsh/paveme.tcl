@@ -364,7 +364,7 @@ oo::class create PaveMe {
       [list -focus "" -onclose "" -geometry "" -decor 0 -root $root {*}$args]
     lassign [split [winfo geometry $root] x+] rw rh rx ry
     if {! $opt(-decor)} {
-      wm transient $win .
+      wm transient $win $root
     }
     if {$opt(-onclose) == ""} {
       set opt(-onclose) [list set ${nsp}paveN::PaveRes($win) 0]
@@ -395,7 +395,9 @@ oo::class create PaveMe {
     }
     wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
     if {$inpgeom == ""} {  ;# final geometrizing with actual sizes
+      # Center the window in the root
       wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
+      #::tk::PlaceWindow $win widget $root
     } else {
       wm geometry $win $inpgeom
     }

@@ -1,7 +1,10 @@
 ; hg menu for e_menu.tcl
 
- R: hg status R: cd %PD
- S: hg status S: echo %PD\ndir\necho ---\nhg status
+ R: hg summary / status R: cd %PD
+ S: hg summary / status S: echo %PD\nhg summary\necho ---------------\nhg status
+
+ R: hg heads / parents R: cd %PD
+ S: hg heads / parents S: echo %PD\nhg heads\necho ---------------\nhg parents
 
  R: hg addremove * R: %q "ADD" "This will add & remove all changes in:\n\n%PD"
  R: hg addremove * R: cd %PD
@@ -12,49 +15,69 @@ SW: hg commit SW: hg status
  R: hg commit R: cd %PD
  S: hg commit S: hg commit
 
- R:  R: 5
+ R:  R: 2
 
- RE: kdiff3 of %s0 RE: cd %d
- RE: kdiff3 of %s0 RE: hg extdiff -p kdiff3 %f
-
- R: hg diff -r tip %s0 R: cd %PD
- S: hg diff -r tip %s0 S: hg diff -r tip %f
+ R: kdiff3 of %s0 R: cd %d
+ R: kdiff3 of %s0 R: hg extdiff -p kdiff3 %f
 
  R: hg diff R: cd %PD
  S: hg diff S: hg diff
 
+ R: hg diff -r tip %s0 R: cd %PD
+ S: hg diff -r tip %s0 S: hg diff -r tip %f
+
  R: hg annotate %s0 R: cd %PD
  S: hg annotate %s0 S: hg annotate %f
 
- R: hg log -l 7 -v R: cd %PD
- S: hg log -l 7 -v S: hg log -l 5 -v
+ R: hg log -l 5 -v R: cd %PD
+ S: hg log -l 5 -v S: hg log -l 5 -v
 
  R: hg log -p -l 1 %s0 R: cd %PD
  S: hg log -p -l 1 %s0 S: hg log -p -l 1 %f
 
- R:  R: 5
+ R: hg revert R: %q "REVERT" "Revert ALL changes in\n\n%PD\n\n?"
+ R: hg revert R: cd %PD
+ S: hg revert S: hg revert -a
+
+ R: hg revert %s0 R: %q "Revert" "Revert the changes of\n\n%f\n\n?"
+ S: hg revert %s0 S: hg revert %f
+
+ R: hg rollback R: %q "ROLLBACK" "Roll back the last commit in\n\n%PD\n\n?"
+ R: hg rollback R: cd %PD
+ S: hg rollback S: hg rollback
+
+ R: hg commit --amend R: %q "Commit amended" "\nCommit amended changes?\n"
+ R: hg commit --amend R: cd %PD
+ S: hg commit --amend S: hg commit
+
+ R:  R: 2
+
+ R: hg incoming R: cd %PD
+ S: hg incoming S: hg incoming
 
  R: hg fetch R: %q "FETCH" "This will PULL, MERGE and COMMIT changes in:\n\n%PD"
  R: hg fetch R: cd %PD
  S: hg fetch S: hg fetch
 
- R: hg incoming R: cd %PD
- S: hg incoming S: hg incoming
-
- R: hg pull R: %q "PULL" "This will pull changes in:\n\n%PD"
+ R: hg pull R: %q "PULL" "This will PULL changes in:\n\n%PD"
  R: hg pull R: cd %PD
  S: hg pull S: hg pull
 
- R:  R: 5
+ R: hg update R: %q "UPDATE" "This will UPDATE in:\n\n%PD"
+ R: hg update R: cd %PD
+ S: hg update S: hg update
 
- R: hg heads R: cd %PD
- S: hg heads S: hg heads
+ R: hg merge -P R: %q "MERGE PREVIEW" "This will PREVIEW the merge in:\n\n%PD"
+ R: hg merge -P R: cd %PD
+ S: hg merge -P S: hg merge -P
 
- R: hg merge R: %q "MERGE" "This will merge changes in:\n\n%PD"
+ R: hg merge R: %q "MERGE" "This will MERGE changes in:\n\n%PD"
  R: hg merge R: cd %PD
  S: hg merge S: hg merge
  R: hg merge R: %q "COMMIT" "This will COMMIT with message:\n\nMerge on %t2"
  S: hg merge S: hg commit -m "Merge on %t2"
+
+ R:  R: 2
 
  R: hg outgoing R: cd %PD
  S: hg outgoing S: hg outgoing
@@ -63,7 +86,7 @@ SW: hg commit SW: hg status
  R: hg push R: cd %PD
  S: hg push S: hg push
 
- R:  R: 5
+ R:  R: 2
 
  R: hg init (in %PD) R: %Q "MERCURIAL INIT" "Initialize the new Mercurial repository in\n\n%PD?"
  R: hg init (in %PD) R: cd %PD
