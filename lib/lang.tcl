@@ -444,7 +444,7 @@ namespace eval lang {
           for {set i 0} {$i < [$widgets(tbl) size]} {incr i} {
             set str   [$widgets(tbl) cellcget $i,str   -text]
             set xlate [$widgets(tbl) cellcget $i,xlate -text]
-            if {($xlate eq "") || ($xlate eq $str) || ([string first "??" $xlate] != -1)} {
+            if {($xlate eq "") || ([string first "??" $xlate] != -1)} {
               perform_translation $i $lang
             }
           }
