@@ -241,8 +241,8 @@ namespace eval lang {
     }
 
     ttk::frame .tf
-    set widgets(tbl) [tablelist::tablelist .tf.tl -columns {0 String 0 Translation 0 Re-translation 0 {}} \
-      -editselectedonly 1 -selectmode extended -exportselection 0 \
+    set widgets(tbl) [tablelist::tablelist .tf.tl -columns {0 {} 0 String 0 Translation 0 Re-translation 0 {}} \
+      -editselectedonly 1 -selectmode extended -exportselection 0 -stretch all \
       -editendcommand "lang::edit_end_command" \
       -yscrollcommand ".tf.vb set"]
     ttk::scrollbar .tf.vb -orient vertical -command ".tf.tl yview"
@@ -251,10 +251,11 @@ namespace eval lang {
       .tf.tl configure -$key $value
     }
 
-    .tf.tl columnconfigure 0 -name str     -editable 0
-    .tf.tl columnconfigure 1 -name xlate   -editable 1
-    .tf.tl columnconfigure 2 -name rexlate -editable 0
-    .tf.tl columnconfigure 3 -name src     -editable 0 -hide 1
+    .tf.tl columnconfigure 0 -name num     -editable 0 -resizable 0 -stretchable 0 -showlinenumbers 1
+    .tf.tl columnconfigure 1 -name str     -editable 0 -stretchable 1 -maxwidth -400
+    .tf.tl columnconfigure 2 -name xlate   -editable 1 -stretchable 1 -maxwidth -400
+    .tf.tl columnconfigure 3 -name rexlate -editable 0 -stretchable 1 -maxwidth -400
+    .tf.tl columnconfigure 4 -name src     -editable 0 -hide 1
 
     grid rowconfigure    .tf 0 -weight 1
     grid columnconfigure .tf 0 -weight 1
@@ -263,7 +264,8 @@ namespace eval lang {
 
     ttk::frame .bf
     set widgets(xlate)   [ttk::button      .bf.xlate   -text "Add Translations"]
-    set widgets(rexlate) [ttk::button      .bf.rexlate -text "Re-translate"]
+    set widgets(rexlate) [ttk::button      .bf.rexlate -text "Reverse translate"]
+    set widgets(unxlate) [ttk::button      .bf.unxlate -text "Use English"]
     set widgets(hide)    [ttk::checkbutton .bf.hide    -text "Hide translated" -variable lang::hide_xlates \
       -command "lang::show_hide_xlates"]
     set widgets(update) [ttk::button .bf.upd -text "Update" -width 6 -command "set ::update_lang 1; set ::update_done 1"]
@@ -271,6 +273,7 @@ namespace eval lang {
 
     pack .bf.xlate   -side left  -padx 2 -pady 2
     pack .bf.rexlate -side left  -padx 2 -pady 2
+    pack .bf.unxlate -side left  -padx 2 -pady 2
     pack .bf.hide    -side left  -padx 2 -pady 2
     pack .bf.cancel  -side right -padx 2 -pady 2
     pack .bf.upd     -side right -padx 2 -pady 2
@@ -301,6 +304,7 @@ namespace eval lang {
     variable xlates
 
     wm title . "Translations for $lang"
+    wm geometry . 1000x800
 
     # Clear the table
     $widgets(tbl) delete 0 end
@@ -308,7 +312,7 @@ namespace eval lang {
     # Populate the table
     set xlate_list [list]
     foreach xlate [lsort [array names xlates]] {
-      lappend xlate_list [list $xlate [lindex $xlates($xlate) 1]  [list] [lindex $xlates($xlate) 0]]
+      lappend xlate_list [list "" $xlate [lindex $xlates($xlate) 1]  [list] [lindex $xlates($xlate) 0]]
     }
     $widgets(tbl) insertlist end $xlate_list
 
@@ -319,6 +323,7 @@ namespace eval lang {
     # Setup the translations button
     $widgets(xlate)   configure -command "lang::perform_translations $lang"
     $widgets(rexlate) configure -command "lang::perform_retranslations $lang"
+    $widgets(unxlate) configure -command "lang::perform_untranslations $lang"
 
     if {$auto} {
 
@@ -430,6 +435,7 @@ namespace eval lang {
     # Disable the "Add Translations" button from being clicked again
     $widgets(xlate)   configure -state disabled
     $widgets(rexlate) configure -state disabled
+    $widgets(unxlate) configure -state disabled
     $widgets(update)  configure -state disabled
 
     # Get any selected rows
@@ -456,6 +462,7 @@ namespace eval lang {
     # Enable the 'Add Translations' button
     $widgets(xlate)   configure -state normal
     $widgets(rexlate) configure -state normal
+    $widgets(unxlate) configure -state normal
     $widgets(update)  configure -state normal
 
   }
@@ -510,6 +517,7 @@ namespace eval lang {
     # Disable the "Add Translations" button from being clicked again
     $widgets(xlate)   configure -state disabled
     $widgets(rexlate) configure -state disabled
+    $widgets(unxlate) configure -state disabled
     $widgets(update)  configure -state disabled
 
     # Get any selected rows
@@ -536,7 +544,21 @@ namespace eval lang {
     # Enable the 'Add Translations' button
     $widgets(xlate)   configure -state normal
     $widgets(rexlate) configure -state normal
+    $widgets(unxlate) configure -state normal
     $widgets(update)  configure -state normal
+
+  }
+
+  ######################################################################
+  # Sets the selected row translations back to match their English strings.
+  proc perform_untranslations {lang} {
+
+    variable widgets
+
+    foreach row [$widgets(tbl) curselection] {
+      $widgets(tbl) cellconfigure $row,xlate   -text [$widgets(tbl) cellcget $row,str -text]
+      $widgets(tbl) cellconfigure $row,rexlate -text "" -background "" -foreground ""
+    }
 
   }
 
