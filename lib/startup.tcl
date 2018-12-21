@@ -42,8 +42,6 @@ namespace eval startup {
     left_x   250
     help_x   270
     right_x  610
-    back_x   500
-    next_x   570
   }
   array set colors {
     help grey50
@@ -188,7 +186,7 @@ namespace eval startup {
       [msgcat::mc "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."]
 
     # Create Next button
-    make_button $widgets(welcome) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel settings]
+    make_button $widgets(welcome) [list right] $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel settings]
 
   }
 
@@ -218,9 +216,9 @@ namespace eval startup {
     set id [make_text        $widgets(settings) $locs(help_x) [get_y $widgets(settings) $id 10] $labels(share) $colors(help)]
 
     # Create the button bar
-    make_button $widgets(settings) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
-    make_button $widgets(settings) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] \
-      [list if {$startup::type eq "local"} { startup::show_panel finish } else { startup::do_directory }]
+    set b [make_button $widgets(settings) [list right] $locs(button_y) [msgcat::mc "Next"] \
+      [list if {$startup::type eq "local"} { startup::show_panel finish } else { startup::do_directory }]]
+    make_button $widgets(settings) [list leftof $b] $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
 
   }
 
@@ -265,8 +263,8 @@ namespace eval startup {
       }
 
       # Create the button bar
-      make_button $widgets($type) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
-      make_button $widgets($type) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
+      set b [make_button $widgets($type) [list right] $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]]
+      make_button $widgets($type) [list leftof $b] $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
 
     }
 
@@ -288,9 +286,9 @@ namespace eval startup {
       [msgcat::mc "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."]
 
     # Create the button bar
-    make_button $widgets(finish) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] \
+    set b [make_button $widgets(finish) [list right] $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]]
+    make_button $widgets(finish) [list leftof $b] $locs(button_y) [msgcat::mc "Back"] \
       [list if {$startup::type eq "local"} { startup::show_panel settings } else { startup::show_panel $startup::type }]
-    make_button $widgets(finish) $locs(next_x) $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]
 
   }
 
@@ -401,10 +399,13 @@ namespace eval startup {
 
   ######################################################################
   # Creates a button.
-  proc make_button {c x y txt command} {
+  proc make_button {c xpos y txt command} {
 
     # Create the button
-    set id [$c create text $x $y -anchor nw -font "-underline 1" -text $txt -fill black]
+    set id [$c create text 0 $y -anchor nw -font "-underline 1" -text $txt -fill black]
+
+    # Move the button to the correct position
+    move_button $c $id $xpos $txt
 
     # Create bindings
     $c bind $id <Button-1> $command
@@ -412,6 +413,43 @@ namespace eval startup {
     $c bind $id <Leave>    [list $c itemconfigure $id -fill black]
 
     return $id
+
+  }
+
+  ######################################################################
+  # Calculates the X-position.
+  proc move_button {c id pos str} {
+
+    lassign $pos type value
+
+    set padx 30
+
+    lassign [$c coords $id] bx by
+
+    switch $type {
+      left  {
+        set bx $padx
+      }
+      leftof {
+        lassign [$c bbox $value] x1 y1 x2 y2
+        set width [font measure [$c itemcget $id -font] $str]
+        set bx    [expr $x1 - ($width + $padx)]
+      }
+      right {
+        set width [font measure [$c itemcget $id -font] $str]
+        set bx    [expr 640 - ($width + $padx)]
+      }
+      rightof {
+        lappend [$c bbox $value] x1 y1 x2 y2
+        set bx [expr $x2 + $padx]
+      }
+      default {
+        set bx $type
+      }
+    }
+
+    # Set the new coordinates
+    $c coords $id $bx $by
 
   }
 
