@@ -1,8 +1,10 @@
 name           {css_colorize}
+display_name   {CSS Colorize}
 author         {Trevor Williams}
 email          {phase1geo@gmail.com}
 version        {1.0}
 include        {yes}
 trust_required {no}
+category       {syntax}
 description    {Colorizes the background color of CSS syntax that describes color
                 with the value of that color.}
