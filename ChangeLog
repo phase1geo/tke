@@ -1,186 +1,229 @@
-2018-12-10 00:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5d860843a2a5 [devel-3.5.4])
+2018-12-14 07:46 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b36ae647edf2 [devel-3.5.5])
 
 	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
-	ChangeLog for devel-3.5.4 release
+	ChangeLog for devel-3.5.5 release
 
-2018-12-10 00:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (91908f0b58ef)
+2018-12-14 07:46 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0a9d067212d6)
 
 	* .hgtags:
-	Added tag devel-3.5.4 for changeset 5d860843a2a5
+	Added tag devel-3.5.5 for changeset b36ae647edf2
 
-2018-12-10 07:52 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a764da038eeb)
+2018-12-14 14:14 -0600  Trevor Williams  <Trevor Williams>  (295fc7534327)
 
-	* lib/version.tcl, plugins/todo/main.tcl:
-	* Minor modifications.
+	* lib/plugins.tcl, lib/pref_ui.tcl:
+	* Correcting an issue calculating the plugin directory when
+	exporting a file.
+	* Fixing button widths in preference window to handle translations
+	better.
 
-2018-12-10 09:09 -0600  Trevor Williams  <Trevor Williams>  (87b9fdc35839)
+2018-12-14 17:19 -0600  Trevor Williams  <Trevor Williams>  (03bf66e36fcb)
 
-	* lib/pref_ui.tcl, plugins/todo/main.tcl:
-	* Increasing width of preference shortcuts search entry field to 30
-	chars.
-	* Fixing issue with preference shortcuts column width when an entry
-	exceeds the max width.
-	* Displaying tooltip in the preference shortcuts table when an item is
-	snipped.
-	* Removing todo plugin menu items from shortcuts menu.
+	* lib/plugmgr.tcl:
+	* Checkpointing work on plugin manager window.
 
-2018-12-10 16:53 -0600  Trevor Williams  <Trevor Williams>  (c345e225f077)
+2018-12-14 23:45 -0600  Trevor Williams  <phase1geo@gmail.com>  (529fa041cf33)
 
-	* lib/utils.tcl:
-	* Adding procedure to recursively set permissions (untested and not
-	used yet).
-
-2018-12-10 22:50 -0600  Trevor Williams  <phase1geo@gmail.com>  (4effa82b50ba)
-
-	* lib/plugmgr.tcl, lib/version.tcl, lib/zipper/zipper.tcl:
-	* Fixing permission issues with zipping themes/bundles.
-	* Improving generating of header.tkedat
-
-2018-12-10 23:24 -0600  Trevor Williams  <phase1geo@gmail.com>  (2e60ab31dffb)
-
-	* data/preferences.tkedat, lib/version.tcl:
-	* Attempting to fix issue with the default plugin export directory.
-
-2018-12-11 00:22 -0600  Trevor Williams  <phase1geo@gmail.com>  (b4337d90b4f3)
-
-	* lib/plugmgr.tcl, lib/version.tcl:
-	* Checkpointing work on new plugin manager window.
-
-2018-12-11 00:36 -0600  Trevor Williams  <phase1geo@gmail.com>  (7ca872e355e7)
-
-	* lib/search.tcl, lib/version.tcl:
-	* Removing text disabling after performing a search and replace
-	operation.
-
-2018-12-11 08:07 -0600  Trevor Williams  <phase1geo@gmail.com>  (be127398b130)
-
-	* lib/interpreter.tcl, lib/version.tcl:
-	* Checkpointing fix to closing a channel.
-
-2018-12-11 10:38 -0600  Trevor Williams  <Trevor Williams>  (ac195437cac3)
-
-	* lib/pref_ui.tcl:
-	* Several updates to shortcut preferences panel UI to better support
-	keyboard traversal.
-
-2018-12-11 10:46 -0600  Trevor Williams  <Trevor Williams>  (06d1cbe9875e)
-
-	* lib/pref_ui.tcl:
-	* Changing shortcut message to use help styling.
-
-2018-12-11 10:50 -0600  Trevor Williams  <Trevor Williams>  (4b386d6918e2)
-
-	* lib/pref_ui.tcl:
-	* Adding support for clearing a shortcut using the Delete key when
-	in the shortcuts table.
-
-2018-12-11 12:25 -0600  Trevor Williams  <Trevor Williams>  (c1150cd179c0)
-
-	* lib/interpreter.tcl:
-	* Removing I/O channel sharing with plugin interpreters so that
-	written data is properly flushed/closed.
-
-2018-12-11 14:51 -0600  Trevor Williams  <Trevor Williams>  (76706a0de39d)
-
-	* lib/ctext/ctext.tcl:
-	* Fixing issue with attempting to mark a blank line.
-	* Fixing issue where a line being named with a mark can be cleared
-	before the mark is named.
-
-2018-12-11 21:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (234ce15ce114)
-
-	* lib/plugins.tcl, lib/pref_ui.tcl, lib/theme.tcl, lib/version.tcl:
-	* Initial attempt to fix plugins preference display issue.
-
-2018-12-11 22:56 -0600  Trevor Williams  <phase1geo@gmail.com>  (626efe6a1ba0)
-
-	* lib/interpreter.tcl, lib/pref_ui.tcl, lib/theme.tcl,
+	* lib/plugmgr.tcl, lib/theme.tcl, lib/tke.tcl, lib/utils.tcl,
 	lib/version.tcl:
-	* Adding missing comment in interpreter.
-	* Fixing issue with displaying plugin preferences.
+	* Checkpointing work on new plugin manager UI.
 
-2018-12-12 00:04 -0600  Trevor Williams  <phase1geo@gmail.com>  (c53fc28b3955)
+2018-12-15 01:01 -0600  Trevor Williams  <phase1geo@gmail.com>  (3fb091ddf481)
 
-	* lib/bindings.tcl, lib/version.tcl:
-	* Adding Control-c (copy), Control-x (cut) and Control-y (paste)
-	shortcut support to all entry, combobox and spinbox widgets.
+	* lib/plugins.tcl, lib/plugmgr.tcl, lib/version.tcl:
+	* Checkpointing work on new plugin manager.
 
-2018-12-12 12:21 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (ad2873e389ed)
+2018-12-15 15:04 -0600  Trevor Williams  <phase1geo@gmail.com>  (c05e5b8f52df)
 
-	* plugins/e_menu/e_menu/menus/hg.mnu: new file.
+	* lib/plugmgr.tcl, lib/theme.tcl, lib/tke.tcl, lib/utils.tcl,
+	lib/version.tcl:
+	* Checkpointing work on plugin manager.
+
+2018-12-15 17:07 -0600  Trevor Williams  <phase1geo@gmail.com>  (c77a175ec71b)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/menus.tcl, lib/pref_ui.tcl,
+	lib/share.tcl, lib/syntax.tcl, lib/themer.tcl, lib/version.tcl:
+	* Removing translation support for "Windows", "Unix", "Emmet" and
+	"None".
+	* Updating translations.
+
+2018-12-15 23:54 -0600  Trevor Williams  <phase1geo@gmail.com>  (9ef11e041d14)
+
+	* lib/lang.tcl, lib/plugmgr.tcl, lib/version.tcl:
+	* Adding reverse translation feature to the translation generation
+	tool to help identify bad translations.
+	* Checkpointing work on plugin manager.
+
+2018-12-16 11:36 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (165d4ed0d3a7)
+
+	* plugins/e_menu/release_notes.md: new file.
 	* data/msgs/ru.msg, plugins/e_menu/README.md,
 	plugins/e_menu/e_menu/e_menu.tcl,
 	plugins/e_menu/e_menu/menus/fossil.mnu,
+	plugins/e_menu/e_menu/menus/fossil2.mnu,
+	plugins/e_menu/e_menu/menus/git.mnu,
+	plugins/e_menu/e_menu/menus/git2.mnu,
 	plugins/e_menu/e_menu/menus/hg.mnu,
+	plugins/e_menu/e_menu/menus/links.mnu,
+	plugins/e_menu/e_menu/menus/links2.mnu,
 	plugins/e_menu/e_menu/menus/menu.mnu,
+	plugins/e_menu/e_menu/menus/python.mnu,
+	plugins/e_menu/e_menu/menus/test1.mnu,
+	plugins/e_menu/e_menu/menus/test2.mnu,
+	plugins/e_menu/e_menu/menus/test3.mnu,
+	plugins/e_menu/e_menu/src/ch_.tcl,
+	plugins/e_menu/e_menu/src/e_help.tcl,
+	plugins/e_menu/e_menu/src/procs.tcl,
+	plugins/e_menu/e_menu/src/rarrow.png,
+	plugins/e_menu/e_menu/src/run_pause.bat, plugins/e_menu/main.tcl,
+	plugins/e_menu/release_notes.md:
+	ru.msg updated, e_menu version 1.4
+
+2018-12-16 11:42 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (a39017303a57)
+
+	* Merge on 2018-12-16_11:42:47
+
+2018-12-16 11:45 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (19f2673afaff)
+
+	* plugins/e_menu/release_notes.md: new file.
+	* data/msgs/ru.msg, plugins/e_menu/e_menu/menus/fossil2.mnu,
+	plugins/e_menu/e_menu/menus/git.mnu,
+	plugins/e_menu/e_menu/menus/git2.mnu,
+	plugins/e_menu/e_menu/menus/links.mnu,
+	plugins/e_menu/e_menu/menus/links2.mnu,
+	plugins/e_menu/e_menu/menus/python.mnu,
+	plugins/e_menu/e_menu/menus/test1.mnu,
+	plugins/e_menu/e_menu/menus/test2.mnu,
+	plugins/e_menu/e_menu/menus/test3.mnu,
+	plugins/e_menu/e_menu/src/ch_.tcl,
+	plugins/e_menu/e_menu/src/e_help.tcl,
+	plugins/e_menu/e_menu/src/procs.tcl,
+	plugins/e_menu/e_menu/src/rarrow.png,
+	plugins/e_menu/e_menu/src/run_pause.bat:
+	Automated merge with ssh://hg.code.sf.net/p/tke/code
+
+2018-12-16 12:25 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (11244128aee8)
+
+	* data/msgs/ru.msg, plugins/e_menu/e_menu/menus/hg.mnu:
+	ru.msg updated, e_menu v.1.4
+
+2018-12-17 13:57 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (7099f10e85e8)
+
+	* plugins/add_shortcut/README.md, plugins/add_shortcut/adsh/adsh.tcl,
+	plugins/add_shortcut/adsh/adsh_unix.ini,
+	plugins/add_shortcut/adsh/adsh_windows.ini,
+	plugins/add_shortcut/adsh/err.png,
+	plugins/add_shortcut/adsh/getsetini.tcl,
+	plugins/add_shortcut/adsh/info.png,
+	plugins/add_shortcut/adsh/pavedialog.tcl,
+	plugins/add_shortcut/adsh/paveme.tcl,
+	plugins/add_shortcut/adsh/ques.png,
+	plugins/add_shortcut/adsh/run_pause.bat,
+	plugins/add_shortcut/adsh/run_pause.sh,
+	plugins/add_shortcut/adsh/scadd.png,
+	plugins/add_shortcut/adsh/scorig.png,
+	plugins/add_shortcut/adsh/warn.png,
+	plugins/add_shortcut/header.tkedat, plugins/add_shortcut/main.tcl,
+	plugins/add_shortcut/release_notes.md: new file.
+	* plugins/add_shortcut/README.md, plugins/add_shortcut/adsh/adsh.tcl,
+	plugins/add_shortcut/adsh/adsh_unix.ini,
+	plugins/add_shortcut/adsh/adsh_windows.ini,
+	plugins/add_shortcut/adsh/err.png,
+	plugins/add_shortcut/adsh/getsetini.tcl,
+	plugins/add_shortcut/adsh/info.png,
+	plugins/add_shortcut/adsh/pavedialog.tcl,
+	plugins/add_shortcut/adsh/paveme.tcl,
+	plugins/add_shortcut/adsh/ques.png,
+	plugins/add_shortcut/adsh/run_pause.bat,
+	plugins/add_shortcut/adsh/run_pause.sh,
+	plugins/add_shortcut/adsh/scadd.png,
+	plugins/add_shortcut/adsh/scorig.png,
+	plugins/add_shortcut/adsh/warn.png,
+	plugins/add_shortcut/header.tkedat, plugins/add_shortcut/main.tcl,
+	plugins/add_shortcut/release_notes.md, plugins/e_menu/README.md,
+	plugins/e_menu/e_menu/e_menu.tcl,
+	plugins/e_menu/e_menu/menus/fossil.mnu,
+	plugins/e_menu/e_menu/menus/fossil2.mnu,
+	plugins/e_menu/e_menu/menus/git.mnu,
+	plugins/e_menu/e_menu/menus/git2.mnu,
+	plugins/e_menu/e_menu/menus/hg.mnu,
+	plugins/e_menu/e_menu/menus/links.mnu,
+	plugins/e_menu/e_menu/menus/links2.mnu,
+	plugins/e_menu/e_menu/menus/menu.mnu,
+	plugins/e_menu/e_menu/menus/python.mnu,
 	plugins/e_menu/e_menu/menus/side.mnu,
 	plugins/e_menu/e_menu/menus/tcltk.mnu,
-	plugins/e_menu/e_menu/menus/utils.mnu, plugins/e_menu/header.tkedat,
-	plugins/e_menu/main.tcl:
-	ru.msg, e_menu updated
+	plugins/e_menu/e_menu/menus/test1.mnu,
+	plugins/e_menu/e_menu/menus/test2.mnu,
+	plugins/e_menu/e_menu/menus/test3.mnu,
+	plugins/e_menu/e_menu/menus/utils.mnu,
+	plugins/e_menu/e_menu/src/ch_.tcl,
+	plugins/e_menu/e_menu/src/e_help.tcl,
+	plugins/e_menu/e_menu/src/procs.tcl,
+	plugins/e_menu/e_menu/src/rarrow.png,
+	plugins/e_menu/e_menu/src/run_pause.bat,
+	plugins/e_menu/header.tkedat, plugins/e_menu/release_notes.md:
+	e_menu v.1.5, new add_shortcut plugin
 
-2018-12-12 08:54 -0600  Trevor Williams  <Trevor Williams>  (d1b35189d6a6)
+2018-12-17 09:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (42689589ec63)
 
-	* lib/pref_ui.tcl:
-	* Fixing shortcut table focusing.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/pref_ui.tcl,
+	lib/preferences.tcl, lib/syntax.tcl, lib/themer.tcl,
+	lib/version.tcl:
+	* Remaking "None" strings translatable again.
+	* Updatring translations.
 
-2018-12-12 11:12 -0600  Trevor Williams  <Trevor Williams>  (084918f47933)
+2018-12-17 16:18 -0600  Trevor Williams  <Trevor Williams>  (e750b26f5000)
 
-	* lib/bindings.tcl, lib/gui.tcl, lib/plugins.tcl, lib/sidebar.tcl,
-	lib/vim.tcl:
-	* Changing menu bindings to add bindings to "." instead of "all".
-	* Fixing a few issues with dir_popup, root_popup and file_popup plugin
-	actions.
-	* Adding support for bubbling files within manually sortable
-	directories with Alt-Up/Alt-Down keyboard bindings.
+	* lib/syntax.tcl:
+	* Fixing issues with update_syntax_menus call.
 
-2018-12-12 23:19 -0600  Trevor Williams  <phase1geo@gmail.com>  (2bdae230ac74)
+2018-12-17 23:30 -0600  Trevor Williams  <phase1geo@gmail.com>  (bf2c4d906ae8)
 
-	* lib/menus.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing menu shortcut activation issues when keyboard focus is in a
-	widget that should not be able to execute a keybinding.
-	* Removing markers and reference documents from keyboard shortcuts
-	preference table.
+	* lib/syntax.tcl, lib/version.tcl:
+	* Fixing issue with menu setup.
 
-2018-12-13 08:50 -0600  Trevor Williams  <Trevor Williams>  (653c9ed04e2b)
+2018-12-18 08:53 -0600  Trevor Williams  <phase1geo@gmail.com>  (b8febbed43eb)
 
-	* lib/bindings.tcl, lib/gui.tcl, lib/vim.tcl:
-	* Reverting back to using the all bindtag for keyboard shortcuts.
+	* lib/syntax.tcl, lib/version.tcl:
+	* Fixing issues with syntax menu display.
 
-2018-12-13 11:21 -0600  Trevor Williams  <Trevor Williams>  (4d477e3edd8e)
+2018-12-20 17:14 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (85677a0ccb72)
 
-	* data/preferences.tkedat, lib/gui.tcl, lib/plugins.tcl,
-	lib/pref_ui.tcl:
-	* Adding preference option that will automatically close the find
-	and find/replace panels when the text buffer receives keyboard
-	focus.
-	* Using plugin display names in the UI to improve readability.
+	* plugins/e_menu/e_menu/menus/grep.mnu: new file.
+	* data/msgs/ru.msg, plugins/add_shortcut/adsh/paveme.tcl,
+	plugins/e_menu/e_menu/e_menu.tcl,
+	plugins/e_menu/e_menu/menus/grep.mnu,
+	plugins/e_menu/e_menu/menus/hg.mnu,
+	plugins/e_menu/e_menu/menus/menu.mnu, plugins/e_menu/header.tkedat,
+	plugins/e_menu/main.tcl, plugins/e_menu/release_notes.md:
+	updated: add_shortcut, e_menu, ru.msg add_shortcut: bug fix
+	(transient $root) e_menu: new %C, %T wildcards, grep.mnu
 
-2018-12-13 12:07 -0600  Trevor Williams  <Trevor Williams>  (a7c0c037c150)
+2018-12-20 17:03 -0600  Trevor Williams  <Trevor Williams>  (5ea3965e414f)
 
-	* lib/gui.tcl:
-	* Fixing find panel display issue when a find panel is displayed and
-	the user selects a different find panel to display.
+	* lib/lang.tcl:
+	* Fixing an issue with attempting to translate strings that are left
+	as English.
 
-2018-12-13 16:43 -0600  Trevor Williams  <Trevor Williams>  (04ccdfe6b93b)
+2018-12-20 23:50 -0600  Trevor Williams  <phase1geo@gmail.com>  (d2b7a7529c12)
 
-	* lib/gui.tcl, lib/syntax.tcl:
-	* Checkpointing work on adding checkmark to syntax sorted menu to
-	help identify the current language.
+	* lib/lang.tcl, lib/version.tcl:
+	* Adding translation feature that will cause a translation to be
+	dropped using the original English string.
 
-2018-12-13 16:43 -0600  Trevor Williams  <Trevor Williams>  (f0a3cd4e1664)
+2018-12-21 13:55 -0600  Trevor Williams  <Trevor Williams>  (32c04195ba0c [tip])
 
-	* lib/images/menu_check.gif, lib/images/menu_nocheck.gif: new file.
-	* lib/images/menu_check.gif, lib/images/menu_nocheck.gif:
-	* Adding missing images.
-
-2018-12-13 23:10 -0600  Trevor Williams  <phase1geo@gmail.com>  (24dcb5dccd82 [tip])
-
-	* lib/images/menu_check.bmp, lib/images/menu_nocheck.bmp: new file.
-	* lib/images/menu_check.gif, lib/images/menu_nocheck.gif: deleted
-	file.
-	* lib/gui.tcl, lib/images/menu_check.bmp, lib/images/menu_check.gif,
-	lib/images/menu_nocheck.bmp, lib/images/menu_nocheck.gif,
-	lib/syntax.tcl, lib/version.tcl:
-	* Improving the look and functionality of the syntax menu.
+	* lib/startup.tcl:
+	* Fixing button layout issues in startup window when non-English
+	languages are used.
 

@@ -1,5 +1,5 @@
 set specl::appname      "tke"
-set specl::version      "3.5.5"
-set specl::release      "398"
+set specl::version      "3.5.6"
+set specl::release      "399"
 set specl::rss_url      "http://tke.sourceforge.net/releases"
 set specl::download_url "http://tke.sourceforge.net/releases"
