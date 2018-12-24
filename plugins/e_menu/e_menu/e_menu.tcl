@@ -14,7 +14,7 @@ package require tooltip
 
 set exedir [file normalize [file dirname $::argv0]]
 source [file join $::exedir "src" "e_help.tcl"]
-set thisapp e_menu_by_aplsimple
+set thisapp emenuapp
 set appname $thisapp
 
 # *******************************************************************
@@ -31,7 +31,7 @@ set colorschemes {
   { #FFFFFF #FEEC9A #212121 #262626 #C5C5C5 #575757 #FFFD38  #9C2727 grey}
   { #000000 #3D2B06 #F6FCEC #EAF5D7 #0E280E #B9C4A6 #000000  #9C2727 grey}
   { #000000 #2B1E05 #BFFFBF #CFFFCF #0E280E #89CA89 #000000  #9C2727 #C7FFC7}
-  { #000000 #2B1E05 #AAD3FA #9BCCFB #070757 #6DA3D9 #000000  #9C2727 grey}
+  { #000000 #2B1E05 #AAD3FA #9BCCFB #070757 #6DA3D9 #000000  #FFA500 grey}
   { white   white   red     red     yellow  white   black    yellow  magenta}
   { #FFFFFF #FEEC9A #3E534B #3B4F47 #FFFFFF #323935 #FFFD38  #FFA500 grey}
   { #FFFFFF #FEEC9A #402E03 #302202 #FFFFFF #DEDBAA #000000  #E34E00 grey}
@@ -261,7 +261,8 @@ proc ::em::silent_mode {amp} {
 #=== edit file(s)
 proc ::em::edit {fname} {
   if {$::em::editor == ""} {
-    return [::edit_file $fname]
+    set ::em::skipfocused 1
+    return [::edit_file $fname $::colr $::colr1]
   } else {
     if {[catch {exec $::em::editor {*}$fname &} e]} {
       message_box "ERROR: couldn't call $::em::editor'\n
@@ -994,9 +995,8 @@ proc ::em::menuof { commands s1 domenu} {
         "[string map {"\\" "/"} [file tail $seltd]] - E_menu"
     set seltd [file normalize [get_menuname $seltd]]
     if { [catch {set chan [open "$seltd"]} e] } {
-      if {$::em::editor == ""} {set e "Geany IDE"} {set e $::em::editor}
       if {[question_box "Menu isn't open" \
-          "ERROR of opening\n$seltd\n\nCreate it in $e?"]} {
+          "ERROR of opening\n$seltd\n\nCreate it?"]} {
         ::em::create_template $seltd
         ::em::edit $seltd
       }
@@ -1390,7 +1390,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         x0= x1= x2= x3= x4= x5= x6= x7= x8= x9= \
         y0= y1= y2= y3= y4= y5= y6= y7= y8= y9= \
         z0= z1= z2= z3= z4= z5= z6= z7= z8= z9= \
-        a= d= e= f= p= l= h= b= c= t= g= n= m= om= \
+        a= d= e= f= p= l= h= b= c= t= g= n= m= om= fg= bg=\
         cb= in=} { ;# the processing order is important
     if {[string first $s1 "o= s= m="]>=0 && [string first $s1 $osm]<0} {
       continue
@@ -1503,6 +1503,8 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         om= { set ::em::om $seltd}
         cb= { set ::em::cb $seltd}
         in= { set ::em::lasti $seltd}
+        fg= { set ::colrfg $seltd}
+        bg= { set ::colrbg $seltd}
         default {
           if {[set s [string range $s1 0 0]] == "x" ||
           $s == "y" || $s == "z"} {  ;# x* y* z* general substitutions
@@ -1563,6 +1565,8 @@ proc ::em::initmain {} {
   for {set i 0} {$i <=9} {incr i} {set ::em::arr_i09(i$i=) 1 }
   lassign [lindex $::colorschemes $::ncolor] \
       ::colr ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
+  if {[info exist ::colrfg]} {set ::colr  [set ::colr0 [set ::colr2h $::colrfg]]}
+  if {[info exist ::colrbg]} {set ::colr1 [set ::colr2 $::colrbg]}
   . configure -bg $::colr1
 }
 #=== make e_menu's menu
@@ -1649,7 +1653,7 @@ proc ::em::initmenu {} {
       -command {.cb invoke}
   .popupMenu add separator
   .popupMenu add command -accelerator Ctrl+E -label "Edit the menu" \
-      -command ::em::edit_menu
+      -command {after 50 ::em::edit_menu}
   .popupMenu add command -accelerator Ctrl+R -label "Reread the menu" \
       -command ::em::reread_init
   .popupMenu add command -accelerator Ctrl+D -label "Destroy other menus" \

@@ -53,23 +53,23 @@ The execution is rather straightforward: you are just pressing the according key
 
 The customization is rather simple. After calling "Plugin/ Add Shortcuts" menu item you enter the following dialog:
 
-  *-----------------------------------------------------------------*
-  *|                 General info about the plugin                 |*
-  *-----------------------------------------------------------------*
-  *|      Group info              |                                |*
-  *|      of current record       |                                |*
-  *|------------------------------|                                |*
-  *|                              |                                |*
-  *|                              |         Tree of groups         |*
-  *|      Shortcut info           |                                |*
-  *|      of current record       |         and shortcuts          |*
-  *|                              |                                |*
-  *|                              |                                |*
-  *|------------------------------|                                |*
-  *| Buttons to update the record |                                |*
-  *-----------------------------------------------------------------*
-  *| Field for messages           | Buttons to save/cancel changes |*
-  *-----------------------------------------------------------------*
+  `-----------------------------------------------------------------`
+  `|                 General info about the plugin                 |`
+  `-----------------------------------------------------------------`
+  `|      Group info              |                                |`
+  `|      of current record       |                                |`
+  `|------------------------------|                                |`
+  `|                              |                                |`
+  `|                              |         Tree of groups         |`
+  `|      Shortcut info           |                                |`
+  `|      of current record       |         and shortcuts          |`
+  `|                              |                                |`
+  `|                              |                                |`
+  `|------------------------------|                                |`
+  `| Buttons to update the record |                                |`
+  `-----------------------------------------------------------------`
+  `| Field for messages           | Buttons to save/cancel changes |`
+  `-----------------------------------------------------------------`
 
 At the left you are entering the data of shortcuts, then with *Add* / *Change* button you are posting the changes to the list at the right.
 
@@ -82,9 +82,9 @@ To create a new record you should fill the following fields:
 
   - Shortcut info: *Name* - any description of the shortcut
 
-  - Shortcut info: `ID`   - the main field where you should press the hotkey(s)
+  - Shortcut info: *ID*   - _the main field_ where you should press the hotkey(s)
 
-Note that the `ID` field cannot accept all possible combinations of keys. For example, Ctrl+F1..F12, Alt+F1..F12 would most probably be caught by OS, so you are allowed only Shift+F1..F12 in case you want to use F1-F12 row of keys with modifiers.
+Note that the *ID* field cannot accept all possible combinations of keys. For example, Ctrl+F1..F12, Alt+F1..F12 would most probably be caught by OS, so you are allowed only Shift+F1..F12 in case you want to use F1-F12 row of keys with modifiers.
 
 In order to help with command sets, the dialog provides the *Type* field, where you may choose the type of record and then fill its runnable contents:
 

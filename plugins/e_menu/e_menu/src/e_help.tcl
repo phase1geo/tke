@@ -20,6 +20,9 @@ package require Tk
 package require http
 package require tls
 
+set srcdir [file join [file normalize [file dirname $::argv0]] "src"]
+source [file join $srcdir "pavedialog.tcl"]
+
 namespace eval eh {
   # your preferable browser:
   # can be set by b= parameter
@@ -141,34 +144,34 @@ proc invokeBrowser {url} {
     message_box "ERROR: couldn't execute '$command':\n$error"
   }
 }
-# ====== to edit file(s) in Geany IDE
-proc edit_file {fname} {
-  if {$::eh::geany == ""} {
-    if {[iswindows]} {
-      set ::eh::geany "geany.exe"  ;#searching geany.exe in Windows
-      foreach path [split [exec cmd.exe /c set ProgramFiles] "\n"] {
-        set path [lindex [split $path "="] 1]
-        set gp1 [file join $path "$::eh::geany"]
-        set gp2 [file join $path "geany/bin/$::eh::geany"]
-        if {[file exists $gp1]} {
-          set ::eh::geany $gp1
-          break
-        } elseif {[file exists $gp2]} {
-          set ::eh::geany $gp2
-          break
-        }
-      }
-    } else {
-      set ::eh::geany "geany"
-    }
-  }
-  set fname [string trim $fname]
-  if {[catch {exec $::eh::geany {*}$fname &} e]} {
-    message_box "ERROR: couldn't call Geany IDE with '$::eh::geany'\n
-to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe Geany is worth including in PATH?"
+# ====== to edit file by means of e_menu
+proc edit_file {fname {fg black} {bg white}} {
+  if {$fname==""} {
     return false
   }
-  return true
+  if {![file exists $fname]} {
+    if {[catch {close [open $fname w]} err]} {
+      message_box "ERROR: couldn't create '$fname':\n$err"
+      return false
+    }
+  }
+  set data [read [set ch [open $fname]]]
+  close $ch
+  PaveDialog create dialog "" $::srcdir
+  set res [dialog misc info "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
+    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg \
+    -family {\"Mono\"} -size 12]
+  dialog destroy
+  #lassign $res res data
+  set data [string range $res 2 end]
+  if {[set res [string index $res 0]]=="1"} {
+    set ch [open $fname w]
+    foreach line [split [string trimright $data] \n] {
+      puts $ch "$line"
+    }
+    close $ch
+  }
+  return $res
 }
 # *******************************************************************
 # e_help's procedures

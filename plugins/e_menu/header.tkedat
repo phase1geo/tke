@@ -1,7 +1,7 @@
 name           {e_menu}
 author         {Alex Plotnikov}
 email          {aplsimple@mail.ru}
-version        {1.6}
+version        {1.7}
 include        {yes}
 trust_required {yes}
 description    {This plugin allows you to get a _context help_ for Tcl/Tk commands / keywords as well as the _hierarchical menus_ to execute the commands closely related to TKE environment, such as
