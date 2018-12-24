@@ -343,7 +343,7 @@ namespace eval share {
   # Called on tool startup.  If the share file does not exist in the home
   # directory, call the share wizard to help the user setup a valid share
   # file.
-  proc initialize {} {
+  proc initialize {already_running} {
 
     variable data
 
@@ -353,8 +353,12 @@ namespace eval share {
       set data(ShareDirectory) ""
       set data(ShareItems)     [list]
       write_file
-    } else {
+    } elseif {!$already_running} {
       import_share_wizard
+    } else {
+      puts ""
+      puts [msgcat::mc "Another version of TKE is running and is setting things up.  Exiting..."]
+      exit 1
     }
 
   }

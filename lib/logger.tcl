@@ -239,9 +239,11 @@ proc bgerror {str} {
 
   # Log the error
   if {[logger::log $str]} {
-    puts stderr $::errorInfo
+    if {$str ne ""} {
+      puts stderr $::errorInfo
+    }
     logger::log $::errorInfo
-  } else {
+  } elseif {$str ne ""} {
     puts stderr $str
     puts stderr $::errorInfo
   }

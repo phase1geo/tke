@@ -66,7 +66,12 @@ namespace eval startup {
     wm geometry  .wizwin 640x480
     wm resizable .wizwin 0 0
     wm protocol  .wizwin WM_DELETE_WINDOW {
-      # Do nothing
+      set ans [tk_messageBox -parent .wizwin -icon info -type yesno -default yes \
+        -message [msgcat::mc "Exit application?"] \
+        -detail  [msgcat::mc "Closing this window will exit the application immediately."]]
+      if {$ans eq "yes"} {
+        exit
+      }
     }
     wm withdraw  .wizwin
 
