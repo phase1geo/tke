@@ -426,6 +426,16 @@ if {$tcl_platform(platform) eq "windows"} {
 
 }
 
+######################################################################
+# Runs a command that was started by another process.
+proc run_remote {cmd args} {
+
+  if {[catch { $cmd {*}$args }]} {
+    return -code error
+  }
+
+}
+
 if {[catch {
 
   # Set the application name to tke
@@ -440,26 +450,29 @@ if {[catch {
   }
 
   # Set the comm port that we will use
-  set comm_port 51807
+  set comm_port       51807
+  set already_running 0
 
   # Change our comm port to a known value (if we fail, TKE is already running at that port so
   # connect to it.
   if {[catch { ::comm::comm config -port $comm_port }]} {
 
+    set already_running 1
+
     # Attempt to add files or raise the existing application
     if {!$cl_new} {
       if {[llength $cl_files] > 0} {
-        if {![catch { ::comm::comm send $comm_port gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
+        if {![catch { ::comm::comm send $comm_port run_remote gui::add_files_and_raise [info hostname] end $cl_files } rc]} {
           destroy .
           exit
         }
       } elseif {$cl_use_session ne ""} {
-        if {![catch { ::comm::comm send $comm_port sessions::load_and_raise_window $cl_use_session } rc]} {
+        if {![catch { ::comm::comm send $comm_port run_remote sessions::load_and_raise_window $cl_use_session } rc]} {
           destroy .
           exit
         }
       } else {
-        if {![catch { ::comm::comm send $comm_port gui::raise_window } rc]} {
+        if {![catch { ::comm::comm send $comm_port run_remote gui::raise_window } rc]} {
           destroy .
           exit
         }
@@ -474,7 +487,7 @@ if {[catch {
   }
 
   # Allow the share settings to be setup prior to doing anything else
-  share::initialize
+  share::initialize $already_running
 
   # Preload the session information
   sessions::preload
