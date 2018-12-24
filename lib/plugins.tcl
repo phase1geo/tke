@@ -1015,8 +1015,8 @@ namespace eval plugins {
       if {![winfo exists $mnu.$sub_mnu]} {
         set new_mnu [menu $mnu.$sub_mnu -tearoff 0 -postcommand "plugins::menu_state $mnu.$sub_mnu $action"]
         $registry($index,interp) alias $new_mnu interpreter::widget_win $registry($index,name) $new_mnu
+        $mnu add cascade -label $level -menu $mnu.$sub_mnu
       }
-      $mnu add cascade -label $level -menu $mnu.$sub_mnu
       set mnu $mnu.$sub_mnu
       if {$hier_len == 0} {
         set force 0
