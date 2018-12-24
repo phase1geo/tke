@@ -3361,6 +3361,8 @@ namespace eval menus {
   # Called when the sessions menu is posted.
   proc sessions_posting {mb} {
 
+    variable current_session
+
     # Get the list of sessions names
     set names [sessions::get_names]
 
@@ -3368,9 +3370,11 @@ namespace eval menus {
     $mb.switch delete 0 end
     $mb.delete delete 0 end
 
+    set current_session $sessions::current_name
+
     foreach name $names {
-      $mb.switch add command -label $name -command [list menus::main_only sessions::load "full" $name 0]
-      $mb.delete add command -label $name -command [list menus::main_only sessions::delete $name]
+      $mb.switch add radiobutton -label $name -variable sessions::current_name -value $name -command [list menus::main_only sessions::load "full" $name 0]
+      $mb.delete add radiobutton -label $name -variable menus::current_session -value $name -command [list menus::main_only sessions::delete $name]
     }
 
     # If the current session is not set, disable the menu item
