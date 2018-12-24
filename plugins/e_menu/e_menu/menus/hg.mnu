@@ -1,17 +1,17 @@
 ; hg menu for e_menu.tcl
 
- R: hg summary / status R: cd %PD
- S: hg summary / status S: echo %PD\nhg summary\necho ---------------\nhg status
+ R: hg summary ------ hg status R: cd %PD
+ S: hg summary ------ hg status S: echo %PD\nhg summary\necho ---------------\nhg status
 
- R: hg heads / parents R: cd %PD
- S: hg heads / parents S: echo %PD\nhg heads\necho ---------------\nhg parents
+ R: hg heads ------ hg parents R: cd %PD
+ S: hg heads ------ hg parents S: echo %PD\nhg heads\necho ---------------\nhg parents
 
- R: hg addremove * R: %q "ADD" "This will add & remove all changes in:\n\n%PD"
+ R: hg addremove * R: %q "ADD" "This will ADD & REMOVE all changes in:\n\n%PD"
  R: hg addremove * R: cd %PD
  S: hg addremove * S: hg addremove *\nhg status
 
 SW: hg commit SW: hg status
- R: hg commit R: %q "Committing changes" "Commit with input message?"
+ R: hg commit R: %q "Committing changes" "This will COMMIT with input message in:\n\n%PD"
  R: hg commit R: cd %PD
  S: hg commit S: hg commit
 
@@ -35,35 +35,35 @@ SW: hg commit SW: hg status
  R: hg log -p -l 1 %s0 R: cd %PD
  S: hg log -p -l 1 %s0 S: hg log -p -l 1 %f
 
- R: hg revert R: %q "REVERT" "Revert ALL changes in\n\n%PD\n\n?"
+ R: hg revert R: %q "REVERT" "This will REVERT ALL changes in\n\n%PD"
  R: hg revert R: cd %PD
  S: hg revert S: hg revert -a
 
- R: hg revert %s0 R: %q "Revert" "Revert the changes of\n\n%f\n\n?"
+ R: hg revert %s0 R: %q "REVERT" "This will REVERT the changes of\n\n%f"
  S: hg revert %s0 S: hg revert %f
 
- R: hg rollback R: %q "ROLLBACK" "Roll back the last commit in\n\n%PD\n\n?"
+ R: hg rollback R: %q "ROLLBACK" "This will ROLL BACK the last commit in\n\n%PD"
  R: hg rollback R: cd %PD
  S: hg rollback S: hg rollback
 
- R: hg commit --amend R: %q "Commit amended" "\nCommit amended changes?\n"
+ R: hg commit --amend R: %q "COMMIT AMEND" "This will AMEND the last commit in\n\n%PD"
  R: hg commit --amend R: cd %PD
- S: hg commit --amend S: hg commit
+ S: hg commit --amend S: hg commit --amend
 
  R:  R: 2
 
  R: hg incoming R: cd %PD
  S: hg incoming S: hg incoming
 
- R: hg fetch R: %q "FETCH" "This will PULL, MERGE and COMMIT changes in:\n\n%PD"
+ R: hg fetch R: %q "FETCH" "This will PULL, MERGE and COMMIT changes into:\n\n%PD"
  R: hg fetch R: cd %PD
  S: hg fetch S: hg fetch
 
- R: hg pull R: %q "PULL" "This will PULL changes in:\n\n%PD"
+ R: hg pull R: %q "PULL" "This will PULL changes into:\n\n%PD"
  R: hg pull R: cd %PD
  S: hg pull S: hg pull
 
- R: hg update R: %q "UPDATE" "This will UPDATE in:\n\n%PD"
+ R: hg update R: %q "UPDATE" "This will UPDATE to the tip changeset in:\n\n%PD"
  R: hg update R: cd %PD
  S: hg update S: hg update
 
@@ -82,7 +82,7 @@ SW: hg commit SW: hg status
  R: hg outgoing R: cd %PD
  S: hg outgoing S: hg outgoing
 
- R: hg push R: %q "PUSH" "This will push changes from:\n\n%PD"
+ R: hg push R: %q "PUSH" "This will PUSH changes of:\n\n%PD"
  R: hg push R: cd %PD
  S: hg push S: hg push
 

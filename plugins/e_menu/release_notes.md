@@ -1,6 +1,13 @@
 =Last changes:
 
 
+Version 1.7 (24 Dec'18)
+
+  - TKE default_foreground, default_background used for e_menu main colors
+  - e_menu's internal editor called to edit the .mnu
+  - menu.mnu, hg.mnu updated
+
+
 Version 1.6 (20 Dec'18)
 
   - %B / %T wildcards are cancelled as browser / terminal

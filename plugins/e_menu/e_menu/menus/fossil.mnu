@@ -102,10 +102,10 @@ M: Stash M:m=fossil2.mnu
 n=< fossil >
 b3=0
 b2=7
-c=11
 w=64
 t4==%b-%Y/%U-week
 u=%s
+o=0
 
 [HIDDEN]
 

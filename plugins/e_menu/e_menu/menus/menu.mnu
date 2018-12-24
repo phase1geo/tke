@@ -27,7 +27,7 @@
  RE: GoldenDict for "%s" RE: goldendict %s
 
  M:  M: 4
- ME: Search All %s in %s1  ME: m=grep.mnu "u=%s" o=0 w=50
+ ME: Search All %s in %s1  ME: m=grep.mnu
  RE: Backup of %s0 RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
  RE: Backup of %s0 RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
  RE: Commit "%dd_on_%t2" RE: %q "MERCURIAL" "Add all changes\nand HG COMMIT with message\n\n'%dd_at_%t2' ?"
