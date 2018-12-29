@@ -189,11 +189,13 @@ oo::class create PaveDialog {
     #  - checkbox text (if given, enable the checkbox)
     #  - geometry of dialog window
     #  - color of labels
-    set optsLabel [set chmsg [set geometry [set optsMisc [set optsState ""]]]]
+    set chmsg [set geometry [set optsLabel [set optsMisc [set optsState ""]]]]
     set optsTags 0
     set optsFont "-font \"-family Sans"
     set root ""
     set wasgeo [set textmode 0]
+    set curpos "1.0"
+    set cc "#00ffff"
     foreach {opt val} $args {
       switch $opt {
         -ch -
@@ -226,14 +228,20 @@ oo::class create PaveDialog {
         -height {set charheight $val}
         -fg {append optsMisc " -foreground $val"}
         -bg {append optsMisc " -background $val"}
+        -cc {set cc "$val"}
         -root {set root " -root $val"}
+        -pos {set curpos "$val"}
         default {append optsFont " $opt $val"}
       }
     }
     append optsFont "\""
     # add the icon to the layout
-    set widlist [list [list laBimg - - 99 1 \
+    if {$icon!=""} {
+      set widlist [list [list laBimg - - 99 1 \
       "-st n -pady 7" "-image ${nsd}paveD::img$icon"]]
+    } else {
+      set widlist [list [list laBimg - - 99 1]]
+    }
     # add the upper (before the message) blank frame
     lappend widlist [list h_1 laBimg L 1 1 "-pady 3"]
     set prevw "h_1"
@@ -295,17 +303,19 @@ oo::class create PaveDialog {
       if {$defb == "butTEXT"} {
         if {$optsState == "-state normal"} {
           set focusnow $pWindow.pavedlg.texM
-          ::tk::TextSetCursor $focusnow 1.0
+          catch "::tk::TextSetCursor $focusnow $curpos"
+          catch "bind $focusnow <Control-w> {$pWindow.pavedlg.$defb1 invoke}"
         } else {
           set focusnow $pWindow.pavedlg.$defb1
         }
       }
+      append optsState " -insertbackground $cc"
       $pWindow.pavedlg.texM configure {*}$optsState
     }
     my showModal $pWindow.pavedlg -focus $focusnow -geometry $geometry {*}$root
     set pdgeometry [winfo geometry $pWindow.pavedlg]
-    if {$textmode && $optsState == "-state normal"} {
-      set textmode " [$pWindow.pavedlg.texM get 1.0 end]"
+    if {$textmode && [string first "-state normal" $optsState]>=0} {
+      set textmode " [$focusnow index insert] [$focusnow get 1.0 end]"
     } else {
       set textmode ""
     }
@@ -327,7 +337,7 @@ oo::class create PaveDialog {
       if {abs($y-$gy)<30} {set y $gy}
       return [list $res ${w}x${h}+${x}+${y} $textmode]
     }
-    return $res$textmode
+    return "$res$textmode"
 
   }
 

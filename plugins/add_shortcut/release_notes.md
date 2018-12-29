@@ -1,5 +1,10 @@
 =Last changes:
 
+Version 1.4 (29 Dec'18)
+
+  - get_header_info proc added for compatibility with TKE 3.5.2
+
+
 Version 1.3 (17 Dec'18)
 
   - paveme.tcl, pavedialog.tcl updated (misc dialog added).

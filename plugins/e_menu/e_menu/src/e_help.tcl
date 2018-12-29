@@ -145,26 +145,25 @@ proc invokeBrowser {url} {
   }
 }
 # ====== to edit file by means of e_menu
-proc edit_file {fname {fg black} {bg white}} {
+proc edit_file {fname {fg black} {bg white} {cc "#00ffff"}} {
   if {$fname==""} {
     return false
   }
-  if {![file exists $fname]} {
+  if {[catch {set data [read [set ch [open $fname]]]}]} {
     if {[catch {close [open $fname w]} err]} {
       message_box "ERROR: couldn't create '$fname':\n$err"
       return false
     }
   }
-  set data [read [set ch [open $fname]]]
   close $ch
   PaveDialog create dialog "" $::srcdir
-  set res [dialog misc info "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg \
+  set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
+    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc \
     -family {\"Mono\"} -size 12]
   dialog destroy
-  #lassign $res res data
   set data [string range $res 2 end]
   if {[set res [string index $res 0]]=="1"} {
+    set data [string range $data [string first " " $data]+1 end]
     set ch [open $fname w]
     foreach line [split [string trimright $data] \n] {
       puts $ch "$line"

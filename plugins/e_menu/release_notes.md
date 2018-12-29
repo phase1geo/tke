@@ -1,6 +1,16 @@
 =Last changes:
 
 
+Version 1.8 (29 Dec'18)
+
+  - bug fixed as for getting file name to edit (with %E wildcard)
+  - command edited 'on fly' (e.g. as in grep.mnu's GREP TEMPLATE)
+  - Ctrl+W hotkey for e_menu's editor
+  - TKE editor's colors for e_menu's editor
+  - icon removed from e_menu's editor
+  - menu.mnu, grep.mnu, hg.mnu updated
+
+
 Version 1.7 (24 Dec'18)
 
   - TKE default_foreground, default_background used for e_menu main colors

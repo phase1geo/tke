@@ -180,9 +180,15 @@ namespace eval e_menu {
     set z1_opt "z1=$plugdir"
     set fg "fg=[api::get_default_foreground]"
     set bg "bg=[api::get_default_background]"
+    set fE "fE=#aeaeae"
+    catch {set fE "fE=[[get_txt] cget -foreground]"}
+    set bE "bE=#161717"
+    catch {set bE "bE=[[get_txt] cget -background]"}
+    set cc "cc=#888888"
+    catch {set cc "cc=[[get_txt] cget -insertbackground]"}
     if {[catch {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
-          fs=11 w=40 wc=1 $fg $bg $h_opt $s_opt $f_opt $d_opt \
+          fs=11 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
           $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $z4_opt $D_opt &
       } e]} {
       api::show_error "\nError of run:\n
