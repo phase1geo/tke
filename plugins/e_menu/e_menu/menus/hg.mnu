@@ -92,9 +92,8 @@ SW: hg commit SW: hg status
  R: hg init (in %PD) R: cd %PD
  R: hg init (in %PD) R: %P echo "syntax: glob\n.*\n*~\n*.swp\n*.tmp\n*.bak\n*.log\n*.zip\n*.rar\n*.tgz\n*.cur\n*.dll\n*.dylib\n*.ico\n*.gif\n*.bmp\n*.png\n*.jpg\n*.o" > %PD/.hgignore
  S: hg init (in %PD) S: dir\necho ------------\nhg init\nhg status
- RE: edit ~/.hgrc RE: %P %E $::env(HOME)/.hgrc
- RE: edit .hgignore RE: %E %PD/.hgignore
+ R: edit ~/.hgrc R: %P %E $::env(HOME)/.hgrc
+ R: edit .hgignore R: %E %PD/.hgignore
 
 [OPTIONS]
 o=0
-

@@ -1,26 +1,32 @@
  SE: GREP EXACT : '%s' SE: cd %d
  SE: GREP EXACT : '%s' SE: grep -F -H -n -I -s -d skip * -e '%s'
  SE: GREP REGEXP: '%s' SE: cd %d
- SE: GREP REGEXP: '%s' SE: grep -H -n -I -s -d skip * -e '%s'
+ SE: GREP REGEXP: '%s' SE: grep -E -H -n -I -s -d skip * -e '%s'
 
  M:  M: 4
  SE: GREP EXACT  recursive: '%s' SE: cd %d
  SE: GREP EXACT  recursive: '%s' SE: grep -F -H -n -I -s -d recurse * -e '%s'
  SE: GREP REGEXP recursive: '%s' SE: cd %d
- SE: GREP REGEXP recursive: '%s' SE: grep -H -n -I -s -d recurse * -e '%s'
+ SE: GREP REGEXP recursive: '%s' SE: grep -E -H -n -I -s -d recurse * -e '%s'
 
  M:  M: 4
  SE: GREP EXACT  ignoring case: '%s' SE: cd %d
  SE: GREP EXACT  ignoring case: '%s' SE: grep -F -H -n -I -s -i -d skip * -e '%s'
  SE: GREP REGEXP ignoring case: '%s' SE: cd %d
- SE: GREP REGEXP ignoring case: '%s' SE: grep -H -n -I -s -i -d skip * -e '%s'
+ SE: GREP REGEXP ignoring case: '%s' SE: grep -E -H -n -I -s -i -d skip * -e '%s'
 
  M:  M: 4
  SE: GREP EXACT  recursive ignoring case: '%s' SE: cd %d
  SE: GREP EXACT  recursive ignoring case: '%s' SE: grep -F -H -n -I -s -i -d recurse * -e '%s'
  SE: GREP REGEXP recursive ignoring case: '%s' SE: cd %d
- SE: GREP REGEXP recursive ignoring case: '%s' SE: grep -H -n -I -s -i -d recurse * -e '%s'
+ SE: GREP REGEXP recursive ignoring case: '%s' SE: grep -E -H -n -I -s -i -d recurse * -e '%s'
+
+ M:  M: 4
+ S: GREP TEMPLATE: '%s' S: cd %d
+ S: GREP TEMPLATE: '%s' S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
 
 [OPTIONS]
 w=70
 o=0
+%#t geo=1206x541+6+55;pos=14.7 # UNCOMMENT usable command(s), COMMENT unusable ones\n# USE \\ for \ in patterns\n################################################################################\n\n# selected text of TKE:\n#grep -E -H -n -I -s -i -d recurse * -e '%s'\n\n# year 1900-2099\ngrep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'\n\n# domain\n# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'\n\n# email\ngrep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'\n\n################################################################################
+%#Just for testing

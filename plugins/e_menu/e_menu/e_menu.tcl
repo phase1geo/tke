@@ -13,7 +13,8 @@ package require tooltip
 #~ catch {package require tkdnd}  ;# optional package (still not working in e_menu)
 
 set exedir [file normalize [file dirname $::argv0]]
-source [file join $::exedir "src" "e_help.tcl"]
+set srcdir [file join $::exedir "src"]
+source [file join $::srcdir "e_help.tcl"]
 set thisapp emenuapp
 set appname $thisapp
 
@@ -154,6 +155,9 @@ namespace eval em {
   variable skipfocused 0
   variable cb ""
   variable basedir ""
+  variable colrfE "#aeaeae"
+  variable colrbE "#161717"
+  variable colrcc "#00ffff"
 }
 #=== own message box
 proc ::em::message_box {mes {typ ok} {ttl ""}} {
@@ -260,9 +264,10 @@ proc ::em::silent_mode {amp} {
 }
 #=== edit file(s)
 proc ::em::edit {fname} {
+  set fname [string trim $fname]
   if {$::em::editor == ""} {
     set ::em::skipfocused 1
-    return [::edit_file $fname $::colr $::colr1]
+    return [::edit_file $fname $::em::colrfE $::em::colrbE $::em::colrcc]
   } else {
     if {[catch {exec $::em::editor {*}$fname &} e]} {
       message_box "ERROR: couldn't call $::em::editor'\n
@@ -272,16 +277,97 @@ to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth 
   }
   return true
 }
+#=== get and save a writeable command
+proc ::em::writeable_command {cmd} {
+  # cmd's contents:
+  #   0 .. 2   - a unique mark (e.g. %#A for 'A' mark)
+  #   3        - a space
+  #   4 .. end - options and a command
+  set mark [string range $cmd 0 2]
+  set cmd  [string range $cmd [set posc 4] end]
+  set pos "1.0"
+  set geo +100+100
+  set menudata [read [set ch [open $::em::menufilename]]]
+  set menudata [split [string trimright $menudata "\n"] "\n"]
+  close $ch
+  for {set i [set iw [set opt 0]]} {$i<[llength $menudata]} {incr i} {
+    set line [lindex $menudata $i]
+    if {$line=="\[OPTIONS\]"} {
+      set opt $i
+    } elseif {$opt && [string first $mark $line]==0} {
+      set iw $i
+      set cmd [string range $line $posc end]
+      set i1 [string first "geo=" $cmd]
+      set i2 [string first ";" $cmd]
+      if {$i1>=0 && $i1<$i2} {
+        set geo "[string range $cmd $i1+4 $i2-1]"
+        set i1 [string first "pos=" $cmd]
+        set i2 [string first " " $cmd]
+        if {$i1>0 && $i1<$i2} {
+          set pos "[string range $cmd $i1+4 $i2-1]"
+          set cmd [string range $cmd $i2+1 end]
+        }
+      }
+    }
+  }
+  PaveDialog create dialog "" $::srcdir
+  set cmd [string map {"\\n" "\n"} $cmd]
+  set tmpcolr $::colrgrey
+  set ::colrgrey $::em::colrbE
+  set res [dialog misc "" "EDIT & RUN COMMAND: $mark" "$cmd" \
+    {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 \
+    -pos $pos -fg $::em::colrfE -bg $::em::colrbE -cc $::em::colrcc \
+    -family {\"Mono\"} -size 12 -g $geo]
+  set ::colrgrey $tmpcolr
+  dialog destroy
+  lassign $res res geo cmd
+  set cmd [string trim $cmd " \{\}\n"]
+  if {$res} {
+    set cmd [string map {\n \\n} $cmd]
+    set data "$mark geo=$geo;pos=$cmd"
+    set cmd [string range $cmd [string first " " $cmd]+1 end]
+    if {$iw} {
+      set menudata [lreplace $menudata $iw $iw "$data"]
+    } else {
+      lappend menudata "$data"
+    }
+    set ch [open $::em::menufilename w]
+    foreach line $menudata {
+      puts $ch "$line"
+    }
+    close $ch
+    prepr_name cmd
+  } else {
+    set cmd ""
+  }
+  return $cmd
+}
 #=== VIP commands need internal processing
-proc ::em::vip {cmd} {
-  prepr_win cmd "M/"  ;# force converting
+proc ::em::vip {refcmd} {
+  upvar $refcmd cmd
+  if {[string first "%#" $cmd] == 0} {
+    # writeable command:
+    # get (possibly) saved version of the command
+    if {[set cmd [writeable_command $cmd]]==""} {
+      return true ;# here 'cancelled' means 'processed'
+    }
+  }
+  if {[string first "%P " $cmd] == 0} {
+      # prepare the command for processing
+    set cmd [string range $cmd 3 end]
+    set cmd [string map {"\\n" "\n"} $cmd]
+    if {[string first "\$::env(" $cmd]>=0} {
+      catch {set cmd [subst $cmd]}
+    }
+  }
   set cd [string range $cmd 0 2]
   if { ([::iswindows] && [string toupper $cd] == "CD ") || $cd == "cd " } {
+    prepr_win cmd "M/"  ;# force converting
     if {[set cd [string trim [string range $cmd 3 end]]] != "."} {cd $cd}
     return true
   }
   if {$cmd == "%E" || $cmd == "%e" || $cd == "%E " || $cd == "%e "} {
-    return [::em::edit [string range $cmd 2 end]] ;# editor
+    return [::em::edit [string range $cmd 3 end]] ;# editor
   }
   return false
 }
@@ -494,13 +580,12 @@ proc ::em::shell0 {sel amp} {
     set lang [get_language]
     set sel [escape_quotes $sel "\\\""]
     set composite "$::lin_console $sel $amp"
-#?       if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
+#?     exec xterm -fa "$lang" -fs $::em::tf \
 #?       -geometry $::em::tg -bg white -fg black -title $sel \
-#?       -e {*}$composite  } e] } {
-#?       if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
-#? TODO }}}
-    if { [catch { exec lxterminal  \
-      -e {*}$composite  } e] } {
+#?       -e {*}$composite
+#?     exec xterm -fa "$lang" -fs $::em::tf
+    if { [catch { exec lxterminal \
+    -e {*}$composite  } e] } {
       if {$silent < 0} {
         message_box "ERROR of running\n\n$sel\n\n$e"
         set ret false
@@ -511,15 +596,7 @@ proc ::em::shell0 {sel amp} {
 }
 #=== run a program of sel
 proc ::em::run0 {sel amp silent} {
-  if {[string first "%P " $sel] == 0} {
-      # prepare the command for processing
-    set sel [string range $sel 3 end]
-    set sel [string map {\\n \n} $sel]
-    if {[string first "\$::env(" $sel]>=0} {
-      catch {set sel [subst $sel]}
-    }
-  }
-  if {![vip $sel]} {
+  if {![vip sel]} {
     if {[string first "%q " $sel] == 0 ||
     [string first "%Q " $sel] == 0} {
       set sel "Q [string range $sel 3 end]"
@@ -576,7 +653,7 @@ proc ::em::run1 {typ sel amp silent} {
 proc ::em::shell1 {typ sel amp silent} {
   prepr_prog sel $typ  ;# prep
   prepr_idiotic sel 0
-  if {[vip $sel]} {return true}
+  if {[vip sel]} {return true}
   if {[iswindows] || $amp!="&"} {focused_win false}
   set ret [shell0 $sel $amp]
   if {[iswindows] || $amp!="&"} {focused_win true}
@@ -1390,7 +1467,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         x0= x1= x2= x3= x4= x5= x6= x7= x8= x9= \
         y0= y1= y2= y3= y4= y5= y6= y7= y8= y9= \
         z0= z1= z2= z3= z4= z5= z6= z7= z8= z9= \
-        a= d= e= f= p= l= h= b= c= t= g= n= m= om= fg= bg=\
+        a= d= e= f= p= l= h= b= c= t= g= n= m= om= fg= bg= fE= bE= cc=\
         cb= in=} { ;# the processing order is important
     if {[string first $s1 "o= s= m="]>=0 && [string first $s1 $osm]<0} {
       continue
@@ -1505,6 +1582,9 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         in= { set ::em::lasti $seltd}
         fg= { set ::colrfg $seltd}
         bg= { set ::colrbg $seltd}
+        fE= { set ::em::colrfE $seltd}
+        bE= { set ::em::colrbE $seltd}
+        cc= { set ::em::colrcc $seltd}
         default {
           if {[set s [string range $s1 0 0]] == "x" ||
           $s == "y" || $s == "z"} {  ;# x* y* z* general substitutions

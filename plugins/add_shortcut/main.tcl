@@ -10,15 +10,28 @@
 
 namespace eval add_shortcut {
 
-  variable listIt {}
-
+  # for debugging
   proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"; return 1}
 
+  # for backward compatibility with TKE 3.5 through 3.5.4
+  proc get_header_info {arg} {
+    if {[catch {api::plugin::get_header_info $arg} res]} {
+      set data [read [set ch [open \
+        [api::get_plugin_source_directory]/header.tkedat]]]
+      close $ch
+      array set arr $data
+      #array set a_ [info frame 0] ;  d backward : $a_(proc) \n\n res==>$arr($arg)
+      return $arr($arg)
+    }
+    return $res
+  }
+
+  variable listIt {}
   variable adshdir [file join [api::get_plugin_source_directory] adsh]
   variable datadir [api::get_plugin_data_directory]
   variable inifile [file join $datadir adsh_$::tcl_platform(platform).ini]
   variable version ""
-  variable CURRENTVERSION [api::plugin::get_header_info version] ;# "1.2"
+  variable CURRENTVERSION [get_header_info version] ;# "1.2"
 
   source $adshdir/getsetini.tcl
 
@@ -243,9 +256,9 @@ namespace eval add_shortcut {
         switch $typ {
           "MENU" { ;# call the TKE menu item
 #?             if {[api::menu::exists $comm] && [api::menu::enabled $comm]} {
-              if {![catch {api::menu::invoke $comm} err]} {
-                set err ""
-              }
+            if {![catch {api::menu::invoke $comm} err]} {
+              set err ""
+            }
 #?             }
           }
           "EVENT" { ;# generate the event for TKE
