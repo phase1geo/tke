@@ -1,0 +1,50 @@
+filepatterns
+{*.ts}
+
+vimsyntax
+{}
+
+reference {
+  {{Tutorial} https://www.typescriptlang.org/docs/tutorial.html}
+  {{Handbook} https://www.typescriptlang.org/docs/handbook/basic-types.html}
+}
+
+embedded
+{
+  {JavaScript {}}
+  {JSON {}}
+}
+
+matchcharsallowed
+{curly square paren double single btick}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double single btick}
+
+keywords
+{
+  abstract class constructor extends get interface private protected public readonly set this
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    any boolean enum never null number object string undefined void
+  }
+}
