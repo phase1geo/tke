@@ -1369,14 +1369,18 @@ namespace eval sidebar {
       remote::dir_contents $remote $dir items
     } elseif {$::tcl_platform(platform) eq "windows"} {
       foreach fname [glob -nocomplain -directory $dir *] {
-        if {$show_hidden || ([string index [file tail $fname] 0] ne ".")} {
+        set tail [file tail $fname]
+        if {($show_hidden && ($tail ne ".") && ($tail ne "..")) || ([string index $tail 0] ne ".")} {
           lappend items [list $fname [file isdirectory $fname]]
         }
       }
     } else {
       if {$show_hidden} {
         foreach fname [glob -nocomplain -directory $dir -types hidden *] {
-          lappend items [list $fname [file isdirectory $fname]]
+          set tail [file tail $fname]
+          if {($tail ne ".") && ($tail ne "..")} {
+            lappend items [list $fname [file isdirectory $fname]]
+          }
         }
       }
       foreach fname [glob -nocomplain -directory $dir *] {
