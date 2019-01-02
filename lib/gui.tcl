@@ -3252,7 +3252,7 @@ namespace eval gui {
   proc close_search {} {
 
     # Get the current text frame
-    get_info {} current tab
+    get_info {} current tab txt
 
     # Hide the search frame
     panel_forget $tab.sf

@@ -392,7 +392,8 @@ namespace eval plugmgr {
 
     $widgets($type,table) columnconfigure 0 -name plugin -stretchable 1 -wrap 1 -editable 0 -formatcommand plugmgr::format_plugin_cell
 
-    bind [$widgets($type,table) bodytag] <Return> [list plugmgr::show_detail $type]
+    bind [$widgets($type,table) bodytag] <Return>          plugmgr::show_detail
+    bind [$widgets($type,table) bodytag] <Double-Button-1> plugmgr::show_detail
 
     grid rowconfigure    $w.lf 0 -weight 1
     grid columnconfigure $w.lf 0 -weight 1
@@ -445,7 +446,6 @@ namespace eval plugmgr {
     set widgets(install)   [ttk::button $w.bf.install   -style BButton -text [msgcat::mc "Install"]   -width $bwidth -command [list plugmgr::install]]
     set widgets(pupdate)   [ttk::button $w.bf.pupdate   -style BButton -text [msgcat::mc "Update"]    -width $bwidth -command [list plugmgr::pupdate]]
     set widgets(uninstall) [ttk::button $w.bf.uninstall -style BButton -text [msgcat::mc "Uninstall"] -width $bwidth -command [list plugmgr::uninstall]]
-    set widgets(delete)    [ttk::button $w.bf.delete    -style BButton -text [msgcat::mc "Delete"]    -width $bwidth -command [list plugmgr::delete]]
 
     grid rowconfigure    $w.bf 0 -weight 1
     grid columnconfigure $w.bf 1 -weight 1
@@ -453,7 +453,6 @@ namespace eval plugmgr {
     grid $w.bf.install   -row 0 -column 2 -sticky news -padx 4 -pady 2
     grid $w.bf.pupdate   -row 0 -column 3 -sticky news -padx 4 -pady 2
     grid $w.bf.uninstall -row 0 -column 4 -sticky news -padx 4 -pady 2
-    grid $w.bf.delete    -row 0 -column 5 -sticky news -padx 4 -pady 2
 
     # Create HTML viewer
     ttk::frame $w.hf
@@ -582,11 +581,14 @@ namespace eval plugmgr {
     lassign [$tbl cellcget $row,$col -text] name detail id
 
     frame $win -background $ttk_theme(background)
-    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor arrow -background $theme(background) -foreground $theme(foreground)
+    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor [ttk::cursor standard] -background $theme(background) -foreground $theme(foreground)
 
-    bind $win.t <Configure>       [list plugmgr::update_height %W]
-    bind $win   <Double-Button-1> [list plugmgr::show_detail $last_pane]
-    bindtags $win.t [linsert [bindtags $win.t] 1 TablelistBody]
+    bind $win.t <Configure> [list plugmgr::update_height %W]
+    bindtags $win   [linsert [bindtags $win]   1 [$tbl bodytag] TablelistBody]
+    bindtags $win.t [linsert [bindtags $win.t] 1 [$tbl bodytag] TablelistBody]
+    # bind $win.t <Double-Button-1> [list plugmgr::show_detail $last_pane]
+    # bind $win   <Double-Button-1> [list plugmgr::show_detail $last_pane]
+    # bindtags $win.t [linsert [bindtags $win.t] 1 TablelistBody]
 
     pack $win.t -fill both -expand yes -padx 4 -pady 4
 
@@ -607,7 +609,8 @@ namespace eval plugmgr {
 
     array set opts $args
 
-    $win configure -background $opts(-background)
+    $win   configure -background $opts(-background)
+    $win.t configure -background $opts(-background) -foreground $opts(-foreground)
 
   }
 
@@ -641,8 +644,7 @@ namespace eval plugmgr {
     }
 
     if {$data(release_notes) ne ""} {
-      append html "<h4>Release Notes</h4><br>"
-      append html "<dl>$data(release_notes)</dl><br>"
+      append html "<h4>Release Notes</h4><dl>$data(release_notes)</dl>"
     }
 
     append html "<h4>Version</h4><dl>$data(version)</dl>"
@@ -667,17 +669,18 @@ namespace eval plugmgr {
 
   ######################################################################
   # Displays the plugin detail in the detail pane.
-  proc show_detail {type} {
+  proc show_detail {} {
 
     variable widgets
     variable current_id
     variable database
+    variable last_pane
 
     # Get the currently selected row
-    set selected [$widgets($type,table) curselection]
+    set selected [$widgets($last_pane,table) curselection]
 
     # Get the plugin ID
-    set current_id [lindex [$widgets($type,table) cellcget $selected,plugin -text] 2]
+    set current_id [lindex [$widgets($last_pane,table) cellcget $selected,plugin -text] 2]
 
     # Get the content to display
     set html [make_overview_html $current_id]
@@ -692,14 +695,16 @@ namespace eval plugmgr {
     # Configure the text widget to be disabled
     $widgets(html) configure -state disabled
 
-    if {$type eq "available"} {
+    if {$last_pane eq "available"} {
       grid remove $widgets(uninstall)
-      grid remove $widgets(delete)
+      grid remove $widgets(pupdate)
       grid $widgets(install)
     } else {
       grid remove $widgets(install)
       grid $widgets(uninstall)
-      grid $widgets(delete)
+
+      # Only show the update button if there is an update available
+      grid $widgets(pupdate)
     }
 
     # Display the detail pane
@@ -717,8 +722,9 @@ namespace eval plugmgr {
     set url "https://FOOBAR/$current_id.tkeplugz"
 
     # Download the file
-    if {[set fname [download_url $url]] eq ""} {
-      return -code error "Failed to download plugin bundle"
+    if {[set fname [utils::download_url $url]] eq ""} {
+      show_error_message [msgcat::mc "Failed to download plugin bundle"]
+      return
     }
 
     # Import the file
@@ -739,7 +745,6 @@ namespace eval plugmgr {
     grid remove $widgets(install)
     grid remove $widgets(pupdate)
     grid $widgets(uninstall)
-    grid $widgets(delete)
 
   }
 
@@ -753,8 +758,10 @@ namespace eval plugmgr {
     set url "https://FOOBAR/$current_id.tkeplugz"
 
     # Download the file
-    if {[set fname [download_url $url]] eq ""} {
-      return -code error "Failed to download plugin bundle"
+    if {[set fname [utils::download_url $url]] eq ""} {
+      show_error_message [msgcat::mc "Failed to download plugin bundle"]
+      return
+      return
     }
 
     # Import the file
@@ -813,6 +820,30 @@ namespace eval plugmgr {
   }
 
   ######################################################################
+  # Performs search with the given value.
+  proc do_search {type value} {
+
+    variable widgets
+
+    set tbl      $widgets($type,table)
+    set tbl_size [$tbl size]
+
+    if {$value eq ""} {
+      for {set i 0} {$i < $tbl_size} {incr i} {
+        $tbl rowconfigure $i -hide 0
+      }
+    } else {
+      for {set i 0} {$i < $tbl_size} {incr i} {
+        set txt [$tbl windowpath $i,plugin].t
+        $tbl rowconfigure $i -hide [expr {[$txt search -nocase -exact -- $value 1.0] ne ""} ? 0 : 1]
+      }
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
   # This is called whenever the theme changes.
   proc update_theme {} {
 
@@ -823,14 +854,21 @@ namespace eval plugmgr {
       return
     }
 
-    array set theme [theme::get_category_options ttk_style 1]
+    array set theme  [theme::get_category_options ttk_style 1]
+    array set syntax [theme::get_syntax_colors]
 
     $widgets(available,table)  configure -background $theme(background) -foreground $theme(foreground)
     $widgets(available,scroll) configure -background $theme(background) -foreground $theme(foreground)
     $widgets(installed,table)  configure -background $theme(background) -foreground $theme(foreground)
     $widgets(installed,scroll) configure -background $theme(background) -foreground $theme(foreground)
-    $widgets(html)             configure -background $theme(background) -foreground $theme(foreground)
-    $widgets(html,vb)          configure -background $theme(background) -foreground $theme(foreground)
+    $widgets(html,vb)          configure -background $syntax(background) -foreground $syntax(foreground)
+
+    # Update the HTML view colors
+    $widgets(html) configure -background $syntax(background) -foreground $syntax(foreground)
+
+    $widgets(html) tag configure link -foreground $syntax(miscellaneous1) -relief flat
+    $widgets(html) tag configure h4   -foreground $syntax(keywords)
+    $widgets(html) tag configure code -background $syntax(numbers) -foreground $syntax(background)
 
   }
 
@@ -844,12 +882,14 @@ namespace eval plugmgr {
 
     # Download the database to a local file
     if {[set fname [utils::download_url $url]] eq ""} {
-      return -code error "Unable to fetch plugin database"
+      show_error_message [msgcat::mc "Unable to fetch plugin database"]
+      return
     }
 
     # Load the downloaded file
     if {[catch { tkedat::read $fname } rc]} {
-      return -code error "Unable to load plugin database file"
+      show_error_message [msgcat::mc "Unable to load plugin database file"]
+      return
     }
 
     # Make sure that the database is cleared
@@ -888,6 +928,14 @@ namespace eval plugmgr {
       set database(plugins) [array get new_plugins]
 
     }
+
+  }
+
+  ######################################################################
+  # Displays the given error message for the plugin manager.
+  proc show_error_message {msg} {
+
+    tk_messageBox -parent .pmwin -icon error -title [msgcat::mc "Error"] -type ok -default ok -message $msg
 
   }
 
