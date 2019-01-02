@@ -165,6 +165,8 @@ namespace eval plugins {
           incr registry_size
         }
 
+        array unset header
+
       }
 
     }
