@@ -1183,6 +1183,9 @@ namespace eval utils {
 
 }
 
+# We will override the mouse events defined within htmllib
+array unset HMevents
+
 ######################################################################
 # Initializes the given text widget to render HTML via htmllib.
 proc HMinitialize {win} {
@@ -1192,6 +1195,10 @@ proc HMinitialize {win} {
 
   # Set <ul> symbols
   HMset_state $win -symbols [string repeat \u2022\u2023\u25e6\u2043 5]
+
+  # Change the cursor when the mouse cursor enters/leaves a link
+  $win tag bind link <Enter> [list $win configure -cursor [ttk::cursor link]]
+  $win tag bind link <Leave> [list $win configure -cursor [ttk::cursor standard]]
 
 }
 
