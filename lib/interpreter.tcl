@@ -124,7 +124,10 @@ namespace eval interpreter {
 
     set command_args [list \
       -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
-      -yscrollcommand \
+      -yscrollcommand -acceptchildcommand -acceptdropcommand -collapsecommand \
+      -colorizecommand -editstartcommand -editendcommand -expandcommand -forceeditendcommand \
+      -labelcommand -labelcommand2 -populatecommand -sortcommand -tooltipaddcommand \
+      -tooltipdelcommand \
     ]
     set variable_args [list -variable -textvariable]
 
@@ -172,10 +175,10 @@ namespace eval interpreter {
 
     variable interps
 
-    set command_args [list \
-      -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
-      -yscrollcommand \
-    ]
+    set command_args {
+      -command -postcommand -validatecommand -invalidcommand -xscrollcommand
+      -yscrollcommand
+    }
 
     switch $cmd {
 
@@ -542,6 +545,196 @@ namespace eval interpreter {
   }
 
   ######################################################################
+  # Handles the creation of a tablelist command.
+  proc tablelist_command {pname win args} {
+
+    variable interps
+
+    set command_args [list \
+      -xscrollcommand -yscrollcommand -acceptchildcommand -acceptdropcommand -collapsecommand \
+      -colorizecommand -editstartcommand -editendcommand -expandcommand -forceeditendcommand \
+      -labelcommand -labelcommand2 -populatecommand -sortcommand -tooltipaddcommand \
+      -tooltipdelcommand \
+    ]
+    set variable_args [list -variable -textvariable]
+
+    # Substitute any commands with the appropriate interpreter eval statement
+    set opts [list]
+    foreach {opt value} $args {
+      if {[lsearch $command_args $opt] != -1} {
+        set value [list $interps($pname,interp) eval $value]
+      }
+      if {[lsearch $variable_args $opt] != -1} {
+        set interps($pname,var,$value) [$interps($pname,interp) eval [list set $value]]
+        trace variable interpreter::interps($pname,var,$value) w [list interpreter::set_variable $pname $value]
+        set value "interpreter::interps($pname,var,$value)"
+      }
+      lappend opts $opt $value
+    }
+
+    # Create the widget
+    tablelist::tablelist $win {*}$opts
+
+    # Allow the interpreter to do things with the element
+    $interps($pname,interp) alias $win interpreter::tablelist_win $pname $win
+
+    # Record the widget
+    lappend interps($pname,wins) [list $win 1]
+
+    return $win
+
+  }
+
+  ######################################################################
+  proc tablelist_win {pname win cmd args} {
+
+    variable interps
+
+    set command_args {
+      -xscrollcommand -yscrollcommand -acceptchildcommand -acceptdropcommand -collapsecommand
+      -colorizecommand -editstartcommand -editendcommand -expandcommand -forceeditendcommand
+      -labelcommand -labelcommand2 -populatecommand -sortcommand -tooltipaddcommand
+      -tooltipdelcommand
+    }
+
+    set tbl_commands {
+      -formatcommand -labelcommand -labelcommand2 -sortcommand -window -windowdestroy -windowupdate
+    }
+
+    switch $cmd {
+
+      cget {
+        set opt [lindex $args 0]
+        if {[lsearch $command_args $opt] != -1} {
+          return [lindex [$win cget $opt] 2]
+        } else {
+          return [$win cget $opt]
+        }
+      }
+
+      configure {
+        set retval [list]
+        switch [llength $args] {
+          0 {
+            foreach opt [$win configure] {
+              if {[lsearch $command_args [lindex $opt 0]] != -1} {
+                lset opt 4 [lindex [lindex $opt 4] 2]
+              }
+              lappend retval $opt
+            }
+            return $retval
+          }
+          1 {
+            set opt    [lindex $args 0]
+            set retval [$win configure $opt]
+            if {[lsearch $command_args $opt] != -1} {
+              lset retval 4 [lrange [lindex $retval 4] 2 end]
+            }
+            return $retval
+          }
+          default {
+            foreach {opt value} $args {
+              if {[lsearch $command_args $opt] != -1} {
+                set value [list interpreter::tablelist_do $pname $value]
+              }
+              lappend retval $opt $value
+            }
+            return [$win configure {*}$retval]
+          }
+        }
+      }
+
+      cellcget   -
+      columncget {
+        lassign $args key opt
+        if {[lsearch $command_args $opt] != -1} {
+          return [lindex [$win $cmd $key $opt] 2]
+        } else {
+          return [$win $cmd $key $opt]
+        }
+
+      }
+
+      cellconfigure -
+      columnconfigure {
+        set retval [list]
+        set args [lassign $args key]
+        switch [llength $args] {
+          0 {
+            foreach opt [$win $cmd $key] {
+              if {[lsearch $tbl_commands [lindex $opt 0]] != -1} {
+                lset opt 4 [lindex [lindex $opt 4] 2]
+              }
+              lappend retval $opt
+            }
+            return $retval
+          }
+          1 {
+            set opt    [lindex $args 0]
+            set retval [$win $cmd $key $opt]
+            if {[lsearch $tbl_commands $opt] != -1} {
+              lset retval 4 [lindex [lindex $retval 4] 2]
+            }
+            return $retval
+          }
+          default {
+            foreach {opt value} $args {
+              if {[lsearch $tbl_commands $opt] != -1} {
+                set value [list interpreter::tablelist_do $pname $value]
+              }
+              lappend retval $opt $value
+            }
+            return [$win $cmd $key {*}$retval]
+          }
+        }
+      }
+
+      embedcheckbutton     -
+      embedcheckbuttons    -
+      embedttkcheckbutton  -
+      embedttkcheckbuttons {
+        if {[llength $args] == 2} {
+          $win $cmd [lindex $args 0] [list interpreter::tablelist_do $pname [lindex $args 1]]
+        } else {
+          $win $cmd [lindex $args 0]
+        }
+      }
+
+      header {
+        set args [lassign $args subcmd]
+        switch $subcmd {
+          embedcheckbutton -
+          embedcheckbuttons -
+          embedttkcheckbutton -
+          embedttkcheckbuttons {
+            if {[llength $args] == 2} {
+              $win header $subcmd [lindex $args 0] [list interpreter::tablelist_do $pname [lindex $args 1]]
+            } else {
+              $win header $subcmd [lindex $args 0]
+            }
+          }
+        }
+      }
+
+      default {
+        return [$win $cmd {*}$args]
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Performs the given tablelist command, adding any appending arguments to
+  # the given command.
+  proc tablelist_do {pname cmd args} {
+
+    variable interps
+
+    return [$interps($pname,interp) eval $cmd [list $args]]
+
+  }
+
+  ######################################################################
   # Executes the open command.
   proc open_command {pname fname args} {
 
@@ -849,7 +1042,7 @@ namespace eval interpreter {
     }
 
     # Specialized Tk commands
-    foreach cmd [list destroy bind winfo wm image] {
+    foreach cmd [list destroy bind winfo wm image tablelist] {
       $interp alias $cmd interpreter::${cmd}_command $pname
     }
 
