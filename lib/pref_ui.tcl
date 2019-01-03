@@ -3277,7 +3277,7 @@ namespace eval pref_ui {
     $widgets(snippets_ins_menu) add command -label [msgcat::mc "Clipboard History"] -command [list pref_ui::snippets_insert_str "\$CLIPHIST\[1\]"]
     $widgets(snippets_ins_menu) add separator
     $widgets(snippets_ins_menu) add command -label [msgcat::mc "Tab Stop"]          -command [list pref_ui::snippets_insert_str "\${1}"]
-    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]            -command [list pref_ui::snippets_insert_str "\${0}"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]            -command [list pref_ui::snippets_insert_str "\$0"]
 
     # Setup the date/time submenu
     $w.sf.datePopup add command -label "01/13/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
