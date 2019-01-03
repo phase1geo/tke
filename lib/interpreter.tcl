@@ -681,6 +681,8 @@ namespace eval interpreter {
             foreach {opt value} $args {
               if {[lsearch $tbl_commands $opt] != -1} {
                 set value [list interpreter::tablelist_do $pname $value]
+              } elseif {($opt eq "-text") && [winfo exists [$win windowpath $key].ckbtn]} {
+                set [[$win windowpath $key].ckbtn cget -variable] $value
               }
               lappend retval $opt $value
             }
