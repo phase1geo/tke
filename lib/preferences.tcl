@@ -227,12 +227,14 @@ namespace eval preferences {
         array unset content Help/*
         array unset content Debug/*
         array unset content Tools/Profile*
+        array unset content Editor/Snippet*
         set loaded_prefs(session,$session,global) [array get content]
       } else {
         if {[info exists loaded_prefs(session,$session,$language)]} {
           array set content $loaded_prefs(session,$session,$language)
         }
         array set content $data
+        array unset content Editor/Snippet*
         set loaded_prefs(session,$session,$language) [array get content Editor/*]
       }
 
