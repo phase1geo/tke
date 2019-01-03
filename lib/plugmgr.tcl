@@ -37,16 +37,20 @@ namespace eval plugmgr {
     overview      ""
   }
 
-  array set database {}
+  array set database {
+    plugins {}
+  }
   array set widgets  {}
 
   # TEMPORARY
   array set database {
-    0 {display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description "Quick\ndescription\nYes" release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
-    1 {display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
-    2 {display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
-    3 {display_name {Plugin 3} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.4.1} category filesystem description {Quick description 3} release_notes {My release notes} overview {<p>This is a really great overview of 3!</p>}}
-    4 {display_name {Plugin 4} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {1.5.2} category filesystem description {Quick description 4} release_notes {My release notes} overview {<p>This is a really great overview of 4!</p>}}
+    plugins {
+      0 {installed 1 update_avail 0 display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description "Quick\ndescription\nYes" release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
+      1 {installed 0 update_avail 0 display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
+      2 {installed 0 update_avail 0 display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
+      3 {installed 1 update_avail 1 display_name {Plugin 3} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.4.1} category filesystem description {Quick description 3} release_notes {My release notes} overview {<p>This is a really great overview of 3!</p>}}
+      4 {installed 1 update_avail 0 display_name {Plugin 4} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {1.5.2} category filesystem description {Quick description 4} release_notes {My release notes} overview {<p>This is a really great overview of 4!</p>}}
+    }
   }
 
   ######################################################################
@@ -382,6 +386,11 @@ namespace eval plugmgr {
     ttk::frame $w.sf
     set widgets($type,search) [wmarkentry::wmarkentry $w.sf.e -validate key -validatecommand [list plugmgr::do_search $type %P] -width 30 -watermark [msgcat::mc "Search"]]
 
+    if {$type eq "installed"} {
+      set widgets($type,pupdate) [ttk::button $w.sf.upd -style BButton -text [msgcat::mc "Update All"] -command plugmgr::pupdate_all]
+      pack $w.sf.upd -side right -padx 2 -pady 2
+    }
+
     pack $w.sf.e -side left -padx 2 -pady 2
 
     ttk::frame $w.lf
@@ -501,11 +510,11 @@ namespace eval plugmgr {
     $widgets(available_btn) state  active
     $widgets(installed_btn) state !active
 
-    # Give the search panel the focus
-    focus $widgets(available,search)
-
     # Populate the table
     populate_plugin_table "available"
+
+    # Give the search panel the focus
+    focus $widgets(available,search)
 
   }
 
@@ -525,11 +534,11 @@ namespace eval plugmgr {
     $widgets(available_btn) state !active
     $widgets(installed_btn) state  active
 
-    # Give the search panel the focus
-    focus $widgets(installed,search)
-
     # Populate the plugin table
     populate_plugin_table "installed"
+
+    # Give the search panel the focus
+    focus $widgets(installed,search)
 
   }
 
@@ -543,18 +552,24 @@ namespace eval plugmgr {
     # Clear the table
     $widgets($type,table) delete 0 end
 
-    foreach name [lsort [array names database]] {
-      array set data $database($name)
-      append_plugin $type $data(display_name) $data(description) $name
+    array set db_plugins $database(plugins)
+
+    set installed  [expr {($type eq "available") ? 0 : 1}]
+    set updateable 0
+
+    foreach name [lsort [array names db_plugins]] {
+      array set data $db_plugins($name)
+      if {$data(installed) == $installed} {
+        append_plugin $type $data(display_name) $data(description) $name
+      }
+      incr updateable $data(update_avail)
     }
 
-    # author        "Anonymous"
-    # email         ""
-    # website       ""
-    # version       "1.0"
-    # category      "Miscellaneous"
-    # description   ""
-    # release_notes ""
+    if {$updateable} {
+      pack $widgets(installed,pupdate) -side right -padx 4 -pady 2
+    } else {
+      pack forget $widgets(installed,pupdate)
+    }
 
   }
 
@@ -580,24 +595,22 @@ namespace eval plugmgr {
 
     lassign [$tbl cellcget $row,$col -text] name detail id
 
-    frame $win -background $ttk_theme(background)
-    text $win.t -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor [ttk::cursor standard] -background $theme(background) -foreground $theme(foreground)
+    text $win -wrap word -height 1 -relief flat -highlightthickness 0 -bd 0 -cursor [ttk::cursor standard] -background $theme(background) -foreground $theme(foreground)
 
-    bind $win.t <Configure> [list plugmgr::update_height %W]
-    bindtags $win   [linsert [bindtags $win]   1 [$tbl bodytag] TablelistBody]
-    bindtags $win.t [linsert [bindtags $win.t] 1 [$tbl bodytag] TablelistBody]
-    # bind $win.t <Double-Button-1> [list plugmgr::show_detail $last_pane]
-    # bind $win   <Double-Button-1> [list plugmgr::show_detail $last_pane]
-    # bindtags $win.t [linsert [bindtags $win.t] 1 TablelistBody]
+    bind $win <Configure> [list plugmgr::update_height %W]
+    bindtags $win [linsert [bindtags $win] 1 [$tbl bodytag] TablelistBody]
 
-    pack $win.t -fill both -expand yes -padx 4 -pady 4
+    if {[get_database_attr $id update_avail]} {
+      set txt [list "\n" {} $name header "\t\t(Update Available)" pupdate "\n\n$detail\n" body]
+    } else {
+      set txt [list "\n" {} $name header "\n\n$detail\n" body]
+    }
 
-    $win.t tag configure header -font [list -size 14 -weight bold] -foreground $theme(keywords)
-    $win.t tag configure body   -lmargin1 20 -lmargin2 20
-    $win.t insert end "\n" {} $name header "\n\n$detail\n" body
-    $win.t configure -state disabled
-
-    pack $win -fill both -expand yes
+    $win tag configure header  -font [list -size 14 -weight bold] -foreground $theme(keywords)
+    $win tag configure pupdate -foreground $theme(miscellaneous1) -justify right
+    $win tag configure body    -lmargin1 20 -lmargin2 20
+    $win insert end {*}$txt
+    $win configure -state disabled
 
     return $win
 
@@ -609,8 +622,7 @@ namespace eval plugmgr {
 
     array set opts $args
 
-    $win   configure -background $opts(-background)
-    $win.t configure -background $opts(-background) -foreground $opts(-foreground)
+    $win configure -background $opts(-background) -foreground $opts(-foreground)
 
   }
 
@@ -630,11 +642,13 @@ namespace eval plugmgr {
 
     variable database
 
-    if {![info exists database($name)]} {
+    array set db_plugins $database(plugins)
+
+    if {![info exists db_plugins($name)]} {
       return ""
     }
 
-    array set data $database($name)
+    array set data $db_plugins($name)
 
     # Create the HTML code to display
     append html "<h1>$data(display_name)</h1><hr>"
@@ -702,9 +716,11 @@ namespace eval plugmgr {
     } else {
       grid remove $widgets(install)
       grid $widgets(uninstall)
-
-      # Only show the update button if there is an update available
-      grid $widgets(pupdate)
+      if {[get_database_attr $current_id update_avail]} {
+        grid $widgets(pupdate)
+      } else {
+        grid remove $widgets(pupdate)
+      }
     }
 
     # Display the detail pane
@@ -719,10 +735,8 @@ namespace eval plugmgr {
     variable widgets
     variable current_id
 
-    set url "https://FOOBAR/$current_id.tkeplugz"
-
     # Download the file
-    if {[set fname [utils::download_url $url]] eq ""} {
+    if {[set fname [get_bundle_fname $current_id]] eq ""} {
       show_error_message [msgcat::mc "Failed to download plugin bundle"]
       return
     }
@@ -741,6 +755,9 @@ namespace eval plugmgr {
     # Perform the plugin install
     plugins::install_item $index
 
+    # Set the database installed value
+    set_database_attr $current_id installed 1
+
     # Update the UI state of the pane
     grid remove $widgets(install)
     grid remove $widgets(pupdate)
@@ -754,13 +771,11 @@ namespace eval plugmgr {
 
     variable widgets
     variable current_id
-
-    set url "https://FOOBAR/$current_id.tkeplugz"
+    variable database
 
     # Download the file
-    if {[set fname [utils::download_url $url]] eq ""} {
+    if {[set fname [get_bundle_fname $current_id]] eq ""} {
       show_error_message [msgcat::mc "Failed to download plugin bundle"]
-      return
       return
     }
 
@@ -770,8 +785,48 @@ namespace eval plugmgr {
     # Perform the plugin install
     plugins::reload
 
+    # Specify that the update is no longer available
+    set_database_attr $current_id update_avail 0
+
     # Update the UI state of the pane
     grid remove $widgets(pupdate)
+
+  }
+
+  ######################################################################
+  # Update all of the plugins that are upgradable.
+  proc pupdate_all {} {
+
+    variable widgets
+    variable database
+
+    array set db_plugins $database(plugins)
+
+    # Import the plugins that have an update available
+    foreach name [array names db_plugins] {
+      array set data $db_plugins($name)
+      if {$data(update_avail)} {
+        if {[set fname [get_bundle_fname $name]] eq ""} {
+          lappend error_plugins $name
+        } else {
+          plugins::import_plugin .pmwin $fname
+          set data(update_avail) 0
+          set db_plugins($name)  [array get data]
+        }
+      }
+    }
+
+    # Reload the plugins
+    plugins::reload
+
+    # Save the database changes
+    array set database(plugins) [array get db_plugins]
+
+    if {[llength $error_plugins] > 0} {
+      show_error_message [msgcat::mc "Failed to download the following plugin bundles:"] $error_plugins
+    } else {
+      pack forget $widgets(installed,pupdate)
+    }
 
   }
 
@@ -789,6 +844,9 @@ namespace eval plugmgr {
 
     # Uninstall the item
     plugins::uninstall_item $index
+
+    # Save the fact that the plugin is no longer installed
+    set_database_attr $current_id installed 0
 
     # Update the UI state of the pane
     grid remove $widgets(uninstall)
@@ -932,10 +990,48 @@ namespace eval plugmgr {
   }
 
   ######################################################################
-  # Displays the given error message for the plugin manager.
-  proc show_error_message {msg} {
+  # Retrieves the specified attribute value from the database.
+  proc get_database_attr {id attr} {
 
-    tk_messageBox -parent .pmwin -icon error -title [msgcat::mc "Error"] -type ok -default ok -message $msg
+    variable database
+
+    array set db_plugins $database(plugins)
+    array set data       $db_plugins($id)
+
+    return $data($attr)
+
+  }
+
+  ######################################################################
+  # Sets the given database attribute to the specified value.
+  proc set_database_attr {id attr value} {
+
+    variable database
+
+    array set db_plugins $database(plugins)
+    array set data       $db_plugins($id)
+
+    set data($attr)       $value
+    set db_plugins($id)   [array get data]
+    set database(plugins) [array get db_plugins]
+
+  }
+
+  ######################################################################
+  # Returns the necessary URL to download the given plugin package.
+  proc get_bundle_fname {id} {
+
+    set url "https://FOOBAR/$id.tkeplugz"
+
+    return [utils::download_url $url]
+
+  }
+
+  ######################################################################
+  # Displays the given error message for the plugin manager.
+  proc show_error_message {msg {detail ""}} {
+
+    tk_messageBox -parent .pmwin -icon error -title [msgcat::mc "Error"] -type ok -default ok -message $msg -detail $detail
 
   }
 
