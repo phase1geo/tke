@@ -1,5 +1,5 @@
 set specl::appname      "tke"
-set specl::version      "3.5.6"
-set specl::release      "399"
+set specl::version      "3.5.7"
+set specl::release      "Unable to insert into database: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '." and ".." directory items on Linux and macOS could be displayed in the sidebar' at line 1"
 set specl::rss_url      "http://tke.sourceforge.net/releases"
 set specl::download_url "http://tke.sourceforge.net/releases"
