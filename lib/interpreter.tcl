@@ -730,7 +730,7 @@ namespace eval interpreter {
 
     variable interps
 
-    return [$interps($pname,interp) eval $cmd [list $args]]
+    return [$interps($pname,interp) eval [list {*}$cmd {*}$args]]
 
   }
 
