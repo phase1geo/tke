@@ -4634,6 +4634,16 @@ namespace eval pref_ui {
       $widgets(advanced_tl) insert end [list $host $nfs_mount $remote_mount]
     }
 
+    ##################
+    # PROXY SETTINGS #
+    ##################
+
+    $w.nb add [set d [ttk::frame $w.nb.d]] -text [set wstr [msgcat::mc "Proxy Settings"]]
+
+    make_entry $d.ph [msgcat::mc "Proxy Host"] General/ProxyHost "proxy.server.com"
+    make_entry $d.pp [msgcat::mc "Proxy Port"] General/ProxyPort "8080"
+    make_help  $d    [msgcat::mc "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."]
+
   }
 
   ######################################################################
