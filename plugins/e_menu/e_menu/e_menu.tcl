@@ -894,6 +894,9 @@ proc ::em::get_PD {} {
       }
     }
   }
+  if {![file isdirectory $::em::workdir]} {
+    set ::em::workdir [pwd]
+  }
   return $::em::workdir
 }
 #=== get "underlined" working (project's) dir
