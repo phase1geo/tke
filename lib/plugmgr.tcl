@@ -43,15 +43,15 @@ namespace eval plugmgr {
   array set widgets  {}
 
   # TEMPORARY
-  array set database {
-    plugins {
-      0 {installed 1 update_avail 0 display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description "Quick\ndescription\nYes" release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
-      1 {installed 0 update_avail 0 display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
-      2 {installed 0 update_avail 0 display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
-      3 {installed 1 update_avail 1 display_name {Plugin 3} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.4.1} category filesystem description {Quick description 3} release_notes {My release notes} overview {<p>This is a really great overview of 3!</p>}}
-      4 {installed 1 update_avail 0 display_name {Plugin 4} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {1.5.2} category filesystem description {Quick description 4} release_notes {My release notes} overview {<p>This is a really great overview of 4!</p>}}
-    }
-  }
+#  array set database {
+#    plugins {
+#      0 {installed 1 update_avail 0 display_name {Plugin 0} author {Trevor Williams} email {phase1geo@gmail.com} website {http://www.apple.com} version {1.2.2} category miscellaneous description "Quick\ndescription\nYes" release_notes {Some release notes} overview {<p>This is a really great overview of 0!</p>}}
+#      1 {installed 0 update_avail 0 display_name {Plugin 1} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.0}   category miscellaneous description {Another quick description} release_notes {Some release notes about nothing} overview {<p>This is a really great overview of 1!</p>}}
+#      2 {installed 0 update_avail 0 display_name {Plugin 2} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.3}   category miscellaneous description {Quick description 2} release_notes {My release notes} overview {<p>This is a really great overview of 2!</p>}}
+#      3 {installed 1 update_avail 1 display_name {Plugin 3} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {2.4.1} category filesystem description {Quick description 3} release_notes {My release notes} overview {<p>This is a really great overview of 3!</p>}}
+#      4 {installed 1 update_avail 0 display_name {Plugin 4} author {Trevor Williams} email {phase1geo@gmail.com} website {} version {1.5.2} category filesystem description {Quick description 4} release_notes {My release notes} overview {<p>This is a really great overview of 4!</p>}}
+#    }
+#  }
 
   ######################################################################
   # Adds a single plugin to the plugin database file.  Returns the
@@ -368,7 +368,7 @@ namespace eval plugmgr {
     update_theme
 
     # Load the plugin database from the server
-    # load_database
+    load_database
 
     # Make the available notebook pane the visible panel
     available_selected
@@ -936,7 +936,7 @@ namespace eval plugmgr {
 
     variable database
 
-    set url "https://TBD/plugins.tkedat"
+    set url "http://tke.sourceforge.net/plugins/plugins.tkedat"
 
     # Download the database to a local file
     if {[set fname [utils::download_url $url]] eq ""} {
@@ -953,23 +953,24 @@ namespace eval plugmgr {
     # Make sure that the database is cleared
     array unset database
 
-    array set data     $rc
-    array set database $data(plugins)
+    puts "rc: $rc, fname: $fname"
+
+    array set database    $rc
+    array set new_plugins $database(plugins)
+
+    # Initialize the new plugins database
+    foreach name [array names new_plugins] {
+      array set new_plugin $new_plugins($name)
+      set new_plugin(update_avail) 0
+      set new_plugin(installed)    0
+      set new_plugins($name) [array get new_plugin]
+    }
 
     # Load the local file and compare the old versions to the new versions
-    if {![catch { tkedata::read $fname } rc]} {
+    if {![catch { tkedata::read [file join $::tke_home iplugins plugins.tkedat] } rc]} {
 
       array set old_data    $rc
       array set old_plugins $old_data(plugins)
-      array set new_plugins $database(plugins)
-
-      # Initialize the new plugins database
-      foreach name [array names new_plugins] {
-        array set new_plugin $new_plugins($name)
-        set new_plugin(update_avail) 0
-        set new_plugin(installed)    0
-        set new_plugins($name) [array get new_plugin]
-      }
 
       # Cross-reference the old database with the new, updating the new
       foreach name [array names old_plugins] {
@@ -982,10 +983,10 @@ namespace eval plugmgr {
         }
       }
 
-      # Save the new plugins data back to the database
-      set database(plugins) [array get new_plugins]
-
     }
+
+    # Save the new plugins data back to the database
+    set database(plugins) [array get new_plugins]
 
   }
 
@@ -1021,7 +1022,7 @@ namespace eval plugmgr {
   # Returns the necessary URL to download the given plugin package.
   proc get_bundle_fname {id} {
 
-    set url "https://FOOBAR/$id.tkeplugz"
+    set url "http://tke.sourceforge.net/plugins/$id.tkeplugz"
 
     return [utils::download_url $url]
 
