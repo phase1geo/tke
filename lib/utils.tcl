@@ -414,6 +414,9 @@ namespace eval utils {
 
     fconfigure $rc -encoding binary
 
+    # Make sure that the proxy information is programmed correctly
+    http::config -proxyhost [preferences::get General/ProxyHost] -proxyport [preferences::get General/ProxyPort]
+
     # Attempt to open the URL
     if {[catch { http::geturl $url -channel $rc } token]} {
       close $rc
@@ -426,8 +429,10 @@ namespace eval utils {
 
     # Check the return status
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
+      http::cleanup $token
       return $fname
     } else {
+      http::cleanup $token
       file delete -force $fname
       return ""
     }

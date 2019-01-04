@@ -102,6 +102,16 @@
 
 {General/DefaultPluginExportDirectory} {}
 
+# Allows the user to provide a proxy server host which will be used whenever an HTTP
+# request is made.
+
+{General/ProxyHost} {}
+
+# Allows the user to provide a proxy server port which will be used whenever an HTTP
+# request is made.
+
+{General/ProxyPort} {}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.
