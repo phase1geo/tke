@@ -408,7 +408,7 @@ namespace eval utils {
     }
 
     # Create a temporary file that will store binary data
-    if {[catch { open [set fname [exec mktemp]] w } rc]} {
+    if {[catch { open [set fname [file tempfile]] w } rc]} {
       return ""
     }
 
