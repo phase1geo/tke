@@ -622,7 +622,11 @@ namespace eval plugmgr {
 
     array set opts $args
 
-    $win configure -background $opts(-background) -foreground $opts(-foreground)
+    foreach {opt value} $args {
+      if {$value ne ""} {
+        $win configure $opt $value
+      }
+    }
 
   }
 
@@ -758,6 +762,9 @@ namespace eval plugmgr {
     # Set the database installed value
     set_database_attr $current_id installed 1
 
+    # Save the database
+    save_database
+
     # Update the UI state of the pane
     grid remove $widgets(install)
     grid remove $widgets(pupdate)
@@ -787,6 +794,9 @@ namespace eval plugmgr {
 
     # Specify that the update is no longer available
     set_database_attr $current_id update_avail 0
+
+    # Save the database
+    save_database
 
     # Update the UI state of the pane
     grid remove $widgets(pupdate)
@@ -822,6 +832,9 @@ namespace eval plugmgr {
     # Save the database changes
     array set database(plugins) [array get db_plugins]
 
+    # Save the database
+    save_database
+
     if {[llength $error_plugins] > 0} {
       show_error_message [msgcat::mc "Failed to download the following plugin bundles:"] $error_plugins
     } else {
@@ -845,35 +858,19 @@ namespace eval plugmgr {
     # Uninstall the item
     plugins::uninstall_item $index
 
+    # Delete the data
+    catch { file delete -force [file join $::tke_home iplugins $current_id] }
+
     # Save the fact that the plugin is no longer installed
     set_database_attr $current_id installed 0
+
+    # Save the database
+    save_database
 
     # Update the UI state of the pane
     grid remove $widgets(uninstall)
     grid remove $widgets(pupdate)
     grid $widgets(install)
-
-  }
-
-  ######################################################################
-  # Deletes the given plugin from the user's installed plugin directory.
-  proc delete {} {
-
-    variable current_id
-
-    # Get the plugin index
-    if {[set index [plugins::get_plugin_index $current_id]] eq ""} {
-      return
-    }
-
-    # Uninstall the item
-    plugins::uninstall_item $index
-
-    # Delete the data
-    catch { file delete -force [file join $::tke_home iplugins $current_id] }
-
-    # Update the UI state of the pane
-    go_back
 
   }
 
@@ -953,8 +950,6 @@ namespace eval plugmgr {
     # Make sure that the database is cleared
     array unset database
 
-    puts "rc: $rc, fname: $fname"
-
     array set database    $rc
     array set new_plugins $database(plugins)
 
@@ -987,6 +982,18 @@ namespace eval plugmgr {
 
     # Save the new plugins data back to the database
     set database(plugins) [array get new_plugins]
+
+  }
+
+  ######################################################################
+  # Saves the internal database structure to the local plugins database file.
+  proc save_database {} {
+
+    variable database
+
+    if {[catch { tkedat::write [file join $::tke_home iplugins plugins.tkedat] [array get database] } rc]} {
+      return -code error "Unable to update the plugin database file"
+    }
 
   }
 
