@@ -977,7 +977,6 @@ namespace eval api {
           array set opts {
             -value     ""
             -values    ""
-            -watermark ""
             -grid      0
             -from      ""
             -to        ""
@@ -986,6 +985,7 @@ namespace eval api {
             -color     "white"
             -height    4
             -columns   ""
+            -watermark ""
             -help      ""
           }
           array set opts $args
@@ -1015,7 +1015,7 @@ namespace eval api {
               return [pref_ui::make_mb $win.mb$index $msg Plugins/$pname/$pref $opts(-values) $opts(-grid)]
             }
             entry {
-              return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid) $opts(-help)]
+              return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref $opts(-grid) $opts(-help)]
             }
             token {
               return [pref_ui::make_token $win.te$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid) $opts(-help)]
