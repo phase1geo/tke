@@ -748,6 +748,9 @@ namespace eval plugmgr {
     # Import the file
     plugins::import_plugin .pmwin $fname
 
+    # Delete the bundle file
+    catch { file delete -force $fname }
+
     # Reload the plugin information
     plugins::load
 
@@ -789,6 +792,9 @@ namespace eval plugmgr {
     # Import the file
     plugins::import_plugin .pmwin $fname
 
+    # Delete the file
+    catch { file delete -force $fname }
+
     # Perform the plugin install
     plugins::reload
 
@@ -820,6 +826,7 @@ namespace eval plugmgr {
           lappend error_plugins $name
         } else {
           plugins::import_plugin .pmwin $fname
+          catch { file delete -force $fname }
           set data(update_avail) 0
           set db_plugins($name)  [array get data]
         }
@@ -943,9 +950,12 @@ namespace eval plugmgr {
 
     # Load the downloaded file
     if {[catch { tkedat::read $fname } rc]} {
+      file delete -force $fname
       show_error_message [msgcat::mc "Unable to load plugin database file"]
       return
     }
+
+    catch { file delete -force $fname }
 
     # Make sure that the database is cleared
     array unset database
