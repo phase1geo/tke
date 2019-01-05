@@ -227,11 +227,11 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make an entry.
-  proc make_entry {w msg varname watermark {grid 0} {help ""}} {
+  proc make_entry {w msg varname {grid 0} {help ""}} {
 
     # Create the widget
     ttk::labelframe $w -text $msg
-    pack [wmarkentry::wmarkentry $w.e -textvariable pref_ui::prefs($varname) -watermark $watermark] -fill x
+    pack [ttk::entry $w.e -textvariable pref_ui::prefs($varname)] -fill x
     if {$help ne ""} {
       make_help $w $help
     }
@@ -2480,10 +2480,10 @@ namespace eval pref_ui {
     pack $a.of      -fill x
 
     make_spacer $a
-    make_entry $a.iu [msgcat::mc "Default unit for integer values"]        Emmet/CSSIntUnit        ""
-    make_entry $a.fu [msgcat::mc "Default unit for floating point values"] Emmet/CSSFloatUnit      ""
-    make_entry $a.vs [msgcat::mc "Symbol between CSS property and value"]  Emmet/CSSValueSeparator ""
-    make_entry $a.pe [msgcat::mc "Symbol placed at end of CSS property"]   Emmet/CSSPropertyEnd    ""
+    make_entry $a.iu [msgcat::mc "Default unit for integer values"]        Emmet/CSSIntUnit
+    make_entry $a.fu [msgcat::mc "Default unit for floating point values"] Emmet/CSSFloatUnit
+    make_entry $a.vs [msgcat::mc "Symbol between CSS property and value"]  Emmet/CSSValueSeparator
+    make_entry $a.pe [msgcat::mc "Symbol placed at end of CSS property"]   Emmet/CSSPropertyEnd
 
     ##########
     # ADDONS #
@@ -4579,7 +4579,7 @@ namespace eval pref_ui {
     ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]
     make_mb     $b.pf.prs [msgcat::mc "Sorting Column"] Tools/ProfileReportSortby [list calls real cpu real_per_call cpu_per_call]
     make_spacer $b.pf
-    make_entry  $b.pf.pro [msgcat::mc "Report Options"] Tools/ProfileReportOptions ""
+    make_entry  $b.pf.pro [msgcat::mc "Report Options"] Tools/ProfileReportOptions
     pack $b.pf -fill x -padx 2 -pady 10
 
     ##############
@@ -4640,8 +4640,8 @@ namespace eval pref_ui {
 
     $w.nb add [set d [ttk::frame $w.nb.d]] -text [set wstr [msgcat::mc "Proxy Settings"]]
 
-    make_entry $d.ph [msgcat::mc "Proxy Host"] General/ProxyHost "proxy.server.com"
-    make_entry $d.pp [msgcat::mc "Proxy Port"] General/ProxyPort "8080"
+    make_entry $d.ph [msgcat::mc "Proxy Host"] General/ProxyHost
+    make_entry $d.pp [msgcat::mc "Proxy Port"] General/ProxyPort
     make_help  $d    [msgcat::mc "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."]
 
   }
