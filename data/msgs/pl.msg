@@ -269,9 +269,6 @@ msgcat::mcmset pl {
   "Email"
   "E-mail"
 
-  "Error"
-  "Błąd"
-
   "Exact"
   "Dokładnie"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset pl {
   "Export Plugin"
   "Eksportuj wtyczkę"
 
+  "Failed to download plugin bundle"
+  "Nie udało się pobrać pakietu wtyczek"
+
+  "Failed to download the following plugin bundles:"
+  "Nie można pobrać następujących pakietów wtyczek:"
+
   "Installed"
   "Zainstalowane"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset pl {
 
   "Release Notes"
   "Informacje o wersji"
+
+  "Unable to fetch plugin database"
+  "Nie można pobrać bazy danych wtyczek"
+
+  "Unable to load plugin database file"
+  "Nie można załadować pliku bazy danych wtyczki"
+
+  "Update All"
+  "Aktualizuj wszystko"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset pl {
 
   "Properties"
   "Nieruchomości"
+
+  "Proxy Host"
+  "Serwer pośredniczący HTTP (proxy)"
+
+  "Proxy Port"
+  "&quot;Numer portu serwera proxy&quot;"
+
+  "Proxy Settings"
+  "Ustawienia Proxy"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Ustawienia proxy są używane, gdy żądania adresów URL muszą być składane przez TKE. Jeśli nie potrzebujesz serwera proxy, pozostaw te wpisy puste."
 
   "Reading time words per minute"
   "Czytanie słów czasowych na minutę"
@@ -2756,6 +2780,9 @@ msgcat::mcmset pl {
 # share.tcl
 msgcat::mcmset pl {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "Inna wersja TKE działa i konfiguruje. Wychodzę ..."
+
   "Export Settings Data"
   "Eksportuj ustawienia"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset pl {
   "Change Directory"
   "zmień katalog"
 
+  "Closing this window will exit the application immediately."
+  "Zamknięcie tego okna spowoduje natychmiastowe zamknięcie aplikacji."
+
   "Copies settings data from an existing directory to your home directory."
   "Kopie danych ustawienia z istniejącego katalogu do katalogu macierzystego."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset pl {
 
   "Creates new settings information and places it in your home directory"
   "Tworzy nowe ustawienia informacji i umieszcza go w katalogu domowym"
+
+  "Exit application?"
+  "Wyjdź z aplikacji"
 
   "Finish"
   "wykończenia"
@@ -3643,6 +3676,9 @@ msgcat::mcmset pl {
 
   "Encoding"
   "Strona kodowa"
+
+  "Error"
+  "Błąd"
 
   "Export"
   "Exportuj"

@@ -269,9 +269,6 @@ msgcat::mcmset es {
   "Email"
   "el correo electrónico"
 
-  "Error"
-  "Error: archivo no editable"
-
   "Exact"
   "Exacto"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset es {
   "Export Plugin"
   "Plugin de exportación"
 
+  "Failed to download plugin bundle"
+  "Error al descargar el paquete de plugin"
+
+  "Failed to download the following plugin bundles:"
+  "Error al descargar los siguientes paquetes de complementos:"
+
   "Installed"
   "Instalada"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset es {
 
   "Release Notes"
   "Notas de publicación"
+
+  "Unable to fetch plugin database"
+  "No se puede obtener la base de datos del complemento"
+
+  "Unable to load plugin database file"
+  "No se puede cargar el archivo de base de datos del complemento"
+
+  "Update All"
+  "Actualizar todo"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset es {
 
   "Properties"
   "Terrenos"
+
+  "Proxy Host"
+  "Servidor proxy HTTP"
+
+  "Proxy Port"
+  "Puerto proxy"
+
+  "Proxy Settings"
+  "Parámetros del proxy"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "La configuración de proxy se usa cuando las solicitudes de URL deben ser realizadas por TKE. Si no necesita un servidor proxy, deje estas entradas en blanco."
 
   "Reading time words per minute"
   "Tiempo de lectura de palabras por minuto"
@@ -2756,6 +2780,9 @@ msgcat::mcmset es {
 # share.tcl
 msgcat::mcmset es {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "Otra versión de TKE se está ejecutando y está configurando las cosas. Saliendo ..."
+
   "Export Settings Data"
   "Exportar Ajustes"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset es {
   "Change Directory"
   "Chdir"
 
+  "Closing this window will exit the application immediately."
+  "Cerrar esta ventana saldrá de la aplicación inmediatamente."
+
   "Copies settings data from an existing directory to your home directory."
   "Copia datos de configuración de un directorio existente a su directorio home."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset es {
 
   "Creates new settings information and places it in your home directory"
   "Crea nueva información de configuración y lo coloca en el directorio de inicio"
+
+  "Exit application?"
+  "Salir de la solicitud"
 
   "Finish"
   "Terminar"
@@ -3643,6 +3676,9 @@ msgcat::mcmset es {
 
   "Encoding"
   "Codificación"
+
+  "Error"
+  "Error: archivo no editable"
 
   "Export"
   "Exportar"

@@ -269,9 +269,6 @@ msgcat::mcmset nl {
   "Email"
   "E-mailadres"
 
-  "Error"
-  "Fout"
-
   "Exact"
   "Exact"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset nl {
   "Export Plugin"
   "Export Plugin"
 
+  "Failed to download plugin bundle"
+  "Downloaden van plug-inbundel mislukt"
+
+  "Failed to download the following plugin bundles:"
+  "Downloaden van de volgende plug-inbundles is mislukt:"
+
   "Installed"
   "Geïnstalleerd"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset nl {
 
   "Release Notes"
   "Release Notes"
+
+  "Unable to fetch plugin database"
+  "Kan plugin-database niet ophalen"
+
+  "Unable to load plugin database file"
+  "Kan plugin-databasebestand niet laden"
+
+  "Update All"
+  "Alles bijwerken"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset nl {
 
   "Properties"
   "Vastgoed"
+
+  "Proxy Host"
+  "HTTP-proxyhost"
+
+  "Proxy Port"
+  "Proxypoort"
+
+  "Proxy Settings"
+  "Proxy-instellingen"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Proxy-instellingen worden gebruikt wanneer URL-aanvragen door TKE moeten worden gedaan. Als u geen proxyserver nodig hebt, laat u deze vermeldingen leeg."
 
   "Reading time words per minute"
   "Leestijd woorden per minuut"
@@ -2756,6 +2780,9 @@ msgcat::mcmset nl {
 # share.tcl
 msgcat::mcmset nl {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "Een andere versie van TKE is actief en stelt zaken aan. Afsluiten ..."
+
   "Export Settings Data"
   "Exporteer Instellingen"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset nl {
   "Change Directory"
   "Map wijzigen"
 
+  "Closing this window will exit the application immediately."
+  "Als u dit venster sluit, wordt de toepassing onmiddellijk afgesloten."
+
   "Copies settings data from an existing directory to your home directory."
   "Kopieën-instellingsgegevens uit een bestaande map naar uw home directory."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset nl {
 
   "Creates new settings information and places it in your home directory"
   "Nieuwe instellingen informatie maakt en plaatst dit in je home directory"
+
+  "Exit application?"
+  "Applicatie verlaten?"
 
   "Finish"
   "Voltooien"
@@ -3643,6 +3676,9 @@ msgcat::mcmset nl {
 
   "Encoding"
   "Codering"
+
+  "Error"
+  "Fout"
 
   "Export"
   "Exporteer"

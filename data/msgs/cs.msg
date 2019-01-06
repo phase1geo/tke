@@ -269,9 +269,6 @@ msgcat::mcmset cs {
   "Email"
   "E-mail"
 
-  "Error"
-  "Chyba"
-
   "Exact"
   "Exact"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset cs {
   "Export Plugin"
   "Exportujte plugin"
 
+  "Failed to download plugin bundle"
+  "Nepodařilo se stáhnout sadu pluginů"
+
+  "Failed to download the following plugin bundles:"
+  "Nepodařilo se stáhnout následující sady pluginů:"
+
   "Installed"
   "Nainstalováno"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset cs {
 
   "Release Notes"
   "Poznámky o vydání"
+
+  "Unable to fetch plugin database"
+  "Nelze načíst databázi pluginů"
+
+  "Unable to load plugin database file"
+  "Nelze načíst soubor s databází pluginů"
+
+  "Update All"
+  "Aktualizovat vše"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset cs {
 
   "Properties"
   "Nemovitosti"
+
+  "Proxy Host"
+  "Zmocněnec"
+
+  "Proxy Port"
+  "\"
+
+  "Proxy Settings"
+  "NastavenÃ­ proxy"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Nastavení serveru proxy se používají při požadavcích na adresy URL pomocí TKE. Pokud nepotřebujete server proxy, ponechte tyto položky prázdné."
 
   "Reading time words per minute"
   "Čas čtení za minutu"
@@ -2756,6 +2780,9 @@ msgcat::mcmset cs {
 # share.tcl
 msgcat::mcmset cs {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "Další verze TKE běží a nastavuje věci. Ukončení ..."
+
   "Export Settings Data"
   "Exportovat nastavení"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset cs {
   "Change Directory"
   "Změna složky..."
 
+  "Closing this window will exit the application immediately."
+  "Zavření tohoto okna okamžitě ukončí aplikaci."
+
   "Copies settings data from an existing directory to your home directory."
   "Zkopíruje nastavení data z existujícího adresáře do svého domovského adresáře."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset cs {
 
   "Creates new settings information and places it in your home directory"
   "Vytvoří nové nastavení informace a umístí ji do domovského adresáře"
+
+  "Exit application?"
+  "Ukončit aplikaci?"
 
   "Finish"
   "Dokončit"
@@ -3643,6 +3676,9 @@ msgcat::mcmset cs {
 
   "Encoding"
   "Kódování"
+
+  "Error"
+  "Chyba"
 
   "Export"
   "Exportovat"

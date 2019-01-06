@@ -269,9 +269,6 @@ msgcat::mcmset he {
   "Email"
   "אימייל"
 
-  "Error"
-  "שגיאה"
-
   "Exact"
   "מדוייק"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset he {
   "Export Plugin"
   "ייצוא תוסף"
 
+  "Failed to download plugin bundle"
+  "הורדת חבילת הפלאגין נכשלה"
+
+  "Failed to download the following plugin bundles:"
+  "הורדת חבילות התוספים הבאות נכשלה:"
+
   "Installed"
   "מותקן"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset he {
 
   "Release Notes"
   "הערות שחרור"
+
+  "Unable to fetch plugin database"
+  "אין אפשרות לאחזר מסד נתונים של פלאגין"
+
+  "Unable to load plugin database file"
+  "לא ניתן לטעון קובץ מסד נתונים של תוסף"
+
+  "Update All"
+  "עדכן הכל"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset he {
 
   "Properties"
   "נכסים"
+
+  "Proxy Host"
+  "מארח הפרוקסי"
+
+  "Proxy Port"
+  "פורט לפרוקסי"
+
+  "Proxy Settings"
+  "הגדרות פרוקסי"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "הגדרות Proxy משמשות כאשר בקשות URL צריכות להיעשות על ידי TKE. אם אינך זקוק לשרת proxy, השאר את הערכים ריקים."
 
   "Reading time words per minute"
   "קריאת הזמן מילים בדקה"
@@ -2756,6 +2780,9 @@ msgcat::mcmset he {
 # share.tcl
 msgcat::mcmset he {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "גרסה אחרת של TKE פועלת והיא מקימה את העניינים. יוצא ..."
+
   "Export Settings Data"
   "יצא הגדרות"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset he {
   "Change Directory"
   "מדריך שינוי"
 
+  "Closing this window will exit the application immediately."
+  "סגירת חלון זה תצא מייד מהבקשה."
+
   "Copies settings data from an existing directory to your home directory."
   "עותקים הגדרות נתונים ספריה קיימת כדי ספריית עמוד הבית שלך."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset he {
 
   "Creates new settings information and places it in your home directory"
   "יוצר מידע הגדרות חדש וממקם אותו ספריית עמוד הבית שלך"
+
+  "Exit application?"
+  "צא מיישום?"
 
   "Finish"
   "סיום"
@@ -3643,6 +3676,9 @@ msgcat::mcmset he {
 
   "Encoding"
   "קידוד"
+
+  "Error"
+  "שגיאה"
 
   "Export"
   "ייצא"

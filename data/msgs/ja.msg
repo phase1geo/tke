@@ -269,9 +269,6 @@ msgcat::mcmset ja {
   "Email"
   "Eメール"
 
-  "Error"
-  "エラー"
-
   "Exact"
   "正確に"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset ja {
   "Export Plugin"
   "エクスポートプラグイン"
 
+  "Failed to download plugin bundle"
+  "プラグインバンドルのダウンロードに失敗しました"
+
+  "Failed to download the following plugin bundles:"
+  "次のプラグインバンドルをダウンロードできませんでした。"
+
   "Installed"
   "インストール済"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset ja {
 
   "Release Notes"
   "リリースノート"
+
+  "Unable to fetch plugin database"
+  "プラグインデータベースを取得できません"
+
+  "Unable to load plugin database file"
+  "プラグインデータベースファイルを読み込めません"
+
+  "Update All"
+  "すべて更新"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset ja {
 
   "Properties"
   "プロパティ"
+
+  "Proxy Host"
+  "HTTP プロキシホスト"
+
+  "Proxy Port"
+  "プロキシポート"
+
+  "Proxy Settings"
+  "ãã­ã­ã·è¨­å®"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "プロキシ設定は、URL要求がTKEによって行われる必要があるときに使用されます。プロキシサーバーが不要な場合は、これらのエントリを空のままにしてください。"
 
   "Reading time words per minute"
   "毎分の時間の単語を読む"
@@ -2756,6 +2780,9 @@ msgcat::mcmset ja {
 # share.tcl
 msgcat::mcmset ja {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "別のバージョンのTKEが実行されていて、設定中です。終了しています..."
+
   "Export Settings Data"
   "エクスポートを設定"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset ja {
   "Change Directory"
   "Cd"
 
+  "Closing this window will exit the application immediately."
+  "このウィンドウを閉じるとすぐにアプリケーションが終了します。"
+
   "Copies settings data from an existing directory to your home directory."
   "あなたのホーム ディレクトリに既存のディレクトリからに設定データをコピーします。"
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset ja {
 
   "Creates new settings information and places it in your home directory"
   "新しい設定情報を作成し、あなたのホーム ディレクトリに配置"
+
+  "Exit application?"
+  "アプリを終了"
 
   "Finish"
   "フィニッシュ"
@@ -3643,6 +3676,9 @@ msgcat::mcmset ja {
 
   "Encoding"
   "エンコーディング"
+
+  "Error"
+  "エラー"
 
   "Export"
   "エクスポート"
