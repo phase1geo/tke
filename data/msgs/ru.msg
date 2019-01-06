@@ -269,9 +269,6 @@ msgcat::mcmset ru {
   "Email"
   "Эл.почта"
 
-  "Error"
-  "Ошибка"
-
   "Exact"
   "Точное совпадение"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset ru {
   "Export Plugin"
   "Экспортировать плагин"
 
+  "Failed to download plugin bundle"
+  "Не удалось загрузить пакет плагинов"
+
+  "Failed to download the following plugin bundles:"
+  "Не удалось загрузить следующие пакеты плагинов:"
+
   "Installed"
   "Установлен"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset ru {
 
   "Release Notes"
   "Примечания к выпуску"
+
+  "Unable to fetch plugin database"
+  "Невозможно получить базу данных плагинов"
+
+  "Unable to load plugin database file"
+  "Невозможно загрузить файл базы данных плагина"
+
+  "Update All"
+  "Обновить все"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset ru {
 
   "Properties"
   "Свойства"
+
+  "Proxy Host"
+  "Узел HTTP прокси"
+
+  "Proxy Port"
+  "Порт прокси"
+
+  "Proxy Settings"
+  "Настройки прокси"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Настройки прокси используются, когда TKE запрашивает URL-адреса. Если вам не нужен прокси-сервер, оставьте эти записи пустыми."
 
   "Reading time words per minute"
   "Время чтения (слов в минуту)"
@@ -2756,6 +2780,9 @@ msgcat::mcmset ru {
 # share.tcl
 msgcat::mcmset ru {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "Еще одна версия TKE работает и настраивает. Выход ..."
+
   "Export Settings Data"
   "Экспорт настроек"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset ru {
   "Change Directory"
   "Сменить каталог"
 
+  "Closing this window will exit the application immediately."
+  "Закрытие этого окна приведет к немедленному выходу из приложения."
+
   "Copies settings data from an existing directory to your home directory."
   "Копирует настройки из существующего каталога в ваш домашний каталог."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset ru {
 
   "Creates new settings information and places it in your home directory"
   "Создает новые настройки и помещает их в ваш домашний каталог"
+
+  "Exit application?"
+  "Выход из приложения"
 
   "Finish"
   "Конец"
@@ -3643,6 +3676,9 @@ msgcat::mcmset ru {
 
   "Encoding"
   "Кодировка"
+
+  "Error"
+  "Ошибка"
 
   "Export"
   "Экспорт"

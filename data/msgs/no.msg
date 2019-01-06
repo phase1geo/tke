@@ -269,9 +269,6 @@ msgcat::mcmset no {
   "Email"
   "Epost"
 
-  "Error"
-  "Feil"
-
   "Exact"
   "Nøyaktig"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset no {
   "Export Plugin"
   "Eksporter plugin"
 
+  "Failed to download plugin bundle"
+  "Kunne ikke laste ned pluginpakke"
+
+  "Failed to download the following plugin bundles:"
+  "Kunne ikke laste ned følgende pluginpakker:"
+
   "Installed"
   "Installert"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset no {
 
   "Release Notes"
   "Utgåvesamlingar"
+
+  "Unable to fetch plugin database"
+  "Kan ikke hente plugin-databasen"
+
+  "Unable to load plugin database file"
+  "Kan ikke laste inn plugin-databasefil"
+
+  "Update All"
+  "Oppdater alle"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset no {
 
   "Properties"
   "Egenskaper"
+
+  "Proxy Host"
+  "Proxy-vert"
+
+  "Proxy Port"
+  "Port for FTP-proxy"
+
+  "Proxy Settings"
+  "Status"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Proxy-innstillinger brukes når URL-forespørsler må gjøres av TKE. Hvis du ikke trenger en proxy-server, la disse oppføringene være tomme."
 
   "Reading time words per minute"
   "Lese tid ord per minutt"
@@ -2756,6 +2780,9 @@ msgcat::mcmset no {
 # share.tcl
 msgcat::mcmset no {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "En annen versjon av TKE kjører og setter ting opp. Avslutter ..."
+
   "Export Settings Data"
   "Eksportinnstillinger"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset no {
   "Change Directory"
   "Forandringen adresseliste"
 
+  "Closing this window will exit the application immediately."
+  "Når du lukker dette vinduet, avsluttes programmet umiddelbart."
+
   "Copies settings data from an existing directory to your home directory."
   "Kopier innstillingene data fra en eksisterende katalog til startmappen."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset no {
 
   "Creates new settings information and places it in your home directory"
   "Oppretter nye opplysninger og plasserer den i mappen"
+
+  "Exit application?"
+  "Avslutt programmet?"
 
   "Finish"
   "Finsk"
@@ -3643,6 +3676,9 @@ msgcat::mcmset no {
 
   "Encoding"
   "Kode"
+
+  "Error"
+  "Feil"
 
   "Export"
   "Eksport"

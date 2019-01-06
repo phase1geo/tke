@@ -269,9 +269,6 @@ msgcat::mcmset sv {
   "Email"
   "Epost"
 
-  "Error"
-  "Fel"
-
   "Exact"
   "Uppmätt elförbrukning (från elfaktura)"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset sv {
   "Export Plugin"
   "Exportera Plugin"
 
+  "Failed to download plugin bundle"
+  "Det gick inte att hämta pluginpaketet"
+
+  "Failed to download the following plugin bundles:"
+  "Det gick inte att hämta följande plugin-paket:"
+
   "Installed"
   "Installerat"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset sv {
 
   "Release Notes"
   "Anteckningar för release"
+
+  "Unable to fetch plugin database"
+  "Det gick inte att hämta plugin-databasen"
+
+  "Unable to load plugin database file"
+  "Det gick inte att ladda plugin-databasfilen"
+
+  "Update All"
+  "Uppdatera allt"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset sv {
 
   "Properties"
   "Egenskaper"
+
+  "Proxy Host"
+  "Värddator för HTTP- proxy"
+
+  "Proxy Port"
+  "proxy"
+
+  "Proxy Settings"
+  "Proxy- inställningar"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Proxy-inställningar används när URL-förfrågningar måste göras av TKE. Om du inte behöver en proxyserver, lämna dessa poster tomma."
 
   "Reading time words per minute"
   "Läser tid ord per minut"
@@ -2756,6 +2780,9 @@ msgcat::mcmset sv {
 # share.tcl
 msgcat::mcmset sv {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "En annan version av TKE körs och sätter upp saker. Avsluta ..."
+
   "Export Settings Data"
   "Exportera inställningar"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset sv {
   "Change Directory"
   "Ändra katalog"
 
+  "Closing this window will exit the application immediately."
+  "Om du stänger det här fönstret stängs programmet omedelbart."
+
   "Copies settings data from an existing directory to your home directory."
   "Kopior inställningsdata från en befintlig katalog till din hemkatalog."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset sv {
 
   "Creates new settings information and places it in your home directory"
   "Skapar nya inställningsinformation och placerar den i din hemkatalog"
+
+  "Exit application?"
+  "Avsluta programmet"
 
   "Finish"
   "Avsluta"
@@ -3643,6 +3676,9 @@ msgcat::mcmset sv {
 
   "Encoding"
   "Encoding"
+
+  "Error"
+  "Fel"
 
   "Export"
   "Exportera"

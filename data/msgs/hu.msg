@@ -269,9 +269,6 @@ msgcat::mcmset hu {
   "Email"
   "E-mail cím"
 
-  "Error"
-  "Hiba"
-
   "Exact"
   "pontos"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset hu {
   "Export Plugin"
   "Plugin exportálása"
 
+  "Failed to download plugin bundle"
+  "Nem sikerült letölteni a bővítménycsomagot"
+
+  "Failed to download the following plugin bundles:"
+  "A következő bővítménycsomagok letöltése nem sikerült:"
+
   "Installed"
   "Telepítve"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset hu {
 
   "Release Notes"
   "Kiadási megjegyzések"
+
+  "Unable to fetch plugin database"
+  "Nem sikerült letölteni a bővítményadatbázist"
+
+  "Unable to load plugin database file"
+  "Nem sikerült betölteni a bővítmény adatbázis fájlját"
+
+  "Update All"
+  "Összes frissítése"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset hu {
 
   "Properties"
   "Ingatlanok"
+
+  "Proxy Host"
+  "Proxy"
+
+  "Proxy Port"
+  "Proxy port:"
+
+  "Proxy Settings"
+  "Proxy beállításai"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "A proxy beállítások akkor használatosak, ha az URL kéréseket a TKE-nek kell elvégeznie. Ha nem igényel proxy szervert, hagyja üresen ezeket a bejegyzéseket."
 
   "Reading time words per minute"
   "Leolvasási idő percenként"
@@ -2756,6 +2780,9 @@ msgcat::mcmset hu {
 # share.tcl
 msgcat::mcmset hu {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "A TKE egy másik verziója fut, és beállítja a dolgokat. Kilépés ..."
+
   "Export Settings Data"
   "BEÁLLÍTÁSOK EXPORTÁLÁSA"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset hu {
   "Change Directory"
   "Cd"
 
+  "Closing this window will exit the application immediately."
+  "Az ablak bezárása azonnal kilép az alkalmazásból."
+
   "Copies settings data from an existing directory to your home directory."
   "Másolatok beállítások adatokat egy létező könyvtár a haza címtár."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset hu {
 
   "Creates new settings information and places it in your home directory"
   "Hozza létre az új beállításokra vonatkozó adatok, és elhelyezi a saját könyvtárában"
+
+  "Exit application?"
+  "Kilépés az alkalmazásból?"
 
   "Finish"
   "Kész"
@@ -3643,6 +3676,9 @@ msgcat::mcmset hu {
 
   "Encoding"
   "Kódolás"
+
+  "Error"
+  "Hiba"
 
   "Export"
   "Exportálás"

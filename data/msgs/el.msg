@@ -269,9 +269,6 @@ msgcat::mcmset el {
   "Email"
   "Email"
 
-  "Error"
-  "Σφάλμα!"
-
   "Exact"
   "Ακριβής τίτλος"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset el {
   "Export Plugin"
   "Εξαγωγή πρόσθετου"
 
+  "Failed to download plugin bundle"
+  "Αποτυχία λήψης δέσμης plugin"
+
+  "Failed to download the following plugin bundles:"
+  "Αποτυχία λήψης των ακόλουθων δεσμών plugin:"
+
   "Installed"
   "Εγκατεστημένο"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset el {
 
   "Release Notes"
   "Σημειώσεις έκδοσης"
+
+  "Unable to fetch plugin database"
+  "Δεν ήταν δυνατή η λήψη της βάσης δεδομένων του plugin"
+
+  "Unable to load plugin database file"
+  "Δεν είναι δυνατή η φόρτωση του αρχείου βάσης δεδομένων του plugin"
+
+  "Update All"
+  "Ενημέρωση όλων"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset el {
 
   "Properties"
   "Ιδιότητες"
+
+  "Proxy Host"
+  "Proxy Host"
+
+  "Proxy Port"
+  "Θύρα πληρεξουσίου"
+
+  "Proxy Settings"
+  "Ρυθμίσεις διαμεσολαβητή"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Οι ρυθμίσεις διακομιστή μεσολάβησης χρησιμοποιούνται όταν τα αιτήματα URL πρέπει να γίνουν από το TKE. Εάν δεν χρειάζεστε διακομιστή μεσολάβησης, αφήστε τις καταχωρήσεις αυτές κενές."
 
   "Reading time words per minute"
   "Χρόνοι ανάγνωσης χρόνου ανάγνωσης"
@@ -2756,6 +2780,9 @@ msgcat::mcmset el {
 # share.tcl
 msgcat::mcmset el {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "Μια άλλη έκδοση του TKE λειτουργεί και ρυθμίζει τα πράγματα. Έξοδος ..."
+
   "Export Settings Data"
   "Εξαγωγή ρυθμίσεων"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset el {
   "Change Directory"
   "Chdir"
 
+  "Closing this window will exit the application immediately."
+  "Κλείνοντας αυτό το παράθυρο θα εξέλθει αμέσως από την εφαρμογή."
+
   "Copies settings data from an existing directory to your home directory."
   "Αντίγραφα δεδομένα ρυθμίσεων από έναν υπάρχοντα κατάλογο στο δικό σου σπίτι Κατάλογος."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset el {
 
   "Creates new settings information and places it in your home directory"
   "Δημιουργεί νέες πληροφορίες για τις ρυθμίσεις και το τοποθετεί στον εγχώριο κατάλογό σας"
+
+  "Exit application?"
+  "Έξοδος από την εφαρμογή;"
 
   "Finish"
   "Λήξη"
@@ -3643,6 +3676,9 @@ msgcat::mcmset el {
 
   "Encoding"
   "Κωδικοποίηση"
+
+  "Error"
+  "Σφάλμα!"
 
   "Export"
   "Εξαγωγή"

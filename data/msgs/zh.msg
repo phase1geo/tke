@@ -269,9 +269,6 @@ msgcat::mcmset zh {
   "Email"
   "电子邮箱"
 
-  "Error"
-  "錯誤"
-
   "Exact"
   "精确"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset zh {
   "Export Plugin"
   "出口插件"
 
+  "Failed to download plugin bundle"
+  "无法下载插件包"
+
+  "Failed to download the following plugin bundles:"
+  "无法下载以下插件包："
+
   "Installed"
   "安装"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset zh {
 
   "Release Notes"
   "发行说明"
+
+  "Unable to fetch plugin database"
+  "无法获取插件数据库"
+
+  "Unable to load plugin database file"
+  "无法加载插件数据库文件"
+
+  "Update All"
+  "全部更新"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset zh {
 
   "Properties"
   "房源"
+
+  "Proxy Host"
+  "代理主机"
+
+  "Proxy Port"
+  "代理端口"
+
+  "Proxy Settings"
+  "代理设置"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "当需要由TKE进行URL请求时，使用代理设置。如果您不需要代理服务器，请将这些条目留空。"
 
   "Reading time words per minute"
   "每分钟读取时间字"
@@ -2756,6 +2780,9 @@ msgcat::mcmset zh {
 # share.tcl
 msgcat::mcmset zh {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "另一个版本的TKE正在运行并正在进行设置。退出..."
+
   "Export Settings Data"
   "导出设置"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset zh {
   "Change Directory"
   "切换目录"
 
+  "Closing this window will exit the application immediately."
+  "关闭此窗口将立即退出应用程序。"
+
   "Copies settings data from an existing directory to your home directory."
   "将设置数据从现有的目录复制到您的主目录。"
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset zh {
 
   "Creates new settings information and places it in your home directory"
   "创建新设置信息，并将其放在您的主目录"
+
+  "Exit application?"
+  "退出应用程序"
 
   "Finish"
   "完成"
@@ -3643,6 +3676,9 @@ msgcat::mcmset zh {
 
   "Encoding"
   "编码"
+
+  "Error"
+  "錯誤"
 
   "Export"
   "导出"

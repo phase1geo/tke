@@ -269,9 +269,6 @@ msgcat::mcmset da {
   "Email"
   "E-mail"
 
-  "Error"
-  "Fejl"
-
   "Exact"
   "Nøjagtig"
 
@@ -1883,6 +1880,12 @@ msgcat::mcmset da {
   "Export Plugin"
   "Eksporter plugin"
 
+  "Failed to download plugin bundle"
+  "Kunne ikke downloade pluginbundtet"
+
+  "Failed to download the following plugin bundles:"
+  "Kunne ikke downloade følgende pluginpakker:"
+
   "Installed"
   "Installeret"
 
@@ -1897,6 +1900,15 @@ msgcat::mcmset da {
 
   "Release Notes"
   "Udgivelsesnoter"
+
+  "Unable to fetch plugin database"
+  "Kan ikke hente plugin database"
+
+  "Unable to load plugin database file"
+  "Kan ikke indlæse plugin-databasefil"
+
+  "Update All"
+  "Opdatér alt"
 
 }
 
@@ -2217,6 +2229,18 @@ msgcat::mcmset da {
 
   "Properties"
   "Ejendomme"
+
+  "Proxy Host"
+  "Proxy"
+
+  "Proxy Port"
+  "Proxy"
+
+  "Proxy Settings"
+  "Proxy-indstillinger"
+
+  "Proxy settings are used when URL requests need to be made by TKE.  If you do not require a proxy server, leave these entries empty."
+  "Proxy-indstillinger bruges, når URL-anmodninger skal foretages af TKE. Hvis du ikke har brug for en proxyserver, skal du lade disse indlæg være tomme."
 
   "Reading time words per minute"
   "Læser tid ord pr. Minut"
@@ -2756,6 +2780,9 @@ msgcat::mcmset da {
 # share.tcl
 msgcat::mcmset da {
 
+  "Another version of TKE is running and is setting things up.  Exiting..."
+  "En anden version af TKE kører og sætter ting op. Afslutter ..."
+
   "Export Settings Data"
   "Eksportere indstillinger Data"
 
@@ -2900,6 +2927,9 @@ msgcat::mcmset da {
   "Change Directory"
   "Lave om på bibliotek"
 
+  "Closing this window will exit the application immediately."
+  "Hvis du lukker dette vindue, afbrydes programmet straks."
+
   "Copies settings data from an existing directory to your home directory."
   "Kopier indstillinger for data fra en eksisterende mappe til din hjemmemappe."
 
@@ -2911,6 +2941,9 @@ msgcat::mcmset da {
 
   "Creates new settings information and places it in your home directory"
   "Skaber nye oplysninger om indstillinger og placerer det i din hjemmemappe"
+
+  "Exit application?"
+  "Forlad Application?"
 
   "Finish"
   "Afslut"
@@ -3643,6 +3676,9 @@ msgcat::mcmset da {
 
   "Encoding"
   "Tegnkodning"
+
+  "Error"
+  "Fejl"
 
   "Export"
   "Eksportér"
