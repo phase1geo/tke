@@ -1,15 +1,63 @@
-2019-01-03 09:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (56764a6b60e4 [devel-3.5.7])
+2019-01-03 09:34 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e3585226877a [devel-3.5.8])
 
 	* ChangeLog, lib/version.tcl, specl/specl_version.tcl:
-	ChangeLog for devel-3.5.7 release
+	ChangeLog for devel-3.5.8 release
 
-2019-01-03 09:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3fff284d6a5d)
+2019-01-03 09:35 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6d5836141971)
 
 	* .hgtags:
-	Added tag devel-3.5.7 for changeset 56764a6b60e4
+	Added tag devel-3.5.8 for changeset e3585226877a
 
-2019-01-03 09:33 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (28995fd99fd9 [tip])
+2019-01-03 10:30 -0600  Trevor Williams  <Trevor Williams>  (9058dae83ba0)
 
-	* lib/version.tcl, specl/specl_version.tcl:
-	* Fixing syntax error.
+	* lib/pref_ui.tcl:
+	* Fixing cursor snippet insertion string in snippet editor insert
+	menu.
+
+2019-01-03 16:20 -0600  Trevor Williams  <Trevor Williams>  (013b62fcbc52)
+
+	* lib/plugmgr.tcl:
+	* Checkpointing work on plugin manager.
+
+2019-01-04 00:16 -0600  Trevor Williams  <phase1geo@gmail.com>  (ac6e20b08ba7)
+
+	* lib/plugmgr.tcl, lib/version.tcl:
+	* Checkpointing work on plugin manager.
+
+2019-01-04 01:12 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (dd32fa6cb9e1)
+
+	* lib/plugmgr.tcl, lib/version.tcl:
+	* Checkpointing work on plugin manager (data is now being pulled
+	from the website).
+
+2019-01-04 12:46 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (3f2640ff6f69)
+
+	* plugins/add_shortcut/adsh/adsh_unix.ini,
+	plugins/e_menu/e_menu/e_menu.tcl:
+	add_shortcut's data, e_menu.tcl bug fixes: adsh_unix.ini: fixed
+	troubles with filenames containing spaces e_menu.tcl: fixed troubles
+	with files external to all project dirs (PD)
+
+2019-01-04 10:35 -0600  Trevor Williams  <Trevor Williams>  (19b7fc9fac07)
+
+	* lib/utils.tcl:
+	* Fixing utils::download_url on Windows.
+
+2019-01-04 17:02 -0600  Trevor Williams  <Trevor Williams>  (14823027897f)
+
+	* data/preferences.tkedat, lib/pref_ui.tcl, lib/utils.tcl:
+	* Adding ability to set proxy information in preferences.
+	* Configuring proxy settings in the download_url procedure.
+
+2019-01-04 21:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b2eb1fda1c4f)
+
+	* lib/api.tcl, lib/pref_ui.tcl, lib/version.tcl:
+	* Switching wmarkentry for ttk::entry in the pref_ui::make_entry and
+	removing support for watermarks.
+
+2019-01-04 23:04 -0600  Trevor Williams  <phase1geo@gmail.com>  (a7bdef5ccd56 [tip])
+
+	* lib/plugmgr.tcl, lib/version.tcl:
+	* Making sure that the temporary file from a URL download is being
+	deleted properly.
 
