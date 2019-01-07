@@ -25,11 +25,12 @@
 # Usage:        tclsh8.6 extract_plugin.tcl -- <tkeplugz_file>
 #########################################################################################
 
-set tke_dir [file dirname [file dirname $::argv0]]
+set tke_dir [file dirname [file dirname [file normalize $::argv0]]]
 
 lappend auto_path [file normalize [file join $tke_dir lib]]
 
 package require zipper
+package require base64
 
 source [file join $tke_dir lib tkedat.tcl]
 source [file join $tke_dir lib plugmgr.tcl]
@@ -48,6 +49,7 @@ proc display_contents {base} {
     release_notes.md 0
   }
 
+  puts "base: $base"
   puts "  Plugin directory contents:"
 
   foreach item [glob -directory $base -tails *] {
@@ -199,6 +201,42 @@ proc create_snippet_file {base odir header_list overview release_notes} {
 }
 
 ####################################################################
+# Create the HTML file that will be displayed on this plugin's
+# available page.
+proc create_available_file {odir overview screenshot} {
+
+  if {![catch { open [file join $odir available.html] w } rc]} {
+
+    puts $rc $overview
+
+    if {$screenshot ne ""} {
+      puts $rc "<hr>"
+      puts $rc "<p><img src=\"data:image/png;base64, [base64::encode $screenshot]\"/></p>"
+    }
+
+    close $rc
+
+  }
+
+}
+
+####################################################################
+# Create the HTML file that will be displayed on this plugin's
+# installed page.
+proc create_installed_file {odir release_notes} {
+
+  if {![catch { open [file join $odir installed.html] w } rc]} {
+
+    puts $rc "<h4>Release Notes</h4>"
+    puts $rc "<dl>$release_notes</dl>"
+
+    close $rc
+
+  }
+
+}
+
+####################################################################
 # Exits the application, cleaning up anything generated from this
 # script.
 proc fail {base msg {detail {}}} {
@@ -221,8 +259,12 @@ set odir   [expr {([lindex $argv 1] ne "") ? [lindex $argv 1] : [pwd]}]
 set basez  [file rootname [file tail $plugz]]
 set dbfile "plugins.tkedat"  ;# We will want to change this at some point
 
+puts "plugz: $plugz, odir: $odir, basez: $basez, dbfile: $dbfile"
+
 # Unzip the tarball
 if {[zipper::unzip $plugz [pwd]] == 0} {
+
+  puts "HERE A"
 
   puts ""
 
@@ -257,6 +299,10 @@ if {[zipper::unzip $plugz [pwd]] == 0} {
 
   # Create file containing snippets of text to add to webpage
   create_snippet_file $basez $odir $rc $overview $release_notes
+
+  # Setup the directory to upload to the server
+  create_available_file [file join $odir $basez] $overview $screenshot
+  create_installed_file [file join $odir $basez] $release_notes
 
   # Create the screenshot (if applicable)
   if {$screenshot ne ""} {
