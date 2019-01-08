@@ -166,6 +166,9 @@ namespace eval e_menu {
         set s0_opt "s0=[file tail $file_name]"
         set s1_opt "s1=[file tail $dir_name]"
         set s2_opt "s2=[file extension $file_name]"
+      } else {
+        set d_opt "d=[pwd]"
+        set D_opt "PD=[pwd]"
       }
       catch {
         #
