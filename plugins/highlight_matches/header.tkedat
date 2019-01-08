@@ -1,9 +1,12 @@
 name           {highlight_matches}
+display_name   {Highlight Matching Strings}
 author         {Alex Plotnikov}
+website        {http://aplsimple.ucoz.ru#e_menu}
 email          {aplsimple@mail.ru}
 version        {1.1}
 include        {yes}
 trust_required {no}
+category       {editing}
 description    {Highlights all matches of selected word after double-clicking on it.
 Allows calling from menu to highlight arbitrary selected text.
 Allows jumping to previous/next/first/last occurence of current word/selection.}

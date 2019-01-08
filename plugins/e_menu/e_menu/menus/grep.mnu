@@ -1,3 +1,7 @@
+ S: GREP TEMPLATE: '%s' S: cd %d
+ S: GREP TEMPLATE: '%s' S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
+
+ M:  M: 4
  SE: GREP EXACT : '%s' SE: cd %d
  SE: GREP EXACT : '%s' SE: grep -F -H -n -I -s -d skip * -e '%s'
  SE: GREP REGEXP: '%s' SE: cd %d
@@ -21,12 +25,8 @@
  SE: GREP REGEXP recursive ignoring case: '%s' SE: cd %d
  SE: GREP REGEXP recursive ignoring case: '%s' SE: grep -E -H -n -I -s -i -d recurse * -e '%s'
 
- M:  M: 4
- S: GREP TEMPLATE: '%s' S: cd %d
- S: GREP TEMPLATE: '%s' S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
-
 [OPTIONS]
 w=70
 o=0
-%#t geo=1206x541+6+55;pos=14.7 # UNCOMMENT usable command(s), COMMENT unusable ones\n# USE \\ for \ in patterns\n################################################################################\n\n# selected text of TKE:\n#grep -E -H -n -I -s -i -d recurse * -e '%s'\n\n# year 1900-2099\ngrep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'\n\n# domain\n# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'\n\n# email\ngrep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'\n\n################################################################################
+%#t geo=1206x541+6+55;pos=9.39 # UNCOMMENT usable command(s), COMMENT unusable ones\n# USE \\ for \ in patterns\n################################################################################\n\ncd %PD\npwd\n#dir\n\ngrep -E -H -n -I -s -i -d recurse *.tcl -e '2018'\n\n################################################################################\n\n# selected text of TKE:\n#grep -E -H -n -I -s -i -d recurse * -e '%s'\n\n# year 1900-2099\n# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'\n\n# domain\n# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'\n\n# email\n#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'\n\n\n################################################################################
 %#Just for testing

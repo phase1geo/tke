@@ -1,9 +1,12 @@
 name           {edit_utils}
+display_name   {Editing Utils}
 author         {Alex Plotnikov}
+website        {http://aplsimple.ucoz.ru#e_menu}
 email          {aplsimple@mail.ru}
 version        {1.1}
 include        {yes}
 trust_required {no}
+category       {editing}
 description    {
   1) Delete the line/ selection.
   2) Duplicate the line/ selection.

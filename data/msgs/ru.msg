@@ -1905,7 +1905,7 @@ msgcat::mcmset ru {
   "Невозможно получить базу данных плагинов"
 
   "Unable to load plugin database file"
-  "Невозможно загрузить файл базы данных плагина"
+  "Невозможно загрузить базу данных плагинов"
 
   "Update All"
   "Обновить все"
@@ -2231,7 +2231,7 @@ msgcat::mcmset ru {
   "Свойства"
 
   "Proxy Host"
-  "Узел HTTP прокси"
+  "Узел прокси"
 
   "Proxy Port"
   "Порт прокси"
@@ -2781,7 +2781,7 @@ msgcat::mcmset ru {
 msgcat::mcmset ru {
 
   "Another version of TKE is running and is setting things up.  Exiting..."
-  "Еще одна версия TKE работает и настраивает. Выход ..."
+  "Еще одна версия TKE сейчас работает и настраивается. Выходим..."
 
   "Export Settings Data"
   "Экспорт настроек"
@@ -2943,7 +2943,7 @@ msgcat::mcmset ru {
   "Создает новые настройки и помещает их в ваш домашний каталог"
 
   "Exit application?"
-  "Выход из приложения"
+  "Выйти из приложения?"
 
   "Finish"
   "Конец"
