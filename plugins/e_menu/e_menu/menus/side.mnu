@@ -41,8 +41,9 @@
  R:git diff master..%s R: cd %PD
  S:git diff master..%s S: git diff master..%s
 
- RE:edit .gitignore RE: %E %PD/.gitignore
+ R:edit .gitignore R: %E %PD/.gitignore
 
+ M: Grep    M: m=grep.mnu w=40
  MW: Git MW: #sets the menu item type = "M, MW, ME"
  MW: Git MW: m=git2.mnu
 # R: Git R: %Q "DANGER!" "These commands are dangerous\nand can set the world on fire!\n\nContinue?"
@@ -50,12 +51,12 @@
 
 # utils menu for e_menu.tcl
 
- RE:?2? Caja "%PD"    RE: caja "%PD"
- RE:Xterm "%PD"       RE: cd %PD
- RE:Xterm "%PD"       RE: x-terminal-emulator -fa ru_RU.utf8 -fs 11 -geometry 80x40 R:Meld "%PD"        R:cd %PD
- RE:Meld "%PD"        RE:meld .
- RE:edit all   RE: cd %PD/plugins
- RE:edit all   RE: %e e_menu/e_menu/src/e_help.tcl e_menu/e_menu/e_menu.tcl
+ R:?2? Caja "%PD"  R: caja "%PD"
+ R:Xterm "%PD"     R: cd %PD
+ R:Xterm "%PD"     R: x-terminal-emulator -fa ru_RU.utf8 -fs 11 -geometry 80x40 R:Meld "%PD"        R:cd %PD
+ R:Meld "%PD"      R:meld .
+ R:edit all        R: cd %PD/plugins
+ R:edit all        R: %e e_menu/e_menu/src/e_help.tcl e_menu/e_menu/e_menu.tcl
 ;
 ; I: Xterm in "%PD" (verbose) I: D run bash in %PD; cd "%PD"; S bash
 
@@ -63,7 +64,6 @@
  MW: Python            MW: m=python.mnu w=40
  MW: System            MW: m=system.mnu w=40
  MW: Wiki & Dicts      MW: m=wiki.mnu w=40
- M: MISC utils         M: m=misc.mnu w=40
 
  ; wiki menu for e_menu.tcl
  R:?2? Mail.ru R: chromium https://mail.ru

@@ -1,9 +1,12 @@
 name           {add_shortcut}
+display_name   {Add Shortcuts}
 author         {Alex Plotnikov}
+website        {http://aplsimple.ucoz.ru#e_menu}
 email          {aplsimple@mail.ru}
 version        {1.4}
 include        {yes}
 trust_required {yes}
+category       {tools}
 description    {This plugin allows you to make shortcuts containing menu item invoker(s), event handler(s), external command starter(s) or a combination of these.
 You can also set shortcut(s) to be started along with TKE.
 }
