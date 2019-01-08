@@ -363,7 +363,9 @@ proc ::em::vip {refcmd} {
   set cd [string range $cmd 0 2]
   if { ([::iswindows] && [string toupper $cd] == "CD ") || $cd == "cd " } {
     prepr_win cmd "M/"  ;# force converting
-    if {[set cd [string trim [string range $cmd 3 end]]] != "."} {cd $cd}
+    if {[set cd [string trim [string range $cmd 3 end]]] != "."} {
+      catch {cd $cd}
+    }
     return true
   }
   if {$cmd == "%E" || $cmd == "%e" || $cd == "%E " || $cd == "%e "} {
