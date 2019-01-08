@@ -59,8 +59,8 @@ namespace eval plugins::sidebar_test {
 }
 
 api::register sidebar_test {
-  {root_popup command "Sidebar Test.Output Root"      plugins::sidebar_test::root_popup_do plugins::sidebar_test::root_popup_state}
-  {dir_popup  command "Sidebar Test.Output Directory" plugins::sidebar_test::dir_popup_do  plugins::sidebar_test::dir_popup_state}
-  {file_popup command "Sidebar Test.Output File"      plugins::sidebar_test::file_popup_do plugins::sidebar_test::file_popup_state}
-  {tab_popup  command "Tab Test.Output Tab"           plugins::sidebar_test::tab_popup_do  plugins::sidebar_test::tab_popup_state}
+  {root_popup command "Sidebar Test/Output Root"      plugins::sidebar_test::root_popup_do plugins::sidebar_test::root_popup_state}
+  {dir_popup  command "Sidebar Test/Output Directory" plugins::sidebar_test::dir_popup_do  plugins::sidebar_test::dir_popup_state}
+  {file_popup command "Sidebar Test/Output File"      plugins::sidebar_test::file_popup_do plugins::sidebar_test::file_popup_state}
+  {tab_popup  command "Tab Test/Output Tab"           plugins::sidebar_test::tab_popup_do  plugins::sidebar_test::tab_popup_state}
 }

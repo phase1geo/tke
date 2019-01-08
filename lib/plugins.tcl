@@ -1109,8 +1109,6 @@ namespace eval plugins {
   # Deletes all of the menus in the plugins menu.
   proc menu_delete {mnu action} {
 
-    variable menus
-
     # Get the list of menu entries
     if {[llength [find_registry_entries $action]] > 0} {
 
@@ -1145,7 +1143,12 @@ namespace eval plugins {
 
     foreach entry [find_registry_entries $action] {
       lassign $entry index type hier do state
-      set entry_mnu $menus($action)
+      set entry_mnu ""
+      foreach {m a} [array get menus] {
+        if {$a eq $action} {
+          set entry_mnu $m
+        }
+      }
       if {[llength [set hier_list [split $hier /]]] > 1} {
         append entry_mnu ".[string tolower [string map {{ } _} [join [lrange $hier_list 0 end-1] .]]]"
       }
@@ -1191,7 +1194,7 @@ namespace eval plugins {
 
     variable menus
 
-    foreach {action mnu} [array get menus] {
+    foreach {mnu action} [array get menus] {
       menu_add $mnu $action
     }
 
@@ -1232,12 +1235,24 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Clears everything from the given menu.
+  proc delete_from_menu {mnu} {
+
+    variable menus
+
+    if {[info exists menus($mnu)]} {
+      menu_delete $mnu $menus($mnu)
+    }
+
+  }
+
+  ######################################################################
   # Deletes all plugins from their respective menus.
   proc delete_all_menus {} {
 
     variable menus
 
-    foreach {action mnu} [array get menus] {
+    foreach {mnu action} [array get menus] {
       menu_delete $mnu $action
     }
 
@@ -1284,7 +1299,7 @@ namespace eval plugins {
     variable menus
 
     # Add the menu to the list of menus to update
-    set menus(menu) $mnu
+    set menus($mnu) menu
 
     # Add the menu items
     menu_add $mnu menu
@@ -1298,7 +1313,7 @@ namespace eval plugins {
     variable menus
 
     # Add the menu to the list of menus to update
-    set menus(tab_popup) $mnu
+    set menus($mnu) tab_popup
 
     # Add the menu items
     menu_add $mnu tab_popup
@@ -1312,7 +1327,7 @@ namespace eval plugins {
     variable menus
 
     # Add the menu to the list of menus to update
-    set menus(root_popup) $mnu
+    set menus($mnu) root_popup
 
     # Add the menu items
     menu_add $mnu root_popup
@@ -1326,7 +1341,7 @@ namespace eval plugins {
     variable menus
 
     # Add the menu to the list of menus to update
-    set menus(dir_popup) $mnu
+    set menus($mnu) dir_popup
 
     # Add the menu items
     menu_add $mnu dir_popup
@@ -1340,7 +1355,7 @@ namespace eval plugins {
     variable menus
 
     # Add the menu to the list of menus to update
-    set menus(file_popup) $mnu
+    set menus($mnu) file_popup
 
     # Add the menu items
     menu_add $mnu file_popup

@@ -850,6 +850,7 @@ namespace eval sidebar {
     }
 
     # Clear the menu
+    plugins::delete_from_menu $widgets(menu)
     $widgets(menu) delete 0 end
 
     $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_act_state
@@ -936,6 +937,7 @@ namespace eval sidebar {
     }
 
     # Clear the menu
+    plugins::delete_from_menu $widgets(menu)
     $widgets(menu) delete 0 end
 
     $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_act_state
@@ -1026,6 +1028,7 @@ namespace eval sidebar {
     }
 
     # Delete the menu contents
+    plugins::delete_from_menu $widgets(menu)
     $widgets(menu) delete 0 end
 
     # Create file popup
