@@ -726,6 +726,14 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Cleans the given string for Markdown output.
+  proc clean_str {str} {
+
+    return [string map {_ {\_} * {\*}} $str]
+
+  }
+
+  ######################################################################
   # Displays the installed item's detail and README information (if specified).
   proc show_installed_item {index} {
 
@@ -746,13 +754,14 @@ namespace eval plugins {
     $txt insert end "__Version:__\n\n"
     $txt insert end "$registry($index,version)\n\n\n"
     $txt insert end "__Author:__\n\n"
-    $txt insert end "$registry($index,author)  ($registry($index,email))\n\n\n"
+    $txt insert end "$registry($index,author)  ([clean_str $registry($index,email)])\n\n\n"
     if {$registry($index,website) ne ""} {
+      set website [clean_str $registry($index,website)]
       $txt insert end "__Website:__\n\n"
-      $txt insert end "\[$registry($index,website)\]($registry($index,website))\n\n\n"
+      $txt insert end "\[$website\]($website)\n\n\n"
     }
     $txt insert end "__Description:__\n\n"
-    $txt insert end $registry($index,description)
+    $txt insert end [clean_str $registry($index,description)]
 
     # Add the README contents (if it exists)
     if {![catch { open [file join [file dirname $registry($index,file)] README.md] r } rc]} {
