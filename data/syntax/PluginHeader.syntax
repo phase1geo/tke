@@ -10,9 +10,9 @@ indent
 unindent
 {\}}
 
-icomment {{#}}
+icomment {{^\s*#}}
 
-lcomments {{#}}
+lcomments {{^\s*#}}
 
 keywords {
   name display_name author email website version include trust_required category description

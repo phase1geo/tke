@@ -67,6 +67,7 @@ advanced {
   HighlightRegexp {([=:]{2})((?=\S).+?)(\1)}                    highlight
   HighlightRegexp {\[[ xX]\]}                                   checkbox
   HighlightRegexp {.*?$}                                        list_check
+  HighlightRegexp {\\}                                          backslash
 
   HighlightProc ccode {
     array set vars $varlist
@@ -180,6 +181,7 @@ advanced {
                        meta  {*}$vars(1) \
                        meta  {*}$vars(3) \
                        ref   {*}$vars(4) \
+                       meta  {*}$vars(4) \
                        meta  {*}$vars(5)] ""]
   } HighlightEndProc
 
@@ -189,7 +191,16 @@ advanced {
                        meta  {*}$vars(1) \
                        meta  {*}$vars(3) \
                        ref   {*}$vars(4) \
+                       meta  {*}$vars(4) \
                        meta  {*}$vars(6)] ""]
+  } HighlightEndProc
+
+  HighlightProc backslash {
+    array set vars $varlist
+    if {![$txt is escaped $row.[lindex $vars(0) 0]]} {
+      return [list [list meta {*}$vars(0)] ""]
+    }
+    return ""
   } HighlightEndProc
 
   HighlightProc linkref {
@@ -243,6 +254,7 @@ advanced {
     }
     return ""
   } HighlightEndProc
+
 }
 
 formatting
