@@ -232,19 +232,26 @@ namespace eval themes {
     if {![theme::export $theme $theme_dir $creator $website $license]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to export theme contents"
+      return
     }
 
     # Get the current working directory
     set pwd [pwd]
 
     # Set the current working directory to the user themes directory
-    cd $odir
+    cd $theme_dir
+
+    puts "theme: $theme, odir: $odir, odir contents: [glob *]"
+    puts [glob *]
 
     # Perform the archive
-    if {[catch { zipper::list2zip $theme [glob -directory $theme -tails *] [file join $theme.tkethemz] } rc]} {
-      if {[catch { exec -ignorestderr zip -r [file join $theme.tkethemz] $theme } rc]} {
+    if {[catch { zipper::list2zip $theme [glob *] [file join .. $theme.tkethemz] } rc]} {
+      puts "list2zip, rc: $rc"
+      if {[catch { exec -ignorestderr zip -r [file join .. $theme.tkethemz] $theme } rc]} {
+        puts "zip, rc: $rc"
         tk_messageBox -parent $parent_win -icon error -type ok -default ok \
           -message "Unable to zip theme file"
+        return
       }
     }
 
