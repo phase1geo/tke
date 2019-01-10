@@ -181,7 +181,7 @@ namespace eval theme {
   array set basecolor_map {}
 
   # Initialize the widgets array
-  foreach {category dummy} [list {*}$category_titles syntax_split] {
+  foreach {category dummy} [list {*}$category_titles syntax_split 1 syntax_prefs 1] {
     set widgets($category) [list]
   }
 
@@ -1027,6 +1027,18 @@ namespace eval theme {
       gui::update_theme $txt
       scroller::update_markers [winfo parent $txt].vb
       folding::update_closed $txt
+    }
+
+  }
+
+  ######################################################################
+  # Updates the syntax data for all preference text widgets.
+  proc update_syntax_prefs {} {
+
+    variable widgets
+
+    foreach txt $widgets(syntax_split) {
+      pref_ui::update_theme $txt
     }
 
   }

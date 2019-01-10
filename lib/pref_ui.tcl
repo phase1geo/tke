@@ -2562,15 +2562,18 @@ namespace eval pref_ui {
     pack $c.bf.add -side left -padx 2 -pady 2
     pack $c.bf.del -side left -padx 2 -pady 2
 
+    array set sb_opts [theme::get_category_options text_scrollbar 1]
+
     ttk::labelframe $c.lf -text [msgcat::mc "Preview"]
     frame $c.lf.f
     set widgets(emmet_na_preview) [ctext $c.lf.f.t -height 10 -state disabled \
-      -theme [theme::get_syntax_colors] \
       -xscrollcommand [list $c.lf.f.hb set] -yscrollcommand [list $c.lf.f.vb set]]
-    scroller::scroller $c.lf.f.vb -orient vertical   -autohide 1 -command [list $c.lf.f.t yview]
-    scroller::scroller $c.lf.f.hb -orient horizontal -autohide 0 -command [list $c.lf.f.t xview]
+    scroller::scroller $c.lf.f.vb {*}[array get sb_opts] -orient vertical   -autohide 1 -command [list $c.lf.f.t yview]
+    scroller::scroller $c.lf.f.hb {*}[array get sb_opts] -orient horizontal -autohide 0 -command [list $c.lf.f.t xview]
 
-    theme::register_widget $widgets(emmet_na_preview) syntax
+    update_theme $widgets(emmet_na_preview)
+
+    theme::register_widget $widgets(emmet_na_preview) syntax_prefs
     theme::register_widget $c.lf.f.vb text_scrollbar
     theme::register_widget $c.lf.f.hb text_scrollbar
 
@@ -2631,15 +2634,18 @@ namespace eval pref_ui {
     pack $d.bf.add -side left -padx 2 -pady 2
     pack $d.bf.del -side left -padx 2 -pady 2
 
+    array set sb_opts [theme::get_category_options text_scrollbar 1]
+
     ttk::labelframe $d.lf -text [msgcat::mc "Preview"]
     frame $d.lf.f
     set widgets(emmet_aa_preview) [ctext $d.lf.f.t -height 10 -state disabled \
-      -theme [theme::get_syntax_colors] \
       -xscrollcommand [list $d.lf.f.hb set] -yscrollcommand [list $d.lf.f.vb set]]
-    scroller::scroller $d.lf.f.vb -orient vertical   -autohide 1 -command [list $d.lf.f.t yview]
-    scroller::scroller $d.lf.f.hb -orient horizontal -autohide 0 -command [list $d.lf.f.t xview]
+    scroller::scroller $d.lf.f.vb {*}[array get sb_opts] -orient vertical   -autohide 1 -command [list $d.lf.f.t yview]
+    scroller::scroller $d.lf.f.hb {*}[array get sb_opts] -orient horizontal -autohide 0 -command [list $d.lf.f.t xview]
 
-    theme::register_widget $widgets(emmet_aa_preview) syntax
+    update_theme $widgets(emmet_aa_preview)
+
+    theme::register_widget $widgets(emmet_aa_preview) syntax_prefs
     theme::register_widget $d.lf.f.vb text_scrollbar
     theme::register_widget $d.lf.f.hb text_scrollbar
 
@@ -3232,17 +3238,20 @@ namespace eval pref_ui {
     pack $w.sf.ef.kf.l -side left -padx 2 -pady 2
     pack $w.sf.ef.kf.e -side left -padx 2 -pady 2 -fill x -expand yes
 
+    array set sb_opts [theme::get_category_options text_scrollbar 1]
+
     ttk::labelframe $w.sf.ef.tf -text [msgcat::mc "Snippet Text"]
     frame $w.sf.ef.tf.tf
     set widgets(snippets_text) [ctext $w.sf.ef.tf.tf.t -wrap none \
-      -theme [theme::get_syntax_colors] \
       -xscrollcommand [list $w.sf.ef.tf.tf.hb set] -yscrollcommand [list $w.sf.ef.tf.tf.vb set]]
-    scroller::scroller $w.sf.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.sf.ef.tf.tf.t yview]
-    scroller::scroller $w.sf.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.sf.ef.tf.tf.t xview]
+    scroller::scroller $w.sf.ef.tf.tf.vb {*}[array get sb_opts] -orient vertical   -autohide 1 -command [list $w.sf.ef.tf.tf.t yview]
+    scroller::scroller $w.sf.ef.tf.tf.hb {*}[array get sb_opts] -orient horizontal -autohide 0 -command [list $w.sf.ef.tf.tf.t xview]
 
     bind $widgets(snippets_text) <<Modified>> [list if {[pref_ui::snippets_text_changed]} break]
 
-    theme::register_widget $widgets(snippets_text) syntax
+    update_theme $widgets(snippets_text)
+
+    theme::register_widget $widgets(snippets_text) syntax_prefs
     theme::register_widget $w.sf.ef.tf.tf.vb text_scrollbar
     theme::register_widget $w.sf.ef.tf.tf.hb text_scrollbar
 
@@ -4749,6 +4758,15 @@ namespace eval pref_ui {
     } else {
       $widgets(advanced_nfs_del) configure -state disabled
     }
+
+  }
+
+  ######################################################################
+  # Updates the theme for the given text widget.  We'll just reuse the
+  # procedure in gui since it does exactly what we want.
+  proc update_theme {txt} {
+
+    gui::update_theme $txt
 
   }
 
