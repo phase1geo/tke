@@ -85,6 +85,13 @@
 
 {General/UseMoveToTrash}     {1}
 
+# If set to 1, displays a confirmation message to the user before the move takes
+# place to allow them to confirm or deny the trash.  This option is only used if
+# the General/UseMoveToTrash is set to 1 as deleting a file/directory always
+# prompts the user for confirmation since this is a irreversible operation.
+
+{General/ConfirmMoveToTrash} {0}
+
 # If set to 1, TKE will prompt the user to save the current preference settings
 # to the global preferences (if a named session's preferences have been changed)
 # or to the named session's preferences (if the current session is a named session
