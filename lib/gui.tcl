@@ -4371,7 +4371,7 @@ namespace eval gui {
     array set opts $args
 
     # Get the scrollbar coloring information
-    array set sb_opts [set scrollbar_opts [theme::get_category_options text_scrollbar 1]]
+    array set sb_opts [theme::get_category_options text_scrollbar 1]
 
     # Get the unique tab ID
     set id [incr curr_id]
@@ -4409,8 +4409,8 @@ namespace eval gui {
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -linemap_align [preferences::get Editor/LineNumberAlignment] \
       -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
-    scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
-    scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command [list gui::yview $tab $txt] \
+    scroller::scroller $tab.pw.tf.hb {*}[array get sb_opts] -orient horizontal -autohide 0 -command [list $txt xview]
+    scroller::scroller $tab.pw.tf.vb {*}[array get sb_opts] -orient vertical   -autohide 1 -command [list gui::yview $tab $txt] \
       -markcommand1 [list markers::get_positions $tab] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list diff::get_marks $txt] : ""}]
 
@@ -6393,17 +6393,21 @@ namespace eval gui {
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
       -matchaudit_bg $theme(attention) -theme [array get theme]
 
-    # If the bird's eye view exists, update it
-    get_info $txt txt beye
+    catch {
 
-    if {[winfo exists $beye]} {
+      # If the bird's eye view exists, update it
+      get_info $txt txt beye
 
-      # Calculate the background color
-      set background [utils::auto_adjust_color [$txt cget -background] 25]
+      if {[winfo exists $beye]} {
 
-      # Create the bird's eye viewer
-      $beye configure -background $theme(background) -foreground $theme(foreground) \
-        -inactiveselectbackground $background -selectbackground $background
+        # Calculate the background color
+        set background [utils::auto_adjust_color [$txt cget -background] 25]
+
+        # Create the bird's eye viewer
+        $beye configure -background $theme(background) -foreground $theme(foreground) \
+          -inactiveselectbackground $background -selectbackground $background
+
+      }
 
     }
 
