@@ -84,7 +84,8 @@ nospace.*"] \
 
   proc handle_state {} {
 
-    return 1
+    variable dolist
+    return [expr {[llength $dolist] > 0}]
 
   }
 
@@ -93,17 +94,15 @@ nospace.*"] \
 #####################################################################
 # Register plugin action
 
-if 1 {
 set open_glob::dolist []
 foreach {n pat} [open_glob::do_pref_load] {
   if {[string trim $pat]==""} {continue}
   append open_glob::dolist "{dir_popup command {$open_glob::ttl/$pat} {open_glob::do_glob $pat} open_glob::handle_state}\n\n"
   append open_glob::dolist "{root_popup command {$open_glob::ttl/$pat} {open_glob::do_glob $pat} open_glob::handle_state}\n\n"
-}
+  }
 api::register open_glob " \
 $open_glob::dolist \
 {on_pref_ui open_glob::do_pref_ui} \
 {on_pref_load open_glob::do_pref_load} \
 "
-}
 

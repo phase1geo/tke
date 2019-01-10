@@ -204,12 +204,21 @@ oo::class create PaveMe {
 
   #########################################################################
   #
-  # Get the coordinates of centered window
+  # Get the coordinates of centered window (against its parent)
 
   method CenteredXY {rw rh rx ry w h} {
 
     set x [expr {max(0, $rx + ($rw - $w) / 2)}]
     set y [expr {max(0,$ry + ($rh - $h) / 2)}]
+    # check for left/right edge of screen (accounting decors)
+    set scrw [expr [winfo screenwidth .] - 12]
+    set scrh [expr {[winfo screenheight .] - 36}]
+    if {($x + $w) > $scrw } {
+      set x [expr {$scrw - $w}]
+    }
+    if {($y + $h) > $scrh } {
+      set y [expr {$scrh - $h}]
+    }
     return +$x+$y
 
   }

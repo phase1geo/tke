@@ -190,16 +190,18 @@ oo::class create PaveDialog {
     #  - geometry of dialog window
     #  - color of labels
     set chmsg [set geometry [set optsLabel [set optsMisc [set optsState ""]]]]
+    set root [set head ""]
     set optsTags 0
     set optsFont "-font \"-family Sans"
-    set root ""
     set wasgeo [set textmode 0]
     set curpos "1.0"
-    set cc "#00ffff"
+    set cc ""
     foreach {opt val} $args {
       switch $opt {
+        -H -
+        -head {set head [string map {$ \$ \" \'\'} $val]}
         -ch -
-        -checkbox { set chmsg $val}
+        -checkbox {set chmsg $val}
         -g -
         -geometry {
           set geometry $val
@@ -242,10 +244,23 @@ oo::class create PaveDialog {
     } else {
       set widlist [list [list laBimg - - 99 1]]
     }
-    # add the upper (before the message) blank frame
-    lappend widlist [list h_1 laBimg L 1 1 "-pady 3"]
-    set prevw "h_1"
-    set prevp "T"
+    set prevw laBimg
+    if {$head!=""} {
+      # set the dialog's heading (-head option)
+      set prevp "L"
+      foreach lh [split $head "\n"] {
+        set labh laBheading[incr il]
+        lappend widlist [list $labh $prevw $prevp 1 99 \
+          "-st w -rw 1" "-t \"$lh\" $optsLabel $optsFont"]
+        set prevw [set prevh $labh]
+        set prevp "T"
+      }
+    } else {
+      # add the upper (before the message) blank frame
+      lappend widlist [list h_1 $prevw L 1 1 "-pady 3"]
+      set prevw [set prevh h_1]
+      set prevp "T"
+    }
     # add the message lines
     set il [set maxl 0]
     foreach m [split $msg \n] {
@@ -266,7 +281,7 @@ oo::class create PaveDialog {
       set maxl [expr max($maxl,2)]
       if {[info exists charheight]} {set il $charheight}
       if {[info exists charwidth]} {set maxl $charwidth}
-      lappend widlist {fraM h_1 T 10 7 "-st nswe -pady 3 -rw 1"}
+      lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
       lappend widlist {texM - - 1 7 {pack -side left -expand 1 -fill both -in $pWindow.pavedlg.fraM} \
         {-h $il -w $maxl $optsFont $optsMisc -wrap word}}
       lappend widlist {sbv texM L 1 1 {pack -in $pWindow.pavedlg.fraM}}
@@ -309,7 +324,9 @@ oo::class create PaveDialog {
           set focusnow $pWindow.pavedlg.$defb1
         }
       }
-      append optsState " -insertbackground $cc"
+      if {$cc!=""} {
+         append optsState " -insertbackground $cc"
+      }
       $pWindow.pavedlg.texM configure {*}$optsState
     }
     my showModal $pWindow.pavedlg -focus $focusnow -geometry $geometry {*}$root
