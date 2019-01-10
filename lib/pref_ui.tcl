@@ -1185,8 +1185,6 @@ namespace eval pref_ui {
 
     variable changes
 
-    puts "language: $language, changes: [array size changes], changes: [array get changes], prompt: $pref_ui::prefs(General/PromptCrossSessionSave)"
-
     # If we are changing language preferences, there are no changes or we are specified
     # to not prompt the user, do nothing
     if {($language ne [msgcat::mc "All"]) || ([array size changes] == 0) || !$pref_ui::prefs(General/PromptCrossSessionSave)} {
