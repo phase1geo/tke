@@ -63,8 +63,9 @@ set timeafter 5    ;# interval (in sec.) for updating times/dates
 
 namespace eval em {}
 
-proc D {args} {::em::message_box "$args"}
-proc Q {ttl mes {typ okcancel}} { return [::question_box $ttl $mes $typ] }
+proc D {mes args} {::em::message_box $mes ok "INFO" {*}$args}
+proc Q {ttl mes {typ okcancel} {icon info} {defb OK} args} {
+  return [::em::question_box $ttl $mes $typ $icon $defb {*}$args] }
 proc S {args} {
   set cc ""; foreach c $args {set cc "$cc$c "}
   ::em::shell_run "Nobutt" "S:" shell1 - "noamp" [string map {"\\n" "\r"} $cc]
@@ -159,20 +160,36 @@ namespace eval em {
   variable colrbE "#161717"
   variable colrcc "#00ffff"
 }
-#=== own message box
-proc ::em::message_box {mes {typ ok} {ttl ""}} {
-  set colr [. cget -bg]
-  ::message_box $mes $typ $ttl
-  . configure -bg $colr
-  update
+#=== own message/question box
+proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
+  PaveDialog create pdlg "" $::srcdir
+  set tmpcolr $::colrgrey
+  set ::colrgrey $::colr1
+  catch {array set a $args; set ::colrgrey $a(-bg)}
+  append opts " -t 1 -w 50 -fg $::colr -bg $::colrgrey $args"
+  switch -glob $typ {
+    okcancel -
+    yesno {
+      if {$defb == "OK" && $typ == "yesno"} {
+        set defb YES
+      }
+      set ans [pdlg $typ $icon $ttl \n$mes\n $defb {*}$opts]
+    }
+    default {
+      set ans [pdlg ok $icon $ttl \n$mes\n {*}$opts]
+    }
+  }
+  set ::colrgrey $tmpcolr
+  pdlg destroy
+  return $ans
+}
+
+proc ::em::message_box {mes {typ ok} {ttl "INFO"} args} {
+  ::em::dialog_box $ttl $mes $typ info OK {*}$args
 }
 #=== own question box
-proc ::em::question_box {ttl mes {typ okcancel}} {
-  set colr [. cget -bg]
-  set rv [::question_box $ttl $mes $typ]
-  . configure -bg $colr
-  update
-  return $rv
+proc ::em::question_box {ttl mes {typ okcancel} {icon info} {defb OK} args} {
+  return [::em::dialog_box $ttl $mes $typ $icon $defb {*}$args]
 }
 #=== incr/decr window width
 proc ::em::win_width {inc} {
@@ -602,9 +619,13 @@ proc ::em::run0 {sel amp silent} {
     if {[string first "%q " $sel] == 0 ||
     [string first "%Q " $sel] == 0} {
       set sel "Q [string range $sel 3 end]"
-      return [{*}$sel]
+      if {![catch {{*}$sel} e]} {
+        return $e
+      }
+      return false
     } elseif {[string first "%D " $sel] == 0} {
-      D [string range $sel 3 end]
+      set sel "D [string range $sel 3 end]"
+      catch {{*}$sel}
     } elseif {[string first "%S " $sel] == 0} {
       # run shell command(s)
       set sel "S [string range $sel 3 end]"
