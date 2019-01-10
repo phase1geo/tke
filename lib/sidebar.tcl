@@ -2645,8 +2645,9 @@ namespace eval sidebar {
     } else {
       set question [msgcat::mc "Delete directories?"]
     }
+    set detail [msgcat::mc "This operation cannot be undone"]
 
-    if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
+    if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question -detail $detail] eq "yes")} {
 
       foreach row [lreverse $rows] {
 
@@ -2943,6 +2944,18 @@ namespace eval sidebar {
     set fnames [list]
     set isdir  0
 
+    if {[preferences::get General/ConfirmMoveToTrash]} {
+      if {[llength $rows] == 1} {
+        set question [msgcat::mc "Move selected item to trash?"]
+      } else {
+        set question [msgcat::mc "Move selected items to trash?"]
+      }
+      set detail [msgcat::mc "Files can be restored from the trash directory"]
+      if {[tk_messageBox -parent . -type yesno -default yes -message $question -detail $detail] ne "yes"} {
+        return
+      }
+    }
+
     foreach row [lreverse $rows] {
 
       # Get the full pathname
@@ -2977,9 +2990,10 @@ namespace eval sidebar {
     } else {
       set question [msgcat::mc "Delete files?"]
     }
+    set detail [msgcat::mc "This operation cannot be undone"]
 
     # Get confirmation from the user
-    if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
+    if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question -detail $detail] eq "yes")} {
 
       foreach row [lreverse $rows] {
 

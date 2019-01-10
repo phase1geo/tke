@@ -843,13 +843,13 @@ namespace eval pref_ui {
     variable prefs
     variable current_panel
 
+    # Check for any changes that we might want to save to another set of preferences
+    if {!$init && ![check_on_close $prev_session $prev_language]} {
+      return
+    }
+
     # Disable traces
     catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] } rc
-
-    # Check for any changes that we might want to save to another set of preferences
-    if {!$init} {
-      check_on_close $prev_session $prev_language
-    }
 
     # Update the menubuttons text
     $widgets(select_s) configure -text [format "%s: %s" [msgcat::mc "Session"] $session]
@@ -1169,7 +1169,9 @@ namespace eval pref_ui {
 
     # Check the state of the preferences and, if necessary, ask the user to
     # apply the changes to other preferences
-    check_on_close $selected_session $selected_language
+    if {![check_on_close $selected_session $selected_language]} {
+      return
+    }
 
     # Kill the window
     destroy .prefwin
@@ -1183,10 +1185,12 @@ namespace eval pref_ui {
 
     variable changes
 
+    puts "language: $language, changes: [array size changes], changes: [array get changes], prompt: $pref_ui::prefs(General/PromptCrossSessionSave)"
+
     # If we are changing language preferences, there are no changes or we are specified
     # to not prompt the user, do nothing
     if {($language ne [msgcat::mc "All"]) || ([array size changes] == 0) || !$pref_ui::prefs(General/PromptCrossSessionSave)} {
-      return
+      return 1
     }
 
     if {$session eq [msgcat::mc "None"]} {
@@ -1194,10 +1198,11 @@ namespace eval pref_ui {
       if {[sessions::current] ne ""} {
 
         set detail [msgcat::mc "You have changed global preferences which will not be visible because you are currently within a named session."]
-        set answer [tk_messageBox -parent .prefwin -icon question -type yesno -message [msgcat::mc "Save changes to current session?"] -detail $detail]
+        set answer [tk_messageBox -parent .prefwin -icon question -type yesnocancel -message [msgcat::mc "Save changes to current session?"] -detail $detail]
 
-        if {$answer eq "yes"} {
-          preferences::save_prefs "" "" [array get changes]
+        switch $answer {
+          "cancel" { return 0 }
+          "yes"    { preferences::save_prefs "" "" [array get changes] }
         }
 
       }
@@ -1205,16 +1210,19 @@ namespace eval pref_ui {
     } else {
 
       set detail [msgcat::mc "You have changed the current session's preferences which will not be applied globally."]
-      set answer [tk_messageBox -parent .prefwin -icon question -type yesno -message [msgcat::mc "Save changes to global preferences?"] -detail $detail]
+      set answer [tk_messageBox -parent .prefwin -icon question -type yesnocancel -message [msgcat::mc "Save changes to global preferences?"] -detail $detail]
 
-      if {$answer eq "yes"} {
-        preferences::save_prefs [sessions::current] "" [array get changes]
+      switch $answer {
+        "cancel" { return 0 }
+        "yes"    { preferences::save_prefs [sessions::current] "" [array get changes] }
       }
 
     }
 
     # Clear the changes
     array unset changes
+
+    return 1
 
   }
 
@@ -1452,11 +1460,17 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]                                      General/LoadLastSession
-    make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"]                             General/ExitOnLastClose
-    make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
-    make_cb $a.umtt [msgcat::mc "Show Move To Trash for local files/directories instead of Delete"]              General/UseMoveToTrash
-    make_cb $a.pcs  [msgcat::mc "Prompt user to save preference changes in global or named session"]             General/PromptCrossSessionSave
+    make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]                                       General/LoadLastSession
+    make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"]                              General/ExitOnLastClose
+    make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"]  General/AutoChangeWorkingDirectory
+    set umtt [make_cb $a.umtt [msgcat::mc "Show 'Move To Trash' for local files/directories instead of 'Delete'"] General/UseMoveToTrash]
+    pack [ttk::frame $a.mttf] -fill x -padx 2 -pady 2
+    pack [ttk::label $a.mttf.l -text "    "] -side left -padx 2 -pady 2
+    set cmtt [make_cb $a.mttf.cb [msgcat::mc "Confirm 'Move To Trash' operation prior to operation"]              General/ConfirmMoveToTrash]
+    make_cb $a.pcs  [msgcat::mc "Prompt user to save preference changes in global or named session"]              General/PromptCrossSessionSave
+
+    $umtt configure -command [list pref_ui::move_to_trash_changed $cmtt]
+    move_to_trash_changed $cmtt
 
     make_spacer $a
 
@@ -1656,6 +1670,17 @@ namespace eval pref_ui {
   proc empty_string {value} {
 
     return ""
+
+  }
+
+  ######################################################################
+  # Called whenever the UseMoveToTrash variable is changed.  Used to control
+  # the UI display of the ConfirmMoveToTrash checkbutton.
+  proc move_to_trash_changed {w} {
+
+    variable prefs
+
+    $w configure -state [expr {$prefs(General/UseMoveToTrash) ? "normal" : "disabled"}]
 
   }
 
