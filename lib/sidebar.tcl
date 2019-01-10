@@ -2369,7 +2369,7 @@ namespace eval sidebar {
 
     # Normalize the pathname
     if {[set pathtype [file pathtype $fname]] eq "relative"} {
-      set fname    [file join [$widgets(tl) set $row name] $fname]
+      set fname [file join [$widgets(tl) set $row name] $fname]
     }
 
     # Get the remote status
@@ -2388,13 +2388,6 @@ namespace eval sidebar {
       if {![remote::save_file $remote $fname " " modtime]} {
         return
       }
-    }
-
-    if {$pathtype eq "relative"} {
-
-      # Expand the directory
-      expand_directory $row
-
     }
 
     # Create an empty file
@@ -2463,20 +2456,8 @@ namespace eval sidebar {
       }
     }
 
-    if {$pathtype eq "relative"} {
-
-      # Expand the directory
-      expand_directory $row
-
-      # Update the directory
-      update_directory $row
-
-    } else {
-
-      # If we are absolute, add the directory to the sidebar
-      $widgets(tl) selection set [add_directory $dname -remote $remote]
-
-    }
+    # If we are absolute, add the directory to the sidebar
+    $widgets(tl) selection set [add_directory $dname -remote $remote]
 
   }
 
