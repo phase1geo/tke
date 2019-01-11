@@ -925,6 +925,7 @@ namespace eval pref_ui {
           if {($current_panel eq "general")   || \
               ($current_panel eq "snippets")  || \
               ($current_panel eq "shortcuts") || \
+              ($current_panel eq "plugins")   || \
               ($current_panel eq "advanced")} {
             pane_clicked appearance
           } else {
