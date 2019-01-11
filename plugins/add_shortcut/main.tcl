@@ -248,7 +248,7 @@ namespace eval add_shortcut {
   proc runShortCut {contents} {
 
     set err ""
-    set contents [string trim [string map {\\n \n} $contents] \{\}]
+    set contents [string trim [string map {"|!|" \n} $contents] \{\}]
     foreach command [split $contents \n] {
       lassign [getShortcutCommand $command] typ comm
       set comm [prepComm $comm]

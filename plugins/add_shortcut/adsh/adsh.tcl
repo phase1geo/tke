@@ -39,6 +39,7 @@ namespace eval adsh {
   variable bgColor "#E5E4E3"
   variable fg $fgColor
   variable bg $bgColor
+  variable EOL "|!|"
 
   # see also main.tcl as for typs
   variable typs [list "" "MENU" "EVENT" "COMMAND" "MISC"]
@@ -103,6 +104,7 @@ You can use the # for comments."}
       variable pdlg
       variable fgColor
       variable bgColor
+      variable EOL
       variable fg
       variable bg
       variable notsaved
@@ -336,7 +338,7 @@ You can use the # for comments."}
 
     bringMeVars
     set Contents [string trimright [$win.texComm get 1.0 end]]
-    set Contents [string map {\n \\n \" \\\" \} \\\} \{ \\\{} $Contents]
+    set Contents [string map [list \n $EOL \" \\\" \} \\\} \{ \\\{] $Contents]
     return $Contents
 
   }
@@ -464,7 +466,7 @@ You can use the # for comments."}
       }
     }
     selectingCombo
-    $win.texComm replace 1.0 end [string map {\\n \n \\\" \" \\\} \} \\\{ \{} $Contents]
+    $win.texComm replace 1.0 end [string map [list $EOL \n \\\" \" \\\} \} \\\{ \{] $Contents]
     return
 
   }
@@ -653,7 +655,7 @@ You can use the # for comments."}
   proc test1 {contents {where ""}} {
 
     bringMeVars
-    set contents [string map {\\n \n} $contents]
+    set contents [string map [list $EOL \n] $contents]
     foreach com [split $contents \n]  {
       if {[set ev [getShortcutCommand "EVENT" $com]]!=""} {
         label $win.l
@@ -961,7 +963,7 @@ You can use the # for comments."}
 
     bringMeVars
     PaveDialog create pdlg $win
-    pdlg makeWindow $win "Adding Shortcuts - $inifile"
+    pdlg makeWindow $win "Adding Shortcuts $version - $inifile"
     set fontbold "-font \"-family TkCaptionFont\" -foreground $fgColor -background $bgColor"
     pdlg window $win {
       {frAU - - 1 6   {-st new} {-relief groove -borderwidth 1}}

@@ -1,5 +1,9 @@
 =Last changes:
 
+Version 1.9 (11 Jan'19)
+
+  - EOL of editable items chanded to |!| instead of \\n (that are for commands)
+
 
 Version 1.8 (29 Dec'18)
 
