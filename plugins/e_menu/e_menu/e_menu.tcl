@@ -64,7 +64,7 @@ set timeafter 5    ;# interval (in sec.) for updating times/dates
 namespace eval em {}
 
 proc D {mes args} {::em::message_box $mes ok "INFO" {*}$args}
-proc Q {ttl mes {typ okcancel} {icon info} {defb OK} args} {
+proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
   return [::em::question_box $ttl $mes $typ $icon $defb {*}$args] }
 proc S {args} {
   set cc ""; foreach c $args {set cc "$cc$c "}
@@ -188,7 +188,7 @@ proc ::em::message_box {mes {typ ok} {ttl "INFO"} args} {
   ::em::dialog_box $ttl $mes $typ info OK {*}$args
 }
 #=== own question box
-proc ::em::question_box {ttl mes {typ okcancel} {icon info} {defb OK} args} {
+proc ::em::question_box {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
   return [::em::dialog_box $ttl $mes $typ $icon $defb {*}$args]
 }
 #=== incr/decr window width
@@ -328,7 +328,7 @@ proc ::em::writeable_command {cmd} {
     }
   }
   PaveDialog create dialog "" $::srcdir
-  set cmd [string map {"\\n" "\n"} $cmd]
+  set cmd [string map {"|!|" "\n"} $cmd]
   set tmpcolr $::colrgrey
   set ::colrgrey $::em::colrbE
   set res [dialog misc "" "EDIT & RUN COMMAND: $mark" "$cmd" \
@@ -338,10 +338,10 @@ proc ::em::writeable_command {cmd} {
   set ::colrgrey $tmpcolr
   dialog destroy
   lassign $res res geo cmd
-  set cmd [string trim $cmd " \{\}\n"]
   if {$res} {
-    set cmd [string map {\n \\n} $cmd]
-    set data "$mark geo=$geo;pos=$cmd"
+    set cmd [string trim $cmd " \{\}\n"]
+    set data [string map {"\n" "|!|"} $cmd]
+    set data "$mark geo=$geo;pos=$data"
     set cmd [string range $cmd [string first " " $cmd]+1 end]
     if {$iw} {
       set menudata [lreplace $menudata $iw $iw "$data"]
@@ -353,6 +353,7 @@ proc ::em::writeable_command {cmd} {
       puts $ch "$line"
     }
     close $ch
+    set cmd [string map {"\n" "\\n"} $cmd]
     prepr_name cmd
   } else {
     set cmd ""
