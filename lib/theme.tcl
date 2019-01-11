@@ -1037,7 +1037,7 @@ namespace eval theme {
 
     variable widgets
 
-    foreach txt $widgets(syntax_split) {
+    foreach txt $widgets(syntax_prefs) {
       pref_ui::update_theme $txt
     }
 
