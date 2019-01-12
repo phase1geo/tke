@@ -13,11 +13,14 @@ Supposing that we entered a plugin name of "foobar", the resulting directory (bu
 header.tkedat
 
 	name           {foobar}
+	display_name   {Foobar}
 	author         {}
 	email          {}
+	website        {}
 	version        {1.0}
 	include        {yes}
 	trust_required {no}
+	category       {miscellaneous}
 	description    {}
 
 main.tcl
@@ -34,4 +37,4 @@ It is advisable for you to also create a file called README.md in the directory 
 
 You may, optionally, place any other files that are needed by your plugin within the plugin bundle, including, but not limited to, other Tcl source files, packages, data files, and images.
 
-You cannot use any content that requires a compilation on the installation machine.
+You cannot use any content that requires a compilation on the installation machine.  Pure-Tcl code is required.
