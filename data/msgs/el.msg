@@ -2020,6 +2020,9 @@ msgcat::mcmset el {
   "Command launcher preview"
   "Εντολή Προεπισκόπηση εκτοξευτή"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Επιβεβαιώστε τη λειτουργία &quot;Μετακίνηση στο κάδο απορριμμάτων&quot; πριν από τη λειτουργία"
+
   "Convert to lowercase"
   "Μετατροπή σε πεζά"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset el {
   "Show 'Find in Files' result in other pane"
   "Εμφάνιση αποτέλεσμα «Βρείτε στα αρχεία» σε άλλο παράθυρο"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Εμφάνιση μετακίνηση να απορριμμάτων για τοπικά αρχεία/καταλόγους αντί για διαγράψετε"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Εμφάνιση &#39;Μετακίνηση σε Κάδο απορριμμάτων&#39; για τοπικά αρχεία / καταλόγους αντί για &#39;Διαγραφή&#39;"
 
   "Show Tcl console at startup"
   "Κονσόλα Tcl εμφάνιση κατά την εκκίνηση"
@@ -2836,6 +2839,9 @@ msgcat::mcmset el {
   "Disconnect From Server"
   "Αποσύνδεση από το διακομιστή"
 
+  "Files can be restored from the trash directory"
+  "Τα αρχεία μπορούν να αποκατασταθούν από τον κατάλογο απορριμάτων"
+
   "Folder Name:"
   "Όνομα φακέλου:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset el {
   "Manually"
   "Χειροκίνητα"
 
+  "Move selected item to trash?"
+  "Μετακίνηση επιλεγμένου στοιχείου σε κάδο απορριμμάτων;"
+
+  "Move selected items to trash?"
+  "Μετακινήστε τα επιλεγμένα στοιχεία στον κάδο απορριμμάτων;"
+
   "New Directory"
   "Νέα Directory"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset el {
 
   "Sort"
   "Ταξινόμηση"
+
+  "This operation cannot be undone"
+  "Αυτό δε μπορεί να αναιρεθεί."
 
   "Unable to duplicate file"
   "Δεν είναι δυνατή η διπλότυπων αρχείων"

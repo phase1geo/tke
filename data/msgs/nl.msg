@@ -2020,6 +2020,9 @@ msgcat::mcmset nl {
   "Command launcher preview"
   "Voorbeeld van opdrachtstartprogramma"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Bevestig de &#39;Verplaatsen naar prullenmand&#39;-bewerking voorafgaand aan het gebruik"
+
   "Convert to lowercase"
   "Converteren naar kleine letters"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset nl {
   "Show 'Find in Files' result in other pane"
   "'Zoek in bestanden' resultaat in andere deelvenster weergeven"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Verplaatsen naar Prullenbak weergeven voor lokale bestanden/mappen in plaats van verwijderen"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Toon &#39;Move To Trash&#39; voor lokale bestanden / mappen in plaats van &#39;Verwijderen&#39;"
 
   "Show Tcl console at startup"
   "Tcl console weergeven bij opstarten"
@@ -2836,6 +2839,9 @@ msgcat::mcmset nl {
   "Disconnect From Server"
   "Server verbreken"
 
+  "Files can be restored from the trash directory"
+  "Bestanden kunnen worden hersteld vanuit de prullenbak"
+
   "Folder Name:"
   "Mapnaam:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset nl {
   "Manually"
   "Handmatig"
 
+  "Move selected item to trash?"
+  "Alle geselecteerde items in de prullenbak gooien"
+
+  "Move selected items to trash?"
+  "Verplaats geselecteerde items naar prullenbak?"
+
   "New Directory"
   "Nieuwe directory"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset nl {
 
   "Sort"
   "Sorteer"
+
+  "This operation cannot be undone"
+  "Deze bewerking kan niet ongedaan worden gemaakt."
 
   "Unable to duplicate file"
   "Geen kopie vijl"

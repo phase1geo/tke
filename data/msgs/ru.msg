@@ -2020,6 +2020,9 @@ msgcat::mcmset ru {
   "Command launcher preview"
   "Предосмотр команды запуска"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Подтвердите операцию «Переместить в корзину» перед операцией"
+
   "Convert to lowercase"
   "Преобразовать в нижний регистр"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset ru {
   "Show 'Find in Files' result in other pane"
   "Показать результат поиска в файлах в другой панели"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Перемещение в корзину локальных файлов/каталогов вместо Удаления"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Показать «Переместить в корзину» для локальных файлов / каталогов вместо «Удалить»"
 
   "Show Tcl console at startup"
   "Вызов консоли Tcl при запуске"
@@ -2836,6 +2839,9 @@ msgcat::mcmset ru {
   "Disconnect From Server"
   "Отсоединиться от сервера"
 
+  "Files can be restored from the trash directory"
+  "Файлы могут быть восстановлены из каталога корзины"
+
   "Folder Name:"
   "Имя каталога:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset ru {
   "Manually"
   "Вручную"
 
+  "Move selected item to trash?"
+  "Переместить выбранный элемент в корзину?"
+
+  "Move selected items to trash?"
+  "Переместить выбранные элементы в корзину?"
+
   "New Directory"
   "Новый каталог"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset ru {
 
   "Sort"
   "Сортировать"
+
+  "This operation cannot be undone"
+  "Это действие не может быть отменено."
 
   "Unable to duplicate file"
   "Не удается дублировать файл"

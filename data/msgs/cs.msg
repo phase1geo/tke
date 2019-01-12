@@ -2020,6 +2020,9 @@ msgcat::mcmset cs {
   "Command launcher preview"
   "Příkaz Náhled spouštěče"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Před operací potvrďte operaci &quot;Přesunout do koše&quot;"
+
   "Convert to lowercase"
   "Převést na malá písmena"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset cs {
   "Show 'Find in Files' result in other pane"
   "Zobrazit &#39;Najít v souborech&#39; výsledek v jiném podokně"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Zobrazit pro místní soubory/adresáře namísto odstranění přesunout do koše"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Zobrazit &#39;Přesunout do koše&#39; pro místní soubory / adresáře namísto &#39;Odstranit&#39;"
 
   "Show Tcl console at startup"
   "Při spuštění zobrazit Tcl konzole"
@@ -2836,6 +2839,9 @@ msgcat::mcmset cs {
   "Disconnect From Server"
   "Odpojit od serveru"
 
+  "Files can be restored from the trash directory"
+  "Soubory lze obnovit z adresáře koše"
+
   "Folder Name:"
   "Název sloky:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset cs {
   "Manually"
   "Ručně"
 
+  "Move selected item to trash?"
+  "Přesunout vybrané položky do Koše"
+
+  "Move selected items to trash?"
+  "Přesunout vybrané položky do koše?"
+
   "New Directory"
   "Nový adresář"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset cs {
 
   "Sort"
   "Seřadit"
+
+  "This operation cannot be undone"
+  "Tato akce je nevratná"
 
   "Unable to duplicate file"
   "Duplicitní soubor nelze"

@@ -2020,6 +2020,9 @@ msgcat::mcmset de {
   "Command launcher preview"
   "Befehl-Launcher-Vorschau"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Bestätigen Sie vor dem Betrieb den Vorgang &#39;In den Papierkorb verschieben&#39;"
+
   "Convert to lowercase"
   "Konvertieren Sie in Kleinbuchstaben"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset de {
   "Show 'Find in Files' result in other pane"
   "Zeige &#39;Finde in Dateien&#39; Ergebnis in einem anderen Fenster"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Zeigen Sie auf Papierkorb verschieben für lokale Dateien/Verzeichnisse statt löschen"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "&#39;In den Papierkorb verschieben&#39; für lokale Dateien / Verzeichnisse anstelle von &#39;Löschen&#39; anzeigen"
 
   "Show Tcl console at startup"
   "Tcl Konsole beim Start anzeigen"
@@ -2836,6 +2839,9 @@ msgcat::mcmset de {
   "Disconnect From Server"
   "Trennen Sie vom Server"
 
+  "Files can be restored from the trash directory"
+  "Dateien können aus dem Papierkorbverzeichnis wiederhergestellt werden"
+
   "Folder Name:"
   "Ordnername"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset de {
   "Manually"
   "Manuell"
 
+  "Move selected item to trash?"
+  "Ausgewähltes Objekt in den Papierkorb verschieben?"
+
+  "Move selected items to trash?"
+  "Ausgewählte Objekte in den Papierkorb verschieben?"
+
   "New Directory"
   "Neues Verzeichnis"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset de {
 
   "Sort"
   "Sortierung"
+
+  "This operation cannot be undone"
+  "Dieser Vorgang kann nicht rückgängig gemacht werden."
 
   "Unable to duplicate file"
   "Doppelte Datei konnte nicht"

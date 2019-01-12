@@ -2020,6 +2020,9 @@ msgcat::mcmset es {
   "Command launcher preview"
   "Vista previa de lanzador de comandos"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Confirme la operación &#39;Mover a la papelera&#39; antes de la operación"
+
   "Convert to lowercase"
   "Convertir a caja baja"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset es {
   "Show 'Find in Files' result in other pane"
   "Mostrar resultado de 'Buscar en los archivos' en otro panel"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Mostrar mover a papelera de archivos/directorios locales en lugar de eliminar"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Muestre &#39;Mover a la papelera&#39; para archivos / directorios locales en lugar de &#39;Eliminar&#39;"
 
   "Show Tcl console at startup"
   "Mostrar consola Tcl al inicio"
@@ -2836,6 +2839,9 @@ msgcat::mcmset es {
   "Disconnect From Server"
   "Desconectar del servidor"
 
+  "Files can be restored from the trash directory"
+  "Los archivos pueden ser restaurados desde el directorio de la papelera"
+
   "Folder Name:"
   "Nombre de la carpeta:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset es {
   "Manually"
   "Manualmente"
 
+  "Move selected item to trash?"
+  "¿Mover el elemento seleccionado a la papelera?"
+
+  "Move selected items to trash?"
+  "¿Mover los elementos seleccionados a la papelera?"
+
   "New Directory"
   "Nuevo directorio"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset es {
 
   "Sort"
   "Ordenar"
+
+  "This operation cannot be undone"
+  "Esta operación no se puede deshacer."
 
   "Unable to duplicate file"
   "No se puede archivos duplicados"

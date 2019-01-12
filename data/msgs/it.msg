@@ -2020,6 +2020,9 @@ msgcat::mcmset it {
   "Command launcher preview"
   "Anteprima di comando di avvio"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Confermare l&#39;operazione &quot;Sposta nel cestino&quot; prima dell&#39;operazione"
+
   "Convert to lowercase"
   "Converte in minuscolo"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset it {
   "Show 'Find in Files' result in other pane"
   "Visualizza risultato 'Cerca nei file' in altro riquadro"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Visualizza sposta nel cestino per file/directory locali anziché Elimina"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Mostra &quot;Sposta nel cestino&quot; per file / directory locali invece di &quot;Elimina&quot;"
 
   "Show Tcl console at startup"
   "Visualizza Tcl console all'avvio"
@@ -2836,6 +2839,9 @@ msgcat::mcmset it {
   "Disconnect From Server"
   "Disconnetti dal server"
 
+  "Files can be restored from the trash directory"
+  "I file possono essere ripristinati dalla directory dei rifiuti"
+
   "Folder Name:"
   "Nome cartella:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset it {
   "Manually"
   "Manuale"
 
+  "Move selected item to trash?"
+  "Sposta l&#39;elemento selezionato nel cestino?"
+
+  "Move selected items to trash?"
+  "Sposta gli elementi selezionati nel cestino?"
+
   "New Directory"
   "Nuova directory"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset it {
 
   "Sort"
   "Ordina"
+
+  "This operation cannot be undone"
+  "Questa operazione non può essere annullata"
 
   "Unable to duplicate file"
   "Grado di file duplicati"

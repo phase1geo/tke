@@ -2020,6 +2020,9 @@ msgcat::mcmset hu {
   "Command launcher preview"
   "Parancs launcher előnézet"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "A művelet előtt ellenőrizze a &#39;Move To Trash&#39; műveletet"
+
   "Convert to lowercase"
   "Konvertálása kisbetűs"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset hu {
   "Show 'Find in Files' result in other pane"
   "Más ablakban jelenítse meg a &quot;Find in Files&quot; találatot"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Mutatják, mozog-hoz szemét helyett Delete helyi fájlok/könyvtárak"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "A &quot;Törlés&quot; helyett a helyi fájlok / könyvtárak &quot;Move To Trash&quot; (Helyre törlése) megjelenítése"
 
   "Show Tcl console at startup"
   "Térkép-Tcl konzol indításkor"
@@ -2836,6 +2839,9 @@ msgcat::mcmset hu {
   "Disconnect From Server"
   "Bontása a szerver"
 
+  "Files can be restored from the trash directory"
+  "A fájlok visszaállíthatók a szemétkönyvtárból"
+
   "Folder Name:"
   "Mappa"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset hu {
   "Manually"
   "Manuális"
 
+  "Move selected item to trash?"
+  "Minden kijelölt elem áthelyezése a Kukába"
+
+  "Move selected items to trash?"
+  "Jelölje ki a kiválasztott elemeket a kukába?"
+
   "New Directory"
   "Új könyvtár"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset hu {
 
   "Sort"
   "Rendezés"
+
+  "This operation cannot be undone"
+  "Az utasítás később nem vonható vissza!"
 
   "Unable to duplicate file"
   "Nem lehet másolat reszelő"
