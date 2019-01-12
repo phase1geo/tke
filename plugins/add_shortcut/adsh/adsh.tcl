@@ -970,7 +970,7 @@ You can use the # for comments."}
       {frAU.v_00 - - 1 1}
       {frAU.laB0 frAU.v_00 T 1 1 {} {-t "This TKE plugin allows you to create the shortcuts bound to existing ones. Thus you can enable localized shortcuts."}}
       {frAU.laB1 frAU.laB0 T 1 1 {} {-t "You can also make a miscellany that contains: event handler(s), menu invoker(s), command caller(s)."}}
-      {frAU.laB2 frAU.laB1 T 1 1 {} {-t "Press the shortcut in the ID field. Confirm your choice by pressing Enter key."}}
+      {frAU.laB2 frAU.laB1 T 1 1 {} {-t "Press the shortcut in the ID field. Confirm your choice by pressing Enter / Return key."}}
       {frAU.v_0 frAU.laB2 T 1 1}
       {v_0 frAU T 1 6}
       {laB1 v_0 T 1 2 {} {-t " Group info " $fontbold}}
