@@ -65,7 +65,8 @@ namespace eval em {}
 
 proc D {mes args} {::em::message_box $mes ok "INFO" {*}$args}
 proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
-  return [::em::question_box $ttl $mes $typ $icon $defb {*}$args] }
+  return [::em::question_box $ttl $mes $typ $icon $defb {*}$args] 
+}
 proc S {args} {
   set cc ""; foreach c $args {set cc "$cc$c "}
   ::em::shell_run "Nobutt" "S:" shell1 - "noamp" [string map {"\\n" "\r"} $cc]
@@ -1474,6 +1475,24 @@ proc ::em::initPD {seltd {doit 0}} {
     close $ch
   }
 }
+#=== check and correct (if necessary) the geometry of window
+proc ::em::checkgeometry {} {
+  set scrw [expr [winfo screenwidth .] - 12]
+  set scrh [expr {[winfo screenheight .] - 36}]
+  lassign [split [wm geometry .] x+] w h x y
+  set necessary 0
+  if {($x + $w) > $scrw } {
+    set x [expr {$scrw - $w}]
+    set necessary 1
+  }
+  if {($y + $h) > $scrh } {
+    set y [expr {$scrh - $h}]
+    set necessary 1
+  }
+  if {$necessary} {
+    wm geometry . ${w}x${h}+${x}+${y}
+  }
+}
 #=== initialize ::em::commands from argv and menu
 proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
@@ -1546,7 +1565,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         b= {set ::eh::my_browser $seltd}
         c= {set ::ncolor [::getN $seltd]}
         o= {set ::em::ornament [::getN $seltd]}
-        g= {set ::em::geometry $seltd }
+        g= {set ::em::geometry $seltd}
         u= {  ;# u=... overrides previous setting (in s=)
           set ::em::useltd [string map {" " "_"} $seltd]
         }
@@ -1912,6 +1931,7 @@ proc ::em::initend {} {
   set ::em::start0 0
   ::em::focus_button $::em::lasti
   wm geometry . $::em::geometry
+  checkgeometry
   if {[iswindows]} {
     if {[wm attributes . -alpha] < 0.1} {wm attributes . -alpha 1.0}
   } else {
