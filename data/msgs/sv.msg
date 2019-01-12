@@ -2020,6 +2020,9 @@ msgcat::mcmset sv {
   "Command launcher preview"
   "Kommandot launcher förhandsgranskning"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Bekräfta &quot;Flytta till papperskorgen&quot; före operationen"
+
   "Convert to lowercase"
   "Konvertera till gemener"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset sv {
   "Show 'Find in Files' result in other pane"
   "Visa &quot;Hitta i filer&quot; resultat i annan ruta"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Visa flytta till papperskorgen för lokala filer/kataloger istället för radera"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Visa &quot;Flytta till papperskorgen&quot; för lokala filer / kataloger istället för &quot;Ta bort&quot;"
 
   "Show Tcl console at startup"
   "Visa Tcl-konsolen vid start"
@@ -2836,6 +2839,9 @@ msgcat::mcmset sv {
   "Disconnect From Server"
   "Koppla från Server"
 
+  "Files can be restored from the trash directory"
+  "Filer kan återställas från papperskorgen"
+
   "Folder Name:"
   "Mappnamnet:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset sv {
   "Manually"
   "Manuellt"
 
+  "Move selected item to trash?"
+  "Flytta markerat objekt till papperskorgen?"
+
+  "Move selected items to trash?"
+  "Flytta valda objekt till papperskorgen?"
+
   "New Directory"
   "Ny katalog"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset sv {
 
   "Sort"
   "Sortera"
+
+  "This operation cannot be undone"
+  "Detta kan inte ångras."
 
   "Unable to duplicate file"
   "Det gick inte att duplicera arkivera"

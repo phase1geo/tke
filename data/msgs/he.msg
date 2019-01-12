@@ -2020,6 +2020,9 @@ msgcat::mcmset he {
   "Command launcher preview"
   "הפקודה משגר מקדימה"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "אשר את הפעולה &#39;העבר לאשפה&#39; לפני הפעולה"
+
   "Convert to lowercase"
   "להמיר לאותיות"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset he {
   "Show 'Find in Files' result in other pane"
   "הצג &#39;חיפוש בתיקייה&#39; בחלונית אחרת"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "הצג להזיז את האשפה עבור הקבצים/הספריות המקומי במקום למחוק"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "הצג &#39;העבר לאשפה&#39; עבור קבצים / ספריות מקומיים במקום &#39;מחק&#39;"
 
   "Show Tcl console at startup"
   "מסוף Tcl הצג באתחול"
@@ -2836,6 +2839,9 @@ msgcat::mcmset he {
   "Disconnect From Server"
   "התנתקות מהשרת"
 
+  "Files can be restored from the trash directory"
+  "ניתן לשחזר קבצים מתוך ספריית האשפה"
+
   "Folder Name:"
   "שם תיקייה:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset he {
   "Manually"
   "ידנית"
 
+  "Move selected item to trash?"
+  "להעביר את הפריט שנבחר לאשפה?"
+
+  "Move selected items to trash?"
+  "להעביר את הפריטים שנבחרו לאשפה?"
+
   "New Directory"
   "ספריה חדשה"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset he {
 
   "Sort"
   "מיין"
+
+  "This operation cannot be undone"
+  "הפעולה לא ניתנת לביטול."
 
   "Unable to duplicate file"
   "קובץ כפולים לא הצליחה"

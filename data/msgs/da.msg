@@ -2020,6 +2020,9 @@ msgcat::mcmset da {
   "Command launcher preview"
   "Kommandoen launcher preview"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Bekræft &#39;Flyt til papirkurv&#39;-operationen før operationen"
+
   "Convert to lowercase"
   "Konvertere til små bogstaver"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset da {
   "Show 'Find in Files' result in other pane"
   "Vis 'Find i filer' resultat i anden rude"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Vis Flyt til Papirkurv for lokale filer/mapper i stedet for at slette"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Vis &#39;Flyt til papirkurven&#39; for lokale filer / mapper i stedet for &#39;Slet&#39;"
 
   "Show Tcl console at startup"
   "Vis Tcl konsollen ved opstart"
@@ -2836,6 +2839,9 @@ msgcat::mcmset da {
   "Disconnect From Server"
   "Afbryde forbindelsen til serveren"
 
+  "Files can be restored from the trash directory"
+  "Filer kan gendannes fra papirkurven"
+
   "Folder Name:"
   "Mappenavn:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset da {
   "Manually"
   "Manuelt"
 
+  "Move selected item to trash?"
+  "Flyt markeret element til papirkurven?"
+
+  "Move selected items to trash?"
+  "Flyt valgte emner til papirkurven?"
+
   "New Directory"
   "Nyt bibliotek"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset da {
 
   "Sort"
   "Sorter"
+
+  "This operation cannot be undone"
+  "Denne handling kan ikke fortrydes."
 
   "Unable to duplicate file"
   "Afskåret fra mangfoldiggøre fil"

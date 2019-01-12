@@ -2020,6 +2020,9 @@ msgcat::mcmset zh {
   "Command launcher preview"
   "命令启动程序预览"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "在操作之前确认“移至废纸篓”操作"
+
   "Convert to lowercase"
   "转换为小写"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset zh {
   "Show 'Find in Files' result in other pane"
   "在其他窗格中显示在文件中查找结果"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "显示本地文件/目录而不是删除移到废纸篓"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "显示本地文件/目录的“移至废纸篓”而不是“删除”"
 
   "Show Tcl console at startup"
   "启动时显示 Tcl 控制台"
@@ -2836,6 +2839,9 @@ msgcat::mcmset zh {
   "Disconnect From Server"
   "从服务器断开连接"
 
+  "Files can be restored from the trash directory"
+  "可以从垃圾箱目录还原文件"
+
   "Folder Name:"
   "文件夾名稱:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset zh {
   "Manually"
   "手动"
 
+  "Move selected item to trash?"
+  "将所选项目移至垃圾箱？"
+
+  "Move selected items to trash?"
+  "将所选项目移至垃圾箱？"
+
   "New Directory"
   "新目录"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset zh {
 
   "Sort"
   "分类"
+
+  "This operation cannot be undone"
+  "此操作无法撤消。"
 
   "Unable to duplicate file"
   "无法复制文件"

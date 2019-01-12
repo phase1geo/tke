@@ -2020,6 +2020,9 @@ msgcat::mcmset ja {
   "Command launcher preview"
   "コマンド ランチャー プレビュー"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "操作の前に「ゴミ箱に入れる」操作を確認してください"
+
   "Convert to lowercase"
   "小文字に変換します。"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset ja {
   "Show 'Find in Files' result in other pane"
   "他のウィンドウに 'ファイル内の検索' の結果を表示します。"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "ゴミ箱に移動を削除ではなくローカルのファイル/ディレクトリの表示します。"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "ローカルファイル/ディレクトリに対して、「削除」ではなく「ゴミ箱に入れる」を表示する"
 
   "Show Tcl console at startup"
   "起動時に Tcl コンソールを表示します。"
@@ -2836,6 +2839,9 @@ msgcat::mcmset ja {
   "Disconnect From Server"
   "サーバーから切断します。"
 
+  "Files can be restored from the trash directory"
+  "ファイルはごみ箱ディレクトリから復元できます"
+
   "Folder Name:"
   "フォルダ名:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset ja {
   "Manually"
   "手動"
 
+  "Move selected item to trash?"
+  "選択したアイテムをゴミ箱に移動しますか？"
+
+  "Move selected items to trash?"
+  "選択したアイテムをゴミ箱に移動しますか？"
+
   "New Directory"
   "新しいディレクトリ"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset ja {
 
   "Sort"
   "ソート"
+
+  "This operation cannot be undone"
+  "この操作は元に戻すことはできません。"
 
   "Unable to duplicate file"
   "重複するファイルを開けません"

@@ -2020,6 +2020,9 @@ msgcat::mcmset no {
   "Command launcher preview"
   "Kommandoen bærerakett forhåndsvisning"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Bekreft &quot;Flytt til søppel&quot; -operasjon før drift"
+
   "Convert to lowercase"
   "Konvertere til små bokstaver"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset no {
   "Show 'Find in Files' result in other pane"
   "Vise 'Finn filer' resultat i andre ruten"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Vis gå til papirkurven for lokale filer/mapper i stedet for å slette"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Vis &quot;Flytt til søppel&quot; for lokale filer / kataloger i stedet for &quot;Slett&quot;"
 
   "Show Tcl console at startup"
   "Vis Tcl konsollen ved oppstart"
@@ -2836,6 +2839,9 @@ msgcat::mcmset no {
   "Disconnect From Server"
   "Koble fra APRS Server:"
 
+  "Files can be restored from the trash directory"
+  "Filer kan gjenopprettes fra søppelkatalogen"
+
   "Folder Name:"
   "Mappenavn"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset no {
   "Manually"
   "Manuelt"
 
+  "Move selected item to trash?"
+  "Flytt hver valgt oppføring til papirkurven"
+
+  "Move selected items to trash?"
+  "Flytt valgte elementer til søppel?"
+
   "New Directory"
   "Ny katalog"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset no {
 
   "Sort"
   "Sorter"
+
+  "This operation cannot be undone"
+  "Dette kan ikke angres."
 
   "Unable to duplicate file"
   "Kan ikke kopiere arkiv"

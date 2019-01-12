@@ -2020,6 +2020,9 @@ msgcat::mcmset pl {
   "Command launcher preview"
   "Podgląd działania poleceń launcher"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Potwierdź operację &quot;Przenieś do kosza&quot; przed rozpoczęciem operacji"
+
   "Convert to lowercase"
   "Przekonwertować na małe litery"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset pl {
   "Show 'Find in Files' result in other pane"
   "Pokaż 'Znajdź w plikach' wynik w drugim okienku"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Pokaż Przenieś do kosza dla lokalnych plików/katalogów zamiast Usuń"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Pokaż &quot;Przenieś do kosza&quot; dla lokalnych plików / katalogów zamiast &quot;Usuń&quot;"
 
   "Show Tcl console at startup"
   "Pokaż Tcl konsoli przy uruchamianiu"
@@ -2836,6 +2839,9 @@ msgcat::mcmset pl {
   "Disconnect From Server"
   "Odłącz od serwera"
 
+  "Files can be restored from the trash directory"
+  "Pliki można przywrócić z katalogu kosza"
+
   "Folder Name:"
   "Nazwa katalogu:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset pl {
   "Manually"
   "Ręcznie"
 
+  "Move selected item to trash?"
+  "Przenieść wybrany element do kosza?"
+
+  "Move selected items to trash?"
+  "Przenieść wybrane elementy do kosza?"
+
   "New Directory"
   "Nowy katalog"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset pl {
 
   "Sort"
   "Sortuj"
+
+  "This operation cannot be undone"
+  "Tej operacji nie można cofnąć."
 
   "Unable to duplicate file"
   "Stanie zduplikowanych plików"

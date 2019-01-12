@@ -2020,6 +2020,9 @@ msgcat::mcmset pt {
   "Command launcher preview"
   "Visualização de lançador de comando"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Confirme a operação &quot;Move To Trash&quot; antes da operação"
+
   "Convert to lowercase"
   "Converter para minúsculo"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset pt {
   "Show 'Find in Files' result in other pane"
   "Mostrar resultado 'Localizar em arquivos' em outro painel"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Mostrar as mover para o lixo de arquivos/diretórios locais em vez de excluir"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Mostrar &#39;Move To Trash&#39; para arquivos / diretórios locais em vez de &#39;Delete&#39;"
 
   "Show Tcl console at startup"
   "Console de Tcl mostrar na inicialização"
@@ -2836,6 +2839,9 @@ msgcat::mcmset pt {
   "Disconnect From Server"
   "Desconectar do servidor"
 
+  "Files can be restored from the trash directory"
+  "Os arquivos podem ser restaurados do diretório de lixeira"
+
   "Folder Name:"
   "Nome da Pasta:"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset pt {
   "Manually"
   "Manualmente"
 
+  "Move selected item to trash?"
+  "Mover o item selecionado para o lixo?"
+
+  "Move selected items to trash?"
+  "Mover itens selecionados para o lixo?"
+
   "New Directory"
   "Novo Diretório"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset pt {
 
   "Sort"
   "Ordenar"
+
+  "This operation cannot be undone"
+  "Esta operação não pode ser desfeita."
 
   "Unable to duplicate file"
   "Incapaz de arquivo duplicado"

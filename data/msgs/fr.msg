@@ -2020,6 +2020,9 @@ msgcat::mcmset fr {
   "Command launcher preview"
   "Aperçu de lanceur de commande"
 
+  "Confirm 'Move To Trash' operation prior to operation"
+  "Confirmer l&#39;opération &#39;Déplacer vers la corbeille&#39; avant l&#39;opération"
+
   "Convert to lowercase"
   "Convertir en minuscules"
 
@@ -2341,8 +2344,8 @@ msgcat::mcmset fr {
   "Show 'Find in Files' result in other pane"
   "Afficher résultat « Rechercher dans les fichiers » dans autre volet"
 
-  "Show Move To Trash for local files/directories instead of Delete"
-  "Voir la placer dans la Corbeille pour les fichiers/répertoires locaux au lieu de supprimer"
+  "Show 'Move To Trash' for local files/directories instead of 'Delete'"
+  "Afficher &#39;Déplacer vers la corbeille&#39; pour les fichiers / répertoires locaux au lieu de &#39;Supprimer&#39;"
 
   "Show Tcl console at startup"
   "Voir la Tcl console au démarrage"
@@ -2836,6 +2839,9 @@ msgcat::mcmset fr {
   "Disconnect From Server"
   "Déconnecter du serveur"
 
+  "Files can be restored from the trash directory"
+  "Les fichiers peuvent être restaurés à partir du répertoire de la corbeille"
+
   "Folder Name:"
   "Nom du dossier :"
 
@@ -2875,6 +2881,12 @@ msgcat::mcmset fr {
   "Manually"
   "Manuellement"
 
+  "Move selected item to trash?"
+  "Déplacer l&#39;élément sélectionné dans la corbeille?"
+
+  "Move selected items to trash?"
+  "Déplacer les éléments sélectionnés dans la corbeille?"
+
   "New Directory"
   "Nouveau répertoire"
 
@@ -2907,6 +2919,9 @@ msgcat::mcmset fr {
 
   "Sort"
   "Trier"
+
+  "This operation cannot be undone"
+  "Cette action ne peut pas être annulée."
 
   "Unable to duplicate file"
   "Incapable de doublons de fichiers"
