@@ -1,8 +1,8 @@
 ## The Command-Line
 
-For Unix-based systems that support a terminal, you can invoke TKE using the command-line.  To make tke easier to use, it is recommended that you add the TKE installation’s bin directory into your environment path variable (see your shell’s documentation for how to do this as this will be different for different OS types as well as shells).
+For systems that support a terminal or command prompt, you can invoke TKE using the command-line.  To make tke easier to use, it is recommended that you add the TKE installation’s bin directory into your environment path variable (see your shell’s documentation for how to do this as this will be different for different OS types as well as shells).
 
-Next, if you want TKE to always use just one window for editing all files, make sure that your xhost is setup correctly.  If you get a new TKE window every time you open a file in the terminal, it is likely that you have an xhost issue.
+On Unix-based systems, if you want TKE to always use just one window for editing all files, make sure that your xhost is setup correctly.  If you get a new TKE window every time you open a file in the terminal, it is likely that you have an xhost issue.  On Windows, launching TKE from a shell will always attempt to merge windows unless the `-n` option is used when invoking TKE.
 
 Assuming that you have added the TKE installation bin directory to your path, invoking TKE is as simple as typing the following at the shell prompt:
 

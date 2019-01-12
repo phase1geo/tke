@@ -8,7 +8,7 @@ The following is a high-level list of built-in features.
 		- Bash, Boo
 		- C#, C, C\+\+, Changelog, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
 		- D, Delphi, DesktopEntry, DocBook, Doxyfile
-		- Eiffel, Elixir, Elm, Erlang
+		- EditorConfig, Eiffel, Elixir, Elm, Erlang
 		- Fickle, Forth, Fortran, Fountain
 		- Gherkin, Go, Groovy
 		- HTML, Haml, Haskell, Haxe, HelpSystem
@@ -22,7 +22,7 @@ The following is a high-level list of built-in features.
 		- PHP, Pascal, Perl, Prolog, PropertyList, Puppet, Python
 		- R, RSS, Ruby, Rust
 		- SASS, SCSS, Scala, Scheme, ShellScript, Specman, SQL, Squirrel, Stylus, Swift, SystemVerilog
-		- Taccle, Tcl
+		- Taccle, Tcl, Terraform, TypeScript
 		- Vala, Verilog, VisualBasic, VHDL
 		- XML, Xojo, XSLT
 		- YAML, Yacc
