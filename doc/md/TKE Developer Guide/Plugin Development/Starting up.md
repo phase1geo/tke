@@ -11,7 +11,10 @@ Each plugin bundle is a directory that should contain at least the following fil
 | - | - | - |
 | header.tkedat | Yes | Contains plugin information that describes the plugin and is used by the plugin installer. |
 | main.tcl | Yes | The main Tcl file that is sourced by the plugin installer.  This file must contain a call to the api\::register procedure.  In addition, this file should either contain the plugin namespace and action procedures or source one or more other files in the plugin bundle that contain the action code. |
-| README.md | No | Optional file that should contain usage information about the plugin. This file is displayed as a read-only file in an editing buffer when the user selects an installed plugin with the “Plugin / Show Installed Plugins…” menu option. |
+| README.md | No | Markdown file that should contain usage information about the plugin after the plugin has been installed. This file is displayed as a read-only file in an editing buffer when the user selects an installed plugin with the “Plugin / Show Installed Plugins…” menu option. |
+| release_notes.md | No | Markdown file containing the list of changes in the current release as well as any other relevant notes to the user. |
+| overview.md | No | Markdown file containing information about the plugin that a user who has not installed the plugin would find useful to determine if they should install it. |
+| screenshot.png | No | Screenshot displaying the plugin in action. This image will be displayed on the available plugin list.|
 
 After the header.tkedat and main.tcl files are found and the header file is properly parsed, the header contents are stored in a Tcl array.  If a plugin bundle does not parse correctly, it is ignored and not made available for usage.
 
