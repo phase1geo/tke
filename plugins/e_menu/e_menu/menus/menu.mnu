@@ -5,6 +5,7 @@
  RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.htm "%f"]>0]  %THEN %b %f
  RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.html "%f"]>0] %THEN %b %f
  RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.tcl "%f"]>0]  %THEN %t tclsh %f %s
+ RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.py "%f"]>0]  %THEN %t python3 %f %s
  RE: Run me (tcl, html...) RE: ###########################################################
  SE: Run me (tcl, html...) SE: echo Customize the menu for file extention: %s2
 

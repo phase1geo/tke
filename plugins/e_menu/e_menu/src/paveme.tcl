@@ -384,6 +384,7 @@ oo::class create PaveMe {
     # get the window's geometry from its requested sizes
     set inpgeom $opt(-geometry)
     if {$inpgeom == ""} {
+      # this is for less blinking:
       set opt(-geometry) [my CenteredXY $rw $rh $rx $ry \
         [winfo reqwidth $win] [winfo reqheight $win]]
     }
@@ -404,9 +405,12 @@ oo::class create PaveMe {
     }
     wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
     if {$inpgeom == ""} {  ;# final geometrizing with actual sizes
-      # Center the window in the root
-      wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
-      #::tk::PlaceWindow $win widget $root
+      if {$root == "."} {
+        ::tk::PlaceWindow $win widget $root
+      } else {
+        # this is for less blinking:
+        wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
+      }
     } else {
       wm geometry $win $inpgeom
     }
