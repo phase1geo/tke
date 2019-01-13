@@ -26,7 +26,7 @@ set offline false   ;# set true for offline help
 set lin_console "src/run_pause.sh"   ;# (for Linux)
 set win_console "src/run_pause.bat"  ;# (for Windows)
 
-set ncolor 0        ;# index of color scheme
+set ncolor 0        ;# default index of color scheme
 set colorschemes {
   { #FFFFFF #FEEFA8 #566052 #4D554A #FFFFFF #94A58E #000000  #FFA500 grey}
   { #FFFFFF #FEEC9A #212121 #262626 #C5C5C5 #575757 #FFFD38  #9C2727 grey}
@@ -42,7 +42,8 @@ set colorschemes {
   { #000000 #2B1E05 #C2C5CC #C2C5CC #1C1C5C #797880 #F0F0F0  #693F05 grey}
   { #000000 #2B1E05 #BFFFBF #CFFFCF #0E280E #89CA89 #000000  #9C2727 grey}
 } ;# = text1  text2  header  items   itemsHL selbg   selfg    hot     greyed
-  # ::colr ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
+lassign [lindex $colorschemes $ncolor] \
+   ::colr  ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
 
 set fs 12                     ;# font size
 set font1 "Liberation Sans"   ;# font of header
@@ -63,9 +64,9 @@ set timeafter 5    ;# interval (in sec.) for updating times/dates
 
 namespace eval em {}
 
-proc D {mes args} {::em::message_box $mes ok "INFO" {*}$args}
+proc D {mes args} {::em::em_message $mes ok "INFO" {*}$args}
 proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
-  return [::em::question_box $ttl $mes $typ $icon $defb {*}$args] 
+  return [::em::em_question $ttl $mes $typ $icon $defb {*}$args]
 }
 proc S {args} {
   set cc ""; foreach c $args {set cc "$cc$c "}
@@ -185,12 +186,12 @@ proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
   return $ans
 }
 
-proc ::em::message_box {mes {typ ok} {ttl "INFO"} args} {
+proc ::em::em_message {mes {typ ok} {ttl "INFO"} args} {
   ::em::dialog_box $ttl $mes $typ info OK {*}$args
 }
 #=== own question box
-proc ::em::question_box {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
-  return [::em::dialog_box $ttl $mes $typ $icon $defb {*}$args]
+proc ::em::em_question {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
+  return [dialog_box $ttl $mes $typ $icon $defb {*}$args]
 }
 #=== incr/decr window width
 proc ::em::win_width {inc} {
@@ -288,7 +289,7 @@ proc ::em::edit {fname} {
     return [::edit_file $fname $::em::colrfE $::em::colrbE $::em::colrcc]
   } else {
     if {[catch {exec $::em::editor {*}$fname &} e]} {
-      message_box "ERROR: couldn't call $::em::editor'\n
+      em_message "ERROR: couldn't call $::em::editor'\n
 to edit $fname.\n\nCurrent directory is [pwd]\n\nMaybe $::em::editor\n is worth including in PATH?"
       return false
     }
@@ -524,7 +525,7 @@ proc ::em::set_timed { from inf typ c1 inpsel} {
   if {$timer>0} {set startnow 1} {set startnow 0}
   lassign [ttask "add" -1 $inf $typ $c1 $inpsel $timer] ind started
   if {$from == "button" && $ind >= 0} {
-    if {[question_box "Stop timed task" "Stop the task\n\n\
+    if {[em_question "Stop timed task" "Stop the task\n\n\
         [.frame.butt$::em::lasti cget -text] ?"]} {
       ttask "del" $ind
     }
@@ -593,7 +594,7 @@ proc ::em::shell0 {sel amp} {
     if { [catch { exec {*}[auto_execok start] \
       cmd.exe /c {*}"$composite" } e] } {
       if {$silent < 0} {
-        message_box "ERROR of running\n\n$composite\n\n$e"
+        em_message "ERROR of running\n\n$composite\n\n$e"
         set ret false
       }
     }
@@ -608,7 +609,7 @@ proc ::em::shell0 {sel amp} {
     if { [catch { exec lxterminal \
     -e {*}$composite  } e] } {
       if {$silent < 0} {
-        message_box "ERROR of running\n\n$sel\n\n$e"
+        em_message "ERROR of running\n\n$sel\n\n$e"
         set ret false
       }
     }
@@ -660,7 +661,7 @@ proc ::em::run0 {sel amp silent} {
       }
       if { [catch {exec {*}$comm} e] } {
         if {$silent < 0} {
-          message_box "ERROR of running\n\n$sel\n\n$e"
+          em_message "ERROR of running\n\n$sel\n\n$e"
           return false
         }
       }
@@ -692,7 +693,7 @@ proc ::em::IF {rest} {
     if {$pelse < 0} {set pelse 9999}
     set ifcond [string trim [string range $rest 0 $pthen-1]]
     if {[catch {set res [expr $ifcond]} e]} {
-      message_box "ERROR: incorrect condition of IF:\n$ifcond\n\n($e)"
+      em_message "ERROR: incorrect condition of IF:\n$ifcond\n\n($e)"
       return false
     }
     set thencomm [string trim [string range $rest $pthen+6 $pelse-1]]
@@ -710,7 +711,7 @@ proc ::em::IF {rest} {
           set comm "cmd.exe /c $comm"
         }
         if { [catch {exec {*}$comm &} e] } {
-          message_box "ERROR: incorrect command of IF:\n$comm\n\n($e)"
+          em_message "ERROR: incorrect command of IF:\n$comm\n\n($e)"
         }
       }
       return false ;# to run the command and exit
@@ -1100,7 +1101,7 @@ proc ::em::menuof { commands s1 domenu} {
         "[string map {"\\" "/"} [file tail $seltd]] - E_menu"
     set seltd [file normalize [get_menuname $seltd]]
     if { [catch {set chan [open "$seltd"]} e] } {
-      if {[question_box "Menu isn't open" \
+      if {[em_question "Menu isn't open" \
           "ERROR of opening\n$seltd\n\nCreate it?"]} {
         ::em::create_template $seltd
         ::em::edit $seltd
@@ -1238,7 +1239,7 @@ proc ::em::menuof { commands s1 domenu} {
       if {$typ=="I:"} { set torun "$runp"  ;# internal command
       } else          { set torun "$runp $s1 $amp" }
       if {$iline > $::maxitems} {
-        message_box "Too much items in\n\n$seltd\n\n$::maxitems is maximum."
+        em_message "Too much items in\n\n$seltd\n\n$::maxitems is maximum."
         exit
       }
       set prname $origname
@@ -1380,7 +1381,7 @@ proc ::em::destroyed {app} {
 }
 #=== destroy all e_menu apps
 proc ::em::destroy_emenus {} {
-  if {![question_box "Clearance - $::appname" "\nDestroy all\ne_menu applications?\n"]} {
+  if {![em_question "Clearance - $::appname" "Destroy all\ne_menu applications?"]} {
   return }
   for {set i 0} {$i < 3} {incr i} {
     for {set nap 1} {$nap <= 64} {incr nap} {
@@ -1418,7 +1419,7 @@ proc ::em::mouse_drag {mode x y} {
 proc ::em::check_real_call {} {
   if {$::em::ncmd < 2} {
     if {$::em::start0} {
-      ::message_box "Run this with
+      em_message "Run this with
 
 wish e_menu.tcl \"s=%s\" \[m=menu\]
 
