@@ -70,7 +70,6 @@ namespace eval syntax {
   }
   array set langs        {}
   array set curr_lang    {}
-  array set meta_tags    {}
   array set associations {}
 
   ######################################################################
@@ -109,10 +108,8 @@ namespace eval syntax {
   proc handle_destroy_txt {txt} {
 
     variable curr_lang
-    variable meta_tags
 
     catch { unset curr_lang($txt) }
-    catch { unset meta_tags($txt) }
 
   }
 
@@ -427,7 +424,6 @@ namespace eval syntax {
     variable langs
     variable curr_lang
     variable current_lang
-    variable meta_tags
 
     array set opts {
       -highlight 1
@@ -462,9 +458,6 @@ namespace eval syntax {
           set cmd_prefix ""
           set lang_ns    [string tolower $language]
         }
-
-        # Initialize the meta tags
-        set meta_tags($txt) [list meta readmeta]
 
         # Set the case sensitivity, delimiter characters and wrap mode
         $txt configure -casesensitive $lang_array(casesensitive) -escapes $lang_array(escapes)
@@ -750,47 +743,9 @@ namespace eval syntax {
             if {[llength $modifiers] > 0} {
               append class -[join $modifiers -]
             }
-            $txt syntax addclass $class -fgtheme $section -fontopts $modifiers
+            $txt syntax addclass $class -fgtheme $section -fontopts $modifiers -meta [expr {($class eq "meta") || ($class eq "readmeta")}]
             add_highlight_type $txt $type class $class $syntax $lang
           }
-        }
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Returns true if the given text widget contains meta characters.
-  proc contains_meta_chars {txt} {
-
-    variable meta_tags
-
-    set all_classes [$txt syntax classes]
-
-    if {[info exists meta_tags($txt)]} {
-      foreach tag $meta_tags($txt) {
-        if {[lsearch $all_classes $tag] != -1} {
-          return 1
-        }
-      }
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Sets the visibility of all meta tags to the given value.
-  proc set_meta_visibility {txt value} {
-
-    variable meta_tags
-
-    set all_classes [$txt syntax classes]
-
-    if {[info exists meta_tags($txt)]} {
-      foreach tag $meta_tags($txt) {
-        if {[lsearch $all_classes $tag] != -1} {
-          $txt syntax configure $tag -elide [expr $value ^ 1]
         }
       }
     }

@@ -49,7 +49,7 @@ advanced {
   HighlightClass ccode         {-fgtheme precompile     -fontopts code}
   HighlightClass strike        {-fgtheme none           -fontopts overstrike}
   HighlightClass hilite        {-fgtheme background -bgtheme highlighter}
-  HighlightClass meta          {-fgtheme meta}
+  HighlightClass meta          {-fgtheme meta -meta 1}
   HighlightClass math          {-fgtheme miscellaneous3}
   HighlightClass check         {-clickcmd syntax::multimarkdown::handle_checkbox_click}
   HighlightClass boldmarkers   {-immediate 1}
