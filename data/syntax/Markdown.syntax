@@ -46,7 +46,7 @@ advanced {
   HighlightClass ccode         {-fgtheme precompile     -fontopts code}
   HighlightClass strike        {-fontopts overstrike}
   HighlightClass hilite        {-fgtheme background -bgtheme highlighter}
-  HighlightClass meta          {-fgtheme meta}
+  HighlightClass meta          {-fgtheme meta -meta 1}
   HighlightClass check         {-clickcmd syntax::markdown::handle_checkbox_click}
   HighlightClass codemarkers   {-immediate 1}
   HighlightClass boldmarkers   {-immediate 1}

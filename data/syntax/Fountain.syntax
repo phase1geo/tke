@@ -29,7 +29,7 @@ advanced {
   HighlightClass bold          {-fontopts bold}
   HighlightClass italics       {-fontopts italics}
   HighlightClass underline     {-fontopts underline}
-  HighlightClass meta          {-fgtheme meta}
+  HighlightClass meta          {-fgtheme meta -meta 1}
   HighlightClass heading       {-fgtheme miscellaneous2 -fontopts h1}
   HighlightClass section1      {-fgtheme punctuation    -fontopts h1}
   HighlightClass section2      {-fgtheme punctuation    -fontopts h2}
