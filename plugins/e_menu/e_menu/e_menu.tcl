@@ -46,8 +46,8 @@ lassign [lindex $colorschemes $ncolor] \
    ::colr  ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
 
 set fs 12                     ;# font size
-set font1 "Liberation Sans"   ;# font of header
-set font2 "Liberation Mono"   ;# font of item
+set font1 "Sans"   ;# font of header
+set font2 "Mono"   ;# font of item
 
 set viewed 40      ;# width of item (in characters)
 set maxitems 45    ;# maximum of menu.txt items
@@ -333,10 +333,11 @@ proc ::em::writeable_command {cmd} {
   set cmd [string map {"|!|" "\n"} $cmd]
   set tmpcolr $::colrgrey
   set ::colrgrey $::em::colrbE
+  set ::em::skipfocused 1
   set res [dialog misc "" "EDIT & RUN COMMAND: $mark" "$cmd" \
     {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 \
     -pos $pos -fg $::em::colrfE -bg $::em::colrbE -cc $::em::colrcc \
-    -family {\"Mono\"} -size 12 -g $geo]
+    -head "UNCOMMENT usable commands, COMMENT unusable ones\nUse \\\\ instead of \\ in patterns." -family Times -hsz 14 -size 12 -g $geo]
   set ::colrgrey $tmpcolr
   dialog destroy
   lassign $res res geo cmd
@@ -371,6 +372,7 @@ proc ::em::vip {refcmd} {
     if {[set cmd [writeable_command $cmd]]==""} {
       return true ;# here 'cancelled' means 'processed'
     }
+    return false
   }
   if {[string first "%P " $cmd] == 0} {
       # prepare the command for processing

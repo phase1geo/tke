@@ -104,8 +104,8 @@ oo::class create PaveMe {
       "enT*" {set widget "entry"}
       "fra*" {set widget "ttk::frame"}
       "frA*" {set widget "frame"}
-      "lab*" {set widget "ttk::label"; set options "-st w $options" }
-      "laB*" {set widget "label";     set options "-st w $options"  }
+      "lab*" {set widget "ttk::label"; set options "-st w $options"}
+      "laB*" {set widget "label";      set options "-st w $options"}
       "lfr*" {set widget "ttk::labelframe"}
       "lfR*" {set widget "labelframe"}
       "lbx*" {set widget "listbox"}
@@ -241,14 +241,17 @@ oo::class create PaveMe {
 
     set lused {}
     set lwlen [llength $lwidgets]
+    set BS "I-am-BACKSPACE"
+    set LB "I-am-LEFTBRACE"
+    set RB "I-am-RIGHTBRACE"
     for {set i 0} {$i < $lwlen} {} {
       # List of widgets contains data per widget:
       #   widget's name,
       #   neighbor widget, position of neighbor (T, L),
       #   widget's rowspan and columnspan (both optional),
       #   grid options, widget's attributes (both optional)
-      lassign [lindex $lwidgets $i] name neighbor posofnei \
-          rowspan colspan options1 attrs1
+      set lst1 [lindex $lwidgets $i]
+      lassign $lst1 name neighbor posofnei rowspan colspan options1 attrs1
       if {$colspan=={}} {
         set colspan 1
         if {$rowspan=={}} {
@@ -256,15 +259,16 @@ oo::class create PaveMe {
         }
       }
       set name [string tolower [string index $name 0]][string range $name 1 end]
-      set options [uplevel 1 subst [list $options1]]
-      set attrs [uplevel 1 subst [list $attrs1]]
+      set options [uplevel 1 subst -nobackslashes [list $options1]]
+      set attrs [uplevel 1 subst -nobackslashes [list $attrs1]]
       set ${nsp}paveN::wn $w.$name
       lassign [my GetWidgetType [lindex [split $name .] end] \
-        $options $attrs] widget options attrs
+        $options $attrs] widget ;# options attrs
       # The type of widget (if defined) means its creation
       # (if not defined, it was created after "makewindow" call
       # and before "window" call)
       if { !($widget == "" || [winfo exists $widget])} {
+        set attrs [string map [list \\ $BS \{ $LB \} $RB] $attrs]
         set attrs [string map {\" \\\"} [my ExpandOptions $attrs]]
         # for scrollbars - set up the scrolling commands
         if {$widget in {"ttk::scrollbar" "scrollbar"}} {
@@ -278,6 +282,25 @@ oo::class create PaveMe {
             append options " -side bottom -fill x -before $w.$neighbor"
           }
         }
+        # it needs expand \\, \{, \} because eval..{*}.. cuts them down
+        # use doctest plugin of TKE editor to make sure:
+        #
+        #  test 1
+        #% doctest
+        #%   set a "123 \\\\\\\\ 45"
+        #%   eval append b {*}$a
+        #%   set b
+        #>   123\45
+        #> doctest
+        #
+        #  test 2
+        #% doctest
+        #%   set a "123 \{\{\{ \}\}\} 45"
+        #%   eval append b {*}$a
+        #%   set b
+        #>   123{ }45
+        #> doctest
+        set attrs [string map [list $BS "\\\\\\\\" $LB "\{\{\{" $RB "\}\}\}"] $attrs]
         eval $widget [set ${nsp}paveN::wn] {*}$attrs
         # for buttons and entries - set up the hotkeys (Up/Down etc.)
         if {($widget in {"ttk::entry" $widget=="entry"}) && \
