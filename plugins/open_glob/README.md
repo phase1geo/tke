@@ -2,7 +2,7 @@
 # What is this?
 
 
-The `open_glob` plugin allows you to open files from sidebar's directory.
+The `open_glob` plugin allows you to open files from the sidebar's directory.
 
 The files are open recursively, according to the glob patterns.
 

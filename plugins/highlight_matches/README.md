@@ -1,6 +1,6 @@
 
+# What is this?
 
-### What is this?
 
 This plugin allows the user to highlight all (or nearby) matches of a word when it's selected by double-clicking.
 
@@ -24,7 +24,8 @@ Note:
 The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
 
 
-### Menu usage
+# Menu usage
+
 
 There is an option that allows to restrict the size of text to be involved in the highlighting operation. Open the "Edit/ Preferences/ Edit user - Global/ Plugins/" menu entry, select the highlight_matches plugin and set the number of rows to be spanned by this operation. At that:
    -1 or empty input means involving all rows to be highlighted;
@@ -54,7 +55,8 @@ For lefthanders, though, Alt+Q and Alt+W are more convenient than Alt+Arrows. Ch
 While in Vim mode ("Edit/ Preferences/ Editor") you can't highlight a word with double-clicking, so "Plugin/ Highlight Matches/ Highlight" and its shortkey can only help you.
 
 
-### Tips and traps
+# Tips and traps
+
 
 You can use TKE's multiple cursors to change the multiple selections available after the highlighting.
 
@@ -87,16 +89,17 @@ Press Ctrl-Z if you made a blunder anyway.
 You should take this into account while using the highlight feature.
 
 
-### Example of Usage
+# Example of Usage
+
 
 We edit the following code:
-`
+
     set sel [$w get $selected]
     set countList {}
     set startList [$w search -all -regexp -count countList $sel 1.0 end]
     foreach first $startList count $countList {
        $w tag add sel $first [$w index "$first + $count chars"]
     }
-`
+
 After double-clicking on *count* we get all six *count* highlighted.
 
