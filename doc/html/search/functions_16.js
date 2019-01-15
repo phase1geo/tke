@@ -12,6 +12,7 @@ var searchData=
   ['view_5ffold_5fposting',['view_fold_posting',['../namespacemenus.html#a5682b03d14a6ed1d6291b42706e11ef9',1,'menus']]],
   ['view_5flog',['view_log',['../namespacelogger.html#a6556254b5d35da6e94b7eeec9ef424ee',1,'logger']]],
   ['view_5fposting',['view_posting',['../namespacemenus.html#a529007f0283f2e81ff31d344010c7f6c',1,'menus']]],
+  ['view_5freference',['view_reference',['../namespaceemmet.html#a1f38f925ddb4e6647935f1848db99fbd',1,'emmet']]],
   ['view_5ftabs_5fposting',['view_tabs_posting',['../namespacemenus.html#ab82ebc3369d96177ec1cec0df7d3ba19',1,'menus']]],
   ['visual_5fmode',['visual_mode',['../namespacevim.html#ac062f0432114b5d93a7c5eeb3dbf1850',1,'vim']]]
 ];

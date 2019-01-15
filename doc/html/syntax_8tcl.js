@@ -1,10 +1,11 @@
 var syntax_8tcl =
 [
-    [ "add_sublanguage", "syntax_8tcl.html#af28d43ecbfdb062df720fa2af5f989ac", null ],
+    [ "add_highlight_type", "syntax_8tcl.html#a4e5c719c5e691850f2ed1e74d6cf7460", null ],
+    [ "add_sublanguage", "syntax_8tcl.html#a4cb0dba4a163f14e57d530dfdb8919f8", null ],
     [ "add_syntax", "syntax_8tcl.html#ab6e37f55f15d2d7f73fc9079d0ca1ce5", null ],
-    [ "contains_meta_chars", "syntax_8tcl.html#a3323c3758a8da1a6703c39a3b134b903", null ],
     [ "create_menu", "syntax_8tcl.html#a7acb1603f429c6d3429a4e51d9e7fd6d", null ],
     [ "delete_syntax", "syntax_8tcl.html#a68cab2a9aa3d0dd60c2c0cc431e7e105", null ],
+    [ "exec_plugin_command", "syntax_8tcl.html#a66764853ab96549bf6b04288602ddd7a", null ],
     [ "get_all_languages", "syntax_8tcl.html#ac7449dce6d088c2c75de128c495bd700", null ],
     [ "get_comments", "syntax_8tcl.html#a5e9a9d64eed2c768dd20202128887461", null ],
     [ "get_default_language", "syntax_8tcl.html#aaccedd1dc6422835635e679b3af2f1fa", null ],
@@ -18,6 +19,7 @@ var syntax_8tcl =
     [ "get_language", "syntax_8tcl.html#af346ad0c2e849796ef9297a6e7e44f48", null ],
     [ "get_prefixed_symbol", "syntax_8tcl.html#a2c555d44c2240ff0c3b8244c21d30f7a", null ],
     [ "get_references", "syntax_8tcl.html#a3022a4915a6e7f8310e1202d2b6d3261", null ],
+    [ "get_syntax_function", "syntax_8tcl.html#a3fc34a1cbd6999e74e634bde9cfba078", null ],
     [ "get_syntax_symbol", "syntax_8tcl.html#ac56167def84d66af5650f7e1a455aa66", null ],
     [ "get_tabs_allowed", "syntax_8tcl.html#a365f239fce6aa155dba5b307b01d23f8", null ],
     [ "get_vim_language", "syntax_8tcl.html#a8d5cf7f44c9a1906bbfae821f373661a", null ],
@@ -27,11 +29,12 @@ var syntax_8tcl =
     [ "handle_syntax_menu", "syntax_8tcl.html#a4509bbcf41836168e6cc2aa2ee71d695", null ],
     [ "load", "syntax_8tcl.html#a83fb401cc11b9050b512abbb907c7720", null ],
     [ "populate_syntax_menu", "syntax_8tcl.html#a1adb2439fbd23a8b84938d465aeddb62", null ],
+    [ "post_menu", "syntax_8tcl.html#a18bb01756efce3faaff21a1b7f851c74", null ],
     [ "post_submenu", "syntax_8tcl.html#ac61f642889ba8a01449e2f87b66e6365", null ],
     [ "save_language_association", "syntax_8tcl.html#a6802462012027fd7f12e0097288b8283", null ],
     [ "set_current_language", "syntax_8tcl.html#ae74aea8e149f9322e9fb5b2e6397e4d8", null ],
     [ "set_language", "syntax_8tcl.html#a6a71efc5a5bb3f9d5e14fbd60c0458ed", null ],
     [ "set_language_section", "syntax_8tcl.html#a2dd46fee28a024792b373e9482788754", null ],
-    [ "set_meta_visibility", "syntax_8tcl.html#ae883a37720d7fa2ba2ba0bd5bbdc695a", null ],
-    [ "update_button", "syntax_8tcl.html#ac7d9311ea2ccddffa42f9ad7032d0f02", null ]
+    [ "update_button", "syntax_8tcl.html#ac7d9311ea2ccddffa42f9ad7032d0f02", null ],
+    [ "update_syntax_menus", "syntax_8tcl.html#a5894d1f2232c6ca75af4dd1580906db3", null ]
 ];

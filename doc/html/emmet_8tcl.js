@@ -39,5 +39,6 @@ var emmet_8tcl =
     [ "update_alias", "emmet_8tcl.html#ad0d8c5c54a825cade2aa07d86bc008c0", null ],
     [ "update_html_image_size", "emmet_8tcl.html#af5019d7b7232a8857fc4363ea34faf5b", null ],
     [ "update_image_size", "emmet_8tcl.html#a035063380192199a2b1825adb8fb2bba", null ],
+    [ "view_reference", "emmet_8tcl.html#a1f38f925ddb4e6647935f1848db99fbd", null ],
     [ "wrap_with_abbreviation", "emmet_8tcl.html#a28c4d4d87501797b66aed435e8d350aa", null ]
 ];

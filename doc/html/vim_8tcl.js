@@ -173,7 +173,7 @@ var vim_8tcl =
     [ "set_operator", "vim_8tcl.html#a6d3728f0322b1f933915acd79b9af923", null ],
     [ "set_select_anchors", "vim_8tcl.html#a06098d613d983c075362d5a670d32999", null ],
     [ "set_vim_mode", "vim_8tcl.html#ae3c8d5bada9e3cff186b2c0d20af03ed", null ],
-    [ "set_vim_mode_all", "vim_8tcl.html#ad0b828da9906d17eae68a954ea17760a", null ],
+    [ "set_vim_mode_all", "vim_8tcl.html#a78b2856e4be1b11d325bfcc1e777bfe1", null ],
     [ "undo", "vim_8tcl.html#aca910373ef71ebbbe026c84a58d8c19c", null ],
     [ "visual_mode", "vim_8tcl.html#ac062f0432114b5d93a7c5eeb3dbf1850", null ]
 ];

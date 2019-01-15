@@ -10,7 +10,7 @@ var share_8tcl =
     [ "get_share_items", "share_8tcl.html#a53d465fbcef77fb39fac1498658d4c14", null ],
     [ "handle_do_state", "share_8tcl.html#a44bd545b0476e2230843bf49dd545b9e", null ],
     [ "import_share_wizard", "share_8tcl.html#a6f5f8232663a8f0d9fef6d85dba9816e", null ],
-    [ "initialize", "share_8tcl.html#a66d6aae334dbf51f77f740f89d257191", null ],
+    [ "initialize", "share_8tcl.html#a4e165cf8c18100af66a0bee12066c587", null ],
     [ "load_file", "share_8tcl.html#ad236b781604cc18e490144ba57f36867", null ],
     [ "save_changes", "share_8tcl.html#ac54344a16402a8f26dcae2597444ac22", null ],
     [ "share_changed", "share_8tcl.html#a086bc67b89bd66aab0a7bf85641262ae", null ],
