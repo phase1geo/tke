@@ -15,7 +15,7 @@ advanced {
   HighlightClass del    {-fgtheme miscellaneous2 -fontopts {overstrike}}
   HighlightClass comm   {-fgtheme comments}
   HighlightClass hilite {-fgtheme background -bgtheme highlighter}
-  HighlightClass meta   {-fgtheme meta}
+  HighlightClass meta   {-fgtheme meta -meta 1}
 
   HighlightRegexp {(\{\+\+)(.+?)(\+\+\})}      addition
   HighlightRegexp {(\{\-\-)(.+?)(\-\-\})}      deletion

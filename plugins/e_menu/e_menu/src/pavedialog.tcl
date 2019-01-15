@@ -190,9 +190,9 @@ oo::class create PaveDialog {
     #  - geometry of dialog window
     #  - color of labels
     set chmsg [set geometry [set optsLabel [set optsMisc [set optsState ""]]]]
-    set root [set head ""]
+    set root [set head [set optsHead [set hsz ""]]]
     set optsTags 0
-    set optsFont "-font \"-family Sans"
+    set optsFont [set optsFontMono ""]
     set wasgeo [set textmode 0]
     set curpos "1.0"
     set cc ""
@@ -233,10 +233,37 @@ oo::class create PaveDialog {
         -cc {set cc "$val"}
         -root {set root " -root $val"}
         -pos {set curpos "$val"}
-        default {append optsFont " $opt $val"}
+        -hfg {append optsHead " -foreground $val"}
+        -hbg {append optsHead " -background $val"}
+        -hsz {append hsz " -size $val"}
+        default {
+          append optsFont " $opt $val"
+          if {$opt!="-family"} {
+            append optsFontMono " $opt $val"
+          }
+        }
       }
     }
-    append optsFont "\""
+    set optsFont [string trim $optsFont]
+    set optsHeadFont $optsFont
+    if {$optsFont != ""} {
+      if {[string first "-size " $optsFont]<0} {
+        append optsFont " -size 12"
+      }
+      if {[string first "-size " $optsFontMono]<0} {
+        append optsFontMono " -size 12"
+      }
+      if {[string first "-family " $optsFont]>=0} {
+        set optsFont "-font \"$optsFont"
+      } else {
+        set optsFont "-font \"-family Helvetica $optsFont"
+      }
+      set optsFontMono "-font \"-family Mono $optsFontMono\""
+      append optsFont "\""
+    } else {
+      set optsFont "-font \"-size 12\""
+      set optsFontMono "-font \"-size 12\""
+    }
     # add the icon to the layout
     if {$icon!=""} {
       set widlist [list [list laBimg - - 99 1 \
@@ -247,11 +274,15 @@ oo::class create PaveDialog {
     set prevw laBimg
     if {$head!=""} {
       # set the dialog's heading (-head option)
+      if {$optsHeadFont!="" || $hsz!=""} {
+        set optsHeadFont [string trim "$optsHeadFont $hsz"]
+        set optsHeadFont "-font \"$optsHeadFont\""
+      }
       set prevp "L"
       foreach lh [split $head "\n"] {
-        set labh laBheading[incr il]
-        lappend widlist [list $labh $prevw $prevp 1 99 \
-          "-st w -rw 1" "-t \"$lh\" $optsLabel $optsFont"]
+        set labh "labheading[incr il]"
+        lappend widlist [list $labh $prevw $prevp 1 99 "-st we" \
+          "-t \"$lh\" $optsHeadFont $optsHead"]
         set prevw [set prevh $labh]
         set prevp "T"
       }
@@ -282,17 +313,17 @@ oo::class create PaveDialog {
       if {[info exists charheight]} {set il $charheight}
       if {[info exists charwidth]} {set maxl $charwidth}
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
-      lappend widlist {texM - - 1 7 {pack -side left -expand 1 -fill both -in $pWindow.pavedlg.fraM} \
-        {-h $il -w $maxl $optsFont $optsMisc -wrap word}}
+      lappend widlist {texM - - 1 7 {pack -side left -expand 1 -fill both -in \
+        $pWindow.pavedlg.fraM} {-h $il -w $maxl $optsFontMono $optsMisc -wrap word}}
       lappend widlist {sbv texM L 1 1 {pack -in $pWindow.pavedlg.fraM}}
       set prevw fraM
     }
     # add the lower (after the message) blank frame
-    lappend widlist [list h_2 $prevw T 1 1 "-st w -pady 3"]
+    lappend widlist [list h_2 $prevw T 1 1 "-pady 0 -ipady 0 -csz 0"]
     # underline the message
-    lappend widlist [list seh laBimg T 1 99]
+    lappend widlist [list seh laBimg T 1 99 "-st ew"]
     # add left frames and checkbox (before buttons)
-    lappend widlist [list h_3 seh T 1 1]
+    lappend widlist [list h_3 seh T 1 1 "-pady 0 -ipady 0 -csz 0"]
     if {$chmsg == ""} {
       lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
     } else {

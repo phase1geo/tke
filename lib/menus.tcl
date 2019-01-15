@@ -2709,9 +2709,16 @@ namespace eval menus {
         catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state disabled }
         catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state disabled }
       }
-      if {[syntax::contains_meta_chars [gui::current_txt]]} {
-        catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state normal }
-        catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state normal }
+      if {[llength [[gui::current_txt] syntax metaclasses]] > 0} {
+        if {[[gui::current_txt] cget -hidemeta] == 0} {
+          set lbl [msgcat::mc "Hide Meta Characters"]
+          set cmd [list menus::main_only menus::hide_meta_chars $mb]
+        } else {
+          set lbl [msgcat::mc "Show Meta Characters"]
+          set cmd [list menus::main_only menus::show_meta_chars $mb]
+        }
+        catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -label $lbl -command $cmd -state normal }
+        catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -label $lbl -command $cmd -state normal }
       } else {
         catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state disabled }
         catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
@@ -2964,10 +2971,7 @@ namespace eval menus {
   # Shows the meta characters in the current edit window.
   proc show_meta_chars {mb} {
 
-    # Convert the menu command into the hide line numbers command
-    if {![catch {$mb entryconfigure [msgcat::mc "Show Meta Characters"] -label [msgcat::mc "Hide Meta Characters"] -command [list menus::main_only menus::hide_meta_chars $mb]}]} {
-      syntax::set_meta_visibility [gui::current_txt] 1
-    }
+    [gui::current_txt] configure -hidemeta 0
 
   }
 
@@ -2975,10 +2979,7 @@ namespace eval menus {
   # Hides the meta characters in the current edit window.
   proc hide_meta_chars {mb} {
 
-    # Convert the menu command into the hide line numbers command
-    if {![catch {$mb entryconfigure [msgcat::mc "Hide Meta Characters"] -label [msgcat::mc "Show Meta Characters"] -command [list menus::main_only menus::show_meta_chars $mb]}]} {
-      syntax::set_meta_visibility [gui::current_txt] 0
-    }
+    [gui::current_txt] configure -hidemeta 1
 
   }
 
