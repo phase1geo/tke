@@ -96,6 +96,36 @@ namespace eval e_menu {
 
   }
 
+  #====== Get options y0-y9 from #ARGS0... through #ARGS9...
+  #
+  # These #ARGS's are the comments of current edited file.
+  # E.g. if we have the comments such as:
+  #   #ARGS0
+  #   #ARGS1 par1 par2
+  #   #ARGS2 par3
+  # then we would have the options of e_menu:
+  #   "y0="
+  #   "y1=par1 par2"
+  #   "y2=par3"
+
+  proc y_options {} {
+
+    set txt [get_txt]
+    set res [list "" "" "" "" "" "" "" "" "" ""]
+    if {$txt == ""} {return $res}
+    foreach st [split [$txt get 1.0 end] \n] {
+      set st [string trim $st]
+      if {[string match {#ARGS[0-9]*} $st]} {
+        set ind [string index $st 5]
+        set y_opt "y$ind=[string trim [string range $st 7 end]]"
+        set y_opt [string map {\" \'} $y_opt]
+        set res [lreplace $res $ind $ind $y_opt]
+      }
+    }
+    return $res
+
+  }
+
   #####################################################################
   #  DO procedures
   #####################################################################
@@ -189,10 +219,25 @@ namespace eval e_menu {
     catch {set bE "bE=[[get_txt] cget -background]"}
     set cc "cc=#888888"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
+    set y_opts [y_options]
+    # args for calling the current module
+    # taken from #ARGS[0-9] e.g.
+    #ARGS1 arg1 "spaced arg2" etc.
+    set s3_opt "s3="
+    foreach y $y_opts {
+      if {$y!=""} {
+        set s3_opt "s3=[string range $y 3 end]"
+        break
+      }
+    }
+    if {$s3_opt=="s3=" && $s_opt!=""} {
+      set s3_opt "s3=[string range $s_opt 2 end]"
+    }
     if {[catch {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
-          fs=11 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
-          $s0_opt $s1_opt $s2_opt $z1_opt $z2_opt $z3_opt $z4_opt $D_opt &
+          fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
+          $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
+          $D_opt {*}$y_opts &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
