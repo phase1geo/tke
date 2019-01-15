@@ -1,13 +1,13 @@
  ; menu for e_menu.tcl
 
  M:  M: 4
- RE: Run me (tcl, html...) RE: cd %d
- RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.htm "%f"]>0]  %THEN %b %f
- RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.html "%f"]>0] %THEN %b %f
- RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.tcl "%f"]>0]  %THEN %t tclsh %f %s
- RE: Run me (tcl, html...) RE: %IF [expr [string match -nocase *.py "%f"]>0]  %THEN %t python3 %f %s
- RE: Run me (tcl, html...) RE: ###########################################################
- SE: Run me (tcl, html...) SE: echo Customize the menu for file extention: %s2
+ RE: Run me (%s3) RE: cd %d
+ RE: Run me (%s3) RE: %IF [expr [string match -nocase *.htm "%f"]>0]  %THEN %b %f
+ RE: Run me (%s3) RE: %IF [expr [string match -nocase *.html "%f"]>0] %THEN %b %f
+ RE: Run me (%s3) RE: %IF [expr [string match -nocase *.tcl "%f"]>0]  %THEN %t tclsh %f %s3
+ RE: Run me (%s3) RE: %IF [expr [string match -nocase *.py "%f"]>0]  %THEN %t python3 %f %s3
+ RE: Run me (%s3) RE: ###########################################################
+ SE: Run me (%s3) SE: echo Customize the menu for file extention: %s2
 
  SE: Run Tcl {%s} ... SE: cd %d
  SE: Run Tcl {%s} ... SE: tclsh %z1/src/ch_.tcl "%z2"
@@ -40,7 +40,7 @@
 
  # call TKE with all *.tcl of current file's directory
  RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
- RE: Edit *.tcl of %d RE: %e "%d/*.tcl"
+ RE: Edit *.tcl of %d RE: tke "%d/*.tcl"
 
  M:  M: 4
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50

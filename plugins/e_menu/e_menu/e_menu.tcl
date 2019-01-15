@@ -1454,8 +1454,10 @@ proc ::em::get_pars1 {s1 argc argv} {
       set seltd [string range [lindex $argv $i] [expr $l+1] end]
       prepr_call seltd
       set ::em::pars($s1) $seltd
+      return true
     }
   }
+  return false
 }
 #=== get "project (working) directory"
 proc ::em::initPD {seltd {doit 0}} {
@@ -1521,8 +1523,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
     if {[string first $s1 "o= s= m="]>=0 && [string first $s1 $osm]<0} {
       continue
     }
-    get_pars1 $s1 $lmc $amc
-    if {[string length $::em::pars($s1)] > 0} {
+    if {[get_pars1 $s1 $lmc $amc]} {
       set seltd [lindex [array get ::em::pars $s1] 1]
       if {[string first $s1 "m= g= cb= in="] < 0} {
         set ::em::inherited "$::em::inherited \"$s1$seltd\""
