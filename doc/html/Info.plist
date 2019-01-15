@@ -8,7 +8,7 @@
      <key>CFBundleIdentifier</key>
      <string>org.phase1geo.TKE</string>
      <key>CFBundleVersion</key>
-     <string>3.5</string>
+     <string>3.6</string>
      <key>DocSetFeedName</key>
      <string>Doxygen generated docs</string>
      <key>DocSetPublisherIdentifier</key>

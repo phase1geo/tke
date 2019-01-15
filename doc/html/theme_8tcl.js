@@ -34,6 +34,7 @@ var theme_8tcl =
     [ "update_sidebar_info", "theme_8tcl.html#a67b7c1e682a077b36460ccc3b328791e", null ],
     [ "update_sidebar_scrollbar", "theme_8tcl.html#aea765d134774f13811073d7033ebfc5b", null ],
     [ "update_syntax", "theme_8tcl.html#abb54e84db48a97735ffb0571737e7a08", null ],
+    [ "update_syntax_prefs", "theme_8tcl.html#a441f9299a2ea611802d8be2227a730b1", null ],
     [ "update_syntax_split", "theme_8tcl.html#a4ab82c6c96ebf4c7afd24d5d42547a4f", null ],
     [ "update_tabs", "theme_8tcl.html#a2c914c7c864ec84fed95765c5264d6f1", null ],
     [ "update_text_scrollbar", "theme_8tcl.html#a0b3ef907b7a2e8a9945cd44ea3ff94cd", null ],

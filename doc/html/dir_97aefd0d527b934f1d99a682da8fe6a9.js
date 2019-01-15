@@ -29,6 +29,7 @@ var dir_97aefd0d527b934f1d99a682da8fe6a9 =
     [ "menus.tcl", "menus_8tcl.html", "menus_8tcl" ],
     [ "multicursor.tcl", "multicursor_8tcl.html", "multicursor_8tcl" ],
     [ "plugins.tcl", "plugins_8tcl.html", "plugins_8tcl" ],
+    [ "plugmgr.tcl", "plugmgr_8tcl.html", "plugmgr_8tcl" ],
     [ "pref_ui.tcl", "pref__ui_8tcl.html", "pref__ui_8tcl" ],
     [ "preferences.tcl", "preferences_8tcl.html", "preferences_8tcl" ],
     [ "remote.tcl", "remote_8tcl.html", "remote_8tcl" ],
