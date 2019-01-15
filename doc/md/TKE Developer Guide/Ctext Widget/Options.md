@@ -30,5 +30,10 @@ The following options are available in the Ctext widget.
 | -diffsubbg _color_ | pink | Specifies the background color of difference lines from the first file (i.e., lines that are not a part of the second file). |
 | -diffaddbg _color_ | {light green} | Specifies the background color of difference lines from the second file (i.e., lines that are not a part of the first file). |
 | -delimiters _regexp_ | \[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>\]+ | Specifies the characters that are used to delimit words in the text for the purpose of syntax highlighting words and charstart highlight classes. |
-| -theme _list_ | {} | A key/value Tcl list in the form of `classname color ?classname color ...?` used for applying colors to highlighted syntax. For every _classname_ used by one of the `syntax addclass` or `syntax search`, there must be an existing key of the same name in this option. |  
-
+| -matchchar _bool_ | 0 | If this option is set to a true value, the editing buffer will automatically highlight the matching character when the cursor is placed on a bracket/string character. |
+| -matchchar_bg _color_ | | Specifies the background color of the matching character indicator. Only used if -matchchar is set to a true value. |
+| -matchchar_fg _color_ | | Specifies the foreground color of the matching character indicator. Only used if -matchchar is set to a true value. |
+| -matchaudit _bool_ | 0 | If this option is set to a true value, the editing buffer will automatically highlight any bracket/string characters that do not have matching characters. |
+| -matchaudit_bg _color_ | | Specifies the background color used for the mismatched bracket/string characters. Only used if the -matchaudit option is set to a true value. |
+| -theme _list_ | {} | A key/value Tcl list in the form of `classname color ?classname color ...?` used for applying colors to highlighted syntax. For every _classname_ used by one of the `syntax addclass` or `syntax search`, there must be an existing key of the same name in this option. |
+| -hidemeta _boolean_ | 0 | If set to 1, hides all characters marked with a meta class.  If set to 0, shows all characters marked with a meta class. |
