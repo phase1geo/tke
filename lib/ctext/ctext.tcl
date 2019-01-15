@@ -93,6 +93,7 @@ namespace eval ctext {
     set data($win,config,-matchaudit)              0
     set data($win,config,-matchaudit_bg)           "red"
     set data($win,config,-theme)                   [list]
+    set data($win,config,-hidemeta)                0
     set data($win,config,re_opts)                  ""
     set data($win,config,win)                      $win
     set data($win,config,modified)                 0
@@ -111,12 +112,13 @@ namespace eval ctext {
     set data($win,config,undo_sep_count)           0
     set data($win,config,redo_hist)                [list]
     set data($win,config,linemap_cmd_ip)           0
+    set data($win,config,meta_classes)             [list]
 
     set data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
     -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
     -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg \
     -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
-    -linemap_separator -linemap_separator_color -casesensitive -peer -theme \
+    -linemap_separator -linemap_separator_color -casesensitive -peer -theme -hidemeta \
     -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin]
 
     # Set args
@@ -630,6 +632,18 @@ namespace eval ctext {
         lassign [split $key ,] dummy1 dummy2 class
         applyClassTheme $win $class
       }
+    }
+
+    lappend argTable {0 false no} -hidemeta {
+      set data($win,config,-hidemeta) 0
+      updateMetaChars $win
+      break
+    }
+
+    lappend argTable {1 true yes} -hidemeta {
+      set data($win,config,-hidemeta) 1
+      updateMetaChars $win
+      break
     }
 
     set data($win,config,argTable) $argTable
@@ -2169,8 +2183,9 @@ namespace eval ctext {
           }
         }
       }
-      classes   { return [getHighlightClasses $win {*}$args] }
-      clear     {
+      classes     { return [getHighlightClasses $win {*}$args] }
+      metaclasses { return $data($win,config,meta_classes) }
+      clear       {
         switch [llength $args] {
           0 {
             foreach class [getHighlightClasses $win] {
@@ -3834,6 +3849,20 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Updates the visibility of the characters marked as meta.
+  proc updateMetaChars {win} {
+
+    variable data
+
+    set value $data($win,config,-hidemeta)
+
+    foreach tag $data($win,config,meta_classes) {
+      $win._t tag configure __$tag -elide $value
+    }
+
+  }
+
+  ######################################################################
   # Create a fontname (if one does not already exist) and configure it
   # with the given modifiers.  Returns the list of options that should
   # be applied to the tag
@@ -3991,6 +4020,7 @@ namespace eval ctext {
       -clickcmd  ""
       -priority  ""
       -immediate 0
+      -meta      0
     }
     array set opts $args
 
@@ -4010,6 +4040,11 @@ namespace eval ctext {
       $win._t tag raise __$class _visibleL
     } else {
       $win._t tag lower __$class _invisible
+    }
+
+    if {$opts(-meta)} {
+      lappend data($win,config,meta_classes) $class
+      $win._t tag configure __$class -elide $data($win,config,-hidemeta)
     }
 
     # If there is a command associated with the class, bind it to the right-click button

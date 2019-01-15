@@ -1,47 +1,51 @@
  ; git menu for e_menu.tcl
 
- R:git status R: cd %PD
- S:git status S: echo %PD\ndir\necho ---\ngit status
+ R:hg summary ------ hg status R: cd %PD
+ S:hg summary ------ hg status S: echo %PD\nhg summary\necho ---------------\nhg status
 
- R:git gui R: cd %PD
- R:git gui R: git gui
+ R:hg heads ------ hg parents R: cd %PD
+ S:hg heads ------ hg parents S: echo %PD\nhg heads\necho ---------------\nhg parents
 
- R:git add * R: cd %PD
- S:git add * S: git add *\ngit status
+ R:hg addremove * R: %q "ADD" "This will ADD & REMOVE all changes in:\n\n%PD"
+ R:hg addremove * R: cd %PD
+ S:hg addremove * S: hg addremove *\nhg status
 
- R:git commit -am "%x1 %x2 at %t2" R: %q "Committing changes" "Add and commit with message\n\n'%x1 %x2 at %t2' ?"
- R:git commit -am "%x1 %x2 at %t2" R: cd %PD
- S:git commit -am "%x1 %x2 at %t2" S: git commit -am "%x1 %x2 at %t2"
+SW:hg commit SW: hg status
+ R:hg commit R: %q "Committing changes" "This will COMMIT with input message in:\n\n%PD"
+ R:hg commit R: cd %PD
+ S:hg commit S: hg commit
 
- R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%x1 %x2 %t1 #%i1' ?"
- R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %PD
- S:git commit --amend -am "%x1 %x2 %t1 #%i1" S: git commit --amend -am "%x1 %x2 %t1 #%i1"
+ R:hg commit --amend R: %q "COMMIT AMEND" "This will AMEND the last commit in\n\n%PD"
+ R:hg commit --amend R: cd %PD
+ S:hg commit --amend S: hg commit --amend
 
- R:git log "1 hour ago" R: cd %PD
- S:git log "1 hour ago" S: git log "--since=1 hour ago"
+ R:hg diff R: cd %PD
+ S:hg diff S: hg diff
 
- R:git log "1 day ago" R: cd %PD
- S:git log "1 day ago" S: git log "--since=1 day ago"
+ R:hg revert R: %q "REVERT" "This will REVERT ALL changes in\n\n%PD"
+ R:hg revert R: cd %PD
+ S:hg revert S: hg revert -a
 
- R:git log -p "1 hour ago" R: cd %PD
- S:git log -p "1 hour ago" S: git log -p "--since=1 hour ago"
+ R:hg rollback R: %q "ROLLBACK" "This will ROLL BACK the last commit in\n\n%PD"
+ R:hg rollback R: cd %PD
+ S:hg rollback S: hg rollback
 
- R:git log -p "1 day ago" R: cd %PD
- S:git log -p "1 day ago" S: git log -p "--since=1 day ago"
+ R:hg incoming R: cd %PD
+ S:hg incoming S: hg incoming
 
- R:git log --since="1 week ago" R: cd %PD
- S:git log --since="1 week ago" S: git log "--since=1 week ago"
+ R:hg fetch R: %q "FETCH" "This will PULL, MERGE and COMMIT changes into:\n\n%PD"
+ R:hg fetch R: cd %PD
+ S:hg fetch S: hg fetch
 
- R:git log R: cd %PD
- S:git log S: git log
+ R:hg outgoing R: cd %PD
+ S:hg outgoing S: hg outgoing
 
- R:git branch R: cd %PD
- S:git branch S: git branch
+ R:hg push R: %q "PUSH" "This will PUSH changes of:\n\n%PD"
+ R:hg push R: cd %PD
+ S:hg push S: hg push
 
- R:git diff master..%s R: cd %PD
- S:git diff master..%s S: git diff master..%s
-
- R:edit .gitignore R: %E %PD/.gitignore
+ R:edit ~/.hgrc R: %P %E $::env(HOME)/.hgrc
+ R:edit .hgignore R: %E %PD/.hgignore
 
  M: Grep    M: m=grep.mnu w=40
  MW: Git MW: #sets the menu item type = "M, MW, ME"
@@ -55,8 +59,8 @@
  R:Xterm "%PD"     R: cd %PD
  R:Xterm "%PD"     R: x-terminal-emulator -fa ru_RU.utf8 -fs 11 -geometry 80x40 R:Meld "%PD"        R:cd %PD
  R:Meld "%PD"      R:meld .
- R:edit all        R: cd %PD/plugins
- R:edit all        R: %e e_menu/e_menu/src/e_help.tcl e_menu/e_menu/e_menu.tcl
+ R:edit all %PD    R: cd %PD
+ R:edit all %PD    R: tke %PD
 ;
 ; I: Xterm in "%PD" (verbose) I: D run bash in %PD; cd "%PD"; S bash
 
@@ -84,4 +88,4 @@
  R: 1. tkcon         R: tkcon
  R: 2. Stop working! R: ?-33*60/-7*60:ah=3? audacious  "/home/apl/PROGRAMS/C_COMM/breakon.wav"
  R: 3. Arbeiten!     R: audacious "/home/apl/PROGRAMS/C_COMM/breakoff.wav"
- R: 4. Edit          R: %E
+ R: 4. Edit          R: tke

@@ -78,7 +78,9 @@ are available:
   %t1 - current date (yyyy-mm-dd)
   %t2 - current date+time (yyyy-mm-dd_hh:mm:ss)
   %t3 - current day of week (e.g. Monday)
-  %f  - current edited file
+  %f  - full name of current edited file
+  %n  - root name of current edited file
+  %x  - extension of current edited file
   %d  - directory of current edited file
   %s  - current selection/word
   %t  - terminal
@@ -970,10 +972,10 @@ You can use the # for comments."}
       {frAU.v_00 - - 1 1}
       {frAU.laB0 frAU.v_00 T 1 1 {} {-t "This TKE plugin allows you to create the shortcuts bound to existing ones. Thus you can enable localized shortcuts."}}
       {frAU.laB1 frAU.laB0 T 1 1 {} {-t "You can also make a miscellany that contains: event handler(s), menu invoker(s), command caller(s)."}}
-      {frAU.laB2 frAU.laB1 T 1 1 {} {-t "Press the shortcut in the ID field. Confirm your choice by pressing Enter key."}}
+      {frAU.laB2 frAU.laB1 T 1 1 {} {-t "Press the shortcut in the ID field. Confirm your choice by pressing Enter / Return key."}}
       {frAU.v_0 frAU.laB2 T 1 1}
       {v_0 frAU T 1 6}
-      {laB1 v_0 T 1 2 {} {-t " Group info " $fontbold}}
+      {laB1 v_0 T 1 2 {-st w} {-t " Group info " $fontbold}}
       {laB2 laB1 T 1 1 {-st e} {-t "Name:"}}
       {entOrig laB2 L 1 1 {-st we -padx 5 -cw 3} {-tvar adsh::No}}
       {v_1 laB2 T 1 2}
@@ -1011,7 +1013,7 @@ You can use the # for comments."}
       {sbv tre1 L 1 1 {pack -in $win.fraTr}}
       {v__u fra T 1 6}
       {seh v__u T 1 6}
-      {laBMess seh T 1 2 {} {-foreground $adsh::fgColor -font \"-weight bold\"}}
+      {laBMess seh T 1 2 {-st w} "-foreground $adsh::fgColor -font \"-weight bold\""}
       {laBh_1 laBMess L 1 1 {-cw 1}}
       {fra2 laBh_1 L}
       {fra2.butApply - - 1 1 {} {-t "Apply" -com "adsh::doApply"}}

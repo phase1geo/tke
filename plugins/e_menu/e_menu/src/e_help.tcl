@@ -158,8 +158,7 @@ proc edit_file {fname {fg black} {bg white} {cc "#00ffff"}} {
   close $ch
   PaveDialog create dialog "" $::srcdir
   set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc \
-    -family {\"Mono\"} -size 12]
+    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc -size 12]
   dialog destroy
   set data [string range $res 2 end]
   if {[set res [string index $res 0]]=="1"} {

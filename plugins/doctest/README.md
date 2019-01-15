@@ -1,29 +1,24 @@
 
+# What is this?
 
-### What is this?
 
 This plugin allows the user to test TCL scripts à la Python doctest.
 
 The main idea is that you have the test blocks directly in your TCL script. You run the test blocks and get the results of testing (OK or FAILED).
 
 The test blocks include the test examples concerning the current script and are *quoted* with the following *doctest-begin* and *doctest-end* TCL comments:
-`
 
   #% doctest
   ... (tested code) ...
   #> doctest
 
-`
 The commands of `... (tested code) ...` are marked with *#%* and are followed with their results that are marked with *#>*. For example:
-`
 
   # these two lines are a command and its result
   #% somecommand
   #> "result of somecommand"
 
-`
 So, we place the commands and their results between *doctest quotes*. Let us see how to do it:
-`
 
   #% doctest
 
@@ -58,7 +53,6 @@ So, we place the commands and their results between *doctest quotes*. Let us see
 
   #> doctest
 
-`
 You can have as many test blocks as you need. If there are no *doctest quotes*, all of the text is considered as a giant test block containing *#%* and *#>* lines to be tested.
 
 Also, you can selectively run any test block or even any part of it, if you select at least two lines. You have not to select all of the lines, it's enough to select any parts of them, e.g. from "- begin \" to "#> result of" in the example above.
@@ -73,7 +67,8 @@ Note:
 The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated at aplsimple$mail.ru.
 
 
-### Menu usage
+# Menu usage
+
 
 The "Plugin/ Doctest TCL" operations mean:
 
@@ -92,7 +87,8 @@ It would be convenient to assign the following shortkeys for "Plugin/ Doctest TC
   *Ctrl-Alt-I* - Doctest Init
 
 
-### Tips and traps
+# Tips and traps
+
 
 PLEASE, NOTICE AGAIN: Do not include into the test blocks the commands that cannot be run or are unavailable (calls of external procedures etc.).
 
@@ -105,16 +101,13 @@ The middle unpaired *#% doctest* and the unpaired *#> doctest* are considered as
 Results of commands are checked literally, though the starting and tailing spaces of *#%* and *#>* lines are ignored.
 
 If a command's result should contain starting/tailing spaces, it should be quoted with double quotes. The following `someformat` command
-`
 
   #% someformat 123
   #> "  123"
 
-`
 should return "  123" for the test to be OK.
 
 The absence of resulting *#>* means the empty result, i.e. the following tests are all identical:
-`
 
   #% set _ ""  ;# test example #1
   #> ""
@@ -127,7 +120,6 @@ The absence of resulting *#>* means the empty result, i.e. the following tests a
 
   #% set _ ""  ;# test example #4
 
-`
 NOTE: the successive *#%* commands form the suite with the result returned by the last command. See the example of command31-32-33 suite above.
 
 If there are *doctest quoted* test blocks, all the text outside of them is normally ignored by doctest. Nevertheless, you can test those outsiders after selecting them. You can try it just now on the upper `set _ ""` commands.
@@ -141,8 +133,8 @@ Run "Doctest Safe Verbose" on this README.md to see how the doctest works. Notic
 3. The out-of-blocks test examples are ignored.
 
 
-### Example
-`
+# Example
+
 
   #% doctest
   ############## Calculate factorial of integer N (1 * 2 * 3 * ... * N)
@@ -173,7 +165,7 @@ Run "Doctest Safe Verbose" on this README.md to see how the doctest works. Notic
   #%      21*22*23*24*25*26*27*28*29*30*31*32*33*34*35*36*37*38*39*40* \
   #%      41*42*43*44*45*46*47*48*49*50
   #> 1
-  # (:=do not try factorial 1000, nevermore the raven croaked:=)
+  # (:=do not try factorial 1000, nevermore, the raven croaked:=)
   #
   #% factorial 1.1
   #> expected integer but got "1.1"
@@ -189,4 +181,3 @@ Run "Doctest Safe Verbose" on this README.md to see how the doctest works. Notic
   #> wrong # args: should be "factorial i"
   #> doctest
 
-`
