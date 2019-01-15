@@ -119,7 +119,7 @@ See details in [api::get_plugin_data_directory]/README.md
     foreach st [split [$txt get 1.0 end] \n] {
       incr ind
       set st [strip_upcase $st]
-      if {$st == $BL_BEGIN} {
+      if {[string first $BL_BEGIN $st]==0} {
         if {$block_begins} {
           return [list 1 [list]]     ;# unpaired begins
         }
