@@ -4121,6 +4121,10 @@ namespace eval ctext {
       }
     }
 
+    if {[set index [lsearch $data($win,config,meta_classes) $class]] != -1} {
+      set data($win,config,meta_classes) [lreplace $data($win,config,meta_classes) $index $index]
+    }
+
     array unset data $win,highlight,searches,__$class
     array unset data $win,classopts,$class
     array unset data $win,classimmediate,$class
