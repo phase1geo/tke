@@ -7,7 +7,7 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{B1160ED7-B6CF-4517-BC80-7C0FE9D90212}
 AppName=TKE
-AppVersion=3.5
+AppVersion=3.6
 AppPublisher=Trevor Williams
 AppPublisherURL=http://tke.sourceforge.net
 AppSupportURL=http://tke.sourceforge.net
