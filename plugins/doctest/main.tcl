@@ -179,7 +179,7 @@ See details in [api::get_plugin_data_directory]/README.md
       if {[string index $line 0] eq "\"" && [string index $line end] eq "\""} {
         set line [string range $line 1 end-1]
       }
-      if {$line eq "$TEST"} {
+      if {[string first $TEST $line]==0} {
         continue             ;# this may occur when block is selection
       }
       if {$line == $NOTHING} {
