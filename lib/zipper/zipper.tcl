@@ -202,7 +202,9 @@ namespace eval zipper {
         set fsize [string length $contents]
         set csize $fsize
         set fnlen [string length $name]
-        set mode  [expr ([file attributes $name -permissions] << 16) | 128]
+        if {[catch { expr ([file attributes $name -permissions] << 16) | 128} mode]} {
+          set mode [expr (0x1ff << 16) | 128]
+        }
 
         if {$force > 0 && $force != [string length $contents]} {
             set csize $fsize
