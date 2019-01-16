@@ -239,16 +239,11 @@ namespace eval themes {
     set pwd [pwd]
 
     # Set the current working directory to the user themes directory
-    cd $theme_dir
-
-    puts "theme: $theme, odir: $odir, odir contents: [glob *]"
-    puts [glob *]
+    cd $odir
 
     # Perform the archive
-    if {[catch { zipper::list2zip $theme [glob *] [file join .. $theme.tkethemz] } rc]} {
-      puts "list2zip, rc: $rc"
+    if {[catch { zipper::list2zip [pwd] [glob -directory $theme *] $theme.tkethemz } rc]} {
       if {[catch { exec -ignorestderr zip -r [file join .. $theme.tkethemz] $theme } rc]} {
-        puts "zip, rc: $rc"
         tk_messageBox -parent $parent_win -icon error -type ok -default ok \
           -message "Unable to zip theme file"
         return
