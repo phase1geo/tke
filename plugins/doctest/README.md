@@ -9,7 +9,7 @@ The main idea is that you have the test blocks directly in your TCL script. You 
 The test blocks include the test examples concerning the current script and are *quoted* with the following *doctest-begin* and *doctest-end* TCL comments:
 
   #% doctest
-  ... (tested code) ...
+  #% (tested code)
   #> doctest
 
 The commands of `... (tested code) ...` are marked with *#%* and are followed with their results that are marked with *#>*. For example:

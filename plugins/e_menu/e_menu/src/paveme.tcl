@@ -285,16 +285,14 @@ oo::class create PaveMe {
         # it needs expand \\, \{, \} because eval..{*}.. cuts them down
         # use doctest plugin of TKE editor to make sure:
         #
-        #  test 1
-        #% doctest
+        #% doctest 1
         #%   set a "123 \\\\\\\\ 45"
         #%   eval append b {*}$a
         #%   set b
         #>   123\45
         #> doctest
         #
-        #  test 2
-        #% doctest
+        #% doctest 2
         #%   set a "123 \{\{\{ \}\}\} 45"
         #%   eval append b {*}$a
         #%   set b

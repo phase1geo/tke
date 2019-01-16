@@ -29,8 +29,8 @@ SW: hg commit SW: hg status
  R: hg annotate %s0 R: cd %PD
  S: hg annotate %s0 S: hg annotate %f
 
- R: hg log -l 5 -v R: cd %PD
- S: hg log -l 5 -v S: hg log -l 5 -v
+ R: hg log -l 10 -v R: cd %PD
+ S: hg log -l 10 -v S: hg log -l 10 -v
 
  R: hg log -p -l 1 %s0 R: cd %PD
  S: hg log -p -l 1 %s0 S: hg log -p -l 1 %f
