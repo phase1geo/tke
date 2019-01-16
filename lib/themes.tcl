@@ -254,8 +254,7 @@ namespace eval themes {
     cd $pwd
 
     # Delete the theme directory and its contents
-    file delete {*}[glob -nocomplain -directory $theme_dir *]
-    file delete -force $theme_dir
+    catch { file delete -force $theme_dir }
 
   }
 
