@@ -116,17 +116,10 @@ namespace eval sidebar {
 
     set parent [lindex [$sidebar::widgets(tl) children {}] 0]
 
-    puts "parent: [$sidebar::widgets(tl) item $parent -text]"
-
     # Add the file to the given folder
     sidebar::add_file_to_folder $parent -testname "test.tcl"
-    puts "sidebar_test contents: [glob -directory ~/.tke/sidebar_test -tails *]"
 
     set children [$sidebar::widgets(tl) children $parent]
-    puts "children: $children"
-    foreach child $children {
-      puts "  name: [$sidebar::widgets(tl) item $child -text]"
-    }
 
     if {[llength $children] != 4} {
       cleanup "New file was not added to sidebar ([llength $children])"
