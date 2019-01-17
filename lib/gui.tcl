@@ -2012,7 +2012,7 @@ namespace eval gui {
     # Add the list of files to the editor panel.
     foreach fname [lreverse $args] {
       if {[file isdirectory $fname]} {
-        sidebar::add_directory [files::normalize $host $fname]
+        sidebar::add_directory [files::normalize $host $fname] -select 1
       } elseif {![::check_file_for_import $fname]} {
         add_file $index [files::normalize $host $fname]
       }
