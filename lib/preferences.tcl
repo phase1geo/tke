@@ -188,6 +188,31 @@ namespace eval preferences {
   }
 
   ######################################################################
+  # Extracts the preference content that should be used for the given
+  # session and language values.  The value of content_list should be
+  # the full set of preferences values available.
+  proc get_content {session language content_list} {
+
+    array set content $content_list
+
+    if {$language eq ""} {
+      if {$session ne ""} {
+        array unset content General/*
+        array unset content Help/*
+        array unset content Debug/*
+        array unset content Tools/Profile*
+        array unset content Editor/Snippet*
+        array unset content Plugins/*
+      }
+      return [array get content]
+    } else {
+      array unset content Editor/Snippet*
+      return [array get content Editor/*]
+    }
+
+  }
+
+  ######################################################################
   # Save the preference array to the preferences file.
   proc save_prefs {session language data} {
 
@@ -195,52 +220,36 @@ namespace eval preferences {
     variable prefs
     variable preferences_dir
 
+    # Get the preference key and filename to write
     if {$session eq ""} {
-
-      # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        if {[info exists loaded_prefs(user,global)]} {
-          array set content $loaded_prefs(user,global)
-        }
-        array set content $data
-        set loaded_prefs(user,global) [array get content]
-        tkedat::write [get_user_preference_file] $loaded_prefs(user,global) 0
+        set pref_key "user,global"
+        set ofile    [get_user_preference_file]
       } else {
-        if {[info exists loaded_prefs(user,$language)]} {
-          array set content $loaded_prefs(user,$language)
-        }
-        array set content $data
-        set loaded_prefs(user,$language) [array get content Editor/*]
-        lappend loaded_prefs(user,$language) {*}[array get content Documentation/*]
-        tkedat::write [file join $preferences_dir preferences.$language.tkedat] $loaded_prefs(user,$language) 0
+        set pref_key "user,$language"
+        set ofile    [file join $preferences_dir preferences.$language.tkedat]
       }
-
     } else {
-
-      # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        if {[info exists loaded_prefs(session,$session,global)]} {
-          array set content $loaded_prefs(session,$session,global)
-        }
-        array set content $data
-        array unset content General/*
-        array unset content Help/*
-        array unset content Debug/*
-        array unset content Tools/Profile*
-        array unset content Editor/Snippet*
-        set loaded_prefs(session,$session,global) [array get content]
+        set pref_key "session,$session,global"
+        set ofile    ""
       } else {
-        if {[info exists loaded_prefs(session,$session,$language)]} {
-          array set content $loaded_prefs(session,$session,$language)
-        }
-        array set content $data
-        array unset content Editor/Snippet*
-        set loaded_prefs(session,$session,$language) [array get content Editor/*]
+        set pref_key "session,$session,$language"
+        set ofile    ""
       }
+    }
 
-      # Save the preference information to the sessions file
+    # Save the preferences to our internal values
+    if {[info exists loaded_prefs($pref_key)]} {
+      set data [list {*}$loaded_prefs($pref_key) {*}$data]
+    }
+    set loaded_prefs($pref_key) [get_content $session $language $data]
+
+    # Save the preferences informatio to disk
+    if {$ofile ne ""} {
+      tkedat::write $ofile $loaded_prefs($pref_key) 0
+    } else {
       sessions::save "prefs" $session
-
     }
 
     # Update the UI/environment if the session name matches the current one
@@ -448,7 +457,7 @@ namespace eval preferences {
     if {![info exists loaded_prefs(session,$name,global)]} {
       foreach user_type [array names loaded_prefs user,*] {
         lassign [split $user_type ,] user type
-        set loaded_prefs(session,$name,$type) $loaded_prefs($user_type)
+        set loaded_prefs(session,$name,$type) [get_content $name [expr {($type eq "global") ? "" : $type}] $loaded_prefs($user_type)]
       }
     }
 
