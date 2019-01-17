@@ -1196,12 +1196,17 @@ namespace eval pref_ui {
 
       if {[sessions::current] ne ""} {
 
+        # If the changes will have no impact on the current session, return immediately
+        if {[preferences::get_content [sessions::current] "" [array get changes]] eq ""} {
+          return 1
+        }
+
         set detail [msgcat::mc "You have changed global preferences which will not be visible because you are currently within a named session."]
         set answer [tk_messageBox -parent .prefwin -icon question -type yesnocancel -message [msgcat::mc "Save changes to current session?"] -detail $detail]
 
         switch $answer {
           "cancel" { return 0 }
-          "yes"    { preferences::save_prefs "" "" [array get changes] }
+          "yes"    { preferences::save_prefs [sessions::current] "" [array get changes] }
         }
 
       }
@@ -1213,7 +1218,7 @@ namespace eval pref_ui {
 
       switch $answer {
         "cancel" { return 0 }
-        "yes"    { preferences::save_prefs [sessions::current] "" [array get changes] }
+        "yes"    { preferences::save_prefs "" "" [array get changes] }
       }
 
     }
