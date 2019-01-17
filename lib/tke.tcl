@@ -557,7 +557,7 @@ if {[catch {
     foreach cl_file $cl_files {
       set name [file normalize $cl_file]
       if {[file isdirectory $name]} {
-        sidebar::add_directory $name
+        sidebar::add_directory $name -select 1
       } elseif {[file exists $name]} {
         if {![check_file_for_import $name]} {
           set tab [gui::add_file end $name -lazy 1]

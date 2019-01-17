@@ -1232,6 +1232,7 @@ namespace eval sidebar {
     array set opts {
       -remote ""
       -record 1
+      -select 0
     }
     array set opts $args
 
@@ -1296,6 +1297,13 @@ namespace eval sidebar {
     while {$row ne ""} {
       $widgets(tl) item $row -open 1
       set row [$widgets(tl) parent $row]
+    }
+
+    # If we are supposed to select the directory, do it now
+    if {$opts(-select)} {
+      $widgets(tl) selection set $parent
+      $widgets(tl) see   $parent
+      $widgets(tl) focus $parent
     }
 
     return $parent
