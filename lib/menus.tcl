@@ -606,7 +606,7 @@ namespace eval menus {
     if {[llength [set sdirs [sidebar::get_last_opened]]] > 0} {
       $mb add command -label [msgcat::mc "Recent Directories"] -state disabled
       foreach sdir [lrange $sdirs 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
-        $mb add command -label [format "   %s" $sdir] -command [list sidebar::add_directory $sdir]
+        $mb add command -label [format "   %s" $sdir] -command [list sidebar::add_directory $sdir -select 1]
       }
       $mb add separator
     }
@@ -644,7 +644,7 @@ namespace eval menus {
     # Populate the menu with the filenames from the favorite list
     foreach path [favorites::get_list] {
       if {[file isdirectory $path]} {
-        $mb add command -label "  $path" -command "sidebar::add_directory $path"
+        $mb add command -label "  $path" -command [list sidebar::add_directory $path -select 1]
       } else {
         $mb add command -label "  $path" -command "gui::add_file end $path"
       }
@@ -724,7 +724,7 @@ namespace eval menus {
     set dirname [gui::get_browse_directory]
 
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
-      sidebar::add_directory $odir
+      sidebar::add_directory $odir -select 1
     }
 
   }
@@ -3648,7 +3648,7 @@ namespace eval menus {
 
     # Add recent directories to launcher
     foreach sdir [lrange [sidebar::get_last_opened] 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
-      launcher::register_temp "`RECENT:$sdir" [list sidebar::add_directory $sdir] $sdir
+      launcher::register_temp "`RECENT:$sdir" [list sidebar::add_directory $sdir -select 1] $sdir
     }
 
     # Add recent files to launcher
