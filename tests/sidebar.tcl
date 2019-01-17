@@ -115,12 +115,18 @@ namespace eval sidebar {
     initialize
 
     set parent [lindex [$sidebar::widgets(tl) children {}] 0]
-    puts "children: [$sidebar::widgets(tl) children $parent]"
+
+    puts "parent: [$sidebar::widgets(tl) item $parent -text]"
 
     # Add the file to the given folder
     sidebar::add_file_to_folder $parent -testname "test.tcl"
+    puts "sidebar_test contents: [glob -directory ~/.tke/sidebar_test -tails *]"
 
     set children [$sidebar::widgets(tl) children $parent]
+    puts "children: $children"
+    foreach child $children {
+      puts "  name: [$sidebar::widgets(tl) item $child -text]"
+    }
 
     if {[llength $children] != 4} {
       cleanup "New file was not added to sidebar ([llength $children])"
@@ -181,8 +187,8 @@ namespace eval sidebar {
     set found ""
     foreach child $children {
       if {[$sidebar::widgets(tl) item $child -text] eq "goober"} {
-        if {[$sidebar::widgets(tl) item $child -open] == 1} {
-          cleanup "Directory was incorrectly opened"
+        if {[$sidebar::widgets(tl) item $child -open] == 0} {
+          cleanup "Directory was not opened"
         }
         set found $child
         break
