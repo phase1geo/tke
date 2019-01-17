@@ -1267,7 +1267,7 @@ namespace eval sidebar {
     }
 
     # Show the directory's contents (if they are not already displayed)
-    if {($parent ne "") && [$widgets(tl) item $parent -open] == 0} {
+    if {($parent ne "") && ([$widgets(tl) item $parent -open] == 0)} {
       add_subdirectory $parent $opts(-remote)
     }
 
@@ -2400,6 +2400,9 @@ namespace eval sidebar {
 
     # Create an empty file
     gui::add_file end $fname -remote $remote
+
+    # Make sure that the file is shown
+    expand_directory $row
 
   }
 

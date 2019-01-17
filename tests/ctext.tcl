@@ -504,7 +504,7 @@ namespace eval ctext {
     set opts [$txt configure]
     set len  [llength $opts]
 
-    if {$len != 76} {
+    if {$len != 81} {
       cleanup "Missing options from configure return with no options ($len)"
     }
 
