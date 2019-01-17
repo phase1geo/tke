@@ -244,7 +244,7 @@ namespace eval preferences {
     }
 
     # Update the UI/environment if the session name matches the current one
-    if {$session eq [sessions::current]} {
+    if {($session eq "") || ($session eq [sessions::current])} {
 
       # Update the UI
       update_prefs $session
