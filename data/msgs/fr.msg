@@ -3678,7 +3678,7 @@ msgcat::mcmset fr {
   "Répertoire"
 
   "Documentation"
-  "Nous vous encourageons fortement à obtenir une clé de console API et à publier le code dans les options de thème. Vous pouvez l'obtenir à <a target=\"
+  "Documentation"
 
   "Duplicate"
   "Dupliquer"
@@ -3705,7 +3705,7 @@ msgcat::mcmset fr {
   "Fichier"
 
   "File Name:"
-  "Nom du fichier :"
+  "Nom du fichier:"
 
   "File System"
   "Système de fichiers"

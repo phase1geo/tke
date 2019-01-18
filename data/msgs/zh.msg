@@ -2102,7 +2102,7 @@ msgcat::mcmset zh {
   "已显示信息"
 
   "Double-quote"
-  "\"
+  "Double-quote"
 
   "Editor"
   "编辑"
