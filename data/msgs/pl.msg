@@ -63,7 +63,7 @@ msgcat::mcmset pl {
   "Typ pętli"
 
   "New Test"
-  "\"
+  "New Test"
 
   "New Test File"
   "Nowy plik testowy"
@@ -129,7 +129,7 @@ msgcat::mcmset pl {
   "minut"
 
   "seconds"
-  "sekund(y)"
+  "sekund"
 
 }
 

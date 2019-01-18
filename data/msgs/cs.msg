@@ -2237,7 +2237,7 @@ msgcat::mcmset cs {
   "Zmocněnec"
 
   "Proxy Port"
-  "\"
+  "Proxy Port"
 
   "Proxy Settings"
   "NastavenÃ­ proxy"
