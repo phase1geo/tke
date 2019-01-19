@@ -1071,7 +1071,10 @@ namespace eval sidebar {
 
     variable widgets
 
-    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Name"]    -variable sidebar::sortby  -value "name"        -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Name"]          -variable sidebar::sortby  -value "name"        -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Extension"]     -variable sidebar::sortby  -value "extension"   -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Date Created"]  -variable sidebar::sortby  -value "created"     -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Date Modified"] -variable sidebar::sortby  -value "modified"    -command [list sidebar::sort_updated]
     $widgets(sortmenu) add separator
     $widgets(sortmenu) add radiobutton -label [msgcat::mc "Increasing"] -variable sidebar::sortdir -value "-increasing" -command [list sidebar::sort_updated]
     $widgets(sortmenu) add radiobutton -label [msgcat::mc "Decreasing"] -variable sidebar::sortdir -value "-decreasing" -command [list sidebar::sort_updated]
@@ -1423,11 +1426,64 @@ namespace eval sidebar {
 
     # If we are supposed to sort with folders at the top, return that listing
     if {[preferences::get Sidebar/FoldersAtTop]} {
-      return [list {*}[lsort $sortdir -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
-                   {*}[lsort $sortdir -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
+      return [list {*}[lsort $sortdir -index 0 -command sidebar::sortby_compare_$sortby [lsearch -inline -all -index 1 $items 1]] \
+                   {*}[lsort $sortdir -index 0 -command sidebar::sortby_compare_$sortby [lsearch -inline -all -index 1 $items 0]]]
     }
 
-    return [lsort $sortdir -unique -index 0 $items]
+    return [lsort $sortdir -index 0 -command sidebar::sortby_compare_$sortby $items]
+
+  }
+
+  ######################################################################
+  # Command used to compare to filenames for sorting purposes.
+  proc sortby_compare_name {val1 val2} {
+
+    return [string compare $val1 $val2]
+
+  }
+
+  ######################################################################
+  # Compares two files by extension.
+  proc sortby_compare_extension {val1 val2} {
+
+    if {[set compare [string compare [file extension $val1] [file extension $val2]]] == 0} {
+      return [string compare $val1 $val2]
+    }
+
+    return $compare
+
+  }
+
+  ######################################################################
+  # Compares two files based on the given file status type.
+  proc sortby_compare_file_info {val1 val2 type} {
+
+    file stat $val1 stat1
+    file stat $val2 stat2
+
+    if {$stat1($type) == $stat2($type)} {
+      return [string compare $val1 $val2]
+    } elseif {$stat1($type) < $stat2($type)} {
+      return -1
+    } else {
+      return 1
+    }
+
+  }
+
+  ######################################################################
+  # Compares two files by date created.
+  proc sortby_compare_created {val1 val2} {
+
+    return [sortby_compare_file_info $val1 $val2 ctime]
+
+  }
+
+  ######################################################################
+  # Compares two files by date modified.
+  proc sortby_compare_modified {val1 val2} {
+
+    return [sortby_compare_file_info $val1 $val2 mtime]
 
   }
 
