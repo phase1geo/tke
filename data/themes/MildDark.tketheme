@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {aplsimple.ucoz.ru}
-date {1547378101}
+date {1547833987}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -298,11 +298,11 @@ sidebar_scrollbar,-background {#ececec}
 sidebar_scrollbar,-foreground {#364c64}
 sidebar_scrollbar,-thickness {15}
 syntax,attention {red}
-syntax,background {#171818}
+syntax,background {#181919}
 syntax,border_highlight {orange}
 syntax,closed_fold {orange}
-syntax,comments {#557391}
-syntax,cursor {#00ffff}
+syntax,comments {#466478}
+syntax,cursor {#00a0f0}
 syntax,difference_add {#304c40}
 syntax,difference_sub {#4e2e40}
 syntax,embedded {#2b2d2d}
