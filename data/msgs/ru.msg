@@ -521,7 +521,7 @@ msgcat::mcmset ru {
   "Все уровни"
 
   "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
-  "Будут удалены все языковые настройки для текущего сеанса и глобальные настройки будут применяться для указанного языка."
+  "Будут удалены все языковые настройки для текущей сессии и глобальные настройки будут применяться для указанного языка."
 
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Будут удалены все языковые настройки и глобальные настройки будут применяться для указанного языка."
@@ -596,7 +596,7 @@ msgcat::mcmset ru {
   "Закрыть все вкладки"
 
   "Close current session"
-  "Закрыть текущий сеанс"
+  "Закрыть текущую сессию"
 
   "Close current tab"
   "Закрыть текущую вкладку"
@@ -692,7 +692,7 @@ msgcat::mcmset ru {
   "Удалить выбранные складки"
 
   "Delete Session"
-  "Удалить сеанс"
+  "Удалить сессию"
 
   "Delete User"
   "Удалить Пользователя"
@@ -1472,7 +1472,7 @@ msgcat::mcmset ru {
   "Сохранить как шаблон"
 
   "Save Current"
-  "Сохранить текущий"
+  "Сохранить текущую"
 
   "Save Selection As"
   "Сохранить выделенное как"
