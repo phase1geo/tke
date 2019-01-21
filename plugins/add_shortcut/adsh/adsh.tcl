@@ -69,22 +69,26 @@ If you need several actions try MISC."}
 
     {"COMMAND" "The <red><b> COMMAND </b></red> type allows you to assign\
 any of external commands available in your OS. For example:<i>
-   COMMAND = cd /home/me/projects
-   COMMAND = git add *
-   COMMAND = git commit -am \"On %d\"</i>
+ COMMAND = cd /home/me/projects
+ COMMAND = git add *
+ COMMAND = git commit -am \"On %d\"</i>
 You can have several COMMANDs in this type. Also the following wildcards\
 are available:
-  %t0 - current time (hh:mm:ss)
-  %t1 - current date (yyyy-mm-dd)
-  %t2 - current date+time (yyyy-mm-dd_hh:mm:ss)
-  %t3 - current day of week (e.g. Monday)
-  %f  - full name of current edited file
-  %n  - root name of current edited file
-  %x  - extension of current edited file
-  %d  - directory of current edited file
-  %s  - current selection/word
-  %t  - terminal
-  %b  - browser"}
+ %t0 - current time (hh:mm:ss)
+ %t1 - current date (yyyy-mm-dd)
+ %t2 - current date+time (yyyy-mm-dd_hh:mm:ss)
+ %t3 - current day of week (e.g. Monday)
+ %f  - full name of current edited file
+ %n  - root name of current edited file
+ %x  - extension of current edited file
+ %d  - directory of current edited file
+ %s  - current selection/word
+ %t  - terminal
+ %b  - browser
+ %#! - 1st line of file (shebang)
+ %IF..%THEN..%ELSE - conditional command, e.g.:
+  COMMAND = %IF \"%x\"==\".html\" %THEN %b \"%f\"
+  COMMAND = %IF \[string match *wish* \"%#!\"\] %THEN wish \"%f\""}
 
     {"MISC" "The <red><b> MISC </b></red> type allows you to assign\
 several of previous types to a shortcut. See details in those types.
@@ -970,23 +974,23 @@ You can use the # for comments."}
     pdlg window $win {
       {frAU - - 1 6   {-st new} {-relief groove -borderwidth 1}}
       {frAU.v_00 - - 1 1}
-      {frAU.laB0 frAU.v_00 T 1 1 {} {-t "This TKE plugin allows you to create the shortcuts bound to existing ones. Thus you can enable localized shortcuts."}}
-      {frAU.laB1 frAU.laB0 T 1 1 {} {-t "You can also make a miscellany that contains: event handler(s), menu invoker(s), command caller(s)."}}
-      {frAU.laB2 frAU.laB1 T 1 1 {} {-t "Press the shortcut in the ID field. Confirm your choice by pressing Enter / Return key."}}
+      {frAU.laB0 frAU.v_00 T 1 1 - {-t "This TKE plugin allows you to create the shortcuts bound to existing ones. Thus you can enable localized shortcuts."}}
+      {frAU.laB1 frAU.laB0 T 1 1 - {-t "You can also make a miscellany that contains: event handler(s), menu invoker(s), command caller(s)."}}
+      {frAU.laB2 frAU.laB1 T 1 1 - {-t "Press the shortcut in the ID field. Confirm your choice by pressing Enter / Return key."}}
       {frAU.v_0 frAU.laB2 T 1 1}
       {v_0 frAU T 1 6}
-      {laB1 v_0 T 1 2 {-st w} {-t " Group info " $fontbold}}
+      {laB1 v_0 T 1 2 - {-t " Group info " $fontbold}}
       {laB2 laB1 T 1 1 {-st e} {-t "Name:"}}
       {entOrig laB2 L 1 1 {-st we -padx 5 -cw 3} {-tvar adsh::No}}
       {v_1 laB2 T 1 2}
-      {laB3 v_1 T 1 1 {} {-t " Shortcut info " $fontbold}}
+      {laB3 v_1 T 1 1 - {-t " Shortcut info " $fontbold}}
       {laB4 laB3 T 1 1 {-st e} {-t "Name:"}}
       {entName laB4 L 1 1 {-st we -padx 5} {-tvar adsh::Na}}
       {laB5 laB4 T 1 1 {-st e} {-t "Shortcut ID:"}}
       {entID laB5 L 1 1 {-st we -padx 5} {-tvar adsh::ID -state readonly}}
       {v_2 laB5 T 1 1 {-pady 8}}
       {laB12 v_2 T 1 1 {-st e} {-t "Type:"}}
-      {cbxTyp laB12 L 1 1 {-st w -padx 5 -cw 3} {-tvar adsh::Typ -width 10 -values {[list $typs]}}}
+      {cbxTyp laB12 L 1 1 {-st w -padx 5 -cw 3} {-tvar adsh::Typ -width 10 -values {[list $typs]} -state readonly}}
       {laB52 laB12 T 1 1 {-st en -rw 1} {-t "Contents:"}}
       {fraComm laB52 L 1 1 {-st nswe -padx 5} {}}
       {texComm - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraComm} {-h 6 -w 50 -fg black -bg white -wrap word}}
@@ -996,7 +1000,7 @@ You can use the # for comments."}
       {texDesc - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraDesc} {-h 8 -w 50 -state disabled -wrap word}}
       {sbvDesc texDesc L 1 1 {pack -in $win.fraDesc}}
       {v_3 laB53 T 1 2}
-      {laBSort v_3 T 1 1 {-st w} {-t " Options " $fontbold}}
+      {laBSort v_3 T 1 1 - {-t " Options " $fontbold}}
       {frAOpt laBSort L 1 1 {-st nsew}}
       {chBActive - - 1 1 {-in $win.frAOpt} {-t " Active " -var adsh::active}}
       {chBAuto chBActive L 1 1 {-in $win.frAOpt} {-t " AutoStart " -var adsh::auto}}

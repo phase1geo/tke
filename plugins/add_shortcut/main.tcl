@@ -163,6 +163,19 @@ namespace eval add_shortcut {
   }
 
   ######################################################################
+  # get shebang (1st line of buffer)
+
+  proc getShebang {} {
+
+    set txt [get_txt]
+    if {$txt == ""} {return ""}
+    set pos  [$txt index "1.0 linestart"]
+    set pos2 [$txt index "1.0 lineend"]
+    return [string trim [$txt get $pos $pos2]]
+
+  }
+
+  ######################################################################
   # prepare a command (concerning the wildcars)
 
   proc prep1 {comm pr {repl ""}} {
@@ -184,8 +197,9 @@ namespace eval add_shortcut {
     set comm [prep1 $comm %t1 [clock format $dt -format %Y-%m-%d]]
     set comm [prep1 $comm %t2 [clock format $dt -format %Y-%m-%d_%H:%M:%S]]
     set comm [prep1 $comm %t3 [clock format $dt -format %A]]
-    set comm [prep1 $comm %t [getConsole]]
-    set comm [prep1 $comm %b [getBrowser]]
+    set comm [prep1 $comm %t  [getConsole]]
+    set comm [prep1 $comm %b  [getBrowser]]
+    set comm [prep1 $comm %#! [getShebang]]
     lassign [get_selection] sel
     lassign [split $sel \n] s
     set comm [prep1 $comm %s $s]

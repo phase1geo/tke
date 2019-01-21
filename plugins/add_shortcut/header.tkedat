@@ -3,7 +3,7 @@ display_name   {Add Shortcuts}
 author         {Alex Plotnikov}
 website        {http://aplsimple.ucoz.ru#e_menu}
 email          {aplsimple@mail.ru}
-version        {1.5}
+version        {1.6}
 include        {yes}
 trust_required {yes}
 category       {tools}
