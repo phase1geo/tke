@@ -1,6 +1,17 @@
 # Last changes:
 
 
+Version `1.6 (21 Jan'19)`
+
+  - The shebang wildcard added for checking in %IF
+  - The Type field made readonly
+  - paveme.tcl:
+    - "-", "" for "T" position
+    - bug fixes (backings):
+      - no expanding \{\}
+      - default widget options restored
+
+
 Version `1.5 (11 Jan'19)`
 
   - Ini-files' EOL chanded to |!| instead of \\n (that are left for commands)

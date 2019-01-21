@@ -72,6 +72,7 @@ oo::class create PaveMe {
   method ExpandOptions {options} {
 
     set options [string map {
+      " - "     ""
       " -st "   " -sticky "
       " -com "  " -command "
       " -t "    " -text "
@@ -167,6 +168,8 @@ oo::class create PaveMe {
     if {[string first "pack " [string trimleft $pack]]==0} {
       set options $pack
     }
+    set options [string trim $options]
+    set attrs   [string trim $attrs]
     return [list $widget $options $attrs]
 
   }
@@ -242,8 +245,6 @@ oo::class create PaveMe {
     set lused {}
     set lwlen [llength $lwidgets]
     set BS "I-am-BACKSPACE"
-    set LB "I-am-LEFTBRACE"
-    set RB "I-am-RIGHTBRACE"
     for {set i 0} {$i < $lwlen} {} {
       # List of widgets contains data per widget:
       #   widget's name,
@@ -263,12 +264,12 @@ oo::class create PaveMe {
       set attrs [uplevel 1 subst -nobackslashes [list $attrs1]]
       set ${nsp}paveN::wn $w.$name
       lassign [my GetWidgetType [lindex [split $name .] end] \
-        $options $attrs] widget ;# options attrs
+        $options $attrs] widget options attrs
       # The type of widget (if defined) means its creation
       # (if not defined, it was created after "makewindow" call
       # and before "window" call)
       if { !($widget == "" || [winfo exists $widget])} {
-        set attrs [string map [list \\ $BS \{ $LB \} $RB] $attrs]
+        set attrs [string map [list \\ $BS] $attrs]
         set attrs [string map {\" \\\"} [my ExpandOptions $attrs]]
         # for scrollbars - set up the scrolling commands
         if {$widget in {"ttk::scrollbar" "scrollbar"}} {
@@ -291,14 +292,7 @@ oo::class create PaveMe {
         #%   set b
         #>   123\45
         #> doctest
-        #
-        #% doctest 2
-        #%   set a "123 \{\{\{ \}\}\} 45"
-        #%   eval append b {*}$a
-        #%   set b
-        #>   123{ }45
-        #> doctest
-        set attrs [string map [list $BS "\\\\\\\\" $LB "\{\{\{" $RB "\}\}\}"] $attrs]
+        set attrs [string map [list $BS "\\\\\\\\"] $attrs]
         eval $widget [set ${nsp}paveN::wn] {*}$attrs
         # for buttons and entries - set up the hotkeys (Up/Down etc.)
         if {($widget in {"ttk::entry" $widget=="entry"}) && \
@@ -356,10 +350,10 @@ oo::class create PaveMe {
           if {$uname eq $neighbor} {
             set col $ucol
             set row $urow
-            if {$posofnei == "L"} {
-              incr col $ucolspan
-            } elseif {$posofnei == "T"} {
+            if {$posofnei == "T" || $posofnei == ""} {
               incr row $urowspan
+            } elseif {$posofnei == "L"} {
+              incr col $ucolspan
             }
           }
         }
