@@ -1,0 +1,10 @@
+name           {line_count}
+display_name   {Line Count}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+website        {}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+category       {sidebar}
+description    {Displays line count information for all files within a directory.}
