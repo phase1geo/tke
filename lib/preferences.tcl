@@ -203,6 +203,8 @@ namespace eval preferences {
         array unset content Tools/Profile*
         array unset content Editor/Snippet*
         array unset content Plugins/*
+        array unset content View/ShowConsole
+        array unset content NFSMounts
       }
       return [array get content]
     } else {

@@ -28,6 +28,9 @@ namespace eval ctext {
   array set bracket_map  {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
   array set bracket_map2 {\( paren \) paren \{ curly \} curly \[ square \] square < angled > angled}
   array set data {}
+  array set tag_other_map {"100" "001" "001" "100"}
+  array set tag_dir_map   {"100" "next" "001" "prev"}
+  array set tag_index_map {"100" 1 "001" 0}
 
   variable temporary {}
   variable right_click 3
@@ -6004,7 +6007,7 @@ namespace eval ctext {
     set start $opts(-startpos)
     set num   $opts(-num)
 
-    while {[set ranges [emmet::get_node_range $win $start]] ne ""} {
+    while {[set ranges [get_node_range $win $start]] ne ""} {
       if {[incr num -1] == 0} {
         return [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
       } else {
@@ -6029,13 +6032,228 @@ namespace eval ctext {
     set start $opts(-startpos)
     set num   $opts(-num)
 
-    while {[set ranges [emmet::get_node_range $win $start]] ne ""} {
+    while {[set ranges [get_node_range $win $start]] ne ""} {
       if {[incr num -1] == 0} {
         return [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
       } else {
         set start [$win._t index "[lindex $ranges 0]-1c"]
       }
     }
+
+  }
+
+  ######################################################################
+  # Returns the character range for the current node based on the given
+  # outer type.
+  proc get_node_range {win args} {
+
+    variable data
+    variable tag_other_map
+    variable tag_dir_map
+    variable tag_index_map
+
+    array set opts {
+      -startpos insert
+    }
+    array set opts $args
+
+    # Check to see if the starting position is within a tag and if it is
+    # not, find the tags surrounding the starting position.
+    if {[set itag [inside_tag $win -startpos $opts(-startpos) -allow010 1]] eq ""} {
+      return [get_node_range_within $win -startpos $opts(-startpos)]
+    } elseif {[lindex $itag 3] eq "010"} {
+      return ""
+    }
+
+    lassign $itag start end name type
+
+    # If we are on a starting tag, look for the ending tag
+    set retval [list $start $end]
+    set others 0
+    while {1} {
+      if {[set retval [get_tag $win -dir $tag_dir_map($type) -name $name -type $tag_other_map($type) -start [lindex $retval $tag_index_map($type)]]] eq ""} {
+        return ""
+      }
+      if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
+        switch $type {
+          "100" { return [list $start $end {*}[lrange $retval 0 1]] }
+          "001" { return [list {*}[lrange $retval 0 1] $start $end] }
+          default { return -code error "Error finding node range" }
+        }
+      }
+      incr others -1
+    }
+
+  }
+
+  ######################################################################
+  # If the insertion cursor is currently inside of a tag element, returns
+  # the tag information; otherwise, returns the empty string
+  proc inside_tag {win args} {
+
+    array set opts {
+      -startpos insert
+      -allow010 0
+    }
+    array set opts $args
+
+    set retval [get_tag $win -dir prev -start "$opts(-startpos)+1c"]
+
+    if {($retval ne "") && [$win compare $opts(-startpos) < [lindex $retval 1]] && (([lindex $retval 3] ne "010") || $opts(-allow010))} {
+      return $retval
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Assumes that the insertion cursor is somewhere between a start and end
+  # tag.
+  proc get_node_range_within {win args} {
+
+    array set opts {
+      -startpos insert
+    }
+    array set opts $args
+
+    # Find the beginning tag that we are currently inside of
+    set retval [list $opts(-startpos)]
+    set count  0
+
+    while {1} {
+      if {[set retval [get_tag $win -dir prev -type 100 -start [lindex $retval 0]]] eq ""} {
+        return ""
+      }
+      if {[incr count [expr [llength [lsearch -all [lindex $retval 4] *,100]] - [llength [lsearch -all [lindex $retval 4] *,001]]]] == 0} {
+        set start_range [lrange $retval 0 1]
+        set range_name  [lindex $retval 2]
+        break
+      }
+      incr count
+    }
+
+    # Find the ending tag based on the beginning tag
+    set retval [list {} $opts(-startpos)]
+    set count 0
+
+    while {1} {
+      if {[set retval [get_tag $win -dir next -type 001 -name $range_name -start [lindex $retval 1]]] eq ""} {
+        return ""
+      }
+      if {[incr count [llength [lsearch -all [lindex $retval 4] $range_name,100]]] == 0} {
+        return [list {*}$start_range {*}[lrange $retval 0 1]]
+      }
+      incr count -1
+    }
+
+  }
+
+  ######################################################################
+  # Gets the tag that begins before the current insertion cursor.  The
+  # value of -dir must be "next or "prev".  The value of -type must be
+  # "100" (start), "001" (end), "010" (both) or "*" (any).  The value of
+  # name is the tag name to search for (if specified).
+  #
+  # Returns a list of 6 elements if a tag was found that matches:
+  #  - starting tag position
+  #  - ending tag position
+  #  - tag name
+  #  - type of tag found (10=start, 01=end or 11=both)
+  #  - number of starting tags encountered that did not match
+  #  - number of ending tags encountered that did not match
+  proc get_tag {win args} {
+
+    array set opts {
+      -dir   "next"
+      -type  "*"
+      -name  "*"
+      -start "insert"
+    }
+    array set opts $args
+
+    # Initialize counts
+    set missed [list]
+
+    # Get the tag
+    if {$opts(-dir) eq "prev"} {
+      if {[set start [lindex [$win syntax prevrange angledL $opts(-start)] 0]] eq ""} {
+        return ""
+      } elseif {[set end [lindex [$win syntax nextrange angledR $start] 1]] eq ""} {
+        return ""
+      }
+    } else {
+      if {[set end [lindex [$win syntax nextrange angledR $opts(-start)] 1]] eq ""} {
+        return ""
+      } elseif {[set start [lindex [$win syntax prevrange angledL $end] 0]] eq ""} {
+        return ""
+      }
+    }
+
+    while {1} {
+
+      # Get the tag elements
+      if {[$win get "$start+1c"] eq "/"} {
+        set found_type "001"
+        set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$win get "$start+2c" "$end-1c"]]
+      } else {
+        if {[$win get "$end-2c"] eq "/"} {
+          set found_type "010"
+          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$win get "$start+1c" "$end-2c"]]
+        } else {
+          set found_type "100"
+          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$win get "$start+1c" "$end-1c"]]
+        }
+      }
+
+      # If we have found what we are looking for, return now
+      if {[string match $opts(-type) $found_type] && [string match $opts(-name) $found_name]} {
+        return [list $start $end $found_name $found_type $missed]
+      }
+
+      # Update counts
+      lappend missed "$found_name,$found_type"
+
+      # Otherwise, get the next tag
+      if {$opts(-dir) eq "prev"} {
+        if {[set end [lindex [$win syntax prevrange angledR $start] 1]] eq ""} {
+          return ""
+        } elseif {[set start [lindex [$win syntax prevrange angledL $end] 0]] eq ""} {
+          return ""
+        }
+      } else {
+        if {[set start [lindex [$win syntax nextrange angledL $end] 0]] eq ""} {
+          return ""
+        } elseif {[set end [lindex [$win syntax nextrange angledR $start] 1]] eq ""} {
+          return ""
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Returns the outer range of the given node range value as a list.
+  proc get_outer {node_range} {
+
+    if {$node_range ne ""} {
+      return [list [lindex $node_range 0] [lindex $node_range 3]]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the inner range of the given node range value as a list.
+  proc get_inner {node_range} {
+
+    if {$node_range ne ""} {
+      return [lrange $node_range 1 2]
+    }
+
+    return ""
 
   }
 
