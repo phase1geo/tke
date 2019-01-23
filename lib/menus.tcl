@@ -1909,8 +1909,8 @@ namespace eval menus {
 
     } else {
 
-      set intag       [emmet::inside_tag $txt -allow010 1]
-      set innode      [emmet::get_node_range $txt]
+      set intag       [ctext::inside_tag $txt -allow010 1]
+      set innode      [ctext::get_node_range $txt]
       set inurl       [emmet_css::in_url $txt]
       set intag_mode  [expr {($intag  eq "") ? "disabled" : "normal"}]
       set innode_mode [expr {($innode eq "") ? "disabled" : "normal"}]

@@ -1948,7 +1948,7 @@ namespace eval edit {
       }
       tagstart      {
         set insert [$txtt index insert]
-        while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
+        while {[set ranges [ctext::get_node_range $txtt]] ne ""} {
           if {[incr opts(-num) -1] == 0} {
             set index [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
             break
@@ -1960,7 +1960,7 @@ namespace eval edit {
       }
       tagend        {
         set insert [$txtt index insert]
-        while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
+        while {[set ranges [ctext::get_node_range $txtt]] ne ""} {
           if {[incr opts(-num) -1] == 0} {
             set index [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
             break
@@ -2151,7 +2151,7 @@ namespace eval edit {
         "sentence"  { return [get_range_sentences $txtt sentence  $num $inner $adjust $cursor] }
         "tag"       {
           set insert [$txtt index $cursor]
-          while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
+          while {[set ranges [ctext::get_node_range $txtt]] ne ""} {
             if {[incr num -1] == 0} {
               $txtt mark set insert $insert
               if {$inner} {

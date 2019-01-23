@@ -1642,12 +1642,12 @@ namespace eval select {
   # Returns the range of the current DOM.
   proc node_current {txt startpos} {
 
-    if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
-      return [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
+    if {[set tag [ctext::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
+      return [ctext::get_inner [emmet::get_node_range $txt -startpos $startpos]]
     } elseif {[lindex $tag 3] eq "010"} {
       return [lrange $tag 0 1]
     } else {
-      return [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+      return [ctext::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
   }
 
@@ -1658,11 +1658,11 @@ namespace eval select {
 
     set within [emmet::get_node_range_within $txt -startpos $startpos]
 
-    if {(([set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq "") && ([lindex $tag 3] ne "010")) || \
-        ([emmet::get_inner $within] eq [list $startpos $endpos])} {
-      return [emmet::get_outer $within]
+    if {(([set tag [ctext::inside_tag $txt -startpos $startpos -allow010 1]] eq "") && ([lindex $tag 3] ne "010")) || \
+        ([ctext::get_inner $within] eq [list $startpos $endpos])} {
+      return [ctext::get_outer $within]
     } else {
-      return [emmet::get_inner $within]
+      return [ctext::get_inner $within]
     }
 
   }
@@ -1673,15 +1673,15 @@ namespace eval select {
   # node.
   proc node_first_child {txt startpos} {
 
-    set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
+    set parent_range [ctext::get_inner [emmet::get_node_range $txt -startpos $startpos]]
 
-    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
-      if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $parent_range 0]]] ne ""} {
+    if {[ctext::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      if {[set tag [ctext::get_tag $txt -dir next -type ??0 -start [lindex $parent_range 0]]] ne ""} {
         if {[$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
           if {[lindex $tag 3] eq "010"} {
             return [lrange $tag 0 1]
           } else {
-            return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+            return [ctext::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
           }
         }
       }
@@ -1699,15 +1699,15 @@ namespace eval select {
   # parent node.
   proc node_last_child {txt startpos} {
 
-    set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
+    set parent_range [ctext::get_inner [emmet::get_node_range $txt -startpos $startpos]]
 
-    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
-      if {[set tag [emmet::get_tag $txt -dir prev -type ??0 -start [lindex $parent_range 1]]] ne ""} {
+    if {[ctext::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      if {[set tag [ctext::get_tag $txt -dir prev -type ??0 -start [lindex $parent_range 1]]] ne ""} {
         if {[$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
           if {[lindex $tag 3] eq "010"} {
             return [lrange $tag 0 1]
           } else {
-            return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+            return [ctext::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
           }
         }
       }
@@ -1724,23 +1724,23 @@ namespace eval select {
   # the node containing the given starting position.
   proc node_next_sibling {txt startpos} {
 
-    if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
+    if {[set tag [ctext::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
     }
 
     if {[lindex $tag 3] eq "010"} {
       set current_range [lrange $tag 0 1]
     } else {
-      set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+      set current_range [ctext::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
     set parent_range [node_parent $txt {*}$current_range]
 
-    if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $current_range 1]]] ne ""} {
+    if {[set tag [ctext::get_tag $txt -dir next -type ??0 -start [lindex $current_range 1]]] ne ""} {
       if {($parent_range eq "") || [$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
         if {[lindex $tag 3] eq "010"} {
           return [lrange $tag 0 1]
         } else {
-          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+          return [ctext::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
         }
       }
     }
@@ -1754,23 +1754,23 @@ namespace eval select {
   # the node containing the given starting position.
   proc node_prev_sibling {txt startpos} {
 
-    if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
+    if {[set tag [ctext::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
     }
 
     if {[lindex $tag 3] eq "010"} {
       set current_range [lrange $tag 0 1]
     } else {
-      set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+      set current_range [ctext::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
     set parent_range [node_parent $txt {*}$current_range]
 
-    if {[set tag [emmet::get_tag $txt -dir prev -type 0?? -start "[lindex $current_range 0]-1c"]] ne ""} {
+    if {[set tag [ctext::get_tag $txt -dir prev -type 0?? -start "[lindex $current_range 0]-1c"]] ne ""} {
       if {($parent_range eq "") || [$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
         if {[lindex $tag 3] eq "010"} {
           return [lrange $tag 0 1]
         } else {
-          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+          return [ctext::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
         }
       }
     }
