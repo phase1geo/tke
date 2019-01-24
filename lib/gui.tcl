@@ -1,4 +1,4 @@
-# TKE - Advanced Programmer's Editor
+  # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2019  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -6166,34 +6166,41 @@ namespace eval gui {
 
     # Get the index of the cursor in the cursor hist to use
     if {![info exists cursor_hist($txt,hist)]} {
-      set cursor_hist($txt,hist)  [$txt edit cursorhist]
-      set cursor_hist($txt,index) [llength $cursor_hist($txt,hist)]
+      set cursor_hist($txt,hist) [list]
+      set last                   ""
+      set diff                   [preferences::get Find/JumpDistance]
+      foreach cursor [$txt edit cursorhist] {
+        set line [lindex [split $cursor .] 0]
+        if {($last eq "") || (abs( $line - $last ) >= $diff)} {
+          lappend cursor_hist($txt,hist) $cursor
+          set last $line
+        }
+      }
+      set cursor_hist($txt,index) [expr [llength $cursor_hist($txt,hist)] - 1]
     }
 
-    set index  $cursor_hist($txt,index)
-    set length [llength $cursor_hist($txt,hist)]
-    set diff   [preferences::get Find/JumpDistance]
-
-    if {$index == $length} {
-      set last_line [lindex [split [$txt index insert] .] 0]
-    } else {
-      set last_line [lindex [split [lindex $cursor_hist($txt,hist) $index] .] 0]
+    if {$cursor_hist($txt,index) < 0} {
+      return 0
     }
+
+    set index [expr $cursor_hist($txt,index) + $dir]
+    set size  [llength $cursor_hist($txt,hist)]
 
     # Get the cursor index
-    while {([incr index $dir] >= 0) && ($index < $length)} {
-      set cursor     [lindex $cursor_hist($txt,hist) $index]
-      set index_line [lindex [split $cursor .] 0]
-      if {[expr abs( $index_line - $last_line ) >= $diff]} {
-        if {$jump} {
-          set cursor_hist($txt,index) $index
-          ::tk::TextSetCursor $txt.t "$cursor linestart"
-          if {[vim::in_vim_mode $txt.t]} {
-            vim::adjust_insert $txt.t
-          }
-        }
-        return 1
+    if {$index < 0} {
+      set index 0
+    } elseif {$index >= $size} {
+      set index [expr $size - 1]
+    }
+
+    # Jump to the given cursor position if it has changed
+    if {$index != $cursor_hist($txt,index)} {
+      if {$jump} {
+        set cursor_hist($txt,index) $index
+        ::tk::TextSetCursor $txt.t [lindex $cursor_hist($txt,hist) $index]
+        vim::adjust_insert $txt.t
       }
+      return 1
     }
 
     return 0
