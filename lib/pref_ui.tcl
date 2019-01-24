@@ -1,4 +1,4 @@
-# TKE - Advanced Programmer's Editor
+  # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2019  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -4303,7 +4303,6 @@ namespace eval pref_ui {
     pack $widgets(plugins_nb) -fill both -expand yes -padx 2 -pady 2
 
     $widgets(plugins_nb) add [ttk::frame $widgets(plugins_nb)._none]
-    $widgets(plugins_nb) hide $widgets(plugins_nb)._none
 
     # Create the plugin frames
     foreach plugin [plugins::handle_on_pref_ui $widgets(plugins_nb)] {
