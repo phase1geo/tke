@@ -1,4 +1,4 @@
- # TKE - Advanced Programmer's Editor
+  # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2019  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -2434,6 +2434,10 @@ namespace eval vim {
         return [do_find_motion $txtt $char $dir $excl]
       }
       return 1
+    } elseif {$motion($txtt) eq "g"} {
+      gui::jump_to_cursor [expr 0 - [get_number $txtt]] 1
+      set motion($txtt) ""
+      return 1
     }
 
     return 0
@@ -2454,6 +2458,10 @@ namespace eval vim {
         set dir [expr {($dir eq "next") ? "prev" : "next"}]
         return [do_find_motion $txtt $char $dir $excl]
       }
+      return 1
+    } elseif {$motion($txtt) eq "g"} {
+      gui::jump_to_cursor [get_number $txtt] 1
+      set motion($txtt) ""
       return 1
     }
 
