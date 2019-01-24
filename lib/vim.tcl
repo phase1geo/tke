@@ -1,4 +1,4 @@
-# TKE - Advanced Programmer's Editor
+ # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2019  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -36,6 +36,7 @@ namespace eval vim {
   array set select_anchors  {}
   array set last_selection  {}
   array set modeline        {}
+  array set findchar        {}
   array set multicursor     {}
 
   array set multiplier      {}
@@ -920,6 +921,7 @@ namespace eval vim {
     variable recording
     variable operator
     variable motion
+    variable findchar
 
     # Change the cursor to the block cursor
     $txt configure -blockcursor true -insertwidth 1
@@ -935,6 +937,7 @@ namespace eval vim {
     set multicursor($txt.t)      0
     set operator($txt.t)         ""
     set motion($txt.t)           ""
+    set findchar($txt.t)         [list]
 
     # Add bindings
     bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
@@ -972,6 +975,7 @@ namespace eval vim {
     variable column
     variable select_anchors
     variable modeline
+    variable findchar
 
     unset -nocomplain command_entries($txt.t)
     unset -nocomplain mode($txt.t)
@@ -981,6 +985,7 @@ namespace eval vim {
     unset -nocomplain column($txt.t)
     unset -nocomplain select_anchors($txt.t)
     unset -nocomplain modeline($txt.t)
+    unset -nocomplain findchar($txt.t)
 
   }
 
@@ -1882,8 +1887,8 @@ namespace eval vim {
   # handle the action.
   proc handle_find_motion {txtt char} {
 
-    variable operator
     variable motion
+    variable findchar
 
     # If the current mode does not pertain to us, return now
     if {[lsearch {t f} [string tolower $motion($txtt)]] == -1} {
@@ -1893,6 +1898,19 @@ namespace eval vim {
     # Get the motion information
     set dir  [expr {[string is lower $motion($txtt)] ? "next" : "prev"}]
     set excl [expr {[string tolower $motion($txtt)] eq "t"}]
+
+    # Remember the findchar motion
+    set findchar($txtt) [list $char $dir $excl]
+
+    return [do_find_motion $txtt $char $dir $excl]
+
+  }
+
+  ######################################################################
+  # Perform the find motion operation with the given information.
+  proc do_find_motion {txtt char dir excl} {
+
+    variable operator
 
     # Determine where to put the cursor
     set cursorargs "none"
@@ -2395,6 +2413,47 @@ namespace eval vim {
 
     if {$motion($txtt) eq ""} {
       set motion($txtt) "T"
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Repeats the last findchar motion.
+  proc handle_semicolon {txtt} {
+
+    variable operator
+    variable motion
+    variable findchar
+
+    if {$motion($txtt) eq ""} {
+      if {$findchar($txtt) ne ""} {
+        lassign $findchar($txtt) char dir excl
+        return [do_find_motion $txtt $char $dir $excl]
+      }
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Repeats the last findchar motion in the opposite direction.
+  proc handle_comma {txtt} {
+
+    variable operator
+    variable motion
+    variable findchar
+
+    if {$motion($txtt) eq ""} {
+      if {$findchar($txtt) ne ""} {
+        lassign $findchar($txtt) char dir excl
+        set dir [expr {($dir eq "next") ? "prev" : "next"}]
+        return [do_find_motion $txtt $char $dir $excl]
+      }
       return 1
     }
 
