@@ -324,7 +324,7 @@ namespace eval multicursor {
     # Get the list of new ranges
     set new_ranges [list]
     foreach {start end} $ranges {
-      set new_start [$txtt index [edit::get_index $txtt {*}$posargs -startpos $start]]
+      set new_start [$txtt index [list {*}$posargs -startpos $start]]
       if {[$txtt compare $new_start == "$new_start lineend"] && [$txtt compare $new_start > "$new_start linestart"]} {
         set new_start [$txtt index $new_start-1c]
       }

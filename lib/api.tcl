@@ -551,7 +551,7 @@ namespace eval api {
     #                returning the result.
     proc get_index {interp pname txt position args} {
 
-      return [edit::get_index $txt $position {*}$args]
+      return [$txt index [list $position {*}$args]]
 
     }
 
