@@ -349,7 +349,7 @@ namespace eval select {
           }
           word    {
             if {[string is space [$txtt get insert]]} {
-              $txtt mark set insert [edit::get_index $txtt wordstart -dir [expr {($data($txtt,anchorend) == 0) ? "prev" : "next"}]]
+              $txtt mark set insert [$txtt index [list wordstart -dir [expr {($data($txtt,anchorend) == 0) ? "prev" : "next"}]]]
             }
             set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
           }
@@ -439,9 +439,9 @@ namespace eval select {
               lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
             }
             if {$opts(-startpos) ne ""} {
-              lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -num $number -startpos $opts(-startpos)]
+              lset range $index [$txtt index [list {*}[lindex $pos $index] -dir $motion -num $number -startpos $opts(-startpos)]]
             } else {
-              lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -num $number -startpos [lindex $range $index]]
+              lset range $index [$txtt index [list {*}[lindex $pos $index] -dir $motion -num $number -startpos [lindex $range $index]]]
             }
           }
         }
@@ -476,7 +476,7 @@ namespace eval select {
             lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
           }
           foreach index {0 1} {
-            lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $dir -num $number -startpos [lindex $range $index]]
+            lset range $index [$txtt index [list {*}[lindex $pos $index] -dir $dir -num $number -startpos [lindex $range $index]]]
           }
         }
       }

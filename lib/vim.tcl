@@ -1754,7 +1754,7 @@ namespace eval vim {
             vim::adjust_insert $txtt
           }
         } else {
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$eposargs]
+          ::tk::TextSetCursor $txtt [$txtt index $eposargs]
           vim::adjust_insert $txtt
         }
         reset_state $txtt 0
@@ -1784,7 +1784,7 @@ namespace eval vim {
         clipboard clear
         clipboard append [$txtt get $startpos $endpos]
         if {$opts(-cursor) ne ""} {
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$opts(-cursor)]
+          ::tk::TextSetCursor $txtt [$txtt index $opts(-cursor)]
         }
         vim::adjust_insert $txtt
         command_mode $txtt
@@ -1793,7 +1793,7 @@ namespace eval vim {
       "swap" {
         if {![multicursor::toggle_case $txtt $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
+          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
         }
         command_mode $txtt
         return 1
@@ -1801,7 +1801,7 @@ namespace eval vim {
       "upper" {
         if {![multicursor::upper_case $txtt $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
+          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
         }
         command_mode $txtt
         return 1
@@ -1809,7 +1809,7 @@ namespace eval vim {
       "lower" {
         if {![multicursor::lower_case $txtt $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
+          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
         }
         command_mode $txtt
         return 1
@@ -1817,7 +1817,7 @@ namespace eval vim {
       "rot13" {
         if {![multicursor::rot13 $txtt $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
+          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index $opts(-cursor)]
         }
         command_mode $txtt
         return 1
@@ -1826,7 +1826,7 @@ namespace eval vim {
         if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           indent::format_text $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
+          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
         }
         command_mode $txtt
         return 1
@@ -1835,7 +1835,7 @@ namespace eval vim {
         if {![multicursor::shift $txtt left $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           edit::unindent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
+          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
         }
         command_mode $txtt
         return 1
@@ -1844,7 +1844,7 @@ namespace eval vim {
         if {![multicursor::shift $txtt right $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           edit::indent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
+          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
         }
         command_mode $txtt
         return 1
@@ -2230,7 +2230,7 @@ namespace eval vim {
         folding::jump_to [winfo parent $txtt] prev [get_number $txtt]
       }
       "folding:range" {
-        folding::close_range [winfo parent $txtt] [edit::get_index $txtt up -num [get_number $txtt] -column vim::column($txtt)] insert
+        folding::close_range [winfo parent $txtt] [$txtt index [list up -num [get_number $txtt] -column vim::column($txtt)]] insert
         ::tk::TextSetCursor $txtt "insert-1 display lines"
         adjust_insert $txtt
       }
@@ -3724,7 +3724,7 @@ namespace eval vim {
           foreach {endpos startpos} [lreverse $selected] {
             indent::format_text $txtt $startpos $endpos
           }
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -startpos $startpos]
+          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos]]
           command_mode $txtt
         } else {
           set_operator $txtt "format" {equal}
