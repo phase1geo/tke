@@ -67,6 +67,47 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Check the platform
+
+  method iswindows {} {
+
+    return [expr {$::tcl_platform(platform) == "windows"} ? 1: 0]
+
+  }
+
+  #########################################################################
+  #
+  # Get the coordinates of centered window (against its parent)
+
+  method CenteredXY {rw rh rx ry w h} {
+
+    set x [expr {max(0, $rx + ($rw - $w) / 2)}]
+    set y [expr {max(0,$ry + ($rh - $h) / 2)}]
+    # check for left/right edge of screen (accounting decors)
+    set scrw [expr [winfo screenwidth .] - 12]
+    set scrh [expr {[winfo screenheight .] - 36}]
+    if {($x + $w) > $scrw } {
+      set x [expr {$scrw - $w}]
+    }
+    if {($y + $h) > $scrh } {
+      set y [expr {$scrh - $h}]
+    }
+    return +$x+$y
+
+  }
+
+  #########################################################################
+  #
+  # Get root name of widget's name
+
+  method rootwname {name} {
+
+    return [lindex [split $name .] end]
+
+  }
+
+  #########################################################################
+  #
   # Some options may be cut down, so we must expand them
 
   method ExpandOptions {options} {
@@ -103,7 +144,13 @@ oo::class create PaveMe {
       "cbx*" {set widget "ttk::combobox"}
       "ent*" {set widget "ttk::entry"}
       "enT*" {set widget "entry"}
-      "fra*" {set widget "ttk::frame"}
+      "fil*" -
+      "fis*" -
+      "dir*" -
+      "clr*" -
+      "fra*" { ;# + frame for choosers (of file, directory, color, font)
+        set widget "ttk::frame"
+      }
       "frA*" {set widget "frame"}
       "lab*" {set widget "ttk::label"; set options "-st w $options"}
       "laB*" {set widget "label";      set options "-st w $options"}
@@ -207,32 +254,87 @@ oo::class create PaveMe {
 
   #########################################################################
   #
-  # Get the coordinates of centered window (against its parent)
+  # Chooser (for all available types)
 
-  method CenteredXY {rw rh rx ry w h} {
+  method chooser {nameofchooser tvar args} {
 
-    set x [expr {max(0, $rx + ($rw - $w) / 2)}]
-    set y [expr {max(0,$ry + ($rh - $h) / 2)}]
-    # check for left/right edge of screen (accounting decors)
-    set scrw [expr [winfo screenwidth .] - 12]
-    set scrh [expr {[winfo screenheight .] - 36}]
-    if {($x + $w) > $scrw } {
-      set x [expr {$scrw - $w}]
+    set res [$nameofchooser {*}$args]
+    if {$res!="" && $tvar!=""} {
+      set $tvar $res
     }
-    if {($y + $h) > $scrh } {
-      set y [expr {$scrh - $h}]
-    }
-    return +$x+$y
 
   }
 
   #########################################################################
   #
-  # Check the platform
+  # Transfrom 'name' by adding 'typ'
 
-  method iswindows {} {
+  method transname {typ name} {
 
-    return [expr {$::tcl_platform(platform) == "windows"} ? 1: 0]
+    if {[set pp [string last . $name]]>-1} {
+      set name [string range $name 0 $pp]$typ[string range $name $pp+1 end]
+    } else {
+      set name $typ$name
+    }
+    return $name
+
+  }
+
+  #########################################################################
+  #
+  # Choosers should contain 2 fields: entry + button
+  # Here every chooser is replaced with these two widgets
+
+  method replace_chooser {r0 r1 r2 r3 args} {
+
+    upvar 1 $r0 w $r1 i $r2 lwlen $r3 lwidgets
+    lassign $args name neighbor posofnei rowspan colspan options1 attrs1
+    switch -glob [my rootwname $name] {
+      "fil*" {
+        set chooser "tk_getOpenFile"
+        set title "Choose File(s) to Open"
+      }
+      "fis*" {
+        set chooser "tk_getSaveFile"
+        set title "Choose File to Save"
+      }
+      "dir*" {
+        set chooser "tk_chooseDirectory"
+        set title "Choose Directory"
+      }
+      "clr*" {
+        set chooser "tk_chooseColor"
+        set title "Choose Color"
+      }
+      default {
+        return $args
+      }
+    }
+    set tvar [set vv ""]
+    catch {array set a $attrs1; set title $a(-title)}
+    catch {array set a $attrs1; set tvar "-tvar [set vv $a(-tvar)]"}
+    catch {array set a $attrs1; set tvar "-tvar [set vv $a(-textvariable)]"}
+    if {$vv==""} {
+      set vv [namespace current]::$name
+      set tvar "-tvar $vv"
+    }
+    set com "[self] chooser $chooser \{$vv\} -title \{\{$title\}\} -parent $w"
+    # make a frame in the list
+    set ispack 0
+    if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
+      set ispack [expr [string first "pack " $gm]==0]
+    }
+    if {$ispack} {
+      set args [list $name - - - - "pack -expand 1 -fill x"]
+    } else {
+      set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew"]
+    }
+    lset lwidgets $i $args
+    set entf [list [my transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" $tvar]
+    set butf [list [my transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{\{$com\}\} -t ... -font \{\{-weight bold -size 5\}\}"]
+    set lwidgets [linsert $lwidgets [expr {$i+1}] $entf $butf]
+    incr lwlen 2
+    return $args
 
   }
 
@@ -252,10 +354,12 @@ oo::class create PaveMe {
       #   widget's rowspan and columnspan (both optional),
       #   grid options, widget's attributes (both optional)
       set lst1 [lindex $lwidgets $i]
+      set lst1 [my replace_chooser w i lwlen lwidgets {*}$lst1]
       lassign $lst1 name neighbor posofnei rowspan colspan options1 attrs1
-      if {$colspan=={}} {
+      set prevw $name
+      if {$colspan=={} || $colspan=={-}} {
         set colspan 1
-        if {$rowspan=={}} {
+        if {$rowspan=={} || $rowspan=={-}} {
           set rowspan 1
         }
       }
@@ -263,7 +367,7 @@ oo::class create PaveMe {
       set options [uplevel 1 subst -nobackslashes [list $options1]]
       set attrs [uplevel 1 subst -nobackslashes [list $attrs1]]
       set ${nsp}paveN::wn $w.$name
-      lassign [my GetWidgetType [lindex [split $name .] end] \
+      lassign [my GetWidgetType [my rootwname $name] \
         $options $attrs] widget options attrs
       # The type of widget (if defined) means its creation
       # (if not defined, it was created after "makewindow" call
@@ -309,7 +413,8 @@ oo::class create PaveMe {
               [list event generate [set ${nsp}paveN::wn] <Key> -keysym Tab]
           }
         }
-        if {$widget in {ttk::button button ttk::checkbutton checkbutton}} {
+        if {$widget in {ttk::button button ttk::checkbutton checkbutton \
+                        ttk::radiobutton radiobutton}} {
           foreach k {<Up> <Left>} {
             bind [set ${nsp}paveN::wn] $k [list \
               if {$::tcl_platform(platform) == "windows"} [list \
@@ -322,11 +427,9 @@ oo::class create PaveMe {
             bind [set ${nsp}paveN::wn] $k \
               [list event generate [set ${nsp}paveN::wn] <Key> -keysym Tab]
           }
-          if {$widget in {ttk::button button}} {
-            foreach k {<Return> <KP_Enter>} {
-              bind [set ${nsp}paveN::wn] $k \
-              [list event generate [set ${nsp}paveN::wn] <Key> -keysym space]
-            }
+          foreach k {<Return> <KP_Enter>} {
+            bind [set ${nsp}paveN::wn] $k \
+            [list event generate [set ${nsp}paveN::wn] <Key> -keysym space]
           }
         }
       }
@@ -335,7 +438,7 @@ oo::class create PaveMe {
       }
       set options [my GetOptions $w $options $row $rowspan $col $colspan]
       set pack [string trim $options]
-      if {[string first "pack " $pack]==0} {
+      if {[string first "pack" $pack]==0} {
         pack [set ${nsp}paveN::wn] {*}[string range $pack 5 end]
       } else {
         grid [set ${nsp}paveN::wn] -row $row -column $col -rowspan $rowspan \
@@ -344,6 +447,9 @@ oo::class create PaveMe {
       lappend lused [list $name $row $col $rowspan $colspan]
       if {[incr i] < $lwlen} {
         lassign [lindex $lwidgets $i] name neighbor posofnei
+        if {$neighbor=="+"} {
+          set neighbor $prevw
+        }
         set row -1
         foreach cell $lused {
           lassign $cell uname urow ucol urowspan ucolspan

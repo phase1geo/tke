@@ -98,33 +98,33 @@ oo::class create PaveDialog {
   #     -text 1 - sets the text widget to show a message
 
   method ok {icon ttl msg args} {
-    return [my Query $icon $ttl $msg {butOK OK 1} butOK {*}$args]
+    return [my Query $icon $ttl $msg {butOK OK 1} butOK {} {*}$args]
   }
 
   method okcancel {icon ttl msg {defb OK} args} {
     return [my Query $icon $ttl $msg \
-      {butOK OK 1 butCANCEL Cancel 0} but$defb {*}$args]
+      {butOK OK 1 butCANCEL Cancel 0} but$defb {} {*}$args]
   }
 
   method yesno {icon ttl msg {defb YES} args} {
     return [my Query $icon $ttl $msg \
-      {butYES Yes 1 butNO No 2} but$defb {*}$args]
+      {butYES Yes 1 butNO No 2} but$defb {} {*}$args]
   }
 
   method yesnocancel {icon ttl msg {defb YES} args} {
     return [my Query $icon $ttl $msg \
-      {butYES Yes 1 butNO No 2 butCANCEL Cancel 0} but$defb {*}$args]
+      {butYES Yes 1 butNO No 2 butCANCEL Cancel 0} but$defb {} {*}$args]
   }
 
   method retrycancel {icon ttl msg {defb RETRY} args} {
     return [my Query $icon $ttl $msg \
-      {butRETRY Retry 1 butCANCEL Cancel 0} but$defb {*}$args]
+      {butRETRY Retry 1 butCANCEL Cancel 0} but$defb {} {*}$args]
   }
 
   method abortretrycancel {icon ttl msg {defb RETRY} args} {
     return [my Query $icon $ttl $msg \
       {butABORT Abort 1 butRETRY Retry 2 butCANCEL \
-      Cancel 0} but$defb {*}$args]
+      Cancel 0} but$defb {} {*}$args]
   }
 
   method misc {icon ttl msg butts {defb ""} args} {
@@ -135,7 +135,115 @@ oo::class create PaveDialog {
         set defb $num
       }
     }
-    return [my Query $icon $ttl $msg $pave_msc_bttns but$defb {*}$args]
+    return [my Query $icon $ttl $msg $pave_msc_bttns but$defb {} {*}$args]
+  }
+
+  method input {icon ttl iopts args} {
+    # iopts is a list of input options:
+    #  - name of field
+    #  - prompt (and possibly gridopts, widopts) of field
+    #  - options for value of field
+    set pady "-pady 2"
+    lappend inopts [list fraM + T 1 98 "-st new $pady -rw 1"]
+    foreach {name prompt valopts} [list {*}$iopts] {
+      lassign $prompt prompt gopts attrs
+      set gopts "$pady $gopts"
+      if {[set typ [string range $name 0 1]]=="h_" || $typ=="se"} {
+        lappend inopts [list fraM.$name - - - - "pack -fill x $gopts"]
+        continue
+      }
+      set tvar "-tvar"
+      switch $typ {
+        ch { set tvar "-var" }
+        sp { set gopts "$gopts -expand 0 -side left"}
+      }
+      lappend inopts [list fraM.fra$name - - - - "pack -expand 1 -fill both"]
+      lappend inopts [list fraM.fra$name.laB$name - - - - "pack -side left -anchor nw -padx 3" "-t \"$prompt\" -font \"-family Mono -size 10\""]
+      set vv [my varname $name]
+      set ff [my fieldname $name]
+      switch $typ {
+        cb {
+          if {![info exist $vv]} {lassign $valopts $vv}
+          foreach vo [lrange $valopts 1 end] {
+            lappend vlist $vo
+          }
+          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -value \{\{$vlist\}\} $attrs"]
+        }
+        ra {
+          if {![info exist $vv]} {lassign $valopts $vv}
+          set padx 0
+          foreach vo [lrange $valopts 1 end] {
+            set name $name
+            lappend inopts [list $ff[incr nnn] - - - - "pack -side left $gopts -padx $padx" "-var $vv -value \"$vo\" -t \"$vo\" $attrs"]
+            set padx [expr {$padx ? 0 : 9}]
+          }
+        }
+        te {
+          if {![info exist $vv]} {set $vv [string map {\\n \n} $valopts]}
+          lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" "$attrs"]
+          lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]
+        }
+        default {
+          lappend inopts [list $ff - - - - "pack -side right -expand 1 -fill x $gopts" "$tvar $vv $attrs"]
+        }
+      }
+      if {![info exist $vv]} {set $vv ""}
+    }
+    return [my Query $icon $ttl {} {butOK OK 1 butCANCEL Cancel 0} butOK \
+      $inopts {*}$args]
+  }
+
+  #########################################################################
+  #
+  # Methods for input dialog:
+
+  # Get a field name
+  method fieldname {name} {
+    return fraM.fra$name.$name
+  }
+
+  # Get variable name associated with a field name
+  method varname {name} {
+    return [namespace current]::var$name
+  }
+
+  # Get values of entries passed (or set) in -tvar
+  method vals {lwidgets} {
+    set res [set vars [list]]
+    foreach wl $lwidgets {
+      set vv [my varname [my rootwname [lindex $wl 0]]]
+      set attrs [lindex $wl 6]
+      foreach t {-var -tvar} {
+        # for widgets with a common variable (e.g. radiobuttons):
+        if {[set p [string first "$t " $attrs]]>-1} {
+          array set a $attrs
+          set vv $a($t)
+        }
+      }
+      if {[info exist $vv] && [lsearch $vars $vv]==-1} {
+        lappend res [set $vv]
+        lappend vars $vv
+      }
+    }
+    return $res
+  }
+
+  # 1. Set contents of text fields (after creating them)
+  # 2. Get contents of text fields (before exiting)
+  method setgettexts {oper w iopts lwidgets} {
+    if {$iopts==""} return
+    foreach widg $lwidgets {
+      set wname [lindex $widg 0]
+      set name [my rootwname $wname]
+      if {[string range $name 0 1]=="te"} {
+        set vv [my varname $name]
+        if {$oper=="set"} {
+          $w.$wname replace 1.0 end [set $vv]
+        } else {
+          set $vv [string trimright [$w.$wname get 1.0 end]]
+        }
+      }
+    }
   }
 
   #########################################################################
@@ -168,6 +276,7 @@ oo::class create PaveDialog {
   #   msg     - message
   #   buttons - list of triples "button name, text, result"
   #   defb    - default button (OK, YES, NO, CANCEL, RETRY, ABORT)
+  #   inopts  - options for input dialog
   # Optional arguments:
   #   args:
   #     -checkbox text (-ch text) - makes the checkbox's text visible
@@ -178,7 +287,7 @@ oo::class create PaveDialog {
   # returns a list with chosen button's number and new geometry.
   # Otherwise it returns only chosen button's number.
 
-  method Query {icon ttl msg buttons defb args} {
+  method Query {icon ttl msg buttons defb inopts args} {
 
     if {[winfo exists $pWindow.pavedlg]} {
       return 0
@@ -268,8 +377,10 @@ oo::class create PaveDialog {
     if {$icon!=""} {
       set widlist [list [list laBimg - - 99 1 \
       "-st n -pady 7" "-image ${nsd}paveD::img$icon"]]
+      set prevl laBimg
     } else {
-      set widlist [list [list laBimg - - 99 1]]
+      set widlist [list [list labimg - - 99 1]]
+      set prevl labimg ;# this trick would hide the prevw at all
     }
     set prevw laBimg
     if {$head!=""} {
@@ -307,7 +418,17 @@ oo::class create PaveDialog {
       set prevw laB$il
       set prevp T
     }
-    if {$textmode} {
+    if {$inopts!=""} {
+      # here are widgets for input (in fraM frame)
+      set io0 [lindex $inopts 0]
+      lset io0 1 $prevh
+      lset inopts 0 $io0
+      foreach io $inopts {
+        lappend widlist $io
+      }
+      set prevw fraM
+    } elseif {$textmode} {
+      # here is text widget (in fraM frame)
       set maxl [expr min($maxl,20)]
       set maxl [expr max($maxl,2)]
       if {[info exists charheight]} {set il $charheight}
@@ -321,7 +442,7 @@ oo::class create PaveDialog {
     # add the lower (after the message) blank frame
     lappend widlist [list h_2 $prevw T 1 1 "-pady 0 -ipady 0 -csz 0"]
     # underline the message
-    lappend widlist [list seh laBimg T 1 99 "-st ew"]
+    lappend widlist [list seh $prevl T 1 99 "-st ew"]
     # add left frames and checkbox (before buttons)
     lappend widlist [list h_3 seh T 1 1 "-pady 0 -ipady 0 -csz 0"]
     if {$chmsg == ""} {
@@ -339,6 +460,8 @@ oo::class create PaveDialog {
     set ${nsd}paveD::ch 0
     my makeWindow $pWindow.pavedlg $ttl
     my window $pWindow.pavedlg $widlist
+    # after creating widgets - show dialog texts if any
+    my setgettexts set $pWindow.pavedlg $inopts $widlist
     set focusnow $pWindow.pavedlg.$defb
     if {$textmode} {
       if {!$optsTags} {set tags [list]}
@@ -356,7 +479,7 @@ oo::class create PaveDialog {
         }
       }
       if {$cc!=""} {
-         append optsState " -insertbackground $cc"
+        append optsState " -insertbackground $cc"
       }
       $pWindow.pavedlg.texM configure {*}$optsState
     }
@@ -367,12 +490,18 @@ oo::class create PaveDialog {
     } else {
       set textmode ""
     }
-    destroy $pWindow.pavedlg
     # the dialog's result is defined by "pave res" + checkbox's value
     set res [my res $pWindow.pavedlg]
     if {$res && [set ${nsd}paveD::ch]} {
       incr res 10
     }
+    if {$res && $inopts!=""} {
+      my setgettexts get $pWindow.pavedlg $inopts $widlist
+      set inopts " [my vals $widlist]"
+    } else {
+      set inopts ""
+    }
+    destroy $pWindow.pavedlg
     # pause a bit and restore the old focus
     if {[winfo exists $oldfocused]} {
       after 50 [list focus $oldfocused]
@@ -383,9 +512,9 @@ oo::class create PaveDialog {
       lassign [split $pdgeometry x+] w h x y
       if {abs($x-$gx)<30} {set x $gx}
       if {abs($y-$gy)<30} {set y $gy}
-      return [list $res ${w}x${h}+${x}+${y} $textmode]
+      return [list $res ${w}x${h}+${x}+${y} $textmode $inopts]
     }
-    return "$res$textmode"
+    return "$res$textmode$inopts"
 
   }
 
