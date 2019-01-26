@@ -171,7 +171,9 @@ namespace eval add_shortcut {
     if {$txt == ""} {return ""}
     set pos  [$txt index "1.0 linestart"]
     set pos2 [$txt index "1.0 lineend"]
-    return [string trim [$txt get $pos $pos2]]
+    set res [string trim [$txt get $pos $pos2]]
+    set res [string map [list \" "" \{ "" \} "" \[ "" \] ""] $res]
+    return $res
 
   }
 
@@ -244,6 +246,21 @@ namespace eval add_shortcut {
   }
 
   ######################################################################
+  # run 'vip' command
+  proc vip {cmd} {
+
+    set cd [string range $cmd 0 2]
+    if { ([iswindows] && [string toupper $cd] == "CD ") || $cd == "cd " } {
+      if {[set cd [string trim [string range $cmd 3 end]]] != "."} {
+        catch {cd $cd}
+      }
+      return true
+    }
+    return false
+
+  }
+
+  ######################################################################
   # execute the function of shortcut
 
   proc runShortCut {contents} {
@@ -268,8 +285,10 @@ namespace eval add_shortcut {
             }
           }
           "COMMAND" { ;# run the external command
-            if {![catch {exec {*}$comm &} err]} {
-              set err ""
+            if {![vip $comm]} {
+              if {![catch {exec {*}$comm &} err]} {
+                set err ""
+              }
             }
           }
         }
