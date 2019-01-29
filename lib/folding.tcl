@@ -260,6 +260,10 @@ namespace eval folding {
           }
         }
       }
+      marker {
+        set indent_cnt   [llength [$txt search -all -regexp -- {\{\{\{\d*} $line.0 $line.end]]
+        set unindent_cnt [llength [$txt search -all -regexp -- {\}\}\}}    $line.0 $line.end]]
+      }
     }
 
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
@@ -283,80 +287,149 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Returns the starting and ending positions of the range to fold.
-  proc get_fold_range {txt line depth} {
+  # Returns the fold range for the 'indent' fold method.
+  proc get_fold_range_indent {txt line depth} {
 
     set count  0
     set aboves [list]
     set belows [list]
     set closed [list]
 
-    if {[get_method $txt] eq "indent"} {
+    set start_chars [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0]]
+    set next_line   $line.0
+    set final       [lindex [split [$txt index end] .] 0].0
+    set all_chars   [list]
 
-      set start_chars [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0]]
-      set next_line   $line.0
-      set final       [lindex [split [$txt index end] .] 0].0
-      set all_chars   [list]
-
-      while {[set range [$txt syntax nextrange prewhite $next_line]] ne ""} {
-        set chars [$txt count -chars {*}$range]
-        set tline [lindex [split [lindex $range 0] .] 0]
-        set state [fold_state $txt $tline]
-        if {($state eq "close") || ($state eq "eclose")} {
-          lappend closed $tline
-        }
-        if {($chars > $start_chars) || ($all_chars eq [list])} {
-          if {($state ne "none") && ($state ne "end")} {
-            lappend all_chars [list $tline $chars]
-          }
-        } else {
-          set final $tline.0
-          break
-        }
-        set next_line [lindex $range 1]
+    while {[set range [$txt syntax nextrange prewhite $next_line]] ne ""} {
+      set chars [$txt count -chars {*}$range]
+      set tline [lindex [split [lindex $range 0] .] 0]
+      set state [fold_state $txt $tline]
+      if {($state eq "close") || ($state eq "eclose")} {
+        lappend closed $tline
       }
+      if {($chars > $start_chars) || ($all_chars eq [list])} {
+        if {($state ne "none") && ($state ne "end")} {
+          lappend all_chars [list $tline $chars]
+        }
+      } else {
+        set final $tline.0
+        break
+      }
+      set next_line [lindex $range 1]
+    }
 
-      set last $start_chars
-      foreach {tline chars} [concat {*}[lsort -integer -index 1 $all_chars]] {
-        incr count [expr $chars != $last]
+    set last $start_chars
+    foreach {tline chars} [concat {*}[lsort -integer -index 1 $all_chars]] {
+      incr count [expr $chars != $last]
+      if {$count < $depth} {
+        lappend belows $tline
+      } else {
+        lappend aboves $tline
+      }
+      set last $chars
+    }
+
+    return [list [expr $line + 1].0 $final $belows $aboves $closed]
+
+  }
+
+  ######################################################################
+  # Returns the fold range for the 'syntax' fold method.
+  proc get_fold_range_syntax {txt line depth} {
+
+    set count  0
+    set aboves [list]
+    set belows [list]
+    set closed [list]
+
+    array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
+
+    set index [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
+
+    foreach {tline tag} [concat {*}[lrange $data $index end]] {
+      if {$tag ne "end"} {
         if {$count < $depth} {
           lappend belows $tline
         } else {
           lappend aboves $tline
         }
-        set last $chars
+        if {($tag eq "close") || ($tag eq "eclose")} {
+          lappend closed $tline
+        }
       }
+      if {[incr count $inc($tag)] == 0} {
+        return [list [expr $line + 1].0 $tline.0 $belows $aboves $closed]
+      } elseif {$count < 0} {
+        set count 0
+      } elseif {($tag eq "eopen") || ($tag eq "eclose")} {
+        incr count
+      }
+    }
 
-      return [list [expr $line + 1].0 $final $belows $aboves $closed]
+    return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
 
-    } else {
+  }
 
-      array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
+  ######################################################################
+  # Returns the fold range for the 'marker' fold method.
+  proc get_fold_range_marker {txt line depth} {
 
-      set index [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
+    set count  0
+    set aboves [list]
+    set belows [list]
+    set closed [list]
 
-      foreach {tline tag} [concat {*}[lrange $data $index end]] {
-        if {$tag ne "end"} {
-          if {$count < $depth} {
-            lappend belows $tline
-          } else {
-            lappend aboves $tline
-          }
-          if {($tag eq "close") || ($tag eq "eclose")} {
+    # Find all of the markers
+    set matches     [$txt search -all -forwards -regexp -- {\{\{\{\d*|\}\}\}} 1.0 end]
+    set num_matches [llength $matches]
+    set index       [$txt index $line.end]
+    set current     [lsearch [lsort -dictionary [list {*}$matches $index]] $index]
+
+    # Find the begininning marker
+    for {set i [expr $current - 1]} {$i >= 0} {incr i -1} {
+      set index [lindex $matches $i]
+      if {[$txt get $index] eq "\{"} {
+        if {$count == 0} {
+          set tline [lindex [split $index .] 0]
+          set state [fold_state $txt $tline]
+          if {($state eq "close") || ($state eq "eclose")} {
             lappend closed $tline
           }
+          break
+        } else {
+          incr count -1
         }
-        if {[incr count $inc($tag)] == 0} {
-          return [list [expr $line + 1].0 $tline.0 $belows $aboves $closed]
-        } elseif {$count < 0} {
-          set count 0
-        } elseif {($tag eq "eopen") || ($tag eq "eclose")} {
-          incr count
+      } else {
+        incr count
+      }
+    }
+
+    # Find the ending marker
+    for {set i [expr $current + 1]} {$i < $num_matches} {incr i} {
+      set index [lindex $matches $i]
+      if {[$txt get $index] eq "\{"} {
+        incr count
+      } else {
+        if {$count == 0} {
+          set tline [lindex [split $index .] 0]
+        } else {
+          incr count -1
         }
       }
+    }
 
-      return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
+    return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
 
+  }
+
+  ######################################################################
+  # Returns the starting and ending positions of the range to fold.
+  proc get_fold_range {txt line depth} {
+
+    switch [get_method $txt] {
+      "indent" { return [get_fold_range_indent $txt $line $depth] }
+      "marker" { return [get_fold_range_marker $txt $line $depth] }
+      default  { return [get_fold_range_syntax $txt $line $depth] }
     }
 
   }

@@ -594,6 +594,7 @@ namespace eval vim {
       none   1
       manual 1
       syntax 1
+      marker 1
     }
 
     # Set the current folding method

@@ -1,4 +1,4 @@
-# RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
+  # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
 package provide ctext 5.0
@@ -216,24 +216,32 @@ namespace eval ctext {
     bind $win.l <MouseWheel>               [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                        [list event generate $win.t <4>]
     bind $win.l <5>                        [list event generate $win.t <5>]
-    bind $win.t <Destroy>                  [list ctext::event:Destroy $win]
     bind $win.t <<Selection>>              [list ctext::event:Selection $win]
     bind $win.t <Escape>                   [list ctext::event:Escape $win]
+    bind $win.t <Destroy>                  [list ctext::event:Destroy $win]
     bind $win.t <Key-Up>                   "$win cursor move up; break"
-    bind $win.t <Key-Down>                 "$win cursor move down; break"
     bind $win.t <Key-Left>                 "$win cursor move left; break"
     bind $win.t <Key-Right>                "$win cursor move right; break"
+    bind $win.t <Key-Down>                 "$win cursor move down; break"
     bind $win.t <Key-Home>                 "$win cursor move linestart; break"
     bind $win.t <Key-End>                  "$win cursor move lineend; break"
-    bind $win.t <Button-1>                 "$win cursor disable"
+    bind $win.t <Button-1>                 [list $win cursor disable]
     bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
     bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
+
+    foreach sequence [list Shift Control Alt Command Option] {
+      foreach key [list Up Down Left Right Home End] {
+        bind $win.t <${sequence}-Key-${key}> [list ctext::event:keyevent]
+      }
+    }
 
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
     return $win
 
   }
+
+  proc event:keyevent {} {}
 
   proc event:xscroll {win clientData args} {
 
