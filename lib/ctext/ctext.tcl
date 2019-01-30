@@ -220,8 +220,8 @@ namespace eval ctext {
     bind $win.t <Escape>                   [list ctext::event:Escape $win]
     bind $win.t <Destroy>                  [list ctext::event:Destroy $win]
     bind $win.t <Key-Up>                   "$win cursor move up; break"
-    bind $win.t <Key-Left>                 "$win cursor move left; break"
-    bind $win.t <Key-Right>                "$win cursor move right; break"
+    bind $win.t <Key-Left>                 "if {\[$win cursor num\] > 0} { $win cursor move left; break }"
+    bind $win.t <Key-Right>                "if {\[$win cursor num\] > 0} { $win cursor move right; break }"
     bind $win.t <Key-Down>                 "$win cursor move down; break"
     bind $win.t <Key-Home>                 "$win cursor move linestart; break"
     bind $win.t <Key-End>                  "$win cursor move lineend; break"
