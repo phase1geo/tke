@@ -1,4 +1,4 @@
-  # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
+# RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
 package provide ctext 5.0
@@ -110,13 +110,8 @@ namespace eval ctext {
     set data($win,config,csl_tags)                 [list]
     set data($win,config,langs)                    [list {}]
     set data($win,config,gutters)                  [list]
-    set data($win,config,undo_hist)                [list]
-    set data($win,config,undo_hist_size)           0
-    set data($win,config,undo_sep_last)            -1
-    set data($win,config,undo_sep_next)            -1
-    set data($win,config,undo_sep_size)            0
-    set data($win,config,undo_sep_count)           0
-    set data($win,config,redo_hist)                [list]
+    set data($win,undo,undobuf)                    [list]
+    set data($win,undo,redobuf)                    [list]
     set data($win,config,linemap_cmd_ip)           0
     set data($win,config,meta_classes)             [list]
 
@@ -216,22 +211,22 @@ namespace eval ctext {
     bind $win.l <MouseWheel>               [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                        [list event generate $win.t <4>]
     bind $win.l <5>                        [list event generate $win.t <5>]
+    bind $win.t <Destroy>                  [list ctext::event:Destroy $win]
     bind $win.t <<Selection>>              [list ctext::event:Selection $win]
     bind $win.t <Escape>                   [list ctext::event:Escape $win]
-    bind $win.t <Destroy>                  [list ctext::event:Destroy $win]
-    bind $win.t <Key-Up>                   "$win cursor move up; break"
-    bind $win.t <Key-Left>                 "if {\[$win cursor num\] > 0} { $win cursor move left; break }"
-    bind $win.t <Key-Right>                "if {\[$win cursor num\] > 0} { $win cursor move right; break }"
-    bind $win.t <Key-Down>                 "$win cursor move down; break"
+    bind $win.t <Key-Up>                   "$win cursor move up;        break"
+    bind $win.t <Key-Down>                 "$win cursor move down;      break"
+    bind $win.t <Key-Left>                 "$win cursor move left;      break"
+    bind $win.t <Key-Right>                "$win cursor move right;     break"
     bind $win.t <Key-Home>                 "$win cursor move linestart; break"
-    bind $win.t <Key-End>                  "$win cursor move lineend; break"
-    bind $win.t <Button-1>                 [list $win cursor disable]
+    bind $win.t <Key-End>                  "$win cursor move lineend;   break"
+    bind $win.t <Button-1>                 "$win cursor disable"
     bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
     bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
 
-    foreach sequence [list Shift Control Alt Command Option] {
+    foreach mod [list Shift Control Alt Command Option] {
       foreach key [list Up Down Left Right Home End] {
-        bind $win.t <${sequence}-Key-${key}> [list ctext::event:keyevent]
+        bind $win.t <${mod}-Key-${key}> [list ctext::event:keyevent]
       }
     }
 
@@ -1003,101 +998,74 @@ namespace eval ctext {
 
   }
 
-  # Debugging procedure only
-  proc undo_display {win} {
+  ######################################################################
+  # UNDO/REDO FUNCTIONALITY
+  ######################################################################
+
+  ######################################################################
+  # Merges the given change into the last uncommitted change if there is
+  # compatibility.
+  proc undo_merge {win change} {
 
     variable data
 
-    puts "Undo History (size: $data($win,config,undo_hist_size), sep_size: $data($win,config,undo_sep_size)):"
+    lassign [lindex $data($win,undo,uncommitted) end] utype uspos uepos ustr ucursor umcursor
+    lassign $change                                   ctype cspos cepos cstr ccursor cmcursor
 
-    for {set i 0} {$i < $data($win,config,undo_hist_size)} {incr i} {
-      puts -nonewline "  [lindex $data($win,config,undo_hist) $i] "
-      if {$data($win,config,undo_sep_next) == $i} {
-        puts -nonewline " sep_next"
+    if {$utype eq "i"} {
+      if {$ctype eq "i"} {
+        lassign [split $uepos .] urow ucol
+        lassign [split $cspos .] crow ccol
+        if {($uepos eq $cspos) || ((($urow + 1) == $crow) && ($ccol == 0) && ([string index $ustr end] eq "\n"))} {
+          append ustr $cstr
+          lset data($win,undo,uncommitted) end [list i $uspos $cepos $ustr $ucursor $umcursor]
+          return 1
+        }
+      } elseif {($uepos eq $cepos) && [$win._t compare $uspos < $cspos]} {
+        lassign [split $uspos] urow ucol
+        set ustr   [string range $ustr 0 end-[string length $cstr]]
+        set ulines [split $ustr \n]
+        incr urow  [expr [llength $ulines] - 1]
+        set ucol   [expr (($ulines > 1) ? 0 : $ucol) + [string length [lindex $ulines end]]]
+        lset data($win,undo,uncommitted) end [list i $uspos $urow.$ucol $ustr $ucursor $umcursor]
+        return 1
       }
-      if {$data($win,config,undo_sep_last) == $i} {
-        puts -nonewline " sep_last"
+    } else {
+      if {($ctype eq "d") && ($uspos eq $cepos)} {
+        lset data($win,undo,uncommitted) end [list d $cspos $uepos [string cat $cstr $ustr] $cursor $mcursor]
+        return 1
       }
-      puts ""
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Adds the given change to the undo buffer.
+  proc undo_add_change {win change stop_separate} {
+
+    variable data
+
+    # If we don't have a current change group, create it
+    if {![info exists data($win,undo,uncommitted)]} {
+      lappend data($win,undo,uncommitted) $change
+      set data($win,undo,redobuf) [list]
+
+    # Attempt to merge -- if unsuccessful, add it to the back
+    } elseif {![undo_merge $win $change]} {
+      if {$data($win,config,-autoseparators) && !$stop_separate} {
+        lappend data($win,undo,undobuf) $data($win,undo,uncommitted)
+        unset data($win,undo,uncommitted)
+      }
+      lappend data($win,undo,uncommitted) $change
     }
 
   }
 
-  proc undo_separator {win} {
-
-    variable data
-
-    # puts "START undo_separator"
-    # undo_display $win
-
-    # If a separator is being added (and it was not already added), add it
-    if {$data($win,config,undo_sep_last) != ($data($win,config,undo_hist_size) - 1)} {
-
-      # Set the separator
-      lset data($win,config,undo_hist) end 4 -1
-
-      # Get the last index of the undo history list
-      set last_index [expr $data($win,config,undo_hist_size) - 1]
-
-      # Add the separator
-      if {$data($win,config,undo_sep_next) == -1} {
-        set data($win,config,undo_sep_next) $last_index
-      } else {
-        lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 [expr $last_index - $data($win,config,undo_sep_last)]
-      }
-
-      # Set the last separator index
-      set data($win,config,undo_sep_last) $last_index
-
-      # Increment the separator size
-      incr data($win,config,undo_sep_size)
-
-      # Increment the separator count
-      incr data($win,config,undo_sep_count)
-
-    }
-
-    # If the number of separators exceeds the maximum length, shorten the undo history list
-    undo_manage $win
-
-    # puts "END undo_separator"
-    # undo_display $win
-
-  }
-
-  proc undo_manage {win} {
-
-    variable data
-
-    # If we need to make the undo history list shorter
-    if {($data($win,config,-maxundo) > 0) && ([set to_remove [expr $data($win,config,undo_sep_size) - $data($win,config,-maxundo)]] > 0)} {
-
-      # Get the separators to remove
-      set index $data($win,config,undo_sep_next)
-      for {set i 1} {$i < $to_remove} {incr i} {
-        incr index [lindex $data($win,config,undo_hist) $index 4]
-      }
-
-      # Set the next separator index
-      set data($win,config,undo_sep_next) [expr [lindex $data($win,config,undo_hist) $index 4] - 1]
-
-      # Reset the last separator index
-      set data($win,config,undo_sep_last) [expr $data($win,config,undo_sep_last) - ($index + 1)]
-
-      # Set the separator size
-      incr data($win,config,undo_sep_size) [expr 0 - $to_remove]
-
-      # Shorten the undo history list
-      set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) 0 $index]
-
-      # Set the undo history size
-      incr data($win,config,undo_hist_size) [expr 0 - ($index + 1)]
-
-    }
-
-  }
-
-  proc undo_insert {win insert_pos str_len cursor} {
+  ######################################################################
+  # Adds the given insertion undo information to the undo buffer.
+  proc undo_insert {win ranges str cursor} {
 
     variable data
 
@@ -1105,36 +1073,20 @@ namespace eval ctext {
       return
     }
 
-    # puts "START undo_insert, insert_pos: $insert_pos, str_len: $str_len, cursor: $cursor"
-    # undo_display $win
+    set mcursor [expr [llength $ranges] > 2]
 
-    set end_pos [$win index "$insert_pos+${str_len}c"]
-
-    # Combine elements, if possible
-    if {[llength $data($win,config,undo_hist)] > 0} {
-      lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 hcursor sep
-      if {$sep == 0} {
-        if {($cmd eq "d") && ($val2 eq $insert_pos)} {
-          lset data($win,config,undo_hist) end 2 $end_pos
-          set data($win,config,redo_hist) [list]
-          return
-        }
-      }
+    # Handle multiple cursors if we have any
+    foreach {spos epos} [lrange $ranges 0 end-2] {
+      undo_add_change $win [list i $spos $epos $str $cursor $mcursor] 1
     }
 
-    # Add to the undo history
-    lappend data($win,config,undo_hist) [list d $insert_pos $end_pos $cursor 0]
-    incr data($win,config,undo_hist_size)
-
-    # Clear the redo history
-    set data($win,config,redo_hist) [list]
-
-    # puts "END undo_insert"
-    # undo_display $win
+    undo_add_change $win [list i {*}[lrange $ranges end-1 end] $str $cursor $mcursor] 0
 
   }
 
-  proc undo_delete {win start_pos end_pos} {
+  ######################################################################
+  # Adds the given insertion list undo information to the undo buffer.
+  proc undo_insertlist {win ranges strs cursor} {
 
     variable data
 
@@ -1142,122 +1094,129 @@ namespace eval ctext {
       return
     }
 
-    # puts "START undo_delete, start_pos: $start_pos, end_pos: $end_pos"
-    # undo_display $win
+    set mcursor [expr [llength $ranges] > 2]
 
-    set str [$win get $start_pos $end_pos]
-
-    # Combine elements, if possible
-    if {[llength $data($win,config,undo_hist)] > 0} {
-      lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
-      if {$sep == 0} {
-        if {$cmd eq "i"} {
-          if {$val1 eq $end_pos} {
-            lset data($win,config,undo_hist) end 1 $start_pos
-            lset data($win,config,undo_hist) end 2 "$str$val2"
-            set data($win,config,redo_hist) [list]
-            return
-          } elseif {$val1 eq $start_pos} {
-            lset data($win,config,undo_hist) end 2 "$val2$str"
-            set data($win,config,redo_hist) [list]
-            return
-          }
-        } elseif {($cmd eq "d") && ($val2 eq $end_pos)} {
-          lset data($win,config,undo_hist) end 2 $start_pos
-          lset data($win,config,redo_hist) [list]
-          return
-        }
-      }
+    foreach {spos epos} [lrange $ranges 0 end-2] str [lrange $strs 0 end-1] {
+      undo_add_change $win [list i $spos $epos $str $cursor $mcursor] 1
     }
 
-    # Add to the undo history
-    lappend data($win,config,undo_hist) [list i $start_pos $str [$win index insert] 0]
-    incr data($win,config,undo_hist_size)
-
-    # Clear the redo history
-    set data($win,config,redo_hist) [list]
-
-    # puts "END undo_delete"
-    # undo_display $win
+    undo_add_change $win [list i {*}[lrange $ranges end-1 end] [lindex $strs end] $cursor $mcursor] 0
 
   }
 
+  ######################################################################
+  # Adds the given delete undo information to the undo buffer.
+  proc undo_delete {win ranges strs cursor} {
+
+    variable data
+
+    if {!$data($win,config,-undo)} {
+      return
+    }
+
+    set mcursor [expr [llength $ranges] > 2]
+
+    foreach {spos epos} [lrange $ranges 0 end-2] str [lrange $strs 0 end-1] {
+      undo_add_change $win [list d $spos $epos $str $cursor $mcursor] 1
+    }
+
+    undo_add_change $win [list d {*}[lrange $ranges end-1 end] [lindex $strs end] $cursor $mcursor] 0
+
+  }
+
+  ######################################################################
+  # Adds the given replace undo information to the undo buffer.
+  proc undo_replace {win ranges dstrs istr cursor} {
+
+    variable data
+
+    if {!$data($win,config,-undo)} {
+      return
+    }
+
+    set mcursor [expr [llength $ranges] > 2]
+
+    foreach {spos eposd eposi} [lrange $ranges 0 end-3] dstr [lrange $dstrs 0 end-1] {
+      undo_add_change $win [list d $spos $eposd $dstr $cursor $mcursor] 1
+      undo_add_change $win [list i $spos $eposi $istr $cursor $mcursor] 1
+    }
+
+    undo_add_change $win [list d [lindex $ranges end-2] [lindex $ranges end-1] [lindex $dstrs end] $cursor $mcursor] 1
+    undo_add_change $win [list i [lindex $ranges end-2] [lindex $ranges end] $istr $cursor $mcursor] 0
+
+  }
+
+  ######################################################################
+  # Adds a separator to the undo buffer if valid to do so.
+  proc undo_add_separator {win} {
+
+    variable data
+
+    if {[info exists data($win,undo,uncommitted)]} {
+      lappend data($win,undo,undobuf) $data($win,undo,uncommitted)
+      unset data($win,undo,uncommitted
+    }
+
+  }
+
+  ######################################################################
+  # Returns the list of cursor positions that are stored in the undo buffer.
   proc undo_get_cursor_hist {win} {
 
     variable data
 
     set cursors [list]
 
-    if {[set index $data($win,config,undo_sep_next)] != -1} {
-
-      set sep 0
-
-      while {$sep != -1} {
-        lassign [lindex $data($win,config,undo_hist) $index] cmd val1 val2 cursor sep
-        lappend cursors $cursor
-        incr index $sep
+    foreach group [lreverse $data($win,undo,undobuf)] {
+      foreach change [lreverse $group] {
+        lappend cursors [lindex $change 4]
       }
-
     }
 
     return $cursors
 
   }
 
-  proc undo {win} {
+  ######################################################################
+  # Performs an undo/redo operation for all changes within the same
+  # change group.
+  proc undo_action {win from to} {
 
     variable data
 
-    # puts "START undo"
-    # undo_display $win
+    # If we have uncommitted changes, commit them now
+    undo_add_separator
 
-    if {[llength $data($win,config,undo_hist)] > 0} {
+    # If there is something in the undo buffer, undo one change group
+    if {[llength $data($win,undo,${from}buf)] > 0} {
 
-      set i           0
-      set last_cursor 1.0
-      set insert      0
-      set ranges      [list]
-      set do_tags     [list]
+      # Get the last change group
+      set last        [lindex $data($win,undo,${from}buf) end]
+      set tochanges   [list]
       set changed     ""
-      set sep_dec     0
+      set insert      0
+      set last_cursor 1.0
+      set do_tags     [list]
 
-      foreach element [lreverse $data($win,config,undo_hist)] {
+      array set inv [list i d d i]
 
-        lassign $element cmd val1 val2 cursor sep
-
-        if {$sep} {
-          if {$i == 0} {
-            set sep_dec -1
-          } else {
-            break
-          }
+      foreach change [lreverse $last] {
+        lassign $change type spos epos str cursor mcursor
+        if {$type eq "i"} {
+          append changed $str
+          comments_chars_deleted $win $spos $epos do_tags
+          $win._t delete $spos $epos
+          $win._t tag add hl "$spos linestart" "$spos lineend"
+        } else {
+          $win._t insert $spos $str
+          $win._t tag add hl "$spos linestart" "$epos lineend"
+          append changed $str
+          comments_do_tag $win [list $spos $epos] do_tags
+          set_rmargin $win $spos $epos
+          set insert 1
         }
-
-        switch $cmd {
-          i {
-            $win._t insert $val1 $val2
-            append changed $val2
-            set val2 [$win index "$val1+[string length $val2]c"]
-            comments_do_tag $win $val1 $val2 do_tags
-            set_rmargin $win $val1 $val2
-            lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
-            set insert 1
-          }
-          d {
-            set str [$win get $val1 $val2]
-            append changed $str
-            comments_chars_deleted $win $val1 $val2 do_tags
-            $win._t delete $val1 $val2
-            lappend data($win,config,redo_hist) [list i $val1 $str $cursor $sep]
-          }
-        }
-
-        $win._t tag add hl [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
-
+        lappend tochanges [list $inv($type) $spos $epos $str $cursor $mcursor]
         set last_cursor $cursor
-
-        incr i
-
       }
 
       # Get the list of affected lines that need to be re-highlighted
@@ -1273,116 +1232,42 @@ namespace eval ctext {
         }
       }
 
-      set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
-      incr data($win,config,undo_hist_size) [expr 0 - $i]
+      # Push the undo buffer changes to the redo buffer
+      lappend data($win,undo,${to}buf) $tochanges
 
-      # Set the last sep of the undo_hist list to -1 to indicate the end of the list
-      if {$data($win,config,undo_hist_size) > 0} {
-        lset data($win,config,undo_hist) end 4 -1
-      }
+      # Pop the undo buffer
+      set data($win,undo,${from}buf) [lreplace $data($win,undo,${from}buf) end end]
 
-      # Update undo separator info
-      set  data($win,config,undo_sep_next)  [expr ($data($win,config,undo_hist_size) == 0) ? -1 : $data($win,config,undo_sep_next)]
-      set  data($win,config,undo_sep_last)  [expr $data($win,config,undo_hist_size) - 1]
-      incr data($win,config,undo_sep_size)  -1
-      incr data($win,config,undo_sep_count) $sep_dec
-
+      # Update the cursor and indicate the the buffer has changed
       ::tk::TextSetCursor $win.t $last_cursor
-      modified $win 1 [list undo $ranges ""]
+      modified $win 1 [list $from $ranges ""]
 
     }
 
-    # puts "END undo"
-    # undo_display $win
+  }
+
+  ######################################################################
+  # Performs an undo for a single change group.
+  proc undo {win} {
+
+    undo_action $win undo redo
 
   }
 
+  ######################################################################
+  # Performs a redo for a single change group.
   proc redo {win} {
 
-    variable data
-
-    if {[llength $data($win,config,redo_hist)] > 0} {
-
-      set i       0
-      set insert  0
-      set do_tags [list]
-      set ranges  [list]
-      set changed ""
-
-      foreach element [lreverse $data($win,config,redo_hist)] {
-
-        lassign $element cmd val1 val2 cursor sep
-
-        switch $cmd {
-          i {
-            $win._t insert $val1 $val2
-            append changed $val2
-            set val2 [$win index "$val1+[string length $val2]c"]
-            comments_do_tag $win.t $val1 $val2 do_tags
-            set_rmargin $win $val1 $val2
-            lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
-            if {$cursor != $val2} {
-              set cursor $val2
-            }
-            set insert 1
-          }
-          d {
-            set str [$win get $val1 $val2]
-            append changed $str
-            comments_chars_deleted $win $val1 $val2 do_tags
-            $win._t delete $val1 $val2
-            lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
-            if {$cursor != $val1} {
-              set cursor $val1
-            }
-          }
-        }
-
-        $win._t tag add hl [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
-
-        incr i
-
-        if {$sep} {
-          break
-        }
-
-      }
-
-      # Get the list of affected lines that need to be re-highlighted
-      set ranges [$win._t tag ranges hl]
-      $win._t tag delete hl
-
-      # Highlight the code
-      if {[llength $ranges] > 0} {
-        if {[highlightAll $win $ranges $insert $do_tags]} {
-          checkAllBrackets $win
-        } else {
-          checkAllBrackets $win $changed
-        }
-      }
-
-      set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
-
-      # Set the sep field of the last separator field to match the number of elements added to
-      # the undo_hist list.
-      if {$data($win,config,undo_sep_last) >= 0} {
-        lset data($win,config,undo_hist) $data($win,config,undo_sep_last) 4 $i
-      }
-
-      # Update undo separator structures
-      incr data($win,config,undo_hist_size) $i
-      set  data($win,config,undo_sep_next)  [expr ($data($win,config,undo_sep_next) == -1) ? [expr $data($win,config,undo_hist_size) - 1] : $data($win,config,undo_sep_next)]
-      set  data($win,config,undo_sep_last)  [expr $data($win,config,undo_hist_size) - 1]
-      incr data($win,config,undo_sep_size)
-      incr data($win,config,undo_sep_count)
-
-      ::tk::TextSetCursor $win.t $cursor
-      modified $win 1 [list redo $ranges ""]
-
-    }
+    undo_action $win redo undo
 
   }
 
+  ######################################################################
+  # GUTTER-RELATED FUNCTIONALITY
+  ######################################################################
+
+  ######################################################################
+  # Returns the current list of gutter tags.
   proc getGutterTags {win pos} {
 
     set alltags [$win tag names $pos]
@@ -1396,13 +1281,12 @@ namespace eval ctext {
   ######################################################################
   # Move all gutter tags from the old column 0 of the given row to the new
   # column 0 character.
-  proc handleInsertAt0 {win startpos datalen} {
+  proc handleInsertAt0 {win startpos endpos datalen} {
 
     if {[lindex [split $startpos .] 1] == 0} {
-      set endpos [$win index "$startpos+${datalen}c"]
       foreach tag [getGutterTags $win $endpos] {
-        $win tag add $tag $startpos
-        $win tag remove $tag $endpos
+        $win._t tag add $tag $startpos
+        $win._t tag remove $tag $endpos
       }
     }
 
@@ -1687,8 +1571,10 @@ namespace eval ctext {
             set_mcursor $win [$win index [list {*}[lindex $args 1] -startpos $startpos]] $startpos
             set data($win,mcursor_anchor) $startpos
           }
+          return 1
         } else {
           set_cursor $win [$win index [lindex $args 1]]
+          return 0
         }
       }
       align {
@@ -1751,7 +1637,7 @@ namespace eval ctext {
     set deldata  [$win._t get $startPos $endPos]
     set do_tags  [list]
 
-    undo_delete            $win $startPos $endPos
+    undo_delete            $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] [$win._t index insert]
     handleDeleteAt0        $win $startPos $endPos
     linemapCheckOnDelete   $win $startPos $endPos
     comments_chars_deleted $win $startPos $endPos do_tags
@@ -1921,7 +1807,7 @@ namespace eval ctext {
     }
 
     if {$do_undo} {
-      undo_delete $win $startPos $endPos
+      undo_delete $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] [$win._t index insert]
     }
     handleDeleteAt0 $win $startPos $endPos
 
@@ -1958,9 +1844,9 @@ namespace eval ctext {
     set endPos [$win._t index "$startPos+${chars}c"]
 
     if {$do_undo} {
-      undo_insert $win $startPos $chars $cursor
+      undo_insert $win [list $startPos $endPos] $chars $cursor
     }
-    handleInsertAt0 $win._t $startPos $chars
+    handleInsertAt0 $win $startPos $endPos $chars
     set_rmargin     $win $startPos $endPos
 
     if {$do_update} {
@@ -1995,7 +1881,7 @@ namespace eval ctext {
     set cursor   [$win._t index insert]
 
     if {$do_undo} {
-      undo_delete $win $startPos $endPos
+      undo_replace $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] [lindex $args 2] $cursor
     }
 
     set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
@@ -2005,10 +1891,6 @@ namespace eval ctext {
 
     handleReplaceInsert $win $startPos $datlen $tags
     set_rmargin         $win $startPos [$win._t index "$startPos+${datlen}c"]
-
-    if {$do_undo} {
-      undo_insert $win $startPos $datlen $cursor
-    }
 
     if {$do_update} {
       modified $win 1 [list replace [list $startPos $endPos] $moddata]
@@ -2079,62 +1961,70 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Inserts text at the given cursor or at multicursors (if set) and
+  # performs highlighting on that text.  Additionally, updates the undo
+  # buffer.
   proc command_insert {win args} {
 
     variable data
 
-    if {[llength $args] < 2} {
-      return -code error "please use at least 2 arguments to $win insert"
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -moddata   {}
+      -highlight 1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    # Get the number of characters being inserted and adjust the tags
+    set chars 0
+    set items [list]
+    set dat   ""
+    foreach {content tags} [lassign [lrange $args $i end] insertPos] {
+      incr chars [string length $content]
+      lappend items $content [list {*}$tags lmargin rmargin __Lang:langtag]
+      append dat $content
     }
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
-    }
+    set ranges  [list]
+    set cursor  [$win._t index insert]
+    set do_tags [list]
 
-    set insertPos [$win._t index [lindex $args 0]]
-    set cursor    [$win._t index insert]
-    set dat       ""
-    set do_tags   [list]
-
-    if {[lindex $args 0] eq "end"} {
-      set lineStart [$win._t index "$insertPos-1c linestart"]
-    } else {
-      set lineStart [$win._t index "$insertPos linestart"]
-    }
-
-    # Gather the data
-    foreach {chars taglist} [lrange $args 1 end] {
-      append dat $chars
-    }
-    set datlen [string length $dat]
-
-    # Add the embedded language tag to the arguments if taglists are present
-    if {([llength $args] >= 3) && ([set lang [getLang $win $insertPos]] ne "")} {
-      set tag_index 2
-      foreach {chars taglist} [lrange $args 1 end] {
-        lappend taglist __Lang:$lang
-        lset args $tag_index $taglist
-        incr tag_index 2
+    # Insert the text
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+      foreach {endPos startPos} [lreverse $cursors] {
+        $win._t insert $startPos {*}[string map [list langtag [getLang $win $startPos]] $items]
+        set endPos [$win._t index "$startPos+${chars}c"]
+        handleInsertAt0 $win $startPos $endPos $chars
+        lappend ranges $startPos $endPos
       }
+    } else {
+      if {$insertPos eq "end"} {
+        set insPos [$win._t index $insertPos-1c]
+      } else {
+        set insPos [set insertPos [$win index $insertPos]]
+      }
+      $win._t insert $insertPos {*}[string map [list langtag [getLang $win $insertPos]] $items]
+      set endPos [$win._t index "$insPos+${chars}c"]
+      handleInsertAt0 $win $insertPos $endPos $chars
+      lappend ranges $insPos $endPos
     }
 
-    $win._t insert {*}$args
+    # Delete any dspace characters
+    catch { $win._t delete {*}[$win._t tag ranges _dspace] }
 
-    set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
-
-    undo_insert     $win $insertPos $datlen $cursor
-    handleInsertAt0 $win._t $insertPos $datlen
-    set_rmargin     $win $insertPos "$insertPos+${datlen}c"
-    comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+    undo_insert     $win $ranges $chars $cursor
+    comments_do_tag $win $ranges do_tags
 
     # Highlight text and bracket auditing
-    if {[highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]} {
+    if {[highlightAll $win $ranges 1 $do_tags]} {
       checkAllBrackets $win
     } else {
       checkAllBrackets $win $dat
     }
-    modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+    modified $win 1 [list insert $ranges $opts(-moddata)]
 
     event generate $win.t <<CursorChanged>>
 
@@ -2294,7 +2184,7 @@ namespace eval ctext {
     set cursor   [$win._t index insert]
     set do_tags  [list]
 
-    undo_delete            $win $startPos $endPos
+    undo_replace           $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] $dat $cursor
     comments_chars_deleted $win $startPos $endPos do_tags
     set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
 
@@ -2302,13 +2192,12 @@ namespace eval ctext {
     $win._t replace {*}$args
 
     handleReplaceInsert $win $startPos $datlen $tags
-    undo_insert $win $startPos $datlen $cursor
 
     set lineStart [$win._t index "$startPos linestart"]
     set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
 
     if {[llength $do_tags] == 0} {
-      comments_do_tag $win $startPos "$startPos+${datlen}c" do_tags
+      comments_do_tag $win [list $startPos "$startPos+${datlen}c"] do_tags
     }
     set_rmargin $win $startPos "$startPos+${datlen}c"
 
@@ -2340,7 +2229,7 @@ namespace eval ctext {
 
     tk_textPaste $win
 
-    handleInsertAt0 $win._t $insertPos $datalen
+    handleInsertAt0 $win $insertPos $datalen
     modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
     event generate $win.t <<CursorChanged>>
 
@@ -2622,32 +2511,22 @@ namespace eval ctext {
         redo $win
       }
       undoable {
-        return [expr $data($win,config,undo_hist_size) > 0]
+        return [expr [llength $data($win,undo,undobuf)] > 0]
       }
       redoable {
-        return [expr [llength $data($win,config,redo_hist)] > 0]
+        return [expr [llength $data($win,undo,redobuf)] > 0]
       }
       separator {
-        if {[llength $data($win,config,undo_hist)] > 0} {
-          undo_separator $win
-        }
+        undo_add_separator $win
       }
       undocount {
-        if {$data($win,config,undo_hist_size) == 0} {
-          return 0
-        } else {
-          return [expr $data($win,config,undo_sep_count) + (([lindex $data($win,config,undo_hist) end 4] == 0) ? 1 : 0)]
-        }
+        return [expr [llength $data($win,undo,undobuf)] + [info exists data($win,undo,uncommitted)]]
       }
       reset {
-        set data($win,config,undo_hist)      [list]
-        set data($win,config,undo_hist_size) 0
-        set data($win,config,undo_sep_next)  -1
-        set data($win,config,undo_sep_last)  -1
-        set data($win,config,undo_sep_size)  0
-        set data($win,config,undo_sep_count) 0
-        set data($win,config,redo_hist)      [list]
-        set data($win,config,modified)       false
+        unset -nocomplain data($win,undo,uncommitted)
+        set data($win,undo,undobuf)    [list]
+        set data($win,undo,redobuf)    [list]
+        set data($win,config,modified) false
       }
       cursorhist {
         return [undo_get_cursor_hist $win]
@@ -3601,12 +3480,17 @@ namespace eval ctext {
 
   }
 
-  proc comments_do_tag {win start end pdo_tags} {
+  proc comments_do_tag {win ranges pdo_tags} {
 
     upvar $pdo_tags do_tags
 
-    if {($do_tags eq "") && [inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)} {
-      lappend do_tags "stuff" 1
+    if {$do_tags eq ""} {
+      foreach {start end} $ranges {
+        if {[inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)} {
+          lappend do_tags "stuff" 1
+          break
+        }
+      }
     }
 
   }
