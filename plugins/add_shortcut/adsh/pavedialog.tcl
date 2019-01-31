@@ -18,6 +18,7 @@
 #     retrycancel
 #     abortretrycancel
 #     misc
+#     input
 #   ARGS stands for the arguments of dialog:
 #     icon title message (optional checkbox message) (optional geometry) \
 #                   (optional -text 1)
@@ -80,6 +81,7 @@ oo::class create PaveDialog {
   #  retrycancel      - dialog with buttons RETRY, CANCEL
   #  abortretrycancel - dialog with buttons ABORT, RETRY, CANCEL
   #  misc             - dialog with miscellaneous buttons
+  #  input            - dialog with miscellaneous widgets to input data
   #
   # Called as:
   #   dialog icon ttl msg ?defb? ?args?
@@ -185,9 +187,25 @@ oo::class create PaveDialog {
         }
         default {
           lappend inopts [list $ff - - - - "pack -side right -expand 1 -fill x $gopts" "$tvar $vv $attrs"]
+          if {$vv!=""} {
+            if {![info exist $vv]} {lassign $valopts $vv}
+          }
         }
       }
       if {![info exist $vv]} {set $vv ""}
+    }
+    if {![string match "*-focus *" $args]} {
+      # find 1st entry/text to be focused
+      foreach io $iopts {
+        if {[set _ [string range [set n [lindex $io 0]] 0 1]]=="en" || $_=="te"} {
+          set args "$args -focus *$n"
+          break
+        }
+        if {$_=="fi" || $_=="di" || $_=="cl"} {
+          set args "$args -focus *ent$n"
+          break
+        }
+      }
     }
     return [my Query $icon $ttl {} {butOK OK 1 butCANCEL Cancel 0} butOK \
       $inopts {*}$args]
@@ -294,6 +312,7 @@ oo::class create PaveDialog {
     }
     # remember the focus (to restore it after closing the dialog)
     set oldfocused [focus]
+    set newfocused ""
     # get the options of dialog:
     #  - checkbox text (if given, enable the checkbox)
     #  - geometry of dialog window
@@ -345,6 +364,7 @@ oo::class create PaveDialog {
         -hfg {append optsHead " -foreground $val"}
         -hbg {append optsHead " -background $val"}
         -hsz {append hsz " -size $val"}
+        -focus {set newfocused "$val"}
         default {
           append optsFont " $opt $val"
           if {$opt!="-family"} {
@@ -459,7 +479,7 @@ oo::class create PaveDialog {
     # display the dialog's window
     set ${nsd}paveD::ch 0
     my makeWindow $pWindow.pavedlg $ttl
-    my window $pWindow.pavedlg $widlist
+    set widlist [my window $pWindow.pavedlg $widlist]
     # after creating widgets - show dialog texts if any
     my setgettexts set $pWindow.pavedlg $inopts $widlist
     set focusnow $pWindow.pavedlg.$defb
@@ -482,6 +502,14 @@ oo::class create PaveDialog {
         append optsState " -insertbackground $cc"
       }
       $pWindow.pavedlg.texM configure {*}$optsState
+    }
+    if {$newfocused!=""} {
+      foreach w $widlist {
+        lassign $w widname
+        if {[string match $newfocused $widname]} {
+          set focusnow $pWindow.pavedlg.$widname
+        }
+      }
     }
     my showModal $pWindow.pavedlg -focus $focusnow -geometry $geometry {*}$root
     set pdgeometry [winfo geometry $pWindow.pavedlg]
