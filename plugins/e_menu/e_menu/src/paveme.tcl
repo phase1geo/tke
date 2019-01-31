@@ -292,7 +292,7 @@ oo::class create PaveMe {
     switch -glob [my rootwname $name] {
       "fil*" {
         set chooser "tk_getOpenFile"
-        set title "Choose File(s) to Open"
+        set title "Choose File to Open"
       }
       "fis*" {
         set chooser "tk_getSaveFile"
@@ -311,14 +311,22 @@ oo::class create PaveMe {
       }
     }
     set tvar [set vv ""]
-    catch {array set a $attrs1; set title $a(-title)}
+    set attmp [list]
+    foreach {nam val} $attrs1 {
+      if {$nam=="-title"} {
+        set title $val
+      } else {
+        lappend attmp $nam $val
+      }
+    }
+    set attrs1 $attmp
     catch {array set a $attrs1; set tvar "-tvar [set vv $a(-tvar)]"}
     catch {array set a $attrs1; set tvar "-tvar [set vv $a(-textvariable)]"}
     if {$vv==""} {
       set vv [namespace current]::$name
       set tvar "-tvar $vv"
     }
-    set com "[self] chooser $chooser \{$vv\} -title \{\{$title\}\} -parent $w"
+    set com "[self] chooser $chooser \{$vv\} -title \{$title\} -parent $w"
     # make a frame in the list
     set ispack 0
     if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
@@ -330,7 +338,7 @@ oo::class create PaveMe {
       set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew"]
     }
     lset lwidgets $i $args
-    set entf [list [my transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" $tvar]
+    set entf [list [my transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" "$attrs1 $tvar"]
     set butf [list [my transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{\{$com\}\} -t ... -font \{\{-weight bold -size 5\}\}"]
     set lwidgets [linsert $lwidgets [expr {$i+1}] $entf $butf]
     incr lwlen 2
@@ -465,7 +473,7 @@ oo::class create PaveMe {
         }
       }
     }
-    return
+    return $lwidgets
 
   }
 

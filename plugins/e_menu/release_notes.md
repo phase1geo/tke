@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Version `1.12 (31 Jan'19)`
+
+  - PaveDialog input: entering data used in commands
+  - hg.mnu: input dialogs added
+  - %F wildcard added: 'assumed filename' ="%f" if "%f" exists, otherwise ="*"
+  - bug fix: workdir taken from %f
+
+
 Version `1.11 (15 Jan'19)`
 
   - y[0-9]= arguments as module args from #ARGS[0-9] placeholders

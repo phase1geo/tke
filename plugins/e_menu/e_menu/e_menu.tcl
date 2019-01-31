@@ -363,6 +363,21 @@ proc ::em::writeable_command {cmd} {
   }
   return $cmd
 }
+#=== Input dialog for getting data
+proc ::em::input {cmd} {
+  set ::em::skipfocused 1
+  PaveDialog create dialog "" $::srcdir
+  set data [string range $cmd [set dp [string last >> $cmd]]+2 end]
+  set cmd "dialog input [string range $cmd 2 $dp-1]"
+  catch {set cmd [subst $cmd]}
+  set res [{*}$cmd]
+  dialog destroy
+  set r [lindex $res 0]
+  if {$r} {
+    lassign $res -> {*}$data
+  }
+  return $r
+}
 #=== VIP commands need internal processing
 proc ::em::vip {refcmd} {
   upvar $refcmd cmd
@@ -582,6 +597,7 @@ proc ::em::checkForShell {rsel} {
 #=== call command in shell
 proc ::em::shell0 {sel amp} {
   set ret true
+  catch {set sel [subst -nobackslashes -nocommands $sel]}
   if {[::iswindows]} {
     set composite "$::win_console $sel $amp"
     catch {
@@ -623,24 +639,28 @@ proc ::em::run0 {sel amp silent} {
   if {![vip sel]} {
     if {[string first "%q " $sel] == 0 ||
     [string first "%Q " $sel] == 0} {
+      catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "Q [string range $sel 3 end]"
       if {![catch {{*}$sel} e]} {
         return $e
       }
       return false
+    } elseif {[string first "%C " $sel] == 0} {
+      # run Tcl code
+      try {
+        set sel [string range $sel 3 end]
+        {*}$sel
+      }
+    } elseif {[string first "%I " $sel] == 0} {
+      return [input $sel]
     } elseif {[string first "%D " $sel] == 0} {
+      catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "D [string range $sel 3 end]"
       catch {{*}$sel}
     } elseif {[string first "%S " $sel] == 0} {
       # run shell command(s)
+      catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "S [string range $sel 3 end]"
-      if {[catch {[{*}$sel]} e]} {
-        D $e
-        return false
-      }
-    } elseif {[string first "%C " $sel] == 0} {
-      # run Tcl code with messaging errors
-      set sel "[string range $sel 3 end]"
       if {[catch {[{*}$sel]} e]} {
         D $e
         return false
@@ -661,6 +681,7 @@ proc ::em::run0 {sel amp silent} {
       if {[::iswindows]} {
         set comm "cmd.exe /c $comm"
       }
+      catch {set comm [subst -nobackslashes -nocommands $comm]}
       if { [catch {exec {*}$comm} e] } {
         if {$silent < 0} {
           em_message "ERROR of running\n\n$sel\n\n$e"
@@ -912,7 +933,7 @@ proc ::em::get_language {} {
 proc ::em::get_PD {} {
   if {[llength $::em::workdirlist]>0} {
     # workdir got from a current file (if not passed, got a current dir)
-    if {[catch {set ::em::workdir $::em::arr_geany(f)}]} {
+    if {[catch {set ::em::workdir [file dirname $::em::arr_geany(f)]}]} {
       set ::em::workdir [pwd]
     }
     foreach wd $::em::workdirlist {
@@ -1029,6 +1050,16 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   upvar $refpn pn
   prepr_idiotic pn 1
   foreach gw [array names ::em::arr_geany] {  ;# Geany's wildcards
+    if {$gw=="F" && $::em::arr_geany($gw)!="*"} {
+      ;# %F wildcard is a checked filename
+      if {![file exists $::em::arr_geany($gw)]} {
+        if {[info exists ::em::arr_geany(f)] && [file exists $::em::arr_geany(f)]} {
+          set :em::arr_geany($gw) $::em::arr_geany(f)
+        } else {
+          set :em::arr_geany($gw) "*"
+        }
+      }
+    }
     prepr_1 pn $gw $::em::arr_geany($gw)
   }
   prepr_1 pn "PD" [get_PD]            ;# %PD is passed project's dir (PD=)
@@ -1508,7 +1539,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
   catch {
     initPD $::env(E_MENU_PD) 1
   }
-  foreach s1 { a0= P= N= PD= PN= o= s= \
+  foreach s1 { a0= P= N= PD= PN= F= o= s= \
         u= w= qq= dd= pa= ah= wi= += bd= b1= b2= b3= b4= \
         f1= f2= fs= ch= a1= a2= ed= tf= tg= md= \
         t0= t1= t2= t3= t4= t5= t6= t7= t8= t9= \
@@ -1588,7 +1619,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         }
         w= { set ::em::itviewed [::getN $seltd] }
         a= { set ::em::autorun $seltd }
-        f= - l= - p= - e= - d= {
+        F= - f= - l= - p= - e= - d= {
           ;# d=, e=, f=, l=, p= are used as Geany wildcards
           set ::em::arr_geany([string range $s1 0 0]) $seltd
         }
@@ -1906,6 +1937,7 @@ proc ::em::initauto {} {
 }
 #=== begin inits
 proc ::em::initbegin {} {
+  try {ttk::style theme use clam}
   if {[iswindows]} { ;# maybe nice to hide all windows manipulations
     wm attributes . -alpha 0.0
   } else {

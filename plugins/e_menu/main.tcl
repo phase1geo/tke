@@ -155,7 +155,7 @@ namespace eval e_menu {
     variable plugdir
     variable datadir
     if {![init_e_menu]} return
-    set h_opt [set s_opt [set f_opt [set d_opt [set D_opt ""]]]]
+    set h_opt [set s_opt [set f_opt [set d_opt [set D_opt [set F_opt ""]]]]]
     set s0_opt [set s1_opt [set s2_opt ""]]
     set z1_opt [set z2_opt [set z3_opt  [set z4_opt ""]]]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
@@ -191,6 +191,7 @@ namespace eval e_menu {
         catch {cd $dir_name}
         set dir_name [fn $dir_name]
         set f_opt "f=$file_name"
+        set F_opt "F=$file_name"
         set d_opt "d=$dir_name"
         set D_opt "PD=$dir_name"
         set s0_opt "s0=[file tail $file_name]"
@@ -237,7 +238,7 @@ namespace eval e_menu {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
           fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
           $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
-          $D_opt {*}$y_opts &
+          $D_opt $F_opt {*}$y_opts &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n

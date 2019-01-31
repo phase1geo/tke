@@ -1,10 +1,10 @@
 ; hg menu for e_menu.tcl
 
- R: hg summary ------ hg status R: cd %PD
- S: hg summary ------ hg status S: echo %PD\nhg summary\necho ---------------\nhg status
+ R: hg summary -- hg status R: cd %PD
+ S: hg summary -- hg status S: echo %PD\nhg summary\necho ---------------\nhg status
 
- R: hg heads ------ hg parents R: cd %PD
- S: hg heads ------ hg parents S: echo %PD\nhg heads\necho ---------------\nhg parents
+ R: hg heads -- hg parents R: cd %PD
+ S: hg heads -- hg parents S: echo %PD\nhg heads\necho ---------------\nhg parents
 
  R: hg addremove * R: %q "ADD" "This will ADD & REMOVE all changes in:\n\n%PD"
  R: hg addremove * R: cd %PD
@@ -17,36 +17,47 @@ SW: hg commit SW: hg status
 
  R:  R: 2
 
- R: kdiff3 of %s0 R: cd %d
- R: kdiff3 of %s0 R: hg extdiff -p kdiff3 %f
+ R: kdiff3 of %s0 R: cd %PD
+ R: kdiff3 of %s0 R: %C if {![info exist ::fInp1] || $::fInp1==""} {set ::fInp1 "%F"}
+ R: kdiff3 of %s0 R: %I ques "KDIFF3" {filName {{File:} {} {-w 60}} {$::fInp1} lab} -head "\n Enter/choose a file to kdiff3" -weight bold >> ::fInp1
+ R: kdiff3 of %s0 R: hg extdiff -p kdiff3 "$::fInp1"
 
  R: hg diff R: cd %PD
  S: hg diff S: hg diff
 
  R: hg diff -r tip %s0 R: cd %PD
- S: hg diff -r tip %s0 S: hg diff -r tip %f
+ R: hg diff -r tip %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
+ R: hg diff -r tip %s0 R: %I ques "DIFFERENCES" {filName {{File(s):} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose file(s) to diff\n (quote 'a name' if it has spaces)" -weight bold >> ::fInp2
+ S: hg diff -r tip %s0 S: hg diff -r tip $::fInp2
 
  R: hg annotate %s0 R: cd %PD
- S: hg annotate %s0 S: hg annotate %f
+ R: hg annotate %s0 R: %C if {![info exist ::fInp1] || $::fInp1==""} {set ::fInp1 "%F"}
+ R: hg annotate %s0 R: %I ques "ANNOTATE" {filName {{File:} {} {-w 60}} {$::fInp1} lab} -head "\n Enter/choose a file to annotate" -weight bold >> ::fInp1
+ S: hg annotate %s0 S: hg annotate '$::fInp1'
 
  R: hg log -l 10 -v R: cd %PD
  S: hg log -l 10 -v S: hg log -l 10 -v
 
  R: hg log -p -l 1 %s0 R: cd %PD
- S: hg log -p -l 1 %s0 S: hg log -p -l 1 %f
+ R: hg log -p -l 1 %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
+ R: hg log -p -l 1 %s0 R: %I ques "LOG" {filName {{File(s):} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose file(s) to view log patches\n (quote 'a name' if it has spaces)" -weight bold >> ::fInp2
+ S: hg log -p -l 1 %s0 S: hg log -p -l 1 $::fInp2
 
  R: hg revert R: %q "REVERT" "This will REVERT ALL changes in\n\n%PD"
  R: hg revert R: cd %PD
  S: hg revert S: hg revert -a
 
- R: hg revert %s0 R: %q "REVERT" "This will REVERT the changes of\n\n%f"
- S: hg revert %s0 S: hg revert %f
+ R: hg revert %s0 R: cd %PD
+ R: hg revert %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
+ R: hg revert %s0 R: %I ques "REVERT" {filName {{File(s):} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose file(s) to revert\n (quote 'a name' if it has spaces)" -weight bold >> ::fInp2
+ R: hg revert %s0 R: %q "REVERT" "This will REVERT the changes of\n\n$::fInp2"
+ S: hg revert %s0 S: hg revert $::fInp2
 
  R: hg rollback R: %q "ROLLBACK" "This will ROLL BACK the last commit in\n\n%PD"
  R: hg rollback R: cd %PD
  S: hg rollback S: hg rollback
 
- R: hg commit --amend R: %q "COMMIT AMEND" "This will AMEND the last commit in\n\n%PD"
+ R: hg commit --amend R: %q "AMEND COMMIT" "This will AMEND the last commit in\n\n%PD"
  R: hg commit --amend R: cd %PD
  S: hg commit --amend S: hg commit --amend
 
@@ -97,3 +108,4 @@ SW: hg commit SW: hg status
 
 [OPTIONS]
 o=0
+n=< hg >
