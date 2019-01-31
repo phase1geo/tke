@@ -83,9 +83,9 @@ namespace eval ctext {
     set data($win,config,-casesensitive)           1
     set data($win,config,-escapes)                 1
     set data($win,config,-peer)                    ""
-    set data($win,config,-undo)                    0
+    set data($win,config,-undo)                    1
     set data($win,config,-maxundo)                 0
-    set data($win,config,-autoseparators)          0
+    set data($win,config,-autoseparators)          1
     set data($win,config,-diff_mode)               0
     set data($win,config,-diffsubbg)               "pink"
     set data($win,config,-diffaddbg)               "light green"
@@ -1022,17 +1022,22 @@ namespace eval ctext {
           return 1
         }
       } elseif {($uepos eq $cepos) && [$win._t compare $uspos < $cspos]} {
-        lassign [split $uspos] urow ucol
+        lassign [split $uspos .] urow ucol
         set ustr   [string range $ustr 0 end-[string length $cstr]]
         set ulines [split $ustr \n]
-        incr urow  [expr [llength $ulines] - 1]
-        set ucol   [expr (($ulines > 1) ? 0 : $ucol) + [string length [lindex $ulines end]]]
+        incr urow  [set unum [expr [llength $ulines] - 1]]
+        set ucol   [expr (($unum > 0) ? 0 : $ucol) + [string length [lindex $ulines end]]]
         lset data($win,undo,uncommitted) end [list i $uspos $urow.$ucol $ustr $ucursor $umcursor]
         return 1
       }
     } else {
-      if {($ctype eq "d") && ($uspos eq $cepos)} {
-        lset data($win,undo,uncommitted) end [list d $cspos $uepos [string cat $cstr $ustr] $cursor $mcursor]
+      if {$ctype eq "i"} {
+        if {$uspos eq $cspos} {
+          lappend data($win,undo,uncommitted) $change
+          return 1
+        }
+      } elseif {$uspos eq $cepos} {
+        lset data($win,undo,uncommitted) end [list d $cspos $uepos [string cat $cstr $ustr] $ucursor $umcursor]
         return 1
       }
     }
@@ -1154,7 +1159,7 @@ namespace eval ctext {
 
     if {[info exists data($win,undo,uncommitted)]} {
       lappend data($win,undo,undobuf) $data($win,undo,uncommitted)
-      unset data($win,undo,uncommitted
+      unset data($win,undo,uncommitted)
     }
 
   }
@@ -1185,7 +1190,7 @@ namespace eval ctext {
     variable data
 
     # If we have uncommitted changes, commit them now
-    undo_add_separator
+    undo_add_separator $win
 
     # If there is something in the undo buffer, undo one change group
     if {[llength $data($win,undo,${from}buf)] > 0} {
@@ -1686,7 +1691,7 @@ namespace eval ctext {
       }
     }
 
-    modified $win 1 [list delete $ranges $moddata]
+    modified $win 1 [list delete $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -1933,7 +1938,7 @@ namespace eval ctext {
     # Delete any dspace characters
     catch { $win._t delete {*}[$win._t tag ranges _dspace] }
 
-    undo_insert     $win $ranges $chars $cursor
+    undo_insert     $win $ranges $dat $cursor
     comments_do_tag $win $ranges do_tags
 
     # Highlight text and bracket auditing
@@ -2142,7 +2147,7 @@ namespace eval ctext {
 
   ######################################################################
   # Returns the given string without transformation.
-  proc no_transform {str dummy} {
+  proc no_transform {str} {
 
     return $str
 
@@ -2160,15 +2165,16 @@ namespace eval ctext {
       -moddata   {}
       -highlight 1
       -str       ""
-      -transform ""
+      -transform ctext::no_transform
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    lassign [lrange $args $i end] startPos endPos tags
-
-    # Setup the transform callback
-    if {$opts(-transform) eq ""} {
-      set opts(-transform) [list ctext::no_transform $opts(-str)]
+    # Get the number of characters being inserted and adjust the tags
+    set items [list]
+    set dat   ""
+    foreach {content tags} [lassign [lrange $args $i end] insertPos] {
+      lappend items $content [list {*}$tags lmargin rmargin __Lang:langtag]
+      append dat $content
     }
 
     set ranges  [list]
@@ -2233,7 +2239,7 @@ namespace eval ctext {
       }
     }
 
-    modified $win 1 [list replace $ranges $moddata]
+    modified $win 1 [list replace $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
