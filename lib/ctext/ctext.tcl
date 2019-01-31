@@ -1281,7 +1281,7 @@ namespace eval ctext {
   ######################################################################
   # Move all gutter tags from the old column 0 of the given row to the new
   # column 0 character.
-  proc handleInsertAt0 {win startpos endpos datalen} {
+  proc handleInsertAt0 {win startpos endpos} {
 
     if {[lindex [split $startpos .] 1] == 0} {
       foreach tag [getGutterTags $win $endpos] {
@@ -1292,6 +1292,8 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Move gutter tags when tagged text is deleted.
   proc handleDeleteAt0Helper {win firstpos endpos} {
 
     foreach tag [getGutterTags $win $firstpos] {
@@ -1337,10 +1339,10 @@ namespace eval ctext {
 
   }
 
-  proc handleReplaceInsert {win startpos datalen tags} {
+  proc handleReplaceInsert {win startpos endpos tags} {
 
     if {[lindex $tags 0]} {
-      set insertpos [$win._t index "$startpos+${datalen}c"]
+      set insertpos $endpos
     } else {
       set insertpos $startpos
     }
@@ -1365,13 +1367,11 @@ namespace eval ctext {
       delete      { return [command_delete      $win {*}$args] }
       diff        { return [command_diff        $win {*}$args] }
       edit        { return [command_edit        $win {*}$args] }
-      fastdelete  { return [command_fastdelete  $win {*}$args] }
-      fastinsert  { return [command_fastinsert  $win {*}$args] }
-      fastreplace { return [command_fastreplace $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
       highlight   { return [command_highlight   $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
+      insertlist  { return [command_insertlist  $win {*}$args] }
       is          { return [command_is          $win {*}$args] }
       replace     { return [command_replace     $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
@@ -1597,6 +1597,7 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
   proc command_cut {win args} {
 
     variable data
@@ -1618,39 +1619,74 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
   proc command_delete {win args} {
 
     variable data
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
-    }
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
-    set startPos [$win._t index [lindex $args 0]]
-    if {[llength $args] == 1} {
-      set endPos [$win._t index $startPos+1c]
+    array set opts {
+      -moddata   {}
+      -highlight 1
+      -userange  0
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    set ranges  [list]
+    set hranges [list]
+    set do_tags [list]
+    set cursor  [$win._t index insert]
+
+    if {!$opts(-userange) && ([set cursors [$win._t tag ranges _mcursor]] ne "")} {
+      lassign [lrange $args $i end] startSpec endSpec
+      set istart [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
+      set iend   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
+      foreach {endPos startPos} [lreverse $cursors] {
+        if {$istart} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        if {$iend}   { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        lappend strs [$win._t get $startPos $endPos]
+        handleDeleteAt0        $win $startPos $endPos
+        linemapCheckOnDelete   $win $startPos $endPos
+        comments_chars_deleted $win $startPos $endPos do_tags
+        $win._t delete $startPos $endPos
+        if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
+          $win._t tag add _mcursor $startPos-1c
+        } else {
+          $win._t tag add _mcursor $startPos
+        }
+        lappend ranges  $startPos $endPos
+        lappend hranges $startPos $startPos
+      }
     } else {
-      set endPos [$win._t index [lindex $args 1]]
+      lassign [lrange $args $i end] startPos endPos
+      set startPos [$win index $startPos]
+      if {$endPos eq ""} {
+        set endPos [$win._t index "$startPos+1c"]
+      } else {
+        set endPos [$win._t index $endPos]
+      }
+      lappend strs    [$win._t get $startPos $endPos]
+      handleDeleteAt0        $win $startPos $endPos
+      linemapCheckOnDelete   $win $startPos $endPos
+      comments_chars_deleted $win $startPos $endPos do_tags
+      $win._t delete  $startPos $endPos
+      lappend ranges  $startPos $endPos
+      lappend hranges $startPos $startPos
     }
-    set ranges   [list [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]]
-    set deldata  [$win._t get $startPos $endPos]
-    set do_tags  [list]
 
-    undo_delete            $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] [$win._t index insert]
-    handleDeleteAt0        $win $startPos $endPos
-    linemapCheckOnDelete   $win $startPos $endPos
-    comments_chars_deleted $win $startPos $endPos do_tags
+    undo_delete $win $ranges $strs $cursor
 
-    $win._t delete $startPos $endPos
-
-    if {[highlightAll $win $ranges 0 $do_tags]} {
-      checkAllBrackets $win
-    } else {
-      checkAllBrackets $win $deldata
+    if {$opts(-highlight)} {
+      if {[highlightAll $win $ranges 0 $do_tags]} {
+        checkAllBrackets $win
+      } else {
+        checkAllBrackets $win [string cat {*}$strs]
+      }
     }
+
     modified $win 1 [list delete $ranges $moddata]
-
     event generate $win.t <<CursorChanged>>
 
   }
@@ -1781,124 +1817,6 @@ namespace eval ctext {
 
   }
 
-  proc command_fastdelete {win args} {
-
-    variable data
-
-    set moddata   [list]
-    set do_update 1
-    set do_undo   1
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata" { set args [lassign $args dummy moddata] }
-        "-update"  { set args [lassign $args dummy do_update] }
-        "-undo"    { set args [lassign $args dummy do_undo] }
-      }
-    }
-
-    if {[llength $args] == 1} {
-      set startPos [$win._t index [lindex $args 0]]
-      set endPos   [$win._t index "$startPos+1c"]
-      linemapCheckOnDelete $win $startPos
-    } else {
-      set startPos [$win._t index [lindex $args 0]]
-      set endPos   [$win._t index [lindex $args 1]]
-      linemapCheckOnDelete $win $startPos $endPos
-    }
-
-    if {$do_undo} {
-      undo_delete $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] [$win._t index insert]
-    }
-    handleDeleteAt0 $win $startPos $endPos
-
-    $win._t delete {*}$args
-
-    if {$do_update} {
-      modified $win 1 [list delete [list $startPos $endPos] $moddata]
-      event generate $win.t <<CursorChanged>>
-    }
-
-  }
-
-  proc command_fastinsert {win args} {
-
-    variable data
-
-    set moddata   [list]
-    set do_update 1
-    set do_undo   1
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata" { set args [lassign $args dummy moddata] }
-        "-update"  { set args [lassign $args dummy do_update] }
-        "-undo"    { set args [lassign $args dummy do_undo] }
-      }
-    }
-
-    set startPos [$win._t index [lindex $args 0]]
-    set chars    [string length [lindex $args 1]]
-    set cursor   [$win._t index insert]
-
-    $win._t insert {*}$args
-
-    set endPos [$win._t index "$startPos+${chars}c"]
-
-    if {$do_undo} {
-      undo_insert $win [list $startPos $endPos] $chars $cursor
-    }
-    handleInsertAt0 $win $startPos $endPos $chars
-    set_rmargin     $win $startPos $endPos
-
-    if {$do_update} {
-      modified $win 1 [list insert [list $startPos $endPos] $moddata]
-      event generate $win.t <<CursorChanged>>
-    }
-
-  }
-
-  proc command_fastreplace {win args} {
-
-    variable data
-
-    if {[llength $args] < 3} {
-      return -code error "please use at least 3 arguments to $win replace"
-    }
-
-    set moddata   [list]
-    set do_update 1
-    set do_undo   1
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata" { set args [lassign $args dummy moddata] }
-        "-update"  { set args [lassign $args dummy do_update] }
-        "-undo"    { set args [lassign $args dummy do_undo] }
-      }
-    }
-
-    set startPos [$win._t index [lindex $args 0]]
-    set endPos   [$win._t index [lindex $args 1]]
-    set datlen   [string length [lindex $args 2]]
-    set cursor   [$win._t index insert]
-
-    if {$do_undo} {
-      undo_replace $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] [lindex $args 2] $cursor
-    }
-
-    set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
-
-    # Perform the text replacement
-    $win._t replace {*}$args
-
-    handleReplaceInsert $win $startPos $datlen $tags
-    set_rmargin         $win $startPos [$win._t index "$startPos+${datlen}c"]
-
-    if {$do_update} {
-      modified $win 1 [list replace [list $startPos $endPos] $moddata]
-      event generate $win.t <<CursorChanged>>
-    }
-
-  }
-
   proc command_highlight {win args} {
 
     variable data
@@ -1997,7 +1915,7 @@ namespace eval ctext {
       foreach {endPos startPos} [lreverse $cursors] {
         $win._t insert $startPos {*}[string map [list langtag [getLang $win $startPos]] $items]
         set endPos [$win._t index "$startPos+${chars}c"]
-        handleInsertAt0 $win $startPos $endPos $chars
+        handleInsertAt0 $win $startPos $endPos
         lappend ranges $startPos $endPos
       }
     } else {
@@ -2008,7 +1926,7 @@ namespace eval ctext {
       }
       $win._t insert $insertPos {*}[string map [list langtag [getLang $win $insertPos]] $items]
       set endPos [$win._t index "$insPos+${chars}c"]
-      handleInsertAt0 $win $insertPos $endPos $chars
+      handleInsertAt0 $win $insertPos $endPos
       lappend ranges $insPos $endPos
     }
 
@@ -2019,17 +1937,79 @@ namespace eval ctext {
     comments_do_tag $win $ranges do_tags
 
     # Highlight text and bracket auditing
-    if {[highlightAll $win $ranges 1 $do_tags]} {
-      checkAllBrackets $win
-    } else {
-      checkAllBrackets $win $dat
+    if {$opts(-highlight)} {
+      if {[highlightAll $win $ranges 1 $do_tags]} {
+        checkAllBrackets $win
+      } else {
+        checkAllBrackets $win $dat
+      }
     }
-    modified $win 1 [list insert $ranges $opts(-moddata)]
 
+    modified $win 1 [list insert $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
 
+  ######################################################################
+  # Inserts different strings at each multicursor location.
+  proc command_insertlist {win args} {
+
+    variable data
+
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+
+      set i 0
+      while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+      array set opts {
+        -moddata   {}
+        -highlight 1
+      }
+      array set opts [lrange $args 0 [expr $i - 1]]
+
+      lassign [lrange $args $i end] contents
+
+      set ranges  [list]
+      set strs    [list]
+      set do_tags [list]
+      set cursor  [$win._t index insert]
+
+      foreach {endPos startPos} [lreverse $cursors] content [lreverse $contents] {
+        lassign $content str tags
+        if {[set lang [getLang $win $startPos]] ne ""} {
+          $win._t insert $startPos $str [list {*}$tags lmargin rmargin __Lang:$lang]
+        } else {
+          $win._t insert $startPos $str [list {*}$tags lmargin rmargin]
+        }
+        set endPos [$win._t index "$startPos+[string length $str]c"]
+        handleInsertAt0 $win $startPos $endPos
+        lappend ranges $startPos $endPos
+        lappend strs   $str
+      }
+
+      # Delete any dspace characters
+      catch { $win._t delete {*}[$win._t tag ranges _dspace] }
+
+      undo_insertlist $win $ranges $strs $cursor
+      comments_do_tag $win $ranges do_tags
+
+      # Highlight text and bracket auditing
+      if {$opts(-highlight)} {
+        if {[highlightAll $win $ranges 1 $do_tags]} {
+          checkAllBrackets $win
+        } else {
+          checkAllBrackets $win [string cat {*}$strs]
+        }
+      }
+
+      modified $win 1 [list insert $ranges $opts(-moddata)]
+      event generate $win.t <<CursorChanged>>
+
+    }
+
+  }
+
+  ######################################################################
   # Answers questions about a given index
   proc command_is {win args} {
 
@@ -2160,57 +2140,100 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Returns the given string without transformation.
+  proc no_transform {str dummy} {
+
+    return $str
+
+  }
+ 
+  ######################################################################
   proc command_replace {win args} {
 
     variable data
 
-    if {[llength $args] < 3} {
-      return -code error "please use at least 3 arguments to $win replace"
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -moddata   {}
+      -highlight 1
+      -str       ""
+      -transform ""
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] startPos endPos tags
+
+    # Setup the transform callback
+    if {$opts(-transform) eq ""} {
+      set opts(-transform) [list ctext::no_transform $opts(-str)]
     }
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
-    }
+    set ranges  [list]
+    set hranges [list]
+    set do_tags [list]
+    set cursor  [$win._t index insert]
 
-    set startPos [$win._t index [lindex $args 0]]
-    set endPos   [$win._t index [lindex $args 1]]
-    set dat      ""
-    foreach {chars taglist} [lrange $args 2 end] {
-      append dat $chars
-    }
-    set datlen   [string length $dat]
-    set deldata  [$win._t get $startPos $endPos]
-    set cursor   [$win._t index insert]
-    set do_tags  [list]
-
-    undo_replace           $win [list $startPos $endPos] [list [$win._t get $startPos $endPos]] $dat $cursor
-    comments_chars_deleted $win $startPos $endPos do_tags
-    set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
-
-    # Perform the text replacement
-    $win._t replace {*}$args
-
-    handleReplaceInsert $win $startPos $datlen $tags
-
-    set lineStart [$win._t index "$startPos linestart"]
-    set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
-
-    if {[llength $do_tags] == 0} {
-      comments_do_tag $win [list $startPos "$startPos+${datlen}c"] do_tags
-    }
-    set_rmargin $win $startPos "$startPos+${datlen}c"
-
-    set comstr [highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]
-    if {$comstr == 2} {
-      checkAllBrackets $win
-    } elseif {$comstr == 1} {
-      checkAllBrackets $win [$win._t get $startPos $lineEnd]
+    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+      set startSpec $startPos
+      set endSpec   $endPos
+      set sspec     [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
+      set espec     [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
+      foreach {endPos startPos} [lreverse $cursors] {
+        if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $endPos]] }
+        set old_content [$win._t get $startPos $endPos]
+        set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
+        set chars       [string length $new_content]
+        set new_endpos  [$win._t index "$startPos+${chars}c"]
+        lappend dstrs $old_content
+        lappend istrs $new_content
+        comments_chars_deleted $win $startPos $endPos do_tags
+        set t [handleReplaceDeleteAt0 $win $startPos $endPos]
+        if {[set lang [getLang $win $startPos]] ne ""} {
+          $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin __Lang:$lang]
+        } else {
+          $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin]
+        }
+        handleReplaceInsert $win $startPos $endPos $t
+        lappend ranges  $startPos $endPos $new_endpos
+        lappend hranges $startPos $new_endpos
+      }
     } else {
-      checkAllBrackets $win "$deldata$dat"
+      set startPos    [$win index $startPos]
+      set endPos      [$win index $endPos]
+      set old_content [$win._t get $startPos $endPos]
+      set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
+      set chars       [string length $new_contents]
+      set new_endpos  [$win._t index "$startPos+${chars}c"]
+      lappend dstrs $old_content
+      lappend istrs $new_content
+      comments_chars_deleted $win $startPos $endPos do_tags
+      set t [handleReplaceDeleteAt0 $win $startPos $endPos]
+      if {[set lang [getLang $win $startPos]] ne ""} {
+        $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin __Lang:$lang]
+      } else {
+        $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin]
+      }
+      handleReplaceInsert $win $startPos $endPos $t
+      lappend ranges  $startPos $endPos $new_endpos
+      lappend hranges $startPos $new_endpos
     }
-    modified $win 1 [list replace [list $startPos $endPos] $moddata]
 
+    undo_replace    $win $ranges $dstrs $istrs $cursor
+    comments_do_tag $win $ranges do_tags
+
+    if {$opts(-highlight)} {
+      switch [highlightAll $win $ranges 1 $do_tags] {
+        2       { checkAllBrackets $win }
+        1       { checkAllBrackets $win [$win._t get $startPos $endPos] }
+        default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
+      }
+    }
+
+    modified $win 1 [list replace $ranges $moddata]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -2229,7 +2252,7 @@ namespace eval ctext {
 
     tk_textPaste $win
 
-    handleInsertAt0 $win $insertPos $datalen
+    handleInsertAt0 $win $insertPos [$win._t index "$insertPos+${datalen}c"]
     modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
     event generate $win.t <<CursorChanged>>
 
