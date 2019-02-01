@@ -297,7 +297,6 @@ namespace eval vim {
             clipboard append [$txt get $from $to]
             if {$cmd eq "d"} {
               $txt delete $from $to
-              adjust_insert $txt.t
             }
             cliphist::add_from_clipboard
 
@@ -810,8 +809,28 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Adjust the current selection fi we are in visual mode.
+  proc set_cursor {txtt index} {
+
+    if {[in_visual_mode $txtt]} {
+      if {[set cursors [$txtt cursor get]] eq ""} {
+        $txtt cursor set [set index [$txtt index $index]]
+        adjust_select $txtt 0 $index
+      } else {
+        $txtt cursor set $index
+        for {set i 0} {$i < [llength $cursors]} {incr i} {
+          adjust_select $txtt $i $index
+        }
+      }
+    } else {
+      $txtt cursor set $index
+    }
+
+  }
+
+  ######################################################################
   # Adjust the current selection if we are in visual mode.
-  proc adjust_select {txtt index pos} {
+  proc adjust_select {txtt cindex tindex} {
 
     variable mode
     variable select_anchors
@@ -821,29 +840,29 @@ namespace eval vim {
     set type [lindex [split $mode($txtt) :] 1]
 
     # Get the anchor for the given selection
-    set anchor [lindex $select_anchors($txtt) $index]
+    set anchor [lindex $select_anchors($txtt) $cindex]
 
     if {$type eq "block"} {
       if {$seltype eq "exclusive"} {
-        select::handle_block_selection $txtt $anchor [$txtt index $pos]
+        select::handle_block_selection $txtt $anchor [$txtt index $tindex]
       } else {
-        select::handle_block_selection $txtt $anchor [$txtt index $pos+1c]
+        select::handle_block_selection $txtt $anchor [$txtt index $tindex+1c]
       }
-    } elseif {[$txtt compare $anchor < $pos]} {
+    } elseif {[$txtt compare $anchor < $tindex]} {
       if {$type eq "line"} {
-        $txtt tag add sel "$anchor linestart" "$pos lineend"
+        $txtt tag add sel "$anchor linestart" "$tindex lineend"
       } elseif {$seltype eq "exclusive"} {
-        $txtt tag add sel $anchor $pos
+        $txtt tag add sel $anchor $tindex
       } else {
-        $txtt tag add sel $anchor $pos+1c
+        $txtt tag add sel $anchor $tindex+1c
       }
     } else {
       if {$type eq "line"} {
-        $txtt tag add sel "$pos linestart" "$anchor lineend"
+        $txtt tag add sel "$tindex linestart" "$anchor lineend"
       } elseif {$seltype eq "exclusive"} {
-        $txtt tag add sel $pos $anchor
+        $txtt tag add sel $tindex $anchor
       } else {
-        $txtt tag add sel $pos $anchor+1c
+        $txtt tag add sel $tindex $anchor+1c
       }
     }
 
@@ -1005,9 +1024,7 @@ namespace eval vim {
 
     set current [$W index @$x,$y]
     $W mark set [utils::text_anchor $W] $current
-    ::tk::TextSetCursor $W $current
-
-    adjust_insert $W
+    set_cursor $W $current
 
     focus $W
 
@@ -1020,9 +1037,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    ::tk::TextSetCursor $W [$W index "$current wordstart"]
-
-    adjust_insert $W
+    set_cursor $W [$W index "$current wordstart"]
 
     $W tag add sel [$W index "$current wordstart"] [$W index "$current wordend"]
 
@@ -1037,9 +1052,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    ::tk::TextSetCursor $W $current
-
-    adjust_insert $W
+    set_cursor $W $current
 
     # Add the selection
     set anchor [utils::text_anchor $W]
@@ -1131,7 +1144,7 @@ namespace eval vim {
     # If the current cursor is on a dummy space, remove it
     set tags [$txtt tag names insert]
     if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
-      $txtt fastdelete -update 0 -undo 0 insert
+      $txtt delete -highlight 0 -update 0 -undo 0 insert
     }
 
   }
@@ -1166,11 +1179,7 @@ namespace eval vim {
     # one character.
     if {(($mode($txtt) eq "edit") || ([string compare -length 7 $mode($txtt) "replace"] == 0)) && \
         ([$txtt index insert] ne [$txtt index "insert linestart"])} {
-      if {[multicursor::enabled $txtt]} {
-        multicursor::move $txtt left
-      } else {
-        ::tk::TextSetCursor $txtt "insert-1c"
-      }
+      $txtt cursor set left
     }
 
     # Set the blockcursor to true
@@ -1184,9 +1193,6 @@ namespace eval vim {
 
     # Reset the states
     reset_state $txtt 0
-
-    # Adjust the insertion marker
-    adjust_insert $txtt
 
   }
 
@@ -1437,41 +1443,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Adjust the insertion marker so that it never is allowed to sit on
-  # the lineend spot.
-  proc adjust_insert {txtt} {
-
-    variable mode
-
-    # If we are not running in Vim mode, don't continue
-    if {![in_vim_mode $txtt]} {
-      return
-    }
-
-    # Remove any existing dspace characters
-    remove_dspace [winfo parent $txtt]
-
-    # If the current line contains nothing, add a dummy space so that the
-    # block cursor doesn't look dumb.
-    if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
-      $txtt fastinsert -update 0 -undo 0 insert " " dspace
-      $txtt mark set insert "insert-1c"
-      gui::update_position [winfo parent $txtt]
-
-    # Make sure that lineend is never the insertion point
-    } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-      $txtt mark set insert "insert-1 display chars"
-      gui::update_position [winfo parent $txtt]
-    }
-
-    # Adjust the selection (if we are in visual mode)
-    if {[in_visual_mode $txtt]} {
-      adjust_select $txtt 0 insert
-    }
-
-  }
-
-  ######################################################################
   # Returns the current number.
   proc get_number {txtt} {
 
@@ -1491,7 +1462,7 @@ namespace eval vim {
 
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
       if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
-        $w fastdelete -update 0 -undo 0 $startpos $endpos
+        $w delete -highlight 0 -update 0 -undo 0 $startpos $endpos
       }
     }
 
@@ -1744,19 +1715,17 @@ namespace eval vim {
 
     switch $operator($txtt) {
       "" {
-        if {$multicursor($txtt)} {
-          multicursor::move $txtt $eposargs
+        if {[$txtt cget -multimove]} {
+          $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
           if {$spos ne ""} {
-            ::tk::TextSetCursor $txtt $spos
+            $txtt cursor set $spos
             visual_mode $txtt char
-            ::tk::TextSetCursor $txtt $epos
-            vim::adjust_insert $txtt
+            set_cursor $txtt $epos
           }
         } else {
-          ::tk::TextSetCursor $txtt [$txtt index $eposargs]
-          vim::adjust_insert $txtt
+          set_cursor $txtt $eposargs
         }
         reset_state $txtt 0
         return 1
@@ -1785,9 +1754,8 @@ namespace eval vim {
         clipboard clear
         clipboard append [$txtt get $startpos $endpos]
         if {$opts(-cursor) ne ""} {
-          ::tk::TextSetCursor $txtt [$txtt index $opts(-cursor)]
+          $txtt cursor set $opts(-cursor)
         }
-        vim::adjust_insert $txtt
         command_mode $txtt
         return 1
       }
@@ -2232,8 +2200,7 @@ namespace eval vim {
       }
       "folding:range" {
         folding::close_range [winfo parent $txtt] [$txtt index [list up -num [get_number $txtt] -column vim::column($txtt)]] insert
-        ::tk::TextSetCursor $txtt "insert-1 display lines"
-        adjust_insert $txtt
+        $txtt cursor set [list "insert-1 display lines"]
       }
       default {
         return [do_operation $txtt [list up -num [get_number $txtt] -column vim::column($txtt)]]
@@ -2883,7 +2850,7 @@ namespace eval vim {
   ######################################################################
   # Pastes the contents of the given clip to the text widget after the
   # current line.
-  proc do_post_paste {txtt clip} {
+  proc do_post_paste {txtt} {
 
     # Create a separator
     $txtt edit separator
@@ -2891,21 +2858,20 @@ namespace eval vim {
     # Get the number of pastes that we need to perform
     set num [get_number $txtt]
 
+    # Get the contents of the clipboard
+    set clip [clipboard get]
+
     if {[set nl_index [string last \n $clip]] != -1} {
-      if {[expr ([string length $clip] - 1) == $nl_index]} {
+      if {([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      $txtt insert "insert lineend" [string repeat "\n$clip" $num]
-      multicursor::paste $txtt "insert+1l linestart"
-      ::tk::TextSetCursor $txtt "insert+1l linestart"
-      edit::move_cursor $txtt firstchar -num 0
+      $txtt paste -num $num -pre "\n" "insert+1l linestart"
+      $txtt cursor move [list linestart -num 1]
+      $txtt cursor move [list firstchar -num 0]
     } else {
-      set clip [string repeat $clip $num]
-      $txtt insert "insert+1c" $clip
-      multicursor::paste $txtt "insert+1c"
-      ::tk::TextSetCursor $txtt "insert+[string length $clip]c"
+      $txtt paste -num $num "insert+1c"
+      $txtt cursor set [list char -num [string length $clip]]
     }
-    adjust_insert $txtt
 
     # Create a separator
     $txtt edit separator
@@ -2921,7 +2887,7 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
-        do_post_paste $txtt [set clip [clipboard get]]
+        do_post_paste $txtt
         cliphist::add_from_clipboard
         record $txtt p
       }
@@ -2937,28 +2903,25 @@ namespace eval vim {
   ######################################################################
   # Pastes the contents of the given clip prior to the current line
   # in the text widget.
-  proc do_pre_paste {txtt clip} {
+  proc do_pre_paste {txtt} {
 
     $txtt edit separator
 
     # Calculate the number of clips to pre-paste
     set num [get_number $txtt]
 
+    # Get the contents of teh clipboard
+
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
-      set startpos [$txtt index "insert linestart"]
-      $txtt insert "insert linestart" [string repeat "$clip\n" $num]
-      multicursor::paste $txtt $startpos
-      ::tk::TextSetCursor $txtt $startpos
-      edit::move_cursor $txtt firstchar -num 0
+      $txtt paste -num $num -post "\n" linestart
+      $txtt cursor move [list firstchar -num 0]
     } else {
-      $txtt insert insert [string repeat $clip $num]
-      multicursor::paste $txtt insert
-      ::tk::TextSetCursor $txtt "insert-1c"
+      $txtt paste -num $num insert
+      $txtt cursor move [list char -num 1 -dir prev]
     }
-    adjust_insert $txtt
 
     # Create separator
     $txtt edit separator
@@ -2970,7 +2933,7 @@ namespace eval vim {
   # before the current line.
   proc handle_P {txtt} {
 
-    do_pre_paste $txtt [set clip [clipboard get]]
+    do_pre_paste $txtt
     cliphist::add_from_clipboard
     record $txtt P
 
@@ -2985,9 +2948,6 @@ namespace eval vim {
     # Perform the undo operation
     catch { $txtt edit undo }
 
-    # Adjusts the insertion cursor
-    adjust_insert $txtt
-
     # Allow the UI to update its state
     gui::check_for_modified $txtt
 
@@ -2999,9 +2959,6 @@ namespace eval vim {
 
     # Performs the redo operation
     catch { $txtt edit redo }
-
-    # Adjusts the insertion cursor
-    adjust_insert $txtt
 
     # Allow the UI to update its state
     gui::check_for_modified $txtt

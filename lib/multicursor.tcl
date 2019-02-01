@@ -367,7 +367,7 @@ namespace eval multicursor {
     $txtt tag remove mcursor 1.0 end
     foreach {new_start start} [lreverse $new_ranges] {
       if {[$txtt compare "$new_start linestart" == "$new_start lineend"]} {
-        $txtt fastinsert -update 0 -undo 0 "$new_start lineend" " " dspace
+        $txtt insert -highlight 1 -update 0 -undo 0 "$new_start lineend" " " dspace
       }
       adjust_set_and_view $txtt $start $new_start
     }
@@ -405,7 +405,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt tag remove mcursor [lindex $range 0]
-          $txt fastdelete -update 0 $start $end
+          $txt delete -highlight 0 -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           set range [$txt tag nextrange sel $start]
           if {([$txtt compare $start == "$start linestart"]) || ([$txtt compare $start != "$start lineend"])} {
@@ -426,7 +426,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt tag remove mcursor [lindex $range 0]
-          $txt fastdelete -update 0 $start $end
+          $txt delete -highlight 0 -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           set range [$txt tag nextrange mcursor $start]
           if {([$txtt compare $start == "$start linestart"]) || ([$txtt compare $start != "$start lineend"])} {
@@ -470,7 +470,7 @@ namespace eval multicursor {
       if {$selected} {
         foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
           ctext::comments_chars_deleted $txt $start $end do_tags
-          $txtt fastdelete $start $end
+          $txtt delete -highlight 0 $start $end
           $txtt tag add mcursor $start
         }
         set selected 0
@@ -480,7 +480,7 @@ namespace eval multicursor {
       set valuelen [string length $value]
       while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
         set start [lindex $range 0]
-        $txtt fastinsert -update 0 $start $value
+        $txtt insert -highlight 0 -update 0 $start $value
         ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
         lappend ranges "$start linestart" "$start+${valuelen}c lineend"
         set start "$start+[expr $valuelen + 1]c"
@@ -529,7 +529,7 @@ namespace eval multicursor {
           lassign $range start end
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
-          $txt fastreplace -update 0 $start "$start+1c" $value
+          $txt replace -highlight 0 -update 0 $start "$start+1c" $value
           ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
           $txt tag add mcursor "$start+${valuelen}c"
           set start "$start+[expr $valuelen + 1]c"

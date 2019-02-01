@@ -272,7 +272,7 @@ namespace eval indent {
 
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
-          $txtt fastreplace -update $do_update "$index linestart" $startpos $indent_space
+          $txtt replace -highlight 0 -update $do_update "$index linestart" $startpos $indent_space
           set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
           return [$txtt index "$index linestart+${offset}c"]
         }
@@ -302,7 +302,7 @@ namespace eval indent {
 
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
-          $txtt fastreplace -update $do_update "$index linestart" $startpos $indent_space
+          $txtt replace -highlight 0 -update $do_update "$index linestart" $startpos $indent_space
           set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
           return [$txtt index "$index linestart+${offset}c"]
         }
@@ -468,7 +468,7 @@ namespace eval indent {
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[lsearch [$txtt tag names "$endpos-1c"] __unindent*] != -1} {
-        $txtt fastinsert -update 0 insert "$indent_space\n"
+        $txtt insert -highlight 0 -update 0 insert "$indent_space\n"
         set startpos [$txtt index $startpos+1l]
         set endpos   [$txtt index $endpos+1l]
         set restore_insert [$txtt index insert-1c]
@@ -490,7 +490,7 @@ namespace eval indent {
       set mcursor [lsearch [$txtt tag names $index] "mcursor"]
 
       # Delete the whitespace
-      $txtt fastdelete -update [expr {($do_update && ($indent_space eq "")) ? 1 : 0}] $startpos "$endpos-1c"
+      $txtt delete -highlight 0 -update [expr {($do_update && ($indent_space eq "")) ? 1 : 0}] $startpos "$endpos-1c"
 
       # If the newline was from a multicursor, we need to re-add the tag since we have deleted it
       if {$mcursor != -1} {
@@ -501,7 +501,7 @@ namespace eval indent {
 
     # Insert leading whitespace to match current indentation level
     if {$indent_space ne ""} {
-      $txtt fastinsert -update $do_update "$index linestart" $indent_space
+      $txtt insert -highlight 0 -update $do_update "$index linestart" $indent_space
     }
 
     # If we need to restore the insertion cursor, do it now
@@ -552,7 +552,7 @@ namespace eval indent {
 
       # Replace the whitespace with the appropriate amount of indentation space
       if {$indent_space ne $space} {
-        $txtt fastreplace -update $do_update "$index linestart" $index $indent_space
+        $txtt replace -highlight 0 -update $do_update "$index linestart" $index $indent_space
         set offset [string length $indent_space]
         return [$txtt index "$index linestart+${offset}c"]
       }

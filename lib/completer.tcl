@@ -173,7 +173,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert "\]"
+          $txtt insert -highlight 0 insert "\]"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -200,7 +200,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert "\}"
+          $txtt insert -highlight 0 insert "\}"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -227,7 +227,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert ">"
+          $txtt insert -highlight 0 insert ">"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -254,7 +254,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt fastinsert insert ")"
+          $txtt insert -highlight 0 insert ")"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -281,7 +281,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt fastinsert insert "\""
+          $txtt insert -highlight 0 insert "\""
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -308,7 +308,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt fastinsert insert "'"
+          $txtt insert -highlight 0 insert "'"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -335,7 +335,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt fastinsert insert "`"
+          $txtt insert -highlight 0 insert "`"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -356,43 +356,43 @@ namespace eval completer {
       switch [$txtt get insert-1c insert+1c] {
         "\[\]" {
           if {$complete($txtt,$lang,square)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "\{\}" {
           if {$complete($txtt,$lang,curly)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "<>" {
           if {$complete($txtt,$lang,angled)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "()" {
           if {$complete($txtt,$lang,paren)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "\"\"" {
           if {$complete($txtt,$lang,double)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "''" {
           if {$complete($txtt,$lang,single)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
         "``" {
           if {$complete($txtt,$lang,btick)} {
-            $txtt fastdelete insert
+            $txtt delete -highlight 0 insert
             return
           }
         }
