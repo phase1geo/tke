@@ -319,31 +319,45 @@ namespace eval search {
 
     # Get the list of items to replace
     set indices [$txt search -all -count search::lengths {*}$rs_args -- $search $sline $eline]
-    set matches [list]
 
-    if {$all} {
-      foreach index [lreverse $indices] length [lreverse $lengths] {
-        lappend matches $index [$txt index "$index+${length}c"]
-      }
-    } else {
-      set last_line 0
+    if {!$all} {
+      set last_line   0
+      set new_indices [list]
+      set new_lengths [list]
       foreach index $indices length $lengths {
         set curr_line [lindex [split $index .] 0]
         if {$curr_line != $last_line} {
-          lappend matches [$txt index "$index+${length}c"] $index
+          lappend new_indices $index
+          lappend new_lengths $length
           set last_line $curr_line
         }
       }
-      set matches [lreverse $matches]
     }
+
+    # Initialize variables
+    set indices     [lreverse $new_indices]
+    set lengths     [lreverse $new_lengths]
+    set num_indices [llength $indices]
+    set ranges      [list]
 
     # Make sure that newline characters and tabs are replaced properly
     set replace [string map {{\n} \n {\t} \t} $replace]
 
-    if {$matches ne [list]} {
+    # Replace the text (perform variable substitutions if necessary)
+    foreach startpos $indices length $lengths {
+      set endpos  [$txt index $startpos+${length}c]
+      set rendpos [$txt index $startpos+[string length $replace]c]
+      $txt replace -highlight 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+      lappend ranges $startpos $rendpos
+    }
 
-      # Perform replacement
-      do_replace $txt $matches $search $replace
+    if {$num_indices > 0} {
+
+      # Perform the highlight
+      $txt syntax highlight -insert 1 {*}$ranges
+
+      # Set the insertion cursor to the last match and make that line visible
+      $txt cursor set [lindex $indices 0]
 
       # Specify the number of substitutions that we did
       gui::set_info_message [format "%d %s" [llength $matches] [msgcat::mc "substitutions done"]] -win $txt
@@ -353,63 +367,6 @@ namespace eval search {
       gui::set_info_message [msgcat::mc "No search results found"] -win $txt
 
     }
-
-  }
-
-  ######################################################################
-  # Performs the replacement operation for the given indices.
-  proc do_replace {txt matches search replace} {
-
-    set do_tags     [list]
-    set replace_len [string length $replace]
-
-    # Make sure that the text widget is editable
-    $txt configure -state normal
-
-    # Replace the text (perform variable substitutions if necessary)
-    foreach {startpos endpos} $matches {
-      set rendpos [$txt index $startpos+${replace_len}c]
-      if {[llength $do_tags] == 0} {
-        ctext::comments_chars_deleted $txt $startpos $endpos do_tags
-      }
-      $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
-      if {[llength $do_tags] == 0} {
-        ctext::comments_do_tag $txt $startpos $rendpos do_tags
-      }
-    }
-
-    # Perform the highlight
-    $txt syntax highlight -dotags $do_tags -insert 1 -modified 1 {*}$matches
-
-    # Set the insertion cursor to the last match and make that line visible
-    ::tk::TextSetCursor $txt [lindex $matches 0]
-
-    # Make sure that the insertion cursor is valid
-    vim::adjust_insert $txt
-
-  }
-
-  ######################################################################
-  # Replaces the matched item that exists on the insertion cursor with the
-  # string that is in the replace field in the GUI.
-  proc replace_one {} {
-
-    gui::get_info {} current txt
-
-    # Get the string to replace the current value with
-    array set data_array [gui::get_search_data replace]
-
-    # Get the range to replace
-    lassign [$txt syntax prevrange search "insert+1c"] startpos endpos
-
-    # Perform the replacement
-    $txt replace $startpos $endpos [regsub $data_array(find) [$txt get $startpos $endpos] $data_array(replace)]
-
-    # Make sure that the insertion cursor is valid
-    vim::adjust_insert $txt
-
-    # Find the next match
-    find_next $txt
 
   }
 

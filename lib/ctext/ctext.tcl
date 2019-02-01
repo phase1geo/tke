@@ -1476,21 +1476,85 @@ namespace eval ctext {
 
   }
 
-  proc command_copy {win args} {
+  ######################################################################
+  # Copy the multicursor positions for future paste operations.
+  proc copy_mcursors {win} {
 
     variable data
 
-    # Get the start and end indices
-    if {![catch {$win.t index sel.first} start_index]} {
-      set end_index [$win.t index sel.last]
-    } else {
-      set start_index [$win.t index "insert linestart"]
-      set end_index   [$win.t index "insert+1l linestart"]
+    # Current index
+    set selected [$win._t tag ranges sel]
+    set current  $start
+
+    # Initialize copy cursor information
+    set data($win,copy_offsets) [list]
+    set data($win,copy_value)   [$win._t get {*}$selected]
+
+    # Get the mcursor offsets from start
+    while {[set index [$win._t tag nextrange _mcursor $current $end]] ne ""} {
+      lappend data($win,copy_offsets) [$win._t count -chars $start [lindex $index 0]]
+      set current [$win._t index "[lindex $index 0]+1c"]
     }
 
-    # Clear and copy the data to the clipboard
-    clipboard clear  -displayof $win.t
-    clipboard append -displayof $win.t [$win.t get $start_index $end_index]
+  }
+
+  ######################################################################
+  # If text is currently selected, clears the clipboard and adds the
+  # selected text to the clipboard; otherwise, clears the clipboard and
+  # adds the contents of the current line to the clipboard.
+  proc do_copy {win} {
+
+    variable data
+
+    # Clear the clipboard
+    clipboard clear -display $win.t
+
+    # Collect the text ranges to get
+    if {[set ranges [$win._t tag ranges sel]] eq ""} {
+      if {[set cursors [$win._t tag ranges _mcursor]] eq ""} {
+        set cursors [$win._t index insert]
+      }
+      foreach cursor $cursors {
+        set startpos [$win._t index "$cursor linestart"]
+        set endpos   [$win._t index "$cursor lineend"]
+        if {[lindex $ranges end] ne $endpos} {
+          lappend ranges $startpos $endpos
+        }
+      }
+    }
+
+    # If there is nothing to copy, return immediately
+    if {[llength $ranges] == 0} {
+      return
+    }
+
+    # Collect the text and cursor information
+    set contents                [list]
+    set charpos                 0
+    set data($win,copy_offsets) [list]
+    foreach {startpos endpos} $ranges {
+      set str    [$win._t get $startpos $endpos]
+      set curpos $startpos
+      while {[set index [$win._t tag nextrange _mcursor $curpos $endpos]] ne ""} {
+        lappend data($win,copy_offsets) [expr $charpos + [$txt count -chars $startpos [lindex $index 0]]]
+        set curpos "[lindex $index 0]+1c"
+      }
+      incr charpos [expr [string length $str] + 1]
+      lappend contents $str
+    }
+
+    # Get the contents of the clipboard
+    clipboard append -displayof $win.t [set data($win,copy_value) [join $contents \n]]
+
+    return $ranges
+
+  }
+
+  ######################################################################
+  # Performs a copy to clipboard operation.
+  proc command_copy {win args} {
+
+    do_copy $win
 
   }
 
@@ -1603,28 +1667,26 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # If text is currently selected, clears the clipboard, adds the selected
+  # text to the clipboard and deletes the selected text.  If no text is
+  # selected, performs the same procedure with the contents of the current
+  # line.
   proc command_cut {win args} {
 
     variable data
 
-    # Get the start and end indices
-    if {![catch {$win.t index sel.first} start_index]} {
-      set end_index [$win.t index sel.last]
-    } else {
-      set start_index [$win.t index "insert linestart"]
-      set end_index   [$win.t index "insert+1l linestart"]
-    }
-
-    # Clear and copy the data to the clipboard
-    clipboard clear  -displayof $win.t
-    clipboard append -displayof $win.t [$win.t get $start_index $end_index]
+    # Perform the copy
+    set ranges [do_copy $win]
 
     # Delete the text
-    $win delete $start_index $end_index
+    foreach {endpos startpos} [lreverse $ranges] {
+      $win delete -userange 1 $startpos $endpos
+    }
 
   }
 
   ######################################################################
+  # Deletes one or more ranges of text and performs syntax highlighting.
   proc command_delete {win args} {
 
     variable data
@@ -2244,26 +2306,57 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Handles a paste operation.
   proc command_paste {win args} {
 
     variable data
 
-    set moddata [list]
-    if {[lindex $args 0] eq "-moddata"} {
-      set args [lassign $args dummy moddata]
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -pre  ""
+      -post ""
+      -num  1
     }
+    array set opts [lrange $args 0 [expr $i - 1]]
 
-    set insertPos [$win._t index insert]
-    set datalen   [string length [clipboard get]]
+    lassign [lrange $args $i end] insertpos
 
-    tk_textPaste $win
+    # Get the contents of the clipboard
+    set clip [string repeat [clipboard get] $opts(-num)]
 
-    handleInsertAt0 $win $insertPos [$win._t index "$insertPos+${datalen}c"]
-    modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
-    event generate $win.t <<CursorChanged>>
+    if {[set cursors [llength [$win._t tag ranges _mcursor]]] > 0} {
+
+      set lines [split [string trim $clip] \n]
+
+      # If the number of mcursors match the number of lines, do a list insert
+      if {$cursors == [llength $lines]} {
+        command_insertlist $win {*}[array get opts] $lines
+      } else {
+        command_insert $win {*}[array get opts] $insertpos "$opts(-pre)$clip$opts(-post)"
+      }
+
+    } else {
+
+      # Insert the clipboard contents at the given insertion cursor
+      command_insert $win {*}[array get opts] $insertpos "$opts(-pre)$clip$opts(-post)"
+
+      # Add the multicursors if we copied the multicursors
+      if {[info exists data($win,copy_value)] && ($data($win,copy_value) eq $clip)} {
+        foreach offset $data($win,copy_offsets) {
+          $win._t tag add _mcursor "$insertpos+${offset}c"
+        }
+      }
+
+    }
 
   }
 
+  ######################################################################
+  # Supports the text peer names command, making sure that the returned
+  # name does not contain any hidden path information.
   proc command_peer {win args} {
 
     variable data
@@ -2283,7 +2376,9 @@ namespace eval ctext {
 
   }
 
-  # This command helps process any syntax highlighting functionality of this widget.
+  ######################################################################
+  # This command helps process any syntax highlighting functionality of
+  # this widget.
   proc command_syntax {win args} {
 
     variable data
@@ -2381,6 +2476,7 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
   # We need to guarantee that embedded language tags are always listed as lowest
   # priority, so if someone calls the lower tag subcommand, we need to make sure
   # that it won't be placed lower than an embedded language tag.
@@ -2514,6 +2610,8 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Performs the edit command.
   proc command_edit {win args} {
 
     variable data
@@ -2539,9 +2637,11 @@ namespace eval ctext {
       redo {
         redo $win
       }
+      canundo  -
       undoable {
         return [expr [llength $data($win,undo,undobuf)] > 0]
       }
+      canredo  -
       redoable {
         return [expr [llength $data($win,undo,redobuf)] > 0]
       }

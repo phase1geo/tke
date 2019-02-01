@@ -1,4 +1,4 @@
-  # TKE - Advanced Programmer's Editor
+# TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2019  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -1922,10 +1922,9 @@ namespace eval gui {
       check_highlightable $txt $contents
 
       # Insert the file contents
-      $txt fastinsert end $contents
+      $txt insert end $contents
 
       # Highlight text and add update code folds
-      $txt syntax highlight 1.0 end
       $txt see 1.0
 
       # Add any previous markers saved for this text widget
