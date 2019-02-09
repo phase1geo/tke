@@ -1383,6 +1383,7 @@ namespace eval ctext {
       peer        { return [command_peer        $win {*}$args] }
       syntax      { return [command_syntax      $win {*}$args] }
       tag         { return [command_tag         $win {*}$args] }
+      transform   { return [command_transform   $win {*}$args] }
       language    { return [command_language    $win {*}$args] }
       default     { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
     }
@@ -1969,7 +1970,7 @@ namespace eval ctext {
     set dat   ""
     foreach {content tags} [lassign [lrange $args $i end] insertPos] {
       incr chars [string length $content]
-      lappend items $content [list {*}$tags lmargin rmargin __Lang:langtag]
+      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
       append dat $content
     }
 
@@ -1980,7 +1981,7 @@ namespace eval ctext {
     # Insert the text
     if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
-        $win._t insert $startPos {*}[string map [list langtag [getLang $win $startPos]] $items]
+        $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
         set endPos [$win._t index "$startPos+${chars}c"]
         handleInsertAt0 $win $startPos $endPos
         lappend ranges $startPos $endPos
@@ -1991,7 +1992,7 @@ namespace eval ctext {
       } else {
         set insPos [set insertPos [$win index $insertPos]]
       }
-      $win._t insert $insertPos {*}[string map [list langtag [getLang $win $insertPos]] $items]
+      $win._t insert $insertPos {*}[string map [list __Lang: [getLangTag $win $insertPos]] $items]
       set endPos [$win._t index "$insPos+${chars}c"]
       handleInsertAt0 $win $insertPos $endPos
       lappend ranges $insPos $endPos
@@ -2208,14 +2209,7 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Returns the given string without transformation.
-  proc no_transform {str} {
-
-    return $str
-
-  }
- 
-  ######################################################################
+  # Replaces the specified text range with the given string.
   proc command_replace {win args} {
 
     variable data
@@ -2226,16 +2220,16 @@ namespace eval ctext {
     array set opts {
       -moddata   {}
       -highlight 1
-      -str       ""
-      -transform ctext::no_transform
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
     # Get the number of characters being inserted and adjust the tags
+    set chars 0
     set items [list]
     set dat   ""
-    foreach {content tags} [lassign [lrange $args $i end] insertPos] {
-      lappend items $content [list {*}$tags lmargin rmargin __Lang:langtag]
+    foreach {content tags} [lassign [lrange $args $i end] startPos endPos] {
+      incr chars [string length $content]
+      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
       append dat $content
     }
 
@@ -2252,19 +2246,12 @@ namespace eval ctext {
       foreach {endPos startPos} [lreverse $cursors] {
         if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
         if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $endPos]] }
-        set old_content [$win._t get $startPos $endPos]
-        set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
-        set chars       [string length $new_content]
         set new_endpos  [$win._t index "$startPos+${chars}c"]
-        lappend dstrs $old_content
-        lappend istrs $new_content
+        lappend dstrs [$win._t get $startPos $endPos]
+        lappend istrs $dat
         comments_chars_deleted $win $startPos $endPos do_tags
         set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-        if {[set lang [getLang $win $startPos]] ne ""} {
-          $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin __Lang:$lang]
-        } else {
-          $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin]
-        }
+        $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangtag $win $startPos]] $dat]
         handleReplaceInsert $win $startPos $endPos $t
         lappend ranges  $startPos $endPos $new_endpos
         lappend hranges $startPos $new_endpos
@@ -2272,19 +2259,12 @@ namespace eval ctext {
     } else {
       set startPos    [$win index $startPos]
       set endPos      [$win index $endPos]
-      set old_content [$win._t get $startPos $endPos]
-      set new_content [uplevel #0 [list {*}$opts(-transform) $old_content]]
-      set chars       [string length $new_contents]
       set new_endpos  [$win._t index "$startPos+${chars}c"]
-      lappend dstrs $old_content
-      lappend istrs $new_content
+      lappend dstrs [$win._t get $startPos $endPos]
+      lappend istrs $dat
       comments_chars_deleted $win $startPos $endPos do_tags
       set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-      if {[set lang [getLang $win $startPos]] ne ""} {
-        $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin __Lang:$lang]
-      } else {
-        $win._t replace $startPos $endPos $new_content [list {*}$tags lmargin rmargin]
-      }
+      $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $dat]
       handleReplaceInsert $win $startPos $endPos $t
       lappend ranges  $startPos $endPos $new_endpos
       lappend hranges $startPos $new_endpos
@@ -2607,6 +2587,16 @@ namespace eval ctext {
         return [$win._t tag $subcmd {*}$args]
       }
     }
+
+  }
+
+  ######################################################################
+  # Performs a text transformation on the given text range.
+  proc command_transform {win args} {
+
+    variable data
+
+    # TBD
 
   }
 
@@ -3309,6 +3299,14 @@ namespace eval ctext {
   proc getLang {win index} {
 
     return [lindex [split [lindex [$win tag names $index] 0] =] 1]
+
+  }
+
+  proc getLangTag {win index} {
+
+    set lang [getLang $win $index]
+
+    return [expr {($lang eq "") ? "" : "__Lang:$lang"}]
 
   }
 

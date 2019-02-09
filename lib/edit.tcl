@@ -104,9 +104,6 @@ namespace eval edit {
     # Insert the file contents beneath the current insertion line
     $txt insert "insert lineend" "\n$contents"
 
-    # Adjust the insertion point, if necessary
-    vim::adjust_insert $txt
-
   }
 
   ######################################################################
@@ -190,11 +187,6 @@ namespace eval edit {
     # Position the cursor at the beginning of the first word
     move_cursor $txtt firstchar
 
-    # Adjust the insertion cursor
-    if {$copy} {
-      vim::adjust_insert $txtt
-    }
-
   }
 
   ######################################################################
@@ -228,11 +220,8 @@ namespace eval edit {
     $txtt delete $startpos $endpos
 
     # Adjust the insertion cursor if this was a delete and not a change
-    if {$adjust} {
-      if {$insertpos ne ""} {
-        $txtt mark set insert $insertpos
-      }
-      vim::adjust_insert $txtt
+    if {$adjust && ($insertpos ne "")} {
+      $txtt mark set insert $insertpos
     }
 
   }
@@ -251,9 +240,6 @@ namespace eval edit {
         clipboard append [$txtt get insert $endpos]
       }
       $txtt delete insert $endpos
-      if {$copy} {
-        vim::adjust_insert $txtt
-      }
     }
 
   }
@@ -295,9 +281,6 @@ namespace eval edit {
           clipboard append [$txtt get insert $firstchar]
         }
         $txtt delete insert $firstchar
-        if {$copy} {
-          vim::adjust_insert $txtt
-        }
       }
     }
 
@@ -317,9 +300,6 @@ namespace eval edit {
         clipboard append [$txtt get insert "insert+[string length $match]c"]
       }
       $txtt delete insert "insert+[string length $match]c"
-      if {$copy} {
-        vim::adjust_insert $txtt
-      }
     }
 
   }
@@ -384,9 +364,6 @@ namespace eval edit {
         clipboard append [$txtt get insert $index]
       }
       $txtt delete insert $index
-      if {$copy && $inclusive} {
-        vim::adjust_insert $txtt
-      }
     }
 
   }
@@ -1300,9 +1277,6 @@ namespace eval edit {
     # Set the insertion cursor to the given line number
     ::tk::TextSetCursor $txt $linenum
 
-    # Adjust the insertion cursor
-    vim::adjust_insert $txt
-
   }
 
   ######################################################################
@@ -2201,9 +2175,6 @@ namespace eval edit {
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index
 
-    # Adjust the insertion cursor in Vim mode
-    vim::adjust_insert $txtt
-
   }
 
   ######################################################################
@@ -2214,9 +2185,6 @@ namespace eval edit {
 
     # Adjust the view
     eval [string map {%W $txtt} [bind Text <[string totitle $dir]>]]
-
-    # Adjust the insertion cursor in Vim mode
-    vim::adjust_insert $txtt
 
   }
 
