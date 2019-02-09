@@ -5,6 +5,9 @@
  RE: xterminal here      RE: cd %d
  RE: xterminal here      RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
 
+ S: wget Web page S: %#W wget -r -k -l 2 -p --accept-regex=.+/man/tcl8\.6.+ https://www.tcl.tk/man/tcl8.6/
+
+
  ME: Tcl/Tk            ME: m=tcltk.mnu w=20
  ME: Python            ME: m=python.mnu w=30
  ME: System            ME: m=system.mnu w=40
@@ -13,3 +16,5 @@
 
 [OPTIONS]
 o=0
+n=< utils >
+%#W geo=1029x517+100+175;pos=2.39 # Below are the commands to get the Web page by wget.|!|# The downloaded pages are stored in ~/WGET directory (change this if needed).|!|#|!|# Note that .+ are used to edge "some unique string of the page address", e.g.|!|#   wget -r -k -l 2 -p --accept-regex=.+/UNIQUE/.+ https://www.some.com/UNIQUE/some|!|# would download all of https://www.some.com/UNIQUE/some|!|# excluding all external links that don't most likely match /UNIQUE/.|!|#|!|# Note also that -l option means "maximum level to dig".|!|###################################################################################|!|mkdir ~/WGET|!|cd ~/WGET|!||!|# wget the Tcl/Tk man pages:|!|# wget -r -k -l 2 -p --accept-regex=.+/man/tcl8\.6.+ https://www.tcl.tk/man/tcl8.6/|!||!|# wget letter-to-peter|!|wget -r -k -l 2 -p --accept-regex=.+letter-to-peter.+ http://catesfamily.org.uk/letter-to-peter/|!||!|dir

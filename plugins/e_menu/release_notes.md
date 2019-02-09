@@ -1,6 +1,13 @@
 # Last changes:
 
 
+Version `1.13 (9 Feb'19)`
+
+  - pave*.tcl changed (focused, themed)
+  - utils.mnu: wget (edited item)
+  - %T, %S wildcards
+
+
 Version `1.12 (31 Jan'19)`
 
   - PaveDialog input: entering data used in commands

@@ -49,7 +49,7 @@ oo::class create PaveDialog {
 
   constructor {{win ""} {pavedir ""}} {
 
-    # dialogs are bound to "$win" window e.g. ".mywin", default "" means .
+    # dialogs are bound to "$win" window e.g. ".mywin.fra", default "" means .
     set pWindow $win
     set nsd [namespace current]::
     namespace eval ${nsd}paveD {}  ;# made in oo::
@@ -66,7 +66,7 @@ oo::class create PaveDialog {
 
   destructor {
 
-    catch "destroy $pWindow.pavedlg"
+    catch "destroy $pWindow.dia"
     catch "namespace delete ${nsd}paveD"
 
   }
@@ -159,8 +159,14 @@ oo::class create PaveDialog {
         ch { set tvar "-var" }
         sp { set gopts "$gopts -expand 0 -side left"}
       }
+
+      if {[string match "*Mono*" "[font families]"]} {
+        set Mfont "Mono"
+      } else {
+        set Mfont "Courier"
+      }
       lappend inopts [list fraM.fra$name - - - - "pack -expand 1 -fill both"]
-      lappend inopts [list fraM.fra$name.laB$name - - - - "pack -side left -anchor nw -padx 3" "-t \"$prompt\" -font \"-family Mono -size 10\""]
+      lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor nw -padx 3" "-t \"$prompt\" -font \"-family $Mfont -size 10\""]
       set vv [my varname $name]
       set ff [my fieldname $name]
       switch $typ {
@@ -201,7 +207,7 @@ oo::class create PaveDialog {
           set args "$args -focus *$n"
           break
         }
-        if {$_=="fi" || $_=="di" || $_=="cl"} {
+        if {$_=="fi" || $_=="di" || $_=="fo" || $_=="cl"} {
           set args "$args -focus *ent$n"
           break
         }
@@ -267,9 +273,9 @@ oo::class create PaveDialog {
   #########################################################################
   # Append the <buttons> buttons to the <inplist> list
   # from the <pos> position of <neighbor> cell
-  # and set its resulting values in <win> window.
+  # and set its resulting values
 
-  method appendButtons {win inplist buttons neighbor pos} {
+  method appendButtons {inplist buttons neighbor pos} {
 
     upvar $inplist widlist
     set defb1 ""
@@ -278,7 +284,7 @@ oo::class create PaveDialog {
         set defb1 $but
       }
       lappend widlist [list $but $neighbor $pos 1 1 "-st we" \
-        "-t \"$txt\" -com \"${nsd}my res $win $res\""]
+        "-t \"$txt\" -com \"${nsd}my res $pWindow.dia $res\""]
       set neighbor $but
       set pos L
     }
@@ -307,7 +313,7 @@ oo::class create PaveDialog {
 
   method Query {icon ttl msg buttons defb inopts args} {
 
-    if {[winfo exists $pWindow.pavedlg]} {
+    if {[winfo exists $pWindow.dia]} {
       return 0
     }
     # remember the focus (to restore it after closing the dialog)
@@ -395,20 +401,21 @@ oo::class create PaveDialog {
     }
     # add the icon to the layout
     if {$icon!=""} {
-      set widlist [list [list laBimg - - 99 1 \
+      set widlist [list [list labBimg - - 99 1 \
       "-st n -pady 7" "-image ${nsd}paveD::img$icon"]]
-      set prevl laBimg
+      set prevl labBimg
     } else {
       set widlist [list [list labimg - - 99 1]]
       set prevl labimg ;# this trick would hide the prevw at all
     }
-    set prevw laBimg
+    set prevw labBimg
     if {$head!=""} {
       # set the dialog's heading (-head option)
       if {$optsHeadFont!="" || $hsz!=""} {
         set optsHeadFont [string trim "$optsHeadFont $hsz"]
         set optsHeadFont "-font \"$optsHeadFont\""
       }
+      set optsFont ""
       set prevp "L"
       foreach lh [split $head "\n"] {
         set labh "labheading[incr il]"
@@ -432,10 +439,10 @@ oo::class create PaveDialog {
       }
       incr il
       if {!$textmode} {
-        lappend widlist [list laB$il $prevw $prevp 1 7 \
+        lappend widlist [list labB$il $prevw $prevp 1 7 \
           "-st w -rw 1" "-t \"$m \" $optsLabel $optsFont"]
       }
-      set prevw laB$il
+      set prevw labB$il
       set prevp T
     }
     if {$inopts!=""} {
@@ -455,8 +462,8 @@ oo::class create PaveDialog {
       if {[info exists charwidth]} {set maxl $charwidth}
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
       lappend widlist {texM - - 1 7 {pack -side left -expand 1 -fill both -in \
-        $pWindow.pavedlg.fraM} {-h $il -w $maxl $optsFontMono $optsMisc -wrap word}}
-      lappend widlist {sbv texM L 1 1 {pack -in $pWindow.pavedlg.fraM}}
+        $pWindow.dia.fra.fraM} {-h $il -w $maxl $optsFontMono $optsMisc -wrap word}}
+      lappend widlist {sbv texM L 1 1 {pack -in $pWindow.dia.fra.fraM}}
       set prevw fraM
     }
     # add the lower (after the message) blank frame
@@ -475,66 +482,66 @@ oo::class create PaveDialog {
       lappend widlist [list h__ sev L 1 1]
     }
     # add the buttons
-    set defb1 [my appendButtons $pWindow.pavedlg widlist $buttons h__ L]
+    set defb1 [my appendButtons widlist $buttons h__ L]
     # display the dialog's window
     set ${nsd}paveD::ch 0
-    my makeWindow $pWindow.pavedlg $ttl
-    set widlist [my window $pWindow.pavedlg $widlist]
+    set wtop [my makeWindow $pWindow.dia.fra $ttl]
+    set widlist [my window $pWindow.dia.fra $widlist]
     # after creating widgets - show dialog texts if any
-    my setgettexts set $pWindow.pavedlg $inopts $widlist
-    set focusnow $pWindow.pavedlg.$defb
+    my setgettexts set $pWindow.dia.fra $inopts $widlist
+    set focusnow $pWindow.dia.fra.$defb
     if {$textmode} {
       if {!$optsTags} {set tags [list]}
-      my displayTaggedText $pWindow.pavedlg.texM msg $tags
+      my displayTaggedText $pWindow.dia.fra.texM msg $tags
       if {$optsState==""} {
         set optsState "-state disabled"  ;# by default
       }
       if {$defb == "butTEXT"} {
         if {$optsState == "-state normal"} {
-          set focusnow $pWindow.pavedlg.texM
+          set focusnow $pWindow.dia.fra.texM
           catch "::tk::TextSetCursor $focusnow $curpos"
-          catch "bind $focusnow <Control-w> {$pWindow.pavedlg.$defb1 invoke}"
+          catch "bind $focusnow <Control-w> {$pWindow.dia.fra.$defb1 invoke}"
         } else {
-          set focusnow $pWindow.pavedlg.$defb1
+          set focusnow $pWindow.dia.fra.$defb1
         }
       }
       if {$cc!=""} {
         append optsState " -insertbackground $cc"
       }
-      $pWindow.pavedlg.texM configure {*}$optsState
+      $pWindow.dia.fra.texM configure {*}$optsState
     }
     if {$newfocused!=""} {
       foreach w $widlist {
         lassign $w widname
         if {[string match $newfocused $widname]} {
-          set focusnow $pWindow.pavedlg.$widname
+          set focusnow $pWindow.dia.fra.$widname
         }
       }
     }
-    my showModal $pWindow.pavedlg -focus $focusnow -geometry $geometry {*}$root
-    set pdgeometry [winfo geometry $pWindow.pavedlg]
+    my showModal $pWindow.dia -focus $focusnow -geometry $geometry {*}$root
+    set pdgeometry [winfo geometry $pWindow.dia.fra]
     if {$textmode && [string first "-state normal" $optsState]>=0} {
       set textmode " [$focusnow index insert] [$focusnow get 1.0 end]"
     } else {
       set textmode ""
     }
     # the dialog's result is defined by "pave res" + checkbox's value
-    set res [my res $pWindow.pavedlg]
+    set res [my res $pWindow.dia]
     if {$res && [set ${nsd}paveD::ch]} {
       incr res 10
     }
     if {$res && $inopts!=""} {
-      my setgettexts get $pWindow.pavedlg $inopts $widlist
+      my setgettexts get $pWindow.dia.fra $inopts $widlist
       set inopts " [my vals $widlist]"
     } else {
       set inopts ""
     }
-    destroy $pWindow.pavedlg
+    destroy $pWindow.dia
     # pause a bit and restore the old focus
     if {[winfo exists $oldfocused]} {
       after 50 [list focus $oldfocused]
-    } elseif {[winfo exists $pWindow]} {
-      after 50 [list focus $pWindow]
+    } elseif {[winfo exists $pWindow.dia]} {
+      after 50 [list focus $pWindow.dia]
     }
     if {$wasgeo} {
       lassign [split $pdgeometry x+] w h x y
