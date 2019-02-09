@@ -54,13 +54,17 @@ set maxitems 45    ;# maximum of menu.txt items
 set timeafter 5    ;# interval (in sec.) for updating times/dates
 
 # *******************************************************************
-# internal trifles: D - message, Q - question, S - console,
-#                   IF - conditional execution, EXIT - close tclsh
-
-# called in I: menu item, $ escaped as \$, CLI commands devided with \n, e.g.:
-# I: Xterm in "%PD" I: D run bash in %PD; if {[Q BASH "Want to bash?"]} {cd "%PD"; S bash}
-# I: Xterm in "%PD" (mute) I: cd "%PD"; S bash
-# I: Console commands I: S dir \n echo \$PWD \n date
+# internal trifles:
+#   D - message
+#   Q - question
+#   T - terminal's command,
+#   S - OS command/program
+#   IF - conditional execution
+#   EXIT - close menu
+# When them called in I: menu item, $ escaped as \$, \n mean newlines, e.g.:
+# I: Xterm in "%PD" I: D run bash in %PD; if {[Q BASH "Want to bash?"]} {cd "%PD"; T bash}
+# I: Xterm in "%PD" (mute) I: cd "%PD"; T bash
+# I: Commands in terminal I: T dir \n echo \$PWD \n date
 
 namespace eval em {}
 
@@ -68,9 +72,15 @@ proc D {mes args} {::em::em_message $mes ok "INFO" {*}$args}
 proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
   return [::em::em_question $ttl $mes $typ $icon $defb {*}$args]
 }
-proc S {args} {
+proc T {args} {
   set cc ""; foreach c $args {set cc "$cc$c "}
   ::em::shell_run "Nobutt" "S:" shell1 - "noamp" [string map {"\\n" "\r"} $cc]
+}
+proc S {args} {
+  set comm [auto_execok [lindex $args 0]]
+  set args [lrange $args 1 end]
+  exec {*}$comm {*}$args
+  catch { exec {*}$comm {*}$args }
 }
 proc EXIT {} {::em::on_exit}
 
@@ -334,7 +344,7 @@ proc ::em::writeable_command {cmd} {
   set tmpcolr $::colrgrey
   set ::colrgrey $::em::colrbE
   set ::em::skipfocused 1
-  set res [dialog misc "" "EDIT & RUN COMMAND: $mark" "$cmd" \
+  set res [dialog misc "" "EDIT: $mark" "$cmd" \
     {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 \
     -pos $pos -fg $::em::colrfE -bg $::em::colrbE -cc $::em::colrcc \
     -head "UNCOMMENT usable commands, COMMENT unusable ones\nUse \\\\ instead of \\ in patterns." -family Times -hsz 14 -size 12 -g $geo]
@@ -657,10 +667,10 @@ proc ::em::run0 {sel amp silent} {
       catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "D [string range $sel 3 end]"
       catch {{*}$sel}
-    } elseif {[string first "%S " $sel] == 0} {
+    } elseif {[string first "%T " $sel] == 0} {
       # run shell command(s)
       catch {set sel [subst -nobackslashes -nocommands $sel]}
-      set sel "S [string range $sel 3 end]"
+      set sel "T [string range $sel 3 end]"
       if {[catch {[{*}$sel]} e]} {
         D $e
         return false
@@ -670,6 +680,8 @@ proc ::em::run0 {sel amp silent} {
       # e.g. when deleting/overwriting a read-only file
       set sel "[string range $sel 3 end]"
       catch {[{*}$sel]}
+    } elseif {[string first "%S " $sel] == 0} {
+      S {*}[string range $sel 3 end]
     } elseif {[string first "%IF " $sel] == 0} {
       return [IF [string range $sel 4 end]]
     } elseif {[checkForBrowser sel]} {
@@ -1194,7 +1206,7 @@ proc ::em::menuof { commands s1 domenu} {
     prepr_init prog
     prepr_win prog $typ
     switch $typ {
-      "I:" {   ;#internal (D, Q, S, Tcl commands)
+      "I:" {   ;#internal (D, Q, S, T)
         prepr_pn prog
         set prom "RUN         "
         set runp "$prog"
