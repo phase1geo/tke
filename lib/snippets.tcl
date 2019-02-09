@@ -302,9 +302,6 @@ namespace eval snippets {
 
     }
 
-    # Adjust the cursor, if necessary
-    vim::adjust_insert $txtt
-
     # Create a separator
     $txtt edit separator
 

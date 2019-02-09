@@ -544,7 +544,6 @@ namespace eval emmet {
         set endpos [expr {($dir eq "next") ? [lindex $retval 0] : [lindex $retval 1]}]
         if {[set index [get_blank_line $txt $dir insert $endpos]] ne ""} {
           ::tk::TextSetCursor $txt "$index lineend"
-          vim::adjust_insert $txt.t
           return
         }
       }
@@ -566,7 +565,6 @@ namespace eval emmet {
             return
           } elseif {[set index [get_blank_line $txt next [lindex $retval 1] [lindex $next_tag 0]]] ne ""} {
             ::tk::TextSetCursor $txt "$index lineend"
-            vim::adjust_insert $txt.t
             return
           } else {
             set retval $next_tag
@@ -592,7 +590,6 @@ namespace eval emmet {
             return
           } elseif {[set index [get_blank_line $txt prev [lindex $retval 0] [lindex $prev_tag 1]]] ne ""} {
             ::tk::TextSetCursor $txt "$index lineend"
-            vim::adjust_insert $txt.t
             return
           } else {
             set retval $prev_tag

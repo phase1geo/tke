@@ -864,7 +864,6 @@ namespace eval folding {
         }
       }
       ::tk::TextSetCursor $txt [lindex $data $index].0
-      vim::adjust_insert $txt.t
     }
 
   }

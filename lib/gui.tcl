@@ -1718,11 +1718,6 @@ namespace eval gui {
       # Get the current text widget
       get_info $tab tab txt tabbar
 
-      # Perform an insertion adjust, if necessary
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
-      }
-
       # Change the tab text
       $tabbar tab $tab -text " [file tail $name]"
 
@@ -1944,11 +1939,6 @@ namespace eval gui {
       $txt xview moveto $xview
       $txt yview moveto $yview
 
-      # Perform an insertion adjust, if necessary
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
-      }
-
       # Add the file to the list of recently opened files
       if {$remember} {
         add_to_recently_opened $fname
@@ -2080,9 +2070,6 @@ namespace eval gui {
 
       # Set the insertion mark to the first position
       ::tk::TextSetCursor $txt.t $insert_index
-      if {[vim::in_vim_mode $txt.t]} {
-        vim::adjust_insert $txt.t
-      }
 
       # If a diff command was specified, run and parse it now
       if {$diff} {
@@ -5328,9 +5315,7 @@ namespace eval gui {
     # Select the corresponding line in the text widget
     $txt tag remove sel 1.0 end
     $txt tag add sel "$index linestart" "$index lineend"
-
     $txt mark set insert "$index lineend"
-    vim::adjust_insert $txt.t
 
     # Save the selected line to the anchor
     set line_sel_anchor($w) $index
@@ -5376,9 +5361,6 @@ namespace eval gui {
       $txt tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
       $txt mark set insert "$index lineend"
     }
-
-    # Make sure that the insertion cursor is handled properly when in Vim mode
-    vim::adjust_insert $txt.t
 
   }
 
@@ -5706,9 +5688,6 @@ namespace eval gui {
     # Make the line viewable
     ::tk::TextSetCursor $txt.t $pos
 
-    # Adjust the insert
-    vim::adjust_insert $txt.t
-
   }
 
   ######################################################################
@@ -5727,9 +5706,6 @@ namespace eval gui {
 
     # Make the line viewable
     ::tk::TextSetCursor $txt.t $pos
-
-    # Adjust the insert
-    vim::adjust_insert $txt.t
 
   }
 
@@ -6197,7 +6173,6 @@ namespace eval gui {
       if {$jump} {
         set cursor_hist($txt,index) $index
         ::tk::TextSetCursor $txt.t [lindex $cursor_hist($txt,hist) $index]
-        vim::adjust_insert $txt.t
       }
       return 1
     }
