@@ -1686,12 +1686,7 @@ namespace eval vim {
   # Perform text replacement.
   proc do_replace {txtt char} {
 
-    if {[multicursor::enabled $txtt]} {
-      multicursor::replace $txtt $char indent::check_indent
-    } else {
-      $txtt replace insert "insert+1c" $char
-      $txtt syntax highlight "insert linestart" "insert lineend"
-    }
+    $txtt replace insert "insert+1c" $char
 
   }
 
