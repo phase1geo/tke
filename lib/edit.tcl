@@ -442,129 +442,16 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Converts a character-by-character case inversion of the given text.
-  proc convert_case_toggle {txtt startpos endpos} {
-
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Adjust the string so that we don't add an extra new line
-    if {[string index $str end] eq "\n"} {
-      set str [string range $str 0 end-1]
-    }
-
-    set strlen [string length $str]
-    set newstr ""
-
-    for {set i 0} {$i < $strlen} {incr i} {
-      set char [string index $str $i]
-      append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
-    }
-
-    $txtt replace $startpos "$startpos+${strlen}c" $newstr
-
-  }
-
-  ######################################################################
-  # Converts the case to the given type on a word basis.
-  proc convert_case_to_title {txtt startpos endpos} {
-
-    set i 0
-    foreach index [$txtt search -all -count lengths -regexp -- {\w+} $startpos $endpos] {
-      set endpos   [$txtt index "$index+[lindex $lengths $i]c"]
-      set word     [$txtt get $index $endpos]
-      $txtt replace $index $endpos [string totitle $word]
-      incr i
-    }
-
-    # Set the cursor
-    ::tk::TextSetCursor $txtt $startpos
-
-  }
-
-  ######################################################################
-  # Converts the given string
-  proc convert_to_lower_case {txtt startpos endpos} {
-
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Substitute the text
-    $txtt replace $startpos "$startpos+[string length $str]c" [string tolower $str]
-
-  }
-
-  ######################################################################
-  # Converts the given string
-  proc convert_to_upper_case {txtt startpos endpos} {
-
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Substitute the text
-    $txtt replace $startpos "$startpos+[string length $str]c" [string toupper $str]
-
-  }
-
-  ######################################################################
-  # Converts the text to rot13.
-  proc convert_to_rot13 {txtt startpos endpos} {
-
-    variable rot13_map
-
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Perform the substitution
-    $txtt replace $startpos "$startpos+[string length $str]c" [string map $rot13_map $str]
-
-    # Set the cursor
-    ::tk::TextSetCursor $txtt $startpos
-
-  }
-
-  ######################################################################
-  # If text is selected, the case will be toggled for each selected
-  # character.  Returns 1 if selected text was found; otherwise, returns 0.
-  proc transform_toggle_case_selected {txtt} {
-
-    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $ranges] {
-        convert_case_toggle $txtt $startpos $endpos
-      }
-      ::tk::TextSetCursor $txtt $startpos
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
   # Perform a case toggle operation.
   proc transform_toggle_case {txtt startpos endpos {cursorpos insert}} {
 
-    if {![transform_toggle_case_selected $txtt]} {
-      convert_case_toggle $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
-    }
-
-  }
-
-  ######################################################################
-  # If text is selected, the case will be lowered for each selected
-  # character.  Returns 1 if selected text was found; otherwise, returns 0.
-  proc transform_to_lower_case_selected {txtt} {
-
-    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $ranges] {
-        convert_to_lower_case $txtt $startpos $endpos
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        $txtt transform $startpos $endpos ctext::transform_toggle_case
       }
-      ::tk::TextSetCursor $txtt $startpos
-      return 1
+    } else {
+      $txtt transform $startpos $endpos ctext::transform_toggle_case
     }
-
-    return 0
 
   }
 
@@ -572,82 +459,54 @@ namespace eval edit {
   # Perform a lowercase conversion.
   proc transform_to_lower_case {txtt startpos endpos {cursorpos insert}} {
 
-    if {![transform_to_lower_case_selected $txtt]} {
-      convert_to_lower_case $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
-    }
-
-  }
-
-  ######################################################################
-  # If text is selected, the case will be uppered for each selected
-  # character.  Returns 1 if selected text was found; otherwise, returns 0.
-  proc transform_to_upper_case_selected {txtt} {
-
-    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $ranges] {
-        convert_to_upper_case $txtt $startpos $endpos
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        $txtt transform $startpos $endpos ctext::transform_lower_case
       }
-      ::tk::TextSetCursor $txtt $startpos
-      return 1
+    } else {
+      $txtt transform $startpos $endpos ctext::transform_lower_case
     }
-
-    return 0
 
   }
 
   ######################################################################
   # Perform an uppercase conversion.
-  proc transform_to_upper_case {txtt startpos endpos {cursorpos insert}} {
+  proc transform_to_upper_case {txtt startpos endpos} {
 
-    if {![transform_to_upper_case_selected $txtt]} {
-      convert_to_upper_case $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
-    }
-
-  }
-
-  ######################################################################
-  # If text is selected, the selected text will be rot13'ed.  Returns 1
-  # if selected text was found; otherwise, returns 0.
-  proc transform_to_rot13_selected {txtt} {
-
-    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $ranges] {
-        convert_to_rot13 $txtt $startpos $endpos
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        $txtt transform $startpos $endpos ctext::transform_upper_case
       }
-      ::tk::TextSetCursor $txtt $startpos
-      return 1
+    } else {
+      $txtt transform $startpos $endpos ctext::transform_upper_case
     }
-
-    return 0
 
   }
 
   ######################################################################
   # Transforms all text in the given range to rot13.
-  proc transform_to_rot13 {txtt startpos endpos {cursorpos insert}} {
+  proc transform_to_rot13 {txtt startpos endpos} {
 
-    if {![transform_to_rot13_selected $txtt]} {
-      convert_to_rot13 $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        $txtt transform $startpos $endpos ctext::transform_rot13
+      }
+    } else {
+      $txtt transform $startpos $endpos ctext::transform_rot13
     }
 
   }
 
   ######################################################################
   # Perform a title case conversion.
-  proc transform_to_title_case {txtt startpos endpos {cursorpos insert}} {
+  proc transform_to_title_case {txtt startpos endpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
+        $txtt transform "wordstart -startpos $startpos" $endpos ctext::transform_title_case
       }
-      ::tk::TextSetCursor $txtt $startpos
     } else {
-      set str [$txtt get "insert wordstart" "insert wordend"]
-      convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
-      ::tk::TextSetCursor $txtt $cursorpos
+      $txtt transform "wordstart" "wordend" ctext::transform_title_case
     }
 
   }
