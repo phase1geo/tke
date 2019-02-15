@@ -877,7 +877,7 @@ namespace eval select {
     # Delete the text
     $txtt delete [list char -dir prev] insert
     if {![multicursor::delete $txtt [list char -dir prev] ""]} {
-      edit::delete $txtt {*}[lrange [$txtt tag ranges sel] 0 1] 1 1
+      edit::delete $txtt delete {*}[lrange [$txtt tag ranges sel] 0 1] 1 1
     }
 
     # Disable selection mode

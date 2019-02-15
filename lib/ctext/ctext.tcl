@@ -1377,7 +1377,6 @@ namespace eval ctext {
       diff        { return [command_diff        $win {*}$args] }
       edit        { return [command_edit        $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
-      highlight   { return [command_highlight   $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
       insertlist  { return [command_insertlist  $win {*}$args] }
@@ -1887,37 +1886,6 @@ namespace eval ctext {
 
   }
 
-  proc command_highlight {win args} {
-
-    variable data
-
-    set moddata  [list]
-    set insert   0
-    set dotags   ""
-    set modified 0
-    set ranges   [list]
-
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata"  { set args [lassign $args dummy moddata] }
-        "-insert"   { set args [lassign $args dummy insert] }
-        "-dotags"   { set args [lassign $args dummy dotags] }
-        "-modified" { set args [lassign $args dummy]; set modified 1 }
-        default     {
-          return -code error "Unknown option specified ([lindex $args 0])"
-        }
-      }
-    }
-
-    foreach {start end} $args {
-      lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
-    }
-
-    highlightAll $win $ranges $insert $dotags
-    modified $win $modified [list highlight $ranges $moddata]
-
-  }
-
   ######################################################################
   # Returns the index associated with the given value.
   proc command_index {win value} {
@@ -2047,7 +2015,7 @@ namespace eval ctext {
       foreach {endPos startPos} [lreverse $cursors] content [lreverse $contents] {
         lassign $content str tags
         if {[set lang [getLang $win $startPos]] ne ""} {
-          $win._t insert $startPos $str [list {*}$tags lmargin rmargin __Lang:$lang]
+          $win._t insert $startPos $str [list {*}$tags lmargin rmargin $lang]
         } else {
           $win._t insert $startPos $str [list {*}$tags lmargin rmargin]
         }
@@ -2499,11 +2467,8 @@ namespace eval ctext {
           -modified 0
         }
         array set opts [lrange $args 0 [expr $i - 1]]
-        set ranges [list]
-        foreach {start end} [lrange $args $i end] {
-          lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
-        }
-        highlightAll $win $ranges $opts(-insert) $opts(-dotags)
+        set ranges [lrange $args $i end]
+        highlightAll $win [lrange $args $i end] $opts(-insert) $opts(-dotags)
         modified $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
       }
       configure { return [$win._t tag configure __[lindex $args 0] {*}[lrange $args 1 end]] }
@@ -3481,7 +3446,7 @@ namespace eval ctext {
 
     set lang [getLang $win $index]
 
-    return [expr {($lang eq "") ? "" : "__Lang:$lang"}]
+    return [expr {($lang eq "") ? "" : "$lang"}]
 
   }
 
@@ -3670,24 +3635,29 @@ namespace eval ctext {
 
     array set theme $data($win,config,-theme)
 
-    $win tag configure __Lang:$lang
-    $win tag lower     __Lang:$lang _invisible
+    $win tag configure $lang
+    $win tag lower     $lang _invisible
     $win tag configure __Lang=$lang -background $theme(embedded)
     $win tag lower     __Lang=$lang _invisible
 
     lappend data($win,config,csl_char_tags,) __LangStart:$lang __LangEnd:$lang
-    lappend data($win,config,csl_array)      __LangStart:${lang}0 1 __LangStart:${lang}1 1 __LangEnd:${lang}0 1 __LangEnd:${lang}1 1 __Lang:$lang 1
+    lappend data($win,config,csl_array)      __LangStart:${lang}0 1 __LangStart:${lang}1 1 __LangEnd:${lang}0 1 __LangEnd:${lang}1 1 $lang 1
     lappend data($win,config,csl_markers)    __LangStart:${lang}0 __LangStart:${lang}1 __LangEnd:${lang}0 __LangEnd:${lang}1
     lappend data($win,config,csl_tag_pair)   __LangStart:$lang __Lang=$lang
 
   }
 
-  proc highlightAll {win lineranges ins {do_tag ""}} {
+  proc highlightAll {win ranges ins {do_tag ""}} {
 
     variable data
     variable range_cache
 
     array set csl_array $data($win,config,csl_array)
+
+    set lineranges [list]
+    foreach {start end} $ranges {
+      lappend lineranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
+    }
 
     # Delete all of the tags not associated with comments and strings that we created
     foreach tag [$win._t tag names] {
@@ -3814,7 +3784,7 @@ namespace eval ctext {
       if {$lang eq ""} {
         set lranges [list 1.0 end]
       } else {
-        set lranges [$win._t tag ranges "__Lang:$lang"]
+        set lranges [$win._t tag ranges "$lang"]
       }
 
       # Perform highlighting for each range
@@ -3925,7 +3895,7 @@ namespace eval ctext {
                 set rb [expr $rb ^ 1]
               }
               if {$curr_lang_start ne ""} {
-                lappend tags(__Lang:$curr_lang) $curr_lang_start $char_end
+                lappend tags($curr_lang) $curr_lang_start $char_end
               }
               set curr_lang       ""
               set curr_lang_start ""
@@ -3987,13 +3957,13 @@ namespace eval ctext {
           lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start [expr {($lang eq "") ? "end" : "$langend linestart"}]
         }
         if {($curr_lang ne "") && ($lang eq "")} {
-          lappend tags(__Lang:$curr_lang) $curr_lang_start end
+          lappend tags($curr_lang) $curr_lang_start end
         }
 
         # Delete old tags
         if {$lang eq ""} {
           foreach l $data($win,config,langs) {
-            catch { $win._t tag remove __Lang:$l $langstart $langend }
+            catch { $win._t tag remove $l $langstart $langend }
           }
         }
         foreach tag $data($win,config,csl_tags) {
@@ -4024,7 +3994,7 @@ namespace eval ctext {
 
     foreach lang $data($win,config,langs) {
       set indices [list]
-      foreach {start end} [$win._t tag ranges __Lang:$lang] {
+      foreach {start end} [$win._t tag ranges $lang] {
         if {[$win compare "$start+1l linestart" < "$end linestart"]} {
           lappend indices "$start+1l linestart" "$end linestart"
         }
@@ -6247,6 +6217,46 @@ namespace eval ctext {
         set start [$win._t index "[lindex $ranges 0]-1c"]
       }
     }
+
+  }
+
+  ######################################################################
+  # Returns the next or previous starting position for selected text.
+  proc getindex_selstart {win optlist} {
+
+    array set opts {
+      -startpos "insert"
+      -dir      "prev"
+    }
+    array set opts $optlist
+
+    if {$opts(-dir) eq "prev"} {
+      set range [$win._t tag prevrange sel $opts(-startpos)]
+    } else {
+      set range [$win._t tag nextrange sel $opts(-startpos)]
+    }
+
+    return [lindex $range 0]
+
+  }
+
+  ######################################################################
+  # Returns the next or previous starting position for selected text.
+  proc getindex_selend {win optlist} {
+
+    array set opts {
+      -startpos "insert"
+      -dir      "prev"
+    }
+    array set opts $optlist
+
+    if {$opts(-dir) eq "prev"} {
+      set range [$win._t tag prevrange sel $opts(-startpos)]
+    } else {
+      set range [$win._t tag nextrange sel $opts(-startpos)]
+    }
+
+    return [lindex $range 1]
 
   }
 

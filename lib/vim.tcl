@@ -809,7 +809,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Adjust the current selection fi we are in visual mode.
+  # Adjust the current selection if we are in visual mode.
   proc set_cursor {txtt index} {
 
     if {[in_visual_mode $txtt]} {
@@ -1714,12 +1714,14 @@ namespace eval vim {
           $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
+          puts "spos: $spos, epos: $epos"
           if {$spos ne ""} {
             $txtt cursor set $spos
             visual_mode $txtt char
             set_cursor $txtt $epos
           }
         } else {
+          puts "Setting cursor to eposargs: $eposargs"
           set_cursor $txtt $eposargs
         }
         reset_state $txtt 0
