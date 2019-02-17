@@ -3602,7 +3602,7 @@ namespace eval menus {
   # Launches the web browser, displaying the Tips & Tricks blog articles.
   proc help_tips_tricks {} {
 
-    utils::open_file_externally "http://tkeeditor.wordpress.com"
+    utils::open_file_externally "https://sourceforge.net/p/tke/wiki/Tips%20%26%20Tricks/"
 
   }
 
