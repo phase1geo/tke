@@ -33,6 +33,7 @@ namespace eval ctext {
   array set tag_index_map {"100" 1 "001" 0}
 
   variable temporary {}
+  variable alt_key     Alt
   variable right_click 3
   variable rot13_map {
     a n b o c p d q e r f s g t h u i v j w k x l y m z n a o b p c q d r e s f t g u h v i w j x k y l z m
@@ -40,6 +41,7 @@ namespace eval ctext {
   }
 
   if {[tk windowingsystem] eq "aqua"} {
+    set alt_key     Mod2
     set right_click 2
   }
 
@@ -47,6 +49,7 @@ namespace eval ctext {
 
     variable data
     variable right_click
+    variable alt_key
     variable REs
 
     if {[llength $args] & 1} {
@@ -102,8 +105,11 @@ namespace eval ctext {
     set data($win,config,-matchaudit_bg)           "red"
     set data($win,config,-theme)                   [list]
     set data($win,config,-hidemeta)                0
+    set data($win,config,-shiftwidth)              2
+    set data($win,config,-tabstop)                 2
     set data($win,config,-blockcursor)             0
     set data($win,config,-multimove)               1
+    set data($win,config,-indentmode)              "IND+"    ;# Valid values are OFF, IND and IND+
     set data($win,config,re_opts)                  ""
     set data($win,config,win)                      $win
     set data($win,config,modified)                 0
@@ -121,11 +127,11 @@ namespace eval ctext {
 
     set data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
     -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-    -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg \
-    -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
+    -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit \
+    -matchaudit_bg -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
     -linemap_separator -linemap_separator_color -casesensitive -peer -theme -hidemeta \
     -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin \
-    -blockcursor -multimove -insertwidth]
+    -blockcursor -multimove -insertwidth -shiftwidth -tabstop -indentmode]
 
     # Set args
     foreach {name value} $args {
@@ -209,24 +215,26 @@ namespace eval ctext {
     }
     $win.t tag configure _mcursor -underline 1
 
-    bind $win.t <Configure>                [list ctext::linemapUpdate $win]
-    bind $win.t <<CursorChanged>>          [list ctext::linemapUpdate $win]
-    bind $win.l <Button-$right_click>      [list ctext::linemapToggleMark $win %x %y]
-    bind $win.l <MouseWheel>               [list event generate $win.t <MouseWheel> -delta %D]
-    bind $win.l <4>                        [list event generate $win.t <4>]
-    bind $win.l <5>                        [list event generate $win.t <5>]
-    bind $win.t <Destroy>                  [list ctext::event:Destroy $win]
-    bind $win.t <<Selection>>              [list ctext::event:Selection $win]
-    bind $win.t <Escape>                   [list ctext::event:Escape $win]
-    bind $win.t <Key-Up>                   "$win cursor move up;        break"
-    bind $win.t <Key-Down>                 "$win cursor move down;      break"
-    bind $win.t <Key-Left>                 "$win cursor move left;      break"
-    bind $win.t <Key-Right>                "$win cursor move right;     break"
-    bind $win.t <Key-Home>                 "$win cursor move linestart; break"
-    bind $win.t <Key-End>                  "$win cursor move lineend;   break"
-    bind $win.t <Button-1>                 "$win cursor disable"
-    bind $win.t <Mod2-Button-1>            [list $win cursor add @%x,%y]
-    bind $win.t <Mod2-Button-$right_click> [list $win cursor addcolumn @%x,%y]
+    bind $win.t <Configure>                    [list ctext::linemapUpdate $win]
+    bind $win.t <<CursorChanged>>              [list ctext::linemapUpdate $win]
+    bind $win.l <Button-$right_click>          [list ctext::linemapToggleMark $win %x %y]
+    bind $win.l <MouseWheel>                   [list event generate $win.t <MouseWheel> -delta %D]
+    bind $win.l <4>                            [list event generate $win.t <4>]
+    bind $win.l <5>                            [list event generate $win.t <5>]
+    bind $win.t <Destroy>                      [list ctext::event:Destroy $win]
+    bind $win.t <<Selection>>                  [list ctext::event:Selection $win]
+    bind $win.t <Escape>                       [list ctext::event:Escape $win]
+    bind $win.t <Key-Up>                       "$win cursor move up;        break"
+    bind $win.t <Key-Down>                     "$win cursor move down;      break"
+    bind $win.t <Key-Left>                     "$win cursor move left;      break"
+    bind $win.t <Key-Right>                    "$win cursor move right;     break"
+    bind $win.t <Key-Home>                     "$win cursor move linestart; break"
+    bind $win.t <Key-End>                      "$win cursor move lineend;   break"
+    bind $win.t <Key-Delete>                   "$win delete insert; break"
+    bind $win.t <Key-BackSpace>                "$win delete {char -dir prev}; break"
+    bind $win.t <Button-1>                     [list $win cursor disable]
+    bind $win.t <$alt_key-Button-1>            [list $win cursor add @%x,%y]
+    bind $win.t <$alt_key-Button-$right_click> [list $win cursor addcolumn @%x,%y]
 
     foreach mod [list Shift Control Alt Command Option] {
       foreach key [list Up Down Left Right Home End] {
@@ -731,6 +739,28 @@ namespace eval ctext {
       break
     }
 
+    lappend argTable {any} -shiftwidth {
+      if {![string is integer $value]} {
+        return -code error "Shiftwidth set to a non-integer value"
+      }
+      set data($win,config,-shiftwidth) $value
+    }
+
+    lappend argTable {any} -tabstop {
+      if {![string is integer $value]} {
+        return -code error "Tabstop set to a non-integer value"
+      }
+      set data($win,config,-tabstop) $value
+      $win._t configure -tabs [list [expr $value * [font measure [$win._t cget -font] 0]] left]
+    }
+
+    lappend argTable {any} -indentmode {
+      if {[lsearch {OFF IND IND+} $value] == -1} {
+        return -code error "Indent mode is not OFF, IND or IND+"
+      }
+      set data($win,config,-indentmode) $value
+    }
+
     set data($win,config,argTable) $argTable
 
   }
@@ -1005,6 +1035,36 @@ namespace eval ctext {
   ######################################################################
   # UNDO/REDO FUNCTIONALITY
   ######################################################################
+  
+  ######################################################################
+  # Displays the given undo/redo buffer to standard output (used for
+  # debugging purposes only).
+  proc undo_display {win buf} {
+
+    variable data
+
+    puts "[string toupper $buf] Buffer"
+    puts "---------------------------"
+
+    foreach group $data($win,undo,${buf}buf) {
+      foreach change $group {
+        lassign $change type spos epos str cursor mcursor
+        puts "    $type $spos $epos $cursor $mcursor"
+        puts "      .[string map [list "\n" ".\n      ."] $str]."
+      }
+      puts "  =="
+    }
+
+    if {($buf eq "undo") && [info exists data($win,undo,uncommitted)]} {
+      puts "  UNCOMMITTED"
+      foreach change $data($win,undo,uncommitted) {
+        lassign $change type spos epos str cursor mcursor
+        puts "    $type $spos $epos $cursor $mcursor"
+        puts "      .[string map [list "\n" ".\n      ."] $str]."
+      }
+    }
+
+  }
 
   ######################################################################
   # Merges the given change into the last uncommitted change if there is
@@ -1084,12 +1144,12 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 2]
 
+    undo_add_change $win [list i {*}[lrange $ranges 0 1] $str $cursor $mcursor] 0
+
     # Handle multiple cursors if we have any
-    foreach {spos epos} [lrange $ranges 0 end-2] {
+    foreach {spos epos} [lrange $ranges 2 end] {
       undo_add_change $win [list i $spos $epos $str $cursor $mcursor] 1
     }
-
-    undo_add_change $win [list i {*}[lrange $ranges end-1 end] $str $cursor $mcursor] 0
 
   }
 
@@ -1105,11 +1165,11 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 2]
 
-    foreach {spos epos} [lrange $ranges 0 end-2] str [lrange $strs 0 end-1] {
+    undo_add_change $win [list i {*}[lrange $ranges 0 1] [lindex $strs 0] $cursor $mcursor] 0
+
+    foreach {spos epos} [lrange $ranges 2 end] str [lrange $strs 1 end] {
       undo_add_change $win [list i $spos $epos $str $cursor $mcursor] 1
     }
-
-    undo_add_change $win [list i {*}[lrange $ranges end-1 end] [lindex $strs end] $cursor $mcursor] 0
 
   }
 
@@ -1125,11 +1185,11 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 2]
 
-    foreach {spos epos} [lrange $ranges 0 end-2] str [lrange $strs 0 end-1] {
+    undo_add_change $win [list d {*}[lrange $ranges 0 1] [lindex $strs 0] $cursor $mcursor] 0
+
+    foreach {spos epos} [lrange $ranges 2 end] str [lrange $strs 1 end] {
       undo_add_change $win [list d $spos $epos $str $cursor $mcursor] 1
     }
-
-    undo_add_change $win [list d {*}[lrange $ranges end-1 end] [lindex $strs end] $cursor $mcursor] 0
 
   }
 
@@ -1143,18 +1203,39 @@ namespace eval ctext {
       return
     }
 
-    set mcursor [expr [llength $ranges] > 2]
+    set mcursor [expr [llength $ranges] > 3]
 
-    foreach {spos eposd eposi} [lrange $ranges 0 end-3] dstr [lrange $dstrs 0 end-1] {
+    undo_add_change $win [list d [lindex $ranges 0] [lindex $ranges 1] [lindex $dstrs 0] $cursor $mcursor] 0
+    undo_add_change $win [list i [lindex $ranges 0] [lindex $ranges 2] $istr $cursor $mcursor] 1
+
+    foreach {spos eposd eposi} [lrange $ranges 3 end] dstr [lrange $dstrs 1 end] {
       undo_add_change $win [list d $spos $eposd $dstr $cursor $mcursor] 1
       undo_add_change $win [list i $spos $eposi $istr $cursor $mcursor] 1
     }
 
-    undo_add_change $win [list d [lindex $ranges end-2] [lindex $ranges end-1] [lindex $dstrs end] $cursor $mcursor] 1
-    undo_add_change $win [list i [lindex $ranges end-2] [lindex $ranges end] $istr $cursor $mcursor] 0
-
   }
 
+  ######################################################################
+  # Adds the given replace undo information to the undo buffer.
+  proc undo_replacelist {win ranges dstrs istrs cursor} {
+
+    variable data
+
+    if {!$data($win,config,-undo)} {
+      return
+    }
+
+    set mcursor [expr [llength $ranges] > 3]
+
+    undo_add_change $win [list d [lindex $ranges 0] [lindex $ranges 1] [lindex $dstrs 0] $cursor $mcursor] 0
+    undo_add_change $win [list i [lindex $ranges 0] [lindex $ranges 2] [lindex $istrs 0] $cursor $mcursor] 1
+
+    foreach {spos eposd eposi} [lrange $ranges 3 end] dstr [lrange $dstrs 1 end] istr [lrange $istrs 1 end] {
+      undo_add_change $win [list d $spos $eposd $dstr $cursor $mcursor] 1
+      undo_add_change $win [list i $spos $eposi $istr $cursor $mcursor] 1
+    }
+
+  }
   ######################################################################
   # Adds a separator to the undo buffer if valid to do so.
   proc undo_add_separator {win} {
@@ -1377,6 +1458,7 @@ namespace eval ctext {
       diff        { return [command_diff        $win {*}$args] }
       edit        { return [command_edit        $win {*}$args] }
       gutter      { return [command_gutter      $win {*}$args] }
+      indent      { return [command_indent      $win {*}$args] }
       index       { return [command_index       $win {*}$args] }
       insert      { return [command_insert      $win {*}$args] }
       insertlist  { return [command_insertlist  $win {*}$args] }
@@ -1748,11 +1830,17 @@ namespace eval ctext {
     undo_delete $win $ranges $strs $cursor
 
     if {$opts(-highlight)} {
+
       if {[highlightAll $win $ranges 0 $do_tags]} {
         checkAllBrackets $win
       } else {
         checkAllBrackets $win [string cat {*}$strs]
       }
+
+      foreach {epos spos} [lreverse $ranges] {
+        indent_backspace $win $spos
+      }
+
     }
 
     modified $win 1 [list delete $ranges $opts(-moddata)]
@@ -1887,6 +1975,35 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Conforms the indentation of the specified range to match the indentation
+  # of the preceeding text.
+  proc command_indent {win args} {
+
+    # Parse the arguments
+    switch [llength $args] {
+      0 {
+        set startpos "1.0"
+        set endpos   [$win._t index end]
+      }
+      1 {
+        set startpos [$win index [lindex $args 0]]
+        set endpos   [$win._t index end]
+      }
+      2 {
+        set startpos [$win index [lindex $args 0]]
+        set endpos   [$win index [lindex $args 1]]
+      }
+      default {
+        return -code error "Incorrect arguments to ctext indent command"
+      }
+    }
+
+    # Format the text
+    indent_format_text $win $startpos $endpos
+
+  }
+
+  ######################################################################
   # Returns the index associated with the given value.
   proc command_index {win value} {
 
@@ -1974,13 +2091,26 @@ namespace eval ctext {
     undo_insert     $win $ranges $dat $cursor
     comments_do_tag $win $ranges do_tags
 
-    # Highlight text and bracket auditing
     if {$opts(-highlight)} {
+
+      # Highlight text and bracket auditing
       if {[highlightAll $win $ranges 1 $do_tags]} {
         checkAllBrackets $win
       } else {
         checkAllBrackets $win $dat
       }
+
+      # Handle the indentation
+      if {[string index $dat end] eq "\n"} {
+        foreach {epos spos} [lreverse $ranges] {
+          indent_newline $win $epos
+        }
+      } else {
+        foreach {epos spos} [lreverse $ranges] {
+          indent_check_indent $win $epos
+        }
+      }
+
     }
 
     modified $win 1 [list insert $ranges $opts(-moddata)]
@@ -2031,13 +2161,24 @@ namespace eval ctext {
       undo_insertlist $win $ranges $strs $cursor
       comments_do_tag $win $ranges do_tags
 
-      # Highlight text and bracket auditing
       if {$opts(-highlight)} {
+
+        # Highlight text and bracket auditing
         if {[highlightAll $win $ranges 1 $do_tags]} {
           checkAllBrackets $win
         } else {
           checkAllBrackets $win [string cat {*}$strs]
         }
+
+        # Handle the indentation
+        foreach {epos spos} [lreverse $ranges] str [lreverse $strs] {
+          if {[string index $str end] eq "\n"} {
+            indent_newline $win $epos
+          } else {
+            indent_check_indent $win $epos
+          }
+        }
+
       }
 
       modified $win 1 [list insert $ranges $opts(-moddata)]
@@ -2203,7 +2344,8 @@ namespace eval ctext {
       append dat $content
     }
 
-    set ranges  [list]
+    set uranges [list]
+    set rranges [list]
     set do_tags [list]
     set cursor  [$win._t index insert]
 
@@ -2222,30 +2364,46 @@ namespace eval ctext {
         set t [handleReplaceDeleteAt0 $win $startPos $endPos]
         $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $dat]
         handleReplaceInsert $win $startPos $endPos $t
-        lappend ranges  $startPos $endPos $new_endpos
+        lappend uranges $startPos $endPos $new_endpos
+        lappend rranges $startPos $new_endpos
       }
     } else {
-      set startPos    [$win index $startPos]
-      set endPos      [$win index $endPos]
-      set new_endpos  [$win._t index "$startPos+${chars}c"]
+      set startPos   [$win index $startPos]
+      set endPos     [$win index $endPos]
+      set new_endpos [$win._t index "$startPos+${chars}c"]
       lappend dstrs [$win._t get $startPos $endPos]
       lappend istrs $dat
       comments_chars_deleted $win $startPos $endPos do_tags
       set t [handleReplaceDeleteAt0 $win $startPos $endPos]
       $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $dat]
       handleReplaceInsert $win $startPos $endPos $t
-      lappend ranges  $startPos $endPos $new_endpos
+      lappend uranges $startPos $endPos $new_endpos
+      lappend rranges $startPos $new_endpos
     }
 
-    undo_replace    $win $ranges $dstrs $istrs $cursor
-    comments_do_tag $win $ranges do_tags
+    undo_replace    $win $uranges $dstrs $istrs $cursor
+    comments_do_tag $win $rranges do_tags
 
     if {$opts(-highlight)} {
-      switch [highlightAll $win $ranges 1 $do_tags] {
+
+      # Highlight text and bracket auditing
+      switch [highlightAll $win $rranges 1 $do_tags] {
         2       { checkAllBrackets $win }
         1       { checkAllBrackets $win [$win._t get $startPos $endPos] }
         default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
       }
+
+      # Handle the indentation
+      if {[string index $dat end] eq "\n"} {
+        foreach {epos spos} [lreverse $rranges] {
+          indent_newline $win $epos
+        }
+      } else {
+        foreach {epos spos} [lreverse $rranges] {
+          indent_check_indent $win $epos
+        }
+      }
+
     }
 
     modified $win 1 [list replace $ranges $opts(-moddata)]
@@ -2273,40 +2431,51 @@ namespace eval ctext {
 
       lassign [lrange $args $i end] endSpec contents
 
-      set ranges  [list]
+      set uranges [list]
+      set rranges [list]
       set dstrs   [list]
       set istrs   [list]
       set do_tags [list]
       set cursor  [$win._t index insert]
 
-      foreach {endPos startPos} [lreverse $cursors] content [lreverse $contents] {
+      foreach {endSpec startPos} [lreverse $cursors] content [lreverse $contents] {
         lassign $content str tags
         set endPos     [$win index [list {*}$endSpec -startpos $startPos]]
         set new_endpos [$win._t index "$startPos+[string length $str]c"]
         lappend dstrs [$win._t get $startPos $endPos]
         lappend istrs $str
+        comments_chars_deleted $win $startPos $endPos do_tags
+        set t [handleReplaceDeleteAt0 $win $startPos $endPos]
         $win._t replace $startPos $endPos $str [list {*}$tags lmargin rmargin [getLangTag $win $startPos]]
-        set endPos [$win._t index "$startPos+[string length $str]c"]
-        handleInsertAt0 $win $startPos $endPos
-        lappend ranges $startPos $endPos
+        handleReplaceInsert $win $startPos $endPos $t
+        lappend uranges $startPos $endPos $new_endpos
+        lappend rranges $startPos $new_endpos
       }
 
-      # Delete any dspace characters
-      catch { $win._t delete {*}[$win._t tag ranges _dspace] }
+      undo_replacelist $win $uranges $dstrs $istrs $cursor
+      comments_do_tag $win $rranges do_tags
 
-      undo_insertlist $win $ranges $strs $cursor
-      comments_do_tag $win $ranges do_tags
-
-      # Highlight text and bracket auditing
       if {$opts(-highlight)} {
-        if {[highlightAll $win $ranges 1 $do_tags]} {
-          checkAllBrackets $win
-        } else {
-          checkAllBrackets $win [string cat {*}$strs]
+
+        # Highlight text and bracket auditing
+        switch [highlightAll $win $rranges 1 $do_tags] {
+          2       { checkAllBrackets $win }
+          1       { checkAllBrackets $win [$win._t get $startPos $endPos] }
+          default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
         }
+
+        # Handle the indentation
+        foreach {epos spos} [lreverse $ranges] str [lreverse $istrs] {
+          if {[string index $str end] eq "\n"} {
+            indent_newline $win $epos
+          } else {
+            indent_check_indent $win $epos
+          }
+        }
+
       }
 
-      modified $win 1 [list insert $ranges $opts(-moddata)]
+      modified $win 1 [list replace $ranges $opts(-moddata)]
       event generate $win.t <<CursorChanged>>
 
     }
@@ -4008,6 +4177,9 @@ namespace eval ctext {
   proc setIndentation {twin lang indentations type} {
 
     variable data
+
+    puts -nonewline "In setIndentation, type: $type, indentations: "
+    puts $indentations
 
     if {[llength $indentations] > 0} {
       set data($twin,config,indentation,$lang,$type) [join $indentations |]
@@ -6472,6 +6644,482 @@ namespace eval ctext {
     }
 
     return ""
+
+  }
+
+  ######################################################################
+  # INDENTATION                                                        #
+  ######################################################################
+  
+  ######################################################################
+  # Returns true if the reindent symbol is not the first in the parent statement.
+  proc indent_check_reindent_for_unindent {win index} {
+
+    if {[set spos [lindex [$win._t tag prevrange __reindentStart $index] 0]] ne ""} {
+
+      # If the starting reindent is also an indent, return 1
+      if {[lsearch [$win._t tag names $spos] __indent*] != -1} {
+        return 2
+      }
+
+      # Get the starting position of the previous reindent string
+      set rpos [lindex [$win._t tag prevrange __reindent $index] 0]
+
+      if {($rpos ne "") && [$win._t compare $rpos > $spos]} {
+
+        # Find the indent symbol that is just before the reindentStart symbol
+        while {([lassign [$win._t tag prevrange __indent $index] ipos] ne "") && [$win._t compare $ipos > $spos]} {
+          set index $ipos
+        }
+
+        return [$win._t compare $index < $rpos]
+
+      }
+
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Checks the given text prior to the insertion marker to see if it
+  # matches the unindent expressions.  Increment/decrement
+  # accordingly.
+  proc indent_check_indent {win index} {
+
+    variable data
+
+    # If the auto-indent feature was disabled, we are in vim start mode, or
+    # the current language doesn't have an indent expression, quit now
+    if {$data($win,config,-indentmode) ne "IND+"} {
+      return $index
+    }
+
+    # If the current line contains an unindent expression, is not within a comment or string,
+    # and is preceded in the line by only whitespace, replace the whitespace with the proper
+    # indentation whitespace.
+    if {([set endpos [lassign [$win._t tag prevrange __unindent $index] startpos]] ne "") && \
+        [$win._t compare $endpos >= $index]} {
+
+      if {[string trim [set space [$win._t get "$index linestart" $startpos]]] eq ""} {
+
+        # Find the matching indentation index
+        if {[set tindex [indent_get_match_indent $win $startpos]] ne ""} {
+          set indent_space [indent_get_start_of_line $win $tindex]
+        } else {
+          set indent_space [indent_get_start_of_line $win $index]
+        }
+
+        # Replace the whitespace with the appropriate amount of indentation space
+        if {$indent_space ne $space} {
+          $win replace -highlight 0 -update 1 "$index linestart" $startpos $indent_space
+          set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
+          return [$win._t index "$index linestart+${offset}c"]
+        }
+
+      }
+
+    } elseif {(([set endpos [lassign [$win._t tag prevrange __reindent $index] startpos]] ne "") && \
+                [$win._t compare $endpos == $index]) && \
+              [set type [indent_check_reindent_for_unindent $win $startpos]]} {
+
+      if {[string trim [set space [$win._t get "$index linestart" $startpos]]] eq ""} {
+
+        if {$type == 1} {
+
+          # Get the starting whitespace of the previous line
+          set indent_space [indent_get_start_of_line $win [$win._t index "$index-1l lineend"]]
+
+          # Check to see if the previous line contained a reindent
+          if {[$win._t compare "$index-1l linestart" > [lindex [$win._t tag prevrange __reindent "$index linestart"] 0]]} {
+            set indent_space [string range $indent_space $data($win,config,-shiftwidth) end]
+          }
+
+        } else {
+
+          # Set the indentation space to the same as the reindentStart line
+          set indent_space [indent_get_start_of_line $win [lindex [$win._t tag prevrange __reindentStart $index] 0]]
+
+        }
+
+        # Replace the whitespace with the appropriate amount of indentation space
+        if {$indent_space ne $space} {
+          $win replace -highlight 0 -update 1 "$index linestart" $startpos $indent_space
+          set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
+          return [$win._t index "$index linestart+${offset}c"]
+        }
+
+      }
+
+    }
+
+    return $index
+
+  }
+
+  ######################################################################
+  # Returns 1 if the given line contains an indentation.
+  proc indent_line_contains_indentation {win index} {
+
+    # Ignore whitespace
+    if {[lsearch [$win._t tag names "$index linestart"] __prewhite] == -1} {
+      if {[set range [$win._t tag prevrange __prewhite "$index lineend"]] ne ""} {
+        set index [$win._t index "[lindex $range 1] lineend"]
+      } else {
+        set index 1.0
+      }
+    }
+
+    # Check to see if the current line contains an indentation symbol towards the end of the line
+    if {[lassign [$win._t tag prevrange __indent $index "$index linestart"] ipos] ne ""} {
+      return [expr {([lassign [$win._t tag prevrange __unindent $index] upos] eq "") || [$win._t compare $ipos > $upos]}]
+    }
+
+    # Returns true if we have a reindent symbol in the current line
+    return [expr {[lassign [$win._t tag prevrange __reindent $index "$index linestart"] ipos] ne ""}]
+
+  }
+
+  ######################################################################
+  # Get the matching indentation marker.
+  proc indent_get_match_indent {win index} {
+
+    set count 1
+
+    lassign [$win._t tag prevrange __indent   $index] sfirst slast
+    lassign [$win._t tag prevrange __unindent $index] ofirst olast
+
+    if {($olast ne "") && [$win._t compare $olast >= $index]} {
+      set olast $index
+    }
+
+    while {($ofirst ne "") && ($sfirst ne "")} {
+      if {[$win._t compare $sfirst > $ofirst]} {
+        if {[incr count -1] == 0} {
+          return $sfirst
+        }
+        lassign [$win._t tag prevrange __indent $sfirst] sfirst slast
+      } else {
+        incr count
+        lassign [$win._t tag prevrange __unindent $ofirst] ofirst olast
+      }
+    }
+
+    while {$sfirst ne ""} {
+      if {[incr count -1] == 0} {
+        return $sfirst
+      }
+      lassign [$win._t tag prevrange __indent $sfirst] sfirst slast
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the whitespace found at the beginning of the specified logical
+  # line.
+  proc indent_get_start_of_line {win index} {
+
+    # Ignore whitespace
+    if {[lsearch [$win._t tag names "$index linestart"] __prewhite] == -1} {
+      if {[set range [$win._t tag prevrange __prewhite "$index lineend"]] ne ""} {
+        set index [$win._t index "[lindex $range 1] lineend"]
+      } else {
+        set index 1.0
+      }
+    }
+
+    # Find an ending bracket on the current line
+    set win_type       "none"
+    set startpos(none) "$index linestart"
+    foreach type [list curlyR parenR squareR angledR] {
+      if {([lassign [$win._t tag prevrange __$type $index] startpos($type)] ne "") && \
+          [$win._t compare $startpos($type) >= "$index linestart"] && \
+          [$win._t compare $startpos($type) >= $startpos($win_type)]} {
+        set win_type $type
+      }
+    }
+
+    # If we could not find a right bracket, we have found the line that we are looking for
+    if {$win_type eq "none"} {
+      if {[lsearch [$win._t tag names "$index linestart"] __prewhite] != -1} {
+        return [string range [$win._t get {*}[$win._t tag nextrange __prewhite "$index linestart"]] 0 end-1]
+      } else {
+        return ""
+      }
+
+    # Otherwise, jump the insertion cursor to the line containing the matching bracket and
+    # do the search again.
+    } else {
+      array set other_type [list curlyR curlyL parenR parenL squareR squareL angledR angledL]
+      if {[set match_index [getMatchBracket $win $other_type($win_type) $startpos($win_type)]] ne ""} {
+        return [indent_get_start_of_line $win $match_index]
+      } elseif {[lsearch [$win._t tag names "$index linestart"] __prewhite] != -1} {
+        return [string range [$win._t get {*}[$win._t tag nextrange __prewhite "$index linestart"]] 0 end-1]
+      } else {
+        return ""
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Handles a newline character.  Returns the character position of the
+  # first line of non-space text.
+  proc indent_newline {win index} {
+
+    variable data
+
+    # If the auto-indent feature was disabled, we are in vim start mode,
+    # or the current language doesn't have an indent expression, quit now
+    if {$data($win,config,-indentmode) eq "OFF"} {
+      if {$data($win,config,-autoseparators)} {
+        undo_add_separator $win
+      }
+      return $index
+    }
+
+    # If we do not need smart indentation, use the previous space
+    if {$data($win,config,-indentmode) eq "IND"} {
+
+      set indent_space [indent_get_previous_indent_space $win $index]
+
+    # Otherwise, do smart indentation
+    } else {
+
+      # Get the current indentation level
+      set indent_space [indent_get_start_of_line $win [$win._t index "$index-1l lineend"]]
+
+      # If the previous line indicates an indentation is required,
+      if {[indent_line_contains_indentation $win "$index-1l lineend"]} {
+        append indent_space [string repeat " " $data($win,config,-shiftwidth)]
+      }
+
+    }
+
+    # Create an index to restore the insertion cursor, if necessary
+    set restore_insert ""
+
+    # Remove any leading whitespace and update indentation level
+    # (if the first non-whitespace char is a closing bracket)
+    if {[lsearch [$win._t tag names "$index linestart"] __prewhite] != -1} {
+
+      lassign [$win._t tag nextrange __prewhite "$index linestart"] startpos endpos
+
+      # If the first non-whitespace characters match an unindent pattern,
+      # lessen the indentation by one
+      if {[lsearch [$win._t tag names "$endpos-1c"] __unindent*] != -1} {
+        $win insert -highlight 0 -update 0 insert "$indent_space\n"
+        set startpos [$win._t index $startpos+1l]
+        set endpos   [$win._t index $endpos+1l]
+        set restore_insert [$win._t index insert-1c]
+        if {$data($win,config,-indentmode) eq "IND+"} {
+          set indent_space [string range $indent_space $data($win,config,-shiftwidth) end]
+        }
+
+      # Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
+      # indentation by one
+      } elseif {([lsearch [$win._t tag names "$endpos-1c"] __reindent*] != -1) && [indent_check_reindent_for_unindent $win [lindex [$win._t tag prevrange __reindent $endpos] 0]]} {
+        if {$data($win,config,-indentmode) eq "IND+"} {
+          set indent_space [string range $indent_space $data($win,config,-shiftwidth) end]
+        }
+      }
+
+      # See if we are deleting a multicursor
+      set mcursor [lsearch [$win._t tag names $index] "mcursor"]
+
+      # Delete the whitespace
+      $win delete -highlight 0 -update [expr {($indent_space eq "") ? 1 : 0}] $startpos "$endpos-1c"
+
+      # If the newline was from a multicursor, we need to re-add the tag since we have deleted it
+      if {$mcursor != -1} {
+        $win._t tag add mcursor $index
+      }
+
+    }
+
+    # Insert leading whitespace to match current indentation level
+    if {$indent_space ne ""} {
+      $win insert -highlight 0 -update 1 "$index linestart" $indent_space
+    }
+
+    # If we need to restore the insertion cursor, do it now
+    if {$restore_insert ne ""} {
+      ::tk::TextSetCursor $win $restore_insert
+    }
+
+    # If autoseparators are called for, add it now
+    if {$data($win,config,-autoseparators)} {
+      undo_add_separator $win
+    }
+
+    return [$win._t index "$index+[string length $indent_space]c"]
+
+  }
+
+  ######################################################################
+  # Handles the backspace key.  If we are
+  proc indent_backspace {win index} {
+
+    variable data
+
+    # If the auto-indent feature was disabled, we are in vim start mode, or
+    # the current language doesn't have an indent expression, quit now
+    if {$data($win,config,-indentmode) eq "OFF"} {
+      return $index
+    }
+
+    # Figure out the leading space
+    set space ""
+    if {[set endpos [lassign [$win._t tag prevrange __prewhite $index "$index linestart"] startpos]] ne ""} {
+      if {[$win._t compare $endpos == "$index+1c"]} {
+        set space [$win._t get $startpos $index]
+      } else {
+        return $index
+      }
+    } else {
+      set space [$win._t get "$index linestart" "$index lineend"]
+    }
+
+    # If the leading whitespace only consists of spaces, attempt to delete to the previous tab
+    if {([string map {{ } {}} $space] eq "")} {
+
+      # Calculate the new indentation
+      set shiftwidth   $data($win,config,-shiftwidth)
+      set tab_count    [expr [string length $space] / $shiftwidth]
+      set indent_space [string repeat " " [expr $tab_count * $shiftwidth]]
+
+      # Replace the whitespace with the appropriate amount of indentation space
+      if {$indent_space ne $space} {
+        $win replace -highlight 0 -update 1 "$index linestart" $index $indent_space
+        set offset [string length $indent_space]
+        return [$win._t index "$index linestart+${offset}c"]
+      }
+
+    }
+
+    return $index
+
+  }
+
+  ######################################################################
+  # Returns the whitespace of the previous (non-empty) line of text.
+  proc indent_get_previous_indent_space {win index} {
+
+    variable data
+
+    if {($data($win,config,-indentmode) eq "OFF") || ([lindex [split $index .] 0] == 1)} {
+      return 0
+    }
+
+    if {[set range [$win._t tag prevrange __prewhite "$index-1l lineend"]] ne ""} {
+      return [string range [$win._t get {*}$range] 0 end-1]
+    } else {
+      return ""
+    }
+
+  }
+
+  ######################################################################
+  # This procedure counts the number of tags in the given range.
+  proc indent_get_tag_count {win tag start end} {
+
+    variable data
+
+    # Initialize the indent_level
+    set count 0
+
+    # Count all tags that are not within comments or are escaped
+    while {[set range [$win._t tag nextrange __$tag $start $end]] ne ""} {
+      incr count
+      set start [lindex $range 1]
+    }
+
+    return $count
+
+  }
+
+  ######################################################################
+  # Formats the given str based on the indentation information of the text
+  # widget at the current insertion cursor.
+  proc indent_format_text {win startpos endpos} {
+
+    variable data
+
+    # If we are the first line containing non-whitespace, preserve the indentation
+    if {([$win._t tag prevrange __prewhite "$startpos linestart"] eq "") || \
+        ([string trim [$win._t get "$startpos linestart" $startpos]] ne "")} {
+      set curpos [$win._t index "$startpos+1l linestart"]
+    } else {
+      set curpos [$win._t index "$startpos linestart"]
+    }
+
+    set endpos       [$win._t index $endpos]
+    set indent_space ""
+    set shiftwidth   $data($win,config,-shiftwidth)
+
+    while {[$win._t compare $curpos < $endpos]} {
+
+      if {$curpos ne "1.0"} {
+
+        # If the current line contains an unindent expression, is not within a comment or string,
+        # and is preceded in the line by only whitespace, replace the whitespace with the proper
+        # indentation whitespace.
+        if {[set epos [lassign [$win._t tag nextrange __unindent $curpos "$curpos lineend"] spos]] ne ""} {
+          if {[set tindex [indent_get_match_indent $win $spos]] ne ""} {
+            if {[$win._t compare "$tindex linestart" == "$spos linestart"]} {
+              set indent_space [indent_get_start_of_line $win "$tindex-1l lineend"]
+              if {[indent_line_contains_indentation $win "$tindex-1l lineend"]} {
+                append indent_space [string repeat " " $shiftwidth]
+              }
+            } else {
+              set indent_space [indent_get_start_of_line $win $tindex]
+            }
+          } else {
+            set indent_space [indent_get_start_of_line $win $epos]
+          }
+
+        } elseif {([set epos [lassign [$win._t tag nextrange __reindent $curpos "$curpos lineend"] spos]] ne "") && [indent_check_reindent_for_unindent $win $spos]} {
+          set indent_space [indent_get_start_of_line $win [$win._t index "$curpos-1l lineend"]]
+          if {[string trim [$win._t get "$curpos linestart" $spos]] eq ""} {
+            if {[$win._t compare "$curpos-1l linestart" > [lindex [$win._t tag prevrange __reindent "$curpos linestart"] 1]]} {
+              set indent_space [string range $indent_space $shiftwidth end]
+            }
+          }
+
+        } else {
+          set indent_space [indent_get_start_of_line $win [$win._t index "$curpos-1l lineend"]]
+          if {[indent_line_contains_indentation $win "$curpos-1l lineend"]} {
+            append indent_space [string repeat " " $shiftwidth]
+          }
+        }
+
+      }
+
+      # Remove any leading whitespace and update indentation level
+      # (if the first non-whitespace char is a closing bracket)
+      set whitespace ""
+      if {[lsearch [$win._t tag names $curpos] __prewhite] != -1} {
+        set whitespace [string range [$win._t get {*}[$win._t tag nextrange __prewhite $curpos]] 0 end-1]
+      }
+
+      # Replace the leading whitespace with the calculated amount of indentation space
+      if {$whitespace ne $indent_space} {
+        $win._t replace $curpos "$curpos+[string length $whitespace]c" $indent_space
+      }
+
+      # Adjust the startpos
+      set curpos [$win._t index "$curpos+1l linestart"]
+
+    }
+
+    # Create a separator
+    undo_add_separator $win
+
+    # Perform syntax highlighting
+    $win syntax highlight $startpos $endpos
 
   }
 
