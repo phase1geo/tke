@@ -34,24 +34,8 @@ namespace eval multicursor {
   # Adds bindings for multicursor support to the supplied text widget.
   proc add_bindings {txt} {
 
-    # Create tag for the multicursor stuff
-    $txt tag configure mcursor -underline 1
-    $txt tag place mcursor visible1
-
     # Create multicursor bindings
-    bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
-    bind mcursor$txt <Mod2-Button-1>              [list multicursor::handle_alt_button1 %W %x %y]
-    bind mcursor$txt <Mod2-Button-$::right_click> [list multicursor::handle_alt_button3 %W %x %y]
-    bind mcursor$txt <Key-Delete>                 "if {\[multicursor::handle_delete %W\]} { break }"
-    bind mcursor$txt <Key-BackSpace>              "if {\[multicursor::handle_backspace %W\]} { break }"
-    bind mcursor$txt <Return>                     "if {\[multicursor::handle_return %W\]} { break }"
-    bind mcursor$txt <Any-KeyPress>               "if {\[multicursor::handle_keypress %W %A %K\]} { break }"
-    bind mcursor$txt <Escape>                     [list multicursor::handle_escape %W]
-    bind mcursor$txt <Button-1>                   [list multicursor::disable %W]
-
-    # Add the multicursor bindings to the text widget's bindtags
-    set all_index [lsearch -exact [bindtags $txt.t] all]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $all_index + 1] mcursor$txt]
+    # bind mcursor$txt <Any-KeyPress>               "if {\[multicursor::handle_keypress %W %A %K\]} { break }"
 
   }
 
