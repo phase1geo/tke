@@ -19,6 +19,12 @@ pack [ttk::button .b3 -text "Redo" -command {
   focus .t.t
 }]
 
+bind . <Control-c> [list event generate .t <<Copy>>]
+bind . <Control-x> [list event generate .t <<Cut>>]
+bind . <Control-v> [list event generate .t <<Paste>>]
+bind . <Control-z> [list event generate .t <<Undo>>]
+bind . <Control-Z> [list event generate .t <<Redo>>]
+
 .t insert end "This is good\nThis is bad"
 .t cursor add 1.8 2.8
 .t insert insert "not "
