@@ -2945,61 +2945,68 @@ namespace eval ctext {
     array set opts {
       -moddata   {}
       -highlight 1
+      -mcursor   1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    lassign $opts starPos endPos cmd tags
+    lassign [lrange $args $i end] startPos endPos cmd tags
 
-    set ranges  [list]
+    set uranges [list]
+    set rranges [list]
     set do_tags [list]
     set cursor  [$win._t index insert]
 
-    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
       set startSpec $startPos
       set endSpec   $endPos
       set sspec     [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
       set espec     [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
-      foreach {endPos startPos} [lreverse $cursors] {
+      set start     1.0
+      while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
+        set startPos [lindex $range 0]
         if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
-        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $endPos]] }
+        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
         set old_str    [$win._t get $startPos $endPos]
         set new_str    [uplevel #0 [list {*}$cmd $old_str]]
-        set new_endpos [$win._t index "$startPos+[string length $new_str]c"]
         lappend dstrs $old_str
         lappend istrs $new_str
         comments_chars_deleted $win $startPos $endPos do_tags
         set t [handleReplaceDeleteAt0 $win $startPos $endPos]
         $win._t replace $startPos $endPos $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startPos]]
+        set new_endpos [$win._t index "$startPos+[string length $new_str]c"]
+        set start      [$win._t index "$new_endpos+1c"]
         handleReplaceInsert $win $startPos $endPos $t
-        lappend ranges  $startPos $endPos $new_endpos
+        lappend uranges $startPos $endPos $new_endpos
+        lappend rranges $startPos $new_endpos
       }
     } else {
       set startPos   [$win index $startPos]
       set endPos     [$win index $endPos]
       set old_str    [$win._t get $startPos $endPos]
       set new_str    [uplevel #0 [list {*}$cmd $old_str]]
-      set new_endpos [$win._t index "$startPos+[string length $new_str]c"]
       lappend dstrs $old_str
       lappend istrs $new_str
       comments_chars_deleted $win $startPos $endPos do_tags
       set t [handleReplaceDeleteAt0 $win $startPos $endPos]
       $win._t replace $startPos $endPos $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startPos]]
+      set new_endpos [$win._t index "$startPos+[string length $new_str]c"]
       handleReplaceInsert $win $startPos $endPos $t
-      lappend ranges  $startPos $endPos $new_endpos
+      lappend uranges $startPos $endPos $new_endpos
+      lappend rranges $startPos $new_endpos
     }
 
-    undo_replace    $win $ranges $dstrs $istrs $cursor
-    comments_do_tag $win $ranges do_tags
+    undo_replacelist $win $uranges $dstrs $istrs $cursor
+    comments_do_tag $win $rranges do_tags
 
     if {$opts(-highlight)} {
-      switch [highlightAll $win $ranges 1 $do_tags] {
+      switch [highlightAll $win $rranges 1 $do_tags] {
         2       { checkAllBrackets $win }
         1       { checkAllBrackets $win [$win._t get $startPos $endPos] }
         default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
       }
     }
 
-    modified $win 1 [list transform $ranges $opts(-moddata)]
+    modified $win 1 [list transform $rranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
   }
