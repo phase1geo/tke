@@ -347,11 +347,11 @@ namespace eval ctext {
 
     if {[set selected [$win._t tag ranges sel]] ne ""} {
       foreach {epos spos} [lreverse $selected] {
-        $win delete -highlight 0 $spos $epos
+        $win delete -highlight 0 -mcursor 0 $spos $epos
       }
       $win syntax highlight {*}$selected
     } else {
-      $win delete insert
+      $win delete insert [list dchar -dir next]
     }
 
   }
@@ -370,7 +370,7 @@ namespace eval ctext {
       }
       $win syntax highlight {*}$selected
     } else {
-      $win delete [list char -dir prev]
+      $win delete [list dchar -dir prev] insert
     }
 
   }
@@ -1874,6 +1874,7 @@ namespace eval ctext {
       set iend   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
         if {$istart} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        set endPos [$win._t index $startPos+1c]
         if {$iend}   { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
         lappend strs [$win._t get $startPos $endPos]
         handleDeleteAt0        $win $startPos $endPos
@@ -1893,9 +1894,9 @@ namespace eval ctext {
       if {$endPos eq ""} {
         set endPos [$win._t index "$startPos+1c"]
       } else {
-        set endPos [$win._t index $endPos]
+        set endPos [$win index $endPos]
       }
-      lappend strs    [$win._t get $startPos $endPos]
+      lappend strs [$win._t get $startPos $endPos]
       handleDeleteAt0        $win $startPos $endPos
       linemapCheckOnDelete   $win $startPos $endPos
       comments_chars_deleted $win $startPos $endPos do_tags
@@ -5591,7 +5592,7 @@ namespace eval ctext {
 
   }
 
-    ######################################################################
+  ######################################################################
   # Transforms a character specification into a text index.
   proc getindex_char {win optlist} {
 
