@@ -223,6 +223,11 @@ namespace eval ctext {
     bind $win.l <5>                            [list event generate $win.t <5>]
     bind $win.t <Destroy>                      [list ctext::event:Destroy $win]
     bind $win.t <<Selection>>                  [list ctext::event:Selection $win]
+    bind $win   <<Copy>>                       "ctext::event:Copy $win; break"
+    bind $win   <<Cut>>                        "ctext::event:Cut $win; break"
+    bind $win   <<Paste>>                      "ctext::event:Paste $win; break"
+    bind $win   <<Undo>>                       [list ctext::undo $win]
+    bind $win   <<Redo>>                       [list ctext::redo $win]
     bind $win.t <Escape>                       [list ctext::event:Escape $win]
     bind $win.t <Key-Up>                       "$win cursor move up;           break"
     bind $win.t <Key-Down>                     "$win cursor move down;         break"
@@ -404,6 +409,30 @@ namespace eval ctext {
     } else {
       $win insert insert $char
     }
+
+  }
+
+  ######################################################################
+  # Handles the copy virtual event.
+  proc event:Copy {win} {
+
+    $win copy
+
+  }
+
+  ######################################################################
+  # Handles the cut virtual event.
+  proc event:Cut {win} {
+
+    $win cut
+
+  }
+
+  ######################################################################
+  # Handles the paste virtual event.
+  proc event:Paste {win} {
+
+    $win paste
 
   }
 
@@ -2595,6 +2624,10 @@ namespace eval ctext {
     array set opts [lrange $args 0 [expr $i - 1]]
 
     lassign [lrange $args $i end] insertpos
+
+    if {$insertpos eq ""} {
+      set insertpos "insert"
+    }
 
     # Get the contents of the clipboard
     set clip [string repeat [clipboard get] $opts(-num)]
