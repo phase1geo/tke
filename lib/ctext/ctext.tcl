@@ -224,20 +224,21 @@ namespace eval ctext {
     bind $win.t <Destroy>                      [list ctext::event:Destroy $win]
     bind $win.t <<Selection>>                  [list ctext::event:Selection $win]
     bind $win.t <Escape>                       [list ctext::event:Escape $win]
-    bind $win.t <Key-Up>                       "$win cursor move up;         break"
-    bind $win.t <Key-Down>                     "$win cursor move down;       break"
-    bind $win.t <Key-Left>                     "$win cursor move left;       break"
-    bind $win.t <Key-Right>                    "$win cursor move right;      break"
-    bind $win.t <Key-Home>                     "$win cursor move linestart;  break"
-    bind $win.t <Key-End>                      "$win cursor move lineend;    break"
-    bind $win.t <Key-Delete>                   "ctext::event:Delete $win;    break"
-    bind $win.t <Key-BackSpace>                "ctext::event:Backspace $win; break"
+    bind $win.t <Key-Up>                       "$win cursor move up;           break"
+    bind $win.t <Key-Down>                     "$win cursor move down;         break"
+    bind $win.t <Key-Left>                     "$win cursor move left;         break"
+    bind $win.t <Key-Right>                    "$win cursor move right;        break"
+    bind $win.t <Key-Home>                     "$win cursor move linestart;    break"
+    bind $win.t <Key-End>                      "$win cursor move lineend;      break"
+    bind $win.t <Key-Delete>                   "ctext::event:Delete $win;      break"
+    bind $win.t <Key-BackSpace>                "ctext::event:Backspace $win;   break"
+    bind $win.t <Return>                       "ctext::event:Return $win;      break"
     bind $win.t <Key>                          "ctext::event:KeyPress $win %A; break"
     bind $win.t <Button-1>                     [list $win cursor disable]
     bind $win.t <$alt_key-Button-1>            [list $win cursor add @%x,%y]
     bind $win.t <$alt_key-Button-$right_click> [list $win cursor addcolumn @%x,%y]
 
-    foreach mod [list Shift Control Alt Command Option] {
+    foreach mod [list Shift Control $alt_key Command] {
       foreach key [list Up Down Left Right Home End] {
         bind $win.t <${mod}-Key-${key}> [list ctext::event:keyevent]
       }
@@ -375,6 +376,22 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Handles a press of the Return key.
+  proc event:Return {win} {
+
+    if {[$win._t cget -state] eq "disabled"} {
+      return
+    }
+
+    if {[$win._t tag ranges sel] ne ""} {
+      $win replace selstart selend "\n"
+    } else {
+      $win insert insert "\n"
+    }
+
+  }
+
+  ######################################################################
   # Handles a keypress of the given character.
   proc event:KeyPress {win char} {
 
@@ -382,7 +399,7 @@ namespace eval ctext {
       return
     }
      
-    if {[set selected [$win._t tag ranges sel]] ne ""} {
+    if {[$win._t tag ranges sel] ne ""} {
       $win replace selstart selend $char
     } else {
       $win insert insert $char
@@ -1826,7 +1843,7 @@ namespace eval ctext {
 
     # Delete the text
     foreach {endpos startpos} [lreverse $ranges] {
-      $win delete -userange 1 $startpos $endpos
+      $win delete -mcursor 0 $startpos $endpos
     }
 
   }
@@ -1843,7 +1860,7 @@ namespace eval ctext {
     array set opts {
       -moddata   {}
       -highlight 1
-      -userange  0
+      -mcursor   1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -1851,7 +1868,7 @@ namespace eval ctext {
     set do_tags [list]
     set cursor  [$win._t index insert]
 
-    if {!$opts(-userange) && ([set cursors [$win._t tag ranges _mcursor]] ne "")} {
+    if {$opts(-mcursor) && ([set cursors [$win._t tag ranges _mcursor]] ne "")} {
       lassign [lrange $args $i end] startSpec endSpec
       set istart [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
       set iend   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
@@ -2107,6 +2124,7 @@ namespace eval ctext {
     array set opts {
       -moddata   {}
       -highlight 1
+      -mcursor   1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2125,10 +2143,13 @@ namespace eval ctext {
     set do_tags [list]
 
     # Insert the text
-    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
-      foreach {endPos startPos} [lreverse $cursors] {
+    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
+      set start 1.0
+      while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
+        set startPos [lindex $range 0]
         $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
         set endPos [$win._t index "$startPos+${chars}c"]
+        set start  [$win._t index $endPos+1c]
         handleInsertAt0 $win $startPos $endPos
         lappend ranges $startPos $endPos
       }
@@ -2183,7 +2204,7 @@ namespace eval ctext {
 
     variable data
 
-    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+    if {[$win._t tag ranges _mcursor] ne ""} {
 
       set i 0
       while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
@@ -2200,8 +2221,12 @@ namespace eval ctext {
       set strs    [list]
       set do_tags [list]
       set cursor  [$win._t index insert]
+      set start   1.0
+      set cindex  0
 
-      foreach {endPos startPos} [lreverse $cursors] content [lreverse $contents] {
+      while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
+        set startPos [lindex $range 0]
+        set content  [lindex $contents $cindex]
         lassign $content str tags
         if {[set lang [getLang $win $startPos]] ne ""} {
           $win._t insert $startPos $str [list {*}$tags lmargin rmargin $lang]
@@ -2209,6 +2234,8 @@ namespace eval ctext {
           $win._t insert $startPos $str [list {*}$tags lmargin rmargin]
         }
         set endPos [$win._t index "$startPos+[string length $str]c"]
+        set start  [$win._t index $endPos+1c]
+        incr cindex
         handleInsertAt0 $win $startPos $endPos
         lappend ranges $startPos $endPos
         lappend strs   $str
@@ -2390,6 +2417,7 @@ namespace eval ctext {
     array set opts {
       -moddata   {}
       -highlight 1
+      -mcursor   1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2408,20 +2436,23 @@ namespace eval ctext {
     set do_tags [list]
     set cursor  [$win._t index insert]
 
-    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
       set startSpec $startPos
       set endSpec   $endPos
       set sspec     [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
       set espec     [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
-      foreach {endPos startPos} [lreverse $cursors] {
+      set start     1.0
+      while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
+        set startPos [lindex $range 0]
         if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
-        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $endPos]] }
-        set new_endpos  [$win._t index "$startPos+${chars}c"]
+        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
         lappend dstrs [$win._t get $startPos $endPos]
         lappend istrs $dat
         comments_chars_deleted $win $startPos $endPos do_tags
         set t [handleReplaceDeleteAt0 $win $startPos $endPos]
         $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
+        set new_endpos  [$win._t index "$startPos+${chars}c"]
+        set start       [$win._t index $new_endpos+1c]
         handleReplaceInsert $win $startPos $endPos $t
         lappend uranges $startPos $endPos $new_endpos
         lappend rranges $startPos $new_endpos
@@ -2429,12 +2460,12 @@ namespace eval ctext {
     } else {
       set startPos   [$win index $startPos]
       set endPos     [$win index $endPos]
-      set new_endpos [$win._t index "$startPos+${chars}c"]
       lappend dstrs [$win._t get $startPos $endPos]
       lappend istrs $dat
       comments_chars_deleted $win $startPos $endPos do_tags
       set t [handleReplaceDeleteAt0 $win $startPos $endPos]
       $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
+      set new_endpos [$win._t index "$startPos+${chars}c"]
       handleReplaceInsert $win $startPos $endPos $t
       lappend uranges $startPos $endPos $new_endpos
       lappend rranges $startPos $new_endpos
@@ -2477,7 +2508,7 @@ namespace eval ctext {
 
     variable data
 
-    if {[set cursors [$win._t tag ranges _mcursor]] ne ""} {
+    if {[$win._t tag ranges _mcursor] ne ""} {
 
       set i 0
       while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
@@ -2496,16 +2527,21 @@ namespace eval ctext {
       set istrs   [list]
       set do_tags [list]
       set cursor  [$win._t index insert]
+      set start   1.0
+      set cindex  0
 
-      foreach {endSpec startPos} [lreverse $cursors] content [lreverse $contents] {
-        lassign $content str tags
+      while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
+        set startPos [lindex $range 0]
+        lassign [lindex $contents $cindex] str tags
         set endPos     [$win index [list {*}$endSpec -startpos $startPos]]
-        set new_endpos [$win._t index "$startPos+[string length $str]c"]
         lappend dstrs [$win._t get $startPos $endPos]
         lappend istrs $str
         comments_chars_deleted $win $startPos $endPos do_tags
         set t [handleReplaceDeleteAt0 $win $startPos $endPos]
         $win._t replace $startPos $endPos $str [list {*}$tags lmargin rmargin [getLangTag $win $startPos]]
+        set new_endpos [$win._t index "$startPos+[string length $str]c"]
+        set start      [$win._t index $new_endpos+1c]
+        incr cindex
         handleReplaceInsert $win $startPos $endPos $t
         lappend uranges $startPos $endPos $new_endpos
         lappend rranges $startPos $new_endpos
@@ -5328,6 +5364,8 @@ namespace eval ctext {
   # Clears all of the mcursors in the editing buffer.
   proc clear_mcursors {win} {
 
+    catch { $win._t tag remove _dspace 1.0 end }
+
     foreach {startpos endpos} [$win._t tag ranges _mcursor] {
       clear_mcursor $win $startpos
     }
@@ -6769,7 +6807,7 @@ namespace eval ctext {
 
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
-          $win replace -highlight 0 -update 1 "$index linestart" $startpos $indent_space
+          $win replace -highlight 0 -mcursor 0 "$index linestart" $startpos $indent_space
           set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
           return [$win._t index "$index linestart+${offset}c"]
         }
@@ -6801,7 +6839,7 @@ namespace eval ctext {
 
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
-          $win replace -highlight 0 -update 1 "$index linestart" $startpos $indent_space
+          $win replace -highlight 0 -mcursor 0 "$index linestart" $startpos $indent_space
           set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
           return [$win._t index "$index linestart+${offset}c"]
         }
@@ -6987,7 +7025,7 @@ namespace eval ctext {
       set mcursor [lsearch [$win._t tag names $index] "mcursor"]
 
       # Delete the whitespace
-      $win delete -highlight 0 -update [expr {($indent_space eq "") ? 1 : 0}] $startpos "$endpos-1c"
+      $win delete -highlight 0 -mcursor 0 $startpos "$endpos-1c"
 
       # If the newline was from a multicursor, we need to re-add the tag since we have deleted it
       if {$mcursor != -1} {
@@ -6998,7 +7036,7 @@ namespace eval ctext {
 
     # Insert leading whitespace to match current indentation level
     if {$indent_space ne ""} {
-      $win insert -highlight 0 -update 1 "$index linestart" $indent_space
+      $win insert -highlight 0 -mcursor 0 "$index linestart" $indent_space
     }
 
     # If we need to restore the insertion cursor, do it now
@@ -7049,7 +7087,7 @@ namespace eval ctext {
 
       # Replace the whitespace with the appropriate amount of indentation space
       if {$indent_space ne $space} {
-        $win replace -highlight 0 -update 1 "$index linestart" $index $indent_space
+        $win replace -highlight 0 -mcursor 0 "$index linestart" $index $indent_space
         set offset [string length $indent_space]
         return [$win._t index "$index linestart+${offset}c"]
       }
@@ -7163,7 +7201,7 @@ namespace eval ctext {
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
-        $win._t replace $curpos "$curpos+[string length $whitespace]c" $indent_space
+        $win._t replace -mcursor 0 $curpos "$curpos+[string length $whitespace]c" $indent_space
       }
 
       # Adjust the startpos
