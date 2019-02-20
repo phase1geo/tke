@@ -251,6 +251,8 @@ namespace eval ctext {
 
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
+    puts "bindtags on $win.t: [bindtags $win.t]"
+
     return $win
 
   }
@@ -3434,7 +3436,7 @@ namespace eval ctext {
     catch { $win tag remove matchchar 1.0 end }
 
     # If we are in block cursor mode, use the previous character
-    if {![$win cget -blockcursor] && [$win compare insert != "insert linestart"]} {
+    if {!$data($win,config,-blockcursor) && [$win compare insert != "insert linestart"]} {
       set pos "insert-1c"
     } else {
       set pos insert
