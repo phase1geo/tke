@@ -376,7 +376,7 @@ proc ::em::writeable_command {cmd} {
 #=== Input dialog for getting data
 proc ::em::input {cmd} {
   set ::em::skipfocused 1
-  PaveDialog create dialog "" $::srcdir
+  PaveInput create dialog "" $::srcdir
   set data [string range $cmd [set dp [string last >> $cmd]]+2 end]
   set cmd "dialog input [string range $cmd 2 $dp-1]"
   catch {set cmd [subst $cmd]}

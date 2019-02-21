@@ -6,6 +6,9 @@
  RE: xterminal here      RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
 
  S: wget Web page S: %#W wget -r -k -l 2 -p --accept-regex=.+/man/tcl8\.6.+ https://www.tcl.tk/man/tcl8.6/
+ R: wget Web page R: %Q "CHANGE ME" "The directory %z5/WGET\n\nwould be open by \"caja\" file manager.\n\nYou can change it by editing:\n%mn"
+ R: wget Web page R: cd %z5/WGET
+ R: wget Web page R: %IF [::iswindows] %THEN explorer.exe "." %ELSE caja "."
 
 
  ME: Tcl/Tk            ME: m=tcltk.mnu w=20
