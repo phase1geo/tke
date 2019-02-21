@@ -21,7 +21,7 @@ package require http
 package require tls
 
 set srcdir [file join [file normalize [file dirname $::argv0]] "src"]
-source [file join $srcdir "pavedialog.tcl"]
+source [file join $srcdir "paveinput.tcl"]
 
 namespace eval eh {
   # your preferable browser:

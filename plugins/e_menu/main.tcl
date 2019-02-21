@@ -157,13 +157,14 @@ namespace eval e_menu {
     if {![init_e_menu]} return
     set h_opt [set s_opt [set f_opt [set d_opt [set D_opt [set F_opt ""]]]]]
     set s0_opt [set s1_opt [set s2_opt ""]]
-    set z1_opt [set z2_opt [set z3_opt  [set z4_opt ""]]]
+    set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
     } else {
       # try 2nd location of offline help ~/DOC/www.tcl.tk
-      if {[catch {set offline_help_dir "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"}]} {
+      catch {set z5_opt $::env(HOME)}
+      if {[catch {set offline_help_dir "$z5_opt/DOC/www.tcl.tk/man/tcl8.6"}]} {
         set offline_help_dir "$datadir/www.tcl.tk/man/tcl8.6"
       }
       if {[file exists $offline_help_dir]} {
@@ -234,11 +235,12 @@ namespace eval e_menu {
     if {$s3_opt=="s3=" && $s_opt!=""} {
       set s3_opt "s3=[string range $s_opt 2 end]"
     }
+    set z5_opt "z5=$z5_opt"
     if {[catch {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
           fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
           $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
-          $D_opt $F_opt {*}$y_opts &
+          $z5_opt $D_opt $F_opt {*}$y_opts &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n

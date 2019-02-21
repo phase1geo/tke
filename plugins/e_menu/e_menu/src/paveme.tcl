@@ -57,26 +57,28 @@ package require widget::calendar
 
 oo::class create PaveMe {
 
-  variable nsp fgbut bgbut fgtxt bgtxt
-  variable moveall tonemoves initialcolor clnddate
+  variable _pav
 
   constructor {args} {
-
-    set nsp [namespace current]::
-    set moveall 0
-    set tonemoves 1
-    set initialcolor black
-    set clnddate ""
-    set fgbut [ttk::style lookup TButton -foreground]
-    set bgbut [ttk::style lookup TButton -background]
-    set fgtxt [ttk::style lookup TEntry -foreground]
-    if {$fgtxt=="black" || $fgtxt=="#000000"} {
-      set bgtxt white
+    # keep the 'important' data of Pave object in array
+    array set _pav {}
+    set _pav(ns) [namespace current]::
+    set _pav(moveall) 0
+    set _pav(tonemoves) 1
+    set _pav(initialcolor) black
+    set _pav(clnddate) ""
+    set _pav(modalwin) "."
+    set _pav(fgbut) [ttk::style lookup TButton -foreground]
+    set _pav(bgbut) [ttk::style lookup TButton -background]
+    set _pav(fgtxt) [ttk::style lookup TEntry -foreground]
+    if {$_pav(fgtxt)=="black" || $_pav(fgtxt)=="#000000"} {
+      set _pav(bgtxt) white
     } else {
-      set bgtxt [ttk::style lookup TEntry -background]
+      set _pav(bgtxt) [ttk::style lookup TEntry -background]
     }
-    namespace eval ${nsp}paveN {}
-    array set ${nsp}paveN::PaveRes {}
+    # namespace in object namespace for safety of its 'most important' data
+    namespace eval ${_pav(ns)}PN {}
+    array set ${_pav(ns)}PN::AR {}
   }
 
   #########################################################################
@@ -164,7 +166,11 @@ oo::class create PaveMe {
       "fon*" -
       "clr*" -
       "dat*" -
-      "fra*" { ;# + frame for choosers (of file, directory, color, font, date)
+      "sta*" -
+      "too*" -
+      "fra*" {
+        # + frame for choosers (of file, directory, color, font, date)
+        # and statusbar
         set widget "ttk::frame"
       }
       "frA*" {set widget "frame"}
@@ -216,7 +222,10 @@ oo::class create PaveMe {
       "siz*" {set widget "ttk::sizegrip"}
       "spx*" {set widget "ttk::spinbox"}
       "spX*" {set widget "spinbox"}
-      "tex*" {set widget "text"; set attrs "-fg $fgtxt -bg $bgtxt $attrs"}
+      "tex*" {
+        set widget "text"
+        set attrs "-fg $_pav(fgtxt) -bg $_pav(bgtxt) $attrs"
+      }
       "tre*" {set widget "ttk::treeview"}
       "h_*" { ;# horizontal spacer
         set widget "ttk::frame"
@@ -269,17 +278,27 @@ oo::class create PaveMe {
   }
 
   #########################################################################
+  # Parent option for choosers
+
+  method ParentOpt {} {
+
+    if {$_pav(modalwin)=="."} {set wpar $w} {set wpar $_pav(modalwin)}
+    return "-parent $wpar"
+
+  }
+
+  #########################################################################
   # Color chooser
 
   method colorChooser {tvar args} {
 
-    if {[catch {lassign [tk_chooseColor -moveall $moveall \
-    -tonemoves $tonemoves -initialcolor $initialcolor {*}$args] \
-    res moveall tonemoves}]} {
-      set res [tk_chooseColor -initialcolor $initialcolor {*}$args]
+    if {[catch {lassign [tk_chooseColor -moveall $_pav(moveall) \
+    -tonemoves $_pav(tonemoves) -initialcolor $_pav(initialcolor) {*}$args] \
+    res _pav(moveall) _pav(tonemoves)}]} {
+      set res [tk_chooseColor -initialcolor $_pav(initialcolor) {*}$args]
     }
     if {$res!=""} {
-      set initialcolor [set $tvar $res]
+      set _pav(initialcolor) [set $tvar $res]
     }
     return $res
 
@@ -299,8 +318,8 @@ oo::class create PaveMe {
       catch {font delete fontchoose}
       catch {font create fontchoose {*}[font actual $font]}
     }
-    tk fontchooser configure -font fontchoose {*}$args \
-      -command [namespace current]::applyFont
+    tk fontchooser configure -font fontchoose {*}[my ParentOpt] \
+      {*}$args -command [namespace current]::applyFont
     set res [tk fontchooser show]
     return $res
 
@@ -317,29 +336,30 @@ oo::class create PaveMe {
     if [info exists a(-title)] {set ttl "$a(-title)"}
     catch {
       set df $a(-dateformat)
-      set ${nsp}clnddate [set $tvar]
+      set _pav(clnddate) [set $tvar]
     }
-    if {[set ${nsp}clnddate]==""} {
-      set ${nsp}clnddate [clock format [clock seconds] -format $df]
+    if {$_pav(clnddate)==""} {
+      set _pav(clnddate) [clock format [clock seconds] -format $df]
     }
-    set wcal [set wmain [set ${nsp}paveN::wn]].dateWidChooser
+    set wcal [set wmain [set ${_pav(ns)}PN::wn]].dateWidChooser
     catch {destroy $wcal}
     wm title [toplevel $wcal] $ttl
-    lassign [split [winfo geometry [winfo parent $wmain]] x+] rw rh rx ry
+    lassign [split [winfo geometry $_pav(modalwin)] x+] rw rh rx ry
     wm geometry $wcal [my CenteredXY $rw $rh $rx $ry 220 150]
-    wm protocol $wcal WM_DELETE_WINDOW [list set ${nsp}datechoosen ""]
-    set ${nsp}datechoosen ""
-    widget::calendar $wcal.c -dateformat $df -enablecmdonkey 0 \
-      -command [list set ${nsp}datechoosen] -textvariable ${nsp}clnddate
+    wm protocol $wcal WM_DELETE_WINDOW [list set ${_pav(ns)}datechoosen ""]
+    bind $wcal <Escape> [list set ${_pav(ns)}datechoosen ""]
+    set ${_pav(ns)}datechoosen ""
+    widget::calendar $wcal.c -dateformat $df -enablecmdonkey 0 -command \
+      [list set ${_pav(ns)}datechoosen] -textvariable ${_pav(ns)}_pav(clnddate)
     pack $wcal.c -fill both -expand 0
     after idle [list focus $wcal]
-    vwait ${nsp}datechoosen
+    vwait ${_pav(ns)}datechoosen
     update idle
     destroy $wcal
-    if {[set ${nsp}datechoosen]==""} {
-      set ${nsp}clnddate [set $tvar]
+    if {[set ${_pav(ns)}datechoosen]==""} {
+      set _pav(clnddate) [set $tvar]
     }
-    return [set ${nsp}clnddate]
+    return $_pav(clnddate)
 
   }
 
@@ -349,16 +369,23 @@ oo::class create PaveMe {
 
   method chooser {nchooser tvar args} {
 
+    set isfilename 0
     if {$nchooser=="fontChooser" || $nchooser=="colorChooser" \
     ||  $nchooser=="dateChooser" } {
       set nchooser "my $nchooser $tvar"
     } elseif {$nchooser=="tk_getOpenFile" || $nchooser=="tk_getSaveFile"} {
-      set args "$args -initialfile {[set $tvar]}"
+      if {[set fn [set $tvar]]==""} {set dn [pwd]} {set dn [file dirname $fn]}
+      set args "-initialfile {$fn} -initialdir $dn [my ParentOpt] $args"
+      incr isfilename
     } elseif {$nchooser=="tk_chooseDirectory"} {
-      set args "$args -initialdir {[set $tvar]}"
+      set args "-initialdir {[set $tvar]} [my ParentOpt] $args"
+      incr isfilename
     }
     set res [{*}$nchooser {*}$args]
     if {$res!="" && $tvar!=""} {
+      if {$isfilename} {
+        set res [file nativename $res]
+      }
       set $tvar $res
     }
 
@@ -388,30 +415,15 @@ oo::class create PaveMe {
 
     upvar 1 $r0 w $r1 i $r2 lwlen $r3 lwidgets
     lassign $args name neighbor posofnei rowspan colspan options1 attrs1
+    set wpar ""
     switch -glob [my rootwname $name] {
-      "fil*" {
-        set chooser "tk_getOpenFile"
-        set title "Choose File to Open"
-      }
-      "fis*" {
-        set chooser "tk_getSaveFile"
-        set title "Choose File to Save"
-      }
-      "dir*" {
-        set chooser "tk_chooseDirectory"
-        set title "Choose Directory"
-      }
-      "clr*" {
-        set chooser "colorChooser"
-        set title "Choose Color"
-      }
-      "fon*" {
-        set chooser "fontChooser"
-        set title "Choose Font"
-      }
-      "dat*" {
-        set chooser "dateChooser"
-        set title "Choose Date"
+      "fil*" { set chooser "tk_getOpenFile" }
+      "fis*" { set chooser "tk_getSaveFile" }
+      "dir*" { set chooser "tk_chooseDirectory" }
+      "fon*" { set chooser "fontChooser" }
+      "dat*" { set chooser "dateChooser" }
+      "clr*" { set chooser "colorChooser"
+        set wpar "-parent $w" ;# specific for color chooser (gets parent of $w)
       }
       default {
         return $args
@@ -433,22 +445,91 @@ oo::class create PaveMe {
       set vv [namespace current]::$name
       set tvar "-tvar $vv"
     }
-    set com "[self] chooser $chooser \{$vv\} -parent $w $addopt"
+    set com "[self] chooser $chooser \{$vv\} $addopt $wpar"
     # make a frame in the widget list
     set ispack 0
     if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
       set ispack [expr [string first "pack" $gm]==0]
     }
     if {$ispack} {
-      set args [list $name - - - - "pack -expand 1 -fill x"]
+      set args [list $name - - - - "pack -expand 0 -fill x [string range $gm 5 end]"]
     } else {
       set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew"]
     }
     lset lwidgets $i $args
     set entf [list [my Transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" "$attrs1 $tvar"]
-    set butf [list [my Transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{\{$com\}\} -t \{\{. . .\}\} -font \{\{-weight bold -size 5\}\} -fg $fgbut -bg $bgbut"]
+    set butf [list [my Transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{\{$com\}\} -t \{\{. . .\}\} -font \{\{-weight bold -size 5\}\} -fg $_pav(fgbut) -bg $_pav(bgbut)"]
     set lwidgets [linsert $lwidgets [expr {$i+1}] $entf $butf]
     incr lwlen 2
+    return $args
+
+  }
+
+  #########################################################################
+  #
+  # Arrayed widgets should contain N fields
+
+  method Replace_arrayed {r0 r1 r2 r3 args} {
+
+    upvar 1 $r0 w $r1 i $r2 lwlen $r3 lwidgets
+    lassign $args name neighbor posofnei rowspan colspan options1 attrs1
+    set wpar ""
+    switch -glob [my rootwname $name] {
+      "sta*" { set typ statusBar }
+      "too*" { set typ toolBar }
+      default {
+        return $args
+      }
+    }
+    set attmp [list]
+    set namvar [list]
+    # get array of pairs (e.g. image-command for toolbar)
+    foreach {nam val} $attrs1 {
+      if {$nam=="-array"} {
+        set ind -1
+        foreach {v1 v2} $val {
+          lappend namvar [namespace current]::$typ[incr ind] $v1 $v2
+        }
+      } else {
+        lappend attmp $nam $val
+      }
+    }
+    set attrs1 $attmp
+    # make a frame in the widget list
+    set ispack 0
+    if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
+      set ispack [expr [string first "pack" $gm]==0]
+    }
+    if {$ispack} {
+      set args [list $name - - - - "pack -expand 0 -fill x -side bottom [string range $gm 5 end]"]
+    } else {
+      set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew"]
+    }
+    lset lwidgets $i $args
+    set itmp $i
+    set k [set j 0]
+    foreach {nam v1 v2} $namvar {
+      if {[incr k 3]==[llength $namvar]} {
+        set expand "-expand 1 -fill x"
+      } else {
+        set expand ""
+      }
+      switch $typ {
+        statusBar {
+          set wid1 [list [my Transname lab ${name}_[incr j]] - - - - "pack -side left -in $w.$name" "$attrs1 -t $v1"]
+          set wid2 [list [my Transname lab $name$j] - - - - "pack -side left -in $w.$name $expand" "$attrs1 -relief sunken -w $v2"]
+          set lwidgets [linsert $lwidgets [incr itmp] $wid1 $wid2]
+          incr itmp
+          incr lwlen 2
+        }
+        toolBar {
+          set wid1 [list [my Transname buT ${name}[incr j]] - - - - "pack -side left -in $w.$name" "$attrs1 -image $v1 -command $v2 -relief flat -takefocus 0"]
+          set lwidgets [linsert $lwidgets [incr itmp] $wid1]
+          incr lwlen
+        }
+        default {continue}
+      }
+    }
     return $args
 
   }
@@ -492,6 +573,7 @@ oo::class create PaveMe {
       #   grid options, widget's attributes (both optional)
       set lst1 [lindex $lwidgets $i]
       set lst1 [my Replace_chooser w i lwlen lwidgets {*}$lst1]
+      set lst1 [my Replace_arrayed w i lwlen lwidgets {*}$lst1]
       lassign $lst1 name neighbor posofnei rowspan colspan \
         options1 attrs1 add1 comm1
       set prevw $name
@@ -506,8 +588,8 @@ oo::class create PaveMe {
       #set name [string tolower [string index $name 0]][string range $name 1 end]
       set options [uplevel 2 subst -nobackslashes [list $options1]]
       set attrs [uplevel 2 subst -nobackslashes [list $attrs1]]
-      set ${nsp}paveN::wn $w.$name
-      set wname [set ${nsp}paveN::wn]
+      set ${_pav(ns)}PN::wn $w.$name
+      set wname [set ${_pav(ns)}PN::wn]
       lassign [my GetWidgetType [my rootwname $name] \
         $options $attrs] widget options attrs
       # The type of widget (if defined) means its creation
@@ -648,6 +730,7 @@ oo::class create PaveMe {
     } else {
       wm withdraw $win
     }
+    set _pav(modalwin) $win
     set root [winfo parent $win]
     array set opt \
       [list -focus "" -onclose "" -geometry "" -decor 0 -root $root {*}$args]
@@ -656,9 +739,9 @@ oo::class create PaveMe {
       wm transient $win $root
     }
     if {$opt(-onclose) == ""} {
-      set opt(-onclose) [list set ${nsp}paveN::PaveRes($win) 0]
+      set opt(-onclose) [list set ${_pav(ns)}PN::AR($win) 0]
     } else {
-      set opt(-onclose) [list $opt(-onclose) ${nsp}paveN::PaveRes($win)]
+      set opt(-onclose) [list $opt(-onclose) ${_pav(ns)}PN::AR($win)]
     }
     wm protocol $win WM_DELETE_WINDOW $opt(-onclose)
     # get the window's geometry from its requested sizes
@@ -675,7 +758,7 @@ oo::class create PaveMe {
     if {$opt(-focus) == ""} {
       set opt(-focus) $win
     }
-    set ${nsp}paveN::PaveRes($win) "-"
+    set ${_pav(ns)}PN::AR($win) "-"
     bind $win <Escape> $opt(-onclose)
     update
     if {[my iswindows]} {
@@ -695,9 +778,9 @@ oo::class create PaveMe {
       wm geometry $win $inpgeom
     }
     after 50 [list focus -force $opt(-focus)]
-    tkwait variable ${nsp}paveN::PaveRes($win)
+    tkwait variable ${_pav(ns)}PN::AR($win)
     grab release $win
-    return [set [set _ ${nsp}paveN::PaveRes($win)]]
+    return [set [set _ ${_pav(ns)}PN::AR($win)]]
 
   }
 
@@ -709,9 +792,9 @@ oo::class create PaveMe {
   method res {win {r "get"}} {
 
     if {$r == "get"} {
-      return [set ${nsp}paveN::PaveRes($win)]
+      return [set ${_pav(ns)}PN::AR($win)]
     }
-    set ${nsp}paveN::PaveRes($win) $r
+    set ${_pav(ns)}PN::AR($win) $r
     return
 
   }
