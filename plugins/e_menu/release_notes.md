@@ -1,11 +1,20 @@
 # Last changes:
 
 
+Version `1.14 (2 Mar'19)`
+
+  - e_menu.tcl changed as for submenu arrow icon:
+    - nicely visible
+    - Windows issues resolved
+  - paveme.tcl changed (menubar added)
+  - git2.mnu, side.mnu changed (appearance)
+
+
 Version `1.13 (9 Feb'19)`
 
   - pave*.tcl changed (focused, themed)
   - utils.mnu: wget (edited item)
-  - %T, %S wildcards
+  - %T, %S, %z5 wildcards
 
 
 Version `1.12 (31 Jan'19)`

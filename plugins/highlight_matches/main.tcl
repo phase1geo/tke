@@ -57,23 +57,6 @@ namespace eval highlight_matches {
 
   }
 
-#?   #====== Setup the plugin by entering the rows to be spanned
-#?
-#?   proc do_setup {} {
-#?
-#?     variable rows_to_span
-#?     variable prompt
-#?     if {[api::get_user_input "Nearby rows to span $prompt" rows_to_span 0]} {
-#?       set rts [string trim $rows_to_span]
-#?       if {![get_rows_to_span $rts]} {
-#?         api::show_error "\"$rts\" seems to be not a proper number.
-#?           \nGood choices would be \"55\", \"99\" etc."
-#?       }
-#?     }
-#?
-#?   }
-#?
-
   ###################################################################
   # Get current word or selection
 
@@ -146,6 +129,9 @@ namespace eval highlight_matches {
     if {[string length "$pos"]} {
       api::edit::move_cursor $txt left -startpos $pos -num 0
       $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
+    } else {
+      set mess "  Not found:  [string range $sel 0 40]..."
+      api::show_info $mess -clear_delay [expr 1000+[string length $mess]*20]
     }
     return
 
@@ -236,12 +222,6 @@ namespace eval highlight_matches {
 
   }
 
-#?   proc handle_options_state {} {
-#?
-#?     return 1
-#?
-#?   }
-
   proc do_pref_load {} {
 
     variable rows_to_span
@@ -301,8 +281,4 @@ api::register highlight_matches {
   {on_focusin highlight_matches::do_focusin}
 
 }
-
-#?   {menu separator {Highlight Matches}}
-#?   {menu command {Highlight Matches/Options...} \
-#?       highlight_matches::do_setup  highlight_matches::handle_options_state}
 
