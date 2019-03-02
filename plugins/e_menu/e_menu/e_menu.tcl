@@ -10,7 +10,6 @@
 
 package require Tk
 package require tooltip
-#~ catch {package require tkdnd}  ;# optional package (still not working in e_menu)
 
 set exedir [file normalize [file dirname $::argv0]]
 set srcdir [file join $::exedir "src"]
@@ -214,8 +213,6 @@ proc ::em::win_width {inc} {
 }
 #=== re-read and update menu after Ctrl+R
 proc ::em::reread_menu {} {
-        #~ foreach w {.h0 .h1 .h2 .frame} {
-        #~ catch {tkdnd::drop_target unregister $w *} }
   foreach w [winfo children .] {  ;# remove Tcl/Tk menu items
     destroy $w
   }
@@ -234,7 +231,7 @@ proc ::em::isheader {} {
 }
 #=== get an item color
 proc ::em::color_button {i} {
-  if {$i > $::em::begsel && [.frame.butt$i cget -image] == "" } {
+  if {$i > $::em::begsel && [.frame.fr$i.butt cget -image] == "" } {
     return $::colr0   ;# common item
   }
   return $::colr2h  ;# HELP/EXEC/SHELL or submenu
@@ -244,29 +241,33 @@ proc ::em::focus_button {i} {
   if {$i>=$::em::ncmd} {set i $::em::begin}
   if {$i<$::em::begin} {set i [expr $::em::ncmd-1]}
   if {[.frame cget -bg] == $::colrgrey} {
-    .frame.butt$i configure -bg $::colrgrey
+    .frame.fr$i.butt configure -bg $::colrgrey
+    catch {.frame.fr$i.arr configure -bg $::colrgrey}
   } else {
     if {$::em::lasti >= $::em::begin && $::em::lasti < $::em::ncmd} {
-      .frame.butt$::em::lasti configure \
+      .frame.fr$::em::lasti.butt configure \
           -bg $::colr2 -fg [color_button $::em::lasti]
+      catch {.frame.fr$::em::lasti.arr configure -bg $::colr2}
     }
-    .frame.butt$i configure -bg $::colr3 -fg $::colr4
+    .frame.fr$i.butt configure -bg $::colr3 -fg $::colr4
+    catch {.frame.fr$i.arr configure -bg $::colr3}
   }
   set ::em::lasti $i
   update idletasks
-  focus .frame.butt$i
+  focus .frame.fr$i.butt
 }
 #=== highlight a button (focused)
 proc ::em::highlight_button {ib} {
   if {[.frame cget -bg] != $::colrgrey} {
-    foreach w [winfo children .frame] {
-      if {[string first ".frame.butt" $w] == 0} {
-        set i [string trim $w ".frame.butt"]
-        if {$i == $ib} {
-          $w configure -bg $::colr3 -fg $::colr4
-        } else {
-          $w configure -bg $::colr2 -fg \
-              [color_button $i]
+    foreach wf [winfo children .frame] {
+      if {[winfo class $wf]=="Frame" && [string first ".frame.fr" $wf] == 0} {
+        foreach w [winfo children $wf] {
+          set i [string trim $w ".frame.fr.butt.arr"]
+          if {$i == $ib} {
+            $w configure -bg $::colr3 -fg $::colr4
+          } else {
+            $w configure -bg $::colr2 -fg [color_button $i]
+          }
         }
       }
     }
@@ -276,7 +277,7 @@ proc ::em::highlight_button {ib} {
 proc ::em::for_buttons {proc} {
   set ::em::isep 0
   for {set j $::em::begin} {$j < $::em::ncmd} {incr j} {
-    uplevel 1 "set i $j; set b .frame.butt$j; $proc"
+    uplevel 1 "set i $j; set b .frame.fr$j.butt; $proc"
   }
 }
 #=== get contents of s1 argument (s=,..)
@@ -553,7 +554,7 @@ proc ::em::set_timed { from inf typ c1 inpsel} {
   lassign [ttask "add" -1 $inf $typ $c1 $inpsel $timer] ind started
   if {$from == "button" && $ind >= 0} {
     if {[em_question "Stop timed task" "Stop the task\n\n\
-        [.frame.butt$::em::lasti cget -text] ?"]} {
+        [.frame.fr$::em::lasti.butt cget -text] ?"]} {
       ttask "del" $ind
     }
     return false
@@ -757,7 +758,7 @@ proc ::em::IF {rest} {
 #=== update item name (with inc)
 proc ::em::update_itname {it inc {pr ""}} {
   if {$it > $::em::begsel} {
-    set b .frame.butt$it
+    set b .frame.fr$it.butt
     if {[$b cget -image]==""} {
       if {$::em::ornament > 1} {
         set ornam [$b cget -text]
@@ -1066,9 +1067,9 @@ proc ::em::prepr_pn {refpn {dt 0}} {
       ;# %F wildcard is a checked filename
       if {![file exists $::em::arr_geany($gw)]} {
         if {[info exists ::em::arr_geany(f)] && [file exists $::em::arr_geany(f)]} {
-          set :em::arr_geany($gw) $::em::arr_geany(f)
+          set ::em::arr_geany($gw) $::em::arr_geany(f)
         } else {
-          set :em::arr_geany($gw) "*"
+          set ::em::arr_geany($gw) "*"
         }
       }
     }
@@ -1355,25 +1356,7 @@ proc ::em::prepare_buttons {refcommands} {
     bind $l <Motion>          { ::em::mouse_drag 2 %x %y }
     bind $l <ButtonRelease-1> { ::em::mouse_drag 3 %x %y }
   }
-        #~ catch {
-        #~ foreach w [list {*}$hlist .frame] {
-        #~ tkdnd::drop_target register $w *
-        #~ bind $w <<Drop:DND_Files>> { ::em::dropping %D %A }
-        #~ bind $w <<Drop:DND_Text>> { ::em::dropping %D %A }
-        #~ }
-        #~ }
 }
-    #~ #=== process dropping file(s) / url(s)
-    #~ proc ::em::dropping {flist retv} {
-    #~ foreach f $flist {
-    #~ if {[catch {exec wish e_entry.tcl $f $::fs} e]} {
-    #~ d $e
-    #~ }
-    #~ }
-    #~ focus -force .
-    #~ focus_button $::em::lasti
-    #~ return $retv
-    #~ }
 #=== toggle 'stay on top' mode
 proc ::em::staytop_toggle {} {
   if {$::em::ncmd > [expr $::em::begsel+1]} {
@@ -1399,7 +1382,7 @@ proc ::em::focused_win {focused} {
   if {$focused} {
     foreach wc [array names ::em::bgcolr] {
       if {[winfo exists $wc]} {
-        if {[string first ".frame.butt" $wc] < 0} {
+        if {[string first ".frame.fr" $wc] < 0} {
           catch { $wc configure -bg $::em::bgcolr($wc) }
         }
       }
@@ -1412,6 +1395,9 @@ proc ::em::focused_win {focused} {
       shadow_win $w
       foreach wc [winfo children $w] {
         shadow_win $wc
+        foreach wc2 [winfo children $wc] {
+          shadow_win $wc2
+        }
       }
     }
     . configure -bg $::colrgrey
@@ -1780,13 +1766,13 @@ proc ::em::initmenu {} {
       }
       incr ::em::isep
     }
+    frame .frame.fr$i
     if {[string first "M" [lindex $comm 3]] == 0} { ;# is menu?
-      set img "-image $::img -compound right"     ;# yes, show arrow
-      set comtitle [string range \
-          $comtitle[string repeat " " 300] 0 [expr $::em::widthi-2]]
+      set img "-image $::img"     ;# yes, show arrow
+      button .frame.fr$i.arr {*}$img -bg $::colr2 -command "$b invoke"
     } else {set img ""}
     button $b -text "$comtitle" -pady $::em::b1 -padx $::em::b2 -anchor w \
-        -font $::em::font2 -width $::em::itviewed -bd $::em::bd  {*}$img \
+        -font $::em::font2 -width $::em::itviewed -bd $::em::bd  \
         -relief raised -overrelief raised -bg $::colr2 -command "$prbutton" \
         -cursor arrow
     $b configure -fg [color_button $i]
@@ -1795,8 +1781,13 @@ proc ::em::initmenu {} {
     tooltip::tooltip $b "$comtitle" }
     grid [label .frame.l$i -text $hotkey -font "$::em::font1 bold" -bg \
         $::colr2 -fg $::colrhot] -column 0 -row [expr $i+$::em::isep] -sticky ew
-    grid $b -column 1 -row  [expr $i+$::em::isep] -sticky ew \
+    grid .frame.fr$i -column 1 -row  [expr $i+$::em::isep] -sticky ew \
         -pady $::em::b3 -padx $::em::b4
+    pack $b -expand 1 -fill both -side left
+    if {$img!=""} {
+      pack .frame.fr$i.arr -expand 1 -fill both
+      bind .frame.fr$i.arr <Enter> "::em::focus_button $i"
+    }
     bind $b <Enter>           "::em::focus_button $i"
     bind $b <Down>            "::em::focus_button [expr $i+1]"
     bind $b <Tab>             "::em::focus_button [expr $i+1]"

@@ -47,7 +47,7 @@ SW:hg commit SW: hg status
  R:edit ~/.hgrc R: %P %E $::env(HOME)/.hgrc
  R:edit .hgignore R: %E %PD/.hgignore
 
- R: R: 3
+ R: R: 4
 
  MW: Fossil MW: m=fossil.mnu w=50
  MW: Git MW: #sets the menu item type = "M, MW, ME"
@@ -64,7 +64,7 @@ SW:hg commit SW: hg status
 
 # utils menu for e_menu.tcl
 
- R: R: 2
+ R: R: 4
  R:Caja     %PD R: caja "%PD"
  R:Xterm    %PD R: cd %PD
  R:Xterm    %PD R: x-terminal-emulator -fa ru_RU.utf8 -fs 11 -geometry 80x40 R:Meld "%PD"        R:cd %PD
@@ -75,7 +75,7 @@ SW:hg commit SW: hg status
 ; I: Xterm in "%PD" (verbose) I: D run bash in %PD; cd "%PD"; S bash
 
  ; wiki menu for e_menu.tcl
- R:?2? Mail.ru R: chromium https://mail.ru
+ R:?3? Mail.ru R: chromium https://mail.ru
  R:Gmail R: %b https://gmail.com
  R:Google R: %b https://google.com
  R:Wikipedia.en R:%b https://en.wikipedia.org

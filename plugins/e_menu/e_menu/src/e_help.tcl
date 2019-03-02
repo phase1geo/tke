@@ -154,8 +154,10 @@ proc edit_file {fname {fg black} {bg white} {cc "#00ffff"}} {
       message_box "ERROR: couldn't create '$fname':\n$err"
       return false
     }
+    set data ""
+  } else {
+    close $ch
   }
-  close $ch
   PaveDialog create dialog "" $::srcdir
   set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
     TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc -size 12]
