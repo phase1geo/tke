@@ -215,43 +215,42 @@ namespace eval ctext {
     }
     $win.t tag configure _mcursor -underline 1
 
-    bind $win.t <Configure>                    [list ctext::doConfigure $win]
-    bind $win.t <<CursorChanged>>              [list ctext::linemapUpdate $win]
+    bind Ctext  <Configure>                    [list ctext::doConfigure $win]
+    bind Ctext  <<CursorChanged>>              [list ctext::linemapUpdate $win]
     bind $win.l <Button-$right_click>          [list ctext::linemapToggleMark $win %x %y]
     bind $win.l <MouseWheel>                   [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                            [list event generate $win.t <4>]
     bind $win.l <5>                            [list event generate $win.t <5>]
-    bind $win.t <Destroy>                      [list ctext::event:Destroy $win]
-    bind $win.t <<Selection>>                  [list ctext::event:Selection $win]
-    bind $win   <<Copy>>                       "ctext::event:Copy $win; break"
-    bind $win   <<Cut>>                        "ctext::event:Cut $win; break"
-    bind $win   <<Paste>>                      "ctext::event:Paste $win; break"
-    bind $win   <<Undo>>                       [list ctext::undo $win]
-    bind $win   <<Redo>>                       [list ctext::redo $win]
-    bind $win.t <Escape>                       [list ctext::event:Escape $win]
-    bind $win.t <Key-Up>                       "$win cursor move up;           break"
-    bind $win.t <Key-Down>                     "$win cursor move down;         break"
-    bind $win.t <Key-Left>                     "$win cursor move left;         break"
-    bind $win.t <Key-Right>                    "$win cursor move right;        break"
-    bind $win.t <Key-Home>                     "$win cursor move linestart;    break"
-    bind $win.t <Key-End>                      "$win cursor move lineend;      break"
-    bind $win.t <Key-Delete>                   "ctext::event:Delete $win;      break"
-    bind $win.t <Key-BackSpace>                "ctext::event:Backspace $win;   break"
-    bind $win.t <Return>                       "ctext::event:Return $win;      break"
-    bind $win.t <Key>                          "ctext::event:KeyPress $win %A; break"
-    bind $win.t <Button-1>                     [list $win cursor disable]
-    bind $win.t <$alt_key-Button-1>            [list $win cursor add @%x,%y]
-    bind $win.t <$alt_key-Button-$right_click> [list $win cursor addcolumn @%x,%y]
+    bind Ctext  <Destroy>                      [list ctext::event:Destroy $win]
+    bind Ctext  <<Selection>>                  [list ctext::event:Selection $win]
+    bind Ctext  <<Copy>>                       "ctext::event:Copy $win; break"
+    bind Ctext  <<Cut>>                        "ctext::event:Cut $win; break"
+    bind Ctext  <<Paste>>                      "ctext::event:Paste $win; break"
+    bind Ctext  <<Undo>>                       [list ctext::undo $win]
+    bind Ctext  <<Redo>>                       [list ctext::redo $win]
+    bind Ctext  <Escape>                       [list ctext::event:Escape $win]
+    bind Ctext  <Key-Up>                       "$win cursor move up;           break"
+    bind Ctext  <Key-Down>                     "$win cursor move down;         break"
+    bind Ctext  <Key-Left>                     "$win cursor move left;         break"
+    bind Ctext  <Key-Right>                    "$win cursor move right;        break"
+    bind Ctext  <Key-Home>                     "$win cursor move linestart;    break"
+    bind Ctext  <Key-End>                      "$win cursor move lineend;      break"
+    bind Ctext  <Key-Delete>                   "ctext::event:Delete $win;      break"
+    bind Ctext  <Key-BackSpace>                "ctext::event:Backspace $win;   break"
+    bind Ctext  <Return>                       "ctext::event:Return $win;      break"
+    bind Ctext  <Key>                          "ctext::event:KeyPress $win %A; break"
+    bind Ctext  <Button-1>                     [list $win cursor disable]
+    bind Ctext  <$alt_key-Button-1>            [list $win cursor add @%x,%y]
+    bind Ctext  <$alt_key-Button-$right_click> [list $win cursor addcolumn @%x,%y]
 
     foreach mod [list Shift Control $alt_key Command] {
       foreach key [list Up Down Left Right Home End] {
-        bind $win.t <${mod}-Key-${key}> [list ctext::event:keyevent]
+        bind Ctext <${mod}-Key-${key}> [list ctext::event:keyevent]
       }
     }
 
+    bindtags $win.t [linsert [bindtags $win.t] 1 Ctext]
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
-
-    puts "bindtags on $win.t: [bindtags $win.t]"
 
     return $win
 
@@ -2114,6 +2113,8 @@ namespace eval ctext {
   ######################################################################
   # Returns the index associated with the given value.
   proc command_index {win value} {
+
+    puts [utils::stacktrace]
 
     if {[set procs [info procs getindex_[lindex $value 0]]] ne ""} {
 

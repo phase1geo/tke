@@ -961,7 +961,7 @@ namespace eval vim {
 
     # Add bindings
     bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
-    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A %K\]} { break }"
+    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A %K\]} { puts BREAK; break }"
     bind vim$txt <Control-Button-1>      "vim::nil"
     bind vim$txt <Shift-Button-1>        "vim::nil"
     bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"

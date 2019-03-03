@@ -1,4 +1,4 @@
- # TKE - Advanced Programmer's Editor
+# TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2019  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
