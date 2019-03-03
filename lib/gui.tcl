@@ -4430,7 +4430,7 @@ namespace eval gui {
     bind Text   <Control-i>           ""
 
     # Move the all bindtag ahead of the Text bindtag
-    set text_index  [lsearch [bindtags $txt.t] Text]
+    set text_index  [lsearch [bindtags $txt.t] Ctext]
     set all_index   [lsearch [bindtags $txt.t] all]
     bindtags $txt.t [lreplace [bindtags $txt.t] $all_index $all_index]
     bindtags $txt.t [linsert  [bindtags $txt.t] $text_index all]
@@ -4680,7 +4680,7 @@ namespace eval gui {
     bind $txt2   <Motion>              [list gui::clear_tab_tooltip $tabbar]
 
     # Move the all bindtag ahead of the Text bindtag
-    set text_index   [lsearch [bindtags $txt2.t] Text]
+    set text_index   [lsearch [bindtags $txt2.t] Ctext]
     set all_index    [lsearch [bindtags $txt2.t] all]
     bindtags $txt2.t [lreplace [bindtags $txt2.t] $all_index $all_index]
     bindtags $txt2.t [linsert  [bindtags $txt2.t] $text_index all]
