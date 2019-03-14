@@ -10,13 +10,12 @@
 #    catch {destroy .win}
 #    pave makeWindow .win "TITLE"
 #    pave window .win LISTW
-#    pave showModal .win FOCUSED GEOMETRY
+#    pave showModal .win OPTIONS
 #
 # where:
 #    TITLE - title of window
 #    LISTW - list of widgets and their options
-#    FOCUSEDW - name of widgets to be focused (optional)
-#    GEOMETRY - geometry of widgets (optional)
+#    OPTIONS - geometry and other options of paved window
 #
 # LISTW's entries have the following structure:
 #   {NAME NEIGHBOR POSN RSPAN CSPAN OPTGRID OPTWIDG}
@@ -30,12 +29,12 @@
 #   CSPAN    - columnspan of current widget
 #   OPTGRID  - options of grid command
 #   OPTWIDG  - options of widget's command
-# If NAME begins with others letters than noted above, the widget should
-# be created before calling "pave window" command.
+# If NAME begins with others letters than listed in getWidgetType below,
+# the NAME widget should be created before calling "pave window" command.
 #
-# Example:
+# For example,
 #   {ch2 ch1 T 1 5 {-st w} {-t "Match case" -var t::c2}}
-#   means the widget's options:
+# means the widget's options:
 #   ch2 - name of current widget (checkbox)
 #   ch1 - name of neighboring widget (checkbox)
 #   T   - position of neighboring widget is TOP
@@ -44,7 +43,7 @@
 #   {-st w} - option "-sticky" of grid command
 #   {-t ...} - option "-text" of widget's (checkbox's) command
 #
-# See test_pave.tcl for the detailed examples of use.
+# See tests/test*.tcl files for the detailed examples of use.
 #
 ###########################################################################
 
@@ -79,6 +78,30 @@ oo::class create PaveMe {
     # namespace in object namespace for safety of its 'most important' data
     namespace eval ${_pav(ns)}PN {}
     array set ${_pav(ns)}PN::AR {}
+
+    # This trick with 'proc' inside an object is discussed at
+    # https://stackoverflow.com/questions/54804964/proc-in-tcl-ooclass
+    proc WinResize {win} {
+      # restrict the window's sizes (fixing Tk's issue with a menubar)
+      if {[lindex [$win configure -menu] 4]!=""} {
+        lassign [split [wm geometry $win] x+] w y
+        lassign [wm minsize $win] wmin ymin
+        if {$w<$wmin && $y<$ymin} {
+          set corrgeom ${wmin}x${ymin}
+        } elseif {$w<$wmin} {
+          set corrgeom ${wmin}x${y}
+        } elseif {$y<$ymin} {
+          set corrgeom ${w}x${ymin}
+        } else {
+          return
+        }
+        wm geometry $win $corrgeom
+      }
+      return
+    }
+  }
+  destructor {
+    catch {destroy $_pav(modalwin)}
   }
 
   #########################################################################
@@ -124,6 +147,16 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Style for non-ttk widgets (to be redefined in descendants/mixins)
+
+  method NonTtkStyle {typ} {
+
+    return ""
+
+  }
+
+  #########################################################################
+  #
   # Some options may be cut down, so we must expand them
 
   method ExpandOptions {options} {
@@ -150,89 +183,88 @@ oo::class create PaveMe {
   method GetWidgetType {name options attrs} {
 
     set pack $options
-    switch -glob $name {
-      "bit*" {set widget "bitmap"}
-      "but*" {set widget "ttk::button"}
-      "buT*" {set widget "button"}
-      "can*" {set widget "canvas"}
-      "chb*" {set widget "ttk::checkbutton"}
-      "chB*" {set widget "checkbutton"}
-      "cbx*" {set widget "ttk::combobox"}
-      "ent*" {set widget "ttk::entry"}
-      "enT*" {set widget "entry"}
-      "fil*" -
-      "fis*" -
-      "dir*" -
-      "fon*" -
-      "clr*" -
-      "dat*" -
-      "sta*" -
-      "too*" -
-      "fra*" {
+    set nam3 [string tolower [string index $name 0]][string range $name 1 2]
+    switch -glob $nam3 {
+      "bit" {set widget "bitmap"}
+      "but" {set widget "ttk::button"}
+      "buT" {set widget "button"}
+      "can" {set widget "canvas"}
+      "chb" {set widget "ttk::checkbutton"}
+      "chB" {set widget "checkbutton"}
+      "cbx" {set widget "ttk::combobox"}
+      "ent" {set widget "ttk::entry"}
+      "enT" {set widget "entry"}
+      "fil" -
+      "fis" -
+      "dir" -
+      "fon" -
+      "clr" -
+      "dat" -
+      "sta" -
+      "too" -
+      "fra" {
         # + frame for choosers (of file, directory, color, font, date)
-        # and statusbar
+        # and bars
         set widget "ttk::frame"
       }
-      "frA*" {set widget "frame"}
-      "lab*" {set widget "ttk::label"; set options "-st w $options"}
-      "laB*" {set widget "label";      set options "-st w $options"}
-      "lfr*" {set widget "ttk::labelframe"}
-      "lfR*" {set widget "labelframe"; set attrs "-relief ridge -fg maroon $attrs"}
-      "lbx*" {set widget "listbox"}
-      "meb*" {set widget "ttk::menubutton"}
-      "meB*" {set widget "menubutton"}
-      "men*" {set widget "menu"}
-      "not*" {set widget "ttk::notebook"}
-      "pan*" {set widget "ttk::panedwindow"}
-      "pro*" {set widget "ttk::progressbar"}
-      "rad*" {set widget "ttk::radiobutton"}
-      "raD*" {set widget "radiobutton"}
-      "sca*" {set widget "ttk::scale"}
-      "scA*" {set widget "scale"}
-      "sbh*" {
+      "frA" {set widget "frame"}
+      "lab" {set widget "ttk::label"; set options "-st w $options"}
+      "laB" {set widget "label";      set options "-st w $options"}
+      "lfr" {set widget "ttk::labelframe"}
+      "lfR" {set widget "labelframe"; set attrs "-relief ridge -fg maroon $attrs"}
+      "lbx" {set widget "listbox"}
+      "meb" {set widget "ttk::menubutton"}
+      "meB" {set widget "menubutton"}
+      "not" {set widget "ttk::notebook"}
+      "pan" {set widget "ttk::panedwindow"}
+      "pro" {set widget "ttk::progressbar"}
+      "rad" {set widget "ttk::radiobutton"}
+      "raD" {set widget "radiobutton"}
+      "sca" {set widget "ttk::scale"}
+      "scA" {set widget "scale"}
+      "sbh" {
         set widget "ttk::scrollbar";
         set options "-st ew $options"
         set attrs "-orient horizontal $attrs"
       }
-      "sbH*" {
+      "sbH" {
         set widget "scrollbar"
         set options "-st ew $options"
         set attrs "-orient horizontal $attrs"
       }
-      "sbv*" {
+      "sbv" {
         set widget "ttk::scrollbar"
         set options "-st ns $options"
         set attrs "-orient vertical $attrs"
       }
-      "sbV*" {
+      "sbV" {
         set widget "scrollbar"
         set options "-st ns $options"
         set attrs "-orient vertical $attrs"
       }
-      "seh*" { ;# horizontal separator
+      "seh" { ;# horizontal separator
         set widget "ttk::separator"
         set options "-st ew $options"
         set attrs "-orient horizontal $attrs"
       }
-      "sev*" { ;# vertical separator
+      "sev" { ;# vertical separator
         set widget "ttk::separator"
         set options "-st ns $options"
         set attrs "-orient vertical $attrs"
       }
-      "siz*" {set widget "ttk::sizegrip"}
-      "spx*" {set widget "ttk::spinbox"}
-      "spX*" {set widget "spinbox"}
-      "tex*" {
+      "siz" {set widget "ttk::sizegrip"}
+      "spx" {set widget "ttk::spinbox"}
+      "spX" {set widget "spinbox"}
+      "tex" {
         set widget "text"
-        set attrs "-fg $_pav(fgtxt) -bg $_pav(bgtxt) $attrs"
       }
-      "tre*" {set widget "ttk::treeview"}
+      "tre" {set widget "ttk::treeview"}
       "h_*" { ;# horizontal spacer
         set widget "ttk::frame"
         set options "-st ew -csz 3 -padx 3 $options"
       }
       "v_*" { ;# vertical spacer
-        set widget "frame"
+        set widget "ttk::frame"
         set options "-st ns -rsz 3 -pady 3 $options"
       }
       default {set widget ""}
@@ -241,7 +273,7 @@ oo::class create PaveMe {
       set options $pack
     }
     set options [string trim $options]
-    set attrs   [string trim $attrs]
+    set attrs   [string trim "[my NonTtkStyle $nam3] $attrs"]
     return [list $widget $options $attrs]
 
   }
@@ -265,6 +297,26 @@ oo::class create PaveMe {
     }
     # Get other grid options
     return [my ExpandOptions $opts]
+
+  }
+
+  #########################################################################
+  #
+  # Expand attributes' values
+
+  method GetAttrs {options} {
+
+    set opts [list]
+    foreach {opt val} [list {*}$options] {
+      switch $opt {
+        -t - -text {
+          ;# these options need translating \\n to \n
+          set val [string map [list \\n \n] $val]
+        }
+      }
+      lappend opts $opt \{$val\}
+    }
+    return $opts
 
   }
 
@@ -398,7 +450,7 @@ oo::class create PaveMe {
   method Transname {typ name} {
 
     if {[set pp [string last . $name]]>-1} {
-      set name [string range $name 0 $pp]$typ[string range $name $pp+1 end]
+      set name $typ[string range $name $pp+1 end]
     } else {
       set name $typ$name
     }
@@ -458,7 +510,7 @@ oo::class create PaveMe {
     }
     lset lwidgets $i $args
     set entf [list [my Transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" "$attrs1 $tvar"]
-    set butf [list [my Transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{\{$com\}\} -t \{\{. . .\}\} -font \{\{-weight bold -size 5\}\} -fg $_pav(fgbut) -bg $_pav(bgbut)"]
+    set butf [list [my Transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{$com\} -t \{. . .\} -font \{-weight bold -size 5\} -fg $_pav(fgbut) -bg $_pav(bgbut)"]
     set lwidgets [linsert $lwidgets [expr {$i+1}] $entf $butf]
     incr lwlen 2
     return $args
@@ -467,21 +519,23 @@ oo::class create PaveMe {
 
   #########################################################################
   #
-  # Arrayed widgets should contain N fields
+  # Bar widgets should contain N fields of appropriate type
 
-  method Replace_arrayed {r0 r1 r2 r3 args} {
+  method Replace_bar {r0 r1 r2 r3 args} {
 
     upvar 1 $r0 w $r1 i $r2 lwlen $r3 lwidgets
     lassign $args name neighbor posofnei rowspan colspan options1 attrs1
     set wpar ""
     switch -glob [my rootwname $name] {
-      "sta*" { set typ statusBar }
-      "too*" { set typ toolBar }
+      "men*" - "Men*" { set typ menuBar }
+      "too*" - "Too*" { set typ toolBar }
+      "sta*" - "Sta*" { set typ statusBar }
       default {
         return $args
       }
     }
-    set attmp [list]
+    set winname [winfo toplevel $w]
+    set attcur [list]
     set namvar [list]
     # get array of pairs (e.g. image-command for toolbar)
     foreach {nam val} $attrs1 {
@@ -491,46 +545,92 @@ oo::class create PaveMe {
           lappend namvar [namespace current]::$typ[incr ind] $v1 $v2
         }
       } else {
-        lappend attmp $nam $val
+        lappend attcur $nam $val
       }
     }
-    set attrs1 $attmp
     # make a frame in the widget list
-    set ispack 0
-    if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
-      set ispack [expr [string first "pack" $gm]==0]
-    }
-    if {$ispack} {
-      set args [list $name - - - - "pack -expand 0 -fill x -side bottom [string range $gm 5 end]"]
+    if {$typ=="menuBar"} {
+      set args ""
     } else {
-      set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew"]
+      set ispack 0
+      if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
+        set ispack [expr [string first "pack" $gm]==0]
+      }
+      if {$ispack} {
+        set args [list $name - - - - "pack -expand 0 -fill x -side bottom [string range $gm 5 end]" $attcur]
+      } else {
+        set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew" $attcur]
+      }
+      lset lwidgets $i $args
     }
-    lset lwidgets $i $args
     set itmp $i
-    set k [set j 0]
+    set k [set j [set j2 [set wasmenu 0]]]
     foreach {nam v1 v2} $namvar {
       if {[incr k 3]==[llength $namvar]} {
         set expand "-expand 1 -fill x"
       } else {
         set expand ""
       }
-      switch $typ {
-        statusBar {
-          set wid1 [list [my Transname lab ${name}_[incr j]] - - - - "pack -side left -in $w.$name" "$attrs1 -t $v1"]
-          set wid2 [list [my Transname lab $name$j] - - - - "pack -side left -in $w.$name $expand" "$attrs1 -relief sunken -w $v2"]
-          set lwidgets [linsert $lwidgets [incr itmp] $wid1 $wid2]
-          incr itmp
-          incr lwlen 2
+      if {$v1=="h_"} {  ;# horisontal space
+        set ntmp [my Transname fra ${name}[incr j2]]
+        set wid1 [list $ntmp - - - - "pack -side left -in $w.$name -fill y"]
+        set wid2 [list $ntmp.[my Transname h_ $name$j] - - - - "pack -fill y -expand 1 -padx $v2"]
+      } elseif {$v1=="sev"} {   ;# vertical separator
+        set ntmp [my Transname fra ${name}[incr j2]]
+        set wid1 [list $ntmp - - - - "pack -side left -in $w.$name -fill y"]
+        set wid2 [list $ntmp.[my Transname sev $name$j] - - - - "pack -fill y -expand 1 -padx $v2"]
+      } elseif {$typ=="statusBar"} {  ;# statusbar
+        set wid1 [list $name.[my Transname lab ${name}_[incr j]] - - - - "pack -side left" "-t [lindex $v1 0]"]
+        set wid2 [list [my Transname lab $name$j] - - - - "pack -side left -in $w.$name $expand" "-relief sunken -w $v2 [lrange $v1 1 end]"]
+      } elseif {$typ=="toolBar"} {  ;# toolbar
+        if {[string is lower [string index $v1 0]]} {
+          set but buT
+        } else {
+          set but BuT
         }
-        toolBar {
-          set wid1 [list [my Transname buT ${name}[incr j]] - - - - "pack -side left -in $w.$name" "$attrs1 -image $v1 -command $v2 -relief flat -takefocus 0"]
+        set wid1 [list $name.[my Transname $but _$v1] - - - - "pack -side left" "-image $v1 -command $v2 -relief flat -takefocus 0"]
+        if {[incr wasseh]==1} {
+          set wid2 [list [my Transname seh $name$j] - - - - "pack -side top -expand 1 -fill x"]
+        } else {
           set lwidgets [linsert $lwidgets [incr itmp] $wid1]
-          incr lwlen
+          continue
         }
-        default {continue}
+      } elseif {$typ=="menuBar"} {
+        ;# menubar: making it here; filling it outside of 'pave window'
+        if {[incr wasmenu]==1} {
+          set menupath [my MakeWidgetName $winname $name]
+          menu $menupath -tearoff 0
+        }
+        set menuitem [my MakeWidgetName $menupath $v1]
+        menu $menuitem -tearoff 0
+        set ampos [string first & $v2]
+        set v2 [string map {& ""} $v2]
+        $menupath add cascade -label [lindex $v2 0] {*}[lrange $v2 1 end] -menu $menuitem -underline $ampos
+        continue
+      } else {
+        puts -nonewline stderr "Erroneous \"$v1\" for \"$nam\""
+        return -code error
       }
+      set lwidgets [linsert $lwidgets [incr itmp] $wid1 $wid2]
+      incr itmp
     }
+    if {$wasmenu} {
+      $winname configure -menu $menupath
+    }
+    incr lwlen [expr {$itmp - $i}]
     return $args
+
+  }
+
+  #########################################################################
+  #
+  # Make the widget name lowercased
+
+  method LowercaseWidgetName {name} {
+
+    set root [my rootwname $name]
+    return [list [string range $name 0 [string last . $name]][string tolower \
+      [string index $root 0]][string range $root 1 end] $root]
 
   }
 
@@ -543,16 +643,39 @@ oo::class create PaveMe {
   method NormalizeName {refname refi reflwidgets} {
 
     upvar $refname name $refi i $reflwidgets lwidgets
+    set wname $name
     if {[string index $name 0]=="."} {
       for {set i2 [expr {$i-1}]} {$i2 >=0} {incr i2 -1} {
         lassign [lindex $lwidgets $i2] name2
         if {[string index $name2 0]!="."} {
+          set wname "$name2$name"
+          lassign [my LowercaseWidgetName $name] name
           set name "$name2$name"
           break
         }
       }
     }
-    return $name
+    return [list $name $wname]
+
+  }
+
+  #########################################################################
+  #
+  # Make an exported method named after root widget, if it's uppercased,
+  # e.g. fra1.fra2.fra3.Entry1 -> method Entry1 {...}
+
+  method MakeWidgetName {w name} {
+
+    set root1 [string index [my rootwname $name] 0]
+    if {[string is upper $root1]} {
+      lassign [my LowercaseWidgetName $name] name method
+      if {[catch {info object definition [self] $method}]} {
+        oo::objdefine [self] "
+          method $method args {return $w.$name}
+          export $method"
+      }
+    }
+    return [set ${_pav(ns)}PN::wn $w.$name]
 
   }
 
@@ -560,8 +683,15 @@ oo::class create PaveMe {
   #
   # Pave the window with widgets
 
-  method Window {w lwidgets} {
+  method Window {w inplists} {
 
+    set lwidgets [list]
+    # comments be skipped
+    foreach lst1 $inplists {
+      if {[string index [string index $lst1 0] 0]!="#"} {
+        lappend lwidgets $lst1
+      }
+    }
     set lused {}
     set lwlen [llength $lwidgets]
     set BS "I-am-BACKSPACE"
@@ -573,29 +703,31 @@ oo::class create PaveMe {
       #   grid options, widget's attributes (both optional)
       set lst1 [lindex $lwidgets $i]
       set lst1 [my Replace_chooser w i lwlen lwidgets {*}$lst1]
-      set lst1 [my Replace_arrayed w i lwlen lwidgets {*}$lst1]
+      if {[set lst1 [my Replace_bar w i lwlen lwidgets {*}$lst1]]==""} {
+        incr i
+        continue
+      }
       lassign $lst1 name neighbor posofnei rowspan colspan \
         options1 attrs1 add1 comm1
       set prevw $name
-      set name [my NormalizeName name i lwidgets]
-      set neighbor [my NormalizeName neighbor i lwidgets]
+      lassign [my NormalizeName name i lwidgets] name wname
+      lassign [my NormalizeName neighbor i lwidgets] neighbor
+      set wname [my MakeWidgetName $w $wname]
       if {$colspan=={} || $colspan=={-}} {
         set colspan 1
         if {$rowspan=={} || $rowspan=={-}} {
           set rowspan 1
         }
       }
-      #set name [string tolower [string index $name 0]][string range $name 1 end]
       set options [uplevel 2 subst -nobackslashes [list $options1]]
       set attrs [uplevel 2 subst -nobackslashes [list $attrs1]]
-      set ${_pav(ns)}PN::wn $w.$name
-      set wname [set ${_pav(ns)}PN::wn]
       lassign [my GetWidgetType [my rootwname $name] \
         $options $attrs] widget options attrs
       # The type of widget (if defined) means its creation
       # (if not defined, it was created after "makewindow" call
       # and before "window" call)
       if { !($widget == "" || [winfo exists $widget])} {
+        set attrs [my GetAttrs $attrs]
         set attrs [string map [list \\ $BS] $attrs]
         set attrs [string map {\" \\\"} [my ExpandOptions $attrs]]
         # for scrollbars - set up the scrolling commands
@@ -622,7 +754,7 @@ oo::class create PaveMe {
         set attrs [string map [list $BS "\\\\\\\\"] $attrs]
         eval $widget $wname {*}$attrs
         # for buttons and entries - set up the hotkeys (Up/Down etc.)
-        if {($widget in {"ttk::entry" $widget=="entry"}) && \
+        if {($widget in {"ttk::entry" "entry"}) && \
         [string first "STD" $wname]==-1} {
           # STD in $w or $name prevents it:
           bind $wname <Up> [list \
@@ -767,6 +899,7 @@ oo::class create PaveMe {
       catch {wm deiconify $win ; raise $win}
     }
     wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
+    bind $win <Configure> "[namespace current]::WinResize $win"
     if {$inpgeom == ""} {  ;# final geometrizing with actual sizes
       if {$root == "."} {
         ::tk::PlaceWindow $win widget $root
@@ -786,8 +919,7 @@ oo::class create PaveMe {
 
   #########################################################################
   #
-  # This method is useful to get or set the variable value that rules
-  # the closing
+  # This method is useful to get/set the variable for vwait command
 
   method res {win {r "get"}} {
 

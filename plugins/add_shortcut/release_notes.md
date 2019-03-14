@@ -1,6 +1,11 @@
 # Last changes:
 
 
+Version `1.6.1 (14 Mar'19)`
+
+  - The theming in accordance with the current TKE theme.
+
+
 Version `1.6 (21 Jan'19)`
 
   - The shebang wildcard added for checking in %IF
