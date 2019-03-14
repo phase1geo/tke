@@ -18,7 +18,6 @@
 #     retrycancel
 #     abortretrycancel
 #     misc
-#     input
 #   ARGS stands for the arguments of dialog:
 #     icon title message (optional checkbox message) (optional geometry) \
 #                   (optional -text 1)
@@ -68,6 +67,7 @@ oo::class create PaveDialog {
 
     catch "destroy $_pdg(win).dia"
     catch "namespace delete ${_pdg(ns)}PD"
+    catch {next}
 
   }
 

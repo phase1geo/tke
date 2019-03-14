@@ -16,10 +16,12 @@ namespace eval adsh {
   variable pavedir [file normalize [file dirname [info script]]]
   # definitions of PaveDialog and GetSetIni oo::classes
   source [file join $adsh::pavedir pavedialog.tcl]
+  source [file join $adsh::pavedir obbit.tcl]
   source [file join $adsh::pavedir getsetini.tcl]
 
   variable version ""
-  variable win .adsh
+  variable Win .adsh
+  variable win $Win.fra
   variable pdlg {} Contents {} imorig {} imadd {}
   variable listBak {} getsetini {} messg {} lastid {} active 1 auto 0 sort 1
   variable notsaved 0 wassaved 0 ID {} Na {} No {} Typ {} listIt {} geometry ""
@@ -39,10 +41,13 @@ namespace eval adsh {
   variable bgColor "#E5E4E3"
   variable fg $fgColor
   variable bg $bgColor
+  variable fg2 black
+  variable bg2 white
+  variable cc white
   variable EOL "|!|"
 
   # see also main.tcl as for typs
-  variable typs [list "" "MENU" "EVENT" "COMMAND" "MISC"]
+  variable typs [list MENU EVENT COMMAND MISC]
 
   variable textTags [list [list "b" "-font {-family Helvetica -weight bold}"] \
                           [list "i" "-font {-family Helvetica -slant italic}"] \
@@ -106,6 +111,7 @@ You can use the # for comments."}
 
     uplevel 1 {
       variable version
+      variable Win
       variable win
       variable pdlg
       variable fgColor
@@ -113,6 +119,9 @@ You can use the # for comments."}
       variable EOL
       variable fg
       variable bg
+      variable fg2
+      variable bg2
+      variable cc
       variable notsaved
       variable wassaved
       variable active
@@ -187,7 +196,7 @@ You can use the # for comments."}
     bringMeVars
     if {!$notsaved \
     || [pdlg yesno warn "EXIT" "\nDiscard all changes?\n" NO]==1} {
-      pdlg res $win 0
+      pdlg res $Win 0
     }
     return
 
@@ -214,7 +223,7 @@ You can use the # for comments."}
   proc saveData {} {
 
     bringMeVars
-    set currgeom [wm geometry $win]
+    set currgeom [wm geometry $Win]
     lassign [split $currgeom x+] w h x y
     lassign [split $geometry x+] w0 h0 x0 y0
     if {$y!="" && $y0!=""} {
@@ -260,7 +269,7 @@ You can use the # for comments."}
     bringMeVars
     set verbose 0
     changeItem
-    pdlg res $win 1
+    pdlg res $Win 1
 
   }
 
@@ -853,7 +862,7 @@ You can use the # for comments."}
   proc tabPressOnText {K} {
 
     if {$K=="Tab"} {
-      focus $adsh::win.chBActive
+      focus $adsh::win.chbActive
       return -code break
     }
     return
@@ -955,7 +964,7 @@ You can use the # for comments."}
 
     bringMeVars
     GetSetIni create getsetini
-    lassign $::argv version ini adsh::fg adsh::bg
+    lassign $::argv version ini adsh::fg adsh::bg adsh::fg2 adsh::bg2 adsh::cc
     if {$ini!=""} {
       set adsh::inifile $ini
     }
@@ -968,8 +977,12 @@ You can use the # for comments."}
   proc makeDialog {} {
 
     bringMeVars
-    PaveDialog create pdlg $win
+    oo::define PaveMe {mixin ObjectTheming}
+    PaveDialog create pdlg $Win
     pdlg makeWindow $win "Adding Shortcuts $version - $inifile"
+
+    pdlg themingWindow $win $fg $bg $fg2 $bg2 #182020 #dcdad5 $cc $cc
+
     set fontbold "-font \"-family TkCaptionFont\" -foreground $fgColor -background $bgColor"
     pdlg window $win {
       {frAU - - 1 6   {-st new} {-relief groove -borderwidth 1}}
@@ -990,21 +1003,21 @@ You can use the # for comments."}
       {entID laB5 L 1 1 {-st we -padx 5} {-tvar adsh::ID -state readonly}}
       {v_2 laB5 T 1 1 {-pady 8}}
       {laB12 v_2 T 1 1 {-st e} {-t "Type:"}}
-      {cbxTyp laB12 L 1 1 {-st w -padx 5 -cw 3} {-tvar adsh::Typ -width 10 -values {[list $typs]} -state readonly}}
+      {cbxTyp laB12 L 1 1 {-st w -padx 5 -cw 3} {-tvar adsh::Typ -width 10 -values {$typs} -state readonly}}
       {laB52 laB12 T 1 1 {-st en -rw 1} {-t "Contents:"}}
       {fraComm laB52 L 1 1 {-st nswe -padx 5} {}}
-      {texComm - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraComm} {-h 6 -w 50 -fg black -bg white -wrap word}}
+      {texComm - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraComm} {-h 6 -w 50 -wrap word}}
       {sbvComm texComm L 1 1 {pack -in $win.fraComm}}
       {laB53 laB52 T 1 1 {-st en -rw 1} {-t "Description:"}}
       {fraDesc laB53 L 1 1 {-st nswe -padx 5} {}}
-      {texDesc - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraDesc} {-h 8 -w 50 -state disabled -wrap word}}
+      {texDesc - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraDesc} {-h 8 -w 50 -state disabled -wrap word -fg black -bg #d9d9d9}}
       {sbvDesc texDesc L 1 1 {pack -in $win.fraDesc}}
       {v_3 laB53 T 1 2}
       {laBSort v_3 T 1 1 - {-t " Options " $fontbold}}
       {frAOpt laBSort L 1 1 {-st nsew}}
-      {chBActive - - 1 1 {-in $win.frAOpt} {-t " Active " -var adsh::active}}
-      {chBAuto chBActive L 1 1 {-in $win.frAOpt} {-t " AutoStart " -var adsh::auto}}
-      {chBSort chBAuto L 1 1 {-in $win.frAOpt} {-t " Sorted list " -var adsh::sort -com adsh::sortToggle}}
+      {chbActive - - 1 1 {-in $win.frAOpt} {-t " Active " -var adsh::active}}
+      {chbAuto chbActive L 1 1 {-in $win.frAOpt} {-t " AutoStart " -var adsh::auto}}
+      {chbSort chbAuto L 1 1 {-in $win.frAOpt} {-t " Sorted list " -var adsh::sort -com adsh::sortToggle}}
       {v_4 laBSort T 1 2 {-rsz 10} {}}
       {fra v_4 T 1 2 {-st e -padx 5} {-relief groove -borderwidth 1}}
       {fra.butInsert - - 1 1 {-st w} {-t "Add" -com adsh::addItem}}
@@ -1017,7 +1030,7 @@ You can use the # for comments."}
       {sbv tre1 L 1 1 {pack -in $win.fraTr}}
       {v__u fra T 1 6}
       {seh v__u T 1 6}
-      {laBMess seh T 1 2 {-st w} "-foreground $adsh::fgColor -font \"-weight bold\""}
+      {laBMess seh T 1 2 {-st w} "-foreground $adsh::cc -font \"-weight bold\""}
       {laBh_1 laBMess L 1 1 {-cw 1}}
       {fra2 laBh_1 L}
       {fra2.butApply - - 1 1 {} {-t "Apply" -com "adsh::doApply"}}
@@ -1050,9 +1063,9 @@ You can use the # for comments."}
     bind $win.tre1 "<KeyPress>" {adsh::pressingList %K %s}
     bind $win.entID "<KeyPress>" {adsh::pressingConfirm "%K" "%k" "%s"}
     bind $win.cbxTyp "<<ComboboxSelected>> " {adsh::selectingCombo}
-    bind $win.chBActive "<Enter> " {adsh::doHint "Enables the current item."}
-    bind $win.chBAuto "<Enter> " {adsh::doHint "Starts the item with TKE."}
-    bind $win.chBSort "<Enter> " {adsh::doHint "Makes the item list sorted."}
+    bind $win.chbActive "<Enter> " {adsh::doHint "Enables the current item."}
+    bind $win.chbAuto "<Enter> " {adsh::doHint "Starts the item with TKE."}
+    bind $win.chbSort "<Enter> " {adsh::doHint "Makes the item list sorted."}
     bind $win.fra.butInsert "<Enter> " {adsh::doHint "Inserts the new item."}
     bind $win.fra.butChange "<Enter> " {adsh::doHint "Changes the current item."}
     bind $win.fra.butDelete "<Enter> " {adsh::doHint "Deletes the item and its children."}
@@ -1064,7 +1077,7 @@ You can use the # for comments."}
     if {$lastid!=""} {
       setFocus $lastid
     }
-    pdlg showModal $win -focus $win.entOrig -onclose adsh::doExit -geometry $geometry -decor 1
+    pdlg showModal $Win -focus $win.entOrig -onclose adsh::doExit -geometry $geometry -decor 1
     return
 
   }
@@ -1075,7 +1088,7 @@ You can use the # for comments."}
   proc destroyDialog {} {
 
     bringMeVars
-    set res [pdlg res $win]
+    set res [pdlg res $Win]
     if {$res} {
       saveData
     }

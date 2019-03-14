@@ -18,9 +18,9 @@ SW: hg commit SW: hg status
  R:  R: 2
 
  R: kdiff3 of %s0 R: cd %PD
- R: kdiff3 of %s0 R: %C if {![info exist ::fInp1] || $::fInp1==""} {set ::fInp1 "%F"}
- R: kdiff3 of %s0 R: %I ques "KDIFF3" {filName {{File:} {} {-w 60}} {$::fInp1} lab} -head "\n Enter/choose a file to kdiff3" -weight bold >> ::fInp1
- R: kdiff3 of %s0 R: hg extdiff -p kdiff3 "$::fInp1"
+ R: kdiff3 of %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
+ R: kdiff3 of %s0 R: %I ques "KDIFF3" {filName {{File:} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose a file to kdiff3" -weight bold >> ::fInp2
+ R: kdiff3 of %s0 R: hg extdiff -p kdiff3 "$::fInp2"
 
  R: hg diff R: cd %PD
  S: hg diff S: hg diff
@@ -31,9 +31,9 @@ SW: hg commit SW: hg status
  S: hg diff -r tip %s0 S: hg diff -r tip $::fInp2
 
  R: hg annotate %s0 R: cd %PD
- R: hg annotate %s0 R: %C if {![info exist ::fInp1] || $::fInp1==""} {set ::fInp1 "%F"}
- R: hg annotate %s0 R: %I ques "ANNOTATE" {filName {{File:} {} {-w 60}} {$::fInp1} lab} -head "\n Enter/choose a file to annotate" -weight bold >> ::fInp1
- S: hg annotate %s0 S: hg annotate '$::fInp1'
+ R: hg annotate %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
+ R: hg annotate %s0 R: %I ques "ANNOTATE" {filName {{File:} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose a file to annotate" -weight bold >> ::fInp2
+ S: hg annotate %s0 S: hg annotate '$::fInp2'
 
  R: hg log -l 10 -v R: cd %PD
  S: hg log -l 10 -v S: hg log -l 10 -v
