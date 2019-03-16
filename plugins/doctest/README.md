@@ -107,18 +107,18 @@ If a command's result should contain starting/tailing spaces, it should be quote
 
 should return "  123" for the test to be OK.
 
-The absence of resulting *#>* means the empty result, i.e. the following tests are all identical:
-
+The following tests are identical:
   #% set _ ""  ;# test example #1
   #> ""
 
   #% set _ ""  ;# test example #2
   #>
 
-  #% set _ ""  ;# test example #3
-  #
+The absence of resulting *#>* means that a result isn't important (e.g. for GUI) and no messages are displayed in non-verbose mode. For example:
 
-  #% set _ ""  ;# test example #4
+  #% exec wish ./GUImodule.tcl $arg1 $arg2
+  #
+  #% exec tclsh ./CLImodule.tcl $arg3 $arg4
 
 NOTE: the successive *#%* commands form the suite with the result returned by the last command. See the example of command31-32-33 suite above.
 

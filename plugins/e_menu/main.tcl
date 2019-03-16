@@ -219,6 +219,10 @@ namespace eval e_menu {
     catch {set fE "fE=[[get_txt] cget -foreground]"}
     set bE "bE=#161717"
     catch {set bE "bE=[[get_txt] cget -background]"}
+    set fS "fS=#ffffff"
+    catch {set fS "fS=[[get_txt] cget -selectforeground]"}
+    set bS "bS=#0000ff"
+    catch {set bS "bS=[[get_txt] cget -selectbackground]"}
     set cc "cc=#888888"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
     set y_opts [y_options]
@@ -240,7 +244,7 @@ namespace eval e_menu {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
           fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
           $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
-          $z5_opt $D_opt $F_opt {*}$y_opts &
+          $z5_opt $D_opt $F_opt $fS $bS {*}$y_opts &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n

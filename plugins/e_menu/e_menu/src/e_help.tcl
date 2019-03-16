@@ -145,7 +145,7 @@ proc invokeBrowser {url} {
   }
 }
 # ====== to edit file by means of e_menu
-proc edit_file {fname {fg black} {bg white} {cc "#00ffff"}} {
+proc edit_file {fname fg bg cc args} {
   if {$fname==""} {
     return false
   }
@@ -160,7 +160,7 @@ proc edit_file {fname {fg black} {bg white} {cc "#00ffff"}} {
   }
   PaveDialog create dialog "" $::srcdir
   set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc -size 12]
+    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc -size 12 {*}$args]
   dialog destroy
   set data [string range $res 2 end]
   if {[set res [string index $res 0]]=="1"} {

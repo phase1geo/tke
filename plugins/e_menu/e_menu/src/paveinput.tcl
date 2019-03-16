@@ -63,7 +63,7 @@ oo::class create PaveInput {
           foreach vo [lrange $valopts 1 end] {
             lappend vlist $vo
           }
-          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -value \{\{$vlist\}\} $attrs"]
+          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -value \{$vlist\} $attrs"]
         }
         ra {
           if {![info exist $vv]} {lassign $valopts $vv}
