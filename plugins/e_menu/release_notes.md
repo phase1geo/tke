@@ -1,6 +1,13 @@
 # Last changes:
 
 
+Version `1.15 (16 Mar'19)`
+
+  - theming in accordance with TKE current theme
+  - %D message in %IF clause
+  - diff a current tab against left/right tab (utils.mnu)
+
+
 Version `1.14 (2 Mar'19)`
 
   - e_menu.tcl changed as for submenu arrow icon:

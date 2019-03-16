@@ -82,10 +82,10 @@ SW:hg commit SW: hg status
  R:Wikipedia.de R:%b https://de.wikipedia.org
  R:Wikipedia.ru R:%b https://ru.wikipedia.org
 
- R:?3? using_with_tcl_tk R: %b https://wiki.geany.org/howtos/using_with_tcl_tk
- R:Geany wiki: keyboard_shortcuts R: %b "file:///home/apl/DOC/Web/Keyboard shortcuts - Geany Wiki.mhtml"
- R:Geany wiki: guidelines R: %b https://wiki.geany.org/wiki/guidelines
- R:Wiki: wikitext R: %b https://www.dokuwiki.org/wikitext
+ R:?3? TKE tickets R: %b https://sourceforge.net/p/tke/tickets/
+ R:Pave wiki R: %b https://wiki.tcl-lang.org/page/Pave%2C+sort+of+geometry+manager
+ R:Doctest wiki R: %b https://wiki.tcl-lang.org/page/doctest+for+Tcl
+ R:E_menu wiki R: %b https://wiki.geany.org/howtos/using_with_tcl_tk
 
 [HIDDEN]
  R: 1. tkcon         R: tkcon

@@ -12,11 +12,12 @@
 
   #% doctest
 
-  #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" "b=firefox" "PD=~" "d=~" "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu g=+400+25 t=1 o=0 w=36 pa=500 fs=10 ah=1,2,4 &
+  #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
+
+  #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=menu.mnu o=1 c=13 s=selected g=+200+100 &
 
   #> doctest
 
-#
 #####################################################################
 
 package require Tk
@@ -37,7 +38,7 @@ set offline false   ;# set true for offline help
 set lin_console "src/run_pause.sh"   ;# (for Linux)
 set win_console "src/run_pause.bat"  ;# (for Windows)
 
-set ncolor 0        ;# default index of color scheme
+set ncolor 4        ;# default index of color scheme
 set colorschemes {
   { #FFFFFF #FEEFA8 #566052 #4D554A #FFFFFF #94A58E #000000  #FFA500 grey}
   { #FFFFFF #FEEC9A #212121 #262626 #C5C5C5 #575757 #FFFD38  #9C2727 grey}
@@ -52,7 +53,8 @@ set colorschemes {
   { #000000 #2B1E05 #FCDEE3 #FCDEE3 #570957 #623864 #FFFFFF  #9C2727 grey}
   { #000000 #2B1E05 #C2C5CC #C2C5CC #1C1C5C #797880 #F0F0F0  #693F05 grey}
   { #000000 #2B1E05 #BFFFBF #CFFFCF #0E280E #89CA89 #000000  #9C2727 grey}
-} ;# = text1  text2  header  items   itemsHL selbg   selfg    hot     greyed
+  { #FEEFA8 #FFFFFF #2d435b #364c64 #FEEFA8 #b6c9dd #000000  #FFA500 grey}
+} ;# = text1  text2  header  items   itemsHL selbg   selfg    hot    greyed
 lassign [lindex $colorschemes $ncolor] \
    ::colr  ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
 
@@ -194,10 +196,12 @@ proc ::em::theming_pave {} {
 }
 #=== own message/question box
 proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
-  PaveDialog create pdlg "" $::srcdir
   set ::em::skipfocused 1
-  catch {array set a $args; set ::colrgrey $a(-bg)}
-  append opts " -t 1 -w 50 -fg $::colr -bg $::colrgrey $args " [::em::theming_pave]
+  PaveDialog create pdlg "" $::srcdir
+  set fg $::colr0
+  set bg $::colr2
+  catch {array set a $args; set bg $a(-bg)}
+  append opts " -t 1 -w 50 -fg $fg -bg $bg $args " [::em::theming_pave]
   switch -glob $typ {
     okcancel -
     yesno {
@@ -616,6 +620,10 @@ proc ::em::checkForBrowser {rsel} {
   upvar $rsel sel
   if {[string first "%b " $sel] == 0} {
     set sel "::eh::browse [list [string range $sel 3 end]]"
+    return true
+  }
+  if {[string first "%D " $sel] == 0} {
+    set sel "D [string range $sel 3 end]"
     return true
   }
   return false

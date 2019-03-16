@@ -1,7 +1,6 @@
 # This TKE plugin allows the user to test TCL scripts à la Python doctest.
 # See README.md for details.
 
-# Plugin namespace
 namespace eval doctest {
 
   variable TEST       "doctest"

@@ -3,7 +3,7 @@ display_name   {E_menu - User's Menus}
 author         {Alex Plotnikov}
 website        {http://aplsimple.ucoz.ru#e_menu}
 email          {aplsimple@mail.ru}
-version        {1.14}
+version        {1.15}
 include        {yes}
 trust_required {yes}
 category       {tools}
@@ -13,4 +13,6 @@ description    {This plugin allows you to get a _context help_ for Tcl/Tk comman
 `3)` search a selected text in Internet / Dictionaries etc.
 `4)` grep search the selection in a current file's directory
 `5)` run VCS commands for a current file / directory / project
-  (diffs, status, log, commit, revert, pull, merge etc.)}
+  (diffs, status, log, commit, revert, pull, merge etc.)
+and so on...
+}
