@@ -290,7 +290,7 @@
 	lib/vim.tcl:
 	* Checkpointing integration work new ctext widget changes.
 
-2019-03-14 19:33 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (f64ecac2180e [tip])
+2019-03-14 19:33 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (f64ecac2180e)
 
 	* plugins/add_shortcut/adsh/obbit.tcl,
 	plugins/add_shortcut/adsh/paveinput.tcl: new file.
@@ -306,4 +306,15 @@
 	plugins/e_menu/e_menu/menus/side.mnu:
 	add_shortcut plugin v. 1.6.1 The theming in accordance with the
 	current TKE theme.
+
+2019-03-16 08:56 +0300  Alex Plotnikov  <aplsimple@mail.ru>  (deca9cd31a4e [tip])
+
+	* ChangeLog, lib/version.tcl, plugins/doctest/README.md,
+	plugins/doctest/header.tkedat, plugins/doctest/main.tcl,
+	plugins/e_menu/e_menu/e_menu.tcl,
+	plugins/e_menu/e_menu/src/e_help.tcl,
+	plugins/e_menu/e_menu/src/pavedialog.tcl,
+	plugins/e_menu/e_menu/src/paveinput.tcl,
+	plugins/e_menu/e_menu/src/paveme.tcl, plugins/e_menu/main.tcl:
+	ChangeLog for devel-3.6.1 release
 
