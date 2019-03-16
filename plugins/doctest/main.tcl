@@ -10,6 +10,7 @@ namespace eval doctest {
   variable TEST_COMMAND "#%"
   variable TEST_RESULT  "#>"
   variable NOTHING "\nNo\nNo"
+  variable ntestedany
   variable HINT1 "\n
 Make the doctest blocks as
 
@@ -173,7 +174,7 @@ See details in [api::get_plugin_source_directory]/README.md
     variable TEST
     variable NOTHING
     variable TEST_COMMAND
-    set comres ""
+    set comres $NOTHING
     for {set i $i1; set res ""} {$i <= $i2} {incr i} {
       set line [string trim [get_line $txt $type $i] " "]
       if {[string index $line 0] eq "\"" && [string index $line end] eq "\""} {
@@ -185,6 +186,9 @@ See details in [api::get_plugin_source_directory]/README.md
       if {$line == $NOTHING} {
         break
       } else {
+        if {$comres==$NOTHING} {
+          set comres ""
+        }
         if {$type eq $TEST_COMMAND && [string index $comres end] eq "\\"} {
           set comres "$comres "
         } elseif {$comres != ""} {
@@ -251,15 +255,24 @@ See details in [api::get_plugin_source_directory]/README.md
 
   proc test_block {txt begin end safe verbose} {
 
+    variable NOTHING
+    variable ntestedany
     set block_ok -1
     set block [$txt get $begin $end]
     set i1 [expr {int([$txt index $begin])}]
     set i2 [expr {int([$txt index $end])}]
     for {set i $i1} {$i <= $i2} {} {
       lassign [get_commands $txt $i $i2] commands i ;# get commands
-      if {$commands != ""} {
+      if {$commands != "" && $commands != $NOTHING} {
         lassign [get_results $txt $i $i2] results i ;# get waited results
         lassign [execute_and_check $block $safe $commands $results] ok res
+        if {$results==$NOTHING} {
+          # no result waited, for GUI tests
+          set ok true
+          set res ""
+        } else {
+          incr ntestedany
+        }
         set coms "% $commands\n\n"
         if {$ok} {
           if {$verbose} {
@@ -285,8 +298,9 @@ See details in [api::get_plugin_source_directory]/README.md
   proc test_blocks {txt blocks safe verbose} {
 
     variable HINT1
+    variable ntestedany
     set all_ok -1
-    set ntested 0
+    set ntested [set ntestedany 0]
     foreach {begin end} $blocks {
       set block_ok [test_block $txt $begin $end $safe $verbose]
       if {$block_ok!=-1} {
@@ -300,7 +314,7 @@ See details in [api::get_plugin_source_directory]/README.md
     }
     if {!$ntested} {
       ERR "Nothing to test.$HINT1"
-    } elseif {!$verbose} {
+    } elseif {!$verbose && $ntestedany} {
       if {$all_ok} {
         MES "DOCTEST" "Tested ${ntested} block(s):\n\nOK"
       } else {

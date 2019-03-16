@@ -7,6 +7,17 @@
 # *******************************************************************
 # Scripted by Alex Plotnikov
 # *******************************************************************
+#
+# Test cases:
+
+  #% doctest
+
+  #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" "b=firefox" "PD=~" "d=~" "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu g=+400+25 t=1 o=0 w=36 pa=500 fs=10 ah=1,2,4 &
+
+  #> doctest
+
+#
+#####################################################################
 
 package require Tk
 package require tooltip
@@ -14,6 +25,7 @@ package require tooltip
 set exedir [file normalize [file dirname $::argv0]]
 set srcdir [file join $::exedir "src"]
 source [file join $::srcdir "e_help.tcl"]
+source [file join $::srcdir "obbit.tcl"]
 set thisapp emenuapp
 set appname $thisapp
 
@@ -169,15 +181,23 @@ namespace eval em {
   variable basedir ""
   variable colrfE "#aeaeae"
   variable colrbE "#161717"
+  variable colrfS "#d2d2d2"
+  variable colrbS "#364c64"
   variable colrcc "#00ffff"
+}
+#=== set theme options for dialogs
+proc ::em::theming_pave {} {
+  if {[info exist ::colrfg] && [info exist ::colrbg]} {
+    return "-theme $::colrfg -theme $::colrbg -theme $::em::colrfE -theme $::em::colrbE -theme $::em::colrfS -theme $::em::colrbS -theme #182020 -theme #dcdad5 -theme $::em::colrcc -theme $::em::colrcc"
+  }
+  return ""
 }
 #=== own message/question box
 proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
   PaveDialog create pdlg "" $::srcdir
-  set tmpcolr $::colrgrey
-  set ::colrgrey $::colr1
+  set ::em::skipfocused 1
   catch {array set a $args; set ::colrgrey $a(-bg)}
-  append opts " -t 1 -w 50 -fg $::colr -bg $::colrgrey $args"
+  append opts " -t 1 -w 50 -fg $::colr -bg $::colrgrey $args " [::em::theming_pave]
   switch -glob $typ {
     okcancel -
     yesno {
@@ -190,17 +210,20 @@ proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
       set ans [pdlg ok $icon $ttl \n$mes\n {*}$opts]
     }
   }
-  set ::colrgrey $tmpcolr
   pdlg destroy
   return $ans
 }
 
 proc ::em::em_message {mes {typ ok} {ttl "INFO"} args} {
+  ::em::focused_win 1
+  ::em::focused_win 1
   ::em::dialog_box $ttl $mes $typ info OK {*}$args
 }
 #=== own question box
 proc ::em::em_question {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
-  return [dialog_box $ttl $mes $typ $icon $defb {*}$args]
+  ::em::focused_win 1
+  ::em::focused_win 1
+  return [::em::dialog_box $ttl $mes $typ $icon $defb {*}$args]
 }
 #=== incr/decr window width
 proc ::em::win_width {inc} {
@@ -260,7 +283,7 @@ proc ::em::focus_button {i} {
 proc ::em::highlight_button {ib} {
   if {[.frame cget -bg] != $::colrgrey} {
     foreach wf [winfo children .frame] {
-      if {[winfo class $wf]=="Frame" && [string first ".frame.fr" $wf] == 0} {
+      if {[winfo class $wf]=="TFrame" && [string first ".frame.fr" $wf] == 0} {
         foreach w [winfo children $wf] {
           set i [string trim $w ".frame.fr.butt.arr"]
           if {$i == $ib} {
@@ -297,7 +320,8 @@ proc ::em::edit {fname} {
   set fname [string trim $fname]
   if {$::em::editor == ""} {
     set ::em::skipfocused 1
-    return [::edit_file $fname $::em::colrfE $::em::colrbE $::em::colrcc]
+    return [::edit_file $fname $::em::colrfE $::em::colrbE $::em::colrcc \
+      {*}[::em::theming_pave]]
   } else {
     if {[catch {exec $::em::editor {*}$fname &} e]} {
       em_message "ERROR: couldn't call $::em::editor'\n
@@ -344,11 +368,10 @@ proc ::em::writeable_command {cmd} {
   set cmd [string map {"|!|" "\n"} $cmd]
   set tmpcolr $::colrgrey
   set ::colrgrey $::em::colrbE
-  set ::em::skipfocused 1
   set res [dialog misc "" "EDIT: $mark" "$cmd" \
     {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 \
     -pos $pos -fg $::em::colrfE -bg $::em::colrbE -cc $::em::colrcc \
-    -head "UNCOMMENT usable commands, COMMENT unusable ones\nUse \\\\ instead of \\ in patterns." -family Times -hsz 14 -size 12 -g $geo]
+    -head "UNCOMMENT usable commands, COMMENT unusable ones\nUse \\\\ instead of \\ in patterns." -family Times -hsz 14 -size 12 -g $geo {*}[::em::theming_pave]]
   set ::colrgrey $tmpcolr
   dialog destroy
   lassign $res res geo cmd
@@ -372,6 +395,7 @@ proc ::em::writeable_command {cmd} {
   } else {
     set cmd ""
   }
+  ::em::focused_win 1
   return $cmd
 }
 #=== Input dialog for getting data
@@ -381,7 +405,7 @@ proc ::em::input {cmd} {
   set data [string range $cmd [set dp [string last >> $cmd]]+2 end]
   set cmd "dialog input [string range $cmd 2 $dp-1]"
   catch {set cmd [subst $cmd]}
-  set res [{*}$cmd]
+  set res [{*}$cmd {*}[::em::theming_pave]]
   dialog destroy
   set r [lindex $res 0]
   if {$r} {
@@ -1327,7 +1351,7 @@ proc ::em::prepare_buttons {refcommands} {
     }
     if {$::em::itviewed < 5} {set ::em::itviewed $::viewed}
   }
-  set tip " Press Ctrl+E to edit the menu \n Press Ctrl+R to re-read \n Press Ctrl+D to clear off "
+  set tip " Press Ctrl+T to toggle 'On top' \n Press Ctrl+E to edit the menu \n Press Ctrl+R to re-read \n Press Ctrl+D to clear off \n\n Press F1 to get Help"
   set ::em::font1 "\"[string trim $::font1 \"]\" $::fs"
   set ::em::font2 "\"[string trim $::font2 \"]\" $::fs"
   checkbutton .cb -text "On top" -variable ::em::ontop -fg $::colrhot \
@@ -1337,7 +1361,7 @@ proc ::em::prepare_buttons {refcommands} {
   tooltip::tooltip .h0 $tip
   grid .cb -row 0 -column 1 -sticky ne
   check_real_call  ;# the above grid is 'hidden'
-  text .frame -bg $::colr2 -fg $::colr2 -state disabled -takefocus 0 -cursor arrow
+  label .frame -bg $::colr2 -fg $::colr2 -state disabled -takefocus 0 -cursor arrow
   if {[isheader]} {
     grid [label .h1 -text "Use arrow and space keys to take action" \
         -font $::em::font1 -fg $::colr -bg $::colr1 -anchor s] -columnspan 2 -sticky nsew
@@ -1375,10 +1399,11 @@ proc ::em::shadow_win {w} {
 }
 #=== focus in/out
 proc ::em::focused_win {focused} {
-  if {$::em::skipfocused} {
+  if {$::em::skipfocused && [. cget -bg]==$::colr1} {
     set ::em::skipfocused 0
     return
   }
+  set ::em::skipfocused 0
   if {$focused} {
     foreach wc [array names ::em::bgcolr] {
       if {[winfo exists $wc]} {
@@ -1391,6 +1416,7 @@ proc ::em::focused_win {focused} {
       ::tooltip::tooltip on
     }
   } else {
+    # only 2 generations of fathers & sons :(as nearly everywhere :(
     foreach w [winfo children .] {
       shadow_win $w
       foreach wc [winfo children $w] {
@@ -1547,7 +1573,8 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         x0= x1= x2= x3= x4= x5= x6= x7= x8= x9= \
         y0= y1= y2= y3= y4= y5= y6= y7= y8= y9= \
         z0= z1= z2= z3= z4= z5= z6= z7= z8= z9= \
-        a= d= e= f= p= l= h= b= c= t= g= n= m= om= fg= bg= fE= bE= cc=\
+        a= d= e= f= p= l= h= b= c= t= g= n= m= om= \
+        fg= bg= fE= bE= fS= bS= cc= \
         cb= in=} { ;# the processing order is important
     if {[string first $s1 "o= s= m="]>=0 && [string first $s1 $osm]<0} {
       continue
@@ -1663,6 +1690,8 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         bg= { set ::colrbg $seltd}
         fE= { set ::em::colrfE $seltd}
         bE= { set ::em::colrbE $seltd}
+        fS= { set ::em::colrfS $seltd}
+        bS= { set ::em::colrbS $seltd}
         cc= { set ::em::colrcc $seltd}
         default {
           if {[set s [string range $s1 0 0]] == "x" ||
@@ -1766,7 +1795,7 @@ proc ::em::initmenu {} {
       }
       incr ::em::isep
     }
-    frame .frame.fr$i
+    ttk::frame .frame.fr$i
     if {[string first "M" [lindex $comm 3]] == 0} { ;# is menu?
       set img "-image $::img"     ;# yes, show arrow
       button .frame.fr$i.arr {*}$img -bg $::colr2 -command "$b invoke"
@@ -1822,7 +1851,7 @@ proc ::em::initmenu {} {
       -command ::em::reread_init
   .popupMenu add command -accelerator Ctrl+D -label "Destroy other menus" \
       -command ::em::destroy_emenus
-  .popupMenu add command -label "Show the menu's geometry" \
+  .popupMenu add command -accelerator Ctrl+G -label "Show the menu's geometry" \
       -command ::em::show_menu_geometry
   .popupMenu add separator
   .popupMenu add command -accelerator Ctrl+> -label "Increase the menu's width" \
@@ -1835,6 +1864,7 @@ proc ::em::initmenu {} {
   bind . <Control-e> {::em::edit_menu}
   bind . <Control-r> {::em::reread_init}
   bind . <Control-d> {::em::destroy_emenus}
+  bind . <Control-g> {::em::show_menu_geometry}
 
   update
   set isgeom [string len $::em::geometry]
@@ -1977,6 +2007,7 @@ proc ::em::initend {} {
     catch {wm deiconify . ; raise .}
     catch {exec chmod a+x "$::lin_console"}
   }
+  oo::define PaveMe {mixin ObjectTheming}
 }
 ::em::initbegin
 ::em::initcomm
