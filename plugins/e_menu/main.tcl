@@ -7,7 +7,7 @@ namespace eval e_menu {
 
   variable datadir [api::get_plugin_data_directory]
 
-  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
+#  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
 
   proc get_txt {} {
 
@@ -158,6 +158,7 @@ namespace eval e_menu {
     set h_opt [set s_opt [set f_opt [set d_opt [set D_opt [set F_opt ""]]]]]
     set s0_opt [set s1_opt [set s2_opt ""]]
     set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
+    set z6_opt [set z7_opt ""]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
@@ -211,6 +212,10 @@ namespace eval e_menu {
         # z4=prjname seen as E_MENU_PN env.variable
         set z4_opt "z4=$::env(E_MENU_PN)"
       }
+      if {$file_index>0} {
+        catch {set z6_opt z6=[api::file::get_info [expr $file_index-1] fname]}
+      }
+      catch {set z7_opt z7=[api::file::get_info [expr $file_index+1] fname]}
     }
     set z1_opt "z1=$plugdir"
     set fg "fg=[api::get_default_foreground]"
@@ -244,7 +249,7 @@ namespace eval e_menu {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
           fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
           $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
-          $z5_opt $D_opt $F_opt $fS $bS {*}$y_opts &
+          $z5_opt $z6_opt $z7_opt $D_opt $F_opt $fS $bS {*}$y_opts &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n

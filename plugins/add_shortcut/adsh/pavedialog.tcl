@@ -81,7 +81,6 @@ oo::class create PaveDialog {
   #  retrycancel      - dialog with buttons RETRY, CANCEL
   #  abortretrycancel - dialog with buttons ABORT, RETRY, CANCEL
   #  misc             - dialog with miscellaneous buttons
-  #  input            - dialog with miscellaneous widgets to input data
   #
   # Called as:
   #   dialog icon ttl msg ?defb? ?args?
@@ -251,6 +250,7 @@ oo::class create PaveDialog {
     set wasgeo [set textmode 0]
     set curpos "1.0"
     set cc ""
+    set themecolors ""
     foreach {opt val} $args {
       switch $opt {
         -H -
@@ -292,6 +292,7 @@ oo::class create PaveDialog {
         -hbg {append optsHead " -background $val"}
         -hsz {append hsz " -size $val"}
         -focus {set newfocused "$val"}
+        -theme {append themecolors " " $val}
         default {
           append optsFont " $opt $val"
           if {$opt!="-family"} {
@@ -408,6 +409,10 @@ oo::class create PaveDialog {
     set ${_pdg(ns)}PD::ch 0
     set wtop [my makeWindow $_pdg(win).dia.fra $ttl]
     set widlist [my window $_pdg(win).dia.fra $widlist]
+    if {$themecolors!=""} {
+      # supposedly, obbit.tcl is sourced at theming
+      my themingWindow $_pdg(win).dia {*}$themecolors
+    }
     # after creating widgets - show dialog texts if any
     my setgettexts set $_pdg(win).dia.fra $inopts $widlist
     set focusnow $_pdg(win).dia.fra.$defb

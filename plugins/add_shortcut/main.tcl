@@ -401,8 +401,7 @@ namespace eval add_shortcut {
     variable inifile
     do_restore _
     lassign [split $version .] v1 v2
-    lassign [split $CURRENTVERSION .] nv1 nv2
-    if {"$v1$v2"!="$nv1$nv2"} {
+    if {"$v1$v2"<15} {
       # total updating ini-file
       if {[tk_messageBox -title "Updating to version $CURRENTVERSION" \
         -icon warning -message "$inifile
@@ -426,9 +425,13 @@ $inifile.bak" -type okcancel]=="ok"} {
     catch {set fE [[get_txt] cget -foreground]}
     set bE #161717
     catch {set bE [[get_txt] cget -background]}
+    set fS "fS=#ffffff"
+    catch {set fS [[get_txt] cget -selectforeground]}
+    set bS "bS=#0000ff"
+    catch {set bS [[get_txt] cget -selectbackground]}
     set cc #888888
     catch {set cc [[get_txt] cget -insertbackground]}
-    if {[catch { exec tclsh [file join $adshdir adsh.tcl] $CURRENTVERSION $inifile $fg $bg $fE $bE $cc &} e]} {
+    if {[catch { exec tclsh [file join $adshdir adsh.tcl] $CURRENTVERSION $inifile $fg $bg $fE $bE $fS $bS $cc &} e]} {
       # no actions taken here though
     }
     return

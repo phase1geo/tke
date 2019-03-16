@@ -43,6 +43,8 @@ namespace eval adsh {
   variable bg $bgColor
   variable fg2 black
   variable bg2 white
+  variable fgS white
+  variable bgS blue
   variable cc white
   variable EOL "|!|"
 
@@ -121,6 +123,8 @@ You can use the # for comments."}
       variable bg
       variable fg2
       variable bg2
+      variable fgS
+      variable bgS
       variable cc
       variable notsaved
       variable wassaved
@@ -964,7 +968,8 @@ You can use the # for comments."}
 
     bringMeVars
     GetSetIni create getsetini
-    lassign $::argv version ini adsh::fg adsh::bg adsh::fg2 adsh::bg2 adsh::cc
+    lassign $::argv version ini adsh::fg adsh::bg adsh::fg2 adsh::bg2 \
+      adsh::fgS adsh::bgS adsh::cc
     if {$ini!=""} {
       set adsh::inifile $ini
     }
@@ -980,8 +985,6 @@ You can use the # for comments."}
     oo::define PaveMe {mixin ObjectTheming}
     PaveDialog create pdlg $Win
     pdlg makeWindow $win "Adding Shortcuts $version - $inifile"
-
-    pdlg themingWindow $win $fg $bg $fg2 $bg2 #182020 #dcdad5 $cc $cc
 
     set fontbold "-font \"-family TkCaptionFont\" -foreground $fgColor -background $bgColor"
     pdlg window $win {
@@ -1037,6 +1040,7 @@ You can use the # for comments."}
       {fra2.butOK fra2.butApply L 1 1 {} {-t "Save" -com "adsh::doSaveExit"}}
       {fra2.butCancel fra2.butOK L 1 1 {} {-t "Exit" -com "adsh::doExit"}}
     }
+    pdlg themingWindow $win $fg $bg $fg2 $bg2 $fgS $bgS #182020 #dcdad5 $cc $cc
     return
 
   }

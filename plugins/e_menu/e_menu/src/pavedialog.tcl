@@ -81,7 +81,6 @@ oo::class create PaveDialog {
   #  retrycancel      - dialog with buttons RETRY, CANCEL
   #  abortretrycancel - dialog with buttons ABORT, RETRY, CANCEL
   #  misc             - dialog with miscellaneous buttons
-  #  input            - dialog with miscellaneous widgets to input data
   #
   # Called as:
   #   dialog icon ttl msg ?defb? ?args?

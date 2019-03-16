@@ -1,6 +1,13 @@
 # Last changes:
 
 
+Version `1.7 (14 Mar'19)`
+
+  - The version checking is changed (to fire if the data really need it).
+  - The selection colors are taken from TKE.
+  - The pave modules are changed.
+
+
 Version `1.6.1 (14 Mar'19)`
 
   - The theming in accordance with the current TKE theme.
