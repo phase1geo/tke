@@ -14,7 +14,7 @@
 
   #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
 
-  #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=menu.mnu o=1 c=13 s=selected g=+200+100 &
+  #% exec tclsh ./e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=menu.mnu o=1 c=4 s=selected g=+200+100 &
 
   #> doctest
 
@@ -44,7 +44,7 @@ set colorschemes {
   { #FFFFFF #FEEC9A #212121 #262626 #C5C5C5 #575757 #FFFD38  #9C2727 grey}
   { #000000 #3D2B06 #F6FCEC #EAF5D7 #0E280E #B9C4A6 #000000  #9C2727 grey}
   { #000000 #2B1E05 #BFFFBF #CFFFCF #0E280E #89CA89 #000000  #9C2727 #C7FFC7}
-  { #000000 #2B1E05 #AAD3FA #9BCCFB #070757 #6DA3D9 #000000  #FFA500 grey}
+  { #FEEFA8 #FFFFFF #2d435b #364c64 #FEEFA8 #add8e6 #000000  #FFA500 grey}
   { white   white   red     red     yellow  white   black    yellow  magenta}
   { #FFFFFF #FEEC9A #3E534B #3B4F47 #FFFFFF #323935 #FFFD38  #FFA500 grey}
   { #FFFFFF #FEEC9A #402E03 #302202 #FFFFFF #DEDBAA #000000  #E34E00 grey}
@@ -53,7 +53,6 @@ set colorschemes {
   { #000000 #2B1E05 #FCDEE3 #FCDEE3 #570957 #623864 #FFFFFF  #9C2727 grey}
   { #000000 #2B1E05 #C2C5CC #C2C5CC #1C1C5C #797880 #F0F0F0  #693F05 grey}
   { #000000 #2B1E05 #BFFFBF #CFFFCF #0E280E #89CA89 #000000  #9C2727 grey}
-  { #FEEFA8 #FFFFFF #2d435b #364c64 #FEEFA8 #b6c9dd #000000  #FFA500 grey}
 } ;# = text1  text2  header  items   itemsHL selbg   selfg    hot    greyed
 lassign [lindex $colorschemes $ncolor] \
    ::colr  ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
