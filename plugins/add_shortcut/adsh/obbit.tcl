@@ -111,8 +111,41 @@ oo::class create ObjectTheming {
   # args      - other options
 
   method themingWindow {win tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
-
     set _Object_Theming_OldOpts [list]
+    # configuring themed widgets
+    foreach ts {TLabel TButton TCheckbutton TProgressbar TRadiobutton \
+    TScale TScrollbar TSeparator TSizegrip TSpinbox} {
+      my Ttk_style configure $ts -foreground $tfg1
+      my Ttk_style configure $ts -background $tbg1
+      my Ttk_style map $ts -background [list active $tbg2 pressed $tbg2]
+      my Ttk_style map $ts -foreground [list disabled grey active $tfg2 pressed $tfg2]
+      my Ttk_style map $ts -bordercolor [list focus $bclr pressed $bclr]
+      my Ttk_style map $ts -lightcolor [list focus $bclr]
+      my Ttk_style map $ts -darkcolor [list focus $bclr]
+    }
+    foreach ts {TLabelframe TNotebook TPanedwindow TFrame} {
+      my Ttk_style configure $ts -foreground $tfg1
+      my Ttk_style configure $ts -background $tbg1
+    }
+    foreach ts {TEntry Treeview} {
+      my Ttk_style configure $ts -foreground $tfg2
+      my Ttk_style configure $ts -background $tbg2
+      my Ttk_style configure $ts -selectforeground $tfgS
+      my Ttk_style configure $ts -selectbackground $tbgS
+      my Ttk_style configure $ts -fieldbackground $tbg2
+      my Ttk_style configure $ts -insertcolor $tcur
+      my Ttk_style map $ts -bordercolor [list focus $bclr active $bclr]
+      my Ttk_style map $ts -lightcolor [list focus $bclr]
+      my Ttk_style map $ts -darkcolor [list focus $bclr]
+      if {$ts!="TEntry"} {
+        my Ttk_style map $ts -foreground [list disabled grey selected $tfgS]
+        my Ttk_style map $ts -background [list selected $tbgS]
+      }
+    }
+    foreach ts {TCombobox} {
+      my Ttk_style configure $ts -background $tbg1 ;#red
+      my Ttk_style map $ts -bordercolor [list focus $bclr pressed $bclr active $bclr]
+    }
     # non-themed widgets of button and entry types
     foreach ts [my NonThemedWidgets button] {
       set _Object_Theming_Opts($ts,0) 2
@@ -148,40 +181,6 @@ oo::class create ObjectTheming {
           set _Object_Theming_Opts($ts,6) "-selectbackground $tbgS"
         }
       }
-    }
-    # configuring themed widgets
-    foreach ts {TLabel TButton TCheckbutton TProgressbar TRadiobutton \
-    TScale TScrollbar TSeparator TSizegrip TSpinbox} {
-      my Ttk_style configure $ts -foreground $tfg1
-      my Ttk_style configure $ts -background $tbg1
-      my Ttk_style map $ts -background [list active $tbg2 pressed $tbg2]
-      my Ttk_style map $ts -foreground [list disabled grey active $tfg1 pressed $tfg2]
-      my Ttk_style map $ts -bordercolor [list focus $bclr pressed $bclr]
-      my Ttk_style map $ts -lightcolor [list focus $bclr]
-      my Ttk_style map $ts -darkcolor [list focus $bclr]
-    }
-    foreach ts {TLabelframe TNotebook TPanedwindow TFrame} {
-      my Ttk_style configure $ts -foreground $tfg1
-      my Ttk_style configure $ts -background $tbg1
-    }
-    foreach ts {TEntry Treeview} {
-      my Ttk_style configure $ts -foreground $tfg2
-      my Ttk_style configure $ts -background $tbg2
-      my Ttk_style configure $ts -selectforeground $tfgS
-      my Ttk_style configure $ts -selectbackground $tbgS
-      my Ttk_style configure $ts -fieldbackground $tbg2
-      my Ttk_style configure $ts -insertcolor $tcur
-      my Ttk_style map $ts -bordercolor [list focus $bclr active $bclr]
-      my Ttk_style map $ts -lightcolor [list focus $bclr]
-      my Ttk_style map $ts -darkcolor [list focus $bclr]
-      if {$ts!="TEntry"} {
-        my Ttk_style map $ts -foreground [list disabled grey selected $tfgS]
-        my Ttk_style map $ts -background [list selected $tbgS]
-      }
-    }
-    foreach ts {TCombobox} {
-      my Ttk_style configure $ts -background $tbg1 ;#red
-      my Ttk_style map $ts -bordercolor [list focus $bclr pressed $bclr active $bclr]
     }
     # for branched items (menu e.g.):
     # at first saving the current options, then setting the new ones
