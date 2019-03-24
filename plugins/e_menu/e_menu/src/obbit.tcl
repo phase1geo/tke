@@ -111,25 +111,30 @@ oo::class create ObjectTheming {
   # args      - other options
 
   method themingWindow {win tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
+    if {$win=="."} {
+      foreach arg {tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
+        set _Object_Theming_Opts($win,$arg) [set $arg]
+      }
+    }
     set _Object_Theming_OldOpts [list]
     # configuring themed widgets
     foreach ts {TLabel TButton TCheckbutton TProgressbar TRadiobutton \
-    TScale TScrollbar TSeparator TSizegrip TSpinbox} {
+    TScale TScrollbar TSeparator TSizegrip} {
       my Ttk_style configure $ts -foreground $tfg1
       my Ttk_style configure $ts -background $tbg1
-      my Ttk_style map $ts -background [list active $tbg2 pressed $tbg2]
-      my Ttk_style map $ts -foreground [list disabled grey active $tfg2 pressed $tfg2]
+      my Ttk_style map $ts -background [list active $tbg2 pressed $tbg2 alternate $tbg2 focus $tbg2 selected $tbg2]
+      my Ttk_style map $ts -foreground [list disabled grey active $tfg2 pressed $tfg2 alternate $tfg2 focus $tfg2 selected $tfg2]
       my Ttk_style map $ts -bordercolor [list focus $bclr pressed $bclr]
       my Ttk_style map $ts -lightcolor [list focus $bclr]
       my Ttk_style map $ts -darkcolor [list focus $bclr]
+      my Ttk_style configure $ts -fieldforeground $tfg2
+      my Ttk_style configure $ts -fieldbackground $tbg2
     }
     foreach ts {TLabelframe TNotebook TPanedwindow TFrame} {
       my Ttk_style configure $ts -foreground $tfg1
       my Ttk_style configure $ts -background $tbg1
     }
-    foreach ts {TEntry Treeview} {
-      my Ttk_style configure $ts -foreground $tfg2
-      my Ttk_style configure $ts -background $tbg2
+    foreach ts {TEntry Treeview TSpinbox TCombobox} {
       my Ttk_style configure $ts -selectforeground $tfgS
       my Ttk_style configure $ts -selectbackground $tbgS
       my Ttk_style configure $ts -fieldbackground $tbg2
@@ -137,14 +142,16 @@ oo::class create ObjectTheming {
       my Ttk_style map $ts -bordercolor [list focus $bclr active $bclr]
       my Ttk_style map $ts -lightcolor [list focus $bclr]
       my Ttk_style map $ts -darkcolor [list focus $bclr]
-      if {$ts!="TEntry"} {
-        my Ttk_style map $ts -foreground [list disabled grey selected $tfgS]
-        my Ttk_style map $ts -background [list selected $tbgS]
+      my Ttk_style configure $ts -foreground $tfg2
+      if {$ts=="TEntry"} {
+        my Ttk_style configure $ts -background $tbg2
+        my Ttk_style map $ts -foreground [list disabled $tfgD]
+        my Ttk_style map $ts -background [list disabled $tbgD]
+      } else {
+        my Ttk_style configure $ts -background $tbg1
+        my Ttk_style map $ts -foreground [list disabled $tfgD selected $tfgS]
+        my Ttk_style map $ts -background [list disabled $tbgD selected $tbgS]
       }
-    }
-    foreach ts {TCombobox} {
-      my Ttk_style configure $ts -background $tbg1 ;#red
-      my Ttk_style map $ts -bordercolor [list focus $bclr pressed $bclr active $bclr]
     }
     # non-themed widgets of button and entry types
     foreach ts [my NonThemedWidgets button] {
@@ -168,19 +175,30 @@ oo::class create ObjectTheming {
       set _Object_Theming_Opts($ts,2) "-background $tbg2"
       switch -- $ts {
         "text" - "entry"  {
-          set _Object_Theming_Opts($ts,0) 5
+          set _Object_Theming_Opts($ts,0) 7
           set _Object_Theming_Opts($ts,3) "-insertbackground $tcur"
           set _Object_Theming_Opts($ts,4) "-selectforeground $tfgS"
           set _Object_Theming_Opts($ts,5) "-selectbackground $tbgS"
+          set _Object_Theming_Opts($ts,6) "-disabledforeground $tfgD"
+          set _Object_Theming_Opts($ts,7) "-disabledbackground $tbgD"
         }
-        "spinbox" {
-          set _Object_Theming_Opts($ts,0) 6
+        "spinbox" - "listbox" {
+          set _Object_Theming_Opts($ts,0) 8
           set _Object_Theming_Opts($ts,3) "-insertbackground $tcur"
           set _Object_Theming_Opts($ts,4) "-buttonbackground $tbg2"
           set _Object_Theming_Opts($ts,5) "-selectforeground $tfgS"
           set _Object_Theming_Opts($ts,6) "-selectbackground $tbgS"
+          set _Object_Theming_Opts($ts,7) "-disabledforeground $tfgD"
+          set _Object_Theming_Opts($ts,8) "-disabledbackground $tbgD"
         }
       }
+    }
+    foreach ts {disabled} {
+      set _Object_Theming_Opts($ts,0) 4
+      set _Object_Theming_Opts($ts,1) "-foreground $tfgD"
+      set _Object_Theming_Opts($ts,2) "-background $tbgD"
+      set _Object_Theming_Opts($ts,3) "-disabledforeground $tfgD"
+      set _Object_Theming_Opts($ts,4) "-disabledbackground $tbgD"
     }
     # for branched items (menu e.g.):
     # at first saving the current options, then setting the new ones
@@ -188,14 +206,14 @@ oo::class create ObjectTheming {
     my themingNonThemed $win 0
     my themingNonThemed $win 1
     # other options per widget type
-    foreach {typ v1 v2 v3} $args {
+    foreach {typ v1 v2} $args {
       if {$typ=="-"} {
         # config of non-themed widgets
         set ind [incr _Object_Theming_Opts($v1,0)]
-        set _Object_Theming_Opts($v1,$ind) "$v2 $v3"
+        set _Object_Theming_Opts($v1,$ind) "$v2"
       } else {
         # style maps of themed widgets
-        my Ttk_style map $typ $v1 [list $v2 $v3]
+        my Ttk_style map $typ $v1 [list {*}$v2]
       }
     }
     # at last, separate widget types
@@ -226,6 +244,7 @@ oo::class create ObjectTheming {
   # Updating the appearances of currently used widgets (non-themed)
   # Input:
   #   win - window path, supposedly passed as [winfo uplevel $w]
+  #   setting - 1, if the widgets should be configured
 
   method themingNonThemed {win setting} {
 
@@ -238,7 +257,12 @@ oo::class create ObjectTheming {
         while {[incr i] <= $_Object_Theming_Opts($ts,0)} {
           lassign $_Object_Theming_Opts($ts,$i) opt val
           if {$setting} {
-            $w1 configure $opt $val
+            catch {
+              $w1 configure $opt $val
+              if {[$w1 cget -state]=="disabled"} {
+                $w1 configure {*}[my NonTtkStyle $w1 1]
+              }
+            }
           } else {
             if {[catch {set oldval [$w1 cget $opt]}]} {
               switch -- $opt {
@@ -274,13 +298,58 @@ oo::class create ObjectTheming {
 
   #--------------------------------------------------------------------------
   #
-  # Style for non-ttk widgets (to be defined in descendants)
+  # Theme for non-ttk widgets
+
+  method NonTtkTheme {win} {
+
+    if {[info exists _Object_Theming_Opts(.,tfg1)]} {
+      my themingWindow $win \
+         $_Object_Theming_Opts(.,tfg1) \
+         $_Object_Theming_Opts(.,tbg1) \
+         $_Object_Theming_Opts(.,tfg2) \
+         $_Object_Theming_Opts(.,tbg2) \
+         $_Object_Theming_Opts(.,tfgS) \
+         $_Object_Theming_Opts(.,tbgS) \
+         $_Object_Theming_Opts(.,tfgD) \
+         $_Object_Theming_Opts(.,tbgD) \
+         $_Object_Theming_Opts(.,tcur) \
+         $_Object_Theming_Opts(.,bclr) \
+         {*}$_Object_Theming_Opts(.,args)
+    }
+
+  }
+
+  #--------------------------------------------------------------------------
+  #
+  # Style for non-ttk widgets
   # Input: "typ" is the same as in "PaveMe GetWidgetType" method
 
-  method NonTtkStyle {typ} {
+  method NonTtkStyle {typ {dsbl 0}} {
 
+    if {$dsbl} {
+      set disopt ""
+      if {[info exist _Object_Theming_Opts(disabled,0)]} {
+        set typ [string range [lindex [split $typ .] end] 0 2]
+        switch $typ {
+          frA - lfR {
+            append disopt " " $_Object_Theming_Opts(disabled,2)
+          }
+          enT - spX {
+            append disopt " " $_Object_Theming_Opts(disabled,1) \
+                          " " $_Object_Theming_Opts(disabled,2) \
+                          " " $_Object_Theming_Opts(disabled,3) \
+                          " " $_Object_Theming_Opts(disabled,4)
+          }
+          laB - tex - chB - raD - lbx - scA {
+            append disopt " " $_Object_Theming_Opts(disabled,1) \
+                          " " $_Object_Theming_Opts(disabled,2)
+          }
+        }
+      }
+      return $disopt
+    }
     set opts {-foreground -foreground -background -background}
-    set ts2 [set opts2 ""]
+    set ts2 [set ts3 [set opts2 [set opts3 ""]]]
     switch -- $typ {
       "buT" {set ts TButton}
       "chB" {set ts TCheckbutton
@@ -295,7 +364,7 @@ oo::class create ObjectTheming {
         set ts TEntry
         set opts {-foreground -foreground -fieldbackground -background \
           -insertcolor -insertbackground \
-          -fieldbackground -selectforeground -foreground -selectbackground
+          -selectforeground -selectforeground -selectbackground -selectbackground
         }
       }
       "frA" {set ts TFrame; set opts {-background -background}}
@@ -312,10 +381,10 @@ oo::class create ObjectTheming {
       }
     }
     set att ""
-    for {set i 0} {$i<2} {incr i} {
-      if {$i} {
-        set ts $ts2
-        set opts $opts2
+    for {set i 1} {$i<=3} {incr i} {
+      if {$i>1} {
+        set ts [set ts$i]
+        set opts [set opts$i]
       }
       foreach {opt1 opt2} $opts {
         if {[catch {set val [ttk::style configure $ts $opt1]}]} {

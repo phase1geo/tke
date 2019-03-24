@@ -98,34 +98,40 @@ oo::class create PaveDialog {
   #     -family... -size... etc. options of label widget
   #     -text 1 - sets the text widget to show a message
 
+  method PrepArgs {args} {
+    # make a list of args
+    foreach a $args { lappend res $a }
+    return $res
+  }
+
   method ok {icon ttl msg args} {
-    return [my Query $icon $ttl $msg {butOK OK 1} butOK {} {*}$args]
+    return [my Query $icon $ttl $msg {butOK OK 1} butOK {} [my PrepArgs $args]]
   }
 
   method okcancel {icon ttl msg {defb OK} args} {
     return [my Query $icon $ttl $msg \
-      {butOK OK 1 butCANCEL Cancel 0} but$defb {} {*}$args]
+      {butOK OK 1 butCANCEL Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method yesno {icon ttl msg {defb YES} args} {
     return [my Query $icon $ttl $msg \
-      {butYES Yes 1 butNO No 2} but$defb {} {*}$args]
+      {butYES Yes 1 butNO No 2} but$defb {} [my PrepArgs $args]]
   }
 
   method yesnocancel {icon ttl msg {defb YES} args} {
     return [my Query $icon $ttl $msg \
-      {butYES Yes 1 butNO No 2 butCANCEL Cancel 0} but$defb {} {*}$args]
+      {butYES Yes 1 butNO No 2 butCANCEL Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method retrycancel {icon ttl msg {defb RETRY} args} {
     return [my Query $icon $ttl $msg \
-      {butRETRY Retry 1 butCANCEL Cancel 0} but$defb {} {*}$args]
+      {butRETRY Retry 1 butCANCEL Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method abortretrycancel {icon ttl msg {defb RETRY} args} {
     return [my Query $icon $ttl $msg \
       {butABORT Abort 1 butRETRY Retry 2 butCANCEL \
-      Cancel 0} but$defb {} {*}$args]
+      Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method misc {icon ttl msg butts {defb ""} args} {
@@ -136,7 +142,7 @@ oo::class create PaveDialog {
         set defb $num
       }
     }
-    return [my Query $icon $ttl $msg $pave_msc_bttns but$defb {} {*}$args]
+    return [my Query $icon $ttl $msg $pave_msc_bttns but$defb {} [my PrepArgs $args]]
   }
 
   #########################################################################
@@ -231,7 +237,7 @@ oo::class create PaveDialog {
   # returns a list with chosen button's number and new geometry.
   # Otherwise it returns only chosen button's number.
 
-  method Query {icon ttl msg buttons defb inopts args} {
+  method Query {icon ttl msg buttons defb inopts argov} {
 
     if {[winfo exists $_pdg(win).dia]} {
       return 0
@@ -251,12 +257,14 @@ oo::class create PaveDialog {
     set curpos "1.0"
     set cc ""
     set themecolors ""
-    foreach {opt val} $args {
+    foreach {opt val} {*}$argov {
       switch $opt {
         -H -
-        -head {set head [string map {$ \$ \" \'\'} $val]}
+        -head {
+          set head [string map {$ \$ \" \'\'} $val]
+        }
         -ch -
-        -checkbox {set chmsg $val}
+        -checkbox {set chmsg "$val"}
         -g -
         -geometry {
           set geometry $val
@@ -264,7 +272,7 @@ oo::class create PaveDialog {
           lassign [split $geometry +] - gx gy
         }
         -c -
-        -color {append optsLabel " -foreground $val"}
+        -color {append optsLabel " -foreground {$val}"}
         -t -
         -text {set textmode 1}
         -tags {
@@ -283,16 +291,16 @@ oo::class create PaveDialog {
         -width {set charwidth $val}
         -h -
         -height {set charheight $val}
-        -fg {append optsMisc " -foreground $val"}
-        -bg {append optsMisc " -background $val"}
+        -fg {append optsMisc " -foreground {$val}"}
+        -bg {append optsMisc " -background {$val}"}
         -cc {set cc "$val"}
         -root {set root " -root $val"}
         -pos {set curpos "$val"}
-        -hfg {append optsHead " -foreground $val"}
-        -hbg {append optsHead " -background $val"}
+        -hfg {append optsHead " -foreground {$val}"}
+        -hbg {append optsHead " -background {$val}"}
         -hsz {append hsz " -size $val"}
         -focus {set newfocused "$val"}
-        -theme {append themecolors " " $val}
+        -theme {append themecolors " {$val}"}
         default {
           append optsFont " $opt $val"
           if {$opt!="-family"} {

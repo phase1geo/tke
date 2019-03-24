@@ -103,7 +103,7 @@ oo::class create PaveInput {
       }
     }
     set res [my Query $icon $ttl {} {butOK OK 1 butCANCEL Cancel 0} butOK \
-      $inopts {*}$args]
+      $inopts [my PrepArgs $args]]
     if {[lindex $res 0]!=1} {  ;# restore old values if OK not chosen
       foreach {vn vv} $savedvv {
         set $vn $vv
