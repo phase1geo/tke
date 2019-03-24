@@ -147,9 +147,19 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Theme for non-ttk widgets (to be redefined in descendants/mixins)
+
+  method NonTtkTheme {win} {
+
+    return
+
+  }
+
+  #########################################################################
+  #
   # Style for non-ttk widgets (to be redefined in descendants/mixins)
 
-  method NonTtkStyle {typ} {
+  method NonTtkStyle {typ {dsbl 0}} {
 
     return ""
 
@@ -178,14 +188,38 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Remove some options from the options
+  # Input:
+  #   options - string of all options
+  #   removed - list of removed options
+
+  method RemoveSomeOptions {options removed} {
+
+    set resopts ""
+    foreach {opt val} [list {*}$options] {
+      if {[lsearch $removed $opt] < 0} {
+        append resopts " $opt {$val}"
+      }
+    }
+    return $resopts
+
+  }
+
+  #########################################################################
+  #
   # Get the widget type based on 2 initial letters of its name
 
-  method GetWidgetType {name options attrs} {
+  method GetWidgetType {namefull options attrs} {
 
+    set disabled 0
+    catch {
+      array set a [list {*}$attrs]
+      set disabled [expr {$a(-state)=="disabled"}]
+    }
     set pack $options
+    set name [my rootwname $namefull]
     set nam3 [string tolower [string index $name 0]][string range $name 1 2]
     switch -glob $nam3 {
-      "bit" {set widget "bitmap"}
       "but" {set widget "ttk::button"}
       "buT" {set widget "button"}
       "can" {set widget "canvas"}
@@ -207,11 +241,18 @@ oo::class create PaveMe {
         # and bars
         set widget "ttk::frame"
       }
-      "frA" {set widget "frame"}
+      "frA" {
+        set widget "frame"
+        if {$disabled} {set attrs [my RemoveSomeOptions $attrs -state]}
+      }
       "lab" {set widget "ttk::label"; set options "-st w $options"}
       "laB" {set widget "label";      set options "-st w $options"}
       "lfr" {set widget "ttk::labelframe"}
-      "lfR" {set widget "labelframe"; set attrs "-relief ridge -fg maroon $attrs"}
+      "lfR" {
+        set widget "labelframe"
+        if {$disabled} {set attrs [my RemoveSomeOptions $attrs -state]}
+        set attrs "-relief ridge -fg maroon $attrs"
+      }
       "lbx" {set widget "listbox"}
       "meb" {set widget "ttk::menubutton"}
       "meB" {set widget "menubutton"}
@@ -273,8 +314,8 @@ oo::class create PaveMe {
       set options $pack
     }
     set options [string trim $options]
-    set attrs   [string trim "[my NonTtkStyle $nam3] $attrs"]
-    return [list $widget $options $attrs]
+    set attrs   [string trim $attrs]
+    return [list $widget $options $attrs $nam3 $disabled]
 
   }
 
@@ -304,7 +345,7 @@ oo::class create PaveMe {
   #
   # Expand attributes' values
 
-  method GetAttrs {options} {
+  method GetAttrs {options nam3 disabled} {
 
     set opts [list]
     foreach {opt val} [list {*}$options] {
@@ -315,6 +356,9 @@ oo::class create PaveMe {
         }
       }
       lappend opts $opt \{$val\}
+    }
+    if {$disabled} {
+      append opts [my NonTtkStyle $nam3 1]
     }
     return $opts
 
@@ -450,7 +494,7 @@ oo::class create PaveMe {
   method Transname {typ name} {
 
     if {[set pp [string last . $name]]>-1} {
-      set name $typ[string range $name $pp+1 end]
+      set name [string range $name 0 $pp]$typ[string range $name $pp+1 end]
     } else {
       set name $typ$name
     }
@@ -721,13 +765,13 @@ oo::class create PaveMe {
       }
       set options [uplevel 2 subst -nobackslashes [list $options1]]
       set attrs [uplevel 2 subst -nobackslashes [list $attrs1]]
-      lassign [my GetWidgetType [my rootwname $name] \
-        $options $attrs] widget options attrs
+      lassign [my GetWidgetType $wname $options $attrs] widget options attrs \
+        nam3 dsbl
       # The type of widget (if defined) means its creation
       # (if not defined, it was created after "makewindow" call
       # and before "window" call)
       if { !($widget == "" || [winfo exists $widget])} {
-        set attrs [my GetAttrs $attrs]
+        set attrs [my GetAttrs $attrs $nam3 $dsbl]
         set attrs [string map [list \\ $BS] $attrs]
         set attrs [string map {\" \\\"} [my ExpandOptions $attrs]]
         # for scrollbars - set up the scrolling commands
@@ -791,16 +835,19 @@ oo::class create PaveMe {
       if {$neighbor eq "-" || $row < 0} {
         set row [set col 0]
       }
-      set options [my GetOptions $w $options $row $rowspan $col $colspan]
-      set pack [string trim $options]
-      if {$add1!=""} {
-        set comm "[winfo parent $wname] add $wname [string range $add1 4 end]"
-        {*}$comm
-      } elseif {[string first "pack" $pack]==0} {
-        pack $wname {*}[string range $pack 5 end]
-      } else {
-        grid $wname -row $row -column $col -rowspan $rowspan \
-           -columnspan $colspan -padx 1 -pady 1 {*}$options
+      # check for simple creation of widget (without pack/grid)
+      if {$neighbor ne "#"} {
+        set options [my GetOptions $w $options $row $rowspan $col $colspan]
+        set pack [string trim $options]
+        if {$add1!=""} {
+          set comm "[winfo parent $wname] add $wname [string range $add1 4 end]"
+          {*}$comm
+        } elseif {[string first "pack" $pack]==0} {
+          pack $wname {*}[string range $pack 5 end]
+        } else {
+          grid $wname -row $row -column $col -rowspan $rowspan \
+             -columnspan $colspan -padx 1 -pady 1 {*}$options
+        }
       }
       if {$comm1!=""} {
         set comm1 [string map [list ~. $wname. "~ " "$wname "] $comm1]
@@ -857,6 +904,7 @@ oo::class create PaveMe {
 
   method showModal {win args} {
 
+    my NonTtkTheme $win
     if {[my iswindows]} { ;# maybe nice to hide all windows manipulations
       wm attributes $win -alpha 0.0
     } else {
