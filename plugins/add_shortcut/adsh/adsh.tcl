@@ -1040,7 +1040,7 @@ You can use the # for comments."}
       {fra2.butOK fra2.butApply L 1 1 {} {-t "Save" -com "adsh::doSaveExit"}}
       {fra2.butCancel fra2.butOK L 1 1 {} {-t "Exit" -com "adsh::doExit"}}
     }
-    pdlg themingWindow $win $fg $bg $fg2 $bg2 $fgS $bgS $fg $bg $cc $cc
+    pdlg themingWindow $win $fg $bg $fg2 $bg2 $fgS $bgS grey $bg2 $cc $cc
     return
 
   }

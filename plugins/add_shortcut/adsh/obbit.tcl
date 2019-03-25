@@ -137,20 +137,22 @@ oo::class create ObjectTheming {
     foreach ts {TEntry Treeview TSpinbox TCombobox} {
       my Ttk_style configure $ts -selectforeground $tfgS
       my Ttk_style configure $ts -selectbackground $tbgS
+      my Ttk_style configure $ts -fieldforeground $tfg2
       my Ttk_style configure $ts -fieldbackground $tbg2
       my Ttk_style configure $ts -insertcolor $tcur
       my Ttk_style map $ts -bordercolor [list focus $bclr active $bclr]
       my Ttk_style map $ts -lightcolor [list focus $bclr]
       my Ttk_style map $ts -darkcolor [list focus $bclr]
-      my Ttk_style configure $ts -foreground $tfg2
-      if {$ts=="TEntry"} {
-        my Ttk_style configure $ts -background $tbg2
-        my Ttk_style map $ts -foreground [list disabled $tfgD]
-        my Ttk_style map $ts -background [list disabled $tbgD]
-      } else {
+      if {$ts=="TCombobox"} {
+        # combobox is sort of individual
+        my Ttk_style configure $ts -foreground $tfg1
         my Ttk_style configure $ts -background $tbg1
-        my Ttk_style map $ts -foreground [list disabled $tfgD selected $tfgS]
-        my Ttk_style map $ts -background [list disabled $tbgD selected $tbgS]
+        my Ttk_style map $ts -foreground [list disabled $tfgD readonly black selected $tfgS]
+      } else {
+        my Ttk_style configure $ts -foreground $tfg2
+        my Ttk_style configure $ts -background $tbg2
+        my Ttk_style map $ts -foreground [list disabled $tfgD readonly $tfgD selected $tfgS]
+        my Ttk_style map $ts -background [list disabled $tbgD readonly $tbgD selected $tbgS]
       }
     }
     # non-themed widgets of button and entry types
