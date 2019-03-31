@@ -92,3 +92,4 @@ SW:hg commit SW: hg status
  R: 2. Stop working! R: ?-33*60/-7*60:ah=3? audacious  "/home/apl/PROGRAMS/C_COMM/breakon.wav"
  R: 3. Arbeiten!     R: audacious "/home/apl/PROGRAMS/C_COMM/breakoff.wav"
  R: 4. Edit          R: tke
+ R: 5. APLinkee      R: python3 /home/apl/PROGRAMS/run_APLinkee/run_APLinkee.py /media/windows/APLinkee.Shk/APLinkee.arli /media/apl/KINGSTON/APLinkee.Shk/APLinkee.arli 10

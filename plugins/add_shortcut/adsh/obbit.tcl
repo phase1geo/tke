@@ -147,7 +147,7 @@ oo::class create ObjectTheming {
         # combobox is sort of individual
         my Ttk_style configure $ts -foreground $tfg1
         my Ttk_style configure $ts -background $tbg1
-        my Ttk_style map $ts -foreground [list disabled $tfgD readonly black selected $tfgS]
+        my Ttk_style map $ts -foreground [list readonly black]
       } else {
         my Ttk_style configure $ts -foreground $tfg2
         my Ttk_style configure $ts -background $tbg2

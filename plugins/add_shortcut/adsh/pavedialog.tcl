@@ -253,7 +253,7 @@ oo::class create PaveDialog {
     set root [set head [set optsHead [set hsz ""]]]
     set optsTags 0
     set optsFont [set optsFontM ""]
-    set wasgeo [set textmode 0]
+    set wasgeo [set textmode [set ontop 0]]
     set curpos "1.0"
     set cc ""
     set themecolors ""
@@ -301,6 +301,7 @@ oo::class create PaveDialog {
         -hsz {append hsz " -size $val"}
         -focus {set newfocused "$val"}
         -theme {append themecolors " {$val}"}
+        -ontop {set ontop 1}
         default {
           append optsFont " $opt $val"
           if {$opt!="-family"} {
@@ -347,6 +348,7 @@ oo::class create PaveDialog {
       }
       set optsFont ""
       set prevp "L"
+      set head [string map {\\n \n} $head]
       foreach lh [split $head "\n"] {
         set labh "labheading[incr il]"
         lappend widlist [list $labh $prevw $prevp 1 99 "-st we" \
@@ -362,6 +364,7 @@ oo::class create PaveDialog {
     }
     # add the message lines
     set il [set maxl 0]
+    set msg [string map {\\n \n} $msg]
     foreach m [split $msg \n] {
       set m [string map {$ \$ \" \'\'} $m]
       if {[set ml [string length $m]] > $maxl} {
@@ -386,10 +389,9 @@ oo::class create PaveDialog {
       set prevw fraM
     } elseif {$textmode} {
       # here is text widget (in fraM frame)
-      set maxl [expr min($maxl,20)]
-      set maxl [expr max($maxl,2)]
+      set maxl [expr max($maxl,20)]
       if {[info exists charheight]} {set il $charheight}
-      if {[info exists charwidth]} {set maxl $charwidth}
+      if {[info exists charwidth]}  {set maxl [expr min($maxl,$charwidth)]}
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
       lappend widlist {texM - - 1 7 {pack -side left -expand 1 -fill both -in \
         $_pdg(win).dia.fra.fraM} {-h $il -w $maxl $optsFontM $optsMisc -wrap word}}
@@ -452,7 +454,8 @@ oo::class create PaveDialog {
         }
       }
     }
-    my showModal $_pdg(win).dia -focus $focusnow -geometry $geometry {*}$root
+    my showModal $_pdg(win).dia \
+      -focus $focusnow -geometry $geometry {*}$root -ontop $ontop
     set pdgeometry [winfo geometry $_pdg(win).dia.fra]
     if {$textmode && [string first "-state normal" $optsState]>=0} {
       set textmode " [$focusnow index insert] [$focusnow get 1.0 end]"

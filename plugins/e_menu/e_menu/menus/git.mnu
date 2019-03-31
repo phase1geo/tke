@@ -52,7 +52,7 @@
  R:edit .gitignore R: cd %PD
  R:edit .gitignore R: %e .gitignore
 
- MW: Dangerous MW: m=git2.mnu w=
+ ME: Dangerous ME: m=git2.mnu w= "cb=%cb in=%in"
 
 ; R: edit ./wiki.txt R: ?  some.err.   ./wiki.txt
 

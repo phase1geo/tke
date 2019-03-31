@@ -1,51 +1,52 @@
  ; git menu for e_menu.tcl
 
- R:git status R: cd %d
- S:git status S: echo %d\ndir\necho ---\ngit status
+ R:git status R: cd %PD
+ S:git status S: echo %PD\ndir\necho ---\ngit status
 
- R:git gui R: cd %d
- R:git gui R: git gui
+ RE:git gui RE: cd %PD
+ RE:git gui RE: git gui
 
- R:git add * R: cd %d
+ R:git add * R: cd %PD
  S:git add * S: git add *\ngit status
 
  R:git commit -am "%x1 %x2 at %t2" R: %q "Committing changes" "Add and commit with message\n\n'%x1 %x2 at %t2' ?"
- R:git commit -am "%x1 %x2 at %t2" R: cd %d
+ R:git commit -am "%x1 %x2 at %t2" R: cd %PD
  S:git commit -am "%x1 %x2 at %t2" S: git commit -am "%x1 %x2 at %t2"
 
  R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%x1 %x2 %t1 #%i1' ?"
- R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %d
+ R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %PD
  S:git commit --amend -am "%x1 %x2 %t1 #%i1" S: git commit --amend -am "%x1 %x2 %t1 #%i1"
 
- R:git log -p "1 hour ago" R: cd %d
+ R:git log -p "1 hour ago" R: cd %PD
  S:git log -p "1 hour ago" S: git log -p "--since=1 hour ago"
 
- R:git log -p "1 day ago" R: cd %d
+ R:git log -p "1 day ago" R: cd %PD
  S:git log -p "1 day ago" S: git log -p "--since=1 day ago"
 
- R:git log --since="1 week ago" R: cd %d
+ R:git log --since="1 week ago" R: cd %PD
  S:git log --since="1 week ago" S: git log "--since=1 week ago"
 
- R:git log R: cd %d
+ R:git log R: cd %PD
  S:git log S: git log
 
- R:git branch R: cd %d
+ R:git branch R: cd %PD
  S:git branch S: git branch
 
- R:git diff master..%s R: cd %d
+ R:git diff master..%s R: cd %PD
  S:git diff master..%s S: git diff master..%s
 
  R: - R: 15
 
- R:git init R: %q "INIT" "This will initialize GIT in:\n%d"
- R:git init R: cd %d
+ R:git init R: %q "INIT" "This will initialize GIT in:\n%PD"
+ R:git init R: cd %PD
  S:git init S: git init
 
- RE:edit .gitignore RE: %E %d/.gitignore
+ RE:edit .gitignore RE: %E %PD/.gitignore
 
 [OPTIONS]
 
 # git directory #2
+n=<git 2>
 d=~/.tke
 x1=plugins
 x2=: add_shortcut, e_menu

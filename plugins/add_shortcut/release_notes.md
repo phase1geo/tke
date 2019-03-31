@@ -1,6 +1,15 @@
 # Last changes:
 
 
+Version `1.8 (31 Mar'19)`
+
+  - pave code changed:
+    - dialog's width calculated neatlier
+    - "-ontop" option for dialogs
+    - \\n to \n converting in "message" of dialogs
+    - combobox coloring continued
+
+
 Version `1.7 (14 Mar'19)`
 
   - The version checking is changed (to fire if the data really need it).
