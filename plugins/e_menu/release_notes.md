@@ -1,6 +1,16 @@
 # Last changes:
 
 
+Version `1.16 (31 Mar'19)`
+
+  - pave code changed:
+    - dialog's width calculated neatlier
+    - "-ontop" option for dialogs (incl. e_menu's D, Q)
+    - \\n to \n converting in "message" (for using dialogs in .mnu)
+    - combobox coloring continued
+  - some .mnu changed
+
+
 Version `1.15 (16 Mar'19)`
 
   - theming in accordance with TKE current theme
