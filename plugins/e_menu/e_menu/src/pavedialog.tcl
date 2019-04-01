@@ -254,6 +254,7 @@ oo::class create PaveDialog {
     set optsTags 0
     set optsFont [set optsFontM ""]
     set wasgeo [set textmode [set ontop 0]]
+    set readonly 1
     set curpos "1.0"
     set cc ""
     set themecolors ""
@@ -281,7 +282,7 @@ oo::class create PaveDialog {
         }
         -ro -
         -readonly {
-          if {$val} {
+          if {[set readonly $val]} {
             set optsState "-state disabled"
           } else {
             set optsState "-state normal"
@@ -364,7 +365,10 @@ oo::class create PaveDialog {
     }
     # add the message lines
     set il [set maxl 0]
-    set msg [string map {\\n \n} $msg]
+    if {$readonly} {
+      # only for messaging (not for editing):
+      set msg [string map {\\n \n} $msg]
+    }
     foreach m [split $msg \n] {
       set m [string map {$ \$ \" \'\'} $m]
       if {[set ml [string length $m]] > $maxl} {

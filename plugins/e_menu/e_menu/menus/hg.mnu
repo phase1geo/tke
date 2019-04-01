@@ -38,10 +38,10 @@ SW: hg commit SW: hg status
  R: hg log -l 10 -v R: cd %PD
  S: hg log -l 10 -v S: hg log -l 10 -v
 
- R: hg log -p -l 1 %s0 R: cd %PD
- R: hg log -p -l 1 %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
- R: hg log -p -l 1 %s0 R: %I ques "LOG" {filName {{File(s):} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose file(s) to view log patches\n (quote 'a name' if it has spaces)" -weight bold >> ::fInp2
- S: hg log -p -l 1 %s0 S: hg log -p -l 1 $::fInp2
+ R: hg log -p -l 2 %s0 R: cd %PD
+ R: hg log -p -l 2 %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
+ R: hg log -p -l 2 %s0 R: %I ques "LOG" {filName {{File(s):} {} {-w 60}} {$::fInp2} lab} -head "\n Enter/choose file(s) to view log patches\n (quote 'a name' if it has spaces)" -weight bold >> ::fInp2
+ S: hg log -p -l 2 %s0 S: hg log -p -l 2 $::fInp2
 
  R: hg revert R: %q "REVERT" "This will REVERT ALL changes in\n\n%PD"
  R: hg revert R: cd %PD
