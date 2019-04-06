@@ -33,6 +33,8 @@
 #
 # See test_pavedialog.tcl for the detailed examples of use.
 #
+# for debugging
+# proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"}
 ###########################################################################
 
 package require Tk
@@ -219,6 +221,32 @@ oo::class create PaveDialog {
   }
 
   #########################################################################
+  # Find string in text (donext=1 means 'from current position')
+
+  method FindInText {{donext 0}} {
+
+    set txt $_pdg(win).dia.fra.texM
+    set sel [set ${_pdg(ns)}PD::fnd]
+    if {$donext} {
+      set pos [$txt index "[$txt index insert] + 1 chars"]
+      set pos [$txt search -- $sel $pos end]
+    } else {
+      set pos ""
+    }
+    if {![string length "$pos"]} {
+      set pos [$txt search -- $sel 1.0 end]
+    }
+    if {[string length "$pos"]} {
+      ::tk::TextSetCursor $txt $pos
+      $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
+      focus $txt
+    } else {
+      bell -nice
+    }
+
+  }
+
+  #########################################################################
   # Make a query (or simple message) and get the user's response.
   # Mandatory arguments:
   #   icon    - icon name (info, warn, ques, err)
@@ -250,7 +278,7 @@ oo::class create PaveDialog {
     #  - geometry of dialog window
     #  - color of labels
     set chmsg [set geometry [set optsLabel [set optsMisc [set optsState ""]]]]
-    set root [set head [set optsHead [set hsz ""]]]
+    set root [set head [set optsHead [set hsz [set binds ""]]]]
     set optsTags 0
     set optsFont [set optsFontM ""]
     set wasgeo [set textmode [set ontop 0]]
@@ -258,6 +286,7 @@ oo::class create PaveDialog {
     set curpos "1.0"
     set cc ""
     set themecolors ""
+    set ${_pdg(ns)}PD::ch 0
     foreach {opt val} {*}$argov {
       switch $opt {
         -H -
@@ -331,7 +360,7 @@ oo::class create PaveDialog {
       set optsFont "-font \"-size 12\""
       set optsFontM "-font \"-size 12\""
     }
-    # add the icon to the layout
+    # layout: add the icon
     if {$icon!="" && $icon!="-"} {
       set widlist [list [list labBimg - - 99 1 \
       "-st n -pady 7" "-image ${_pdg(ns)}PD::img$icon"]]
@@ -409,18 +438,34 @@ oo::class create PaveDialog {
     # add left frames and checkbox (before buttons)
     lappend widlist [list h_3 seh T 1 1 "-pady 0 -ipady 0 -csz 0"]
     if {$chmsg == ""} {
-      lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
+      if {$textmode && !$readonly} {
+        if {![info exists ${_pdg(ns)}PD::fnd]} {
+          set ${_pdg(ns)}PD::fnd ""
+        }
+        lappend widlist [list labfnd h_3 L 1 1 "-st e" "-t {Find:}"]
+        lappend widlist [list Entfind labfnd L 1 1 \
+          "-st ew -cw 1" "-tvar ${_pdg(ns)}PD::fnd -w 10"]
+        lappend widlist [list labfnd2 Entfind L 1 1 "-cw 2" "-t {}"]
+        lappend widlist [list h__ labfnd2 L 1 1]
+        set binds "bind \[[self] Entfind\] <Return> {[self] FindInText}
+                   bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
+                   bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
+                   bind $_pdg(win).dia <F3> {[self] FindInText 1}
+                   bind $_pdg(win).dia <Control-f> \"focus \[[self] Entfind\]\""
+        oo::objdefine [self] export FindInText
+      } else {
+        lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
+      }
     } else {
-      lappend widlist [list chb h_3 L 1 1 "-st w" "-t \"$chmsg\" \
-        -variable ${_pdg(ns)}PD::ch"]
+      lappend widlist [list chb h_3 L 1 1 \
+        "-st w" "-t {$chmsg} -var ${_pdg(ns)}PD::ch"]
       lappend widlist [list h_ chb L 1 1]
       lappend widlist [list sev h_ L 1 1 "-st nse -cw 1"]
       lappend widlist [list h__ sev L 1 1]
     }
     # add the buttons
     set defb1 [my appendButtons widlist $buttons h__ L]
-    # display the dialog's window
-    set ${_pdg(ns)}PD::ch 0
+    # make & display the dialog's window
     set wtop [my makeWindow $_pdg(win).dia.fra $ttl]
     set widlist [my window $_pdg(win).dia.fra $widlist]
     if {$themecolors!=""} {
@@ -458,8 +503,10 @@ oo::class create PaveDialog {
         }
       }
     }
+    catch "$binds"
     my showModal $_pdg(win).dia \
       -focus $focusnow -geometry $geometry {*}$root -ontop $ontop
+    oo::objdefine [self] unexport FindInText
     set pdgeometry [winfo geometry $_pdg(win).dia.fra]
     if {$textmode && [string first "-state normal" $optsState]>=0} {
       set textmode " [$focusnow index insert] [$focusnow get 1.0 end]"
