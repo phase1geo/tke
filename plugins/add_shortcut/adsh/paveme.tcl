@@ -913,6 +913,7 @@ oo::class create PaveMe {
     set _pav(modalwin) $win
     set root [winfo parent $win]
     if {[set ontop [string first "-ontop " $args]]>-1} {
+      catch {set ontop [expr [string index $args [expr $ontop+7]]]}
       set args [my RemoveSomeOptions $args -ontop]
     }
     array set opt \
@@ -927,7 +928,7 @@ oo::class create PaveMe {
       set opt(-onclose) [list $opt(-onclose) ${_pav(ns)}PN::AR($win)]
     }
     wm protocol $win WM_DELETE_WINDOW $opt(-onclose)
-    if {$ontop>-1} {
+    if {$ontop>0} {
       wm attributes $win -topmost 1
     }
     # get the window's geometry from its requested sizes

@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {aplsimple.ucoz.ru}
-date {1547833987}
+date {1554314719}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -317,7 +317,7 @@ syntax,marker {#dc783c}
 syntax,meta {#4e4b68}
 syntax,miscellaneous1 {#ffbb87}
 syntax,miscellaneous2 {#e1c8af}
-syntax,miscellaneous3 {#b9c8d7}
+syntax,miscellaneous3 {#a0c2e4}
 syntax,numbers {#c8dca0}
 syntax,precompile {#eaa4ba}
 syntax,punctuation {#d1bb59}

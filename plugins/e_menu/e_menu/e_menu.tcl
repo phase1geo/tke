@@ -63,7 +63,7 @@ set font1 "Sans"   ;# font of header
 set font2 "Mono"   ;# font of item
 
 set viewed 40      ;# width of item (in characters)
-set maxitems 45    ;# maximum of menu.txt items
+set maxitems 64    ;# maximum of menu.txt items
 set timeafter 5    ;# interval (in sec.) for updating times/dates
 
 # *******************************************************************
@@ -103,7 +103,8 @@ proc EXIT {} {::em::on_exit}
 namespace eval em {
 
   variable ratiomin "3/5"
-  variable hotsall "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  variable hotsall \
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./"
   variable hotkeys $::em::hotsall
   variable workdir ""
   variable workdirlist [list]
@@ -900,7 +901,7 @@ proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
   set pars [get_seltd $s1]
   set pars [before_callmenu $pars]
   if {$pars==""} return
-  set pars "$::em::inherited a= a1= a2= ah= n= $pars"
+  set pars "$::em::inherited a= a0= a1= a2= ah= n= $pars"
   set pars [string map [list "b=%b" "b=$::eh::my_browser"] $pars]
   set pars "ch=1 g=+[expr 10+[winfo x .]]+[expr 15+[winfo y .]] $pars"
   prepr_1 pars "cb" [::em::get_callback]      ;# %cb is callback of caller
@@ -1019,7 +1020,8 @@ proc ::em::prepr_09 {refn refa t {inc 0}} {
 proc ::em::get_menuname {seltd} {
   if {$::em::basedir!=""} {
     set seltd [file join $::em::basedir $seltd]
-  } elseif {![file exists "$seltd"]} {
+  }
+  if {![file exists "$seltd"]} {
     set seltd [file join $::exedir $seltd]
   }
   return $seltd
@@ -1208,7 +1210,7 @@ proc ::em::menuof { commands s1 domenu} {
       if {$ilmenu >= [llength $::em::menufile]} {break}
       set line [lindex $::em::menufile $ilmenu]
     }
-    set line [string trimleft $line]
+    set line [set origline [string trimleft $line]]
     if {$line == "\[OPTIONS\]"} {
       set options 1
       set hidden 0
@@ -1317,7 +1319,8 @@ proc ::em::menuof { commands s1 domenu} {
       if {$typ=="I:"} { set torun "$runp"  ;# internal command
       } else          { set torun "$runp $s1 $amp" }
       if {$iline > $::maxitems} {
-        em_message "Too much items in\n\n$seltd\n\n$::maxitems is maximum."
+        em_message "Too much items in\n\n$seltd\n\n$::maxitems is maximum. \
+                    Stopped at:\n\n$origline"
         exit
       }
       set prname $origname
@@ -1510,7 +1513,8 @@ proc ::em::prepare_wilds {per2} {
 #=== get pars
 proc ::em::get_pars1 {s1 argc argv} {
   set ::em::pars($s1) ""
-  for {set i 0} {$i < $argc} {incr i} {
+  for {set i $argc} {$i > 0} {} {
+    incr i -1  ;# last option's value takes priority
     set s2 [string range [lindex $argv $i] 0 \
         [set l [expr [string len $s1]-1]]]
     if {$s1 == $s2} {
