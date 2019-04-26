@@ -639,7 +639,7 @@ proc ::em::checkForShell {rsel} {
   return false
 }
 #=== call command in shell
-proc ::em::shell0 {sel amp} {
+proc ::em::shell0 {sel amp {silent -1}} {
   set ret true
   catch {set sel [subst -nobackslashes -nocommands $sel]}
   if {[::iswindows]} {
@@ -681,8 +681,7 @@ proc ::em::shell0 {sel amp} {
 #=== run a program of sel
 proc ::em::run0 {sel amp silent} {
   if {![vip sel]} {
-    if {[string first "%q " $sel] == 0 ||
-    [string first "%Q " $sel] == 0} {
+    if {[string first "%Q " [string toupper $sel]] == 0} {
       catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "Q [string range $sel 3 end]"
       if {![catch {{*}$sel} e]} {
@@ -705,15 +704,10 @@ proc ::em::run0 {sel amp silent} {
       # run shell command(s)
       catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "T [string range $sel 3 end]"
-      if {[catch {[{*}$sel]} e]} {
+      if {[catch {[{*}$sel]} e] && !$silent} {
         D $e
         return false
       }
-    } elseif {[string first "%T " $sel] == 0} {
-      # run Tcl code without messaging errors
-      # e.g. when deleting/overwriting a read-only file
-      set sel "[string range $sel 3 end]"
-      catch {[{*}$sel]}
     } elseif {[string first "%S " $sel] == 0} {
       S {*}[string range $sel 3 end]
     } elseif {[string first "%IF " $sel] == 0} {
@@ -721,7 +715,7 @@ proc ::em::run0 {sel amp silent} {
     } elseif {[checkForBrowser sel]} {
       {*}$sel
     } elseif {[checkForShell sel]} {
-      shell0 $sel $amp
+      shell0 $sel $amp $silent
     } else {
       set comm "$sel $amp"
       if {[::iswindows]} {
@@ -750,7 +744,7 @@ proc ::em::shell1 {typ sel amp silent} {
   prepr_idiotic sel 0
   if {[vip sel]} {return true}
   if {[iswindows] || $amp!="&"} {focused_win false}
-  set ret [shell0 $sel $amp]
+  set ret [shell0 $sel $amp $silent]
   if {[iswindows] || $amp!="&"} {focused_win true}
   return $ret
 }
@@ -770,20 +764,45 @@ proc ::em::IF {rest} {
     if {$res} {
       set comm $thencomm
     }
+    set comm [string trim $comm]
     if {$comm!=""} {
-      if {[checkForBrowser comm]} {
-        {*}$comm
-      } elseif {[checkForShell comm]} {
-        shell0 $comm &
-      } else {
-        if {[::iswindows]} {
-          set comm "cmd.exe /c $comm"
+      switch [string range $comm 0 2] {
+        "%Q " -
+        "%q " {
+          set comm "Q [string range $comm 3 end]"
+          return [{*}$comm]
         }
-        if { [catch {exec {*}$comm &} e] } {
-          em_message "ERROR: incorrect command of IF:\n$comm\n\n($e)"
+        "%D " -
+        "%T " {
+          set comm [string range $comm 1 end]
+          catch {set comm [subst -nobackslashes -nocommands $comm]}
+        }
+        "%I " {
+          # ::Input variable can be used for the input
+          # (others can be set beforehand by "%C set varname varvalue")
+          if {![info exists ::Input]} {
+            set ::Input ""
+          }
+          return [input $comm]
+        }
+        "%C " {set comm [string range $comm 3 end]}
+        default {
+          if {[checkForBrowser comm]} {
+            {*}$comm
+          } elseif {[checkForShell comm]} {
+            shell0 $comm &
+          } else {
+            if {[::iswindows]} {
+              set comm "cmd.exe /c $comm"
+            }
+            if { [catch {exec {*}$comm &} e] } {
+              em_message "ERROR: incorrect command of IF:\n$comm\n\n($e)"
+            }
+          }
+          return false ;# to run the command and exit
         }
       }
-      return false ;# to run the command and exit
+      catch {[{*}$comm]}
     }
   }
   return true
