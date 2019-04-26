@@ -115,11 +115,17 @@ namespace eval e_menu {
     if {$txt == ""} {return $res}
     foreach st [split [$txt get 1.0 end] \n] {
       set st [string trim $st]
-      if {[string match {#ARGS[0-9]*} $st]} {
+      if {[string match {#ARGS[0-9]*:*} $st]} {
+        #ARGS0: .. #ARGS9: are the same as #ARGS10: .. ARGS99: and at that
+        #only first found #ARGS would be interpreted as argument of "Run me"
+        #i.e. as %s3 while others can be used in other menus as %y0 .. %y9
+        set icol [string first : $st]
         set ind [string index $st 5]
-        set y_opt "y$ind=[string trim [string range $st 7 end]]"
+        set y_opt "y$ind=[string trim [string range $st [incr icol] end]]"
         set y_opt [string map {\" \'} $y_opt]
-        set res [lreplace $res $ind $ind $y_opt]
+        if {[lindex $res $ind]==""} {
+          set res [lreplace $res $ind $ind $y_opt]
+        }
       }
     }
     return $res

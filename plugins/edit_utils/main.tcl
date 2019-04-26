@@ -492,6 +492,43 @@ namespace eval edit_utils {
   }
 
   ###################################################################
+  # Run selection as TCL to get its result.
+  # The result is inserted at the cursor position.
+
+  proc do_run_tcl {} {
+
+    set txt [get_txt]
+    if {$txt == ""} return
+    set err [catch {$txt tag ranges sel} sel]
+    if {!$err && [llength $sel]==2} {
+      lassign $sel pos pos2  ;# single selection
+    } else {
+      lassign [get_current_line $txt] pos pos2  ;# current line
+    }
+    set comm [$txt get $pos $pos2]
+    if {[catch {eval $comm} e]} {
+      tk_messageBox -parent . -title ERROR -type ok -default ok \
+        -message "While executing:\n\n$comm\n\ngot the error:\n\n$e"
+    } elseif {$e!=""} {
+      $txt insert insert $e
+    } else {
+      tk_messageBox -parent . -title INFO -type ok -default ok \
+        -message "Select some Tcl command(s)\nand run this menu item.
+          \nIf no selection available, a current line would be the command to run.
+          \nThe result shows at the cursor.
+          \n------------ \
+          \nJust now, you've gotten an EMPTY result."
+    }
+    if {0} {
+      # testing on the commands below:
+      calc_index 123.25 4  ;#===> 123.29
+      set a 123123
+      set b [expr $a/7.]   ;#===> 17589.0
+      set c ""             ;#===> EMPTY
+    }
+  }
+
+  ###################################################################
   # Procedures to register the plugin
 
   proc handle_state {} {
@@ -524,5 +561,7 @@ api::register edit_utils {
     edit_utils::do_comment_tcl  edit_utils::handle_state}
   {menu command {Edit Utils/Uncomment TCL} \
     edit_utils::do_uncomment_tcl  edit_utils::handle_state}
+  {menu command {Edit Utils/Run selection as TCL for its result} \
+    edit_utils::do_run_tcl  edit_utils::handle_state}
 }
 

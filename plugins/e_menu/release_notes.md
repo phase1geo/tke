@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Version `1.17 (26 Apr'19)`
+
+  - bug fixing for "silent" parameter of shell0 proc:
+  - %IF %THEN %ELSE wildcards can include %Q, %D, %T, %I, %C
+  - #ARGS10: .. ARGS99: .. arguments for "Run me" are allowed
+  - lxterminal replaced xterm in menu.mnu
+
+
 Version `1.16 (31 Mar'19)`
 
   - pave code changed:
