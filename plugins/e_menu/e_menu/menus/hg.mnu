@@ -45,7 +45,7 @@ SW: hg commit SW: hg status
 
  R: hg revert R: %q "REVERT" "This will REVERT ALL changes in\n\n%PD"
  R: hg revert R: cd %PD
- S: hg revert S: hg revert -a
+ S: hg revert S: hg revert -a -C
 
  R: hg revert %s0 R: cd %PD
  R: hg revert %s0 R: %C if {![info exist ::fInp2] || $::fInp2==""} {set ::fInp2 "%F"}
