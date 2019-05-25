@@ -2,12 +2,11 @@
 
  M:  M: 4
  RE: Run me (with %s3) RE: cd %d
- RE: Run me (with %s3) RE: %IF [expr [string match -nocase *.htm "%f"]>0]  %THEN %b %f
- RE: Run me (with %s3) RE: %IF [expr [string match -nocase *.html "%f"]>0] %THEN %b %f
- RE: Run me (with %s3) RE: %IF [expr [string match -nocase *.tcl "%f"]>0]  %THEN %t tclsh %f %s3
- RE: Run me (with %s3) RE: %IF [expr [string match -nocase *.py "%f"]>0]  %THEN %t python3 %f %s3
+ RE: Run me (with %s3) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %b %f
+ RE: Run me (with %s3) RE: %IF "%x"==".tcl" %THEN %T tclsh %f %s3
+ RE: Run me (with %s3) RE: %IF "%x"==".py"  %THEN %t python3 %f %s3
  RE: Run me (with %s3) RE: ###########################################################
- SE: Run me (with %s3) SE: echo Customize the menu for file extention: %s2
+ RE: Run me (with %s3) RE: %D "Edit this menu for file extention: %x"
 
  SE: Run Tcl {%s} ... SE: cd %d
  SE: Run Tcl {%s} ... SE: tclsh %z1/src/ch_.tcl "%z2"
@@ -40,7 +39,8 @@
  SE: Commit "%dd_on_%t2" SE: hg addremove\nhg commit -m "%dd_on_%t2"
 
  RE: Differences of %s0 (hg extdiff) RE: cd %d
- RE: Differences of %s0 (hg extdiff) RE: hg extdiff -p kdiff3 %f
+ RE: Differences of %s0 (hg extdiff) RE: hg extdiff -p meld %f
+# RE: Differences of %s0 (hg extdiff) RE: hg extdiff -p kdiff3 %f
 
  # call TKE with all *.tcl of current file's directory
  RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"

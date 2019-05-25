@@ -12,7 +12,7 @@
 
   #% doctest
 
-  #% exec tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
+  #% exec tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" f=t.tst md=~/.tke/plugins/e_menu/menus m=side.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
 
   #% exec tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=menu.mnu o=1 c=4 s=selected g=+200+100 &
   # ------ no result is waited here ------
@@ -92,7 +92,7 @@ proc T {args} {
 proc S {args} {
   set comm [auto_execok [lindex $args 0]]
   set args [lrange $args 1 end]
-  exec {*}$comm {*}$args
+  #exec {*}$comm {*}$args
   catch { exec {*}$comm {*}$args }
 }
 proc EXIT {} {::em::on_exit}
@@ -632,7 +632,8 @@ proc ::em::checkForBrowser {rsel} {
 #=== replace first %t with terminal pathname
 proc ::em::checkForShell {rsel} {
   upvar $rsel sel
-  if {[string first "%t " $sel] == 0} {
+  if {[string first "%t " $sel] == 0 || \
+      [string first "%T " $sel] == 0 } {
     set sel "[string range $sel 3 end]"
     return true
   }
@@ -700,14 +701,6 @@ proc ::em::run0 {sel amp silent} {
       catch {set sel [subst -nobackslashes -nocommands $sel]}
       set sel "D [string range $sel 3 end]"
       catch {{*}$sel}
-    } elseif {[string first "%T " $sel] == 0} {
-      # run shell command(s)
-      catch {set sel [subst -nobackslashes -nocommands $sel]}
-      set sel "T [string range $sel 3 end]"
-      if {[catch {[{*}$sel]} e] && !$silent} {
-        D $e
-        return false
-      }
     } elseif {[string first "%S " $sel] == 0} {
       S {*}[string range $sel 3 end]
     } elseif {[string first "%IF " $sel] == 0} {
@@ -772,8 +765,7 @@ proc ::em::IF {rest} {
           set comm "Q [string range $comm 3 end]"
           return [{*}$comm]
         }
-        "%D " -
-        "%T " {
+        "%D " {
           set comm [string range $comm 1 end]
           catch {set comm [subst -nobackslashes -nocommands $comm]}
         }
@@ -920,7 +912,7 @@ proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
   set pars [get_seltd $s1]
   set pars [before_callmenu $pars]
   if {$pars==""} return
-  set pars "$::em::inherited a= a0= a1= a2= ah= n= $pars"
+  set pars "$::em::inherited a= a0= a1= a2= ah= n= pa=0 $pars"
   set pars [string map [list "b=%b" "b=$::eh::my_browser"] $pars]
   set pars "ch=1 g=+[expr 10+[winfo x .]]+[expr 15+[winfo y .]] $pars"
   prepr_1 pars "cb" [::em::get_callback]      ;# %cb is callback of caller
@@ -993,6 +985,13 @@ proc ::em::get_language {} {
     return ""
   }
   return $lang
+}
+#=== get a file extension from %f
+proc ::em::get_extension {} {
+  if {[catch {set ext $::em::arr_geany(f)}]} {
+    return ""
+  }
+  return [file extension $ext]
 }
 #=== get working (project's) dir
 proc ::em::get_PD {} {
@@ -1137,6 +1136,7 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   prepr_1 pn "s"  $::em::seltd        ;# %s is a selected text
   prepr_1 pn "u"  $::em::useltd       ;# %u is %s underscored
   prepr_1 pn "lg" [get_language]      ;# %lg is a locale (e.g. ru_RU.utf8)
+  prepr_1 pn "x"  [get_extension]     ;# %x is a file extension gotten from %f
   set pndt [prepr_dt pn]
   if {$dt} { return $pndt } { return $pn }
 }
@@ -1950,7 +1950,7 @@ proc ::em::on_exit {} {
 #=== run Tcl commands passed in a1=, a2=
 proc ::em::run_tcl_commands {icomm} {
   upvar $icomm comm
-  if {[string length $] > 0} {
+  if {[string length $comm] > 0} {
     prepr_call comm
     set c [subst {$comm}]
     set c "[subst $c]"
@@ -1995,7 +1995,9 @@ proc ::em::show_menu {} {
 proc ::em::initauto {} {
   run_tcl_commands ::em::commandA1    ;# exec the command as first init
   run_auto $::em::autorun
+  set ::em::autorun ""
   run_autohidden $::em::autohidden
+  set ::em::autohidden ""
   run_tcl_commands ::em::commandA2    ;# exec the command as last init
   show_menu
 }

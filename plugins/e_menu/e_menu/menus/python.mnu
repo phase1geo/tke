@@ -1,5 +1,0 @@
- R: pydocw %s  R: ? python "%m/pydocw" %s
-
- ;S: nam2  S: comm
-
-;MW: nam3  MW: m=e_menu/nam3.mnu

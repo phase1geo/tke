@@ -78,15 +78,11 @@ Besides, the TKE e_menu plugin supplies the following Tcl features:
 
 # Making the menus project-sensitive
 
-In addition to the info of
-  http://aplsimple.ucoz.ru/e_menu/e_menu.html
-there is something else you can use to make your menus "fully project-sensitive" for a current TKE file.
-
-In the menus is often used the %PD wildcard. It is defined as "a directory of current project". If you work with one project, you can rightly set the "PD=" argument of e_menu as "PD=your-project-dir".
+In the menus, the %PD wildcard is often used. It is defined as "a directory of current project". If you work with one project, you can rightly set the "PD=" argument of e_menu as "PD=your-project-dir".
 
 But what can you do when the TKE files are from various projects (hence various directories)? In such case you may define PD= argument as a name of file containing the list of project directory names.
 
-For example, you pass to e_menu the "PD=/home/me/PD-tke-dirs.txt" argument where the PD-tke-dirs.txt contains:
+For example, you pass to e_menu the "PD=/home/me/PD-dirs.txt" argument where the PD-dirs.txt contains for example:
 
   *# list of project directories for e_menu*
 

@@ -1,6 +1,16 @@
 # Last changes:
 
 
+Version `1.18 (25 May'19)`
+
+  - bug fixing for double 'exec' in S proc:
+  - bug fixing for 'pa=' argument - needs to be 0 at calling submenu
+  - bug fixing for [string length $] - fired always, not critical
+  - %x wildcard (a file extension from %f)
+  - changed menu.mnu, hg.mnu, side.mnu, utils.mnu; removed python.mnu
+  - starting modifications of help (mainly about 'project dependence')
+
+
 Version `1.17 (26 Apr'19)`
 
   - bug fixing for "silent" parameter of shell0 proc:
