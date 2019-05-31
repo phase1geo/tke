@@ -1,10 +1,11 @@
-  # //test1.mnu//:
-  #
-  # use from Geany context:
-  #
-  # wish ./e_menu.tcl s=%s m=./menus/test1.mnu
+# //test1.mnu//:
+#
+# use from Geany context:
+#
+# wish ./e_menu.tcl s=%s m=./menus/test1.mnu
 
-    MW/ Test2 menu MW/ "m=menus\test2.mnu" o=0
-    MW/ Test3 menu MW/ "m=menus\test3.mnu" o=0
+S: find *.fossil S: ? err=1; cd ~/FOSSIL; while [ $err -eq 1 ]; do repo=$(find *.fossil 2>/dev/null ); err=$?; if [ $err -eq 1 ]; then if [ $(pwd) = '/' ]; then echo "repo non esistente" ;break; fi; cd ../; else echo "$(pwd)/${repo}"; fi; done
+MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?}]} exit"
+MW: Test3 menu MW: "m=test3.mnu" o=0
 [OPTIONS]
 o=0

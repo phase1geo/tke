@@ -118,7 +118,7 @@ namespace eval e_menu {
       if {[string match {#ARGS[0-9]*:*} $st]} {
         #ARGS0: .. #ARGS9: are the same as #ARGS10: .. ARGS99: and at that
         #only first found #ARGS would be interpreted as argument of "Run me"
-        #i.e. as %s3 while others can be used in other menus as %y0 .. %y9
+        #i.e. as %z8 while others can be used in other menus as %y0 .. %y9
         set icol [string first : $st]
         set ind [string index $st 5]
         set y_opt "y$ind=[string trim [string range $st [incr icol] end]]"
@@ -161,8 +161,7 @@ namespace eval e_menu {
     variable plugdir
     variable datadir
     if {![init_e_menu]} return
-    set h_opt [set s_opt [set f_opt [set d_opt [set D_opt [set F_opt ""]]]]]
-    set s0_opt [set s1_opt [set s2_opt ""]]
+    set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
     set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
     set z6_opt [set z7_opt ""]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
@@ -199,15 +198,11 @@ namespace eval e_menu {
         catch {cd $dir_name}
         set dir_name [fn $dir_name]
         set f_opt "f=$file_name"
-        set F_opt "F=$file_name"
         set d_opt "d=$dir_name"
-        set D_opt "PD=$dir_name"
-        set s0_opt "s0=[file tail $file_name]"
-        set s1_opt "s1=[file tail $dir_name]"
-        set s2_opt "s2=[file extension $file_name]"
+        set PD_opt "PD=$dir_name"
       } else {
         set d_opt "d=[pwd]"
-        set D_opt "PD=[pwd]"
+        set PD_opt "PD=[pwd]"
       }
       catch {
         #
@@ -240,22 +235,22 @@ namespace eval e_menu {
     # args for calling the current module
     # taken from #ARGS[0-9] e.g.
     #ARGS1 arg1 "spaced arg2" etc.
-    set s3_opt "s3="
+    set z8_opt "z8="
     foreach y $y_opts {
       if {$y!=""} {
-        set s3_opt "s3=[string range $y 3 end]"
+        set z8_opt "z8=[string range $y 3 end]"
         break
       }
     }
-    if {$s3_opt=="s3=" && $s_opt!=""} {
-      set s3_opt "s3=[string range $s_opt 2 end]"
+    if {$z8_opt=="z8=" && $s_opt!=""} {
+      set z8_opt "z8=[string range $s_opt 2 end]"
     }
     set z5_opt "z5=$z5_opt"
     if {[catch {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
           fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
-          $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
-          $z5_opt $z6_opt $z7_opt $D_opt $F_opt $fS $bS {*}$y_opts &
+          $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt $z8_opt \
+          $PD_opt $fS $bS {*}$y_opts &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
