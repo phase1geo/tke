@@ -40,7 +40,7 @@ The e_menu has the following features:
  - commands can be run with or without waiting their completion
  - internal command %E %s means “edit/create a file(s) with name(s) = selected text”
  - internal command %B ”%s“ means “browse an internet link = selected text”
- - internal command %D ”%s“ means “show a message = selected text”
+ - internal command %M ”%s“ means “show a message = selected text”
  - internal command %Q “title” “message %s” means “ask a confirmation, possibly with selected text”
  - a batch of commands can be united under a single menu item
  - any command can be confirmed, with message box of title and text including the selection

@@ -75,18 +75,20 @@ SW:hg commit SW: hg status
 ;
 ; I: Xterm in "%PD" (verbose) I: D run bash in %PD; cd "%PD"; S bash
 
+ R: R: 4
  ; wiki menu for e_menu.tcl
- R:?3? Mail.ru R: chromium https://mail.ru
+ R:Mail.ru R: chromium https://mail.ru
  R:Gmail R: %b https://gmail.com
  R:Google R: %b https://google.com
  R:Wikipedia.en R:%b https://en.wikipedia.org
  R:Wikipedia.de R:%b https://de.wikipedia.org
  R:Wikipedia.ru R:%b https://ru.wikipedia.org
 
- R:?4? TKE tickets R: %b https://sourceforge.net/p/tke/tickets/
+ R: R: 4
+ R:TKE tickets R: %b https://sourceforge.net/p/tke/tickets/
  R:Pave wiki R: %b https://wiki.tcl-lang.org/page/Pave%2C+sort+of+geometry+manager
  R:Doctest wiki R: %b https://wiki.tcl-lang.org/page/doctest+for+Tcl
- R:E_menu wiki R: %b https://wiki.geany.org/howtos/using_with_tcl_tk
+ R:E_menu wiki R: %b http://aplsimple.ucoz.ru/e_menu/e_menu.html
 
 [HIDDEN]
  R: 1. tkcon         R: tkcon

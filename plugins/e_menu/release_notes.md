@@ -1,9 +1,14 @@
 # Last changes:
 
 
+Version `1.19 (31 May'19)`
+
+  - help rewritten totally; e_menu's code changed accordingly
+
+
 Version `1.18 (25 May'19)`
 
-  - bug fixing for double 'exec' in S proc:
+  - bug fixing for double 'exec' in S proc
   - bug fixing for 'pa=' argument - needs to be 0 at calling submenu
   - bug fixing for [string length $] - fired always, not critical
   - %x wildcard (a file extension from %f)

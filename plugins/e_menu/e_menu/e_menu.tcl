@@ -1,9 +1,9 @@
 #! /usr/bin/env tclsh
 #
-# Running context menu's commands
-#   e.g. calling Tcl/Tk help pages from www.tcl.tk
+# Running commands bound to an editor.
 #
-# For details see readme.md.
+#
+# For details see help/e_menu.html.
 # *******************************************************************
 # Scripted by Alex Plotnikov
 # *******************************************************************
@@ -58,44 +58,50 @@ set colorschemes {
 lassign [lindex $colorschemes $ncolor] \
    ::colr  ::colr0 ::colr1 ::colr2 ::colr2h ::colr3 ::colr4 ::colrhot ::colrgrey
 
-set fs 12                     ;# font size
+set fs 9           ;# font size
 set font1 "Sans"   ;# font of header
 set font2 "Mono"   ;# font of item
 
 set viewed 40      ;# width of item (in characters)
 set maxitems 64    ;# maximum of menu.txt items
-set timeafter 5    ;# interval (in sec.) for updating times/dates
+set timeafter 10   ;# interval (in sec.) for updating times/dates
 
 # *******************************************************************
 # internal trifles:
-#   D - message
+#   M - message
 #   Q - question
-#   T - terminal's command,
+#   T - terminal's command
 #   S - OS command/program
 #   IF - conditional execution
 #   EXIT - close menu
-# When them called in I: menu item, $ escaped as \$, \n mean newlines, e.g.:
-# I: Xterm in "%PD" I: D run bash in %PD; if {[Q BASH "Want to bash?"]} {cd "%PD"; T bash}
-# I: Xterm in "%PD" (mute) I: cd "%PD"; T bash
-# I: Commands in terminal I: T dir \n echo \$PWD \n date
 
-namespace eval em {}
-
-proc D {mes args} {::em::em_message $mes ok "INFO" {*}$args}
+proc M {args} {::em::em_message [string cat {*}$args]}
 proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
   return [::em::em_question $ttl $mes $typ $icon $defb {*}$args]
 }
 proc T {args} {
   set cc ""; foreach c $args {set cc "$cc$c "}
-  ::em::shell_run "Nobutt" "S:" shell1 - "noamp" [string map {"\\n" "\r"} $cc]
+  ::em::shell_run "Nobutt" "S:" shell1 - "&" [string map {"\\n" "\r"} $cc]
 }
-proc S {args} {
-  set comm [auto_execok [lindex $args 0]]
-  set args [lrange $args 1 end]
-  #exec {*}$comm {*}$args
-  catch { exec {*}$comm {*}$args }
+proc S {incomm} {
+  foreach comm [split [string map {\\n \n} $incomm] \n] {
+    if {[set comm [string trim $comm]]!=""} {
+      set comm [string map {\\\\n \\n} $comm]
+      set clst [split $comm]
+      set com0 [lindex $clst 0]
+      if {$com0=="cd"} {
+        ::em::vip comm
+      } elseif {[set com1 [auto_execok $com0]]!=""} {
+        exec $com1 {*}[lrange $clst 1 end] &
+      } else {
+        M Can't find $com0
+      }
+    }
+  }
 }
 proc EXIT {} {::em::on_exit}
+
+namespace eval em {}
 
 # *******************************************************************
 # e_menu's procedures
@@ -120,7 +126,7 @@ namespace eval em {
   variable incwidth 15
   variable wc 0
   variable tf 15
-  variable tg 80x32+300+100
+  variable tg 100x32+300+200
   variable om 1
   #---------------
   variable mute "*S*"
@@ -132,7 +138,6 @@ namespace eval em {
   variable percent2 ""
   variable commandA1 ""
   variable commandA2 ""
-  variable minwidth 10
   #---------------
   variable seltd ""
   variable useltd ""
@@ -221,13 +226,13 @@ proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
 
 proc ::em::em_message {mes {typ ok} {ttl "INFO"} args} {
   ::em::focused_win 1
-  ::em::focused_win 1
+  set ::em::skipfocused 1
   ::em::dialog_box $ttl $mes $typ info OK {*}$args
 }
 #=== own question box
 proc ::em::em_question {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
   ::em::focused_win 1
-  ::em::focused_win 1
+  set ::em::skipfocused 1
   return [::em::dialog_box $ttl $mes $typ $icon $defb {*}$args]
 }
 #=== incr/decr window width
@@ -595,8 +600,10 @@ proc ::em::s_assign {refsel {trl 1}} {
   upvar $refsel sel
   set retlist {}
   set tmp [string trimleft $sel]
-  if {[string first "?" $tmp] == 0} {   ;#?...? sets modes of run
-    set sel $tmp
+  set qpos [expr {$::em::ornament>1 ? [string first ":" $tmp]+1 : 0}]
+  if {[string first "?" $tmp] == $qpos} {   ;#?...? sets modes of run
+    set prom [string range $tmp 0 [expr {$qpos-1}]]
+    set sel [string range $tmp $qpos end]
     lassign { "" 0 } el qac
     for {set i 1}  {$i < [string len $sel]} {incr i} {
       if {[set c [string range $sel $i $i]]=="?" || $c==" "} {
@@ -604,6 +611,7 @@ proc ::em::s_assign {refsel {trl 1}} {
           set sel [string range $sel [expr $i+1] end]
           if {$trl} { set sel [string trimleft $sel] }
           lappend retlist -1
+          set sel $prom$sel
           break
         } else {
           lappend retlist $el
@@ -623,8 +631,8 @@ proc ::em::checkForBrowser {rsel} {
     set sel "::eh::browse [list [string range $sel 3 end]]"
     return true
   }
-  if {[string first "%D " $sel] == 0} {
-    set sel "D [string range $sel 3 end]"
+  if {[string first "%M " $sel] == 0} {
+    set sel "M [string range $sel 3 end]"
     return true
   }
   return false
@@ -657,7 +665,6 @@ proc ::em::shell0 {sel amp {silent -1}} {
     if { [catch { exec {*}[auto_execok start] \
       cmd.exe /c {*}"$composite" } e] } {
       if {$silent < 0} {
-        em_message "ERROR of running\n\n$composite\n\n$e"
         set ret false
       }
     }
@@ -665,17 +672,24 @@ proc ::em::shell0 {sel amp {silent -1}} {
     set lang [get_language]
     set sel [escape_quotes $sel "\\\""]
     set composite "$::lin_console $sel $amp"
-#?     exec xterm -fa "$lang" -fs $::em::tf \
-#?       -geometry $::em::tg -bg white -fg black -title $sel \
-#?       -e {*}$composite
-#?     exec xterm -fa "$lang" -fs $::em::tf
-    if { [catch { exec lxterminal \
-    -e {*}$composite  } e] } {
-      if {$silent < 0} {
-        em_message "ERROR of running\n\n$sel\n\n$e"
+    if { [auto_execok lxterminal]!="" } {
+      if {[catch { exec lxterminal --geometry=$::em::tg \
+      -e {*}$composite  } e] } {
         set ret false
       }
+    } elseif { [auto_execok xterm]!="" } {
+      if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
+      -geometry $::em::tg -bg white -fg black -title $sel \
+      -e {*}$composite } e] } {
+        set ret false
+      }
+    } else {
+      set ret false
+      set e "Not found lxterminal nor xterm.\nInstall any (lxterminal recommended)"
     }
+  }
+  if {$silent < 0 && !$ret} {
+    em_message "ERROR of running\n\n$sel\n\n$e"
   }
   return $ret
 }
@@ -697,12 +711,12 @@ proc ::em::run0 {sel amp silent} {
       }
     } elseif {[string first "%I " $sel] == 0} {
       return [input $sel]
-    } elseif {[string first "%D " $sel] == 0} {
+    } elseif {[string first "%M " $sel] == 0} {
       catch {set sel [subst -nobackslashes -nocommands $sel]}
-      set sel "D [string range $sel 3 end]"
+      set sel "M [string range $sel 3 end]"
       catch {{*}$sel}
     } elseif {[string first "%S " $sel] == 0} {
-      S {*}[string range $sel 3 end]
+      S [string range $sel 3 end]
     } elseif {[string first "%IF " $sel] == 0} {
       return [IF [string range $sel 4 end]]
     } elseif {[checkForBrowser sel]} {
@@ -765,7 +779,7 @@ proc ::em::IF {rest} {
           set comm "Q [string range $comm 3 end]"
           return [{*}$comm]
         }
-        "%D " {
+        "%M " {
           set comm [string range $comm 1 end]
           catch {set comm [subst -nobackslashes -nocommands $comm]}
         }
@@ -812,7 +826,8 @@ proc ::em::update_itname {it inc {pr ""}} {
       if {$pr !=""} { {*}$pr }
       prepr_09 itname ::em::arr_i09 "i" $inc  ;# incr N of runs
       prepr_idiotic itname 0
-      $b configure -text $ornam$itname
+      $b configure -text [set comtitle $ornam$itname]
+      tooltip::tooltip $b "$comtitle"
     }
   }
 }
@@ -986,13 +1001,6 @@ proc ::em::get_language {} {
   }
   return $lang
 }
-#=== get a file extension from %f
-proc ::em::get_extension {} {
-  if {[catch {set ext $::em::arr_geany(f)}]} {
-    return ""
-  }
-  return [file extension $ext]
-}
 #=== get working (project's) dir
 proc ::em::get_PD {} {
   if {[llength $::em::workdirlist]>0} {
@@ -1114,17 +1122,7 @@ proc ::em::prepr_init {refpn} {
 proc ::em::prepr_pn {refpn {dt 0}} {
   upvar $refpn pn
   prepr_idiotic pn 1
-  foreach gw [array names ::em::arr_geany] {  ;# Geany's wildcards
-    if {$gw=="F" && $::em::arr_geany($gw)!="*"} {
-      ;# %F wildcard is a checked filename
-      if {![file exists $::em::arr_geany($gw)]} {
-        if {[info exists ::em::arr_geany(f)] && [file exists $::em::arr_geany(f)]} {
-          set ::em::arr_geany($gw) $::em::arr_geany(f)
-        } else {
-          set ::em::arr_geany($gw) "*"
-        }
-      }
-    }
+  foreach gw [array names ::em::arr_geany] {
     prepr_1 pn $gw $::em::arr_geany($gw)
   }
   prepr_1 pn "PD" [get_PD]            ;# %PD is passed project's dir (PD=)
@@ -1136,7 +1134,6 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   prepr_1 pn "s"  $::em::seltd        ;# %s is a selected text
   prepr_1 pn "u"  $::em::useltd       ;# %u is %s underscored
   prepr_1 pn "lg" [get_language]      ;# %lg is a locale (e.g. ru_RU.utf8)
-  prepr_1 pn "x"  [get_extension]     ;# %x is a file extension gotten from %f
   set pndt [prepr_dt pn]
   if {$dt} { return $pndt } { return $pn }
 }
@@ -1260,7 +1257,7 @@ proc ::em::menuof { commands s1 domenu} {
     prepr_init prog
     prepr_win prog $typ
     switch $typ {
-      "I:" {   ;#internal (D, Q, S, T)
+      "I:" {   ;#internal (M, Q, S, T)
         prepr_pn prog
         set prom "RUN         "
         set runp "$prog"
@@ -1587,13 +1584,6 @@ proc ::em::checkgeometry {} {
 #=== initialize ::em::commands from argv and menu
 proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
-  catch {
-    set ::em::prjname $::env(E_MENU_PN)
-    set ::em::prjset 1
-  }
-  catch {
-    initPD $::env(E_MENU_PD) 1
-  }
   foreach s1 { a0= P= N= PD= PN= F= o= s= \
         u= w= qq= dd= pa= ah= wi= += bd= b1= b2= b3= b4= \
         f1= f2= fs= ch= a1= a2= ed= tf= tg= md= \
@@ -1733,6 +1723,17 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
       }
     }
   }
+  # get %D (dir's tail) %F (file.ext), %e (file), %x (ext) wildcards from %f
+  if {![info exists ::em::arr_geany(f)]} {
+    set ::em::arr_geany(f) $::em::menufilename
+  }
+  set from [file dirname $::em::arr_geany(f)]
+  foreach {c attr} {d nativename D tail F tail e rootname x extension} {
+    if {![info exists ::em::arr_geany($c)] || $::em::arr_geany($c)=="" } {
+      set ::em::arr_geany($c) [file $attr $from]
+    }
+    if {$c=="D"} {set from [file tail $::em::arr_geany(f)]}
+  }
   prepare_wilds $resetpercent2
   set ::em::ncmd [llength $::em::commands]
   initPD [pwd]
@@ -1814,7 +1815,6 @@ proc ::em::initmenu {} {
     lassign [s_assign comtitle 0] p1 p2
     if {$p2!=""} {
       set pady [::getN $p1 0]
-      set ::em::itnames($i) $comtitle
       if {$pady < 0} {
         grid [ttk::separator .frame.lu$i -orient horizontal] \
             -pady [expr -$pady-1] -sticky we \
@@ -1937,7 +1937,7 @@ proc ::em::help {} {
 }
 #=== show the menu's geometry
 proc ::em::show_menu_geometry {} {
-  D "\nWxH+X+Y = [wm geometry .]"
+  M "   WxH+X+Y = [wm geometry .]  "
 }
 #=== exit (end of e_menu)
 proc ::em::on_exit {} {
