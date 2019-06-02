@@ -38,7 +38,7 @@ oo::class create PaveInput {
     foreach {name prompt valopts} [list {*}$iopts] {
       lassign $prompt prompt gopts attrs
       set gopts "$pady $gopts"
-      if {[set typ [string range $name 0 1]]=="h_" || $typ=="se"} {
+      if {[set typ [string range $name 0 1]]=="v_" || $typ=="se"} {
         lappend inopts [list fraM.$name - - - - "pack -fill x $gopts"]
         continue
       }
@@ -54,7 +54,9 @@ oo::class create PaveInput {
         set Mfont "Courier"
       }
       lappend inopts [list fraM.fra$name - - - - "pack -expand 1 -fill both"]
-      lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor nw -padx 3" "-t \"$prompt\" -font \"-family $Mfont -size 10\""]
+      if {$typ!="la"} {
+        lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor w -padx 3" "-t \"$prompt\" -font \"-family $Mfont -size 10\""]
+      }
       set vv [my varname $name]
       set ff [my fieldname $name]
       switch $typ {
@@ -78,6 +80,10 @@ oo::class create PaveInput {
           if {![info exist $vv]} {set $vv [string map {\\n \n} $valopts]}
           lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" "$attrs"]
           lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]
+        }
+        la {
+          lappend inopts [list $ff - - - - "pack $gopts" "$attrs"]
+          continue
         }
         default {
           lappend inopts [list $ff - - - - "pack -side right -expand 1 -fill x $gopts" "$tvar $vv $attrs"]

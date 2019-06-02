@@ -2,10 +2,48 @@
 #
 # use from Geany context:
 #
-# wish ./e_menu.tcl s=%s m=./menus/test1.mnu
+# wish e_menu.tcl s=%s m=menus/test1.mnu
 
-S: find *.fossil S: ? err=1; cd ~/FOSSIL; while [ $err -eq 1 ]; do repo=$(find *.fossil 2>/dev/null ); err=$?; if [ $err -eq 1 ]; then if [ $(pwd) = '/' ]; then echo "repo non esistente" ;break; fi; cd ../; else echo "$(pwd)/${repo}"; fi; done
+ S: Shell script S: ? \
+    err=1; cd ~/FOSSIL; \
+    while [ $err -eq 1 ]; \
+      do repo=$(find *.fossil 2>/dev/null ); \
+      err=$?; \
+      if [ $err -eq 1 ]; then \
+        if [ $(pwd) = '/' ]; then \
+          echo "repo non esistente" ;break; \
+        fi; \
+        cd ../; \
+      else \
+        echo "$(pwd)/${repo}"; \
+      fi; \
+    done
+
+R: Input dialog R: %C if {![info exist ::EN1] || $::EN1==""} {set ::EN1 "%s"}
+ R: Input dialog R: %C if {![info exist ::EN2]} {set ::EN2 ""}
+ R: Input dialog R: %C if {![info exist ::V1]}  {set ::V1 Exact}
+ R: Input dialog R: %C if {![info exist ::C1]}  {set ::C1 0}
+ R: Input dialog R: %C if {![info exist ::C2]}  {set ::C2 0}
+ R: Input dialog R: \
+  %I "" "TEST OF %I" { \
+  ent1  {{   Find: }} {"$::EN1"} \
+  ent2  {{Replace: }} {"$::EN2"} \
+  labo  {{} {-anchor w} {-t {\nOther options:} -font {-weight bold}}}  {} \
+  radA  {{Match: }} {"$::V1" {Exact} {Glob} {RE  }} \
+  v_1   {{} {} {}} {} \
+  seh   {{} {} {}} {} \
+  v_2   {{} {} {}} {} \
+  chb1  {{Match whole word only}} {$::C1} \
+  chb2  {{Match case           }} {$::C2} \
+  } -head "\nEnter data:" -weight bold >> ::EN1 ::EN2 ::V1 ::C1 ::C2
+ S: Input dialog S: echo " ::EN1= '$::EN1' \n ::EN2= '$::EN2' \n ::V1 = $::V1 \
+\n ::C1 = $::C1 \n ::C2 = $::C2\n --------------------------------------------"
+
 MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?}]} exit"
+
 MW: Test3 menu MW: "m=test3.mnu" o=0
+
 [OPTIONS]
 o=0
+n=< test1 >
+w=30
