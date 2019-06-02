@@ -1219,7 +1219,18 @@ proc ::em::menuof { commands s1 domenu} {
   set separ ""
   while {1} {
     if {$domenu} {
-      if {[gets $chan line] < 0} {break}
+      set doit 1
+      set line ""
+      while {1} { ;# lines ending with " \" to be continued
+        if {[gets $chan tmp] < 0} {set doit [string length $line]; break}
+        if {[string range $tmp end-1 end]==" \\"} {
+          append line [string range $tmp 0 end-1]
+        } else {
+          append line $tmp
+          break
+        }
+      }
+      if {$doit==0} break
       lappend ::em::menufile $line
     } else {
       incr ilmenu

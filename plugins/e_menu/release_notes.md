@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Version `1.20 (2 Jun'19)`
+
+  - input dialog (%I wildcard) enhanced
+  - line continuation for long items
+  - test1.mnu for demo of these
+  - help rebuild
+
+
 Version `1.19 (31 May'19)`
 
   - help rewritten totally; e_menu's code changed accordingly

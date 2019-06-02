@@ -296,9 +296,7 @@ oo::class create PaveMe {
       "siz" {set widget "ttk::sizegrip"}
       "spx" {set widget "ttk::spinbox"}
       "spX" {set widget "spinbox"}
-      "tex" {
-        set widget "text"
-      }
+      "tex" {set widget "text"}
       "tre" {set widget "ttk::treeview"}
       "h_*" { ;# horizontal spacer
         set widget "ttk::frame"
