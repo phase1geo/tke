@@ -2,7 +2,7 @@
 
  M:  M: 4
  RE: Run me (with %z8) RE: cd %d
- RE: Run me (with %z8) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %b %f
+ RE: Run me (with %z8) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
  RE: Run me (with %z8) RE: %IF "%x"==".tcl" %THEN %T tclsh %f %z8
  RE: Run me (with %z8) RE: %IF "%x"==".py"  %THEN %t python3 %f %z8
  RE: Run me (with %z8) RE: ###########################################################

@@ -131,6 +131,12 @@ Run "Doctest Safe Verbose" on this README.md to see how the doctest works. Notic
 2. The lower factorial test block results in OK.
 3. The out-of-blocks test examples are ignored.
 
+Another thing might be helpful: the doctest's usage isn't restricted with a code. A data file allowing #- or multi-line comments, might include the doctest strings for testing its contents, e.g. through something like:
+
+  #% exec tclsh module.tcl this_datafile.txt
+
+See, for example, test1.mnu of e_menu plugin.
+
 
 # Example
 

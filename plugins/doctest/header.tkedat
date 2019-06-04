@@ -3,7 +3,7 @@ display_name   {Doctest a la Python}
 author         {Alex Plotnikov}
 website        {http://aplsimple.ucoz.ru#e_menu}
 email          {aplsimple@mail.ru}
-version        {1.1}
+version        {1.2}
 include        {yes}
 trust_required {yes}
 category       {debug & test}

@@ -205,12 +205,9 @@ namespace eval e_menu {
         set PD_opt "PD=[pwd]"
       }
       catch {
-        #
         # here we use env.variables E_MENU_PD and E_MENU_PN
-        #
-        # z3=all projects dir stripped of special symbols (to use in fossil menus)
+        # stripped of special symbols (obsolete, though may be useful)
         set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $::env(E_MENU_PD)]"
-        # z4=prjname seen as E_MENU_PN env.variable
         set z4_opt "z4=$::env(E_MENU_PN)"
       }
       if {$file_index>0} {
@@ -248,9 +245,8 @@ namespace eval e_menu {
     set z5_opt "z5=$z5_opt"
     if {[catch {
         exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
-          fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
-          $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt $z8_opt \
-          $PD_opt $fS $bS {*}$y_opts &
+          $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
+          $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt $z8_opt &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n

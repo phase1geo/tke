@@ -1,25 +1,54 @@
-# //test1.mnu//:
+# test1.mnu
 #
 # use from Geany context:
 #
 # wish e_menu.tcl s=%s m=menus/test1.mnu
+#
+#% doctest
+#% exec tclsh ~/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl \
+#%      "m=menus/test1.mnu" t=1
+#>
+#> doctest
+#
+#######################################################################
 
- S: Shell script S: ? \
-    err=1; cd ~/FOSSIL; \
-    while [ $err -eq 1 ]; \
-      do repo=$(find *.fossil 2>/dev/null ); \
-      err=$?; \
-      if [ $err -eq 1 ]; then \
+# options should go first because of "co=" (line continuator)
+
+[OPTIONS]
+
+co=;
+o=2
+n=< test1 >
+w=30
+
+[MENU]
+
+ RE: Run me (with %s) RE: %cd %d
+ RE: Run me (with %s) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
+ RE: Run me (with %s) RE: %IF "%x"==".tcl" %THEN %T tclsh %f %s
+ RE: Run me (with %s) RE: %IF "%x"==".py"  %THEN %t python3 %f %s
+ RE: Run me (with %s) RE: ###########################################################
+ RE: Run me (with %s) RE: %M "Edit this menu for file extention: %x"
+
+ S: Shell script S: ? err=1; cd ~/FOSSIL; \n \
+    # \n \
+    # let it be while huh \n \
+    # \n \
+    while [ $err -eq 1 ];
+      do repo=$(find *.fossil 2>/dev/null );
+      err=$?;
+      if [ $? -eq 1 ]; then \
         if [ $(pwd) = '/' ]; then \
-          echo "repo non esistente" ;break; \
-        fi; \
-        cd ../; \
+          echo "repo non esistente" ;break;
+        fi;
+        cd ../;
       else \
-        echo "$(pwd)/${repo}"; \
-      fi; \
+        echo "$(pwd)/${repo}";
+      fi;
     done
 
-R: Input dialog R: %C if {![info exist ::EN1] || $::EN1==""} {set ::EN1 "%s"}
+ S: Input dialog S: cd %d
+ R: Input dialog R: %C if {![info exist ::EN1] || $::EN1==""} {set ::EN1 "%s"}
  R: Input dialog R: %C if {![info exist ::EN2]} {set ::EN2 ""}
  R: Input dialog R: %C if {![info exist ::V1]}  {set ::V1 Exact}
  R: Input dialog R: %C if {![info exist ::C1]}  {set ::C1 0}
@@ -39,11 +68,8 @@ R: Input dialog R: %C if {![info exist ::EN1] || $::EN1==""} {set ::EN1 "%s"}
  S: Input dialog S: echo " ::EN1= '$::EN1' \n ::EN2= '$::EN2' \n ::V1 = $::V1 \
 \n ::C1 = $::C1 \n ::C2 = $::C2\n --------------------------------------------"
 
-MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?}]} exit"
+ M:  M: 4
 
-MW: Test3 menu MW: "m=test3.mnu" o=0
+ MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?}]} exit"
 
-[OPTIONS]
-o=0
-n=< test1 >
-w=30
+ MW: Test3 menu MW: "m=test3.mnu" o=0

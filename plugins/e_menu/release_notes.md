@@ -1,6 +1,16 @@
 # Last changes:
 
 
+Version `1.21 (4 Jun'19)`
+
+  - E_MENU_OPTIONS environment variable for options outside the plugin
+  - co= option (additional line continuator)
+  - tailing spaces trimmed by editor
+  - [MENU] section of menu file
+  - %b and %B made equal in %IF
+  - clearance a bit
+
+
 Version `1.20 (2 Jun'19)`
 
   - input dialog (%I wildcard) enhanced
