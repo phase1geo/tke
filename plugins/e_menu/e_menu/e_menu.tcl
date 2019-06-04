@@ -192,6 +192,8 @@ namespace eval em {
   variable colrfS "#d2d2d2"
   variable colrbS "#364c64"
   variable colrcc "#00ffff"
+  variable conti " \\"
+  variable lconti 1
 }
 #=== set theme options for dialogs
 proc ::em::theming_pave {} {
@@ -627,11 +629,11 @@ proc ::em::s_assign {refsel {trl 1}} {
 #=== replace first %b with browser pathname
 proc ::em::checkForBrowser {rsel} {
   upvar $rsel sel
-  if {[string first "%b " $sel] == 0} {
+  if {[string match "%\[bB\] *" $sel]} {
     set sel "::eh::browse [list [string range $sel 3 end]]"
     return true
   }
-  if {[string first "%M " $sel] == 0} {
+  if {[string match "%M *" $sel]} {
     set sel "M [string range $sel 3 end]"
     return true
   }
@@ -1221,10 +1223,13 @@ proc ::em::menuof { commands s1 domenu} {
     if {$domenu} {
       set doit 1
       set line ""
-      while {1} { ;# lines ending with " \" to be continued
+      while {1} { ;# lines ending with " \" or ::em::conti to be continued
         if {[gets $chan tmp] < 0} {set doit [string length $line]; break}
         if {[string range $tmp end-1 end]==" \\"} {
           append line [string range $tmp 0 end-1]
+        } elseif {$::em::conti!=" \\" && $::em::conti!="" && \
+                 [string range $tmp end-$::em::lconti end]==$::em::conti} {
+          append line $tmp
         } else {
           append line $tmp
           break
@@ -1238,6 +1243,10 @@ proc ::em::menuof { commands s1 domenu} {
       set line [lindex $::em::menufile $ilmenu]
     }
     set line [set origline [string trimleft $line]]
+    if {$line == "\[MENU\]"} {
+      set options [set hidden 0]
+      continue
+    }
     if {$line == "\[OPTIONS\]"} {
       set options 1
       set hidden 0
@@ -1249,7 +1258,13 @@ proc ::em::menuof { commands s1 domenu} {
       set lappend "lappend ::em::commhidden"
     }
     if {$options} {
-      lappend ::em::menuoptions $line
+      if {[string match co=* $line]} {
+        # co= affects the current reading of continued lines of menu
+        set ::em::conti [string range $line 3 end]
+        set ::em::lconti [expr {[string length $::em::conti] - 1}]
+      } else {
+        lappend ::em::menuoptions $line
+      }
       continue
     }
     set typ [menuit $line ":" 1]
@@ -1516,9 +1531,10 @@ proc ::em::check_real_call {} {
     if {$::em::start0} {
       em_message "Run this with
 
-wish e_menu.tcl \"s=%s\" \[m=menu\]
+  wish e_menu.tcl \"s=%s\" \[m=menu\]
 
-as a context menu\n(see readme.md for details)." }
+as a menu application."
+    }
     exit
   }
 }
@@ -1597,7 +1613,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
   foreach s1 { a0= P= N= PD= PN= F= o= s= \
         u= w= qq= dd= pa= ah= wi= += bd= b1= b2= b3= b4= \
-        f1= f2= fs= ch= a1= a2= ed= tf= tg= md= \
+        f1= f2= fs= a1= a2= ed= tf= tg= md= wc= \
         t0= t1= t2= t3= t4= t5= t6= t7= t8= t9= \
         s0= s1= s2= s3= s4= s5= s6= s7= s8= s9= \
         u0= u1= u2= u3= u4= u5= u6= u7= u8= u9= \
@@ -1608,12 +1624,12 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         a= d= e= f= p= l= h= b= c= t= g= n= m= om= \
         fg= bg= fE= bE= fS= bS= cc= \
         cb= in=} { ;# the processing order is important
-    if {[string first $s1 "o= s= m="]>=0 && [string first $s1 $osm]<0} {
+    if {[lsearch {o= s= m=} $s1]>=0 && [lsearch $osm $s1]<0} {
       continue
     }
     if {[get_pars1 $s1 $lmc $amc]} {
       set seltd [lindex [array get ::em::pars $s1] 1]
-      if {[string first $s1 "m= g= cb= in="] < 0} {
+      if {[lsearch {m= g= cb= in=} $s1] < 0} {
         set ::em::inherited "$::em::inherited \"$s1$seltd\""
       }
       switch $s1 {
@@ -1691,7 +1707,6 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         a0= { if {$::em::start0} { run_tcl_commands seltd } }
         a1= { set ::em::commandA1 $seltd}
         a2= { set ::em::commandA2 $seltd}
-        ch= { set ::em::ischild 1 }
         t0= { set ::eh::formtime $seltd }
         t1= { set ::eh::formdate $seltd }
         t2= { set ::eh::formdt   $seltd }
@@ -1704,8 +1719,8 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         qq= { set ::em::qseltd [escape_quotes $seltd "\\\""] }
         dd= { set ::em::dseltd [delete_specsyms $seltd] }
         +=  { set ::em::pseltd [escape_links $seltd] }
-        pa= { set ::em::pause [::getN $seltd ::em::pause] }
-        wc= { set ::em::wc [::getN $seltd ::em::wc] }
+        pa= { set ::em::pause [::getN $seltd $::em::pause]}
+        wc= { set ::em::wc [::getN $seltd $::em::wc]}
         bd= { set ::em::bd [::getN $seltd $::em::bd]}
         b1= { set ::em::b1 [::getN $seltd $::em::b1]}
         b2= { set ::em::b2 [::getN $seltd $::em::b2]}
@@ -1760,17 +1775,29 @@ proc ::em::initcommhead {} {
 proc ::em::initcomm {} {
   initcommhead
   set ::em::menuoptions {0}
-  initcommands $::argc $::argv "o= s= m=" 1
+  if {[lsearch $::argv "ch=1"]>=0} { set ::em::ischild 1 }
+  # external E_MENU_OPTIONS are in the beginning of ::argv (being default)
+  # if "b=firefox", OR in the end (being preferrable) if "99 b=firefox"
+  if { !($::em::ischild || [catch {set ext_opts $::env(E_MENU_OPTIONS)}]) } {
+    set inpos 0
+    foreach opt [list {*}$ext_opts] {
+      if [string is digit $opt] {set inpos $opt; continue}
+      set ::argv [linsert $::argv $inpos $opt]
+      incr inpos
+      incr ::argc
+    }
+  }
+  initcommands $::argc $::argv {o= s= m=} 1
   if {[set lmc [llength $::em::menuoptions]] > 1} {
       # o=, s=, m= options define menu contents & are processed particularly
-    initcommands $lmc $::em::menuoptions "o="
+    initcommands $lmc $::em::menuoptions {o=}
     initcommhead
     if {$::em::om} {
-      initcommands $::argc $::argv "s= m="
-      initcommands $lmc $::em::menuoptions "o="
+      initcommands $::argc $::argv {s= m=}
+      initcommands $lmc $::em::menuoptions {o=}
     } else {
       initcommands $lmc $::em::menuoptions " "
-      initcommands $::argc $::argv "o= s= m="
+      initcommands $::argc $::argv {o= s= m=}
     }
   }
 }

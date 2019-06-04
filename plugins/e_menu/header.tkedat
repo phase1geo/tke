@@ -1,20 +1,20 @@
 name           {e_menu}
 display_name   {E_menu - User's Menus}
 author         {Alex Plotnikov}
-website        {http://aplsimple.ucoz.ru#e_menu}
+website        {http://aplsimple.ucoz.ru/e_menu/e_menu.html}
 email          {aplsimple@mail.ru}
-version        {1.20}
+version        {1.21}
 include        {yes}
 trust_required {yes}
 category       {tools}
 description    {This plugin allows you to get a _context help_ for Tcl/Tk commands / keywords as well as the _hierarchical menus_ to execute the commands closely related to TKE environment, such as
-`1)` edit / exec / shell for a current file / selected text
-`2)` open file manager / terminal in a current file's directory
-`3)` search a selected text in Internet / Dictionaries etc.
-`4)` open a selected link in Internet
-`5)` wget a selected link
-`6)` grep the selection in a current file's directory (non-)recursively
-`7)` run VCS commands for a current file / directory / project
-  (diffs, status, log, commit, revert, pull, merge etc.)
-and so on... depending on your imagination or need
+1) edit / exec / shell for a current file / selected text
+2) open file manager / terminal in a current file's directory
+3) search a selected text in Internet / Dictionaries etc.
+4) open a selected link in Internet
+5) wget a selected link
+6) grep the selection in a current file's directory (non-)recursively
+7) run VCS commands for a current file / directory / project
+  (diffs, status, log, commit, revert, pull, push, merge etc.)
+8) and so on, depending on your imagination or need
 }

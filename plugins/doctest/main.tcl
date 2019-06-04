@@ -32,7 +32,7 @@ See details in [api::get_plugin_source_directory]/README.md
 
   proc strip_upcase {st} {
 
-    return [string toupper [string map {" " ""} [string trim $st]]]
+    return [string trim [string toupper [string map {{ } _} $st]] { _}]
 
   }
 
@@ -139,6 +139,7 @@ See details in [api::get_plugin_source_directory]/README.md
       lappend test_blocks end  ;# end of block
     }
     return [list 0 $test_blocks]
+
   }
 
   ###################################################################
@@ -189,7 +190,7 @@ See details in [api::get_plugin_source_directory]/README.md
           set comres ""
         }
         if {$type eq $TEST_COMMAND && [string index $comres end] eq "\\"} {
-          set comres "$comres "
+          set comres "[string trimright [string range $comres 0 end-1]] "
         } elseif {$comres != ""} {
           set comres "$comres\n"
         }
@@ -363,6 +364,7 @@ See details in [api::get_plugin_source_directory]/README.md
 
 "
     $txt insert "insert linestart" $testinit
+
   }
 
   ###################################################################

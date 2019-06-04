@@ -167,7 +167,7 @@ proc edit_file {fname fg bg cc args} {
     set data [string range $data [string first " " $data]+1 end]
     set ch [open $fname w]
     foreach line [split [string trimright $data] \n] {
-      puts $ch "$line"
+      puts $ch [string trimright $line] ;# end spaces conflict with co= arg
     }
     close $ch
   }
