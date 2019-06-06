@@ -7,7 +7,6 @@
 #% doctest
 #% exec tclsh ~/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl \
 #%      "m=menus/test1.mnu" t=1
-#>
 #> doctest
 #
 #######################################################################
@@ -17,18 +16,31 @@
 [OPTIONS]
 
 co=;
-o=2
+o=0
 n=< test1 >
-w=30
+w=45
 
 [MENU]
+ R: Doctest Safe: %e%x R: cd %d
+ S: Doctest Safe: %e%x S: tclsh %m/src/doctest_of_emenu.tcl -v 0 %f
 
- RE: Run me (with %s) RE: %cd %d
- RE: Run me (with %s) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
- RE: Run me (with %s) RE: %IF "%x"==".tcl" %THEN %T tclsh %f %s
- RE: Run me (with %s) RE: %IF "%x"==".py"  %THEN %t python3 %f %s
- RE: Run me (with %s) RE: ###########################################################
- RE: Run me (with %s) RE: %M "Edit this menu for file extention: %x"
+ R: Doctest Safe verbose: %e%x R: cd %d
+ S: Doctest Safe verbose: %e%x S: tclsh %m/src/doctest_of_emenu.tcl -v 1 %f
+
+ R: Doctest: %e%x R: cd %d
+ S: Doctest: %e%x S: tclsh %m/src/doctest_of_emenu.tcl -s 0 -v 0 %f
+
+ R: Doctest verbose: %e%x R: cd %d
+ S: Doctest verbose: %e%x S: tclsh %m/src/doctest_of_emenu.tcl -s 0 -v 1 %f
+
+ R: R: 4
+
+ R: Run me (with %s) R: cd %d
+ R: Run me (with %s) R: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
+ R: Run me (with %s) R: %IF "%x"==".tcl" %THEN %T tclsh %f %s
+ R: Run me (with %s) R: %IF "%x"==".py"  %THEN %t python3 %f %s
+ R: Run me (with %s) R: ###########################################################
+ R: Run me (with %s) R: %M "Edit this menu for file extention: %x"
 
  S: Shell script S: ? err=1; cd ~/FOSSIL; \n \
     # \n \
