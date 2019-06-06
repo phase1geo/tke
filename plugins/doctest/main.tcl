@@ -109,8 +109,9 @@ See details in [api::get_plugin_source_directory]/README.md
       lassign $sel start end
       # when-if 2 or more selected lines, use the selection as the test block
       if {[expr int($end) - int($start)]} {
-        return [list 0 \
-          [list [$txt index "$start linestart"] [$txt index "$end lineend"]]]
+        return [list 0 [list \
+          [$txt index "$start linestart"] [$txt index "$end lineend"]] \
+          " in selected text"]
       }
     }
     set test_blocks [list]
@@ -295,7 +296,7 @@ See details in [api::get_plugin_source_directory]/README.md
 
   }
 
-  proc test_blocks {txt blocks safe verbose} {
+  proc test_blocks {txt blocks safe verbose forsel} {
 
     variable HINT1
     variable ntestedany
@@ -313,7 +314,7 @@ See details in [api::get_plugin_source_directory]/README.md
       }
     }
     if {!$ntested} {
-      ERR "Nothing to test.$HINT1"
+      ERR "Nothing to test$forsel.$HINT1"
     } elseif {!$verbose && $ntestedany} {
       if {$all_ok} {
         MES "DOCTEST" "Tested ${ntested} block(s):\n\nOK"
@@ -338,9 +339,10 @@ See details in [api::get_plugin_source_directory]/README.md
     variable BL_BEGIN [strip_upcase $TEST_BEGIN]
     variable BL_END   [strip_upcase $TEST_END]
     set txt [get_txt]
-    lassign [get_test_blocks $txt] error blocks
+    set forsel ""
+    lassign [get_test_blocks $txt] error blocks forsel
     switch $error {
-      0 { test_blocks $txt $blocks $safe $verbose}
+      0 { test_blocks $txt $blocks $safe $verbose $forsel}
       1 { ERR "Unpaired: $TEST_BEGIN$HINT1" }
       2 { ERR "Unpaired: $TEST_END$HINT1" }
     }
