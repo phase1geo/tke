@@ -70,6 +70,7 @@ oo::class create PaveMe {
     set _pav(fgbut) [ttk::style lookup TButton -foreground]
     set _pav(bgbut) [ttk::style lookup TButton -background]
     set _pav(fgtxt) [ttk::style lookup TEntry -foreground]
+    set _pav(prepost) {}
     if {$_pav(fgtxt)=="black" || $_pav(fgtxt)=="#000000"} {
       set _pav(bgtxt) white
     } else {
@@ -723,6 +724,55 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Pre actions for the text widget and similar
+  # which all require some actions before and after their creation e.g.:
+  #   the text widget's text cannot be filled if disabled
+  #   so, we must act this way:
+  #     1) call Pre - to get a text of widget
+  #     2) create the widget
+  #     3) call Post - to enable, then fill it with a text, then disable it
+  # It's only possible with Pre and Post methods.
+
+  method Pre {refattrs} {
+
+    upvar 1 $refattrs attrs
+    set attrs_ret [set _pav(prepost) {}]
+    foreach {a v} $attrs {
+      switch $a {
+        -disabledtext {
+          ;# get a text of disabled widget
+          lappend _pav(prepost) [list $a [string trim $v {\{\}}]]
+        }
+        default {
+          lappend attrs_ret $a $v
+        }
+      }
+    }
+    set attrs $attrs_ret
+
+  }
+
+  #########################################################################
+  #
+  # Post (for comments, refer to the previous "Pre" method)
+
+  method Post {w attrs} {
+
+    foreach pp $_pav(prepost) {
+      lassign $pp a v
+      switch $a {
+        -disabledtext {
+          $w configure -state normal
+          my displayTaggedText $w v {}
+          $w configure -state disabled
+        }
+      }
+    }
+
+  }
+
+  #########################################################################
+  #
   # Pave the window with widgets
 
   method Window {w inplists} {
@@ -794,7 +844,9 @@ oo::class create PaveMe {
         #>   123\45
         #> doctest
         set attrs [string map [list $BS "\\\\\\\\"] $attrs]
+        my Pre attrs
         eval $widget $wname {*}$attrs
+        my Post $wname $attrs
         # for buttons and entries - set up the hotkeys (Up/Down etc.)
         if {($widget in {"ttk::entry" "entry"}) && \
         [string first "STD" $wname]==-1} {

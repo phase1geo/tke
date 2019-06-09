@@ -265,7 +265,7 @@ oo::class create PaveDialog {
   # returns a list with chosen button's number and new geometry.
   # Otherwise it returns only chosen button's number.
 
-  method Query {icon ttl msg buttons defb inopts argov} {
+  method Query {icon ttl msg buttons defb inopts argov {precom ""}} {
 
     if {[winfo exists $_pdg(win).dia]} {
       return 0
@@ -468,9 +468,14 @@ oo::class create PaveDialog {
     # make & display the dialog's window
     set wtop [my makeWindow $_pdg(win).dia.fra $ttl]
     set widlist [my window $_pdg(win).dia.fra $widlist]
+    if {$precom!=""} {
+      {*}$precom  ;# actions before showModal
+    }
     if {$themecolors!=""} {
-      # supposedly, obbit.tcl is sourced at theming
-      my themingWindow $_pdg(win).dia {*}$themecolors
+      # supposed but not mandatory, obbit.tcl is sourced at theming
+      catch {
+        my themingWindow $_pdg(win).dia {*}$themecolors
+      }
     }
     # after creating widgets - show dialog texts if any
     my setgettexts set $_pdg(win).dia.fra $inopts $widlist

@@ -28,12 +28,14 @@ namespace eval e_menu {
 
   proc get_selection {} {
 
+    set truesel 0
     set txt [get_txt]
-    if {$txt == ""} {return [list "" 0 0]}
+    if {$txt == ""} {return [list "" 0 0 0]}
     set err [catch {$txt tag ranges sel} sel]
     if {!$err && [llength $sel]==2} {
       lassign $sel pos pos2           ;# single selection
       set sel [$txt get $pos $pos2]
+      set truesel 1
     } else {
       if {$err || [string trim $sel]==""} {
         set pos  [$txt index "insert wordstart"]
@@ -50,6 +52,7 @@ namespace eval e_menu {
         foreach {pos pos2} $sel {     ;# multiple selections: find current one
           if {[$txt compare $pos >= insert] ||
           [$txt compare $pos <= insert] && [$txt compare insert <= $pos2]} {
+            set truesel 1 ;# found
             break
           }
         }
@@ -59,7 +62,7 @@ namespace eval e_menu {
     if {[string length $sel] == 0} {
       set pos 0
     }
-    return [list $sel $pos $pos2]
+    return [list $sel $pos $pos2 $truesel]
 
   }
 
@@ -96,42 +99,6 @@ namespace eval e_menu {
 
   }
 
-  #====== Get options y0-y9 from #ARGS0... through #ARGS9...
-  #
-  # These #ARGS's are the comments of current edited file.
-  # E.g. if we have the comments such as:
-  #   #ARGS0
-  #   #ARGS1 par1 par2
-  #   #ARGS2 par3
-  # then we would have the options of e_menu:
-  #   "y0="
-  #   "y1=par1 par2"
-  #   "y2=par3"
-
-  proc y_options {} {
-
-    set txt [get_txt]
-    set res [list "" "" "" "" "" "" "" "" "" ""]
-    if {$txt == ""} {return $res}
-    foreach st [split [$txt get 1.0 end] \n] {
-      set st [string trim $st]
-      if {[string match {#ARGS[0-9]*:*} $st]} {
-        #ARGS0: .. #ARGS9: are the same as #ARGS10: .. ARGS99: and at that
-        #only first found #ARGS would be interpreted as argument of "Run me"
-        #i.e. as %z8 while others can be used in other menus as %y0 .. %y9
-        set icol [string first : $st]
-        set ind [string index $st 5]
-        set y_opt "y$ind=[string trim [string range $st [incr icol] end]]"
-        set y_opt [string map {\" \'} $y_opt]
-        if {[lindex $res $ind]==""} {
-          set res [lreplace $res $ind $ind $y_opt]
-        }
-      }
-    }
-    return $res
-
-  }
-
   #####################################################################
   #  DO procedures
   #####################################################################
@@ -163,7 +130,7 @@ namespace eval e_menu {
     if {![init_e_menu]} return
     set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
     set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
-    set z6_opt [set z7_opt ""]
+    set z6_opt [set z7_opt [set ts_opt ""]]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
@@ -179,7 +146,10 @@ namespace eval e_menu {
     }
     set file_index [api::file::current_index]
     if {$file_index != -1} {
-      lassign [get_selection] sel
+      lassign [get_selection] sel - - truesel
+      if {$truesel} {
+        set ts_opt "ts=1"  ;# a real selection, not just a word under a caret
+      }
       foreach s [split $sel \n] {
         set s_opt [string trimright $s]
         if {$s_opt!=""} {
@@ -228,25 +198,13 @@ namespace eval e_menu {
     catch {set bS "bS=[[get_txt] cget -selectbackground]"}
     set cc "cc=#888888"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
-    set y_opts [y_options]
-    # args for calling the current module
-    # taken from #ARGS[0-9] e.g.
-    #ARGS1 arg1 "spaced arg2" etc.
-    set z8_opt "z8="
-    foreach y $y_opts {
-      if {$y!=""} {
-        set z8_opt "z8=[string range $y 3 end]"
-        break
-      }
-    }
-    if {$z8_opt=="z8=" && $s_opt!=""} {
-      set z8_opt "z8=[string range $s_opt 2 end]"
-    }
     set z5_opt "z5=$z5_opt"
+    set l_opt l=[expr {int([[get_txt] index "insert linestart"])}]
     if {[catch {
-        exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
+        exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
           $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
-          $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt $z8_opt &
+          $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
+          $l_opt $ts_opt &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
