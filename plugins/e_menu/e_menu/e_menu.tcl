@@ -12,9 +12,11 @@
 
   #% doctest
 
-  #% exec tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" f=t.tst md=~/.tke/plugins/e_menu/menus m=side.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
+  # run xterm to view all debugging "puts" in terminal
 
-  #% exec tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=menu.mnu o=1 c=4 s=selected g=+200+100 &
+  #% exec xterm -e tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" f=/home/apl/PG/Tcl-Tk/projects/mulster/mulster.tcl md=~/.tke/plugins/e_menu/menus m=menu.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
+
+  #-% exec xterm -e tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=menu.mnu o=1 c=4 s=selected g=+200+100 &
   # ------ no result is waited here ------
 
   #> doctest
@@ -194,6 +196,8 @@ namespace eval em {
   variable colrcc "#00ffff"
   variable conti " \\"
   variable lconti 1
+  variable fileread {}
+  variable truesel 0
 }
 #=== set theme options for dialogs
 proc ::em::theming_pave {} {
@@ -258,6 +262,7 @@ proc ::em::reread_menu {} {
 #=== reread and autorun
 proc ::em::reread_init {} {
   reread_menu
+  set ::em::fileread {}
   initauto
 }
 #=== check is there a header of menu
@@ -414,7 +419,7 @@ proc ::em::writeable_command {cmd} {
 proc ::em::input {cmd} {
   set ::em::skipfocused 1
   PaveInput create dialog "" $::srcdir
-  set data [string range $cmd [set dp [string last >> $cmd]]+2 end]
+  set data [string range $cmd [set dp [string last "==" $cmd]]+2 end]
   set cmd "dialog input [string range $cmd 2 $dp-1]"
   catch {set cmd [subst $cmd]}
   set res [{*}$cmd {*}[::em::theming_pave]]
@@ -1026,6 +1031,41 @@ proc ::em::get_PD {} {
 proc ::em::get_P_ {} {
   return [string map {/ _ \\ _ { } _ . _} $::em::workdir]
 }
+#=== get contents of %f file (supposedly, there can be only one "%f" value)
+proc ::em::read_f_file {} {
+  if {$::em::fileread=={}} {
+    if {[catch {set chan [open $::em::arr_geany(f)]}]} {return 0}
+    while {[gets $chan st]>=0} {
+      lappend ::em::fileread $st
+    }
+    close $chan
+  }
+  return [llength $::em::fileread]
+}
+#=== get contents of #ARGS1: ..#ARGS99: line
+proc ::em::get_AR {} {
+  if {$::em::truesel && $::em::seltd!=""} {
+    return $::em::seltd  ;# selected text is preferrable for ARGS (ts= rules)
+  }
+  if {[::em::read_f_file]} {
+    set re "^#ARGS\[0-9\]+:\[ \]*(.+)"
+    foreach st $::em::fileread {
+      if {[regexp $re $st]} {
+        lassign [regexp -inline $re $st] => res
+        return $res
+      }
+    }
+  }
+  return ""
+}
+#=== get contents of %l-th line of %f file
+proc ::em::get_L {} {
+  if {![catch {set p $::em::arr_geany(l)}] && \
+       [string is digit $p] && $p>0 && $p<=[llength $::em::fileread]} {
+    return [lindex $::em::fileread $p-1]
+  }
+  return ""
+}
 #=== Mr. Preprocessor of s0-9, u0-9
 proc ::em::prepr_09 {refn refa t {inc 0}} {
   upvar $refn name
@@ -1136,6 +1176,8 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   prepr_1 pn "s"  $::em::seltd        ;# %s is a selected text
   prepr_1 pn "u"  $::em::useltd       ;# %u is %s underscored
   prepr_1 pn "lg" [get_language]      ;# %lg is a locale (e.g. ru_RU.utf8)
+  prepr_1 pn "AR" [get_AR]            ;# %AR is contents of #ARGS1: ..#ARGS99: line
+  prepr_1 pn "L"  [get_L]             ;# %L is contents of %l-th line
   set pndt [prepr_dt pn]
   if {$dt} { return $pndt } { return $pn }
 }
@@ -1622,7 +1664,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         y0= y1= y2= y3= y4= y5= y6= y7= y8= y9= \
         z0= z1= z2= z3= z4= z5= z6= z7= z8= z9= \
         a= d= e= f= p= l= h= b= c= t= g= n= m= om= \
-        fg= bg= fE= bE= fS= bS= cc= \
+        fg= bg= fE= bE= fS= bS= cc= ts= \
         cb= in=} { ;# the processing order is important
     if {[lsearch {o= s= m=} $s1]>=0 && [lsearch $osm $s1]<0} {
       continue
@@ -1658,8 +1700,8 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
                 "::em::shell RE: $s1 & ; ::em::on_exit"]
             set ::em::hotkeys "000$::em::hotsall"
           }
-          set ::em::seltd [set ::em::useltd [set ::em::pseltd [
-          set ::em::qseltd [set ::em::dseltd $seltd]]]]
+          set ::em::seltd [set ::em::useltd [set ::em::pseltd [ \
+            set ::em::qseltd [set ::em::dseltd $seltd]]]]
           set ::em::begsel [expr [llength $::em::commands] - 1]
         }
         h= {
@@ -1740,6 +1782,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         fS= { set ::em::colrfS $seltd}
         bS= { set ::em::colrbS $seltd}
         cc= { set ::em::colrcc $seltd}
+        ts= { set ::em::truesel [::getN $seltd]}
         default {
           if {[set s [string range $s1 0 0]] == "x" ||
           $s == "y" || $s == "z"} {  ;# x* y* z* general substitutions
@@ -2041,6 +2084,7 @@ proc ::em::initauto {} {
 }
 #=== begin inits
 proc ::em::initbegin {} {
+  oo::define PaveMe {mixin ObjectTheming}
   try {ttk::style theme use clam}
   if {[iswindows]} { ;# maybe nice to hide all windows manipulations
     wm attributes . -alpha 0.0
@@ -2078,7 +2122,6 @@ proc ::em::initend {} {
     catch {wm deiconify . ; raise .}
     catch {exec chmod a+x "$::lin_console"}
   }
-  oo::define PaveMe {mixin ObjectTheming}
 }
 ::em::initbegin
 ::em::initcomm

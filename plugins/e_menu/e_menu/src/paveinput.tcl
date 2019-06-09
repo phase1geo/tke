@@ -78,7 +78,15 @@ oo::class create PaveInput {
         }
         te {
           if {![info exist $vv]} {set $vv [string map {\\n \n} $valopts]}
-          lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" "$attrs"]
+          if {[dict exist $attrs -state] && [dict get $attrs -state]=="disabled"} \
+          {
+            # disabled text widget cannot be filled with a text, so we should
+            # compensate this through a home-made attribute (-disabledtext)
+            set disattr "-disabledtext \{[set $vv]\}"
+          } else {
+            set disattr ""
+          }
+          lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" "$attrs $disattr"]
           lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]
         }
         la {

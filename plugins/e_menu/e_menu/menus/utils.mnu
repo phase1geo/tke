@@ -21,6 +21,7 @@
  ME: System            ME: m=system.mnu w=40
  ME: Wiki & Dicts      ME: m=wiki.mnu w=40
  ME: Misc              ME: m=misc.mnu w=40
+ ME: Test1             ME: m=test1.mnu
 
 [OPTIONS]
 o=0

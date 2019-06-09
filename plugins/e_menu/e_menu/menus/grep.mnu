@@ -2,32 +2,36 @@
  S: GREP TEMPLATE: '%s' S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
 
  M:  M: 4
- SE: GREP EXACT : '%s' SE: cd %d
- SE: GREP EXACT : '%s' SE: grep -F -H -n -I -s -d skip * -e '%s'
- SE: GREP REGEXP: '%s' SE: cd %d
- SE: GREP REGEXP: '%s' SE: grep -E -H -n -I -s -d skip * -e '%s'
+ S: GREP EXACT : '%s' S: cd %d
+ S: GREP EXACT : '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d skip * -e '%s'
+
+ S: GREP REGEXP: '%s' S: cd %d
+ S: GREP REGEXP: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d skip * -e '%s'
 
  M:  M: 4
- SE: GREP EXACT  recursive: '%s' SE: cd %d
- SE: GREP EXACT  recursive: '%s' SE: grep -F -H -n -I -s -d recurse * -e '%s'
- SE: GREP REGEXP recursive: '%s' SE: cd %d
- SE: GREP REGEXP recursive: '%s' SE: grep -E -H -n -I -s -d recurse * -e '%s'
+ S: GREP EXACT  recursive: '%s' S: cd %d
+ S: GREP EXACT  recursive: '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d recurse * -e '%s'
+
+ S: GREP REGEXP recursive: '%s' S: cd %d
+ S: GREP REGEXP recursive: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d recurse * -e '%s'
 
  M:  M: 4
- SE: GREP EXACT  ignoring case: '%s' SE: cd %d
- SE: GREP EXACT  ignoring case: '%s' SE: grep -F -H -n -I -s -i -d skip * -e '%s'
- SE: GREP REGEXP ignoring case: '%s' SE: cd %d
- SE: GREP REGEXP ignoring case: '%s' SE: grep -E -H -n -I -s -i -d skip * -e '%s'
+ S: GREP EXACT  ignoring case: '%s' S: cd %d
+ S: GREP EXACT  ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d skip * -e '%s'
+
+ S: GREP REGEXP ignoring case: '%s' S: cd %d
+ S: GREP REGEXP ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d skip * -e '%s'
 
  M:  M: 4
- SE: GREP EXACT  recursive ignoring case: '%s' SE: cd %d
- SE: GREP EXACT  recursive ignoring case: '%s' SE: grep -F -H -n -I -s -i -d recurse * -e '%s'
- SE: GREP REGEXP recursive ignoring case: '%s' SE: cd %d
- SE: GREP REGEXP recursive ignoring case: '%s' SE: grep -E -H -n -I -s -i -d recurse * -e '%s'
+ S: GREP EXACT  recursive ignoring case: '%s' S: cd %d
+ S: GREP EXACT  recursive ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d recurse * -e '%s'
+
+ S: GREP REGEXP recursive ignoring case: '%s' S: cd %d
+ S: GREP REGEXP recursive ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d recurse * -e '%s'
 
 [OPTIONS]
 w=70
 o=0
 n=< grep >
-%#t geo=1189x523+6+55;pos=5.54 cd %PD|!|pwd|!|#dir|!||!|grep -E -H -n -I -s -d recurse --include '*tcl' -e '%S'|!||!|################################################################################|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|################################################################################
+%#t geo=1189x523+6+0;pos=5.54 cd %PD|!|pwd|!|#dir|!||!|grep -E -H -n -I -s -d recurse --include '*tcl' -e '%s'|!||!|################################################################################|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|################################################################################
 %#Just for testing

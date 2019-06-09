@@ -1,6 +1,16 @@
 # Last changes:
 
 
+Version `1.22 (9 Jun'19)`
+
+  - %AR, %L wildcards
+  - "ts=", "l=" arguments ("z8=" stuff removed due to %AR)
+  - "==" instead of ">>" for input dialogs
+  - "-disabledtext" option for input dialogs
+  - setting a revision number in "Differences" item of menu.mnu
+  - "hg help" in hg.mnu
+
+
 Version `1.21 (4 Jun'19)`
 
   - E_MENU_OPTIONS environment variable for options outside the plugin

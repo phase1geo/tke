@@ -1,12 +1,12 @@
  # menu for e_menu.tcl
 
  M:  M: 4
- RE: Run me (with %z8) RE: cd %d
- RE: Run me (with %z8) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
- RE: Run me (with %z8) RE: %IF "%x"==".tcl" %THEN %T tclsh %f %z8
- RE: Run me (with %z8) RE: %IF "%x"==".py"  %THEN %t python3 %f %z8
- RE: Run me (with %z8) RE: ###########################################################
- RE: Run me (with %z8) RE: %M "Edit this menu for file extention: %x"
+ RE: Run me (with %AR) RE: cd %d
+ RE: Run me (with %AR) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
+ RE: Run me (with %AR) RE: %IF "%x"==".tcl" %THEN %T tclsh %f %AR
+ RE: Run me (with %AR) RE: %IF "%x"==".py"  %THEN %t python3 %f %AR
+ RE: Run me (with %AR) RE: ###########################################################
+ RE: Run me (with %AR) RE: %M "Edit this menu for file extention: %x"
 
  SE: Run Tcl {%s} ... SE: cd %d
  SE: Run Tcl {%s} ... SE: tclsh %z1/src/ch_.tcl "%z2"
@@ -31,16 +31,27 @@
  RE: GoldenDict for "%s" RE: goldendict %s
 
  M:  M: 4
- ME: Search All %s in %D  ME: m=grep.mnu
+ ME: Search All "%s" in %D  ME: m=grep.mnu
  RE: Backup of %F RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
  RE: Backup of %F RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
  RE: Commit "%dd_on_%t2" RE: %q "MERCURIAL" "Add all changes\nand HG COMMIT with message\n\n'%dd_at_%t2' ?"
  RE: Commit "%dd_on_%t2" RE: cd %PD
  SE: Commit "%dd_on_%t2" SE: hg addremove\nhg commit -m "%dd_on_%t2"
 
- RE: Differences of %F (hg extdiff) RE: cd %d
- RE: Differences of %F (hg extdiff) RE: hg extdiff -p meld %f
-# RE: Differences of %F (hg extdiff) RE: hg extdiff -p kdiff3 %f
+ R: Differences of %F (hg extdiff) R: cd %d
+ R: Differences of %F (hg extdiff) R: %C if {![info exist ::REV]}  {set ::REV -1}
+ R: Differences of %F (hg extdiff) R: %C if {![info exist ::FIL]}  {set ::FIL "%f"}
+ R: Differences of %F (hg extdiff) R: \
+  %I "" "DIFFERENCES" { \
+  v_0  {{} {-pady 7} {}} {} \
+  ent1    {{Revision: } {} {}} {"$::REV"} \
+  filName {{ of file: } {} {-w 61}} {"$::FIL"} \
+  v_1  {{} {-pady 7} {}} {} seh {{} {} {}} {} v_2 {{} {} {}} {} \
+  texc {{hg help:  } {} {-h 3 -w 52 -state disabled}} {A plain integer is treated \
+as a revision number.\nNegative integers are treated as sequential offsets from the \
+tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so forth.} \
+  } -head "\n Enter a revision (a prior commit's number):" -weight bold == ::REV ::FIL
+ R: Differences of %F (hg extdiff) R: hg extdiff -r $::REV -p meld $::FIL
 
  # call TKE with all *.tcl of current file's directory
  RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
