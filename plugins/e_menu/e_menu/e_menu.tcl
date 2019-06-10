@@ -213,7 +213,7 @@ proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
   set fg $::colr0
   set bg $::colr2
   catch {array set a $args; set bg $a(-bg)}
-  append opts " -t 1 -w 50 -fg $fg -bg $bg $args " [::em::theming_pave]
+  append opts " -t 1 -w 80 -fg $fg -bg $bg $args " [::em::theming_pave]
   switch -glob $typ {
     okcancel -
     yesno {
@@ -388,7 +388,7 @@ proc ::em::writeable_command {cmd} {
   set res [dialog misc "" "EDIT: $mark" "$cmd" \
     {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 \
     -pos $pos -fg $::em::colrfE -bg $::em::colrbE -cc $::em::colrcc \
-    -head "UNCOMMENT usable commands, COMMENT unusable ones\nUse \\\\ instead of \\ in patterns." -family Times -hsz 14 -size 12 -g $geo {*}[::em::theming_pave]]
+    -head "UNCOMMENT usable commands, COMMENT unusable ones\nUse \\\\\\\\ instead of \\\\ in patterns." -family Times -hsz 14 -size 12 -g $geo {*}[::em::theming_pave]]
   set ::colrgrey $tmpcolr
   dialog destroy
   lassign $res res geo cmd
@@ -1244,7 +1244,7 @@ proc ::em::menuof { commands s1 domenu} {
       if {[em_question "Menu isn't open" \
           "ERROR of opening\n$seltd\n\nCreate it?"]} {
         ::em::create_template $seltd
-        ::em::edit $seltd
+        if {![::em::edit $seltd]} { file delete $seltd }
       }
       set ::em::start0 0  ;# no more messages
       return

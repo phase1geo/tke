@@ -149,18 +149,20 @@ proc edit_file {fname fg bg cc args} {
   if {$fname==""} {
     return false
   }
+  set newfile 0
   if {[catch {set data [read [set ch [open $fname]]]}]} {
     if {[catch {close [open $fname w]} err]} {
       message_box "ERROR: couldn't create '$fname':\n$err"
       return false
     }
+    set newfile 1
     set data ""
   } else {
     close $ch
   }
   PaveDialog create dialog "" $::srcdir
   set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-    TEXT -text 1 -ro 0 -w 100 -h 32 -fg $fg -bg $bg -cc $cc -size 12 {*}$args]
+    TEXT -text 1 -ro 0 -w {100 80} -h 32 -fg $fg -bg $bg -cc $cc -size 12 {*}$args]
   dialog destroy
   set data [string range $res 2 end]
   if {[set res [string index $res 0]]=="1"} {
@@ -170,6 +172,8 @@ proc edit_file {fname fg bg cc args} {
       puts $ch [string trimright $line] ;# end spaces conflict with co= arg
     }
     close $ch
+  } elseif {$newfile} {
+    file delete $fname
   }
   return $res
 }
