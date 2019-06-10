@@ -117,7 +117,7 @@ oo::class create PaveDialog {
 
   method yesno {icon ttl msg {defb YES} args} {
     return [my Query $icon $ttl $msg \
-      {butYES Yes 1 butNO No 2} but$defb {} [my PrepArgs $args]]
+      {butYES Yes 1 butNO No 0} but$defb {} [my PrepArgs $args]]
   }
 
   method yesnocancel {icon ttl msg {defb YES} args} {
@@ -422,9 +422,13 @@ oo::class create PaveDialog {
       set prevw fraM
     } elseif {$textmode} {
       # here is text widget (in fraM frame)
-      set maxl [expr max($maxl,20)]
+      set maxl [expr {max($maxl,20)}]
       if {[info exists charheight]} {set il $charheight}
-      if {[info exists charwidth]}  {set maxl [expr min($maxl,$charwidth)]}
+      if {[info exists charwidth]}  {
+        lassign $charwidth w2 w1
+        set maxl [expr {min($maxl,$w2)}]  ;# high limit
+        if {$w1!=""} { set maxl [expr {max($maxl,$w1)}] }  ;# low limit
+      }
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
       lappend widlist {texM - - 1 7 {pack -side left -expand 1 -fill both -in \
         $_pdg(win).dia.fra.fraM} {-h $il -w $maxl $optsFontM $optsMisc -wrap word}}
@@ -512,7 +516,7 @@ oo::class create PaveDialog {
     my showModal $_pdg(win).dia \
       -focus $focusnow -geometry $geometry {*}$root -ontop $ontop
     oo::objdefine [self] unexport FindInText
-    set pdgeometry [winfo geometry $_pdg(win).dia.fra]
+    set pdgeometry [winfo geometry $_pdg(win).dia]
     if {$textmode && [string first "-state normal" $optsState]>=0} {
       set textmode " [$focusnow index insert] [$focusnow get 1.0 end]"
     } else {

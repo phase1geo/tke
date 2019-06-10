@@ -786,7 +786,6 @@ oo::class create PaveMe {
     }
     set lused {}
     set lwlen [llength $lwidgets]
-    set BS "I-am-BACKSPACE"
     for {set i 0} {$i < $lwlen} {} {
       # List of widgets contains data per widget:
       #   widget's name,
@@ -820,7 +819,6 @@ oo::class create PaveMe {
       # and before "window" call)
       if { !($widget == "" || [winfo exists $widget])} {
         set attrs [my GetAttrs $attrs $nam3 $dsbl]
-        set attrs [string map [list \\ $BS] $attrs]
         set attrs [string map {\" \\\"} [my ExpandOptions $attrs]]
         # for scrollbars - set up the scrolling commands
         if {$widget in {"ttk::scrollbar" "scrollbar"}} {
@@ -834,16 +832,12 @@ oo::class create PaveMe {
             append options " -side bottom -fill x -before $w.$neighbor"
           }
         }
-        # it needs expand \\, \{, \} because eval..{*}.. cuts them down
-        # use doctest plugin of TKE editor to make sure:
-        #
         #% doctest 1
         #%   set a "123 \\\\\\\\ 45"
         #%   eval append b {*}$a
         #%   set b
         #>   123\45
         #> doctest
-        set attrs [string map [list $BS "\\\\\\\\"] $attrs]
         my Pre attrs
         eval $widget $wname {*}$attrs
         my Post $wname $attrs

@@ -23,11 +23,11 @@
  S:fossil gdiff %F S: fossil gdiff %f
 
  S:fossil revert %F S: cd %PD
- R:fossil revert %F R: %q "Reverting changes" "Revert changes of \n   %f?"
+ R:fossil revert %F R: %q "Reverting changes" "Revert changes of \n   %f?" yesno warn NO
  S:fossil revert %F S: fossil revert %f
 
- S:fossil undo %F S: fossil undo -n %f
- R:fossil undo %F R: %q "Undoing changes" "Undo changes of \n   %f?"
+SW:fossil undo %F SW: fossil undo -n %f
+ R:fossil undo %F R: %q "Undoing changes" "Undo changes of \n   %f?" yesno warn NO
  R:fossil undo %F R: cd %PD
  S:fossil undo %F S: fossil undo %f
 
@@ -45,8 +45,8 @@
  R:fossil commit -m "Try %u" --branch Try%t4 R: %q "Commit" "Commit 'Try' and branch Try%t4 ?"
  S:fossil commit -m "Try %u" --branch Try%t4 S: fossil commit -m "Try %u" --branch Try%t4 -bgcolor 0xc0f0ff
 
- S:fossil merge Try%t4 S: fossil merge -n
- R:fossil merge Try%t4 R: %q "To merge" "Merge to trunk ?"
+SW:fossil merge Try%t4 SW: fossil merge -n
+ R:fossil merge Try%t4 R: %q "To merge" "Merge to trunk ?" yesno warn NO
  R:fossil merge Try%t4 R: cd %PD
  S:fossil merge Try%t4 S: fossil merge Try%t4
 
@@ -54,17 +54,17 @@
  R:fossil commit -f -tag "%dd" R: %q "Tag commit" "To tag commit with "%dd" ?"
  S:fossil commit -f -tag "%dd" S: fossil commit -f -tag "%dd" -bgcolor '#F8A4F6'
 
- S:fossil update trunk S: fossil update trunk -n
- R:fossil update trunk R: %q "To trunk" "Update to trunk ?"
+SW:fossil update trunk SW: fossil update trunk -n
+ R:fossil update trunk R: %q "To trunk" "Update to trunk ?" yesno warn NO
  R:fossil update trunk R: cd %PD
  S:fossil update trunk S: fossil update trunk
 
  S:fossil revert S: cd %PD
- R:fossil revert R: %q "Reverting ALL" "Revert ALL changes?"
+ R:fossil revert R: %q "Reverting ALL" "Revert ALL changes?" yesno warn NO
  S:fossil revert S: fossil revert
 
- S:fossil undo S: fossil undo -n
- R:fossil undo R: %q "Undoing ALL" "Undo ALL changes?"
+SW:fossil undo SW: fossil undo -n
+ R:fossil undo R: %q "Undoing ALL" "Undo ALL changes?" yesno warn NO
  R:fossil undo R: cd %PD
  S:fossil undo S: fossil undo
 
@@ -92,7 +92,7 @@
  S:fossil settings S: fossil settings
 
  S:set standard settings of fossil (ignore etc.) S: cd %PD
- R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?"
+ R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?" yesno warn NO
  S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.zip,*.rar,*.tgz,*.cur,*.dll,*.dylib,*.ico,*.gif,*.bmp,*.png,*.jpg"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings
 
  R:  R: 3
