@@ -130,7 +130,7 @@ namespace eval e_menu {
     if {![init_e_menu]} return
     set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
     set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
-    set z6_opt [set z7_opt [set ts_opt ""]]
+    set z6_opt [set z7_opt [set ts_opt [set PN_opt ""]]]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
@@ -174,11 +174,17 @@ namespace eval e_menu {
         set d_opt "d=[pwd]"
         set PD_opt "PD=[pwd]"
       }
+      # here we try to use env.variables E_MENU_PD and E_MENU_PN
+      # stripped of special symbols (obsolete, though may be useful)
       catch {
-        # here we use env.variables E_MENU_PD and E_MENU_PN
-        # stripped of special symbols (obsolete, though may be useful)
-        set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $::env(E_MENU_PD)]"
-        set z4_opt "z4=$::env(E_MENU_PN)"
+        set PDname $::env(E_MENU_PD)
+        set PD_opt "PD=$PDname"
+        set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $PDname]"
+      }
+      catch {
+        set PNname $::env(E_MENU_PN)
+        set PN_opt "PN=$PNname"
+        set z4_opt "z4=[string map {/ _ \\ _ { } _ . _} $PNname]"
       }
       if {$file_index>0} {
         catch {set z6_opt z6=[api::file::get_info [expr $file_index-1] fname]}
@@ -204,7 +210,7 @@ namespace eval e_menu {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
           $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
           $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
-          $l_opt $ts_opt &
+          $l_opt $ts_opt $PN_opt &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
