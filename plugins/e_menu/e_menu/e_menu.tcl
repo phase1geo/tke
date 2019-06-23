@@ -145,6 +145,7 @@ namespace eval em {
   variable useltd ""
   variable qseltd ""
   variable dseltd ""
+  variable sseltd ""
   variable pseltd ""
   variable ontop 0
   variable dotop 0
@@ -1133,6 +1134,10 @@ proc ::em::prepr_idiotic {refpn start } {
 proc ::em::prepr_init {refpn} {
   upvar $refpn pn
   prepr_idiotic pn 1
+  prepr_1 pn "+"  $::em::pseltd ;# %+  is %s with " " as "+"
+  prepr_1 pn "qq" $::em::qseltd ;# %qq is %s with quotes escaped
+  prepr_1 pn "dd" $::em::dseltd ;# %dd is %s with special simbols deleted
+  prepr_1 pn "ss" $::em::sseltd ;# %ss is %s trimmed
   prepr_09 pn ::em::arr_s09 "s"  ;# s1-s9 params
   prepr_09 pn ::em::arr_u09 "u"  ;# u1-u9 params underscored
   set delegator {}
@@ -1156,9 +1161,6 @@ proc ::em::prepr_init {refpn} {
       }
     }
   }
-  prepr_1 pn "+"  $::em::pseltd ;# %+  is %s with " " as "+"
-  prepr_1 pn "qq" $::em::qseltd ;# %qq is %s with quotes escaped
-  prepr_1 pn "dd" $::em::dseltd ;# %dd is %s with specs deleted
 }
 #=== Mr. Preprocessor of 'prog'/'name'
 proc ::em::prepr_pn {refpn {dt 0}} {
@@ -1590,10 +1592,12 @@ proc ::em::prepare_wilds {per2} {
   prepr_pn ::em::pseltd
   prepr_pn ::em::qseltd
   prepr_pn ::em::dseltd
+  prepr_pn ::em::sseltd
   set ::em::useltd [string map {" " "_"} $::em::useltd]
   set ::em::pseltd [escape_links $::em::pseltd]
   set ::em::qseltd [escape_quotes $::em::qseltd "\\\""]
   set ::em::dseltd [delete_specsyms $::em::dseltd]
+  set ::em::sseltd [string trim $::em::sseltd]
 }
 #=== get pars
 proc ::em::get_pars1 {s1 argc argv} {
@@ -1653,8 +1657,8 @@ proc ::em::checkgeometry {} {
 #=== initialize ::em::commands from argv and menu
 proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
-  foreach s1 { a0= P= N= PD= PN= F= o= s= \
-        u= w= qq= dd= pa= ah= wi= += bd= b1= b2= b3= b4= \
+  foreach s1 { a0= P= N= PD= PN= F= o= s= u= w= \
+        qq= dd= ss= pa= ah= wi= += bd= b1= b2= b3= b4= \
         f1= f2= fs= a1= a2= ed= tf= tg= md= wc= \
         t0= t1= t2= t3= t4= t5= t6= t7= t8= t9= \
         s0= s1= s2= s3= s4= s5= s6= s7= s8= s9= \
@@ -1701,7 +1705,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
             set ::em::hotkeys "000$::em::hotsall"
           }
           set ::em::seltd [set ::em::useltd [set ::em::pseltd [ \
-            set ::em::qseltd [set ::em::dseltd $seltd]]]]
+            set ::em::qseltd [set ::em::dseltd [set ::em::sseltd $seltd]]]]]
           set ::em::begsel [expr [llength $::em::commands] - 1]
         }
         h= {
@@ -1760,6 +1764,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         f2= { set ::font2 $seltd}
         qq= { set ::em::qseltd [escape_quotes $seltd "\\\""] }
         dd= { set ::em::dseltd [delete_specsyms $seltd] }
+        ss= { set ::em::sseltd [string trim $seltd] }
         +=  { set ::em::pseltd [escape_links $seltd] }
         pa= { set ::em::pause [::getN $seltd $::em::pause]}
         wc= { set ::em::wc [::getN $seltd $::em::wc]}

@@ -8,11 +8,15 @@ Also the e_menu plugin provides a context help on Tcl/Tk commands/keywords while
 It means that while editing a file.tcl you can set the caret on desirable Tcl/Tk command/keyword and press Ctrl+F1 (or F1, if you map F1 to e_menu) and after that you would get a help page for the selected Tcl/Tk command/keyword.
 
 For details of creating and using menus, refer to:
+
   http://aplsimple.ucoz.ru/e_menu/e_menu.html
+
 This help is available also in the plugin by pressing F1 key or through its popup menu.
 
+The specific feature of TKE's e_menu is an option available in "Edit / Preferences / Plugins". This option switches on / off saving a current file before running the plugin.
+
 *Note:*
-The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated by aplsimple(you-know-what)gmail.com.
+The plugin was tested under Linux (Debian) and Windows. All bug fixes and corrections for other platforms would be appreciated by aplsimple on "gmail.com".
 
 
 # List of features

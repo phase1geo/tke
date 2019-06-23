@@ -1,6 +1,12 @@
 # Last changes:
 
 
+Version `1.23 (23 Jun'19)`
+
+  - ss= argument, %ss wildcard
+  - option "Do save the edited file" in Preferences/Plugins/e_menu
+
+
 Version `1.22 (9 Jun'19)`
 
   - %AR, %L wildcards

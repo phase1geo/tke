@@ -24,7 +24,7 @@
 # RE: Open terminal in "%D" RE: %IF [::iswindows] %THEN cmd.exe /K %ELSE xterm -fa "%lg" -fs 15 -geometry 123x32+0+0 -bg white -fg black
 
  M:  M: 4
- RE: Open in Firefox "%s" site RE: firefox "%s"
+ RE: Open in browser "%ss" site RE: %B %ss
  RE: Search in Firefox for "%s" RE: firefox -search "%s"
  RE: Wikipedia for "%s" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
 # RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
