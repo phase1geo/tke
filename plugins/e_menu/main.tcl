@@ -7,6 +7,9 @@ namespace eval e_menu {
 
   variable datadir [api::get_plugin_data_directory]
 
+  variable do_save_file 1
+  variable opt1 "EMENU_do_save_file"
+
 #  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
 
   proc get_txt {} {
@@ -127,6 +130,7 @@ namespace eval e_menu {
 
     variable plugdir
     variable datadir
+    variable do_save_file
     if {![init_e_menu]} return
     set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
     set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
@@ -175,7 +179,7 @@ namespace eval e_menu {
         set PD_opt "PD=[pwd]"
       }
       # here we try to use env.variables E_MENU_PD and E_MENU_PN
-      # stripped of special symbols (obsolete, though may be useful)
+      # and z3/z4 stripped of special symbols (though obsolete can be useful)
       catch {
         set PDname $::env(E_MENU_PD)
         set PD_opt "PD=$PDname"
@@ -192,20 +196,29 @@ namespace eval e_menu {
       catch {set z7_opt z7=[api::file::get_info [expr $file_index+1] fname]}
     }
     set z1_opt "z1=$plugdir"
+    # here we try and set colors of TKE's current color scheme
+    # (defaults are taken from MildDark theme, huh)
     set fg "fg=[api::get_default_foreground]"
     set bg "bg=[api::get_default_background]"
-    set fE "fE=#aeaeae"
+    set fE "fE=#d2d2d2"
     catch {set fE "fE=[[get_txt] cget -foreground]"}
-    set bE "bE=#161717"
+    set bE "bE=#181919"
     catch {set bE "bE=[[get_txt] cget -background]"}
-    set fS "fS=#ffffff"
+    set fS "fS=#280000"
     catch {set fS "fS=[[get_txt] cget -selectforeground]"}
-    set bS "bS=#0000ff"
+    set bS "bS=#ff5577"
     catch {set bS "bS=[[get_txt] cget -selectbackground]"}
-    set cc "cc=#888888"
+    set cc "cc=#00a0f0"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
     set z5_opt "z5=$z5_opt"
+    # l= option is a current edited line's number (maybe useful in commands)
     set l_opt l=[expr {int([[get_txt] index "insert linestart"])}]
+    # try and save the edited file if necessary
+    do_pref_load
+    if {$do_save_file} {
+      catch {api::menu::invoke "File/Save"}
+    }
+    # at last we try to call e_menu
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
           $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
@@ -218,6 +231,50 @@ namespace eval e_menu {
         ----------------------\n$e"
     }
     return
+  }
+
+  #====== Procedures to load/set the plugin's preferences
+
+  proc do_pref_load {} {
+
+    variable do_save_file
+    variable opt1
+    if {[catch "api::preferences::get_value $opt1" do_save_file] } {
+      set do_save_file 1
+    }
+    get_do_save_file $do_save_file
+    return "$opt1 $do_save_file"
+
+  }
+
+  proc do_pref_ui {w} {
+
+    variable opt1
+    pack [ttk::labelframe $w.sf -text "
+To save the edited file before running an external command
+is a sort of insurance against data losses.
+
+Also, this makes the current edited buffer
+be accessible to SCM (and similar) commands.
+"] -fill x
+    api::preferences::widget checkbutton $w.sf "$opt1" \
+      "Do save the edited file"
+    return
+
+  }
+
+  proc get_do_save_file {inst} {
+
+    variable do_save_file
+    set do_save_file [string trim $inst]
+    if {$do_save_file ne ""} {
+      if { [catch {set do_save_file [expr int($do_save_file)]}] } {
+        set do_save_file 1
+        return 0
+      }
+    }
+    return 1
+
   }
 
   #====== Procedures to register the plugin
@@ -234,4 +291,6 @@ namespace eval e_menu {
 
 api::register e_menu {
   {menu command {E_menu - User Menus} e_menu::do_e_menu e_menu::handle_state}
+  {on_pref_load e_menu::do_pref_load}
+  {on_pref_ui e_menu::do_pref_ui}
 }
