@@ -1,8 +1,8 @@
 name           {add_shortcut}
 display_name   {Add Shortcuts}
 author         {Alex Plotnikov}
-website        {http://aplsimple.ucoz.ru#e_menu}
-email          {aplsimple@mail.ru}
+website        {https://aplsimple.bitbucket.io}
+email          {aplsimple@gmail.com}
 version        {1.8}
 include        {yes}
 trust_required {yes}

@@ -8,8 +8,8 @@
  RE: Run me (with %AR) RE: ###########################################################
  RE: Run me (with %AR) RE: %M "Edit this menu for file extention: %x"
 
- SE: Run Tcl {%s} ... SE: cd %d
- SE: Run Tcl {%s} ... SE: tclsh %z1/src/ch_.tcl "%z2"
+ SE: Run Tcl {all selection} SE: cd %d
+ SE: Run Tcl {all selection} SE: tclsh %m/src/ch_.tcl "%TF"
 
  RE: Edit/create file "%s" RE:%E %s
 
@@ -60,7 +60,7 @@ tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so
  M:  M: 4
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50
  ME: Git  ME: m=git.mnu "u=%s" o=0 w=50
- ME: Hg ME: m=hg.mnu
+ ME: Hg ME: m=hg.mnu g=+500+40
  ME: Utils ME: m=utils.mnu
 
 [OPTIONS]
@@ -68,3 +68,4 @@ n=< e_menu >
 bd=1
 w=45
 g=+500+100
+pos=12.18

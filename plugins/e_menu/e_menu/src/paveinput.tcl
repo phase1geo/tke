@@ -35,7 +35,7 @@ oo::class create PaveInput {
     set pady "-pady 2"
     lappend inopts [list fraM + T 1 98 "-st new $pady -rw 1"]
     set savedvv [list]
-    foreach {name prompt valopts} [list {*}$iopts] {
+    foreach {name prompt valopts} $iopts {
       lassign $prompt prompt gopts attrs
       set gopts "$pady $gopts"
       if {[set typ [string range $name 0 1]]=="v_" || $typ=="se"} {
@@ -47,7 +47,6 @@ oo::class create PaveInput {
         ch { set tvar "-var" }
         sp { set gopts "$gopts -expand 0 -side left"}
       }
-
       if {[string match "*Mono*" "[font families]"]} {
         set Mfont "Mono"
       } else {
@@ -61,14 +60,14 @@ oo::class create PaveInput {
       set ff [my fieldname $name]
       switch $typ {
         cb {
-          if {![info exist $vv]} {lassign $valopts $vv}
+          if {![info exist $vv]} {catch {lassign $valopts $vv}}
           foreach vo [lrange $valopts 1 end] {
             lappend vlist $vo
           }
           lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -value \{$vlist\} $attrs"]
         }
         ra {
-          if {![info exist $vv]} {lassign $valopts $vv}
+          if {![info exist $vv]} {catch {lassign $valopts $vv}}
           set padx 0
           foreach vo [lrange $valopts 1 end] {
             set name $name
@@ -96,7 +95,7 @@ oo::class create PaveInput {
         default {
           lappend inopts [list $ff - - - - "pack -side right -expand 1 -fill x $gopts" "$tvar $vv $attrs"]
           if {$vv!=""} {
-            if {![info exist $vv]} {lassign $valopts $vv}
+            if {![info exist $vv]} {catch {lassign $valopts $vv}}
           }
         }
       }

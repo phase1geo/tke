@@ -133,7 +133,7 @@ namespace eval e_menu {
     variable do_save_file
     if {![init_e_menu]} return
     set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
-    set z1_opt [set z2_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
+    set z1_opt [set TF_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
     set z6_opt [set z7_opt [set ts_opt [set PN_opt ""]]]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
@@ -157,11 +157,12 @@ namespace eval e_menu {
       foreach s [split $sel \n] {
         set s_opt [string trimright $s]
         if {$s_opt!=""} {
-          set s_opt [string map {\" \\\" \{ \\\{ \( "\\\\(" \
-          \> "" \< ""} "s=$s_opt"]  ;# s= 1st line of the selection
+          ;# only 1st non-empty line of the selection is for s= argument
+          ;# all selection is saved to a temporary file of TF= argument
+          set s_opt [string map { \> "" \< ""} "s=$s_opt"]
           set tmpname [save_to_tmp $sel]
           if {$tmpname!=""} {
-            set z2_opt "z2=$tmpname"     ;# z2= temp.file of the selection
+            set TF_opt "TF=$tmpname"     ;# TF= temp.file of the selection
           }
           break
         }
@@ -222,7 +223,7 @@ namespace eval e_menu {
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
           $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
-          $z1_opt $z2_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
+          $z1_opt $TF_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
           $l_opt $ts_opt $PN_opt &
       } e]} {
       api::show_error "\nError of run:\n

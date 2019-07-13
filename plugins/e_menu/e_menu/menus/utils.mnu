@@ -1,7 +1,7 @@
 # utils menu for e_menu.tcl
 
- R: Diff of %s0 to LEFT  tab R: %IF "%z6"=="%%z6" %THEN %D "No left TKE tab available."  %ELSE meld "%z6" "%F"
- R: Diff of %s0 to RIGHT tab R: %IF "%z7"=="%%z7" %THEN %D "No right TKE tab available." %ELSE meld "%F" "%z7"
+ R: Diff of %e%x to LEFT  tab R: %IF "%z6"=="%%z6" %THEN %D "No left TKE tab available."  %ELSE meld "%z6" "%F"
+ R: Diff of %e%x to RIGHT tab R: %IF "%z7"=="%%z7" %THEN %D "No right TKE tab available." %ELSE meld "%F" "%z7"
 
  M:  M: 4
 
