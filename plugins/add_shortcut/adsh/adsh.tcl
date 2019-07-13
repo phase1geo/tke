@@ -2,11 +2,6 @@
 #
 # Making the list of shortcuts bound to TKE events.
 #
-# For details refer to:
-#   aplsimple.ucoz.ru/doc/adsh.html
-#
-# ... or press F1 while working with the script.
-#
 ######################################################################
 
 package require Tk
@@ -298,15 +293,6 @@ You can use the # for comments."}
       pdlg ok err "ERROR" "\nERROR: a browser not found\n"
     } else {
       catch {exec {*}$command $url &}
-    }
-    return
-
-  }
-
-  proc doHelp {s} {
-
-    if {$s=="0"} {
-      invokeBrowser "http://aplsimple.ucoz.ru/doc/adsh.html"
     }
     return
 
@@ -1074,7 +1060,6 @@ You can use the # for comments."}
     bind $win.fra.butChange "<Enter> " {adsh::doHint "Changes the current item."}
     bind $win.fra.butDelete "<Enter> " {adsh::doHint "Deletes the item and its children."}
     bind $win.fra.butTest "<Enter> " {adsh::doHint "Tests if the EVENTs are correct."}
-    bind $win <F1> {adsh::doHelp "%s"}
     if {$geometry==""} {
       set geometry +300+200
     }

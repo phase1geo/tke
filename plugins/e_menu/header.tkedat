@@ -1,9 +1,9 @@
 name           {e_menu}
 display_name   {E_menu - User's Menus}
 author         {Alex Plotnikov}
-website        {http://aplsimple.ucoz.ru/e_menu/e_menu.html}
-email          {aplsimple@mail.ru}
-version        {1.23}
+website        {https://aplsimple.bitbucket.io}
+email          {aplsimple@gmail.com}
+version        {1.24}
 include        {yes}
 trust_required {yes}
 category       {tools}

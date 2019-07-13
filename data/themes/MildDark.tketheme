@@ -1,6 +1,6 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
-website {aplsimple.ucoz.ru}
+website {https://aplsimple.bitbucket.io}
 date {1554314719}
 images,form_close {dat {#define close_width 8
 #define close_height 8

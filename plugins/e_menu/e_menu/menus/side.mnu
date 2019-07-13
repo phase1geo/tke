@@ -86,9 +86,9 @@ SW:hg commit SW: hg status
 
  R: R: 4
  R:TKE tickets R: %b https://sourceforge.net/p/tke/tickets/
- R:Pave wiki R: %b https://wiki.tcl-lang.org/page/Pave%2C+sort+of+geometry+manager
- R:Doctest wiki R: %b https://wiki.tcl-lang.org/page/doctest+for+Tcl
- R:E_menu wiki R: %b http://aplsimple.ucoz.ru/e_menu/e_menu.html
+ R:Pave wiki R: %b https://aplsimple.bitbucket.io/en/tcl/pave
+ R:Doctest wiki R: %b https://aplsimple.bitbucket.io/en/tcl/doctest
+ R:E_menu wiki R: %b https://aplsimple.bitbucket.io/en/tcl/e_menu
 
 [HIDDEN]
  R: 1. tkcon         R: tkcon

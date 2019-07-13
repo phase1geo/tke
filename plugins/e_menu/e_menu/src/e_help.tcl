@@ -20,7 +20,7 @@ package require Tk
 package require http
 package require tls
 
-set srcdir [file join [file normalize [file dirname $::argv0]] "src"]
+set srcdir [file normalize [file dirname [info script]]]
 source [file join $srcdir "paveinput.tcl"]
 
 namespace eval eh {
@@ -145,7 +145,7 @@ proc invokeBrowser {url} {
   }
 }
 # ====== to edit file by means of e_menu
-proc edit_file {fname fg bg cc args} {
+proc edit_file {fname fg bg cc {prepost ""} args} {
   if {$fname==""} {
     return false
   }
@@ -161,20 +161,23 @@ proc edit_file {fname fg bg cc args} {
     close $ch
   }
   PaveDialog create dialog "" $::srcdir
+  if {$prepost==""} {set aa ""} {set aa [$prepost data]}
   set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-    TEXT -text 1 -ro 0 -w {100 80} -h 32 -fg $fg -bg $bg -cc $cc -size 12 {*}$args]
-  dialog destroy
+    TEXT -text 1 -ro 0 -w {100 80} -h 32 -fg $fg -bg $bg -cc $cc -size 12 \
+    -post $prepost {*}$aa {*}$args]
   set data [string range $res 2 end]
   if {[set res [string index $res 0]]=="1"} {
     set data [string range $data [string first " " $data]+1 end]
+    set data [string trimright $data]
     set ch [open $fname w]
-    foreach line [split [string trimright $data] \n] {
+    foreach line [split $data \n] {
       puts $ch [string trimright $line] ;# end spaces conflict with co= arg
     }
     close $ch
   } elseif {$newfile} {
     file delete $fname
   }
+  dialog destroy
   return $res
 }
 # *******************************************************************

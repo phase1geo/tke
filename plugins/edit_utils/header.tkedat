@@ -1,8 +1,8 @@
 name           {edit_utils}
 display_name   {Editing Utils}
 author         {Alex Plotnikov}
-website        {http://aplsimple.ucoz.ru#e_menu}
-email          {aplsimple@mail.ru}
+website        {https://aplsimple.bitbucket.io}
+email          {aplsimple@gmail.com}
 version        {1.2}
 include        {yes}
 trust_required {no}

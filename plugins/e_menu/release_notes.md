@@ -1,6 +1,18 @@
 # Last changes:
 
 
+Version `1.24 (12 Jul'19)`
+
+  - TF= argument, %TF wildcard
+  - saving/restoring the variables in [OPTIONS]
+  - saving/restoring the cursor's position at editing a menu
+  - Ctrl+Y to delete a line at editing
+  - Ctrl+D to double a line at editing
+  - popup menu at editing
+  - hg2.mnu: 'Push with BIN'
+  - help updated amd moved to aplsimple.bitbucket.io
+  - clearance a bit
+
 Version `1.23 (23 Jun'19)`
 
   - ss= argument, %ss wildcard

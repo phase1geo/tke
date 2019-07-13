@@ -972,9 +972,6 @@ oo::class create PaveMe {
       set opt(-onclose) [list $opt(-onclose) ${_pav(ns)}PN::AR($win)]
     }
     wm protocol $win WM_DELETE_WINDOW $opt(-onclose)
-    if {$ontop>0} {
-      wm attributes $win -topmost 1
-    }
     # get the window's geometry from its requested sizes
     set inpgeom $opt(-geometry)
     if {$inpgeom == ""} {
@@ -1008,6 +1005,9 @@ oo::class create PaveMe {
       }
     } else {
       wm geometry $win $inpgeom
+    }
+    if {$ontop>0} {
+      wm attributes $win -topmost 1
     }
     after 50 [list focus -force $opt(-focus)]
     tkwait variable ${_pav(ns)}PN::AR($win)
