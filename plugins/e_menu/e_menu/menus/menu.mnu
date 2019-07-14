@@ -11,7 +11,8 @@
  SE: Run Tcl {all selection} SE: cd %d
  SE: Run Tcl {all selection} SE: tclsh %m/src/ch_.tcl "%TF"
 
- RE: Edit/create file "%s" RE:%E %s
+ RE: Edit/create file "%s" RE: cd %d
+ RE: Edit/create file "%s" RE: %E %s
 
  RE: Open directory "%D" RE: %IF ![::iswindows] %THEN %Q "CHANGE ME" "The directory:\n%d\n\nwould be open by \"caja\" file manager.\n\nYou can change it by editing:\n%mn" okcancel warn OK -ontop 1
  RE: Open directory "%D" RE: %IF [::iswindows] %THEN explorer.exe "%d" %ELSE caja "%d"
@@ -24,7 +25,10 @@
 # RE: Open terminal in "%D" RE: %IF [::iswindows] %THEN cmd.exe /K %ELSE xterm -fa "%lg" -fs 15 -geometry 123x32+0+0 -bg white -fg black
 
  M:  M: 4
+
+ RE: Open in browser "%ss" site RE: cd %d
  RE: Open in browser "%ss" site RE: %B %ss
+
  RE: Search in Firefox for "%s" RE: firefox -search "%s"
  RE: Wikipedia for "%s" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
 # RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
@@ -68,4 +72,4 @@ n=< e_menu >
 bd=1
 w=45
 g=+500+100
-pos=12.18
+pos=14.36
