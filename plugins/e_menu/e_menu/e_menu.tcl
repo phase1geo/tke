@@ -354,7 +354,12 @@ proc ::em::prepost_edit {refdata {txt ""}} {
     if {$line!=""} {set line "-pos $pos"}
     return $line  ;# 'position of cursor' attribute
   } else {
-    lset datalist $i "${attr}[$txt index insert]"
+    set attr "${attr}[$txt index insert]"
+    if {$opt} {
+      lset datalist $i $attr
+    } else {
+      lappend datalist \n "\[OPTIONS\]" $attr   ;# long live OPTIONS
+    }
     set data [join $datalist \n]
   }
 }

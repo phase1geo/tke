@@ -1,6 +1,12 @@
 # Last changes:
 
 
+Version `1.25 (14 Jul'19)`
+
+  - bugfixing: add [OPTIONS] if absent in edited menu
+  - 'cd %d' before 'Edit/create selection' & 'Open in browser' in menu.mnu
+
+
 Version `1.24 (12 Jul'19)`
 
   - TF= argument, %TF wildcard
