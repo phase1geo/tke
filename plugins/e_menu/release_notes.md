@@ -1,6 +1,13 @@
 # Last changes:
 
 
+Version `1.26 (25 Jul'19)`
+
+  - e_menu.tcl: catched {cd $cpwd} - as the directory may be deleted by commands
+  - paveme.tcl: set attrs..-nocomm - as more secure
+  - hg.mnu shorted & hg2.mnu expanded with 'hg forget/remove/add'
+
+
 Version `1.25 (14 Jul'19)`
 
   - bugfixing: add [OPTIONS] if absent in edited menu

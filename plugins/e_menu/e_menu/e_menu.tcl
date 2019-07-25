@@ -996,7 +996,7 @@ proc ::em::shell_run { from typ c1 s1 amp {inpsel ""} } {
   }
   update_buttons_pn
   update idletasks
-  cd $cpwd
+  catch {cd $cpwd}  ;# may be deleted by commands
 }
 #=== run commands before a submenu
 proc ::em::before_callmenu {pars} {
@@ -1015,7 +1015,7 @@ proc ::em::before_callmenu {pars} {
     }
     set pars [string range $pars [string last \r $pars]+1 end]
   }
-  cd $cpwd
+  catch {cd $cpwd}  ;# may be deleted by commands
   return $pars
 }
 #=== call a submenu

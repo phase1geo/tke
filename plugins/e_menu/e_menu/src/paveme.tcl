@@ -810,8 +810,8 @@ oo::class create PaveMe {
           set rowspan 1
         }
       }
-      set options [uplevel 2 subst -nobackslashes [list $options1]]
-      set attrs [uplevel 2 subst -nobackslashes [list $attrs1]]
+      set options [uplevel 2 subst -nocomm -nobackslashes [list $options1]]
+      set attrs [uplevel 2 subst -nocomm -nobackslashes [list $attrs1]]
       lassign [my GetWidgetType $wname $options $attrs] widget options attrs \
         nam3 dsbl
       # The type of widget (if defined) means its creation
