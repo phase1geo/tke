@@ -1,3 +1,54 @@
+
+ R: hg addremove * R: %q "ADD" "This will ADD & REMOVE all changes in:\n\n  %PD"
+ R: hg addremove * R: cd %PD
+ S: hg addremove * S: hg addremove -v *\nhg status
+
+ R: hg add "%F" file R: %q "ADD" "This will add\n\n  %f\n\nto hg history of\n\n  %PD"
+ R: hg add "%F" file R: cd %PD
+ S: hg add "%F" file S: hg add -v "%f"\nhg status
+
+ R: hg add "%D" directory R: %q "ADD" \
+   "This will add ALL of directory\n\n  %d\n\nto hg history of\n\n  %PD"
+ R: hg add "%D" directory R: cd %d
+ S: hg add "%D" directory S: hg add -v *\nhg status
+
+ R: R: 4
+
+ R: Forget "%F" file R: cd %d
+ R: Forget "%F" file R: %q "FORGET FILE" "This will FORGET the file \
+    \n\n  %f \n\nin hg history!"
+SW: Forget "%F" file SW: hg forget -v %f
+
+ R: Forget "%D" directory R: cd %d
+ R: Forget "%D" directory R: %q "FORGET DIRECTORY" "This will FORGET the directory \
+    \n\n  %d \n\nin hg history!"
+SW: Forget "%D" directory SW: hg forget -v *
+
+ R: Forget newly-added binary files R: %q "FORGET ADDED BIN" " This will FORGET \
+  \n newly-added binary files!"
+SW: Forget newly-added binary files SW: hg forget "set:added() and binary()"
+
+ R: Forget files excluded by .hgignore R: %q "FORGET BY .hgignore" " This will FORGET files \
+  \n that are excluded by .hgignore!"
+SW: Forget files excluded by .hgignore SW: hg forget "set:hgignore()"
+
+ R: R: 4
+
+ R: Remove "%F" file R: cd %d
+ R: Remove "%F" file R: %q "REMOVE FILE" "This will REMOVE the file \
+    \n\n  %f \n\nfrom hg history! \n\nThe file is NOT deleted on disk."
+SW: Remove "%F" file SW: hg remove -Af -v %f
+
+ R: Remove "%D" directory R: cd %d
+ R: Remove "%D" directory R: %q "REMOVE DIRECTORY" "This will REMOVE the directory \
+    \n\n  %d \n\nfrom hg history!\n\nThe directory is NOT deleted on disk."
+SW: Remove "%D" directory SW: hg remove -Af -S -v *
+
+R: R: 4
+
+ S: hg status S: cd %PD
+ S: hg status S: hg status
+
 R: Push with BIN R: cd %PD
 R: Push with BIN R: %q "Push with BIN" " This will push your last commits + BIN \
   \n so that: \
@@ -78,4 +129,4 @@ n=< hg2 >
 ::RGEO=568x537+0+55
 ::RBIN=BIN
 ::REV1=-3
-pos=65.2
+pos=51.0
