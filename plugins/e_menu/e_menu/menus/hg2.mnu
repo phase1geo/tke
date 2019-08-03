@@ -60,8 +60,17 @@ SW: Remove "%D" directory SW: hg remove $::FORCEDREM -v *\nhg status
 
 R: R: 4
 
- S: hg status S: cd %PD
- S: hg status S: hg status
+S: hg summary, status, heads S: cd %PD
+S: hg summary, status, heads S: \n \n \
+  echo "\n------------------------------------------------\n" \n  \
+  echo "HG SUMMARY: \t $PWD\n" \n \
+       hg summary \n \
+  echo "\n------------------------------------------------\n" \n \
+  echo "HG STATUS: \t $PWD\n" \n \
+       hg status \n \
+  echo "\n------------------------------------------------\n" \n \
+  echo "HG HEADS: \t $PWD\n" \n \
+       hg heads \n\n
 
 R: Push with BIN R: cd %PD
 R: Push with BIN R: %q "Push with BIN" " This will push your last commits + BIN \
@@ -71,14 +80,14 @@ R: Push with BIN R: %q "Push with BIN" " This will push your last commits + BIN 
   \n     * ... till a next 'Push with BIN' \
   \n\n Please, view the messages to follow..."
 S: Push with BIN S: \
-  echo "\n------------------------\n" \n  \
-  echo "HG SUMMARY:\n" \n \
+  echo "\n------------------------------------------------\n" \n  \
+  echo "HG SUMMARY: \t $PWD\n" \n \
        hg summary \n \
-  echo "\n------------------------\n" \n \
-  echo "HG STATUS:\n" \n \
+  echo "\n------------------------------------------------\n" \n \
+  echo "HG STATUS: \t $PWD\n" \n \
        hg status \n \
-  echo "\n------------------------\n" \n \
-  echo "HG HEADS:\n" \n \
+  echo "\n------------------------------------------------\n" \n \
+  echo "HG HEADS: \t $PWD\n" \n \
        hg heads \n\n
 R: Push with BIN R: %I warn "Push with BIN" {entRev {{Tag of 'BIN' revision:} \
   {} {-w 20}} {"$::RBIN"} lab} -ontop 1 -geometry $::RGEO -head \
@@ -143,4 +152,5 @@ n=< hg2 >
 ::RGEO=568x537+0+55
 ::RBIN=BIN
 ::REV1=-3
-pos=57.43
+pos=157.0
+in=1.0

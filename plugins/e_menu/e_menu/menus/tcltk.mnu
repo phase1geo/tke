@@ -5,3 +5,7 @@ SE: Tclsh SE: tclsh
 RE: Wish RE: wish
 
 RE: Console RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
+
+[OPTIONS]
+pos=11.6
+in=1.0
