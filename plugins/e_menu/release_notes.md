@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Version `1.27 (3 Aug'19)`
+
+  - ln=, cn= arguments, to read a word under caret if no selection
+  - yn= argument, to confirm exit at Escape pressing
+  - in=1.0 in [OPTIONS] section, to save & restore last run position
+  - in=1.0 included in .mnu files
+
+
 Version `1.26 (25 Jul'19)`
 
   - e_menu.tcl: catched {cd $cpwd} - as the directory may be deleted by commands

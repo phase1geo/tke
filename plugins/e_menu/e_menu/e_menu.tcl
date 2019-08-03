@@ -1,13 +1,12 @@
 #! /usr/bin/env tclsh
-#
-# Running commands bound to an editor.
-#
-#
-# For details see help/e_menu.html.
-# *******************************************************************
-# Scripted by Alex Plotnikov
-# *******************************************************************
-#
+
+#####################################################################
+
+# Runs commands on files. Bound to editors, file managers etc.
+# Scripted by Alex Plotnikov.
+
+#####################################################################
+
 # Test cases:
 
   #% doctest
@@ -27,6 +26,8 @@ package require Tk
 package require tooltip
 
 namespace eval em {
+  variable e_menu_version "e_menu 1.27"
+  variable menuttl "$::em::e_menu_version"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
   variable thisapp emenuapp
@@ -165,7 +166,6 @@ namespace eval em {
   variable itviewed 0
   variable geometry ""
   variable ischild 0
-  variable menuttl ""
   variable menufilename ''
   variable inherited ""
   variable autorun ""
@@ -195,9 +195,13 @@ namespace eval em {
   variable colrcc "#00ffff"
   variable conti " \\"
   variable lconti 1
-  variable fileread {}
+  variable filecontent {}
   variable truesel 0
+  variable ln 0
+  variable cn 0
+  variable yn 0
   variable ismenuvars 0
+  variable savelasti -1
 }
 #=== set theme options for dialogs
 proc ::em::theming_pave {} {
@@ -213,7 +217,8 @@ proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
   set fg $::colr0
   set bg $::colr2
   catch {array set a $args; set bg $a(-bg)}
-  append opts " -t 1 -w 80 -fg $fg -bg $bg $args " [::em::theming_pave]
+  set a1 ""; foreach a2 $args {append a1 $a2 " "}
+  append opts " -t 1 -w 80 -fg $fg -bg $bg $a1 " [::em::theming_pave]
   switch -glob $typ {
     okcancel -
     yesno {
@@ -262,7 +267,7 @@ proc ::em::reread_menu {} {
 #=== reread and autorun
 proc ::em::reread_init {} {
   reread_menu
-  set ::em::fileread {}
+  set ::em::filecontent {}
   initauto
 }
 #=== check is there a header of menu
@@ -453,6 +458,35 @@ proc ::em::writeable_command {cmd} {
   }
   ::em::focused_win 1
   return $cmd
+}
+#=== save options in the menu file
+proc ::em::save_options {} {
+  if {$::em::savelasti<0} return
+  set menudata [::em::read_menufile]
+  set opt [set i [set ifnd [set ifnd1 0]]]
+  foreach line $menudata {
+    if {$line=="\[OPTIONS\]"} {
+      set opt 1
+    } elseif {$opt} {
+      set ifnd $i
+      if [string match "in=*" $line] {
+        set ifnd1 $i
+        break
+      }
+    } elseif {$line=="\[MENU\]" || $line=="\[HIDDEN\]"} {
+      set opt 0
+    }
+    incr i
+  }
+  if {$ifnd} {  ;# if no OPTIONS section, nothing to do
+    set opt1 in=$::em::lasti.$::em::begsel
+    if {$ifnd1} {
+      set menudata [lreplace $menudata $ifnd1 $ifnd1 $opt1]
+    } else {
+      set menudata [linsert $menudata $ifnd1 $opt1]
+    }
+    ::em::write_menufile $menudata
+  }
 }
 #=== initialize values of menu's variables
 proc ::em::init_menuvars {} {
@@ -1020,6 +1054,7 @@ proc ::em::before_callmenu {pars} {
 }
 #=== call a submenu
 proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
+  save_options
   set pars [get_seltd $s1]
   set pars [before_callmenu $pars]
   if {$pars==""} return
@@ -1036,10 +1071,12 @@ proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
 }
 #=== run "seltd" as a command
 proc ::em::run { typ s1 {amp ""} {from ""} } {
+  save_options
   shell_run $from $typ run1 $s1 $amp
 }
 #=== shell "seltd" as a command
 proc ::em::shell { typ s1 {amp ""} {from ""} } {
+  save_options
   shell_run $from $typ shell1 $s1 $amp
 }
 #=== run by button pressing
@@ -1056,6 +1093,8 @@ proc ::em::shell_button { typ s1 {amp ""} } {
 proc ::em::browse_button { s1 } {
   set help [lindex [get_seltd $s1] 0]  ;# 1st word is the page name
   ::eh::browse [eh::html $help $::em::offline]
+  set ::em::lasti 1
+  ::em::save_options
   ::em::on_exit
 }
 #=== run a command after keypressing
@@ -1068,6 +1107,7 @@ proc ::em::pr_button {ib args} {
   {*}$comm
   highlight_button $ib
   focus_button $ib
+  save_options
 }
 #=== get array index of i-th menu item
 proc ::em::get_s1 {i hidden} {
@@ -1122,14 +1162,18 @@ proc ::em::get_P_ {} {
 }
 #=== get contents of %f file (supposedly, there can be only one "%f" value)
 proc ::em::read_f_file {} {
-  if {$::em::fileread=={}} {
-    if {[catch {set chan [open $::em::arr_geany(f)]}]} {return 0}
+  if {$::em::filecontent=={} && [info exists ::em::arr_geany(f)]} {
+    if {![file isfile $::em::arr_geany(f)] || \
+    [catch {set chan [open $::em::arr_geany(f)]}]} {
+      set ::em::filecontent - ;# no content
+      return 0
+    }
     while {[gets $chan st]>=0} {
-      lappend ::em::fileread $st
+      lappend ::em::filecontent $st
     }
     close $chan
   }
-  return [llength $::em::fileread]
+  return [llength $::em::filecontent]
 }
 #=== get contents of #ARGS1: ..#ARGS99: line
 proc ::em::get_AR {} {
@@ -1139,7 +1183,7 @@ proc ::em::get_AR {} {
   }
   if {[::em::read_f_file]} {
     set re "^#ARGS\[0-9\]+:\[ \]*(.+)"
-    foreach st $::em::fileread {
+    foreach st $::em::filecontent {
       if {[regexp $re $st]} {
         lassign [regexp -inline $re $st] => res
         return $res
@@ -1151,8 +1195,8 @@ proc ::em::get_AR {} {
 #=== get contents of %l-th line of %f file
 proc ::em::get_L {} {
   if {![catch {set p $::em::arr_geany(l)}] && \
-       [string is digit $p] && $p>0 && $p<=[llength $::em::fileread]} {
-    return [lindex $::em::fileread $p-1]
+       [string is digit $p] && $p>0 && $p<=[llength $::em::filecontent]} {
+    return [lindex $::em::filecontent $p-1]
   }
   return ""
 }
@@ -1251,6 +1295,32 @@ proc ::em::prepr_init {refpn} {
     }
   }
 }
+#=== initialization of selection (of %s wildcard)
+proc ::em::init_swc {} {
+  if {$::em::seltd!="" || $::em::ln<=0 || $::em::cn<=0} {
+    return  ;# selection is provided or ln=/cn= are not - nothing to do
+  }
+  if {[::em::read_f_file]} {     ;# get the selection as a word under caret
+    set ln1 0                    ;# lines and columns are numerated from 1
+    set ln2 [expr {$::em::ln -1}]
+    set cn1 [expr {$::em::cn -2}]
+    foreach st $::em::filecontent { ;# ~ KISS
+      if {$ln1==$ln2} {
+        for {set i $cn1} {$i>=0} {incr i -1} { ;# left part
+          set c [string index $st $i]
+          if {[string is wordchar $c]} {set ::em::seltd $c$::em::seltd} break
+        }
+        for {set i $cn1} {$i<[string len $st]} {} { ;# right part
+          incr i
+          set c [string index $st $i]
+          if {[string is wordchar $c]} {set ::em::seltd $::em::seltd$c} break
+        }
+        break
+      }
+      incr ln1
+    }
+  }
+}
 #=== Mr. Preprocessor of 'prog'/'name'
 proc ::em::prepr_pn {refpn {dt 0}} {
   upvar $refpn pn
@@ -1258,6 +1328,7 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   foreach gw [array names ::em::arr_geany] {
     prepr_1 pn $gw $::em::arr_geany($gw)
   }
+  init_swc
   prepr_1 pn "PD" [get_PD]            ;# %PD is passed project's dir (PD=)
   prepr_1 pn "P_" [get_P_]            ;# ...underlined PD
   prepr_1 pn "PN" $::em::prjname      ;# %PN is passed dir's tail
@@ -1329,7 +1400,7 @@ proc ::em::menuof { commands s1 domenu} {
   set seltd [get_seltd $s1]
   if {$domenu} {
     set ::em::menuttl \
-        "[string map {"\\" "/"} [file tail $seltd]] - E_menu"
+        "[string map {"\\" "/"} [file tail $seltd]] - $::em::e_menu_version"
     set seltd [file normalize [get_menuname $seltd]]
     if { [catch {set chan [open "$seltd"]} e] } {
       if {[em_question "Menu isn't open" \
@@ -1746,7 +1817,7 @@ proc ::em::checkgeometry {} {
 #=== initialize ::em::commands from argv and menu
 proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
-  foreach s1 { a0= P= N= PD= PN= F= o= s= u= w= \
+  foreach s1 { a0= P= N= PD= PN= F= o= ln= cn= s= u= w= \
         qq= dd= ss= pa= ah= wi= += bd= b1= b2= b3= b4= \
         f1= f2= fs= a1= a2= ed= tf= tg= md= wc= \
         t0= t1= t2= t3= t4= t5= t6= t7= t8= t9= \
@@ -1757,7 +1828,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         y0= y1= y2= y3= y4= y5= y6= y7= y8= y9= \
         z0= z1= z2= z3= z4= z5= z6= z7= z8= z9= \
         a= d= e= f= p= l= h= b= c= t= g= n= m= om= \
-        fg= bg= fE= bE= fS= bS= cc= ts= TF= \
+        fg= bg= fE= bE= fS= bS= cc= ts= TF= yn= \
         cb= in=} { ;# the processing order is important
     if {($s1 in {o= s= m=}) && !($s1 in $osm)} {
       continue
@@ -1784,21 +1855,24 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         PN= { set ::em::prjname $seltd
         set ::em::prjset 2 }
         s= {
+          lassign [split $seltd \n] ::em::seltd ;# only 1st line (TF= for all)
+          set ::em::seltd [string map {\r "" \n ""} $::em::seltd]
+          init_swc
+          set ::em::useltd [set ::em::pseltd [set ::em::qseltd \
+            [set ::em::dseltd [set ::em::sseltd $::em::seltd]]]]
           if {[isheader]} {
-            lappend ::em::commands [list " HELP        \"$seltd\"" \
+            lappend ::em::commands [list " HELP        \"$::em::seltd\"" \
                 "::em::browse $s1"]
             if {[iswindows]} {
               prepr_win seltd "M/"
               set ::em::pars($s1) $seltd
             }
-            lappend ::em::commands [list " EXEC        \"$seltd\"" \
+            lappend ::em::commands [list " EXEC        \"$::em::seltd\"" \
                 "::em::run RE: $s1 & ; ::em::on_exit"]
-            lappend ::em::commands [list " SHELL       \"$seltd\"" \
+            lappend ::em::commands [list " SHELL       \"$::em::seltd\"" \
                 "::em::shell RE: $s1 & ; ::em::on_exit"]
             set ::em::hotkeys "000$::em::hotsall"
           }
-          set ::em::seltd [set ::em::useltd [set ::em::pseltd [ \
-            set ::em::qseltd [set ::em::dseltd [set ::em::sseltd $seltd]]]]]
           set ::em::begsel [expr [llength $::em::commands] - 1]
         }
         h= {
@@ -1833,6 +1907,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         a= { set ::em::autorun $seltd }
         F= - f= - l= - p= - e= - d= {
           ;# d=, e=, f=, l=, p= are used as Geany wildcards
+          lassign [split $seltd \n] seltd
           set ::em::arr_geany([string range $s1 0 0]) $seltd
         }
         n= { set ::em::menuttl $seltd }
@@ -1872,7 +1947,20 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         tf= { set ::em::tf [::getN $seltd $::em::tf]}
         om= { set ::em::om $seltd}
         cb= { set ::em::cb $seltd}
-        in= { set ::em::lasti $seltd}
+        in= {
+          if {[set ip [string first . $seltd]]>0} {
+            # get last item number and its HELP/EXEC/SHELL shift (begsel)
+            set ::em::savelasti [::getN [string range $seltd $ip+1 end] -1]
+            if {$::em::savelasti>-1} {
+              set ::em::lasti [::getN [string range $seltd 0 $ip-1] 1]
+              if {$::em::begsel==0} {
+                incr ::em::lasti -$::em::savelasti  ;# header was, now is not
+              } elseif {$::em::savelasti==0} {
+                incr ::em::lasti $::em::begsel      ;# header was not, now is
+              }
+            }
+          }
+        }
         fg= { set ::colrfg $seltd}
         bg= { set ::colrbg $seltd}
         fE= { set ::em::colrfE $seltd}
@@ -1881,6 +1969,9 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         bS= { set ::em::colrbS $seltd}
         cc= { set ::em::colrcc $seltd}
         ts= { set ::em::truesel [::getN $seltd]}
+        ln= { set ::em::ln [::getN $seltd]}
+        cn= { set ::em::cn [::getN $seltd]}
+        yn= { set ::em::yn [::getN $seltd]}
         default {
           if {$s1 in {TF=} || [string range $s1 0 0] in {x y z}} {
             ;# x* y* z* general substitutions
@@ -2152,12 +2243,9 @@ proc ::em::run_auto {alist} {
 #=== run auto list ah=
 proc ::em::run_autohidden {alist} {
   foreach task [split $alist ","] {   ;# task=1 (2,...,a,b...)
-    set taskpos [string first $task $::em::hotsall]  ;# hotsall="012..ab..."
-    set i $taskpos
-    foreach hiddenitem $::em::commhidden {
-      if {[incr taskpos -1] == 0} {
-        run_it $i true
-      }
+    set i [string first $task $::em::hotsall]  ;# hotsall="012..ab..."
+    if {$i>0 && $i<=[llength $::em::commhidden]} {
+      run_it $i true
     }
   }
 }
@@ -2205,7 +2293,11 @@ proc ::em::initend {} {
     set ::em::skipfocused 1
     tk_popup .popupMenu %X %Y
   }
-  bind . <Escape> {::em::on_exit}
+  bind . <Escape> {
+    if {$::em::yn && ![Q $::em::menuttl "       Quit  e_menu ?" \
+      yesno ques YES "-t 0"]} return
+    ::em::on_exit
+  }
   wm protocol . WM_DELETE_WINDOW {::em::on_exit}
   bind . <Control-Left>  {::em::win_width -1}
   bind . <Control-Right> {::em::win_width 1}

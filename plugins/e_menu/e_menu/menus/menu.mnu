@@ -68,7 +68,7 @@ tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so
  ME: Utils ME: m=utils.mnu
 
 [OPTIONS]
-n=< e_menu >
+in=1.0
 bd=1
 w=45
 g=+500+100

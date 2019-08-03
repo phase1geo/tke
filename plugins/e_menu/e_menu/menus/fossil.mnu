@@ -106,5 +106,5 @@ w=64
 t4==%b-%Y/%U-week
 u=%s
 o=0
+in=1.0
 
-[HIDDEN]

@@ -353,7 +353,7 @@ oo::class create PaveDialog {
         -c -
         -color {append optsLabel " -foreground {$val}"}
         -t -
-        -text {set textmode 1}
+        -text {set textmode $val}
         -tags {
           set optsTags 1
           upvar 2 $val tags

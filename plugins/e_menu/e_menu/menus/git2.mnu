@@ -52,6 +52,7 @@ x1=plugins
 x2=: add_shortcut, e_menu
 om=1
 o=0
+in=1.0
 
  R:git revert HEAD R: %q "REVERT" "This cancels the last commit!\n\nDo you want to REVERT\nlast commit?\n\n(IT'S CANNOT BE UNDONE)"
  R:git revert HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
@@ -72,3 +73,4 @@ o=0
  R:git reset --hard HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
  R:git reset --hard HEAD R: cd %PD
  S:git reset --hard HEAD S: git reset --hard HEAD
+pos=55.6
