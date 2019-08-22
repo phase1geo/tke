@@ -79,7 +79,7 @@ R: Push with BIN R: %q "Push with BIN" " This will push your last commits + BIN 
   \n     * you would go on committing in:\n            %PD \
   \n     * ... till a next 'Push with BIN' \
   \n\n Please, view the messages to follow..."
-S: Push with BIN S: \
+SW: Push with BIN SW: \
   echo "\n------------------------------------------------\n" \n  \
   echo "HG SUMMARY: \t $PWD\n" \n \
        hg summary \n \
@@ -88,7 +88,9 @@ S: Push with BIN S: \
        hg status \n \
   echo "\n------------------------------------------------\n" \n \
   echo "HG HEADS: \t $PWD\n" \n \
-       hg heads \n\n
+       hg heads \n \
+  echo "\n------------------------------------------------\n" \n \
+  echo "\nVerify the previous messages C A R E F U L L Y !\n" \n\n
 R: Push with BIN R: %I warn "Push with BIN" {entRev {{Tag of 'BIN' revision:} \
   {} {-w 20}} {"$::RBIN"} lab} -ontop 1 -geometry $::RGEO -head \
   "\nThis will push your last commits + BIN of \n  %PD \
@@ -152,5 +154,5 @@ n=< hg2 >
 ::RGEO=568x537+0+55
 ::RBIN=BIN
 ::REV1=-3
-pos=157.0
+pos=75.0
 in=1.0

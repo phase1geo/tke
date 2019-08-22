@@ -35,10 +35,10 @@ oo::class create PaveInput {
     set pady "-pady 2"
     lappend inopts [list fraM + T 1 98 "-st new $pady -rw 1"]
     set savedvv [list]
-    foreach {name prompt valopts} [list {*}$iopts] {
+    foreach {name prompt valopts} $iopts {
       lassign $prompt prompt gopts attrs
       set gopts "$pady $gopts"
-      if {[set typ [string range $name 0 1]]=="h_" || $typ=="se"} {
+      if {[set typ [string range $name 0 1]]=="v_" || $typ=="se"} {
         lappend inopts [list fraM.$name - - - - "pack -fill x $gopts"]
         continue
       }
@@ -47,26 +47,27 @@ oo::class create PaveInput {
         ch { set tvar "-var" }
         sp { set gopts "$gopts -expand 0 -side left"}
       }
-
       if {[string match "*Mono*" "[font families]"]} {
         set Mfont "Mono"
       } else {
         set Mfont "Courier"
       }
       lappend inopts [list fraM.fra$name - - - - "pack -expand 1 -fill both"]
-      lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor nw -padx 3" "-t \"$prompt\" -font \"-family $Mfont -size 10\""]
+      if {$typ!="la"} {
+        lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor w -padx 3" "-t \"$prompt\" -font \"-family $Mfont -size 10\""]
+      }
       set vv [my varname $name]
       set ff [my fieldname $name]
       switch $typ {
         cb {
-          if {![info exist $vv]} {lassign $valopts $vv}
+          if {![info exist $vv]} {catch {lassign $valopts $vv}}
           foreach vo [lrange $valopts 1 end] {
             lappend vlist $vo
           }
           lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -value \{$vlist\} $attrs"]
         }
         ra {
-          if {![info exist $vv]} {lassign $valopts $vv}
+          if {![info exist $vv]} {catch {lassign $valopts $vv}}
           set padx 0
           foreach vo [lrange $valopts 1 end] {
             set name $name
@@ -76,13 +77,25 @@ oo::class create PaveInput {
         }
         te {
           if {![info exist $vv]} {set $vv [string map {\\n \n} $valopts]}
-          lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" "$attrs"]
+          if {[dict exist $attrs -state] && [dict get $attrs -state]=="disabled"} \
+          {
+            # disabled text widget cannot be filled with a text, so we should
+            # compensate this through a home-made attribute (-disabledtext)
+            set disattr "-disabledtext \{[set $vv]\}"
+          } else {
+            set disattr ""
+          }
+          lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" "$attrs $disattr"]
           lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]
+        }
+        la {
+          lappend inopts [list $ff - - - - "pack $gopts" "$attrs"]
+          continue
         }
         default {
           lappend inopts [list $ff - - - - "pack -side right -expand 1 -fill x $gopts" "$tvar $vv $attrs"]
           if {$vv!=""} {
-            if {![info exist $vv]} {lassign $valopts $vv}
+            if {![info exist $vv]} {catch {lassign $valopts $vv}}
           }
         }
       }

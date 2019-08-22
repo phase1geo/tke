@@ -1,6 +1,16 @@
 # Last changes:
 
 
+Version `1.28 (23 Aug'19)`
+
+  - exec -ignorestderr when running Linux terminal
+  - "# ARGS1.." works as "#ARGS1.." for in-text arguments
+  - possible issue with 'workdir' fixed
+  - in pave, in editor, Alt+Up/Down to move lines up/down
+  - in pave, undo is enabled by default for text widget
+  - few .mnu changed
+
+
 Version `1.27 (3 Aug'19)`
 
   - ln=, cn= arguments, to read a word under caret if no selection
