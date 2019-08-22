@@ -297,7 +297,10 @@ oo::class create PaveMe {
       "siz" {set widget "ttk::sizegrip"}
       "spx" {set widget "ttk::spinbox"}
       "spX" {set widget "spinbox"}
-      "tex" {set widget "text"}
+      "tex" {                       ;# Tk 8.6.7 restored "-undo 0"
+        set widget "text"           ;# of text widget by default
+        set attrs "-undo 1 $attrs"  ;# => here undo is enabled by default
+      }
       "tre" {set widget "ttk::treeview"}
       "h_*" { ;# horizontal spacer
         set widget "ttk::frame"
@@ -982,7 +985,7 @@ oo::class create PaveMe {
     if {[set pp [string first + $opt(-geometry)]]>=0} {
       wm geometry $win [string range $opt(-geometry) $pp end]
     }
-    grab $win
+    grab set $win
     if {$opt(-focus) == ""} {
       set opt(-focus) $win
     }

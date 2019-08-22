@@ -271,6 +271,45 @@ oo::class create PaveDialog {
   }
 
   #########################################################################
+  # Move a current line or lines of selection up/down
+
+  method LinesMove {to {dobreak 1}} {
+
+    proc NewRow {ind rn} {
+      set i [string first . $ind]
+      set row [string range $ind 0 $i-1]
+      return [incr row $rn][string range $ind $i end]
+    }
+    set txt [my TexM]
+    set err [catch {$txt tag ranges sel} sel]
+    lassign [$txt index insert] pos  ;# position of caret
+    if {[set issel [expr {!$err && [llength $sel]==2}]]} {
+      lassign $sel pos1 pos2         ;# selection's start & end
+      set l1 [expr {int($pos1)}]
+      set l2 [expr {int($pos2)}]
+      set lfrom [expr {$to>0 ? $l2+1 : $l1-1}]
+      set lto   [expr {$to>0 ? $l1-1 : $l2-1}]
+    } else {
+      set lcurr [expr {int($pos)}]
+      set lfrom [expr {$to>0 ? $lcurr+1 : $lcurr-1}]
+      set lto   [expr {$to>0 ? $lcurr-1 : $lcurr-1}]
+    }
+    set lend [expr {int([$txt index end])}]
+    if {$lfrom>0 && $lfrom<$lend} {
+      incr lto
+      lassign [my GetLine $txt $lfrom.0] linestart lineend
+      set duptext [$txt get $linestart $lineend]
+      $txt delete $linestart $lineend
+      $txt insert $lto.0 $duptext
+      ::tk::TextSetCursor $txt [NewRow $pos $to]
+      if {$issel} {
+        $txt tag add sel [NewRow $pos1 $to] [NewRow $pos2 $to]
+      }
+      if {$dobreak} {return -code break}
+    }
+  }
+
+  #########################################################################
   # Find string in text (donext=1 means 'from current position')
 
   method FindInText {{donext 0}} {
@@ -510,6 +549,8 @@ oo::class create PaveDialog {
            bind \[[self] TexM\] <Control-D> {[self] DoubleText}
            bind \[[self] TexM\] <Control-y> {[self] DeleteLine}
            bind \[[self] TexM\] <Control-Y> {[self] DeleteLine}
+           bind \[[self] TexM\] <Alt-Up>    {[self] LinesMove -1}
+           bind \[[self] TexM\] <Alt-Down>  {[self] LinesMove +1}
            bind $_pdg(win).dia <F3> {[self] FindInText 1}
            bind $_pdg(win).dia <Control-f> \"focus \[[self] Entfind\]\"
            set pop \[[self] TexM\].popupMenu
@@ -521,10 +562,14 @@ oo::class create PaveDialog {
            \$pop add command -accelerator Ctrl+V -label \"Paste\" \\
             -command \"event generate \[[self] TexM\] <<Paste>>\"
            \$pop add separator
-           \$pop add command -accelerator Ctrl+D -label \"Double text\" \\
+           \$pop add command -accelerator Ctrl+D -label \"Double line(s)\" \\
             -command \"[self] DoubleText 0\"
-           \$pop add command -accelerator Ctrl+Y -label \"Delete line\" \\
+           \$pop add command -accelerator Ctrl+Y -label \"Delete a line\" \\
             -command \"[self] DeleteLine 0\"
+           \$pop add command -accelerator Alt+Up -label \"Line(s) up\" \\
+            -command \"[self] LinesMove -1 0\"
+           \$pop add command -accelerator Alt+Down -label \"Line(s) down\" \\
+            -command \"[self] LinesMove +1 0\"
            \$pop add separator
            \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
             -command \"focus \[[self] Entfind\]\"
@@ -536,7 +581,8 @@ oo::class create PaveDialog {
           bind \[[self] TexM\] <Button-3> \{
             tk_popup \[[self] TexM\].popupMenu %X %Y \}
           "
-        oo::objdefine [self] export FindInText DoubleText DeleteLine Pdg
+        oo::objdefine [self] export FindInText DoubleText DeleteLine \
+          LinesMove Pdg
       } else {
         lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
       }
@@ -576,11 +622,6 @@ oo::class create PaveDialog {
           catch "::tk::TextSetCursor $focusnow $curpos"
           foreach k {w W} \
             {catch "bind $focusnow <Control-$k> {[my Pdg defb1] invoke}"}
-          set tip " Ctrl+D - double text \n Ctrl+Y - delete line \
-            \n\n Ctrl+F - find first \n F3 - find next \
-            \n\n Ctrl+Z - undo \n Ctrl+Shift+Z - redo \
-            \n\n Ctrl+W - save and exit \n Esc - exit"
-          catch {tooltip::tooltip [my Pdg defb1] $tip}
         } else {
           set focusnow [my Pdg defb1]
         }
@@ -627,8 +668,8 @@ oo::class create PaveDialog {
     # pause a bit and restore the old focus
     if {[winfo exists $oldfocused]} {
       after 50 [list focus $oldfocused]
-    } elseif {[winfo exists $_pdg(win).dia]} {
-      after 50 [list focus $_pdg(win).dia]
+    } else {
+      after 50 list focus .
     }
     if {$wasgeo} {
       lassign [split $pdgeometry x+] w h x y

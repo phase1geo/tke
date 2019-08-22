@@ -26,7 +26,7 @@ package require Tk
 package require tooltip
 
 namespace eval em {
-  variable e_menu_version "e_menu 1.27"
+  variable e_menu_version "e_menu 1.28"
   variable menuttl "$::em::e_menu_version"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
@@ -43,6 +43,8 @@ namespace eval em {
 
 source [file join $::em::srcdir "e_help.tcl"]
 source [file join $::em::srcdir "obbit.tcl"]
+
+#source ~/PG/bb.tcl ;# degu-bb-ing
 
 # *******************************************************************
 # customized block
@@ -114,7 +116,7 @@ namespace eval em {
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./"
   variable hotkeys $::em::hotsall
   variable workdir ""
-  variable workdirlist [list]
+  variable prjdirlist [list]
   variable prjname [file tail [pwd]]
   variable ornament 1  ;# 1 - header only; 2 - prompt only; 3 - both; 0 - none
   variable inttimer 1  ;# interval to check the timed tasks
@@ -798,17 +800,11 @@ proc ::em::shell0 {sel amp {silent -1}} {
     set lang [get_language]
     set sel [escape_quotes $sel "\\\""]
     set composite "$::lin_console $sel $amp"
-    if { [auto_execok lxterminal]!="" } {
-      if {[catch { exec lxterminal --geometry=$::em::tg \
-      -e {*}$composite  } e] } {
-        set ret false
-      }
-    } elseif { [auto_execok xterm]!="" } {
-      if { [catch { exec xterm -fa "$lang" -fs $::em::tf \
-      -geometry $::em::tg -bg white -fg black -title $sel \
-      -e {*}$composite } e] } {
-        set ret false
-      }
+    if {[set term [auto_execok lxterminal]]!="" } {
+      exec -ignorestderr {*}$term --geometry=$::em::tg -e {*}$composite
+    } elseif {[set term [auto_execok xterm]]!="" } {
+      exec -ignorestderr {*}$term -fa "$lang" -fs $::em::tf \
+      -geometry $::em::tg -bg white -fg black -title $sel -e {*}$composite
     } else {
       set ret false
       set e "Not found lxterminal nor xterm.\nInstall any (lxterminal recommended)"
@@ -1139,12 +1135,13 @@ proc ::em::get_language {} {
 }
 #=== get working (project's) dir
 proc ::em::get_PD {} {
-  if {[llength $::em::workdirlist]>0} {
+  if {[llength $::em::prjdirlist]>0} {
     # workdir got from a current file (if not passed, got a current dir)
-    if {[catch {set ::em::workdir [file dirname $::em::arr_geany(f)]}]} {
+    if {[catch {set ::em::workdir $::em::arr_geany(d)}] && \
+        [catch {set ::em::workdir [file dirname $::em::arr_geany(f)]}]} {
       set ::em::workdir [pwd]
     }
-    foreach wd $::em::workdirlist {
+    foreach wd $::em::prjdirlist {
       if {[string first [string toupper $wd] [string toupper $::em::workdir]]==0} {
         set ::em::workdir "$wd"
         break
@@ -1182,7 +1179,7 @@ proc ::em::get_AR {} {
     return [string map {\n \\n \" \\\"} $::em::seltd]
   }
   if {[::em::read_f_file]} {
-    set re "^#ARGS\[0-9\]+:\[ \]*(.+)"
+    set re "^#\[ \]?ARGS\[0-9\]+:\[ \]*(.+)"
     foreach st $::em::filecontent {
       if {[regexp $re $st]} {
         lassign [regexp -inline $re $st] => res
@@ -1367,7 +1364,7 @@ proc ::em::prepr_call {refname} { ;# this must be done for e_menu call line only
   if {$::em::percent2 != ""} {
     set name [string map [list $::em::percent2 "%"] $name]
   }
-  prepr_1 name "PD" $::em::workdir
+  prepr_1 name "PD" [get_PD]
   prepr_1 name "PN" $::em::prjname
   prepr_1 name "N" $::em::appN
 }
@@ -1778,19 +1775,23 @@ proc ::em::get_pars1 {s1 argc argv} {
 #=== get "project (working) directory"
 proc ::em::initPD {seltd {doit 0}} {
   if {$::em::workdir=="" || $doit} {
-    set ::em::workdir $seltd
+    if {[file isdirectory $seltd]} {
+      set ::em::workdir $seltd
+    } else {
+      set ::em::workdir [pwd]
+    }
     prepr_win ::em::workdir "M/"  ;# force converting
     if {!$::em::prjset} {
       set ::em::prjname [file tail $::em::workdir]
     }
     catch {cd $::em::workdir}
   }
-  if {[llength $::em::workdirlist]==0 && [file isfile $::em::workdir]} {
+  if {[llength $::em::prjdirlist]==0 && [file isfile $seltd]} {
       # when PD is indeed a file with projects list
-    set ch [open $::em::workdir]
+    set ch [open $seltd]
     foreach wd [split [read $ch] "\n"] {
       if {[string trim $wd]!="" && ![string match "\#*" $wd]} {
-        lappend ::em::workdirlist $wd
+        lappend ::em::prjdirlist $wd
       }
     }
     close $ch
@@ -1983,7 +1984,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
   }
   # get %D (dir's tail) %F (file.ext), %e (file), %x (ext) wildcards from %f
   if {![info exists ::em::arr_geany(f)]} {
-    set ::em::arr_geany(f) $::em::menufilename
+    set ::em::arr_geany(f) $::em::menufilename  ;# %f wildcard is a must
   }
   set from [file dirname $::em::arr_geany(f)]
   foreach {c attr} {d nativename D tail F tail e rootname x extension} {
