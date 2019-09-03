@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Version `1.29 (3 Sep'19)`
+
+  - ::em::prjname
+  - help: bitbucket.org -> github.com
+  - fossil menus revised and rewritten
+  - git menus changed
+
+
 Version `1.28 (23 Aug'19)`
 
   - exec -ignorestderr when running Linux terminal

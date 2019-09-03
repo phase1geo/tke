@@ -1,74 +1,36 @@
  S:fossil status %PD S: cd %PD
  S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
 
- R:fossil ui R: cd %PD
- R:fossil ui R: fossil ui -port 8081
-
- S:fossil addremove (to/from %P_.fossil) S: cd %PD
- R:fossil addremove (to/from %P_.fossil) R: %Q "Add remove" "Add the new and remove the deleted\nin %PD?"
- S:fossil addremove (to/from %P_.fossil) S: pwd\necho ---\ndir\necho ---\nfossil addremove
-
  S:fossil changes S: cd %PD
  S:fossil changes S: pwd\necho ---\necho --+%PD+--\ndir\necho ---\nfossil changes
 
  S:fossil extras S: cd %PD
  S:fossil extras S: pwd\necho ---\ndir\necho ---\nfossil extras
 
- R: R: 3
+ R:fossil ui R: cd %PD
+ R:fossil ui R: fossil ui
 
- S:fossil finfo %F S: cd %PD
- S:fossil finfo %F S: fossil finfo %f
+ R: R: 2
+
+ S:fossil diff S: cd %PD
+ S:fossil diff S: fossil diff
 
  S:fossil gdiff %F S: cd %PD
  S:fossil gdiff %F S: fossil gdiff %f
 
+ S:fossil add %F S: cd %PD
+ R:fossil add %F R: %Q "ADD" "Add the file\n\n  %f\n\nto the Fossil repository?"
+ S:fossil add %F S: fossil add %f
+
+ S:fossil forget %F S: cd %PD
+ R:fossil forget %F R: %Q "FORGET" "Forget the file\n\n  %f\n\nin the Fossil repository?"
+ S:fossil forget %F S: fossil forget %f
+
  S:fossil revert %F S: cd %PD
- R:fossil revert %F R: %q "Reverting changes" "Revert changes of \n   %f?" yesno warn NO
+ R:fossil revert %F R: %q "REVERT" "Revert changes of\n\n  %f?\n\n(This restores a last check-in contents of the file.\nYou can undo this with 'fossil undo'.)" yesno warn NO
  S:fossil revert %F S: fossil revert %f
 
-SW:fossil undo %F SW: fossil undo -n %f
- R:fossil undo %F R: %q "Undoing changes" "Undo changes of \n   %f?" yesno warn NO
- R:fossil undo %F R: cd %PD
- S:fossil undo %F S: fossil undo %f
-
- R: R: 3
-
- S:fossil commit -m "%u on %t2" S: cd %PD
- R:fossil commit -m "%u on %t2" R: %q "Committing changes" "Commit with message\n\n'%u on %t2' ?"
- S:fossil commit -m "%u on %t2" S: fossil commit -m "%u on %t2"
-
- R:fossil branch new "%dd" trunk R: cd %PD
- R:fossil branch new "%dd" trunk R: %q "Branch" "Branch new %dd ?"
- R:fossil branch new "%dd" trunk R: fossil branch new "%dd" trunk -bgcolor 0xffc0ff
-
- S:fossil commit -m "Try %u" --branch Try%t4 S: cd %PD
- R:fossil commit -m "Try %u" --branch Try%t4 R: %q "Commit" "Commit 'Try' and branch Try%t4 ?"
- S:fossil commit -m "Try %u" --branch Try%t4 S: fossil commit -m "Try %u" --branch Try%t4 -bgcolor 0xc0f0ff
-
-SW:fossil merge Try%t4 SW: fossil merge -n
- R:fossil merge Try%t4 R: %q "To merge" "Merge to trunk ?" yesno warn NO
- R:fossil merge Try%t4 R: cd %PD
- S:fossil merge Try%t4 S: fossil merge Try%t4
-
- S:fossil commit -f -tag "%dd" S: cd %PD
- R:fossil commit -f -tag "%dd" R: %q "Tag commit" "To tag commit with "%dd" ?"
- S:fossil commit -f -tag "%dd" S: fossil commit -f -tag "%dd" -bgcolor '#F8A4F6'
-
-SW:fossil update trunk SW: fossil update trunk -n
- R:fossil update trunk R: %q "To trunk" "Update to trunk ?" yesno warn NO
- R:fossil update trunk R: cd %PD
- S:fossil update trunk S: fossil update trunk
-
- S:fossil revert S: cd %PD
- R:fossil revert R: %q "Reverting ALL" "Revert ALL changes?" yesno warn NO
- S:fossil revert S: fossil revert
-
-SW:fossil undo SW: fossil undo -n
- R:fossil undo R: %q "Undoing ALL" "Undo ALL changes?" yesno warn NO
- R:fossil undo R: cd %PD
- S:fossil undo S: fossil undo
-
- R: R: 3
+ R: R: 2
 
  S:fossil timeline S: cd %PD
  S:fossil timeline S: fossil timeline
@@ -76,27 +38,63 @@ SW:fossil undo SW: fossil undo -n
  S:fossil timeline --showfiles S: cd %PD
  S:fossil timeline --showfiles S: fossil timeline --showfiles -n 0
 
- S:fossil timeline after %t1 --showfiles S: cd %PD
- S:fossil timeline after %t1 --showfiles S: fossil timeline after %t1 --showfiles -n 0
+ R: R: 2
 
- R: R: 3
+ S:fossil commit S: cd %PD
+ R:fossil commit R: %q "Committing changes" \
+   " Commit with a message to be edited ?\n\n You may leave the message empty."
+ S:fossil commit S: fossil commit --allow-empty
 
- S:fossil init ~/FOSSIL/%P_.fossil S: cd %PD
- R:fossil init ~/FOSSIL/%P_.fossil R: %q "FOSSIL INIT" "Initialize the new fossil repository\nas\n   %P_.fossil\nin\n   %PD?"
- S:fossil init ~/FOSSIL/%P_.fossil S: dir\necho ------------\nfossil init ~/FOSSIL/%P_.fossil\nfossil open ~/FOSSIL/%P_.fossil\nfossil status
+ S:fossil commit -f -tag ? S: cd %PD
+ R:fossil commit -f -tag ? R: %C set ::COMTAG "%s"
+ R:fossil commit -f -tag ? R:  %I warn "TAG COMMIT" { \
+   ent1 {{Tag for the last commit:} {} {}} {"$::COMTAG"} \
+   v_} -head {\n This will TAG the last commit.\n} -weight bold == ::COMTAG
+ S:fossil commit -f -tag ? S: echo fossil commit -f -tag "COMTAG" -bgcolor '#F8A4F6'
 
- S:fossil all list S: cd %PD
- S:fossil all list S: fossil all list
+ R:fossil commit -m ? --branch ? R: cd %PD
+ R:fossil commit -m ? --branch ? R: %C set ::COMMES "%s"
+ R:fossil commit -m ? --branch ? R: %I warn "COMMIT & BRANCH" { \
+   ent1 {{Commit message:}} {"$::COMMES"} \
+   ent2 {{Branch name   :}} {$::FSLBRANCH} \
+   v_} -head {\n This will COMMIT and create a new BRANCH \
+   \n from a current check-in.\n} -weight bold == ::COMMES ::FSLBRANCH
+ R:fossil commit -m ? --branch ? R: %C if {$::FSLBRANCH=={} || $::FSLBRANCH=={}} exit
+SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::FSLBRANCH" -bgcolor 0xffc0ff
 
- S:fossil settings S: cd %PD
- S:fossil settings S: fossil settings
+ R: R: 2
 
- S:set standard settings of fossil (ignore etc.) S: cd %PD
- R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?" yesno warn NO
- S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.zip,*.rar,*.tgz,*.cur,*.dll,*.dylib,*.ico,*.gif,*.bmp,*.png,*.jpg"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings
+ S:fossil stash S: cd %PD
+ R:fossil stash R: %q "Stash" "Stash the current project?"
+ R:fossil stash R: fossil stash
 
- R:  R: 3
-M: Stash M:m=fossil2.mnu
+ S:fossil stash snapshot "%F" S: cd %PD
+ R:fossil stash snapshot "%F" R: %q "Stash" "Stash snapshot the file\n  '%f'?"
+ S:fossil stash snapshot "%F" S: fossil stash snapshot "%f"
+
+ S:fossil stash list -v S: cd %PD
+ S:fossil stash list -v S: fossil stash list -v
+
+ S:fossil stash show S: cd %PD
+ S:fossil stash show S: fossil stash show
+
+ S:fossil stash pop S: cd %PD
+ R:fossil stash pop R: %q "Stash pop" "Stash pop the current project?\n\nThis saves the stashed changes and \n deletes a changeset from the stash."
+ S:fossil stash pop S: fossil stash pop
+
+ S:fossil stash apply S: cd %PD
+ R:fossil stash apply R: %q "Stash apply" "Stash apply the current project?\n\nThis saves the stashed changes and \n retains the changeset in the stash."
+ S:fossil stash apply S: fossil stash apply
+
+ S:fossil stash drop --all S: cd %PD
+ R:fossil stash drop --all R: %q "Stash pop" "Stash drop the current project?\n\nThis forgets the whole stash."
+ S:fossil stash drop --all S: fossil stash drop --all
+
+ S:fossil stash gdiff S: cd %PD
+ S:fossil stash gdiff S: fossil stash gdiff
+
+ R:  R: 2
+M:Next M:m=fossil2.mnu
 
 [OPTIONS]
 n=< fossil >
@@ -107,4 +105,7 @@ t4==%b-%Y/%U-week
 u=%s
 o=0
 in=1.0
-
+pos=72.71
+g=+500+50
+::FSLUSER=aplsimple
+::FSLBRANCH=""

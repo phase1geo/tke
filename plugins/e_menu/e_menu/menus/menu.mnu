@@ -3,6 +3,7 @@
  M:  M: 4
  RE: Run me (with %AR) RE: cd %d
  RE: Run me (with %AR) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
+ RE: Run me (with %AR) RE: %IF "%x"==".md" %THEN ghostwriter "%f"
  RE: Run me (with %AR) RE: %IF "%x"==".tcl" %THEN %T tclsh "%f" %AR
  RE: Run me (with %AR) RE: %IF "%x"==".py"  %THEN %t python3 "%f" %AR
  RE: Run me (with %AR) RE: ###########################################################

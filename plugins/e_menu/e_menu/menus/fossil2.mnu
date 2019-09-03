@@ -1,41 +1,163 @@
- R: fossil stash R: %q "Stash" "Stash the current project?"
- R: fossil stash R: cd %PD
- R: fossil stash R: fossil stash
+ S:fossil pull S: cd %PD
+ R:fossil pull R: %C if {![info exist ::FSLREPO]} \
+   {set ::FSLREPO %PN; set ::FSLPASS ""}
+ R:fossil pull R: \
+  %I "" "FOSSIL PULL" { \
+  v_0  {{} {-pady 7} {}} {} \
+  ent0 {{User name : } {} {}} {"$::FSLUSER"} \
+  ent1 {{Password  : } {} {-show *}} {"$::FSLPASS"} \
+  v_1  {{} {-pady 7} {}} {} \
+  ent2 {{Repository: } {} {-w 40}} {"$::FSLREPO"} \
+  v_2  {{} {-pady 7} {}} {} seh {{} {} {}} {} \
+  texc {{For example:} {} {-h 5 -w 52 -state disabled}} \
+  {If\n  User name : Bill\n  Repository: MS\nthe changes would be pulled from \
+  \n  https://chiselapp.com/user/Bill/repository/MS} \
+  } -head "\nPULL changes from https://chiselapp.com\nto %PD" -weight bold \
+  == ::FSLUSER ::FSLPASS ::FSLREPO
+ SW:fossil pull SW: fossil pull \
+   https://$::FSLUSER:$::FSLPASS@chiselapp.com/user/$::FSLUSER/repository/$::FSLREPO
 
- R: fossil stash "%s0" R: %q "Stash" "Stash the file '%f'?"
- R: fossil stash "%s0" R: cd %PD
- R: fossil stash "%s0" R: fossil stash "%f"
+ S:fossil push S: cd %PD
+ R:fossil push R: %C if {![info exist ::FSLREPO]} \
+   {set ::FSLREPO %PN; set ::FSLPASS ""}
+ R:fossil push R: \
+  %I "" "FOSSIL PUSH" { \
+  v_0  {{} {-pady 7} {}} {} \
+  ent0 {{User name : } {} {}} {"$::FSLUSER"} \
+  ent1 {{Password  : } {} {-show *}} {"$::FSLPASS"} \
+  v_1  {{} {-pady 7} {}} {} \
+  ent2 {{Repository: } {} {-w 40}} {"$::FSLREPO"} \
+  v_2  {{} {-pady 7} {}} {} seh {{} {} {}} {} \
+  texc {{For example:} {} {-h 5 -w 52 -state disabled}} \
+  {If\n  User name : Bill\n  Repository: MS\nthe changes would be pushed to \
+  \n  https://chiselapp.com/user/Bill/repository/MS} \
+  } -head "\nPUSH changes from %PD\nto https://chiselapp.com" -weight bold \
+  == ::FSLUSER ::FSLPASS ::FSLREPO
+ SW:fossil push SW: fossil push \
+   https://$::FSLUSER:$::FSLPASS@chiselapp.com/user/$::FSLUSER/repository/$::FSLREPO
 
- R: fossil stash save -m "%s" R: %q "Snapshot" "Stash the current project\nwith '%s'?"
- R: fossil stash save -m "%s" R: cd %PD
- R: fossil stash save -m "%s" R: fossil stash save -m "%s"
+ R: R: 2
 
- R: fossil stash snapshot -m "%s" R: %q "Snapshot" "Stash snapshot the current project\nwith '%s'\n\n(this omits revert, keeping the checkout unchanged)?"
- R: fossil stash snapshot -m "%s" R: cd %PD
- R: fossil stash snapshot -m "%s" R: fossil stash snapshot -m "%s"
+ S:fossil sync -u S: cd %PD
+ R:fossil sync -u R: %q "UNVERSIONED FILES" " Sync with remote repository\n including unversioned artifacts?"
+SW:fossil sync -u SW: echo $PWD\nfossil sync -u -v
 
- R: fossil stash list -v R: cd %PD
- S: fossil stash list -v S: fossil stash list -v
+ S:fossil config pull shun S: cd %PD
+ R:fossil config pull shun R: %C if {![info exist ::FSLREPO]}  {set ::FSLREPO %PN; set ::FSLPASS ""}
+ R:fossil config pull shun R: \
+  %I "" "PULL SHUNS" { \
+  v_0  {{} {-pady 7} {}} {} \
+  ent0 {{User name : } {} {}} {"$::FSLUSER"} \
+  ent1 {{Password  : } {} {-show *}} {"$::FSLPASS"} \
+  v_1  {{} {-pady 7} {}} {} \
+  ent2 {{Repository: } {} {-w 40}} {"$::FSLREPO"} \
+  v_2  {{} {-pady 7} {}} {} seh {{} {} {}} {} \
+  texc {{For example:} {} {-h 5 -w 52 -state disabled}} \
+  {If\n  User name : Bill\n  Repository: MS\nthe shunning list would be pulled from \
+  \n  https://chiselapp.com/user/Bill/repository/MS} \
+  } -head "\nPULL shuns from https://chiselapp.com\nto %PD" -weight bold \
+  == ::FSLUSER ::FSLPASS ::FSLREPO
+ SW:fossil config pull shun SW: fossil configuration pull shun \
+   https://$::FSLUSER:$::FSLPASS@chiselapp.com/user/$::FSLUSER/repository/$::FSLREPO
 
- R: fossil stash show R: cd %PD
- S: fossil stash show S: fossil stash show
+ R: R: 2
 
- R: fossil stash pop R: %q "Stash pop" "Stash pop the current project?\n\n(this deletes a changeset from the stash after applying)"
- R: fossil stash pop R: cd %PD
- R: fossil stash pop R: fossil stash pop
+ R:fossil commit -m ? --branch ? R: cd %PD
+ R:fossil commit -m ? --branch ? R: %C set ::COMMES "%s"
+ R:fossil commit -m ? --branch ? R: %I warn "COMMIT & BRANCH" { \
+   ent1 {{Commit message:}} {"$::COMMES"} \
+   ent2 {{Branch name   :}} {$::FSLBRANCH} \
+   v_} -head {\n This will COMMIT and create a new BRANCH \
+   \n from a current check-in.\n} -weight bold == ::COMMES ::FSLBRANCH
+ R:fossil commit -m ? --branch ? R: %C if {$::FSLBRANCH=={} || $::FSLBRANCH=={}} exit
+SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::FSLBRANCH" -bgcolor 0xffc0ff
 
- R: fossil stash apply R: %q "Stash apply" "Stash apply the current project?\n\n(this retains the changeset in the stash after applying)"
- R: fossil stash apply R: cd %PD
- R: fossil stash apply R: fossil stash apply
+ S:fossil checkout ? S: cd %PD
+ R:fossil checkout ? R: %I {} "CHECKOUT" { \
+   ent1 {{Version / branch / tag :} {} {}} {$::FSLBRANCH} \
+   v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
+   texc {{Hint:} {} {-h 7 -w 58 -state disabled -wrap word}} \
+   { The VERSION can be the name of a branch or tag or any abbreviation to the 40-character artifact ID for a check-in. \
+\n The VERSION can be a date/time stamp (e.g. YYYY-MM-DD, HH:MM:SS, 'YYYY-MM-DD HH:MM:SS'). \
+\n CHECKOUT does not merge local changes, it prefers to overwrite them and fails if local changes exist.} \
+   } -head {\n This will CHECKOUT a version / branch / tag. \n} -weight bold == ::FSLBRANCH
+ S:fossil checkout ? S: fossil co "$::FSLBRANCH"
 
- R: fossil stash drop -all R: %q "Stash pop" "Stash drop the current project?\n\n(forget the whole stash)"
- R: fossil stash drop -all R: cd %PD
- R: fossil stash drop -all R: fossil stash drop -all
+ S:fossil merge ? S: cd %PD
+ R:fossil merge ? R: %I warn "MERGE" { \
+   ent1 {{Branch name:} {} {}} {$::FSLBRANCH} \
+   v_} -head {\n This will MERGE changes from a branch, \
+   \n then commits (you may cancel the commit). \n} -weight bold == ::FSLBRANCH
+ S:fossil merge ? S: fossil merge "$::FSLBRANCH"\nfossil commit
 
- R: fossil stash gdiff R: cd %PD
- S: fossil stash gdiff S: fossil stash gdiff
+ S:fossil update ? S: cd %PD
+ R:fossil update ? R: %C  if {![info exist ::FSLUPD]}  {set ::FSLUPD ""}
+ R:fossil update ? R: %I {} "UPDATE" { \
+   ent1 {{Version / branch / tag :} {} {}} {$::FSLUPD} \
+   v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
+   texc {{Hint:} {} {-h 7 -w 58 -state disabled -wrap word}} \
+   { VERSION can be 'trunk' to move to the trunk branch. \
+\n If you omit the VERSION, fossil moves you to the latest version of the branch your are currently on. \
+\n VERSION can be 'tip' to select the most recent check-in. \
+\n Any uncommitted changes are retained and applied to the new checkout.} \
+  } -head {\n This will UPDATE to a version / branch / tag. \n} -weight bold == ::FSLUPD
+ S:fossil update ? S: fossil update $::FSLUPD
+
+ S:fossil revert S: cd %PD
+ R:fossil revert R: %q "REVERT ALL" \
+   "Revert ALL changes?\n\nThis restores a last check-in in\n  %PD" yesno warn NO
+ S:fossil revert S: fossil revert
+
+ R:fossil undo R: cd %PD
+SW:fossil undo SW: fossil undo -n
+ R:fossil undo R: %q "UNDO ALL" "Undo ALL changes? \
+   \n\n(This cancels result of prior operations, notably \
+   \nof 'update', 'merge', stash', 'revert'.)" yesno warn NO
+ S:fossil undo S: fossil undo
+
+ R: R: 2
+
+ S:fossil 2DOC S: cd %PD/.BIN
+ R:fossil 2DOC R: %q "COMMIT DOC SOURCES" \
+   "This will commit DOC sources in:  \
+   \n\n   %PD\n\nSee details at: \
+   \n\n   https://chiselapp.com/user/aplsimple/repository/HOWTO_chisel" yesno warn NO
+ S:fossil 2DOC S: ./2DOC
+
+ S:fossil 2trunk S: cd %PD/.BIN
+ R:fossil 2trunk R: %q "COMMIT DOC GENERATED" \
+   "This will commit GENERATED docs in:  \
+   \n\n   %PD\n\nSee details at: \
+   \n\n   https://chiselapp.com/user/aplsimple/repository/HOWTO_chisel" yesno warn NO
+ S:fossil 2trunk S: ./2trunk
+
+ R: R: 2
+
+ S:fossil init ~/FOSSIL/%PN.fossil S: cd %PD
+ R:fossil init ~/FOSSIL/%PN.fossil R: %q "FOSSIL INIT" "Initialize the fossil repository \
+   \n   ~/FOSSIL/%PN.fossil\nin\n   %PD?"
+ S:fossil init ~/FOSSIL/%PN.fossil S: mkdir ~/FOSSIL\necho ------------\nfossil init ~/FOSSIL/%PN.fossil\nfossil open ~/FOSSIL/%PN.fossil\nfossil status
+
+ S:fossil all list S: cd %PD
+ S:fossil all list S: fossil all list
+
+ S:fossil settings S: cd %PD
+ S:fossil settings S: fossil settings
+
+ S:set standard settings of fossil (ignore etc.) S: cd %PD
+ R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?" yesno warn NO
+ S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings editor nano\nfossil settings binary-glob 1\nfossil settings
+
+R: R: 2
+
+ RE:xterminal here      RE: cd %d
+ RE:xterminal here      RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
+
 
 [OPTIONS]
+n=< MISC fossil >
 o=0
 in=1.0
-pos=40.6
+pos=130.11
+::FSLUSER=aplsimple
+::FSLBRANCH=trunk

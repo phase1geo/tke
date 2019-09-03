@@ -9,9 +9,9 @@
  R:git add * R: cd %PD
  S:git add * S: git add *\ngit status
 
- R:git commit -am "%x1 %x2 at %t2" R: %q "Committing changes" "Add and commit with message\n\n'%x1 %x2 at %t2' ?"
- R:git commit -am "%x1 %x2 at %t2" R: cd %PD
- S:git commit -am "%x1 %x2 at %t2" S: git commit -am "%x1 %x2 at %t2"
+ R:git push R: %q "Pushing changes" "Push all changes in\n\n%PD\n\nto a remote repository ?"
+ R:git push R: cd %PD
+ S:git push S: git push
 
  R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%x1 %x2 %t1 #%i1' ?"
  R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %PD
@@ -73,4 +73,4 @@ in=1.0
  R:git reset --hard HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
  R:git reset --hard HEAD R: cd %PD
  S:git reset --hard HEAD S: git reset --hard HEAD
-pos=55.6
+pos=12.61
