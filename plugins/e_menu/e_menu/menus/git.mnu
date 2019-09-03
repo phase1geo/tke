@@ -1,13 +1,17 @@
  ; git menu for e_menu.tcl
 
  R:git status R: cd %PD
- S:git status S:pwd\ndir\necho PD=%PD\ngit status
+ S:git status S:pwd\necho %PD\ngit status
 
  R:git gui R: cd %PD
  R:git gui R: git gui
 
  R:git add * R: cd %PD
  S:git add * S: git add *
+
+ R:git commit R: %q "Committing changes" "Commit with message to be edited ?"
+ R:git commit R: cd %PD
+ S:git commit S: git commit
 
  R:git commit -m "%dd_on_%t2" R: %q "Committing changes" "Commit with message\n\n'%dd_on_%t2' ?"
  R:git commit -m "%dd_on_%t2" R: cd %PD
@@ -64,4 +68,4 @@ b1=1
 b2=7
 n=< git >
 in=1.0
-pos=67.0
+pos=14.27

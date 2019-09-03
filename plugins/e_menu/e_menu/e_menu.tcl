@@ -26,7 +26,7 @@ package require Tk
 package require tooltip
 
 namespace eval em {
-  variable e_menu_version "e_menu 1.28"
+  variable e_menu_version "e_menu 1.29"
   variable menuttl "$::em::e_menu_version"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
@@ -117,7 +117,7 @@ namespace eval em {
   variable hotkeys $::em::hotsall
   variable workdir ""
   variable prjdirlist [list]
-  variable prjname [file tail [pwd]]
+  variable prjname ""
   variable ornament 1  ;# 1 - header only; 2 - prompt only; 3 - both; 0 - none
   variable inttimer 1  ;# interval to check the timed tasks
   variable widthi 300
@@ -1326,7 +1326,9 @@ proc ::em::prepr_pn {refpn {dt 0}} {
     prepr_1 pn $gw $::em::arr_geany($gw)
   }
   init_swc
-  prepr_1 pn "PD" [get_PD]            ;# %PD is passed project's dir (PD=)
+  set PD [get_PD]
+  if {$::em::prjname==""} { set ::em::prjname [file tail $PD] }
+  prepr_1 pn "PD" $PD                 ;# %PD is passed project's dir (PD=)
   prepr_1 pn "P_" [get_P_]            ;# ...underlined PD
   prepr_1 pn "PN" $::em::prjname      ;# %PN is passed dir's tail
   prepr_1 pn "N"  $::em::appN         ;# ID of menu application
@@ -1781,9 +1783,6 @@ proc ::em::initPD {seltd {doit 0}} {
       set ::em::workdir [pwd]
     }
     prepr_win ::em::workdir "M/"  ;# force converting
-    if {!$::em::prjset} {
-      set ::em::prjname [file tail $::em::workdir]
-    }
     catch {cd $::em::workdir}
   }
   if {[llength $::em::prjdirlist]==0 && [file isfile $seltd]} {
@@ -2204,7 +2203,7 @@ proc ::em::edit_menu {} {
 }
 #=== help
 proc ::em::help {} {
-  ::eh::browse "https://aplsimple.bitbucket.io/en/tcl/e_menu"
+  ::eh::browse "https://aplsimple.github.io/en/tcl/e_menu"
 }
 #=== show the menu's geometry
 proc ::em::show_menu_geometry {} {
