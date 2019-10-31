@@ -54,7 +54,11 @@
 package require Tk
 package require widget::calendar
 
+source [file join [file dirname [info script]] obbit.tcl]
+
 oo::class create PaveMe {
+
+  mixin ObjectTheming ObjectParsingUtils
 
   variable _pav
 
@@ -71,6 +75,7 @@ oo::class create PaveMe {
     set _pav(bgbut) [ttk::style lookup TButton -background]
     set _pav(fgtxt) [ttk::style lookup TEntry -foreground]
     set _pav(prepost) {}
+    set _pav(widgetopts) {}
     if {$_pav(fgtxt)=="black" || $_pav(fgtxt)=="#000000"} {
       set _pav(bgtxt) white
     } else {
@@ -172,8 +177,8 @@ oo::class create PaveMe {
 
   method ExpandOptions {options} {
 
+#      " - "     ""
     set options [string map {
-      " - "     ""
       " -st "   " -sticky "
       " -com "  " -command "
       " -t "    " -text "
@@ -192,13 +197,13 @@ oo::class create PaveMe {
   # Remove some options from the options
   # Input:
   #   options - string of all options
-  #   removed - list of removed options
+  #   args - list of removed options
 
-  method RemoveSomeOptions {options removed} {
+  method RemoveSomeOptions {options args} {
 
     set resopts ""
     foreach {opt val} [list {*}$options] {
-      if {[lsearch $removed $opt] < 0} {
+      if {[lsearch $args $opt] < 0} {
         append resopts " $opt {$val}"
       }
     }
@@ -208,9 +213,177 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Fill the non-standard attributes of file content widget.
+  #
+  # wnamefull is a widget name
+  # attrs is a list of all attributes
+  #
+  # $varopt option means a variable option (e.g. tvar, lvar)
+  # -inpval option means an initial value of the field
+  # -retpos option has p1:p2 format (e.g. 0:10) to cut a substring
+  #         from returned value
+
+  method FCfieldAttrs {wnamefull attrs varopt} {
+
+    lassign [my parseOptionsFile 0 $attrs \
+      $varopt "" -retpos "" -inpval ""] tmp
+    lassign $tmp - vn - rp - iv
+    if {[string first "-state disabled" $attrs]<0} {
+      if {$varopt eq "-lvar"} {
+        lappend _pav(widgetopts) "-lbxname $wnamefull $vn"
+        lassign [my parseOptionsFile 0 $attrs -values ""] iv
+        lassign $iv -> iv
+        set attrs [my RemoveSomeOptions $attrs -values]
+      }
+      if {$rp ne ""} {
+        lappend _pav(widgetopts) "-retpos $wnamefull $vn $rp"
+      }
+    }
+    if {$iv ne ""} { set $vn $iv }
+    return [my RemoveSomeOptions $attrs -retpos -inpval]
+
+  }
+
+  #########################################################################
+  #
+  # Fill the file content widget's values
+
+  method FCfieldValues {wnamefull attrs} {
+
+    proc readFCO {fname} {
+      # Reads a file's content.
+      # Returns a list of (non-empty) lines of the file.
+      if {$fname eq ""} {
+        set retval {{}}
+      } else {
+        set retval {}
+        if {[catch {set chan [open $fname]}]} {
+          error "\npaveme.tcl: can't open \"$fname\"\n"
+        }
+        set fconts [read $chan]
+        close $chan
+        foreach ln [split $fconts \n] {
+          if {$ln!={}} {lappend retval $ln}
+        }
+      }
+      return $retval
+    }
+
+    proc contFCO {fline opts edge args} {
+      # Given a file's line and options,
+      # cuts a substring from the line.
+      lassign [my parseOptionsFile 1 $opts {*}$args] opts
+      lassign $opts - - - div1 - div2 - pos - len - ret
+      set ldv1 [string length $div1]
+      set ldv2 [string length $div2]
+      set i1 [expr {[string first $div1 $fline]+$ldv1}]
+      set i2 [expr {[string first $div2 $fline]-1}]
+      if {$ldv1 && $ldv2} {
+        if {$i1<0 || $i2<0} {return $edge}
+        set retval [string range $fline $i1 $i2]
+      } elseif {$ldv1} {
+        if {$i1<0} {return $edge}
+        set retval [string range $fline $i1 end]
+      } elseif {$ldv2} {
+        if {$i2<0} {return $edge}
+        set retval [string range $fline 0 $i2]
+      } elseif {$pos!={} && $len!={}} {
+        set retval [string range $fline $pos $pos+[incr len -1]]
+      } elseif {$pos!={}} {
+        set retval [string range $fline $pos end]
+      } elseif {$len!={}} {
+        set retval [string range $fline 0 $len-1]
+      } else {
+        set retval $fline
+      }
+      return [list $retval $ret]
+    }
+
+    set edge "/@"
+    set ldv1 [string length $edge]
+    set filecontents {}
+    set optionlists {}
+    set tplvalues ""
+    set retpos ""
+    lassign [my parseOptionsFile 0 $attrs -values ""] values
+    lassign $values -> values
+    if {[string first $edge $values]<0} { ;# if 1 file, edge
+      set values "$edge$values$edge"      ;# may be omitted
+    }
+    # get: files' contents, files' options, template line
+    set lopts "-list {} -div1 {} -div2 {} -pos {} -len {} -ret 0"
+    while {1} {
+      set i1 [string first $edge $values]
+      set i2 [string first $edge $values $i1+1]
+      if {$i1>=0 && $i2>=0} {
+        incr i1 $ldv1
+        append tplvalues [string range $values 0 $i1-1]
+        set fdata [string range $values $i1 $i2-1]
+        lassign [my parseOptionsFile 1 $fdata {*}$lopts] fopts fname
+        lappend filecontents [readFCO $fname]
+        lappend optionlists $fopts
+        set values [string range $values $i2+$ldv1 end]
+      } else {
+        append tplvalues $values
+        break
+      }
+    }
+    # fill the combobox lines, using files' contents and options
+    if {[set leno [llength $optionlists]]} {
+      set newvalues ""
+      set ilin 0
+      lassign $filecontents firstFCO
+      foreach fline $firstFCO { ;# lines of first file for a base
+        set line ""
+        set tplline $tplvalues
+        for {set io 0} {$io<$leno} {incr io} {
+          set opts [lindex $optionlists $io]
+          if {$ilin==0} {  ;# 1st cycle: add items from -list option
+            lassign $opts - list1  ;# -list option goes first
+            if {[llength $list1]} {
+              foreach l1 $list1 {append newvalues "\{$l1\} "}
+              lappend _pav(widgetopts) "-list $wnamefull [list $list1]"
+            }
+          }
+          set i1 [string first $edge $tplline]
+          if {$i1>=0} {
+            lassign [contFCO $fline $opts $edge {*}$lopts] retline ret
+            if {$ret ne "0" && $retline ne $edge && \
+            [string first $edge $line]<0} {
+              set p1 [expr {[string length $line]+$i1}]
+              if {$io<($leno-1)} {
+                set p2 [expr {$p1+[string length $retline]-1}]
+              } else {
+                set p2 end
+              }
+              set retpos "-retpos $p1:$p2"
+            }
+            append line [string range $tplline 0 $i1-1] $retline
+            set tplline [string range $tplline $i1+$ldv1 end]
+          } else {
+            break
+          }
+          set fline [lindex [lindex $filecontents $io+1] $ilin]
+        }
+        if {[string first $edge $line]<0} {
+          # put only valid lines into the list of values
+          append newvalues "\{$line$tplline\} "
+        }
+        incr ilin
+      }
+      # replace old 'values' attribute with the new 'values'
+      lassign [my parseOptionsFile 2 $attrs -values \
+        [string trimright $newvalues]] attrs
+    }
+    return "$attrs $retpos"
+
+  }
+
+  #########################################################################
+  #
   # Get the widget type based on 2 initial letters of its name
 
-  method GetWidgetType {namefull options attrs} {
+  method GetWidgetType {wnamefull options attrs} {
 
     set disabled 0
     catch {
@@ -218,7 +391,7 @@ oo::class create PaveMe {
       set disabled [expr {$a(-state)=="disabled"}]
     }
     set pack $options
-    set name [my rootwname $namefull]
+    set name [my rootwname $wnamefull]
     set nam3 [string tolower [string index $name 0]][string range $name 1 2]
     switch -glob $nam3 {
       "but" {set widget "ttk::button"}
@@ -226,7 +399,13 @@ oo::class create PaveMe {
       "can" {set widget "canvas"}
       "chb" {set widget "ttk::checkbutton"}
       "chB" {set widget "checkbutton"}
-      "cbx" {set widget "ttk::combobox"}
+      "cbx" - "fco" {
+        set widget "ttk::combobox"
+        if {$nam3 eq "fco"} {  ;# file content combobox
+          set attrs [my FCfieldValues $wnamefull $attrs]
+        }
+        set attrs [my FCfieldAttrs $wnamefull $attrs -tvar]
+      }
       "ent" {set widget "ttk::entry"}
       "enT" {set widget "entry"}
       "fil" -
@@ -254,7 +433,17 @@ oo::class create PaveMe {
         if {$disabled} {set attrs [my RemoveSomeOptions $attrs -state]}
         set attrs "-relief ridge -fg maroon $attrs"
       }
-      "lbx" {set widget "listbox"}
+      "lbx" - "flb" {
+        set widget "listbox"
+        if {$nam3 eq "flb"} {  ;# file content listbox
+          set attrs [my FCfieldValues $wnamefull $attrs]
+        }
+        # -exportselection = 0 to allow multiple selections
+        if {"-exportselection" ni $attrs} {
+          append attrs " -exportselection 0"
+        }
+        set attrs "[my FCfieldAttrs $wnamefull $attrs -lvar]"
+      }
       "meb" {set widget "ttk::menubutton"}
       "meB" {set widget "menubutton"}
       "not" {set widget "ttk::notebook"}
@@ -654,8 +843,7 @@ oo::class create PaveMe {
         $menupath add cascade -label [lindex $v2 0] {*}[lrange $v2 1 end] -menu $menuitem -underline $ampos
         continue
       } else {
-        puts -nonewline stderr "Erroneous \"$v1\" for \"$nam\""
-        return -code error
+        error "\npaveme.tcl: erroneous \"$v1\" for \"$nam\"\n"
       }
       set lwidgets [linsert $lwidgets [incr itmp] $wid1 $wid2]
       incr itmp
@@ -768,6 +956,46 @@ oo::class create PaveMe {
           $w configure -state normal
           my displayTaggedText $w v {}
           $w configure -state disabled
+        }
+      }
+    }
+
+  }
+
+  #########################################################################
+  #
+  # Some i/o widgets require a special method
+  # of getting their returned values
+
+  method GetOutputValues {} {
+
+    foreach aop $_pav(widgetopts) {
+      lassign $aop optnam vn v1 v2
+      switch $optnam {
+        -lbxname { ;# to get a listbox's value, its methods are used
+          lassign [$vn curselection] s1
+          if {$s1 eq {}} {set s1 0}
+          set $v1 [$vn get $s1]
+        }
+        -retpos { ;# a range to cut from -tvar/-lvar variable
+          lassign [split $v2 :] p1 p2
+          set val1 [set $v1]
+          # there may be -list option for this widget
+          # then if the value is from the list, it's fully returned
+          foreach aop2 $_pav(widgetopts) {
+            lassign $aop2 optnam2 vn2 lst2
+            if {$optnam2=="-list" && $vn==$vn2} {
+              foreach val2 $lst2 {
+                if {$val1 == $val2} {
+                  set p1 0
+                  set p2 end
+                  break
+                }
+              }
+              break
+            }
+          }
+          set $v1 [string range $val1 $p1 $p2]
         }
       }
     }
@@ -1015,6 +1243,7 @@ oo::class create PaveMe {
     after 50 [list focus -force $opt(-focus)]
     tkwait variable ${_pav(ns)}PN::AR($win)
     grab release $win
+    my GetOutputValues
     return [set [set _ ${_pav(ns)}PN::AR($win)]]
 
   }
@@ -1092,12 +1321,16 @@ oo::class create PaveMe {
         foreach tagi $tags pos $tagpos len $taglen {
           lassign $tagi tag
           if {[string first "\<$tag\>" $line]==0} {
-            if {$pos != "0"} { error "Mismatched \<$tag\> in line $irow." }
+            if {$pos != "0"} {
+              error "\npaveme.tcl: mismatched \<$tag\> in line $irow.\n"
+            }
             lset tagpos $i $nrnc
             set line [string range $line $len+2 end]
             break
           } elseif {[string first "\</$tag\>" $line]==0} {
-            if {$pos == "0"} { error "Mismatched \</$tag\> in line $irow." }
+            if {$pos == "0"} {
+              error "\npaveme.tcl: mismatched \</$tag\> in line $irow.\n"
+            }
             lappend taglist [list $i $pos $nrnc]
             lset tagpos $i 0
             set line [string range $line $len+3 end]

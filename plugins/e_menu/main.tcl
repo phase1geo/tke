@@ -72,7 +72,7 @@ namespace eval e_menu {
   #====== Save the selected text to a temporary file
 
   proc save_to_tmp {sel} {
-    set tmpname [file join [api::get_home_directory] "sel_tcl.tmp"]
+    set tmpname [file join [api::get_home_directory] "menus/sel_tcl.tmp~"]
     try {
       set tmpfile [open $tmpname w]
       puts -nonewline $tmpfile $sel
@@ -199,8 +199,10 @@ namespace eval e_menu {
     set z1_opt "z1=$plugdir"
     # here we try and set colors of TKE's current color scheme
     # (defaults are taken from MildDark theme, huh)
-    set fg "fg=[api::get_default_foreground]"
-    set bg "bg=[api::get_default_background]"
+    set fg "fg=[api::theme::get_value tabs -inactiveforeground]"
+    set bg "bg=[api::theme::get_value tabs -inactivebackground]"
+    set fI "fI=[api::theme::get_value tabs -activeforeground]"
+    set bI "bI=[api::theme::get_value tabs -activebackground]"
     set fE "fE=#d2d2d2"
     catch {set fE "fE=[[get_txt] cget -foreground]"}
     set bE "bE=#181919"
@@ -223,7 +225,7 @@ namespace eval e_menu {
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
           $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
-          $z1_opt $TF_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
+          $fI $bI $z1_opt $TF_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
           $l_opt $ts_opt $PN_opt &
       } e]} {
       api::show_error "\nError of run:\n

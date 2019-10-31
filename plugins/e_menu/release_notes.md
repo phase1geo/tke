@@ -1,6 +1,13 @@
 # Last changes:
 
 
+Version `1.33 (31 Oct'19)`
+
+  - pave: file content widgets (fco, flb) added
+  - fossil.mnu, git.mnu changed accordingly
+  - TKE colors reset for e_menu
+
+
 Version `1.29 (3 Sep'19)`
 
   - ::em::prjname

@@ -144,42 +144,7 @@ proc invokeBrowser {url} {
     message_box "ERROR: couldn't execute '$command':\n$error"
   }
 }
-# ====== to edit file by means of e_menu
-proc edit_file {fname fg bg cc {prepost ""} args} {
-  if {$fname==""} {
-    return false
-  }
-  set newfile 0
-  if {[catch {set data [read [set ch [open $fname]]]}]} {
-    if {[catch {close [open $fname w]} err]} {
-      message_box "ERROR: couldn't create '$fname':\n$err"
-      return false
-    }
-    set newfile 1
-    set data ""
-  } else {
-    close $ch
-  }
-  PaveDialog create dialog "" $::srcdir
-  if {$prepost==""} {set aa ""} {set aa [$prepost data]}
-  set res [dialog misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-    TEXT -text 1 -ro 0 -w {100 80} -h 32 -fg $fg -bg $bg -cc $cc -size 12 \
-    -post $prepost {*}$aa {*}$args]
-  set data [string range $res 2 end]
-  if {[set res [string index $res 0]]=="1"} {
-    set data [string range $data [string first " " $data]+1 end]
-    set data [string trimright $data]
-    set ch [open $fname w]
-    foreach line [split $data \n] {
-      puts $ch [string trimright $line] ;# end spaces conflict with co= arg
-    }
-    close $ch
-  } elseif {$newfile} {
-    file delete $fname
-  }
-  dialog destroy
-  return $res
-}
+
 # *******************************************************************
 # e_help's procedures
 
@@ -245,6 +210,7 @@ namespace eval eh {
       } elseif {[file exists $h3]} {
         return "file://$h3"        ;# view Keywords help (by first letter)
       }
+      set h1 "$::eh::hroot/TclCmd/contents.$ext" ;# Tcl index, if nothing found
     }
     return "$h1"
   }

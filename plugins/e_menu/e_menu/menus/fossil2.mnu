@@ -38,9 +38,18 @@
 
  R: R: 2
 
- S:fossil sync -u S: cd %PD
- R:fossil sync -u R: %q "UNVERSIONED FILES" " Sync with remote repository\n including unversioned artifacts?"
-SW:fossil sync -u SW: echo $PWD\nfossil sync -u -v
+ S:fossil uv sync S: cd %PD/.BIN
+ R:fossil uv sync R: %C if [file exist 4uvadd] {set ::FORUV { .BIN/4uvadd}} {set ::FORUV {}}
+ R:fossil uv sync R: %q "UNVERSIONED FILES" " DO\n\n    fossil uv add * \
+   \n    fossil uv sync\n\n for ALL$::FORUV files of\n\n    %PD/.BIN?"
+SW:fossil uv sync SW: if test -f ./4uvadd ; then ./4uvadd ; else fossil uv add * ; fi \
+  \nfossil uv ls\necho ---------------------------\necho Press Return to run UV SYNC \
+  \nread\nfossil uv sync
+
+ S:fossil uv sync %F S: cd %PD/.BIN
+ R:fossil uv sync %F R: %q "UNVERSIONED FILE" " DO\n\n    fossil uv add %F \
+   \n    fossil uv sync\n\n ( for .BIN/%F ) ?"
+SW:fossil uv sync %F SW: fossil uv add %F\nfossil uv sync
 
  S:fossil config pull shun S: cd %PD
  R:fossil config pull shun R: %C if {![info exist ::FSLREPO]}  {set ::FSLREPO %PN; set ::FSLPASS ""}
@@ -61,6 +70,11 @@ SW:fossil sync -u SW: echo $PWD\nfossil sync -u -v
    https://$::FSLUSER:$::FSLPASS@chiselapp.com/user/$::FSLUSER/repository/$::FSLREPO
 
  R: R: 2
+
+ S:fossil commit S: cd %PD
+ R:fossil commit R: %q "Committing changes" \
+   " Commit with a message to be edited ?\n\n You may leave the message empty."
+ S:fossil commit S: fossil commit --allow-empty
 
  R:fossil commit -m ? --branch ? R: cd %PD
  R:fossil commit -m ? --branch ? R: %C set ::COMMES "%s"
@@ -117,19 +131,19 @@ SW:fossil undo SW: fossil undo -n
 
  R: R: 2
 
- S:fossil 2DOC S: cd %PD/.BIN
- R:fossil 2DOC R: %q "COMMIT DOC SOURCES" \
+ S:2DOC S: cd %PD/.BIN
+ R:2DOC R: %q "COMMIT DOC SOURCES" \
    "This will commit DOC sources in:  \
    \n\n   %PD\n\nSee details at: \
    \n\n   https://chiselapp.com/user/aplsimple/repository/HOWTO_chisel" yesno warn NO
- S:fossil 2DOC S: ./2DOC
+ S:2DOC S: ./4files\n./2DOC
 
- S:fossil 2trunk S: cd %PD/.BIN
- R:fossil 2trunk R: %q "COMMIT DOC GENERATED" \
+ S:2trunk S: cd %PD/.BIN
+ R:2trunk R: %q "COMMIT DOC GENERATED" \
    "This will commit GENERATED docs in:  \
    \n\n   %PD\n\nSee details at: \
    \n\n   https://chiselapp.com/user/aplsimple/repository/HOWTO_chisel" yesno warn NO
- S:fossil 2trunk S: ./2trunk
+ S:2trunk S: ./2trunk
 
  R: R: 2
 
@@ -138,26 +152,36 @@ SW:fossil undo SW: fossil undo -n
    \n   ~/FOSSIL/%PN.fossil\nin\n   %PD?"
  S:fossil init ~/FOSSIL/%PN.fossil S: mkdir ~/FOSSIL\necho ------------\nfossil init ~/FOSSIL/%PN.fossil\nfossil open ~/FOSSIL/%PN.fossil\nfossil status
 
- S:fossil all list S: cd %PD
- S:fossil all list S: fossil all list
-
  S:fossil settings S: cd %PD
  S:fossil settings S: fossil settings
 
  S:set standard settings of fossil (ignore etc.) S: cd %PD
- R:set standard settings of fossil (ignore etc.) R:  %q "Settings" "Set the standard settings of fossil?" yesno warn NO
- S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings editor nano\nfossil settings binary-glob 1\nfossil settings
+ R:set standard settings of fossil (ignore etc.) R:  %q "Settings" " Set in \
+  \n\n    %PD\n\n the standard settings of fossil?" yesno warn NO
+ S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.backup,*.*~0"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings editor nano\nfossil settings binary-glob 1\nif test -f .BIN/4init ; then .BIN/4init ; fi\nfossil settings
+
+ S:fossil addremove * S: cd %PD
+ S:fossil addremove * S: fossil addremove -n
+ R:fossil addremove * R:  %q "ADDREMOVE" " Repository's Add and Remove for all files in \
+  \n\n    %PD\n\n (the supposed changes were shown by 'fossil addremove -n')" yesno warn NO
+ S:fossil addremove * S: fossil addremove
+
+ S:fossil all list S: cd %PD
+ S:fossil all list S: fossil all list
 
 R: R: 2
+ S:fossil status %PD S: cd %PD
+ S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
 
- RE:xterminal here      RE: cd %d
- RE:xterminal here      RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
+ R:xterminal here R: cd %d
+ R:xterminal here R: %IF [::iswindows] %THEN cmd.exe /K %ELSE lxterminal
+# R:xterminal here R: xterm -fa ru_RU.utf8 -fs 15 -geometry 120x30+300+100 -bg #25292B -fg white
 
 
 [OPTIONS]
 n=< MISC fossil >
 o=0
 in=1.0
-pos=130.11
+pos=178.19
 ::FSLUSER=aplsimple
 ::FSLBRANCH=trunk

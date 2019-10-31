@@ -7,7 +7,7 @@
  RE: Run me (with %AR) RE: %IF "%x"==".tcl" %THEN %T tclsh "%f" %AR
  RE: Run me (with %AR) RE: %IF "%x"==".py"  %THEN %t python3 "%f" %AR
  RE: Run me (with %AR) RE: ###########################################################
- RE: Run me (with %AR) RE: %M "Edit this menu for file extention: %x"
+  S: Run me (with %AR) S: %f %AR
 
  SE: Run Tcl {all selection} SE: cd %d
  SE: Run Tcl {all selection} SE: tclsh %m/src/ch_.tcl "%TF"
@@ -43,24 +43,31 @@
  RE: Commit "%dd_on_%t2" RE: cd %PD
  SE: Commit "%dd_on_%t2" SE: hg addremove\nhg commit -m "%dd_on_%t2"
 
- R: Differences of %F (hg extdiff) R: cd %d
- R: Differences of %F (hg extdiff) R: %C if {![info exist ::REV]}  {set ::REV -1}
- R: Differences of %F (hg extdiff) R: %C if {![info exist ::FIL]}  {set ::FIL "%f"}
- R: Differences of %F (hg extdiff) R: \
-  %I "" "DIFFERENCES" { \
-  v_0  {{} {-pady 7} {}} {} \
-  ent1    {{Revision: } {} {}} {"$::REV"} \
-  filName {{ of file: } {} {-w 61}} {"$::FIL"} \
-  v_1  {{} {-pady 7} {}} {} seh {{} {} {}} {} v_2 {{} {} {}} {} \
-  texc {{hg help:  } {} {-h 3 -w 52 -state disabled}} {A plain integer is treated \
-as a revision number.\nNegative integers are treated as sequential offsets from the \
-tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so forth.} \
-  } -head "\n Enter a revision (a prior commit's number):" -weight bold == ::REV ::FIL
- R: Differences of %F (hg extdiff) R: hg extdiff -r $::REV -p meld $::FIL
+ R: Differences of %F (fossil gdiff) R: cd %PD
+ R: Differences of %F (fossil gdiff) R: %C set ::EMENUTMP "%mn.tmp~"
+ R: Differences of %F (fossil gdiff) R: %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
+ R: Differences of %F (fossil gdiff) R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
+RW: Differences of %F (fossil gdiff) RW: fossil tim -t ci -n 11 > $::EMENUTMP
+ R: Differences of %F (fossil gdiff) R: %I {} "GDIFF" { \
+   v_ {{} {-pady 4} {}} {} \
+   fil1 {{   File:} {} {-w 60}} {"$::EMENUFILE"} \
+   fco1 {{Version:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMP/@    INFO: /@-div1 "\] " $::EMENUTMP/@} \
+   seh {{} {-pady 3} {}} {} \
+   texc {{   Hint:} {} {-h 9 -w 60 -state disabled -wrap word}} \
+   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMP)} \
+   } -head {\n This will compare a selected version of\n     %f\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
+ R: Differences of %F (fossil gdiff) R: %C file delete $::EMENUTMP
+ R: Differences of %F (fossil gdiff) R: %C if {"$::EMENUCOMMIT" eq ""} \
+   {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
+ R: Differences of %F (fossil gdiff) R: fossil gdiff $::EMENUTMP "$::EMENUFILE"
 
- # call TKE with all *.tcl of current file's directory
+
+ # call TKE/Geany with all *.tcl of current file's directory
  RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
- RE: Edit *.tcl of %d RE: tke "%d/*.tcl"
+ RE: Edit *.tcl of %d RE: %C set ::ALLFILES [glob "%d/*.tcl"]
+ RE: Edit *.tcl of %d RE: %IF [auto_execok geany]!={} %THEN geany $::ALLFILES %ELSE tke $::ALLFILES
+ RE: Edit *.tcl of %d RE: %C unset ::ALLFILES
 
  M:  M: 4
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50
@@ -73,4 +80,4 @@ in=1.0
 bd=1
 w=45
 g=+500+100
-pos=5.72
+pos=55.72

@@ -1,44 +1,53 @@
  ; git menu for e_menu.tcl
 
- R:git status R: cd %PD
+ S:git status S: cd %PD
  S:git status S: echo %PD\ndir\necho ---\ngit status
 
  RE:git gui RE: cd %PD
  RE:git gui RE: git gui
 
- R:git add * R: cd %PD
+ S:git add * S: cd %PD
+ R:git add * R: %q "Adding changes" "Add all changes in\n\n%PD\n\nto a local repository ?"
  S:git add * S: git add *\ngit status
 
+ S:git push S: cd %PD
  R:git push R: %q "Pushing changes" "Push all changes in\n\n%PD\n\nto a remote repository ?"
- R:git push R: cd %PD
  S:git push S: git push
 
- R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: %q "Amending commit" "Amend the last commit\nwith message\n\n'%x1 %x2 %t1 #%i1' ?"
- R:git commit --amend -am "%x1 %x2 %t1 #%i1" R: cd %PD
- S:git commit --amend -am "%x1 %x2 %t1 #%i1" S: git commit --amend -am "%x1 %x2 %t1 #%i1"
+ S:git pull S: cd %PD
+ R:git pull R: %q "Pulling changes" "Pull changes in\n\na remote repository\n\nto %PD ?"
+ S:git pull S: git pull
 
- R:git log -p "1 hour ago" R: cd %PD
+ S:git merge S: cd %PD
+ R:git merge R: %q "Merging changes" "Merge changes in\n\n  %PD ?"
+ S:git merge S: git merge
+
+ S:git commit --amend S: cd %PD
+ R:git commit --amend R: %q "Amending commit" "Amend the last commit\nwith message to be edited ?"
+ S:git commit --amend S: git commit --amend
+
+ S:git log -p "1 hour ago" S: cd %PD
  S:git log -p "1 hour ago" S: git log -p "--since=1 hour ago"
 
- R:git log -p "1 day ago" R: cd %PD
+ S:git log -p "1 day ago" S: cd %PD
  S:git log -p "1 day ago" S: git log -p "--since=1 day ago"
 
- R:git log --since="1 week ago" R: cd %PD
+ S:git log --since="1 week ago" S: cd %PD
  S:git log --since="1 week ago" S: git log "--since=1 week ago"
 
- R:git log R: cd %PD
+ S:git log S: cd %PD
  S:git log S: git log
 
- R:git branch R: cd %PD
+ S:git branch S: cd %PD
  S:git branch S: git branch
 
- R:git diff master..%s R: cd %PD
+ S:git diff master..%s S: cd %PD
  S:git diff master..%s S: git diff master..%s
 
  R: - R: 15
 
+ S:git init S: cd %PD
  R:git init R: %q "INIT" "This will initialize GIT in:\n%PD"
- R:git init R: cd %PD
  S:git init S: git init
 
  RE:edit .gitignore RE: %E %PD/.gitignore
@@ -73,4 +82,4 @@ in=1.0
  R:git reset --hard HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
  R:git reset --hard HEAD R: cd %PD
  S:git reset --hard HEAD S: git reset --hard HEAD
-pos=12.61
+pos=62.4
