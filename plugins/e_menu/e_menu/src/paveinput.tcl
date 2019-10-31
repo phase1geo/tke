@@ -1,9 +1,10 @@
 ###########################################################################
 #
-# This script contains the PaveInput class that facilitates a creation
-# of input dialogs.
+# This script contains the PaveInput class that allows:
+#   - to create input dialogs
+#   - to edit text files
 #
-# Use:
+# Use for input dialogs:
 #   source paveinput.tcl
 #   PaveInput create pinp $win $pavedir
 #   pinp input $icon $ttl $iopts $args
@@ -17,6 +18,16 @@
 #     - prompt (and possibly gridopts, widopts) of field
 #     - options for value of field
 #   args - PaveDialog options
+#
+# Use for editing files:
+#   source paveinput.tcl
+#   PaveInput create pinp $win $pavedir
+#   pinp editfile $fname $fg $bg $cc $prepost $args
+# where:
+#   fname - name of edited file
+#   fg, bg, cc - colors of background, foreground and cursor
+#   prepost - optional command (or "") to be executed before editing
+#   args - optional arguments of text widget
 #
 # See test_pavedialog.tcl for the detailed examples of use.
 #
@@ -60,11 +71,16 @@ oo::class create PaveInput {
       set ff [my fieldname $name]
       switch $typ {
         cb {
-          if {![info exist $vv]} {catch {lassign $valopts $vv}}
+          if {![info exist $vv]} {catch {set $vv ""}}
+          set vlist {}
           foreach vo [lrange $valopts 1 end] {
             lappend vlist $vo
           }
-          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -value \{$vlist\} $attrs"]
+          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -values \{$vlist\} $attrs"]
+        }
+        fc {
+          if {![info exist $vv]} {catch {set $vv ""}}
+          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -values \{$valopts\} $attrs"]
         }
         ra {
           if {![info exist $vv]} {catch {lassign $valopts $vv}}
@@ -125,5 +141,39 @@ oo::class create PaveInput {
     return $res
   }
 
-}
+  # edit a file
+  method editfile {fname fg bg cc {prepost ""} args} {
+    if {$fname==""} {
+      return false
+    }
+    set newfile 0
+    if {[catch {set data [read [set ch [open $fname]]]}]} {
+      if {[catch {close [open $fname w]} err]} {
+        puts "ERROR: couldn't create '$fname':\n$err"
+        return false
+      }
+      set newfile 1
+      set data ""
+    } else {
+      close $ch
+    }
+    if {$prepost==""} {set aa ""} {set aa [$prepost data]}
+    set res [my misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
+      TEXT -text 1 -ro 0 -w {100 80} -h 32 -fg $fg -bg $bg -cc $cc -size 12 \
+      -post $prepost {*}$aa {*}$args]
+    set data [string range $res 2 end]
+    if {[set res [string index $res 0]]=="1"} {
+      set data [string range $data [string first " " $data]+1 end]
+      set data [string trimright $data]
+      set ch [open $fname w]
+      foreach line [split $data \n] {
+        puts $ch [string trimright $line] ;# end spaces conflict with co= arg
+      }
+      close $ch
+    } elseif {$newfile} {
+      file delete $fname
+    }
+    return $res
+  }
 
+}
