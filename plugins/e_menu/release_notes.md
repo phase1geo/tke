@@ -1,11 +1,34 @@
 # Last changes:
 
 
+Version `1.34 (2 Nov'19)`
+
+  - date/time attributes of menus untouched at executing their commands
+  - removing temporary files (menus/*.tmp~) on exit
+  - .mnu changed accordingly
+  - main.mnu: file differences for Fossil (default) / Git
+  - grep.mnu: input dialogs for a search string
+  - help updated at aplsimple.github.io
+
+
 Version `1.33 (31 Oct'19)`
 
   - pave: file content widgets (fco, flb) added
   - fossil.mnu, git.mnu changed accordingly
   - TKE colors reset for e_menu
+
+
+Versions `1.30 through 1.32`
+
+  - no moving menu at clicking "On top"
+  - when "On top"=on, no exit after RE: and SE: commands
+  - delegating "On top"=on to child menus
+  - yesnocancel dialog added to existing yesno, okcancel
+  - only files less than 1Mb are read (outside of TKE, in file managers)
+  - Tcl/Tk offline help file names normalized
+  - new %F_ wildcard meaning %F underlined
+  - ";" can be used as a command divider in a1=, a2= commands
+  - pave modified
 
 
 Version `1.29 (3 Sep'19)`

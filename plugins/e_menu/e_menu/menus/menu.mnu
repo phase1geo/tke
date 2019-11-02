@@ -43,25 +43,23 @@
  RE: Commit "%dd_on_%t2" RE: cd %PD
  SE: Commit "%dd_on_%t2" SE: hg addremove\nhg commit -m "%dd_on_%t2"
 
- R: Differences of %F (fossil gdiff) R: cd %PD
- R: Differences of %F (fossil gdiff) R: %C set ::EMENUTMP "%mn.tmp~"
- R: Differences of %F (fossil gdiff) R: %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
- R: Differences of %F (fossil gdiff) R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
-RW: Differences of %F (fossil gdiff) RW: fossil tim -t ci -n 11 > $::EMENUTMP
- R: Differences of %F (fossil gdiff) R: %I {} "GDIFF" { \
+ R: Differences of %F (fossil/git) R: cd %PD
+ R: Differences of %F (fossil/git) R: %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
+ R: Differences of %F (fossil/git) R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
+RW: Differences of %F (fossil/git) RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
+ R: Differences of %F (fossil/git) R: %I {} "GDIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 60}} {"$::EMENUFILE"} \
    fco1 {{Version:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMP/@    INFO: /@-div1 "\] " $::EMENUTMP/@} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
    texc {{   Hint:} {} {-h 9 -w 60 -state disabled -wrap word}} \
-   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMP)} \
+   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %f\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
- R: Differences of %F (fossil gdiff) R: %C file delete $::EMENUTMP
- R: Differences of %F (fossil gdiff) R: %C if {"$::EMENUCOMMIT" eq ""} \
+ R: Differences of %F (fossil/git) R: %C if {"$::EMENUCOMMIT" eq ""} \
    {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
- R: Differences of %F (fossil gdiff) R: fossil gdiff $::EMENUTMP "$::EMENUFILE"
-
+ R: Differences of %F (fossil/git) R: %IF [file exists .fslckout] %THEN \
+  fossil gdiff $::EMENUTMP "$::EMENUFILE" %ELSE git difftool $::EMENUCOMMIT HEAD -- "$::EMENUFILE"
 
  # call TKE/Geany with all *.tcl of current file's directory
  RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
@@ -80,4 +78,5 @@ in=1.0
 bd=1
 w=45
 g=+500+100
-pos=55.72
+pos=60.10
+::EMENUTMPFILE=%mn.tmp~
