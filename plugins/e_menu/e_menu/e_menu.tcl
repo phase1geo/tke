@@ -26,7 +26,7 @@ package require Tk
 package require tooltip
 
 namespace eval em {
-  variable e_menu_version "e_menu 1.33"
+  variable e_menu_version "e_menu 1.34"
   variable menuttl "$::em::e_menu_version"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
@@ -396,9 +396,11 @@ proc ::em::read_menufile {} {
   return $menudata
 }
 proc ::em::write_menufile {menudata} {
+  lassign [::em::FileAttributes $::em::menufilename] f_attrs f_atime f_mtime
   set ch [open $::em::menufilename w]
   foreach line $menudata { puts $ch "$line" }
   close $ch
+  ::em::FileAttributes $::em::menufilename $f_attrs $f_atime $f_mtime
 }
 #=== get and save a writeable command
 proc ::em::writeable_command {cmd} {
@@ -464,19 +466,18 @@ proc ::em::writeable_command {cmd} {
   return $cmd
 }
 #=== Gets/sets file attributes
-proc ::em::FileAttributes {fname {attrs ""} {atime ""} {mtime ""} } {
-    if {$attrs==""} {
+proc ::em::FileAttributes {fname {attrs "-"} {atime ""} {mtime ""} } {
+    if {$attrs=="-"} {
       set attrs [file attributes $fname]
       return [list $attrs [file atime $fname] [file mtime $fname]]
     }
-   file attributes $fname {*}$attrs
+   #file attributes $fname {*}$attrs
    file atime $fname $atime
    file mtime $fname $mtime
   }
 #=== save options in the menu file
 proc ::em::save_options {} {
   if {$::em::savelasti<0} return
-  lassign [::em::FileAttributes $::em::menufilename] f_attrs f_atime f_mtime
   set menudata [::em::read_menufile]
   set opt [set i [set ifnd [set ifnd1 0]]]
   foreach line $menudata {
@@ -501,7 +502,6 @@ proc ::em::save_options {} {
       set menudata [linsert $menudata $ifnd1 $opt1]
     }
     ::em::write_menufile $menudata
-    ::em::FileAttributes $::em::menufilename $f_attrs $f_atime $f_mtime
   }
 }
 #=== initialize values of menu's variables
@@ -2245,10 +2245,11 @@ proc ::em::show_menu_geometry {} {
 }
 #=== exit (end of e_menu)
 proc ::em::on_exit {} {
-  if {$::em::cb!=""} {
-      # callback the menu (i.e. the caller)
+  if {$::em::cb!=""} {    ;# callback the menu (i.e. the caller)
     if { [catch {exec tclsh {*}$::em::cb "&"} e] } { d $e }
   }
+  # remove temporary files
+  catch {file delete {*}[glob "[file dirname $::em::menufilename]/*.tmp~"]}
   exit
 }
 #=== run Tcl commands passed in a1=, a2=

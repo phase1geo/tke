@@ -13,37 +13,33 @@
  R: R: 2
 
  R:fossil gdiff %F ? R: cd %PD
- R:fossil gdiff %F ? R: %C set ::EMENUTMP "%mn.tmp~"
  R:fossil gdiff %F ? R: %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
  R:fossil gdiff %F ? R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
- RW:fossil gdiff %F ? RW: fossil tim -t ci -n 11 > $::EMENUTMP
+ RW:fossil gdiff %F ? RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  R:fossil gdiff %F ? R: %I {} "GDIFF" { \
    v_ {{} {-pady 4} {}} {} \
-   fil1 {{   File:} {} {-w 60}} {"$::EMENUFILE"} \
+   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
    fco1 {{Version:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMP/@    INFO: /@-div1 "\] " $::EMENUTMP/@} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
-   texc {{   Hint:} {} {-h 9 -w 60 -state disabled -wrap word}} \
-   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMP)} \
+   texc {{   Hint:} {} {-h 9 -w 70 -state disabled -wrap word}} \
+   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %f\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
- R:fossil gdiff %F ? R: %C file delete $::EMENUTMP
  R:fossil gdiff %F ? R: %C if {"$::EMENUCOMMIT" eq ""} \
    {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
  R:fossil gdiff %F ? R: fossil gdiff $::EMENUTMP "$::EMENUFILE"
 
  S:fossil diff ? S: cd %PD
- R:fossil diff ? R: %C set ::EMENUTMP "%mn.tmp~"
  R:fossil diff ? R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
- RW:fossil diff ? RW: fossil tim -t ci -n 11 > $::EMENUTMP
+ RW:fossil diff ? RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  R:fossil diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fco1 {{Version of file:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMP/@    INFO: /@-div1 "\] " $::EMENUTMP/@} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
-   texc {{           Hint:} {} {-h 7 -w 60 -state disabled -wrap word}} \
-   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current files are compared to tip.\n\n (temp file: $::EMENUTMP)} \
+   texc {{           Hint:} {} {-h 7 -w 70 -state disabled -wrap word}} \
+   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current files are compared to tip.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %PD\n to its tip.} -weight bold == ::EMENUCOMMIT
- R:fossil diff ? R: %C file delete $::EMENUTMP
  R:fossil diff ? R: %C if {"$::EMENUCOMMIT" eq ""} \
    {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
  S:fossil diff ? S: fossil diff $::EMENUTMP
@@ -136,7 +132,8 @@ t4==%b-%Y/%U-week
 u=%s
 o=0
 in=1.0
-pos=24.73
+pos=25.33
 g=+500+50
 ::FSLUSER=aplsimple
 ::FSLBRANCH=""
+::EMENUTMPFILE=%mn.tmp~

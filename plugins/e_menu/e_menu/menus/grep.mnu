@@ -1,33 +1,65 @@
- S: GREP TEMPLATE: '%s' S: cd %d
- S: GREP TEMPLATE: '%s' S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
+ S: GREP TEMPLATE ? S: cd %d
+ S: GREP TEMPLATE ? S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
 
  M:  M: 4
- S: GREP EXACT : '%s' S: cd %d
- S: GREP EXACT : '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d skip * -e '%s'
+ S: GREP EXACT ? S: cd %d
+ R: GREP EXACT ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP EXACT ? R: %I {} "GREP EXACT" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP EXACT ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d skip * -e '$::EMENUFIND'
 
- S: GREP REGEXP: '%s' S: cd %d
- S: GREP REGEXP: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d skip * -e '%s'
-
- M:  M: 4
- S: GREP EXACT  recursive: '%s' S: cd %d
- S: GREP EXACT  recursive: '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d recurse * -e '%s'
-
- S: GREP REGEXP recursive: '%s' S: cd %d
- S: GREP REGEXP recursive: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d recurse * -e '%s'
-
- M:  M: 4
- S: GREP EXACT  ignoring case: '%s' S: cd %d
- S: GREP EXACT  ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d skip * -e '%s'
-
- S: GREP REGEXP ignoring case: '%s' S: cd %d
- S: GREP REGEXP ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d skip * -e '%s'
+ S: GREP REGEXP ? S: cd %d
+ R: GREP REGEXP ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP REGEXP ? R: %I {} "GREP REGEXP" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP REGEXP ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d skip * -e '$::EMENUFIND'
 
  M:  M: 4
- S: GREP EXACT  recursive ignoring case: '%s' S: cd %d
- S: GREP EXACT  recursive ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d recurse * -e '%s'
+ S: GREP EXACT  ignoring case ? S: cd %d
+ R: GREP EXACT  ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP EXACT  ignoring case ? R: %I {} "GREP EXACT ignoring case" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP EXACT  ignoring case ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d skip * -e '$::EMENUFIND'
 
- S: GREP REGEXP recursive ignoring case: '%s' S: cd %d
- S: GREP REGEXP recursive ignoring case: '%s' S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d recurse * -e '%s'
+ S: GREP REGEXP ignoring case ? S: cd %d
+ R: GREP REGEXP ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP REGEXP ignoring case ? R: %I {} "GREP REGEXP ignoring case" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP REGEXP ignoring case ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d skip * -e '$::EMENUFIND'
+
+ M:  M: 4
+ S: GREP EXACT  recursive ? S: cd %d
+ R: GREP EXACT  recursive ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP EXACT  recursive ? R: %I {} "GREP EXACT recursive" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP EXACT  recursive ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d recurse * -e '$::EMENUFIND'
+
+ S: GREP REGEXP recursive ? S: cd %d
+ R: GREP REGEXP recursive ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP REGEXP recursive ? R: %I {} "GREP REGEXP recursive" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP REGEXP recursive ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d recurse * -e '$::EMENUFIND'
+
+ M:  M: 4
+ S: GREP EXACT  recursive ignoring case ? S: cd %d
+ R: GREP EXACT  recursive ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP EXACT  recursive ignoring case ? R: %I {} "GREP EXACT recursive ignoring case" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP EXACT  recursive ignoring case ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d recurse * -e '$::EMENUFIND'
+
+ S: GREP REGEXP recursive ignoring case ? S: cd %d
+ R: GREP REGEXP recursive ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+ R: GREP REGEXP recursive ignoring case ? R: %I {} "GREP REGEXP recursive ignoring case" { \
+   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
+ S: GREP REGEXP recursive ignoring case ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d recurse * -e '$::EMENUFIND'
 
 [OPTIONS]
 w=70
@@ -36,4 +68,4 @@ n=< grep >
 in=1.0
 %#t geo=1112x553+211+87;pos=3.62 cd %PD|!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!|grep -E -H -n -I -s -l -d recurse --include '*htm*' -e "e_menu.rar"|!||!|#cd %d|!|#grep -E -H -n -I -s -d recurse * -e "aplsimple"|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|echo "\n################################################################################\nfound in:"|!|pwd|!|################################################################################
 %#Just for testing
-pos=36.6
+pos=33.0
