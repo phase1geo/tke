@@ -1,6 +1,20 @@
 # Last changes:
 
 
+Versions `1.35 through 1.41`
+
+  - "on top" means also "don't close a menu at choosing an item"
+  - %C Tcl command added to [OPTIONS]
+  - fossil.mnu enhanced with dialogs and %C of [OPTIONS]
+  - 'readonly' mode for text widget
+  - '-state disabled' replaced by '-ro 1' for .mnu's texts
+  - dangerous commands of .mnu are colored by TKE marker's color
+  - 'ftx' file content widget
+  - theme colors fixed, incl. ones passed by TKE
+  - pavecli.tcl for shell scripts
+  - doctest-for-emenu updated, mostly for "doctest source"
+  - package require pave
+
 Version `1.34 (2 Nov'19)`
 
   - date/time attributes of menus untouched at executing their commands

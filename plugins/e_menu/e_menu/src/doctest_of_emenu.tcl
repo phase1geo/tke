@@ -178,10 +178,24 @@ proc doctest::get_test_blocks {} {
 ###################################################################
 # Get line of command or command's waited result
 
-proc doctest::get_line {type i} {
+proc doctest::get_line {type i prevcontinuedName} {
 
+  upvar $prevcontinuedName prevcontinued
   variable NOTHING
+  variable TEST_RESULT
   set st [string trimleft [get_line_contents $i]]
+  set st [get_line_contents $i]
+  set strimmed [string trimleft $st]
+  set tpos [string first $type $strimmed]
+  if {!$prevcontinued || $tpos == 0} {
+    set st $strimmed
+  } else {
+    set st "$type $st"    ;# continuing from previous line
+  }
+  set prevcontinued [expr {[string index $st end] eq "\\"}]
+  if {$prevcontinued && $type eq $TEST_RESULT} {
+    set st [string range $st 0 end-1]
+  }
   if {[set i [string first $type $st]] == 0} {
     return [string range $st [expr {[string length $type]+1}] end]
   }
@@ -204,8 +218,9 @@ proc doctest::get_com_res {type i1 i2} {
   variable NOTHING
   variable TEST_COMMAND
   set comres $NOTHING
+  set prevcontinued 0
   for {set i $i1; set res ""} {$i <= $i2} {incr i} {
-    set line [string trim [get_line $type $i] " "]
+    set line [string trim [get_line $type $i prevcontinued] " "]
     if {[string index $line 0] eq "\"" && [string index $line end] eq "\""} {
       set line [string range $line 1 end-1]
     }
@@ -360,6 +375,7 @@ proc doctest::test_blocks {blocks safe verbose} {
 proc doctest::init {args} {
 
   variable options
+  variable TEST_COMMAND
   array set options {fn "" cnt {} -s 1 -v 1 -b {}}
   if {[llength $args] == 0} exit_on_error
   set off 0
@@ -385,8 +401,24 @@ proc doctest::init {args} {
   if {[catch {set ch [open $options(fn)]}]} {
     exit_on_error "\"$options(fn)\" not open"
   }
-  set options(cnt) [split [read $ch] \n]
+  set cnt [split [read $ch] \n]
   close $ch
+  # source all tests (by #% source ...)
+  set options(cnt) {}
+  foreach line $cnt {
+    set foundptn [regexp -nocase -inline \
+      "^\\s*$TEST_COMMAND\\s+DOCTEST\\s+SOURCE\\s+" $line]
+    if {[set sl [string length $foundptn]]} {
+      set fn [string trim [string range $line $sl-2 end]]
+      if {[catch {set ch [open $fn]}]} {
+        exit_on_error "PWD: [pwd]\n\"$fn\" not open by\n $line"
+      }
+      foreach l [split [read $ch] \n] { lappend options(cnt) $l }
+      close $ch
+    } else {
+      lappend options(cnt) $line
+    }
+  }
 }
 
 ###################################################################

@@ -4,9 +4,9 @@
 # geometry manager.
 #
 # Use:
-#    source paveme.tcl
+#    package require pave
 #    ...
-#    PaveMe create pave
+#    pave::PaveMe create pave
 #    catch {destroy .win}
 #    pave makeWindow .win "TITLE"
 #    pave window .win LISTW
@@ -53,12 +53,16 @@
 
 package require Tk
 package require widget::calendar
+catch {package require tooltip} ;# optional (though necessary everywhere:)
 
 source [file join [file dirname [info script]] obbit.tcl]
 
-oo::class create PaveMe {
+namespace eval pave {
+}
 
-  mixin ObjectTheming ObjectParsingUtils
+oo::class create pave::PaveMe {
+
+  mixin pave::ObjectProperty pave::ObjectTheming pave::ObjectUtils
 
   variable _pav
 
@@ -76,6 +80,7 @@ oo::class create PaveMe {
     set _pav(fgtxt) [ttk::style lookup TEntry -foreground]
     set _pav(prepost) {}
     set _pav(widgetopts) {}
+    set _pav(edge) "/@"
     if {$_pav(fgtxt)=="black" || $_pav(fgtxt)=="#000000"} {
       set _pav(bgtxt) white
     } else {
@@ -103,11 +108,8 @@ oo::class create PaveMe {
         }
         wm geometry $win $corrgeom
       }
-      return
     }
-  }
-  destructor {
-    catch {destroy $_pav(modalwin)}
+    if {[llength [self next]]} { next {*}$args }
   }
 
   #########################################################################
@@ -117,6 +119,17 @@ oo::class create PaveMe {
   method iswindows {} {
 
     return [expr {$::tcl_platform(platform) == "windows"} ? 1: 0]
+
+  }
+
+  #########################################################################
+  #
+  # Configure the pave object (all of _pav array may be changed)
+  # E.g., pobj configure edge "@@" 
+
+  method configure {args} {
+
+    foreach {optnam optval} $args { set _pav($optnam) $optval }
 
   }
 
@@ -194,25 +207,6 @@ oo::class create PaveMe {
 
   #########################################################################
   #
-  # Remove some options from the options
-  # Input:
-  #   options - string of all options
-  #   args - list of removed options
-
-  method RemoveSomeOptions {options args} {
-
-    set resopts ""
-    foreach {opt val} [list {*}$options] {
-      if {[lsearch $args $opt] < 0} {
-        append resopts " $opt {$val}"
-      }
-    }
-    return $resopts
-
-  }
-
-  #########################################################################
-  #
   # Fill the non-standard attributes of file content widget.
   #
   # wnamefull is a widget name
@@ -231,8 +225,7 @@ oo::class create PaveMe {
     if {[string first "-state disabled" $attrs]<0} {
       if {$varopt eq "-lvar"} {
         lappend _pav(widgetopts) "-lbxname $wnamefull $vn"
-        lassign [my parseOptionsFile 0 $attrs -values ""] iv
-        lassign $iv -> iv
+        set iv [my getOption -values {*}$attrs]
         set attrs [my RemoveSomeOptions $attrs -values]
       }
       if {$rp ne ""} {
@@ -257,12 +250,7 @@ oo::class create PaveMe {
         set retval {{}}
       } else {
         set retval {}
-        if {[catch {set chan [open $fname]}]} {
-          error "\npaveme.tcl: can't open \"$fname\"\n"
-        }
-        set fconts [read $chan]
-        close $chan
-        foreach ln [split $fconts \n] {
+        foreach ln [split [my readTextFile $fname "" 1] \n] {
           if {$ln!={}} {lappend retval $ln}
         }
       }
@@ -299,14 +287,13 @@ oo::class create PaveMe {
       return [list $retval $ret]
     }
 
-    set edge "/@"
+    set edge $_pav(edge)
     set ldv1 [string length $edge]
     set filecontents {}
     set optionlists {}
     set tplvalues ""
     set retpos ""
-    lassign [my parseOptionsFile 0 $attrs -values ""] values
-    lassign $values -> values
+    set values [my getOption -values {*}$attrs]
     if {[string first $edge $values]<0} { ;# if 1 file, edge
       set values "$edge$values$edge"      ;# may be omitted
     }
@@ -421,6 +408,7 @@ oo::class create PaveMe {
         # and bars
         set widget "ttk::frame"
       }
+      "ftx" {set widget "ttk::labelframe"}
       "frA" {
         set widget "frame"
         if {$disabled} {set attrs [my RemoveSomeOptions $attrs -state]}
@@ -657,6 +645,11 @@ oo::class create PaveMe {
   method chooser {nchooser tvar args} {
 
     set isfilename 0
+    set ftxvar [my getOption -ftxvar {*}$args]
+    set args [my RemoveSomeOptions $args -ftxvar]
+    if {[set isviewer [expr {$nchooser=="fileViewer"} ? 1 : 0]]} {
+      set nchooser "tk_getOpenFile"
+    }
     if {$nchooser=="fontChooser" || $nchooser=="colorChooser" \
     ||  $nchooser=="dateChooser" } {
       set nchooser "my $nchooser $tvar"
@@ -669,9 +662,22 @@ oo::class create PaveMe {
       incr isfilename
     }
     set res [{*}$nchooser {*}$args]
-    if {$res!="" && $tvar!=""} {
+    if {"$res$tvar" ne ""} {
       if {$isfilename} {
-        set res [file nativename $res]
+        lassign [my SplitContentVariable $ftxvar] -> txtnam wid
+        if {[info exist $ftxvar] && \
+        [file exist [set res [file nativename $res]]]} {
+          set $ftxvar [my readTextFile $res]
+          if {[winfo exist $txtnam]} {
+            my readonlyWidget $txtnam 0
+            my displayTaggedText $txtnam $ftxvar
+            my readonlyWidget $txtnam 1
+            set wid [string range $txtnam \
+             0 [string last . $txtnam]]$wid
+            $wid configure -text "$res"
+            update
+          }
+        }
       }
       set $tvar $res
     }
@@ -695,6 +701,29 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Set/get text content variable
+
+  method SetContentVariable {tvar txtnam name} {
+    return [set _pav(textcont,$tvar) $tvar*$txtnam*$name]
+  }
+
+  method GetContentVariable {tvar} {
+    return $_pav(textcont,$tvar)
+  }
+
+  method SplitContentVariable {ftxvar} {
+    return [split $ftxvar *]
+  }
+
+  # Get text content
+  method getTextContent {tvar} {
+    lassign [my SplitContentVariable [my GetContentVariable $tvar]] \
+      -> txtnam wid
+    return [string trimright [$txtnam get 1.0 end]]
+  }
+
+  #########################################################################
+  #
   # Choosers should contain 2 fields: entry + button
   # Here every chooser is replaced with these two widgets
 
@@ -702,13 +731,26 @@ oo::class create PaveMe {
 
     upvar 1 $r0 w $r1 i $r2 lwlen $r3 lwidgets
     lassign $args name neighbor posofnei rowspan colspan options1 attrs1
-    set wpar ""
+    lassign "" wpar view addattrs addattrs2
+    set tvar [my getOption -tvar {*}$attrs1]
+    set filetypes [my getOption -filetypes {*}$attrs1]
+    if {$filetypes ne ""} {
+      set attrs1 [my RemoveSomeOptions $attrs1 -filetypes]
+      lset args 6 $attrs1
+      append addattrs2 " -filetypes {$filetypes}"
+    }
     switch -glob [my rootwname $name] {
       "fil*" { set chooser "tk_getOpenFile" }
       "fis*" { set chooser "tk_getSaveFile" }
       "dir*" { set chooser "tk_chooseDirectory" }
       "fon*" { set chooser "fontChooser" }
       "dat*" { set chooser "dateChooser" }
+      "ftx*" {
+        set chooser [set view "fileViewer"]
+        if {$tvar ne "" && [info exist $tvar]} {
+          append addattrs " -t [set $tvar]"
+        }
+      }
       "clr*" { set chooser "colorChooser"
         set wpar "-parent $w" ;# specific for color chooser (gets parent of $w)
       }
@@ -732,22 +774,49 @@ oo::class create PaveMe {
       set vv [namespace current]::$name
       set tvar "-tvar $vv"
     }
-    set com "[self] chooser $chooser \{$vv\} $addopt $wpar"
     # make a frame in the widget list
     set ispack 0
     if {![catch {set gm [lindex [lindex $lwidgets $i] 5]}]} {
       set ispack [expr [string first "pack" $gm]==0]
     }
     if {$ispack} {
-      set args [list $name - - - - "pack -expand 0 -fill x [string range $gm 5 end]"]
+      set args [list $name - - - - "pack -expand 0 -fill x [string range $gm 5 end]" $addattrs]
     } else {
-      set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew"]
+      set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew" $addattrs]
     }
     lset lwidgets $i $args
-    set entf [list [my Transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" "$attrs1 $tvar"]
-    set butf [list [my Transname buT $name] - - - - "pack -side right -in $w.$name -padx 3" "-com \{$com\} -t \{. . .\} -font \{-weight bold -size 5\} -fg $_pav(fgbut) -bg $_pav(bgbut)"]
-    set lwidgets [linsert $lwidgets [expr {$i+1}] $entf $butf]
-    incr lwlen 2
+    if {$view ne ""} {
+      set txtnam [my Transname tex $name]
+      set tvar [my getOption -tvar {*}$attrs1]
+      set attrs1 [my RemoveSomeOptions $attrs1 -tvar]
+      if {$tvar ne "" && [file exist [set $tvar]]} {
+        set tcont [my SetContentVariable $tvar $w.$txtnam $name]
+        set wpar "-ftxvar $tcont"
+        set $tcont [my readTextFile [set $tvar]]
+        set attrs1 [my putOption -rotext $tcont {*}$attrs1]
+      }
+      set entf [list $txtnam - - - - "pack -side left -expand 1 -fill both -in $w.$name" "$attrs1"]
+    } else {
+      set entf [list [my Transname ent $name] - - - - "pack -side left -expand 1 -fill x -in $w.$name" "$attrs1 $tvar"]
+    }
+    set com "[self] chooser $chooser \{$vv\} $addopt $wpar $addattrs2"
+    set butf [list [my Transname buT $name] - - - - "pack -side right -anchor n -in $w.$name -padx 1" "-com \{$com\} -t \{. . .\} -font \{-weight bold -size 5\} -fg $_pav(fgbut) -bg $_pav(bgbut)"]
+    if {$view ne ""} {
+      set scrolh [list [my Transname sbh $name] $txtnam T - - "pack -in $w.$name" ""]
+      set scrolv [list [my Transname sbv $name] $txtnam L - - "pack -in $w.$name" ""]
+      set lwidgets [linsert $lwidgets [expr {$i+1}] $butf]
+      set lwidgets [linsert $lwidgets [expr {$i+2}] $entf]
+      set lwidgets [linsert $lwidgets [expr {$i+3}] $scrolv]
+      incr lwlen 3
+      set wrap [my getOption -wrap {*}$attrs1]
+      if {$wrap eq "none"} {
+        set lwidgets [linsert $lwidgets [expr {$i+4}] $scrolh]
+        incr lwlen
+      }
+    } else {
+      set lwidgets [linsert $lwidgets [expr {$i+1}] $entf $butf]
+      incr lwlen 2
+    }
     return $args
 
   }
@@ -815,8 +884,8 @@ oo::class create PaveMe {
         set wid1 [list $ntmp - - - - "pack -side left -in $w.$name -fill y"]
         set wid2 [list $ntmp.[my Transname sev $name$j] - - - - "pack -fill y -expand 1 -padx $v2"]
       } elseif {$typ=="statusBar"} {  ;# statusbar
-        set wid1 [list $name.[my Transname lab ${name}_[incr j]] - - - - "pack -side left" "-t [lindex $v1 0]"]
-        set wid2 [list [my Transname lab $name$j] - - - - "pack -side left -in $w.$name $expand" "-relief sunken -w $v2 [lrange $v1 1 end]"]
+        set wid1 [list $name.[my Transname Lab ${name}_[incr j]] - - - - "pack -side left" "-t [lindex $v1 0]"]
+        set wid2 [list [my Transname Lab $name$j] - - - - "pack -side left -in $w.$name $expand" "-relief sunken -w $v2 [lrange $v1 1 end]"]
       } elseif {$typ=="toolBar"} {  ;# toolbar
         if {[string is lower [string index $v1 0]]} {
           set but buT
@@ -931,7 +1000,11 @@ oo::class create PaveMe {
     foreach {a v} $attrs {
       switch $a {
         -disabledtext {
-          ;# get a text of disabled widget
+          # get a text of disabled widget processed below in "Post"
+          lappend _pav(prepost) [list $a [string trim $v {\{\}}]]
+        }
+        -rotext {
+          # processed below in "Post"
           lappend _pav(prepost) [list $a [string trim $v {\{\}}]]
         }
         default {
@@ -945,7 +1018,7 @@ oo::class create PaveMe {
 
   #########################################################################
   #
-  # Post (for comments, refer to the previous "Pre" method)
+  # Post (for comments, refer to "Pre" above)
 
   method Post {w attrs} {
 
@@ -957,7 +1030,43 @@ oo::class create PaveMe {
           my displayTaggedText $w v {}
           $w configure -state disabled
         }
+        -rotext {
+          if {[info exist v]} {
+            if {[info exist $v]} {
+              my displayTaggedText $w $v {}
+            } else {
+              my displayTaggedText $w v {}
+            }
+          }
+          my readonlyWidget $w
+        }
       }
+    }
+
+  }
+
+  #########################################################################
+  #
+  # Switch on/off a widget's readonly state
+  # See also: https://wiki.tcl-lang.org/page/Read-only+text+widget
+
+  method readonlyWidget {w {on true}} {
+
+    if {$on && [info commands $w] ne "" && \
+    [info commands ::$w.internal] eq ""} {
+      rename $w ::$w.internal
+      proc ::$w {args} "
+          switch -exact -- \[lindex \$args 0\] \{
+              insert \{\}
+              delete \{\}
+              replace \{\}
+              default \{ 
+                  return \[eval ::$w.internal \$args\] 
+              \}
+          \}"
+    } elseif {!$on && [info commands ::$w.internal] ne ""} {
+      rename ::$w ""
+      rename ::$w.internal ::$w
     }
 
   }
@@ -1004,15 +1113,38 @@ oo::class create PaveMe {
 
   #########################################################################
   #
+  # Get additional commands (for non-standard attributes)
+
+  method AdditionalCommands {w attrsName} {
+
+    upvar $attrsName attrs
+    set addcomms {}
+    if {[set tooltip [my getOption -tooltip {*}$attrs]] ne ""} {
+      lappend addcomms [list tooltip::tooltip $w $tooltip]
+      set attrs [my RemoveSomeOptions $attrs -tooltip]
+    }
+    if {[my getOption -ro {*}$attrs] ne "" || \
+    [my getOption -readonly {*}$attrs] ne ""} {
+      lassign [my parseOptionsFile 0 $attrs -ro 0 -readonly 0] tmp
+      lassign $tmp - ro - readonly
+      lappend addcomms [list my readonlyWidget $w [expr $ro||$readonly]]
+      set attrs [my RemoveSomeOptions $attrs -ro -readonly]
+    }
+    return $addcomms
+
+  }
+
+  #########################################################################
+  #
   # Pave the window with widgets
 
   method Window {w inplists} {
 
     set lwidgets [list]
     # comments be skipped
-    foreach lst1 $inplists {
-      if {[string index [string index $lst1 0] 0]!="#"} {
-        lappend lwidgets $lst1
+    foreach lst $inplists {
+      if {[string index [string index $lst 0] 0]!="#"} {
+        lappend lwidgets $lst
       }
     }
     set lused {}
@@ -1043,8 +1175,8 @@ oo::class create PaveMe {
       }
       set options [uplevel 2 subst -nocomm -nobackslashes [list $options1]]
       set attrs [uplevel 2 subst -nocomm -nobackslashes [list $attrs1]]
-      lassign [my GetWidgetType $wname $options $attrs] widget options attrs \
-        nam3 dsbl
+      lassign [my GetWidgetType $wname $options $attrs] \
+        widget options attrs nam3 dsbl
       # The type of widget (if defined) means its creation
       # (if not defined, it was created after "makewindow" call
       # and before "window" call)
@@ -1070,8 +1202,10 @@ oo::class create PaveMe {
         #>   123\45
         #> doctest
         my Pre attrs
+        set addcomms [my AdditionalCommands $wname attrs]
         eval $widget $wname {*}$attrs
         my Post $wname $attrs
+        foreach acm $addcomms { eval {*}$acm }
         # for buttons and entries - set up the hotkeys (Up/Down etc.)
         if {($widget in {"ttk::entry" "entry"}) && \
         [string first "STD" $wname]==-1} {
@@ -1270,7 +1404,8 @@ oo::class create PaveMe {
   method makeWindow {w ttl} {
 
     set w [set wtop [string trimright $w .]]
-    set withfr [expr {[set pp [string last . $w]]>0 && [string match "*.fra" $w]}]
+    set withfr [expr {[set pp [string last . $w]]>0 && \
+      [string match "*.fra" $w]}]
     if {$withfr} {
       set wtop [string range $w 0 $pp-1]
     }
@@ -1292,9 +1427,13 @@ oo::class create PaveMe {
   # Also the tags list contains the tagging options (-font etc.).
   # The contsName is a varname of contents variable.
 
-  method displayTaggedText {w contsName tags} {
+  method displayTaggedText {w contsName {tags ""}} {
 
     upvar $contsName conts
+    if {$tags eq ""} {
+      $w replace 1.0 end $conts
+      return
+    }
     set taglist [set tagpos [set taglen [list]]]
     foreach tagi $tags {
       lassign $tagi tag

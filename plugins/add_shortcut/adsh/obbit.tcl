@@ -406,5 +406,174 @@ oo::class create ObjectTheming {
 
 }
 
-################################# EOF #####################################
+#% doctest ObjectParsingUtils
+###########################################################################
+#
+# Another bit: Parsing utilities.
 
+oo::class create ObjectParsingUtils {
+
+  variable _PU_opts
+
+  constructor {args} {
+
+    # Initializes _PU_opts variable.
+    #   args - passed arguments
+    #
+    # When ObjectParsingUtils used as a separate class and args[0]
+    # equals to "-NONE", args[1] means the new -NONE constant.
+    #
+    # The -NONE constant is a "default value" for single options
+    # and equals to "=NONE=" by default.
+    #
+    # Examples:
+    #   ObjectParsingUtils create obj1
+    #   ObjectParsingUtils create obj2 -NONE <NONE>
+    #
+    # When ObjectParsingUtils used as mixin, the constructor
+    # would pass its arguments to the next constructor.
+
+    array set _PU_opts {-NONE =NONE=}
+    if {[llength [self next]]} {
+      next {*}$args
+    } elseif {[llength $args]>1 && [lindex $args 0]=="-NONE"} {
+      set _PU_opts(-NONE) [lindex $args 1]
+    }
+
+  }
+
+  method parseOptionsFile {strict args1 args} {
+
+    # Parses argument list containing options and (possibly) a file name.
+    #   strict - if 0, 'args' options will be only counted for,
+    #              other options are skipped
+    #   strict - if 1, only 'args' options are allowed,
+    #              all the rest of args1 to be a file name
+    #          - if 2, the 'args' options replace the
+    #              appropriate options of 'args1'
+    #   args1 - list of options, values and a file name
+    #   args  - list of default options
+    #
+    # The args1 list contains:
+    #   - option names beginning with "-"
+    #   - option values following their names (may be missing)
+    #   - "--" denoting the end of options
+    #   - file name following the options (may be missing)
+    #
+    # The args parameter contains the pairs:
+    #   - option name (e.g., "-dir")
+    #   - option default value
+    # If the args option value is equal to =NONE=, the args1 option
+    # is considered to be a single option without a value and,
+    # if present in args1, its value is returned as "yes".
+    #
+    # Returns a list of two items:
+    #   - an option list got from args/args1 according to 'strict'
+    #   - a file name from args1 or {} if absent
+    #
+    # If any option of args1 is absent in args and strict==1,
+    # the rest of args1 is considered to be a file name.
+    #
+    # Examples see in doctest below.
+
+    set actopts true
+    array set argarray "$args yes yes" ;# maybe, tail option without value
+    if {$strict==2} {
+      set retlist $args1
+    } else {
+      set retlist $args
+    }
+    set retfile {}
+    for {set i 0} {$i < [llength $args1]} {incr i} {
+      set parg [lindex $args1 $i]
+      if {$actopts} {
+        if {$parg=="--"} {
+          set actopts false
+        } elseif {[catch {set defval $argarray($parg)}]} {
+          if {$strict==1} {
+            set actopts false
+            append retfile $parg " "
+          } else {
+            incr i
+          }
+        } else {
+          if {$strict==2} {
+            if {$defval == $_PU_opts(-NONE)} {
+              set defval yes
+            }
+            incr i
+          } else {
+            if {$defval == $_PU_opts(-NONE)} {
+              set defval yes
+            } else {
+              set defval [lindex $args1 [incr i]]
+            }
+          }
+          set ai [lsearch -exact $retlist $parg]
+          incr ai
+          set retlist [lreplace $retlist $ai $ai $defval]
+        }
+      } else {
+        append retfile $parg " "
+      }
+    }
+    return [list $retlist [string trimright $retfile]]
+
+  }
+}
+
+# doctests for ObjectParsingUtils
+
+#% # strict: -d, -opt, -all options, -all=yes
+#% ObjectParsingUtils create obj -NONE <NONE>
+#% lassign [obj parseOptionsFile 1 {-d mydir -all myfile with spaces} \
+#%     -d /home/me -opt some -all <NONE>] optvals1 filename1
+#% obj destroy
+#% array set opts $optvals1
+#% set a "$opts(-d) $opts(-opt) $opts(-all) FILE1=$filename1"
+   #> mydir some yes FILE1=myfile with spaces
+
+#% # strict: -d option with spaces and \", -all="=NONE=", used --
+#% ObjectParsingUtils create obj -NONE <NONE>
+#% lassign [obj parseOptionsFile 1 \
+#%   {-opt new -d "dir with spaces and \"" -- -all the rest} \
+#%     -d /home/me -opt some -all =NONE=] optvals2 filename2
+#% obj destroy
+#% set a "$optvals2 FILE2=$filename2"
+   #> -d {dir with spaces and "} -opt new -all =NONE= FILE2=-all the rest
+
+#% # not strict: skip -opt and -f options; no file name
+#% ObjectParsingUtils create obj
+#% lassign [obj parseOptionsFile 0 \
+#%   {-opt new -d "dir with spaces and \"" -f myfile} -d some] optvals3
+#% obj destroy
+#% set a "$optvals3"
+   #> -d {dir with spaces and "}
+
+#% # 'args' options replace 'args1', rest unchanged; no file name
+#% ObjectParsingUtils create obj
+#% lassign [obj parseOptionsFile 2 \
+#%   {-opt new -d "dir with spaces and \"" -f myfile} -d some] optvals4
+#% obj destroy
+#% set a "$optvals4"
+   #> -opt new -d some -f myfile
+
+#% # -old option ignored
+#% ObjectParsingUtils create obj
+#% lassign [obj parseOptionsFile 2 {-opt opt-new5 \
+#%   -d "-d for test5" -new} -opt some -old 1 -new =NONE=] optvals5
+#% obj destroy
+#% set a "$optvals5"
+   #> -opt some -d {-d for test5} -new yes
+
+#% # -old option not ignored
+#% ObjectParsingUtils create obj
+#% lassign [obj parseOptionsFile 1 \
+#%   {-new -opt opt-new5 -d "test 5"} -new =NONE= -opt some -old 1] optvals6
+#% obj destroy
+#% set a "$optvals6"
+   #> -new yes -opt opt-new5 -old 1
+
+#> doctest
+
+################################# EOF #####################################

@@ -5,12 +5,11 @@
 #   - to edit text files
 #
 # Use for input dialogs:
-#   source paveinput.tcl
-#   PaveInput create pinp $win $pavedir
+#   package require pave
+#   pave::PaveInput create pinp $win
 #   pinp input $icon $ttl $iopts $args
 # where:
 #   win     - window's path
-#   pavedir - source directory of pave
 #   icon    - window's icon ("" or "-" means 'no icon')
 #   ttl     - title of window
 #   iopts   - list of input options:
@@ -20,8 +19,8 @@
 #   args - PaveDialog options
 #
 # Use for editing files:
-#   source paveinput.tcl
-#   PaveInput create pinp $win $pavedir
+#   package require pave
+#   pave::PaveInput create pinp $win
 #   pinp editfile $fname $fg $bg $cc $prepost $args
 # where:
 #   fname - name of edited file
@@ -35,11 +34,22 @@
 
 package require Tk
 
+package provide pave 1.4
+
 source [file join [file dirname [info script]] pavedialog.tcl]
 
-oo::class create PaveInput {
+namespace eval pave {
+}
 
-  superclass PaveDialog
+oo::class create pave::PaveInput {
+
+  superclass pave::PaveDialog
+
+  variable _pdg
+
+  constructor {args} {
+    next {*}$args
+  }
 
   method input {icon ttl iopts args} {
 
@@ -47,6 +57,7 @@ oo::class create PaveInput {
     lappend inopts [list fraM + T 1 98 "-st new $pady -rw 1"]
     set savedvv [list]
     foreach {name prompt valopts} $iopts {
+      if {$name eq ""} continue
       lassign $prompt prompt gopts attrs
       set gopts "$pady $gopts"
       if {[set typ [string range $name 0 1]]=="v_" || $typ=="se"} {
@@ -98,6 +109,9 @@ oo::class create PaveInput {
             # disabled text widget cannot be filled with a text, so we should
             # compensate this through a home-made attribute (-disabledtext)
             set disattr "-disabledtext \{[set $vv]\}"
+          } elseif {[dict exist $attrs -readonly] && [dict get $attrs -readonly] || [dict exist $attrs -ro] && [dict get $attrs -ro]} {
+            set disattr "-rotext \{[set $vv]\}"
+            set attrs [my RemoveSomeOptions $attrs -readonly -ro]
           } else {
             set disattr ""
           }
@@ -121,7 +135,7 @@ oo::class create PaveInput {
     if {![string match "*-focus *" $args]} {
       # find 1st entry/text to be focused
       foreach io $iopts {
-        if {[set _ [string range [set n [lindex $io 0]] 0 1]]=="en" || $_=="te"} {
+        if {[set _ [string range [set n [lindex $io 0]] 0 1]]=="en" || $_ in {te fc cb ra ch}} {
           set args "$args -focus *$n"
           break
         }
@@ -131,7 +145,15 @@ oo::class create PaveInput {
         }
       }
     }
-    set res [my Query $icon $ttl {} {butOK OK 1 butCANCEL Cancel 0} butOK \
+    lassign [my parseOptionsFile 0 $args -titleOK OK -titleCANCEL Cancel] titles
+    lassign $titles -> titleOK -> titleCANCEL
+    if {$titleCANCEL eq ""} {
+      set butCancel ""
+    } else {
+      set butCancel "butCANCEL $titleCANCEL 0"
+    }
+    set args [my RemoveSomeOptions $args -titleOK -titleCANCEL]
+    set res [my Query $icon $ttl {} "butOK $titleOK 1 $butCancel" butOK \
       $inopts [my PrepArgs $args]]
     if {[lindex $res 0]!=1} {  ;# restore old values if OK not chosen
       foreach {vn vv} $savedvv {
@@ -141,25 +163,42 @@ oo::class create PaveInput {
     return $res
   }
 
-  # edit a file
+  # view/edit a file
+  method vieweditFile {fname {prepost ""} args} {
+    return [my editfile $fname "" "" "" $prepost {*}$args]
+  }
+
+  # edit/view a file with a set of main colors
   method editfile {fname fg bg cc {prepost ""} args} {
     if {$fname==""} {
       return false
     }
     set newfile 0
-    if {[catch {set data [read [set ch [open $fname]]]}]} {
+    if {[catch {set filetxt [read [set ch [open $fname]]]}]} {
       if {[catch {close [open $fname w]} err]} {
         puts "ERROR: couldn't create '$fname':\n$err"
         return false
       }
       set newfile 1
-      set data ""
     } else {
       close $ch
     }
-    if {$prepost==""} {set aa ""} {set aa [$prepost data]}
-    set res [my misc "" "EDIT FILE: $fname" "$data" {Save 1 Cancel 0} \
-      TEXT -text 1 -ro 0 -w {100 80} -h 32 -fg $fg -bg $bg -cc $cc -size 12 \
+    lassign [my parseOptionsFile 0 $args -rotext "" -readonly 1 -ro 1] options
+    lassign $options -> rotext -> readonly -> ro
+    set btns "Exit 0"  ;# by default 'view' mode
+    set oper VIEW
+    if {$rotext eq "" && (!$readonly || !$ro)} {
+      set btns "Save 1 Cancel 0"
+      set oper EDIT
+    }
+    if {$fg eq ""} {
+      set tclr ""
+    } else {
+      set tclr "-fg $fg -bg $bg -cc $cc"
+    }
+    if {$prepost==""} {set aa ""} {set aa [$prepost filetxt]}
+    set res [my misc "" "$oper FILE: $fname" "$filetxt" $btns \
+      TEXT -text 1 -w {100 80} -h 32 -size 12 {*}$tclr \
       -post $prepost {*}$aa {*}$args]
     set data [string range $res 2 end]
     if {[set res [string index $res 0]]=="1"} {

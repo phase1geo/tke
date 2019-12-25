@@ -13,7 +13,6 @@
  R: R: 2
 
  R:fossil gdiff %F ? R: cd %PD
- R:fossil gdiff %F ? R: %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
  R:fossil gdiff %F ? R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
  RW:fossil gdiff %F ? RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  R:fossil gdiff %F ? R: %I {} "GDIFF" { \
@@ -22,7 +21,7 @@
    fco1 {{Version:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
      {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
-   texc {{   Hint:} {} {-h 9 -w 70 -state disabled -wrap word}} \
+   texc {{   Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %f\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
  R:fossil gdiff %F ? R: %C if {"$::EMENUCOMMIT" eq ""} \
@@ -30,32 +29,55 @@
  R:fossil gdiff %F ? R: fossil gdiff $::EMENUTMP "$::EMENUFILE"
 
  S:fossil diff ? S: cd %PD
- R:fossil diff ? R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
+ R:fossil diff ? R: %C if {![info exist ::EMENUCOMMIT1]} \
+   {set ::EMENUCOMMIT1 "tip"; set ::EMENUCOMMIT2 ""}
  RW:fossil diff ? RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  R:fossil diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
-   fco1 {{Version of file:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
+   fco1  {{From :} {} {-h 10 -inpval "$::EMENUCOMMIT1"}} \
      {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+   fco2  {{To   :} {} {-h 10 -inpval "$::EMENUCOMMIT2"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+   chbBr {{Brief:} {-pady 4} {-var ::EMENUBRIEF}} {} \
    seh {{} {-pady 3} {}} {} \
-   texc {{           Hint:} {} {-h 7 -w 70 -state disabled -wrap word}} \
-   {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current files are compared to tip.\n\n (temp file: $::EMENUTMPFILE)} \
-   } -head {\n This will compare a selected version of\n     %PD\n to its tip.} -weight bold == ::EMENUCOMMIT
- R:fossil diff ? R: %C if {"$::EMENUCOMMIT" eq ""} \
-   {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
- S:fossil diff ? S: fossil diff $::EMENUTMP
+   texc {{Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
+   {\n Select versions from the comboboxes to be compared.\n\n By default, 'tip' is compared to current files.\n\n A version may be 'tip', 'current', 'next', 'prev'.\n\n (temp file: $::EMENUTMPFILE)} \
+   } -head {\n This will compare selected versions of\n     %PD} \
+   -weight bold == ::EMENUCOMMIT1 ::EMENUCOMMIT2 ::EMENUBRIEF
+ R:fossil diff ? R: %C if {"$::EMENUCOMMIT1" eq ""} \
+   {set ::EMENUTMP1 ""} {set ::EMENUTMP1 "--from $::EMENUCOMMIT1"}
+ R:fossil diff ? R: %C if {"$::EMENUCOMMIT2" eq ""} \
+   {set ::EMENUTMP2 ""} {set ::EMENUTMP2 "--to $::EMENUCOMMIT2"}
+ R:fossil diff ? R: %C if {"$::EMENUCOMMIT1$::EMENUCOMMIT2" eq "$::EMENUCOMMIT2"} \
+   {set ::EMENUTMP1 "--from current"; set ::EMENUTMP2 "--to tip"}
+ R:fossil diff ? R: %C if {$::EMENUBRIEF} {append ::EMENUTMP2 " -brief"}
+ S:fossil diff ? S: fossil diff $::EMENUTMP1 $::EMENUTMP2
 
- S:fossil add %F S: cd %PD
- R:fossil add %F R: %C if {{%f}=={}} {set ::EMSELTD "*"} {set ::EMSELTD "%f"}
- R:fossil add %F R: %Q "ADD" "Add the file\n\n  $::EMSELTD\n\nto the Fossil repository?"
- S:fossil add %F S: fossil add $::EMSELTD
+ S:fossil add %F ? S: cd %PD
+ R:fossil add %F ? R: %I {} "ADD FILE" { \
+   v_ {{} {-pady 4} {}} {} \
+   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
+   } -head {\n This will add a file to the Fossil repository. \
+   \n Use wildcards to add a few.} -weight bold == ::EMENUFILE
+ S:fossil add %F ? S: fossil add $::EMENUFILE
 
  S:fossil forget %F S: cd %PD
- R:fossil forget %F R: %Q "FORGET" "Forget the file\n\n  %f\n\nin the Fossil repository?"
- S:fossil forget %F S: fossil forget %f
+ R:fossil forget %F R: %I {} "FORGET FILE" { \
+   v_ {{} {-pady 4} {}} {} \
+   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
+   } -head {\n This will forget a file in the Fossil repository. \
+   \n Use wildcards to forget a few.} -hfg $::em::clrhotk -weight bold == ::EMENUFILE
+ S:fossil forget %F S: fossil forget $::EMENUFILE
 
- S:fossil revert %F S: cd %PD
- R:fossil revert %F R: %q "REVERT" "Revert changes of\n\n  %f?\n\n(This restores a last check-in contents of the file.\nYou can undo this with 'fossil undo'.)" yesno warn NO
- S:fossil revert %F S: fossil revert %f
+ S:fossil revert %F ? S: cd %PD
+ R:fossil revert %F ? R: %I {} "REVERT FILE" { \
+   v_ {{} {-pady 4} {}} {} \
+   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
+   } -head {\n This will revert changes of a file in the Fossil repository \
+   \n thus restoring a last check-in contents of the file. \
+   \n\n Use wildcards to revert a few. \
+   \n\n You can undo this with "fossil undo".} -hfg $::em::clrhotk -weight bold == ::EMENUFILE
+ S:fossil revert %F ? S: fossil revert $::EMENUFILE
 
  R: R: 2
 
@@ -132,8 +154,11 @@ t4==%b-%Y/%U-week
 u=%s
 o=0
 in=1.0
-pos=25.33
+pos=41.47
 g=+500+50
 ::FSLUSER=aplsimple
 ::FSLBRANCH=""
 ::EMENUTMPFILE=%mn.tmp~
+::EMENUBRIEF=1
+%C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
+%C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}

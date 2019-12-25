@@ -21,7 +21,7 @@ package require http
 package require tls
 
 set srcdir [file normalize [file dirname [info script]]]
-source [file join $srcdir "paveinput.tcl"]
+lappend auto_path $::srcdir; package require pave
 
 namespace eval eh {
   # your preferable browser:
@@ -194,6 +194,7 @@ namespace eval eh {
       set http false
       set ext "htm"  ;# this extention was returned by wget, change if need
     }
+    set help [string tolower $help]
     set h1 "$::eh::hroot/TclCmd/$help.$ext"
     set h2 "$::eh::hroot/TkCmd/$help.$ext"
     set h3 "$::eh::hroot/Keywords/$l1.$ext"

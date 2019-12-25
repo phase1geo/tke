@@ -10,7 +10,7 @@ namespace eval e_menu {
   variable do_save_file 1
   variable opt1 "EMENU_do_save_file"
 
-#  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
+  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
 
   proc get_txt {} {
 
@@ -72,12 +72,17 @@ namespace eval e_menu {
   #====== Save the selected text to a temporary file
 
   proc save_to_tmp {sel} {
-    set tmpname [file join [api::get_home_directory] "menus/sel_tcl.tmp~"]
+    set tmpname [file join [api::get_home_directory] "menus/~~~.tmp"]
+    if {$sel eq ""} {
+      catch {file delete $tmpname}
+      return
+    }
     try {
       set tmpfile [open $tmpname w]
       puts -nonewline $tmpfile $sel
       close $tmpfile
     } on error {r} {
+      d "Error:\ncannot create $tmpname:\n$r"
       set tmpname ""
     }
     return $tmpname
@@ -154,6 +159,7 @@ namespace eval e_menu {
       if {$truesel} {
         set ts_opt "ts=1"  ;# a real selection, not just a word under a caret
       }
+      if {[string trim $sel \ \{\}\n] eq ""} {save_to_tmp ""}
       foreach s [split $sel \n] {
         set s_opt [string trimright $s]
         if {$s_opt!=""} {
@@ -179,7 +185,7 @@ namespace eval e_menu {
         set d_opt "d=[pwd]"
         set PD_opt "PD=[pwd]"
       }
-      # here we try to use env.variables E_MENU_PD and E_MENU_PN
+      # here we try to use env.miscellaneous1 E_MENU_PD and E_MENU_PN
       # and z3/z4 stripped of special symbols (though obsolete can be useful)
       catch {
         set PDname $::env(E_MENU_PD)
@@ -213,6 +219,7 @@ namespace eval e_menu {
     catch {set bS "bS=[[get_txt] cget -selectbackground]"}
     set cc "cc=#00a0f0"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
+    set ht "ht=[api::theme::get_value syntax marker]"
     set z5_opt "z5=$z5_opt"
     # l= option is a current edited line's number (maybe useful in commands)
     set l_opt l=[expr {int([[get_txt] index "insert linestart"])}]
@@ -224,8 +231,8 @@ namespace eval e_menu {
     # at last we try to call e_menu
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
-          $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt $PD_opt $fS $bS \
-          $fI $bI $z1_opt $TF_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
+          $fg $bg $fE $bE $cc $ht $h_opt $s_opt $f_opt $d_opt $PD_opt $TF_opt \
+          $fS $bS $fI $bI $z1_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
           $l_opt $ts_opt $PN_opt &
       } e]} {
       api::show_error "\nError of run:\n

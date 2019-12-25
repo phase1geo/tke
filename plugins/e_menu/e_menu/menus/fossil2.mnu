@@ -9,7 +9,7 @@
   v_1  {{} {-pady 7} {}} {} \
   ent2 {{Repository: } {} {-w 40}} {"$::FSLREPO"} \
   v_2  {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-  texc {{For example:} {} {-h 5 -w 52 -state disabled}} \
+  texc {{For example:} {} {-h 5 -w 52 -ro 1}} \
   {If\n  User name : Bill\n  Repository: MS\nthe changes would be pulled from \
   \n  https://chiselapp.com/user/Bill/repository/MS} \
   } -head "\nPULL changes from https://chiselapp.com\nto %PD" -weight bold \
@@ -28,7 +28,7 @@
   v_1  {{} {-pady 7} {}} {} \
   ent2 {{Repository: } {} {-w 40}} {"$::FSLREPO"} \
   v_2  {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-  texc {{For example:} {} {-h 5 -w 52 -state disabled}} \
+  texc {{For example:} {} {-h 5 -w 52 -ro 1}} \
   {If\n  User name : Bill\n  Repository: MS\nthe changes would be pushed to \
   \n  https://chiselapp.com/user/Bill/repository/MS} \
   } -head "\nPUSH changes from %PD\nto https://chiselapp.com" -weight bold \
@@ -61,7 +61,7 @@ SW:fossil uv sync %F SW: fossil uv add %F\nfossil uv sync
   v_1  {{} {-pady 7} {}} {} \
   ent2 {{Repository: } {} {-w 40}} {"$::FSLREPO"} \
   v_2  {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-  texc {{For example:} {} {-h 5 -w 52 -state disabled}} \
+  texc {{For example:} {} {-h 5 -w 52 -ro 1}} \
   {If\n  User name : Bill\n  Repository: MS\nthe shunning list would be pulled from \
   \n  https://chiselapp.com/user/Bill/repository/MS} \
   } -head "\nPULL shuns from https://chiselapp.com\nto %PD" -weight bold \
@@ -90,7 +90,7 @@ SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::F
  R:fossil checkout ? R: %I {} "CHECKOUT" { \
    ent1 {{Version / branch / tag :} {} {}} {$::FSLBRANCH} \
    v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-   texc {{Hint:} {} {-h 7 -w 58 -state disabled -wrap word}} \
+   texc {{Hint:} {} {-h 7 -w 58 -ro 1 -wrap word}} \
    { The VERSION can be the name of a branch or tag or any abbreviation to the 40-character artifact ID for a check-in. \
 \n The VERSION can be a date/time stamp (e.g. YYYY-MM-DD, HH:MM:SS, 'YYYY-MM-DD HH:MM:SS'). \
 \n CHECKOUT does not merge local changes, it prefers to overwrite them and fails if local changes exist.} \
@@ -109,7 +109,7 @@ SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::F
  R:fossil update ? R: %I {} "UPDATE" { \
    ent1 {{Version / branch / tag :} {} {}} {$::FSLUPD} \
    v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-   texc {{Hint:} {} {-h 7 -w 58 -state disabled -wrap word}} \
+   texc {{Hint:} {} {-h 7 -w 58 -ro 1 -wrap word}} \
    { VERSION can be 'trunk' to move to the trunk branch. \
 \n If you omit the VERSION, fossil moves you to the latest version of the branch your are currently on. \
 \n VERSION can be 'tip' to select the most recent check-in. \
@@ -184,4 +184,4 @@ o=0
 in=1.0
 pos=178.19
 ::FSLUSER=aplsimple
-::FSLBRANCH=trunk
+::FSLBRANCH=DOC

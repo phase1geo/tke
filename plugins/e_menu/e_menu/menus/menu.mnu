@@ -37,6 +37,7 @@
 
  M:  M: 4
  ME: Search All "%s" in %D  ME: m=grep.mnu
+
  RE: Backup of %F RE: %Q "BACKUP" "The backup of\n\n%f\n\n\nwould be saved to\n\n%f.bak"
  RE: Backup of %F RE:  %IF [::iswindows] %THEN copy /Y "%f" "%f.bak" %ELSE cp -f "%f" "%f.bak"
  RE: Commit "%dd_on_%t2" RE: %q "MERCURIAL" "Add all changes\nand HG COMMIT with message\n\n'%dd_at_%t2' ?"
@@ -53,7 +54,7 @@ RW: Differences of %F (fossil/git) RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
    fco1 {{Version:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
      {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
-   texc {{   Hint:} {} {-h 9 -w 60 -state disabled -wrap word}} \
+   texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %f\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
  R: Differences of %F (fossil/git) R: %C if {"$::EMENUCOMMIT" eq ""} \
@@ -74,9 +75,10 @@ RW: Differences of %F (fossil/git) RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  ME: Utils ME: m=utils.mnu
 
 [OPTIONS]
+n=< e_menu >
 in=1.0
 bd=1
 w=45
 g=+500+100
-pos=60.10
+pos=40.0
 ::EMENUTMPFILE=%mn.tmp~

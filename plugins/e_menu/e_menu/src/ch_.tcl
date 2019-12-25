@@ -92,11 +92,15 @@ set bundle {
 ####################################################################
 
 if {$::argc} {
-  catch {
+  # read from a file (its name - 1st argument of this)
+  # and put its contents into 'bundle' variable to process
+  if {[catch {
     set ch [open [lindex $::argv 0]]
     set bundle [read $ch]   ;# take samples from a file
     close $ch
     set show_bundle true
+  } e]} {
+    puts "\nError:\n$e\n"
   }
 }
 source [file join [file dirname $::argv0] "procs.tcl"]
