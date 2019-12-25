@@ -80,17 +80,17 @@ w=45
 
  M:  M: 4
 
- MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?}]} exit"
+ MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?} yesno]} exit"
 
  MW: Test3 menu MW: "m=test3.mnu" o=0
 
 [OPTIONS]
 ::EN1=%s
 ::EN2=<replacing string>
-::V1=RE
+::V1=Glob
 ::C1=1
-::C2=0
+::C2=1
 ::W1=in directory
-pos=62.16
+pos=83.141
 in=1.0
 %#s geo=969x487+345+229;pos=5.0 # this script is run with %#s wildcard in test1.mnu|!|# it does the same as the previous "Shell script"|!||!|err=1|!|cd ~/FOSSIL|!|while [ $err -eq 1 ]|!|  do repo=$(find *.fossil 2>/dev/null )|!|  err=$?|!|  if [ $? -eq 1 ]; then|!|    if [ $(pwd) = '/' ]; then|!|      echo "repo non esistente" ; break|!|    fi|!|    cd ../|!|  else|!|    echo "$(pwd)/${repo}"|!|  fi|!|done

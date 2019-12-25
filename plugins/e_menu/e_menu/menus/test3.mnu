@@ -8,5 +8,16 @@ S: Comedy 'Miaou' in 3 parts! Duration ~ 1½ minutes S: ?-0.01/20:a=/TN=3:ah=3/-
 [OPTIONS]
 om=1
 o=0
-c=3
+c=10
+########## just to test c= together with fg=, bg=...
+fg=#ffffff
+bg=#2D435B
+fE=#d2d2d2
+bE=#181919
+fS=#ffffff
+bS=#4a6984
+fI=#000000
+bI=#b6c9dd
+cc=#02ffff
 w=50
+pos=12.40

@@ -37,9 +37,9 @@ proc print_list {args} {
     }
   }
 }
-proc // {{comment ""} {up 1}} {
+proc // {args} {
   # printing COMMENTS
-  print_text $up $comment
+  print_text 0 [string trim $args \{\}]
 }
 
 proc % {incom} {
