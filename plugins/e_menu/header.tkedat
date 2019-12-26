@@ -3,7 +3,7 @@ display_name   {E_menu - User's Menus}
 author         {Alex Plotnikov}
 website        {https://aplsimple.github.io}
 email          {aplsimple@gmail.com}
-version        {1.41}
+version        {1.42}
 include        {yes}
 trust_required {yes}
 category       {tools}

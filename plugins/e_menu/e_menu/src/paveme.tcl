@@ -531,7 +531,7 @@ oo::class create pave::PaveMe {
       switch $opt {
         -t - -text {
           ;# these options need translating \\n to \n
-          set val [string map [list \\n \n] $val]
+          set val [subst  -nocommands -novariables $val]
         }
       }
       lappend opts $opt \{$val\}
@@ -593,10 +593,10 @@ oo::class create pave::PaveMe {
       catch {font delete fontchoose}
       catch {font create fontchoose {*}[font actual $font]}
     }
-    tk fontchooser configure -font fontchoose {*}[my ParentOpt] \
+    tk fontchooser configure -parent . -font fontchoose {*}[my ParentOpt] \
       {*}$args -command [namespace current]::applyFont
     set res [tk fontchooser show]
-    return $res
+    return $font
 
   }
 
@@ -662,7 +662,7 @@ oo::class create pave::PaveMe {
       incr isfilename
     }
     set res [{*}$nchooser {*}$args]
-    if {"$res$tvar" ne ""} {
+    if {"$res" ne "" && "$tvar" ne ""} {
       if {$isfilename} {
         lassign [my SplitContentVariable $ftxvar] -> txtnam wid
         if {[info exist $ftxvar] && \

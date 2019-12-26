@@ -1,5 +1,17 @@
  ; git menu for e_menu.tcl
 
+[OPTIONS]
+n=< git >
+in=1.0
+pos=69.0
+::GITCOMMIT=""
+::EMENUTMPFILE=%mn.tmp~
+%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
+%C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
+%C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
+%C set ::FILETAIL \"[file tail $::EMENUFILE]\"
+
+[MENU]
  R:git status R: cd %PD
  S:git status S:pwd\necho %PD\ngit status
 
@@ -8,11 +20,9 @@
 
  R: R: 2
 
- R:git difftool %F ? R: cd %PD
- R:git difftool %F ? R: %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
- R:git difftool %F ? R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
-RW:git difftool %F ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
- R:git difftool %F ? R: %I {} "DIFFTOOL" { \
+ R:git difftool $::FILETAIL ? R: cd %PD
+RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
+ R:git difftool $::FILETAIL ? R: %I {} "DIFFTOOL" { \
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
    fco1 {{Version:} {} {-h 10 -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
@@ -21,10 +31,10 @@ RW:git difftool %F ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
    texc {{   Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to HEAD.\n\n If it's blank, the current file is compared to HEAD.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %f\n to its HEAD.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
- R:git difftool %F ? R: git difftool $::EMENUCOMMIT HEAD -- "$::EMENUFILE"
+ R:git difftool $::FILETAIL ? R: git difftool $::EMENUCOMMIT HEAD -- "$::EMENUFILE"
+ R:git difftool $::FILETAIL ? R: %U
 
  S:git diff ? S: cd %PD
- R:git diff ? R: %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
  R:git diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
@@ -36,9 +46,12 @@ RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
    } -head {\n This will compare a selected version of\n     %PD\n to its HEAD.} -weight bold == ::EMENUCOMMIT
  S:git diff ? S: git diff $::EMENUCOMMIT HEAD
 
- S:git add %F S: cd %PD
- R:git add %F R: %q "Adding changes" "Add changes in\n\n%f\n\nto a local repository ?"
- S:git add %F S: git add %f
+ S:git add $::FILETAIL ? S: cd %PD
+ R:git add $::FILETAIL ? R: %I {} "ADD" { \
+   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
+   } -head {\n This will add changes in a file\n to a local repository:} -weight bold == ::EMENUFILE
+ S:git add $::FILETAIL ? S: git add "$::EMENUFILE"
+ S:git add $::FILETAIL ? S: %U
 
  S:git add * S: cd %PD
  R:git add * R: %q "Adding changes" "Add all changes in\n\n%PD\n\nto a local repository ?"
@@ -108,12 +121,3 @@ RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
 
 ;S: echo "эхо - %i3 %i4" S: echo "эхо - %i3 %i4"
 ;S: echo "эхо - %i8 %i9" S: echo "эхо - %i8 %i9"
-
-[OPTIONS]
-b1=1
-b2=7
-n=< git >
-in=1.0
-pos=34.48
-::GITCOMMIT=""
-::EMENUTMPFILE=%mn.tmp~
