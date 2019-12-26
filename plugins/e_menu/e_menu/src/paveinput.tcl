@@ -34,7 +34,7 @@
 
 package require Tk
 
-package provide pave 1.4
+package provide pave 1.5
 
 source [file join [file dirname [info script]] pavedialog.tcl]
 

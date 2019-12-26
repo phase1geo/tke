@@ -23,7 +23,7 @@
 #####################################################################
 
 namespace eval em {
-  variable e_menu_version "e_menu v1.41"
+  variable e_menu_version "e_menu v1.42"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
 }
@@ -501,7 +501,8 @@ proc ::em::save_options {} {
   }
 }
 #=== initialize values of menu's variables
-proc ::em::init_menuvars {} {
+proc ::em::init_menuvars {domenu options} {
+  if {!($domenu && $options)} return
   set opt 0
   foreach line $::em::menufile {
     if {$line=="\[OPTIONS\]"} {
@@ -793,7 +794,9 @@ proc ::em::checkForShell {rsel} {
 proc ::em::shell0 {sel amp {silent -1}} {
   set ret true
   catch {set sel [subst -nobackslashes -nocommands $sel]}
-  if {[::iswindows]} {
+  if {[run_Tcl_code $sel]} {
+    # processed
+  } elseif {[::iswindows]} {
     set composite "$::win_console $sel $amp"
     catch {
       # here we construct new .bat containing all lines of the command
@@ -831,7 +834,11 @@ proc ::em::shell0 {sel amp {silent -1}} {
 }
 #=== run a code of Tcl
 proc ::em::run_Tcl_code {sel {dosubst false}} {
-  if {[string first "%C " $sel] == 0} {
+  if {[string first "%U" $sel] == 0} {
+    ::em::reread_menu  ;# updating menu (items' names depending on variables)
+    return true
+  }
+  if {[string first "%C" $sel] == 0} {
     if {$dosubst} {prepr_pn sel}
     try {
       set sel [string range $sel 3 end]
@@ -1077,9 +1084,10 @@ proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
   set pars [get_seltd $s1]
   set pars [before_callmenu $pars]
   if {$pars==""} return
+  set cho ch=[expr {[string range $typ 0 1] ne "ME" || $::em::ontop}]
   set pars "$::em::inherited a= a0= a1= a2= ah= n= pa=0 $pars"
   set pars [string map [list "b=%b" "b=$::eh::my_browser"] $pars]
-  set pars "ch=1 g=+[expr 10+[winfo x .]]+[expr 15+[winfo y .]] $pars"
+  set pars "$cho g=+[expr 10+[winfo x .]]+[expr 15+[winfo y .]] $pars"
   if {$::em::ontop} {append pars " t=1"}
   prepr_1 pars "cb" [::em::get_callback]      ;# %cb is callback of caller
   prepr_1 pars "in" [string range $s1 1 end]  ;# %in is menu's index
@@ -1450,9 +1458,7 @@ proc ::em::menuof { commands s1 domenu} {
   set doafter false
   set lappend "lappend comms"
   set ::em::commhidden {0}
-  set hidden 0
-  set options 0
-  set ilmenu 0
+  set hidden [set options [set ilmenu 0]]
   set separ ""
   while {1} {
     if {$domenu} {
@@ -1479,6 +1485,7 @@ proc ::em::menuof { commands s1 domenu} {
     }
     set line [set origline [string trimleft $line]]
     if {$line == "\[MENU\]"} {
+      ::em::init_menuvars $domenu $options
       set options [set hidden 0]
       continue
     }
@@ -1488,6 +1495,7 @@ proc ::em::menuof { commands s1 domenu} {
       continue
     }
     if {$line == "\[HIDDEN\]"} {
+      ::em::init_menuvars $domenu $options
       set hidden 1
       set options 0
       set lappend "lappend ::em::commhidden"
@@ -1517,6 +1525,7 @@ proc ::em::menuof { commands s1 domenu} {
     prepr_init name
     prepr_init prog
     prepr_win prog $typ
+    catch {puts $name; set name [subst $name]; puts 2:$name}  ;# any substitutions in names
     switch $typ {
       "I:" {   ;#internal (M, Q, S, T)
         prepr_pn prog
@@ -1622,7 +1631,8 @@ proc ::em::menuof { commands s1 domenu} {
   if {$doafter} { ;# after N sec: check times/dates
     ::em::repeate_update_buttons
   }
-  if {$domenu} {close $chan} else ::em::init_menuvars
+  if {$domenu} {close $chan}
+  ::em::init_menuvars $domenu $options
 }
 #=== prepare buttons' contents
 proc ::em::prepare_buttons {refcommands} {

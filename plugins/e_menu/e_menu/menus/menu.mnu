@@ -71,14 +71,17 @@ RW: Differences of %F (fossil/git) RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  M:  M: 4
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50
  ME: Git  ME: m=git.mnu "u=%s" o=0 w=50
- ME: Hg ME: m=hg.mnu g=+500+40
+ ME: Hg ME: m=hg.mnu
  ME: Utils ME: m=utils.mnu
 
 [OPTIONS]
 n=< e_menu >
 in=1.0
 bd=1
+b1=0
+b2=3
+b3=1
 w=45
 g=+500+100
-pos=40.0
+pos=74.20
 ::EMENUTMPFILE=%mn.tmp~

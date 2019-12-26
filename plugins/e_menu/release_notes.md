@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Version `1.42 (26 Dec'19)`
+
+  - bugfix for choosers (if no choice, fields were cleared)
+  - -width/-w, -height/-h for editor may set low/high limits
+  - parent/child relations corrected
+  - .mnu changed: fonts/sizes, variables initialized, readonly checkboxes
+
+
 Versions `1.35 through 1.41`
 
   - "on top" means also "don't close a menu at choosing an item"
@@ -14,6 +22,7 @@ Versions `1.35 through 1.41`
   - pavecli.tcl for shell scripts
   - doctest-for-emenu updated, mostly for "doctest source"
   - package require pave
+
 
 Version `1.34 (2 Nov'19)`
 
