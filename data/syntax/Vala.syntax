@@ -44,13 +44,13 @@ keywords {
   else ensures enum
   finally for foreach
   get
-  if int interface
+  if interface
   lock
   namespace new
   override out
   private protected public
   ref requires return
-  set signal static string struct switch
+  set signal static switch
   throw this throws try
   using
   var virtual void
@@ -65,7 +65,7 @@ numbers
 {
   HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
   HighlightKeywords {
-    true false
+    true false null
   }
 }
 
@@ -77,5 +77,11 @@ punctuation
 precompile
 {
   HighlightCharStart {#} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    int string double bool float struct
+  }
 }
 
