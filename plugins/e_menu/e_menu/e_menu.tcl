@@ -9,21 +9,21 @@
 
 # Test cases:
 
-  #% doctest
+  # run doctest in console to view all debugging "puts"
 
-  # run xterm to view all debugging "puts" in terminal
+  #% doctest 1
+  #% exec xterm -e tclsh /home/apl/PG/github/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" f=/home/apl/PG/Tcl-Tk/projects/mulster/mulster.tcl md=~/.tke/plugins/e_menu/menus m=menu.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
+  #> doctest
 
-  #% exec xterm -e tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" f=/home/apl/PG/Tcl-Tk/projects/mulster/mulster.tcl md=~/.tke/plugins/e_menu/menus m=menu.mnu fs=8 w=30 o=0 c=0 s=selected g=+0+30 &
-
-  #% exec lxterminal -e tclsh /home/apl/TKE-clone/TKE-clone/plugins/e_menu/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu o=1 c=4 fs=8 s=selected g=+200+100 &
+  #% doctest 2
+  #% exec lxterminal -e tclsh /home/apl/PG/github/e_menu/e_menu.tcl z5=~ "s0=PROJECT" "x0=EDITOR" "x1=THEME" "x2=SUBJ" b=firefox PD=~/.tke d=~/.tke s1=~/.tke "F=*" md=~/.tke/plugins/e_menu/menus m=side.mnu o=1 c=4 fs=8 s=selected g=+200+100 &
   # ------ no result is waited here ------
-
   #> doctest
 
 #####################################################################
 
 namespace eval em {
-  variable e_menu_version "e_menu v1.42"
+  variable e_menu_version "e_menu v1.43"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
 }
@@ -45,7 +45,7 @@ set colorschemes {
   { #FEEC9A #FFFFFF #262626 #2E2D2B #FEEC9A #A0A0A0 #000000  #FFA500 grey}
   { #3D2B06 #000000 #FFFFFF #EAF5D7 #3D2B06 #84987D #FFFFFF  #B66425 grey}
   { #122B05 #000000 #FFFFFF #D9F3D9 #562222 #84987D #FFFFFF  #B66425 #D9F3D8}
-  { #FEEFA8 #FFFFFF #222A2F #2D435B #FEEFA8 #8CC6D9 #000000  #A8EFEF grey}
+  { #FEEFA8 #FFFFFF #222A2F #2D435B #FEEFA8 #8CC6D9 #000000  #4EADAD grey}
   { white   white   #340202 #440702 yellow  #EE7C7C black    yellow  magenta}
   { #FEEC9A #FFFFFF #2D3634 #33423C #FEEC9A #A4C2AD #000000  #FFA500 grey}
   { #FEEC9A #FFFFFF #251D08 #302202 #FEEC9A #B7A78C #000000  #FFA500 grey}
@@ -58,7 +58,7 @@ set colorschemes {
   { #122B05 #000000 #FFFFFF #D9F3D9 #562222 #84987D #FFFFFF  #B66425 grey}
   { #2B1E05 #000000 #FFFFFF #CBD6C4 #2B1E05 #84987D #FFFFFF  #B66425 grey}
 } ;# = text1 text2    bg     items  itemsHL  actbg   actfg    hot   greyed
-   # clr     clrinaf    clrtitb    clrinab   clrhelp  clractb   clractf   clrhotk clrgrey
+   # clr    clrinaf clrtitb clrinab clrhelp clractb clractf clrhotk clrgrey
 
 # *******************************************************************
 # internal trifles:
@@ -373,7 +373,7 @@ proc ::em::edit {fname {prepost ""}} {
     set ::em::skipfocused 1
     ::pave::PaveInput create dialog
     set res [dialog editfile $fname $::em::clrtitf $::em::clrinab \
-      $::em::clrtitf $prepost {*}[::em::theming_pave] -w {110 80} -h 24 -ro 0]
+      $::em::clrtitf $prepost {*}[::em::theming_pave] -w {80 100} -h {10 30} -ro 0]
     dialog destroy
     return $res
   } else {
@@ -471,9 +471,13 @@ proc ::em::FileAttributes {fname {attrs "-"} {atime ""} {mtime ""} } {
    file atime $fname $atime
    file mtime $fname $mtime
   }
-#=== save options in the menu file
-proc ::em::save_options {} {
-  if {$::em::savelasti<0} return
+#=== save options in the menu file (by default - current selected item)
+proc ::em::save_options {{setopt "in="} {setval ""}} {
+  if {$setopt eq "in="} {
+    if {$::em::savelasti<0} return
+    set setval $::em::lasti.$::em::begsel
+  }
+  set setval "$setopt$setval"
   set menudata [::em::read_menufile]
   set opt [set i [set ifnd [set ifnd1 0]]]
   foreach line $menudata {
@@ -481,7 +485,7 @@ proc ::em::save_options {} {
       set opt 1
     } elseif {$opt} {
       set ifnd $i
-      if [string match "in=*" $line] {
+      if {[string match "${setopt}*" $line]} {
         set ifnd1 $i
         break
       }
@@ -490,15 +494,15 @@ proc ::em::save_options {} {
     }
     incr i
   }
-  if {$ifnd} {  ;# if no OPTIONS section, nothing to do
-    set opt1 in=$::em::lasti.$::em::begsel
-    if {$ifnd1} {
-      set menudata [lreplace $menudata $ifnd1 $ifnd1 $opt1]
-    } else {
-      set menudata [linsert $menudata $ifnd1 $opt1]
-    }
-    ::em::write_menufile $menudata
+  if {!$ifnd} {  ;# no OPTIONS section - add it
+    lappend menudata \n "\[OPTIONS\]"
   }
+  if {$ifnd1} {
+    set menudata [lreplace $menudata $ifnd1 $ifnd1 $setval]
+  } else {
+    lappend menudata $setval
+  }
+  ::em::write_menufile $menudata
 }
 #=== initialize values of menu's variables
 proc ::em::init_menuvars {domenu options} {
@@ -1525,7 +1529,7 @@ proc ::em::menuof { commands s1 domenu} {
     prepr_init name
     prepr_init prog
     prepr_win prog $typ
-    catch {puts $name; set name [subst $name]; puts 2:$name}  ;# any substitutions in names
+    catch {set name [subst $name]}  ;# any substitutions in names
     switch $typ {
       "I:" {   ;#internal (M, Q, S, T)
         prepr_pn prog
@@ -1888,6 +1892,8 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         if {$s1=="s="} {
           set seltd [string map [ list \" \\\" "\\" "\\\\" "\$" "\\\$" \
           "\}" "\\\}"  "\{" "\\\{"  "\]" "\\\]"  "\[" "\\\[" ] $seltd]
+        } elseif {$s1 in {f= d=}} {
+          set seltd [string trim $seltd \'\"\`]  ;# for some FM peculiarities
         }
         set ::em::inherited "$::em::inherited \"$s1$seltd\""
       }
@@ -2177,13 +2183,13 @@ proc ::em::initpopup {} {
       -command ::em::reread_init
   .popupMenu add command -accelerator Ctrl+D -label "Destroy other menus" \
       -command ::em::destroy_emenus
-  .popupMenu add command -accelerator Ctrl+G -label "Show the menu's geometry" \
-      -command ::em::show_menu_geometry
   .popupMenu add separator
   .popupMenu add command -accelerator Ctrl+> -label "Increase the menu's width" \
       -command {::em::win_width 1}
   .popupMenu add command -accelerator Ctrl+< -label "Decrease the menu's width" \
       -command  {::em::win_width -1}
+  .popupMenu add command -accelerator Ctrl+G -label "Set the menu's geometry" \
+      -command ::em::set_menu_geometry
   .popupMenu add separator
   .popupMenu add command -accelerator F1 -label "About" -command ::em::help
   foreach {t e r d g} {t e r d g T E R D G} {
@@ -2191,7 +2197,7 @@ proc ::em::initpopup {} {
     bind . <Control-$e> {::em::edit_menu}
     bind . <Control-$r> {::em::reread_init}
     bind . <Control-$d> {::em::destroy_emenus}
-    bind . <Control-$g> {::em::show_menu_geometry}
+    bind . <Control-$g> {::em::set_menu_geometry}
   }
   option add *Menu.tearOff 1
   .popupMenu configure -tearoff 0
@@ -2335,9 +2341,15 @@ proc ::em::help {} {
     ::eh::browse $site
   }
 }
-#=== show the menu's geometry
-proc ::em::show_menu_geometry {} {
-  M "   WxH+X+Y = [wm geometry .]  "
+#=== save the menu's geometry
+proc ::em::set_menu_geometry {} {
+  set geo [wm geometry .]
+  if {[::em::em_question "Set the geometry" \
+  "\n The current menu's geometry is\n     WxH+X+Y = $geo
+  \n This geometry will be set for all calls of it.\n" \
+  okcancel ques CANCEL]} {
+    save_options "g=" $geo
+  }
 }
 #=== exit (end of e_menu)
 proc ::em::on_exit {{really 1}} {
@@ -2413,6 +2425,7 @@ proc ::em::initbegin {} {
   update idletasks
   encoding system "utf-8"
   bind . <F1> {::em::help}
+  pave::setAppIcon . [file join $::em::srcdir e_menu.png]
 }
 #=== end up inits
 proc ::em::initend {} {

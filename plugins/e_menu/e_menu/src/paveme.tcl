@@ -55,10 +55,17 @@ package require Tk
 package require widget::calendar
 catch {package require tooltip} ;# optional (though necessary everywhere:)
 
-source [file join [file dirname [info script]] obbit.tcl]
-
 namespace eval pave {
+  variable paveDir [file dirname [info script]]
+  variable appIcon ""
+  proc setAppIcon {win {winicon ""}} {
+    variable appIcon
+    if {$winicon ne ""} { set appIcon [image create photo -file $winicon] }
+    if {$appIcon ne ""} { wm iconphoto $win $appIcon }
+  }
 }
+
+source [file join $pave::paveDir obbit.tcl]
 
 oo::class create pave::PaveMe {
 
@@ -1314,6 +1321,7 @@ oo::class create pave::PaveMe {
   method showModal {win args} {
 
     my NonTtkTheme $win
+    pave::setAppIcon $win
     if {[my iswindows]} { ;# maybe nice to hide all windows manipulations
       wm attributes $win -alpha 0.0
     } else {

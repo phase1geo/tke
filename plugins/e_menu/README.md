@@ -9,7 +9,7 @@ It means that while editing a file.tcl you can set the caret on desirable Tcl/Tk
 
 For details of creating and using menus, refer to:
 
-  https://aplsimple.bitbucket.io/en/tcl/e_menu
+  https://aplsimple.github.io/en/tcl/e_menu
 
 This help is available also in the plugin by pressing F1 key or through its popup menu.
 
@@ -102,5 +102,5 @@ While editing a file you would not be uneasy, sort of "what a project is open? w
 
 Further details:
 
-  https://aplsimple.bitbucket.io/en/tcl/e_menu
+  https://aplsimple.github.io/en/tcl/e_menu
 

@@ -62,10 +62,10 @@
  S: GREP REGEXP recursive ignoring case ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d recurse * -e '$::EMENUFIND'
 
 [OPTIONS]
-w=70
-o=0
 n=< grep >
+w=45
+o=0
 in=1.0
-%#t geo=1112x553+156+162;pos=3.73 cd %PD|!||!|grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!|#grep -E -H -n -I -s -l -d recurse --include '*htm*' -e "e_menu.rar"|!||!|#cd %d|!|#grep -E -H -n -I -s -d recurse * -e "aplsimple"|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!||!|echo "\n################################################################################\n... searched in: $PWD"\n\n
+%#t geo=1112x553+156+199;pos=4.0 cd %PD|!||!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!|grep -E -H -n -I -s -l -d recurse --include '*htm*' -e "e_menu.rar"|!||!|#cd %d|!|#grep -E -H -n -I -s -d recurse * -e "aplsimple"|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!||!|echo "\n################################################################################\n... searched in: $PWD"\n\n
 %#Just for testing
-pos=2.26
+pos=66.3

@@ -119,6 +119,7 @@ See details in [api::get_plugin_source_directory]/README.md
     set ind 0
     foreach st [split [$txt get 1.0 end] \n] {
       incr ind
+      if {[sourced_line $st] ne ""} continue   ;# skip sourced lines
       set st [strip_upcase $st]
       if {[string first $BL_BEGIN $st]==0} {
         if {$block_begins} {
@@ -146,15 +147,27 @@ See details in [api::get_plugin_source_directory]/README.md
   ###################################################################
   # Get line of command or command's waited result
 
-  proc get_line {txt type i} {
+  proc get_line {block type i prevcontinuedName} {
 
+    upvar $prevcontinuedName prevcontinued
     variable NOTHING
-    set st [string trimleft [get_line_contents $txt $i.0]]
+    variable TEST_RESULT
+    set st [lindex $block $i-1]
+    set strimmed [string trimleft $st]
+    set tpos [string first $type $strimmed]
+    if {!$prevcontinued || $tpos == 0} {
+      set st $strimmed
+    } else {
+      set st "$type $st"    ;# continuing from previous line
+    }
+    set prevcontinued [expr {[string index $st end] eq "\\"}]
+    if {$prevcontinued && $type eq $TEST_RESULT} {
+      set st [string range $st 0 end-1]
+    }
     if {[set i [string first $type $st]] == 0} {
       return [string range $st [expr {[string length $type]+1}] end]
-    } else {
-      return $NOTHING
     }
+    return $NOTHING
 
   }
 
@@ -162,7 +175,7 @@ See details in [api::get_plugin_source_directory]/README.md
   # Get command/result lines
 
   # :Input:
-  #   - txt  - current edited text
+  #   - block  - current analized block of text
   #   - type - type of line (COMMAND or RESULT)
   #   - i1   - starting line to process
   #   - i2   - ending line to process
@@ -170,14 +183,15 @@ See details in [api::get_plugin_source_directory]/README.md
   #   - command/result lines
   #   - next line to process
 
-  proc get_com_res {txt type i1 i2} {
+  proc get_com_res {block type i1 i2} {
 
     variable TEST
     variable NOTHING
     variable TEST_COMMAND
     set comres $NOTHING
+    set prevcontinued 0
     for {set i $i1; set res ""} {$i <= $i2} {incr i} {
-      set line [string trim [get_line $txt $type $i] " "]
+      set line [string trim [get_line $block $type $i prevcontinued] " "]
       if {[string index $line 0] eq "\"" && [string index $line end] eq "\""} {
         set line [string range $line 1 end-1]
       }
@@ -205,20 +219,20 @@ See details in [api::get_plugin_source_directory]/README.md
   ###################################################################
   # Get commands' results
 
-  proc get_commands {txt i1 i2} {
+  proc get_commands {block i1 i2} {
 
     variable TEST_COMMAND
-    return [get_com_res $txt $TEST_COMMAND $i1 $i2]
+    return [get_com_res $block $TEST_COMMAND $i1 $i2]
 
   }
 
   ###################################################################
   # Get waited results
 
-  proc get_results {txt i1 i2} {
+  proc get_results {block i1 i2} {
 
     variable TEST_RESULT
-    return [get_com_res $txt $TEST_RESULT $i1 $i2]
+    return [get_com_res $block $TEST_RESULT $i1 $i2]
 
   }
 
@@ -252,21 +266,73 @@ See details in [api::get_plugin_source_directory]/README.md
   }
 
   ###################################################################
+  # check if "doctest source" and return sourced name or ""
+
+  proc sourced_line {line} {
+
+    variable TEST_COMMAND
+    return [regexp -nocase -inline \
+        "^\\s*$TEST_COMMAND\\s+DOCTEST\\s+SOURCE\\s+" $line]
+
+  }
+
+  ###################################################################
+  # check if the line is "doctest quote"
+
+  proc is_quoted_line {line} {
+
+    variable BL_BEGIN
+    variable BL_END
+    set st [strip_upcase $line]
+    return [expr \
+     {![string first $BL_BEGIN $st] || ![string first $BL_END $st]}]
+
+  }
+
+  ###################################################################
   # Test block of commands and their results
 
-  proc test_block {txt begin end safe verbose} {
+  proc do_block {txt begin end safe verbose} {
 
     variable NOTHING
+    variable TEST_COMMAND
     variable ntestedany
     set block_ok -1
-    set block [$txt get $begin $end]
+    # make the block of commands, including "sourced" files
     set i1 [expr {int([$txt index $begin])}]
     set i2 [expr {int([$txt index $end])}]
-    for {set i $i1} {$i <= $i2} {} {
-      lassign [get_commands $txt $i $i2] commands i ;# get commands
+    set block [set blocktxt {}]
+    for {set i $i1} {$i <= $i2} {incr i} {
+      set line [get_line_contents $txt $i.0]
+      set foundptn [sourced_line $line]
+      if {[set sl [string length $foundptn]]} {
+        set fn [string trim [string range $line $sl-2 end]]
+        if {[catch {set ch [open $fn]}]} {
+          ERR "PWD: [pwd]\n\"$fn\" not open by\n $line"
+          return 0
+        }
+        foreach l [split [read $ch] \n] {
+          # skip any possible #% doctest, #> doctest
+          if {![is_quoted_line $l]} {
+            lappend block $l
+            append blocktxt $l \n
+          }
+        }
+        close $ch
+      } else {
+        set st [strip_upcase $line]
+        if {![is_quoted_line $line]} {
+          lappend block $line
+          append blocktxt $line \n
+        }
+      }
+    }
+    set i2 [llength $block]
+    for {set i 1} {$i < $i2} {} {
+      lassign [get_commands $block $i $i2] commands i ;# get commands
       if {$commands != "" && $commands != $NOTHING} {
-        lassign [get_results $txt $i $i2] results i ;# get waited results
-        lassign [execute_and_check $block $safe $commands $results] ok res
+        lassign [get_results $block $i $i2] results i ;# get waited results
+        lassign [execute_and_check $blocktxt $safe $commands $results] ok res
         if {$results==$NOTHING} {
           # no result waited, for GUI tests
           set ok true
@@ -296,14 +362,14 @@ See details in [api::get_plugin_source_directory]/README.md
 
   }
 
-  proc test_blocks {txt blocks safe verbose forsel} {
+  proc do_blocks {txt blocks safe verbose forsel} {
 
     variable HINT1
     variable ntestedany
     set all_ok -1
     set ntested [set ntestedany 0]
     foreach {begin end} $blocks {
-      set block_ok [test_block $txt $begin $end $safe $verbose]
+      set block_ok [do_block $txt $begin $end $safe $verbose]
       if {$block_ok!=-1} {
         incr ntested
         if {$block_ok==1 && $all_ok==-1} {
@@ -342,9 +408,12 @@ See details in [api::get_plugin_source_directory]/README.md
     set forsel ""
     lassign [get_test_blocks $txt] error blocks forsel
     switch $error {
-      0 { test_blocks $txt $blocks $safe $verbose $forsel}
+      0 { do_blocks $txt $blocks $safe $verbose $forsel}
       1 { ERR "Unpaired: $TEST_BEGIN$HINT1" }
       2 { ERR "Unpaired: $TEST_END$HINT1" }
+      default {
+        #other errors
+      }
     }
 
   }

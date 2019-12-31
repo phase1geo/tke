@@ -3,7 +3,7 @@
 [OPTIONS]
 n=< git >
 in=1.0
-pos=69.0
+pos=5.3
 ::GITCOMMIT=""
 ::EMENUTMPFILE=%mn.tmp~
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
@@ -25,7 +25,7 @@ RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
  R:git difftool $::FILETAIL ? R: %I {} "DIFFTOOL" { \
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
-   fco1 {{Version:} {} {-h 10 -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
+   fco1 {{Version:} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
      {/@-pos 0 -len 10 $::EMENUTMPFILE/@    INFO: /@-div1 { } $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
    texc {{   Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
@@ -38,7 +38,7 @@ RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
 RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
  R:git diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
-   fco1 {{Version of file:} {} {-h 10 -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
+   fco1 {{Version of file:} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
      {/@-pos 0 -len 10 $::EMENUTMPFILE/@    INFO: /@-div1 { } $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
    texc {{           Hint:} {} {-h 7 -w 70 -ro 1 -wrap word}} \
