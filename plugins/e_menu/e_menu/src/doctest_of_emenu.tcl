@@ -90,7 +90,13 @@ proc doctest::ERR {args} { MES ERROR {*}$args }
 
 proc doctest::strip_upcase {st} {
 
-  return [string trim [string toupper [string map {{ } _} $st]] { _}]
+  return [string toupper [string map {{ } _} [string trim $st { _}]]]
+}
+
+# previous proc's value, with \n (to find an exact "-b" block name)
+proc doctest::strip_upcase_nn {st} {
+
+  return "\n[strip_upcase $st]\n"
 }
 
 ###################################################################
@@ -151,7 +157,7 @@ proc doctest::get_test_blocks {} {
       if {$block_begins} {
         return [list 1 [list]]     ;# unpaired begins
       }
-      set tname \n[string toupper [string range $st [string len $BL_BEGIN] end]]\n
+      set tname [strip_upcase_nn [string range $st [string len $BL_BEGIN] end]]
       set doit [expr {$options(-b)=="" || [string first $tname $options(-b)]>=0}]
       if {$doit} {
         lappend test_blocks [expr {$ind + 1}] ;# begin of block
@@ -183,7 +189,6 @@ proc doctest::get_line {type i prevcontinuedName} {
   upvar $prevcontinuedName prevcontinued
   variable NOTHING
   variable TEST_RESULT
-  set st [string trimleft [get_line_contents $i]]
   set st [get_line_contents $i]
   set strimmed [string trimleft $st]
   set tpos [string first $type $strimmed]
@@ -293,7 +298,7 @@ proc doctest::execute_and_check {block safe commands results} {
 ###################################################################
 # Test block of commands and their results
 
-proc doctest::test_block {begin end blk safe verbose} {
+proc doctest::do_block {begin end blk safe verbose} {
 
   variable UNDER
   variable options
@@ -336,7 +341,7 @@ proc doctest::test_block {begin end blk safe verbose} {
   return $block_ok
 }
 
-proc doctest::test_blocks {blocks safe verbose} {
+proc doctest::do_test {blocks safe verbose} {
 
   variable HINT1
   variable UNDER
@@ -344,7 +349,7 @@ proc doctest::test_blocks {blocks safe verbose} {
   set all_ok -1
   set ptested [set ntested [set ntestedany 0]]
   foreach {begin end blk} $blocks {
-    set block_ok [test_block $begin $end $blk $safe $verbose]
+    set block_ok [do_block $begin $end $blk $safe $verbose]
     if {$block_ok!=-1} {
       if {$block_ok} {
         incr ptested
@@ -369,6 +374,33 @@ proc doctest::test_blocks {blocks safe verbose} {
   }
 }
 
+  ###################################################################
+  # check if "doctest source" and return sourced name or ""
+
+  proc doctest::sourced_line {line} {
+
+    variable TEST_COMMAND
+    return [regexp -nocase -inline \
+        "^\\s*$TEST_COMMAND\\s+DOCTEST\\s+SOURCE\\s+" $line]
+
+  }
+
+  ###################################################################
+  # check if the line is "doctest quote"
+
+  proc doctest::is_quoted_line {line} {
+
+    variable BL_BEGIN
+    variable BL_END
+    if {[sourced_line $line] eq ""} {
+      set st [strip_upcase $line]
+      if {[string first $BL_BEGIN $st]==0} { return 1 }
+      if {[string first $BL_END $st]==0}   { return 2 }
+    }
+    return 0
+
+  }
+
 ###################################################################
 # Get text of file and options
 
@@ -376,6 +408,10 @@ proc doctest::init {args} {
 
   variable options
   variable TEST_COMMAND
+  variable TEST_BEGIN
+  variable TEST_END
+  variable BL_BEGIN [strip_upcase $TEST_BEGIN]
+  variable BL_END   [strip_upcase $TEST_END]
   array set options {fn "" cnt {} -s 1 -v 1 -b {}}
   if {[llength $args] == 0} exit_on_error
   set off 0
@@ -386,7 +422,7 @@ proc doctest::init {args} {
     }
     switch -glob $opt {
       -s - -v { set options($opt) $val }
-      -b      { set options($opt) "$options($opt) \n[strip_upcase $val]\n " }
+      -b      { set options($opt) "$options($opt) [strip_upcase_nn $val] " }
       --      { set off 1 }
       default {
         append options(fn) " $opt $val"
@@ -404,17 +440,26 @@ proc doctest::init {args} {
   set cnt [split [read $ch] \n]
   close $ch
   # source all tests (by #% source ...)
+  set isany [set isopen 0]
+  foreach line $cnt {
+    if {[is_quoted_line $line]==1} { set isany 1;  break }
+  }
   set options(cnt) {}
   foreach line $cnt {
-    set foundptn [regexp -nocase -inline \
-      "^\\s*$TEST_COMMAND\\s+DOCTEST\\s+SOURCE\\s+" $line]
-    if {[set sl [string length $foundptn]]} {
-      set fn [string trim [string range $line $sl-2 end]]
-      if {[catch {set ch [open $fn]}]} {
-        exit_on_error "PWD: [pwd]\n\"$fn\" not open by\n $line"
+    set sll [string length [sourced_line $line]]
+    if {$isany && !$sll} {
+      if {[is_quoted_line $line]==1} { set isopen 1 }
+      if {[is_quoted_line $line]==2} { set isopen 0 }
+    }
+    if {$sll} {
+      if {!$isany || $isopen} {  ;# ignore 'source' outside of any blocks
+        set fn [string trim [string range $line $sll-2 end]]
+        if {[catch {set ch [open $fn]}]} {
+          exit_on_error "PWD: [pwd]\n\"$fn\" not open by\n $line"
+        }
+        foreach l [split [read $ch] \n] { lappend options(cnt) $l }
+        close $ch
       }
-      foreach l [split [read $ch] \n] { lappend options(cnt) $l }
-      close $ch
     } else {
       lappend options(cnt) $line
     }
@@ -429,12 +474,10 @@ proc doctest::do {} {
   variable TEST_BEGIN
   variable TEST_END
   variable HINT1
-  variable BL_BEGIN [strip_upcase $TEST_BEGIN]
-  variable BL_END   [strip_upcase $TEST_END]
   variable options
   lassign [get_test_blocks] error blocks
   switch $error {
-    0 { test_blocks $blocks $options(-s) $options(-v)}
+    0 { do_test $blocks $options(-s) $options(-v)}
     1 { ERR "Unpaired: $TEST_BEGIN$HINT1" }
     2 { ERR "Unpaired: $TEST_END$HINT1" }
   }

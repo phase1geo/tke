@@ -44,16 +44,35 @@ So, we place the commands and their results between *doctest quotes*. Let us see
   #> 2nd line of result of command4
   #> 3rd line of result of command4
 
-  ############ command may be continued with "\" as its last character.
+  # ... or this way:
+  #% command41
+  #> 1st line of result of command41 \
+     2nd line of result of command41 \
+     3rd line of result of command41
+
+  # ... or this way:
+  #% command42
+  #> "  1st line of result of command42 with initial spaces" \
+     "   2nd line of result of command42 with initial spaces" \
+     "    3rd line of result of command42 with initial spaces"
+
+  ############ command may be continued with "\" as its last character
   #% command-so-loooooong - begin \
   #% command-so-loooooong - cont. \
-  #% command-so-loooooong - cont. \
   #% command-so-loooooong - end
+  #> result of command-so-loooooong
+
+  # ... or this way:
+  #% command-so-loooooong - begin \
+     command-so-loooooong - cont. \
+     command-so-loooooong - end
   #> result of command-so-loooooong
 
   #> doctest
 
 You can have as many test blocks as you need. If there are no *doctest quotes*, all of the text is considered as a giant test block containing *#%* and *#>* lines to be tested.
+
+**Note:** if there is a *quoted* doctest block, any outside #% and #> lines are ignored.
 
 Also, you can selectively run any test block or even any part of it, if you select at least two lines. You have not to select all of the lines, it's enough to select any parts of them, e.g. from "- begin \" to "#> result of" in the example above.
 
@@ -90,13 +109,19 @@ It would be convenient to assign the following shortkeys for "Plugin/ Doctest TC
 # Tips and traps
 
 
+### 1.
+
 PLEASE, NOTICE AGAIN: Do not include into the test blocks the commands that cannot be run or are unavailable (calls of external procedures etc.).
 
 The test blocks should only contain the independently runnable TCL code plus the commented test examples. The test examples being stripped of *#%* are run one after another as the tailing code of their block.
 
+### 2.
+
 If the last *#% doctest* quote isn't paired with lower *#> doctest* quote, the test block continues to the end of text.
 
 The middle unpaired *#% doctest* and the unpaired *#> doctest* are considered as errors making the test impossible.
+
+### 3.
 
 Results of commands are checked literally, though the starting and tailing spaces of *#%* and *#>* lines are ignored.
 
@@ -114,6 +139,8 @@ The following two tests are identical and both return the empty string:
   #% set _ ""  ;# test #2
   #>
 
+### 4.
+
 The absence of resulting *#>* means that a result isn't important (e.g. for GUI tests) and no messages are displayed in non-verbose doctest. In such cases the "&" might be useful at the end of command, for returning to TKE:
 
   #% exec wish ./GUImodule.tcl arg1 arg2 &
@@ -121,9 +148,33 @@ The absence of resulting *#>* means that a result isn't important (e.g. for GUI 
 
 NOTE: the successive *#%* commands form the suite with the result returned by the last command. See the example of command31-32-33 suite above.
 
+### 5.
+
 If there are *doctest quoted* test blocks, all the text outside of them is normally ignored by doctest. Nevertheless, you can test those outsiders after selecting them. You can try it just now on the upper `set _ ""` commands.
 
+### 6.
+
 A tested command can throw an exception which is considered as its result being normal under some conditions. See the example below.
+
+### 7.
+
+When you have a doctest to run an external application, e.g.
+
+  #% doctest
+  #% exec tclsh my-module1.tcl "this-data-file" arg11 arg12 arg13
+  #> doctest
+
+do not forget about the *#% doctest* and *#> doctest* lines. They are important in order to detach an external call from the rest of text. Otherwise you could get an error message (if you set *#> result* to see what's wrong with the call), like this:
+
+  GOT:
+  "can't read "::argv0": no such variable"
+
+  WAITED:
+  "result"
+
+This one means that the rest of text (being evaluated as a Tcl snippet, not a module run in tclsh) can't get to the Tcl argument list.
+
+### 8.
 
 Run "Doctest Safe Verbose" on this README.md to see how the doctest works. Notice that:
 
@@ -131,11 +182,45 @@ Run "Doctest Safe Verbose" on this README.md to see how the doctest works. Notic
 2. The lower factorial test block results in OK.
 3. The out-of-blocks test examples are ignored.
 
-Another thing might be helpful: the doctest's usage isn't restricted with a code. A data file allowing #- or multi-line comments, might include the doctest strings for testing its contents, e.g. through something like:
+This thing might be helpful, namely: the doctest's usage isn't restricted with a code. Any data file, that permits '#' or multi-line comments, may include the doctest strings for testing its contents, e.g. through something like:
 
-  #% exec tclsh module.tcl this_datafile.txt
+  #% doctest
+  #% exec tclsh my-module1.tcl "this-data-file" arg11 arg12 arg13
+  #% exec tclsh my-module2.tcl "this-data-file" arg21 arg22 arg23
+  ...
+  #> doctest
 
-See, for example, test1.mnu of e_menu plugin.
+...or
+
+  #% doctest
+  #% exec my-application1 "this-data-file" arg11 arg12 arg13
+  #% exec my-application2 "this-data-file" arg21 arg22 arg23
+  ...
+  #> doctest
+
+... so that, while editing this data file, you can periodically run the doctest on it to check if the data are OK.
+
+*Note again:* If there is a *quoted* doctest block, any outside #% and #> lines are ignored. And vice versa, if there is no *quoted* doctest block, all of text is considered as a giant doctest block.
+
+*As a result:* The *#% doctest* and *#> doctest* lines are important! You must detach the doctest blocks from the rest of text. Otherwise, all of the text would be evaluated as Tcl code, which won't highly likely be that you want.
+
+You can define a whole set of testing application(s) in block(s) to run all of them at modifying the data.
+
+### 9.
+
+If a doctest body is large, it can be moved to a separate file to be sourced with a comment:
+
+  #% doctest source testedfile.test
+
+where *doctest source* may be of any case (Doctest Source, DOCTEST SOURCE etc.), *testedfile.test* contains the doctest body. Thus a code isn't cluttered with a doctest body.
+
+See e.g. *obbit.tcl* and its sourced *tests/obbit_1.test* in https://github.com/aplsimple/pave.
+
+### 10.
+
+The *e_menu* plugin of TKE supports the `doctest` actions as well. It may be a good replacement of TKE doctest plugin in some specific cases.
+
+The doctest menu items of *e_menu* are available via *Menu / Utils / Test1*.
 
 
 # Example
