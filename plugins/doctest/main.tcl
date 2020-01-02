@@ -328,7 +328,7 @@ See details in [api::get_plugin_source_directory]/README.md
       }
     }
     set i2 [llength $block]
-    for {set i 1} {$i < $i2} {} {
+    for {set i 1} {$i <= $i2} {} {
       lassign [get_commands $block $i $i2] commands i ;# get commands
       if {$commands != "" && $commands != $NOTHING} {
         lassign [get_results $block $i $i2] results i ;# get waited results
