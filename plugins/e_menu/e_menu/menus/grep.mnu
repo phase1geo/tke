@@ -1,71 +1,42 @@
  S: GREP TEMPLATE (%%s=%s) ? S: cd %d
  S: GREP TEMPLATE (%%s=%s) ? S: %#t grep -H -n -I -s -i -d recurse * -e '%s'
 
- M:  M: 4
- S: GREP EXACT ? S: cd %d
- R: GREP EXACT ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP EXACT ? R: %I {} "GREP EXACT" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP EXACT ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d skip * -e '$::EMENUFIND'
-
- S: GREP REGEXP ? S: cd %d
- R: GREP REGEXP ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP REGEXP ? R: %I {} "GREP REGEXP" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP REGEXP ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d skip * -e '$::EMENUFIND'
+%MA TITLE %MA GREPMODE
+%MA S: cd $::EMENUDIR
+%MA R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
+%MA R: %I {} "$TITLE" { \
+   ent1 {{Search for:} {} {-w 60}} {{$::EMENUFIND}} \
+   ent2 {{  In files:} {} {}} {"$::EMENUFILES"} \
+   dir1 {{    In dir:} {} {}} {"$::EMENUDIR"} \
+   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND ::EMENUFILES ::EMENUDIR
+%MA R: %C \
+   if {"$::EMENUFILES" eq ""} {set ::EMENU_ ""} {set ::EMENU_ "$::EMENUFILES"}
+%MA R: cd $::EMENUDIR
+%MA S: echo "DIR:\n$::EMENUDIR\n"\ngrep $::EMENU_ $GREPMODE -e '$::EMENUFIND'
 
  M:  M: 4
- S: GREP EXACT  ignoring case ? S: cd %d
- R: GREP EXACT  ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP EXACT  ignoring case ? R: %I {} "GREP EXACT ignoring case" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP EXACT  ignoring case ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d skip * -e '$::EMENUFIND'
-
- S: GREP REGEXP ignoring case ? S: cd %d
- R: GREP REGEXP ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP REGEXP ignoring case ? R: %I {} "GREP REGEXP ignoring case" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP REGEXP ignoring case ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d skip * -e '$::EMENUFIND'
+ S: GREP EXACT ? S: %MA GREP EXACT %MA -F -H -n -I -s -d skip *
+ S: GREP REGEXP ? S: %MA GREP REGEXP %MA -E -H -n -I -s -d skip *
 
  M:  M: 4
- S: GREP EXACT  recursive ? S: cd %d
- R: GREP EXACT  recursive ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP EXACT  recursive ? R: %I {} "GREP EXACT recursive" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP EXACT  recursive ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -d recurse * -e '$::EMENUFIND'
-
- S: GREP REGEXP recursive ? S: cd %d
- R: GREP REGEXP recursive ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP REGEXP recursive ? R: %I {} "GREP REGEXP recursive" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP REGEXP recursive ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -d recurse * -e '$::EMENUFIND'
+ S: GREP EXACT  ignoring case ? S: %MA GREP EXACT ignoring case  %MA -F -H -n -I -s -i -d skip *
+ S: GREP REGEXP ignoring case ? S: %MA GREP REGEXP ignoring case %MA -E -H -n -I -s -i -d skip *
 
  M:  M: 4
- S: GREP EXACT  recursive ignoring case ? S: cd %d
- R: GREP EXACT  recursive ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP EXACT  recursive ignoring case ? R: %I {} "GREP EXACT recursive ignoring case" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP EXACT  recursive ignoring case ? S: echo "DIR:\n%d\n"\ngrep -F -H -n -I -s -i -d recurse * -e '$::EMENUFIND'
+ S: GREP EXACT  recursive ? S: %MA GREP EXACT recursive  %MA -F -H -n -I -s -d recurse *
+ S: GREP REGEXP recursive ? S: %MA GREP REGEXP recursive %MA -E -H -n -I -s -d recurse *
 
- S: GREP REGEXP recursive ignoring case ? S: cd %d
- R: GREP REGEXP recursive ignoring case ? R: %C if {![info exist ::EMENUFIND]} {set ::EMENUFIND "%s"}
- R: GREP REGEXP recursive ignoring case ? R: %I {} "GREP REGEXP recursive ignoring case" { \
-   ent1 {{Search for:} {} {-w 40}} {"$::EMENUFIND"} \
-   v_} -head { Enter a string to search.} -weight bold == ::EMENUFIND
- S: GREP REGEXP recursive ignoring case ? S: echo "DIR:\n%d\n"\ngrep -E -H -n -I -s -i -d recurse * -e '$::EMENUFIND'
+ M:  M: 4
+ S: GREP EXACT  recursive ignoring case ? S: %MA GREP EXACT recursive ignoring case \
+    %MA -F -H -n -I -s -i -d recurse *
+ S: GREP REGEXP recursive ignoring case ? S: %MA GREP REGEXP recursive ignoring case \
+    %MA -E -H -n -I -s -i -d recurse *
 
 [OPTIONS]
-n=< grep >
 w=45
 o=0
 in=1.0
-%#t geo=1112x553+156+199;pos=4.0 cd %PD|!||!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!|grep -E -H -n -I -s -l -d recurse --include '*htm*' -e "e_menu.rar"|!||!|#cd %d|!|#grep -E -H -n -I -s -d recurse * -e "aplsimple"|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!||!|echo "\n################################################################################\n... searched in: $PWD"\n\n
-%#Just for testing
-pos=66.3
+%#t geo=1112x553+156+199;pos=4.62 cd %PD|!||!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!|#grep -E -H -n -I -s -l -d recurse --include '*.tcl' -e "\{\}"|!|grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "\{\}"|!||!|#cd %d|!|#grep -E -H -n -I -s -d recurse * -e "aplsimple"|!||!|# selected text of TKE:|!|#grep -E -H -n -I -s -i -d recurse * -e '%s'|!|#grep -E -H -n -I -s -d recurse --include '*tcl' --include '*html' -e "%s"|!||!|# year 1900-2099|!|# grep -E -H -n -I -s -i -d recurse * -e '(^|[^[:digit:]])(19|20)[[:digit:]]{2}([^[:digit:]]|$)'|!||!|# domain|!|# grep -E -H -n -I -s -i -d recurse * -e '([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!|# email|!|#grep -E -H -n -I -s -i -d recurse * -e '[_]*([a-z0-9]+(\\.|_*)?)+@([a-z][a-z0-9-]+(\\.|-*\\.))+[a-z]{2,6}'|!||!||!|echo "\n################################################################################\n... searched in: $PWD"\n\n
+pos=15.63
+::EMENUFILES=--include=*.tcl --include=*.mnu --include=*.txt
+::EMENUDIR=%d

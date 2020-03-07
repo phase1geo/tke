@@ -38,7 +38,7 @@
 # which sets the EN1, EN2, V1, C1, C2 and W1 output variables and redirects
 # their assignment to tmp.sh file. After checking the command's result, the
 # tmp.sh file is executed in the current shell, by 'source' command.
-# 
+#
 # So the EN1, EN2, V1, C1, C2 and W1 environment variables would correspond
 # to the  dialog's variables.
 #
@@ -47,21 +47,21 @@
 #
 ############################################################################
 
-if {[catch {package require pave}]} {
-  set ::pavedir [file dirname [info script]]
-  lappend auto_path $::pavedir
-  if {[catch {package require pave}]} {
-    lset auto_path end $::pavedir/pave
-    package require pave
+if {[catch {package require apave}]} {
+  set ::apavedir [file dirname [info script]]
+  lappend auto_path $::apavedir
+  if {[catch {package require apave}]} {
+    lset auto_path end $::apavedir/pave
+    package require apave
   }
 }
 
-namespace eval pavecli {
+namespace eval apavecli {
 }
 
 #=== Input dialog for getting data
-proc ::pavecli::input {args} {
-  ::pave::PaveInput create dialog
+proc ::apavecli::input {args} {
+  ::apave::APaveInput create dialog
   set cmd [subst -nocommands -novariables [string range $args 1 end-1]]
   set dp [string last " ==" $cmd]
   if {$dp<0} {set dp 999999}
@@ -82,19 +82,13 @@ proc ::pavecli::input {args} {
 }
 
 #=== Run dialog
-proc ::pavecli::run {} {
-  if {$::tcl_platform(platform) == "windows"} {
-    wm attributes . -alpha 0.0
-  } else {
-    wm attributes . -type splash
-    wm geometry . 0x0
-  }
-  ttk::style theme use clam
-  set res [::pavecli::input $::argv]
-  ::pave::PaveInput destroy
+proc ::apavecli::run {} {
+  apave::initWM
+  set res [::apavecli::input $::argv]
+  ::apave::APaveInput destroy
   exit $res
 }
 
-::pavecli::run
+::apavecli::run
 
-#%   DOCTEST   SOURCE   tests/pavecli.test
+#%   DOCTEST   SOURCE   tests/apavecli.test

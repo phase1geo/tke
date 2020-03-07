@@ -1,12 +1,12 @@
 ###########################################################################
 #
-# This script contains the PaveMe class, sort of wrapper around the grid
+# This script contains the APave class, sort of wrapper around the grid
 # geometry manager.
 #
 # Use:
-#    package require pave
+#    package require apave
 #    ...
-#    pave::PaveMe create pave
+#    apave::APave create pave
 #    catch {destroy .win}
 #    pave makeWindow .win "TITLE"
 #    pave window .win LISTW
@@ -55,21 +55,31 @@ package require Tk
 package require widget::calendar
 catch {package require tooltip} ;# optional (though necessary everywhere:)
 
-namespace eval pave {
-  variable paveDir [file dirname [info script]]
+namespace eval apave {
+  variable apaveDir [file dirname [info script]]
   variable appIcon ""
+  # Set application's icon
   proc setAppIcon {win {winicon ""}} {
     variable appIcon
     if {$winicon ne ""} { set appIcon [image create photo -file $winicon] }
     if {$appIcon ne ""} { wm iconphoto $win $appIcon }
   }
+  # Initialize wish session
+  proc initWM {} {
+    if {$::tcl_platform(platform) == "windows"} {
+      wm attributes . -alpha 0.0
+    } else {
+      wm withdraw .
+    }
+    try {ttk::style theme use clam}
+  }
 }
 
-source [file join $pave::paveDir obbit.tcl]
+source [file join $apave::apaveDir obbit.tcl]
 
-oo::class create pave::PaveMe {
+oo::class create apave::APave {
 
-  mixin pave::ObjectProperty pave::ObjectTheming pave::ObjectUtils
+  mixin apave::ObjectProperty apave::ObjectTheming apave::ObjectUtils
 
   variable _pav
 
@@ -131,7 +141,7 @@ oo::class create pave::PaveMe {
 
   #########################################################################
   #
-  # Configure the pave object (all of _pav array may be changed)
+  # Configure the apave object (all of _pav array may be changed)
   # E.g., pobj configure edge "@@" 
 
   method configure {args} {
@@ -451,22 +461,22 @@ oo::class create pave::PaveMe {
       "sbh" {
         set widget "ttk::scrollbar";
         set options "-st ew $options"
-        set attrs "-orient horizontal $attrs"
+        set attrs "-orient horizontal -takefocus 0 $attrs"
       }
       "sbH" {
         set widget "scrollbar"
         set options "-st ew $options"
-        set attrs "-orient horizontal $attrs"
+        set attrs "-orient horizontal -takefocus 0 $attrs"
       }
       "sbv" {
         set widget "ttk::scrollbar"
         set options "-st ns $options"
-        set attrs "-orient vertical $attrs"
+        set attrs "-orient vertical -takefocus 0 $attrs"
       }
       "sbV" {
         set widget "scrollbar"
         set options "-st ns $options"
-        set attrs "-orient vertical $attrs"
+        set attrs "-orient vertical -takefocus 0 $attrs"
       }
       "seh" { ;# horizontal separator
         set widget "ttk::separator"
@@ -1006,11 +1016,8 @@ oo::class create pave::PaveMe {
     set attrs_ret [set _pav(prepost) {}]
     foreach {a v} $attrs {
       switch $a {
-        -disabledtext {
+        -disabledtext - -rotext - -lbxsel - -cbxsel {
           # get a text of disabled widget processed below in "Post"
-          lappend _pav(prepost) [list $a [string trim $v {\{\}}]]
-        }
-        -rotext {
           # processed below in "Post"
           lappend _pav(prepost) [list $a [string trim $v {\{\}}]]
         }
@@ -1046,6 +1053,18 @@ oo::class create pave::PaveMe {
             }
           }
           my readonlyWidget $w
+        }
+        -lbxsel {
+          set v [lsearch -glob [$w get 0 end] "$v*"]
+          if {$v>=0} {
+            $w selection set $v
+            $w yview $v
+          }
+        }
+        -cbxsel {
+          set cbl [$w cget -values]
+          set v [lsearch -glob $cbl "$v*"]
+          if {$v>=0} { $w set [lindex $cbl $v] }
         }
       }
     }
@@ -1136,6 +1155,11 @@ oo::class create pave::PaveMe {
       lassign $tmp - ro - readonly
       lappend addcomms [list my readonlyWidget $w [expr $ro||$readonly]]
       set attrs [my RemoveSomeOptions $attrs -ro -readonly]
+    }
+    if {[set wnext [my getOption -tabnext {*}$attrs]] ne ""} {
+      after idle [list bind $w <Key> \
+        [list if {{%K} == {Tab}} "focus $wnext ; break" ]]
+      set attrs [my RemoveSomeOptions $attrs -tabnext]
     }
     return $addcomms
 
@@ -1321,7 +1345,7 @@ oo::class create pave::PaveMe {
   method showModal {win args} {
 
     my NonTtkTheme $win
-    pave::setAppIcon $win
+    apave::setAppIcon $win
     if {[my iswindows]} { ;# maybe nice to hide all windows manipulations
       wm attributes $win -alpha 0.0
     } else {
@@ -1508,4 +1532,3 @@ oo::class create pave::PaveMe {
   }
 
 }
-

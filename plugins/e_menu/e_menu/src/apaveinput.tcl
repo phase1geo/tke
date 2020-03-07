@@ -1,12 +1,12 @@
 ###########################################################################
 #
-# This script contains the PaveInput class that allows:
+# This script contains the APaveInput class that allows:
 #   - to create input dialogs
-#   - to edit text files
+#   - to view/edit text files
 #
 # Use for input dialogs:
-#   package require pave
-#   pave::PaveInput create pinp $win
+#   package require apave
+#   apave::APaveInput create pinp $win
 #   pinp input $icon $ttl $iopts $args
 # where:
 #   win     - window's path
@@ -16,11 +16,11 @@
 #     - name of field
 #     - prompt (and possibly gridopts, widopts) of field
 #     - options for value of field
-#   args - PaveDialog options
+#   args - APaveDialog options
 #
 # Use for editing files:
-#   package require pave
-#   pave::PaveInput create pinp $win
+#   package require apave
+#   apave::APaveInput create pinp $win
 #   pinp editfile $fname $fg $bg $cc $prepost $args
 # where:
 #   fname - name of edited file
@@ -34,25 +34,63 @@
 
 package require Tk
 
-package provide pave 1.5
+package provide apave 2.2
 
-source [file join [file dirname [info script]] pavedialog.tcl]
+source [file join [file dirname [info script]] apavedialog.tcl]
 
-namespace eval pave {
+namespace eval apave {
 }
 
-oo::class create pave::PaveInput {
+oo::class create apave::APaveInput {
 
-  superclass pave::PaveDialog
+  superclass apave::APaveDialog
 
+  variable _pav
   variable _pdg
+  variable _savedvv
 
   constructor {args} {
+    set _savedvv [list]
     next {*}$args
   }
 
+  destructor {
+    my initInput
+  }
+
+  # initialize input
+  # (clear variables made in previous session)
+  method initInput {} {
+    foreach {vn vv} $_savedvv {
+      catch {unset $vn}
+    }
+    set _savedvv [list]
+    set _pav(widgetopts) [list]
+  }
+
+  # return variables made and filled in previous session
+  # as a list of elements {varname varvalue}
+  # where varname is of form: [namespace current]::var$widgetname
+  method varInput {} {
+    return $_savedvv
+  }
+
+  # return variables' values
+  method valueInput {} {
+    set _values {}
+    foreach {vnam -} [my varInput] {
+      lappend _values [set $vnam]
+    }
+    return $_values
+  }
+
+  # input dialog
+  # (layout a set of common widgets: entry, checkbox, radiobuttons etc.)
   method input {icon ttl iopts args} {
 
+    if {$iopts ne {}} {
+      my initInput  ;# clear away all internal vars
+    }
     set pady "-pady 2"
     lappend inopts [list fraM + T 1 98 "-st new $pady -rw 1"]
     set savedvv [list]
@@ -81,13 +119,31 @@ oo::class create pave::PaveInput {
       set vv [my varname $name]
       set ff [my fieldname $name]
       switch $typ {
+        lb {
+          set vlist {}
+          foreach vo [lrange $valopts 1 end] {
+            lappend vlist $vo
+          }
+          set $vv $vlist
+          lappend attrs -lvar $vv
+          if {[set vsel [lindex $valopts 0]] ni {"" "-"}} {
+            lappend attrs -lbxsel $vsel
+          }
+          lappend inopts [list $ff - - - - \
+            "pack -side left -expand 1 -fill both $gopts" $attrs]
+          lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]
+        }
         cb {
           if {![info exist $vv]} {catch {set $vv ""}}
           set vlist {}
           foreach vo [lrange $valopts 1 end] {
             lappend vlist $vo
           }
-          lappend inopts [list $ff - - - - "pack -fill x $gopts" "-tvar $vv -values \{$vlist\} $attrs"]
+          lappend attrs -tvar $vv -values $vlist
+          if {[set vsel [lindex $valopts 0]] ni {"" "-"}} {
+            lappend attrs -cbxsel $vsel
+          }
+          lappend inopts [list $ff - - - - "pack -fill x $gopts" $attrs]
         }
         fc {
           if {![info exist $vv]} {catch {set $vv ""}}
@@ -119,7 +175,8 @@ oo::class create pave::PaveInput {
           lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]
         }
         la {
-          lappend inopts [list $ff - - - - "pack $gopts" "$attrs"]
+          if {$prompt ne ""} { set prompt "-t \"$prompt\" " } ;# prompt as -text
+          lappend inopts [list $ff - - - - "pack $gopts" "$prompt$attrs"]
           continue
         }
         default {
@@ -130,7 +187,7 @@ oo::class create pave::PaveInput {
         }
       }
       if {![info exist $vv]} {set $vv ""}
-      lappend savedvv $vv [set $vv]
+      lappend _savedvv $vv [set $vv]
     }
     if {![string match "*-focus *" $args]} {
       # find 1st entry/text to be focused
@@ -156,7 +213,7 @@ oo::class create pave::PaveInput {
     set res [my Query $icon $ttl {} "butOK $titleOK 1 $butCancel" butOK \
       $inopts [my PrepArgs $args]]
     if {[lindex $res 0]!=1} {  ;# restore old values if OK not chosen
-      foreach {vn vv} $savedvv {
+      foreach {vn vv} $_savedvv {
         set $vn $vv
       }
     }
@@ -174,6 +231,7 @@ oo::class create pave::PaveInput {
       return false
     }
     set newfile 0
+    set filetxt ""
     if {[catch {set filetxt [read [set ch [open $fname]]]}]} {
       if {[catch {close [open $fname w]} err]} {
         puts "ERROR: couldn't create '$fname':\n$err"

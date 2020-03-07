@@ -1,6 +1,22 @@
 # Last changes:
 
 
+Versions `1.45 through 1.49`
+
+  - macros %MC entered
+  - %U wildcard got an argument
+  - #ARGS processing corrected
+  - rt= argument (size ratio "min/init")
+  - apave changed
+  - .mnu changed
+
+
+Version `1.44 (12 Jan'20)`
+
+  - s="" hides HELP/EXEC/SHELL when g= specified
+  - cleanup
+
+
 Version `1.42 (26 Dec'19)`
 
   - bugfix for choosers (if no choice, fields were cleared)

@@ -23,7 +23,7 @@
 #####################################################################
 
 namespace eval em {
-  variable e_menu_version "e_menu v1.43"
+  variable e_menu_version "e_menu v1.49"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
 }
@@ -31,7 +31,7 @@ source [file join $::em::srcdir "e_help.tcl"]
 
 # use "d message1 message2 ..." to show debug messages
 # at worst, uncomment the next line to use "bb message1 message2 ..."
-#source ~/PG/bb.tcl
+# catch {source ~/PG/bb.tcl}
 
 # *******************************************************************
 # customized block
@@ -83,7 +83,7 @@ proc S {incomm} {
       set comm [string map {\\\\n \\n} $comm]
       set clst [split $comm]
       set com0 [lindex $clst 0]
-      if {$com0=="cd"} {
+      if {$com0 eq "cd"} {
         ::em::vip comm
       } elseif {[set com1 [auto_execok $com0]]!=""} {
         exec $com1 {*}[lrange $clst 1 end] &
@@ -119,7 +119,6 @@ namespace eval em {
   variable prjname ""
   variable ornament 1  ;# 1 - header only; 2 - prompt only; 3 - both; 0 - none
   variable inttimer 1  ;# interval to check the timed tasks
-  variable widthi 300
   variable bd 1
   variable b1 1
   variable b2 1
@@ -163,6 +162,7 @@ namespace eval em {
   variable arr_i09     ; array set arr_i09 {}
   variable arr_geany   ; array set arr_geany {}
   variable arr_tformat ; array set arr_tformat {}
+  variable arr_macros  ; array set arr_macros {}
   #---------------
   variable itviewed 0
   variable geometry ""
@@ -215,7 +215,7 @@ proc ::em::theming_pave {} {
 #=== own message/question box
 proc ::em::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
   set ::em::skipfocused 1
-  ::pave::PaveDialog create pdlg
+  ::apave::APaveDialog create pdlg
   set a1 ""; foreach a2 $args {append a1 $a2 " "}
   append opts " -t 1 -w 80 $a1 " [::em::theming_pave]
   switch -glob $typ {
@@ -303,7 +303,7 @@ proc ::em::focus_button {i} {
 proc ::em::highlight_button {ib} {
   if {[.frame cget -bg] != $::em::clrgrey} {
     foreach wf [winfo children .frame] {
-      if {[winfo class $wf]=="TFrame" && [string first ".frame.fr" $wf] == 0} {
+      if {[winfo class $wf] eq "TFrame" && [string first ".frame.fr" $wf] == 0} {
         foreach w [winfo children $wf] {
           set i [string trim $w ".frame.fr.butt.arr"]
           if {$i == $ib} {
@@ -342,17 +342,17 @@ proc ::em::prepost_edit {refdata {txt ""}} {
   set attr "pos="
   set datalist [split [string trimright $data] \n]
   foreach line $datalist {
-    if {$line=="\[OPTIONS\]"} {
+    if {$line eq "\[OPTIONS\]"} {
       set opt 1
     } elseif {$opt && [string match "${attr}*" $line]} {
       break
-    } elseif {$line=="\[MENU\]" || $line=="\[HIDDEN\]"} {
+    } elseif {$line eq "\[MENU\]" || $line eq "\[HIDDEN\]"} {
       set opt 0
     }
     incr i
   }
-  if {!$opt && $txt==""} {return ""}  ;# if no OPTIONS section, nothing to do
-  if {$txt==""} {
+  if {!$opt && $txt eq ""} {return ""}  ;# if no OPTIONS section, nothing to do
+  if {$txt eq ""} {
     lassign [regexp -inline "^${attr}(.*)" $line] line pos
     if {$line!=""} {set line "-pos $pos"}
     return $line  ;# 'position of cursor' attribute
@@ -371,7 +371,7 @@ proc ::em::edit {fname {prepost ""}} {
   set fname [string trim $fname]
   if {$::em::editor == ""} {
     set ::em::skipfocused 1
-    ::pave::PaveInput create dialog
+    ::apave::APaveInput create dialog
     set res [dialog editfile $fname $::em::clrtitf $::em::clrinab \
       $::em::clrtitf $prepost {*}[::em::theming_pave] -w {80 100} -h {10 30} -ro 0]
     dialog destroy
@@ -412,7 +412,7 @@ proc ::em::writeable_command {cmd} {
   set menudata [::em::read_menufile]
   for {set i [set iw [set opt 0]]} {$i<[llength $menudata]} {incr i} {
     set line [lindex $menudata $i]
-    if {$line=="\[OPTIONS\]"} {
+    if {$line eq "\[OPTIONS\]"} {
       set opt 1
     } elseif {$opt && [string first $mark $line]==0} {
       set iw $i
@@ -428,12 +428,12 @@ proc ::em::writeable_command {cmd} {
           set cmd [string range $cmd $i2+1 end]
         }
       }
-    } elseif {$line=="\[MENU\]" || $line=="\[HIDDEN\]"} {
+    } elseif {$line eq "\[MENU\]" || $line eq "\[HIDDEN\]"} {
       set opt 0
     }
   }
   set ::em::skipfocused 1
-  ::pave::PaveInput create dialog
+  ::apave::APaveInput create dialog
   set cmd [string map {"|!|" "\n"} $cmd]
   set res [dialog misc "" "EDIT: $mark" "$cmd" {"Save & Run" 1 Cancel 0} TEXT \
     -text 1 -ro 0 -w 70 -h 10 -pos $pos {*}[::em::theming_pave] -head \
@@ -462,7 +462,7 @@ proc ::em::writeable_command {cmd} {
 }
 #=== Gets/sets file attributes
 proc ::em::FileAttributes {fname {attrs "-"} {atime ""} {mtime ""} } {
-    if {$attrs=="-"} {
+    if {$attrs eq "-"} {
       # get file attributes
       set attrs [file attributes $fname]
       return [list $attrs [file atime $fname] [file mtime $fname]]
@@ -481,7 +481,7 @@ proc ::em::save_options {{setopt "in="} {setval ""}} {
   set menudata [::em::read_menufile]
   set opt [set i [set ifnd [set ifnd1 0]]]
   foreach line $menudata {
-    if {$line=="\[OPTIONS\]"} {
+    if {$line eq "\[OPTIONS\]"} {
       set opt 1
     } elseif {$opt} {
       set ifnd $i
@@ -489,7 +489,7 @@ proc ::em::save_options {{setopt "in="} {setval ""}} {
         set ifnd1 $i
         break
       }
-    } elseif {$line=="\[MENU\]" || $line=="\[HIDDEN\]"} {
+    } elseif {$line eq "\[MENU\]" || $line eq "\[HIDDEN\]"} {
       set opt 0
     }
     incr i
@@ -509,13 +509,15 @@ proc ::em::init_menuvars {domenu options} {
   if {!($domenu && $options)} return
   set opt 0
   foreach line $::em::menufile {
-    if {$line=="\[OPTIONS\]"} {
+    if {$line eq "\[OPTIONS\]"} {
       set opt 1
     } elseif {$opt && [run_Tcl_code $line true]} {
       # line of Tcl code - processed already
-    } elseif {$opt && [string match "::*=*" $line]} {
+    } elseif {$opt && [string match "::?*=*" $line]} {
       set ::em::ismenuvars 1
-      lassign [regexp -inline "::(.+)=(.*)" $line] ==> vname vvalue
+      set ieq [string first "=" $line]
+      set vname [string range $line 0 $ieq-1]
+      set vvalue [string range $line $ieq+1 end]
       if {![info exists $vname]} {
         catch {
           set ::$vname ""
@@ -523,7 +525,7 @@ proc ::em::init_menuvars {domenu options} {
           set ::$vname $vvalue
         }
       }
-    } elseif {$line=="\[MENU\]" || $line=="\[HIDDEN\]"} {
+    } elseif {$line eq "\[MENU\]" || $line eq "\[HIDDEN\]"} {
       set opt 0
     }
   }
@@ -533,7 +535,7 @@ proc ::em::save_menuvars {} {
   set menudata [::em::read_menufile]
   set opt [set i 0]
   foreach line $menudata {
-    if {$line=="\[OPTIONS\]"} {
+    if {$line eq "\[OPTIONS\]"} {
       set opt 1
     } elseif {$opt && [string match "::*=*" $line]} {
       lassign [regexp -inline "::(.+)=(.*)" $line] ==> vname vvalue
@@ -545,7 +547,7 @@ proc ::em::save_menuvars {} {
           lset menudata $i "::$vname=$newvalue"
         }
       }
-    } elseif {$line=="\[MENU\]" || $line=="\[HIDDEN\]"} {
+    } elseif {$line eq "\[MENU\]" || $line eq "\[HIDDEN\]"} {
       set opt 0
     }
     incr i
@@ -555,7 +557,7 @@ proc ::em::save_menuvars {} {
 #=== Input dialog for getting data
 proc ::em::input {cmd} {
   set ::em::skipfocused 1
-  ::pave::PaveInput create dialog
+  ::apave::APaveInput create dialog
   set dp [string last " == " $cmd]
   if {$dp < 0} {set dp 999999}
   set data [string range $cmd $dp+4 end]
@@ -576,7 +578,7 @@ proc ::em::vip {refcmd} {
   if {[string first "%#" $cmd] == 0} {
     # writeable command:
     # get (possibly) saved version of the command
-    if {[set cmd [writeable_command $cmd]]==""} {
+    if {[set cmd [writeable_command $cmd]] eq ""} {
       return true ;# here 'cancelled' means 'processed'
     }
     return false
@@ -593,6 +595,7 @@ proc ::em::vip {refcmd} {
   if { ([::iswindows] && [string toupper $cd] == "CD ") || $cd == "cd " } {
     prepr_win cmd "M/"  ;# force converting
     if {[set cd [string trim [string range $cmd 3 end]]] != "."} {
+      catch {set cd [subst -nobackslashes -nocommands $cd]}
       catch {cd $cd}
     }
     return true
@@ -655,7 +658,7 @@ proc ::em::run_a_ah {sub} {
 #=== start subtask(s)
 proc ::em::start_sub {ind istart ipos sub typ c1 sel} {
   set ::em::ipos $ipos
-  if {$ipos == 0 || $sub==""} {
+  if {$ipos == 0 || $sub eq ""} {
     shell_run "Nobutt" $typ $c1 - "&" $sel  ;# this task is current menu item
     if {$ind == $istart} {return true}  ;# safeguard from double start
   } else {
@@ -753,8 +756,8 @@ proc ::em::s_assign {refsel {trl 1}} {
     set sel [string range $tmp $qpos end]
     lassign { "" 0 } el qac
     for {set i 1}  {$i < [string len $sel]} {incr i} {
-      if {[set c [string range $sel $i $i]]=="?" || $c==" "} {
-        if {$c==" "} {
+      if {[set c [string range $sel $i $i]] eq "?" || $c eq " "} {
+        if {$c eq " "} {
           set sel [string range $sel [expr $i+1] end]
           if {$trl} { set sel [string trimleft $sel] }
           lappend retlist -1
@@ -840,6 +843,15 @@ proc ::em::shell0 {sel amp {silent -1}} {
 proc ::em::run_Tcl_code {sel {dosubst false}} {
   if {[string first "%U" $sel] == 0} {
     ::em::reread_menu  ;# updating menu (items' names depending on variables)
+    if {[set fn [string range $sel 3 end]] ne ""} {
+      if {[info exist ::em::arr_geany(TF)] && [info exist ::em::arr_geany(f)]
+      && $::em::arr_geany(TF) eq $::em::arr_geany(f)} {
+        set ::em::arr_geany(TF) $fn  ;# here 'selection' is a whole file
+      }
+      set ::em::arr_geany(f) $fn
+      prepare_main_wilds true
+      catch {cd [file dirname $fn]}
+    }
     return true
   }
   if {[string first "%C" $sel] == 0} {
@@ -902,6 +914,7 @@ proc ::em::run0 {sel amp silent} {
 proc ::em::run1 {typ sel amp silent} {
   prepr_prog sel $typ  ;# prep
   prepr_idiotic sel 0
+  catch {set sel [subst -nobackslashes -nocommands $sel]}
   return [run0 $sel $amp $silent]
 }
 #=== call command in shell
@@ -977,7 +990,7 @@ proc ::em::IF {rest} {
 proc ::em::update_itname {it inc {pr ""}} {
   if {$it > $::em::begsel} {
     set b .frame.fr$it.butt
-    if {[$b cget -image]==""} {
+    if {[$b cget -image] eq ""} {
       if {$::em::ornament > 1} {
         set ornam [$b cget -text]
         set ornam [string range $ornam 0 [string first ":" $ornam]]
@@ -1020,7 +1033,7 @@ proc ::em::shell_run { from typ c1 s1 amp {inpsel ""} } {
     lassign [silent_mode $amp] amp silent  ;# silent_mode - in 1st line
     lassign [s_assign inpsel] p1 p2
     if {$p1 != ""} {
-      if {$p2==""} {
+      if {$p2 eq ""} {
         set silent $p1
       } else {
         if {![set_timed $from $p1 $typ $c1 $inpsel]} {return}
@@ -1028,7 +1041,7 @@ proc ::em::shell_run { from typ c1 s1 amp {inpsel ""} } {
       }
     }
   } else {
-    if {$amp=="noamp"} {
+    if {$amp eq "noamp"} {
       lassign {"" -1} amp silent
     } else {
       lassign {"&" -1} amp silent
@@ -1087,13 +1100,16 @@ proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
   save_options
   set pars [get_seltd $s1]
   set pars [before_callmenu $pars]
-  if {$pars==""} return
+  if {$pars eq ""} return
   set cho ch=[expr {[string range $typ 0 1] ne "ME" || $::em::ontop}]
   set pars "$::em::inherited a= a0= a1= a2= ah= n= pa=0 $pars"
   set pars [string map [list "b=%b" "b=$::eh::my_browser"] $pars]
   set pars "$cho g=+[expr 10+[winfo x .]]+[expr 15+[winfo y .]] $pars"
-  if {$::em::ontop} {append pars " t=1"}
-  prepr_1 pars "cb" [::em::get_callback]      ;# %cb is callback of caller
+  if {$::em::ontop} {
+    append pars " t=1"    ;# "ontop" means also "all menus stay on"
+  } else {
+    prepr_1 pars "cb" [::em::get_callback]    ;# %cb is callback of caller
+  }
   prepr_1 pars "in" [string range $s1 1 end]  ;# %in is menu's index
   set sel "wish \"$::argv0\""
   prepr_win sel "M/"  ;# force converting
@@ -1219,7 +1235,7 @@ proc ::em::get_AR {} {
     return [string map {\n \\n \" \\\"} $::em::seltd]
   }
   if {[::em::read_f_file]} {
-    set re "^#\[ \]?ARGS\[0-9\]+:\[ \]*(.+)"
+    set re "^#\[ \]?ARGS\[0-9\]+:\[ \]*(.*)"
     foreach st $::em::filecontent {
       if {[regexp $re $st]} {
         lassign [regexp -inline $re $st] => res
@@ -1246,7 +1262,7 @@ proc ::em::prepr_09 {refn refa t {inc 0}} {
     set s "$p="
     if {[string first $p $name] != -1} {
       if {![catch {set sel $arr($s)} e]} {
-        if {$t=="i"} {
+        if {$t eq "i"} {
           incr sel $inc     ;# increment i1-i9 counters of runs
           set ${refa}($s) $sel
         }
@@ -1318,7 +1334,7 @@ proc ::em::prepr_init {refpn} {
   foreach d $delegator {             ;# delegating values:
     set i [string range $d 0 0]    ;# s0 -> s9 -> u0 -> u9
     catch {
-      if {$i=="s"} {
+      if {$i eq "s"} {
         set el $::em::arr_s09($d)
         prepr_09 el ::em::arr_s09 s
         prepr_09 el ::em::arr_u09 u
@@ -1367,7 +1383,7 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   }
   init_swc
   set PD [get_PD]
-  if {$::em::prjname==""} {
+  if {$::em::prjname eq ""} {
     set ::em::prjname [::em::get_underlined_name [file tail $PD]]
   }
   prepr_1 pn "PD" $PD                 ;# %PD is passed project's dir (PD=)
@@ -1435,13 +1451,79 @@ proc ::em::create_template {fname} {
     close $chan
   }
 }
+#=== expand $macro (%M1, %MA ...) for $line marked with $lmark (R:, R/ ...)
+proc ::em::expand_macro {lmark macro line} {
+  set mc [string range $macro 0 2]  ;# $macro = %M1 arg1 %M1 arg2 ...
+  if {![info exist ::em::arr_macros($mc)]} {
+    set ::em::arr_macros($mc) {}
+    foreach st $::em::menufile {
+      set st [string trimleft $st]
+      if {[string match $mc* $st]} {
+        lappend ::em::arr_macros($mc) [string trimleft [string range $st 4 end]]
+      }
+    }
+  }
+  set pal [string map [list $mc \n] [lindex $::em::arr_macros($mc) 0]]
+  set arl [string map [list $mc \n] [string range $macro 3 end]]
+  set arglist [split "$arl " \n]
+  set parlist [split "$pal " \n]
+  if {[set n1 [llength $parlist]] != [set n2 [llength $arglist]]} {
+    ::em::dialog_box ERROR \
+      "Macro $mc parameters and arguments don't agree:\n  $n1 not equal $n2"
+    return 
+  }
+  set i1 [string first $lmark $line]
+  set i2 [string first $lmark $line $i1+1]
+  set lname [string range $line $i1+[string length $lmark] $i2-1]
+  foreach line [lrange $::em::arr_macros($mc) 1 end] {
+    if {[set i [string first ":" $line]]<0 && \
+        [set i [string first "/" $line]]<0} {
+      ::em::dialog_box ERROR "Macro $mc error in line:\n  $line"
+      return 
+    }
+    set lmark [string range $line 0 $i]
+    set line "$lmark$lname$lmark[string range $line $i+1 end]"
+    foreach par $parlist arg $arglist {
+      set par "\$[string trim $par]"
+      if {$par ne "\$"} {
+        set line [string map [list $par [string trim $arg]] $line]
+      }
+    }
+    lappend ::em::menufile $line
+  }
+}
+#=== check for and insert macro, if any
+proc ::em::check_macro {line} {
+  set line [string trimleft $line]
+  set s1 "I:"
+  if {[string first $s1 $line] != 0} {
+    set s1 ""
+    foreach marker \
+    {S: R: M: S/ R/ M/ SE: RE: ME: SE/ RE/ ME/ SW: RW: MW: SW/ RW/ MW/} {
+      if {[string first $marker $line] == 0} {
+        set s1 $marker
+        break
+      }
+    }
+  }
+  if {$s1 ne ""} {
+    #check for macro %M1..%M9, %Ma..%Mz, %MA..%MZ
+    set im [expr {[string first $s1 $line 3]+[string length $s1]}]
+    set s2 [string trimleft [string range $line $im end]]
+    if {[string range $s2 0 1] eq "%M"} {
+      ::em::expand_macro $s1 $s2 $line
+      return
+    }
+  }
+  lappend ::em::menufile $line
+}
 #=== read menu file
 proc ::em::menuof { commands s1 domenu} {
   upvar $commands comms
   set seltd [get_seltd $s1]
   if {$domenu} {
-    set ::em::menuttl \
-        "[string map {"\\" "/"} [file tail $seltd]] - $::em::e_menu_version"
+	  if {$::em::ischild} {set ps "\u220e"} {set ps "\u23cf"}
+    set ::em::menuttl "$ps [file rootname $seltd]"
     set seltd [file normalize [get_menuname $seltd]]
     if { [catch {set chan [open "$seltd"]} e] } {
       ::em::initcolorscheme
@@ -1470,7 +1552,7 @@ proc ::em::menuof { commands s1 domenu} {
       set line ""
       while {1} { ;# lines ending with " \" or ::em::conti to be continued
         if {[gets $chan tmp] < 0} {set doit [string length $line]; break}
-        if {[string range $tmp end-1 end]==" \\"} {
+        if {[string range $tmp end-1 end] eq " \\"} {
           append line [string range $tmp 0 end-1]
         } elseif {$::em::conti!=" \\" && $::em::conti!="" && \
                  [string range $tmp end-$::em::lconti end]==$::em::conti} {
@@ -1481,7 +1563,7 @@ proc ::em::menuof { commands s1 domenu} {
         }
       }
       if {$doit==0} break
-      lappend ::em::menufile $line
+      ::em::check_macro $line
     } else {
       incr ilmenu
       if {$ilmenu >= [llength $::em::menufile]} {break}
@@ -1525,9 +1607,8 @@ proc ::em::menuof { commands s1 domenu} {
     set line [menuit $line $typ 0]
     set name [menuit $line $typ 1 -1]
     set prog [string trimleft [menuit $line $typ 0]]
-    set origprog $prog
     prepr_init name
-    prepr_init prog
+    # prepr_init prog  ;# v1.49: don't preprocess commands till their call
     prepr_win prog $typ
     catch {set name [subst $name]}  ;# any substitutions in names
     switch $typ {
@@ -1610,7 +1691,7 @@ proc ::em::menuof { commands s1 domenu} {
         set separ ""
       }
       set s1 [get_s1 [incr iline] $hidden]
-      if {$typ=="I:"} { set torun "$runp"  ;# internal command
+      if {$typ eq "I:"} { set torun "$runp"  ;# internal command
       } else          { set torun "$runp $s1 $amp" }
       if {$iline > $::em::maxitems} {
         em_message "Too much items in\n\n$seltd\n\n$::em::maxitems is maximum. \
@@ -1829,7 +1910,7 @@ proc ::em::get_pars1 {s1 argc argv} {
 }
 #=== get "project (working) directory"
 proc ::em::initPD {seltd {doit 0}} {
-  if {$::em::workdir=="" || $doit} {
+  if {$::em::workdir eq "" || $doit} {
     if {[file isdirectory $seltd]} {
       set ::em::workdir $seltd
     } else {
@@ -1867,6 +1948,40 @@ proc ::em::checkgeometry {} {
     wm geometry . ${w}x${h}+${x}+${y}
   }
 }
+#=== initialize header of menu
+proc ::em::init_header {s1 seltd} {
+  set ::em::seltd [string map {\r "" \n ""} $::em::seltd]
+  lassign [split $seltd \n] ::em::seltd ;# only 1st line (TF= for all)
+  init_swc
+  set ::em::useltd [set ::em::pseltd [set ::em::qseltd \
+    [set ::em::dseltd [set ::em::sseltd $::em::seltd]]]]
+  if {[isheader]} {
+    lappend ::em::commands [list " HELP        \"$::em::seltd\"" \
+        "::em::browse $s1"]
+    if {[iswindows]} {
+      prepr_win seltd "M/"
+      set ::em::pars($s1) $seltd
+    }
+    lappend ::em::commands [list " EXEC        \"$::em::seltd\"" \
+        "::em::run RE: $s1 & ; ::em::on_exit"]
+    lappend ::em::commands [list " SHELL       \"$::em::seltd\"" \
+        "::em::shell RE: $s1 & ; ::em::on_exit"]
+    set ::em::hotkeys "000$::em::hotsall"
+  }
+  set ::em::begsel [expr [llength $::em::commands] - 1]
+}
+#=== initialize main wildcards
+proc ::em::prepare_main_wilds {{doit false}} {
+  set from [file dirname $::em::arr_geany(f)]
+  foreach {c attr} {d nativename D tail F tail e rootname x extension} {
+    if {![info exists ::em::arr_geany($c)] || $::em::arr_geany($c) eq "" \
+    || $doit} {
+      set ::em::arr_geany($c) [file $attr $from]
+    }
+    if {$c eq "D"} {set from [file tail $::em::arr_geany(f)]}
+  }
+  set ::em::arr_geany(F_) [::em::get_underlined_name $::em::arr_geany(F)]
+}
 #=== initialize ::em::commands from argv and menu
 proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
@@ -1881,7 +1996,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         y0= y1= y2= y3= y4= y5= y6= y7= y8= y9= \
         z0= z1= z2= z3= z4= z5= z6= z7= z8= z9= \
         a= d= e= f= p= l= h= b= c= t= g= n= \
-        fg= bg= fE= bE= fS= bS= fI= bI= cc= gr= ht= \
+        fg= bg= fE= bE= fS= bS= fI= bI= cc= gr= ht= rt= \
         m= om= ts= TF= yn= cb= in=} { ;# the processing order is important
     if {($s1 in {o= s= m=}) && !($s1 in $osm)} {
       continue
@@ -1889,7 +2004,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
     if {[get_pars1 $s1 $lmc $amc]} {
       set seltd [lindex [array get ::em::pars $s1] 1]
       if {!($s1 in {m= g= cb= in=})} {
-        if {$s1=="s="} {
+        if {$s1 eq "s="} {
           set seltd [string map [ list \" \\\" "\\" "\\\\" "\$" "\\\$" \
           "\}" "\\\}"  "\{" "\\\{"  "\]" "\\\]"  "\[" "\\\[" ] $seltd]
         } elseif {$s1 in {f= d=}} {
@@ -1911,27 +2026,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
           set ::em::prjname $seltd  ;# deliberately sets the project name
           set ::em::prjset 2
         }
-        s= {
-          lassign [split $seltd \n] ::em::seltd ;# only 1st line (TF= for all)
-          set ::em::seltd [string map {\r "" \n ""} $::em::seltd]
-          init_swc
-          set ::em::useltd [set ::em::pseltd [set ::em::qseltd \
-            [set ::em::dseltd [set ::em::sseltd $::em::seltd]]]]
-          if {[isheader]} {
-            lappend ::em::commands [list " HELP        \"$::em::seltd\"" \
-                "::em::browse $s1"]
-            if {[iswindows]} {
-              prepr_win seltd "M/"
-              set ::em::pars($s1) $seltd
-            }
-            lappend ::em::commands [list " EXEC        \"$::em::seltd\"" \
-                "::em::run RE: $s1 & ; ::em::on_exit"]
-            lappend ::em::commands [list " SHELL       \"$::em::seltd\"" \
-                "::em::shell RE: $s1 & ; ::em::on_exit"]
-            set ::em::hotkeys "000$::em::hotsall"
-          }
-          set ::em::begsel [expr [llength $::em::commands] - 1]
-        }
+        s= { ::em::init_header $s1 $seltd}
         h= {
           set ::eh::hroot [file normalize $seltd]
           set ::em::offline true
@@ -1946,7 +2041,14 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
           set ::em::clrSet 1
         }
         o= {set ::em::ornament [::getN $seltd]}
-        g= {set ::em::geometry $seltd}
+        g= {
+          lassign [split $seltd x+] w h x y
+          if {$w ne "" && $x ne "" && $y ne ""} {
+            set ::em::geometry ${w}x0+$x+$y  ;# h=0 to trim the menu height
+          } else {
+            set ::em::geometry $seltd
+          }
+        }
         u= {  ;# u=... overrides previous setting (in s=)
           set ::em::useltd [string map {" " "_"} $seltd]
         }
@@ -1970,13 +2072,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
           lassign [split $seltd \n] seltd
           set ::em::arr_geany([string range $s1 0 0]) $seltd
         }
-        n= { set ::em::menuttl $seltd }
-        wi= {
-          set ::em::widthi [::getN $seltd $::em::widthi]
-          if {$::em::widthi > $::em::itviewed} {
-            set ::em::widthi [expr $::em::itviewed - 1]
-          }
-        }
+        n= { if {$seltd ne ""} {set ::em::menuttl $seltd} }
         ah= { set ::em::autohidden $seltd}
         a0= { if {$::em::start0} { run_tcl_commands seltd } }
         a1= { set ::em::commandA1 $seltd}
@@ -2036,6 +2132,13 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
         ln= { set ::em::ln [::getN $seltd]}
         cn= { set ::em::cn [::getN $seltd]}
         yn= { set ::em::yn [::getN $seltd]}
+        rt= { ;# ratio "min.size / init.size"
+          lassign [split $seltd /] i1 i2
+          if {[string is integer $i1] &&[string is integer $i2] && \
+              $i1!= 0 && $i2!= 0 && $i1/$i2<=1} {
+            set ::em::ratiomin "$i1/$i2"
+          }
+        }
         default {
           if {$s1 in {TF=} || [string range $s1 0 0] in {x y z}} {
             ;# x* y* z* general substitutions
@@ -2049,14 +2152,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
   if {![info exists ::em::arr_geany(f)]} {
     set ::em::arr_geany(f) $::em::menufilename  ;# %f wildcard is a must
   }
-  set from [file dirname $::em::arr_geany(f)]
-  foreach {c attr} {d nativename D tail F tail e rootname x extension} {
-    if {![info exists ::em::arr_geany($c)] || $::em::arr_geany($c)=="" } {
-      set ::em::arr_geany($c) [file $attr $from]
-    }
-    if {$c=="D"} {set from [file tail $::em::arr_geany(f)]}
-  }
-  set ::em::arr_geany(F_) [::em::get_underlined_name $::em::arr_geany(F)]
+  prepare_main_wilds
   prepare_wilds $resetpercent2
   set ::em::ncmd [llength $::em::commands]
   initPD [pwd]
@@ -2079,7 +2175,7 @@ proc ::em::initcolors {} {
     set ::em::clrfI $::em::clrtitf
     set ::em::clrbI $::em::clrtitb
     set ::em::clrcc $::em::clrhotk
-    set ptemp [::pave::PaveInput create new]
+    set ptemp [::apave::APaveInput create new]
     $ptemp themingWindow . \
       $::em::clrfg $::em::clrbg $::em::clrfE $::em::clrbE $::em::clrfS \
       $::em::clrbS grey $::em::clrbg $::em::clrcc $::em::clrcc
@@ -2096,6 +2192,8 @@ proc ::em::initcommhead {} {
 #=== initialize commands
 proc ::em::initcomm {} {
   initcommhead
+  array unset ::em::arr_macros *
+  array set ::em::arr_macros {}
   set ::em::menuoptions {0}
   if {[lsearch $::argv "ch=1"]>=0} { set ::em::ischild 1 }
   # external E_MENU_OPTIONS are in the beginning of ::argv (being default)
@@ -2107,6 +2205,20 @@ proc ::em::initcomm {} {
       set ::argv [linsert $::argv $inpos $opt]
       incr inpos
       incr ::argc
+    }
+  }
+  if {[lsearch -glob $::argv "s=*"]<0} {
+    ;# if no s=selection, make it empty to hide HELP/EXEC/SHELL
+    lappend ::argv s=
+    incr ::argc
+    if {[set io [lsearch -glob $::argv "o=*"]]<0} {
+      lappend ::argv "o=0"
+      incr ::argc
+    } else {
+      set o [string index [lindex $::argv $io] end]
+      if {$o in {1 3}} {
+        set ::argv [lreplace $::argv $io $io "o=0"]
+      }
     }
   }
   initcommands $::argc $::argv {o= s= m=} 1
@@ -2289,7 +2401,7 @@ proc ::em::initmenu {} {
   set isgeom [string len $::em::geometry]
   wm title . "${::em::menuttl}"
   if {$::em::start0==1} {
-    if {![iswindows] || !$isgeom} {
+    if {!$isgeom} {
       wm geometry . $::em::geometry
     }
   }
@@ -2302,11 +2414,9 @@ proc ::em::initmenu {} {
   wm minsize . $::em::minwidth $minheight
   if {$::em::start0} {
     wm geometry . [winfo width .]x${minheight}
-    if {[iswindows] && $isgeom} {
-      wm geometry . $::em::geometry
-    } elseif {$::em::wc || [iswindows]} { ;# this can be omitted in Linux
-      center_window . 0
-    }               ;# as 'wish' is centered in it
+    if {$::em::wc || [iswindows] && $::em::start0==1} {
+      center_window . 0   ;# omitted in Linux as 'wish' is centered in it
+    }
   }
 }
 #=== edit current menu
@@ -2322,7 +2432,7 @@ proc ::em::edit_menu {} {
 #=== help
 proc ::em::help {} {
   set site "https://aplsimple.github.io/en/tcl/e_menu"
-  ::pave::PaveInput create dialog
+  ::apave::APaveInput create dialog
   set res [dialog input info "About e_menu" {
     textAbout {{} {} {-h 9 -w 50 -ro 1 -wrap word}} "{
     $::em::e_menu_version
@@ -2355,6 +2465,7 @@ proc ::em::set_menu_geometry {} {
 proc ::em::on_exit {{really 1}} {
   if {!$really && $::em::ontop} return  ;# let a menu stay on top, if so decided
   if {$::em::cb!=""} {    ;# callback the menu (i.e. the caller)
+    set ::em::cb [string map {< = > =} $::em::cb]
     if { [catch {exec tclsh {*}$::em::cb "&"} e] } { d $e }
   }
   # remove temporary files, at closing a parent menu
@@ -2416,21 +2527,16 @@ proc ::em::initauto {} {
 }
 #=== begin inits
 proc ::em::initbegin {} {
-  try {ttk::style theme use clam}
-  if {[iswindows]} { ;# maybe nice to hide all windows manipulations
-    wm attributes . -alpha 0.0
-  } else {
-    wm withdraw .
-  }
+  ::apave::initWM
   update idletasks
   encoding system "utf-8"
   bind . <F1> {::em::help}
-  pave::setAppIcon . [file join $::em::srcdir e_menu.png]
+  apave::setAppIcon . [file join $::em::srcdir e_menu.png]
 }
 #=== end up inits
 proc ::em::initend {} {
-  bind . <FocusOut> { if {"%W" =="."} {::em::focused_win false} }
-  bind . <FocusIn>  { if {"%W" =="."} {::em::focused_win true} }
+  bind . <FocusOut> { if {"%W" eq "."} {::em::focused_win false} }
+  bind . <FocusIn>  { if {"%W" eq "."} {::em::focused_win true} }
   bind . <Control-t> {.cb invoke}
   bind . <Control-e> {::em::edit_menu}
   bind . <Control-r> {::em::reread_init}

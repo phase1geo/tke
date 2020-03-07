@@ -17,8 +17,8 @@
 
 co=;
 o=0
-n=< test1 >
 w=45
+rt=2/5
 
 [MENU]
  R: Doctest Safe: %e%x R: cd %d
@@ -90,7 +90,7 @@ w=45
 ::V1=Glob
 ::C1=1
 ::C2=1
-::W1=in directory
-pos=83.141
+::W1=in session
+pos=21.6
 in=1.0
 %#s geo=969x487+345+229;pos=5.0 # this script is run with %#s wildcard in test1.mnu|!|# it does the same as the previous "Shell script"|!||!|err=1|!|cd ~/FOSSIL|!|while [ $err -eq 1 ]|!|  do repo=$(find *.fossil 2>/dev/null )|!|  err=$?|!|  if [ $? -eq 1 ]; then|!|    if [ $(pwd) = '/' ]; then|!|      echo "repo non esistente" ; break|!|    fi|!|    cd ../|!|  else|!|    echo "$(pwd)/${repo}"|!|  fi|!|done

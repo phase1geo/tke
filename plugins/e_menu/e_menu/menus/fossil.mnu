@@ -1,6 +1,5 @@
 
 [OPTIONS]
-n=< fossil >
 b1=0
 b2=3
 b3=1
@@ -9,7 +8,7 @@ t4==%b-%Y/%U-week
 u=%s
 o=0
 in=1.0
-pos=4.3
+pos=85.7
 ::FSLUSER=aplsimple
 ::FSLBRANCH=""
 ::EMENUTMPFILE=%mn.tmp~
@@ -46,62 +45,52 @@ RW:fossil gdiff $::FILETAIL ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
    texc {{   Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version\n of file to its tip:} -weight bold == ::EMENUFILE ::EMENUCOMMIT
+ R:fossil gdiff $::FILETAIL ? R: %U $::EMENUFILE
  R:fossil gdiff $::FILETAIL ? R: %C if {"$::EMENUCOMMIT" eq ""} \
    {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
  R:fossil gdiff $::FILETAIL ? R: fossil gdiff $::EMENUTMP "$::EMENUFILE"
- R:fossil gdiff $::FILETAIL ? R: %U
 
  S:fossil diff ? S: cd %PD
 RW:fossil diff ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
-   fco1  {{From :} {} {-h 10 -state readonly -inpval "$::EMENUCOMMIT1"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
-   fco2  {{To   :} {} {-h 10 -state readonly -inpval "$::EMENUCOMMIT2"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+   fco1  {{From :} {} {-h 10 -state readonly -cbxsel "$::EMENUCOMMIT1"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
+     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+   fco2  {{To   :} {} {-h 10 -state readonly -cbxsel "$::EMENUCOMMIT2"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
+     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    chbBr {{Brief:} {-pady 4} {-var ::EMENUBRIEF}} {} \
    seh {{} {-pady 3} {}} {} \
    texc {{Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
-   {\n Select versions from the comboboxes to be compared.\n\n By default, 'tip' is compared to current files.\n\n A version may be 'tip', 'current', 'next', 'prev'.\n\n (temp file: $::EMENUTMPFILE)} \
+   {\n Select versions from the comboboxes to be compared.\n\n By default, 'tip' is compared to current files.\n\n A 'from' version is older than 'to'. Empty means 'current files'.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare selected versions of file:} \
    -weight bold == ::EMENUCOMMIT1 ::EMENUCOMMIT2 ::EMENUBRIEF
- R:fossil diff ? R: %C if {"$::EMENUCOMMIT1" eq ""} \
-   {set ::EMENUTMP1 ""} {set ::EMENUTMP1 "--from $::EMENUCOMMIT1"}
- R:fossil diff ? R: %C if {"$::EMENUCOMMIT2" eq ""} \
-   {set ::EMENUTMP2 ""} {set ::EMENUTMP2 "--to $::EMENUCOMMIT2"}
- R:fossil diff ? R: %C if {"$::EMENUCOMMIT1$::EMENUCOMMIT2" eq "$::EMENUCOMMIT2"} \
-   {set ::EMENUTMP1 "--from current"; set ::EMENUTMP2 "--to tip"}
+ R:fossil diff ? R: %C \
+   if {"$::EMENUCOMMIT1" eq ""} {set ::EMENUTMP1 ""} {set ::EMENUTMP1 "--from $::EMENUCOMMIT1"}; \
+   if {"$::EMENUCOMMIT2" eq ""} {set ::EMENUTMP2 ""} {set ::EMENUTMP2 "--to $::EMENUCOMMIT2"}; \
+   if {"$::EMENUCOMMIT1$::EMENUCOMMIT2" eq ""} \
+     {set ::EMENUTMP1 "--from current"; set ::EMENUTMP2 "--to tip"}
  R:fossil diff ? R: %C if {$::EMENUBRIEF} {append ::EMENUTMP2 " -brief"}
  S:fossil diff ? S: fossil diff $::EMENUTMP1 $::EMENUTMP2
 
- S:fossil add $::FILETAIL ? S: cd %PD
- R:fossil add $::FILETAIL ? R: %I {} "ADD FILE" { \
+%MC TITLE %MC COMMAND %MC COLOR %MC MSG1
+%MC S: cd %PD
+%MC R: %I {} "$TITLE" { \
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
-   } -head {\n This will add a file to the Fossil repository. \
-   \n Use wildcards to add a few.} -weight bold == ::EMENUFILE
- S:fossil add $::FILETAIL ? S: fossil add $::EMENUFILE
- R:fossil add $::FILETAIL ? R: %U
+   } -head {\n This will \"$COMMAND\" file(s) in the Fossil repository:\n %PD $MSG1 \
+   \n\n Use wildcards to $COMMAND a few.} $COLOR -weight bold == ::EMENUFILE
+%MC S: %U $::EMENUFILE
+%MC S: fossil $COMMAND $::EMENUFILE
 
- S:fossil forget $::FILETAIL S: cd %PD
- R:fossil forget $::FILETAIL R: %I {} "FORGET FILE" { \
-   v_ {{} {-pady 4} {}} {} \
-   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
-   } -head {\n This will forget a file in the Fossil repository. \
-   \n Use wildcards to forget a few.} -hfg $::em::clrhotk -weight bold == ::EMENUFILE
- S:fossil forget $::FILETAIL S: fossil forget $::EMENUFILE
- S:fossil forget $::FILETAIL S: %U
+ S:fossil add $::FILETAIL ? S: %MC ADD FILE %MC add %MC %MC
 
- S:fossil revert $::FILETAIL ? S: cd %PD
- R:fossil revert $::FILETAIL ? R: %I {} "REVERT FILE" { \
-   v_ {{} {-pady 4} {}} {} \
-   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
-   } -head {\n This will revert changes of a file in the Fossil repository \
-   \n thus restoring a last check-in contents of the file. \
-   \n\n Use wildcards to revert a few. \
-   \n\n You can undo this with "fossil undo".} -hfg $::em::clrhotk -weight bold == ::EMENUFILE
- S:fossil revert $::FILETAIL ? S: fossil revert $::EMENUFILE
- S:fossil revert $::FILETAIL ? S: %U
+ S:fossil forget $::FILETAIL S: %MC FORGET FILE %MC forget %MC -hfg $::em::clrhotk %MC
+
+ S:fossil revert $::FILETAIL S: %MC REVERT FILE %MC revert %MC -hfg $::em::clrhotk \
+   %MC \n\n Thus, a last check-in of the file(s) would be restored. \
+   \n You can undo this with "fossil undo".
 
  R: R: 2
 
@@ -141,13 +130,8 @@ SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::F
  R:fossil stash R: %q "Stash" "Stash the current project?"
  R:fossil stash R: fossil stash
 
- S:fossil stash snapshot $::FILETAIL ? S: cd %PD
- R:fossil stash snapshot $::FILETAIL ? R: %I {} "STASH SNAPSHOT" { \
-   v_ {{} {-pady 4} {}} {} \
-   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
-   } -head {\n This will stash snapshot the file:} -hfg $::em::clrhotk -weight bold == ::EMENUFILE
- S:fossil stash snapshot $::FILETAIL ? S: fossil stash snapshot "$::EMENUFILE"
- S:fossil stash snapshot $::FILETAIL ? S: %U
+ S:fossil stash snapshot $::FILETAIL ? S: %MC STASH SNAPSHOT %MC stash snapshot \
+   %MC -hfg $::em::clrhotk %MC
 
  S:fossil stash list -v S: cd %PD
  S:fossil stash list -v S: fossil stash list -v

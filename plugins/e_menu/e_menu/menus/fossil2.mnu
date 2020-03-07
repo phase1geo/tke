@@ -179,7 +179,6 @@ R: R: 2
 
 
 [OPTIONS]
-n=< MISC fossil >
 o=0
 in=1.0
 pos=178.19

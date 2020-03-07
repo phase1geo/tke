@@ -1,13 +1,13 @@
 ###########################################################################
 #
-# This script contains the PaveDialog class that provides a batch of
+# This script contains the APaveDialog class that provides a batch of
 # standard dialogs with advanced features.
 #
 # Use:
-#   package require pave
+#   package require apave
 #   ...
 #   catch {pdlg destroy}
-#   pave::PaveDialog create pdlg win
+#   apave::APaveDialog create pdlg win
 #   pdlg DIALOG ARGS
 # where:
 #   DIALOG stands for the following dialog types:
@@ -39,21 +39,21 @@
 
 package require Tk
 
-source [file join [file dirname [info script]] paveme.tcl]
+source [file join [file dirname [info script]] apave.tcl]
 
-namespace eval pave {
-  source [file join [file dirname [info script]] paveimg.tcl]
+namespace eval apave {
+  source [file join [file dirname [info script]] apaveimg.tcl]
 }
 
 
-oo::class create pave::PaveDialog {
+oo::class create apave::APaveDialog {
 
-  superclass pave::PaveMe
+  superclass apave::APave
 
   variable _pdg
 
   constructor {{win ""} args} {
-    # keep the 'important' data of PaveDialog object in array
+    # keep the 'important' data of APaveDialog object in array
     array set _pdg {}
     # dialogs are bound to "$win" window e.g. ".mywin.fra", default "" means .
     set _pdg(win) $win
@@ -61,7 +61,7 @@ oo::class create pave::PaveDialog {
     # namespace in object namespace for safety of its 'most important' data
     namespace eval ${_pdg(ns)}PD {}
     foreach icon {err info warn ques} {
-      image create photo ${_pdg(ns)}PD::img$icon -data [set pave::img_$icon]
+      image create photo ${_pdg(ns)}PD::img$icon -data [set apave::img_$icon]
     }
     if {[llength [self next]]} { next {*}$args }
   }
@@ -139,12 +139,12 @@ oo::class create pave::PaveDialog {
   method misc {icon ttl msg butts {defb ""} args} {
     # butts is a list of pairs "title of button" "number/ID of button"
     foreach {nam num} $butts {
-      lappend pave_msc_bttns but$num "$nam" $num
+      lappend apave_msc_bttns but$num "$nam" $num
       if {$defb==""} {
         set defb $num
       }
     }
-    return [my Query $icon $ttl $msg $pave_msc_bttns but$defb {} [my PrepArgs $args]]
+    return [my Query $icon $ttl $msg $apave_msc_bttns but$defb {} [my PrepArgs $args]]
   }
 
   #########################################################################
@@ -305,6 +305,40 @@ oo::class create pave::PaveDialog {
         $txt tag add sel [NewRow $pos1 $to] [NewRow $pos2 $to]
       }
       if {$dobreak} {return -code break}
+    }
+  }
+
+  #########################################################################
+  # Initialize the search in the text (ctrlf=1 when called by Ctrl+F)
+
+  method InitFindInText { {ctrlf 0} } {
+
+    set txt [my TexM]
+    if {$ctrlf} {  ;# Ctrl+F moves cursor 1 char ahead
+      ::tk::TextSetCursor $txt [$txt index "insert -1 char"]
+    }
+    if {[set ${_pdg(ns)}PD::fnd] eq ""} {
+      if {![catch {$txt tag ranges sel} seltxt]} {
+        if {[set forword [expr {$seltxt eq ""}]]} {
+          set pos  [$txt index "insert wordstart"]
+          set pos2 [$txt index "insert wordend"]
+          set seltxt [string trim [$txt get $pos $pos2]]
+          if {![string is wordchar -strict $seltxt]} {
+            # when cursor just at the right of word: take the word at the left
+            set pos  [$txt index "insert -1 char wordstart"]
+            set pos2 [$txt index "insert -1 char wordend"]
+          }
+        } else {
+          lassign $seltxt pos pos2
+        }
+        catch {
+          set seltxt [$txt get $pos $pos2]
+          if {[set sttrim [string trim $seltxt]] ne ""} {
+            if {$forword} {set seltxt $sttrim}
+            set ${_pdg(ns)}PD::fnd $seltxt
+          }
+        }
+      }
     }
   }
 
@@ -554,7 +588,7 @@ oo::class create pave::PaveDialog {
            bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
            bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
            bind $_pdg(win).dia <F3> {[self] FindInText 1}
-           bind $_pdg(win).dia <Control-f> \"focus \[[self] Entfind\]\"
+           bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
            bind \[[self] TexM\] <Button-3> \{
              tk_popup \[[self] TexM\].popupMenu %X %Y \}
            set pop \[[self] TexM\].popupMenu"
@@ -565,7 +599,7 @@ oo::class create pave::PaveDialog {
               -command \"event generate \[[self] TexM\] <<Copy>>\"
              \$pop add separator
              \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
-              -command \"focus \[[self] Entfind\]\"
+              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
              \$pop add command -accelerator F3 -label \"Find next\" \\
               -command \"[self] FindInText 1\"
              \$pop add separator
@@ -599,7 +633,7 @@ oo::class create pave::PaveDialog {
               -command \"[self] LinesMove +1 0\"
              \$pop add separator
              \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
-              -command \"focus \[[self] Entfind\]\"
+              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
              \$pop add command -accelerator F3 -label \"Find next\" \\
               -command \"[self] FindInText 1\"
              \$pop add separator
@@ -608,7 +642,7 @@ oo::class create pave::PaveDialog {
             "
           oo::objdefine [self] export DoubleText DeleteLine LinesMove
         }
-        oo::objdefine [self] export FindInText Pdg
+        oo::objdefine [self] export FindInText InitFindInText Pdg
       } else {
         lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
       }
@@ -657,7 +691,7 @@ oo::class create pave::PaveDialog {
           set focusnow [my TexM]
           catch "::tk::TextSetCursor $focusnow $curpos"
           foreach k {w W} \
-            {catch "bind $focusnow <Control-$k> {[my Pdg defb1] invoke}"}
+            {catch "bind $focusnow <Control-$k> {[my Pdg defb1] invoke; break}"}
         }
       }
       if {$readonly} {
@@ -684,7 +718,7 @@ oo::class create pave::PaveDialog {
     catch "$binds"
     my showModal $_pdg(win).dia \
       -focus $focusnow -geometry $geometry {*}$root -ontop $ontop
-    oo::objdefine [self] unexport FindInText DoubleText DeleteLine Pdg
+    oo::objdefine [self] unexport FindInText InitFindInText DoubleText DeleteLine Pdg
     set pdgeometry [winfo geometry $_pdg(win).dia]
     # the dialog's result is defined by "pave res" + checkbox's value
     set res [my res $_pdg(win).dia]
