@@ -150,7 +150,6 @@ SW: Push with BIN SW: \
   echo '###################### THE END'
 
 [OPTIONS]
-n=< hg2 >
 ::RGEO=568x537+0+55
 ::RBIN=BIN
 ::REV1=-3

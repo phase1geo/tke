@@ -1,7 +1,7 @@
 name           {doctest}
 display_name   {Doctest a la Python}
 author         {Alex Plotnikov}
-website        {https://aplsimple.bitbucket.io}
+website        {https://aplsimple.github.io}
 email          {aplsimple@gmail.com}
 version        {1.4.1}
 include        {yes}

@@ -55,8 +55,6 @@
 [OPTIONS]
 
 # git directory #2
-n=< git 2 >
-d=~/.tke
 x1=plugins
 x2=: add_shortcut, e_menu
 om=1
@@ -82,4 +80,4 @@ in=1.0
  R:git reset --hard HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
  R:git reset --hard HEAD R: cd %PD
  S:git reset --hard HEAD S: git reset --hard HEAD
-pos=58.10
+pos=58.0

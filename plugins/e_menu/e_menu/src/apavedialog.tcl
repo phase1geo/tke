@@ -1,13 +1,13 @@
 ###########################################################################
 #
-# This script contains the PaveDialog class that provides a batch of
+# This script contains the APaveDialog class that provides a batch of
 # standard dialogs with advanced features.
 #
 # Use:
-#   source pavedialog.tcl
+#   package require apave
 #   ...
 #   catch {pdlg destroy}
-#   PaveDialog create pdlg win
+#   apave::APaveDialog create pdlg win
 #   pdlg DIALOG ARGS
 # where:
 #   DIALOG stands for the following dialog types:
@@ -38,39 +38,38 @@
 ###########################################################################
 
 package require Tk
-catch {package require tooltip} ;# optional (though necessary everywhere:)
 
-source [file join [file dirname [info script]] paveme.tcl]
+source [file join [file dirname [info script]] apave.tcl]
 
-oo::class create PaveDialog {
+namespace eval apave {
+  source [file join [file dirname [info script]] apaveimg.tcl]
+}
 
-  superclass PaveMe
+
+oo::class create apave::APaveDialog {
+
+  superclass apave::APave
 
   variable _pdg
 
-  constructor {{win ""} {pavedir ""}} {
-    # keep the 'important' data of PaveDialog object in array
+  constructor {{win ""} args} {
+    # keep the 'important' data of APaveDialog object in array
     array set _pdg {}
     # dialogs are bound to "$win" window e.g. ".mywin.fra", default "" means .
     set _pdg(win) $win
     set _pdg(ns) [namespace current]::
     # namespace in object namespace for safety of its 'most important' data
     namespace eval ${_pdg(ns)}PD {}
-    if {$pavedir==""} {
-      set pavedir [file normalize [file dirname [info script]]]
-    }
     foreach icon {err info warn ques} {
-      image create photo ${_pdg(ns)}PD::img$icon \
-        -file [file join $pavedir $icon.png]
+      image create photo ${_pdg(ns)}PD::img$icon -data [set apave::img_$icon]
     }
-    next
+    if {[llength [self next]]} { next {*}$args }
   }
 
   destructor {
 
-    catch "destroy $_pdg(win).dia"
     catch "namespace delete ${_pdg(ns)}PD"
-    catch {next}
+    if {[llength [self next]]} { next {*}$args }
 
   }
 
@@ -140,12 +139,12 @@ oo::class create PaveDialog {
   method misc {icon ttl msg butts {defb ""} args} {
     # butts is a list of pairs "title of button" "number/ID of button"
     foreach {nam num} $butts {
-      lappend pave_msc_bttns but$num "$nam" $num
+      lappend apave_msc_bttns but$num "$nam" $num
       if {$defb==""} {
         set defb $num
       }
     }
-    return [my Query $icon $ttl $msg $pave_msc_bttns but$defb {} [my PrepArgs $args]]
+    return [my Query $icon $ttl $msg $apave_msc_bttns but$defb {} [my PrepArgs $args]]
   }
 
   #########################################################################
@@ -310,6 +309,40 @@ oo::class create PaveDialog {
   }
 
   #########################################################################
+  # Initialize the search in the text (ctrlf=1 when called by Ctrl+F)
+
+  method InitFindInText { {ctrlf 0} } {
+
+    set txt [my TexM]
+    if {$ctrlf} {  ;# Ctrl+F moves cursor 1 char ahead
+      ::tk::TextSetCursor $txt [$txt index "insert -1 char"]
+    }
+    if {[set ${_pdg(ns)}PD::fnd] eq ""} {
+      if {![catch {$txt tag ranges sel} seltxt]} {
+        if {[set forword [expr {$seltxt eq ""}]]} {
+          set pos  [$txt index "insert wordstart"]
+          set pos2 [$txt index "insert wordend"]
+          set seltxt [string trim [$txt get $pos $pos2]]
+          if {![string is wordchar -strict $seltxt]} {
+            # when cursor just at the right of word: take the word at the left
+            set pos  [$txt index "insert -1 char wordstart"]
+            set pos2 [$txt index "insert -1 char wordend"]
+          }
+        } else {
+          lassign $seltxt pos pos2
+        }
+        catch {
+          set seltxt [$txt get $pos $pos2]
+          if {[set sttrim [string trim $seltxt]] ne ""} {
+            if {$forword} {set seltxt $sttrim}
+            set ${_pdg(ns)}PD::fnd $seltxt
+          }
+        }
+      }
+    }
+  }
+
+  #########################################################################
   # Find string in text (donext=1 means 'from current position')
 
   method FindInText {{donext 0}} {
@@ -365,17 +398,20 @@ oo::class create PaveDialog {
     #  - checkbox text (if given, enable the checkbox)
     #  - geometry of dialog window
     #  - color of labels
-    set chmsg [set geometry [set optsLabel [set optsMisc [set optsState ""]]]]
-    set root [set head [set optsHead [set hsz [set binds [set postcom ""]]]]]
+    lassign "" chmsg geometry optsLabel optsMisc optsFont optsFontM \
+               rotext root head optsHead hsz binds postcom
     set optsTags 0
-    set optsFont [set optsFontM ""]
     set wasgeo [set textmode [set ontop 0]]
-    set readonly 1
+    set readonly [set hidefind 1]
     set curpos "1.0"
     set cc ""
     set themecolors ""
     set ${_pdg(ns)}PD::ch 0
     foreach {opt val} {*}$argov {
+      if {$opt in {-c -color -fg -bg -fgS -bgS -cc -hfg -hbg}} {
+        # take colors by their theme names
+        if {[info exist $val]} {set val [set $val]}
+      }
       switch $opt {
         -H -
         -head {
@@ -398,20 +434,17 @@ oo::class create PaveDialog {
           upvar 2 $val tags
         }
         -ro -
-        -readonly {
-          if {[set readonly $val]} {
-            set optsState "-state disabled"
-          } else {
-            set optsState "-state normal"
-          }
-        }
+        -readonly {set readonly [set hidefind $val]}
+        -rotext {set hidefind 0; set rotext $val}
         -w -
         -width {set charwidth $val}
         -h -
         -height {set charheight $val}
         -fg {append optsMisc " -foreground {$val}"}
         -bg {append optsMisc " -background {$val}"}
-        -cc {set cc "$val"}
+        -fgS {append optsMisc " -selectforeground {$val}"}
+        -bgS {append optsMisc " -selectbackground {$val}"}
+        -cc {append optsMisc " -insertbackground {$val}"}
         -root {set root " -root $val"}
         -pos {set curpos "$val"}
         -hfg {append optsHead " -foreground {$val}"}
@@ -482,15 +515,15 @@ oo::class create PaveDialog {
       set prevp "T"
     }
     # add the message lines
-    set il [set maxl 0]
+    set il [set maxw 0]
     if {$readonly} {
       # only for messaging (not for editing):
       set msg [string map {\\n \n} $msg]
     }
     foreach m [split $msg \n] {
       set m [string map {$ \$ \" \'\'} $m]
-      if {[set ml [string length $m]] > $maxl} {
-        set maxl $ml
+      if {[set mw [string length $m]] > $maxw} {
+        set maxw $mw
       }
       incr il
       if {!$textmode} {
@@ -511,16 +544,22 @@ oo::class create PaveDialog {
       set prevw fraM
     } elseif {$textmode} {
       # here is text widget (in fraM frame)
-      set maxl [expr {max($maxl,20)}]
-      if {[info exists charheight]} {set il $charheight}
-      if {[info exists charwidth]}  {
-        lassign $charwidth w2 w1
-        set maxl [expr {min($maxl,$w2)}]  ;# high limit
-        if {$w1!=""} { set maxl [expr {max($maxl,$w1)}] }  ;# low limit
+      proc vallimits {val lowlimit isset limits} {
+        set val [expr {max($val,$lowlimit)}]
+        if {$isset} {
+          upvar $limits lim
+          lassign $lim l1 l2
+          set val [expr {min($val,$l1)}] ;# forced low
+          if {$l2 ne ""} {set val [expr {max($val,$l2)}]} ;# forced high
+        }
+        return $val
       }
+      set il [vallimits $il 1 [info exists charheight] charheight]
+      set maxw [vallimits $maxw 20 [info exists charwidth] charwidth]
+      rename vallimits ""
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
       lappend widlist {TexM - - 1 7 {pack -side left -expand 1 -fill both -in \
-        $_pdg(win).dia.fra.fraM} {-h $il -w $maxl $optsFontM $optsMisc -wrap word}}
+        $_pdg(win).dia.fra.fraM} {-h $il -w $maxw $optsFontM $optsMisc -wrap word}}
       lappend widlist {sbv texM L 1 1 {pack -in $_pdg(win).dia.fra.fraM}}
       set prevw fraM
     }
@@ -531,58 +570,79 @@ oo::class create PaveDialog {
     # add left frames and checkbox (before buttons)
     lappend widlist [list h_3 seh T 1 1 "-pady 0 -ipady 0 -csz 0"]
     if {$chmsg == ""} {
-      if {$textmode && !$readonly} {
+      if {$textmode} {
         if {![info exists ${_pdg(ns)}PD::fnd]} {
           set ${_pdg(ns)}PD::fnd ""
         }
-        lappend widlist [list labfnd h_3 L 1 1 "-st e" "-t {Find:}"]
-        lappend widlist [list Entfind labfnd L 1 1 \
-          "-st ew -cw 1" "-tvar ${_pdg(ns)}PD::fnd -w 10"]
-        lappend widlist [list labfnd2 Entfind L 1 1 "-cw 2" "-t {}"]
-        lappend widlist [list h__ labfnd2 L 1 1]
-        # make bindings and popup menu for text widget
+        if {!$hidefind} {
+          lappend widlist [list labfnd h_3 L 1 1 "-st e" "-t {Find:}"]
+          lappend widlist [list Entfind labfnd L 1 1 \
+            "-st ew -cw 1" "-tvar ${_pdg(ns)}PD::fnd -w 10"]
+          lappend widlist [list labfnd2 Entfind L 1 1 "-cw 2" "-t {}"]
+          lappend widlist [list h__ labfnd2 L 1 1]
+        } else {
+          lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
+        }
         set binds \
           "bind \[[self] Entfind\] <Return> {[self] FindInText}
            bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
            bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
-           bind \[[self] TexM\] <Control-d> {[self] DoubleText}
-           bind \[[self] TexM\] <Control-D> {[self] DoubleText}
-           bind \[[self] TexM\] <Control-y> {[self] DeleteLine}
-           bind \[[self] TexM\] <Control-Y> {[self] DeleteLine}
-           bind \[[self] TexM\] <Alt-Up>    {[self] LinesMove -1}
-           bind \[[self] TexM\] <Alt-Down>  {[self] LinesMove +1}
            bind $_pdg(win).dia <F3> {[self] FindInText 1}
-           bind $_pdg(win).dia <Control-f> \"focus \[[self] Entfind\]\"
-           set pop \[[self] TexM\].popupMenu
-           menu \$pop
-           \$pop add command -accelerator Ctrl+X -label \"Cut\" \\
-            -command \"event generate \[[self] TexM\] <<Cut>>\"
-           \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
-            -command \"event generate \[[self] TexM\] <<Copy>>\"
-           \$pop add command -accelerator Ctrl+V -label \"Paste\" \\
-            -command \"event generate \[[self] TexM\] <<Paste>>\"
-           \$pop add separator
-           \$pop add command -accelerator Ctrl+D -label \"Double line(s)\" \\
-            -command \"[self] DoubleText 0\"
-           \$pop add command -accelerator Ctrl+Y -label \"Delete a line\" \\
-            -command \"[self] DeleteLine 0\"
-           \$pop add command -accelerator Alt+Up -label \"Line(s) up\" \\
-            -command \"[self] LinesMove -1 0\"
-           \$pop add command -accelerator Alt+Down -label \"Line(s) down\" \\
-            -command \"[self] LinesMove +1 0\"
-           \$pop add separator
-           \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
-            -command \"focus \[[self] Entfind\]\"
-           \$pop add command -accelerator F3 -label \"Find next\" \\
-            -command \"[self] FindInText 1\"
-           \$pop add separator
-           \$pop add command -accelerator Ctrl+W -label \"Save and exit\" \\
-            -command \"\[[self] Pdg defb1\] invoke\"
-          bind \[[self] TexM\] <Button-3> \{
-            tk_popup \[[self] TexM\].popupMenu %X %Y \}
+           bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
+           bind \[[self] TexM\] <Button-3> \{
+             tk_popup \[[self] TexM\].popupMenu %X %Y \}
+           set pop \[[self] TexM\].popupMenu"
+        if {$readonly} {
+          append binds "
+            menu \$pop
+             \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
+              -command \"event generate \[[self] TexM\] <<Copy>>\"
+             \$pop add separator
+             \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
+              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
+             \$pop add command -accelerator F3 -label \"Find next\" \\
+              -command \"[self] FindInText 1\"
+             \$pop add separator
+             \$pop add command -accelerator Esc -label \"Exit\" \\
+              -command \"\[[self] Pdg defb1\] invoke\"
           "
-        oo::objdefine [self] export FindInText DoubleText DeleteLine \
-          LinesMove Pdg
+        } else {
+          # make bindings and popup menu for text widget
+          append binds "
+            bind \[[self] TexM\] <Control-d> {[self] DoubleText}
+            bind \[[self] TexM\] <Control-D> {[self] DoubleText}
+            bind \[[self] TexM\] <Control-y> {[self] DeleteLine}
+            bind \[[self] TexM\] <Control-Y> {[self] DeleteLine}
+            bind \[[self] TexM\] <Alt-Up>    {[self] LinesMove -1}
+            bind \[[self] TexM\] <Alt-Down>  {[self] LinesMove +1}
+            menu \$pop
+             \$pop add command -accelerator Ctrl+X -label \"Cut\" \\
+              -command \"event generate \[[self] TexM\] <<Cut>>\"
+             \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
+              -command \"event generate \[[self] TexM\] <<Copy>>\"
+             \$pop add command -accelerator Ctrl+V -label \"Paste\" \\
+              -command \"event generate \[[self] TexM\] <<Paste>>\"
+             \$pop add separator
+             \$pop add command -accelerator Ctrl+D -label \"Double line(s)\" \\
+              -command \"[self] DoubleText 0\"
+             \$pop add command -accelerator Ctrl+Y -label \"Delete a line\" \\
+              -command \"[self] DeleteLine 0\"
+             \$pop add command -accelerator Alt+Up -label \"Line(s) up\" \\
+              -command \"[self] LinesMove -1 0\"
+             \$pop add command -accelerator Alt+Down -label \"Line(s) down\" \\
+              -command \"[self] LinesMove +1 0\"
+             \$pop add separator
+             \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
+              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
+             \$pop add command -accelerator F3 -label \"Find next\" \\
+              -command \"[self] FindInText 1\"
+             \$pop add separator
+             \$pop add command -accelerator Ctrl+W -label \"Save and exit\" \\
+              -command \"\[[self] Pdg defb1\] invoke\"
+            "
+          oo::objdefine [self] export DoubleText DeleteLine LinesMove
+        }
+        oo::objdefine [self] export FindInText InitFindInText Pdg
       } else {
         lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
       }
@@ -602,7 +662,18 @@ oo::class create PaveDialog {
       {*}$precom  ;# actions before showModal
     }
     if {$themecolors!=""} {
-      # supposed but not mandatory, obbit.tcl is sourced at theming
+      # themed colors are set as sequentional '-theme' args
+      if {[llength $themecolors]==2} {
+        # when only 2 main fb/bg colors are set (esp. for TKE)
+        lassign [my parseOptionsFile 0 $optsMisc -foreground black \
+          -background white -selectforeground black \
+          -selectbackground gray -insertbackground black] restcolors
+        # the rest colors should be added, namely:
+        #   tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr
+        foreach rci {0 1 2 3 3 1 4 4} {
+          lappend themecolors [lindex $restcolors [expr {$rci*2+1}]]
+        }
+      }
       catch {
         my themingWindow $_pdg(win).dia {*}$themecolors
       }
@@ -613,23 +684,28 @@ oo::class create PaveDialog {
     if {$textmode} {
       if {!$optsTags} {set tags [list]}
       my displayTaggedText [my TexM] msg $tags
-      if {$optsState==""} {
-        set optsState "-state disabled"  ;# by default
-      }
       if {$defb == "butTEXT"} {
-        if {$optsState == "-state normal"} {
+        if {$readonly} {
+          set focusnow [my Pdg defb1]
+        } else {
           set focusnow [my TexM]
           catch "::tk::TextSetCursor $focusnow $curpos"
           foreach k {w W} \
-            {catch "bind $focusnow <Control-$k> {[my Pdg defb1] invoke}"}
-        } else {
-          set focusnow [my Pdg defb1]
+            {catch "bind $focusnow <Control-$k> {[my Pdg defb1] invoke; break}"}
         }
       }
-      if {$cc!=""} {
-        append optsState " -insertbackground $cc"
+      if {$readonly} {
+        rename "::[my TexM]" "::[my TexM].internal"
+        proc "::[my TexM]" {args} "
+            switch -exact -- \[lindex \$args 0\] \{
+                insert \{\}
+                delete \{\}
+                replace \{\}
+                default \{
+                    return \[eval ::[my TexM].internal \$args\]
+                \}
+            \}"
       }
-      [my TexM] configure {*}$optsState
     }
     if {$newfocused!=""} {
       foreach w $widlist {
@@ -642,27 +718,31 @@ oo::class create PaveDialog {
     catch "$binds"
     my showModal $_pdg(win).dia \
       -focus $focusnow -geometry $geometry {*}$root -ontop $ontop
-    oo::objdefine [self] unexport FindInText DoubleText DeleteLine Pdg
+    oo::objdefine [self] unexport FindInText InitFindInText DoubleText DeleteLine Pdg
     set pdgeometry [winfo geometry $_pdg(win).dia]
     # the dialog's result is defined by "pave res" + checkbox's value
     set res [my res $_pdg(win).dia]
     if {$res && [set ${_pdg(ns)}PD::ch]} {
       incr res 10
     }
-    if {$textmode && [string first "-state normal" $optsState]>=0} {
-      set data [$focusnow get 1.0 end]
+    if {$textmode && !$readonly} {
+      set focusnow [my TexM]
+      set textcont [$focusnow get 1.0 end]
       if {$res && $postcom!=""} {
-        {*}$postcom data [my TexM] ;# actions after showModal
+        {*}$postcom textcont [my TexM] ;# actions after showModal
       }
-      set textmode " [$focusnow index insert] $data"
+      set textcont " [$focusnow index insert] $textcont"
     } else {
-      set textmode ""
+      set textcont ""
     }
     if {$res && $inopts!=""} {
       my setgettexts get $_pdg(win).dia.fra $inopts $widlist
       set inopts " [my vals $widlist]"
     } else {
       set inopts ""
+    }
+    if {$textmode && $rotext ne ""} {
+      set $rotext [string trimright [[my TexM] get 1.0 end]]
     }
     destroy $_pdg(win).dia
     # pause a bit and restore the old focus
@@ -675,9 +755,9 @@ oo::class create PaveDialog {
       lassign [split $pdgeometry x+] w h x y
       if {abs($x-$gx)<30} {set x $gx}
       if {abs($y-$gy)<30} {set y $gy}
-      return [list $res ${w}x${h}+${x}+${y} $textmode [string trim $inopts]]
+      return [list $res ${w}x${h}+${x}+${y} $textcont [string trim $inopts]]
     }
-    return "$res$textmode$inopts"
+    return "$res$textcont$inopts"
 
   }
 

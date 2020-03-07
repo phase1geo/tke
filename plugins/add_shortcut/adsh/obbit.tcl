@@ -8,6 +8,28 @@
 # The ThemingManager class allows to change the ttk widgets' style.
 # For now it's only a bit of what should be, it needs to be enhanced a lot.
 #
+# The ObjectUtils class provides methods to extract option values... and
+# other useful methods.
+#
+###########################################################################
+
+# static class variables
+# made by DKF, see https://wiki.tcl-lang.org/page/TclOO+Tricks
+
+proc ::oo::Helpers::classvar {name args} {
+    # Get reference to class’s namespace
+    set ns [info object namespace [uplevel 1 {self class}]]
+
+    # Double up the list of varnames
+    set vs [list $name $name]
+    foreach v $args {lappend vs $v $v}
+
+    # Link the caller’s locals to the class’s variables
+    tailcall namespace upvar $ns {*}$vs
+}
+
+namespace eval apave {
+}
 
 ###########################################################################
 #
@@ -19,7 +41,7 @@
 #   }
 #   SomeClass create someobj
 #   ...
-#   someobj set Prop1 100
+#   someobj setProperty Prop1 100
 #
 # Call of getter:
 #   oo::define SomeClass {
@@ -27,32 +49,32 @@
 #   }
 #   SomeClass create someobj
 #   ...
-#   someobj get Alter 10
-#   someobj get Alter
+#   someobj getProperty Alter 10
+#   someobj getProperty Alter
 
-oo::class create ObjectProperty {
+oo::class create apave::ObjectProperty {
 
-  variable _Object_Properties
+  variable _OP_Properties
 
   constructor {args} {
-    array set _Object_Properties {}
+    array set _OP_Properties {}
     # ObjectProperty can play solo or be a mixin
-    catch {set res [next {*}$args]}
+    if {[llength [self next]]} { next {*}$args }
   }
 
-  method set {name args} {
+  method setProperty {name args} {
     switch [llength $args] {
-      0 {return [my get $name]}
-      1 {return [set _Object_Properties($name) $args]}
+      0 {return [my getProperty $name]}
+      1 {return [set _OP_Properties($name) $args]}
     }
     puts -nonewline stderr \
-      "Wrong # args: should be \"[namespace current] set propertyname ?value?\""
+      "Wrong # args: should be \"[namespace current] setProperty propertyname ?value?\""
     return -code error
   }
 
-  method get {name {defvalue ""}} {
-    if [info exists _Object_Properties($name)] {
-      return $_Object_Properties($name)
+  method getProperty {name {defvalue ""}} {
+    if [info exists _OP_Properties($name)] {
+      return $_OP_Properties($name)
     }
     return $defvalue
   }
@@ -62,22 +84,26 @@ oo::class create ObjectProperty {
 ###########################################################################
 # Another bit - manager for theming (might be enhanced a lot)
 
-oo::class create ObjectTheming {
+oo::class create apave::ObjectTheming {
 
-  variable _Object_Theming_Opts
-  variable _Object_Theming_OldOpts
+  mixin apave::ObjectProperty
+
   constructor {args} {
-    array set _Object_Theming_Opts {}
-    set _Object_Theming_OldOpts {}
+    # _OT_Init _OT_Opts _OT_OldOpts must be static in ObjectTheming class
+    # because they are applied to a whole application, not to a widget
+    classvar _OT_Init _OT_Opts _OT_OldOpts
+    array set _OT_Opts {}
+    set _OT_OldOpts {}
+    set _OT_Opts(expo,tfg1) "-"
+    set _OT_Init 1
     # ObjectTheming can play solo or be a mixin
-    catch {set res [next {*}$args]}
-  }
-  destructor {
-    catch {next}
+    if {[llength [self next]]} { next {*}$args }
   }
 
   # Set the new style options
   method Ttk_style {oper ts opt val} {
+
+    classvar _OT_Init _OT_Opts _OT_OldOpts
     if {![catch {set oldval [ttk::style $oper $ts $opt]}]} {
       catch {ttk::style $oper $ts $opt $val}
       if {$oldval=="" && $oper=="configure"} {
@@ -93,14 +119,63 @@ oo::class create ObjectTheming {
           }
         }
       }
-      if {$oldval!="" || $oper=="map"} {
-        lappend _Object_Theming_OldOpts $oper $ts $opt $oldval
+      if {$_OT_Init && ($oldval!="" || $oper=="map")} {
+        lappend _OT_OldOpts $oper $ts $opt $oldval
       }
     }
   }
 
   #--------------------------------------------------------------------------
-  # Change a style (theming a bit)
+  # The combobox widget leverages the pre-ttk Listbox for its dropdown
+  # element and as such the 'option' command is currently required to set
+  # the listbox options.
+  # See also: https://wiki.tcl-lang.org/page/Changing+Widget+Colors
+
+  method Combobox_Dropdown_Colors { args } {
+
+    classvar _OT_Init _OT_Opts _OT_OldOpts
+    set optkey "_combo_color_"
+    catch {
+      if {[llength $args] && $_OT_Opts(expo,tfg1) ne "-"} {
+        # no ttk::style for listbox,
+        # so a listbox widget is necessary to get its colors
+        listbox [set l .lbx$optkey]
+        foreach clrnam {back fore selectBack selectFore} {
+          set _OT_Opts($optkey,$clrnam) \
+           [lindex [$l conf -[string tolower $clrnam]ground] 3]
+        }
+        destroy $l
+      }
+      foreach {i clrnam} {0 back 1 fore 2 selectBack 3 selectFore} {
+        if {[llength $args] && $_OT_Opts(expo,tfg1) ne "-"} {
+          set clr [lindex $args $i]
+        } else {
+          set clr [set _OT_Opts($optkey,$clrnam)]
+        }
+        # regretfully, no removing/updating option
+        # so, it wouldn't work at restoring original theme
+        option add *TCombobox*Listbox.${clrnam}ground $clr userDefault
+      }
+    }
+  }
+
+  #--------------------------------------------------------------------------
+  method exportTheme {} {
+
+    classvar _OT_Init _OT_Opts _OT_OldOpts
+    set theme ""
+    foreach arg {tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
+      if {[catch {set a "$_OT_Opts(expo,$arg)"}] || $a==""} {
+        break
+      }
+      append theme " $a"
+    }
+    return $theme
+
+  }
+
+  #--------------------------------------------------------------------------
+  # Change a Tk style (theming a bit)
   # Input:
   # tfg1 tbg1 - fore/background for themed widgets (main stock)
   # tfg2 tbg2 - fore/background for themed widgets (enter data stock)
@@ -110,13 +185,19 @@ oo::class create ObjectTheming {
   # bclr      - border color
   # args      - other options
 
-  method themingWindow {win tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
-    if {$win=="."} {
-      foreach arg {tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
-        set _Object_Theming_Opts($win,$arg) [set $arg]
+  method themingWindow {win {tfg1 ""} {tbg1 ""} {tfg2 ""} {tbg2 ""}
+    {tfgS ""} {tbgS ""} {tfgD ""} {tbgD ""} {tcur ""} {bclr ""} args} {
+
+    classvar _OT_Init _OT_Opts _OT_OldOpts
+    if {$tfg1 eq "-"} return
+    foreach arg {tfg1 tbg1 tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr args} {
+      if {$win eq "."} {
+        set _OT_Opts($win,$arg) [set $arg]
       }
+      set _OT_Opts(expo,$arg) [set $arg]
     }
-    set _Object_Theming_OldOpts [list]
+    # save old colors, set new ones for combobox
+    my Combobox_Dropdown_Colors $tbg2 $tfg2 $tbgS $tfgS
     # configuring themed widgets
     foreach ts {TLabel TButton TCheckbutton TProgressbar TRadiobutton \
     TScale TScrollbar TSeparator TSizegrip} {
@@ -134,6 +215,15 @@ oo::class create ObjectTheming {
       my Ttk_style configure $ts -foreground $tfg1
       my Ttk_style configure $ts -background $tbg1
     }
+    foreach ts {TNotebook.Tab} {
+      my Ttk_style configure $ts -foreground $tfg1
+      my Ttk_style configure $ts -background $tbg1
+      my Ttk_style map $ts -foreground \
+        [list selected $tfgS active $tfg2 disabled $tfgD]
+      my Ttk_style map $ts -background \
+        [list selected $tbgS active $tbg2 disabled $tbgD]
+    }
+
     foreach ts {TEntry Treeview TSpinbox TCombobox} {
       my Ttk_style configure $ts -selectforeground $tfgS
       my Ttk_style configure $ts -selectbackground $tbgS
@@ -157,50 +247,50 @@ oo::class create ObjectTheming {
     }
     # non-themed widgets of button and entry types
     foreach ts [my NonThemedWidgets button] {
-      set _Object_Theming_Opts($ts,0) 2
-      set _Object_Theming_Opts($ts,1) "-background $tbg1"
-      set _Object_Theming_Opts($ts,2) "-foreground $tfg1"
+      set _OT_Opts($ts,0) 2
+      set _OT_Opts($ts,1) "-background $tbg1"
+      set _OT_Opts($ts,2) "-foreground $tfg1"
       switch -- $ts {
         "checkbutton" - "radiobutton" {
-          set _Object_Theming_Opts($ts,0) 4
-          set _Object_Theming_Opts($ts,3) "-selectcolor $tbg1"
-          set _Object_Theming_Opts($ts,4) "-highlightbackground $tbg1"
+          set _OT_Opts($ts,0) 4
+          set _OT_Opts($ts,3) "-selectcolor $tbg1"
+          set _OT_Opts($ts,4) "-highlightbackground $tbg1"
         }
         "frame" - "scrollbar" {
-          set _Object_Theming_Opts($ts,0) 1
+          set _OT_Opts($ts,0) 1
         }
       }
     }
     foreach ts [my NonThemedWidgets entry] {
-      set _Object_Theming_Opts($ts,0) 2
-      set _Object_Theming_Opts($ts,1) "-foreground $tfg2"
-      set _Object_Theming_Opts($ts,2) "-background $tbg2"
+      set _OT_Opts($ts,0) 2
+      set _OT_Opts($ts,1) "-foreground $tfg2"
+      set _OT_Opts($ts,2) "-background $tbg2"
       switch -- $ts {
         "text" - "entry"  {
-          set _Object_Theming_Opts($ts,0) 7
-          set _Object_Theming_Opts($ts,3) "-insertbackground $tcur"
-          set _Object_Theming_Opts($ts,4) "-selectforeground $tfgS"
-          set _Object_Theming_Opts($ts,5) "-selectbackground $tbgS"
-          set _Object_Theming_Opts($ts,6) "-disabledforeground $tfgD"
-          set _Object_Theming_Opts($ts,7) "-disabledbackground $tbgD"
+          set _OT_Opts($ts,0) 7
+          set _OT_Opts($ts,3) "-insertbackground $tcur"
+          set _OT_Opts($ts,4) "-selectforeground $tfgS"
+          set _OT_Opts($ts,5) "-selectbackground $tbgS"
+          set _OT_Opts($ts,6) "-disabledforeground $tfgD"
+          set _OT_Opts($ts,7) "-disabledbackground $tbgD"
         }
         "spinbox" - "listbox" {
-          set _Object_Theming_Opts($ts,0) 8
-          set _Object_Theming_Opts($ts,3) "-insertbackground $tcur"
-          set _Object_Theming_Opts($ts,4) "-buttonbackground $tbg2"
-          set _Object_Theming_Opts($ts,5) "-selectforeground $tfgS"
-          set _Object_Theming_Opts($ts,6) "-selectbackground $tbgS"
-          set _Object_Theming_Opts($ts,7) "-disabledforeground $tfgD"
-          set _Object_Theming_Opts($ts,8) "-disabledbackground $tbgD"
+          set _OT_Opts($ts,0) 8
+          set _OT_Opts($ts,3) "-insertbackground $tcur"
+          set _OT_Opts($ts,4) "-buttonbackground $tbg2"
+          set _OT_Opts($ts,5) "-selectforeground $tfgS"
+          set _OT_Opts($ts,6) "-selectbackground $tbgS"
+          set _OT_Opts($ts,7) "-disabledforeground $tfgD"
+          set _OT_Opts($ts,8) "-disabledbackground $tbgD"
         }
       }
     }
     foreach ts {disabled} {
-      set _Object_Theming_Opts($ts,0) 4
-      set _Object_Theming_Opts($ts,1) "-foreground $tfgD"
-      set _Object_Theming_Opts($ts,2) "-background $tbgD"
-      set _Object_Theming_Opts($ts,3) "-disabledforeground $tfgD"
-      set _Object_Theming_Opts($ts,4) "-disabledbackground $tbgD"
+      set _OT_Opts($ts,0) 4
+      set _OT_Opts($ts,1) "-foreground $tfgD"
+      set _OT_Opts($ts,2) "-background $tbgD"
+      set _OT_Opts($ts,3) "-disabledforeground $tfgD"
+      set _OT_Opts($ts,4) "-disabledbackground $tbgD"
     }
     # for branched items (menu e.g.):
     # at first saving the current options, then setting the new ones
@@ -211,8 +301,8 @@ oo::class create ObjectTheming {
     foreach {typ v1 v2} $args {
       if {$typ=="-"} {
         # config of non-themed widgets
-        set ind [incr _Object_Theming_Opts($v1,0)]
-        set _Object_Theming_Opts($v1,$ind) "$v2"
+        set ind [incr _OT_Opts($v1,0)]
+        set _OT_Opts($v1,$ind) "$v2"
       } else {
         # style maps of themed widgets
         my Ttk_style map $typ $v1 [list {*}$v2]
@@ -221,6 +311,7 @@ oo::class create ObjectTheming {
     # at last, separate widget types
     ttk::style configure TButton \
       -anchor center -width -11 -padding 3 -relief raised -borderwidth 2
+    set _OT_Init 0
 
   }
 
@@ -229,7 +320,8 @@ oo::class create ObjectTheming {
 
   method themingRestore {} {
 
-    foreach {oper ts opt val} $_Object_Theming_OldOpts {
+    classvar _OT_Init _OT_Opts _OT_OldOpts
+    foreach {oper ts opt val} $_OT_OldOpts {
       switch $oper {
         map -
         configure {
@@ -240,6 +332,8 @@ oo::class create ObjectTheming {
         }
       }
     }
+    my Combobox_Dropdown_Colors  ;# restore old colors for combobox
+    set _OT_Opts(expo,tfg1) "-"
   }
 
   #--------------------------------------------------------------------------
@@ -250,14 +344,15 @@ oo::class create ObjectTheming {
 
   method themingNonThemed {win setting} {
 
+    classvar _OT_Init _OT_Opts _OT_OldOpts
     set wtypes [my NonThemedWidgets all]
     foreach w1 [winfo children $win] {
       my themingNonThemed $w1 $setting
       set ts [string tolower [winfo class $w1]]
       if {[lsearch -exact $wtypes $ts]>-1} {
         set i 0
-        while {[incr i] <= $_Object_Theming_Opts($ts,0)} {
-          lassign $_Object_Theming_Opts($ts,$i) opt val
+        while {[incr i] <= $_OT_Opts($ts,0)} {
+          lassign $_OT_Opts($ts,$i) opt val
           if {$setting} {
             catch {
               $w1 configure $opt $val
@@ -272,7 +367,9 @@ oo::class create ObjectTheming {
                 default continue
               }
             }
-            lappend _Object_Theming_OldOpts $w1 $ts $opt $oldval
+            if {$_OT_Init} {
+              lappend _OT_OldOpts $w1 $ts $opt $oldval
+            }
           }
         }
       }
@@ -286,6 +383,7 @@ oo::class create ObjectTheming {
 
   method NonThemedWidgets {selector} {
 
+    classvar _OT_Init _OT_Opts _OT_OldOpts
     switch $selector {
       entry {
         return [list entry text listbox spinbox]
@@ -304,19 +402,21 @@ oo::class create ObjectTheming {
 
   method NonTtkTheme {win} {
 
-    if {[info exists _Object_Theming_Opts(.,tfg1)]} {
+    classvar _OT_Init _OT_Opts _OT_OldOpts
+    if {[info exists _OT_Opts(.,tfg1)] &&
+    $_OT_Opts(expo,tfg1) ne "-"} {
       my themingWindow $win \
-         $_Object_Theming_Opts(.,tfg1) \
-         $_Object_Theming_Opts(.,tbg1) \
-         $_Object_Theming_Opts(.,tfg2) \
-         $_Object_Theming_Opts(.,tbg2) \
-         $_Object_Theming_Opts(.,tfgS) \
-         $_Object_Theming_Opts(.,tbgS) \
-         $_Object_Theming_Opts(.,tfgD) \
-         $_Object_Theming_Opts(.,tbgD) \
-         $_Object_Theming_Opts(.,tcur) \
-         $_Object_Theming_Opts(.,bclr) \
-         {*}$_Object_Theming_Opts(.,args)
+         $_OT_Opts(.,tfg1) \
+         $_OT_Opts(.,tbg1) \
+         $_OT_Opts(.,tfg2) \
+         $_OT_Opts(.,tbg2) \
+         $_OT_Opts(.,tfgS) \
+         $_OT_Opts(.,tbgS) \
+         $_OT_Opts(.,tfgD) \
+         $_OT_Opts(.,tbgD) \
+         $_OT_Opts(.,tcur) \
+         $_OT_Opts(.,bclr) \
+         {*}$_OT_Opts(.,args)
     }
 
   }
@@ -324,34 +424,35 @@ oo::class create ObjectTheming {
   #--------------------------------------------------------------------------
   #
   # Style for non-ttk widgets
-  # Input: "typ" is the same as in "PaveMe GetWidgetType" method
+  # Input: "typ" is the same as in "APave GetWidgetType" method
 
   method NonTtkStyle {typ {dsbl 0}} {
 
+    classvar _OT_Init _OT_Opts _OT_OldOpts
     if {$dsbl} {
       set disopt ""
-      if {[info exist _Object_Theming_Opts(disabled,0)]} {
+      if {[info exist _OT_Opts(disabled,0)]} {
         set typ [string range [lindex [split $typ .] end] 0 2]
         switch $typ {
           frA - lfR {
-            append disopt " " $_Object_Theming_Opts(disabled,2)
+            append disopt " " $_OT_Opts(disabled,2)
           }
           enT - spX {
-            append disopt " " $_Object_Theming_Opts(disabled,1) \
-                          " " $_Object_Theming_Opts(disabled,2) \
-                          " " $_Object_Theming_Opts(disabled,3) \
-                          " " $_Object_Theming_Opts(disabled,4)
+            append disopt " " $_OT_Opts(disabled,1) \
+                          " " $_OT_Opts(disabled,2) \
+                          " " $_OT_Opts(disabled,3) \
+                          " " $_OT_Opts(disabled,4)
           }
           laB - tex - chB - raD - lbx - scA {
-            append disopt " " $_Object_Theming_Opts(disabled,1) \
-                          " " $_Object_Theming_Opts(disabled,2)
+            append disopt " " $_OT_Opts(disabled,1) \
+                          " " $_OT_Opts(disabled,2)
           }
         }
       }
       return $disopt
     }
     set opts {-foreground -foreground -background -background}
-    set ts2 [set ts3 [set opts2 [set opts3 ""]]]
+    lassign "" ts2 ts3 opts2 opts3
     switch -- $typ {
       "buT" {set ts TButton}
       "chB" {set ts TCheckbutton
@@ -406,12 +507,11 @@ oo::class create ObjectTheming {
 
 }
 
-#% doctest ObjectParsingUtils
 ###########################################################################
 #
 # Another bit: Parsing utilities.
 
-oo::class create ObjectParsingUtils {
+oo::class create apave::ObjectUtils {
 
   variable _PU_opts
 
@@ -420,17 +520,17 @@ oo::class create ObjectParsingUtils {
     # Initializes _PU_opts variable.
     #   args - passed arguments
     #
-    # When ObjectParsingUtils used as a separate class and args[0]
+    # When ObjectUtils used as a separate class and args[0]
     # equals to "-NONE", args[1] means the new -NONE constant.
     #
     # The -NONE constant is a "default value" for single options
     # and equals to "=NONE=" by default.
     #
     # Examples:
-    #   ObjectParsingUtils create obj1
-    #   ObjectParsingUtils create obj2 -NONE <NONE>
+    #   ObjectUtils create obj1
+    #   ObjectUtils create obj2 -NONE <NONE>
     #
-    # When ObjectParsingUtils used as mixin, the constructor
+    # When ObjectUtils used as mixin, the constructor
     # would pass its arguments to the next constructor.
 
     array set _PU_opts {-NONE =NONE=}
@@ -474,7 +574,7 @@ oo::class create ObjectParsingUtils {
     # If any option of args1 is absent in args and strict==1,
     # the rest of args1 is considered to be a file name.
     #
-    # Examples see in doctest below.
+    # Examples see in tests/obbit.test.
 
     set actopts true
     array set argarray "$args yes yes" ;# maybe, tail option without value
@@ -520,60 +620,95 @@ oo::class create ObjectParsingUtils {
     return [list $retlist [string trimright $retfile]]
 
   }
+
+  method getOption {optname args} {
+
+    # Extracts one option from an option list.
+    #   optname - option name
+    #   args - option list
+    # Returns an option value or "".
+    # Example:
+    #   set options [list -name some -value "any value" -tooltip "some tip"]
+    #   set optvalue [my getOption -tooltip {*}$options]
+
+    lassign [my parseOptionsFile 0 $args $optname ""] options
+    lassign $options -> optvalue
+    return $optvalue
+
+  }
+
+  method putOption {optname optvalue args} {
+
+    # Replaces or adds one option to an option list.
+    #   optname - option name
+    #   optvalue - option value
+    #   args - option list
+    # Returns an updated option list.
+
+    set optlist {}
+    set doadd true
+    foreach {a v} $args {
+      if {$a eq $optname} {
+        set v $optvalue
+        set doadd false
+      }
+      lappend optlist $a $v
+    }
+    if {$doadd} {lappend optlist $optname $optvalue}
+    return $optlist
+
+  }
+
+  #########################################################################
+  #
+  # Remove some options from the options
+  # Input:
+  #   options - string of all options
+  #   args - list of removed options
+  # Prerequisite:
+  #   options are set as a list of pairs (key value)
+
+  method RemoveSomeOptions {options args} {
+
+    foreach key $args {
+      if {[set i [lsearch -exact $options $key]]>-1} {
+        set optorig $options
+        catch {
+          set options [lreplace $options $i $i]
+          set options [lreplace $options $i $i]
+        }
+      }
+    }
+    return $options
+
+  }
+
+  #########################################################################
+  #
+  # Read a text file
+  #   fileName - file name
+  #   varName - variable name for file content or ""
+  #   doErr - if 'true', exit at errors with error message
+  # Returns file contents or "".
+
+  method readTextFile {fileName {varName ""} {doErr 0}} {
+
+    if {$varName ne ""} {upvar $varName fvar}
+    if {[catch {set chan [open $fileName]}]} {
+      if {$doErr} {
+        error "\npaveme.tcl: can't open \"$fileName\"\n"
+      }
+      set fvar ""
+    } else {
+      set fvar [read $chan]
+      close $chan
+    }
+    return $fvar
+
+  }
+
 }
 
-# doctests for ObjectParsingUtils
-
-#% # strict: -d, -opt, -all options, -all=yes
-#% ObjectParsingUtils create obj -NONE <NONE>
-#% lassign [obj parseOptionsFile 1 {-d mydir -all myfile with spaces} \
-#%     -d /home/me -opt some -all <NONE>] optvals1 filename1
-#% obj destroy
-#% array set opts $optvals1
-#% set a "$opts(-d) $opts(-opt) $opts(-all) FILE1=$filename1"
-   #> mydir some yes FILE1=myfile with spaces
-
-#% # strict: -d option with spaces and \", -all="=NONE=", used --
-#% ObjectParsingUtils create obj -NONE <NONE>
-#% lassign [obj parseOptionsFile 1 \
-#%   {-opt new -d "dir with spaces and \"" -- -all the rest} \
-#%     -d /home/me -opt some -all =NONE=] optvals2 filename2
-#% obj destroy
-#% set a "$optvals2 FILE2=$filename2"
-   #> -d {dir with spaces and "} -opt new -all =NONE= FILE2=-all the rest
-
-#% # not strict: skip -opt and -f options; no file name
-#% ObjectParsingUtils create obj
-#% lassign [obj parseOptionsFile 0 \
-#%   {-opt new -d "dir with spaces and \"" -f myfile} -d some] optvals3
-#% obj destroy
-#% set a "$optvals3"
-   #> -d {dir with spaces and "}
-
-#% # 'args' options replace 'args1', rest unchanged; no file name
-#% ObjectParsingUtils create obj
-#% lassign [obj parseOptionsFile 2 \
-#%   {-opt new -d "dir with spaces and \"" -f myfile} -d some] optvals4
-#% obj destroy
-#% set a "$optvals4"
-   #> -opt new -d some -f myfile
-
-#% # -old option ignored
-#% ObjectParsingUtils create obj
-#% lassign [obj parseOptionsFile 2 {-opt opt-new5 \
-#%   -d "-d for test5" -new} -opt some -old 1 -new =NONE=] optvals5
-#% obj destroy
-#% set a "$optvals5"
-   #> -opt some -d {-d for test5} -new yes
-
-#% # -old option not ignored
-#% ObjectParsingUtils create obj
-#% lassign [obj parseOptionsFile 1 \
-#%   {-new -opt opt-new5 -d "test 5"} -new =NONE= -opt some -old 1] optvals6
-#% obj destroy
-#% set a "$optvals6"
-   #> -new yes -opt opt-new5 -old 1
-
-#> doctest
+  #%   DOCTEST   SOURCE   tests/obbit_1.test
 
 ################################# EOF #####################################

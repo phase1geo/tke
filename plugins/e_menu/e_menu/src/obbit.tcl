@@ -8,7 +8,7 @@
 # The ThemingManager class allows to change the ttk widgets' style.
 # For now it's only a bit of what should be, it needs to be enhanced a lot.
 #
-# The ObjectUtils class provides methods to extract option values... and 
+# The ObjectUtils class provides methods to extract option values... and
 # other useful methods.
 #
 ###########################################################################
@@ -28,7 +28,7 @@ proc ::oo::Helpers::classvar {name args} {
     tailcall namespace upvar $ns {*}$vs
 }
 
-namespace eval pave {
+namespace eval apave {
 }
 
 ###########################################################################
@@ -52,7 +52,7 @@ namespace eval pave {
 #   someobj getProperty Alter 10
 #   someobj getProperty Alter
 
-oo::class create pave::ObjectProperty {
+oo::class create apave::ObjectProperty {
 
   variable _OP_Properties
 
@@ -84,9 +84,9 @@ oo::class create pave::ObjectProperty {
 ###########################################################################
 # Another bit - manager for theming (might be enhanced a lot)
 
-oo::class create pave::ObjectTheming {
+oo::class create apave::ObjectTheming {
 
-  mixin pave::ObjectProperty
+  mixin apave::ObjectProperty
 
   constructor {args} {
     # _OT_Init _OT_Opts _OT_OldOpts must be static in ObjectTheming class
@@ -424,7 +424,7 @@ oo::class create pave::ObjectTheming {
   #--------------------------------------------------------------------------
   #
   # Style for non-ttk widgets
-  # Input: "typ" is the same as in "PaveMe GetWidgetType" method
+  # Input: "typ" is the same as in "APave GetWidgetType" method
 
   method NonTtkStyle {typ {dsbl 0}} {
 
@@ -511,7 +511,7 @@ oo::class create pave::ObjectTheming {
 #
 # Another bit: Parsing utilities.
 
-oo::class create pave::ObjectUtils {
+oo::class create apave::ObjectUtils {
 
   variable _PU_opts
 

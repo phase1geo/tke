@@ -6,11 +6,11 @@
 
 package require Tk
 
+lappend auto_path [file dirname [info script]]; package require apave
+
 namespace eval adsh {
 
   variable pavedir [file normalize [file dirname [info script]]]
-  # definitions of PaveDialog and GetSetIni oo::classes
-  source [file join $adsh::pavedir pavedialog.tcl]
   source [file join $adsh::pavedir getsetini.tcl]
 
   variable version ""
@@ -967,10 +967,10 @@ You can use the # for comments."}
   proc makeDialog {} {
 
     bringMeVars
-    PaveDialog create pdlg $Win
+    apave::APaveDialog create pdlg $Win
     pdlg makeWindow $win "Adding Shortcuts $version - $inifile"
 
-    set fontbold "-font \"-family TkCaptionFont\" -foreground $fgColor -background $bgColor"
+    set fontbold "-font {-family TkCaptionFont} -foreground $fgColor -background $bgColor"
     pdlg window $win {
       {frAU - - 1 6   {-st new} {-relief groove -borderwidth 1}}
       {frAU.v_00 - - 1 1}
@@ -1017,7 +1017,7 @@ You can use the # for comments."}
       {sbv tre1 L 1 1 {pack -in $win.fraTr}}
       {v__u fra T 1 6}
       {seh v__u T 1 6}
-      {laBMess seh T 1 2 {-st w} "-foreground $adsh::cc -font \"-weight bold\""}
+      {laBMess seh T 1 2 {-st w} "-foreground $adsh::cc -font {-weight bold}"}
       {laBh_1 laBMess L 1 1 {-cw 1}}
       {fra2 laBh_1 L}
       {fra2.butApply - - 1 1 {} {-t "Apply" -com "adsh::doApply"}}

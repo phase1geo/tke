@@ -2,7 +2,7 @@ name           {open_glob}
 display_name   {Open Sidebar Files by Glob Patterns}
 author         {Alex Plotnikov}
 email          {aplsimple@gmail.com}
-website        {https://aplsimple.bitbucket.io}
+website        {https://aplsimple.github.io}
 version        {1.0}
 include        {yes}
 trust_required {yes}

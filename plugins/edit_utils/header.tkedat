@@ -1,7 +1,7 @@
 name           {edit_utils}
 display_name   {Editing Utils}
 author         {Alex Plotnikov}
-website        {https://aplsimple.bitbucket.io}
+website        {https://aplsimple.github.io}
 email          {aplsimple@gmail.com}
 version        {1.2}
 include        {yes}

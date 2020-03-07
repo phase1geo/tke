@@ -21,7 +21,7 @@ package require http
 package require tls
 
 set srcdir [file normalize [file dirname [info script]]]
-lappend auto_path $::srcdir; package require pave
+lappend auto_path $::srcdir; package require apave
 
 namespace eval eh {
   # your preferable browser:
@@ -72,7 +72,7 @@ proc message_box {mes {typ ok} {ttl ""}} {
 #====== ask 'mes', return true if OK pressed
 proc question_box {ttl mes {typ okcancel}} {
   set ans [ message_box $mes $typ $ttl]
-  return [expr {$ans=="ok"} ? 1 : 0]
+  return [expr {$ans eq "ok"} ? 1 : 0]
 }
 #====== to maximize 'win' window
 proc zoom_window {win} {
@@ -243,7 +243,7 @@ namespace eval eh {
 
 if {$::eh::solo} {
   if {$argc > 0} {
-    if {[lindex $::argv 0]=="-local"} {
+    if {[lindex $::argv 0] eq "-local"} {
       set page [eh::local [lindex $::argv 1]]
     } else {
       set page [eh::html [lindex $::argv 0]]

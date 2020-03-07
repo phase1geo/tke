@@ -11,7 +11,7 @@
 namespace eval add_shortcut {
 
   # for debugging
-#  proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"; return 1}
+  proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"; return 1}
 
   variable listIt {}
   variable adshdir [file join [api::get_plugin_source_directory] adsh]
@@ -432,7 +432,7 @@ $inifile.bak" -type okcancel]=="ok"} {
     set cc #888888
     catch {set cc [[get_txt] cget -insertbackground]}
     if {[catch { exec tclsh [file join $adshdir adsh.tcl] $CURRENTVERSION $inifile $fg $bg $fE $bE $fS $bS $cc &} e]} {
-      # no actions taken here though
+      #d $e ;# no actions taken here though
     }
     return
 
