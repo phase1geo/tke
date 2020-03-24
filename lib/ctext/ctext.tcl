@@ -315,7 +315,7 @@ namespace eval ctext {
     bgproc::killall ctext::*
 
     catch { rename $win {} }
-    interp alias {} $win.t {}
+    # interp alias {} $win.t {}
     array unset data $win,*
 
   }
@@ -2114,8 +2114,6 @@ namespace eval ctext {
   # Returns the index associated with the given value.
   proc command_index {win value} {
 
-    puts [utils::stacktrace]
-
     if {[set procs [info procs getindex_[lindex $value 0]]] ne ""} {
 
       array set opts {
@@ -2633,7 +2631,7 @@ namespace eval ctext {
     }
 
     # Get the contents of the clipboard
-    set clip [string repeat [clipboard get] $opts(-num)]
+    set clip [string repeat "$opts(-pre)[clipboard get]$opts(-post)" $opts(-num)]
 
     if {[set cursors [llength [$win._t tag ranges _mcursor]]] > 0} {
 
@@ -2643,13 +2641,13 @@ namespace eval ctext {
       if {$cursors == [llength $lines]} {
         command_insertlist $win {*}[array get opts] $lines
       } else {
-        command_insert $win {*}[array get opts] $insertpos "$opts(-pre)$clip$opts(-post)"
+        command_insert $win {*}[array get opts] $insertpos $clip
       }
 
     } else {
 
       # Insert the clipboard contents at the given insertion cursor
-      command_insert $win {*}[array get opts] $insertpos "$opts(-pre)$clip$opts(-post)"
+      command_insert $win {*}[array get opts] $insertpos $clip
 
       # Add the multicursors if we copied the multicursors
       if {[info exists data($win,copy_value)] && ($data($win,copy_value) eq $clip)} {
@@ -5851,8 +5849,8 @@ namespace eval ctext {
       set index [$win._t index "$opts(-startpos)-$opts(-num) display lines"]
     }
 
-    if {[ctext::model::get_firstchar $win $index] ne ""} {
-      return $index
+    if {[lsearch [$win._t tag names "$index linestart"] __prewhite] != -1} {
+      return [lindex [$win._t tag nextrange __prewhite "$index linestart"] 1]-1c
     } else {
       return "$index lineend"
     }

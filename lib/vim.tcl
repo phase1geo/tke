@@ -961,7 +961,7 @@ namespace eval vim {
 
     # Add bindings
     bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
-    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A %K\]} { puts BREAK; break }"
+    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A %K\]} { break }"
     bind vim$txt <Control-Button-1>      "vim::nil"
     bind vim$txt <Shift-Button-1>        "vim::nil"
     bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"
@@ -1140,12 +1140,6 @@ namespace eval vim {
 
     # Set the blockcursor to false
     $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
-
-    # If the current cursor is on a dummy space, remove it
-    set tags [$txtt tag names insert]
-    if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
-      $txtt delete -highlight 0 -update 0 -undo 0 insert
-    }
 
   }
 
@@ -1457,48 +1451,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Removes dspace characters.
-  proc remove_dspace {w} {
-
-    foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
-      if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
-        $w delete -highlight 0 -update 0 -undo 0 $startpos $endpos
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Removes the dspace tag from the current index (if it is set).
-  proc cleanup_dspace {w} {
-
-    if {[lsearch [$w tag names insert] dspace] != -1} {
-      $w tag remove dspace insert
-    }
-
-  }
-
-  ######################################################################
-  # Returns the contents of the given text widget without the injected
-  # dspaces.
-  proc get_cleaned_content {txt} {
-
-    set str ""
-    set last_startpos 1.0
-
-    # Remove any dspace characters
-    foreach {startpos endpos} [$txt tag ranges dspace] {
-      append str [$txt get $last_startpos $startpos]
-      set last_startpos $endpos
-    }
-
-    append str [$txt get $last_startpos "end-1c"]
-
-    return $str
-
-  }
-
-  ######################################################################
   # Handles the escape-key when in Vim mode.
   proc handle_escape {txtt} {
 
@@ -1714,14 +1666,12 @@ namespace eval vim {
           $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
-          puts "spos: $spos, epos: $epos"
           if {$spos ne ""} {
             $txtt cursor set $spos
             visual_mode $txtt char
             set_cursor $txtt $epos
           }
         } else {
-          puts "Setting cursor to eposargs: $eposargs"
           set_cursor $txtt $eposargs
         }
         reset_state $txtt 0
@@ -2738,7 +2688,6 @@ namespace eval vim {
           if {[multicursor::enabled $txtt]} {
             multicursor::move $txtt right
           }
-          cleanup_dspace $txtt
           ::tk::TextSetCursor $txtt "insert+1c"
           edit_mode $txtt
           record_start $txtt "a"
@@ -2859,11 +2808,12 @@ namespace eval vim {
     set clip [clipboard get]
 
     if {[set nl_index [string last \n $clip]] != -1} {
-      if {([string length $clip] - 1) == $nl_index]} {
-        set clip [string replace $clip $nl_index $nl_index]
+      if {([string length $clip] - 1) == $nl_index} {
+        clipboard clear
+        clipboard append [string replace $clip $nl_index $nl_index]
       }
-      $txtt paste -num $num -pre "\n" "insert+1l linestart"
-      $txtt cursor move [list linestart -num 1]
+      $txtt paste -num $num -pre "\n" "insert lineend"
+      $txtt cursor move [list linestart -num 2]
       $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt paste -num $num "insert+1c"
@@ -4074,4 +4024,4 @@ namespace eval vim {
 
   }
 
-}
+  }
