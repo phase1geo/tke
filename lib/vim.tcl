@@ -1161,6 +1161,7 @@ namespace eval vim {
   proc command_mode {txtt} {
 
     variable mode
+    variable operator
     variable multicursor
 
     # If we are coming from visual mode, clear the selection and the anchors
@@ -1171,8 +1172,10 @@ namespace eval vim {
 
     # If were in the edit or replace_all state, move the insertion cursor back
     # one character.
-    if {(($mode($txtt) eq "edit") || ([string compare -length 7 $mode($txtt) "replace"] == 0)) && \
-        ([$txtt index insert] ne [$txtt index "insert linestart"])} {
+    if {(($mode($txtt) eq "edit") || \
+         ([string compare -length 7 $mode($txtt) "replace"] == 0) || \
+         (($operator($txtt) eq "delete") && [$txtt is lineend cursor])) && \
+        ![$txtt is linestart cursor]} {
       $txtt cursor set left
     }
 
@@ -1202,9 +1205,6 @@ namespace eval vim {
     # Effectively make the insertion cursor disappear
     $txtt configure -blockcursor 0 -insertwidth 0
 
-    # Make the multicursors look like the normal cursor
-    $txtt tag configure mcursor -background [$txtt cget -insertbackground]
-
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
 
@@ -1222,8 +1222,8 @@ namespace eval vim {
     # Restore the insertion cursor width
     $txtt configure -blockcursor [expr {$mode($txtt) ne "edit"}] -insertwidth [preferences::get Appearance/CursorWidth]
 
-    # Make the multicursors look like normal
-    $txtt tag configure mcursor -background ""
+    # Clear multicursors
+    $txtt cursor disable
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1645,7 +1645,7 @@ namespace eval vim {
   ######################################################################
   # Performs the current motion-specific operation on the text range specified
   # by startpos/endpos.
-  proc do_operation {txtt eposargs {sposargs {}} args} {
+  proc do_operation {txtt eposargs {sposargs cursor} args} {
 
     variable mode
     variable operator
@@ -1678,17 +1678,19 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
-          set copy [expr [lsearch [list spacestart spaceend] [lindex $eposargs 0]] == -1]
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] $copy 1
-        }
+        $txtt delete $sposargs $eposargs
+        #if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
+        #  set copy [expr [lsearch [list spacestart spaceend] [lindex $eposargs 0]] == -1]
+        #  edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] $copy 1
+        #}
         command_mode $txtt
         return 1
       }
       "change" {
-        if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] 0 0
-        }
+        $txtt delete $sposargs $eposargs
+        # if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
+        #   edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] 0 0
+        # }
         edit_mode $txtt
         set operator($txtt)   ""
         set motion($txtt)     ""
@@ -1707,43 +1709,48 @@ namespace eval vim {
         return 1
       }
       "swap" {
-        if {![multicursor::toggle_case $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        }
+        $txtt transform $sposargs $eposargs toggle_case
+        # if {![multicursor::toggle_case $txtt $eposargs $sposargs $opts(-object)]} {
+        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
+        #   edit::transform_toggle_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
+        # }
         command_mode $txtt
         return 1
       }
       "upper" {
-        if {![multicursor::upper_case $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        }
+        $txtt transform $sposargs $eposargs upper_case
+        # if {![multicursor::upper_case $txtt $eposargs $sposargs $opts(-object)]} {
+        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
+        #   edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
+        # }
         command_mode $txtt
         return 1
       }
       "lower" {
-        if {![multicursor::lower_case $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        }
+        $txtt transform $sposargs $eposargs lower_case
+        # if {![multicursor::lower_case $txtt $eposargs $sposargs $opts(-object)]} {
+        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
+        #   edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
+        # }
         command_mode $txtt
         return 1
       }
       "rot13" {
-        if {![multicursor::rot13 $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        }
+        $txtt transform $sposargs $eposargs rot13
+        # if {![multicursor::rot13 $txtt $eposargs $sposargs $opts(-object)]} {
+        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
+        #   edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index $opts(-cursor)]
+        # }
         command_mode $txtt
         return 1
       }
       "format" {
-        if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          indent::format_text $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
-        }
+        $txtt indent $sposargs $eposargs
+        # if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
+        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
+        #   indent::format_text $txtt $startpos $endpos
+        #   ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+        # }
         command_mode $txtt
         return 1
       }
@@ -2257,7 +2264,7 @@ namespace eval vim {
         set motion($txtt) "f"
         return 1
       } elseif {$motion($txtt) eq "g"} {
-        if {[multicursor::enabled $txtt]} {
+        if {[$txtt cursor enabled]} {
           foreach {startpos endpos} [$txtt tag ranges mcursor] {
             if {[file exists [set fname [get_filename $txtt $startpos]]]} {
               gui::add_file end $fname
@@ -2685,10 +2692,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          if {[multicursor::enabled $txtt]} {
-            multicursor::move $txtt right
-          }
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor move [list char -num 1]
           edit_mode $txtt
           record_start $txtt "a"
           return 1
@@ -2974,7 +2978,8 @@ namespace eval vim {
   # If we are in "command" mode, deletes the current character.
   proc handle_x {txtt} {
 
-    if {[edit::delete_selected $txtt 0]} {
+    if {[$txtt is selected cursor]} {
+      $txtt delete selstart selend
       command_mode $txtt
       return 1
     } else {
@@ -2991,7 +2996,8 @@ namespace eval vim {
   # the 'x' command).
   proc handle_Delete {txtt} {
 
-    if {[edit::delete_selected $txtt 0]} {
+    if {[$txtt is selected cursor]} {
+      $txtt delete selstart selend
       command_mode $txtt
       return 1
     } else {
@@ -3007,7 +3013,8 @@ namespace eval vim {
   # If we are in "command" mode, deletes the previous character.
   proc handle_X {txtt} {
 
-    if {[edit::delete_selected $txtt 1]} {
+    if {[$txtt is selected cursor]} {
+      $txtt delete [list selstart -dir prev] [list selend -dir prev]
       command_mode $txtt
       return 1
     } else {
@@ -3102,7 +3109,7 @@ namespace eval vim {
 
     variable motion
 
-    if {[multicursor::enabled $txtt]} {
+    if {[$txtt cursor enabled]} {
       multicursor_mode $txtt
     } elseif {$motion($txtt) eq "g"} {
       return [do_operation $txtt dispmid]
@@ -3299,7 +3306,7 @@ namespace eval vim {
       "" {
         if {$mode($txtt) eq "command"} {
           if {$operator($txtt) eq ""} {
-            multicursor::add_cursor $txtt [$txtt index insert]
+            $txtt cursor add [$txtt index insert]
           } else {
             return [do_operation $txtt [list spaceend -adjust "+1c"]]
           }
@@ -3324,7 +3331,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
-        multicursor::add_cursors $txtt [$txtt index insert]
+        $txtt cursor addcolumn insert
       } else {
         return [do_operation $txtt spacestart]
       }

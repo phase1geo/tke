@@ -108,7 +108,7 @@ namespace eval ctext {
     set data($win,config,-shiftwidth)              2
     set data($win,config,-tabstop)                 2
     set data($win,config,-blockcursor)             0
-    set data($win,config,-multimove)               1
+    set data($win,config,-multimove)               0
     set data($win,config,-indentmode)              "IND+"    ;# Valid values are OFF, IND and IND+
     set data($win,config,re_opts)                  ""
     set data($win,config,win)                      $win
@@ -465,8 +465,10 @@ namespace eval ctext {
     }
 
     lappend argTable {0 false no} -blockcursor {
+      puts "Setting blockcursor to 0"
       set data($win,config,-blockcursor) 0
       if {[$win._t tag ranges _mcursor] eq ""} {
+        puts "Removing dspace: [$win._t tag ranges _dspace]"
         catch { $win._t delete {*}[$win._t tag ranges _dspace] }
       }
       update_cursor $win
@@ -1785,6 +1787,9 @@ namespace eval ctext {
           set data($win,mcursor_anchor) $index
         }
       }
+      enabled {
+        return [expr {[$win._t tag ranges _mcursor] ne ""}]
+      }
       disable {
         clear_mcursors $win
         unset -nocomplain data($win,mcursor_anchor)
@@ -2177,7 +2182,7 @@ namespace eval ctext {
     if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
       set start 1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
-        set startPos [lindex $range 0]
+        set startPos [string map [list "insert" [lindex $range 0]] $insertPos]
         $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
         set endPos [$win._t index "$startPos+${chars}c"]
         set start  [$win._t index $endPos+1c]
@@ -2316,21 +2321,27 @@ namespace eval ctext {
     lassign $args type extra index
 
     switch $type {
-      escaped   { return [isEscaped $win [$win._t index $extra]] }
+      escaped   { return [isEscaped $win [$win index $extra]] }
+      selected  { return [expr [lsearch [$win._t tag names [$win index $extra]] sel] != -1] }
       firstchar {
-        set index    [$win._t index $extra]
+        set index    [$win index $extra]
         set prewhite [$win._t tag prevrange __prewhite "$index+1c"]
         return [expr {($prewhite ne "") && [$win._t compare [lindex $prewhite 1] == "$index+1c"]}]
+      }
+      linestart -
+      lineend {
+        set index [$win index $extra]
+        return [$win._t compare $index == "$index $type"]
       }
       curly   -
       square  -
       paren   -
       angled  {
         if {[lsearch [list left right any] $extra] == -1} {
-          set index [$win._t index $extra]
+          set index [$win index $extra]
           set extra "any"
         } else {
-          set index [$win._t index $index]
+          set index [$win index $index]
         }
         array set chars [list left L right R any *]
         return [expr [lsearch [$win._t tag names $index] __$type$chars($extra)] != -1]
@@ -2342,10 +2353,10 @@ namespace eval ctext {
       triplesingle -
       triplebtick  {
         if {[lsearch [list left right any] $extra] == -1} {
-          set index [$win._t index $extra]
+          set index [$win index $extra]
           set extra "any"
         } else {
-          set index [$win._t index $index]
+          set index [$win index $index]
         }
         array set chars [list double d single s btick b tripledouble D triplesingle S triplebtick B]
         return [isQuote $win $chars($type) $index $extra]
@@ -2354,7 +2365,7 @@ namespace eval ctext {
       unindent      -
       reindent      -
       reindentStart {
-        return [expr [lsearch [$win._t tag names $extra] __$type] != -1]
+        return [expr [lsearch [$win._t tag names [$win index $extra]] __$type] != -1]
       }
       insquare -
       incurly  -
@@ -2391,17 +2402,17 @@ namespace eval ctext {
         }
         if {$index ne ""} {
           upvar 2 $index range
-          return [in$procs($type)Range $win [$win._t index $extra] range]
+          return [in$procs($type)Range $win [$win index $extra] range]
         } else {
-          return [in$procs($type) $win [$win._t index $extra]]
+          return [in$procs($type) $win [$win index $extra]]
         }
       }
       inclass         {
         if {$extra eq ""} {
           return -code error "Calling ctext is inclass without specifying a class name"
         }
-        if {[lsearch -exact [$win._t tag names $extra] __$index] != -1} {
-          set range [$win._t tag prevrange __$extra "[$win._t index $index]+1c"]
+        if {[lsearch -exact [$win._t tag names [$win index $extra]] __$index] != -1} {
+          set range [$win._t tag prevrange __$extra "[$win index $index]+1c"]
           return 1
         } else {
           return 0
@@ -5284,7 +5295,7 @@ namespace eval ctext {
 
     variable data
 
-    if {([$win._t tag ranges _cursor] eq "") || ($data($win,config,-multimove) == 0)} {
+    if {([$win._t tag ranges _mcursor] eq "") || ($data($win,config,-multimove) == 0)} {
 
       # Make the insertion cursor come back
       $win._t configure -blockcursor $data($win,config,-blockcursor) -insertwidth $data($win,config,-insertwidth)
