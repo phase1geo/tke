@@ -1,4 +1,4 @@
-namespace eval vim {
+ namespace eval vim {
 
   variable current_tab
 
@@ -63,32 +63,32 @@ namespace eval vim {
     set txtt [initialize].t
 
     # Get the current tabstop
-    set orig_tabstop [indent::get_tabstop $txtt]
+    set orig_tabstop [$txtt cget -tabstop]
 
     # Set the tabstop
-    indent::set_tabstop $txtt 20
+    $txtt configure -tabstop 20
 
     # Get the current tabstop
-    if {[indent::get_tabstop $txtt] != 20} {
+    if {[$txtt cget -tabstop] != 20} {
       cleanup "Tabstop not set to the correct value"
     }
 
     # Verify that the text widget -tabs value is correct
     if {[$txtt cget -tabs] ne [list [expr 20 * [font measure [$txtt cget -font] 0]] left]} {
-      cleanup "Text widget -tabs value is not set correctly"
+      cleanup "Text widget -tabs value is not set correctly ([$txtt cget -tabs])"
     }
 
     # Set the tabstop to the original value
-    indent::set_tabstop $txtt $orig_tabstop
+    $txtt configure -tabstop $orig_tabstop
 
     # Get the current tabstop
-    if {[indent::get_tabstop $txtt] != $orig_tabstop} {
+    if {[$txtt cget -tabstop] != $orig_tabstop} {
       cleanup "Tabstop not set to the correct value"
     }
 
     # Verify that the text widget -tabs value is correct
     if {[$txtt cget -tabs] ne [list [expr $orig_tabstop * [font measure [$txtt cget -font] 0]] left]} {
-      cleanup "Text widget -tabs value is not set correctly"
+      cleanup "Text widget -tabs value is not set correctly ([$txtt cget -tabs])"
     }
 
     # Cleanup
@@ -273,8 +273,7 @@ namespace eval vim {
     set txtt [initialize].t
 
     $txtt insert end "\n\n"
-    $txtt mark set insert 1.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 1.0
 
     # Put the buffer into insertion mode
     enter $txtt i
@@ -298,8 +297,7 @@ namespace eval vim {
     }
 
     # Move the cursor to line to and repeat with the . key
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Repeat the last insert
     enter $txtt period
@@ -312,4 +310,5 @@ namespace eval vim {
 
   }
 
-}
+ }
+

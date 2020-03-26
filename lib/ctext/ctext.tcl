@@ -465,10 +465,8 @@ namespace eval ctext {
     }
 
     lappend argTable {0 false no} -blockcursor {
-      puts "Setting blockcursor to 0"
       set data($win,config,-blockcursor) 0
       if {[$win._t tag ranges _mcursor] eq ""} {
-        puts "Removing dspace: [$win._t tag ranges _dspace]"
         catch { $win._t delete {*}[$win._t tag ranges _dspace] }
       }
       update_cursor $win
@@ -1606,9 +1604,11 @@ namespace eval ctext {
 
     set arg [lindex $args 0]
 
-    foreach flag $data($win,config,ctextFlags) {
-      if {[string match ${arg}* $flag]} {
-        return [set data($win,config,$flag)]
+    if {$arg ne "-tabs"} {
+      foreach flag $data($win,config,ctextFlags) {
+        if {[string match ${arg}* $flag]} {
+          return [set data($win,config,$flag)]
+        }
       }
     }
 
@@ -1731,7 +1731,7 @@ namespace eval ctext {
       set str    [$win._t get $startpos $endpos]
       set curpos $startpos
       while {[set index [$win._t tag nextrange _mcursor $curpos $endpos]] ne ""} {
-        lappend data($win,copy_offsets) [expr $charpos + [$txt count -chars $startpos [lindex $index 0]]]
+        lappend data($win,copy_offsets) [expr $charpos + [$win._t count -chars $startpos [lindex $index 0]]]
         set curpos "[lindex $index 0]+1c"
       }
       incr charpos [expr [string length $str] + 1]
@@ -5899,13 +5899,13 @@ namespace eval ctext {
     set start $opts(-startpos)
     set num   $opts(-num)
 
-    lassign [split [$txt index $start] .] curr_row curr_col
+    lassign [split [$win index $start] .] curr_row curr_col
 
-    if {$dir eq "next"} {
+    if {$opts(-dir) eq "next"} {
 
       while {1} {
 
-        set line [$txt get -displaychars $curr_row.0 $curr_row.end]
+        set line [$win._t get -displaychars $curr_row.0 $curr_row.end]
 
         while {1} {
           set char [string index $line $curr_col]
@@ -5919,16 +5919,16 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$txt index "$curr_row.0 + $curr_col display chars"]
+            return [$win._t index "$curr_row.0 + $curr_col display chars"]
           }
         }
 
-        lassign [split [$txt index "$curr_row.end + 1 display chars"] .] curr_row curr_col
+        lassign [split [$win._t index "$curr_row.end + 1 display chars"] .] curr_row curr_col
 
-        if {![$txt compare $curr_row.$curr_col < end]} {
-          return [$txt index "end-1 display chars"]
-        } elseif {(![string is space [$txt index $curr_row.$curr_col]] || [$txt compare $curr_row.0 == $curr_row.end]) && ([incr num -1] == 0)} {
-          return [$txt index "$curr_row.0 + $curr_col display chars"]
+        if {![$win._t compare $curr_row.$curr_col < end]} {
+          return [$win._t index "end-1 display chars"]
+        } elseif {(![string is space [$win._t index $curr_row.$curr_col]] || [$win._t compare $curr_row.0 == $curr_row.end]) && ([incr num -1] == 0)} {
+          return [$win._t index "$curr_row.0 + $curr_col display chars"]
         }
 
       }
@@ -5937,7 +5937,7 @@ namespace eval ctext {
 
       while {1} {
 
-        set line [$txt get -displaychars $curr_row.0 $curr_row.$curr_col]
+        set line [$win._t get -displaychars $curr_row.0 $curr_row.$curr_col]
 
         while {1} {
           if {[regexp -indices -- {(\w+|\s+|[^\w\s]+)$} [string range $line 0 [expr $curr_col - 1]] index]} {
@@ -5946,16 +5946,16 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$txt index "$curr_row.0 + $curr_col display chars"]
+            return [$win._t index "$curr_row.0 + $curr_col display chars"]
           }
         }
 
-        lassign [split [$txt index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
+        lassign [split [$win._t index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
 
-        if {![$txt compare $curr_row.$curr_col > 1.0]} {
+        if {![$win._t compare $curr_row.$curr_col > 1.0]} {
           return "1.0"
         } elseif {(![string is space [string index $line $curr_col]] || ($curr_col == 0)) && ([incr num -1] == 0)} {
-          return [$txt index "$curr_row.0 + $curr_col display chars"]
+          return [$win._t index "$curr_row.0 + $curr_col display chars"]
         }
 
       }
@@ -5979,13 +5979,13 @@ namespace eval ctext {
     set start $opts(-startpos)
     set num   $opts(-num)
 
-    lassign [split [$txt index $start] .] curr_row curr_col
+    lassign [split [$win index $start] .] curr_row curr_col
 
-    if {$dir eq "next"} {
+    if {$opts(-dir) eq "next"} {
 
       while {1} {
 
-        set line [$txt get -displaychars $curr_row.0 $curr_row.end]
+        set line [$win._t get -displaychars $curr_row.0 $curr_row.end]
 
         while {1} {
           if {[regexp -indices -start [expr $curr_col + 1] -- {(\w+|\s+|[^\w\s]+)} $line index]} {
@@ -5994,14 +5994,14 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$txt index "$curr_row.0 + $curr_col display chars"]
+            return [$win._t index "$curr_row.0 + $curr_col display chars"]
           }
         }
 
-        lassign [split [$txt index "$curr_row.end + 1 display chars"] .] curr_row curr_col
+        lassign [split [$win._t index "$curr_row.end + 1 display chars"] .] curr_row curr_col
 
-        if {![$txt compare $curr_row.$curr_col < end]} {
-          return [$txt index "end-1 display chars"]
+        if {![$win._t compare $curr_row.$curr_col < end]} {
+          return [$win._t index "end-1 display chars"]
         }
 
       }
@@ -6010,7 +6010,7 @@ namespace eval ctext {
 
       while {1} {
 
-        set line [$txt get -displaychars $curr_row.0 $curr_row.end]
+        set line [$win._t get -displaychars $curr_row.0 $curr_row.end]
 
         while {1} {
           set char [string index $line $curr_col]
@@ -6024,16 +6024,16 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$txt index "$curr_row.0 + $curr_col display chars"]
+            return [$win._t index "$curr_row.0 + $curr_col display chars"]
           }
         }
 
-        lassign [split [$txt index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
+        lassign [split [$win._t index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
 
-        if {![$txt compare $curr_row.$curr_col > 1.0]} {
+        if {![$win._t compare $curr_row.$curr_col > 1.0]} {
           return "1.0"
-        } elseif {![string is space [$txt index $curr_row.$curr_col]] && ([incr num -1] == 0)} {
-          return [$txt index "$curr_row.0 + $curr_col display chars"]
+        } elseif {![string is space [$win._t index $curr_row.$curr_col]] && ([incr num -1] == 0)} {
+          return [$win._t index "$curr_row.0 + $curr_col display chars"]
         }
 
       }
@@ -6144,11 +6144,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    if {[set index [ctext::model::get_firstchar $win "$opts(-num).0"]] ne ""} {
-      return $index
-    } else {
-      return "$opts(-num).0 lineend"
-    }
+    return [$win index firstchar "$opts(-num).0"]
 
   }
 

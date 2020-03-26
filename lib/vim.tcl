@@ -1665,8 +1665,7 @@ namespace eval vim {
         if {[$txtt cget -multimove]} {
           $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
-          if {$spos ne ""} {
+          if {$spos ne "cursor"} {
             $txtt cursor set $spos
             visual_mode $txtt char
             set_cursor $txtt $epos
@@ -2861,13 +2860,16 @@ namespace eval vim {
     # Calculate the number of clips to pre-paste
     set num [get_number $txtt]
 
-    # Get the contents of teh clipboard
+    # Get the contents of the clipboard
+    set clip [clipboard get]
 
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
-        set clip [string replace $clip $nl_index $nl_index]
+        clipboard clear
+        clipboard append [string replace $clip $nl_index $nl_index]
       }
       $txtt paste -num $num -post "\n" linestart
+      $txtt cursor move [list linestart -num 0]
       $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt paste -num $num insert
