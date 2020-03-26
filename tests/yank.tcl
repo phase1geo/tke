@@ -124,8 +124,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {y y} 2.5 "This is a line\n"
 
@@ -145,8 +144,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y l} 2.0 "T"
 
@@ -158,7 +156,7 @@ namespace eval yank {
     do_test $txtt 4 {y V l} 2.0 "This is a line"
 
     # Make sure that we don't get the end of line
-    $txtt mark set insert 2.13
+    $txtt cursor set 2.13
     do_test $txtt 5 {3 y l} 2.13 "e"
 
     # Cleanup
@@ -173,13 +171,12 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y h} 2.7 " "
 
     foreach index {0 1} {
-      $txtt mark set insert 2.8
+      $txtt cursor set 2.8
       do_test $txtt [expr $index + 1] [linsert {y h} $index 2] 2.6 "s "
     }
 
@@ -187,7 +184,7 @@ namespace eval yank {
     do_test $txtt 4 {y V h} 2.4 "This is a line"
 
     # Make sure that the cursor does not line wrap
-    $txtt mark set insert 3.0
+    $txtt cursor set 3.0
     do_test $txtt 5 {3 y h} 3.0 ""
 
     # Cleanup
@@ -202,8 +199,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.13
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.13
 
     # Do a simple one character yank
     do_test $txtt 0 {y space} 2.13 "e"
@@ -230,20 +226,19 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y BackSpace} 2.7 " "
 
     foreach index {0 1} {
-      $txtt mark set insert 2.8
+      $txtt cursor set 2.8
       do_test $txtt [expr $index + 1] [linsert {y BackSpace} $index 2] 2.6 "s "
     }
 
     do_test $txtt 3 {y v BackSpace} 2.5 "is"
     do_test $txtt 4 {y V BackSpace} 2.4 "This is a line"
 
-    $txtt mark set insert 3.1
+    $txtt cursor set 3.1
     do_test $txtt 5 {3 y BackSpace} 2.13 "e\nT"
 
     # Cleanup
@@ -258,8 +253,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y w} 2.0 "This "
 
@@ -281,8 +275,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y f l} 2.0 "This is a l"
 
@@ -305,8 +298,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {y t l} 2.0 "This is a "
 
@@ -329,18 +321,17 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y F i} 2.5 "is "
 
     foreach index {0 1} {
-      $txtt mark set insert 2.8
+      $txtt cursor set 2.8
       do_test $txtt [expr $index + 1] [linsert {y F i} $index 2] 2.2 "is is "
     }
 
     # Make sure the command does not line wrap
-    $txtt mark set insert 3.8
+    $txtt cursor set 3.8
     do_test $txtt 3 {3 y F i} 3.8 ""
 
     # Cleanup
@@ -355,18 +346,17 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {y T i} 2.6 "s "
 
     foreach index {0 1} {
-      $txtt mark set insert 2.8
+      $txtt cursor set 2.8
       do_test $txtt [expr $index + 1] [linsert {y T i} $index 2] 2.3 "s is "
     }
 
     # Make sure the command does not line wrap
-    $txtt mark set insert 3.8
+    $txtt cursor set 3.8
     do_test $txtt 3 {y T l} 3.8 ""
 
     # Cleanup
@@ -381,8 +371,7 @@ namespace eval yank {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     enter $txtt {v l}
     do_test $txtt 0 y 2.8 "a "
@@ -464,8 +453,7 @@ namespace eval yank {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify pasting characters that are less than a line
     clipboard clear

@@ -93,7 +93,7 @@ namespace eval selection {
     }
 
     # Reset the insertion cursor
-    $txtt mark set insert $cursor
+    $txtt cursor set $cursor
 
   }
 
@@ -104,8 +104,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
     do_test $txtt 1 {l}     "\nThis is a line" {2.0 2.6} visual:char
@@ -122,8 +121,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify using visual mode to select
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -147,8 +145,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -172,8 +169,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -197,8 +193,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -222,8 +217,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -247,8 +241,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -274,8 +267,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 14 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -301,8 +293,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     clipboard clear
@@ -336,8 +327,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -361,8 +351,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -386,8 +375,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -411,8 +399,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -436,8 +423,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -461,8 +447,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
@@ -486,8 +471,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\n    This is a line"
-    $txtt mark set insert 2.4
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.4
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\n    This is a line" {2.4 2.9} visual:char
@@ -511,8 +495,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end "\nif {1} {\n    set a 1\n}"
-    $txtt mark set insert 3.4
-    vim::adjust_insert $txtt
+    $txtt cursor set 3.4
 
     # Verify visual mode
     do_test $txtt 0 {v 4 l} "\nif {1} {\n    set a 1\n}" {3.4 3.9} visual:char
@@ -536,8 +519,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nThis.is a line."]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape 0 v i w}   $value {2.0 2.4}
     do_object_test $txtt 1 {Escape 0 V i w}   $value {2.0 2.4}
@@ -563,8 +545,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nThis.is a line."]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape 0 v i W}   $value {2.0 2.7}
     do_object_test $txtt 1 {Escape 0 V i W}   $value {2.0 2.7}
@@ -590,8 +571,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nSentence 1.  Sentence 2?  Sentence 3!"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape 0 v i s}   $value {2.0 2.11}
     do_object_test $txtt 1 {Escape 0 V i s}   $value {2.0 2.11}
@@ -613,8 +593,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nThis is the first sentence.  This is the\nsecond.\n\nThis is the next paragraph.\n\nThis is the last."]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape 0 v i p}   $value {2.0 3.7}
     do_object_test $txtt 1 {Escape 0 V i p}   $value {2.0 3.7}
@@ -641,8 +620,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nset this \[this is \[really great\]\]"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i bracketleft}  $value {2.0 2.1}
     do_object_test $txtt 1 {Escape v i bracketright} $value {2.0 2.1}
@@ -658,7 +636,7 @@ namespace eval selection {
     set index 7
 
     foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i bracketleft}  $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape v i bracketright} $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape V i bracketleft}  $value [lindex $seli $sel]
@@ -669,7 +647,7 @@ namespace eval selection {
       do_object_test $txtt [incr index] {Escape V a bracketright} $value [lindex $sela $sel]
     }
 
-    $txtt mark set insert 2.19
+    $txtt cursor set 2.19
 
     foreach i {2 3} {
       do_object_test $txtt [incr index] [linsert {Escape v i bracketleft}  $i 2] $value [lindex $seli 0]
@@ -694,8 +672,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nset this {this is {really great}}"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i braceleft}  $value {2.0 2.1}
     do_object_test $txtt 1 {Escape v i braceright} $value {2.0 2.1}
@@ -711,7 +688,7 @@ namespace eval selection {
     set index 7
 
     foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i braceleft}  $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape v i braceright} $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape V i braceleft}  $value [lindex $seli $sel]
@@ -722,7 +699,7 @@ namespace eval selection {
       do_object_test $txtt [incr index] {Escape V a braceright} $value [lindex $sela $sel]
     }
 
-    $txtt mark set insert 2.19
+    $txtt cursor set 2.19
 
     foreach i {2 3} {
       do_object_test $txtt [incr index] [linsert {Escape v i braceleft}  $i 2] $value [lindex $seli 0]
@@ -747,8 +724,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nset this (this is (really great))"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0  {Escape v i parenleft}  $value {2.0 2.1}
     do_object_test $txtt 1  {Escape v i parenright} $value {2.0 2.1}
@@ -768,7 +744,7 @@ namespace eval selection {
     set index 11
 
     foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i parenleft}  $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape v i parenright} $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape v i b}          $value [lindex $seli $sel]
@@ -783,7 +759,7 @@ namespace eval selection {
       do_object_test $txtt [incr index] {Escape V a b}          $value [lindex $sela $sel]
     }
 
-    $txtt mark set insert 2.19
+    $txtt cursor set 2.19
 
     foreach i {2 3} {
       do_object_test $txtt [incr index] [linsert {Escape v i parenleft}  $i 2] $value [lindex $seli 0]
@@ -815,8 +791,7 @@ namespace eval selection {
     syntax::set_language [winfo parent $txtt] HTML
 
     $txtt insert end [set value "\nset this <this is <really great>>"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i less}    $value {2.0 2.1}
     do_object_test $txtt 1 {Escape v i greater} $value {2.0 2.1}
@@ -832,7 +807,7 @@ namespace eval selection {
     set index 7
 
     foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i less}    $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape v i greater} $value [lindex $seli $sel]
       do_object_test $txtt [incr index] {Escape V i less}    $value [lindex $seli $sel]
@@ -843,7 +818,7 @@ namespace eval selection {
       do_object_test $txtt [incr index] {Escape V a greater} $value [lindex $sela $sel]
     }
 
-    $txtt mark set insert 2.19
+    $txtt cursor set 2.19
 
     foreach i {2 3} {
       do_object_test $txtt [incr index] [linsert {Escape v i less}    $i 2] $value [lindex $seli 0]
@@ -868,8 +843,7 @@ namespace eval selection {
     set txtt [initialize]
 
     $txtt insert end [set value "\nset this \"good\""]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i quotedbl} $value {2.0 2.1}
     do_object_test $txtt 1 {Escape V i quotedbl} $value {2.0 3.0} "visual:line"
@@ -879,7 +853,7 @@ namespace eval selection {
     set index 3
 
     foreach ins [list 2.9 2.10 2.14] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i quotedbl} $value {2.10 2.14}
       do_object_test $txtt [incr index] {Escape V i quotedbl} $value {2.10 2.14}
       do_object_test $txtt [incr index] {Escape v a quotedbl} $value {2.9 2.15}
@@ -901,8 +875,7 @@ namespace eval selection {
     syntax::set_language [winfo parent $txtt] JavaScript
 
     $txtt insert end [set value "\nset this 'good'"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i quoteright} $value {2.0 2.1}
     do_object_test $txtt 1 {Escape V i quoteright} $value {2.0 3.0} "visual:line"
@@ -912,7 +885,7 @@ namespace eval selection {
     set index 3
 
     foreach ins [list 2.9 2.10 2.14] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i quoteright} $value {2.10 2.14}
       do_object_test $txtt [incr index] {Escape V i quoteright} $value {2.10 2.14}
       do_object_test $txtt [incr index] {Escape v a quoteright} $value {2.9 2.15}
@@ -934,8 +907,7 @@ namespace eval selection {
     syntax::set_language [winfo parent $txtt] JavaScript
 
     $txtt insert end [set value "\nset this `good`"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i quoteleft} $value {2.0 2.1}
     do_object_test $txtt 1 {Escape V i quoteleft} $value {2.0 3.0} "visual:line"
@@ -945,7 +917,7 @@ namespace eval selection {
     set index 3
 
     foreach ins [list 2.9 2.10 2.14] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i quoteleft} $value {2.10 2.14}
       do_object_test $txtt [incr index] {Escape V i quoteleft} $value {2.10 2.14}
       do_object_test $txtt [incr index] {Escape v a quoteleft} $value {2.9 2.15}
@@ -966,8 +938,7 @@ namespace eval selection {
     syntax::set_language [winfo parent $txtt] HTML
 
     $txtt insert end [set value "\n <ul><li>List item</li>  </ul>"]
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_object_test $txtt 0 {Escape v i t} $value {2.0 2.1}
     do_object_test $txtt 1 {Escape V i t} $value {2.0 3.0} visual:line
@@ -979,7 +950,7 @@ namespace eval selection {
     set index -1
 
     foreach {ins i} [list 2.1 0 2.4 0 2.5 1 2.10 1 2.22 1 2.23 0 2.29 0] {
-      $txtt mark set insert $ins
+      $txtt cursor set $ins
       do_object_test $txtt [incr index] {Escape v i t} $value [lindex $seli $i]
       do_object_test $txtt [incr index] {Escape V i t} $value [lindex $seli $i]
       do_object_test $txtt [incr index] {Escape v a t} $value [lindex $sela $i]

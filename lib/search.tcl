@@ -332,11 +332,13 @@ namespace eval search {
           set last_line $curr_line
         }
       }
+      set indices $new_indices
+      set lengths $new_lengths
     }
 
     # Initialize variables
-    set indices     [lreverse $new_indices]
-    set lengths     [lreverse $new_lengths]
+    set indices     [lreverse $indices]
+    set lengths     [lreverse $lengths]
     set num_indices [llength $indices]
     set ranges      [list]
 
@@ -360,7 +362,7 @@ namespace eval search {
       $txt cursor set [lindex $indices 0]
 
       # Specify the number of substitutions that we did
-      gui::set_info_message [format "%d %s" [llength $matches] [msgcat::mc "substitutions done"]] -win $txt
+      gui::set_info_message [format "%d %s" [llength $indices] [msgcat::mc "substitutions done"]] -win $txt
 
     } else {
 
