@@ -1043,7 +1043,7 @@ namespace eval emmet {
     # Get the range of the number
     if {[$txt get insert] eq "-"} {
       set num_start "insert"
-      set num_end   [$txt index [list numberend -startpos "insert+1c" -adjust "+1c"]]
+      set num_end   [$txt index numberend -startpos "insert+1c" -adjust "+1c"]
       if {[$txt compare $num_end == "insert+1c"]} {
         return
       }

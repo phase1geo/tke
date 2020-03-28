@@ -1748,7 +1748,7 @@ namespace eval vim {
         # if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
         #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
         #   indent::format_text $txtt $startpos $endpos
-        #   ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+        #   ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0] -startpos $startpos]
         # }
         command_mode $txtt
         return 1
@@ -1757,7 +1757,7 @@ namespace eval vim {
         if {![multicursor::shift $txtt left $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           edit::unindent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0] -startpos $startpos]
         }
         command_mode $txtt
         return 1
@@ -1766,7 +1766,7 @@ namespace eval vim {
         if {![multicursor::shift $txtt right $eposargs $sposargs $opts(-object)]} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
           edit::indent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0 -startpos $startpos]]
+          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0] -startpos $startpos]
         }
         command_mode $txtt
         return 1
@@ -3638,7 +3638,7 @@ namespace eval vim {
           foreach {endpos startpos} [lreverse $selected] {
             indent::format_text $txtt $startpos $endpos
           }
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos]]
+          ::tk::TextSetCursor $txtt [$txtt index firstchar -startpos $startpos]]
           command_mode $txtt
         } else {
           set_operator $txtt "format" {equal}
@@ -3763,7 +3763,9 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "command"} {
-      if {[string trim [set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" 0]]]] ne ""} {
+      set startpos [$txtt index [list wordstart -dir prev] -startpos "insert+1c"]
+      set endpos   [$txtt index wordend -startpos "insert-1c" -forceadjust "+1c"]
+      if {[string trim [set word [$txtt get $startpos $endpos]]] ne ""} {
         array set theme [theme::get_syntax_colors]
         catch { $txtt syntax delete classes search search_curr }
         $txtt syntax addclass search -fgtheme search_foreground -bgtheme search_background -highpriority 1
