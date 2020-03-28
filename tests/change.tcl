@@ -3,6 +3,12 @@ namespace eval change {
   variable current_tab
 
   ######################################################################
+  # Outputs the given string such that blank space is shown
+  proc ostr {str} {
+    return [string map {\n .\n} $str]
+  }
+
+  ######################################################################
   # Common diagnostic initialization procedure.  Returns the pathname
   # to the added text widget.
   proc initialize {} {
@@ -80,7 +86,7 @@ namespace eval change {
     }
 
     if {[$txtt get 1.0 end-1c] ne $value} {
-      cleanup "$id change did not work ([$txtt get 1.0 end-1c])\n($value)"
+      cleanup "$id change did not work ([ostr [$txtt get 1.0 end-1c]])\n([ostr $value])"
     }
     switch [lindex $cmdlist 0] {
       "r"     {
@@ -120,10 +126,10 @@ namespace eval change {
     if {$undo} {
       enter $txtt u
       if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "$id undo did not work ([$txtt get 1.0 end-1c])"
+        cleanup "$id undo did not work ([ostr [$txtt get 1.0 end-1c]])([ostr $start])"
       }
       if {[$txtt index insert] ne $start_cursor} {
-        cleanup "$id undo insertion not correct ([$txtt get 1.0 end-1c])"
+        cleanup "$id undo insertion not correct ([$txtt index insert])"
       }
     }
 
@@ -137,8 +143,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {r M} 2.0 "\nMhis is a line"
 
@@ -155,8 +160,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {R M a r k} 2.4 "\nMark is a line\nThis is a line"
 
@@ -173,8 +177,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {c c} 2.0 "\n\nThis is a line"
 
@@ -183,8 +186,7 @@ namespace eval change {
     }
 
     do_test $txtt 3 {c c} 2.0 "\n\nThis is a line" 0
-    $txtt mark set insert 3.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 3.1
     do_test $txtt 4 {c c} 3.0 "\n\n"
 
     # Cleanup
@@ -200,8 +202,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {c l} 2.0 "\nhis is a line"
 
@@ -225,8 +226,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {c v l} 2.0 "\nis is a line"
 
@@ -252,8 +252,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {c w} 2.1 "\nT is a line"
 
@@ -277,13 +276,12 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.3
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.3
 
     do_test $txtt 0 C 2.3 "\nThi\nThis is a line"
 
     do_test $txtt 1 C 2.3 "\nThi\nThis is a line" 0
-    $txtt mark set insert 3.1
+    $txtt cursor set 3.1
     do_test $txtt 2 C 3.1 "\nThi\nT"
 
     # Cleanup
@@ -299,8 +297,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {c dollar} 2.5 "\nThis \nThis is a line\nThis is a line"
 
@@ -309,7 +306,7 @@ namespace eval change {
     }
 
     do_test $txtt 3 {c dollar} 2.5 "\nThis \nThis is a line\nThis is a line" 0
-    $txtt mark set insert 3.1
+    $txtt cursor set 3.1
     do_test $txtt 4 {c dollar} 3.1 "\nThis \nT\nThis is a line"
 
     # Cleanup
@@ -325,13 +322,12 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {c 0} 2.0 "\na line\nThis is a line"
 
     do_test $txtt 1 {c 0} 2.0 "\na line\nThis is a line" 0
-    $txtt mark set insert 3.1
+    $txtt cursor set 3.1
     do_test $txtt 2 {c 0} 3.0 "\na line\nhis is a line"
 
     # Cleanup
@@ -347,24 +343,22 @@ namespace eval change {
 
     $txtt insert end "\n  This is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {c asciicircum} 2.0 "\nThis is a line\nThis is a line"
-    $txtt mark set insert 2.2
+    $txtt cursor set 2.2
     do_test $txtt 1 {c asciicircum} 2.2 "\n  This is a line\nThis is a line" 0
-    $txtt mark set insert 2.8
+    $txtt cursor set 2.8
     do_test $txtt 2 {c asciicircum} 2.2 "\n  s a line\nThis is a line"
 
     do_test $txtt 3 {c asciicircum} 2.2 "\n  s a line\nThis is a line" 0
-    $txtt mark set insert 3.1
+    $txtt cursor set 3.1
     do_test $txtt 4 {c asciicircum} 3.0 "\n  s a line\nhis is a line"
 
     $txtt delete 1.0 end
     $txtt insert end "\n  \nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 5 {c asciicircum} 2.1 "\n \nThis is a line"
 
@@ -381,8 +375,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {c f i} 2.1 "\nTs is a line"
 
@@ -406,8 +399,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.1
 
     do_test $txtt 0 {c t l} 2.1 "\nTline"
 
@@ -431,8 +423,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {c F i} 2.5 "\nThis a line"
 
@@ -456,8 +447,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {c T i} 2.6 "\nThis ia line"
 
@@ -481,8 +471,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.8
 
     do_test $txtt 0 {c h} 2.7 "\nThis isa line"
 
@@ -509,8 +498,7 @@ namespace eval change {
 
     $txtt insert end "\nset this {is good\\\}}"
     $txtt edit separator
-    $txtt mark set insert 2.12
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.12
 
     do_test $txtt 0 {c i braceleft} 2.10 "\nset this {}"
 
@@ -527,8 +515,7 @@ namespace eval change {
 
     $txtt insert end "\nset this \[is good\\\]\]"
     $txtt edit separator
-    $txtt mark set insert 2.12
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.12
 
     do_test $txtt 0 {c i bracketleft} 2.10 "\nset this \[\]"
 
@@ -545,8 +532,7 @@ namespace eval change {
 
     $txtt insert end "\nset this (is good\\))"
     $txtt edit separator
-    $txtt mark set insert 2.12
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.12
 
     do_test $txtt 0 {c i parenleft} 2.10 "\nset this ()"
 
@@ -565,8 +551,7 @@ namespace eval change {
 
     $txtt insert end "\nset this <is good\\>>"
     $txtt edit separator
-    $txtt mark set insert 2.12
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.12
 
     do_test $txtt 0 {c i less} 2.10 "\nset this <>"
 
@@ -583,8 +568,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {c space} 2.0 "\nhis is a line\nThis is a line"
 
@@ -592,10 +576,10 @@ namespace eval change {
       do_test $txtt [expr $index + 1] [linsert {c space} $index 2] 2.0 "\nis is a line\nThis is a line"
     }
 
-    $txtt mark set insert 2.13
+    $txtt cursor set 2.13
     do_test $txtt 3 {2 c space} 2.13 "\nThis is a linThis is a line"
 
-    $txtt mark set insert 2.2
+    $txtt cursor set 2.2
     do_test $txtt 4 {c v space} 2.2 "\nTh is a line\nThis is a line"
     do_test $txtt 5 {c V space} 2.0 "\n\nThis is a line"
 
@@ -612,8 +596,7 @@ namespace eval change {
 
     $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {c BackSpace} 2.4 "\nThisis a line\nThis is a line"
 
@@ -621,7 +604,7 @@ namespace eval change {
       do_test $txtt [expr $index + 1] [linsert {c BackSpace} $index 2] 2.3 "\nThiis a line\nThis is a line"
     }
 
-    $txtt mark set insert 3.1
+    $txtt cursor set 3.1
     do_test $txtt 3 {3 c BackSpace} 2.13 "\nThis is a linhis is a line"
 
     do_test $txtt 4 {c v BackSpace} 3.0 "\nThis is a line\nis is a line"
@@ -640,19 +623,18 @@ namespace eval change {
 
     $txtt insert end "\nThis is line 1000x"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {c n} 2.0 "\nThis is line 1000x" 0
 
-    $txtt mark set insert 2.13
+    $txtt cursor set 2.13
     do_test $txtt 1 {c n} 2.13 "\nThis is line x"
 
-    $txtt mark set insert 2.14
+    $txtt cursor set 2.14
     do_test $txtt 2 {c n} 2.14 "\nThis is line 1x"
 
     do_test $txtt 3 {c n} 2.14 "\nThis is line 1x" 0
-    $txtt mark set insert 2.13
+    $txtt cursor set 2.13
     do_test $txtt 4 {c n} 2.13 "\nThis is line x"
 
     # Cleanup
@@ -668,19 +650,18 @@ namespace eval change {
 
     $txtt insert end "\nThis is line 1000x"
     $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.5
 
     do_test $txtt 0 {c N} 2.5 "\nThis is line 1000x" 0
 
-    $txtt mark set insert 2.17
+    $txtt cursor set 2.17
     do_test $txtt 1 {c N} 2.13 "\nThis is line x"
 
-    $txtt mark set insert 2.16
+    $txtt cursor set 2.16
     do_test $txtt 2 {c N} 2.13 "\nThis is line 0x"
 
     do_test $txtt 3 {c N} 2.13 "\nThis is line 0x" 0
-    $txtt mark set insert 2.14
+    $txtt cursor set 2.14
     do_test $txtt 4 {c N} 2.13 "\nThis is line x"
 
     # Cleanup
@@ -696,23 +677,21 @@ namespace eval change {
 
     $txtt insert end "\nThis is line    x"
     $txtt edit separator
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.0
 
     do_test $txtt 0 {c s} 2.0 "\nThis is line    x" 0
 
-    $txtt mark set insert 2.13
+    $txtt cursor set 2.13
     do_test $txtt 1 {c s} 2.13 "\nThis is line x"
 
     do_test $txtt 2 {c s} 2.13 "\nThis is line x" 0
-    $txtt mark set insert 2.12
+    $txtt cursor set 2.12
     do_test $txtt 3 {c s} 2.12 "\nThis is linex"
 
     $txtt delete 1.0 end
     $txtt insert end "\nThis is line    "
     $txtt edit separator
-    $txtt mark set insert 2.12
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.12
 
     do_test $txtt 4 {c s} 2.12 "\nThis is line"
 
@@ -729,16 +708,15 @@ namespace eval change {
 
     $txtt insert end "\nThis is line    x"
     $txtt edit separator
-    $txtt mark set insert 2.3
-    vim::adjust_insert $txtt
+    $txtt cursor set 2.3
 
     do_test $txtt 0 {c S} 2.3 "\nThis is line    x" 0
 
-    $txtt mark set insert 2.15
+    $txtt cursor set 2.15
     do_test $txtt 1 {c S} 2.12 "\nThis is line x"
 
     do_test $txtt 2 {c S} 2.12 "\nThis is line x" 0
-    $txtt mark set insert 2.13
+    $txtt cursor set 2.13
     do_test $txtt 3 {c S} 2.12 "\nThis is linex"
 
     # Cleanup

@@ -1911,6 +1911,9 @@ namespace eval ctext {
         if {$istart} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
         set endPos [$win._t index $startPos+1c]
         if {$iend}   { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        if {[$win._t compare $endPos < $startPos]} {
+          lassign [list $endPos $startPos] startPos endPos
+        }
         lappend strs [$win._t get $startPos $endPos]
         handleDeleteAt0        $win $startPos $endPos
         linemapCheckOnDelete   $win $startPos $endPos
@@ -1930,6 +1933,9 @@ namespace eval ctext {
         set endPos [$win._t index "$startPos+1c"]
       } else {
         set endPos [$win index $endPos]
+        if {[$win._t compare $endPos < $startPos]} {
+          lassign [list $endPos $startPos] startPos endPos
+        }
       }
       lappend strs [$win._t get $startPos $endPos]
       handleDeleteAt0        $win $startPos $endPos
@@ -2488,6 +2494,9 @@ namespace eval ctext {
         set startPos [lindex $range 0]
         if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
         if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        if {[$win._t compare $endPos < $startPos]} {
+          lassign [list $endPos $startPos] startPos endPos
+        }
         lappend dstrs [$win._t get $startPos $endPos]
         lappend istrs $dat
         comments_chars_deleted $win $startPos $endPos do_tags
@@ -2502,6 +2511,9 @@ namespace eval ctext {
     } else {
       set startPos   [$win index $startPos]
       set endPos     [$win index $endPos]
+      if {[$win._t compare $endPos < $startPos]} {
+        lassign [list $endPos $startPos] startPos endPos
+      }
       lappend dstrs [$win._t get $startPos $endPos]
       lappend istrs $dat
       comments_chars_deleted $win $startPos $endPos do_tags
@@ -5416,8 +5428,6 @@ namespace eval ctext {
   ######################################################################
   # Clears all of the mcursors in the editing buffer.
   proc clear_mcursors {win} {
-
-    catch { $win._t tag remove _dspace 1.0 end }
 
     foreach {startpos endpos} [$win._t tag ranges _mcursor] {
       clear_mcursor $win $startpos
