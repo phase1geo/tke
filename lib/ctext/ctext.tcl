@@ -1835,7 +1835,7 @@ namespace eval ctext {
         if {([set mcursors [$win._t tag ranges _mcursor]] ne "") && $data($win,config,-multimove)} {
           clear_mcursors $win
           foreach {startpos endpos} $mcursors {
-            set_mcursor $win [$win index [list {*}[lindex $args 1] -startpos $startpos]] $startpos
+            set_mcursor $win [$win index [lindex $args 1] -startpos $startpos] $startpos
             set data($win,mcursor_anchor) $startpos
           }
           return 1
@@ -1908,9 +1908,9 @@ namespace eval ctext {
       set istart [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
       set iend   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
       foreach {endPos startPos} [lreverse $cursors] {
-        if {$istart} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
+        if {$istart} { set startPos [$win index $startSpec -startpos $startPos] }
         set endPos [$win._t index $startPos+1c]
-        if {$iend}   { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        if {$iend}   { set endPos   [$win index $endSpec   -startpos $startPos] }
         if {[$win._t compare $endPos < $startPos]} {
           lassign [list $endPos $startPos] startPos endPos
         }
@@ -2123,18 +2123,18 @@ namespace eval ctext {
 
   ######################################################################
   # Returns the index associated with the given value.
-  proc command_index {win value} {
+  proc command_index {win args} {
 
-    if {[set procs [info procs getindex_[lindex $value 0]]] ne ""} {
+    if {[set procs [info procs getindex_[lindex $args 0 0]]] ne ""} {
 
       array set opts {
         -startpos    "insert"
         -adjust      ""
         -forceadjust ""
       }
-      array set opts [lrange $value 1 end]
+      array set opts [lrange $args 1 end]
 
-      set index [[lindex $procs 0] $win [lrange $value 1 end]]
+      set index [[lindex $procs 0] $win $opts(-startpos) [lrange [lindex $args 0] 1 end]]
 
       if {$opts(-forceadjust) ne ""} {
         return [$win._t index "$index$opts(-forceadjust)"]
@@ -2146,7 +2146,7 @@ namespace eval ctext {
 
     } else {
 
-      return [$win._t index $value]
+      return [$win._t index {*}$args]
 
     }
 
@@ -2492,8 +2492,8 @@ namespace eval ctext {
       set start     1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
         set startPos [lindex $range 0]
-        if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
-        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        if {$sspec} { set startPos [$win index $startSpec -startpos $startPos] }
+        if {$espec} { set endPos   [$win index $endSpec   -startpos $startPos] }
         if {[$win._t compare $endPos < $startPos]} {
           lassign [list $endPos $startPos] startPos endPos
         }
@@ -2587,7 +2587,7 @@ namespace eval ctext {
       while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
         set startPos [lindex $range 0]
         lassign [lindex $contents $cindex] str tags
-        set endPos     [$win index [list {*}$endSpec -startpos $startPos]]
+        set endPos     [$win index $endSpec -startpos $startPos]
         lappend dstrs [$win._t get $startPos $endPos]
         lappend istrs $str
         comments_chars_deleted $win $startPos $endPos do_tags
@@ -3022,8 +3022,8 @@ namespace eval ctext {
       set start     1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
         set startPos [lindex $range 0]
-        if {$sspec} { set startPos [$win index [list {*}$startSpec -startpos $startPos]] }
-        if {$espec} { set endPos   [$win index [list {*}$endSpec   -startpos $startPos]] }
+        if {$sspec} { set startPos [$win index $startSpec -startpos $startPos] }
+        if {$espec} { set endPos   [$win index $endSpec   -startpos $startPos] }
         set old_str    [$win._t get $startPos $endPos]
         set new_str    [uplevel #0 [list {*}$cmd $old_str]]
         lappend dstrs $old_str
@@ -5515,77 +5515,69 @@ namespace eval ctext {
 
   ######################################################################
   # Returns the starting cursor position without modification.
-  proc getindex_cursor {win optlist} {
+  proc getindex_cursor {win startpos optlist} {
 
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
-
-    return $opts(-startpos)
+    return $startpos
 
   }
 
   ######################################################################
   # Transforms a left index specification into a text index.
-  proc getindex_left {win optlist} {
+  proc getindex_left {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
+      -num 1
     }
     array set opts $optlist
 
-    if {[$win._t compare "$opts(-startpos) display linestart" > "$opts(-startpos)-$opts(-num) display chars"]} {
-      return "$opts(-startpos) display linestart"
+    if {[$win._t compare "$startpos display linestart" > "$startpos-$opts(-num) display chars"]} {
+      return "$startpos display linestart"
     } else {
-      return "$opts(-startpos)-$opts(-num) display chars"
+      return "$startpos-$opts(-num) display chars"
     }
 
   }
 
   ######################################################################
   # Transforms a right index specification into a text index.
-  proc getindex_right {win optlist} {
+  proc getindex_right {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
       -num      1
       -allowend 0
     }
     array set opts $optlist
 
-    if {[lsearch [$win._t tag names $opts(-startpos)] _dspace] != -1} {
-      return $opts(-startpos)
-    } elseif {[$win._t compare "$opts(-startpos) display lineend" < "$opts(-startpos)+$opts(-num) display chars"] && !$opts(-allowend)} {
-      return "$opts(-startpos) display lineend"
+    if {[lsearch [$win._t tag names $startpos] _dspace] != -1} {
+      return $startpos
+    } elseif {[$win._t compare "$startpos display lineend" < "$startpos+$opts(-num) display chars"] && !$opts(-allowend)} {
+      return "$startpos display lineend"
     } else {
-      return "$opts(-startpos)+$opts(-num) display chars"
+      return "$startpos+$opts(-num) display chars"
     }
 
   }
 
   ######################################################################
   # Transforms an up index specification into a text index.
-  proc getindex_up {win optlist} {
+  proc getindex_up {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -column   ""
+      -num    1
+      -column ""
     }
     array set opts $optlist
 
     # If the user has specified a column variable, store the current column in that variable
     if {$opts(-column) ne ""} {
       if {[set col [set $opts(-column)]] eq ""} {
-        set $opts(-column) [set col [lindex [split [$win._t index $opts(-startpos)] .] 1]]
+        set $opts(-column) [set col [lindex [split [$win._t index $startpos] .] 1]]
       }
     } else {
-      set col [lindex [split [$win._t index $opts(-startpos)] .] 1]
+      set col [lindex [split [$win._t index $startpos] .] 1]
     }
 
-    set index $opts(-startpos)
+    set index $startpos
 
     for {set i 0} {$i < $opts(-num)} {incr i} {
       set index [$win._t index "$index linestart-1 display lines"]
@@ -5597,24 +5589,23 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a down index specification into a text index.
-  proc getindex_down {win optlist} {
+  proc getindex_down {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -column   ""
+      -num    1
+      -column ""
     }
     array set opts $optlist
 
     if {$opts(-column) ne ""} {
       if {[set col [set $opts(-column)]] eq ""} {
-        set $opts(-column) [set col [lindex [split [$win._t index $opts(-startpos)] .] 1]]
+        set $opts(-column) [set col [lindex [split [$win._t index $startpos] .] 1]]
       }
     } else {
-      set col [lindex [split [$win._t index $opts(-startpos)] .] 1]
+      set col [lindex [split [$win._t index $startpos] .] 1]
     }
 
-    set index $opts(-startpos)
+    set index $startpos
 
     for {set i 0} {$i < $opts(-num)} {incr i} {
       if {[$win._t compare [set index [$win._t index "$index lineend+1 display lines"]] == end]} {
@@ -5629,7 +5620,7 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a first character specification into a text index.
-  proc getindex_first {win optlist} {
+  proc getindex_first {win startpos optlist} {
 
     if {[$win._t get -displaychars 1.0] eq ""} {
       return "1.0+1 display chars"
@@ -5641,7 +5632,7 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a last character specification into a text index.
-  proc getindex_last {win optlist} {
+  proc getindex_last {win startpos optlist} {
 
     return "end"
 
@@ -5649,58 +5640,56 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a character specification into a text index.
-  proc getindex_char {win optlist} {
+  proc getindex_char {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
-    set start $opts(-startpos)
-    set num   $opts(-num)
+    set num $opts(-num)
 
     if {$opts(-dir) eq "next"} {
 
-      while {($num > 0) && [$win._t compare $start < end-2c]} {
-        if {[set line_chars [$win._t count -displaychars $start "$start lineend"]] == 0} {
-          set start [$win._t index "$start+1 display lines"]
-          set start "$start linestart"
+      while {($num > 0) && [$win._t compare $startpos < end-2c]} {
+        if {[set line_chars [$win._t count -displaychars $startpos "$startpos lineend"]] == 0} {
+          set startpos [$win._t index "$startpos+1 display lines"]
+          set startpos "$startpos linestart"
           incr num -1
         } elseif {$line_chars <= $num} {
-          set start [$win._t index "$start+1 display lines"]
-          set start "$start linestart"
+          set startpos [$win._t index "$startpos+1 display lines"]
+          set startpos "$startpos linestart"
           incr num -$line_chars
         } else {
-          set start "$start+$num display chars"
+          set startpos "$startpos+$num display chars"
           set num 0
         }
       }
 
-      return $start
+      return $startpos
 
     } else {
 
       set first 1
-      while {($num > 0) && [$win._t compare $start > 1.0]} {
-        if {([set line_chars [$win._t count -displaychars "$start linestart" $start]] == 0) && !$first} {
+      while {($num > 0) && [$win._t compare $startpos > 1.0]} {
+        if {([set line_chars [$win._t count -displaychars "$startpos linestart" $startpos]] == 0) && !$first} {
           if {[incr num -1] > 0} {
-            set start [$win._t index "$start-1 display lines"]
-            set start "$start lineend"
+            set startpos [$win._t index "$startpos-1 display lines"]
+            set startpos "$startpos lineend"
           }
         } elseif {$line_chars < $num} {
-          set start [$win._t index "$start-1 display lines"]
-          set start "$start lineend"
+          set startpos [$win._t index "$startpos-1 display lines"]
+          set startpos "$startpos lineend"
           incr num -$line_chars
         } else {
-          set start "$start-$num display chars"
+          set startpos "$startpos-$num display chars"
           set num 0
         }
         set first 0
       }
 
-      return $start
+      return $startpos
 
     }
 
@@ -5708,29 +5697,34 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a displayed character specification into a text index.
-  proc getindex_dchar {win optlist} {
+  proc getindex_dchar {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
     if {$opts(-dir) eq "next"} {
-      return "$opts(-startpos)+$opts(-num) display chars"
+      return "$startpos+$opts(-num) display chars"
     } else {
-      return "$opts(-startpos)-$opts(-num) display chars"
+      return "$startpos-$opts(-num) display chars"
     }
 
   }
 
   ######################################################################
   # Transforms a findchar specification to a text index.
-  proc getindex_findchar {win optlist} {
+  # Options:
+  #   -num       int        Chooses the index of the num'th found character.
+  #   -dir       next/prev  Specifies the direction to search for from the startpos position.
+  #   -char      char       Specifies the character to find.
+  #   -exclusive bool       If true, returns the found index position + 1 character closer to the startpos;
+  #                         otherwise, returns the index of the found character.
+  # If no matching character can be found, returns the index of the insertion character.
+  proc getindex_findchar {win startpos optlist} {
 
     array set opts {
-      -startpos  "insert"
       -num       1
       -dir       "next"
       -char      ""
@@ -5740,14 +5734,14 @@ namespace eval ctext {
 
     # Perform the character search
     if {$opts(-dir) eq "next"} {
-      set indices [$win._t search -all -- $opts(-char) "$opts(-startpos)+1c" "$opts(-startpos) lineend"]
+      set indices [$win._t search -all -- $opts(-char) "$startpos+1c" "$startpos lineend"]
       if {[set index [lindex $indices [expr $opts(-num) - 1]]] eq ""} {
         return "insert"
       } elseif {$opts(-exclusive)} {
         return "$index-1c"
       }
     } else {
-      set indices [$win._t search -all -- $opts(-char) "$opts(-startpos) linestart" insert]
+      set indices [$win._t search -all -- $opts(-char) "$startpos linestart" insert]
       if {[set index [lindex $indices end-[expr $opts(-num) - 1]]] eq ""} {
         return "insert"
       } elseif {$opts(-exclusive)} {
@@ -5798,12 +5792,11 @@ namespace eval ctext {
 
   ######################################################################
   # TBD
-  proc getindex_betweenchar {win optlist} {
+  proc getindex_betweenchar {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -char     ""
-      -dir      "next"
+      -char ""
+      -dir  "next"
     }
     array set opts $optlist
 
@@ -5835,9 +5828,9 @@ namespace eval ctext {
       }
     } else {
       if {$dir eq "prev"} {
-        set index [find_match_char $win $char -backwards $opts(-startpos)]
+        set index [find_match_char $win $char -backwards $startpos]
       } else {
-        set index [find_match_char $win $char -forwards  $opts(-startpos)]
+        set index [find_match_char $win $char -forwards  $startpos]
       }
     }
 
@@ -5851,23 +5844,22 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms the firstchar specification into a text index.
-  proc getindex_firstchar {win optlist} {
+  proc getindex_firstchar {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
     if {$opts(-num) == 0} {
-      set index [$win._t index $opts(-startpos)]
+      set index [$win._t index $startpos]
     } elseif {$opts(-dir) eq "next"} {
-      if {[$win._t compare [set index [$win._t index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
+      if {[$win._t compare [set index [$win._t index "$startpos+$opts(-num) display lines"]] == end]} {
         set index [$win._t index "$index-1 display lines"]
       }
     } else {
-      set index [$win._t index "$opts(-startpos)-$opts(-num) display lines"]
+      set index [$win._t index "$startpos-$opts(-num) display lines"]
     }
 
     if {[lsearch [$win._t tag names "$index linestart"] __prewhite] != -1} {
@@ -5880,15 +5872,14 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms the lastchar specification into a text index.
-  proc getindex_lastchar {win optlist} {
+  proc getindex_lastchar {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
+      -num 1
     }
     array set opts $optlist
 
-    set line [expr [lindex [split [$win._t index $opts(-startpos)] .] 0] + ($opts(-num) - 1)]
+    set line [expr [lindex [split [$win._t index $startpos] .] 0] + ($opts(-num) - 1)]
 
     return "$line.0+[string length [string trimright [$win._t get $line.0 $line.end]]]c"
 
@@ -5896,17 +5887,16 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a wordstart specification into a text index.
-  proc getindex_wordstart {win optlist} {
+  proc getindex_wordstart {win startpos optlist} {
 
     array set opts {
-      -startpos  "insert"
       -num       1
       -dir       "next"
       -exclusive 0
     }
     array set opts $optlist
 
-    set start $opts(-startpos)
+    set start $startpos
     set num   $opts(-num)
 
     lassign [split [$win index $start] .] curr_row curr_col
@@ -5976,17 +5966,16 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a wordend specification into a text index.
-  proc getindex_wordend {win optlist} {
+  proc getindex_wordend {win startpos optlist} {
 
     array set opts {
-      -startpos  "insert"
       -num       1
       -dir       "next"
       -exclusive 0
     }
     array set opts $optlist
 
-    set start $opts(-startpos)
+    set start $startpos
     set num   $opts(-num)
 
     lassign [split [$win index $start] .] curr_row curr_col
@@ -6054,67 +6043,65 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a WORDstart specification into a text index.
-  proc getindex_WORDstart {win optlist} {
+  proc getindex_WORDstart {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
     set num $opts(-num)
 
     if {$opts(-dir) eq "next"} {
-      set diropt   "-forwards"
-      set startpos $opts(-startpos)
-      set endpos   "end"
-      set suffix   "+1c"
+      set diropt "-forwards"
+      set start  $startpos
+      set endpos "end"
+      set suffix "+1c"
     } else {
-      set diropt   "-backwards"
-      set startpos "$opts(-startpos)-1c"
-      set endpos   "1.0"
-      set suffix   ""
+      set diropt "-backwards"
+      set start  $startpos-1c
+      set endpos "1.0"
+      set suffix ""
     }
 
-    while {[set index [$win._t search $diropt -regexp -- {\s\S|\n\n} $startpos $endpos]] ne ""} {
+    while {[set index [$win._t search $diropt -regexp -- {\s\S|\n\n} $start $endpos]] ne ""} {
       if {[incr num -1] == 0} {
         return [$win._t index $index+1c]
       }
-      set startpos "$index$suffix"
+      set start "$index$suffix"
     }
 
-    return $opts(-startpos)
+    return $startpos
 
 
   }
 
   ######################################################################
   # Transforms a WORDend specification into a text index.
-  proc getindex_WORDend {win optlist} {
+  proc getindex_WORDend {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
     set num $opts(-num)
 
     if {$opts(-dir) eq "next"} {
-      set diropt   "-forwards"
-      set startpos "$opts(-startpos)+1c"
-      set endpos   "end"
-      set suffix   "+1c"
+      set diropt "-forwards"
+      set start  "$startpos+1c"
+      set endpos "end"
+      set suffix "+1c"
     } else {
-      set diropt   "-backwards"
-      set startpos $opts(-startpos)
-      set endpos   "1.0"
-      set suffix   ""
+      set diropt "-backwards"
+      set start  $startpos
+      set endpos "1.0"
+      set suffix ""
     }
 
-    while {[set index [$win._t search $diropt -regexp -- {\S\s|\n\n} $startpos $endpos]] ne ""} {
+    while {[set index [$win._t search $diropt -regexp -- {\S\s|\n\n} $start $endpos]] ne ""} {
       if {[$win._t get $index] eq "\n"} {
         if {[incr num -1] == 0} {
           return [$win._t index $index+1c]
@@ -6124,58 +6111,56 @@ namespace eval ctext {
           return [$win._t index $index]
         }
       }
-      set startpos "$index$suffix"
+      set start "$index$suffix"
     }
 
-    return $opts(-startpos)
+    return $startpos
 
   }
 
   ######################################################################
   # Transforms a column specification into a text index.
-  proc getindex_column {win optlist} {
-
-    array set opts {
-      -startpos "insert"
-      -num      1
-    }
-    array set opts $optlist
-
-    return [lindex [split [$win._t index $opts(-startpos)] .] 0].[expr $opts(-num) - 1]
-
-  }
-
-  ######################################################################
-  # Transforms a linenum specification into a text index.
-  proc getindex_linenum {win optlist} {
+  proc getindex_column {win startpos optlist} {
 
     array set opts {
       -num 1
     }
     array set opts $optlist
 
-    return [$win index firstchar "$opts(-num).0"]
+    return [lindex [split [$win._t index $startpos] .] 0].[expr $opts(-num) - 1]
+
+  }
+
+  ######################################################################
+  # Transforms a linenum specification into a text index.
+  proc getindex_linenum {win startpos optlist} {
+
+    array set opts {
+      -num 1
+    }
+    array set opts $optlist
+
+    return [$win index [list firstchar -num 0] -startpos $opts(-num).0]
 
   }
 
   ######################################################################
   # Transforms a linestart specification into a text index.
-  proc getindex_linestart {win optlist} {
+  proc getindex_linestart {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
+      -num 1
     }
     array set opts $optlist
 
     if {$opts(-num) > 1} {
-      if {[$win._t compare [set index [$win._t index "$opts(-startpos)+[expr $opts(-num) - 1] display lines linestart"]] == end]} {
+      if {[$win._t compare [set index [$win._t index "$startpos+[expr $opts(-num) - 1] display lines linestart"]] == end]} {
         set index "end"
       } else {
         set index "$index+1 display chars"
       }
     } else {
-      set index [$win._t index "$opts(-startpos) linestart+1 display chars"]
+      set index [$win._t index "$startpos linestart+1 display chars"]
     }
 
     if {[$win._t compare "$index-1 display chars" >= "$index linestart"]} {
@@ -6188,18 +6173,17 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a lineend specification into a text index.
-  proc getindex_lineend {win optlist} {
+  proc getindex_lineend {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
+      -num 1
     }
     array set opts $optlist
 
     if {$opts(-num) == 1} {
-      return "$opts(-startpos) lineend"
+      return "$startpos lineend"
     } else {
-      set index [$win._t index "$opts(-startpos)+[expr $opts(-num) - 1] display lines"]
+      set index [$win._t index "$startpos+[expr $opts(-num) - 1] display lines"]
       return "$index lineend"
     }
 
@@ -6207,57 +6191,41 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a dispstart specification into a text index.
-  proc getindex_dispstart {win optlist} {
+  proc getindex_dispstart {win startpos optlist} {
 
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
-
-    return "@0,[lindex [$win._t bbox $opts(-startpos)] 1]"
+    return "@0,[lindex [$win._t bbox $startpos] 1]"
 
   }
 
   ######################################################################
   # Transforms a dispmid specification into a text index.
-  proc getindex_dispmid {win optlist} {
+  proc getindex_dispmid {win startpos optlist} {
 
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
-
-    return "@[expr [winfo width $win] / 2],[lindex [$win._t bbox $opts(-startpos)] 1]"
+    return "@[expr [winfo width $win] / 2],[lindex [$win._t bbox $startpos] 1]"
 
   }
 
   ######################################################################
   # Transforms a dispend specification into a text index.
-  proc getindex_dispend {win optlist} {
+  proc getindex_dispend {win startpos optlist} {
 
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
-
-    return "@[winfo width $win],[lindex [$win._t bbox $opts(-startpos)] 0]"
+    return "@[winfo width $win],[lindex [$win._t bbox $startpos] 0]"
 
   }
 
   ######################################################################
   # Transforms a sentence specification into a text index.
-  proc getindex_sentence {win optlist} {
+  proc getindex_sentence {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
     # Search for the end of the previous sentence
     set pattern  {[.!?][]\)\"']*\s+\S}
-    set index    [$win._t search -backwards -count lengths -regexp -- $pattern $opts(-startpos) 1.0]
+    set index    [$win._t search -backwards -count lengths -regexp -- $pattern $startpos 1.0]
     set beginpos "1.0"
     set endpos   "end-1c"
     set num      $opts(-num)
@@ -6265,7 +6233,7 @@ namespace eval ctext {
     # If the startpos is within a comment block and the found index lies outside of that
     # block, set the sentence starting point on the first non-whitespace character within the
     # comment block.
-    if {[set comment [ctext::commentCharRanges $win $opts(-startpos)]] ne ""} {
+    if {[set comment [ctext::commentCharRanges $win $startpos]] ne ""} {
       lassign [lrange $comment 1 2] beginpos endpos
       if {($index ne "") && [$win._t compare $index < [lindex $comment 1]]} {
         set index ""
@@ -6283,21 +6251,21 @@ namespace eval ctext {
       # non-whitespace character in the file and if it is after the startpos,
       # return the index.
       if {($index eq "") && ([set index [$win._t search -forwards -count lengths -regexp -- {\S} $beginpos $endpos]] ne "")} {
-        if {[$win._t compare $index > $opts(-startpos)] && ([incr num -1] == 0)} {
+        if {[$win._t compare $index > $startpos] && ([incr num -1] == 0)} {
           return $index
         }
         set index ""
       }
 
       # If the insertion cursor is just before the beginning of the sentence.
-      if {($index ne "") && [$win._t compare $opts(-startpos) < "$index+[expr [lindex $lengths 0] - 1]c"]} {
-        set opts(-startpos) $index
+      if {($index ne "") && [$win._t compare $startpos < "$index+[expr [lindex $lengths 0] - 1]c"]} {
+        set startpos $index
       }
 
-      while {[set index [$win._t search -forwards -count lengths -regexp -- $pattern $opts(-startpos) $endpos]] ne ""} {
-        set opts(-startpos) [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
+      while {[set index [$win._t search -forwards -count lengths -regexp -- $pattern $startpos $endpos]] ne ""} {
+        set startpos [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
         if {[incr num -1] == 0} {
-          return $opts(-startpos)
+          return $startpos
         }
       }
 
@@ -6306,12 +6274,12 @@ namespace eval ctext {
     } else {
 
       # If the insertion cursor is between sentences, adjust the starting position
-      if {($index ne "") && [$win._t compare $opts(-startpos) <= "$index+[expr [lindex $lengths 0] - 1]c"]} {
-        set opts(-startpos) $index
+      if {($index ne "") && [$win._t compare $startpos <= "$index+[expr [lindex $lengths 0] - 1]c"]} {
+        set startpos $index
       }
 
-      while {[set index [$win._t search -backwards -count lengths -regexp -- $pattern $opts(-startpos)-1c $beginpos]] ne ""} {
-        set opts(-startpos) $index
+      while {[set index [$win._t search -backwards -count lengths -regexp -- $pattern $startpos-1c $beginpos]] ne ""} {
+        set startpos $index
         if {[incr num -1] == 0} {
           return [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
         }
@@ -6319,7 +6287,7 @@ namespace eval ctext {
 
       if {([incr num -1] == 0) && \
           ([set index [$win._t search -forwards -regexp -- {\S} $beginpos $endpos]] ne "") && \
-          ([$win._t compare $index < $opts(-startpos)])} {
+          ([$win._t compare $index < $startpos])} {
         return $index
       } else {
         return $beginpos
@@ -6331,16 +6299,15 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a paragraph specification into a text index.
-  proc getindex_paragraph {win optlist} {
+  proc getindex_paragraph {win startpos optlist} {
 
     array set opts {
-      -startpos "insert"
-      -num      1
-      -dir      "next"
+      -num 1
+      -dir "next"
     }
     array set opts $optlist
 
-    set start $opts(-startpos)
+    set start $startpos
     set num   $opts(-num)
 
     if {$opts(-dir) eq "next"} {
@@ -6399,7 +6366,7 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a screentop specification into a text index.
-  proc getindex_screentop {win optlist} {
+  proc getindex_screentop {win startpos optlist} {
 
     return "@0,0"
 
@@ -6407,7 +6374,7 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a screenmid specification into a text index.
-  proc getindex_screenmid {win optlist} {
+  proc getindex_screenmid {win startpos optlist} {
 
     return "@0,[expr [winfo height $win] / 2]"
 
@@ -6415,7 +6382,7 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a screenbot specification into a text index.
-  proc getindex_screenbot {win optlist} {
+  proc getindex_screenbot {win startpos optlist} {
 
     return "@0,[winfo height $win]"
 
@@ -6423,94 +6390,76 @@ namespace eval ctext {
 
   ######################################################################
   # Transforms a numberstart specification into a text index.
-  proc getindex_numberstart {win optlist} {
-
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
+  proc getindex_numberstart {win startpos optlist} {
 
     set pattern {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]*)$}
 
-    if {[regexp $pattern [$win._t get "$opts(-startpos) linestart" $opts(-startpos)] match]} {
-      return "$opts(-startpos)-[string length $match]c"
+    if {[regexp $pattern [$win._t get "$startpos linestart" $startpos] match]} {
+      return "$startpos-[string length $match]c"
     }
 
-    return $opts(-startpos)
+    return $startpos
 
   }
 
   ######################################################################
   # Transforms a numberend specification into a text index.
-  proc getindex_numberend {win optlist} {
-
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
+  proc getindex_numberend {win startpos optlist} {
 
     set pattern {^([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]+)}
 
-    if {[regexp $pattern [$win._t get $opts(-startpos) "$opts(-startpos) lineend"] match]} {
-      return "$opts(-startpos)+[expr [string length $match] - 1]c"
+    if {[regexp $pattern [$win._t get $startpos "$startpos lineend"] match]} {
+      return "$startpos+[expr [string length $match] - 1]c"
     }
 
-    return $opts(-startpos)
+    return $startpos
 
   }
 
   ######################################################################
   # Transforms a spacestart specification into a text index.
-  proc getindex_spacestart {win optlist} {
-
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
+  proc getindex_spacestart {win startpos optlist} {
 
     set pattern {[ \t]+$}
 
-    if {[regexp $pattern [$win._t get "$opts(-startpos) linestart" $opts(-startpos)] match]} {
-      return "$opts(-startpos)-[string length $match]c"
+    if {[regexp $pattern [$win._t get "$startpos linestart" $startpos] match]} {
+      return "$startpos-[string length $match]c"
     }
 
-    return $opts(-startpos)
+    return $startpos
 
   }
 
   ######################################################################
   # Transforms a spaceend specification into a text index.
-  proc getindex_spaceend {win optlist} {
-
-    array set opts {
-      -startpos "insert"
-    }
-    array set opts $optlist
+  proc getindex_spaceend {win startpos optlist} {
 
     set pattern {^[ \t]+}
 
-    if {[regexp $pattern [$win._t get $opts(-startpos) "$opts(-startpos) lineend"] match]} {
-      set index "$opts(-startpos)+[expr [string length $match] - 1]c"
+    if {[regexp $pattern [$win._t get $startpos "$startpos lineend"] match]} {
+      set index "$startpos+[expr [string length $match] - 1]c"
     }
 
   }
 
   ######################################################################
-  # Transforms a tagstart specification into a text index.
-  # TBD
-  proc getindex_tagstart {win optlist} {
+  # Transforms a tagstart specification into a text index (i.e., <title>).
+  # Options:
+  #   -num       int       Specifies the number of tagstarts to search outwards from the starting position (must be 1 or more).
+  #   -exclusive bool      If true provides the index of the last character of the tag; otherwise, returns the index of the
+  #                        first character position.
+  proc getindex_tagstart {win startpos optlist} {
 
     array set opts {
-      -startpos  "insert"
       -num       1
       -exclusive 0
     }
     array set opts $optlist
 
-    set start $opts(-startpos)
+    set start $startpos
     set num   $opts(-num)
 
-    while {[set ranges [get_node_range $win $start]] ne ""} {
+    while {[set ranges [get_node_range $win -startpos $start]] ne ""} {
       if {[incr num -1] == 0} {
         return [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
       } else {
@@ -6521,21 +6470,22 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Transforms a tagend specification into a text index.
-  # TBD
-  proc getindex_tagend {win optlist} {
+  # Transforms a tagend specification into a text index (i.e., </title>).
+  #   -num       int       Specifies the number of tagstarts to search outwards from the starting position (must be 1 or more).
+  #   -exclusive bool      If true provides the index of the last character of the tag; otherwise, returns the index of the
+  #                        first character position.
+  proc getindex_tagend {win startpos optlist} {
 
     array set opts {
-      -startpos  "insert"
       -num       1
       -exclusive 0
     }
     array set opts $optlist
 
-    set start $opts(-startpos)
+    set start $startpos
     set num   $opts(-num)
 
-    while {[set ranges [get_node_range $win $start]] ne ""} {
+    while {[set ranges [get_node_range $win -startpos $start]] ne ""} {
       if {[incr num -1] == 0} {
         return [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
       } else {
@@ -6547,18 +6497,17 @@ namespace eval ctext {
 
   ######################################################################
   # Returns the next or previous starting position for selected text.
-  proc getindex_selstart {win optlist} {
+  proc getindex_selstart {win startpos optlist} {
 
     array set opts {
-      -startpos "insert+1c"
-      -dir      "prev"
+      -dir "prev"
     }
     array set opts $optlist
 
     if {$opts(-dir) eq "prev"} {
-      set range [$win._t tag prevrange sel $opts(-startpos)]
+      set range [$win._t tag prevrange sel $startpos]
     } else {
-      set range [$win._t tag nextrange sel $opts(-startpos)]
+      set range [$win._t tag nextrange sel $startpos]
     }
 
     return [lindex $range 0]
@@ -6567,18 +6516,17 @@ namespace eval ctext {
 
   ######################################################################
   # Returns the next or previous starting position for selected text.
-  proc getindex_selend {win optlist} {
+  proc getindex_selend {win startpos optlist} {
 
     array set opts {
-      -startpos "insert+1c"
-      -dir      "prev"
+      -dir "prev"
     }
     array set opts $optlist
 
     if {$opts(-dir) eq "prev"} {
-      set range [$win._t tag prevrange sel $opts(-startpos)]
+      set range [$win._t tag prevrange sel $startpos]
     } else {
-      set range [$win._t tag nextrange sel $opts(-startpos)]
+      set range [$win._t tag nextrange sel $startpos]
     }
 
     return [lindex $range 1]
