@@ -733,7 +733,7 @@ namespace eval vim {
   proc do_set_shiftwidth {val} {
 
     if {[string is integer $val]} {
-      indent::set_shiftwidth [gui::current_txt].t $val
+      [gui::current_txt].t configure -shiftwidth $val
     } else {
       gui::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
     }
@@ -1709,65 +1709,36 @@ namespace eval vim {
       }
       "swap" {
         $txtt transform $sposargs $eposargs toggle_case
-        # if {![multicursor::toggle_case $txtt $eposargs $sposargs $opts(-object)]} {
-        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-        #   edit::transform_toggle_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        # }
         command_mode $txtt
         return 1
       }
       "upper" {
         $txtt transform $sposargs $eposargs upper_case
-        # if {![multicursor::upper_case $txtt $eposargs $sposargs $opts(-object)]} {
-        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-        #   edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        # }
         command_mode $txtt
         return 1
       }
       "lower" {
         $txtt transform $sposargs $eposargs lower_case
-        # if {![multicursor::lower_case $txtt $eposargs $sposargs $opts(-object)]} {
-        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-        #   edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        # }
         command_mode $txtt
         return 1
       }
       "rot13" {
         $txtt transform $sposargs $eposargs rot13
-        # if {![multicursor::rot13 $txtt $eposargs $sposargs $opts(-object)]} {
-        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-        #   edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index $opts(-cursor)]
-        # }
         command_mode $txtt
         return 1
       }
       "format" {
-        $txtt indent $sposargs $eposargs
-        # if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
-        #   lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-        #   indent::format_text $txtt $startpos $endpos
-        #   ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0] -startpos $startpos]
-        # }
+        $txtt indent auto $sposargs $eposargs
         command_mode $txtt
         return 1
       }
       "lshift" {
-        if {![multicursor::shift $txtt left $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::unindent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0] -startpos $startpos]
-        }
+        $txtt indent left $sposargs $eposargs
         command_mode $txtt
         return 1
       }
       "rshift" {
-        if {![multicursor::shift $txtt right $eposargs $sposargs $opts(-object)]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
-          edit::indent $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt [$txtt index [list firstchar -num 0] -startpos $startpos]
-        }
+        $txtt indent right $sposargs $eposargs
         command_mode $txtt
         return 1
       }
@@ -3635,9 +3606,7 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-          foreach {endpos startpos} [lreverse $selected] {
-            indent::format_text $txtt $startpos $endpos
-          }
+          $txtt indent auto selstart selend
           ::tk::TextSetCursor $txtt [$txtt index firstchar -startpos $startpos]]
           command_mode $txtt
         } else {
