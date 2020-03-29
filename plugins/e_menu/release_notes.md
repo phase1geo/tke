@@ -1,6 +1,14 @@
 # Last changes:
 
 
+Versions `1.50 through 1.51`
+
+  - bugfix: disabling "undo to blank" in editor
+  - Ctrl+F acts as Ctrl+f in editor
+  - upper letters as hotkeys (if possible)
+  - tt= argument, %TT wildcard introduced
+
+
 Versions `1.45 through 1.49`
 
   - macros %MC entered

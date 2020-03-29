@@ -23,7 +23,7 @@
 #####################################################################
 
 namespace eval em {
-  variable e_menu_version "e_menu v1.49"
+  variable e_menu_version "e_menu v1.51"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir "src"]
 }
@@ -127,7 +127,7 @@ namespace eval em {
   variable incwidth 15
   variable wc 0
   variable tf 15
-  variable tg 100x32+300+200
+  variable tg 80x24+200+200
   variable om 1
   #---------------
   variable mute "*S*"
@@ -204,6 +204,7 @@ namespace eval em {
   variable ismenuvars 0
   variable savelasti -1
   variable clrSet 0
+  variable linuxconsole ""
 }
 #=== set theme options for dialogs
 proc ::em::theming_pave {} {
@@ -824,7 +825,10 @@ proc ::em::shell0 {sel amp {silent -1}} {
     set lang [get_language]
     set sel [escape_quotes $sel "\\\""]
     set composite "$::lin_console $sel $amp"
-    if {[set term [auto_execok lxterminal]]!="" } {
+    if {$::em::linuxconsole ne ""} {
+      set composite [string map [list \\n " ; "] $composite]
+      exec -ignorestderr {*}$::em::linuxconsole -e {*}$composite
+    } elseif {[set term [auto_execok lxterminal]]!="" } {
       exec -ignorestderr {*}$term --geometry=$::em::tg -e {*}$composite
     } elseif {[set term [auto_execok xterm]]!="" } {
       exec -ignorestderr {*}$term -fa "$lang" -fs $::em::tf \
@@ -1111,7 +1115,7 @@ proc ::em::callmenu { typ s1 {amp ""} {from ""}} {
     prepr_1 pars "cb" [::em::get_callback]    ;# %cb is callback of caller
   }
   prepr_1 pars "in" [string range $s1 1 end]  ;# %in is menu's index
-  set sel "wish \"$::argv0\""
+  set sel "tclsh \"$::argv0\""
   prepr_win sel "M/"  ;# force converting
   if {[iswindows] || $amp!="&"} {focused_win false}
   if { [catch {exec {*}$sel {*}$pars $amp} e] } { }
@@ -1244,6 +1248,14 @@ proc ::em::get_AR {} {
     }
   }
   return ""
+}
+#=== get terminal's name
+proc ::em::get_tty {} {
+  if {[::iswindows]} {set tty "cmd.exe /K"} \
+  elseif {$::em::linuxconsole ne ""} {set tty $::em::linuxconsole} \
+  elseif {[auto_execok lxterminal] ne ""} {set tty lxterminal} \
+  else {set tty xterm}
+  return $tty
 }
 #=== get contents of %l-th line of %f file
 proc ::em::get_L {} {
@@ -1397,6 +1409,7 @@ proc ::em::prepr_pn {refpn {dt 0}} {
   prepr_1 pn "lg" [get_language]      ;# %lg is a locale (e.g. ru_RU.utf8)
   prepr_1 pn "AR" [get_AR]            ;# %AR is contents of #ARGS1: ..#ARGS99: line
   prepr_1 pn "L"  [get_L]             ;# %L is contents of %l-th line
+  prepr_1 pn "TT" [get_tty]           ;# %TT is a name of terminal
   set pndt [prepr_dt pn]
   if {$dt} { return $pndt } { return $pn }
 }
@@ -1868,7 +1881,7 @@ proc ::em::check_real_call {} {
     if {$::em::start0} {
       em_message "Run this with
 
-  wish e_menu.tcl \"s=%s\" \[m=menu\]
+  tclsh e_menu.tcl \"s=%s\" \[m=menu\]
 
 as a menu application."
     }
@@ -1987,7 +2000,7 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
   set resetpercent2 0
   foreach s1 { a0= P= N= PD= PN= F= o= ln= cn= s= u= w= \
         qq= dd= ss= pa= ah= wi= += bd= b1= b2= b3= b4= \
-        f1= f2= fs= a1= a2= ed= tf= tg= md= wc= \
+        f1= f2= fs= a1= a2= ed= tf= tg= md= wc= tt= \
         t0= t1= t2= t3= t4= t5= t6= t7= t8= t9= \
         s0= s1= s2= s3= s4= s5= s6= s7= s8= s9= \
         u0= u1= u2= u3= u4= u5= u6= u7= u8= u9= \
@@ -2138,6 +2151,9 @@ proc ::em::initcommands { lmc amc osm {domenu 0} } {
               $i1!= 0 && $i2!= 0 && $i1/$i2<=1} {
             set ::em::ratiomin "$i1/$i2"
           }
+        }
+        tt= { ;# command for terminal (e.g. qterminal)
+          set ::em::linuxconsole $seltd
         }
         default {
           if {$s1 in {TF=} || [string range $s1 0 0] in {x y z}} {
@@ -2319,6 +2335,7 @@ proc ::em::initpopup {} {
 proc ::em::initmenu {} {
   initpopup
   prepare_buttons ::em::commands
+  set capsbeg [expr {36 + $::em::begsel}]
   for_buttons {
     set hotkey [string range $::em::hotkeys $i $i]
     set comm [lindex $::em::commands $i]
@@ -2326,7 +2343,11 @@ proc ::em::initmenu {} {
     set prkeybutton [ctrl_alt_off $prbutton]  ;# for hotkeys without ctrl/alt
     set comtitle [string map {"\n" " "} [lindex $comm 0]]
     if {$i > $::em::begsel} {
-      if {$i < 10} { bind . <KP_$hotkey> "$prkeybutton" }
+      if {$i < ($::em::begsel+10)} {
+        bind . <KP_$hotkey> "$prkeybutton"
+      } elseif {($capsbeg-$i)>0} {
+        bind . <KeyPress-[string toupper $hotkey]> "$prkeybutton"
+      }
       bind . <KeyPress-$hotkey> "$prkeybutton"
       set t [string trim $comtitle]
       set hotk [lindex $comm 2]

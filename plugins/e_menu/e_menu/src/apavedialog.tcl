@@ -589,6 +589,7 @@ oo::class create apave::APaveDialog {
            bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
            bind $_pdg(win).dia <F3> {[self] FindInText 1}
            bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
+           bind $_pdg(win).dia <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
            bind \[[self] TexM\] <Button-3> \{
              tk_popup \[[self] TexM\].popupMenu %X %Y \}
            set pop \[[self] TexM\].popupMenu"
@@ -684,6 +685,7 @@ oo::class create apave::APaveDialog {
     if {$textmode} {
       if {!$optsTags} {set tags [list]}
       my displayTaggedText [my TexM] msg $tags
+      [my TexM] edit reset
       if {$defb == "butTEXT"} {
         if {$readonly} {
           set focusnow [my Pdg defb1]

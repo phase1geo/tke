@@ -6,7 +6,7 @@ b2=3
 b3=1
 w=28
 g=246x624+3+27
-pos=77.0
+pos=41.0
 ::EMENUTMPFILE=%mn.tmp~
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
@@ -36,11 +36,7 @@ pos=77.0
  RE: Open directory "%D" RE: %IF [::iswindows] %THEN explorer.exe "%d" %ELSE caja "%d"
 
  RE: Open terminal in "%D" RE: cd %d
- RE: Open terminal in "%D" RE: %IF ![::iswindows] %THEN %Q "CHANGE ME" "LXterminal (user-friendly Linux terminal) would be open in\n\n%d\n\nYou can change it by editing:\n%mn" okcancel warn OK -ontop 1
- RE: Open terminal in "%D" RE: %IF [::iswindows] %THEN cmd.exe /K %ELSE lxterminal
-
-# xterm is more standard, lxterminal (if installed) is more user-friendly
-# RE: Open terminal in "%D" RE: %IF [::iswindows] %THEN cmd.exe /K %ELSE xterm -fa "%lg" -fs 15 -geometry 123x32+0+0 -bg white -fg black
+ RE: Open terminal in "%D" RE: %TT
 
  M:  M: 4
 
