@@ -2097,27 +2097,42 @@ namespace eval ctext {
   # of the preceeding text.
   proc command_indent {win args} {
 
-    # Parse the arguments
-    switch [llength $args] {
-      0 {
-        set startpos "1.0"
-        set endpos   [$win._t index end]
-      }
-      1 {
-        set startpos [$win index [lindex $args 0]]
-        set endpos   [$win._t index end]
-      }
-      2 {
-        set startpos [$win index [lindex $args 0]]
-        set endpos   [$win index [lindex $args 1]]
-      }
-      default {
-        return -code error "Incorrect arguments to ctext indent command"
-      }
+    variable data
+
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -moddata {}
+      -mcursor 1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    set sspec first
+    set espec last
+    lassign [lrange $args $i end] subcmd sspec espec
+
+    if {[lsearch {right left auto} $subcmd] == -1} {
+      return -code error "Invalid ctext indent subcommand ($subcmd)"
     }
 
-    # Format the text
-    indent_format_text $win $startpos $endpos
+    set ranges      [list]
+    set undo_append 0
+
+    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
+      foreach {spos epos} [$win._t tag ranges _mcursor] {
+        indent_shift_$subcmd $win [$win index $sspec -startpos $spos] [$win index $espec -startpos $epos] 1 ranges undo_append
+      }
+    } else {
+      indent_shift_$subcmd $win [$win index $sspec] [$win index $espec] 0 ranges undo_append
+    }
+
+    # Create a separator
+    undo_add_separator $win
+
+    # Let everyone know about the change
+    modified $win 1 [list indent $ranges $opts(-moddata)]
+    event generate $win.t <<CursorChanged>>
 
   }
 
@@ -7143,9 +7158,72 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Indents the given text lines one shiftwidth to the right (indent).
+  proc indent_shift_right {win startpos endpos mcursor pranges pundo_append} {
+
+    upvar $pranges      ranges
+    upvar $pundo_append undo_append
+
+    variable data
+
+    # Get the indent spacing
+    set shiftwidth $data($win,config,-shiftwidth)
+    set indent_str [string repeat " " $shiftwidth]
+    set startpos   [$win._t index "$startpos linestart"]
+    set endpos     [$win._t index "$endpos linestart"]
+    set cursor     [$win._t index insert]
+
+    while {[$win._t compare $startpos <= $endpos]} {
+      $win._t insert $startpos $indent_str [list lmargin rmargin __prewhite [getLangTag $win $startpos]]
+      set epos [$win._t index "$startpos+${shiftwidth}c"]
+      handleInsertAt0 $win $startpos $epos
+      undo_add_change $win [list i $startpos $epos $indent_str $cursor $mcursor] $undo_append
+      set undo_append 1
+      lappend ranges $startpos $epos
+      set startpos    [$win._t index "$startpos linestart+1l"]
+    }
+
+  }
+
+  ######################################################################
+  # Indents the given text lines one shiftwidth to the left (unindent).
+  proc indent_shift_left {win startpos endpos mcursor pranges pundo_append} {
+
+    upvar $pranges      ranges
+    upvar $pundo_append undo_append
+
+    variable data
+
+    # Get the indent spacing
+    set shiftwidth   $data($win,config,-shiftwidth)
+    set unindent_str [string repeat " " $shiftwidth]
+    set lastchar     [expr $shiftwidth - 1]
+    set startpos     [$win._t index "$startpos linestart"]
+    set endpos       [$win._t index "$endpos linestart"]
+    set cursor       [$win._t index insert]
+
+    while {[$win._t compare $startpos <= $endpos]} {
+      set epos [$win._t index "$startpos+${shiftwidth}c"]
+      if {[$win._t get $startpos $epos] eq $unindent_str} {
+        handleDeleteAt0      $win $startpos $epos
+        linemapCheckOnDelete $win $startpos $epos
+        $win._t delete "$startpos linestart" $epos
+        undo_add_change $win [list d $startpos $epos $unindent_str $cursor $mcursor] $undo_append
+        lappend ranges $startpos $epos
+        set undo_append 1
+      }
+      set startpos [$win._t index "$startpos linestart+1l"]
+    }
+
+  }
+
+  ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  proc indent_format_text {win startpos endpos} {
+  proc indent_shift_auto {win startpos endpos mcursor pranges pundo_append} {
+
+    upvar $pranges      ranges
+    upvar $pundo_append undo_append
 
     variable data
 
@@ -7160,6 +7238,7 @@ namespace eval ctext {
     set endpos       [$win._t index $endpos]
     set indent_space ""
     set shiftwidth   $data($win,config,-shiftwidth)
+    set cursor       [$win._t index insert]
 
     while {[$win._t compare $curpos < $endpos]} {
 
@@ -7208,19 +7287,19 @@ namespace eval ctext {
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
-        $win._t replace -mcursor 0 $curpos "$curpos+[string length $whitespace]c" $indent_space
+        set epos [$win._t index "$curpos+[string length $whitespace]c"]
+        set t [handleReplaceDeleteAt0 $win $curpos $epos]
+        $win._t replace $curpos $epos $indent_space [list lmargin rmargin __prewhite [getLangTag $win $curpos]]
+        handleReplaceInsert $win $curpos $epos $t
+        undo_add_change $win [list d $curpos $epos $whitespace $cursor $mcursor] $undo_append
+        undo_add_change $win [list i $curpos [$win._t index "$curpos+[string length $indent_space]c"] $indent_space $cursor $mcursor] 1
+        set undo_append 1
       }
 
       # Adjust the startpos
       set curpos [$win._t index "$curpos+1l linestart"]
 
     }
-
-    # Create a separator
-    undo_add_separator $win
-
-    # Perform syntax highlighting
-    $win syntax highlight $startpos $endpos
 
   }
 

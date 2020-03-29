@@ -3,6 +3,12 @@ namespace eval motion {
   variable current_tab
 
   ######################################################################
+  # Outputs the given string such that blank space is shown
+  proc ostr {str} {
+    return [string map {\n .\n} $str]
+  }
+
+  ######################################################################
   # Common diagnostic initialization procedure.  Returns the pathname
   # to the added text widget.
   proc initialize {} {
@@ -1066,7 +1072,7 @@ namespace eval motion {
       cleanup "0 Insertion cursor is not correct ([$txtt index insert])"
     }
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n\nThis is good too"} {
-      cleanup "0 rshift not correct ([$txtt get 1.0 end-1c])"
+      cleanup "0 rshift not correct ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     enter $txtt {2 greater greater}
@@ -1074,42 +1080,42 @@ namespace eval motion {
       cleanup "1 Insertion cursor is not correct ([$txtt index insert])"
     }
     if {[$txtt get 1.0 end-1c] ne "\n    This is good\n  \nThis is good too"} {
-      cleanup "1 rshift not correct ([$txtt get 1.0 end-1c])"
+      cleanup "1 rshift not correct ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     vim::do_set_shiftwidth 4
 
     enter $txtt {3 greater greater}
     if {[$txtt get 1.0 end-1c] ne "\n        This is good\n      \n    This is good too"} {
-      cleanup "Right shift 3 failed ([$txtt get 1.0 end-1c])"
+      cleanup "Right shift 3 failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     enter $txtt {less less}
     if {[$txtt get 1.0 end-1c] ne "\n    This is good\n      \n    This is good too"} {
-      cleanup "Left shift failed ([$txtt get 1.0 end-1c])"
+      cleanup "Left shift failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     vim::do_set_shiftwidth 2
 
     enter $txtt {2 less less}
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n    This is good too"} {
-      cleanup "Left shift 2 failed ([$txtt get 1.0 end-1c])"
+      cleanup "Left shift 2 failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     enter $txtt {2 j equal equal}
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too"} {
-      cleanup "Equal failed ([$txtt get 1.0 end-1c])"
+      cleanup "Equal failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     $txtt insert end "\n      This is cool"
     enter $txtt {less less}
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \nThis is good too\n      This is cool"} {
-      cleanup "Text adjustment failed ([$txtt get 1.0 end-1c])"
+      cleanup "Text adjustment failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     enter $txtt {2 equal equal}
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too\n  This is cool"} {
-      cleanup "Equal 2 failed ([$txtt get 1.0 end-1c])"
+      cleanup "Equal 2 failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     $txtt insert end "\nThis is wacky\n    Not this though"
@@ -1117,7 +1123,7 @@ namespace eval motion {
 
     enter $txtt equal
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too\n  This is cool\n  This is wacky\n  Not this though"} {
-      cleanup "Selected equal failed ([$txtt get 1.0 end-1c])"
+      cleanup "Selected equal failed ([ostr [$txtt get 1.0 end-1c]])"
     }
 
     # Cleanup
