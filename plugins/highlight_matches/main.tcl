@@ -132,7 +132,7 @@ namespace eval highlight_matches {
       api::edit::move_cursor $txt left -startpos $pos -num 0
       $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
     } else {
-      set mess "  Not found:  [string range $sel 0 40]..."
+      set mess "  Not found:  [string range $sel 0 40] ..."
       api::show_info $mess -clear_delay [expr 1000+[string length $mess]*20]
     }
     return
@@ -158,9 +158,9 @@ namespace eval highlight_matches {
     foreach pos2 $posList len $lenList {
       set pos3 [$w index "$pos2 + $len chars"]
       if {$pos2 == $pos} {
-        $w tag add sel $pos2 $pos3
+        lappend matches2 $pos2 $pos3
       } else {
-        lappend matches $pos2 $pos3
+        lappend matches1 $pos2 $pos3
       }
     }
     catch {
@@ -170,10 +170,13 @@ namespace eval highlight_matches {
           bind all "<KeyPress>" {+ after idle ::highlight_matches::unhighlight}
         }
         $w tag configure $HILI -foreground #280000 -background #f88eca
+        $w tag configure ${HILI}2 -foreground #280000 -background #ff6587
         lappend hili $w
       }
       $w tag remove $HILI 1.0 end
-      $w tag add $HILI {*}$matches
+      $w tag remove ${HILI}2 1.0 end
+      $w tag add $HILI {*}$matches1
+      $w tag add ${HILI}2 {*}$matches2
     }
     if {$rows_to_span=="-1" || $rows_to_span=="" || $frommenu} {
       set scan ""
@@ -196,6 +199,7 @@ namespace eval highlight_matches {
     set w [get_txt]
     if {[set ih [lsearch -exact $hili $w]]>-1} {
       $w tag remove $HILI 1.0 end
+      $w tag remove ${HILI}2 1.0 end
       set hili [lreplace $hili $ih $ih]
     }
 
