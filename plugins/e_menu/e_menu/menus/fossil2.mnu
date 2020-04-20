@@ -1,3 +1,13 @@
+[OPTIONS]
+o=0
+in=1.0
+pos=91.3
+::FSLUSER=aplsimple
+::FSLBRANCH=
+::FSLBRANCHCOLOR=#e2ffba
+::EMENUTMPFILE=%mn.tmp~
+
+[MENU]
  S:fossil pull S: cd %PD
  R:fossil pull R: %C if {![info exist ::FSLREPO]} \
    {set ::FSLREPO %PN; set ::FSLPASS ""}
@@ -77,45 +87,57 @@ SW:fossil uv sync %F SW: fossil uv add %F\nfossil uv sync
  S:fossil commit S: fossil commit --allow-empty
 
  R:fossil commit -m ? --branch ? R: cd %PD
- R:fossil commit -m ? --branch ? R: %C set ::COMMES "%s"
+ R:fossil commit -m ? --branch ? R: %C set ::COMMES "%s" ; \
+   if {"$::FSLBRANCH" eq ""} {set ::FSLBRANCH "%s"}
  R:fossil commit -m ? --branch ? R: %I warn "COMMIT & BRANCH" { \
    ent1 {{Commit message:}} {"$::COMMES"} \
-   ent2 {{Branch name   :}} {$::FSLBRANCH} \
+   ent2 {{   Branch name:}} {"$::FSLBRANCH"} \
+   clr1 {{  Branch color:\n    (or empty)}} {"$::FSLBRANCHCOLOR"} \
    v_} -head {\n This will COMMIT and create a new BRANCH \
-   \n from a current check-in.\n} -weight bold == ::COMMES ::FSLBRANCH
+   \n from a current check-in.\n} -weight bold == ::COMMES ::FSLBRANCH ::FSLBRANCHCOLOR
  R:fossil commit -m ? --branch ? R: %C if {"$::FSLBRANCH" eq {}} exit
-SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::FSLBRANCH" -bgcolor 0xffc0ff
+ R:fossil commit -m ? --branch ? R: %C if {"$::FSLBRANCHCOLOR" eq {}} {set ::TMPBG ""} {set ::TMPBG "-bgcolor \"$::FSLBRANCHCOLOR\""}
+SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::FSLBRANCH" $::TMPBG
 
  S:fossil checkout ? S: cd %PD
+RW:fossil checkout ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil checkout ? R: %I {} "CHECKOUT" { \
-   ent1 {{Version / branch / tag :} {} {}} {$::FSLBRANCH} \
+   fco1 {{Version / branch / tag :} {} {-h 10 -state readonly -cbxsel "$::FSLBRANCH"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
+     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-   texc {{Hint:} {} {-h 7 -w 58 -ro 1 -wrap word}} \
+   texc {{Hint:} {} {-h 7 -w 70 -ro 1 -wrap word}} \
    { The VERSION can be the name of a branch or tag or any abbreviation to the 40-character artifact ID for a check-in. \
 \n The VERSION can be a date/time stamp (e.g. YYYY-MM-DD, HH:MM:SS, 'YYYY-MM-DD HH:MM:SS'). \
 \n CHECKOUT does not merge local changes, it prefers to overwrite them and fails if local changes exist.} \
    } -head {\n This will CHECKOUT a version / branch / tag. \n} -weight bold == ::FSLBRANCH
- S:fossil checkout ? S: fossil co "$::FSLBRANCH"
+ S:fossil checkout ? S: fossil co --setmtime "$::FSLBRANCH"
 
  S:fossil merge ? S: cd %PD
+RW:fossil merge ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil merge ? R: %I warn "MERGE" { \
-   ent1 {{Branch name:} {} {}} {$::FSLBRANCH} \
+   fco1 {{Version / branch / tag :} {} {-h 10 -w 45 -state readonly -cbxsel "$::FSLBRANCH"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
+     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    v_} -head {\n This will MERGE changes from a branch, \
-   \n then commits (you may cancel the commit). \n} -weight bold == ::FSLBRANCH
+   \n then commits (you may cancel the commit afterwards). \n} -weight bold == ::FSLBRANCH
  S:fossil merge ? S: fossil merge "$::FSLBRANCH"\nfossil commit
 
  S:fossil update ? S: cd %PD
  R:fossil update ? R: %C  if {![info exist ::FSLUPD]}  {set ::FSLUPD ""}
+RW:fossil update ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil update ? R: %I {} "UPDATE" { \
-   ent1 {{Version / branch / tag :} {} {}} {$::FSLUPD} \
+   fco1 {{Version / branch / tag :} {} {-h 10 -state readonly -cbxsel "$::FSLUPD"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
+     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
    v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
-   texc {{Hint:} {} {-h 7 -w 58 -ro 1 -wrap word}} \
+   texc {{Hint:} {} {-h 7 -w 70 -ro 1 -wrap word}} \
    { VERSION can be 'trunk' to move to the trunk branch. \
 \n If you omit the VERSION, fossil moves you to the latest version of the branch your are currently on. \
 \n VERSION can be 'tip' to select the most recent check-in. \
 \n Any uncommitted changes are retained and applied to the new checkout.} \
   } -head {\n This will UPDATE to a version / branch / tag. \n} -weight bold == ::FSLUPD
- S:fossil update ? S: fossil update $::FSLUPD
+ S:fossil update ? S: fossil update "$::FSLUPD"
 
  S:fossil revert S: cd %PD
  R:fossil revert R: %q "REVERT ALL" \
@@ -175,10 +197,3 @@ R: R: 2
 
  R:terminal here R: cd %d
  R:terminal here R: %TT
-
-[OPTIONS]
-o=0
-in=1.0
-pos=86.61
-::FSLUSER=aplsimple
-::FSLBRANCH=exact-glob-re

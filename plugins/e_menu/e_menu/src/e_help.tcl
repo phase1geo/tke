@@ -49,7 +49,7 @@ proc a {a} {set m [array get $a]; d $m}
 
 #====== to check if the platform is MS Windows
 proc iswindows {} {
-  return [expr {$::tcl_platform(platform) == "windows"} ? 1: 0]
+  return [expr {$::tcl_platform(platform) eq "windows"} ? 1: 0]
 }
 #====== to get system time & date
 proc get_timedate {} {
@@ -151,7 +151,7 @@ proc invokeBrowser {url} {
 namespace eval eh {
 
   set reginit 1
-  set solo [expr {$::argv0==[info script]} ? 1 : 0]
+  set solo [expr {$::argv0 eq [info script]} ? 1 : 0]
 
   #====== check if link exists
   proc lexists {url} {
@@ -232,7 +232,7 @@ namespace eval eh {
   }
   #====== to call browser
   proc browse { {help ""} } {
-    if {$::eh::my_browser != ""} {
+    if {$::eh::my_browser ne ""} {
       exec ${::eh::my_browser} "$help" &
     } else {
       ::invokeBrowser "$help"

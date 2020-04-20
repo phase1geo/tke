@@ -1,12 +1,15 @@
 # Last changes:
 
 
-Versions `1.50 through 1.51`
+Versions `1.50 through 1.53 (20 Apr'20)`
 
-  - bugfix: disabling "undo to blank" in editor
-  - Ctrl+F acts as Ctrl+f in editor
+  - apave package v2.5
+  - bug fix: focusing items at hotkey pressing (pr_button)
+  - bug fix: disabling "undo to blank" in editor
   - upper letters as hotkeys (if possible)
   - tt= argument, %TT wildcard introduced
+  - fossil mnu corr.
+  - clean-ups
 
 
 Versions `1.45 through 1.49`
