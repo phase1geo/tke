@@ -34,7 +34,7 @@
 
 package require Tk
 
-package provide apave 2.2.1
+package provide apave 2.5
 
 source [file join [file dirname [info script]] apavedialog.tcl]
 
@@ -98,7 +98,7 @@ oo::class create apave::APaveInput {
       if {$name eq ""} continue
       lassign $prompt prompt gopts attrs
       set gopts "$pady $gopts"
-      if {[set typ [string range $name 0 1]]=="v_" || $typ=="se"} {
+      if {[set typ [string range $name 0 1]] eq "v_" || $typ eq "se"} {
         lappend inopts [list fraM.$name - - - - "pack -fill x $gopts"]
         continue
       }
@@ -113,7 +113,7 @@ oo::class create apave::APaveInput {
         set Mfont "Courier"
       }
       lappend inopts [list fraM.fra$name - - - - "pack -expand 1 -fill both"]
-      if {$typ!="la"} {
+      if {$typ ne "la"} {
         lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor w -padx 3" "-t \"$prompt\" -font \"-family $Mfont -size 10\""]
       }
       set vv [my varname $name]
@@ -160,7 +160,7 @@ oo::class create apave::APaveInput {
         }
         te {
           if {![info exist $vv]} {set $vv [string map {\\n \n} $valopts]}
-          if {[dict exist $attrs -state] && [dict get $attrs -state]=="disabled"} \
+          if {[dict exist $attrs -state] && [dict get $attrs -state] eq "disabled"} \
           {
             # disabled text widget cannot be filled with a text, so we should
             # compensate this through a home-made attribute (-disabledtext)
@@ -181,7 +181,7 @@ oo::class create apave::APaveInput {
         }
         default {
           lappend inopts [list $ff - - - - "pack -side right -expand 1 -fill x $gopts" "$tvar $vv $attrs"]
-          if {$vv!=""} {
+          if {$vv ne ""} {
             if {![info exist $vv]} {catch {lassign $valopts $vv}}
           }
         }
@@ -192,11 +192,11 @@ oo::class create apave::APaveInput {
     if {![string match "*-focus *" $args]} {
       # find 1st entry/text to be focused
       foreach io $iopts {
-        if {[set _ [string range [set n [lindex $io 0]] 0 1]]=="en" || $_ in {te fc cb ra ch}} {
+        if {[set _ [string range [set n [lindex $io 0]] 0 1]] eq "en" || $_ in {te fc cb ra ch}} {
           set args "$args -focus *$n"
           break
         }
-        if {$_=="fi" || $_=="di" || $_=="fo" || $_=="cl"} {
+        if {$_ in {fi di fo cl}} { ;# choosers (file, dir, font, color)
           set args "$args -focus *ent$n"
           break
         }
@@ -227,7 +227,7 @@ oo::class create apave::APaveInput {
 
   # edit/view a file with a set of main colors
   method editfile {fname fg bg cc {prepost ""} args} {
-    if {$fname==""} {
+    if {$fname eq ""} {
       return false
     }
     set newfile 0
@@ -254,12 +254,12 @@ oo::class create apave::APaveInput {
     } else {
       set tclr "-fg $fg -bg $bg -cc $cc"
     }
-    if {$prepost==""} {set aa ""} {set aa [$prepost filetxt]}
+    if {$prepost eq ""} {set aa ""} {set aa [$prepost filetxt]}
     set res [my misc "" "$oper FILE: $fname" "$filetxt" $btns \
       TEXT -text 1 -w {100 80} -h 32 -size 12 {*}$tclr \
       -post $prepost {*}$aa {*}$args]
     set data [string range $res 2 end]
-    if {[set res [string index $res 0]]=="1"} {
+    if {[set res [string index $res 0]] eq "1"} {
       set data [string range $data [string first " " $data]+1 end]
       set data [string trimright $data]
       set ch [open $fname w]

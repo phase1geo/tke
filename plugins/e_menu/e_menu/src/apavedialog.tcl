@@ -140,7 +140,7 @@ oo::class create apave::APaveDialog {
     # butts is a list of pairs "title of button" "number/ID of button"
     foreach {nam num} $butts {
       lappend apave_msc_bttns but$num "$nam" $num
-      if {$defb==""} {
+      if {$defb eq ""} {
         set defb $num
       }
     }
@@ -190,14 +190,14 @@ oo::class create apave::APaveDialog {
   # 1. Set contents of text fields (after creating them)
   # 2. Get contents of text fields (before exiting)
   method setgettexts {oper w iopts lwidgets} {
-    if {$iopts==""} return
+    if {$iopts eq ""} return
     foreach widg $lwidgets {
       set wname [lindex $widg 0]
       set name [my rootwname $wname]
-      if {[string range $name 0 1]=="te"} {
+      if {[string range $name 0 1] eq "te"} {
         set vv [my varname $name]
-        if {$oper=="set"} {
-          $w.$wname replace 1.0 end [set $vv]
+        if {$oper eq "set"} {
+          my setTextContents $w.$wname [set $vv]
         } else {
           set $vv [string trimright [$w.$wname get 1.0 end]]
         }
@@ -215,9 +215,9 @@ oo::class create apave::APaveDialog {
     upvar $inplist widlist
     set defb1 [set defb2 ""]
     foreach {but txt res} $buttons {
-      if {$defb1==""} {
+      if {$defb1 eq ""} {
         set defb1 $but
-      } elseif {$defb2==""} {
+      } elseif {$defb2 eq ""} {
         set defb2 $but
       }
       lappend widlist [list $but $neighbor $pos 1 1 "-st we" \
@@ -456,7 +456,7 @@ oo::class create apave::APaveDialog {
         -post {set postcom $val}
         default {
           append optsFont " $opt $val"
-          if {$opt!="-family"} {
+          if {$opt ne "-family"} {
             append optsFontM " $opt $val"
           }
         }
@@ -464,7 +464,7 @@ oo::class create apave::APaveDialog {
     }
     set optsFont [string trim $optsFont]
     set optsHeadFont $optsFont
-    if {$optsFont != ""} {
+    if {$optsFont ne ""} {
       if {[string first "-size " $optsFont]<0} {
         append optsFont " -size 12"
       }
@@ -483,7 +483,7 @@ oo::class create apave::APaveDialog {
       set optsFontM "-font \"-size 12\""
     }
     # layout: add the icon
-    if {$icon!="" && $icon!="-"} {
+    if {$icon ni {"" "-"}} {
       set widlist [list [list labBimg - - 99 1 \
       "-st n -pady 7" "-image ${_pdg(ns)}PD::img$icon"]]
       set prevl labBimg
@@ -492,9 +492,9 @@ oo::class create apave::APaveDialog {
       set prevl labimg ;# this trick would hide the prevw at all
     }
     set prevw labBimg
-    if {$head!=""} {
+    if {$head ne ""} {
       # set the dialog's heading (-head option)
-      if {$optsHeadFont!="" || $hsz!=""} {
+      if {$optsHeadFont ne "" || $hsz ne ""} {
         set optsHeadFont [string trim "$optsHeadFont $hsz"]
         set optsHeadFont "-font \"$optsHeadFont\""
       }
@@ -533,7 +533,7 @@ oo::class create apave::APaveDialog {
       set prevw labB$il
       set prevp T
     }
-    if {$inopts!=""} {
+    if {$inopts ne ""} {
       # here are widgets for input (in fraM frame)
       set io0 [lindex $inopts 0]
       lset io0 1 $prevh
@@ -559,7 +559,8 @@ oo::class create apave::APaveDialog {
       rename vallimits ""
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
       lappend widlist {TexM - - 1 7 {pack -side left -expand 1 -fill both -in \
-        $_pdg(win).dia.fra.fraM} {-h $il -w $maxw $optsFontM $optsMisc -wrap word}}
+        $_pdg(win).dia.fra.fraM} \
+        {-h $il -w $maxw $optsFontM $optsMisc -wrap word -textpop 0}}
       lappend widlist {sbv texM L 1 1 {pack -in $_pdg(win).dia.fra.fraM}}
       set prevw fraM
     }
@@ -569,35 +570,49 @@ oo::class create apave::APaveDialog {
     lappend widlist [list seh $prevl T 1 99 "-st ew"]
     # add left frames and checkbox (before buttons)
     lappend widlist [list h_3 seh T 1 1 "-pady 0 -ipady 0 -csz 0"]
-    if {$chmsg == ""} {
+    if {$textmode} {
+      # binds to the special popup menu of the text widget
+      set wt "\[[self] TexM\]"
+      set binds "set pop $wt.popupMenu
+        bind $wt <Button-3> \{tk_popup $wt.popupMenu %X %Y \}"
+      if {$readonly || $hidefind || $chmsg ne ""} {
+        append binds "
+          menu \$pop
+           \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
+            -command \"event generate $wt <<Copy>>\""
+        if {$hidefind || $chmsg ne ""} {
+          append binds "
+            \$pop configure -tearoff 0
+            \$pop add separator
+            \$pop add command -accelerator Ctrl+A -label \"Select All\" \\
+            -command \"$wt tag add sel 1.0 end\""
+        }
+      }
+    }
+    if {$chmsg eq ""} {
       if {$textmode} {
         if {![info exists ${_pdg(ns)}PD::fnd]} {
           set ${_pdg(ns)}PD::fnd ""
         }
-        if {!$hidefind} {
+        if {$hidefind} {
+          lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
+        } else {
           lappend widlist [list labfnd h_3 L 1 1 "-st e" "-t {Find:}"]
           lappend widlist [list Entfind labfnd L 1 1 \
             "-st ew -cw 1" "-tvar ${_pdg(ns)}PD::fnd -w 10"]
           lappend widlist [list labfnd2 Entfind L 1 1 "-cw 2" "-t {}"]
           lappend widlist [list h__ labfnd2 L 1 1]
-        } else {
-          lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
-        }
-        set binds \
-          "bind \[[self] Entfind\] <Return> {[self] FindInText}
-           bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
-           bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
-           bind $_pdg(win).dia <F3> {[self] FindInText 1}
-           bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
-           bind $_pdg(win).dia <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
-           bind \[[self] TexM\] <Button-3> \{
-             tk_popup \[[self] TexM\].popupMenu %X %Y \}
-           set pop \[[self] TexM\].popupMenu"
-        if {$readonly} {
           append binds "
-            menu \$pop
-             \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
-              -command \"event generate \[[self] TexM\] <<Copy>>\"
+            bind \[[self] Entfind\] <Return> {[self] FindInText}
+            bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
+            bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
+            bind $_pdg(win).dia <F3> {[self] FindInText 1}
+            bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
+            bind $_pdg(win).dia <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]\""
+        }
+        if {$readonly} {
+          if {!$hidefind} {
+            append binds "
              \$pop add separator
              \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
               -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
@@ -606,23 +621,24 @@ oo::class create apave::APaveDialog {
              \$pop add separator
              \$pop add command -accelerator Esc -label \"Exit\" \\
               -command \"\[[self] Pdg defb1\] invoke\"
-          "
+            "
+          }
         } else {
           # make bindings and popup menu for text widget
           append binds "
-            bind \[[self] TexM\] <Control-d> {[self] DoubleText}
-            bind \[[self] TexM\] <Control-D> {[self] DoubleText}
-            bind \[[self] TexM\] <Control-y> {[self] DeleteLine}
-            bind \[[self] TexM\] <Control-Y> {[self] DeleteLine}
-            bind \[[self] TexM\] <Alt-Up>    {[self] LinesMove -1}
-            bind \[[self] TexM\] <Alt-Down>  {[self] LinesMove +1}
+            bind $wt <Control-d> {[self] DoubleText}
+            bind $wt <Control-D> {[self] DoubleText}
+            bind $wt <Control-y> {[self] DeleteLine}
+            bind $wt <Control-Y> {[self] DeleteLine}
+            bind $wt <Alt-Up>    {[self] LinesMove -1}
+            bind $wt <Alt-Down>  {[self] LinesMove +1}
             menu \$pop
              \$pop add command -accelerator Ctrl+X -label \"Cut\" \\
-              -command \"event generate \[[self] TexM\] <<Cut>>\"
+              -command \"event generate $wt <<Cut>>\"
              \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
-              -command \"event generate \[[self] TexM\] <<Copy>>\"
+              -command \"event generate $wt <<Copy>>\"
              \$pop add command -accelerator Ctrl+V -label \"Paste\" \\
-              -command \"event generate \[[self] TexM\] <<Paste>>\"
+              -command \"event generate $wt <<Paste>>\"
              \$pop add separator
              \$pop add command -accelerator Ctrl+D -label \"Double line(s)\" \\
               -command \"[self] DoubleText 0\"
@@ -659,10 +675,10 @@ oo::class create apave::APaveDialog {
     # make & display the dialog's window
     set wtop [my makeWindow $_pdg(win).dia.fra $ttl]
     set widlist [my window $_pdg(win).dia.fra $widlist]
-    if {$precom!=""} {
+    if {$precom ne ""} {
       {*}$precom  ;# actions before showModal
     }
-    if {$themecolors!=""} {
+    if {$themecolors ne ""} {
       # themed colors are set as sequentional '-theme' args
       if {[llength $themecolors]==2} {
         # when only 2 main fb/bg colors are set (esp. for TKE)
@@ -686,7 +702,7 @@ oo::class create apave::APaveDialog {
       if {!$optsTags} {set tags [list]}
       my displayTaggedText [my TexM] msg $tags
       [my TexM] edit reset
-      if {$defb == "butTEXT"} {
+      if {$defb eq "butTEXT"} {
         if {$readonly} {
           set focusnow [my Pdg defb1]
         } else {
@@ -709,7 +725,7 @@ oo::class create apave::APaveDialog {
             \}"
       }
     }
-    if {$newfocused!=""} {
+    if {$newfocused ne ""} {
       foreach w $widlist {
         lassign $w widname
         if {[string match $newfocused $widname]} {
@@ -730,14 +746,14 @@ oo::class create apave::APaveDialog {
     if {$textmode && !$readonly} {
       set focusnow [my TexM]
       set textcont [$focusnow get 1.0 end]
-      if {$res && $postcom!=""} {
+      if {$res && $postcom ne ""} {
         {*}$postcom textcont [my TexM] ;# actions after showModal
       }
       set textcont " [$focusnow index insert] $textcont"
     } else {
       set textcont ""
     }
-    if {$res && $inopts!=""} {
+    if {$res && $inopts ne ""} {
       my setgettexts get $_pdg(win).dia.fra $inopts $widlist
       set inopts " [my vals $widlist]"
     } else {
