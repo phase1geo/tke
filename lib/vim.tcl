@@ -2587,7 +2587,7 @@ namespace eval vim {
     variable multiplier
 
     if {$multiplier($txtt) eq ""} {
-      return [do_operation $txtt last]
+      return [do_operation $txtt [list firstchar -startpos last]]
     } else {
       return [do_operation $txtt [list linenum -num $multiplier($txtt)]]
     }
@@ -2662,7 +2662,10 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          $txtt cursor move [list char -num 1]
+          catch {
+          $txtt cursor move [list achar -num 1]
+        } rc
+        puts "rc: $rc"
           edit_mode $txtt
           record_start $txtt "a"
           return 1
@@ -4004,4 +4007,4 @@ namespace eval vim {
 
   }
 
-  }
+}

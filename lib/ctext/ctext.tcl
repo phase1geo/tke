@@ -1,4 +1,4 @@
-# RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
+# RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kup Exp $
 
 package require Tk
 package provide ctext 5.0
@@ -1840,7 +1840,11 @@ namespace eval ctext {
           }
           return 1
         } else {
+          puts "args-1: [lindex $args 1], index: [$win index [lindex $args 1]]"
+          catch {
           set_cursor $win [$win index [lindex $args 1]]
+        } rc
+        puts "A rc: $rc"
           return 0
         }
       }
@@ -2149,7 +2153,7 @@ namespace eval ctext {
       }
       array set opts [lrange $args 1 end]
 
-      set index [[lindex $procs 0] $win $opts(-startpos) [lrange [lindex $args 0] 1 end]]
+      set index [[lindex $procs 0] $win [$win._t index $opts(-startpos)] [lrange [lindex $args 0] 1 end]]
 
       if {$opts(-forceadjust) ne ""} {
         return [$win._t index "$index$opts(-forceadjust)"]
@@ -5649,7 +5653,12 @@ namespace eval ctext {
   # Transforms a last character specification into a text index.
   proc getindex_last {win startpos optlist} {
 
-    return "end"
+    array set opts {
+      -num 0
+    }
+    array set opts $optlist
+
+    return "[$win._t index {end-1c linestart}]+$opts(-num)c"
 
   }
 
@@ -5664,6 +5673,8 @@ namespace eval ctext {
     array set opts $optlist
 
     set num $opts(-num)
+
+    puts "In getindex_char, startpos: [$win._t index $startpos], num: $num"
 
     if {$opts(-dir) eq "next"} {
 
@@ -5681,6 +5692,8 @@ namespace eval ctext {
           set num 0
         }
       }
+
+      puts "  retval: [$win._t index $startpos]"
 
       return $startpos
 
@@ -5724,6 +5737,40 @@ namespace eval ctext {
       return "$startpos+$opts(-num) display chars"
     } else {
       return "$startpos-$opts(-num) display chars"
+    }
+
+  }
+
+  ######################################################################
+  # Transforms an appendable character specification into a text index.
+  proc getindex_achar {win startpos optlist} {
+
+    variable data
+
+    array set opts {
+      -num 1
+      -dir "next"
+    }
+    array set opts $optlist
+
+    lassign [split $startpos .] lnum col
+
+    if {$opts(-dir) eq "next"} {
+      set col   [expr $col + $opts(-num)]
+      lassign [split [$win._t index "$startpos lineend"] .] last_lnum last_col
+      if {$col >= $last_col} {
+        set wspace [string repeat " " [expr $col - $last_col]]
+        if {$wspace ne ""} {
+          $win insert -mcursor 0 -highlight 0 "$startpos lineend" $wspace
+        }
+        if {$data($win,config,-blockcursor)} {
+          $win._t insert "$startpos lineend" " " _dspace
+        }
+      }
+      return $lnum.$col
+    } else {
+      set col   [expr $col - $opts(-num)]
+      return [expr {($col < 0) ? $lnum.0 : $lnum.$col}]
     }
 
   }
@@ -6142,7 +6189,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    return [lindex [split [$win._t index $startpos] .] 0].[expr $opts(-num) - 1]
+    return [lindex [split $startpos .] 0].[expr $opts(-num) - 1]
 
   }
 
