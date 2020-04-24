@@ -1,0 +1,59 @@
+filepatterns
+{*.pss}
+
+reference
+{
+  {{1.0a Language Reference} https://accellera.org/images/downloads/standards/pss/Portable_Test_Stimulus_Standard_v10a.pdf}
+}
+
+matchcharsallowed
+{curly square paren double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {double}
+
+keywords
+{
+  abstract action activity assert bind bins
+  bit body bool buffer chandle class
+  compile component const constraint covergroup coverpoint
+  cross declaration default do dynamic else
+  enum exec export extend false file
+  foreach function has header if iff
+  ignore_bins illegal_bins import in init inout
+  input instance int lock match memory
+  option output override package parallel pool
+  post_solve pre_solve private protected public rand
+  repeat resource run_end run_start schedule select
+  sequence share solve state static stream
+  string struct super symbol target true
+  type type_option typedef unique void while
+  with
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|'d[0-9]+|'o[0-7]+|'b[0-1]+|'h[0-9a-fA-F]+)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
