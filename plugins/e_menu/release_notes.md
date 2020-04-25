@@ -1,6 +1,15 @@
 # Last changes:
 
 
+Versions `1.54 through 1.55 (25 Apr'20)`
+
+  - apave package v2.6.2
+  - icons added to popups & dialogs
+  - getN function upd. (min, max args)
+  - help function upd. ("About")
+  - fossil, git mnu corr.
+  - clean-ups
+
 Versions `1.50 through 1.53 (20 Apr'20)`
 
   - apave package v2.5

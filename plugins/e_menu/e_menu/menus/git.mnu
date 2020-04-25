@@ -2,11 +2,12 @@
 
 [OPTIONS]
 in=1.0
-pos=87.33
+pos=61.28
 ::GITCOMMIT=""
 ::EMENUTMPFILE=%mn.tmp~
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
+%C if {![info exist ::EMENUGREP]} {set ::EMENUGREP ""}
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
 %C set ::FILETAIL \"[file tail $::EMENUFILE]\"
 
@@ -40,13 +41,24 @@ RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
 RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
  R:git diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
-   fco1 {{Version:} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
+   fco1 {{     Version :} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
      {/@-pos 0 -len 10 -list {""} $::EMENUTMPFILE/@    INFO: /@-div1 { } $::EMENUTMPFILE/@} \
+   ent1 {{Regexp filter:} {} {-w 55}} {"$::EMENUGREP"} \
    seh {{} {-pady 3} {}} {} \
-   texc {{   Hint:} {} {-h 7 -w 70 -ro 1 -wrap word}} \
-   {\n Select a version from the combobox to be compared to HEAD.\n\n If it's blank, the current files are compared to HEAD.\n\n (temp file: $::EMENUTMPFILE)} \
-   } -head {\n This will compare a selected version of\n     %PD\n to its HEAD.} -weight bold == ::EMENUCOMMIT
- S:git diff ? S: git diff $::EMENUCOMMIT HEAD
+   texc {{        Hint :} {} {-h 9 -w 55 -ro 1 -wrap word}} \
+   { Select a version from the combobox to be compared to HEAD. \
+     \n\n If it's blank, the current files are compared to HEAD. \
+     \n\n When 'regexp filter' set, an additional console shows \
+     \n the filtered lines. \
+     \n\n temp file:\n $::EMENUTMPFILE} \
+   } -head {\n This will compare a selected version of \
+     \n     %PD\n to its HEAD.} -weight bold == ::EMENUCOMMIT ::EMENUGREP
+ S:git diff ? S: %C set ::EMENUTMP {git diff $::EMENUCOMMIT HEAD}
+ R:git diff ? R: %IF {$::EMENUGREP} eq "" %THEN %T $::EMENUTMP
+RW:git diff ? RW: $::EMENUTMP | grep -n "$::EMENUGREP" > "$::EMENUTMPFILE"
+SW:git diff ? SW: cat "$::EMENUTMPFILE"
+ R:git diff ? R: %C file delete "$::EMENUTMPFILE"
+ S:git diff ? S: $::EMENUTMP
 
  S:git add $::FILETAIL ? S: cd %PD
  R:git add $::FILETAIL ? R: %I {} "ADD" { \
