@@ -34,7 +34,7 @@
 
 package require Tk
 
-package provide apave 2.5
+package provide apave 2.6.2
 
 source [file join [file dirname [info script]] apavedialog.tcl]
 
@@ -50,33 +50,39 @@ oo::class create apave::APaveInput {
   variable _savedvv
 
   constructor {args} {
+
     set _savedvv [list]
     next {*}$args
   }
 
   destructor {
+
     my initInput
   }
 
   # initialize input
   # (clear variables made in previous session)
   method initInput {} {
+
     foreach {vn vv} $_savedvv {
       catch {unset $vn}
     }
     set _savedvv [list]
     set _pav(widgetopts) [list]
+    return
   }
 
   # return variables made and filled in previous session
   # as a list of elements {varname varvalue}
   # where varname is of form: [namespace current]::var$widgetname
   method varInput {} {
+
     return $_savedvv
   }
 
   # return variables' values
   method valueInput {} {
+
     set _values {}
     foreach {vnam -} [my varInput] {
       lappend _values [set $vnam]
@@ -103,7 +109,7 @@ oo::class create apave::APaveInput {
         continue
       }
       set tvar "-tvar"
-      switch $typ {
+      switch -- $typ {
         ch { set tvar "-var" }
         sp { set gopts "$gopts -expand 0 -side left"}
       }
@@ -118,7 +124,7 @@ oo::class create apave::APaveInput {
       }
       set vv [my varname $name]
       set ff [my fieldname $name]
-      switch $typ {
+      switch -- $typ {
         lb {
           set vlist {}
           foreach vo [lrange $valopts 1 end] {
@@ -222,11 +228,13 @@ oo::class create apave::APaveInput {
 
   # view/edit a file
   method vieweditFile {fname {prepost ""} args} {
+
     return [my editfile $fname "" "" "" $prepost {*}$args]
   }
 
   # edit/view a file with a set of main colors
   method editfile {fname fg bg cc {prepost ""} args} {
+
     if {$fname eq ""} {
       return false
     }

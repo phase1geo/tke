@@ -61,6 +61,7 @@ namespace eval apavecli {
 
 #=== Input dialog for getting data
 proc ::apavecli::input {args} {
+
   ::apave::APaveInput create dialog
   set cmd [subst -nocommands -novariables [string range $args 1 end-1]]
   set dp [string last " ==" $cmd]
@@ -83,6 +84,7 @@ proc ::apavecli::input {args} {
 
 #=== Run dialog
 proc ::apavecli::run {} {
+
   apave::initWM
   set res [::apavecli::input $::argv]
   ::apave::APaveInput destroy

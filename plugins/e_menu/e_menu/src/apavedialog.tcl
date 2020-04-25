@@ -42,7 +42,6 @@ package require Tk
 source [file join [file dirname [info script]] apave.tcl]
 
 namespace eval apave {
-  source [file join [file dirname [info script]] apaveimg.tcl]
 }
 
 
@@ -53,6 +52,7 @@ oo::class create apave::APaveDialog {
   variable _pdg
 
   constructor {{win ""} args} {
+
     # keep the 'important' data of APaveDialog object in array
     array set _pdg {}
     # dialogs are bound to "$win" window e.g. ".mywin.fra", default "" means .
@@ -60,9 +60,6 @@ oo::class create apave::APaveDialog {
     set _pdg(ns) [namespace current]::
     # namespace in object namespace for safety of its 'most important' data
     namespace eval ${_pdg(ns)}PD {}
-    foreach icon {err info warn ques} {
-      image create photo ${_pdg(ns)}PD::img$icon -data [set apave::img_$icon]
-    }
     if {[llength [self next]]} { next {*}$args }
   }
 
@@ -70,7 +67,6 @@ oo::class create apave::APaveDialog {
 
     catch "namespace delete ${_pdg(ns)}PD"
     if {[llength [self next]]} { next {*}$args }
-
   }
 
   #########################################################################
@@ -101,42 +97,50 @@ oo::class create apave::APaveDialog {
   #     -text 1 - sets the text widget to show a message
 
   method PrepArgs {args} {
+
     # make a list of args
     foreach a $args { lappend res $a }
     return $res
   }
 
   method ok {icon ttl msg args} {
+
     return [my Query $icon $ttl $msg {butOK OK 1} butOK {} [my PrepArgs $args]]
   }
 
   method okcancel {icon ttl msg {defb OK} args} {
+
     return [my Query $icon $ttl $msg \
       {butOK OK 1 butCANCEL Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method yesno {icon ttl msg {defb YES} args} {
+
     return [my Query $icon $ttl $msg \
       {butYES Yes 1 butNO No 0} but$defb {} [my PrepArgs $args]]
   }
 
   method yesnocancel {icon ttl msg {defb YES} args} {
+
     return [my Query $icon $ttl $msg \
       {butYES Yes 1 butNO No 2 butCANCEL Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method retrycancel {icon ttl msg {defb RETRY} args} {
+
     return [my Query $icon $ttl $msg \
       {butRETRY Retry 1 butCANCEL Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method abortretrycancel {icon ttl msg {defb RETRY} args} {
+
     return [my Query $icon $ttl $msg \
       {butABORT Abort 1 butRETRY Retry 2 butCANCEL \
       Cancel 0} but$defb {} [my PrepArgs $args]]
   }
 
   method misc {icon ttl msg butts {defb ""} args} {
+
     # butts is a list of pairs "title of button" "number/ID of button"
     foreach {nam num} $butts {
       lappend apave_msc_bttns but$num "$nam" $num
@@ -151,6 +155,7 @@ oo::class create apave::APaveDialog {
 
   # Get a value of _pdg(name)
   method Pdg {name} {
+
     return $_pdg($name)
   }
 
@@ -158,16 +163,19 @@ oo::class create apave::APaveDialog {
 
   # Get a field name
   method fieldname {name} {
+
     return fraM.fra$name.$name
   }
 
   # Get variable name associated with a field name
   method varname {name} {
+
     return [namespace current]::var$name
   }
 
   # Get values of entries passed (or set) in -tvar
   method vals {lwidgets} {
+
     set res [set vars [list]]
     foreach wl $lwidgets {
       set vv [my varname [my rootwname [lindex $wl 0]]]
@@ -190,6 +198,7 @@ oo::class create apave::APaveDialog {
   # 1. Set contents of text fields (after creating them)
   # 2. Get contents of text fields (before exiting)
   method setgettexts {oper w iopts lwidgets} {
+
     if {$iopts eq ""} return
     foreach widg $lwidgets {
       set wname [lindex $widg 0]
@@ -203,6 +212,7 @@ oo::class create apave::APaveDialog {
         }
       }
     }
+    return
   }
 
   #########################################################################
@@ -227,6 +237,7 @@ oo::class create apave::APaveDialog {
     }
     set _pdg(defb1) $_pdg(win).dia.fra.$defb1
     set _pdg(defb2) $_pdg(win).dia.fra.$defb2
+    return
   }
 
   ###################################################################
@@ -256,6 +267,7 @@ oo::class create apave::APaveDialog {
     set duptext [$txt get $pos $pos2]
     $txt insert $pos3 $duptext
     if {$dobreak} {return -code break}
+    return
   }
 
   #########################################################################
@@ -267,6 +279,7 @@ oo::class create apave::APaveDialog {
     lassign [my GetLine $txt insert] linestart lineend
     $txt delete $linestart $lineend
     if {$dobreak} {return -code break}
+    return
   }
 
   #########################################################################
@@ -306,6 +319,7 @@ oo::class create apave::APaveDialog {
       }
       if {$dobreak} {return -code break}
     }
+    return
   }
 
   #########################################################################
@@ -340,6 +354,7 @@ oo::class create apave::APaveDialog {
         }
       }
     }
+    return
   }
 
   #########################################################################
@@ -365,6 +380,7 @@ oo::class create apave::APaveDialog {
     } else {
       bell -nice
     }
+    return
   }
 
   #########################################################################
@@ -412,7 +428,7 @@ oo::class create apave::APaveDialog {
         # take colors by their theme names
         if {[info exist $val]} {set val [set $val]}
       }
-      switch $opt {
+      switch -- $opt {
         -H -
         -head {
           set head [string map {$ \$ \" \'\'} $val]
@@ -485,7 +501,7 @@ oo::class create apave::APaveDialog {
     # layout: add the icon
     if {$icon ni {"" "-"}} {
       set widlist [list [list labBimg - - 99 1 \
-      "-st n -pady 7" "-image ${_pdg(ns)}PD::img$icon"]]
+      "-st n -pady 7" "-image [apave::iconImage $icon]"]]
       set prevl labBimg
     } else {
       set widlist [list [list labimg - - 99 1]]
@@ -578,14 +594,14 @@ oo::class create apave::APaveDialog {
       if {$readonly || $hidefind || $chmsg ne ""} {
         append binds "
           menu \$pop
-           \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
+           \$pop add command [my IconA copy] -accelerator Ctrl+C -label \"Copy\" \\
             -command \"event generate $wt <<Copy>>\""
         if {$hidefind || $chmsg ne ""} {
           append binds "
             \$pop configure -tearoff 0
             \$pop add separator
-            \$pop add command -accelerator Ctrl+A -label \"Select All\" \\
-            -command \"$wt tag add sel 1.0 end\""
+            \$pop add command [my IconA none] -accelerator Ctrl+A \\
+            -label \"Select All\" -command \"$wt tag add sel 1.0 end\""
         }
       }
     }
@@ -594,6 +610,7 @@ oo::class create apave::APaveDialog {
         if {![info exists ${_pdg(ns)}PD::fnd]} {
           set ${_pdg(ns)}PD::fnd ""
         }
+        set noIMG "[my IconA none]"
         if {$hidefind} {
           lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
         } else {
@@ -614,12 +631,12 @@ oo::class create apave::APaveDialog {
           if {!$hidefind} {
             append binds "
              \$pop add separator
-             \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
-              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
-             \$pop add command -accelerator F3 -label \"Find next\" \\
+             \$pop add command [my IconA find] -accelerator Ctrl+F -label \\
+             \"Find first\" -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
+             \$pop add command $noIMG -accelerator F3 -label \"Find next\" \\
               -command \"[self] FindInText 1\"
              \$pop add separator
-             \$pop add command -accelerator Esc -label \"Exit\" \\
+             \$pop add command [my IconA exit] -accelerator Esc -label \"Exit\" \\
               -command \"\[[self] Pdg defb1\] invoke\"
             "
           }
@@ -633,29 +650,29 @@ oo::class create apave::APaveDialog {
             bind $wt <Alt-Up>    {[self] LinesMove -1}
             bind $wt <Alt-Down>  {[self] LinesMove +1}
             menu \$pop
-             \$pop add command -accelerator Ctrl+X -label \"Cut\" \\
+             \$pop add command [my IconA cut] -accelerator Ctrl+X -label \"Cut\" \\
               -command \"event generate $wt <<Cut>>\"
-             \$pop add command -accelerator Ctrl+C -label \"Copy\" \\
+             \$pop add command [my IconA copy] -accelerator Ctrl+C -label \"Copy\" \\
               -command \"event generate $wt <<Copy>>\"
-             \$pop add command -accelerator Ctrl+V -label \"Paste\" \\
+             \$pop add command [my IconA paste] -accelerator Ctrl+V -label \"Paste\" \\
               -command \"event generate $wt <<Paste>>\"
              \$pop add separator
-             \$pop add command -accelerator Ctrl+D -label \"Double line(s)\" \\
+             \$pop add command [my IconA double] -accelerator Ctrl+D -label \"Double selection\" \\
               -command \"[self] DoubleText 0\"
-             \$pop add command -accelerator Ctrl+Y -label \"Delete a line\" \\
+             \$pop add command [my IconA delete] -accelerator Ctrl+Y -label \"Delete line\" \\
               -command \"[self] DeleteLine 0\"
-             \$pop add command -accelerator Alt+Up -label \"Line(s) up\" \\
+             \$pop add command [my IconA up] -accelerator Alt+Up -label \"Line(s) up\" \\
               -command \"[self] LinesMove -1 0\"
-             \$pop add command -accelerator Alt+Down -label \"Line(s) down\" \\
+             \$pop add command [my IconA down] -accelerator Alt+Down -label \"Line(s) down\" \\
               -command \"[self] LinesMove +1 0\"
              \$pop add separator
-             \$pop add command -accelerator Ctrl+F -label \"Find first\" \\
+             \$pop add command [my IconA find] -accelerator Ctrl+F -label \"Find first\" \\
               -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
-             \$pop add command -accelerator F3 -label \"Find next\" \\
+             \$pop add command $noIMG -accelerator F3 -label \"Find next\" \\
               -command \"[self] FindInText 1\"
              \$pop add separator
-             \$pop add command -accelerator Ctrl+W -label \"Save and exit\" \\
-              -command \"\[[self] Pdg defb1\] invoke\"
+             \$pop add command [my IconA SaveFile] -accelerator Ctrl+W \\
+             -label \"Save and exit\" -command \"\[[self] Pdg defb1\] invoke\"
             "
           oo::objdefine [self] export DoubleText DeleteLine LinesMove
         }
@@ -739,9 +756,13 @@ oo::class create apave::APaveDialog {
     oo::objdefine [self] unexport FindInText InitFindInText DoubleText DeleteLine Pdg
     set pdgeometry [winfo geometry $_pdg(win).dia]
     # the dialog's result is defined by "pave res" + checkbox's value
-    set res [my res $_pdg(win).dia]
-    if {$res && [set ${_pdg(ns)}PD::ch]} {
-      incr res 10
+    set res [set result [my res $_pdg(win).dia]]
+    set chv [set ${_pdg(ns)}PD::ch]
+    if { [string is integer $res] } {
+      if {$res && $chv} { incr result 10 }
+    } else {
+      set res [expr {$result ne "" ? 1 : 0}]
+      if {$res && $chv} { append result 10 }
     }
     if {$textmode && !$readonly} {
       set focusnow [my TexM]
@@ -773,10 +794,9 @@ oo::class create apave::APaveDialog {
       lassign [split $pdgeometry x+] w h x y
       if {abs($x-$gx)<30} {set x $gx}
       if {abs($y-$gy)<30} {set y $gy}
-      return [list $res ${w}x${h}+${x}+${y} $textcont [string trim $inopts]]
+      return [list $result ${w}x${h}+${x}+${y} $textcont [string trim $inopts]]
     }
-    return "$res$textcont$inopts"
-
+    return "$result$textcont$inopts"
   }
 
 }

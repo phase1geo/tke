@@ -119,8 +119,15 @@ proc center_window {win {ornament 1} {winwidth 0} {winheight 0}} {
   update
 }
 #====== to get number from str
-proc getN {sn {defn 0} } {
+proc getN {sn {defn 0} args} {
   if {[catch {set n [expr "$sn"]} e] } { set n $defn }
+  lassign $args min max
+  if {$max ne ""} {
+    set n [expr min($max,$n)]
+  }
+  if {$min ne ""} {
+    set n [expr max($min,$n)]
+  }
   return $n
 }
 #====== borrowed from http://wiki.tcl.tk/557
