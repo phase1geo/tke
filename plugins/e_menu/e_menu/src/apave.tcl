@@ -207,7 +207,7 @@ oo::class create apave::APave {
   #########################################################################
   #
   # Configure the apave object (all of _pav array may be changed)
-  # E.g., pobj configure edge "@@" 
+  # E.g., pobj configure edge "@@"
 
   method configure {args} {
 
@@ -1289,8 +1289,8 @@ oo::class create apave::APave {
               insert \{\}
               delete \{\}
               replace \{\}
-              default \{ 
-                  return \[eval ::$w.internal \$args\] 
+              default \{
+                  return \[eval ::$w.internal \$args\]
               \}
           \}"
     } elseif {!$on && [info commands ::$w.internal] ne ""} {
@@ -1663,7 +1663,7 @@ oo::class create apave::APave {
   #
   # Set the text widget's contents
 
-  method setTextContents {w conts} {
+  method displayText {w conts} {
 
     if { [set state [$w cget -state]] ne "normal"} {
       $w configure -state normal
@@ -1686,8 +1686,11 @@ oo::class create apave::APave {
 
     upvar $contsName conts
     if {$tags eq ""} {
-      my setTextContents $w $conts
+      my displayText $w $conts
       return
+    }
+    if { [set state [$w cget -state]] ne "normal"} {
+      $w configure -state normal
     }
     set taglist [set tagpos [set taglen [list]]]
     foreach tagi $tags {
@@ -1752,6 +1755,7 @@ oo::class create apave::APave {
       $w tag add $tag $p1 $p2
     }
     $w edit reset
+    if { $state ne "normal" } { $w configure -state $state }
     return
   }
 
