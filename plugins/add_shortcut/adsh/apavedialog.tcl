@@ -206,7 +206,7 @@ oo::class create apave::APaveDialog {
       if {[string range $name 0 1] eq "te"} {
         set vv [my varname $name]
         if {$oper eq "set"} {
-          my setTextContents $w.$wname [set $vv]
+          my displayText $w.$wname [set $vv]
         } else {
           set $vv [string trimright [$w.$wname get 1.0 end]]
         }

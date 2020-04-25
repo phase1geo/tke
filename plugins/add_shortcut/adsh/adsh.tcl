@@ -419,9 +419,9 @@ You can use the # for comments."}
     foreach d $descs {
       lassign $d t conts
       if {$t == $typ} {
-        $win.texDesc configure -state normal
+        pdlg readonlyWidget $win.texDesc false
         pdlg displayTaggedText $win.texDesc conts $textTags
-        $win.texDesc configure -state disabled
+        pdlg readonlyWidget $win.texDesc true
         set comm $typ
         if {$typ!=""} {
           if {$typ!="MISC"} {
@@ -471,6 +471,7 @@ You can use the # for comments."}
     }
     selectingCombo
     $win.texComm replace 1.0 end [string map [list $EOL \n \\\" \" \\\} \} \\\{ \{] $Contents]
+    $win.texComm edit reset
     return
 
   }
@@ -997,7 +998,7 @@ You can use the # for comments."}
       {sbvComm texComm L 1 1 {pack -in $win.fraComm}}
       {laB53 laB52 T 1 1 {-st en -rw 1} {-t "Description:"}}
       {fraDesc laB53 L 1 1 {-st nswe -padx 5} {}}
-      {texDesc - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraDesc} {-h 8 -w 50 -state disabled -wrap word -fg black -bg #d9d9d9}}
+      {texDesc - - 1 1 {pack -side left -expand 1 -fill both -in $win.fraDesc} {-h 8 -w 50 -ro true -wrap word -fg black -bg #d9d9d9}}
       {sbvDesc texDesc L 1 1 {pack -in $win.fraDesc}}
       {v_3 laB53 T 1 2}
       {laBSort v_3 T 1 1 {} {-t " Options " $fontbold}}
@@ -1090,13 +1091,7 @@ You can use the # for comments."}
 ######################################################################
 # main program, huh
 
-if {$::tcl_platform(platform) == "windows"} {
-  wm attributes . -alpha 0.0
-} else {
-  wm attributes . -type splash
-  wm geometry . 0x0
-}
-ttk::style theme use clam
+apave::initWM
 adsh::initDialog
 adsh::makeDialog
 adsh::runDialog

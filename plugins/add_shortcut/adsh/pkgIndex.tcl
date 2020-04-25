@@ -1,2 +1,2 @@
 
-package ifneeded apave 2.6.2 [list source [file join $dir apaveinput.tcl]]
+package ifneeded apave 2.6.3 [list source [file join $dir apaveinput.tcl]]

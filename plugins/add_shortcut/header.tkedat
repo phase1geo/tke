@@ -3,7 +3,7 @@ display_name   {Add Shortcuts}
 author         {Alex Plotnikov}
 website        {https://aplsimple.github.io}
 email          {aplsimple@gmail.com}
-version        {1.9}
+version        {1.10}
 include        {yes}
 trust_required {yes}
 category       {tools}

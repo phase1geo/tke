@@ -1,10 +1,12 @@
 # Last changes:
 
 
-Version `1.9 (25 Apr'20)`
+Version `1.10 (25 Apr'20)`
 
-  - apave v2.6.2
+  - apave v2.6.3
   - .md, .markdown to run with F9
+  - state "disabled" to "readonly" for Description text
+  - buttons configurated
 
 
 Version `1.8 (31 Mar'19)`
