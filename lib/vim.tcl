@@ -1678,18 +1678,14 @@ namespace eval vim {
       }
       "delete" {
         $txtt delete $sposargs $eposargs
-        #if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
-        #  set copy [expr [lsearch [list spacestart spaceend] [lindex $eposargs 0]] == -1]
-        #  edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] $copy 1
-        #}
+        if {$opts(-cursor) ne ""} {
+          $txtt cursor set $opts(-cursor)
+        }
         command_mode $txtt
         return 1
       }
       "change" {
         $txtt delete $sposargs $eposargs
-        # if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
-        #   edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] 0 0
-        # }
         edit_mode $txtt
         set operator($txtt)   ""
         set motion($txtt)     ""
@@ -2613,7 +2609,7 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart -cursor "firstchar -num 0"]
       }
       "folding" {
         folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2662,10 +2658,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          catch {
           $txtt cursor move [list achar -num 1]
-        } rc
-        puts "rc: $rc"
           edit_mode $txtt
           record_start $txtt "a"
           return 1
@@ -3735,7 +3728,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "command"} {
-      set startpos [$txtt index [list wordstart -dir prev] -startpos "insert+1c"]
+      set startpos [$txtt index wordstart -dir prev -startpos "insert+1c"]
       set endpos   [$txtt index wordend -startpos "insert-1c" -forceadjust "+1c"]
       if {[string trim [set word [$txtt get $startpos $endpos]]] ne ""} {
         array set theme [theme::get_syntax_colors]
@@ -4007,4 +4000,4 @@ namespace eval vim {
 
   }
 
-}
+
