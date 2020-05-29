@@ -10,7 +10,7 @@ namespace eval e_menu {
   variable do_save_file 1
   variable opt1 "EMENU_do_save_file"
 
-  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
+  proc d {args} { tk_messageBox -title INFO -message "$args" }
 
   proc get_txt {} {
 
@@ -207,7 +207,8 @@ namespace eval e_menu {
     # (defaults are taken from MildDark theme, huh)
     set fg "fg=[api::theme::get_value tabs -inactiveforeground]"
     set bg "bg=[api::theme::get_value tabs -inactivebackground]"
-    set fI "fI=[api::theme::get_value tabs -activeforeground]"
+    set fgact [api::theme::get_value tabs -activeforeground]
+    set fI "fI=$fgact"
     set bI "bI=[api::theme::get_value tabs -activebackground]"
     set fE "fE=#d2d2d2"
     catch {set fE "fE=[[get_txt] cget -foreground]"}
@@ -220,6 +221,7 @@ namespace eval e_menu {
     set cc "cc=#00a0f0"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
     set ht "ht=[api::theme::get_value syntax marker]"
+    set hh "hh=$fgact"
     set z5_opt "z5=$z5_opt"
     # l= option is a current edited line's number (maybe useful in commands)
     set l_opt l=[expr {int([[get_txt] index "insert linestart"])}]
@@ -231,8 +233,9 @@ namespace eval e_menu {
     # at last we try to call e_menu
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
-          $fg $bg $fE $bE $cc $ht $h_opt $s_opt $f_opt $d_opt $PD_opt $TF_opt \
-          $fS $bS $fI $bI $z1_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
+          $fg $bg $fE $bE $fS $bS $fI $bI $ht $hh $cc gr=grey \
+          $h_opt $s_opt $f_opt $d_opt $PD_opt $TF_opt \
+          $z1_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
           $l_opt $ts_opt $PN_opt &
       } e]} {
       api::show_error "\nError of run:\n

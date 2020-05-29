@@ -1,0 +1,39 @@
+[OPTIONS]
+b1=0
+b2=3
+b3=1
+w=30
+u=%s
+o=0
+in=1.0
+%C if {![info exist ::EMENUDIR1]} {set ::EMENUDIR1 "%PD"}
+%C if {![info exist ::EMENUDIR2]} {set ::EMENUDIR2 \
+  [file normalize "%PD/../release/[file tail %PD]"]}
+::EMENUOPTS=-r -f
+
+[MENU]
+
+ R: Trimmer *.tcl R: cd %PD
+ R: Trimmer *.tcl R: %I {} "TRIMMER" { \
+   v_ {{} {-pady 4} {}} {} \
+   dir1 {{ Input directory:} {} {-w 50}} {"$::EMENUDIR1"} \
+   dir2 {{Output directory:}} {"$::EMENUDIR2"} \
+   ent1 {{         Options:}} {"$::EMENUOPTS"} \
+   seh {{} {-pady 3} {}} {} \
+   texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
+   {\n Select input Tcl files' directory and output directory. \
+    \n\n Other options are: \
+    \n   -r : if set, the input directories are processed recursively; \
+    \n   -f : if set, the existing output file(s) will be rewritten; \
+    \n   -n : if set, no real changes made, supposed changes shown only. \
+    \n The rest of options may set a command to run after trimming. \
+   }} -head {\n This removes comments and spaces from Tcl code. \
+    \n The trimmer does not touch the input Tcl files.} \
+   -weight bold == ::EMENUDIR1 ::EMENUDIR2 ::EMENUOPTS
+ R: Trimmer *.tcl R: cd $::EMENUDIR1
+ S: Trimmer *.tcl S: tclsh ~/UTILS/trimmer/trim.tcl \
+   -i "$::EMENUDIR1" -o "$::EMENUDIR2" $::EMENUOPTS
+
+
+[OPTIONS]
+pos=5.4

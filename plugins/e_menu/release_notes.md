@@ -1,5 +1,17 @@
 # Last changes:
 
+Version `2.0 (29 May'20)`
+
+  - b0=0 option set by default
+  - color scheming upd., TKE's CS incl.
+  - whole display made clearer, incl. popups
+  - Menu button for popups, F2 for choosers
+  - menus reread after commands (%U wildcard dropped)
+  - selecting projects & CS from popup menu
+  - -msgLab option for widgets of input dialog
+  - code rearranged (with e_addon.tcl)
+  - apave & .mnu upd.
+
 
 Versions `1.54 through 1.55 (25 Apr'20)`
 

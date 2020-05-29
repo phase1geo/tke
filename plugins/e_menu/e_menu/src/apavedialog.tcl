@@ -7,7 +7,7 @@
 #   package require apave
 #   ...
 #   catch {pdlg destroy}
-#   apave::APaveDialog create pdlg win
+#   ::apave::APaveDialog create pdlg win
 #   pdlg DIALOG ARGS
 # where:
 #   DIALOG stands for the following dialog types:
@@ -33,21 +33,19 @@
 #
 # See test_pavedialog.tcl for the detailed examples of use.
 #
-# for debugging
-# proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"}
 ###########################################################################
 
 package require Tk
 
 source [file join [file dirname [info script]] apave.tcl]
 
-namespace eval apave {
+namespace eval ::apave {
 }
 
 
-oo::class create apave::APaveDialog {
+oo::class create ::apave::APaveDialog {
 
-  superclass apave::APave
+  superclass ::apave::APave
 
   variable _pdg
 
@@ -61,12 +59,35 @@ oo::class create apave::APaveDialog {
     # namespace in object namespace for safety of its 'most important' data
     namespace eval ${_pdg(ns)}PD {}
     if {[llength [self next]]} { next {*}$args }
+    # Actions on closing the editor
+    proc exitEditor {resExit} {
+      upvar $resExit res
+      if {[[my TexM] edit modified]} {
+        set w [set [namespace current]::_pdg(win)]
+        set pdlg [::apave::APaveDialog new $w.dia]
+        set r [$pdlg misc warn "Save text?" \
+          "\n Save changes made to the text? \n" \
+          {Save 1 "Don't save " Close Cancel 0} \
+          1 -focusback [my TexM] -centerme $w]
+        if {$r==1} {
+          set res 1
+        } elseif {$r eq "Close"} {
+          set res 0
+        }
+        $pdlg destroy
+      } else {
+        set res 0
+      }
+      return
+    }
+    if {[llength [self next]]} { next {*}$args }
   }
 
   destructor {
 
-    catch "namespace delete ${_pdg(ns)}PD"
-    if {[llength [self next]]} { next {*}$args }
+    catch {namespace delete ${_pdg(ns)}PD}
+    array unset _pdg
+    if {[llength [self next]]} next
   }
 
   #########################################################################
@@ -230,8 +251,14 @@ oo::class create apave::APaveDialog {
       } elseif {$defb2 eq ""} {
         set defb2 $but
       }
+      if {[set _ [string first "::" $txt]]>-1} {
+        set tt " -tooltip {[string range $txt $_+2 end]}"
+        set txt [string range $txt 0 $_-1]
+      } else {
+        set tt ""
+      }
       lappend widlist [list $but $neighbor $pos 1 1 "-st we" \
-        "-t \"$txt\" -com \"${_pdg(ns)}my res $_pdg(win).dia $res\""]
+        "-t \"$txt\" -com \"${_pdg(ns)}my res $_pdg(win).dia $res\"$tt"]
       set neighbor $but
       set pos L
     }
@@ -331,8 +358,10 @@ oo::class create apave::APaveDialog {
     if {$ctrlf} {  ;# Ctrl+F moves cursor 1 char ahead
       ::tk::TextSetCursor $txt [$txt index "insert -1 char"]
     }
-    if {[set ${_pdg(ns)}PD::fnd] eq ""} {
-      if {![catch {$txt tag ranges sel} seltxt]} {
+    set seltxt ""
+    set selected [catch {$txt tag ranges sel} seltxt]
+    if {[set ${_pdg(ns)}PD::fnd] eq "" || $seltxt ne ""} {
+      if {!$selected} {
         if {[set forword [expr {$seltxt eq ""}]]} {
           set pos  [$txt index "insert wordstart"]
           set pos2 [$txt index "insert wordend"]
@@ -402,60 +431,51 @@ oo::class create apave::APaveDialog {
   # returns a list with chosen button's number and new geometry.
   # Otherwise it returns only chosen button's number.
 
-  method Query {icon ttl msg buttons defb inopts argov {precom ""}} {
+  method Query {icon ttl msg buttons defb inopts argov {precom ""} args} {
 
     if {[winfo exists $_pdg(win).dia]} {
       return 0
     }
     # remember the focus (to restore it after closing the dialog)
-    set oldfocused [focus]
-    set newfocused ""
-    # get the options of dialog:
-    #  - checkbox text (if given, enable the checkbox)
-    #  - geometry of dialog window
-    #  - color of labels
+    set focusback [focus]
+    set focusmatch ""
+    # options of dialog
     lassign "" chmsg geometry optsLabel optsMisc optsFont optsFontM \
-               rotext root head optsHead hsz binds postcom
-    set optsTags 0
+               rotext root head optsHead hsz binds postcom onclose
+    set tags ""
     set wasgeo [set textmode [set ontop 0]]
+    set cc [set themecolors [set optsGrid ""]]
     set readonly [set hidefind 1]
     set curpos "1.0"
-    set cc ""
-    set themecolors ""
     set ${_pdg(ns)}PD::ch 0
     foreach {opt val} {*}$argov {
       if {$opt in {-c -color -fg -bg -fgS -bgS -cc -hfg -hbg}} {
-        # take colors by their theme names
+        # take colors by their variables
         if {[info exist $val]} {set val [set $val]}
       }
       switch -- $opt {
-        -H -
-        -head {
+        -H - -head {
           set head [string map {$ \$ \" \'\'} $val]
         }
-        -ch -
-        -checkbox {set chmsg "$val"}
-        -g -
-        -geometry {
+        -ch - -checkbox {set chmsg "$val"}
+        -g - -geometry {
           set geometry $val
           set wasgeo 1
           lassign [split $geometry +] - gx gy
         }
-        -c -
-        -color {append optsLabel " -foreground {$val}"}
-        -t -
-        -text {set textmode $val}
+        -c - -color {append optsLabel " -foreground {$val}"}
+        -a { ;# additional grid options of message labels
+          append optsGrid " $val" }
+        -centerme {lappend args -centerme $val}
+        -t - -text {set textmode $val}
         -tags {
-          set optsTags 1
-          upvar 2 $val tags
+          upvar 2 $val _tags
+          set tags $_tags
         }
-        -ro -
-        -readonly {set readonly [set hidefind $val]}
+        -ro - -readonly {set readonly [set hidefind $val]}
         -rotext {set hidefind 0; set rotext $val}
-        -w -
-        -width {set charwidth $val}
-        -h -
-        -height {set charheight $val}
+        -w - -width {set charwidth $val}
+        -h - -height {set charheight $val}
         -fg {append optsMisc " -foreground {$val}"}
         -bg {append optsMisc " -background {$val}"}
         -fgS {append optsMisc " -selectforeground {$val}"}
@@ -466,10 +486,11 @@ oo::class create apave::APaveDialog {
         -hfg {append optsHead " -foreground {$val}"}
         -hbg {append optsHead " -background {$val}"}
         -hsz {append hsz " -size $val"}
-        -focus {set newfocused "$val"}
+        -focus {set focusmatch "$val"}
         -theme {append themecolors " {$val}"}
         -ontop {set ontop 1}
         -post {set postcom $val}
+        -focusback {set focusback $val}
         default {
           append optsFont " $opt $val"
           if {$opt ne "-family"} {
@@ -480,28 +501,31 @@ oo::class create apave::APaveDialog {
     }
     set optsFont [string trim $optsFont]
     set optsHeadFont $optsFont
+    set fs [my basicFontSize]
+    incr fs 2 ;# for texts
+    set textfont "-font \"-family {[my basicTextFont]}"
     if {$optsFont ne ""} {
       if {[string first "-size " $optsFont]<0} {
-        append optsFont " -size 12"
+        append optsFont " -size $fs"
       }
       if {[string first "-size " $optsFontM]<0} {
-        append optsFontM " -size 12"
+        append optsFontM " -size $fs"
       }
       if {[string first "-family " $optsFont]>=0} {
         set optsFont "-font \"$optsFont"
       } else {
         set optsFont "-font \"-family Helvetica $optsFont"
       }
-      set optsFontM "-font \"-family Mono $optsFontM\""
+      set optsFontM "$textfont $optsFontM\""
       append optsFont "\""
     } else {
-      set optsFont "-font \"-size 12\""
-      set optsFontM "-font \"-size 12\""
+      set optsFont "-font \"-size $fs\""
+      set optsFontM "$textfont -size $fs\""
     }
     # layout: add the icon
     if {$icon ni {"" "-"}} {
       set widlist [list [list labBimg - - 99 1 \
-      "-st n -pady 7" "-image [apave::iconImage $icon]"]]
+      "-st n -pady 7" "-image [::apave::iconImage $icon]"]]
       set prevl labBimg
     } else {
       set widlist [list [list labimg - - 99 1]]
@@ -544,7 +568,7 @@ oo::class create apave::APaveDialog {
       incr il
       if {!$textmode} {
         lappend widlist [list labB$il $prevw $prevp 1 7 \
-          "-st w -rw 1" "-t \"$m \" $optsLabel $optsFont"]
+          "-st w -rw 1 $optsGrid" "-t \"$m \" $optsLabel $optsFont"]
       }
       set prevw labB$il
       set prevp T
@@ -571,12 +595,13 @@ oo::class create apave::APaveDialog {
         return $val
       }
       set il [vallimits $il 1 [info exists charheight] charheight]
+      incr maxw
       set maxw [vallimits $maxw 20 [info exists charwidth] charwidth]
       rename vallimits ""
       lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
-      lappend widlist {TexM - - 1 7 {pack -side left -expand 1 -fill both -in \
-        $_pdg(win).dia.fra.fraM} \
-        {-h $il -w $maxw $optsFontM $optsMisc -wrap word -textpop 0}}
+      lappend widlist [list TexM - - 1 7 {pack -side left -expand 1 -fill both -in \
+        $_pdg(win).dia.fra.fraM} [list -h $il -w $maxw {*}$optsFontM {*}$optsMisc \
+        -wrap word -textpop 0 -tabnext $_pdg(win).dia.fra.[lindex $buttons 0]]]
       lappend widlist {sbv texM L 1 1 {pack -in $_pdg(win).dia.fra.fraM}}
       set prevw fraM
     }
@@ -590,7 +615,7 @@ oo::class create apave::APaveDialog {
       # binds to the special popup menu of the text widget
       set wt "\[[self] TexM\]"
       set binds "set pop $wt.popupMenu
-        bind $wt <Button-3> \{tk_popup $wt.popupMenu %X %Y \}"
+        bind $wt <Button-3> \{[self] themePopup $wt.popupMenu; tk_popup $wt.popupMenu %X %Y \}"
       if {$readonly || $hidefind || $chmsg ne ""} {
         append binds "
           menu \$pop
@@ -624,8 +649,8 @@ oo::class create apave::APaveDialog {
             bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
             bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
             bind $_pdg(win).dia <F3> {[self] FindInText 1}
-            bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]\"
-            bind $_pdg(win).dia <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]\""
+            bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]; break\"
+            bind $_pdg(win).dia <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]; break\""
         }
         if {$readonly} {
           if {!$hidefind} {
@@ -676,6 +701,7 @@ oo::class create apave::APaveDialog {
             "
           oo::objdefine [self] export DoubleText DeleteLine LinesMove
         }
+        lappend args -onclose [namespace current]::exitEditor
         oo::objdefine [self] export FindInText InitFindInText Pdg
       } else {
         lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
@@ -691,7 +717,7 @@ oo::class create apave::APaveDialog {
     my appendButtons widlist $buttons h__ L
     # make & display the dialog's window
     set wtop [my makeWindow $_pdg(win).dia.fra $ttl]
-    set widlist [my window $_pdg(win).dia.fra $widlist]
+    set widlist [my paveWindow $_pdg(win).dia.fra $widlist]
     if {$precom ne ""} {
       {*}$precom  ;# actions before showModal
     }
@@ -699,26 +725,22 @@ oo::class create apave::APaveDialog {
       # themed colors are set as sequentional '-theme' args
       if {[llength $themecolors]==2} {
         # when only 2 main fb/bg colors are set (esp. for TKE)
-        lassign [my parseOptionsFile 0 $optsMisc -foreground black \
+        lassign [my parseOptions $optsMisc -foreground black \
           -background white -selectforeground black \
-          -selectbackground gray -insertbackground black] restcolors
+          -selectbackground gray -insertbackground black] v0 v1 v2 v3 v4
         # the rest colors should be added, namely:
         #   tfg2 tbg2 tfgS tbgS tfgD tbgD tcur bclr
-        foreach rci {0 1 2 3 3 1 4 4} {
-          lappend themecolors [lindex $restcolors [expr {$rci*2+1}]]
-        }
+        lappend themecolors $v0 $v1 $v2 $v3 $v3 $v1 $v4 $v4 $v3 $v0 $v1
       }
       catch {
-        my themingWindow $_pdg(win).dia {*}$themecolors
+        my themeWindow $_pdg(win).dia {*}$themecolors false
       }
     }
     # after creating widgets - show dialog texts if any
     my setgettexts set $_pdg(win).dia.fra $inopts $widlist
     set focusnow $_pdg(win).dia.fra.$defb
     if {$textmode} {
-      if {!$optsTags} {set tags [list]}
       my displayTaggedText [my TexM] msg $tags
-      [my TexM] edit reset
       if {$defb eq "butTEXT"} {
         if {$readonly} {
           set focusnow [my Pdg defb1]
@@ -730,29 +752,23 @@ oo::class create apave::APaveDialog {
         }
       }
       if {$readonly} {
-        rename "::[my TexM]" "::[my TexM].internal"
-        proc "::[my TexM]" {args} "
-            switch -exact -- \[lindex \$args 0\] \{
-                insert \{\}
-                delete \{\}
-                replace \{\}
-                default \{
-                    return \[eval ::[my TexM].internal \$args\]
-                \}
-            \}"
+        my readonlyWidget ::[my TexM] true false
       }
     }
-    if {$newfocused ne ""} {
+    if {$focusmatch ne ""} {
       foreach w $widlist {
         lassign $w widname
-        if {[string match $newfocused $widname]} {
-          set focusnow $_pdg(win).dia.fra.$widname
+        lassign [my LowercaseWidgetName $widname] wn rn
+        if {[string match $focusmatch $rn]} {
+          set focusnow $_pdg(win).dia.fra.$wn
+          break
         }
       }
     }
     catch "$binds"
-    my showModal $_pdg(win).dia \
-      -focus $focusnow -geometry $geometry {*}$root -ontop $ontop
+    set args [my removeOptions $args -focus]
+    my showModal $_pdg(win).dia -themed [string length $themecolors]\
+      -focus $focusnow -geometry $geometry {*}$root -ontop $ontop {*}$args
     oo::objdefine [self] unexport FindInText InitFindInText DoubleText DeleteLine Pdg
     set pdgeometry [winfo geometry $_pdg(win).dia]
     # the dialog's result is defined by "pave res" + checkbox's value
@@ -785,8 +801,8 @@ oo::class create apave::APaveDialog {
     }
     destroy $_pdg(win).dia
     # pause a bit and restore the old focus
-    if {[winfo exists $oldfocused]} {
-      after 50 [list focus $oldfocused]
+    if {$focusback ne "" && [winfo exists $focusback]} {
+      after 50 [list if "\[winfo exist $focusback\]" "focus -force $focusback" "focus ."]
     } else {
       after 50 list focus .
     }

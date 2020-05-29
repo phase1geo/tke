@@ -33,7 +33,7 @@ rt=2/5
  R: Doctest verbose: %e%x R: cd %d
  S: Doctest verbose: %e%x S: tclsh %m/src/doctest_of_emenu.tcl -s 0 -v 1 %f
 
- R: R: 4
+ M:  M: 3
 
  R: Run me (with %s) R: cd %d
  R: Run me (with %s) R: %IF "%x"==".htm" || "%x"==".html" %THEN %B %f
@@ -61,7 +61,7 @@ rt=2/5
 
  S: Shell script-2 S: %#s err=1; cd ~/FOSSIL
 
- S: Input dialog S: cd %d
+ R: Input dialog R: cd %d
  R: Input dialog R: \
   %I "" "TEST OF %I" { \
   ent1  {{   Find: }} {"$::EN1"} \
@@ -71,26 +71,43 @@ rt=2/5
   seh   {{} {} {}} {} \
   chb1  {{Match whole word only}} {$::C1} \
   chb2  {{Match case           }} {$::C2} \
-  seh2  {{} {} {}} {} \
-  v_    {{} {} {}} {} \
-  cbx1  {{Where:   }} {"$::W1" {in file} {in session} {in directory}} \
-  } -head "Enter data:" -weight bold == ::EN1 ::EN2 ::V1 ::C1 ::C2 ::W1
- S: Input dialog S: echo " ::EN1= '$::EN1' \n ::EN2= '$::EN2' \n ::V1 = $::V1 \
-\n ::C1 = $::C1 \n ::C2 = $::C2\n ::W1 = $::W1\n --------------------------------------------"
+  seh2  {} {} \
+  v_    {} {} \
+  cbx1  {{Where:   } {} {-state readonly}} {"$::W1" {in file} {in session} {in directory}} \
+  tex1  {{Any text:} {} {-h 3 -w 50 -wrap word -tabnext lbx1}} {$::TEX} \
+  lbx1  {{Related: } {} {-h 3}} {"$::LBX" Father Mother Son Daughter Brother Sister Uncle Aunt Cousin {Big Brother} "Second cousin" "1000th cousin"} \
+  opc1  {{Color:   }} {{$::OPT} {{color red green blue -- {{other colors} yellow magenta cyan \
+        | #52CB2F #FFA500 #CB2F6A | #FFC0CB #90EE90 #8B6914}} \
+        {hue dark medium light} -- {{opc widget example}} ok}} \
+  tblSEL1  {{Table:   \n\nThe 'tbl' name\nis tblSEL* to\nreturn an item} {} {-h 4 -columns {0 {Name of widget} left \
+      0 Type left 0 X right 0 Y right} }} {"$::TBL" {"but" "ttk::button" 1 1}\
+      {"can" "canvas" 3 3}\
+      {"chb" "ttk::checkbutton" 4 4}\
+      {"cbx fco" "ttk::combobox" 23 2}\
+      {"ent" "ttk::entry" 212 6}\
+  }} \
+  } -head "Enter data:" -weight bold == ::EN1 ::EN2 ::V1 ::C1 ::C2 ::W1 ::TEX ::LBX ::OPT ::TBL
+ R: Input dialog R: %M "> RESULTS:\n ::EN1= '$::EN1' \n ::EN2= '$::EN2' \n ::V1 = $::V1 \
+\n ::C1 = $::C1 \n ::C2 = $::C2\n ::W1 = $::W1 \
+\n ::TEX = $::TEX\n ::LBX = $::LBX\n ::OPT = $::OPT\n ::TBL = $::TBL"
 
- M:  M: 4
+ M:  M: 3
 
- MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?} yesno]} exit"
+ MW: Test2 menu MW: "m=test2.mnu" o=0 "a1=M {It's just a test}; if {![Q {DANGER!} {These commands are dangerous\nand can set the world on fire!\n\nContinue?} yesno]} exit"
 
  MW: Test3 menu MW: "m=test3.mnu" o=0
 
 [OPTIONS]
 ::EN1=%s
-::EN2=<replacing string>
-::V1=Glob
+::EN2====
+::V1=RE
 ::C1=1
 ::C2=1
 ::W1=in session
-pos=21.6
-in=1.0
+::OPT=medium
+::LBX=Daughter
+::TBL=can canvas 3 3
+::TEX=and	tabs	entered\n\nsome multi-line text			123
+pos=92.68
+in=8.0
 %#s geo=969x487+345+229;pos=5.0 # this script is run with %#s wildcard in test1.mnu|!|# it does the same as the previous "Shell script"|!||!|err=1|!|cd ~/FOSSIL|!|while [ $err -eq 1 ]|!|  do repo=$(find *.fossil 2>/dev/null )|!|  err=$?|!|  if [ $? -eq 1 ]; then|!|    if [ $(pwd) = '/' ]; then|!|      echo "repo non esistente" ; break|!|    fi|!|    cd ../|!|  else|!|    echo "$(pwd)/${repo}"|!|  fi|!|done
