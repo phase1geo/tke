@@ -181,8 +181,11 @@ proc ::em::destroy_emenus {} {
 proc ::em::change_PD_Spx {} {
   lassign [::apave::themeObj csGet $::ncolor] - fg - bg
   set ret "-selectforeground $fg -selectbackground $bg -fieldbackground $bg"
+<<<<<<< HEAD
   [dialog LabMsg] configure -foreground $fg -background $bg \
     -padding {16 5 16 5} -text "[::apave::themeObj csGetName $::ncolor]"
+=======
+>>>>>>> 67faf180d252ba23ffb8623efef98734de53cdef
   return $ret
 }
 #=== change a project's directory and other parameters
@@ -207,7 +210,10 @@ proc ::em::change_PD {} {
   set sa [::apave::shadowAllowed 0]
   set ncolorsav $::ncolor
   ::apave::APaveInput create dialog
+<<<<<<< HEAD
   after idle ::em::change_PD_Spx
+=======
+>>>>>>> 67faf180d252ba23ffb8623efef98734de53cdef
   set res [dialog input info "Project..." [list \
     {*}$fco1 \
     Spx [list {Color scheme:} {} \
