@@ -21,47 +21,66 @@ package require http
 package require tls
 
 set srcdir [file normalize [file dirname [info script]]]
-lappend auto_path $::srcdir; package require apave
+#lappend auto_path $::srcdir; package require apave
+#set auto_path [linsert $auto_path 0 $::srcdir]; package require apave
+source [file join $::srcdir apaveinput.tcl]
 
-namespace eval eh {
-  # your preferable browser:
-  # can be set by b= parameter
-  set my_browser ""
+namespace eval ::eh {
 
-  # select one of these and comment others to call offline help
-  set hroot "C:\\DOC\\www.tcl.tk\\man\\tcl8.6"        ;# offline help directory
-  set hroot "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"  ;# offline help directory
+  # preferable browser: can be set by b= parameter
+  variable my_browser ""
 
-  set formtime %H:%M:%S            ;# time format
-  set formdate %Y-%m-%d            ;# date format
-  set formdt   %Y-%m-%d_%H:%M:%S   ;# date+time format
-  set formdw   %A                  ;# day of week format
+  # offline help directory
+  variable hroot "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"
 
-  set geany ""
+  variable formtime %H:%M:%S            ;# time format
+  variable formdate %Y-%m-%d            ;# date format
+  variable formdt   %Y-%m-%d_%H:%M:%S   ;# date+time format
+  variable formdw   %A                  ;# day of week format
+  variable mx 0 my 0
+
+  variable reginit 1
+  variable solo [expr {[file normalize $::argv0] eq \
+    [file normalize [info script]]} ? 1 : 0]
 }
+
 # *******************************************************************
 # common procedures
+
 #====== debug messages (several params)
-proc d {args} {message_box "$args"}
+proc d {args} {::eh::message_box "$args"}
 
 #====== debug messages (array passed by name)
 proc a {a} {set m [array get $a]; d $m}
 
 #====== to check if the platform is MS Windows
-proc iswindows {} {
+proc ::iswindows {} {
   return [expr {$::tcl_platform(platform) eq "windows"} ? 1: 0]
 }
-#====== to get system time & date
-proc get_timedate {} {
-  set systime [clock seconds]
-  set curtime [clock format $systime -format $::eh::formtime]
-  set curdate [clock format $systime -format $::eh::formdate]
-  set curdt   [clock format $systime -format $::eh::formdt]
-  set curdw   [clock format $systime -format $::eh::formdw]
-  return [list $curtime $curdate $curdt $curdw $systime]
+
+# *******************************************************************
+# e_help's procedures
+#=== own message/question box
+proc ::eh::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {
+  ::apave::APaveDialog create pdlg
+  set a1 ""; foreach a2 $args {append a1 $a2 " "}
+  append opts " -t 1 -w 80 $a1 "
+  switch -glob -- $typ {
+    okcancel - yesno - yesnocancel {
+      if {$defb eq "OK" && $typ ne "okcancel" } {
+        set defb YES
+      }
+      set ans [pdlg $typ $icon $ttl \n$mes\n $defb {*}$opts]
+    }
+    default {
+      set ans [pdlg ok $icon $ttl \n$mes\n {*}$opts]
+    }
+  }
+  pdlg destroy
+  return $ans
 }
 #====== 'mes' message of 'typ' type
-proc message_box {mes {typ ok} {ttl ""}} {
+proc ::eh::message_box {mes {typ ok} {ttl ""}} {
   if {[string length $ttl] == 0} {set ttl [wm title .]}
   set mes [string trimleft $mes "\{"]
   set mes [string trimright $mes "\}"]
@@ -69,13 +88,33 @@ proc message_box {mes {typ ok} {ttl ""}} {
     -type $typ -parent .]
   return $ans
 }
-#====== ask 'mes', return true if OK pressed
-proc question_box {ttl mes {typ okcancel}} {
-  set ans [ message_box $mes $typ $ttl]
-  return [expr {$ans eq "ok"} ? 1 : 0]
+#=== get terminal's name
+proc ::eh::get_tty {inconsole} {
+  if {$inconsole ne ""} {set tty $inconsole} \
+  elseif {[::iswindows]} {set tty "cmd.exe /K"} \
+  elseif {[auto_execok lxterminal] ne ""} {set tty lxterminal} \
+  else {set tty xterm}
+  return $tty
 }
+#====== to get system time & date
+proc ::eh::get_timedate {} {
+  set systime [clock seconds]
+  set curtime [clock format $systime -format $::eh::formtime]
+  set curdate [clock format $systime -format $::eh::formdate]
+  set curdt   [clock format $systime -format $::eh::formdt]
+  set curdw   [clock format $systime -format $::eh::formdw]
+  return [list $curtime $curdate $curdt $curdw $systime]
+}
+#=== get current language, e.g. ru_RU.utf8
+proc ::eh::get_language {} {
+  if {[catch {set lang "[lindex [split $::env(LANG) .] 0].utf8"}]} {
+    return ""
+  }
+  return $lang
+}
+
 #====== to maximize 'win' window
-proc zoom_window {win} {
+proc ::eh::zoom_window {win} {
   if {[iswindows]} {
     wm state $win zoomed
   } else {
@@ -83,7 +122,7 @@ proc zoom_window {win} {
   }
 }
 #====== to center window on screen
-proc center_window {win {ornament 1} {winwidth 0} {winheight 0}} {
+proc ::eh::center_window {win {ornament 1} {winwidth 0} {winheight 0}} {
   # to center a window regarding taskbar(s) sizes
   #  center_window win     ;# if win window has borders and titlebar
   #  center_window win 0   ;# if win window isn't ornamented with those
@@ -118,20 +157,186 @@ proc center_window {win {ornament 1} {winwidth 0} {winheight 0}} {
   wm state . normal
   update
 }
-#====== to get number from str
-proc getN {sn {defn 0} args} {
-  if {[catch {set n [expr "$sn"]} e] } { set n $defn }
-  lassign $args min max
-  if {$max ne ""} {
-    set n [expr min($max,$n)]
+#=== check and correct (if necessary) the geometry of window
+proc ::eh::checkgeometry {} {
+  set scrw [expr [winfo screenwidth .] - 12]
+  set scrh [expr {[winfo screenheight .] - 36}]
+  lassign [split [wm geometry .] x+] w h x y
+  set necessary 0
+  if {($x + $w) > $scrw } {
+    set x [expr {$scrw - $w}]
+    set necessary 1
   }
-  if {$min ne ""} {
-    set n [expr max($min,$n)]
+  if {($y + $h) > $scrh } {
+    set y [expr {$scrh - $h}]
+    set necessary 1
   }
-  return $n
+  if {$necessary} {
+    wm geometry . ${w}x${h}+${x}+${y}
+  }
 }
+
+#=== off ctrl/alt modificators of keystrokes
+proc ::eh::ctrl_alt_off {cmd} {
+  if {[iswindows]} {
+    return "if \{%s == 8\} \{$cmd\}"
+  } else {
+    return "if \{\[expr %s&14\] == 0\} \{$cmd\}"
+  }
+}
+
+#=== try and check if 'app' destroyed
+proc ::eh::destroyed {app} {
+  return [expr ![catch {send -async $app {destroy .}} e]]
+}
+
+#=== drag window by snatching header
+proc ::eh::mouse_drag {mode x y} {
+  switch -- $mode {
+    1 { lassign [list $x $y] ::eh::mx ::eh::my }
+    2 -
+    3 {
+      if {$::eh::mx>0 && $::eh::my>0} {
+        lassign [split [wm geometry .] x+] w h wx wy
+        wm geometry . +[expr $wx+$x-$::eh::mx]+[expr $wy+$y-$::eh::my]
+        if {$mode==3} {lassign {0 0} ::eh::mx ::eh::my }
+      }
+    }
+  }
+}
+
+#=== Gets/sets file attributes
+proc ::eh::fileAttributes {fname {attrs "-"} {atime ""} {mtime ""} } {
+    if {$attrs eq "-"} {
+      # get file attributes
+      set attrs [file attributes $fname]
+      return [list $attrs [file atime $fname] [file mtime $fname]]
+    }
+   # set file attributes
+   file atime $fname $atime
+   file mtime $fname $mtime
+}
+
+#=== Write data to a file with file attributes untouched
+proc ::eh::write_file_untouched {fname data} {
+  lassign [::eh::fileAttributes $fname] f_attrs f_atime f_mtime
+  set ch [open $fname w]
+  foreach line $data { puts $ch "$line" }
+  close $ch
+  ::eh::fileAttributes $fname $f_attrs $f_atime $f_mtime
+}
+
+#=== escape double quotes
+proc ::eh::escape_quotes {sel} {
+  if {![iswindows]} {
+    set sel [string map [list "\"" "\\\""] $sel]
+  }
+  return $sel
+}
+
+#=== escape special characters
+proc ::eh::escape_specials {sel} {
+  return [string map [ list \" \\\" "\n" "\\n" "\\" "\\\\" "\$" "\\\$" \
+    "\}" "\\\}"  "\{" "\\\{"  "\]" "\\\]"  "\[" "\\\[" ] $sel]
+}
+
+#=== prepare "search links" for browser
+proc ::eh::escape_links {sel} {
+  return [string map [list " " "+"] $sel]
+}
+
+#=== delete specials & underscore spaces
+proc ::eh::delete_specsyms {sel {und "_"} } {
+  return [string map [list \
+      "\"" ""  "\%" ""  "\$" ""  "\}" ""  "\{" "" \
+      "\]" ""  "\[" ""  "\>" ""  "\<" ""  "\*" ""  " " $und] $sel]
+}
+
+#=== get "underlined" name (e.g. working dir)
+proc ::eh::get_underlined_name {name} {
+  return [string map {/ _ \\ _ { } _ . _} $name]
+}
+
+#====== check if link exists
+proc ::eh::lexists {url} {
+  if {$::eh::reginit} {
+    set ::eh::reginit 0
+    ::http::register https 443 ::tls::socket
+  }
+  if {[catch {set token [::http::geturl $url]} e]} {
+    if {$::eh::solo} {
+    grid [label .l -text ""]}  ;# hide wish
+    message_box "ERROR: couldn't connect to:\n\n$url\n\n$e"
+    return 0
+  }
+  if {$::eh::solo} { exit }
+  if {[string first "<title>URL Not Found" [::http::data $token]] < 0} {
+    return 1
+  } else {
+    return 0
+  }
+}
+#====== check if links exist
+proc ::eh::links_exist {h1 h2 h3} {
+  if {[lexists "$h1"]} {
+    return "$h1"            ;# Tcl commands help
+  } elseif {[lexists "$h2"]} {
+    return "$h2"            ;# Tk commands help
+  } elseif {[lexists "$h3"]} {
+    return "$h3"            ;# Tcl/Tk keywords help (by first letter)
+  } else {
+    return ""
+  }
+}
+#====== offline help
+proc ::eh::local { {help ""} } {
+  set l1 [string toupper [string range "$help" 0 0]]
+  if {[string first "http" "$::eh::hroot"]==0} {
+    set http true
+    set ext "htm"
+  } else {
+    set http false
+    set ext "htm"  ;# this extention was returned by wget, change if need
+  }
+  set help [string tolower $help]
+  set h1 "$::eh::hroot/TclCmd/$help.$ext"
+  set h2 "$::eh::hroot/TkCmd/$help.$ext"
+  set h3 "$::eh::hroot/Keywords/$l1.$ext"
+  if {$http} {
+    set link [links_exist $h1 $h2 $h3]
+    if {[string length $link] > 0} {
+      return "$link"             ;# try local help pages
+    }
+  } else {
+    if {[file exists $h1]} {
+      return "file://$h1"        ;# view Tcl commands help
+    } elseif {[file exists $h2]} {
+      return "file://$h2"        ;# view Tk commands help
+    } elseif {[file exists $h3]} {
+      return "file://$h3"        ;# view Keywords help (by first letter)
+    }
+    set h1 "$::eh::hroot/TclCmd/contents.$ext" ;# Tcl index, if nothing found
+  }
+  return "$h1"
+}
+#====== online help, change links if need
+proc ::eh::html { {help ""} {local 0}} {
+  if {$local} {
+    return [local "$help"]
+  }
+  set l1 [string toupper [string range "$help" 0 0]]
+  set h1 "https://www.tcl.tk/man/tcl8.6/TclCmd/$help.htm"   ;# Tcl
+  set h2 "https://www.tcl.tk/man/tcl8.6/TkCmd/$help.htm"    ;# Tk
+  set h3 "https://www.tcl.tk/man/tcl8.6/Keywords/$l1.htm"   ;# keywords A-Z
+  set link [links_exist $h1 $h2 $h3]
+  if {[string length $link] == 0} {
+    return [local "$help"]       ;# try local help pages
+  }
+  return $link
+}
+
 #====== borrowed from http://wiki.tcl.tk/557
-proc invokeBrowser {url} {
+proc ::eh::invokeBrowser {url} {
   # open is the OS X equivalent to xdg-open on Linux, start is used on Windows
   set commands {xdg-open open start}
   foreach browser $commands {
@@ -152,121 +357,35 @@ proc invokeBrowser {url} {
   }
 }
 
-# *******************************************************************
-# e_help's procedures
-
-namespace eval eh {
-
-  set reginit 1
-  set solo [expr {$::argv0 eq [info script]} ? 1 : 0]
-
-  #====== check if link exists
-  proc lexists {url} {
-    if {$::eh::reginit} {
-      set ::eh::reginit 0
-      ::http::register https 443 ::tls::socket
-    }
-    if {[catch {set token [::http::geturl $url]} e]} {
-      if {$::eh::solo} {
-      grid [label .l -text ""]}  ;# hide wish
-      message_box "ERROR: couldn't connect to:\n\n$url\n\n$e"
-      return 0
-    }
-    if {$::eh::solo} { exit }
-    if {[string first "<title>URL Not Found" [::http::data $token]] < 0} {
-      return 1
-    } else {
-      return 0
-    }
-  }
-  #====== check if links exist
-  proc links_exist {h1 h2 h3} {
-    if {[lexists "$h1"]} {
-      return "$h1"            ;# Tcl commands help
-    } elseif {[lexists "$h2"]} {
-      return "$h2"            ;# Tk commands help
-    } elseif {[lexists "$h3"]} {
-      return "$h3"            ;# Tcl/Tk keywords help (by first letter)
-    } else {
-      return ""
-    }
-  }
-  #====== offline help
-  proc local { {help ""} } {
-    set l1 [string toupper [string range "$help" 0 0]]
-    if {[string first "http" "$::eh::hroot"]==0} {
-      set http true
-      set ext "htm"
-    } else {
-      set http false
-      set ext "htm"  ;# this extention was returned by wget, change if need
-    }
-    set help [string tolower $help]
-    set h1 "$::eh::hroot/TclCmd/$help.$ext"
-    set h2 "$::eh::hroot/TkCmd/$help.$ext"
-    set h3 "$::eh::hroot/Keywords/$l1.$ext"
-    if {$http} {
-      set link [links_exist $h1 $h2 $h3]
-      if {[string length $link] > 0} {
-        return "$link"             ;# try local help pages
-      }
-    } else {
-      if {[file exists $h1]} {
-        return "file://$h1"        ;# view Tcl commands help
-      } elseif {[file exists $h2]} {
-        return "file://$h2"        ;# view Tk commands help
-      } elseif {[file exists $h3]} {
-        return "file://$h3"        ;# view Keywords help (by first letter)
-      }
-      set h1 "$::eh::hroot/TclCmd/contents.$ext" ;# Tcl index, if nothing found
-    }
-    return "$h1"
-  }
-  #====== online help, change links if need
-  proc html { {help ""} {local 0}} {
-    if {$local} {
-      return [eh::local "$help"]
-    }
-    set l1 [string toupper [string range "$help" 0 0]]
-    set h1 "https://www.tcl.tk/man/tcl8.6/TclCmd/$help.htm"   ;# Tcl
-    set h2 "https://www.tcl.tk/man/tcl8.6/TkCmd/$help.htm"    ;# Tk
-    set h3 "https://www.tcl.tk/man/tcl8.6/Keywords/$l1.htm"   ;# keywords A-Z
-    set link [links_exist $h1 $h2 $h3]
-    if {[string length $link] == 0} {
-      return [eh::local "$help"]       ;# try local help pages
-    }
-    return $link
-  }
-  #====== to call browser
-  proc browse { {help ""} } {
-    if {$::eh::my_browser ne ""} {
-      exec ${::eh::my_browser} "$help" &
-    } else {
-      ::invokeBrowser "$help"
-    }
+#====== to call browser
+proc ::eh::browse { {help ""} } {
+  if {$::eh::my_browser ne ""} {
+    exec ${::eh::my_browser} "$help" &
+  } else {
+    invokeBrowser "$help"
   }
 }
+
 # *******************************************************************
 
 if {$::eh::solo} {
   if {$argc > 0} {
     if {[lindex $::argv 0] eq "-local"} {
-      set page [eh::local [lindex $::argv 1]]
+      set page [::eh::local [lindex $::argv 1]]
     } else {
-      set page [eh::html [lindex $::argv 0]]
+      set page [::eh::html [lindex $::argv 0]]
     }
-    eh::browse "$page"
+    ::eh::browse "$page"
   } else {
-    grid [label .l -text " "]  ;# wish underlied
-    message_box "
-Call Tcl/Tk help page with\n
-\n   tclsh e_help.tcl \[-local\] page\n
-\nand you'll get
-\n   TclCmd/page.htm or
-\n   TkCmd/page.htm or
-\n   Keywords/P.htm
-\nin your browser.
-    "
+    puts "\nRun:
+
+  tclsh e_help.tcl \[-local\] page
+
+to get Tcl/Tk help page:
+
+  TclCmd/page.htm or
+  TkCmd/page.htm or
+  Keywords/P.htm\n"
   }
   exit
 }

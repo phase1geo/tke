@@ -6,17 +6,21 @@
  RE:git gui RE: cd %PD
  RE:git gui RE: git gui
 
- S:git add * S: cd %PD
- R:git add * R: %q "Adding changes" "Add all changes in\n\n%PD\n\nto a local repository ?"
- S:git add * S: git add *\ngit status
+ R:  R: 3
+
+ S:git pull S: cd %PD
+ R:git pull R: %q "Pulling changes" "Pull changes in\n\na remote repository\n\nto %PD ?"
+ S:git pull S: git pull
 
  S:git push S: cd %PD
  R:git push R: %q "Pushing changes" "Push all changes in\n\n%PD\n\nto a remote repository ?"
  S:git push S: git push
 
- S:git pull S: cd %PD
- R:git pull R: %q "Pulling changes" "Pull changes in\n\na remote repository\n\nto %PD ?"
- S:git pull S: git pull
+ R:  R: 3
+
+ S:git add * S: cd %PD
+ R:git add * R: %q "Adding changes" "Add all changes in\n\n%PD\n\nto a local repository ?"
+ S:git add * S: git add *\ngit status
 
  S:git merge S: cd %PD
  R:git merge R: %q "Merging changes" "Merge changes in\n\n  %PD ?"
@@ -25,6 +29,8 @@
  S:git commit --amend S: cd %PD
  R:git commit --amend R: %q "Amending commit" "Amend the last commit\nwith message to be edited ?"
  S:git commit --amend S: git commit --amend
+
+ R:  R: 3
 
  S:git log -p "1 hour ago" S: cd %PD
  S:git log -p "1 hour ago" S: git log -p "--since=1 hour ago"
@@ -44,7 +50,7 @@
  S:git diff master..%s S: cd %PD
  S:git diff master..%s S: git diff master..%s
 
- R: - R: 15
+ R:  R: 3
 
  S:git init S: cd %PD
  R:git init R: %q "INIT" "This will initialize GIT in:\n%PD"
@@ -80,4 +86,4 @@ in=1.0
  R:git reset --hard HEAD R: %q "RESET" "IT'S CANNOT BE UNDONE !!!"
  R:git reset --hard HEAD R: cd %PD
  S:git reset --hard HEAD S: git reset --hard HEAD
-pos=58.0
+pos=9.4

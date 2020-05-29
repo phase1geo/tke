@@ -12,7 +12,7 @@ SW: hg add "%F" file SW: hg add -v "%f"\nhg status
  R: hg add "%D" directory R: cd %d
 SW: hg add "%D" directory SW: hg add -v *\nhg status
 
- R: R: 4
+ R:  R: 3
 
  R: Forget "%F" file R: cd %d
  R: Forget "%F" file R: %q "FORGET FILE" "This will FORGET the file \
@@ -32,7 +32,7 @@ SW: Forget newly-added binary files SW: hg forget "set:added() and binary()"\nhg
   \n that are excluded by .hgignore!"
 SW: Forget files excluded by .hgignore SW: hg forget "set:hgignore()"\nhg status
 
- R: R: 4
+ R:  R: 3
 
  R: Remove "%F" file R: cd %d
  R: Remove "%F" file R: %C if {![info exist ::FREM]} {set ::FREM 0}
@@ -58,7 +58,7 @@ SW: Remove "%F" file SW: hg remove $::FORCEDREM -v %f\nhg status
  R: Remove "%D" directory R:  %C if {$::FREM} {set ::FORCEDREM -f} {set ::FORCEDREM -Af}
 SW: Remove "%D" directory SW: hg remove $::FORCEDREM -v *\nhg status
 
-R: R: 4
+R:  R: 3
 
 S: hg summary, status, heads S: cd %PD
 S: hg summary, status, heads S: \n \n \
@@ -153,6 +153,6 @@ SW: Push with BIN SW: \
 ::RGEO=568x537+0+55
 ::RBIN=BIN
 ::REV1=-3
-pos=159.3
+pos=117.3
 in=1.0
 w=40

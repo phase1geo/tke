@@ -5,19 +5,19 @@ b1=0
 b2=3
 b3=1
 w=28
-g=246x624+3+27
-pos=41.0
+g=+3+27
+pos=41.5
 ::EMENUTMPFILE=%mn.tmp~
-%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
-%C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
-%C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
+%C set ::EMENUFILE "%f"
 %C set ::FILETAIL \"[file tail $::EMENUFILE]\"
+%C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
+%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 
 [MENU]
 
  # menu for e_menu.tcl
 
- M:  M: 4
+ M:  M: 3
  RE: Run me (with %AR) RE: cd %d
  RE: Run me (with %AR) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B $::EMENUFILE
  RE: Run me (with %AR) RE: %IF "%x"==".md" %THEN ghostwriter "$::EMENUFILE"
@@ -38,17 +38,17 @@ pos=41.0
  RE: Open terminal in "%D" RE: cd %d
  RE: Open terminal in "%D" RE: %TT
 
- M:  M: 4
+ M: - M: 3
 
- RE: Open in browser "%ss" site RE: cd %d
- RE: Open in browser "%ss" site RE: %B %ss
+ RE: Open in browser "%s" site RE: cd %d
+ RE: Open in browser "%s" site RE: %B %s
 
  RE: Search in Firefox for "%s" RE: firefox -search "%s"
  RE: Wikipedia for "%s" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
 # RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
  RE: GoldenDict for "%s" RE: goldendict %s
 
- M:  M: 4
+ M:  M: 3
  ME: Search All "%s" in %D  ME: m=grep.mnu
 
  RE: Backup of $::FILETAIL RE: %Q "BACKUP" "The backup of\n\n$::EMENUFILE\n\n\nwould be saved to\n\n$::EMENUFILE.bak"
@@ -68,7 +68,6 @@ RW: Differences of $::FILETAIL (fossil/git) RW: fossil tim -t ci -n 11 > $::EMEN
    texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     $::EMENUFILE\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
- S: Differences of $::FILETAIL (fossil/git) S: %U $::EMENUFILE
  R: Differences of $::FILETAIL (fossil/git) R: %C if {"$::EMENUCOMMIT" eq ""} \
    {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
  R: Differences of $::FILETAIL (fossil/git) R: %IF [file exists .fslckout] %THEN \
@@ -80,8 +79,8 @@ RW: Differences of $::FILETAIL (fossil/git) RW: fossil tim -t ci -n 11 > $::EMEN
  RE: Edit *.tcl of %d RE: %IF [auto_execok geany]!={} %THEN geany $::ALLFILES %ELSE tke $::ALLFILES
  RE: Edit *.tcl of %d RE: %C unset ::ALLFILES
 
- M:  M: 4
- ME: Fossil ME: m=fossil.mnu "u=%s" o=0 w=50
- ME: Git  ME: m=git.mnu "u=%s" o=0 w=50
+ M:  M: 3
+ ME: Fossil ME: m=fossil.mnu "u=%s" o=0
+ ME: Git  ME: m=git.mnu "u=%s" o=0
  ME: Hg ME: m=hg.mnu
  ME: Utils ME: m=utils.mnu

@@ -2,8 +2,9 @@
 
 [OPTIONS]
 in=1.0
-pos=61.28
-::GITCOMMIT=""
+o=0
+pos=142.0
+w=35
 ::EMENUTMPFILE=%mn.tmp~
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
@@ -21,7 +22,7 @@ pos=61.28
  R:gitk R: cd %PD
  R:gitk R: gitk
 
- R: R: 2
+ R:  R: 2
 
  R:git difftool $::FILETAIL ? R: cd %PD
 RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
@@ -34,7 +35,6 @@ RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
    texc {{   Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to HEAD.\n\n If it's blank, the current file is compared to HEAD.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     %f\n to its HEAD.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
- R:git difftool $::FILETAIL ? R: %U $::EMENUFILE
  R:git difftool $::FILETAIL ? R: git difftool $::EMENUCOMMIT HEAD -- "$::EMENUFILE"
 
  S:git diff ? S: cd %PD
@@ -64,14 +64,13 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  R:git add $::FILETAIL ? R: %I {} "ADD" { \
    fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
    } -head {\n This will add changes in a file\n to a local repository:} -weight bold == ::EMENUFILE
- S:git add $::FILETAIL ? S: %U $::EMENUFILE
  S:git add $::FILETAIL ? S: git add "$::EMENUFILE"
 
  S:git add * S: cd %PD
  R:git add * R: %q "Adding changes" "Add all changes in\n\n%PD\n\nto a local repository ?"
  S:git add * S: git add *\ngit status
 
- R: R: 2
+ R:  R: 2
 
  S:git commit S: cd %PD
  R:git commit R: %q "Committing changes" "Commit with message to be edited ?"
@@ -98,7 +97,7 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  R:git commit -a R: %q "Add All and Commit Changes" " Add all changes\n and commit with message to be edited ?"
  S:git commit -a S: git commit -a
 
- R: R: 2
+ R:  R: 2
 
  S:git log "1 hour ago" S: cd %PD
  S:git log "1 hour ago" S: git log --since="1 hour ago"
@@ -118,7 +117,7 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  S:git log --merges S: cd %PD
  S:git log --merges S: git log --merges
 
- R: R: 2
+ R:  R: 2
 
  S:git branch S: cd %PD
  S:git branch S: git branch
@@ -131,16 +130,11 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  R:git checkout "%s" R: %q "Checkout" "Checkout to\n\n'%s' ?"
  S:git checkout "%s" S: git checkout "%s"
 
- R: R: 2
+ R:  R: 2
 
  R:terminal here R: cd %d
  R:terminal here R: %TT
 
- R: R: 2
+ R:  R: 2
 
  ME: Next ME: m=git2.mnu w= "cb=%cb in=%in"
-
-; R: edit ./wiki.txt R: ?  some.err.   ./wiki.txt
-
-;S: echo "эхо - %i3 %i4" S: echo "эхо - %i3 %i4"
-;S: echo "эхо - %i8 %i9" S: echo "эхо - %i8 %i9"

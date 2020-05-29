@@ -6,10 +6,10 @@
 # Use:
 #    package require apave
 #    ...
-#    apave::APave create pave
+#    ::apave::APave create pave
 #    catch {destroy .win}
 #    pave makeWindow .win "TITLE"
-#    pave window .win LISTW
+#    pave paveWindow .win LISTW
 #    pave showModal .win OPTIONS
 #
 # where:
@@ -47,24 +47,104 @@
 #
 ###########################################################################
 
-######################################################################
-# for debugging
-# proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"}
-
 package require Tk
 package require tablelist
 package require widget::calendar
 catch {package require tooltip} ;# optional (though necessary everywhere:)
 
-namespace eval apave {
+namespace eval ::apave {
 
+  ;# default grid options & attributes of widgets
+  variable _Defaults [dict create \
+    "but" {{} {}} \
+    "buT" {{} {-w -20 -pady 1}} \
+    "can" {{} {}} \
+    "chb" {{} {}} \
+    "chB" {{} {-relief sunken -padx 6 -pady 2}} \
+    "cbx" {{} {}} \
+    "fco" {{} {}} \
+    "ent" {{} {}} \
+    "enT" {{} {-insertwidth 0.6m}} \
+    "fil" {{} {}} \
+    "fis" {{} {}} \
+    "dir" {{} {}} \
+    "fon" {{} {}} \
+    "clr" {{} {}} \
+    "dat" {{} {}} \
+    "sta" {{} {}} \
+    "too" {{} {}} \
+    "fra" {{} {}} \
+    "ftx" {{} {}} \
+    "frA" {{} {}} \
+    "lab" {{-st w} {}} \
+    "laB" {{-st w} {}} \
+    "lfr" {{} {}} \
+    "lfR" {{} {-relief ridge -fg maroon}} \
+    "lbx" {{} {}} \
+    "flb" {{} {}} \
+    "meb" {{} {}} \
+    "meB" {{} {}} \
+    "nbk" {{} {}} \
+    "opc" {{} {}} \
+    "pan" {{} {}} \
+    "pro" {{} {}} \
+    "rad" {{} {}} \
+    "raD" {{} {-padx 6 -pady 2}} \
+    "sca" {{} {-orient horizontal}} \
+    "scA" {{} {-orient horizontal}} \
+    "sbh" {{-st ew} {-orient horizontal -takefocus 0}} \
+    "sbH" {{-st ew} {-orient horizontal -takefocus 0}} \
+    "sbv" {{-st ns} {-orient vertical -takefocus 0}} \
+    "sbV" {{-st ns} {-orient vertical -takefocus 0}} \
+    "seh" {{-st ew} {-orient horizontal}} \
+    "sev" {{-st ns} {-orient vertical}} \
+    "siz" {{} {}} \
+    "spx" {{} {}} \
+    "spX" {{} {}} \
+    "tbl" {{} {-selectborderwidth 1 -highlightthickness 2 \
+               -labelcommand tablelist::sortByColumn -stretch all \
+               -showseparators 1}} \
+    "tex" {{} {-undo 1 -maxundo 0 -highlightthickness 2 -insertwidth 0.6m}} \
+    "tre" {{} {}} \
+    "h_" {{-st ew -csz 3 -padx 3} {}} \
+    "v_" {{-st ns -rsz 3 -pady 3} {}}]
   variable apaveDir [file dirname [info script]]
-  variable _AP_ICO { none "info" err warn ques no retry folder \
-    OpenFile SaveFile font color font date help home undo redo run tools \
-    "file" find search view edit config misc cut copy paste plus minus \
-    add change delete double replace up down "exit" ok yes cancel }
-  variable _AP_IMG
-  array set _AP_IMG {}
+  variable _AP_ICO { none folder OpenFile SaveFile font color date help home \
+    undo redo run tools file find search replace view edit config misc \
+    cut copy paste plus minus add change delete double up down info \
+    err warn ques no retry ok yes cancel exit }
+  variable _AP_IMG;  array set _AP_IMG [list]
+  variable _AP_VARS; array set _AP_VARS [list]
+  set _AP_VARS(.,SHADOW) 0
+  set _AP_VARS(.,MODALS) 0
+
+  # Set/get a status of window ("w")
+  # (blank "val" means "to get"; otherwise "to set")
+  proc WindowStatus {w name {val ""} {defval ""}} {
+    variable _AP_VARS
+    if {$val eq ""} {  ;# getting
+      if {[info exist _AP_VARS($w,$name)]} {
+        return $_AP_VARS($w,$name)
+      }
+      return $defval
+    }
+    return [set _AP_VARS($w,$name) $val]  ;# setting
+  }
+  # Set/get status value of window as integer.
+  # At setting ($val ne ""), returns old value.
+  proc IntStatus {w {name "status"} {val ""}} {
+    set old [WindowStatus $w $name "" 0]
+    if {$val ne ""} {WindowStatus $w $name $val 1}
+    return $old
+  }
+  # Set/get 'enable-shadowing' mode
+  proc shadowAllowed {{val ""} {w .}} {
+    return [IntStatus $w SHADOW $val]
+  }
+  # Set/get 'count of open modal windows'
+  proc modalsOpen {{val ""} {w .}} {
+    return [IntStatus $w MODALS $val]
+  }
 
   # Get a defined icon's image or list of icons
   proc iconImage {{icon ""}} {
@@ -79,54 +159,51 @@ namespace eval apave {
       # Make images of icons
       source [file join $apaveDir apaveimg.tcl]
       foreach ic $_AP_ICO {
-        image create photo [imagename $ic] -data [set _AP_IMG($ic)]
+        if {[catch {image create photo [imagename $ic] -data [set _AP_IMG($ic)]}]} {
+          # some png issues on old Tk
+          image create photo [imagename $ic] -data [set _AP_IMG(none)]
+        }
       }
     }
+    if {$icon eq "-init"} return ;# just to get to icons
     if {$icon ni $_AP_ICO} { set icon [lindex $_AP_ICO 0] }
     return [imagename $icon]
+  }
+  # Get a defined icon's data
+  proc iconData {{icon "info"}} {
+    variable _AP_IMG
+    iconImage -init
+    return [set _AP_IMG($icon)]
   }
 
   # Set application's icon
   proc setAppIcon {win {winicon ""}} {
     set appIcon ""
     if {$winicon ne ""} {
-      if {[catch {set appIcon [image create photo -file $winicon]}]} {
-        catch { set appIcon [image create photo -data $winicon] }
+      if {[catch {set appIcon [image create photo -data $winicon]}]} {
+        catch { set appIcon [image create photo -file $winicon] }
       }
     }
     if {$appIcon ne ""} { wm iconphoto $win $appIcon }
     return
   }
 
-  # Initialize wish session
-  proc initWM {} {
-    if {$::tcl_platform(platform) == "windows"} {
-      wm attributes . -alpha 0.0
-    } else {
-      wm withdraw .
-    }
-    try {ttk::style theme use clam}
-    # configure separate widget types
-    ttk::style configure TButton \
-      -anchor center -width -8 -relief raised -borderwidth 1 -padding 1
-    ttk::style configure TLabel -borderwidth 0 -padding 1
-    return
-  }
 }
 
-source [file join $apave::apaveDir obbit.tcl]
+source [file join $::apave::apaveDir obbit.tcl]
 
-oo::class create apave::APave {
+oo::class create ::apave::APave {
 
-  mixin apave::ObjectProperty apave::ObjectTheming apave::ObjectUtils
+  mixin ::apave::ObjectTheming
 
   variable _pav
 
-  constructor {args} {
+  constructor {{cs -2} args} {
 
     # keep the 'important' data of Pave object in array
-    array set _pav {}
+    array set _pav [list]
     set _pav(ns) [namespace current]::
+    set _pav(lwidgets) [list]
     set _pav(moveall) 0
     set _pav(tonemoves) 1
     set _pav(initialcolor) black
@@ -135,8 +212,8 @@ oo::class create apave::APave {
     set _pav(fgbut) [ttk::style lookup TButton -foreground]
     set _pav(bgbut) [ttk::style lookup TButton -background]
     set _pav(fgtxt) [ttk::style lookup TEntry -foreground]
-    set _pav(prepost) {}
-    set _pav(widgetopts) {}
+    set _pav(prepost) [list]
+    set _pav(widgetopts) [list]
     set _pav(edge) "/@"
     if {$_pav(fgtxt)=="black" || $_pav(fgtxt)=="#000000"} {
       set _pav(bgtxt) white
@@ -146,6 +223,9 @@ oo::class create apave::APave {
     # namespace in object namespace for safety of its 'most important' data
     namespace eval ${_pav(ns)}PN {}
     array set ${_pav(ns)}PN::AR {}
+    # set/reset a color scheme if it is/was requested
+    if {$cs<-1} {set cs [my csCurrent]}
+    if {$cs>=-1} {my csSet $cs}
 
     # This trick with 'proc' inside an object is discussed at
     # https://stackoverflow.com/questions/54804964/proc-in-tcl-ooclass
@@ -195,6 +275,11 @@ oo::class create apave::APave {
     return
   }
 
+  destructor {
+    array unset _pav
+    if {[llength [self next]]} next
+  }
+
   #########################################################################
   #
   # Check the platform
@@ -202,17 +287,6 @@ oo::class create apave::APave {
   method iswindows {} {
 
     return [expr {$::tcl_platform(platform) == "windows"} ? 1: 0]
-  }
-
-  #########################################################################
-  #
-  # Configure the apave object (all of _pav array may be changed)
-  # E.g., pobj configure edge "@@"
-
-  method configure {args} {
-
-    foreach {optnam optval} $args { set _pav($optnam) $optval }
-    return
   }
 
   #########################################################################
@@ -246,6 +320,15 @@ oo::class create apave::APave {
 
   #########################################################################
   #
+  # Get parent name of widget's name
+
+  method parentwname {name} {
+
+    return [string range $name 0 [string last . $name]-1]
+  }
+
+  #########################################################################
+  #
   # Theme for non-ttk widgets (to be redefined in descendants/mixins)
 
   method NonTtkTheme {win} {
@@ -268,7 +351,35 @@ oo::class create apave::APave {
 
   method IconA {icon} {
 
-    return "-image [apave::iconImage $icon] -compound left"
+    return "-image [::apave::iconImage $icon] -compound left"
+  }
+
+  #########################################################################
+  #
+  # Configure the apave object (all of _pav array may be changed)
+  # E.g., pobj configure edge "@@"
+
+  method configure {args} {
+
+    foreach {optnam optval} $args { set _pav($optnam) $optval }
+    return
+  }
+
+  #########################################################################
+
+  method setDefaultAttrs {typ opt atr} {
+
+    # Sets or resets default grid options and attributes for widget type.
+    #   typ - widget type
+    #   opt - new default grid options
+    #   atr - new default attributes
+    #
+    # Returns a list of updated options and attributes of the widget type.
+
+    lassign [dict get $::apave::_Defaults $typ] defopts defattrs
+    set newval [list "$defopts $opt" "$defattrs $atr"]
+    dict set ::apave::_Defaults $typ $newval
+    return $newval
   }
 
   #########################################################################
@@ -304,21 +415,23 @@ oo::class create apave::APave {
 
   method FCfieldAttrs {wnamefull attrs varopt} {
 
-    lassign [my parseOptionsFile 0 $attrs \
-      $varopt "" -retpos "" -inpval ""] tmp
-    lassign $tmp - vn - rp - iv
+    lassign [my parseOptions $attrs $varopt "" -retpos "" -inpval ""] \
+      vn rp iv
     if {[string first "-state disabled" $attrs]<0} {
+      set all ""
       if {$varopt eq "-lvar"} {
-        lappend _pav(widgetopts) "-lbxname $wnamefull $vn"
-        set iv [my getOption -values {*}$attrs]
-        set attrs [my RemoveSomeOptions $attrs -values]
+        lassign [my parseOptions $attrs -values "" -ALL 0] iv a
+        if {[string is boolean -strict $a] && $a} {set all "ALL"}
+        set attrs [my removeOptions $attrs -values -ALL]
+        lappend _pav(widgetopts) "-lbxname$all $wnamefull $vn"
       }
       if {$rp ne ""} {
+        if {$all ne ""} {set rp "0:end"}
         lappend _pav(widgetopts) "-retpos $wnamefull $vn $rp"
       }
     }
     if {$iv ne ""} { set $vn $iv }
-    return [my RemoveSomeOptions $attrs -retpos -inpval]
+    return [my removeOptions $attrs -retpos -inpval]
   }
 
   #########################################################################
@@ -347,11 +460,12 @@ oo::class create apave::APave {
       # Given a file's line and options,
       # cuts a substring from the line.
       lassign [my parseOptionsFile 1 $opts {*}$args] opts
-      lassign $opts - - - div1 - div2 - pos - len - ret
+      lassign $opts - - - div1 - div2 - pos - len - RE - ret
       set ldv1 [string length $div1]
       set ldv2 [string length $div2]
       set i1 [expr {[string first $div1 $fline]+$ldv1}]
       set i2 [expr {[string first $div2 $fline]-1}]
+      set filterfile true
       if {$ldv1 && $ldv2} {
         if {$i1<0 || $i2<0} {return $edge}
         set retval [string range $fline $i1 $i2]
@@ -367,9 +481,20 @@ oo::class create apave::APave {
         set retval [string range $fline $pos end]
       } elseif {$len ne {}} {
         set retval [string range $fline 0 $len-1]
+      } elseif {$RE ne {}} {
+        set retval [regexp -inline $RE $fline]
+        if {[llength $retval]>1} {
+          foreach r [lrange $retval 1 end] {append retval_tmp $r}
+          set retval $retval_tmp
+        } else {
+          set retval [lindex $retval 0]
+        }
       } else {
         set retval $fline
+        set filterfile false
       }
+      if {$retval eq "" && $filterfile} {return $edge}
+      set retval [string map [list "\}" "\\\}"  "\{" "\\\{"] $retval]
       return [list $retval $ret]
     }
 
@@ -384,7 +509,7 @@ oo::class create apave::APave {
       set values "$edge$values$edge"      ;# may be omitted
     }
     # get: files' contents, files' options, template line
-    set lopts "-list {} -div1 {} -div2 {} -pos {} -len {} -ret 0"
+    set lopts "-list {} -div1 {} -div2 {} -pos {} -len {} -RE {} -ret 0"
     while {1} {
       set i1 [string first $edge $values]
       set i2 [string first $edge $values $i1+1]
@@ -482,7 +607,7 @@ oo::class create apave::APave {
       {SaveFile save} {OpenFile open}]
     # ok, yes, cancel, apply buttons should be at the end of list
     # as their texts can be renamed (e.g. "Help" in e_menu's "About")
-    lappend icolist {*}[apave::iconImage] {yes apply}
+    lappend icolist {*}[::apave::iconImage] {yes apply}
     foreach icon $icolist {
       lassign $icon ic1 ic2
       # text of button is of highest priority at defining its icon
@@ -512,6 +637,10 @@ oo::class create apave::APave {
     set pack $options
     set name [my rootwname $wnamefull]
     set nam3 [string tolower [string index $name 0]][string range $name 1 2]
+    if {[string index $nam3 1] eq "_"} {set k [string range $nam3 0 1]} {set k $nam3}
+    lassign [dict get $::apave::_Defaults $k] defopts defattrs
+    set options "$defopts $options"
+    set attrs "$defattrs $attrs"
     switch -glob -- $nam3 {
       "but" {
         set widget "ttk::button"
@@ -549,15 +678,14 @@ oo::class create apave::APave {
       "ftx" {set widget "ttk::labelframe"}
       "frA" {
         set widget "frame"
-        if {$disabled} {set attrs [my RemoveSomeOptions $attrs -state]}
+        if {$disabled} {set attrs [my removeOptions $attrs -state]}
       }
-      "lab" {set widget "ttk::label"; set options "-st w $options"}
-      "laB" {set widget "label";      set options "-st w $options"}
+      "lab" {set widget "ttk::label"}
+      "laB" {set widget "label"}
       "lfr" {set widget "ttk::labelframe"}
       "lfR" {
         set widget "labelframe"
-        if {$disabled} {set attrs [my RemoveSomeOptions $attrs -state]}
-        set attrs "-relief ridge -fg maroon $attrs"
+        if {$disabled} {set attrs [my removeOptions $attrs -state]}
       }
       "lbx" - "flb" {
         set widget "listbox"
@@ -570,68 +698,53 @@ oo::class create apave::APave {
       }
       "meb" {set widget "ttk::menubutton"}
       "meB" {set widget "menubutton"}
-      "not" {set widget "ttk::notebook"}
+      "nbk" {
+        set widget "ttk::notebook"
+        set attrs "-notebazook {$attrs}"
+      }
+      "opc" {
+        ;# tk_optionCascade - example of "my method" widget
+        ;# arguments: vname items mbopts precom args
+        set widget "my tk_optionCascade"
+        set imax [expr {min(4,[llength $attrs])}]
+        for {set i 0} {$i<$imax} {incr i} {
+          set atr [lindex $attrs $i]
+          if {$i!=1} {
+            lset attrs $i \{$atr\}
+          } elseif {[llength $atr]==1 && [info exist $atr]} {
+            lset attrs $i [set $atr]  ;# items stored in a variable
+          }
+        }
+      }
       "pan" {set widget "ttk::panedwindow"}
       "pro" {set widget "ttk::progressbar"}
       "rad" {set widget "ttk::radiobutton"}
       "raD" {set widget "radiobutton"}
       "sca" {set widget "ttk::scale"}
       "scA" {set widget "scale"}
-      "sbh" {
-        set widget "ttk::scrollbar";
-        set options "-st ew $options"
-        set attrs "-orient horizontal -takefocus 0 $attrs"
-      }
-      "sbH" {
-        set widget "scrollbar"
-        set options "-st ew $options"
-        set attrs "-orient horizontal -takefocus 0 $attrs"
-      }
-      "sbv" {
-        set widget "ttk::scrollbar"
-        set options "-st ns $options"
-        set attrs "-orient vertical -takefocus 0 $attrs"
-      }
-      "sbV" {
-        set widget "scrollbar"
-        set options "-st ns $options"
-        set attrs "-orient vertical -takefocus 0 $attrs"
-      }
-      "seh" { ;# horizontal separator
-        set widget "ttk::separator"
-        set options "-st ew $options"
-        set attrs "-orient horizontal $attrs"
-      }
-      "sev" { ;# vertical separator
-        set widget "ttk::separator"
-        set options "-st ns $options"
-        set attrs "-orient vertical $attrs"
-      }
+      "sbh" {set widget "ttk::scrollbar"}
+      "sbH" {set widget "scrollbar"}
+      "sbv" {set widget "ttk::scrollbar"}
+      "sbV" {set widget "scrollbar"}
+      "seh" {set widget "ttk::separator"}
+      "sev" {set widget "ttk::separator"}
       "siz" {set widget "ttk::sizegrip"}
       "spx" {set widget "ttk::spinbox"}
       "spX" {set widget "spinbox"}
       "tbl" { ;# tablelist
         set widget "tablelist::tablelist"
-        set attrs "-labelcommand tablelist::sortByColumn -stretch all $attrs"
+        set attrs "[my FCfieldAttrs $wnamefull $attrs -lvar]"
         set attrs "[my ListboxesAttrs $wnamefull $attrs]"
       }
-      "tex" {                       ;# Tk 8.6.7 restored "-undo 0"
-        set widget "text"           ;# of text widget by default
-        set attrs "-undo 1 $attrs" ;# undo is enabled
+      "tex" {set widget "text"
         if {[my getOption -textpop {*}$attrs] eq ""} {
           my AddPopupAttr $wnamefull attrs -textpop \
             [expr {[my getOption -rotext {*}$attrs] ne ""}] -- disabled
         }
       }
       "tre" {set widget "ttk::treeview"}
-      "h_*" { ;# horizontal spacer
-        set widget "ttk::frame"
-        set options "-st ew -csz 3 -padx 3 $options"
-      }
-      "v_*" { ;# vertical spacer
-        set widget "ttk::frame"
-        set options "-st ns -rsz 3 -pady 3 $options"
-      }
+      "h_*" {set widget "ttk::frame"}
+      "v_*" {set widget "ttk::frame"}
       default {set widget ""}
     }
     if {$nam3 in {cbx ent enT fco spx spX}} {
@@ -642,7 +755,7 @@ oo::class create apave::APave {
       set options $pack
     }
     set options [string trim $options]
-    set attrs   [string trim $attrs]
+    set attrs   [list {*}$attrs]
     return [list $widget $options $attrs $nam3 $disabled]
   }
 
@@ -656,10 +769,11 @@ oo::class create apave::APave {
     set opts ""
     foreach {opt val} [list {*}$options] {
       switch -- $opt {
-        -rw  { my SpanConfig $w row $row $rowspan -weight $val }
-        -cw  { my SpanConfig $w column $col $colspan -weight $val }
-        -rsz { my SpanConfig $w row $row $rowspan -minsize $val}
-        -csz { my SpanConfig $w column $col $colspan -minsize $val }
+        -rw  {my SpanConfig $w row $row $rowspan -weight $val}
+        -cw  {my SpanConfig $w column $col $colspan -weight $val}
+        -rsz {my SpanConfig $w row $row $rowspan -minsize $val}
+        -csz {my SpanConfig $w column $col $colspan -minsize $val}
+        -ro  {my SpanConfig $w column $col $colspan -readonly $val}
         default {append opts " $opt $val"}
       }
     }
@@ -671,14 +785,14 @@ oo::class create apave::APave {
   #
   # Expand attributes' values
 
-  method GetAttrs {options nam3 disabled} {
+  method GetAttrs {options {nam3 ""} {disabled 0} } {
 
     set opts [list]
     foreach {opt val} [list {*}$options] {
       switch -- $opt {
         -t - -text {
           ;# these options need translating \\n to \n
-          set val [subst  -nocommands -novariables $val]
+          catch {set val [subst -nocommands -novariables $val]}
         }
       }
       lappend opts $opt \{$val\}
@@ -693,6 +807,94 @@ oo::class create apave::APave {
 
     for {set i $rc} {$i < ($rc + $rcspan)} {incr i} {
       eval [grid ${rcnam}configure $w $i $opt $val]
+    }
+    return
+  }
+
+  #########################################################################
+
+  method tk_optionCascade {w vname items {mbopts ""} {precom ""} args} {
+
+    # A bit modified tk_optionCascade widget made by Richard Suchenwirth.
+    #   w      - widget name
+    #   vname  - variable name for current selection
+    #   items  - list of items
+    #   mbopts - ttk::menubutton options (e.g. "-width -4")
+    #   precom - command to get entry's options (%a presents its label)
+    #   args   - additional options of entries
+    #
+    # Returns a path to the widget.
+    #
+    # See also:
+    #   https://wiki.tcl-lang.org/page/tk_optionCascade
+
+    if {![info exists $vname]} {
+      set it [lindex $items 0]
+      while {[llength $it]>1} {set it [lindex $it 0]}
+      set it [my optionCascade_text $it]
+      set $vname $it
+    }
+    ttk::menubutton $w -menu $w.m -text [set $vname] {*}$mbopts
+    menu $w.m -tearoff 0
+    my OptionCascade_add $w.m $vname $items $precom {*}$args
+    trace var $vname w \
+      "$w config -text \"\[[self] optionCascade_text \${$vname}\]\" ;\#"
+    return $w.m
+  }
+
+  #########################################################################
+
+  method optionCascade_text {it} {
+
+    # Rids a tk_optionCascade item of braces.
+    #   it - an item to be trimmed
+    #
+    # Reason: tk_optionCascade items shimmer between 'list' and 'string'
+    # so a multiline item is displayed with braces, if not got rid of them.
+    #
+    # Returns the item trimmed.
+
+    if {[string match "\{*\}" $it]} {
+      set it [string range $it 1 end-1]
+    }
+    return $it
+  }
+
+  #########################################################################
+
+  method OptionCascade_add {w vname argl precom args} {
+
+    # Adds tk_optionCascade items recursively.
+    #   w      - tk_optionCascade widget's name
+    #   vname  - variable name for current selection
+    #   arg1   - list of items to be added
+    #   precom - command to get entry's options (%a presents its label)
+    #   args   - additional options of entries
+
+    set n [set colbreak 0]
+    foreach arg $argl {
+      if {$arg eq "--"} {
+        $w add separator
+      } elseif {$arg eq "|"} {
+        if {[tk windowingsystem] ne "aqua"} { set colbreak 1 }
+        continue
+      } elseif {[llength $arg] == 1} {
+        set label [my optionCascade_text [join $arg]]
+        if {$precom eq ""} {
+          set adds ""
+        } else {
+          set adds [eval {*}[string map [list %a $label] $precom]]
+        }
+        $w add radiobutton -label $label -variable $vname {*}$args {*}$adds
+      } else {
+        set child [menu $w.[incr n] -tearoff 0]
+        $w add cascade -label [lindex $arg 0] -menu $child
+        my OptionCascade_add $child $vname [lrange $arg 1 end] $precom {*}$args
+      }
+      if $colbreak {
+        $w entryconfigure end -columnbreak 1
+        set colbreak 0
+      }
     }
     return
   }
@@ -713,6 +915,8 @@ oo::class create apave::APave {
 
     if {[set _ [string trim [set $tvar]]] ne ""} {
       set _pav(initialcolor) $_
+    } else {
+      set _pav(initialcolor) black
     }
     if {[catch {lassign [tk_chooseColor -moveall $_pav(moveall) \
     -tonemoves $_pav(tonemoves) -initialcolor $_pav(initialcolor) {*}$args] \
@@ -790,7 +994,7 @@ oo::class create apave::APave {
 
     set isfilename 0
     set ftxvar [my getOption -ftxvar {*}$args]
-    set args [my RemoveSomeOptions $args -ftxvar]
+    set args [my removeOptions $args -ftxvar]
     if {$nchooser eq "ftx_OpenFile"} {
       set nchooser "tk_getOpenFile"
     }
@@ -816,8 +1020,7 @@ oo::class create apave::APave {
             my readonlyWidget $txtnam false
             my displayTaggedText $txtnam $ftxvar
             my readonlyWidget $txtnam true
-            set wid [string range $txtnam \
-             0 [string last . $txtnam]]$wid
+            set wid [string range $txtnam 0 [string last . $txtnam]]$wid
             $wid configure -text "$res"
             ::tk::TextSetCursor $txtnam 1.0
             update
@@ -882,8 +1085,9 @@ oo::class create apave::APave {
     lassign "" wpar view addattrs addattrs2
     set tvar [my getOption -tvar {*}$attrs1]
     set filetypes [my getOption -filetypes {*}$attrs1]
+    set takefocus "-takefocus [my parseOptions $attrs1  -takefocus 0]"
     if {$filetypes ne ""} {
-      set attrs1 [my RemoveSomeOptions $attrs1 -filetypes]
+      set attrs1 [my removeOptions $attrs1 -filetypes -takefocus]
       lset args 6 $attrs1
       append addattrs2 " -filetypes {$filetypes}"
     }
@@ -938,10 +1142,11 @@ oo::class create apave::APave {
       set args [list $name $neighbor $posofnei $rowspan $colspan "-st ew" $addattrs]
     }
     lset lwidgets $i $args
+    append attrs1 " -callF2 {.ent .buT}"
     if {$view ne ""} {
       set txtnam [my Transname tex $name]
       set tvar [my getOption -tvar {*}$attrs1]
-      set attrs1 [my RemoveSomeOptions $attrs1 -tvar]
+      set attrs1 [my removeOptions $attrs1 -tvar]
       if {$tvar ne "" && [file exist [set $tvar]]} {
         set tcont [my SetContentVariable $tvar $w.$txtnam $name]
         set wpar "-ftxvar $tcont"
@@ -957,7 +1162,7 @@ oo::class create apave::APave {
       if {[string first $ic $chooser] >= 0} {set icon $ic; break}
     }
     set com "[self] chooser $chooser \{$vv\} $addopt $wpar $addattrs2"
-    set butf [list [my Transname buT $name] - - - - "pack -side right -anchor n -in $w.$name -padx 1" "-com \{$com\} -compound none -image [apave::iconImage $icon] -font \{-weight bold -size 5\} -fg $_pav(fgbut) -bg $_pav(bgbut)"]
+    set butf [list [my Transname buT $name] - - - - "pack -side right -anchor n -in $w.$name -padx 1" "-com \{$com\} -compound none -image [::apave::iconImage $icon] -font \{-weight bold -size 5\} -fg $_pav(fgbut) -bg $_pav(bgbut) $takefocus"]
     if {$view ne ""} {
       set scrolh [list [my Transname sbh $name] $txtnam T - - "pack -in $w.$name" ""]
       set scrolv [list [my Transname sbv $name] $txtnam L - - "pack -in $w.$name" ""]
@@ -1000,6 +1205,7 @@ oo::class create apave::APave {
     # get array of pairs (e.g. image-command for toolbar)
     foreach {nam val} $attrs1 {
       if {$nam=="-array"} {
+        catch {set val [subst $val]}
         set ind -1
         foreach {v1 v2} $val {
           lappend namvar [namespace current]::$typ[incr ind] $v1 $v2
@@ -1040,15 +1246,23 @@ oo::class create apave::APave {
         set wid1 [list $ntmp - - - - "pack -side left -in $w.$name -fill y"]
         set wid2 [list $ntmp.[my Transname sev $name$j] - - - - "pack -fill y -expand 1 -padx $v2"]
       } elseif {$typ=="statusBar"} {  ;# statusbar
-        set wid1 [list $name.[my Transname Lab ${name}_[incr j]] - - - - "pack -side left" "-t [lindex $v1 0]"]
-        set wid2 [list [my Transname Lab $name$j] - - - - "pack -side left -in $w.$name $expand" "-relief sunken -w $v2 [lrange $v1 1 end]"]
+        my NormalizeName name i lwidgets
+        set wid1 [list .[my rootwname [my Transname Lab ${name}_[incr j]]] - - - - "pack -side left -in $w.$name" "-t [lindex $v1 0]"]
+        set wid2 [list .[my rootwname [my Transname Lab $name$j]] - - - - "pack -side left $expand -in $w.$name" "-relief sunken -w $v2 [lrange $v1 1 end]"]
       } elseif {$typ=="toolBar"} {  ;# toolbar
-        if {[string is lower [string index $v1 0]]} {
-          set but buT
+        if {[string match -nocase opc* $v1]} { ;# tk_optionCascade widget
+          lset v2 2 "[lindex $v2 2] -takefocus 0"
+          set wid1 [list $name.$v1 - - - - "pack -side left" "$v2"]
         } else {
-          set but BuT
+          if {[string is lower [string index $v1 0]]} { ;# button with -image
+            set but buT
+          } else {
+            set but BuT
+          }
+          set v2 "-image $v1 -command $v2 -relief flat -highlightthickness 0 -takefocus 0"
+          set v1 [my Transname $but _$v1]
         }
-        set wid1 [list $name.[my Transname $but _$v1] - - - - "pack -side left" "-image $v1 -command $v2 -relief flat -takefocus 0"]
+        set wid1 [list $name.$v1 - - - - "pack -side left" $v2]
         if {[incr wasseh]==1} {
           set wid2 [list [my Transname seh $name$j] - - - - "pack -side top -expand 1 -fill x"]
         } else {
@@ -1204,8 +1418,9 @@ oo::class create apave::APave {
     set attrs_ret [set _pav(prepost) {}]
     foreach {a v} $attrs {
       switch -- $a {
-        -disabledtext - -rotext - -lbxsel - -cbxsel - \
-        -entrypop - -entrypopRO - -textpop - -textpopRO - -ListboxSel {
+        -disabledtext - -rotext - -lbxsel - -cbxsel - -notebazook -\
+        -entrypop - -entrypopRO - -textpop - -textpopRO - -ListboxSel -
+        -callF2 {
           # attributes specific to apave, processed below in "Post"
           lappend _pav(prepost) [list $a [string trim $v {\{\}}]]
         }
@@ -1250,6 +1465,7 @@ oo::class create apave::APave {
             $w yview $v
             $w activate $v
           }
+          my UpdateSelectAttrs $w
         }
         -cbxsel {
           set cbl [$w cget -values]
@@ -1269,6 +1485,21 @@ oo::class create apave::APave {
             my makePopup $v [expr {$a eq "-textpopRO"}] true
           }
         }
+        -notebazook {
+          foreach {fr attr} $v {
+            if {[string match "-tr*" $fr]} {
+              ttk::notebook::enableTraversal $w
+            } elseif {![string match "#*" $fr]} {
+              $w add [ttk::frame $w.$fr] {*}[subst $attr]
+            }
+          }
+        }
+        -callF2 {
+          if {[llength $v]==1} {set w2 $v} {set w2 [string map $v $w]}
+          if {[string first $w2 [bind $w "<F2>"]] < 0} {
+            bind $w <F2> [list + $w2 invoke]
+          }
+        }
       }
     }
     return
@@ -1279,7 +1510,7 @@ oo::class create apave::APave {
   # Switch on/off a widget's readonly state - for text widget
   # See also: https://wiki.tcl-lang.org/page/Read-only+text+widget
 
-  method readonlyWidget {w {on true}} {
+  method readonlyWidget {w {on true} {popup true}} {
 
     if {$on && [info commands $w] ne "" && \
     [info commands ::$w.internal] eq ""} {
@@ -1297,7 +1528,7 @@ oo::class create apave::APave {
       rename ::$w ""
       rename ::$w.internal ::$w
     }
-    my makePopup $w $on true
+    if {$popup} {my makePopup $w $on true}
     return
   }
 
@@ -1310,11 +1541,18 @@ oo::class create apave::APave {
 
     foreach aop $_pav(widgetopts) {
       lassign $aop optnam vn v1 v2
-      switch -- $optnam {
-        -lbxname { ;# to get a listbox's value, its methods are used
+      switch -glob -- $optnam {
+        -lbxname* { ;# to get a listbox's value, its methods are used
           lassign [$vn curselection] s1
           if {$s1 eq {}} {set s1 0}
-          set $v1 [$vn get $s1]
+          set w [string range $vn [string last . $vn]+1 end]
+          if {$optnam eq "-lbxnameALL"} {
+            # when -ALL option is set to 1, listbox returns
+            # a list of 3 items - sel index, sel contents and all contents
+            set $v1 [list $s1 [$vn get $s1] [set $v1]]
+          } else {
+            set $v1 [$vn get $s1]
+          }
         }
         -retpos { ;# a range to cut from -tvar/-lvar variable
           lassign [split $v2 :] p1 p2
@@ -1361,21 +1599,70 @@ oo::class create apave::APave {
     set addcomms {}
     if {[set tooltip [my getOption -tooltip {*}$attrs]] ne ""} {
       lappend addcomms [list tooltip::tooltip $w $tooltip]
-      set attrs [my RemoveSomeOptions $attrs -tooltip]
+      set attrs [my removeOptions $attrs -tooltip]
     }
     if {[my getOption -ro {*}$attrs] ne "" || \
     [my getOption -readonly {*}$attrs] ne ""} {
-      lassign [my parseOptionsFile 0 $attrs -ro 0 -readonly 0] tmp
-      lassign $tmp - ro - readonly
+      lassign [my parseOptions $attrs -ro 0 -readonly 0] ro readonly
       lappend addcomms [list my readonlyWidget $w [expr $ro||$readonly]]
-      set attrs [my RemoveSomeOptions $attrs -ro -readonly]
+      set attrs [my removeOptions $attrs -ro -readonly]
     }
     if {[set wnext [my getOption -tabnext {*}$attrs]] ne ""} {
+      if {$wnext eq "{0}"} {set wnext $w}  ;# disables Tab on this widget
       after idle [list bind $w <Key> \
         [list if {{%K} == {Tab}} "[self] setFocus $wnext ; break" ]]
-      set attrs [my RemoveSomeOptions $attrs -tabnext]
+      set attrs [my removeOptions $attrs -tabnext]
     }
     return $addcomms
+  }
+
+  #########################################################################
+
+  method DefineWidgetKeys {wname widget} {
+
+    # Sets some hotkeys for some widgets (e.g. Enter to work as Tab)
+    #   wname - the widget's name
+    #   widget - the widget's type
+
+    if {($widget in {ttk::entry entry})} {
+      # STD in $w or $name prevents it:
+      bind $wname <Up> [list \
+        if {$::tcl_platform(platform) == "windows"} [list \
+          event generate $wname <Shift-Tab> \
+        ] else [list \
+          event generate $wname <Key> -keysym ISO_Left_Tab] \
+        ]
+      bind $wname <Down> [list \
+        event generate $wname <Key> -keysym Tab]
+    }
+    if {$widget in {ttk::button button ttk::checkbutton checkbutton \
+    ttk::radiobutton radiobutton "my tk_optionCascade"}} {
+      foreach k {<Up> <Left>} {
+        bind $wname $k [list \
+          if {$::tcl_platform(platform) == "windows"} [list \
+            event generate $wname <Shift-Tab> \
+          ] else [list \
+            event generate $wname <Key> -keysym ISO_Left_Tab] \
+          ]
+      }
+      foreach k {<Down> <Right>} {
+        bind $wname $k \
+          [list event generate $wname <Key> -keysym Tab]
+      }
+    }
+    if {$widget in {ttk::button button \
+    ttk::checkbutton checkbutton ttk::radiobutton radiobutton}} {
+      foreach k {<Return> <KP_Enter>} {
+        bind $wname $k \
+        [list event generate $wname <Key> -keysym space]
+      }
+    }
+    if {$widget in {ttk::entry entry spinbox ttk::spinbox}} {
+      foreach k {<Return> <KP_Enter>} {
+        bind $wname $k \
+        [list event generate $wname <Key> -keysym Tab]
+      }
+    }
   }
 
   #########################################################################
@@ -1391,7 +1678,7 @@ oo::class create apave::APave {
         lappend lwidgets $lst
       }
     }
-    set lused {}
+    set lused [list]
     set lwlen [llength $lwidgets]
     for {set i 0} {$i < $lwlen} {} {
       # List of widgets contains data per widget:
@@ -1417,8 +1704,8 @@ oo::class create apave::APave {
           set rowspan 1
         }
       }
-      set options [uplevel 2 subst -nocomm -nobackslashes [list $options1]]
-      set attrs [uplevel 2 subst -nocomm -nobackslashes [list $attrs1]]
+      set options [uplevel 2 subst -nocommand -nobackslashes [list $options1]]
+      set attrs [uplevel 2 subst -nocommand -nobackslashes [list $attrs1]]
       lassign [my GetWidgetType $wname $options $attrs] \
         widget options attrs nam3 dsbl
       # The type of widget (if defined) means its creation
@@ -1451,38 +1738,9 @@ oo::class create apave::APave {
         my Post $wname $attrs
         foreach acm $addcomms { eval {*}$acm }
         # for buttons and entries - set up the hotkeys (Up/Down etc.)
-        if {($widget in {"ttk::entry" "entry"}) && \
-        [string first "STD" $wname]==-1} {
-          # STD in $w or $name prevents it:
-          bind $wname <Up> [list \
-            if {$::tcl_platform(platform) == "windows"} [list \
-              event generate $wname <Shift-Tab> \
-            ] else [list \
-              event generate $wname <Key> -keysym ISO_Left_Tab] \
-            ]
-          foreach k {<Down> <Return> <KP_Enter>} {
-            bind $wname $k \
-              [list event generate $wname <Key> -keysym Tab]
-          }
-        }
-        if {$widget in {ttk::button button ttk::checkbutton checkbutton \
-                        ttk::radiobutton radiobutton}} {
-          foreach k {<Up> <Left>} {
-            bind $wname $k [list \
-              if {$::tcl_platform(platform) == "windows"} [list \
-                event generate $wname <Shift-Tab> \
-              ] else [list \
-                event generate $wname <Key> -keysym ISO_Left_Tab] \
-              ]
-          }
-          foreach k {<Down> <Right>} {
-            bind $wname $k \
-              [list event generate $wname <Key> -keysym Tab]
-          }
-          foreach k {<Return> <KP_Enter>} {
-            bind $wname $k \
-            [list event generate $wname <Key> -keysym space]
-          }
+        # though, this may be disabled by putting STD in widget's name
+        if {[string first "STD" $wname]==-1} {
+          my DefineWidgetKeys $wname $widget
         }
       }
       if {$neighbor eq "-" || $row < 0} {
@@ -1496,7 +1754,12 @@ oo::class create apave::APave {
           set comm "[winfo parent $wname] add $wname [string range $add1 4 end]"
           {*}$comm
         } elseif {[string first "pack" $pack]==0} {
-          pack $wname {*}[string range $pack 5 end]
+          set opts [string trim [string range $pack 5 end]]
+          if {[string first "forget" $opts]==0} {
+            pack forget {*}[string range $opts 6 end]
+          } else {
+            pack $wname {*}$opts
+          }
         } else {
           grid $wname -row $row -column $col -rowspan $rowspan \
              -columnspan $colspan -padx 1 -pady 1 {*}$options
@@ -1530,14 +1793,21 @@ oo::class create apave::APave {
     return $lwidgets
   }
 
-  # Process "win & list-of-widgets" pairs
-  method window {args} {
+  # NEW version: Process "win & list-of-widgets" pairs
+  method paveWindow {args} {
 
     set res [list]
     foreach {w lwidgets} $args {
       lappend res {*}[my Window $w $lwidgets]
     }
+    if {[winfo exists .dia]} {::apave::initPOP .dia}
     return $res
+  }
+
+  # OLD version: Process "win & list-of-widgets" pairs
+  method window {args} {
+
+    return [uplevel 1 [list [self] paveWindow {*}$args]]
   }
 
   #########################################################################
@@ -1555,18 +1825,28 @@ oo::class create apave::APave {
 
   method showModal {win args} {
 
-    my NonTtkTheme $win
-    apave::setAppIcon $win
+    set shal [::apave::shadowAllowed 0]
+    if {[my getOption -themed {*}$args] in {"" "0"} && \
+    [my csCurrent] != $::apave::_CS_(NOTCS)} {
+      my csSet [my csCurrent] $win -doit
+    }
+    ::apave::setAppIcon $win
     if {[my iswindows]} { ;# maybe nice to hide all windows manipulations
       wm attributes $win -alpha 0.0
     } else {
       wm withdraw $win
     }
+    lassign  [my csGet] - - - bg
+    $win configure -bg $bg  ;# removes blinking by default bg
     set _pav(modalwin) $win
     set root [winfo parent $win]
-    if {[set ontop [string first "-ontop " $args]]>-1} {
-      catch {set ontop [expr [string index $args [expr $ontop+7]]]}
-      set args [my RemoveSomeOptions $args -ontop]
+    if {[set centerme [my getOption -centerme {*}$args]] ne {}} {
+      ;# forced centering relative to a caller's window
+      if {[winfo exist $centerme]} {set root $centerme}
+      set args [my removeOptions $args -centerme]
+    }
+    if {[set ontop [my getOption -ontop {*}$args]] ne {}} {
+      set args [my removeOptions $args -ontop]
     }
     array set opt \
       [list -focus "" -onclose "" -geometry "" -decor 0 -root $root {*}$args]
@@ -1590,7 +1870,6 @@ oo::class create apave::APave {
     if {[set pp [string first + $opt(-geometry)]]>=0} {
       wm geometry $win [string range $opt(-geometry) $pp end]
     }
-    grab set $win
     if {$opt(-focus) == ""} {
       set opt(-focus) $win
     }
@@ -1605,10 +1884,10 @@ oo::class create apave::APave {
     wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
     bind $win <Configure> "[namespace current]::WinResize $win"
     if {$inpgeom == ""} {  ;# final geometrizing with actual sizes
-      if {$root == "."} {
-        ::tk::PlaceWindow $win widget $root
-      } else {
-        # this is for less blinking:
+      ::tk::PlaceWindow $win widget $root
+      if {$root != "." || ([string is boolean -strict $centerme] && $centerme)} {
+        # ::tk::PlaceWindow needs correcting in rare cases, namely:
+        # when 'root' is of less sizes than 'win' and at left top corner
         wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
       }
     } else {
@@ -1618,9 +1897,16 @@ oo::class create apave::APave {
       wm attributes $win -topmost 1
     }
     after 50 [list if "\[winfo exist $opt(-focus)\]" "focus -force $opt(-focus)"]
+    ::apave::modalsOpen [expr {[::apave::modalsOpen] + 1}]
+    if {![my iswindows]} {
+      tkwait visibility $win
+    }
+    grab set $win
     tkwait variable ${_pav(ns)}PN::AR($win)
     grab release $win
+    ::apave::modalsOpen [expr {[::apave::modalsOpen] - 1}]
     my GetOutputValues
+    ::apave::shadowAllowed $shal ;# restore shadowing
     return [set [set _ ${_pav(ns)}PN::AR($win)]]
   }
 
@@ -1669,7 +1955,7 @@ oo::class create apave::APave {
       $w configure -state normal
     }
     $w replace 1.0 end $conts
-    $w edit reset
+    $w edit reset; $w edit modified false
     if { $state ne "normal" } { $w configure -state $state }
     return
   }
@@ -1754,7 +2040,7 @@ oo::class create apave::APave {
       lassign [lindex $tags $i] tag opts
       $w tag add $tag $p1 $p2
     }
-    $w edit reset
+    $w edit reset; $w edit modified false
     if { $state ne "normal" } { $w configure -state $state }
     return
   }

@@ -1,11 +1,12 @@
 # utils menu for e_menu.tcl
 
- R: Diff of %e%x to LEFT  tab R: %IF "%z6"=="%%z6" %THEN %D "No left TKE tab available."  %ELSE meld "%z6" "%F"
- R: Diff of %e%x to RIGHT tab R: %IF "%z7"=="%%z7" %THEN %D "No right TKE tab available." %ELSE meld "%F" "%z7"
+ R: Diff of %e%x to LEFT  tab R: %IF "%z6"=="%%z6" %THEN %M "No left TKE tab available."  %ELSE meld "%z6" "%F"
+ R: Diff of %e%x to RIGHT tab R: %IF "%z7"=="%%z7" %THEN %M "No right TKE tab available." %ELSE meld "%F" "%z7"
 
- M:  M: 4
+ M:  M: 3
 
  RE: tkcon               RE: tkcon
+ RE: poApps              RE: ~/UTILS/poApps-2.5.2-Linux64 --dirdiff
  RE: caja here           RE: caja "%d"
  RE: xterminal here      RE: cd %d
  RE: xterminal here      RE: xterm -fa ru_RU.utf8 -fs 15 -geometry 80x32+300+100 -bg #25292B -fg white
@@ -15,16 +16,16 @@
  R: wget Web page R: cd %z5/WGET
  R: wget Web page R: %IF [::iswindows] %THEN explorer.exe "." %ELSE caja "."
 
- M:  M: 4
+ M:  M: 3
 
- ME: Tcl/Tk            ME: m=tcltk.mnu w=20
- ME: System            ME: m=system.mnu w=40
- ME: Wiki & Dicts      ME: m=wiki.mnu w=40
- ME: Misc              ME: m=misc.mnu w=40
- ME: Test1             ME: m=test1.mnu
+ ME: Tcl/Tk            ME: m=tcltk.mnu "u=%s" o=0 w=40
+ ME: System            ME: m=system.mnu "u=%s" o=0 w=40
+ ME: Wiki & Dicts      ME: m=wiki.mnu "u=%s" o=0 w=40
+ ME: Misc              ME: m=misc.mnu "u=%s" o=0 w=40
+ ME: Test1             ME: m=test1.mnu "u=%s" o=0 w=40
 
 [OPTIONS]
 o=0
-in=1.0
-%#W geo=1089x560+0+56;pos=20.54 # Below are the commands to get the Web page by wget.|!|# The downloaded pages are stored in ~/WGET directory (change this if needed).|!|#|!|# Note that .+ are used to edge "some unique string of the page address", e.g.|!|#   wget -r -k -l 2 -p --accept-regex=.+/UNIQUE/.+ https://www.some.com/UNIQUE/some|!|# would download all of https://www.some.com/UNIQUE/some|!|# excluding all external links that don't most likely match /UNIQUE/.|!|#|!|# Note also that -l option means "maximum level to dig".|!|###################################################################################|!|mkdir ~/WGET|!|cd ~/WGET|!||!|# wget the Tcl/Tk man pages:|!|# wget -r -k -l 2 -p --accept-regex=.+/man/tcl8\.6.+ https://www.tcl.tk/man/tcl8.6/|!||!|# wget letter-to-peter|!|# wget -r -k -l 2 -p --accept-regex=.+letter-to-peter.+ http://catesfamily.org.uk/letter-to-peter/|!||!| wget -r -k -l 2 -p --accept-regex=.+wxwidgets.org/3.1.+ https://docs.wxwidgets.org/3.1|!||!|# wget -r -k -l 2 -p --accept-regex=.+/manual3.1/.+ http://tcl.apache.org/rivet/manual3.1/
-pos=28.3
+in=11.0
+%#W geo=1089x560+0+56;pos=22.72 # Below are the commands to get the Web page by wget.|!|# The downloaded pages are stored in ~/WGET directory (change this if needed).|!|#|!|# Note that .+ are used to edge "some unique string of the page address", e.g.|!|#   wget -r -k -l 2 -p --accept-regex=.+/UNIQUE/.+ https://www.some.com/UNIQUE/some|!|# would download all of https://www.some.com/UNIQUE/some|!|# excluding all external links that don't most likely match /UNIQUE/.|!|#|!|# Note also that -l option means "maximum level to dig".|!|###################################################################################|!|mkdir ~/WGET|!|cd ~/WGET|!||!|# wget the Tcl/Tk man pages:|!|# wget -r -k -l 2 -p --accept-regex=.+/man/tcl8\.6.+ https://www.tcl.tk/man/tcl8.6/|!||!|# wget letter-to-peter|!|# wget -r -k -l 2 -p --accept-regex=.+letter-to-peter.+ http://catesfamily.org.uk/letter-to-peter/|!||!|# wget -r -k -l 2 -p --accept-regex=.+tablelist/.+ https://www.nemethi.de/tablelist/index.html|!|# wget -r -k -l 2 -p --accept-regex=.+mentry/.+ https://www.nemethi.de/mentry/index.html|!| wget -r -k -l 2 -p --accept-regex=.+learn.+ https://learn.javascript.ru|!||!|# wget -r -k -l 2 -p --accept-regex=.+/manual3.1/.+ http://tcl.apache.org/rivet/manual3.1/
+pos=9.67
