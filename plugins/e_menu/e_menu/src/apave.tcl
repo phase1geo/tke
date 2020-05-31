@@ -792,7 +792,8 @@ oo::class create ::apave::APave {
       switch -- $opt {
         -t - -text {
           ;# these options need translating \\n to \n
-          catch {set val [subst -nocommands -novariables $val]}
+          # catch {set val [subst -nocommands -novariables $val]}
+          set val [string map [list \\n \n \\t \t] $val]
         }
       }
       lappend opts $opt \{$val\}
@@ -1071,6 +1072,27 @@ oo::class create ::apave::APave {
     lassign [my SplitContentVariable [my GetContentVariable $tvar]] \
       -> txtnam wid
     return [string trimright [$txtnam get 1.0 end]]
+  }
+
+  #########################################################################
+  #
+  # Replaces Tcl code with its resulting items in lwidgets list.
+  # The code should use the wildcards:
+  #   %C - a command for inserting an item into lwidgets list.
+
+  method Replace_Tcl {r1 r2 r3 args} {
+
+    upvar 1 $r1 _ii $r2 _lwlen $r3 _lwidgets
+    lassign $args _name _code
+    if {[my rootwname $_name] ne "tcl"} {return $args}
+    proc lwins {lwName i w} {
+      upvar 2 $lwName lw
+      set lw [linsert $lw $i $w]
+    }
+    set _lwidgets [lreplace $_lwidgets $_ii $_ii]  ;# removes tcl item
+    set _inext [expr {$_ii-1}]
+    eval [string map {%C {lwins $r3 [incr _inext] }} $_code]
+    return ""
   }
 
   #########################################################################
@@ -1585,7 +1607,9 @@ oo::class create ::apave::APave {
 
   method setFocus {wnext} {
 
-    focus [subst $wnext]
+    if {[winfo exist [set w [subst $wnext]]] || [winfo exist [set w $wnext]]} {
+      focus $w
+    }
     return
   }
 
@@ -1681,6 +1705,11 @@ oo::class create ::apave::APave {
     set lused [list]
     set lwlen [llength $lwidgets]
     for {set i 0} {$i < $lwlen} {} {
+      set lst1 [lindex $lwidgets $i]
+      if {[my Replace_Tcl i lwlen lwidgets {*}$lst1] ne ""} {incr i}
+    }
+    set lwlen [llength $lwidgets]
+    for {set i 0} {$i < $lwlen} {} {
       # List of widgets contains data per widget:
       #   widget's name,
       #   neighbor widget, position of neighbor (T, L),
@@ -1688,7 +1717,7 @@ oo::class create ::apave::APave {
       #   grid options, widget's attributes (both optional)
       set lst1 [lindex $lwidgets $i]
       set lst1 [my Replace_chooser w i lwlen lwidgets {*}$lst1]
-      if {[set lst1 [my Replace_bar w i lwlen lwidgets {*}$lst1]]==""} {
+      if {[set lst1 [my Replace_bar w i lwlen lwidgets {*}$lst1]] eq ""} {
         incr i
         continue
       }

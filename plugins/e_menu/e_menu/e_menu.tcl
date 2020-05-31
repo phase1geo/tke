@@ -23,7 +23,7 @@
 #####################################################################
 
 namespace eval ::em {
-  variable e_menu_version "e_menu v2.0"
+  variable e_menu_version "e_menu v2.0.1"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir src]
 }
@@ -545,14 +545,17 @@ proc ::em::shell0 {sel amp {silent -1}} {
     }
   } else {
     set lang [::eh::get_language]
-    set sel [::eh::escape_quotes $sel]
-    set composite "$::lin_console $sel $amp"
-    if {$::em::linuxconsole ne ""} {
-      set composite [string map [list \\n " ; "] $composite]
+    if {$::em::linuxconsole ne "" && [string first \\n $sel]<0} {
+      set composite "$::lin_console $sel $amp"
+      #set composite [string map [list \\n " ; "] $composite]
       exec -ignorestderr {*}$::em::linuxconsole -e {*}$composite
     } elseif {[set term [auto_execok lxterminal]] ne "" } {
+      set sel [string map [list "\""  "\\\""] $sel]
+      set composite "$::lin_console $sel $amp"
       exec -ignorestderr {*}$term --geometry=$::em::tg -e {*}$composite
     } elseif {[set term [auto_execok xterm]] ne "" } {
+      set sel [::eh::escape_quotes $sel]
+      set composite "$::lin_console $sel $amp"
       exec -ignorestderr {*}$term -fa "$lang" -fs $::em::tf \
       -geometry $::em::tg -bg white -fg black -title $sel -e {*}$composite
     } else {
@@ -2103,4 +2106,10 @@ proc ::em::initend {} {
 ::em::initmenu
 ::em::initauto
 ::em::initend
+# *****************************   EOF   *****************************
+# getting an external CS to put into apave CSs:
+# set cc [::apave::themeObj csCurrent]
+# set ca [::apave::themeObj csAvailable]
+# if {[catch {::em::em_message "[::apave::themeObj csGetName $cc]: $cc \
+#   of $ca:\n\n[::apave::themeObj csGet $ca]" ok "CS" -text 1 -w 90} e]} {M $e}
 # *****************************   EOF   *****************************

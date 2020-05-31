@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {https://aplsimple.bitbucket.io}
-date {1577295405}
+date {1590865396}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -270,14 +270,14 @@ launcher,-textbackground {#302e40}
 launcher,-textforeground {#ececec}
 menus,-activebackground {#b6c9dd}
 menus,-activeforeground {#000000}
-menus,-background {#334961}
+menus,-background {#2d435b}
 menus,-disabledforeground {grey}
 menus,-foreground {#ececec}
 menus,-relief {flat}
 menus,-selectcolor {black}
 meta,ttk_style,active_color {}
 misc_scrollbar,-background {#c9d9e9}
-misc_scrollbar,-foreground {#2b4159}
+misc_scrollbar,-foreground {#21374f}
 misc_scrollbar,-thickness {15}
 sidebar,-background {#131414}
 sidebar,-dropcolor {green}
@@ -318,24 +318,24 @@ syntax,meta {#4e4b68}
 syntax,miscellaneous1 {#f5b473}
 syntax,miscellaneous2 {#cdb49b}
 syntax,miscellaneous3 {#a5b4c3}
-syntax,numbers {#b4dc8c}
+syntax,numbers {#e49eb4}
 syntax,precompile {#d690a6}
 syntax,punctuation {#d1bb59}
 syntax,readmeta {#9bd3d0}
 syntax,search_background {#edec8e}
 syntax,search_foreground {#280000}
-syntax,select_background {#f14b71}
-syntax,select_foreground {#210000}
-syntax,strings {#b4dc8c}
-syntax,variables {#cdb49b}
+syntax,select_background {#8baac8}
+syntax,select_foreground {#000000}
+syntax,strings {#e49eb4}
+syntax,variables {#b4dc8c}
 syntax,warning_width {#4e4b68}
-tabs,-activebackground {#2b4159}
+tabs,-activebackground {#1e344c}
 tabs,-activeforeground {#ffbe00}
-tabs,-background {#33475e}
+tabs,-background {#1e344c}
 tabs,-bordercolor {#302e40}
-tabs,-foreground {#ececec}
+tabs,-foreground {#e9e9e9}
 tabs,-height {25}
-tabs,-inactivebackground {#43576e}
+tabs,-inactivebackground {#324864}
 tabs,-inactiveforeground {#ffffff}
 tabs,-relief {flat}
 text_scrollbar,-altforeground {red}
@@ -343,13 +343,13 @@ text_scrollbar,-background {#d6e4f0}
 text_scrollbar,-foreground {#43576e}
 text_scrollbar,-thickness {15}
 ttk_style,active_color {#383e41}
-ttk_style,background {#2b4159}
+ttk_style,background {#21374f}
 ttk_style,border_color {#9e9a91}
 ttk_style,dark_color {#9e9a91}
-ttk_style,disabled_background {#2b4159}
+ttk_style,disabled_background {#21374f}
 ttk_style,disabled_foreground {#bab5ab}
 ttk_style,entry_border {#2b4159}
-ttk_style,foreground {#ffffff}
+ttk_style,foreground {#e9e9e9}
 ttk_style,grip_count {10}
 ttk_style,grip_thickness {5}
 ttk_style,pressed_color {#bab5ab}

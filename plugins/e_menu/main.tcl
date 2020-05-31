@@ -205,9 +205,9 @@ namespace eval e_menu {
     set z1_opt "z1=$plugdir"
     # here we try and set colors of TKE's current color scheme
     # (defaults are taken from MildDark theme, huh)
+    set fgact [api::theme::get_value tabs -activeforeground]
     set fg "fg=[api::theme::get_value tabs -inactiveforeground]"
     set bg "bg=[api::theme::get_value tabs -inactivebackground]"
-    set fgact [api::theme::get_value tabs -activeforeground]
     set fI "fI=$fgact"
     set bI "bI=[api::theme::get_value tabs -activebackground]"
     set fE "fE=#d2d2d2"

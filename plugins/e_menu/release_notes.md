@@ -1,6 +1,6 @@
 # Last changes:
 
-Version `2.0 (29 May'20)`
+Version `2.0.1 (31 May'20)`
 
   - b0=0 option set by default
   - color scheming upd., TKE's CS incl.

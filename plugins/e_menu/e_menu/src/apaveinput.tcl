@@ -34,7 +34,7 @@
 
 package require Tk
 
-package provide apave 2.9a3
+package provide apave 2.9b3
 
 source [file join [file dirname [info script]] apavedialog.tcl]
 
@@ -197,7 +197,7 @@ oo::class create ::apave::APaveInput {
           }
         }
         te {
-          if {![info exist $vv]} {set $vv [string map {\\n \n} $valopts]}
+          if {![info exist $vv]} {set $vv [string map {\\n \n \\t \t} $valopts]}
           if {[dict exist $attrs -state] && [dict get $attrs -state] eq "disabled"} \
           {
             # disabled text widget cannot be filled with a text, so we should
