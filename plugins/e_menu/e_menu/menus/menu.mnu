@@ -5,8 +5,7 @@ b1=0
 b2=3
 b3=1
 w=28
-g=+3+27
-pos=41.5
+pos=64.95
 ::EMENUTMPFILE=%mn.tmp~
 %C set ::EMENUFILE "%f"
 %C set ::FILETAIL \"[file tail $::EMENUFILE]\"
@@ -53,17 +52,26 @@ pos=41.5
 
  RE: Backup of $::FILETAIL RE: %Q "BACKUP" "The backup of\n\n$::EMENUFILE\n\n\nwould be saved to\n\n$::EMENUFILE.bak"
  RE: Backup of $::FILETAIL RE:  %IF [::iswindows] %THEN copy /Y "$::EMENUFILE" "$::EMENUFILE.bak" %ELSE cp -f "$::EMENUFILE" "$::EMENUFILE.bak"
- RE: Commit "%dd_on_%t2" RE: %q "MERCURIAL" "Add all changes\nand HG COMMIT with message\n\n'%dd_at_%t2' ?"
- RE: Commit "%dd_on_%t2" RE: cd %PD
- SE: Commit "%dd_on_%t2" SE: hg addremove\nhg commit -m "%dd_on_%t2"
+
+ R: Commit "%s" R: %C if {![info exist ::EM_MSG]} {set ::EM_MSG "%s"}
+ R: Commit "%s" R:  %I {} "COMMIT" { \
+   tex1 {{ Message for commit:} {} {-w 50 -h 7 -tabnext butOK}} {$::EM_MSG} \
+   } -head {\n This will try to FOSSIL & GIT committing.\n\n A message for commit is required.\
+   \n NOTE: quotes and newlines will be removed.\n} \
+   -hfg $::em::clrhotk -weight bold == ::EM_MSG
+ R: Commit "%s" R: %C set ::TMP_MSG [string map {\" {} ' {} \n { }} [set ::EM_MSG]]
+ R: Commit "%s" R: %C if {"[string trim [set ::TMP_MSG]]" eq ""} {M " Enter some message to commit."; exit}
+ R: Commit "%s" R: cd %PD
+ S: Commit "%s" S: %IF [Q "FOSSIL COMMIT" " Add all changes and FOSSIL COMMIT\n\n with message\n\n   '$::TMP_MSG' ?"] %THEN fossil add *\n\n fossil commit -m "$::TMP_MSG"
+ S: Commit "%s" S: %IF [Q "FOSSIL COMMIT" " Add all changes and GIT COMMIT\n\n with message\n\n   '$::TMP_MSG' ?"] %THEN git add *\n\n git commit -m "$::TMP_MSG"
 
  R: Differences of $::FILETAIL (fossil/git) R: cd %PD
 RW: Differences of $::FILETAIL (fossil/git) RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
  R: Differences of $::FILETAIL (fossil/git) R: %I {} "GDIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 60}} {"$::EMENUFILE"} \
-   fco1 {{Version:} {} {-h 10 -inpval "$::EMENUCOMMIT"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+   fco1 {{Version:} {} {-h 10 -state readonly -inpval "$::EMENUCOMMIT"}} \
+     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " -list {{}} $::EMENUTMPFILE/@} \
    seh {{} {-pady 3} {}} {} \
    texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \

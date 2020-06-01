@@ -3,7 +3,7 @@
 [OPTIONS]
 in=1.0
 o=0
-pos=142.0
+pos=75.33
 w=35
 ::EMENUTMPFILE=%mn.tmp~
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
@@ -67,21 +67,21 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  S:git add $::FILETAIL ? S: git add "$::EMENUFILE"
 
  S:git add * S: cd %PD
- R:git add * R: %q "Adding changes" "Add all changes in\n\n%PD\n\nto a local repository ?"
+ R:git add * R: %q "Adding changes" " Add all changes in\n\n  %PD\n\n to a local repository ?"
  S:git add * S: git add *\ngit status
+
+ S:git rm %f S: cd %PD
+ R:git rm %f R: %q "Remove file" " Remove\n\n   %f\n\n from the repository\n\n   %PD\n\n?"
+ S:git rm %f S: git rm --cached "%f"\ngit status
 
  R:  R: 2
 
  S:git commit S: cd %PD
- R:git commit R: %q "Committing changes" "Commit with message to be edited ?"
+ R:git commit R: %q "Committing changes" " Commit with message to be edited ?"
  S:git commit S: git commit
 
- S:git commit -m "%dd_on_%t2" S: cd %PD
- R:git commit -m "%dd_on_%t2" R: %q "Committing changes" "Commit with message\n\n'%dd_on_%t2' ?"
- S:git commit -m "%dd_on_%t2" S: git commit -m "%dd_on_%t2"
-
  S:git commit -am "%s on %t2" S: cd %PD
- R:git commit -am "%s on %t2" R: %q "Committing changes" "Add and commit with message\n\n'%s at %t2' ?"
+ R:git commit -am "%s on %t2" R: %q "Committing changes" " Add and commit with message\n\n '%s at %t2' ?"
  S:git commit -am "%s on %t2" S: git commit -am "%s on %t2"
 
  S:git commit --amend -am "?" S: cd %PD
@@ -123,11 +123,11 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  S:git branch S: git branch
 
  S:git branch "%s" S: cd %PD
- R:git branch "%s" R: %q "Branch" "Create new branch\n\n'%s' ?"
+ R:git branch "%s" R: %q "Branch" " Create new branch\n\n '%s' ?"
  S:git branch "%s" S: git branch -f "%s"
 
  S:git checkout "%s" S: cd %PD
- R:git checkout "%s" R: %q "Checkout" "Checkout to\n\n'%s' ?"
+ R:git checkout "%s" R: %q "Checkout" " Checkout to\n\n '%s' ?"
  S:git checkout "%s" S: git checkout "%s"
 
  R:  R: 2

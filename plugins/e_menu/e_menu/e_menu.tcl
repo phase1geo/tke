@@ -23,7 +23,7 @@
 #####################################################################
 
 namespace eval ::em {
-  variable e_menu_version "e_menu v2.0.1"
+  variable e_menu_version "e_menu v2.0.2"
   variable exedir [file normalize [file dirname [info script]]]
   variable srcdir [file join $::em::exedir src]
 }
@@ -57,8 +57,10 @@ set ::ncolor 0 ;# default color scheme
 #   IF - conditional execution
 #   EXIT - close menu
 
-proc M {args} {::em::em_message [string cat {*}$args] ok Info \
-  -centerme 0 -ontop $::em::ontop}
+proc M {args} {
+  set msg ""; foreach a $args {append msg "$a "}
+  ::em::em_message $msg ok Info -centerme 0 -ontop $::em::ontop
+}
 proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {
   return [set ::em::Q [::em::em_question $ttl $mes $typ $icon $defb {*}$args \
   -centerme 0 -ontop $::em::ontop]]
@@ -331,10 +333,11 @@ proc ::em::save_options {{setopt "in="} {setval ""}} {
   }
   set setval "$setopt$setval"
   set menudata [::em::read_menufile]
-  set opt [set i [set ifnd [set ifnd1 0]]]
+  set opt [set i [set ifnd [set ifnd1 [set ifndo 0]]]]
   foreach line $menudata {
     if {$line eq {[OPTIONS]}} {
       set opt 1
+      set ifndo [expr {$i+1}]
     } elseif {$opt} {
       set ifnd $i
       if {[string match "${setopt}*" $line]} {
@@ -352,7 +355,11 @@ proc ::em::save_options {{setopt "in="} {setval ""}} {
   if {$ifnd1} {
     set menudata [lreplace $menudata $ifnd1 $ifnd1 $setval]
   } else {
-    lappend menudata $setval
+    if {$ifndo} {
+      set menudata [linsert $menudata $ifndo $setval]
+    } else {
+      lappend menudata $setval
+    }
   }
   ::em::write_menufile $menudata
 }
@@ -527,6 +534,7 @@ proc ::em::shell0 {sel amp {silent -1}} {
   } elseif {[run_Tcl_code $sel]} {
     # processed
   } elseif {[::iswindows]} {
+    if {[string trim "$sel"] eq ""} {return true}
     set composite "$::win_console $sel $amp"
     catch {
       # here we construct new .bat containing all lines of the command
@@ -544,6 +552,7 @@ proc ::em::shell0 {sel amp {silent -1}} {
       }
     }
   } else {
+    if {[string trim "$sel"] eq ""} {return true}
     set lang [::eh::get_language]
     if {$::em::linuxconsole ne "" && [string first \\n $sel]<0} {
       set composite "$::lin_console $sel $amp"
@@ -1858,7 +1867,6 @@ proc ::em::inithotkeys {} {
     bind . <Control-$e> {::em::addon edit_menu}
     bind . <Control-$r> {::em::addon reread_init}
     bind . <Control-$d> {::em::addon destroy_emenus}
-    bind . <Control-$g> {::em::addon set_menu_geometry}
     bind . <Control-$p> {::em::addon change_PD}
   }
   bind . <Button-3>  {::em::addon popup %X %Y}
@@ -2107,9 +2115,9 @@ proc ::em::initend {} {
 ::em::initauto
 ::em::initend
 # *****************************   EOF   *****************************
-# getting an external CS to put into apave CSs:
+############# getting an external CS to put into apave CSs:
 # set cc [::apave::themeObj csCurrent]
-# set ca [::apave::themeObj csAvailable]
+# set ca [::apave::themeObj csMax]
 # if {[catch {::em::em_message "[::apave::themeObj csGetName $cc]: $cc \
-#   of $ca:\n\n[::apave::themeObj csGet $ca]" ok "CS" -text 1 -w 90} e]} {M $e}
+   of $ca:\n\n[::apave::themeObj csGet $ca]" ok "CS" -text 1 -w 99} e]} {M $e}
 # *****************************   EOF   *****************************

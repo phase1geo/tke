@@ -39,8 +39,6 @@ proc ::em::createpopup {} {
     -label "Increase the menu's width" -command {::em::win_width 1}
   .popupMenu add command {*}[iconA minus] -accelerator Ctrl+< \
     -label "Decrease the menu's width" -command  {::em::win_width -1}
-  .popupMenu add command {*}[iconA misc] -accelerator Ctrl+G \
-    -label "Set the menu's geometry" -command ::em::set_menu_geometry
   .popupMenu add separator
   .popupMenu add command {*}[iconA view] -accelerator F1 \
     -label "About" -command ::em::help
@@ -144,17 +142,6 @@ proc ::em::help {} {
   if {[lindex $res 0]} {::eh::browse $doc}
   repaintForWindows
 }
-#=== save the menu's geometry
-proc ::em::set_menu_geometry {} {
-  set geo [wm geometry .]
-  if {[::em::em_question "Set the geometry" \
-  "\n The current menu's geometry is\n     WxH+X+Y = $geo
-  \n This geometry will be set for all calls of it.\n" \
-  okcancel ques CANCEL]} {
-    save_options "g=" $geo
-  }
-  repaintForWindows
-}
 #=== reread and autorun
 proc ::em::reread_init {} {
   reread_menu $::em::lasti
@@ -198,7 +185,7 @@ proc ::em::change_PD {} {
   } else {
     set em_message "
  Select a project directory from the list of file:\n $::em::PD  \n"
-    set fco1 [list fco1 [list {     Project:} {} \
+    set fco1 [list fco1 [list {Project:} {} \
       [list -h 10 -state readonly -inpval [get_PD]]] \
       "/@-RE {^(\\s*)(\[^#\]+)\$} {$::em::PD}/@"]
   }
@@ -206,21 +193,29 @@ proc ::em::change_PD {} {
     "\n 'Color scheme' is -1 .. $::apave::_CS_(MAXCS) selected with Up/Down key.  \n"
   set sa [::apave::shadowAllowed 0]
   set ncolorsav $::ncolor
+  set geo [wm geometry .]
   ::apave::APaveInput create dialog
   after idle ::em::change_PD_Spx
-  set res [dialog input info "Project..." [list \
+  set res [dialog input "" "Project..." [list \
     {*}$fco1 \
+    seh_1 {{} {-pady 10}} {} \
     Spx [list {Color scheme:} {} \
       {-tvar ::ncolor -from -1 -to $::apave::_CS_(MAXCS) -w 5 \
       -justify center -msgLab {LabMsg {  Color Scheme 1}} -command \
       "ttk::style configure TSpinbox {*}[::em::change_PD_Spx]"}] {} \
-    v_ {{} {-pady 4}} {} \
+    chb1 {"Use for this menu"} {0} \
+    seh_2 {{} {-pady 10}} {} \
+    ent2 {"Geometry of menu:"} "$geo" \
+    chb2 {"Use for this menu"} {0} \
   ] -head $em_message -weight bold -centerme 1 {*}$themecolors]
   ::apave::shadowAllowed $sa
   set r [lindex $res 0]
   set ::ncolor [::apave::getN $::ncolor $ncolorsav -1 $::apave::_CS_(MAXCS)]
   if {$r} {
-    set PD [lindex $res 1]
+    lassign $res - PD - chb1 geo chb2
+    # save CS and/or geometry in menu's options
+    if {$chb1} {::em::save_options c= $::ncolor}
+    if {$chb2} {::em::save_options g= $geo}
     set ::em::prjname [file tail $PD]
     if {($fco1 ne "") && ([get_PD] ne $PD)} {
       set f "f $PD/*"

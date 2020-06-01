@@ -1605,11 +1605,16 @@ oo::class create ::apave::APave {
   #
   # Set focus on a widget (possibly, assigned with [my Widget])
 
-  method setFocus {wnext} {
+  method setFocus {w wnext} {
 
-    if {[winfo exist [set w [subst $wnext]]] || [winfo exist [set w $wnext]]} {
-      focus $w
+    set ws [subst $wnext]
+    foreach wn [winfo children $w] {
+      if {[string match "*$wnext" $wn] || [string match "*$ws" $wn]} {
+        set wnext $wn
+        break
+      }
     }
+    if {[winfo exist $wnext]} {focus $wnext}
     return
   }
 
@@ -1617,24 +1622,25 @@ oo::class create ::apave::APave {
   #
   # Get additional commands (for non-standard attributes)
 
-  method AdditionalCommands {w attrsName} {
+  method AdditionalCommands {w wdg attrsName} {
 
     upvar $attrsName attrs
     set addcomms {}
     if {[set tooltip [my getOption -tooltip {*}$attrs]] ne ""} {
-      lappend addcomms [list tooltip::tooltip $w $tooltip]
+      lappend addcomms [list tooltip::tooltip $wdg $tooltip]
       set attrs [my removeOptions $attrs -tooltip]
     }
     if {[my getOption -ro {*}$attrs] ne "" || \
     [my getOption -readonly {*}$attrs] ne ""} {
       lassign [my parseOptions $attrs -ro 0 -readonly 0] ro readonly
-      lappend addcomms [list my readonlyWidget $w [expr $ro||$readonly]]
+      lappend addcomms [list my readonlyWidget $wdg [expr $ro||$readonly]]
       set attrs [my removeOptions $attrs -ro -readonly]
     }
     if {[set wnext [my getOption -tabnext {*}$attrs]] ne ""} {
-      if {$wnext eq "{0}"} {set wnext $w}  ;# disables Tab on this widget
-      after idle [list bind $w <Key> \
-        [list if {{%K} == {Tab}} "[self] setFocus $wnext ; break" ]]
+      set wnext [string trim $wnext "\{\}"]
+      if {$wnext eq "0"} {set wnext $wdg} ;# disables Tab on this widget
+      after idle [list bind $wdg <Key> \
+        [list if {{%K} == {Tab}} "[self] setFocus $w $wnext ; break" ]]
       set attrs [my removeOptions $attrs -tabnext]
     }
     return $addcomms
@@ -1762,7 +1768,7 @@ oo::class create ::apave::APave {
         #>   123\45
         #> doctest
         my Pre attrs
-        set addcomms [my AdditionalCommands $wname attrs]
+        set addcomms [my AdditionalCommands $w $wname attrs]
         eval $widget $wname {*}$attrs
         my Post $wname $attrs
         foreach acm $addcomms { eval {*}$acm }

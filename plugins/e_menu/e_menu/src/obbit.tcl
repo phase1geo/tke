@@ -554,11 +554,18 @@ oo::class create ::apave::ObjectTheming {
 
   #--------------------------------------------------------------------------
 
-  method csAvailable {} {
+  method csMin {} {
+
+    # Gets a minimum index of available color schemes
+
+    return $::apave::_CS_(MINCS)
+  }
+
+  method csMax {} {
 
     # Gets a maximum index of available color schemes
 
-    return [expr {[llength $::apave::_CS_(ALL)] - 1}]
+    return $::apave::_CS_(MAXCS)
   }
 
   #--------------------------------------------------------------------------

@@ -1,9 +1,9 @@
 [OPTIONS]
 o=0
 in=1.0
-pos=220.0
+pos=205.0
 ::FSLUSER=aplsimple
-::FSLBRANCH=274149c0d9
+::FSLBRANCH=4c708f6820
 ::FSLBRANCHCOLOR=#67e09a
 ::EMENUTMPFILE=%mn.tmp~
 ::EM_T_FILE=-g *,src/*,menus/*
@@ -208,9 +208,8 @@ SW:fossil undo SW: fossil undo -n
  S:fossil all list S: fossil all list
 
 R:  R: 2
- S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
  S:fossil status %PD S: cd %PD
-
+ S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
 
  S:fossil addremove * S: cd %PD
  S:fossil addremove * S: fossil addremove -n
