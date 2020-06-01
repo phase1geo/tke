@@ -212,19 +212,21 @@ proc ::em::change_PD {} {
   set r [lindex $res 0]
   set ::ncolor [::apave::getN $::ncolor $ncolorsav -1 $::apave::_CS_(MAXCS)]
   if {$r} {
-    lassign $res - PD - chb1 geo chb2
+    if {$fco1 eq ""} {
+      lassign $res - - chb1 geo chb2
+    } else {
+      lassign $res - PD - chb1 geo chb2
+    }
     # save CS and/or geometry in menu's options
     if {$chb1} {::em::save_options c= $::ncolor}
     if {$chb2} {::em::save_options g= $geo}
-    set ::em::prjname [file tail $PD]
     if {($fco1 ne "") && ([get_PD] ne $PD)} {
+      set ::em::prjname [file tail $PD]
       set f "f $PD/*"
-    } else {
-      set f ""
-    }
-    set ::argv [dialog removeOptions $::argv d=* f=* c=*]
-    foreach {p a} [list d $PD {*}$f c $::ncolor] {
-      lappend ::argv "${p}=${a}"
+      set ::argv [dialog removeOptions $::argv d=* f=* c=*]
+      foreach {p a} [list d $PD {*}$f c $::ncolor] {
+        lappend ::argv "${p}=${a}"
+      }
     }
     set ::argc [llength $::argv]
 

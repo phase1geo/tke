@@ -333,13 +333,12 @@ proc ::em::save_options {{setopt "in="} {setval ""}} {
   }
   set setval "$setopt$setval"
   set menudata [::em::read_menufile]
-  set opt [set i [set ifnd [set ifnd1 [set ifndo 0]]]]
+  set opt [set i [set ifnd1 [set ifndo 0]]]
   foreach line $menudata {
     if {$line eq {[OPTIONS]}} {
       set opt 1
       set ifndo [expr {$i+1}]
     } elseif {$opt} {
-      set ifnd $i
       if {[string match "${setopt}*" $line]} {
         set ifnd1 $i
         break
@@ -349,15 +348,13 @@ proc ::em::save_options {{setopt "in="} {setval ""}} {
     }
     incr i
   }
-  if {!$ifnd} {  ;# no OPTIONS section - add it
-    lappend menudata \n {[OPTIONS]}
-  }
   if {$ifnd1} {
     set menudata [lreplace $menudata $ifnd1 $ifnd1 $setval]
   } else {
     if {$ifndo} {
       set menudata [linsert $menudata $ifndo $setval]
     } else {
+      lappend menudata \n {[OPTIONS]}
       lappend menudata $setval
     }
   }
