@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {https://aplsimple.bitbucket.io}
-date {1590865396}
+date {1591353728}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -270,9 +270,9 @@ launcher,-textbackground {#302e40}
 launcher,-textforeground {#ececec}
 menus,-activebackground {#b6c9dd}
 menus,-activeforeground {#000000}
-menus,-background {#2d435b}
+menus,-background {#21374f}
 menus,-disabledforeground {grey}
-menus,-foreground {#ececec}
+menus,-foreground {#e9e9e9}
 menus,-relief {flat}
 menus,-selectcolor {black}
 meta,ttk_style,active_color {}
@@ -291,7 +291,7 @@ sidebar,-relief {flat}
 sidebar,-selectbackground {#43576e}
 sidebar,-selectforeground {#ffffff}
 sidebar_info,-active_background {#141515}
-sidebar_info,-background {#181919}
+sidebar_info,-background {#131414}
 sidebar_info,-title_foreground {#8ab0c5}
 sidebar_info,-value_foreground {#aeaeae}
 sidebar_scrollbar,-background {#ececec}
@@ -329,7 +329,7 @@ syntax,select_foreground {#000000}
 syntax,strings {#e49eb4}
 syntax,variables {#b4dc8c}
 syntax,warning_width {#4e4b68}
-tabs,-activebackground {#1e344c}
+tabs,-activebackground {#142a42}
 tabs,-activeforeground {#ffbe00}
 tabs,-background {#1e344c}
 tabs,-bordercolor {#302e40}

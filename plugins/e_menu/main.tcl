@@ -222,6 +222,8 @@ namespace eval e_menu {
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
     set ht "ht=[api::theme::get_value syntax marker]"
     set hh "hh=$fgact"
+    set fM "fM=-" ;# not used yet
+    set bM "bM=[[get_txt] cget -background]"
     set z5_opt "z5=$z5_opt"
     # l= option is a current edited line's number (maybe useful in commands)
     set l_opt l=[expr {int([[get_txt] index "insert linestart"])}]
@@ -233,7 +235,7 @@ namespace eval e_menu {
     # at last we try to call e_menu
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
-          $fg $bg $fE $bE $fS $bS $fI $bI $ht $hh $cc gr=grey \
+          $fg $bg $fE $bE $fS $bS $fI $bI $ht $hh $cc gr=grey $fM $bM \
           $h_opt $s_opt $f_opt $d_opt $PD_opt $TF_opt \
           $z1_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
           $l_opt $ts_opt $PN_opt &

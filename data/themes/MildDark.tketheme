@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {https://aplsimple.bitbucket.io}
-date {1590908940}
+date {1591353574}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -270,9 +270,9 @@ launcher,-textbackground {#302e40}
 launcher,-textforeground {#ececec}
 menus,-activebackground {#b6c9dd}
 menus,-activeforeground {#000000}
-menus,-background {#3f556d}
+menus,-background {#324860}
 menus,-disabledforeground {grey}
-menus,-foreground {#ececec}
+menus,-foreground {#eeeeee}
 menus,-relief {flat}
 menus,-selectcolor {black}
 meta,ttk_style,active_color {}
@@ -298,7 +298,7 @@ sidebar_scrollbar,-background {#ececec}
 sidebar_scrollbar,-foreground {#364c64}
 sidebar_scrollbar,-thickness {15}
 syntax,attention {red}
-syntax,background {#181919}
+syntax,background {#151616}
 syntax,border_highlight {orange}
 syntax,closed_fold {orange}
 syntax,comments {#466478}
@@ -329,27 +329,27 @@ syntax,select_foreground {#000000}
 syntax,strings {#ecb7af}
 syntax,variables {#c8dca0}
 syntax,warning_width {#4e4b68}
-tabs,-activebackground {#364c64}
+tabs,-activebackground {#283e56}
 tabs,-activeforeground {#ffbe00}
-tabs,-background {#364c64}
+tabs,-background {#283e56}
 tabs,-bordercolor {#302e40}
 tabs,-foreground {#ececec}
 tabs,-height {25}
-tabs,-inactivebackground {#4f637a}
+tabs,-inactivebackground {#43576e}
 tabs,-inactiveforeground {#ffffff}
 tabs,-relief {flat}
 text_scrollbar,-altforeground {red}
 text_scrollbar,-background {#d6e4f0}
-text_scrollbar,-foreground {#364c64}
+text_scrollbar,-foreground {#324860}
 text_scrollbar,-thickness {15}
 ttk_style,active_color {#383e41}
-ttk_style,background {#364c64}
+ttk_style,background {#324860}
 ttk_style,border_color {#9e9a91}
 ttk_style,dark_color {#9e9a91}
-ttk_style,disabled_background {#364c64}
+ttk_style,disabled_background {#324860}
 ttk_style,disabled_foreground {#bab5ab}
 ttk_style,entry_border {#364c64}
-ttk_style,foreground {#ffffff}
+ttk_style,foreground {#eeeeee}
 ttk_style,grip_count {10}
 ttk_style,grip_thickness {5}
 ttk_style,pressed_color {#bab5ab}

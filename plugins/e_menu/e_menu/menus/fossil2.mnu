@@ -1,13 +1,13 @@
 [OPTIONS]
 o=0
 in=1.0
-pos=205.0
+pos=106.174
 ::FSLUSER=aplsimple
 ::FSLBRANCH=4c708f6820
 ::FSLBRANCHCOLOR=#67e09a
 ::EMENUTMPFILE=%mn.tmp~
 ::EM_T_FILE=-g *,src/*,menus/*
-::EM_T_TIME=--now
+::EM_T_TIME=none
 ::EM_T_DRY=0
 ::EM_T_VERBOSE=1
 
@@ -103,7 +103,7 @@ SW:fossil uv sync %F SW: fossil uv add %F\nfossil uv sync
 \n\n The 'Verbose' outputs extra information. \
 \n     ______________________________________________________\
 \n\n           AFTER TOUCHING THE COMMIT WILL BE MADE.} \
-   } -head {\n This will TOUCH the file(s) of Fossil repository\n to have the file(s) time equal to the time stamp.\n\n Then this will run COMMITTING on the repository.\n} -weight bold == ::EM_T_FILE ::EM_T_TIME ::EM_T_VERBOSE
+   } -head {\n This will TOUCH the file(s) of Fossil repository\n to have the file(s) time equal to the time stamp.\n\n Then this will run COMMITTING on the repository:\n %PD\n} -weight bold == ::EM_T_FILE ::EM_T_TIME ::EM_T_VERBOSE
  S:fossil commit ? S: %C if $::EM_T_VERBOSE {set ::EM_T_v -v} {set ::EM_T_v ""}
  SW:fossil commit ? SW: %IF "$::EM_T_TIME" ni {{} none} && "$::EM_T_FILE" ne "" %THEN fossil touch $::EM_T_v $::EM_T_TIME $::EM_T_FILE
  S:fossil commit ? S: fossil commit --allow-empty

@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {https://aplsimple.bitbucket.io}
-date {1590856424}
+date {1591352683}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -270,9 +270,9 @@ launcher,-textbackground {#302e40}
 launcher,-textforeground {#ececec}
 menus,-activebackground {#b6c9dd}
 menus,-activeforeground {#000000}
-menus,-background {#21374f}
+menus,-background {#162c44}
 menus,-disabledforeground {grey}
-menus,-foreground {#ececec}
+menus,-foreground {#e2e2e2}
 menus,-relief {flat}
 menus,-selectcolor {black}
 misc_scrollbar,-background {#8090a0}
@@ -328,7 +328,7 @@ syntax,select_foreground {#000000}
 syntax,strings {#ffa5de}
 syntax,variables {#c7ef9f}
 syntax,warning_width {#4e4b68}
-tabs,-activebackground {#041a32}
+tabs,-activebackground {#0b2139}
 tabs,-activeforeground {#ffbe00}
 tabs,-background {#1b3149}
 tabs,-bordercolor {#302e40}

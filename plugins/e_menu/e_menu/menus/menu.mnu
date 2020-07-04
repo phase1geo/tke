@@ -1,13 +1,14 @@
 [OPTIONS]
+g=+0+27
 in=1.0
 bd=1
 b1=0
 b2=3
 b3=1
-w=28
-pos=64.95
+w=25
+pos=87.28
 ::EMENUTMPFILE=%mn.tmp~
-%C set ::EMENUFILE "%f"
+%C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
 %C set ::FILETAIL \"[file tail $::EMENUFILE]\"
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
@@ -17,21 +18,22 @@ pos=64.95
  # menu for e_menu.tcl
 
  M:  M: 3
- RE: Run me (with %AR) RE: cd %d
- RE: Run me (with %AR) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B $::EMENUFILE
- RE: Run me (with %AR) RE: %IF "%x"==".md" %THEN ghostwriter "$::EMENUFILE"
- RE: Run me (with %AR) RE: %IF "%x"==".tcl" %THEN %T tclsh "$::EMENUFILE" %AR
- RE: Run me (with %AR) RE: %IF "%x"==".py"  %THEN %t python3 "$::EMENUFILE" %AR
- RE: Run me (with %AR) RE: ###########################################################
-  S: Run me (with %AR) S: $::EMENUFILE %AR
+ RE: Run me (+ selection) RE: cd %d
+ RE: Run me (+ selection) RE: %IF "%x"==".tcl" && "%RF" ne "" %THEN %T tclsh %RF
+ RE: Run me (+ selection) RE: %IF "%x"==".tcl" %THEN %T tclsh "$::EMENUFILE" %AR
+ RE: Run me (+ selection) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B $::EMENUFILE
+ RE: Run me (+ selection) RE: %IF "%x"==".md" %THEN ghostwriter "$::EMENUFILE"
+ RE: Run me (+ selection) RE: %IF "%x"==".py"  %THEN %t python3 "$::EMENUFILE" %AR
+  R: Run me (+ selection) R: ###########################################################
+  S: Run me (+ selection) S: $::EMENUFILE %AR
 
- SE: Run Tcl {all selection} SE: cd %d
- SE: Run Tcl {all selection} SE: tclsh %m/src/ch_.tcl "%TF"
+ S: Run Tcl {all selection} S: cd %d
+ S: Run Tcl {all selection} S: tclsh %m/src/ch_.tcl "%TF"
 
  RE: Edit/create file "%s" RE: cd %d
  RE: Edit/create file "%s" RE: %E %s
 
- RE: Open directory "%D" RE: %IF ![::iswindows] %THEN %Q "CHANGE ME" "The directory:\n%d\n\nwould be open by \"caja\" file manager.\n\nYou can change it by editing:\n%mn" okcancel warn OK -ontop 1
+ RE: Open directory "%D" RE: %IF ![::iswindows] %THEN %q "CHANGE ME" "The directory:\n%d\n\nwould be open by \"caja\" file manager.\n\nYou can change it by editing:\n%mn" okcancel warn OK -ontop 1
  RE: Open directory "%D" RE: %IF [::iswindows] %THEN explorer.exe "%d" %ELSE caja "%d"
 
  RE: Open terminal in "%D" RE: cd %d
@@ -50,7 +52,7 @@ pos=64.95
  M:  M: 3
  ME: Search All "%s" in %D  ME: m=grep.mnu
 
- RE: Backup of $::FILETAIL RE: %Q "BACKUP" "The backup of\n\n$::EMENUFILE\n\n\nwould be saved to\n\n$::EMENUFILE.bak"
+ RE: Backup of $::FILETAIL RE: %q "BACKUP" "The backup of\n\n$::EMENUFILE\n\n\nwould be saved to\n\n$::EMENUFILE.bak"
  RE: Backup of $::FILETAIL RE:  %IF [::iswindows] %THEN copy /Y "$::EMENUFILE" "$::EMENUFILE.bak" %ELSE cp -f "$::EMENUFILE" "$::EMENUFILE.bak"
 
  R: Commit "%s" R: %C if {![info exist ::EM_MSG]} {set ::EM_MSG "%s"}
@@ -65,9 +67,9 @@ pos=64.95
  S: Commit "%s" S: %IF [Q "FOSSIL COMMIT" " Add all changes and FOSSIL COMMIT\n\n with message\n\n   '$::TMP_MSG' ?"] %THEN fossil add *\n\n fossil commit -m "$::TMP_MSG"
  S: Commit "%s" S: %IF [Q "FOSSIL COMMIT" " Add all changes and GIT COMMIT\n\n with message\n\n   '$::TMP_MSG' ?"] %THEN git add *\n\n git commit -m "$::TMP_MSG"
 
- R: Differences of $::FILETAIL (fossil/git) R: cd %PD
-RW: Differences of $::FILETAIL (fossil/git) RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
- R: Differences of $::FILETAIL (fossil/git) R: %I {} "GDIFF" { \
+ R: Differences of $::FILETAIL (fossil/git) ... R: cd %PD
+RW: Differences of $::FILETAIL (fossil/git) ... RW: fossil tim -t ci -n 11 > $::EMENUTMPFILE
+ R: Differences of $::FILETAIL (fossil/git) ... R: %I {} "GDIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 60}} {"$::EMENUFILE"} \
    fco1 {{Version:} {} {-h 10 -state readonly -inpval "$::EMENUCOMMIT"}} \
@@ -76,16 +78,16 @@ RW: Differences of $::FILETAIL (fossil/git) RW: fossil tim -t ci -n 11 > $::EMEN
    texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
    } -head {\n This will compare a selected version of\n     $::EMENUFILE\n to its tip.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
- R: Differences of $::FILETAIL (fossil/git) R: %C if {"$::EMENUCOMMIT" eq ""} \
+ R: Differences of $::FILETAIL (fossil/git) ... R: %C if {"$::EMENUCOMMIT" eq ""} \
    {set ::EMENUTMP ""} {set ::EMENUTMP "--from $::EMENUCOMMIT --to tip"}
- R: Differences of $::FILETAIL (fossil/git) R: %IF [file exists .fslckout] %THEN \
+ R: Differences of $::FILETAIL (fossil/git) ... R: %IF [file exists .fslckout] %THEN \
   fossil gdiff $::EMENUTMP "$::EMENUFILE" %ELSE git difftool $::EMENUCOMMIT HEAD -- "$::EMENUFILE"
 
  # call TKE/Geany with all *.tcl of current file's directory
- RE: Edit *.tcl of %d RE: %Q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
- RE: Edit *.tcl of %d RE: %C set ::ALLFILES [glob "%d/*.tcl"]
- RE: Edit *.tcl of %d RE: %IF [auto_execok geany]!={} %THEN geany $::ALLFILES %ELSE tke $::ALLFILES
- RE: Edit *.tcl of %d RE: %C unset ::ALLFILES
+ R: Edit *.tcl of %d R: %q "EDIT ALL *.tcl" "This will edit all .tcl files of\n\n%d"
+ R: Edit *.tcl of %d R: %C set ::ALLFILES [glob "%d/*.tcl"]
+ R: Edit *.tcl of %d R: %IF [auto_execok geany]!={} %THEN geany $::ALLFILES %ELSE tke $::ALLFILES
+RE: Edit *.tcl of %d RE: %C unset ::ALLFILES
 
  M:  M: 3
  ME: Fossil ME: m=fossil.mnu "u=%s" o=0

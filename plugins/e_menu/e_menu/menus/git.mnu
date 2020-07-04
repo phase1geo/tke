@@ -3,10 +3,10 @@
 [OPTIONS]
 in=1.0
 o=0
-pos=75.33
+pos=96.26
 w=35
 ::EMENUTMPFILE=%mn.tmp~
-%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
+%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
 %C if {![info exist ::EMENUGREP]} {set ::EMENUGREP ""}
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
@@ -37,9 +37,9 @@ RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
    } -head {\n This will compare a selected version of\n     %f\n to its HEAD.} -weight bold == ::EMENUFILE ::EMENUCOMMIT
  R:git difftool $::FILETAIL ? R: git difftool $::EMENUCOMMIT HEAD -- "$::EMENUFILE"
 
- S:git diff ? S: cd %PD
-RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
- R:git diff ? R: %I {} "DIFF" { \
+ S:git diff S: cd %PD
+RW:git diff RW: git log --format=oneline -10 > $::EMENUTMPFILE
+ R:git diff R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fco1 {{     Version :} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
      {/@-pos 0 -len 10 -list {""} $::EMENUTMPFILE/@    INFO: /@-div1 { } $::EMENUTMPFILE/@} \
@@ -53,12 +53,12 @@ RW:git diff ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
      \n\n temp file:\n $::EMENUTMPFILE} \
    } -head {\n This will compare a selected version of \
      \n     %PD\n to its HEAD.} -weight bold == ::EMENUCOMMIT ::EMENUGREP
- S:git diff ? S: %C set ::EMENUTMP {git diff $::EMENUCOMMIT HEAD}
- R:git diff ? R: %IF {$::EMENUGREP} eq "" %THEN %T $::EMENUTMP
-RW:git diff ? RW: $::EMENUTMP | grep -n "$::EMENUGREP" > "$::EMENUTMPFILE"
-SW:git diff ? SW: cat "$::EMENUTMPFILE"
- R:git diff ? R: %C file delete "$::EMENUTMPFILE"
- S:git diff ? S: $::EMENUTMP
+ S:git diff S: %C set ::EMENUTMP {git diff $::EMENUCOMMIT HEAD}
+ R:git diff R: %IF {$::EMENUGREP} eq "" %THEN %T $::EMENUTMP
+RW:git diff RW: $::EMENUTMP | grep -n "$::EMENUGREP" > "$::EMENUTMPFILE"
+SW:git diff SW: cat "$::EMENUTMPFILE"
+ R:git diff R: %C file delete "$::EMENUTMPFILE"
+ S:git diff S: $::EMENUTMP
 
  S:git add $::FILETAIL ? S: cd %PD
  R:git add $::FILETAIL ? R: %I {} "ADD" { \
@@ -84,14 +84,14 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  R:git commit -am "%s on %t2" R: %q "Committing changes" " Add and commit with message\n\n '%s at %t2' ?"
  S:git commit -am "%s on %t2" S: git commit -am "%s on %t2"
 
- S:git commit --amend -am "?" S: cd %PD
- S:git commit --amend -am "?" S: %C if {![info exist ::EMENUCOMMIT3]} {set ::EMENUCOMMIT3 "%s %t1 #%i1"}
- R:git commit --amend -am "?" R: %I {} "COMMIT AMEND" { \
+ S:git commit --amend -am S: cd %PD
+ S:git commit --amend -am S: %C if {![info exist ::EMENUCOMMIT3]} {set ::EMENUCOMMIT3 "%s %t1 #%i1"}
+ R:git commit --amend -am R: %I {} "COMMIT AMEND" { \
    v_ {{} {-pady 4} {}} {} \
    texc {{Comment:} {} {-h 9 -w 70 -wrap word}} {$::EMENUCOMMIT3} \
    } -head {\n Enter the commenting text for the commit.} -weight bold == ::EMENUCOMMIT3
- R:git commit --amend -am "?" R: %C if {"$::EMENUCOMMIT3" eq ""} exit
- S:git commit --amend -am "?" S: git commit --amend -am "$::EMENUCOMMIT3"
+ R:git commit --amend -am R: %C if {"$::EMENUCOMMIT3" eq ""} exit
+ S:git commit --amend -am S: git commit --amend -am "$::EMENUCOMMIT3"
 
  S:git commit -a S: cd %PD
  R:git commit -a R: %q "Add All and Commit Changes" " Add all changes\n and commit with message to be edited ?"
@@ -137,4 +137,4 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
 
  R:  R: 2
 
- ME: Next ME: m=git2.mnu w= "cb=%cb in=%in"
+ M: Next M: m=git2.mnu

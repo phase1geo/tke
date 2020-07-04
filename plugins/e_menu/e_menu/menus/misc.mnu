@@ -6,17 +6,26 @@ w=30
 u=%s
 o=0
 in=1.0
+%C if {![info exist ::EMENUP2]} {set ::EMENUP2 "%P2"}
 %C if {![info exist ::EMENUDIR1]} {set ::EMENUDIR1 "%PD"}
 %C if {![info exist ::EMENUDIR2]} {set ::EMENUDIR2 \
   [file normalize "%PD/../release/[file tail %PD]"]}
 ::EMENUOPTS=-r -f
-
+::EMENUMULSTER=1
+::EMENUMULSTRES1=~/PG/github/aplsimple.github.io/en/tcl/
+::EMENUMULSTRES2=~/PG/github/aplsimple.github.io/en/tcl/pave
+::EMENU7ZCOM=wine ~/PROGRAMS/7-ZIP/7z.exe a -r
+::EMENU7ZARC=~/PG/github/em-apave.7z
+::EMENU7ZDIR=~/PG/github/e_menu\n~/PG/github/pave
+::EMENU7ZSKIP=~/PG/github/aplsimple.github.io
+::EMENU7ZBAK=/media/apl/KINGSTON/
+pos=90.67
 [MENU]
 
- R: Trimmer *.tcl R: cd %PD
+ R: Trimmer *.tcl R: cd $::EMENUDIR1
  R: Trimmer *.tcl R: %I {} "TRIMMER" { \
-   v_ {{} {-pady 4} {}} {} \
-   dir1 {{ Input directory:} {} {-w 50}} {"$::EMENUDIR1"} \
+   v_ {{} {-pady 4}} {} \
+   dir1 {{ Input directory:}} {"$::EMENUDIR1"} \
    dir2 {{Output directory:}} {"$::EMENUDIR2"} \
    ent1 {{         Options:}} {"$::EMENUOPTS"} \
    seh {{} {-pady 3} {}} {} \
@@ -34,6 +43,54 @@ in=1.0
  S: Trimmer *.tcl S: tclsh ~/UTILS/trimmer/trim.tcl \
    -i "$::EMENUDIR1" -o "$::EMENUDIR2" $::EMENUOPTS
 
+RE: Ruff! $::EMENUP2 ... RE: cd $::EMENUDIR1
+ R: Ruff! $::EMENUP2 ... R: %I {} "PROJECT NAME" { \
+   v_ {{} {-pady 4}} {} \
+   dir1 {{ Project directory:} {} {-w 50 -validate all -validatecommand { \
+     set ::EMENUP2 \[::em::get_PD {%P}\]; \
+     set ::EMENUMULSTRES2 $::EMENUMULSTRES1\[file tail {%P}\]; \
+     return 1}}} {"$::EMENUDIR1"} \
+   ent1 {{      Project name:} {} {-tvar ::EMENUP2}} {"$::EMENUP2"} \
+   v_2 {{} {-pady 4}} {} \
+   chb1 {{Mulster afterwards:}} {$::EMENUMULSTER} \
+   dir2 {{ Copy to directory:} {} {-tvar ::EMENUMULSTRES2}} {"$::EMENUMULSTRES2"} \
+   seh {{} {-pady 3} {}} {} \
+   } -head {\n This creates Ruff! documentation of Tcl files. \
+   \n Customize ruff.tcl at need. } -weight bold == ::EMENUDIR1 ::EMENUP2 ::EMENUMULSTER
+ S: Ruff! $::EMENUP2 ... S: cd $::EMENUDIR1
+SW: Ruff! $::EMENUP2 ... SW: tclsh ~/UTILS/ruff.tcl "$::EMENUP2"
+ S: Ruff! $::EMENUP2 ... S: %C set ::EMENUP2html $::EMENUP2.html
+ S: Ruff! $::EMENUP2 ... S: %C  \
+   if {$::EMENUMULSTER} { \
+     set ::EMTMP "mv -f $::EMENUP2html ../mulster/tasks/ruff/src ; \
+     cd ../mulster ; tclsh mulster.tcl -b 0 tasks/mulster-ruff ; \
+     cp -f ~/PG/github/mulster/tasks/ruff/mulstered/$::EMENUP2html $::EMENUMULSTRES2" ; \
+     set ::EMENUP2html "$::EMENUMULSTRES2/$::EMENUP2html" \
+   } else {set ::EMTMP ""}
+SW: Ruff! $::EMENUP2 ... SW: $::EMTMP
+RE: Ruff! $::EMENUP2 ... RE: %B $::EMENUP2html
 
-[OPTIONS]
-pos=5.4
+ R: Freewrap Tcl R: cd ~/PG/github/mulster
+ R: Freewrap Tcl R: %Q FREEWRAP " Want to get freewrapped Tcl executables?"
+SW: Freewrap Tcl SW: tclsh mulster.tcl -b 0 tasks/mulster-freewrap
+ R: Freewrap Tcl R: cd ~/PG/github/freewrap
+ R: Freewrap Tcl R: ./linux64/freewrap ./e_menu/s_menu.tcl -w ./linux64/freewrap -forcewrap -o ./e_menu/s_menu
+
+R: R: 3
+
+SW: Save your stuff SW: cd %PD
+ R: Save your stuff R: %I {} "BACKUP" { \
+   ent1 {{Archive command:}} {"$::EMENU7ZCOM"} \
+   fil1 {{   Archive name:}} {"$::EMENU7ZARC"} \
+   seh1 {{} {-pady 7} {}} {} \
+   tex1 {{    Directories \n      to backup:} {} {-h 8 -w 60 -wrap word}} {$::EMENU7ZDIR} \
+   tex2 {{    Directories \n      postponed:} {} {-h 8 -w 60 -wrap word}} {$::EMENU7ZSKIP} \
+   seh2 {{} {-pady 7} {}} {} \
+   dir3 {{        Save to:}} {"$::EMENU7ZBAK"} \
+   } -head {\n This creates a backup of your directories.\n } -weight bold == ::EMENU7ZCOM ::EMENU7ZARC ::EMENU7ZDIR ::EMENU7ZSKIP ::EMENU7ZBAK
+ R: Save your stuff R: %C set ::EMENU7ZDIR_LIST [string map {\n { }} $::EMENU7ZDIR]
+SW: Save your stuff SW: mv -f $::EMENU7ZARC $::EMENU7ZARC.bak ; \
+  $::EMENU7ZCOM $::EMENU7ZARC $::EMENU7ZDIR_LIST ; mplayer %ms/s1.wav
+ R: Save your stuff R: %C if {"::EMENU7ZBAK" ne ""} { \
+  file copy -force {$::EMENU7ZARC} "[file join {$::EMENU7ZBAK} [file tail {$::EMENU7ZARC}]]"}
+ R: Save your stuff R: mplayer %ms/s1.wav

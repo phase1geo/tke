@@ -2,24 +2,25 @@
 b1=0
 b2=3
 b3=1
-w=35
+w=25
 t4==%b-%Y/%U-week
 u=%s
 o=0
 in=1.0
-pos=213.3
+pos=23.34
 ::FSLUSER=aplsimple
-::FSLBRANCH=v2.8
-::FSLBRANCHCOLOR=#ff7980
+::FSLBRANCH=v3.0a1
+::FSLBRANCHCOLOR=#65ff65
 ::EMENUTMPFILE=%mn.tmp~
 ::EMENUBRIEF=0
-::EM_T_DRY=1
+::EM_T_DRY=0
 ::EM_T_FILE=-g *,src/*,menus/*
 ::EM_T_TIME=--now
 ::EM_T_VERBOSE=1
 ::EMENUGREP=
-%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT [set ::EMENUCOMMIT2 ""]}
+%C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 %C if {![info exist ::EMENUCOMMIT1]} {set ::EMENUCOMMIT1 tip}
+%C if {![info exist ::EMENUCOMMIT2]} {set ::EMENUCOMMIT2 ""}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
 %C set ::FILETAIL \"[file tail $::EMENUFILE]\"
@@ -134,9 +135,9 @@ SW:fossil diff ? SW: cat "$::EMENUTMPFILE"
 \n\n The 'Verbose' outputs extra information. \
 \n     ______________________________________________________\
 \n\n           AFTER TOUCHING THE COMMIT WILL BE MADE.} \
-   } -head {\n This will TOUCH the file(s) of Fossil repository\n to have the file(s) time equal to the time stamp.\n\n Then this will run COMMITTING on the repository.\n} -weight bold == ::EM_T_FILE ::EM_T_TIME ::EM_T_VERBOSE
+   } -head {\n This will TOUCH the file(s) of Fossil repository\n to have the file(s) time equal to the time stamp.\n\n Then this will run COMMITTING on the repository:\n %PD\n} -weight bold == ::EM_T_FILE ::EM_T_TIME ::EM_T_VERBOSE
  S:fossil commit ? S: %C if $::EM_T_VERBOSE {set ::EM_T_v -v} {set ::EM_T_v ""}
- SW:fossil commit ? SW: %IF "$::EM_T_TIME" ni {{} none} && "$::EM_T_FILE" ne "" %THEN fossil touch $::EM_T_v $::EM_T_TIME $::EM_T_FILE
+SW:fossil commit ? SW: %IF "$::EM_T_TIME" ni {{} none} && "$::EM_T_FILE" ne "" %THEN fossil touch $::EM_T_v $::EM_T_TIME $::EM_T_FILE
  S:fossil commit ? S: fossil commit --allow-empty
 
  S:fossil commit -f -tag ? S: cd %PD
