@@ -1,5 +1,5 @@
 
-package ifneeded apave 3.0 [list source [file join $dir apaveinput.tcl]]
+package ifneeded apave 3.0.1 [list source [file join $dir apaveinput.tcl]]
 namespace eval apave {
 set _ruff_preamble {
 

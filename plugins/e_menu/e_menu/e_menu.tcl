@@ -1,5 +1,5 @@
 #! /usr/bin/env tclsh
-namespace eval ::em {variable em_version "e_menu v3.0"
+namespace eval ::em {variable em_version "e_menu v3.0.1"
 variable solo [expr {[info exist ::argv0] && [file normalize $::argv0] eq [file normalize [info script]]} ? 1 : 0]
 variable argv0
 if {[info exist ::argv0]} {set argv0 [file normalize $::argv0]} {set argv0 [info script]}
@@ -830,8 +830,8 @@ m= {prepare_wilds $resetpercent2
 b= {set ::eh::my_browser $seltd}
 sh= {set ::em::shadowed [::apave::getN $seltd 0]}
 cs= {if {[::em::insteadCS $seltd]} {set ::em::ncolor [::apave::paveObj csAdd $seltd true]}}
-c= {set ::em::ncolor [::apave::getN $seltd -2 -2 $::apave::_CS_(MAXCS)]
-::em::initdefaultcolors}
+c= {if {![::em::insteadCS]} {set ::em::ncolor [::apave::getN $seltd -2 -2 $::apave::_CS_(MAXCS)]
+::em::initdefaultcolors}}
 o= {set ::em::ornament [::apave::getN $seltd 0 0 3]
 if {$::em::ornament>1} {set ::em::font2 Mono}}
 g= {lassign [split $seltd x+] w h x y
@@ -997,6 +997,7 @@ if {[::iswindows]} {wm attributes .em -alpha 0.0
 ::em::initdk
 ::em::initbegin}
 ttk::frame .em.fr
+if {$::em::dk in {desktop splash dock}} {.em.fr configure -borderwidth 2 -relief solid}
 pack .em.fr -expand 1 -fill both
 inithotkeys
 if {![prepare_buttons ::em::commands]} return
@@ -1139,9 +1140,7 @@ proc ::em::initall {} {::em::initdefaultcolors
 ::em::initmenu
 ::em::initauto
 ::em::initend}
-proc ::em::main {args} {if {[winfo exists .em.fr]} {focus .em.fr
-return 0}
-lassign [::apave::parseOptions $args -prior 0 -modal 0 -remain 0 -noCS 0] prior modal ::em::remain ::em::noCS
+proc ::em::main {args} {lassign [::apave::parseOptions $args -prior 0 -modal 0 -remain 0 -noCS 0] prior modal ::em::remain ::em::noCS
 set args [::apave::removeOptions $args -prior -modal -remain -noCS]
 if {$::em::noCS} {set ::em::noCS "disabled"} {set ::em::noCS "normal"}
 if {$prior} {set ::em::empool []}
@@ -1149,6 +1148,8 @@ set ::em::argv $args
 set ::em::argc [llength $args]
 set ::em::fs [::apave::paveObj basicFontSize]
 set ::em::ncolor [::apave::paveObj csCurrent]
+if {[winfo exists .em.fr]} {focus .em.fr
+return 0}
 if {[llength $::em::empool]==0} {pool_push
 } else {set ::em::empool [lrange $::em::empool 0 0]
 pool_item_activate 0}

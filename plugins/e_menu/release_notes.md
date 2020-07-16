@@ -1,5 +1,15 @@
 # Last changes:
 
+
+Version `3.0.1 (17 Jul'20)`
+
+  - esp. for TKE: any c= disabled at start, if color args set CS
+  - border added to get menus separated for dk=dock/desktop
+  - "main" proc changed to allow "testCS" to work properly
+  - apave upd.
+  - BUGFIX: highlighting substring between markers R:, S: etc.
+
+
 Version `3.0 (4 Jul'20)`
 
   - trimmed e_menu/*.tcl

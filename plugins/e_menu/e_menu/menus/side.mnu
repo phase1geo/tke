@@ -108,7 +108,7 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  R:git push R: %q "Pushing changes" "Push all changes in\n\n%PD\n\nto a remote repository ?"
  S:git push S: git push
 
- R:  R: 4
+ R:  R: 3
 
  MW:Fossil MW: m=fossil.mnu w=50
  M:Git M: m=git.mnu
@@ -140,7 +140,7 @@ SW:git diff ? SW: cat "$::EMENUTMPFILE"
  R:wget Web page R: cd %z5/WGET
  R:wget Web page R: %IF [::iswindows] %THEN explorer.exe "." %ELSE caja "."
 
- R: - R: 4
+ R: - R: 3
 
 SW:Save your stuff SW: cd %PD
  R:Save your stuff R: %I {} "BACKUP" { \

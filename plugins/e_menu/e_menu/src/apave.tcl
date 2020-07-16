@@ -796,7 +796,7 @@ update
 if {[::iswindows]} {if {[wm attributes $win -alpha] < 0.1} {wm attributes $win -alpha 1.0}
 } else {catch {wm deiconify $win ; raise $win}}
 wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
-if {$inpgeom == ""} {if {$ry<40 && $root != "."} {wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
+if {$inpgeom == ""} {if {($h/2-$ry-$rh/2)>30 && $root != "."} {wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
 } else {::tk::PlaceWindow $win widget $root}
 } else {wm geometry $win $inpgeom}
 bind $win <Configure> "[namespace current]::WinResize $win"

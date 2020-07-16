@@ -29,7 +29,7 @@ pos=90.67
    dir2 {{Output directory:}} {"$::EMENUDIR2"} \
    ent1 {{         Options:}} {"$::EMENUOPTS"} \
    seh {{} {-pady 3} {}} {} \
-   texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
+   texc {{   Hint:} {} {-h 9 -w 67 -ro 1 -wrap word}} \
    {\n Select input Tcl files' directory and output directory. \
     \n\n Other options are: \
     \n   -r : if set, the input directories are processed recursively; \
@@ -71,7 +71,7 @@ SW: Ruff! $::EMENUP2 ... SW: $::EMTMP
 RE: Ruff! $::EMENUP2 ... RE: %B $::EMENUP2html
 
  R: Freewrap Tcl R: cd ~/PG/github/mulster
- R: Freewrap Tcl R: %Q FREEWRAP " Want to get freewrapped Tcl executables?"
+ R: Freewrap Tcl R: %q FREEWRAP " Want to get freewrapped Tcl executables?"
 SW: Freewrap Tcl SW: tclsh mulster.tcl -b 0 tasks/mulster-freewrap
  R: Freewrap Tcl R: cd ~/PG/github/freewrap
  R: Freewrap Tcl R: ./linux64/freewrap ./e_menu/s_menu.tcl -w ./linux64/freewrap -forcewrap -o ./e_menu/s_menu

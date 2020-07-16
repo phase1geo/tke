@@ -73,18 +73,17 @@ set text [$w get 1.0 end]
 if {[catch {set fs [font configure [$w cget -font] -size]}]} {set fs 10}
 $w tag config tagRSM -font "-family \"$::apave::_CS_(textFont)\" -weight bold -size $fs"
 foreach line [split $text \n] {incr il
+$w tag remove tagRSM $il.0 $il.end
 set nomarkers 1
-foreach marker [::em::allMarkers] {lassign [regexp -indices -inline \s*${marker}(.*)${marker}.* $line] - pp
-if {$pp ne ""} {set nomarkers 0
-lassign $pp p1 p2
-$w tag add tagRSM $il.$p1 [$w index "$il.$p2 + 1 chars"]
+foreach marker [::em::allMarkers] {if {[string first $marker [string trimleft $line]]!=0} continue
+set p1 [string first $marker $line]
+set p2 [string first $marker $line $p1+1]
+if {$p2>$p1} {set nomarkers 0
+$w tag add tagRSM $il.[expr {$p1+[string length $marker]}] [$w index "$il.$p2 +0 chars"]
 break}}
-if {$nomarkers} {foreach section {MENU OPTIONS HIDDEN} {lassign [regexp -indices -inline "^\\s*(\\\[${section}\\\]).*" $line] - pp
-if {$pp ne ""} {set nomarkers 0
-lassign $pp p1 p2
-$w tag add tagRSM $il.$p1 [$w index "$il.$p2 + 1 chars"]
-break}}}
-if {$nomarkers} {$w tag remove tagRSM $il.0 [$w index "$il.0 lineend"]}}}
+if {$nomarkers} {foreach section {MENU OPTIONS HIDDEN} {if {[string trimleft $line] eq "\[$section\]"} {set nomarkers 0
+$w tag add tagRSM $il.0 $il.end
+break}}}}}
 proc ::em::menuTextBrackets {w fg bg} {foreach ev {Enter KeyRelease ButtonRelease} {bind $w <$ev> [list + ::em::highlightBrackets $w $fg $bg]}}
 proc ::em::highlightBrackets {w fg bg} {$w tag delete tagBRACKET
 $w tag delete tagBRACKETERR
