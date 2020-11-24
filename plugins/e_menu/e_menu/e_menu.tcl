@@ -1,5 +1,6 @@
 #! /usr/bin/env tclsh
-namespace eval ::em {variable em_version "e_menu v3.0.1"
+package require Tk
+namespace eval ::em {variable em_version "e_menu v3.2.4"
 variable solo [expr {[info exist ::argv0] && [file normalize $::argv0] eq [file normalize [info script]]} ? 1 : 0]
 variable argv0
 if {[info exist ::argv0]} {set argv0 [file normalize $::argv0]} {set argv0 [info script]}
@@ -8,7 +9,8 @@ variable argc; if {[info exist ::argc]} {set argc $::argc} {set argc 0}
 variable exedir [file normalize [file dirname $argv0]]
 if {[info exists ::e_menu_dir]} {set exedir $::e_menu_dir}
 variable srcdir [file join $exedir src]
-if {!$solo && [info exists ::argv0]} {append em_version " / [file tail $::argv0]"}}
+if {[info exists ::argv0]} {if {$solo} {catch {source [file join $::em::srcdir baltip baltip.tcl]}
+} else {append em_version " / [file tail $::argv0]"}}}
 if {[catch {source [file join $::em::srcdir e_help.tcl]} e]} {set ::em::srcdir [file join [pwd] src]
 if {[catch {source [file join $::em::srcdir e_help.tcl]} e2]} {puts "$e\n\n$e2\n\nPossibly, there is an error in e_help.tcl"
 exit}}
@@ -32,11 +34,14 @@ if {$com0 eq "cd"} {::em::vip comm
 } elseif {[set com1 [auto_execok $com0]] ne ""} {exec $com1 {*}[lrange $clst 1 end] &
 } else {M Can't find $com0}}}}
 proc EXIT {} {::em::on_exit}
-namespace eval ::em {variable menuttl "$::em::em_version"
+namespace eval ::em {proc init_arrays {} {uplevel 1 {foreach ar {pars itnames bgcolr ar_s09 ar_u09 ar_i09 ar_geany ar_tformat ar_macros} {catch {array unset ::em::$ar}
+variable $ar; array set ::em::$ar [list]}}}
+variable menuttl "$::em::em_version"
 variable thisapp emenuapp
 variable appname $::em::thisapp
 variable fs 9
-variable font1 "TkHeadingFont" font2 "TkDefaultFont" font3 ""
+variable font1 [font config "TkSmallCaptionFont"]
+variable font2 [font config "TkDefaultFont"]
 variable viewed 40
 variable maxitems 64
 variable timeafter 10
@@ -68,7 +73,7 @@ variable extraspaces "      " extras true
 variable ncmd 0
 variable lasti 1 savelasti -1
 variable minwidth 0
-foreach ar {pars itnames bgcolr ar_s09 ar_u09 ar_i09 ar_geany ar_tformat ar_macros} {variable $ar; array set $ar [list]}
+init_arrays
 variable itviewed 0
 variable geometry "" ischild 0
 variable menufile [list 0] menufilename "" menuoptions ""
@@ -92,7 +97,8 @@ variable ismenuvars 0 optsFromMenu 1
 variable linuxconsole ""
 variable insteadCSlist [list]
 variable source_addons true
-variable empool [list]}
+variable empool [list]
+variable hili no}
 proc ::em::pool_item_create {} {set poolitem [list]
 foreach v [info vars ::em::*] {if {$v ne "::em::empool"} {if {[array exists $v]} {set t array
 set vval [array get $v]
@@ -117,7 +123,8 @@ source [file join $::em::srcdir e_addon.tcl]}
 $func {*}$args}
 proc ::em::insteadCS {{replacingCS "_?_"}} {if {$replacingCS eq "_?_"} {set replacingCS $::em::insteadCSlist}
 return [expr {[llength $replacingCS]>=14}]}
-proc ::em::theming_pave {} {if {[::em::insteadCS]} {set themecolors [list $::em::clrfg $::em::clrbg $::em::clrfE $::em::clrbE $::em::clrfS $::em::clrbS grey $::em::clrbg $::em::clrcc $::em::clrht $::em::clrhh $::em::fI $::em::bI $::em::fM $::em::bM]
+proc ::em::theming_pave {} {if {!$::em::solo} return
+if {[::em::insteadCS]} {set themecolors [list $::em::clrfg $::em::clrbg $::em::clrfE $::em::clrbE $::em::clrfS $::em::clrbS grey $::em::clrbg $::em::clrcc $::em::clrht $::em::clrhh $::em::fI $::em::bI $::em::fM $::em::bM]
 ::apave::paveObj themeWindow . {*}$themecolors false
 } else {set themecolors [list $::em::clrinaf $::em::clrinab $::em::clrtitf $::em::clrtitb $::em::clractf $::em::clractb grey $::em::clrinab $::em::clrcurs $::em::clrhotk $::em::clrhelp $::em::fI $::em::bI $::em::fM $::em::bM]}
 ::apave::paveObj themeWindow . {*}$themecolors [expr {![::em::insteadCS]}]
@@ -156,14 +163,16 @@ if {![winfo exists .em.fr.win.fr$i.butt]} return
 lassign [split [winfo geom .em.fr.win] +] -> x1 y1
 lassign [split [winfo geom .em.fr.win.fr$i] +x] w - x2 y2
 lassign [split [winfo geom .em.fr.win.fr$i.butt] +x] - h x3 y3
-event generate .em <Motion> -warp 1 -x [expr $x1+$x2+$x3+$w/2] -y [expr $y1+$y2+$y3+$h-5]}
+if {$::em::solo} {event generate .em <Motion> -warp 1 -x [expr $x1+$x2+$x3+$w/2] -y [expr $y1+$y2+$y3+$h-5]}}
 proc ::em::for_buttons {proc} {set ::em::isep 0
 for {set j $::em::begin} {$j < $::em::ncmd} {incr j} {uplevel 1 "set i $j; set b .em.fr.win.fr$j.butt; $proc"}}
 proc ::em::get_seltd {s1} {return [lindex [array get ::em::pars $s1] 1]}
 proc ::em::silent_mode {amp} {set silent [string first $::em::R_mute " $amp"]
 if {$silent > 0} {set amp [string map [list $::em::R_mute ""] "$amp"]}
 return [list $amp $silent]}
-proc ::em::read_menufile {} {set menudata [read [set ch [open $::em::menufilename]]]
+proc ::em::read_menufile {} {set ch [open $::em::menufilename]
+chan configure $ch -encoding utf-8
+set menudata [read $ch]
 set menudata [split [string trimright $menudata "\n"] "\n"]
 close $ch
 return $menudata}
@@ -271,7 +280,13 @@ set ::em::_tmp "xterm"
 foreach {o v s} {-fs fs tf -geometry geo tg -title ttl _tmp} {if {[string first $o $tpars]>=0} {set $v ""} {set $v "$o [set ::em::$s]"}}
 exec -ignorestderr {*}$term {*}$lang {*}$fs {*}$geo {*}$ttl {*}$tpars -e {*}$composite}
 proc ::em::term {sel amp {term ""}} {if {[string match "xterm *" "$::em::linuxconsole "]} {::em::xterm $sel $amp
-} else {set composite "$::em::lin_console $sel $amp"
+} else {if {[string match "qterminal *" "$::em::linuxconsole "]} {set sel2 [string map {\\n \n} $sel]
+set sel ""
+foreach l [split $sel2 \n] {set l2 [string trimleft $l]
+if {[string match "#*" $l2] || $l2 eq ""} continue
+if {[string match "if *" $l2] || [string match "then" $l2] || [string match "else" $l2] || [string match "while *" $l2] || [string match "for *" $l2]} {append sel $l " "
+} else {append sel $l " ; "}}}
+set composite "$::em::lin_console $sel $amp"
 exec -ignorestderr {*}$::em::linuxconsole -e {*}$composite}}
 proc ::em::shell0 {sel amp {silent -1}} {set ret true
 catch {set sel [subst -nobackslashes -nocommands $sel]}
@@ -296,17 +311,21 @@ exec -ignorestderr {*}$term --geometry=$::em::tg -e {*}$composite
 set e "Not found lxterminal nor xterm.\nInstall any."}}
 if {$silent < 0 && !$ret} {em_message "ERROR of running\n\n$sel\n\n$e"}
 return $ret}
-proc ::em::run_Tcl_code {sel {dosubst false}} {if {[string first "%C" $sel] == 0} {if {$dosubst} {prepr_pn sel}
-try {set sel [string range $sel 3 end]
+proc ::em::run_Tcl_code {sel {dosubst false}} {if {[string first "%C" $sel] == 0} {if {[catch {set sel [string range $sel 3 end]
+if {$dosubst} {prepr_pn sel
+set sel [subst -nobackslashes -nocommands $sel]}
 if {[string match "eval *" $sel]} {{*}$sel
-} else {eval $sel}}
+} else {eval $sel}
+} e]} {em_message "ERROR of running\n\n$sel\n\n$e"
+::em::addon restart_e_menu}
 return true}
 return false}
 proc ::em::execom {comm} {set argm [lrange $comm 1 end]
 set comm1 [lindex $comm 0]
-set comm2 [auto_execok $comm1]
+if {$comm1 eq "%O"} {::apave::openDoc $argm
+} else {set comm2 [auto_execok $comm1]
 if {[catch {exec $comm2 {*}$argm} e]} {if {$comm2 eq ""} {return "couldn't execute \"$comm1\": no such file or directory"}
-return $e}
+return $e}}
 return ""}
 proc ::em::run0 {sel amp silent} {if {![vip sel]} {if {[lindex [set _ [checkForWilds sel]] 0]} {return [lindex $_ 1]
 } elseif {[run_Tcl_code $sel]} {} elseif {[string first "%I " $sel] == 0} {return [::em::addon input $sel]
@@ -339,7 +358,7 @@ if {$pr ne ""} {{*}$pr}
 prepr_09 itname ::em::ar_i09 "i" $inc
 prepr_idiotic itname 0
 $b configure -text [set comtitle $ornam$itname]
-tooltip::tooltip $b "$comtitle"}}}}
+catch {::baltip tip $b "$comtitle"}}}}}
 proc ::em::update_buttons {{pr ""}} {for_buttons {update_itname $i 0 $pr}}
 proc ::em::update_buttons_pn {} {update_buttons "prepr_pn itname"}
 proc ::em::update_buttons_dt {} {update_buttons_pn
@@ -448,6 +467,7 @@ return $ldir}
 proc ::em::get_P_ {} {return [::eh::get_underlined_name $::em::workdir]}
 proc ::em::read_f_file {} {if {$::em::filecontent=={} && [info exists ::em::ar_geany(f)]} {if {![file isfile $::em::ar_geany(f)] || [file size $::em::ar_geany(f)]>1048576 || [catch {set chan [open $::em::ar_geany(f)]}]} {set ::em::filecontent -
 return 0}
+chan configure $chan -encoding utf-8
 while {[gets $chan st]>=0} {lappend ::em::filecontent $st}
 close $chan}
 return [llength $::em::filecontent]}
@@ -538,6 +558,10 @@ prepr_1 pn "ms" $::em::srcdir
 prepr_1 pn "m"  $::em::exedir
 prepr_1 pn "s"  $::em::seltd
 prepr_1 pn "u"  $::em::useltd
+prepr_1 pn "+"  $::em::pseltd
+prepr_1 pn "qq" $::em::qseltd
+prepr_1 pn "dd" $::em::dseltd
+prepr_1 pn "ss" $::em::sseltd
 prepr_1 pn "lg" [::eh::get_language]
 lassign [get_AR] AR RF
 prepr_1 pn "AR" $AR
@@ -602,6 +626,7 @@ set seltd [file normalize [get_menuname $seltd]]
 if {[catch {set chan [open "$seltd"]} e]} {::em::addon create_template $seltd
 set ::em::start0 0
 return}
+chan configure $chan -encoding utf-8
 set ::em::menufilename "$seltd"
 set ::em::menufile [list 0]}
 set prname "?"
@@ -724,20 +749,21 @@ set commands [lreplace $commands $i $i $comm]}
 set name [prepr_idiotic name 0]
 if {[set l [string length $name]] > $::em::itviewed}  {set ::em::itviewed $l}}
 if {$::em::itviewed < 5} {set ::em::itviewed $::em::viewed}}
-set ::em::font1a "\"[string trim $::em::font1 \"]\" [expr {$::em::fs-1}]"
-set ::em::font2a "\"[string trim $::em::font2 \"]\" $::em::fs"
+set fs [expr {min(9,[::apave::paveObj basicFontSize])}]
+set ::em::font1a "$::em::font1 -size $fs"
+set ::em::font2a "$::em::font2 -size $::em::fs"
+set ::em::font3a "$::em::font2 -size [expr {$::em::fs-1}]"
 checkbutton .em.fr.cb -text "On top" -variable ::em::ontop -fg $::em::clrhotk -bg $::em::clrtitb -takefocus 0 -command {::em::toggle_ontop} -font $::em::font1a
-grid [label .em.fr.h0 -text [string repeat " " [expr $::em::itviewed -3]] -bg $::em::clrinab] -row 0 -column 0 -sticky nsew
-grid .em.fr.cb -row 0 -column 1 -sticky ne
+if {$::em::ornament != -1} {grid [label .em.fr.h0 -text [string repeat " " [expr $::em::itviewed -3]] -bg $::em::clrinab] -row 0 -column 0 -sticky nsew
+grid .em.fr.cb -row 0 -column 1 -sticky ne}
 label .em.fr.win -bg $::em::clrinab -fg $::em::clrinab -state disabled -takefocus 0
 if {[isheader]} {grid [label .em.fr.h1 -text "Use arrow and space keys to take action" -font $::em::font1a -fg $::em::clrhelp -bg $::em::clrinab -anchor s] -columnspan 2 -sticky nsew
 grid [label .em.fr.h2 -text "(or press hotkeys)\n" -font $::em::font1a -fg $::em::clrhotk -bg $::em::clrinab -anchor n] -columnspan 2 -sticky nsew}
-tooltip::tooltip .em.fr.cb "Press Ctrl+T to toggle"
-tooltip::tooltip delay 1000
+catch {::baltip tip .em.fr.cb "Press Ctrl+T to toggle"}
 if {[isheader]} {set hlist {.em.fr.h0 .em.fr.h1 .em.fr.h2}} {set hlist {.em.fr.h0}}
-foreach l $hlist {bind $l <ButtonPress-1>   {::eh::mouse_drag .em 1 %x %y; ::em::focus_button $::em::lasti true}
+foreach l $hlist {if {[winfo exists $l]} {bind $l <ButtonPress-1>   {::eh::mouse_drag .em 1 %x %y; ::em::focus_button $::em::lasti true}
 bind $l <Motion>          {::eh::mouse_drag .em 2 %x %y}
-bind $l <ButtonRelease-1> {::eh::mouse_drag .em 3 %x %y}}
+bind $l <ButtonRelease-1> {::eh::mouse_drag .em 3 %x %y}}}
 return true}
 proc ::em::repaint_menu {} {catch {::em::initcolorscheme
 for_buttons {$b configure -fg [color_button $i] -bg [color_button $i bg] -borderwidth $::em::bd -relief flat
@@ -756,14 +782,12 @@ set ::em::skipfocused 0
 return}
 set ::em::skipfocused 0
 if {$focused && ![isMenuFocused]} {foreach wc [array names ::em::bgcolr] {if {[winfo exists $wc]} {if {![string match ".em.fr.win.fr*butt" $wc]} {catch {$wc configure -bg $::em::bgcolr($wc)}}}}
-::tooltip::tooltip on
 set ::em::skipfocused 1
 ::em::repaint_menu
 } elseif {!$focused && [isMenuFocused]} {foreach w [winfo children .em.fr] {shadow_win $w
 foreach wc [winfo children $w] {shadow_win $wc
 foreach wc2 [winfo children $wc] {shadow_win $wc2}}}
 catch {.em.fr.win.fr$::em::lasti.butt configure -fg $::em::clrhotk}
-::tooltip::tooltip off
 set ::eh::mx [set ::eh::my 0]
 update}}
 proc ::em::prepare_wilds {per2} {if {[llength [array names ::em::ar_geany d]] != 1} {set ::em::ar_geany(d) $::em::workdir}
@@ -787,6 +811,7 @@ proc ::em::initPD {seltd {doit 0}} {if {$::em::workdir eq "" || $doit} {if {[fil
 prepr_win ::em::workdir "M/"
 catch {cd $::em::workdir}}
 if {[llength $::em::prjdirlist]==0 && [file isfile $seltd]} {set ch [open $seltd]
+chan configure $ch -encoding utf-8
 foreach wd [split [read $ch] "\n"] {if {[string trim $wd] ne "" && ![string match "\#*" $wd]} {lappend ::em::prjdirlist $wd}}
 close $ch}}
 proc ::em::init_header {s1 seltd} {set ::em::seltd [string map {\r "" \n ""} $::em::seltd]
@@ -822,7 +847,8 @@ PD= {set ::em::PD $seltd
 initPD $seltd}
 PN= {set ::em::prjname $seltd
 set ::em::prjset 2}
-s= {::em::init_header $s1 $seltd}
+s= {::em::init_header $s1 $seltd
+set ::em::pseltd [::eh::escape_links $seltd]}
 h= {set ::eh::hroot [file normalize $seltd]
 set ::em::offline true}
 m= {prepare_wilds $resetpercent2
@@ -830,10 +856,11 @@ m= {prepare_wilds $resetpercent2
 b= {set ::eh::my_browser $seltd}
 sh= {set ::em::shadowed [::apave::getN $seltd 0]}
 cs= {if {[::em::insteadCS $seltd]} {set ::em::ncolor [::apave::paveObj csAdd $seltd true]}}
-c= {if {![::em::insteadCS]} {set ::em::ncolor [::apave::getN $seltd -2 -2 $::apave::_CS_(MAXCS)]
+c= {set nc [::apave::getN $seltd -2 -2 $::apave::_CS_(MAXCS)]
+if {![::em::insteadCS] || $nc<0} {if {[set ::em::ncolor $nc]<0} {set ::em::insteadCSlist [list]}
 ::em::initdefaultcolors}}
-o= {set ::em::ornament [::apave::getN $seltd 0 0 3]
-if {$::em::ornament>1} {set ::em::font2 Mono}}
+o= {set ::em::ornament [::apave::getN $seltd 0 -1 3]
+if {$::em::ornament>1} {set ::em::font2 "-family [::apave::paveObj basicTextFont]"}}
 g= {lassign [split $seltd x+] w h x y
 if {$w ne "" && $x ne "" && $y ne ""} {set ::em::geometry ${w}x0+$x+$y
 } else {set ::em::geometry $seltd}}
@@ -864,7 +891,7 @@ t9= {set ::em::ar_tformat([string range $s1 0 1]) $seltd}
 fs= {set ::em::fs [::apave::getN $seltd $::em::fs]}
 f1= {set ::em::font1 $seltd}
 f2= {set ::em::font2 $seltd}
-f3= {set ::em::font3 $seltd}
+f3= {::apave::paveObj basicTextFont $seltd}
 qq= {set ::em::qseltd [::eh::escape_quotes $seltd]}
 dd= {set ::em::dseltd [::eh::delete_specsyms $seltd]}
 ss= {set ::em::sseltd [string trim $seltd]}
@@ -892,15 +919,13 @@ prepare_wilds $resetpercent2
 set ::em::ncmd [llength $::em::commands]
 initPD [pwd]
 get_menutitle}
-proc ::em::colorlist {} {return [list clrtitf clrinaf clrtitb clrinab clrhelp clractb clractf clrcurs clrgrey clrhotk fI bI fM bM]}
-proc ::em::unsetdefaultcolors {} {foreach c {fg bg fE bE fS bS fI bI ht hh cc gr fM bM} {catch {unset ::em::clr$c}}}
+proc ::em::colorlist {} {return [list clrtitf clrinaf clrtitb clrinab clrhelp clractb clractf clrcurs clrgrey clrhotk fI bI fM bM fW bW]}
+proc ::em::unsetdefaultcolors {} {foreach c {fg bg fE bE fS bS fI bI ht hh cc gr fM bM fW bW} {catch {unset ::em::clr$c}}}
 proc ::em::initcolorscheme {{nothemed false}} {if {$nothemed} unsetdefaultcolors
 set clrs [::em::colorlist]
 lassign [::apave::paveObj csGet $::em::ncolor] {*}$clrs
 foreach clr $clrs {set ::em::$clr [set $clr]}
 ::apave::paveObj basicFontSize $::em::fs
-if {$::em::font3 ne ""} {::apave::paveObj basicTextFont $::em::font3
-} else {::apave::paveObj basicTextFont $::em::font1}
 if {[info exist ::em::clrfg]} {set ::em::clrinaf $::em::clrfg}
 if {[info exist ::em::clrbg]} {set ::em::clrinab $::em::clrbg}
 if {[info exist ::em::clrfE]} {set ::em::clrtitf $::em::clrfE}
@@ -915,6 +940,7 @@ if {[info exist ::em::clrfI]} {set ::em::fI $::em::clrfI}
 if {[info exist ::em::clrbI]} {set ::em::bI $::em::clrbI}
 if {[info exist ::em::clrfM]} {set ::em::fM $::em::clrfM}
 if {[info exist ::em::clrbM]} {set ::em::bM $::em::clrbM}
+catch {::baltip config -fg $::em::fW -bg $::em::bW -padding 1 -padx 6 -pady 5 -alpha 0.9}
 if {[winfo exist .em.fr.win]} {.em configure -bg [.em.fr.win cget -bg]
 } else {. configure -bg $::em::clrinab}}
 proc ::em::initdefaultcolors {} {if {$::em::ncolor>=$::apave::_CS_(MINCS) && $::em::ncolor<=$::apave::_CS_(MAXCS)} {lassign [::apave::paveObj csSet $::em::ncolor] ::em::clrfg ::em::clrbg ::em::clrfE ::em::clrbE ::em::clrfS ::em::clrbS ::em::clrhh ::em::clrgr ::em::clrcc}}
@@ -953,7 +979,7 @@ if {$::em::appN > 0} {set ::em::appname $::em::thisapp$::em::appN
 } else {;
 for {set ::em::appN 1} {$::em::appN < 64} {incr ::em::appN} {set ::em::appname $::em::thisapp$::em::appN
 if {[catch {send -async $::em::appname {update idletasks}} e]} {break}}}
-tk appname $::em::appname
+if {$::em::solo} {tk appname $::em::appname}
 set imgArr {iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAYAAABbayygAAADAFBMVEUAAAD/AAAA/wD//wAAAP//
 AP8A///////b29u2traSkpJtbW1JSUkkJCTbAAC2AACSAABtAABJAAAkAAAA2wAAtgAAkgAAbQAA
 SQAAJADb2wC2tgCSkgBtbQBJSQAkJAAAANsAALYAAJIAAG0AAEkAACTbANu2ALaSAJJtAG1JAEkk
@@ -986,7 +1012,7 @@ bind .em <Control-$r> {::em::addon reread_init}
 bind .em <Control-$d> {::em::addon destroy_emenus}
 bind .em <Control-$p> {::em::addon change_PD}}
 bind .em <Button-3>  {::em::addon popup %X %Y}
-bind .em <F1> {::em::addon help}
+bind .em <F1> {::em::addon about}
 update}
 proc ::em::initdk {} {if {$::em::dk ne "" && ![::iswindows]} {wm withdraw .em
 wm attributes .em -type $::em::dk}}
@@ -1020,15 +1046,15 @@ prepr_idiotic comtitle 0
 lassign [s_assign comtitle 0] p1 p2
 if {$p2 ne ""} {set pady [::apave::getN $p1 0]
 if {$pady < 0} {grid [ttk::separator .em.fr.win.lu$i -orient horizontal] -pady [expr -$pady-1] -sticky we -column 0 -columnspan 2 -row [expr $i+$::em::isep]
-} else {grid [label .em.fr.win.lu$i -font "Sans 1" -fg $::em::clrinab -bg $::em::clrinab] -pady $pady -column 0 -columnspan 2 -row [expr $i+$::em::isep]}
+} else {grid [label .em.fr.win.lu$i -font "Sans 1" -fg $::em::clrinab -bg $::em::clrinab] -pady $pady -sticky nsw -column 0 -columnspan 2 -row [expr $i+$::em::isep]}
 incr ::em::isep}
 ttk::frame .em.fr.win.fr$i
 if {[string first "M" [lindex $comm 3]] == 0} {set img "-image $::em::img"
 button .em.fr.win.fr$i.arr {*}$img -relief flat -overrelief flat -highlightthickness $::em::b0 -bg [color_button $i bg] -command "$b invoke"
 } else {set img ""}
-button $b -text "$comtitle" -pady $::em::b1 -padx $::em::b2 -anchor w -font $::em::font2a -width $::em::itviewed -borderwidth $::em::bd -relief flat -overrelief flat -highlightthickness $::em::b0 -fg [color_button $i] -bg [color_button $i bg] -command "$prbutton" -activeforeground [color_button $i fg] -activebackground [color_button $i bg]
-if {$img eq "" && [string len $comtitle] > [expr $::em::itviewed * $::em::ratiomin]} {tooltip::tooltip $b "$comtitle"}
-grid [label .em.fr.win.l$i -text $hotkey -font "$::em::font1a bold" -bg $::em::clrinab -fg $::em::clrhotk] -column 0 -row [expr $i+$::em::isep] -sticky sew
+button $b -text "$comtitle" -pady $::em::b1 -padx $::em::b2 -anchor nw -font $::em::font2a -width $::em::itviewed -borderwidth $::em::bd -relief flat -overrelief flat -highlightthickness $::em::b0 -fg [color_button $i] -bg [color_button $i bg] -command "$prbutton" -activeforeground [color_button $i fg] -activebackground [color_button $i bg]
+if {$img eq "" && [string len $comtitle] > [expr $::em::itviewed * $::em::ratiomin]} { catch {::baltip tip $b "$comtitle"}}
+grid [label .em.fr.win.l$i -text $hotkey -font "$::em::font3a -weight bold" -bg $::em::clrinab -fg $::em::clrhotk] -column 0 -row [expr $i+$::em::isep] -sticky nsew
 grid .em.fr.win.fr$i -column 1 -row  [expr $i+$::em::isep] -sticky ew -pady $::em::b3 -padx $::em::b4
 pack $b -expand 1 -fill both -side left
 if {$img ne ""} {pack .em.fr.win.fr$i.arr -expand 1 -fill both
@@ -1133,7 +1159,8 @@ catch {wm deiconify .em ; raise .em}
 set ::em::start0 0
 ::apave::shadowAllowed true
 repaintForWindows}
-proc ::em::initall {} {::em::initdefaultcolors
+proc ::em::initall {} {::em::init_arrays
+::em::initdefaultcolors
 ::em::initcolorscheme
 ::em::initcomm
 ::em::initmain

@@ -181,6 +181,7 @@ default {append options(fn) " $opt $val"}}}
 if {[lsearch {1 0} $options(-s)]==-1 || [lsearch {1 0 -1} $options(-v)]==-1} {exit_on_error}
 set options(fn) [string trim $options(fn)]
 if {[catch {set ch [open $options(fn)]}]} {exit_on_error "\"$options(fn)\" not open"}
+chan configure $ch -encoding utf-8
 set cnt [split [read $ch] \n]
 close $ch
 set isany [set isopen 0]
@@ -191,6 +192,7 @@ if {$isany && !$sll} {if {[is_quoted_line $line]==1} { set isopen 1 }
 if {[is_quoted_line $line]==2} { set isopen 0 }}
 if {$sll} {if {!$isany || $isopen} {set fn [string trim [string range $line $sll-2 end]]
 if {[catch {set ch [open $fn]}]} {exit_on_error "PWD: [pwd]\n\"$fn\" not open by\n $line"}
+chan configure $ch -encoding utf-8
 foreach l [split [read $ch] \n] { lappend options(cnt) $l }
 close $ch}
 } else {lappend options(cnt) $line}}}

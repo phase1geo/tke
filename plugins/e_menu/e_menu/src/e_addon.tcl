@@ -27,6 +27,15 @@ if {$plistName ne ""} {lappend plist [expr {$begidx+$idx}]}}
 incr begidx [incr idx]
 set str [string range $str $idx end]}
 return $icnt}
+proc ::em::countCh2 {str ch {plistName ""}} {if {$plistName ne ""} {upvar 1 $plistName plist
+set plist [list]}
+set icnt [set begidx 0]
+while {[set idx [string first $ch $str]] >= 0} {set nidx $idx
+incr icnt
+if {$plistName ne ""} {lappend plist [expr {$begidx+$idx}]}
+incr begidx [incr idx]
+set str [string range $str $idx end]}
+return $icnt}
 proc ::em::matchedBrackets {inplist curpos schar dchar dir} {lassign [split $curpos .] nl nc
 if {$dir==1} {set rng1 "$nc end"} else {set rng1 "0 $nc"; set nc 0}
 set retpos ""
@@ -35,8 +44,8 @@ incr nl -1
 set inplen [llength $inplist]
 while {$nl>=0 && $nl<$inplen} {set line [lindex $inplist $nl]
 set line [string range $line {*}$rng1]
-set sc [countCh $line $schar slist]
-set dc [countCh $line $dchar dlist]
+set sc [countCh2 $line $schar slist]
+set dc [countCh2 $line $dchar dlist]
 set plen [llength [set plist [mergePosList -1 $slist $dlist]]]
 for {set i [expr {$dir>0?0:($plen-1)}]} {$i>=0 && $i<$plen} {incr i $dir} {lassign [lindex $plist $i] src pos
 if {$src} {incr dcount} {incr scount}
@@ -59,7 +68,7 @@ if {($::em::solo || [is_s_menu]) && ![is_child]} {.em.emPopupMenu add command {*
 .em.emPopupMenu add command {*}[iconA plus] -accelerator Ctrl+> -label "Increase the menu's width" -command {::em::win_width 1}
 .em.emPopupMenu add command {*}[iconA minus] -accelerator Ctrl+< -label "Decrease the menu's width" -command  {::em::win_width -1}
 .em.emPopupMenu add separator
-.em.emPopupMenu add command {*}[iconA info] -accelerator F1 -label "About" -command ::em::help
+.em.emPopupMenu add command {*}[iconA info] -accelerator F1 -label "About" -command ::em::about
 .em.emPopupMenu add separator
 .em.emPopupMenu add command {*}[iconA exit] -accelerator Esc -label "Exit" -command ::em::on_exit
 .em.emPopupMenu configure -tearoff 0}
@@ -68,10 +77,9 @@ if {[winfo exist .em.emPopupMenu]} {destroy .em.emPopupMenu}
 ::em::createpopup
 ::apave::paveObj themePopup .em.emPopupMenu
 tk_popup .em.emPopupMenu $X $Y}
-proc ::em::menuTextModified {w} {set curpos [$w index insert]
+proc ::em::menuTextModified {w boldfont} {set curpos [$w index insert]
 set text [$w get 1.0 end]
-if {[catch {set fs [font configure [$w cget -font] -size]}]} {set fs 10}
-$w tag config tagRSM -font "-family \"$::apave::_CS_(textFont)\" -weight bold -size $fs"
+$w tag config tagRSM -font $boldfont
 foreach line [split $text \n] {incr il
 $w tag remove tagRSM $il.0 $il.end
 set nomarkers 1
@@ -84,12 +92,63 @@ break}}
 if {$nomarkers} {foreach section {MENU OPTIONS HIDDEN} {if {[string trimleft $line] eq "\[$section\]"} {set nomarkers 0
 $w tag add tagRSM $il.0 $il.end
 break}}}}}
-proc ::em::menuTextBrackets {w fg bg} {foreach ev {Enter KeyRelease ButtonRelease} {bind $w <$ev> [list + ::em::highlightBrackets $w $fg $bg]}}
-proc ::em::highlightBrackets {w fg bg} {$w tag delete tagBRACKET
+proc ::em::set_highlight_matches {w} {$w tag configure hilited -foreground #280000 -background #f88eca
+$w tag configure hilited2 -foreground #280000 -background #ff6587
+bind $w <Double-ButtonPress-1> [list ::em::highlight_matches $w]
+bind $w <KeyRelease> [list + ::em::unhighlight_matches $w]
+bind $w <Alt-Left> "::em::seek_highlight $w 0 ; break"
+bind $w <Alt-Right> "::em::seek_highlight $w 1 ; break"
+foreach {kq kw} {q w Q W} {bind $w <Alt-$kq> [list ::em::seek_highlight $w 2]
+bind $w <Alt-$kw> [list ::em::seek_highlight $w 3]}}
+proc ::em::get_highlighted {txt} {set err [catch {$txt tag ranges sel} sel]
+lassign $sel pos pos2
+if {!$err && [llength $sel]==2} {set sel [$txt get $pos $pos2]
+} else {if {$err || [string trim $sel]==""} {set pos  [$txt index "insert wordstart"]
+set pos2 [$txt index "insert wordend"]
+set sel [string trim [$txt get $pos $pos2]]
+if {![string is wordchar -strict $sel]} {set pos  [$txt index "insert -1 char wordstart"]
+set pos2 [$txt index "insert -1 char wordend"]
+set sel [$txt get $pos $pos2]}}}
+if {[string length $sel] == 0} {set pos ""}
+return [list $sel $pos $pos2]}
+proc ::em::highlight_matches {txt} {lassign [::em::get_highlighted $txt] sel pos
+if {$pos eq ""} return
+set lenList {}
+set posList [$txt search -all -count lenList -- "$sel" 1.0 end]
+foreach pos2 $posList len $lenList {if {$len eq ""} {set len [string length $sel]}
+set pos3 [$txt index "$pos2 + $len chars"]
+if {$pos2 == $pos} {lappend matches2 $pos2 $pos3
+} else {lappend matches1 $pos2 $pos3}}
+catch {$txt tag remove hilited 1.0 end
+$txt tag remove hilited2 1.0 end
+$txt tag add hilited {*}$matches1
+$txt tag add hilited2 {*}$matches2}
+set ::em::hili yes}
+proc ::em::unhighlight_matches {txt} {if {$::em::hili} {$txt tag remove hilited 1.0 end
+$txt tag remove hilited2 1.0 end
+set ::em::hili no}}
+proc ::em::seek_highlight {txt mode} {::em::unhighlight_matches $txt
+lassign [::em::get_highlighted $txt] sel pos pos2
+if {!$pos} return
+switch $mode {0 { # backward
+set nc [expr {[string length $sel] - 1}]
+set pos [$txt index "$pos - $nc chars"]
+set pos [$txt search -backwards -- $sel $pos 1.0]}
+1 { # forward
+set pos [$txt search -- $sel $pos2 end]}
+2 { # to first
+set pos [$txt search -- $sel 1.0 end]}
+3 { # to last
+set pos [$txt search -backwards -- $sel end 1.0]}}
+if {[string length "$pos"]} {::tk::TextSetCursor $txt $pos
+$txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]}}
+proc ::em::menuTextBrackets {w fg boldfont} {foreach ev {Enter KeyRelease ButtonRelease} {bind $w <$ev> [list + ::em::highlightBrackets $w $fg $boldfont]}}
+proc ::em::highlightBrackets {w fg boldfont} {$w tag delete tagBRACKET
 $w tag delete tagBRACKETERR
-$w tag config tagBRACKET -foreground $fg -background $bg
+$w tag config tagBRACKET -foreground $fg -font $boldfont
 $w tag config tagBRACKETERR -foreground white -background red
 set curpos [$w index insert]
+set curpos2 [$w index "insert -1 chars"]
 set ch [$w get $curpos]
 set lbr "\{(\["
 set rbr "\})\]"
@@ -98,14 +157,26 @@ set ir [string first $ch $rbr]
 set txt [split [$w get 1.0 end] \n]
 if {$il>-1} {set brcpos [matchedBrackets $txt $curpos [string index $lbr $il] [string index $rbr $il] 1]
 } elseif {$ir>-1} {set brcpos [matchedBrackets $txt $curpos [string index $rbr $ir] [string index $lbr $ir] -1]
+} elseif {[set il [string first [$w get $curpos2] $lbr]]>-1} {set curpos $curpos2
+set brcpos [matchedBrackets $txt $curpos [string index $lbr $il] [string index $rbr $il] 1]
+} elseif {[set ir [string first [$w get $curpos2] $rbr]]>-1} {set curpos $curpos2
+set brcpos [matchedBrackets $txt $curpos [string index $rbr $ir] [string index $lbr $ir] -1]
 } else {return}
 if {$brcpos ne ""} {$w tag add tagBRACKET $brcpos
 $w tag add tagBRACKET $curpos
 } else {$w tag add tagBRACKETERR $curpos}}
 proc ::em::edit {fname {prepost ""}} {set fname [string trim $fname]
-lassign [::apave::paveObj csGet] bg - fg
-if {$::em::editor eq ""} {set dialog [::apave::APaveInput new]
-set res [$dialog editfile $fname $::em::clrtitf $::em::clrinab $::em::clrtitf $prepost {*}[::em::theming_pave] -w {80 100} -h {10 24} -ro 0 -centerme .em -myown [list my TextCommandForChange %w "::em::menuTextModified %w" true "::em::menuTextBrackets %w $fg $bg"]]
+lassign [::apave::paveObj csGet] bg - fg  - - - - - - fgc
+if {$::em::editor eq ""} {set fs [::apave::paveObj basicFontSize]
+set bfont "[font configure TkFixedFont] -weight bold -size $fs"
+set dialog [::apave::APaveInput new]
+set ico [::apave::paveObj iconA none]
+set res [$dialog editfile $fname $::em::clrtitf $::em::clrinab $::em::clrtitf $prepost {*}[::em::theming_pave] -w {80 100} -h {10 24} -ro 0 -centerme .em -myown [list my TextCommandForChange %w "::em::menuTextModified %w {$bfont}" true "::em::menuTextBrackets %w $fgc {$bfont}"] -myown [list ::em::set_highlight_matches %w] -popup "\$pop add separator
+         \$pop add command -accelerator Alt+Q $ico \         -label \"Highlight First\" -command \"::em::seek_highlight %w 2\"
+         \$pop add command -accelerator Alt+W $ico \         -label \"Highlight Last\" -command \"::em::seek_highlight %w 3\"
+         \$pop add command -accelerator Alt+Left $ico \         -label \"Highlight Previous\" -command \"::em::seek_highlight %w 0\"
+         \$pop add command -accelerator Alt+Right $ico \         -label \"Highlight Next\" -command \"::em::seek_highlight %w 1\"
+         \$pop add command -accelerator 2Click $ico \         -label \"Highlight All\" -command \"::em::highlight_matches %w\""]
 $dialog destroy
 return $res
 } else {if {[catch {exec $::em::editor {*}$fname &} e]} {em_message "ERROR: couldn't call $::em::editor'\n
@@ -135,16 +206,17 @@ initcomm
 initmenu
 mouse_button $::em::lasti
 } else {repaintForWindows}}
-proc ::em::help {} {set textTags [list [list "red" " -font {-weight bold -size 12}     -foreground $::em::clractf -background $::em::clractb"]]
+proc ::em::about {} {set textTags [list [list "red" " -font {-weight bold -size 12}     -foreground $::em::clractf -background $::em::clractb"] [list "link" "::eh::browse %t@@https://%l"] [list "linkM" "::apave::openDoc %l@@e-mail: %l"] ]
+set width [expr {max(33,[string length $::em::argv0])}]
 set doc "https://aplsimple.github.io/en/tcl/e_menu"
 set dialog [::apave::APaveInput new]
 set res [$dialog misc info "About e_menu" "
   <red> $::em::em_version </red>
   [file dirname $::em::argv0] \n
   by Alex Plotnikov
-  aplsimple@gmail.com
-  https://aplsimple.github.io
-  https://chiselapp.com/user/aplsimple \n" "{Help:: $doc } 1 Close 0" 0 -t 1 -w 60 -tags textTags -head "\n Menu system for editors and file managers. \n" -centerme .em {*}[theming_pave]]
+  <linkM>aplsimple@gmail.com</linkM>
+  <link>aplsimple.github.io</link>
+  <link>chiselapp.com/user/aplsimple</link> \n" "{Help:: $doc } 1 Close 0" 0 -t 1 -w $width -scroll 0 -tags textTags -head "\n Menu system for editors and file managers. \n" -centerme .em {*}[theming_pave]]
 $dialog destroy
 if {[lindex $res 0]} {::eh::browse $doc}
 repaintForWindows}
@@ -160,9 +232,12 @@ if {$nap != $::em::appN} {::eh::destroyed $app}}}
 if {$::em::ischild || $::em::geometry eq ""} {destroy .}}
 repaintForWindows}
 proc ::em::change_PD_Spx {} {lassign [::apave::paveObj csGet $::em::ncolor] - fg - bg
-set ret "-selectforeground $fg -selectbackground $bg -fieldbackground $bg"
-[dialog LabMsg] configure -foreground $fg -background $bg -padding {16 5 16 5} -text "[::apave::paveObj csGetName $::em::ncolor]"
-return $ret}
+set labmsg [dialog LabMsg]
+set font [font configure TkFixedFont]
+set font [dict set font -size $::em::fs]
+set txt [::apave::paveObj csGetName $::em::ncolor]
+set txt [string range [append txt [string repeat " " 20]] 0 20]
+$labmsg configure -foreground $fg -background $bg -font $font -padding {16 5 16 5} -text $txt}
 proc ::em::change_PD {} {if {![file isfile $::em::PD]} {set em_message "  WARNING:
   \"$::em::PD\" isn't a file.
 
@@ -171,7 +246,7 @@ proc ::em::change_PD {} {if {![file isfile $::em::PD]} {set em_message "  WARNIN
 set fco1 ""
 } else {set em_message "
  Select a project directory from the list of file:\n $::em::PD  \n"
-set fco1 [list fco1 [list {Project:} {} [list -h 10 -state readonly -inpval [get_PD]]] "/@-RE {^(\\s*)(\[^#\]+)\$} {$::em::PD}/@" but1 [list {} {-padx 5} "-com {::em::edit {$::em::PD}; ::em::dialog         res .em -1} -takefocus 0 -tooltip {Click to edit $::em::PD}         -toprev 1 -image [::apave::iconImage OpenFile]"] {}]}
+set fco1 [list fco1 [list {Project:} {} [list -h 10 -state readonly -inpval [get_PD]]] "@@-RE {^(\\s*)(\[^#\]+)\$} {$::em::PD}@@" but1 [list {} {-padx 5} "-com {::em::edit {$::em::PD}; ::em::dialog         res .em -1} -takefocus 0 -tooltip {Click to edit\n$::em::PD}         -toprev 1 -image [::apave::iconImage file]"] {}]}
 if {[::iswindows]} {set dkst "disabled"
 set ::em::dk ""
 } else {set dkst "normal"}
@@ -179,34 +254,37 @@ append em_message "\n 'Color scheme' is -1 .. $::apave::_CS_(MAXCS) selected wit
 set sa [::apave::shadowAllowed 0]
 set ncolorsav $::em::ncolor
 set geo [wm geometry .em]
+set ornams [list {-1 None} { 0 Top line only} { 1 Header} { 2 Prompts} { 3 All}]
+switch $::em::ornament {-1 - 0 - 1 - 2 - 3 {set ornam [lindex $ornams [expr {$::em::ornament+1}]]}
+default {set ornam [lindex $ornams 0]}}
 ::apave::APaveInput create ::em::dialog .em
 set r -1
 while {$r == -1} {after idle ::em::change_PD_Spx
-set res [::em::dialog input "" "Project..." [list {*}$fco1 seh_1 {{} {-pady 10}} {} Spx [list "    Color scheme:" {} {-tvar ::em::ncolor -from -2 -to $::apave::_CS_(MAXCS) -w 5 -justify center -state $::em::noCS -msgLab {LabMsg {  Color Scheme 1}} -command "ttk::style configure TSpinbox {*}[::em::change_PD_Spx]"}] {} chb1 {{} {-padx 5} {-toprev 1 -t {Use it} -state $::em::noCS}} {0} seh_2 {{} {-pady 10}} {} ent2 {"Geometry of menu:"} "$geo" chb2 {{} {-padx 5} {-toprev 1 -t {Use it}}} {0} seh_3 {{} {-pady 10}} {} chbT {"    Type of menu:" {-expand 0} {-w 8 -t "topmost"}} $::em::ontop rad3 [list "                 " {-fill x -expand 1} "-state $dkst"] [list "$::em::dk" dialog dock desktop] chb3 {{} {-padx 5} {-toprev 1 -t {Use it}}} {0} ] -head $em_message -weight bold -centerme .em {*}[theming_pave]]
+set tip1 "Applied anyhow\nexcept for Default CS"
+set res [::em::dialog input "" "Project..." [list {*}$fco1 seh_1 {{} {-pady 10}} {} Spx [list "    Color scheme:" {} [list -tvar ::em::ncolor -from -2 -to $::apave::_CS_(MAXCS) -w 5 -justify center -state $::em::noCS -msgLab {LabMsg {  Color Scheme 1}} -command ::em::change_PD_Spx -tooltip $tip1]] {} chb1 {{} {-padx 5} {-toprev 1 -state $::em::noCS -t "Use it"}} {0} spx2 [list "       Font size:" {} [list -tvar ::em::fs -from 6 -to 32 -w 5 -justify center -msgLab {Lab_ {}} -command ::em::change_PD_Spx -tooltip $tip1]] {} chb12 {{} {-padx 5} {-toprev 1 -t "Use it"}} {0} seh_22 {{} {-pady 10}} {} cbx1 [list {        Ornament:} {} [list -state readonly -width 10 -tooltip $tip1]] [list $ornam {*}$ornams] chb22 {{} {-padx 5} {-toprev 1 -t "Use it"}} {0} seh_2 {{} {-pady 10}} {} ent2 {"Geometry of menu:"} "$geo" chb2 {{} {-padx 5} {-toprev 1 -t "Use it"}} {0} seh_3 {{} {-pady 10}} {} chbT {"    Type of menu:" {-expand 0} {-w 8 -t "topmost"}} $::em::ontop rad3 [list "                 " {-fill x -expand 1} "-state $dkst"] [list "$::em::dk" dialog dock desktop] chb3 {{} {-padx 5} {-toprev 1 -t "Use it"}} {0} ] -head $em_message -weight bold -centerme .em {*}[theming_pave]]
 set r [lindex $res 0]}
 ::apave::shadowAllowed $sa
 set ::em::ncolor [::apave::getN $::em::ncolor $ncolorsav -2 $::apave::_CS_(MAXCS)]
-if {$r} {if {$fco1 eq ""} {lassign $res - - chb1 geo chb2 chbT dk chb3
-} else {lassign $res - PD - - chb1 geo chb2 chbT dk chb3}
+if {$r} {if {$fco1 eq ""} {lassign $res - - chb1 - chb12 orn chb22 geo chb2 chbT dk chb3
+} else {lassign $res - PD - - chb1 - chb12 orn chb22 geo chb2 chbT dk chb3}
+set orn [string trim [string range $orn 0 1]]
 if {$chb1} {::em::save_options c= $::em::ncolor}
+if {$chb12} {::em::save_options fs= $::em::fs}
 if {$chb2} {::em::save_options g= $geo}
+if {$chb22} {::em::save_options o= $orn}
 if {$chb3} {::em::save_options dk= $dk
 ::em::save_options t= $chbT}
-set ::em::dk $dk
-::em::initdk
-wm deiconify .em
-set ::em::argv [::apave::removeOptions $::em::argv dk=*]
 if {($fco1 ne "") && ([get_PD] ne $PD)} {set ::em::prjname [file tail $PD]
-set f "f $PD/*"
-set ::em::argv [::apave::removeOptions $::em::argv d=* f=* c=*]
-foreach {p a} [list d $PD {*}$f c $::em::ncolor] {lappend ::em::argv "${p}=${a}"}}
+set ::em::argv [::apave::removeOptions $::em::argv d=* f=*]
+foreach {o v} [list d $PD f "$PD/*"] {lappend ::em::argv "$o=\"$v\""}}
+set ::em::argv [::apave::removeOptions $::em::argv c=* fs=* o=* dk=* t=*]
+foreach {o v} [list c $::em::ncolor fs $::em::fs o $orn dk $dk t $chbT] {lappend ::em::argv "$o=$v"}
 set ::em::argc [llength $::em::argv]
+wm deiconify .em
 if {$::em::ncolor>-2} {set ::em::optsFromMenu 0
 set instead [::em::insteadCS]
 array unset ::em::ar_geany
 set ::em::insteadCSlist [list]
-set ::em::argv [::apave::removeOptions $::em::argv c=*]
-lappend ::em::argv c=$::em::ncolor
 if {$instead} {set ::em::argv [::apave::removeOptions $::em::argv fg=* bg=* fE=* bE=* fS=* bS=* cc=* fI=* bI=* fM=* bM=* ht=* hh=* gr=*]
 set ::em::argc [llength $::em::argv]
 initcolorscheme true
@@ -257,9 +335,8 @@ if {$i1>0 && $i1<$i2} {set pos "[string range $cmd $i1+4 $i2-1]"
 set cmd [string range $cmd $i2+1 end]}}
 } elseif {$line eq {[MENU]} || $line eq {[HIDDEN]}} {set opt 0}}
 set dialog [::apave::APaveInput new]
-if {$::em::ontop} {set top "-ontop 1"} {set top ""}
 set cmd [string map {"|!|" "\n"} $cmd]
-set res [$dialog misc "" "EDIT: $mark" "$cmd" {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 -pos $pos {*}[::em::theming_pave] {*}$top -head "UNCOMMENT usable commands, COMMENT unusable ones.\nUse  \\\\\\\\     instead of  \\\\  in patterns." -family Times -hsz 14 -size 12 -g $geo]
+set res [$dialog misc "" "EDIT: $mark" "$cmd" {"Save & Run" 1 Cancel 0} TEXT -text 1 -ro 0 -w 70 -h 10 -pos $pos {*}[::em::theming_pave] -ontop $::em::ontop -head "UNCOMMENT usable commands, COMMENT unusable ones.\nUse  \\\\\\\\     instead of  \\\\  in patterns." -family Times -hsz 14 -size 12 -g $geo]
 $dialog destroy
 lassign $res res geo cmd
 if {$res} {set cmd [string trim $cmd " \{\}\n"]
@@ -331,7 +408,8 @@ if {$from eq "button" && $ind >= 0} {if {[em_question "Stop timed task" "Stop th
 return false}
 return [expr !$started && $startnow]}
 proc ::em::create_template {fname} {if {[em_question "Menu isn't open" "ERROR of opening\n$fname\n\nCreate it?"]} {if {[catch {set chan [open "$fname" "w"]} e]} {em_message "ERROR of creating\n\n$fname\n\n$e"
-} else {set dir [file dirname $fname]
+} else {chan configure $chan -encoding utf-8
+set dir [file dirname $fname]
 if {[file tail $dir] == $::em::prjname} {set menu "$::em::prjname/nam3.mnu"
 } else {set menu [file join $dir "nam3.mnu"]}
 puts $chan "R: nam1 R: prog\n\nS: nam2 S: comm\n\nM: nam3 M: m=$menu"
@@ -349,17 +427,20 @@ set comm     [string trim [string range $sel $pelse+6 end]]
 if {$res} {set comm $thencomm}
 set comm [string trim $comm]
 catch {set comm [subst -nobackslashes $comm]}
+set ::em::IF_exit [expr {$comm ne ""}]
 if {$callcommName ne ""} {upvar 2 $callcommName callcomm
 set callcomm $comm
 return true}
-set ::em::IF_exit [expr {$comm ne ""}]
 if {$::em::IF_exit} {switch -- [string range $comm 0 2] {"%I " {if {![info exists ::Input]} {set ::Input ""}
 return [::em::addon input $comm]}
 "%C " {set comm [string range $comm 3 end]}
 default {if {[lindex [set _ [checkForWilds comm]] 0]} {return [lindex $_ 1]
 } elseif {[checkForShell comm]} {shell0 $comm &
+} else {set argm [lrange $comm 1 end]
+set comm1 [lindex $comm 0]
+if {$comm1 eq "%O"} {::apave::openDoc $argm
 } else {if {[::iswindows]} {set comm "cmd.exe /c $comm"}
-if {[catch {exec {*}$comm &} e]} {em_message "ERROR: incorrect command of IF:\n$comm\n\n($e)"}}
+if {[catch {exec {*}$comm &} e]} {em_message "ERROR: incorrect command of IF:\n$comm\n\n($e)"}}}
 return false}}
 catch {[{*}$comm]}}}
 return true}

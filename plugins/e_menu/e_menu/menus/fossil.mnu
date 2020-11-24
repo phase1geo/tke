@@ -7,33 +7,34 @@ t4==%b-%Y/%U-week
 u=%s
 o=0
 in=1.0
-pos=23.34
+pos=68.42
 ::FSLUSER=aplsimple
-::FSLBRANCH=v3.0a1
-::FSLBRANCHCOLOR=#65ff65
+::FSLBRANCH=TclOO forced
+::FSLBRANCHCOLOR=#fe95ca
 ::EMENUTMPFILE=%mn.tmp~
 ::EMENUBRIEF=0
 ::EM_T_DRY=0
 ::EM_T_FILE=-g *,src/*,menus/*
-::EM_T_TIME=--now
+::EM_T_TIME=none
 ::EM_T_VERBOSE=1
+::EM_COMOPT=
 ::EMENUGREP=
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 %C if {![info exist ::EMENUCOMMIT1]} {set ::EMENUCOMMIT1 tip}
 %C if {![info exist ::EMENUCOMMIT2]} {set ::EMENUCOMMIT2 ""}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
-%C set ::FILETAIL \"[file tail $::EMENUFILE]\"
+%C set ::FILETAIL \"[file tail {$::EMENUFILE}]\"
 
 [MENU]
  S:fossil status %PD S: cd %PD
- S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
+ S:fossil status %PD S: echo %PD\ndir\necho ------------\nfossil status
 
  S:fossil changes S: cd %PD
- S:fossil changes S: pwd\necho ---\necho --+%PD+--\ndir\necho ---\nfossil changes
+ S:fossil changes S: pwd\necho ------------\ndir\necho ------------\nfossil changes
 
  S:fossil extras S: cd %PD
- S:fossil extras S: pwd\necho ---\ndir\necho ---\nfossil extras
+ S:fossil extras S: pwd\necho ------------\ndir\necho ------------\nfossil extras
 
  R:fossil ui R: cd %PD
  R:fossil ui R: fossil ui
@@ -46,7 +47,7 @@ RW:fossil gdiff $::FILETAIL ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {}} {"$::EMENUFILE"}\
    fco1 {{Version:} {} {-h 10 -state readonly -inpval "$::EMENUCOMMIT"}}\
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " -list {{}} $::EMENUTMPFILE/@}\
+     {@@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE@@    INFO: @@-div1 "\] " -list {{}} $::EMENUTMPFILE@@}\
    seh {{} {-pady 3} {}} {}\
    texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}}\
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)}\
@@ -60,13 +61,13 @@ RW:fossil diff ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil diff ? R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fco1  {{         From:} {} {-h 10 -state readonly -cbxsel "$::EMENUCOMMIT1"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
-     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+     {@@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE@@ \
+     INFO: @@-div1 "\] " $::EMENUTMPFILE@@} \
    fco2  {{           To:} {} {-h 10 -state readonly -cbxsel "$::EMENUCOMMIT2"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
-     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+     {@@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE@@ \
+     INFO: @@-div1 "\] " $::EMENUTMPFILE@@} \
    cbx1  {{Regexp filter:} {} {}} { {$::EMENUGREP} {} {^[+]} } \
-   chbBr {{        Brief:} {-pady 4} {-var ::EMENUBRIEF}} {} \
+   chbBr {{        Brief:} {-pady 4} {}} {$::EMENUBRIEF} \
    seh {{} {-pady 3} {}} {} \
    texc  {{         Hint:} {} {-h 11 -w 67 -ro 1 -wrap word}} \
    { Select versions from the comboboxes to be compared. \
@@ -119,26 +120,55 @@ SW:fossil diff ? SW: cat "$::EMENUTMPFILE"
 
  S:fossil commit ? S: cd %PD
  R:fossil commit ? R: %I {} "TOUCH & COMMIT" { \
+   lab1  {{} {} {-t {For TOUCH:} -font {-weight bold}}}  {} \
    fil1 {{   File(s):}} {"$::EM_T_FILE"} \
    opc1 {{Time stamp:}} {{$::EM_T_TIME} {{none} {time --now --checkin --checkout}}} \
-   v_ {{} {-pady 4}} {} \
-   chb2 {{   Verbose:}} {$::EM_T_VERBOSE} \
-   v_2 {{} {-pady 4}} {} seh {} {} \
-   texc {{Hint:} {} {-h 15 -w 64 -ro 1 -wrap word}} \
+   chb1 {{   Verbose:}} {$::EM_T_VERBOSE} \
+   seh {} {} v_2 {{} {-pady 2}} {} \
+   lab2  {{} {} {-t {For COMMIT:} -font {-weight bold}}}  {} \
+   cbx2 {{   Options:} {} {}} {"$::EM_COMOPT" --allow-conflict --allow-empty --allow-fork --allow-older --baseline {--bgcolor COLOR} {--branch NEW-BRANCH-NAME} {--branchcolor COLOR} --close --delta --integrate {--mimetype MIMETYPE} -n|--dry-run --no-prompt --nosign --override-lock --private --hash {--tag TAG-NAME} {--date-override YYYY-MM-DDTHH:MM:SS.SSS} {--user-override USER}} \
+   seh2 {} {} \
+   texc {{Hint:} {} {-h 13 -w 70 -ro 1 -wrap word}} \
    { You can touch any file(s) before committing.\
 \n If you omit file/time of touching, it will not be made.\
 \n     ______________________________________________________\
 \n\n The file(s) mtime will be updated to the 'Time stamp'. \
-\n\n The 'File(s)' may be globs. Set '-g' before a comma-separated\
-\n list of glob patterns, for example: -g *,src/*,menus/*. \
-\n\n The 'Dry run' shows the supposed changes, not doing actually. \
-\n\n The 'Verbose' outputs extra information. \
+\n\n The 'File(s)' may be globs. Set '-g' before a comma-separated list\
+\n of glob patterns, for example: -g *,src/*,menus/*. \
 \n     ______________________________________________________\
-\n\n           AFTER TOUCHING THE COMMIT WILL BE MADE.} \
-   } -head {\n This will TOUCH the file(s) of Fossil repository\n to have the file(s) time equal to the time stamp.\n\n Then this will run COMMITTING on the repository:\n %PD\n} -weight bold == ::EM_T_FILE ::EM_T_TIME ::EM_T_VERBOSE
+\n\n           AFTER TOUCHING THE COMMIT WILL BE MADE.\n\n\
+ --allow-conflict       allow unresolved merge conflicts\n\
+ --allow-empty          allow a commit with no changes\n\
+ --allow-fork           allow the commit to fork\n\
+ --allow-older          allow a commit older than its ancestor\n\
+ --baseline             use a baseline manifest in the commit process\n\
+ --bgcolor COLOR        apply COLOR to this one check-in only\n\
+ --branch BRANCH-NAME   check in to this new branch\n\
+ --branchcolor COLOR    apply given COLOR to the branch\n\
+ --close                close the branch being committed\n\
+ --delta                use a delta manifest in the commit process\n\
+ --integrate            close all merged-in branches\n\
+ -m|--comment TEXT      use TEXT as commit comment\n\
+ -M|--message-file FILE read the commit comment from given file\n\
+ --mimetype MIMETYPE    mimetype of check-in comment\n\
+ -n|--dry-run           If given, display instead of run actions\n\
+ --no-prompt            This option disables prompting the user for\n\
+                        input and assumes an answer of 'No' for every\n\
+                        question.\n\
+ --no-warnings          omit all warnings about file contents\n\
+ --nosign               do not attempt to sign this commit with gpg\n\
+ --override-lock        allow a check-in even though parent is locked\n\
+ --private              do not sync changes and their descendants\n\
+ --hash                 verify file status using hashing rather\n\
+                        than relying on file mtimes\n\
+ --tag TAG-NAME         assign given tag TAG-NAME to the check-in\n\
+ --date-override DATE   DATE to use instead of 'now'\n\
+ --user-override USER   USER to use instead of the current default\
+} \
+   } -head {\n This will TOUCH the file(s) of Fossil repository\n to have the file(s) time equal to the time stamp.\n\n Then this will run COMMIT on the repository:\n %PD\n} -weight bold == ::EM_T_FILE ::EM_T_TIME ::EM_T_VERBOSE ::EM_COMOPT
  S:fossil commit ? S: %C if $::EM_T_VERBOSE {set ::EM_T_v -v} {set ::EM_T_v ""}
 SW:fossil commit ? SW: %IF "$::EM_T_TIME" ni {{} none} && "$::EM_T_FILE" ne "" %THEN fossil touch $::EM_T_v $::EM_T_TIME $::EM_T_FILE
- S:fossil commit ? S: fossil commit --allow-empty
+ S:fossil commit ? S: fossil commit --allow-empty $::EM_COMOPT
 
  S:fossil commit -f -tag ? S: cd %PD
  R:fossil commit -f -tag ? R: %C set ::COMTAG "%s"

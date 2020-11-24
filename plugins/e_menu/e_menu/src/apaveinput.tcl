@@ -1,6 +1,6 @@
 ###########################################################################
 package require Tk
-package provide apave 3.0.1
+package provide apave 3.2.4
 source [file join [file dirname [info script]] apavedialog.tcl]
 namespace eval ::apave {}
 oo::class create ::apave::APaveInput {superclass ::apave::APaveDialog
@@ -22,8 +22,6 @@ set _values {}
 foreach {vnam -} [my varInput] {lappend _values [set $vnam]}
 return $_values}
 method input {icon ttl iopts args} {if {$iopts ne {}} {my initInput}
-if {[string match "*Mono*" "[font families]"]} {set Mfont "Mono"
-} else {set Mfont TkFixedFont}
 set pady "-pady 2"
 if {[set focusopt [::apave::getOption -focus {*}$args]] ne ""} {set focusopt "-focus $focusopt"}
 lappend inopts [list fraM + T 1 98 "-st nsew $pady -rw 1"]
@@ -51,20 +49,20 @@ if {$focusopt eq "" && $takfoc} {if {$typ in {fi di cl fo da}} {set _ en*$name
 } else {set _ $name}
 set focusopt "-focus $_"}
 if {$typ in {lb tb te}} {set anc nw} {set anc w}
-lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor $anc -padx 3" "-t \"$prompt\" -font           \"-family $Mfont -size [::apave::paveObj basicFontSize]\""]}
+lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor $anc -padx 3" "-t \"$prompt\" -font           \"-family {[my basicTextFont]} -size [my basicFontSize]\""]}
 if {$typ ni {fc te la}} {set vsel [lindex $valopts 0]
 catch {set vsel [subst -nocommands -noback $vsel]}
 set vlist [lrange $valopts 1 end]}
 if {[set msgLab [::apave::getOption -msgLab {*}$attrs]] ne ""} {set attrs [::apave::removeOptions $attrs -msgLab]}
 switch -- $typ {lb - tb {set $vv $vlist
 lappend attrs -lvar $vv
-if {$vsel ni {"" "-"}} {lappend attrs -lbxsel $vsel}
+if {$vsel ni {"" "-"}} {lappend attrs -lbxsel "$::apave::UFF$vsel$::apave::UFF"}
 lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill both $gopts" $attrs]
 lappend inopts [list fraM.fra$name.sbv$name $ff L - - "pack -fill y"]}
 cb {if {![info exist $vv]} {catch {set $vv ""}}
 lappend attrs -tvar $vv -values $vlist
-if {$vsel ni {"" "-"}} {lappend attrs -cbxsel $vsel}
-lappend inopts [list $ff - - - - "pack -fill x $gopts" $attrs]}
+if {$vsel ni {"" "-"}} {lappend attrs -cbxsel "$::apave::UFF$vsel$::apave::UFF"}
+lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill x $gopts" $attrs]}
 fc {if {![info exist $vv]} {catch {set $vv ""}}
 lappend inopts [list $ff - - - - "pack -side left -expand 1 -fill x $gopts" "-tvar $vv -values \{$valopts\} $attrs"]}
 op {set $vv $vsel
@@ -114,10 +112,12 @@ method vieweditFile {fname {prepost ""} args} {return [my editfile $fname "" "" 
 method editfile {fname fg bg cc {prepost ""} args} {if {$fname eq ""} {return false}
 set newfile 0
 set filetxt ""
-if {[catch {set filetxt [read [set ch [open $fname]]]}]} {if {[catch {close [open $fname w]} err]} {puts "ERROR: couldn't create '$fname':\n$err"
+if {[catch {set ch [open $fname]}]} {if {[catch {close [open $fname w]} err]} {puts "ERROR: couldn't create '$fname':\n$err"
 return false}
 set newfile 1
-} else {close $ch}
+} else {chan configure $ch -encoding utf-8
+set filetxt [read $ch]
+close $ch}
 lassign [::apave::parseOptions $args -rotext "" -readonly 1 -ro 1] rotext readonly ro
 set btns "Exit 0"
 set oper VIEW
@@ -131,12 +131,9 @@ set data [string range $res 2 end]
 if {[set res [string index $res 0]] eq "1"} {set data [string range $data [string first " " $data]+1 end]
 set data [string trimright $data]
 set ch [open $fname w]
+chan configure $ch -encoding utf-8
 foreach line [split $data \n] {puts $ch [string trimright $line]}
 close $ch
 } elseif {$newfile} {file delete $fname}
 return $res}}
-proc ::apave::paveObj {com args} {set pobj [::apave::APaveInput new]
-set res [$pobj $com {*}$args]
-$pobj destroy
-return $res}
 #by trimmer

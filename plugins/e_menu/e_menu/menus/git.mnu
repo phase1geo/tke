@@ -3,14 +3,14 @@
 [OPTIONS]
 in=1.0
 o=0
-pos=96.26
+pos=45.90
 w=35
 ::EMENUTMPFILE=%mn.tmp~
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
 %C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
 %C if {![info exist ::EMENUGREP]} {set ::EMENUGREP ""}
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
-%C set ::FILETAIL \"[file tail $::EMENUFILE]\"
+%C set ::FILETAIL \"[file tail {$::EMENUFILE}]\"
 
 [MENU]
  R:git status R: cd %PD
@@ -30,7 +30,7 @@ RW:git difftool $::FILETAIL ? RW: git log --format=oneline -10 > $::EMENUTMPFILE
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
    fco1 {{Version:} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
-     {/@-pos 0 -len 10 $::EMENUTMPFILE/@    INFO: /@-div1 { } $::EMENUTMPFILE/@} \
+     {@@-pos 0 -len 10 $::EMENUTMPFILE@@    INFO: @@-div1 { } $::EMENUTMPFILE@@} \
    seh {{} {-pady 3} {}} {} \
    texc {{   Hint:} {} {-h 9 -w 70 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to HEAD.\n\n If it's blank, the current file is compared to HEAD.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \
@@ -42,15 +42,15 @@ RW:git diff RW: git log --format=oneline -10 > $::EMENUTMPFILE
  R:git diff R: %I {} "DIFF" { \
    v_ {{} {-pady 4} {}} {} \
    fco1 {{     Version :} {} {-h 10 -state readonly -retpos 0:10 -inpval "$::EMENUCOMMIT"}} \
-     {/@-pos 0 -len 10 -list {""} $::EMENUTMPFILE/@    INFO: /@-div1 { } $::EMENUTMPFILE/@} \
-   ent1 {{Regexp filter:} {} {-w 55}} {"$::EMENUGREP"} \
+     {@@-pos 0 -len 10 -list {""} $::EMENUTMPFILE@@    INFO: @@-div1 { } $::EMENUTMPFILE@@} \
+   ent1 {{Regexp filter:} {} {}} {"$::EMENUGREP"} \
    seh {{} {-pady 3} {}} {} \
-   texc {{        Hint :} {} {-h 9 -w 55 -ro 1 -wrap word}} \
-   { Select a version from the combobox to be compared to HEAD. \
-     \n\n If it's blank, the current files are compared to HEAD. \
-     \n\n When 'regexp filter' set, an additional console shows \
-     \n the filtered lines. \
-     \n\n temp file:\n $::EMENUTMPFILE} \
+   texc {{        Hint :} {} {-h 9 -w 60 -ro 1 -wrap word}} \
+   { Select a version from the combobox to be compared to HEAD.\
+\n\n If it's blank, the current files are compared to HEAD.\
+\n\n When 'regexp filter' set, an additional console shows\
+\n the filtered lines.\
+\n\n temp file:\n $::EMENUTMPFILE} \
    } -head {\n This will compare a selected version of \
      \n     %PD\n to its HEAD.} -weight bold == ::EMENUCOMMIT ::EMENUGREP
  S:git diff S: %C set ::EMENUTMP {git diff $::EMENUCOMMIT HEAD}
@@ -70,9 +70,11 @@ SW:git diff SW: cat "$::EMENUTMPFILE"
  R:git add * R: %q "Adding changes" " Add all changes in\n\n  %PD\n\n to a local repository ?"
  S:git add * S: git add *\ngit status
 
- S:git rm %f S: cd %PD
- R:git rm %f R: %q "Remove file" " Remove\n\n   %f\n\n from the repository\n\n   %PD\n\n?"
- S:git rm %f S: git rm --cached "%f"\ngit status
+ S:git rm $::FILETAIL ? S: cd %PD
+ R:git rm $::FILETAIL ? R:  %I {} "REMOVE" { \
+   fil1 {{   File:} {} {-w 70}} {"$::EMENUFILE"} \
+   } -head {\n This will remove a file\n from a local repository:} -weight bold == ::EMENUFILE
+ S:git rm $::FILETAIL ? S: git rm --cached "$::EMENUFILE"\ngit status
 
  R:  R: 2
 

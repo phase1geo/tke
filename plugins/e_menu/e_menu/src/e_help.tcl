@@ -1,7 +1,5 @@
 #! /usr/bin/env tclsh
 package require Tk
-package require http
-catch {package require tls}
 if {![namespace exists apave]} {source [file join [file normalize [file dirname [info script]]] apaveinput.tcl]}
 namespace eval ::eh {variable my_browser ""
 variable hroot "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"
@@ -87,6 +85,7 @@ file atime $fname $atime
 file mtime $fname $mtime}
 proc ::eh::write_file_untouched {fname data} {lassign [::eh::fileAttributes $fname] f_attrs f_atime f_mtime
 set ch [open $fname w]
+chan configure $ch -encoding utf-8
 foreach line $data { puts $ch "$line" }
 close $ch
 ::eh::fileAttributes $fname $f_attrs $f_atime $f_mtime}
@@ -97,6 +96,8 @@ proc ::eh::escape_links {sel} {return [string map [list " " "+"] $sel]}
 proc ::eh::delete_specsyms {sel {und "_"} } {return [string map [list "\"" ""  "\%" ""  "\$" ""  "\}" ""  "\{" "" "\]" ""  "\[" ""  "\>" ""  "\<" ""  "\*" ""  " " $und] $sel]}
 proc ::eh::get_underlined_name {name} {return [string map {/ _ \\ _ { } _ . _} $name]}
 proc ::eh::lexists {url} {if {$::eh::reginit} {set ::eh::reginit 0
+package require http
+package require tls
 ::http::register https 443 ::tls::socket}
 if {[catch {set token [::http::geturl $url]} e]} {if {$::eh::solo} {grid [label .l -text ""]}
 message_box "ERROR: couldn't connect to:\n\n$url\n\n$e"
@@ -132,15 +133,8 @@ set h3 "https://www.tcl.tk/man/tcl8.6/Keywords/$l1.htm"
 set link [links_exist $h1 $h2 $h3]
 if {[string length $link] == 0} {return [local "$help"]}
 return $link}
-proc ::eh::invokeBrowser {url} {
-set commands {xdg-open open start}
-foreach browser $commands {if {$browser eq "start"} {set command [list {*}[auto_execok start] {}]
-} else {set command [auto_execok $browser]}
-if {[string length $command]} {break}}
-if {[string length $command] == 0} {message_box "ERROR: couldn't find browser"}
-if {[catch {exec {*}$command $url &} error]} {message_box "ERROR: couldn't execute '$command':\n$error"}}
-proc ::eh::browse { {help ""} } {if {$::eh::my_browser ne ""} {exec ${::eh::my_browser} "$help" &
-} else {invokeBrowser "$help"}}
+proc ::eh::browse { {help ""} } {if {$::eh::my_browser ne ""} {exec {*}${::eh::my_browser} "$help" &
+} else {::apave::openDoc "$help"}}
 if {$::eh::solo} {if {$argc > 0} {if {[lindex $::argv 0] eq "-local"} {set page [::eh::local [lindex $::argv 1]]
 } else {set page [::eh::html [lindex $::argv 0]]}
 ::eh::browse "$page"

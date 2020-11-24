@@ -38,10 +38,11 @@ method Pdg {name} {return $_pdg($name)}
 method FieldName {name} {return fraM.fra$name.$name}
 method VarName {name} {return [namespace current]::var$name}
 method GetVarsValues {lwidgets} {set res [set vars [list]]
-foreach wl $lwidgets {set vv [my VarName [my ownWName [lindex $wl 0]]]
+foreach wl $lwidgets {set ownname [my ownWName [lindex $wl 0]]
+set vv [my VarName $ownname]
 set attrs [lindex $wl 6]
-foreach t {-var -tvar} {if {[set p [string first "$t " $attrs]]>-1} {array set a $attrs
-set vv $a($t)}}
+if {[string match "ra*" $ownname]} {foreach t {-var -tvar} {if {[set v [::apave::getOption $t {*}$attrs]] ne ""} {array set a $attrs
+set vv $v}}}
 if {[info exist $vv] && [lsearch $vars $vv]==-1} {lappend res [set $vv]
 lappend vars $vv}}
 return $res}
@@ -70,11 +71,10 @@ return}
 method GetLinePosition {txt ind} {set linestart [$txt index "$ind linestart"]
 set lineend   [expr {$linestart + 1.0}]
 return [list $linestart $lineend]}
-method pasteText {} {set txt [my TexM]
-set err [catch {$txt tag ranges sel} sel]
+method pasteText {txt} {set err [catch {$txt tag ranges sel} sel]
 if {!$err && [llength $sel]==2} {lassign $sel pos pos2
 $txt delete $pos $pos2}}
-method doubleText {{dobreak 1}} {set txt [my TexM]
+method doubleText {txt {dobreak 1}} {if {$txt eq ""} {set txt [my TexM]}
 set err [catch {$txt tag ranges sel} sel]
 if {!$err && [llength $sel]==2} {lassign $sel pos pos2
 set pos3 "insert"
@@ -84,15 +84,15 @@ set duptext [$txt get $pos $pos2]
 $txt insert $pos3 $duptext
 if {$dobreak} {return -code break}
 return}
-method deleteLine {{dobreak 1}} {set txt [my TexM]
+method deleteLine {txt {dobreak 1}} {if {$txt eq ""} {set txt [my TexM]}
 lassign [my GetLinePosition $txt insert] linestart lineend
 $txt delete $linestart $lineend
 if {$dobreak} {return -code break}
 return}
-method linesMove {to {dobreak 1}} {proc NewRow {ind rn} {set i [string first . $ind]
+method linesMove {txt to {dobreak 1}} {proc NewRow {ind rn} {set i [string first . $ind]
 set row [string range $ind 0 $i-1]
 return [incr row $rn][string range $ind $i end]}
-set txt [my TexM]
+if {$txt eq ""} {set txt [my TexM]}
 set err [catch {$txt tag ranges sel} sel]
 lassign [$txt index insert] pos
 if {[set issel [expr {!$err && [llength $sel]==2}]]} {lassign $sel pos1 pos2
@@ -111,24 +111,28 @@ $txt delete $linestart $lineend
 $txt insert $lto.0 $duptext
 ::tk::TextSetCursor $txt [NewRow $pos $to]
 if {$issel} {$txt tag add sel [NewRow $pos1 $to] [NewRow $pos2 $to]}
+if {[lsearch [$txt tag names] tagCOM*]>-1} {set i1 [expr {min($lto,$lfrom,$linestart,$lineend)-1}]
+set i2 [expr {min($lto,$lfrom,$linestart,$lineend)+1}]
+::hl_tcl::my::Modified $txt $i1 $i2}
 if {$dobreak} {return -code break}}
 return}
-method InitFindInText { {ctrlf 0} } {set txt [my TexM]
-if {$ctrlf} {::tk::TextSetCursor $txt [$txt index "insert -1 char"]}
-set seltxt ""
-set selected [catch {$txt tag ranges sel} seltxt]
-if {[set ${_pdg(ns)}PD::fnd] eq "" || $seltxt ne ""} {if {!$selected} {if {[set forword [expr {$seltxt eq ""}]]} {set pos  [$txt index "insert wordstart"]
+method selectedWordText {txt} {set seltxt ""
+if {![catch {$txt tag ranges sel} seltxt]} {if {[set forword [expr {$seltxt eq ""}]]} {set pos  [$txt index "insert wordstart"]
 set pos2 [$txt index "insert wordend"]
 set seltxt [string trim [$txt get $pos $pos2]]
 if {![string is wordchar -strict $seltxt]} {set pos  [$txt index "insert -1 char wordstart"]
 set pos2 [$txt index "insert -1 char wordend"]}
 } else {lassign $seltxt pos pos2}
 catch {set seltxt [$txt get $pos $pos2]
-if {[set sttrim [string trim $seltxt]] ne ""} {if {$forword} {set seltxt $sttrim}
-set ${_pdg(ns)}PD::fnd $seltxt}}}}
+if {[set sttrim [string trim $seltxt]] ne ""} {if {$forword} {set seltxt $sttrim}}}}
+return $seltxt}
+method InitFindInText { {ctrlf 0} } {set txt [my TexM]
+if {$ctrlf} {::tk::TextSetCursor $txt [$txt index "insert -1 char"]}
+if {[set seltxt [my selectedWordText $txt]] ne ""} {set ${_pdg(ns)}PD::fnd $seltxt}
 return}
-method FindInText {{donext 0}} {set txt [my TexM]
+method findInText {{donext 0} {txt ""} {varFind ""}} {if {$txt eq ""} {set txt [my TexM]
 set sel [set ${_pdg(ns)}PD::fnd]
+} else {set sel [set $varFind]}
 if {$donext} {set pos [$txt index "[$txt index insert] + 1 chars"]
 set pos [$txt search -- $sel $pos end]
 } else {set pos ""}
@@ -138,19 +142,25 @@ $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
 focus $txt
 } else {bell -nice}
 return}
-method Query {icon ttl msg buttons defb inopts argdia {precom ""} args} {if {[winfo exists $_pdg(win).dia]} {puts "$_pdg(win).dia already exists: select other root window"
+method GetLinkLab {m} {if {[set i1 [string first "<link>" $m]]<0} {return [list $m]}
+set i2 [string first "</link>" $m]
+set link [string range $m $i1+6 $i2-1]
+set m [string range $m 0 $i1-1][string range $m $i2+7 end]
+return [list $m [list -link $link]]}
+method Query {icon ttl msg buttons defb inopts argdia {precom ""} args} {set qdlg $_pdg(win).dia
+if {[winfo exists $qdlg]} {puts "$qdlg already exists: select other window"
 return 0}
 set focusback [focus]
 set focusmatch ""
-lassign "" chmsg geometry optsLabel optsMisc optsFont optsFontM rotext root head optsHead hsz binds postcom onclose timeout
+lassign "" chmsg geometry optsLabel optsMisc optsFont optsFontM root ontop rotext head optsHead hsz binds postcom onclose timeout modal
 set tags ""
-set wasgeo [set textmode [set ontop 0]]
-set cc [set themecolors [set optsGrid ""]]
-set readonly [set hidefind 1]
+set wasgeo [set textmode 0]
+set cc [set themecolors [set optsGrid [set addpopup ""]]]
+set readonly [set hidefind [set scroll 1]]
 set curpos "1.0"
 set ${_pdg(ns)}PD::ch 0
 foreach {opt val} {*}$argdia {if {$opt in {-c -color -fg -bg -fgS -bgS -cc -hfg -hbg}} {if {[info exist $val]} {set val [set $val]}}
-switch -- $opt {-H - -head {set head [string map {$ \$ \" \'\'} $val]}
+switch -- $opt {-H - -head {set head [string map {$ \$ \" \'\' \{ ( \} )} $val]}
 -ch - -checkbox {set chmsg "$val"}
 -g - -geometry {set geometry $val
 set wasgeo 1
@@ -170,7 +180,7 @@ set tags $_tags}
 -fgS {append optsMisc " -selectforeground {$val}"}
 -bgS {append optsMisc " -selectbackground {$val}"}
 -cc {append optsMisc " -insertbackground {$val}"}
--myown {append optsMisc " -myown {$val}"}
+-my - -myown {append optsMisc " -myown {$val}"}
 -root {set root " -root $val"}
 -pos {set curpos "$val"}
 -hfg {append optsHead " -foreground {$val}"}
@@ -178,16 +188,19 @@ set tags $_tags}
 -hsz {append hsz " -size $val"}
 -focus {set focusmatch "$val"}
 -theme {append themecolors " {$val}"}
--ontop {set ontop 1}
+-ontop {set ontop "-ontop $val"}
 -post {set postcom $val}
 -focusback {set focusback $val}
 -timeout {set timeout $val}
+-modal {set modal "-modal $val"}
+-popup {set addpopup [string map [list %w $qdlg.fra.texM] "$val"]}
+-scroll {set scroll "$val"}
 default {append optsFont " $opt $val"
 if {$opt ne "-family"} {append optsFontM " $opt $val"}}}}
 set optsFont [string trim $optsFont]
 set optsHeadFont $optsFont
 set fs [my basicFontSize]
-set textfont "-font \"-family {[my basicTextFont]}"
+set textfont "-font \"[font configure TkFixedFont]"
 if {$optsFont ne ""} {if {[string first "-size " $optsFont]<0} {append optsFont " -size $fs"}
 if {[string first "-size " $optsFontM]<0} {append optsFontM " -size $fs"}
 if {[string first "-family " $optsFont]>=0} {set optsFont "-font \"$optsFont"
@@ -201,7 +214,8 @@ set prevl labBimg
 } else {set widlist [list [list labimg - - 99 1]]
 set prevl labimg}
 set prevw labBimg
-if {$head ne ""} {if {$optsHeadFont ne "" || $hsz ne ""} {set optsHeadFont [string trim "$optsHeadFont $hsz"]
+if {$head ne ""} {if {$optsHeadFont ne "" || $hsz ne ""} {if {$hsz eq ""} {set hsz "-size [::apave::paveObj basicFontSize]"}
+set optsHeadFont [string trim "$optsHeadFont $hsz"]
 set optsHeadFont "-font \"$optsHeadFont\""}
 set optsFont ""
 set prevp "L"
@@ -218,7 +232,8 @@ if {$readonly} {set msg [string map {\\n \n} $msg]}
 foreach m [split $msg \n] {set m [string map {$ \$ \" \'\'} $m]
 if {[set mw [string length $m]] > $maxw} {set maxw $mw}
 incr il
-if {!$textmode} {lappend widlist [list Lab$il $prevw $prevp 1 7 "-st w -rw 1 $optsGrid" "-t \"$m \" $optsLabel $optsFont"]}
+if {!$textmode} {lassign [my GetLinkLab $m] m link
+lappend widlist [list Lab$il $prevw $prevp 1 7 "-st w -rw 1 $optsGrid" "-t \"$m \" $optsLabel $optsFont $link"]}
 set prevw Lab$il
 set prevp T}
 if {$inopts ne ""} {set io0 [lindex $inopts 0]
@@ -237,8 +252,8 @@ incr maxw
 set maxw [vallimits $maxw 20 [info exists charwidth] charwidth]
 rename vallimits ""
 lappend widlist [list fraM $prevh T 10 7 "-st nswe -pady 3 -rw 1"]
-lappend widlist [list TexM - - 1 7 {pack -side left -expand 1 -fill both -in $_pdg(win).dia.fra.fraM} [list -h $il -w $maxw {*}$optsFontM {*}$optsMisc -wrap word -textpop 0 -tabnext $_pdg(win).dia.fra.[lindex $buttons 0]]]
-lappend widlist {sbv texM L 1 1 {pack -in $_pdg(win).dia.fra.fraM}}
+lappend widlist [list TexM - - 1 7 {pack -side left -expand 1 -fill both -in $qdlg.fra.fraM} [list -h $il -w $maxw {*}$optsFontM {*}$optsMisc -wrap word -textpop 0 -tabnext $qdlg.fra.[lindex $buttons 0]]]
+if {$scroll} {lappend widlist {sbv texM L 1 1 {pack -in $qdlg.fra.fraM}}}
 set prevw fraM}
 lappend widlist [list h_2 $prevw T 1 1 "-pady 0 -ipady 0 -csz 0"]
 lappend widlist [list seh $prevl T 1 99 "-st ew"]
@@ -248,72 +263,69 @@ set binds "set pop $wt.popupMenu
         bind $wt <Button-3> \{[self] themePopup $wt.popupMenu; tk_popup $wt.popupMenu %X %Y \}"
 if {$readonly || $hidefind || $chmsg ne ""} {append binds "
           menu \$pop
-           \$pop add command [my IconA copy] -accelerator Ctrl+C -label \"Copy\" \            -command \"event generate $wt <<Copy>>\""
+           \$pop add command [my iconA copy] -accelerator Ctrl+C -label \"Copy\" \            -command \"event generate $wt <<Copy>>\""
 if {$hidefind || $chmsg ne ""} {append binds "
             \$pop configure -tearoff 0
             \$pop add separator
-            \$pop add command [my IconA none] -accelerator Ctrl+A \            -label \"Select All\" -command \"$wt tag add sel 1.0 end\"
+            \$pop add command [my iconA none] -accelerator Ctrl+A \            -label \"Select All\" -command \"$wt tag add sel 1.0 end\"
              bind $wt <Control-a> \"$wt tag add sel 1.0 end; break\""}}}
 if {$chmsg eq ""} {if {$textmode} {if {![info exists ${_pdg(ns)}PD::fnd]} {set ${_pdg(ns)}PD::fnd ""}
-set noIMG "[my IconA none]"
+set noIMG "[my iconA none]"
 if {$hidefind} {lappend widlist [list h__ h_3 L 1 4 "-cw 1"]
 } else {lappend widlist [list labfnd h_3 L 1 1 "-st e" "-t {Find:}"]
 lappend widlist [list Entfind labfnd L 1 1 "-st ew -cw 1" "-tvar ${_pdg(ns)}PD::fnd -w 10"]
 lappend widlist [list labfnd2 Entfind L 1 1 "-cw 2" "-t {}"]
 lappend widlist [list h__ labfnd2 L 1 1]
 append binds "
-            bind \[[self] Entfind\] <Return> {[self] FindInText}
-            bind \[[self] Entfind\] <KP_Enter> {[self] FindInText}
+            bind \[[self] Entfind\] <Return> {[self] findInText}
+            bind \[[self] Entfind\] <KP_Enter> {[self] findInText}
             bind \[[self] Entfind\] <FocusIn> {\[[self] Entfind\] selection range 0 end}
-            bind $_pdg(win).dia <F3> {[self] FindInText 1}
-            bind $_pdg(win).dia <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]; break\"
-            bind $_pdg(win).dia <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]; break\""}
+            bind $qdlg <F3> {[self] findInText 1}
+            bind $qdlg <Control-f> \"[self] InitFindInText 1; focus \[[self] Entfind\]; break\"
+            bind $qdlg <Control-F> \"[self] InitFindInText 1; focus \[[self] Entfind\]; break\"
+            \[[self] TexM\] tag configure sel -borderwidth 1"}
 if {$readonly} {if {!$hidefind} {append binds "
              \$pop add separator
-             \$pop add command [my IconA find] -accelerator Ctrl+F -label \             \"Find first\" -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
-             \$pop add command $noIMG -accelerator F3 -label \"Find next\" \              -command \"[self] FindInText 1\"
+             \$pop add command [my iconA find] -accelerator Ctrl+F -label \             \"Find First\" -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
+             \$pop add command $noIMG -accelerator F3 -label \"Find Next\" \              -command \"[self] findInText 1\"
+             $addpopup
              \$pop add separator
-             \$pop add command [my IconA exit] -accelerator Esc -label \"Exit\" \              -command \"\[[self] Pdg defb1\] invoke\"
+             \$pop add command [my iconA exit] -accelerator Esc -label \"Exit\" \              -command \"\[[self] Pdg defb1\] invoke\"
             "}
 } else {append binds "
-            bind $wt <<Paste>> {+ [self] pasteText}
-            bind $wt <Control-d> {[self] doubleText}
-            bind $wt <Control-D> {[self] doubleText}
-            bind $wt <Control-y> {[self] deleteLine}
-            bind $wt <Control-Y> {[self] deleteLine}
-            bind $wt <Alt-Up>    {[self] linesMove -1}
-            bind $wt <Alt-Down>  {[self] linesMove +1}
+            [my SetTextBinds $wt]
             menu \$pop
-             \$pop add command [my IconA cut] -accelerator Ctrl+X -label \"Cut\" \              -command \"event generate $wt <<Cut>>\"
-             \$pop add command [my IconA copy] -accelerator Ctrl+C -label \"Copy\" \              -command \"event generate $wt <<Copy>>\"
-             \$pop add command [my IconA paste] -accelerator Ctrl+V -label \"Paste\" \              -command \"event generate $wt <<Paste>>\"
+             \$pop add command [my iconA cut] -accelerator Ctrl+X -label \"Cut\" \              -command \"event generate $wt <<Cut>>\"
+             \$pop add command [my iconA copy] -accelerator Ctrl+C -label \"Copy\" \              -command \"event generate $wt <<Copy>>\"
+             \$pop add command [my iconA paste] -accelerator Ctrl+V -label \"Paste\" \              -command \"event generate $wt <<Paste>>\"
              \$pop add separator
-             \$pop add command [my IconA double] -accelerator Ctrl+D -label \"Double selection\" \              -command \"[self] doubleText 0\"
-             \$pop add command [my IconA delete] -accelerator Ctrl+Y -label \"Delete line\" \              -command \"[self] deleteLine 0\"
-             \$pop add command [my IconA up] -accelerator Alt+Up -label \"Line(s) up\" \              -command \"[self] linesMove -1 0\"
-             \$pop add command [my IconA down] -accelerator Alt+Down -label \"Line(s) down\" \              -command \"[self] linesMove +1 0\"
+             \$pop add command [my iconA double] -accelerator Ctrl+D -label \"Double Selection\" \              -command \"[self] doubleText {} 0\"
+             \$pop add command [my iconA delete] -accelerator Ctrl+Y -label \"Delete Line\" \              -command \"[self] deleteLine {} 0\"
+             \$pop add command [my iconA up] -accelerator Alt+Up -label \"Line(s) Up\" \              -command \"[self] linesMove {} -1 0\"
+             \$pop add command [my iconA down] -accelerator Alt+Down -label \"Line(s) Down\" \              -command \"[self] linesMove {} +1 0\"
              \$pop add separator
-             \$pop add command [my IconA find] -accelerator Ctrl+F -label \"Find first\" \              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
-             \$pop add command $noIMG -accelerator F3 -label \"Find next\" \              -command \"[self] FindInText 1\"
+             \$pop add command [my iconA find] -accelerator Ctrl+F -label \"Find First\" \              -command \"[self] InitFindInText; focus \[[self] Entfind\]\"
+             \$pop add command $noIMG -accelerator F3 -label \"Find Next\" \              -command \"[self] findInText 1\"
+             $addpopup
              \$pop add separator
-             \$pop add command [my IconA SaveFile] -accelerator Ctrl+W \             -label \"Save and exit\" -command \"\[[self] Pdg defb1\] invoke\"
+             \$pop add command [my iconA SaveFile] -accelerator Ctrl+W \             -label \"Save and Exit\" -command \"\[[self] Pdg defb1\] invoke\"
             "}
 lappend args -onclose [namespace current]::exitEditor
-oo::objdefine [self] export FindInText InitFindInText Pdg
+oo::objdefine [self] export InitFindInText Pdg
 } else {lappend widlist [list h__ h_3 L 1 4 "-cw 1"]}
 } else {lappend widlist [list chb h_3 L 1 1 "-st w" "-t {$chmsg} -var ${_pdg(ns)}PD::ch"]
 lappend widlist [list h_ chb L 1 1]
 lappend widlist [list sev h_ L 1 1 "-st nse -cw 1"]
 lappend widlist [list h__ sev L 1 1]}
 my AppendButtons widlist $buttons h__ L $defb $timeout
-set wtop [my makeWindow $_pdg(win).dia.fra $ttl]
-set widlist [my paveWindow $_pdg(win).dia.fra $widlist]
+set wtop [my makeWindow $qdlg.fra $ttl]
+set widlist [my paveWindow $qdlg.fra $widlist]
 if {$precom ne ""} {{*}$precom}
 if {$themecolors ne ""} {if {[llength $themecolors]==2} {lassign [::apave::parseOptions $optsMisc -foreground black -background white -selectforeground black -selectbackground gray -insertbackground black] v0 v1 v2 v3 v4
 lappend themecolors $v0 $v1 $v2 $v3 $v3 $v1 $v4 $v4 $v3 $v2 $v3 $v0 $v1}
-catch {my themeWindow $_pdg(win).dia {*}$themecolors false}}
-my SetGetTexts set $_pdg(win).dia.fra $inopts $widlist
-lassign [my LowercaseWidgetName $_pdg(win).dia.fra.$defb] focusnow
+catch {my themeWindow $qdlg {*}$themecolors false}}
+my SetGetTexts set $qdlg.fra $inopts $widlist
+lassign [my LowercaseWidgetName $qdlg.fra.$defb] focusnow
 if {$textmode} {my displayTaggedText [my TexM] msg $tags
 if {$defb eq "ButTEXT"} {if {$readonly} {lassign [my LowercaseWidgetName [my Pdg defb1]] focusnow
 } else {set focusnow [my TexM]
@@ -322,14 +334,14 @@ foreach k {w W} {catch "bind $focusnow <Control-$k> {[my Pdg defb1] invoke; brea
 if {$readonly} {my readonlyWidget ::[my TexM] true false}}
 if {$focusmatch ne ""} {foreach w $widlist {lassign $w widname
 lassign [my LowercaseWidgetName $widname] wn rn
-if {[string match $focusmatch $rn]} {lassign [my LowercaseWidgetName $_pdg(win).dia.fra.$wn] focusnow
+if {[string match $focusmatch $rn]} {lassign [my LowercaseWidgetName $qdlg.fra.$wn] focusnow
 break}}}
 catch "$binds"
 set args [::apave::removeOptions $args -focus]
-my showModal $_pdg(win).dia -themed [string length $themecolors] -focus $focusnow -geometry $geometry {*}$root -ontop $ontop {*}$args
-oo::objdefine [self] unexport FindInText InitFindInText Pdg
-set pdgeometry [winfo geometry $_pdg(win).dia]
-set res [set result [my res $_pdg(win).dia]]
+my showModal $qdlg -themed [string length $themecolors] -focus $focusnow -geometry $geometry {*}$root {*}$modal {*}$ontop {*}$args
+oo::objdefine [self] unexport InitFindInText Pdg
+set pdgeometry [winfo geometry $qdlg]
+set res [set result [my res $qdlg]]
 set chv [set ${_pdg(ns)}PD::ch]
 if { [string is integer $res] } {if {$res && $chv} { incr result 10 }
 } else {set res [expr {$result ne "" ? 1 : 0}]
@@ -339,11 +351,11 @@ set textcont [$focusnow get 1.0 end]
 if {$res && $postcom ne ""} {{*}$postcom textcont [my TexM]}
 set textcont " [$focusnow index insert] $textcont"
 } else {set textcont ""}
-if {$res && $inopts ne ""} {my SetGetTexts get $_pdg(win).dia.fra $inopts $widlist
+if {$res && $inopts ne ""} {my SetGetTexts get $qdlg.fra $inopts $widlist
 set inopts " [my GetVarsValues $widlist]"
 } else {set inopts ""}
 if {$textmode && $rotext ne ""} {set $rotext [string trimright [[my TexM] get 1.0 end]]}
-destroy $_pdg(win).dia
+destroy $qdlg
 update
 if {$focusback ne "" && [winfo exists $focusback]} {set w ".[lindex [split $focusback .] 1]"
 after 50 [list if "\[winfo exist $focusback\]" "focus -force $focusback" elseif "\[winfo exist $w\]" "focus $w"]

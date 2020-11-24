@@ -1,10 +1,7 @@
 ###########################################################################
 package require Tk
-package require tablelist
-package require widget::calendar
-catch {package require tooltip}
 namespace eval ::apave {;
-variable _Defaults [dict create "but" {{} {}} "buT" {{} {-width -20 -pady 1}} "can" {{} {}} "chb" {{} {}} "chB" {{} {-relief sunken -padx 6 -pady 2}} "cbx" {{} {}} "fco" {{} {}} "ent" {{} {}} "enT" {{} {-insertwidth 0.6m}} "fil" {{} {}} "fis" {{} {}} "dir" {{} {}} "fon" {{} {}} "clr" {{} {}} "dat" {{} {}} "sta" {{} {}} "too" {{} {}} "fra" {{} {}} "ftx" {{} {}} "frA" {{} {}} "lab" {{-sticky w} {}} "laB" {{-sticky w} {}} "lfr" {{} {}} "lfR" {{} {-relief groove}} "lbx" {{} {}} "flb" {{} {}} "meb" {{} {}} "meB" {{} {}} "nbk" {{} {}} "opc" {{} {}} "pan" {{} {}} "pro" {{} {}} "rad" {{} {}} "raD" {{} {-padx 6 -pady 2}} "sca" {{} {-orient horizontal}} "scA" {{} {-orient horizontal}} "sbh" {{-sticky ew} {-orient horizontal -takefocus 0}} "sbH" {{-sticky ew} {-orient horizontal -takefocus 0}} "sbv" {{-sticky ns} {-orient vertical -takefocus 0}} "sbV" {{-sticky ns} {-orient vertical -takefocus 0}} "seh" {{-sticky ew} {-orient horizontal}} "sev" {{-sticky ns} {-orient vertical}} "siz" {{} {}} "spx" {{} {}} "spX" {{} {}} "tbl" {{} {-selectborderwidth 1 -highlightthickness 2 -labelcommand tablelist::sortByColumn -stretch all -showseparators 1}} "tex" {{} {-undo 1 -maxundo 0 -highlightthickness 2 -insertwidth 0.6m}} "tre" {{} {}} "h_" {{-sticky ew -csz 3 -padx 3} {}} "v_" {{-sticky ns -rsz 3 -pady 3} {}}]
+variable _Defaults [dict create "bts" {{} {}} "but" {{} {}} "buT" {{} {-width -20 -pady 1}} "can" {{} {}} "chb" {{} {}} "chB" {{} {-relief sunken -padx 6 -pady 2}} "cbx" {{} {}} "fco" {{} {}} "ent" {{} {}} "enT" {{} {-insertwidth 0.6m}} "fil" {{} {}} "fis" {{} {}} "dir" {{} {}} "fon" {{} {}} "clr" {{} {}} "dat" {{} {}} "sta" {{} {}} "too" {{} {}} "fra" {{} {}} "ftx" {{} {}} "frA" {{} {}} "lab" {{-sticky w} {}} "laB" {{-sticky w} {}} "lfr" {{} {}} "lfR" {{} {-relief groove}} "lbx" {{} {}} "flb" {{} {}} "meb" {{} {}} "meB" {{} {}} "nbk" {{} {}} "opc" {{} {}} "pan" {{} {}} "pro" {{} {}} "rad" {{} {}} "raD" {{} {-padx 6 -pady 2}} "sca" {{} {-orient horizontal}} "scA" {{} {-orient horizontal}} "sbh" {{-sticky ew} {-orient horizontal -takefocus 0}} "sbH" {{-sticky ew} {-orient horizontal -takefocus 0}} "sbv" {{-sticky ns} {-orient vertical -takefocus 0}} "sbV" {{-sticky ns} {-orient vertical -takefocus 0}} "seh" {{-sticky ew} {-orient horizontal}} "sev" {{-sticky ns} {-orient vertical}} "siz" {{} {}} "spx" {{} {}} "spX" {{} {}} "tbl" {{} {-selectborderwidth 1 -highlightthickness 2 -labelcommand tablelist::sortByColumn -stretch all -showseparators 1}} "tex" {{} {-undo 1 -maxundo 0 -highlightthickness 2 -insertwidth 0.6m}} "tre" {{} {}} "h_" {{-sticky ew -csz 3 -padx 3} {}} "v_" {{-sticky ns -rsz 3 -pady 3} {}}]
 variable apaveDir [file dirname [info script]]
 variable _AP_ICO { none folder OpenFile SaveFile font color date help home \
     undo redo run tools file find search replace view edit config misc \
@@ -14,6 +11,11 @@ variable _AP_IMG;  array set _AP_IMG [list]
 variable _AP_VARS; array set _AP_VARS [list]
 set _AP_VARS(.,SHADOW) 0
 set _AP_VARS(.,MODALS) 0
+set _AP_VARS(TIMW) [list]
+set _AP_VARS(LINKFONT) [list -underline 1]
+variable _AP_VISITED;  array set _AP_VISITED [list]
+set _AP_VISITED(ALL) [list]
+variable UFF "\uFFFF"
 proc WindowStatus {w name {val ""} {defval ""}} {variable _AP_VARS
 if {$val eq ""} {if {[info exist _AP_VARS($w,$name)]} {return $_AP_VARS($w,$name)}
 return $defval}
@@ -23,12 +25,12 @@ if {$val ne ""} {WindowStatus $w $name $val 1}
 return $old}
 proc shadowAllowed {{val ""} {w .}} {return [IntStatus $w SHADOW $val]}
 proc modalsOpen {{val ""} {w .}} {return [IntStatus $w MODALS $val]}
-proc iconImage {{icon ""}} {variable _AP_ICO
+proc iconImage {{icon ""}} {variable _AP_IMG
+variable _AP_ICO
 if {$icon eq ""} {return $_AP_ICO}
 proc imagename {icon} {   # Get a defined icon's image name
 return _AP_IMG(img$icon)}
 variable apaveDir
-variable _AP_IMG
 if {[array size _AP_IMG] == 0} {source [file join $apaveDir apaveimg.tcl]
 foreach ic $_AP_ICO {if {[catch {image create photo [imagename $ic] -data [set _AP_IMG($ic)]}]} {image create photo [imagename $ic] -data [set _AP_IMG(none)]}}}
 if {$icon eq "-init"} return
@@ -40,7 +42,15 @@ return [set _AP_IMG($icon)]}
 proc setAppIcon {win {winicon ""}} {set appIcon ""
 if {$winicon ne ""} {if {[catch {set appIcon [image create photo -data $winicon]}]} {catch { set appIcon [image create photo -file $winicon] }}}
 if {$appIcon ne ""} { wm iconphoto $win $appIcon }
-return}}
+return}
+proc paveObj {com args} {set pobj [::apave::APaveInput new]
+if {[set exported [expr {$com eq "EXPORT"}]]} {set com [lindex $args 0]
+set args [lrange $args 1 end]
+oo::objdefine $pobj "export $com"}
+set res [$pobj $com {*}$args]
+if {$exported} {oo::objdefine $pobj "unexport $com"}
+$pobj destroy
+return $res}}
 source [file join $::apave::apaveDir obbit.tcl]
 oo::class create ::apave::APave {mixin ::apave::ObjectTheming
 variable _pav
@@ -57,12 +67,12 @@ set _pav(bgbut) [ttk::style lookup TButton -background]
 set _pav(fgtxt) [ttk::style lookup TEntry -foreground]
 set _pav(prepost) [list]
 set _pav(widgetopts) [list]
-set _pav(edge) "/@"
+set _pav(edge) "@@"
 if {$_pav(fgtxt)=="black" || $_pav(fgtxt)=="#000000"} {set _pav(bgtxt) white
 } else {set _pav(bgtxt) [ttk::style lookup TEntry -background]}
 namespace eval ${_pav(ns)}PN {}
 array set ${_pav(ns)}PN::AR {}
-if {$cs>=-1} {my csSet $cs}
+if {$cs>=-1} {my csSet $cs} {my initTooltip}
 proc ListboxHandle {W offset maxChars} {
 set list {}
 foreach index [$W curselection] { lappend list [$W get $index] }
@@ -99,7 +109,7 @@ method parentWName {name} {return [string range $name 0 [string last . $name]-1]
 method themePopup {mnu} {return}
 method NonTtkTheme {win} {return}
 method NonTtkStyle {typ {dsbl 0}} {return}
-method IconA {icon} {return "-image [::apave::iconImage $icon] -compound left"}
+method iconA {icon} {return "-image [::apave::iconImage $icon] -compound left"}
 method configure {args} {foreach {optnam optval} $args { set _pav($optnam) $optval }
 return}
 method setDefaultAttrs {typ opt atr} {lassign [dict get $::apave::_Defaults $typ] defopts defattrs
@@ -139,7 +149,7 @@ set ldv1 [string length $div1]
 set ldv2 [string length $div2]
 set i1 [expr {[string first $div1 $fline]+$ldv1}]
 set i2 [expr {[string first $div2 $fline]-1}]
-set filterfile true
+set filterfile yes
 if {$ldv1 && $ldv2} {if {$i1<0 || $i2<0} {return $edge}
 set retval [string range $fline $i1 $i2]
 } elseif {$ldv1} {if {$i1<0} {return $edge}
@@ -154,7 +164,7 @@ if {[llength $retval]>1} {foreach r [lrange $retval 1 end] {append retval_tmp $r
 set retval $retval_tmp
 } else {set retval [lindex $retval 0]}
 } else {set retval $fline
-set filterfile false}
+set filterfile no}
 if {$retval eq "" && $filterfile} {return $edge}
 set retval [string map [list "\}" "\\\}"  "\{" "\\\{"] $retval]
 return [list $retval $ret]}
@@ -204,14 +214,15 @@ return "$attrs $retpos"}
 method ListboxesAttrs {w attrs} {if {"-exportselection" ni $attrs} {append attrs " -ListboxSel $w -selectmode extended -exportselection 0"}
 return $attrs}
 method timeoutButton {w tmo lbl {lbltext ""}} {if {$tmo>0} {catch {set lbl [my $lbl]}
-if {[winfo exist $lbl]} {if {$lbltext eq ""} {set lbltext [$lbl cget -text]}
+if {[winfo exist $lbl]} {if {$lbltext eq ""} {set lbltext [$lbl cget -text]
+lappend ::apave::_AP_VARS(TIMW) $w}
 $lbl configure -text "$lbltext $tmo sec. "}
 incr tmo -1
 after 1000 [list if "\[info commands [self]\] ne {}" "[self] checkTimeoutButton $w $tmo $lbl {$lbltext}"]
 return}
 if {[winfo exist $w]} {$w invoke}
 return}
-method checkTimeoutButton {w tmo lbl {lbltext ""}} {if {[winfo exists $lbl]} {if {[focus] in [list $w ""]} {my timeoutButton $w $tmo $lbl $lbltext
+method checkTimeoutButton {w tmo lbl {lbltext ""}} {if {[winfo exists $lbl]} {if {[focus] in [list $w ""]} {if {$w in $::apave::_AP_VARS(TIMW)} {my timeoutButton $w $tmo $lbl $lbltext}
 } else {$lbl configure -text $lbltext}}}
 method AddButtonIcon {w attrsName} {upvar 1 $attrsName attrs
 set txt [::apave::getOption -t {*}$attrs]
@@ -220,10 +231,10 @@ set im ""
 set icolist [list {exit abort} {exit close} {SaveFile save} {OpenFile open}]
 lappend icolist {*}[::apave::iconImage] {yes apply}
 foreach icon $icolist {lassign $icon ic1 ic2
-if {[string match -nocase $ic1 $txt] || [string match -nocase but$ic1 $w] || ($ic2 ne "" && ( [string match -nocase but$ic2 $w] || [string match -nocase $ic2 $txt]))} {append attrs " [my IconA $ic1]"
+if {[string match -nocase $ic1 $txt] || [string match -nocase but$ic1 $w] || ($ic2 ne "" && ( [string match -nocase but$ic2 $w] || [string match -nocase $ic2 $txt]))} {append attrs " [my iconA $ic1]"
 break}}
 return}
-method getWidgetType {wnamefull options attrs} {set disabled [expr {[::apave::getOption -state {*}$attrs] eq "disabled"}]
+method widgetType {wnamefull options attrs} {set disabled [expr {[::apave::getOption -state {*}$attrs] eq "disabled"}]
 set pack $options
 set name [my ownWName $wnamefull]
 set nam3 [string tolower [string index $name 0]][string range $name 1 2]
@@ -231,7 +242,10 @@ if {[string index $nam3 1] eq "_"} {set k [string range $nam3 0 1]} {set k $nam3
 lassign [dict get $::apave::_Defaults $k] defopts defattrs
 set options "[subst $defopts] $options"
 set attrs "[subst $defattrs] $attrs"
-switch -glob -- $nam3 {"but" {set widget "ttk::button"
+switch -glob -- $nam3 {"bts" {package require bartabs
+set attrs "-bartabs {$attrs}"
+set widget "ttk::frame"}
+"but" {set widget "ttk::button"
 my AddButtonIcon $name attrs}
 "buT" {set widget "button"
 my AddButtonIcon $name attrs}
@@ -255,7 +269,11 @@ set attrs [my FCfieldAttrs $wnamefull $attrs -tvar]}
 "ftx" {set widget "ttk::labelframe"}
 "frA" {set widget "frame"
 if {$disabled} {set attrs [::apave::removeOptions $attrs -state]}}
-"lab" {set widget "ttk::label"}
+"lab" {set widget "ttk::label"
+if {[::apave::parseOptions $attrs -state normal] eq "disabled"} {set attrs "-foreground grey $attrs"
+set attrs [::apave::removeOptions $attrs -state]}
+if {[set cmd [::apave::getOption -link {*}$attrs]] ne ""} {set attrs "-linkcom {$cmd} $attrs"
+set attrs [::apave::removeOptions $attrs -link]}}
 "laB" {set widget "label"}
 "lfr" {set widget "ttk::labelframe"}
 "lfR" {set widget "labelframe"
@@ -289,9 +307,11 @@ if {$i!=1} {lset attrs $i \{$atr\}
 "seh" {set widget "ttk::separator"}
 "sev" {set widget "ttk::separator"}
 "siz" {set widget "ttk::sizegrip"}
-"spx" {set widget "ttk::spinbox"}
-"spX" {set widget "spinbox"}
-"tbl" {set widget "tablelist::tablelist"
+"spx" - "spX" {if {$nam3 eq "spx"} {set widget "ttk::spinbox"} {set widget "spinbox"}
+lassign [::apave::parseOptions $attrs -command "" -from "" -to "" ] cmd from to
+set attrs "-onReturn {$::apave::UFF{$cmd} {$from} {$to}$::apave::UFF} $attrs"}
+"tbl" {package require tablelist
+set widget "tablelist::tablelist"
 set attrs "[my FCfieldAttrs $wnamefull $attrs -lvar]"
 set attrs "[my ListboxesAttrs $wnamefull $attrs]"}
 "tex" {set widget "text"
@@ -391,6 +411,7 @@ wm geometry $wcal [my CenteredXY $rw $rh $rx $ry 220 150]
 wm protocol $wcal WM_DELETE_WINDOW [list set ${_pav(ns)}datechoosen ""]
 bind $wcal <Escape> [list set ${_pav(ns)}datechoosen ""]
 set ${_pav(ns)}datechoosen ""
+package require widget::calendar
 widget::calendar $wcal.c -dateformat $df -enablecmdonkey 0 -command [list set ${_pav(ns)}datechoosen] -textvariable ${_pav(ns)}_pav(clnddate)
 pack $wcal.c -fill both -expand 0
 after idle [list focus $wcal]
@@ -412,9 +433,9 @@ incr isfilename}
 set res [{*}$nchooser {*}$args]
 if {"$res" ne "" && "$tvar" ne ""} {if {$isfilename} {lassign [my SplitContentVariable $ftxvar] -> txtnam wid
 if {[info exist $ftxvar] && [file exist [set res [file nativename $res]]]} {set $ftxvar [::apave::readTextFile $res]
-if {[winfo exist $txtnam]} {my readonlyWidget $txtnam false
+if {[winfo exist $txtnam]} {my readonlyWidget $txtnam no
 my displayTaggedText $txtnam $ftxvar
-my readonlyWidget $txtnam true
+my readonlyWidget $txtnam yes
 set wid [string range $txtnam 0 [string last . $txtnam]]$wid
 $wid configure -text "$res"
 ::tk::TextSetCursor $txtnam 1.0
@@ -443,7 +464,7 @@ lassign $args name neighbor posofnei rowspan colspan options1 attrs1
 lassign "" wpar view addattrs addattrs2
 set tvar [::apave::getOption -tvar {*}$attrs1]
 set filetypes [::apave::getOption -filetypes {*}$attrs1]
-set takefocus "-takefocus [::apave::parseOptions $attrs1  -takefocus 0]"
+set takefocus "-takefocus [::apave::parseOptions $attrs1 -takefocus 0]"
 if {$filetypes ne ""} {set attrs1 [::apave::removeOptions $attrs1 -filetypes -takefocus]
 lset args 6 $attrs1
 append addattrs2 " -filetypes {$filetypes}"}
@@ -455,7 +476,7 @@ switch -glob -- [my ownWName $n] {"fil*" { set chooser "tk_getOpenFile" }
 "fon*" { set chooser "fontChooser" }
 "dat*" { set chooser "dateChooser" }
 "ftx*" {set chooser [set view "ftx_OpenFile"]
-if {$tvar ne "" && [info exist $tvar]} {append addattrs " -t [set $tvar]"}
+if {$tvar ne "" && [info exist $tvar]} {append addattrs " -t {[set $tvar]}"}
 set an "tex"}
 "clr*" { set chooser "colorChooser"
 set wpar "-parent $w"}
@@ -579,6 +600,18 @@ if {[catch {info object definition [self] $method}]} {oo::objdefine [self] "
           method $method {} {return $w.$an$name}
           export $method"}}
 return [set ${_pav(ns)}PN::wn $w.$name]}
+method SetTextBinds {wt} {if {[bind $wt <<Paste>>] eq ""} {set res "
+      bind $wt <<Paste>> {+ [self] pasteText $wt}
+      bind $wt <Return> {+ [self] onKeyTextM $wt %K}"}
+append res "
+      bind $wt <Control-d> {[self] doubleText $wt}
+      bind $wt <Control-D> {[self] doubleText $wt}
+      bind $wt <Control-y> {[self] deleteLine $wt}
+      bind $wt <Control-Y> {[self] deleteLine $wt}
+      bind $wt <Alt-Up> {[self] linesMove $wt -1}
+      bind $wt <Alt-Down> {[self] linesMove $wt +1}
+      bind $wt <Control-a> \"$wt tag add sel 1.0 end; break\""
+return $res}
 method AddPopupAttr {w attrsName atRO isRO args} {upvar 1 $attrsName attrs
 lassign $args state state2
 if {$state2 ne ""} {if {[::apave::getOption -state {*}$attrs] eq $state2} return
@@ -586,37 +619,40 @@ set isRO [expr {$isRO || [::apave::getOption -state {*}$attrs] eq $state}]}
 if {$isRO} { append atRO "RO" }
 append attrs " $atRO $w"
 return}
-method makePopup {w {isRO false} {istext false} {tearoff false}} {set pop $w.popupMenu
+method makePopup {w {isRO no} {istext no} {tearoff no}} {set pop $w.popupMenu
 catch {menu $pop -tearoff $tearoff}
 $pop delete 0 end
-if {$isRO} {$pop add command {*}[my IconA copy] -accelerator Ctrl+C -label "Copy" -command "event generate $w <<Copy>>"
-} else {$pop add command {*}[my IconA cut] -accelerator Ctrl+X -label "Cut" -command "event generate $w <<Cut>>"
-$pop add command {*}[my IconA copy] -accelerator Ctrl+C -label "Copy" -command "event generate $w <<Copy>>"
-$pop add command {*}[my IconA paste] -accelerator Ctrl+V -label "Paste" -command "event generate $w <<Paste>>"
+if {$isRO} {$pop add command {*}[my iconA copy] -accelerator Ctrl+C -label "Copy" -command "event generate $w <<Copy>>"
+} else {$pop add command {*}[my iconA cut] -accelerator Ctrl+X -label "Cut" -command "event generate $w <<Cut>>"
+$pop add command {*}[my iconA copy] -accelerator Ctrl+C -label "Copy" -command "event generate $w <<Copy>>"
+$pop add command {*}[my iconA paste] -accelerator Ctrl+V -label "Paste" -command "event generate $w <<Paste>>"
 if {$istext} {$pop add separator
-$pop add command {*}[my IconA undo] -accelerator Ctrl+Z -label "Undo" -command "event generate $w <<Undo>>"
-$pop add command {*}[my IconA redo] -accelerator Ctrl+Shift+Z -label "Redo" -command "event generate $w <<Redo>>"}}
+$pop add command {*}[my iconA undo] -accelerator Ctrl+Z -label "Undo" -command "event generate $w <<Undo>>"
+$pop add command {*}[my iconA redo] -accelerator Ctrl+Shift+Z -label "Redo" -command "event generate $w <<Redo>>"
+after idle [my SetTextBinds $w]}}
 if {$istext} {$pop add separator
-$pop add command {*}[my IconA none] -accelerator Ctrl+A -label "Select All" -command "$w tag add sel 1.0 end"
+$pop add command {*}[my iconA none] -accelerator Ctrl+A -label "Select All" -command "$w tag add sel 1.0 end"
 bind $w <Control-a> "$w tag add sel 1.0 end; break"}
 bind $w <Button-3> "[self] themePopup $w.popupMenu; tk_popup $w.popupMenu %X %Y"
 return}
 method Pre {refattrs} {upvar 1 $refattrs attrs
 set attrs_ret [set _pav(prepost) {}]
-foreach {a v} $attrs {switch -- $a {-disabledtext - -rotext - -lbxsel - -cbxsel - -notebazook - -entrypop - -entrypopRO - -textpop - -textpopRO - -ListboxSel -
--callF2 - -timeout {lappend _pav(prepost) [list $a [string trim $v {\{\}}]]}
+foreach {a v} $attrs {switch -- $a {-disabledtext - -rotext - -lbxsel - -cbxsel - -notebazook - -entrypop - -entrypopRO - -textpop - -textpopRO - -ListboxSel - -callF2 - -timeout - -bartabs - -onReturn - -linkcom - -afteridle {set v2 [string trimleft $v "\{"]
+set v2 [string range $v2 0 end-[expr {[string length $v]-[string length $v2]}]]
+lappend _pav(prepost) [list $a $v2]}
 -myown {lappend _pav(prepost) [list $a [subst $v]]}
 default {lappend attrs_ret $a $v}}}
 set attrs $attrs_ret
 return}
 method Post {w attrs} {foreach pp $_pav(prepost) {lassign $pp a v
+set v [string trim $v $::apave::UFF]
 switch -- $a {-disabledtext {$w configure -state normal
 my displayTaggedText $w v {}
 $w configure -state disabled
-my readonlyWidget $w false}
+my readonlyWidget $w no}
 -rotext {if {[info exist v]} {if {[info exist $v]} {my displayTaggedText $w $v {}
 } else {my displayTaggedText $w v {}}}
-my readonlyWidget $w true}
+my readonlyWidget $w yes}
 -lbxsel {set v [lsearch -glob [$w get 0 end] "$v*"]
 if {$v>=0} {$w selection set $v
 $w yview $v
@@ -627,15 +663,115 @@ set v [lsearch -glob $cbl "$v*"]
 if {$v>=0} { $w set [lindex $cbl $v] }}
 -ListboxSel {bind $v <<ListboxSelect>> [list [namespace current]::ListboxSelect %W]}
 -entrypop - -entrypopRO {if {[winfo exists $v]} {my makePopup $v [expr {$a eq "-entrypopRO"}]}}
--textpop - -textpopRO {if {[winfo exists $v]} {my makePopup $v [expr {$a eq "-textpopRO"}] true}}
--notebazook {foreach {fr attr} $v {if {[string match "-tr*" $fr]} {ttk::notebook::enableTraversal $w
+-textpop - -textpopRO {if {[winfo exists $v]} {set ro [expr {$a eq "-textpopRO"}]
+my makePopup $v $ro yes
+$v tag configure sel -borderwidth 1}}
+-notebazook {foreach {fr attr} $v {if {[string match "-tr*" $fr]} {if {[string is boolean -strict $attr] && $attr} {ttk::notebook::enableTraversal $w}
+} elseif {[string match "-sel*" $fr]} {$w select $w.$attr
 } elseif {![string match "#*" $fr]} {$w add [ttk::frame $w.$fr] {*}[subst $attr]}}}
+-onReturn {lassign $v cmd from to
+if {[set tvar [$w cget -textvariable]] ne ""} {if {$from ne ""} {set cmd "if {\$$tvar < $from} {set $tvar $from}; $cmd"}
+if {$to ne ""} {set cmd "if {\$$tvar >$to} {set $tvar $to}; $cmd"}}
+foreach k {<Return> <KP_Enter>} {if {$v ne ""} {bind $w $k $cmd}}}
+-linkcom {lassign [my csGet] fg fg2 bg bg2
+my makeLabelLinked $w $v $fg $bg $fg2 $bg2 yes yes}
 -callF2 {if {[llength $v]==1} {set w2 $v} {set w2 [string map $v $w]}
 if {[string first $w2 [bind $w "<F2>"]] < 0} {bind $w <F2> [list + $w2 invoke]}}
 -timeout {lassign $v timo lbl
 after idle [list [self] timeoutButton $w $timo $lbl]}
--myown {eval {*}[string map [list %w $w] $v]}}}
+-myown {eval {*}[string map [list %w $w] $v]}
+-bartabs {after 50 [string map [list %w $w] $v]}
+-afteridle {after idle [string map [list %w $w] $v]}}}
 return}
+method CleanUps {{wr ""}} {for {set i [llength $::apave::_AP_VISITED(ALL)]} {[incr i -1]>=0} {} {if {![winfo exists [lindex $::apave::_AP_VISITED(ALL) $i 0]]} {set ::apave::_AP_VISITED(ALL) [lreplace $::apave::_AP_VISITED(ALL) $i $i]}}
+if {$wr ne ""} {for {set i [llength $::apave::_AP_VARS(TIMW)]} {[incr i -1]>=0} {} {set w [lindex $::apave::_AP_VARS(TIMW) $i]
+if {[string first $wr $w]==0 && ![catch {baltip::hide $w}]} {set ::apave::_AP_VARS(TIMW) [lreplace $::apave::_AP_VARS(TIMW) $i $i]}}}}
+method UpdateColors {} {lassign [my csGet] fg fg2 bg bg2 - - - - - fg3
+my CleanUps
+foreach lw $::apave::_AP_VISITED(ALL) {lassign $lw w v inv
+lassign [my makeLabelLinked $w $v $fg $bg $fg2 $bg2 no $inv] fg0 bg0
+if {[info exists ::apave::_AP_VISITED(FG,$w)]} {set fg0 $fg3
+set ::apave::_AP_VISITED(FG,$w) $fg3}
+$w configure -foreground $fg0 -background $bg0}}
+method initLinkFont {args} {if {[set ll [llength $args]]} {if {$ll%2} {set ::apave::_AP_VARS(LINKFONT) [list]
+} else {set ::apave::_AP_VARS(LINKFONT) $args}}
+return $::apave::_AP_VARS(LINKFONT)}
+method labelFlashing {w1 w2 first args} {if {![winfo exists $w1]} return
+if {$first} {lassign [::apave::parseOptions $args -file "" -data "" -label "" -incr 0.01 -pause 3.0 -after 10 -squeeze "" -static 0] ofile odata olabel oincr opause oafter osqueeze ostatic
+if {$osqueeze ne ""} {set osqueeze "-subsample $osqueeze"}
+array set ::t::AR {}
+lassign {0 -2 0 1} idx incev waitev direv
+} else {lassign $args ofile odata olabel oincr opause oafter osqueeze ostatic idx incev waitev direv}
+set llf [llength $ofile]
+set lld [llength $odata]
+if {[set llen [expr {max($llf,$lld)}]]==0} return
+incr incev $direv
+set alphaev [expr {$oincr*$incev}]
+if {$alphaev>=1} {set alpha 1.0
+if {[incr waitev -1]<0} {set direv -1}
+} elseif {$alphaev<0} {set alpha 0.0
+set idx [expr {$idx%$llen+1}]
+set direv 1
+set incev 0
+set waitev [expr {int($opause/$oincr)}]
+} else {set alpha $alphaev}
+if {$llf} {set png [list -file [lindex $ofile $idx-1]]
+} else {set png [list -data [set [lindex $odata $idx-1]]]}
+set NS [namespace current]
+if {$ostatic} {image create photo ${NS}::ImgT$w1 {*}$png
+$w1 configure -image ${NS}::ImgT$w1
+} else {image create photo ${NS}::ImgT$w1 {*}$png -format "png -alpha $alpha"
+image create photo ${NS}::Img$w1
+${NS}::Img$w1 copy ${NS}::ImgT$w1 {*}$osqueeze
+$w1 configure -image ${NS}::Img$w1}
+if {$w2 ne ""} {if {$alphaev<0.33 && !$ostatic} {set fg [$w1 cget -background]
+} else {if {[info exists ::apave::_AP_VISITED(FG,$w2)]} {set fg $::apave::_AP_VISITED(FG,$w2)
+} else {set fg [$w1 cget -foreground]}}
+$w2 configure -text [lindex $olabel $idx-1] -foreground $fg}
+after $oafter [list [self] labelFlashing $w1 $w2 0 $ofile $odata $olabel $oincr $opause $oafter $osqueeze $ostatic $idx $incev $waitev $direv]}
+method VisitedLab {w cmd {on ""} {fg ""} {bg ""}} {set styl [ttk::style configure TLabel]
+if {$fg eq ""} {lassign [my csGet] - fg - bg}
+set vst [string map {" " "_"} $cmd]
+if {$on eq ""} {set on [expr {[info exists ::apave::_AP_VISITED($vst)]}]}
+if {$on} {set fg [lindex [my csGet] 9]
+set ::apave::_AP_VISITED($vst) 1
+set ::apave::_AP_VISITED(FG,$w) $fg
+foreach lw $::apave::_AP_VISITED(ALL) {lassign $lw w2 cmd2
+if {[winfo exists $w2] && $cmd eq $cmd2} {$w2 configure -foreground $fg -background $bg
+set ::apave::_AP_VISITED(FG,$w2) $fg}}}
+$w configure -foreground $fg -background $bg
+if {[set font [$w cget -font]] eq ""} {set font [font configure TkDefaultFont]
+} else {catch {set font [font configure $font]}}
+foreach {o v} [my initLinkFont] {dict set font $o $v}
+set font [dict set font -size [my basicFontSize]]
+$w configure -font $font}
+method HoverLab {w cmd on {fg ""} {bg ""}} {if {$on} {if {$fg eq ""} {lassign [my csGet] fg - bg}
+$w configure -background $bg
+} else {my VisitedLab $w $cmd "" $fg $bg}
+return}
+method makeLabelLinked {lab v fg bg fg2 bg2 {doadd yes} {inv no} } {set txt [$lab cget -text]
+lassign [split [string map [list $_pav(edge) $::apave::UFF] $v] $::apave::UFF] v tt vz
+set tt [string map [list %l $txt] $tt]
+set v [string map [list %l $txt %t $tt] $v]
+if {$tt ne ""} {::baltip tip $lab $tt
+lappend ::apave::_AP_VARS(TIMW) $lab}
+if {$inv} {set ft $fg
+set bt $bg
+set fg $fg2
+set bg $bg2
+set fg2 $ft
+set bg2 $bt}
+my VisitedLab $lab $v $vz $fg $bg
+bind $lab <Enter> "::apave::paveObj EXPORT HoverLab $lab {$v} yes $fg2 $bg2"
+bind $lab <Leave> "::apave::paveObj EXPORT HoverLab $lab {$v} no $fg $bg"
+bind $lab <Button-1> "::apave::paveObj EXPORT VisitedLab $lab {$v} yes $fg2 $bg2;$v"
+if {$doadd} {lappend ::apave::_AP_VISITED(ALL) [list $lab $v $inv]}
+return [list $fg $bg $fg2 $bg2]}
+method onKeyTextM {w K} {if {$K eq "Return"} {set idx1 [$w index "insert linestart"]
+set idx2 [$w index "insert lineend"]
+set line [$w get $idx1 $idx2]
+set indent [string repeat " " [expr {[string length $line]-[string length [string trimleft $line]]}]]
+if {$indent ne ""} {after idle [list $w insert [$w index "$idx1 +1 line"] $indent]}}}
 method TextCommandForChange {w com on {com2 ""}} {set newcom $w.internal
 if {!$on} {if {[info commands ::$newcom] ne ""} {rename ::$w ""
 rename ::$newcom ::$w}
@@ -655,8 +791,8 @@ if {$com eq ""} {proc ::$w {args} "
           \}
           return \$_res_of_TextCommandForChange"}}
 if {$com2 ne ""} {{*}$com2}}
-method readonlyWidget {w {on true} {popup true}} {my TextCommandForChange $w "" $on
-if {$popup} {my makePopup $w $on true}
+method readonlyWidget {w {on yes} {popup yes}} {my TextCommandForChange $w "" $on
+if {$popup} {my makePopup $w $on yes}
 return}
 method GetOutputValues {} {foreach aop $_pav(widgetopts) {lassign $aop optnam vn v1 v2
 switch -glob -- $optnam {-lbxname* {lassign [$vn curselection] s1
@@ -687,7 +823,12 @@ return}}
 return}
 method AdditionalCommands {w wdg attrsName} {upvar $attrsName attrs
 set addcomms {}
-if {[set tooltip [::apave::getOption -tooltip {*}$attrs]] ne ""} {lappend addcomms [list tooltip::tooltip $wdg $tooltip]
+if {[set tooltip [::apave::getOption -tooltip {*}$attrs]] ne ""} {if {[set i [string first $_pav(edge) $tooltip]]>=0} {set tooltip [string range $tooltip 1 end-1]
+set tattrs [string range $tooltip [incr i -1]+[string length $_pav(edge)] end]
+set tooltip "{[string range $tooltip 0 $i-1]}"
+} else {set tattrs ""}
+lappend addcomms [list baltip::tip $wdg $tooltip {*}$tattrs]
+lappend ::apave::_AP_VARS(TIMW) $wdg
 set attrs [::apave::removeOptions $attrs -tooltip]}
 if {[::apave::getOption -ro {*}$attrs] ne "" || [::apave::getOption -readonly {*}$attrs] ne ""} {lassign [::apave::parseOptions $attrs -ro 0 -readonly 0] ro readonly
 lappend addcomms [list my readonlyWidget $wdg [expr $ro||$readonly]]
@@ -697,12 +838,13 @@ if {$wnext eq "0"} {set wnext $wdg}
 after idle [list if "\[winfo exists $wdg\]" [list bind $wdg <Key> [list if {{%K} == {Tab}} "[self] focusNext $w $wnext ; break" ] ] ]
 set attrs [::apave::removeOptions $attrs -tabnext]}
 return $addcomms}
-method DefineWidgetKeys {wname widget} {if {($widget in {ttk::entry entry})} {bind $wname <Up> [list if {$::tcl_platform(platform) == "windows"} [list event generate $wname <Shift-Tab> ] else [list event generate $wname <Key> -keysym ISO_Left_Tab] ]
+method DefineWidgetKeys {wname widget} {if {[string first "STD" $wname]>0} return
+if {($widget in {ttk::entry entry})} {bind $wname <Up> [list if {$::tcl_platform(platform) == "windows"} [list event generate $wname <Shift-Tab> ] else [list event generate $wname <Key> -keysym ISO_Left_Tab] ]
 bind $wname <Down> [list event generate $wname <Key> -keysym Tab]}
 if {$widget in {ttk::button button ttk::checkbutton checkbutton ttk::radiobutton radiobutton "my tk_optionCascade"}} {foreach k {<Up> <Left>} {bind $wname $k [list if {$::tcl_platform(platform) == "windows"} [list event generate $wname <Shift-Tab> ] else [list event generate $wname <Key> -keysym ISO_Left_Tab] ]}
 foreach k {<Down> <Right>} {bind $wname $k [list event generate $wname <Key> -keysym Tab]}}
 if {$widget in {ttk::button button ttk::checkbutton checkbutton ttk::radiobutton radiobutton}} {foreach k {<Return> <KP_Enter>} {bind $wname $k [list event generate $wname <Key> -keysym space]}}
-if {$widget in {ttk::entry entry spinbox ttk::spinbox}} {foreach k {<Return> <KP_Enter>} {bind $wname $k [list event generate $wname <Key> -keysym Tab]}}}
+if {$widget in {ttk::entry entry spinbox ttk::spinbox}} {foreach k {<Return> <KP_Enter>} {bind $wname $k [list + event generate $wname <Key> -keysym Tab]}}}
 method Window {w inplists} {set lwidgets [list]
 foreach lst $inplists {if {[string index [string index $lst 0] 0] ne "#"} {lappend lwidgets $lst}}
 set lused [list]
@@ -714,7 +856,7 @@ for {set i 0} {$i < $lwlen} {} {set lst1 [lindex $lwidgets $i]
 set lst1 [my Replace_chooser w i lwlen lwidgets {*}$lst1]
 if {[set lst1 [my Replace_bar w i lwlen lwidgets {*}$lst1]] eq ""} {incr i
 continue}
-lassign $lst1 name neighbor posofnei rowspan colspan options1 attrs1 comm1
+lassign $lst1 name neighbor posofnei rowspan colspan options1 attrs1
 set prevw $name
 lassign [my NormalizeName name i lwidgets] name wname
 lassign [my NormalizeName neighbor i lwidgets] neighbor
@@ -723,10 +865,10 @@ if {$colspan=={} || $colspan=={-}} {set colspan 1
 if {$rowspan=={} || $rowspan=={-}} {set rowspan 1}}
 set options [uplevel 2 subst -nocommand -nobackslashes [list $options1]]
 set attrs [uplevel 2 subst -nocommand -nobackslashes [list $attrs1]]
-lassign [my getWidgetType $wname $options $attrs] widget options attrs nam3 dsbl
+lassign [my widgetType $wname $options $attrs] widget options attrs nam3 dsbl
 if { !($widget == "" || [winfo exists $widget])} {set attrs [my GetAttrs $attrs $nam3 $dsbl]
-set attrs [string map {\" \\\"} [my ExpandOptions $attrs]]
-if {$widget in {"ttk::scrollbar" "scrollbar"}} {lassign [my LowercaseWidgetName $neighbor] neighbor
+set attrs [my ExpandOptions $attrs]
+if {$widget in {"ttk::scrollbar" "scrollbar"}} {set neighbor [lindex [my LowercaseWidgetName $neighbor] 0]
 if {$posofnei=="L"} {$w.$neighbor config -yscrollcommand "$wname set"
 set attrs "$attrs -com \\\{$w.$neighbor yview\\\}"
 append options " -side right -fill y -after $w.$neighbor"
@@ -738,7 +880,7 @@ set addcomms [my AdditionalCommands $w $wname attrs]
 eval $widget $wname {*}$attrs
 my Post $wname $attrs
 foreach acm $addcomms { eval {*}$acm }
-if {[string first "STD" $wname]==-1} {my DefineWidgetKeys $wname $widget}}
+my DefineWidgetKeys $wname $widget}
 if {$neighbor eq "-" || $row < 0} {set row [set col 0]}
 if {$neighbor ne "#"} {set options [my GetIntOptions $w $options $row $rowspan $col $colspan]
 set pack [string trim $options]
@@ -748,14 +890,13 @@ if {[string first "add" $pack]==0} {set comm "[winfo parent $wname] add $wname [
 if {[string first "forget" $opts]==0} {pack forget {*}[string range $opts 6 end]
 } else {pack $wname {*}$opts}
 } else {grid $wname -row $row -column $col -rowspan $rowspan -columnspan $colspan -padx 1 -pady 1 {*}$options}}
-if {$comm1 ne ""} {set comm1 [string map [list %w. $wname. "%w " "$wname "] $comm1]
-{*}$comm1}
 lappend lused [list $name $row $col $rowspan $colspan]
 if {[incr i] < $lwlen} {lassign [lindex $lwidgets $i] name neighbor posofnei
 if {$neighbor=="+"} {set neighbor $prevw}
+set neighbor [lindex [my LowercaseWidgetName $neighbor] 0]
 set row -1
 foreach cell $lused {lassign $cell uname urow ucol urowspan ucolspan
-if {$uname eq $neighbor} {set col $ucol
+if {[lindex [my LowercaseWidgetName $uname] 0] eq $neighbor} {set col $ucol
 set row $urow
 if {$posofnei == "T" || $posofnei == ""} {incr row $urowspan
 } elseif {$posofnei == "L"} {incr col $ucolspan}}}}}
@@ -763,6 +904,7 @@ return $lwidgets}
 method paveWindow {args} {set res [list]
 set wmain [set wdia ""]
 foreach {w lwidgets} $args {lappend res {*}[my Window $w $lwidgets]
+lappend _pav(lwidgets) $lwidgets
 if {[string match *.dia $w]} {set wdia $w
 } elseif {[set _ [string first .dia. $w]]>0} {set wdia [string range $w 0 $_+3]
 } else {set wmain .[lindex [split $w .] 1]}}
@@ -777,14 +919,16 @@ $win configure -bg $bg
 set _pav(modalwin) $win
 set root [winfo parent $win]
 if {[set centerme [::apave::getOption -centerme {*}$args]] ne {}} {;
-if {[winfo exist $centerme]} {set root $centerme}
-set args [::apave::removeOptions $args -centerme]}
-if {[set ontop [::apave::getOption -ontop {*}$args]] ne {}} {set args [::apave::removeOptions $args -ontop]}
+if {[winfo exist $centerme]} {set root $centerme}}
+if {[set ontop [::apave::getOption -ontop {*}$args]] eq {}} {set ontop no}
+if {[set modal [::apave::getOption -modal {*}$args]] eq {}} {set modal yes}
+set args [::apave::removeOptions $args -centerme -ontop -modal]
 array set opt [list -focus "" -onclose "" -geometry "" -decor 0 -root $root {*}$args]
 lassign [split [wm geometry $root] x+] rw rh rx ry
 if {! $opt(-decor)} {wm transient $win $root}
 if {$opt(-onclose) == ""} {set opt(-onclose) [list set ${_pav(ns)}PN::AR($win) 0]
 } else {set opt(-onclose) [list $opt(-onclose) ${_pav(ns)}PN::AR($win)]}
+set opt(-onclose) "::apave::paveObj EXPORT CleanUps $win; $opt(-onclose)"
 wm protocol $win WM_DELETE_WINDOW $opt(-onclose)
 set inpgeom $opt(-geometry)
 if {$inpgeom == ""} {set opt(-geometry) [my CenteredXY $rw $rh $rx $ry [winfo reqwidth $win] [winfo reqheight $win]]}
@@ -793,28 +937,32 @@ if {$opt(-focus) == ""} {set opt(-focus) $win}
 set ${_pav(ns)}PN::AR($win) "-"
 bind $win <Escape> $opt(-onclose)
 update
+if {$inpgeom == ""} {set w [winfo width $win]
+set h [winfo height $win]
+if {($h/2-$ry-$rh/2)>30 && $root != "."} {wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
+} else {::tk::PlaceWindow $win widget $root}
+} else {wm geometry $win $inpgeom}
 if {[::iswindows]} {if {[wm attributes $win -alpha] < 0.1} {wm attributes $win -alpha 1.0}
 } else {catch {wm deiconify $win ; raise $win}}
 wm minsize $win [set w [winfo width $win]] [set h [winfo height $win]]
-if {$inpgeom == ""} {if {($h/2-$ry-$rh/2)>30 && $root != "."} {wm geometry $win [my CenteredXY $rw $rh $rx $ry $w $h]
-} else {::tk::PlaceWindow $win widget $root}
-} else {wm geometry $win $inpgeom}
 bind $win <Configure> "[namespace current]::WinResize $win"
-if {$ontop>0} {wm attributes $win -topmost 1}
+if {$ontop} {wm attributes $win -topmost 1}
 after 50 [list if "\[winfo exist $opt(-focus)\]" "focus -force $opt(-focus)"]
 ::apave::modalsOpen [expr {[::apave::modalsOpen] + 1}]
 if {![::iswindows]} {tkwait visibility $win}
-grab set $win
+if {$modal} {grab set $win}
 tkwait variable ${_pav(ns)}PN::AR($win)
-grab release $win
+if {$modal} {grab release $win}
 ::apave::modalsOpen [expr {[::apave::modalsOpen] - 1}]
 my GetOutputValues
 ::apave::shadowAllowed $shal
 return [set [set _ ${_pav(ns)}PN::AR($win)]]}
 method res {win {result "get"}} {if {[winfo exists $win.dia]} {set win $win.dia}
 if {$result == "get"} {return [set ${_pav(ns)}PN::AR($win)]}
+my CleanUps $win
 return [set ${_pav(ns)}PN::AR($win) $result]}
-method makeWindow {w ttl} {set w [set wtop [string trimright $w .]]
+method makeWindow {w ttl} {my CleanUps
+set w [set wtop [string trimright $w .]]
 set withfr [expr {[set pp [string last . $w]]>0 && [string match "*.fra" $w]}]
 if {$withfr} {set wtop [string range $w 0 $pp-1]}
 catch {destroy $wtop}
@@ -824,9 +972,12 @@ if {[::iswindows]} {wm attributes $wtop -alpha 0.0
 if {$withfr} {pack [ttk::frame $w] -expand 1 -fill both}
 wm title $wtop $ttl
 return $wtop}
-method displayText {w conts} {if { [set state [$w cget -state]] ne "normal"} {$w configure -state normal}
+method textLink {w idx} {if {[info exists ::apave::__TEXTLINKS__($w)]} {return [lindex $::apave::__TEXTLINKS__($w) $idx]}
+return ""}
+method displayText {w conts {pos 1.0}} {if { [set state [$w cget -state]] ne "normal"} {$w configure -state normal}
 $w replace 1.0 end $conts
-$w edit reset; $w edit modified false
+$w edit reset; $w edit modified no
+::tk::TextSetCursor $w $pos
 if { $state ne "normal" } { $w configure -state $state }
 return}
 method displayTaggedText {w contsName {tags ""}} {upvar $contsName conts
@@ -865,11 +1016,25 @@ append disptext $newline $line
 incr irow}
 $w replace 1.0 end $disptext
 foreach tagi $tags {lassign $tagi tag opts
-$w tag config $tag {*}$opts}
-foreach tagli $taglist {lassign $tagli i p1 p2
+if {![string match "link*" $tag]} {$w tag config $tag {*}$opts}}
+lassign [my csGet] fg fg2 bg bg2
+set lfont [$w cget -font]
+catch {set lfont [font configure $lfont]}
+foreach {o v} [my initLinkFont] {dict set lfont $o $v}
+set ::apave::__TEXTLINKS__($w) [list]
+for {set it [llength $taglist]} {[incr it -1]>=0} {} {set tagli [lindex $taglist $it]
+lassign $tagli i p1 p2
 lassign [lindex $tags $i] tag opts
-$w tag add $tag $p1 $p2}
-$w edit reset; $w edit modified false
+if {[string match "link*" $tag] && [set ist [lsearch -exact -index 0 $tags $tag]]>=0} {set txt [$w get $p1 $p2]
+set lab ${w}l[incr ::apave::__linklab__]
+ttk::label $lab -text $txt -font $lfont -foreground $fg -background $bg
+set ::apave::__TEXTLINKS__($w) [linsert $::apave::__TEXTLINKS__($w) 0 $lab]
+$w delete $p1 $p2
+$w window create $p1 -window $lab
+set v [lindex $tags $ist 1]
+my makeLabelLinked $lab $v $fg $bg $fg2 $bg2
+} else {$w tag add $tag $p1 $p2}}
+$w edit reset; $w edit modified no
 if { $state ne "normal" } { $w configure -state $state }
 return}}
 #by trimmer

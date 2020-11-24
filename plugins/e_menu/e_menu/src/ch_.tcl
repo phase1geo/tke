@@ -22,6 +22,7 @@ set bundle {
 //
 }
 if {$::argc} {if {[catch {set ch [open [set fname [lindex $::argv 0]]]
+chan configure $ch -encoding utf-8
 set bundle [read $ch]
 close $ch
 set show_bundle true

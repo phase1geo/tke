@@ -1,6 +1,18 @@
 # Last changes:
 
 
+Version `3.2.4 (24 Nov'20)`
+
+  - "Settings/Plugins/e_menu" allow to use: 1) TKE's CS 2) emenu's CS 3) no CS
+  - baltip package introduced
+  - .mnu updated
+
+
+Version `3.2 (24 Oct'20)`
+
+  - "No color scheme" in "Settings/Plugins/e_menu"
+
+
 Version `3.0.1 (17 Jul'20)`
 
   - esp. for TKE: any c= disabled at start, if color args set CS

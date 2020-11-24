@@ -42,21 +42,20 @@ rt=2/5
  R: Run me (with %s) R: ###########################################################
  R: Run me (with %s) R: %M "Edit this menu for file extention: %x"
 
- S: Shell script S: ? err=1; cd ~/FOSSIL; \n \
-    # \n \
-    # let it be while huh \n \
-    # \n \
-    while [ $err -eq 1 ];
-      do repo=$(find *.fossil 2>/dev/null );
-      err=$?;
+ S: Shell script S: ? \
+    err=1; \
+    cd ~/FOSSIL; \
+    while [ $err -eq 1 ]; \
+      do repo=$(find *.fossil 2>/dev/null ); \
+      err=$?; \
       if [ $? -eq 1 ]; then \
         if [ $(pwd) = '/' ]; then \
-          echo "repo non esistente" ;break;
-        fi;
-        cd ../;
+          echo "repo non esistente" ; break; \
+        fi; \
+        cd ../; \
       else \
-        echo "$(pwd)/${repo}";
-      fi;
+        echo "$(pwd)/${repo}" ; \
+      fi; \
     done
 
  S: Shell script-2 S: %#s err=1; cd ~/FOSSIL
@@ -74,7 +73,7 @@ rt=2/5
   seh2  {} {} \
   v_    {} {} \
   cbx1  {{Where:   } {} {-state readonly}} {"$::W1" {in file} {in session} {in directory}} \
-  tex1  {{Any text:} {} {-h 3 -w 50 -wrap word -tabnext lbx1}} {$::TEX} \
+  tex1  {{Any text:} {} {-h 3 -w 50 -wrap word -tabnext lbx1 -tooltip {Try:\n  Ctrl+Y\n  Ctrl+D\n  Alt+Up/Down}}} {$::TEX} \
   lbx1  {{Related: } {} {-h 3}} {"$::LBX" {my Father} Mother Son Daughter Brother Sister Uncle Aunt Cousin {Big Brother} "Second cousin" "1000th cousin"} \
   opc1  {{Color:   }} {{$::OPT} {{color red green blue -- {{other colors} yellow magenta cyan \
         | #52CB2F #FFA500 #CB2F6A | #FFC0CB #90EE90 #8B6914}} \
@@ -109,5 +108,5 @@ in=1.0
 ::LBX=my Father
 ::TBL=\{cbx fco\} ttk::combobox 23 2
 ::TEX=and	tabs	entered with copy-paste\n1234\n\nsome multi-line text			123
-pos=78.43
-%#s geo=969x487+250+140;pos=5.0 # this script is run with %#s wildcard in test1.mnu|!|# it does the same as the previous "Shell script"|!||!|err=1|!|cd ~/FOSSIL|!|while [ $err -eq 1 ]|!|  do repo=$(find *.fossil 2>/dev/null )|!|  err=$?|!|  if [ $? -eq 1 ]; then|!|    if [ $(pwd) = '/' ]; then|!|      echo "repo non esistente" ; break|!|    fi|!|    cd ../|!|  else|!|    echo "$(pwd)/${repo}"|!|  fi|!|done
+pos=45.21
+%#s geo=969x487+250+140;pos=6.21 # this script is run with %#s wildcard in test1.mnu|!|# it does the same as the previous "Shell script"|!||!|err=1|!|cd ~/FOSSIL|!|while [ $err -eq 1 ];|!|  do repo=$(find *.fossil 2>/dev/null )|!|  err=$?|!|  if [ $? -eq 1 ]; then|!|    if [ $(pwd) = '/' ]; then|!|      echo "repo non esistente" ; break|!|    fi|!|    cd ../|!|  else|!|    echo "$(pwd)/${repo}"|!|  fi|!|done

@@ -3,15 +3,17 @@ g=+0+27
 in=1.0
 bd=1
 b1=0
-b2=3
+b2=0
 b3=1
 w=25
-pos=87.28
+pos=31.0
 ::EMENUTMPFILE=%mn.tmp~
-%C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
-%C set ::FILETAIL \"[file tail $::EMENUFILE]\"
+#%C if {![info exist ::EMENUFILE]} {set ::EMENUFILE "%f"}
+%C set ::EMENUFILE "%f"
+%C set ::FILETAIL \"[file tail {$::EMENUFILE}]\"
 %C if {{%F}=={*} && ![info exist ::EMENUFILE]} {set ::EMENUFILE "*"}
 %C if {![info exist ::EMENUCOMMIT]} {set ::EMENUCOMMIT ""}
+::EMENUBAKCNT=1
 
 [MENU]
 
@@ -21,10 +23,9 @@ pos=87.28
  RE: Run me (+ selection) RE: cd %d
  RE: Run me (+ selection) RE: %IF "%x"==".tcl" && "%RF" ne "" %THEN %T tclsh %RF
  RE: Run me (+ selection) RE: %IF "%x"==".tcl" %THEN %T tclsh "$::EMENUFILE" %AR
- RE: Run me (+ selection) RE: %IF "%x"==".htm" || "%x"==".html" %THEN %B $::EMENUFILE
- RE: Run me (+ selection) RE: %IF "%x"==".md" %THEN ghostwriter "$::EMENUFILE"
  RE: Run me (+ selection) RE: %IF "%x"==".py"  %THEN %t python3 "$::EMENUFILE" %AR
-  R: Run me (+ selection) R: ###########################################################
+ SE: Run me (+ selection) SE: %IF "%RF"!="" %THEN %RF
+ RE: Run me (+ selection) RE: %IF "%AR"=="" %THEN %O $::EMENUFILE
   S: Run me (+ selection) S: $::EMENUFILE %AR
 
  S: Run Tcl {all selection} S: cd %d
@@ -47,13 +48,17 @@ pos=87.28
  RE: Search in Firefox for "%s" RE: firefox -search "%s"
  RE: Wikipedia for "%s" RE:%b https://en.wikipedia.org/w/index.php?cirrusUserTesting=classic-explorer-i&search=%+
 # RE: Youtube for "%s" RE:%b https://www.youtube.com/results?search_query=%+
- RE: GoldenDict for "%s" RE: goldendict %s
+ RE: GoldenDict for "%s" RE: goldendict "%s"
 
  M:  M: 3
  ME: Search All "%s" in %D  ME: m=grep.mnu
 
- RE: Backup of $::FILETAIL RE: %q "BACKUP" "The backup of\n\n$::EMENUFILE\n\n\nwould be saved to\n\n$::EMENUFILE.bak"
- RE: Backup of $::FILETAIL RE:  %IF [::iswindows] %THEN copy /Y "$::EMENUFILE" "$::EMENUFILE.bak" %ELSE cp -f "$::EMENUFILE" "$::EMENUFILE.bak"
+
+ R: Backup of $::FILETAIL R: %C set ::EMENUBAKCNT [expr {($::EMENUBAKCNT+1)%4}]
+ R: Backup of $::FILETAIL R: %C set ::EMENUBAK [file join "%PD" .bak "[string trim $::FILETAIL \"]-$::EMENUBAKCNT.bak"]
+ R: Backup of $::FILETAIL R: %q "BACKUP" "The backup of\n\n$::EMENUFILE\n\nwould be saved to\n\n$::EMENUBAK"
+ R: Backup of $::FILETAIL R: %C file mkdir [file join "%PD" .bak]
+ RE: Backup of $::FILETAIL RE: %IF [::iswindows] %THEN copy /Y "$::EMENUFILE" "$::EMENUBAK" %ELSE cp -f "$::EMENUFILE" "$::EMENUBAK"
 
  R: Commit "%s" R: %C if {![info exist ::EM_MSG]} {set ::EM_MSG "%s"}
  R: Commit "%s" R:  %I {} "COMMIT" { \
@@ -73,7 +78,7 @@ RW: Differences of $::FILETAIL (fossil/git) ... RW: fossil tim -t ci -n 11 > $::
    v_ {{} {-pady 4} {}} {} \
    fil1 {{   File:} {} {-w 60}} {"$::EMENUFILE"} \
    fco1 {{Version:} {} {-h 10 -state readonly -inpval "$::EMENUCOMMIT"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE/@    INFO: /@-div1 "\] " -list {{}} $::EMENUTMPFILE/@} \
+     {@@-div1 "\[" -div2 "\]" -ret 1 $::EMENUTMPFILE@@    INFO: @@-div1 "\] " -list {{}} $::EMENUTMPFILE@@} \
    seh {{} {-pady 3} {}} {} \
    texc {{   Hint:} {} {-h 9 -w 60 -ro 1 -wrap word}} \
    {\n Select a version from the combobox to be compared to tip.\n\n If it's blank, the current file is compared to tip.\n\n No response means no differences.\n\n (temp file: $::EMENUTMPFILE)} \

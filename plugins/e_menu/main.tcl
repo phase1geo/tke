@@ -8,7 +8,11 @@ namespace eval e_menu {
   variable datadir [api::get_plugin_data_directory]
 
   variable do_save_file 1
+  variable do_no_CS 0
+  variable do_CS -2
   variable opt1 "EMENU_do_save_file"
+  variable opt2 "EMENU_no_CS"
+  variable opt3 "EMENU_CS"
 
   proc d {args} { tk_messageBox -title INFO -message "$args" }
 
@@ -136,6 +140,8 @@ namespace eval e_menu {
     variable plugdir
     variable datadir
     variable do_save_file
+    variable do_no_CS
+    variable do_CS
     if {![init_e_menu]} return
     set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
     set z1_opt [set TF_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
@@ -232,13 +238,18 @@ namespace eval e_menu {
     if {$do_save_file} {
       catch {api::menu::invoke "File/Save"}
     }
+    set cs ""
+    if {$do_no_CS || $do_CS ne "-2"} {  ;# no color schemes
+      lassign {} fg bg fE bE fS bS fI bI ht hh cc gr fM bM
+      set cs "c=$do_CS"
+    }
     # at last we try to call e_menu
     if {[catch {
         exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
           $fg $bg $fE $bE $fS $bS $fI $bI $ht $hh $cc gr=grey $fM $bM \
           $h_opt $s_opt $f_opt $d_opt $PD_opt $TF_opt \
           $z1_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
-          $l_opt $ts_opt $PN_opt &
+          $l_opt $ts_opt $PN_opt {*}$cs &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
@@ -253,42 +264,74 @@ namespace eval e_menu {
   proc do_pref_load {} {
 
     variable do_save_file
+    variable do_no_CS
+    variable do_CS
     variable opt1
+    variable opt2
+    variable opt3
     if {[catch "api::preferences::get_value $opt1" do_save_file] } {
       set do_save_file 1
     }
-    get_do_save_file $do_save_file
-    return "$opt1 $do_save_file"
+    if {[catch "api::preferences::get_value $opt2" do_no_CS] } {
+      set do_no_CS 0
+    }
+    if {[catch "api::preferences::get_value $opt3" do_CS] } {
+      set do_CS -2
+    }
+    get_do_settings $do_save_file $do_no_CS $do_CS
+    return [list $opt1 $do_save_file $opt2 $do_no_CS $opt3 $do_CS]
 
   }
 
   proc do_pref_ui {w} {
 
     variable opt1
+    variable opt2
+    variable opt3
     pack [ttk::labelframe $w.sf -text "
 To save the edited file before running an external command
 is a sort of insurance against data losses.
 
 Also, this makes the current edited buffer
 be accessible to SCM (and similar) commands.
+
+To use TKE's colors, switch off \"no TKE's colors\" and set \"-2\" for e_menu's CS.
 "] -fill x
     api::preferences::widget checkbutton $w.sf "$opt1" \
       "Do save the edited file"
+    api::preferences::widget checkbutton $w.sf "$opt2" "No TKE's colors"
+    api::preferences::widget spinbox $w.sf "$opt3" \
+      "Used instead, e_menu's CS " -from -2 -to 47 -increment 1
     return
 
   }
 
-  proc get_do_save_file {inst} {
+  proc get_do_settings {opt1 opt2 opt3} {
 
     variable do_save_file
-    set do_save_file [string trim $inst]
+    variable do_no_CS
+    variable do_CS
+    set res 1
+    set do_save_file [string trim $opt1]
     if {$do_save_file ne ""} {
       if { [catch {set do_save_file [expr int($do_save_file)]}] } {
         set do_save_file 1
-        return 0
+        set res 0
       }
+    } else {
+      set do_save_file 1
     }
-    return 1
+    set do_no_CS [string trim $opt2]
+    if {$do_no_CS ne ""} {
+      if { [catch {set do_no_CS [expr int($do_no_CS)]}] } {
+        set do_no_CS 1
+        set res 0
+      }
+    } else {
+      set do_no_CS 0
+    }
+    set do_CS $opt3
+    return $res
 
   }
 

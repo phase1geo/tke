@@ -1,13 +1,13 @@
 [OPTIONS]
 o=0
 in=1.0
-pos=106.174
+pos=154.42
 ::FSLUSER=aplsimple
-::FSLBRANCH=4c708f6820
-::FSLBRANCHCOLOR=#67e09a
+::FSLBRANCH=TclOO forced
+::FSLBRANCHCOLOR=#fe95ca
 ::EMENUTMPFILE=%mn.tmp~
 ::EM_T_FILE=-g *,src/*,menus/*
-::EM_T_TIME=none
+::EM_T_TIME=--now
 ::EM_T_DRY=0
 ::EM_T_VERBOSE=1
 
@@ -125,8 +125,8 @@ SW:fossil commit -m ? --branch ? SW: fossil commit -m "$::COMMES" --branch "$::F
 RW:fossil checkout ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil checkout ? R: %I {} "CHECKOUT" { \
    fco1 {{Version / branch / tag :} {} {-h 10 -state readonly -cbxsel "$::FSLBRANCH"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
-     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+     {@@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE@@ \
+     INFO: @@-div1 "\] " $::EMENUTMPFILE@@} \
    v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
    texc {{Hint:} {} {-h 7 -w 70 -ro 1 -wrap word}} \
    { The VERSION can be the name of a branch or tag or any abbreviation to the 40-character artifact ID for a check-in. \
@@ -139,8 +139,8 @@ RW:fossil checkout ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
 RW:fossil merge ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil merge ? R: %I warn "MERGE" { \
    fco1 {{Version / branch / tag :} {} {-h 10 -w 45 -state readonly -cbxsel "$::FSLBRANCH"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
-     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+     {@@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE@@ \
+     INFO: @@-div1 "\] " $::EMENUTMPFILE@@} \
    v_} -head {\n This will MERGE changes from a branch, \
    \n then commits (you may cancel the commit afterwards). \n} -weight bold == ::FSLBRANCH
  S:fossil merge ? S: fossil merge "$::FSLBRANCH"\nfossil commit
@@ -150,8 +150,8 @@ RW:fossil merge ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
 RW:fossil update ? RW: fossil tim -t ci -n 99 > $::EMENUTMPFILE
  R:fossil update ? R: %I {} "UPDATE" { \
    fco1 {{Version / branch / tag :} {} {-h 10 -state readonly -cbxsel "$::FSLUPD"}} \
-     {/@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE/@ \
-     INFO: /@-div1 "\] " $::EMENUTMPFILE/@} \
+     {@@-div1 "\[" -div2 "\]" -ret 1 -list {"" tip} $::EMENUTMPFILE@@ \
+     INFO: @@-div1 "\] " $::EMENUTMPFILE@@} \
    v_ {{} {-pady 7} {}} {} seh {{} {} {}} {} \
    texc {{Hint:} {} {-h 7 -w 70 -ro 1 -wrap word}} \
    { VERSION can be 'trunk' to move to the trunk branch. \
@@ -202,7 +202,7 @@ SW:fossil undo SW: fossil undo -n
  S:set standard settings of fossil (ignore etc.) S: cd %PD
  R:set standard settings of fossil (ignore etc.) R:  %q "Settings" " Set in \
   \n\n    %PD\n\n the standard settings of fossil?" yesno warn NO
- S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.backup,*.*~0"\nfossil settings crnl-glob '*'\nfossil settings encoding-glob '*'\nfossil settings autosync 0\nfossil settings gdiff meld\nfossil settings editor nano\nfossil settings binary-glob 1\nif test -f .BIN/4init ; then .BIN/4init ; fi\nfossil settings
+ S:set standard settings of fossil (ignore etc.) S: fossil settings ignore-glob ".*,*~,*.swp,*.tmp,*.bak,*.log,*.backup,*.*~0" ; fossil settings crnl-glob '*' ; fossil settings encoding-glob '*' ; fossil settings autosync 0 ; fossil settings gdiff meld ; fossil settings editor nano ; fossil settings binary-glob 1 ; if test -f .BIN/4init ; then .BIN/4init ; fi ; fossil settings
 
  S:fossil all list S: cd %PD
  S:fossil all list S: fossil all list
@@ -211,11 +211,21 @@ R:  R: 2
  S:fossil status %PD S: cd %PD
  S:fossil status %PD S: echo %PD\ndir\necho ---\nfossil status
 
- S:fossil addremove * S: cd %PD
- S:fossil addremove * S: fossil addremove -n
- R:fossil addremove * R:  %q "ADDREMOVE" " Repository's Add and Remove for all files in \
-  \n\n    %PD\n\n (the supposed changes were shown by 'fossil addremove -n')" yesno warn NO
- S:fossil addremove * S: fossil addremove
+ S:fossil addremove ? S: cd %PD
+ R:fossil addremove ? R: %I {} "ADDREMOVE" { \
+   chb1 {{   Dry run:}} {$::EM_T_DRY} \
+   v_2 {{} {-pady 4}} {} seh {} {} \
+   texc {{Hint:} {} {-h 11 -w 73 -ro 1 -wrap word}} \
+   {\n *  All files in the checkout but not in the repository (that is,\
+\n    all files displayed using the 'extras' command) are added as\
+\n    if by the 'add' command.\
+\n\n *  All files in the repository but missing from the checkout (that is,\
+\n    all files that show as MISSING with the 'status' command) are\
+\n    removed as if by the 'rm' command.\
+\n\n The 'Dry run' shows the supposed changes, not doing actually.} \
+   } -head {\n This will ADD the new and REMOVE the deleted\n file(s) of Fossil repository. \n} -weight bold == ::EM_T_DRY
+ S:fossil addremove ? S: %C if $::EM_T_DRY {set ::EM_T_n -n} {set ::EM_T_n ""}
+ S:fossil addremove ? S: fossil addremove $::EM_T_n
 
  S:fossil touch ? S: cd %PD
  R:fossil touch ? R: %I {} "TOUCH" { \

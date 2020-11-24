@@ -1,5 +1,5 @@
 
-package ifneeded apave 3.0.1 [list source [file join $dir apaveinput.tcl]]
+package ifneeded apave 3.2.4 [list source [file join $dir apaveinput.tcl]]
 namespace eval apave {
 set _ruff_preamble {
 
@@ -44,6 +44,8 @@ set _ruff_preamble {
    - file viewer/editor
    - option cascade
    - e_menu
+   - bartabs
+   - link
 
   At last, a stand-alone dialog allows not only to ask "OK/Cancel" or "Yes/No" returning 1/0 but also to set environment variables to use in shell scripts.
   
