@@ -1,5 +1,5 @@
 # _______________________________________________________________________ #
-package provide baltip 1.0
+package provide baltip 1.0.1
 package require Tk
 namespace eval ::baltip {namespace export configure cget tip update hide repaint
 namespace ensemble create
@@ -96,6 +96,7 @@ catch {wm deiconify $win ; raise $win}}
 proc ::baltip::my::Show {w text force geo optvals} {variable ttdata
 if {$w ne "" && ![winfo exists $w]} return
 set win $w.w__BALTIP
+catch {::apave::paveObj untouchWidgets $win.label}
 set px [winfo pointerx .]
 set py [winfo pointery .]
 if {$geo ne ""} {array set data $optvals

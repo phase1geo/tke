@@ -1,7 +1,7 @@
 
  R: hg addremove R: %q "ADD" "This will ADD & REMOVE all changes in:\n\n  %PD"
  R: hg addremove R: cd %PD
-SW: hg addremove SW: hg addremove -v\nhg status
+SW: hg addremove SW: hg addremove -S -v\nhg status
 
  R: hg add "%F" file R: %q "ADD" "This will add\n\n  %f\n\nto hg history of\n\n  %PD"
  R: hg add "%F" file R: cd %PD
@@ -153,6 +153,6 @@ SW: Push with BIN SW: \
 ::RGEO=568x537+0+55
 ::RBIN=BIN
 ::REV1=-3
-pos=117.3
+pos=4.37
 in=1.0
 w=40

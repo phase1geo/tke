@@ -1,7 +1,7 @@
 swatch {{#f4f4f4} #cccccc #000000 #295a7e #848484}
 creator {Alex Plotnikov}
 website {https://aplsimple.bitbucket.io}
-date {1590909367}
+date {1607075284}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -291,7 +291,7 @@ menus,-activeforeground {black}
 menus,-background {#3d413f}
 menus,-disabledforeground {#cccccc}
 menus,-foreground {#ffffff}
-menus,-relief {raised}
+menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,embedded {}
 misc_scrollbar,-background {#cccccc}
@@ -311,7 +311,7 @@ sidebar,-selectforeground {#000000}
 sidebar_info,-active_background {#595d5b}
 sidebar_info,-background {#3d413f}
 sidebar_info,-title_foreground {#cccccc}
-sidebar_info,-value_foreground {#cccccc}
+sidebar_info,-value_foreground {#f4f4f4}
 sidebar_scrollbar,-background {#000000}
 sidebar_scrollbar,-foreground {#cccccc}
 sidebar_scrollbar,-thickness {15}
@@ -329,7 +329,7 @@ syntax,functions {white}
 syntax,highlighter {#ce13cb}
 syntax,keywords {#900000}
 syntax,line_number {#c5c5c5}
-syntax,linemap {#6d736f}
+syntax,linemap {#5d635f}
 syntax,linemap_separator {#bebebe}
 syntax,marker {orange}
 syntax,meta {#cccccc}
@@ -347,15 +347,15 @@ syntax,select_foreground {#000000}
 syntax,strings {#800080}
 syntax,variables {#134121}
 syntax,warning_width {#cccccc}
-tabs,-activebackground {#2c322e}
-tabs,-activeforeground {#ffc2a1}
-tabs,-background {#7a827c}
+tabs,-activebackground {#707672}
+tabs,-activeforeground {#ffed6c}
+tabs,-background {#3d413f}
 tabs,-bordercolor {#000000}
 tabs,-foreground {#000000}
 tabs,-height {25}
 tabs,-inactivebackground {#515753}
 tabs,-inactiveforeground {#ffffff}
-tabs,-relief {raised}
+tabs,-relief {flat}
 text_scrollbar,-altforeground {red}
 text_scrollbar,-background {#f4f4f4}
 text_scrollbar,-foreground {#cccccc}

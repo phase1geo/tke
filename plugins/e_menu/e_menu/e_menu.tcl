@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 package require Tk
-namespace eval ::em {variable em_version "e_menu v3.2.4"
+namespace eval ::em {variable em_version "e_menu v3.2.5"
 variable solo [expr {[info exist ::argv0] && [file normalize $::argv0] eq [file normalize [info script]]} ? 1 : 0]
 variable argv0
 if {[info exist ::argv0]} {set argv0 [file normalize $::argv0]} {set argv0 [info script]}
@@ -9,8 +9,8 @@ variable argc; if {[info exist ::argc]} {set argc $::argc} {set argc 0}
 variable exedir [file normalize [file dirname $argv0]]
 if {[info exists ::e_menu_dir]} {set exedir $::e_menu_dir}
 variable srcdir [file join $exedir src]
-if {[info exists ::argv0]} {if {$solo} {catch {source [file join $::em::srcdir baltip baltip.tcl]}
-} else {append em_version " / [file tail $::argv0]"}}}
+catch {source [file join $::em::srcdir baltip baltip.tcl]}
+if {[info exists ::argv0] && !$solo} {append em_version " / [file tail $::argv0]"}}
 if {[catch {source [file join $::em::srcdir e_help.tcl]} e]} {set ::em::srcdir [file join [pwd] src]
 if {[catch {source [file join $::em::srcdir e_help.tcl]} e2]} {puts "$e\n\n$e2\n\nPossibly, there is an error in e_help.tcl"
 exit}}
@@ -21,10 +21,12 @@ if {$::em::solo} {set ::em::ncolor 0}
 proc M {cme args} {if {[regexp "^-centerme " $cme]} {set msg ""
 } else {set msg "$cme "
 set cme "-centerme .em"}
+if {[set ontop [::apave::getOption -ontop {*}$args]] eq {}} {set ontop $::em::ontop}
 foreach a $args {append msg "$a "}
-::em::em_message $msg ok Info -ontop $::em::ontop {*}$cme}
+::em::em_message $msg ok Info -ontop $ontop {*}$cme}
 proc Q {ttl mes {typ okcancel} {icon warn} {defb OK} args} {if {[lsearch $args -centerme]<0} {lappend args -centerme .em}
-return [set ::em::Q [::em::em_question $ttl $mes $typ $icon $defb {*}$args -ontop $::em::ontop]]}
+if {[set ontop [::apave::getOption -ontop {*}$args]] eq {}} {set ontop $::em::ontop}
+return [set ::em::Q [::em::em_question $ttl $mes $typ $icon $defb {*}$args -ontop $ontop]]}
 proc T {args} {set cc ""; foreach c $args {set cc "$cc$c "}
 ::em::shell_run "Nobutt" "S:" shell1 - "&" [string map {"\\n" "\r"} $cc]}
 proc S {incomm} {foreach comm [split [string map {\\n \n} $incomm] \n] {if {[set comm [string trim $comm]] ne ""} {set comm [string map {\\\\n \\n} $comm]
@@ -623,7 +625,8 @@ proc ::em::menuof {commands s1 domenu} {upvar $commands comms
 set seltd [get_seltd $s1]
 if {$domenu} {if {$::em::basedir eq ""} {set ::em::basedir [file join $::em::exedir menus]}
 set seltd [file normalize [get_menuname $seltd]]
-if {[catch {set chan [open "$seltd"]} e]} {::em::addon create_template $seltd
+if {[catch {set chan [open "$seltd"]} e]} {set cr [::em::addon create_template $seltd]
+if {!$::em::solo} {set ::em::reallyexit [expr {$cr ? 2 : 1}]}
 set ::em::start0 0
 return}
 chan configure $chan -encoding utf-8
@@ -889,8 +892,8 @@ t3= {set ::eh::formdw   $seltd }
 t4= - t5= - t6= - t7= - t8= -
 t9= {set ::em::ar_tformat([string range $s1 0 1]) $seltd}
 fs= {set ::em::fs [::apave::getN $seltd $::em::fs]}
-f1= {set ::em::font1 $seltd}
-f2= {set ::em::font2 $seltd}
+f1= {catch {set ::em::font1 [font config $seltd]}}
+f2= {catch {set ::em::font2 [font config $seltd]}}
 f3= {::apave::paveObj basicTextFont $seltd}
 qq= {set ::em::qseltd [::eh::escape_quotes $seltd]}
 dd= {set ::em::dseltd [::eh::delete_specsyms $seltd]}
@@ -966,6 +969,7 @@ incr ::em::argc
 } else {set o [string index [lindex $::em::argv $io] end]
 if {$o in {1 3}} {set ::em::argv [lreplace $::em::argv $io $io "o=0"]}}}
 initcommands $::em::argc $::em::argv {o= s= m=} 1
+if {$::em::reallyexit} {return no}
 if {[set lmc [llength $::em::menuoptions]] > 1} {initcommands $lmc $::em::menuoptions {o=}
 initcommhead
 if {$::em::om} {initcommands $::em::argc $::em::argv {s= m=}
@@ -973,7 +977,8 @@ initcommands $lmc $::em::menuoptions {o=}
 } else {initcommands $lmc $::em::menuoptions " "
 initcommands $::em::argc $::em::argv {o= s= m=}}}
 if {$::em::savelasti>-1} {if {$::em::begsel==0} {incr ::em::lasti -$::em::savelasti
-} elseif {$::em::savelasti==0} {incr ::em::lasti $::em::begsel}}}
+} elseif {$::em::savelasti==0} {incr ::em::lasti $::em::begsel}}
+return yes}
 proc ::em::initmain {} {if {$::em::pause > 0} {after $::em::pause}
 if {$::em::appN > 0} {set ::em::appname $::em::thisapp$::em::appN
 } else {;
@@ -1162,11 +1167,10 @@ repaintForWindows}
 proc ::em::initall {} {::em::init_arrays
 ::em::initdefaultcolors
 ::em::initcolorscheme
-::em::initcomm
-::em::initmain
+if {[::em::initcomm]} {::em::initmain
 ::em::initmenu
 ::em::initauto
-::em::initend}
+::em::initend}}
 proc ::em::main {args} {lassign [::apave::parseOptions $args -prior 0 -modal 0 -remain 0 -noCS 0] prior modal ::em::remain ::em::noCS
 set args [::apave::removeOptions $args -prior -modal -remain -noCS]
 if {$::em::noCS} {set ::em::noCS "disabled"} {set ::em::noCS "normal"}
@@ -1190,7 +1194,9 @@ set ::em::em_win_var ""
 tkwait variable ::em::em_win_var
 if {$modal} {grab release .em}
 destroy .em
-if {![::em::pool_pull]} break}}
+if {![::em::pool_pull]} break
+} elseif {$::em::reallyexit eq "2"} {set ::em::empool []
+set ::em::reallyexit false}}
 if [winfo exists .em] {destroy .em}
 return $::em::em_win_var}
 if {$::em::solo} {::em::main -modal 0 -remain 0 {*}$::argv}

@@ -1,6 +1,6 @@
 ###########################################################################
 package require Tk
-package provide apave 3.2.4
+package provide apave 3.2.5
 source [file join [file dirname [info script]] apavedialog.tcl]
 namespace eval ::apave {}
 oo::class create ::apave::APaveInput {superclass ::apave::APaveDialog

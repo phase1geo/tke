@@ -1,7 +1,7 @@
 swatch {{#302e40} #4e4b68 #ececec #000000 #8f8f8f}
 creator {Alex Plotnikov}
 website {https://aplsimple.bitbucket.io}
-date {1591352683}
+date {1607017189}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -330,7 +330,7 @@ syntax,variables {#c7ef9f}
 syntax,warning_width {#4e4b68}
 tabs,-activebackground {#0b2139}
 tabs,-activeforeground {#ffbe00}
-tabs,-background {#1b3149}
+tabs,-background {#162c44}
 tabs,-bordercolor {#302e40}
 tabs,-foreground {#ececec}
 tabs,-height {25}

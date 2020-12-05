@@ -17,7 +17,7 @@ SW: hg commit SW: hg status
  R: tortoisehg - thg R: thg
 
  R: kdiff3 of %F R: cd %PD
- R: kdiff3 of %F R: %C if {![info exist ::FIL1] || $::FIL1==""} {set ::FIL1 "%f"}
+ R: kdiff3 of %F R: %C if {![info exist ::FIL1] || "$::FIL1" eq ""} {set ::FIL1 "%f"}
  R: kdiff3 of %F R: %I ques "KDIFF3" {filName {{File:} {} {-w 60}} {"$::FIL1"} lab} -head "\n Enter/choose a file to kdiff3" -weight bold == ::FIL1
  R: kdiff3 of %F R: hg extdiff -p kdiff3 "$::FIL1"
 
@@ -40,7 +40,7 @@ tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so
  R: hg extdiff %F R: hg extdiff -r $::REV -p meld $::FIL
 
  R: hg annotate %F R: cd %PD
- R: hg annotate %F R: %C if {![info exist ::FIL1] || $::FIL1==""} {set ::FIL1 "%f"}
+ R: hg annotate %F R: %C if {![info exist ::FIL1] || "$::FIL1" eq ""} {set ::FIL1 "%f"}
  R: hg annotate %F R: %I ques "ANNOTATE" {filName {{File:} {} {-w 60}} {"$::FIL1"} lab} -head "\n Enter/choose a file to annotate" -weight bold == ::FIL1
  S: hg annotate %F S: hg annotate '$::FIL1'
 
@@ -48,7 +48,7 @@ tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so
  S: hg log -l 10 -v S: hg log -l 10 -v
 
  R: hg log -p -l 2 %F R: cd %PD
- R: hg log -p -l 2 %F R: %C if {![info exist ::FIL1] || $::FIL1==""} {set ::FIL1 "%f"}
+ R: hg log -p -l 2 %F R: %C if {![info exist ::FIL1] || "$::FIL1" eq ""} {set ::FIL1 "%f"}
  R: hg log -p -l 2 %F R: %I ques "LOG" {filName {{File(s):} {} {-w 60}} {"$::FIL1"} lab} -head "\n Enter/choose file(s) to view log patches\n (quote 'a name' if it has spaces)" -weight bold == ::FIL1
  S: hg log -p -l 2 %F S: hg log -p -l 2 $::FIL1
 
@@ -59,7 +59,7 @@ tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so
  S: hg revert S: hg revert -a -C
 
  R: hg revert %F R: cd %PD
- R: hg revert %F R: %C if {![info exist ::FIL1] || $::FIL1==""} {set ::FIL1 "%f"}
+ R: hg revert %F R: %C if {![info exist ::FIL1] || "$::FIL1" eq ""} {set ::FIL1 "%f"}
  R: hg revert %F R: %I warn "REVERT" {filName {{File(s):} {} {-w 60}} {"$::FIL1"} lab} -head "\n Enter/choose file(s) to revert\n (quote 'a name' if it has spaces)" -hfg ::em::clrhot -weight bold == ::FIL1
  R: hg revert %F R: %I warn "REVERT $::FIL1" {lab} \
    -head "\n This will REVERT ALL changes of   \n\n $::FIL1 " -hfg ::em::clrhot -weight bold
@@ -137,4 +137,4 @@ tip, with -1 denoting the tip, -2 denoting the revision prior to the tip, and so
 o=0
 in=1.0
 %#t geo=839x637+200+126;pos=4.21 # hg help [topic]  - show help for a given topic or a help overview|!||!|hg help --verb forget|!|hg help --verb revert|!||!||!|############################################################################|!|# select topics from the list:|!||!|# add           add the specified files on the next commit|!|# addremove     add all new files, delete all missing files|!|# annotate      show changeset information by line for each file|!|# archive       create an unversioned archive of a repository revision|!|# backout       reverse effect of earlier changeset|!|# bisect        subdivision search of changesets|!|# bookmarks     create a new bookmark or list existing bookmarks|!|# branch        set or show the current branch name|!|# branches      list repository named branches|!|# bundle        create a changegroup file|!|# cat           output the current or given revision of files|!|# clone         make a copy of an existing repository|!|# commit        commit the specified files or all outstanding changes|!|# config        show combined config settings from all hgrc files|!|# copy          mark files as copied for the next commit|!|# diff          diff repository (or selected files)|!|# export        dump the header and diffs for one or more changesets|!|# files         list tracked files|!|# forget        forget the specified files on the next commit|!|# graft         copy changes from other branches onto the current branch|!|# grep          search revision history for a pattern in specified files|!|# heads         show branch heads|!|# help          show help for a given topic or a help overview|!|# identify      identify the working directory or specified revision|!|# import        import an ordered set of patches|!|# incoming      show new changesets found in source|!|# init          create a new repository in the given directory|!|# log           show revision history of entire repository or files|!|# manifest      output the current or given revision of the project manifest|!|# merge         merge another revision into working directory|!|# outgoing      show changesets not found in the destination|!|# paths         show aliases for remote repositories|!|# phase         set or show the current phase name|!|# pull          pull changes from the specified source|!|# push          push changes to the specified destination|!|# recover       roll back an interrupted transaction|!|# remove        remove the specified files on the next commit|!|# rename        rename files; equivalent of copy + remove|!|# resolve       redo merges or set/view the merge status of files|!|# revert        restore files to their checkout state|!|# root          print the root (top) of the current working directory|!|# serve         start stand-alone webserver|!|# status        show changed files in the working directory|!|# summary       summarize working directory state|!|# tag           add one or more tags for the current or given revision|!|# tags          list repository tags|!|# unbundle      apply one or more changegroup files|!|# update        update working directory (or switch revisions)|!|# verify        verify the integrity of the repository|!|# version       output version and copyright information|!||!|############################################################################
-pos=34.33
+pos=139.689
