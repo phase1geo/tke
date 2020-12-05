@@ -291,7 +291,7 @@ menus,-activeforeground {black}
 menus,-background {#3d413f}
 menus,-disabledforeground {#cccccc}
 menus,-foreground {#ffffff}
-menus,-relief {raised}
+menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,embedded {}
 misc_scrollbar,-background {#cccccc}
