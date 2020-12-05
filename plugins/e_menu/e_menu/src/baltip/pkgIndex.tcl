@@ -1,4 +1,4 @@
-package ifneeded baltip 1.0.1 [list source [file join $dir baltip.tcl]]
+package ifneeded baltip 1.0 [list source [file join $dir baltip.tcl]]
 namespace eval ::baltip {
 variable _ruff_preamble {
 It's a Tcl/Tk tip widget inspired by:

@@ -1,7 +1,7 @@
 # Last changes:
 
 
-Version `3.2.4 (24 Nov'20)`
+Version `3.2.5 (5 Dec'20)`
 
   - "Settings/Plugins/e_menu" allow to use: 1) TKE's CS 2) emenu's CS 3) no CS
   - baltip package introduced

@@ -407,17 +407,14 @@ lassign [ttask "add" -1 $inf $typ $c1 $inpsel $timer] ind started
 if {$from eq "button" && $ind >= 0} {if {[em_question "Stop timed task" "Stop the task\n\n        [.em.fr.win.fr$::em::lasti.butt cget -text] ?"]} {ttask "del" $ind}
 return false}
 return [expr !$started && $startnow]}
-proc ::em::create_template {fname} {set res no
-if {[em_question "Menu isn't open" "ERROR of opening\n$fname\n\nCreate it?"]} {if {[catch {set chan [open "$fname" "w"]} e]} {em_message "ERROR of creating\n\n$fname\n\n$e"
+proc ::em::create_template {fname} {if {[em_question "Menu isn't open" "ERROR of opening\n$fname\n\nCreate it?"]} {if {[catch {set chan [open "$fname" "w"]} e]} {em_message "ERROR of creating\n\n$fname\n\n$e"
 } else {chan configure $chan -encoding utf-8
 set dir [file dirname $fname]
 if {[file tail $dir] == $::em::prjname} {set menu "$::em::prjname/nam3.mnu"
 } else {set menu [file join $dir "nam3.mnu"]}
 puts $chan "R: nam1 R: prog\n\nS: nam2 S: comm\n\nM: nam3 M: m=$menu"
 close $chan
-set res [::em::addon edit $fname]
-if {!$res} {file delete $fname}}}
-return $res}
+if {![::em::addon edit $fname]} {file delete $fname}}}}
 proc ::em::IF {sel {callcommName ""}} {set sel [string range $sel 4 end]
 set pthen [string first " %THEN " $sel]
 set pelse [string first " %ELSE " $sel]

@@ -602,7 +602,7 @@ if {[catch {info object definition [self] $method}]} {oo::objdefine [self] "
 return [set ${_pav(ns)}PN::wn $w.$name]}
 method SetTextBinds {wt} {if {[bind $wt <<Paste>>] eq ""} {set res "
       bind $wt <<Paste>> {+ [self] pasteText $wt}
-      bind $wt <KeyPress> {+ [self] onKeyTextM $wt %K}"}
+      bind $wt <Return> {+ [self] onKeyTextM $wt %K}"}
 append res "
       bind $wt <Control-d> {[self] doubleText $wt}
       bind $wt <Control-D> {[self] doubleText $wt}
