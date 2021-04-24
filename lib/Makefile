@@ -56,7 +56,8 @@ NAGELFAR_FILES = version.tcl \
 
 commit:
 	$(TCLSH) commit.tcl
-	hg commit
+	git add .
+	git commit
 
 snippets: snip_lexer.tcl snip_parser.tcl format_lexer.tcl format_parser.tcl
 
@@ -81,4 +82,4 @@ emmet_parser.tcl: emmet_parser.tac
 	$(TCLSH) $(TACCLE) -d -p emmet_ emmet_parser.tac
 
 static:
-	nagelfar -gui $(NAGELFAR_FILES) &
+	nagelfar.tcl -gui $(NAGELFAR_FILES) &
