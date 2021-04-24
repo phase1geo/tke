@@ -1,8 +1,6 @@
 # Welcome!
 
-This source directory contains all necessary files for running the
-TKE source code development editor.  For installation and usage
-information, read the User's Guide in doc/UserGuide.pdf.
+This source directory contains all necessary files for running the TKE source code development editor.
 
 # Installation
 
