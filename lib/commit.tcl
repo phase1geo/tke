@@ -25,7 +25,7 @@
 source "version.tcl"
 
 # Get the global ID and local ID
-set id [exec hg id -n]
+set id [exec git rev-parse --short HEAD]
 
 if {[catch "open version.tcl w" rc]} {
   error $rc
