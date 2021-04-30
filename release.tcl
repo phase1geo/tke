@@ -69,7 +69,6 @@ proc get_latest_major_minor_point {release_type} {
     set last_minor 0
     set last_point 0
     foreach line [split $rc \n] {
-      puts "line: $line"
       if {[regexp {^stable-(\d+)\.(\d+)$} [lindex $line 0] -> major minor]} {
         if {$major > $last_major} {
           set last_major $major
@@ -374,8 +373,6 @@ catch {
 
   # Get the latest major/minor tag
   lassign [get_latest_major_minor_point $release_type] major minor point
-
-  puts "release_type: $release_type, major: $major, minor: $minor, point: $point"
 
   # Recreate last_tag
   if {$major == 0} {
