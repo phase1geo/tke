@@ -64,18 +64,21 @@ proc usage {} {
 
 proc get_latest_major_minor_point {release_type} {
 
-  if {![catch "exec -ignorestderr git tag" rc]} {
+  if {![catch "exec -ignorestderr git tag --sort=creatordate" rc]} {
     set last_major 0
     set last_minor 0
     set last_point 0
     foreach line [split $rc \n] {
+      puts "line: $line"
       if {[regexp {^stable-(\d+)\.(\d+)$} [lindex $line 0] -> major minor]} {
         if {$major > $last_major} {
           set last_major $major
           set last_minor $minor
+          set last_point 0
         } elseif {($major == $last_major) && ($minor > $last_minor)} {
           set last_major $major
           set last_minor $minor
+          set last_point 0
         }
       } elseif {[regexp {^(devel|stable)-(\d+)\.(\d+)\.(\d+)$} [lindex $line 0] -> type major minor point]} {
         if {$type ne $release_type} {
@@ -108,13 +111,13 @@ proc generate_changelog {tag} {
   puts -nonewline "Generating ChangeLog...  "; flush stdout
 
   if {$tag eq ""} {
-    if {[catch { exec -ignorestderr git log --decorate -r "branch(default)" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr git log --decorate master > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
     }
   } else {
-    if {[catch { exec -ignorestderr git log --decorate -r "tag('$tag'):" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr git log --decorate $tag.. > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
@@ -135,7 +138,7 @@ proc update_version_files {major minor point} {
     puts $rc "set version_major \"$major\""
     puts $rc "set version_minor \"$minor\""
     puts $rc "set version_point \"$point\""
-    puts $rc "set version_hgid  \"[expr $::version_hgid + 1]\""
+    puts $rc "set version_hgid  \"$::version_hgid\""
 
     close $rc
 
@@ -355,7 +358,7 @@ catch {
   set stable_point_rel 0
 
   # Parse command-line options
-  set i 1
+  set i 0
   while {$i < $argc} {
     switch [lindex $argv $i] {
       -v      { puts "$version_major.$version_minor"; exit }
@@ -371,6 +374,8 @@ catch {
 
   # Get the latest major/minor tag
   lassign [get_latest_major_minor_point $release_type] major minor point
+
+  puts "release_type: $release_type, major: $major, minor: $minor, point: $point"
 
   # Recreate last_tag
   if {$major == 0} {
