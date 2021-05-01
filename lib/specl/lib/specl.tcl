@@ -1,4 +1,4 @@
-######################################################################
+ ######################################################################
 # Name:    specl.tcl
 # Author:  Trevor Williams  (trevorw@sgi.com)
 # Date:    10/14/2013
@@ -76,7 +76,7 @@ namespace eval specl {
     update
 
     # Loads the specl_version.tcl file
-    set specl_version_dir [get_specl_version_dir [file dirname $::argv0]]
+    set specl_version_dir [get_specl_version_dir $::tke_dir]
 
     # Get the normalized name of argv0
     set script_name [file normalize $::argv0]
