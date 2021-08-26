@@ -1,6 +1,6 @@
 #! /usr/bin/env tclsh
 package require Tk
-if {![namespace exists apave]} {source [file join [file normalize [file dirname [info script]]] apaveinput.tcl]}
+if {![namespace exists ::apave]} {source [file join [file normalize [file dirname [info script]]] apaveinput.tcl]}
 namespace eval ::eh {variable my_browser ""
 variable hroot "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"
 variable formtime %H:%M:%S
@@ -10,23 +10,13 @@ variable formdw   %A
 variable mx 0 my 0
 variable reginit 1
 variable solo [expr {[info exist ::argv0] && [file normalize $::argv0] eq [file normalize [info script]]} ? 1 : 0]}
-proc ddd {args} {set msg ""; foreach l $args {append msg " $l\n"}
-::apave::paveObj ok info DEBUG $msg -text 1 -h 10 -centerme .}
-proc a {a} {set m [array get $a]; d $m}
-proc ::eh::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {set pdlg [::apave::APaveDialog new]
-set opts [list -t 1 -w 80]
+proc ::eh::dialog_box {ttl mes {typ ok} {icon info} {defb OK} args} {set opts [list -t 1 -w 80]
 lappend opts {*}$args
 switch -glob -- $typ {okcancel - yesno - yesnocancel {if {$defb eq "OK" && $typ ne "okcancel" } {set defb YES}
-set ans [$pdlg $typ $icon $ttl \n$mes\n $defb {*}$opts]}
-default {set ans [$pdlg ok $icon $ttl \n$mes\n {*}$opts]}}
-$pdlg destroy
+set ans [::apave::obj $typ $icon $ttl \n$mes\n $defb {*}$opts]}
+default {set ans [::apave::obj ok $icon $ttl \n$mes\n {*}$opts]}}
 return $ans}
-proc ::eh::message_box {mes {typ ok} {ttl ""}} {if {[string length $ttl] == 0} {set ttl [wm title .]}
-set mes [string trimleft $mes "\{"]
-set mes [string trimright $mes "\}"]
-set ans [tk_messageBox -title $ttl -icon info -message "$mes" -type $typ -parent .]
-return $ans}
-proc ::eh::get_tty {inconsole} {if {$inconsole ne ""} {set tty $inconsole} elseif {[::iswindows]} {set tty "cmd.exe /K"} elseif {[auto_execok lxterminal] ne ""} {set tty lxterminal} else {set tty xterm}
+proc ::eh::get_tty {inconsole} {if {[::iswindows]} {set tty "cmd.exe /K"} elseif {$inconsole ne ""} {set tty $inconsole} elseif {[auto_execok lxterminal] ne ""} {set tty lxterminal} else {set tty xterm}
 return $tty}
 proc ::eh::get_timedate {} {set systime [clock seconds]
 set curtime [clock format $systime -format $::eh::formtime]
@@ -62,15 +52,9 @@ set y [expr $top + ($useheight - $winheight) / 2]
 wm geometry $win +$x+$y
 wm state . normal
 update}
-proc ::eh::checkgeometry {} {set scrw [expr [winfo screenwidth .] - 12]
-set scrh [expr {[winfo screenheight .] - 36}]
-lassign [split [wm geometry .] x+] w h x y
-set necessary 0
-if {($x + $w) > $scrw } {set x [expr {$scrw - $w}]
-set necessary 1}
-if {($y + $h) > $scrh } {set y [expr {$scrh - $h}]
-set necessary 1}
-if {$necessary} {wm geometry . ${w}x${h}+${x}+${y}}}
+proc ::eh::checkgeometry {{win .}} {lassign [split [winfo geometry $win] x+] w h x y
+set newgeo [::apave::obj checkXY $w $h $x $y]
+if {$newgeo ne "+$x+$y"} {wm geometry $win $newgeo}}
 proc ::eh::ctrl_alt_off {cmd} {if {[::iswindows]} {return "if \{%s == 8\} \{$cmd\}"
 } else {return "if \{\[expr %s&14\] == 0\} \{$cmd\}"}}
 proc ::eh::destroyed {app} {return [expr ![catch {send -async $app {destroy .}} e]]}
@@ -81,8 +65,8 @@ wm geometry $win +[expr $wx+$x-$::eh::mx]+[expr $wy+$y-$::eh::my]
 if {$mode==3} {lassign {0 0} ::eh::mx ::eh::my }}}}}
 proc ::eh::fileAttributes {fname {attrs "-"} {atime ""} {mtime ""} } {if {$attrs eq "-"} {set attrs [file attributes $fname]
 return [list $attrs [file atime $fname] [file mtime $fname]]}
-file atime $fname $atime
-file mtime $fname $mtime}
+catch {file atime $fname $atime
+file mtime $fname $mtime}}
 proc ::eh::write_file_untouched {fname data} {lassign [::eh::fileAttributes $fname] f_attrs f_atime f_mtime
 set ch [open $fname w]
 chan configure $ch -encoding utf-8
@@ -99,8 +83,7 @@ proc ::eh::lexists {url} {if {$::eh::reginit} {set ::eh::reginit 0
 package require http
 package require tls
 ::http::register https 443 ::tls::socket}
-if {[catch {set token [::http::geturl $url]} e]} {if {$::eh::solo} {grid [label .l -text ""]}
-message_box "ERROR: couldn't connect to:\n\n$url\n\n$e"
+if {[catch {set token [::http::geturl $url]} e]} {tk_messageBox -message "ERROR: couldn't connect to:\n\n$url\n\n$e"
 return 0}
 if {$::eh::solo} { exit }
 if {[string first "<title>URL Not Found" [::http::data $token]] < 0} {return 1
@@ -138,7 +121,8 @@ proc ::eh::browse { {help ""} } {if {$::eh::my_browser ne ""} {exec {*}${::eh::m
 if {$::eh::solo} {if {$argc > 0} {if {[lindex $::argv 0] eq "-local"} {set page [::eh::local [lindex $::argv 1]]
 } else {set page [::eh::html [lindex $::argv 0]]}
 ::eh::browse "$page"
-} else {puts "\nRun:
+} else {puts "
+Run:
 
   tclsh e_help.tcl \[-local\] page
 
@@ -146,6 +130,7 @@ to get Tcl/Tk help page:
 
   TclCmd/page.htm or
   TkCmd/page.htm or
-  Keywords/P.htm\n"}
+  Keywords/P.htm
+"}
 exit}
 #by trimmer

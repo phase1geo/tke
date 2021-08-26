@@ -1,6 +1,49 @@
 # Last changes:
 
 
+Version `3.4.4 (26 Aug'21)`
+
+  - new options: -ls, -pk, -DF, -BF, -PI
+  - running e_menu (when sourced) to select an item
+  - em::read_f_file and em::menuof modified
+  - regexp for ARGS[0-9]= and RUNF[0-9]= corrected
+  - checkbutton's color toggles together with "on top"
+  - -ontop of dialogues added
+  - menu variables' initialization changed (\n, \ substitutions etc.)
+  - saving menu variables after question (%Q)
+  - .mnu modified
+  - apave package updated
+
+
+Version `3.3.2b1 (27 Mar'21)`
+
+  - atrace.tcl in.
+  - trace/untrace items in test1.mnu
+  - submenu's geometry equals to hidden parent's
+  - o=-1 means "hint off"
+  - checking by ::apave::endWM
+  - apave, baltip packages upd.
+  - BUGFIX: ::apave::cs_Max instead of ::apave::_CS_(MAXCS)
+
+
+Version `3.2.8 (31 Jan'21)`
+
+  - "ex=" argument to run a list of items and exit
+  - modifying style of scale, scrollbar, combobox
+  - modifying menu's font size
+  - CS made milder
+  - revising popup menus of text widget
+  - color of matching bracket is magenta
+  - modifying & moving highlight matches procs from ::em to ::apave
+  - labelFlashing's -data allows var contents along with var name
+  - fillGutter can be run to update a gutter, e.g. at switching CS
+  - squeezing icons
+  - ::apave::paveObj became ::apave::obj, using one apave object
+  - playing with widths of cbx & opc in .mnu, successfully
+  - updating hl_tcl package
+  - BUGFIX: running a= commands
+
+
 Version `3.2.5 (5 Dec'20)`
 
   - "Settings/Plugins/e_menu" allow to use: 1) TKE's CS 2) emenu's CS 3) no CS

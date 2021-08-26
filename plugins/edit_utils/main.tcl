@@ -206,19 +206,22 @@ namespace eval edit_utils {
   # Reformat the code
 
   proc reformat {tclcode {pad 2}} {
+    # Indents Tcl code.
+    #   tclcode - text of Tcl code
+    #   pad - string of spaces per 1 indent
 
     set lines [split $tclcode \n]
-    set out ""
+    set out {}
     set nquot 0   ;# count of quotes
     set ncont 0   ;# count of continued strings
     set line [lindex $lines 0]
-    set indent [expr {([string length $line]-[string length [string trimleft $line \ \t]])/$pad}]
-    set padst [string repeat " " $pad]
+    set indcnt [expr {([string length $line]-[string length [string trimleft $line \ \t]])/$pad}]
+    set padst [string repeat { } $pad]
     foreach orig $lines {
       incr lineindex
       if {$lineindex>1} {append out \n}
       set newline [string trim $orig]
-      if {$newline==""} continue
+      if {$newline eq {}} continue
       set is_quoted $nquot
       set is_continued $ncont
       if {[string index $orig end] eq "\\"} {
@@ -226,23 +229,21 @@ namespace eval edit_utils {
       } else {
         set ncont 0
       }
-      if { [string index $newline 0]=="#" } {
-        set line $orig   ;# don't touch comments
-      } else {
-        set npad [expr {$indent * $pad}]
-        set line [string repeat $padst $indent]$newline
-        set ns [set nl [set nr [set body 0]]]
+      set npad [expr {$indcnt * $pad}]
+      set line [string repeat $padst $indcnt]$newline
+      set ns [set nl [set nr [set body 0]]]
+      if {[string index $newline 0] ne {#}} {
         for {set i 0; set n [string length $newline]} {$i<$n} {incr i} {
           set ch [string index $newline $i]
-          if {$ch=="\\"} {
+          if {$ch eq "\\"} {
             set ns [expr {[incr ns] % 2}]
           } elseif {!$ns} {
-            if {$ch=="\""} {
+            if {$ch eq {"}} {
               set nquot [expr {[incr nquot] % 2}]
             } elseif {!$nquot} {
               switch $ch {
                 "\{" {
-                  if {[string range $newline $i $i+2]=="\{\"\}"} {
+                  if {[string range $newline $i $i+2] eq "\{\"\}"} {
                     # quote in braces - correct (though tricky)
                     incr i 2
                   } else {
@@ -260,23 +261,23 @@ namespace eval edit_utils {
             set ns 0
           }
         }
-        set nbbraces [expr {$nl - $nr}]
-        incr totalbraces $nbbraces
-        if {$totalbraces<0} {
-          api::show_error "\nLine $lineindex: unbalanced braces!\n"
-          return ""
+      }
+      set nbbraces [expr {$nl - $nr}]
+      incr totalbraces $nbbraces
+      if {$totalbraces<0} {
+        api::show_error "\nLine $lineindex: unbalanced braces!\n"
+        return {}
+      }
+      incr indcnt $nbbraces
+      if {$nbbraces==0} { set nbbraces $body }
+      if {$is_quoted || $is_continued} {
+        set line $orig     ;# don't touch quoted and continued strings
+      } else {
+        set np [expr {- $nbbraces * $pad}]
+        if {$np>$npad} { ;# for safety too
+          set np $npad
         }
-        incr indent $nbbraces
-        if {$nbbraces==0} { set nbbraces $body }
-        if {$is_quoted || $is_continued} {
-          set line $orig     ;# don't touch quoted and continued strings
-        } else {
-          set np [expr {- $nbbraces * $pad}]
-          if {$np>$npad} { ;# for safety too
-            set np $npad
-          }
-          set line [string range $line $np end]
-        }
+        set line [string range $line $np end]
       }
       append out $line
     }

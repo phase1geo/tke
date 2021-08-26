@@ -1,5 +1,5 @@
 
-package ifneeded apave 3.2.5 [list source [file join $dir apaveinput.tcl]]
+package ifneeded apave 3.4.4 [list source [file join $dir apaveinput.tcl]]
 namespace eval apave {
 set _ruff_preamble {
 
@@ -47,12 +47,15 @@ set _ruff_preamble {
    - bartabs
    - link
    - baltip
+   - gutter
 
   At last, a stand-alone dialog allows not only to ask "OK/Cancel" or "Yes/No" returning 1/0 but also to set environment variables to use in shell scripts.
   
   The **apave** originates from the old **pave** package, to comply with [How to build good packages](https://wiki.tcl-lang.org/page/How+to+build+good+packages) ("avoid simple, obvious names for your namespace").
 
   Let it be a sort of **a-pave**.
+
+  The details are in [Description](https://aplsimple.github.io/en/tcl/pave).
 
 }}
 #by trimmer

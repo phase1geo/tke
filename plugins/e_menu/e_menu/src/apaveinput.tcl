@@ -1,6 +1,6 @@
 ###########################################################################
 package require Tk
-package provide apave 3.2.5
+package provide apave 3.4.4
 source [file join [file dirname [info script]] apavedialog.tcl]
 namespace eval ::apave {}
 oo::class create ::apave::APaveInput {superclass ::apave::APaveDialog
@@ -51,7 +51,7 @@ set focusopt "-focus $_"}
 if {$typ in {lb tb te}} {set anc nw} {set anc w}
 lappend inopts [list fraM.fra$name.labB$name - - - - "pack -side left -anchor $anc -padx 3" "-t \"$prompt\" -font           \"-family {[my basicTextFont]} -size [my basicFontSize]\""]}
 if {$typ ni {fc te la}} {set vsel [lindex $valopts 0]
-catch {set vsel [subst -nocommands -noback $vsel]}
+catch {set vsel [subst -nocommands -nobackslashes $vsel]}
 set vlist [lrange $valopts 1 end]}
 if {[set msgLab [::apave::getOption -msgLab {*}$attrs]] ne ""} {set attrs [::apave::removeOptions $attrs -msgLab]}
 switch -- $typ {lb - tb {set $vv $vlist
@@ -103,21 +103,15 @@ if {$centerme eq ""} {set centerme "-centerme 1"
 } else {set centerme "-centerme $centerme"}
 set args [::apave::removeOptions $args -titleOK -titleCANCEL -centerme]
 lappend args {*}$focusopt
-if {[catch { set res [my Query $icon $ttl {} "butOK $titleOK 1 $butCancel" butOK $inopts [my PrepArgs $args] "" {*}$centerme]} e]} {catch {destroy $_pdg(win).dia}
-::apave::paveObj ok err "ERROR" "\n$e\n" -t 1 -head "\nAPaveInput returned an error: \n" -hfg red -weight bold
+if {[catch { set res [my Query $icon $ttl {} "butOK $titleOK 1 $butCancel" butOK $inopts [my PrepArgs $args] "" {*}$centerme]} e]} {catch {destroy $_pdg(dlg)}
+::apave::obj ok err "ERROR" "\n$e\n" -t 1 -head "\nAPaveInput returned an error: \n" -hfg red -weight bold
 return 0}
-if {[lindex $res 0]!=1} {foreach {vn vv} $_savedvv {catch {set $vn $vv}}}
+if {![lindex $res 0]} {foreach {vn vv} $_savedvv {catch {set $vn $vv}}}
 return $res}
 method vieweditFile {fname {prepost ""} args} {return [my editfile $fname "" "" "" $prepost {*}$args]}
 method editfile {fname fg bg cc {prepost ""} args} {if {$fname eq ""} {return false}
 set newfile 0
-set filetxt ""
-if {[catch {set ch [open $fname]}]} {if {[catch {close [open $fname w]} err]} {puts "ERROR: couldn't create '$fname':\n$err"
-return false}
-set newfile 1
-} else {chan configure $ch -encoding utf-8
-set filetxt [read $ch]
-close $ch}
+if {[catch {set filetxt [::apave::readTextFile $fname "" yes]}]} {return false}
 lassign [::apave::parseOptions $args -rotext "" -readonly 1 -ro 1] rotext readonly ro
 set btns "Exit 0"
 set oper VIEW
@@ -130,10 +124,7 @@ set res [my misc "" "$oper FILE: $fname" "$filetxt" $btns TEXT -text 1 -w {100 8
 set data [string range $res 2 end]
 if {[set res [string index $res 0]] eq "1"} {set data [string range $data [string first " " $data]+1 end]
 set data [string trimright $data]
-set ch [open $fname w]
-chan configure $ch -encoding utf-8
-foreach line [split $data \n] {puts $ch [string trimright $line]}
-close $ch
+set res [::apave::writeTextFile $fname data]
 } elseif {$newfile} {file delete $fname}
 return $res}}
 #by trimmer

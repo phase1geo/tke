@@ -1,5 +1,5 @@
 # _______________________________________________________________________ #
-package provide baltip 1.0.1
+package provide baltip 1.0.6
 package require Tk
 namespace eval ::baltip {namespace export configure cget tip update hide repaint
 namespace ensemble create
@@ -16,9 +16,10 @@ set ttdata(pady) 3
 set ttdata(padding) 0
 set ttdata(alpha) 1.0
 set ttdata(bell) no
-set ttdata(font) [font actual TkDefaultFont]
+set ttdata(font) [font actual TkTooltipFont]
 set ttdata(under) -16}}
-proc ::baltip::configure {args} {set force no
+proc ::baltip::configure {args} {variable my::ttdata
+set force no
 set index -1
 set geometry [set tag ""]
 set global [expr {[dict exists $args -global] && [dict get $args -global]}]
@@ -29,12 +30,15 @@ default {return -code error "invalid option \"$n\""}}
 if {$global && ($n ne "-global" || [llength $args]==2)} {foreach k [array names my::ttdata -glob on,*] {set w [lindex [split $k ,] 1]
 set my::ttdata($n1,$w) $v}}}
 return [list $force $geometry $index $tag]}
-proc ::baltip::cget {args} {if {![llength $args]} {lappend args -on -per10 -fade -pause -fg -bg -bd -padx -pady -padding -font -alpha -text -index -tag -bell -under}
+proc ::baltip::cget {args} {variable my::ttdata
+if {![llength $args]} {lappend args -on -per10 -fade -pause -fg -bg -bd -padx -pady -padding -font -alpha -text -index -tag -bell -under}
 set res [list]
 foreach n $args {set n [string range $n 1 end]
 if {[info exists my::ttdata($n)]} {lappend res -$n $my::ttdata($n)}}
 return $res}
-proc ::baltip::tip {w text args} {if {[winfo exists $w] || $w eq ""} {set arrsaved [array get my::ttdata]
+proc ::baltip::tip {w text args} {variable my::ttdata
+array unset my::ttdata winGEO*
+if {[winfo exists $w] || $w eq ""} {set arrsaved [array get my::ttdata]
 set optvals [::baltip::my::CGet {*}$args]
 lassign $optvals forced geo index ttag
 set optvals [lrange $optvals 4 end]
@@ -51,24 +55,27 @@ bind Tooltip$w <Any-Button>   [list ::baltip::hide $w]
 if {$index>-1} {set my::ttdata($w,$index) $text
 set my::ttdata(LASTMITEM) ""
 bind $w <<MenuSelect>> [list + ::baltip::my::MenuTip $w %W $optvals]
-} elseif {$ttag ne ""} {set ::baltip::my::ttdata($w,$ttag) "$text"
+} elseif {$ttag ne ""} {set my::ttdata($w,$ttag) "$text"
 $w tag bind $ttag <Enter> [list + ::baltip::my::TagTip $w $ttag $optvals]
 foreach event {Leave KeyPress Button} {$w tag bind $ttag <$event> [list + ::baltip::my::TagTip $w]}
 } else {bind Tooltip$w <Enter> [list ::baltip::my::Show %W $text no $geo $optvals]}}}}}
-proc ::baltip::update {w text args} {set my::ttdata(text,$w) $text
+proc ::baltip::update {w text args} {variable my::ttdata
+set my::ttdata(text,$w) $text
 foreach {k v} $args {set my::ttdata([string range $k 1 end],$w) $v}}
 proc ::baltip::hide {{w ""}} {return [expr {![catch {destroy $w.w__BALTIP}]}]}
-proc ::baltip::repaint {w args} {if {[winfo exists $w] && [info exists my::ttdata(optvals,$w)] && [dict exists $my::ttdata(optvals,$w) -text]} {set optvals $::baltip::my::ttdata(optvals,$w)
+proc ::baltip::repaint {w args} {variable my::ttdata
+if {[winfo exists $w] && [info exists my::ttdata(optvals,$w)] && [dict exists $my::ttdata(optvals,$w) -text]} {set optvals $my::ttdata(optvals,$w)
 lappend optvals {*}$args
-after idle [list ::baltip::my::Show $w [dict get $::baltip::my::ttdata(optvals,$w) -text] yes {} $optvals]}}
+catch {after cancel $my::ttdata(after)}
+set my::ttdata(after) [after idle [list ::baltip::my::Show $w [dict get $my::ttdata(optvals,$w) -text] yes {} $optvals]]}}
 proc ::baltip::my::CGet {args} {variable ttdata
 set saved [array get ttdata]
 set res [::baltip::configure {*}$args]
 lappend res {*}[::baltip::cget]
 array set ttdata $saved
 return $res}
-proc ::baltip::my::ShowWindow {win} {if {![winfo exists $win]} return
-variable ttdata
+proc ::baltip::my::ShowWindow {win} {variable ttdata
+if {![winfo exists $win] || ![info exists ttdata(winGEO,$win)]} return
 set geo $ttdata(winGEO,$win)
 set under $ttdata(winUNDER,$win)
 set w [winfo parent $win]
@@ -81,22 +88,21 @@ if {[catch {set wheight [winfo height $w]}]} {set wheight 0
 } else {for {set i 0} {$i<$wheight} {incr i} {incr py
 incr ady
 if {![string match $w [winfo containing $px $py]]} break}}
-if {$geo eq ""} {set x [expr {max(1,$px - round($width / 2.0))}]
+if {$geo eq {}} {set x [expr {max(1,$px - round($width / 2.0))}]
 set y [expr {$under>=0 ? ($py + $under) : ($py - $under - $ady)}]
 } else {lassign [split $geo +] -> x y
 set x [expr [string map "W $width" $x]]
-set y [expr [string map "H $height" $y]]
-set py [expr {$y-16}]}
+set y [expr [string map "H $height" $y]]}
 set scrw [winfo screenwidth .]
 set scrh [winfo screenheight .]
 if {($x + $width) > $scrw}  {set x [expr {$scrw - $width - 1}]}
-if {($y + $height) > ($scrh-36)} {set y [expr {$py - $wheight - $height}]}
+if {($y + $height) > $scrh} {set y [expr {$py - $height - 16}]}
 wm geometry $win [join  "$width x $height + $x + $y" {}]
 catch {wm deiconify $win ; raise $win}}
 proc ::baltip::my::Show {w text force geo optvals} {variable ttdata
 if {$w ne "" && ![winfo exists $w]} return
 set win $w.w__BALTIP
-catch {::apave::paveObj untouchWidgets $win.label}
+catch {::apave::obj untouchWidgets $win.label}
 set px [winfo pointerx .]
 set py [winfo pointery .]
 if {$geo ne ""} {array set data $optvals
@@ -129,21 +135,26 @@ set icount [expr {max(1000/$aint+1,$icount)}]
 set ttdata(winGEO,$win) $geo
 set ttdata(winUNDER,$win) $data(-under)
 if {$icount} {if {$geo eq ""} {catch {wm attributes $win -alpha $data(-alpha)}
-} else {::baltip::my::Fade $win $aint [expr {round(1.0*$data(-pause)/$aint)}] 0 Un $data(-alpha) 1 $geo}
-if {$force} {::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo
-} else {after $data(-pause) [list ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo]}
-} else {after $data(-pause) [list ::baltip::my::ShowWindow $win]}
+} else {Fade $win $aint [expr {round(1.0*$data(-pause)/$aint)}] 0 Un $data(-alpha) 1 $geo}
+if {$force} {Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo
+} else {catch {after cancel $ttdata(after)}
+set ttdata(after) [after $data(-pause) [list ::baltip::my::Fade $win $aint $fint $icount {} $data(-alpha) 1 $geo]]}
+} else {catch {after cancel $ttdata(after)}
+set ttdata(after) [after $data(-pause) [list ::baltip::my::ShowWindow $win]]}
 if {$data(-bell)} [list after [expr {$data(-pause)/4}] bell]
 array unset data}
-proc ::baltip::my::Fade {w aint fint icount Un alpha show geo {geos ""}} {update
-if {[winfo exists $w]} {after idle [list after $aint [list ::baltip::my::${Un}FadeNext $w $aint $fint $icount $alpha $show $geo $geos]]}}
+proc ::baltip::my::Fade {w aint fint icount Un alpha show geo {geos ""}} {variable ttdata
+update
+if {[winfo exists $w]} {catch {after cancel $ttdata(after)}
+set ttdata(after) [after idle [list after $aint [list ::baltip::my::${Un}FadeNext $w $aint $fint $icount $alpha $show $geo $geos]]]}}
 proc ::baltip::my::FadeNext {w aint fint icount alpha show geo {geos ""}} {incr icount -1
 if {$show} {ShowWindow $w}
 set show 0
 if {![winfo exists $w]} return
 lassign [split [wm geometry $w] +] -> X Y
 if {$geos ne "" && $geos ne "+$X+$Y"} return
-set al [expr {min($alpha,($fint+$icount*1.5)/$fint)}]
+if {$fint<=0} {set fint 10}
+if {[catch {set al [expr {min($alpha,($fint+$icount*1.5)/$fint)}]}]} {set al 0}
 if {$icount<0} {if {$al>0} {if {[catch {wm attributes $w -alpha $al}]} {set al 0}}
 if {$al<=0 || ![winfo exists $w]} {catch {destroy $w}
 return}
