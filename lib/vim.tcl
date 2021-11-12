@@ -1694,7 +1694,8 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 0] startpos endpos
+        set startpos [$txtt index {*}$sposargs]
+        set endpos   [$txtt index {*}$eposargs]
         clipboard clear
         clipboard append [$txtt get $startpos $endpos]
         if {$opts(-cursor) ne ""} {
@@ -2778,11 +2779,11 @@ namespace eval vim {
     set clip [clipboard get]
 
     if {[set nl_index [string last \n $clip]] != -1} {
-      if {([string length $clip] - 1) == $nl_index} {
-        clipboard clear
-        clipboard append [string replace $clip $nl_index $nl_index]
+      if {$nl_index == ([string length $clip] - 1)} {
+        $txtt paste -num $num -pre "\n" -post "\b" "insert lineend"
+      } else {
+        $txtt paste -num $num -pre "\n" "insert lineend"
       }
-      $txtt paste -num $num -pre "\n" "insert lineend"
       $txtt cursor move [list linestart -num 2]
       $txtt cursor move [list firstchar -num 0]
     } else {
@@ -2832,12 +2833,12 @@ namespace eval vim {
 
     if {[set nl_index [string last \n $clip]] != -1} {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
-        clipboard clear
-        clipboard append [string replace $clip $nl_index $nl_index]
+        $txtt paste -num $num -post "\b\n" linestart
+      } else {
+        $txtt paste -num $num -post "\n" linestart
       }
-      $txtt paste -num $num -post "\n" linestart
-      $txtt cursor move [list linestart -num 0]
-      $txtt cursor move [list firstchar -num 0]
+      $txtt cursor move [list linestart -num -1]
+      $txtt cursor move [list firstchar -num -1]
     } else {
       $txtt paste -num $num insert
       $txtt cursor move [list char -num 1 -dir prev]

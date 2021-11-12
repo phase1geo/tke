@@ -2161,7 +2161,11 @@ namespace eval ctext {
 
     } else {
 
-      return [$win._t index $args]
+      if {![catch { $win._t index $args } rc]} {
+        return $rc
+      } else {
+        return [$win._t index [lindex $args 0]]
+      }
 
     }
 
@@ -2647,7 +2651,8 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Handles a paste operation.
+  # Handles a paste operation.  If the -post option is set to "\b", the
+  # clipboard will remove the last character.
   proc command_paste {win args} {
 
     variable data
@@ -2669,7 +2674,16 @@ namespace eval ctext {
     }
 
     # Get the contents of the clipboard
-    set clip [string repeat "$opts(-pre)[clipboard get]$opts(-post)" $opts(-num)]
+    set clip [clipboard get]
+
+    # If we need to remove the last character, do that now
+    if {[string index $opts(-post) 0] eq "\b"} {
+      set opts(-post) [string range $opts(-post) 1 end]
+      set clip [string range $clip 0 end-1]
+    }
+
+    # Formulate the text to paste
+    set clip [string repeat "$opts(-pre)$clip$opts(-post)" $opts(-num)]
 
     if {[set cursors [llength [$win._t tag ranges _mcursor]]] > 0} {
 
