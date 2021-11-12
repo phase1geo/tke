@@ -1665,13 +1665,13 @@ namespace eval vim {
         if {[$txtt cget -multimove]} {
           $txtt cursor move $eposargs
         } elseif {$opts(-object) ne ""} {
-          if {$spos ne "cursor"} {
-            $txtt cursor set $spos
+          if {$sposargs ne "cursor"} {
+            $txtt cursor set $sposargs
             visual_mode $txtt char
-            set_cursor $txtt $epos
+            set_cursor $txtt [$txtt index {*}$eposargs]
           }
         } else {
-          set_cursor $txtt $eposargs
+          set_cursor $txtt [$txtt index {*}$eposargs]
         }
         reset_state $txtt 0
         return 1
