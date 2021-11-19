@@ -5467,12 +5467,12 @@ namespace eval ctext {
   ######################################################################
   # Adjust the insertion marker so that it never is allowed to sit on
   # the lineend spot.
-  proc adjust_cursors {win index} {
+  proc adjust_cursors {win} {
 
     variable mode
 
     # If we are not running in block cursor mode, don't continue
-    if {![is_block_cursor $win] && ($index ne "insert")} {
+    if {![is_block_cursor $win]} {
       return
     }
 
@@ -5481,13 +5481,13 @@ namespace eval ctext {
 
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
-    if {[$win._t compare "$index linestart" == "$index lineend"]} {
-      $win._t insert $index " " _dspace
-      $win._t mark set $index "$index-1c"
+    if {[$win._t compare "insert linestart" == "insert lineend"]} {
+      $win._t insert insert " " _dspace
+      $win._t mark set insert "insert-1c"
 
     # Make sure that lineend is never the insertion point
-    } elseif {[$win._t compare $index == "$index lineend"]} {
-      $win._t mark set $index "$index-1 display chars"
+    } elseif {[$win._t compare insert == "insert lineend"]} {
+      $win._t mark set insert "insert-1 display chars"
     }
 
   }

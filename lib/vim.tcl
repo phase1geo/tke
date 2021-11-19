@@ -1203,7 +1203,7 @@ namespace eval vim {
     set multicursor($txtt) 1
 
     # Effectively make the insertion cursor disappear
-    $txtt configure -blockcursor 0 -insertwidth 0
+    $txtt configure -multimove 1
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1219,11 +1219,14 @@ namespace eval vim {
 
     set multicursor($txtt) 0
 
-    # Restore the insertion cursor width
-    $txtt configure -blockcursor [expr {$mode($txtt) ne "edit"}] -insertwidth [preferences::get Appearance/CursorWidth]
+    # If we are in multimove mode, get out of multimove
+    if {[$txtt cget -multimove]} {
+      $txtt configure -multimove 0
 
-    # Clear multicursors
-    $txtt cursor disable
+    # Otherwise, disable multicursors altogether
+    } else {
+      $txtt cursor disable
+    }
 
     # Make sure that the status bar is updated properly
     gui::update_position [winfo parent $txtt]
@@ -1726,16 +1729,19 @@ namespace eval vim {
       }
       "format" {
         $txtt indent auto $sposargs $eposargs
+        $txtt cursor move [list firstchar -num 0]
         command_mode $txtt
         return 1
       }
       "lshift" {
         $txtt indent left $sposargs $eposargs
+        $txtt cursor move [list firstchar -num 0]
         command_mode $txtt
         return 1
       }
       "rshift" {
         $txtt indent right $sposargs $eposargs
+        $txtt cursor move [list firstchar -num 0]
         command_mode $txtt
         return 1
       }
