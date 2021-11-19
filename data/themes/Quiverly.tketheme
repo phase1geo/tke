@@ -1,6 +1,6 @@
 swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #0000ff #5a5a5a}
 creator {Trevor Williams}
-date {1542945760}
+date {1637300213}
 images,form_close {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -8,6 +8,17 @@ static char img_bits[] = {
 #define img_height 8
 static char img_bits[] = {
 0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};} fg #b6c1c1}
+images,menu_check {dat {#define menu_check_width 10
+#define menu_check_height 10
+static unsigned char menu_check_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x78, 0x00, 0x78, 0x00,
+   0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+} fg black msk {#define menu_check_width 10
+#define menu_check_height 10
+static unsigned char menu_check_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x78, 0x00, 0x78, 0x00,
+   0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+}}
 images,menu_diff {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -22,6 +33,17 @@ static char img_bits[] = {
 #define img_height 8
 static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #302d26}
+images,menu_nocheck {dat {#define menu_nocheck_width 10
+#define menu_nocheck_height 10
+static unsigned char menu_nocheck_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+} fg black msk {#define menu_nocheck_width 10
+#define menu_nocheck_height 10
+static unsigned char menu_nocheck_bits[] = {
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+}}
 images,menu_readonly {dat {#define img_width 8
 #define img_height 8
 static char img_bits[] = {
@@ -256,6 +278,7 @@ menus,-disabledforeground {grey}
 menus,-foreground {#ffffff}
 menus,-relief {flat}
 menus,-selectcolor {black}
+meta,syntax,cursor {#7800ff,v,70}
 meta,syntax,difference_sub {#350c0d,v,10}
 meta,syntax,embedded {#22242c,v,0}
 meta,syntax,foreground {#b6c1c1,v,0}
@@ -287,7 +310,7 @@ syntax,background {#2b303b}
 syntax,border_highlight {gold}
 syntax,closed_fold {orange}
 syntax,comments {#706d5b}
-syntax,cursor {#ff9900}
+syntax,cursor {#5600b9}
 syntax,difference_add {#1b2b16}
 syntax,difference_sub {#3f0e0f}
 syntax,embedded {#22242c}
