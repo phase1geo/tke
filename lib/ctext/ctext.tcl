@@ -65,6 +65,8 @@ namespace eval ctext {
     set data($win,config,-font)                   [$tmp cget -font]
     set data($win,config,-relief)                 [$tmp cget -relief]
     set data($win,config,-insertwidth)            [$tmp cget -insertwidth]
+    set data($win,config,-insertbackground)       [$tmp cget -insertbackground]
+    set data($win,config,-blockbackground)        [$tmp cget -insertbackground]
     set data($win,config,-unhighlightcolor)       [$win cget -bg]
     destroy $tmp
     set data($win,config,-xscrollcommand)          ""
@@ -131,7 +133,7 @@ namespace eval ctext {
     -matchaudit_bg -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
     -linemap_separator -linemap_separator_color -casesensitive -peer -theme -hidemeta \
     -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin \
-    -blockcursor -multimove -insertwidth -shiftwidth -tabstop -indentmode]
+    -blockcursor -blockbackground -multimove -insertwidth -insertbackground -shiftwidth -tabstop -indentmode]
 
     # Set args
     foreach {name value} $args {
@@ -469,6 +471,22 @@ namespace eval ctext {
       if {[$win._t tag ranges _mcursor] eq ""} {
         catch { $win._t delete {*}[$win._t tag ranges _dspace] }
       }
+      update_cursor $win
+    }
+
+    lappend argTable any -insertbackground {
+      if {[catch { winfo rgb $win $value } res]} {
+        return -code error $res
+      }
+      set data($win,config,-insertbackground) $value
+      update_cursor $win
+    }
+
+    lappend argTable any -blockbackground {
+      if {[catch { winfo rgb $win $value } res]} {
+        return -code error $res
+      }
+      set data($win,config,-blockbackground) $value
       update_cursor $win
     }
 
@@ -5339,7 +5357,15 @@ namespace eval ctext {
     if {([$win._t tag ranges _mcursor] eq "") || ($data($win,config,-multimove) == 0)} {
 
       # Make the insertion cursor come back
-      $win._t configure -blockcursor $data($win,config,-blockcursor) -insertwidth $data($win,config,-insertwidth)
+      $win._t configure -blockcursor $data($win,config,-blockcursor) \
+                        -insertwidth $data($win,config,-insertwidth)
+
+      # Set the insertion background
+      if {$data($win,config,-blockcursor)} {
+        $win._t configure -insertbackground $data($win,config,-blockbackground)
+      } else {
+        $win._t configure -insertbackground $data($win,config,-insertbackground)
+      }
 
       # Remove the background color
       $win._t tag configure _mcursor -background ""
@@ -5350,7 +5376,7 @@ namespace eval ctext {
       $win._t configure -blockcursor 0 -insertwidth 0
 
       # Make the multicursors look like the normal cursor
-      $win._t tag configure _mcursor -background [$win._t cget -insertbackground]
+      $win._t tag configure _mcursor -background $data($win,config,-blockbackground)
 
     }
 

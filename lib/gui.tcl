@@ -6366,7 +6366,8 @@ namespace eval gui {
     # Set the text background color to the current theme
     $txt configure -background $theme(background) -foreground $theme(foreground) \
       -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
-      -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
+      -insertbackground $theme(foreground) -blockbackground $theme(cursor) \
+      -highlightcolor $theme(border_highlight) \
       -linemapbg $theme(linemap) -linemapfg $theme(line_number) \
       -linemap_mark_color $theme(marker) -linemap_separator_color $theme(linemap_separator) \
       -warnwidth_bg $theme(warning_width) -relief flat \
