@@ -109,13 +109,15 @@ namespace eval completer {
     bind precomp$txt <BackSpace>        "completer::handle_delete %W"
 
     # Add the bindings
-    set text_index [lsearch [bindtags $txt.t] Text]
+    set text_index [lsearch [bindtags $txt.t] Ctext]
     bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] postcomp$txt]
     bindtags $txt.t [linsert [bindtags $txt.t] $text_index precomp$txt]
 
     # Make sure that the complete array is initialized for the text widget
     # in case there is no language
     set_auto_match_chars $txt.t {} {}
+
+    puts [bindtags $txt.t]
 
   }
 
