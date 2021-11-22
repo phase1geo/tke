@@ -225,22 +225,22 @@ namespace eval ctext {
     bind $win.l <5>                            [list event generate $win.t <5>]
     bind Ctext  <Destroy>                      [list ctext::event:Destroy $win]
     bind Ctext  <<Selection>>                  [list ctext::event:Selection $win]
-    bind Ctext  <<Copy>>                       "ctext::event:Copy $win; break"
-    bind Ctext  <<Cut>>                        "ctext::event:Cut $win; break"
-    bind Ctext  <<Paste>>                      "ctext::event:Paste $win; break"
+    bind Ctext  <<Copy>>                       [list ctext::event:Copy $win]
+    bind Ctext  <<Cut>>                        [list ctext::event:Cut $win]
+    bind Ctext  <<Paste>>                      [list ctext::event:Paste $win]
     bind Ctext  <<Undo>>                       [list ctext::undo $win]
     bind Ctext  <<Redo>>                       [list ctext::redo $win]
     bind Ctext  <Escape>                       [list ctext::event:Escape $win]
-    bind Ctext  <Key-Up>                       "$win cursor move up;           break"
-    bind Ctext  <Key-Down>                     "$win cursor move down;         break"
-    bind Ctext  <Key-Left>                     "$win cursor move left;         break"
-    bind Ctext  <Key-Right>                    "$win cursor move right;        break"
-    bind Ctext  <Key-Home>                     "$win cursor move linestart;    break"
-    bind Ctext  <Key-End>                      "$win cursor move lineend;      break"
-    bind Ctext  <Key-Delete>                   "ctext::event:Delete $win;      break"
-    bind Ctext  <Key-BackSpace>                "ctext::event:Backspace $win;   break"
-    bind Ctext  <Return>                       "ctext::event:Return $win;      break"
-    bind Ctext  <Key>                          "ctext::event:KeyPress $win %A; break"
+    bind Ctext  <Key-Up>                       [list ctext::event:KeyUp $win]
+    bind Ctext  <Key-Down>                     [list ctext::event:KeyDown $win]
+    bind Ctext  <Key-Left>                     [list ctext::event:KeyLeft $win]
+    bind Ctext  <Key-Right>                    [list ctext::event:KeyRight $win]
+    bind Ctext  <Key-Home>                     [list ctext::event:KeyHome $win]
+    bind Ctext  <Key-End>                      [list ctext::event:KeyEnd $win]
+    bind Ctext  <Key-Delete>                   [list ctext::event:Delete $win]
+    bind Ctext  <Key-BackSpace>                [list ctext::event:Backspace $win]
+    bind Ctext  <Return>                       [list ctext::event:Return $win]
+    bind Ctext  <Key>                          [list ctext::event:KeyPress $win %A]
     bind Ctext  <Button-1>                     [list $win cursor disable]
     bind Ctext  <$alt_key-Button-1>            [list $win cursor add @%x,%y]
     bind Ctext  <$alt_key-Button-$right_click> [list $win cursor addcolumn @%x,%y]
@@ -314,8 +314,6 @@ namespace eval ctext {
 
     variable data
 
-    bgproc::killall ctext::*
-
     catch { rename $win {} }
     # interp alias {} $win.t {}
     array unset data $win,*
@@ -346,6 +344,66 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Moves cursor(s) up by one line.
+  proc event:KeyUp {win} {
+
+    $win cursor move up
+
+    return -code break
+
+  }
+
+  ######################################################################
+  # Moves cursor(s) down by one line.
+  proc event:KeyDown {win} {
+
+    $win cursor move down
+
+    return -code break
+
+  }
+
+  ######################################################################
+  # Moves cursor(s) left by one character.
+  proc event:KeyLeft {win} {
+
+    $win cursor move left
+
+    return -code break
+
+  }
+
+  ######################################################################
+  # Moves cursor(s) right by one character.
+  proc event:KeyRight {win} {
+
+    $win cursor move right
+
+    return -code break
+
+  }
+
+  ######################################################################
+  # Moves cursor(s) to the beginning of its current line.
+  proc event:KeyHome {win} {
+
+    $win cursor move linestart
+
+    return -code break
+
+  }
+
+  ######################################################################
+  # Moves cursor(s) to the end of its current line.
+  proc event:KeyEnd {win} {
+
+    $win cursor move lineend
+
+    return -code break
+
+  }
+
+  ######################################################################
   # Handles a press of the Delete key.
   proc event:Delete {win} {
 
@@ -361,6 +419,8 @@ namespace eval ctext {
     } else {
       $win delete insert [list dchar -dir next]
     }
+
+    return -code break
 
   }
 
@@ -381,6 +441,8 @@ namespace eval ctext {
       $win delete [list dchar -dir prev] insert
     }
 
+    return -code break
+
   }
 
   ######################################################################
@@ -396,6 +458,8 @@ namespace eval ctext {
     } else {
       $win insert insert "\n"
     }
+
+    return -code break
 
   }
 
@@ -413,6 +477,8 @@ namespace eval ctext {
       $win insert insert $char
     }
 
+    return -code break
+
   }
 
   ######################################################################
@@ -420,6 +486,8 @@ namespace eval ctext {
   proc event:Copy {win} {
 
     $win copy
+
+    return -code break
 
   }
 
@@ -429,6 +497,8 @@ namespace eval ctext {
 
     $win cut
 
+    return -code break
+
   }
 
   ######################################################################
@@ -436,6 +506,18 @@ namespace eval ctext {
   proc event:Paste {win} {
 
     $win paste
+
+    return -code break
+
+  }
+
+  ######################################################################
+  # Returns true if the given window exists.
+  proc winExists {win} {
+
+    variable data
+
+    return [info exists data($win,config,-font)]
 
   }
 
@@ -1729,7 +1811,7 @@ namespace eval ctext {
       }
       foreach cursor $cursors {
         set startpos [$win._t index "$cursor linestart"]
-        set endpos   [$win._t index "$cursor lineend"]
+        set endpos   [$win._t index "$cursor+1l linestart"]
         if {[lindex $ranges end] ne $endpos} {
           lappend ranges $startpos $endpos
         }
@@ -3831,8 +3913,8 @@ namespace eval ctext {
     variable data
 
     array unset data $win,config,csl_patterns,*
-    array unset data $win,csl_char_tags,*
-    array unset data $win,lc_char_tags,*
+    array unset data $win,config,csl_char_tags,*
+    array unset data $win,config,lc_char_tags,*
 
     set data($win,config,csl_array)     [list]
     set data($win,config,csl_markers)   [list]
@@ -5099,6 +5181,9 @@ namespace eval ctext {
   proc linemapUpdate {win {forceUpdate 0}} {
 
     variable data
+
+    # If this window no longer exists, exist immediately
+    if {![winExists $win]} return
 
     # Check to see if the current cursor is on a bracket and match it
     if {$data($win,config,-matchchar)} {

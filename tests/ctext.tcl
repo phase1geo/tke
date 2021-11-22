@@ -504,7 +504,7 @@ namespace eval ctext {
     set opts [$txt configure]
     set len  [llength $opts]
 
-    if {$len != 81} {
+    if {$len != 89} {
       cleanup "Missing options from configure return with no options ($len)"
     }
 
@@ -693,7 +693,7 @@ namespace eval ctext {
 
   }
 
-  # Verify the fastdelete command
+  # Verify the delete command without highlighting
   proc run_test21 {} {
 
     set txt [initialize]
@@ -704,12 +704,12 @@ namespace eval ctext {
       cleanup "Default text does not match expected"
     }
 
-    $txt fastdelete 2.0
+    $txt delete -highlight 0 2.0
     if {[$txt get 2.0 2.end] ne "his is some text"} {
       cleanup "Single character deletion did not work"
     }
 
-    $txt fastdelete 2.0 2.2
+    $txt delete -highlight 0 2.0 2.2
     if {[$txt get 2.0 2.end] ne "s is some text"} {
       cleanup "Character range deletion did not work"
     }
@@ -718,12 +718,12 @@ namespace eval ctext {
 
   }
 
-  # Verify the fastinsert command
+  # Verify the insert command without highlighting
   proc run_test22 {} {
 
     set txt [initialize]
 
-    $txt fastinsert end "\nset foobar \\\\{now}"
+    $txt insert -highlight 0 end "\nset foobar \\\\{now}"
 
     if {[$txt syntax ranges keywords] ne [list]} {
       cleanup "keyword tags exist for fast insert"
@@ -750,14 +750,14 @@ namespace eval ctext {
     foreach {startpos endpos} [list 2.2 2.5 1.0 2.0 1.0 end] {
 
       $txt delete 1.0 end
-      $txt fastinsert end "\nset foobar \[list \"nice\" \"\\\\\"\]"
+      $txt insert -highlight 0 end "\nset foobar \[list \"nice\" \"\\\\\"\]"
 
       if {([$txt syntax ranges keywords]  ne [list]) || \
           ([$txt syntax ranges squareL]   ne [list]) || \
           ([$txt syntax ranges comstr0d0] ne [list]) || \
           ([$txt syntax ranges comstr0d1] ne [list]) || \
           ([$txt syntax ranges escape]    ne [list])} {
-        cleanup "fastinsert text contained tags"
+        cleanup "insert without highlighting text contained tags"
       }
 
       $txt syntax highlight $startpos $endpos
@@ -872,7 +872,7 @@ namespace eval ctext {
     clipboard clear
     clipboard append "\nset foobar \"good\""
 
-    vim::remove_dspace $txt
+    ctext::remove_dspace $txt
 
     $txt paste
 

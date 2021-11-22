@@ -117,8 +117,6 @@ namespace eval completer {
     # in case there is no language
     set_auto_match_chars $txt.t {} {}
 
-    puts [bindtags $txt.t]
-
   }
 
   ######################################################################
