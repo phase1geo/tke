@@ -1641,7 +1641,7 @@ namespace eval vim {
     variable number
 
     array set opts {
-      -cursor "none"
+      -cursor ""
       -object ""
     }
     array set opts $args
@@ -1663,6 +1663,9 @@ namespace eval vim {
         return 1
       }
       "delete" {
+        if {[string range [lindex $eposargs 0] 0 5] ne "space"} {
+          $txtt copy $sposargs $eposargs
+        }
         $txtt delete $sposargs $eposargs
         if {$opts(-cursor) ne ""} {
           $txtt cursor set $opts(-cursor)
@@ -1680,10 +1683,7 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        set startpos [$txtt index {*}$sposargs]
-        set endpos   [$txtt index {*}$eposargs]
-        clipboard clear
-        clipboard append [$txtt get $startpos $endpos]
+        $txtt copy $sposargs $eposargs
         if {$opts(-cursor) ne ""} {
           $txtt cursor set $opts(-cursor)
         }
@@ -1875,9 +1875,9 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list lineend -num [get_number $txtt]]]
+      return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]]]
     } elseif {$motion($txtt) eq "g"} {
-      return [do_operation $txtt [list dispend -num [get_number $txtt]]]
+      return [do_operation $txtt [list dispend -num [expr [get_number $txtt] - 1]]]
     }
 
     return 0
@@ -1945,7 +1945,7 @@ namespace eval vim {
         }
       }
       "rot13" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
       }
     }
 
@@ -2462,7 +2462,7 @@ namespace eval vim {
         }
       }
       "change" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
       }
       "folding" {
         folding::close_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2594,7 +2594,7 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart -cursor "firstchar -num 0"]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -adjust +1c] linestart -cursor "firstchar -num 0"]
       }
       "folding" {
         folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2619,7 +2619,7 @@ namespace eval vim {
           return 1
         } else {
           set_operator $txtt "delete" {D}
-          return [do_operation $txtt [list lineend -num [get_number $txtt]]]
+          return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]]]
         }
       }
       "folding" {
@@ -2712,7 +2712,7 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart -cursor 0]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -adjust +1c] linestart -cursor 0]
       }
     }
 
@@ -2768,7 +2768,7 @@ namespace eval vim {
       } else {
         $txtt paste -num $num -pre "\n" "insert lineend"
       }
-      $txtt cursor move [list linestart -num 2]
+      $txtt cursor move [list linestart -num 1]
       $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt paste -num $num "insert+1c"
@@ -2822,7 +2822,7 @@ namespace eval vim {
         $txtt paste -num $num -post "\n" linestart
       }
       $txtt cursor move [list linestart -num -1]
-      $txtt cursor move [list firstchar -num -1]
+      $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt paste -num $num insert
       $txtt cursor move [list char -num 1 -dir prev]
@@ -2892,7 +2892,7 @@ namespace eval vim {
         }
       }
       "lower" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
       }
     }
 
@@ -2920,7 +2920,7 @@ namespace eval vim {
         }
       }
       "upper" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
       }
     }
 
@@ -3530,7 +3530,7 @@ namespace eval vim {
       }
       default {
         if {($operator($txtt) eq "lshift") && ($motion($txtt) eq "")} {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+          return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
         } else {
           return [do_object_operation $txtt angled]
         }
@@ -3564,7 +3564,7 @@ namespace eval vim {
       }
       default {
         if {($operator($txtt) eq "rshift") && ($motion($txtt) eq "")} {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+          return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
         } else {
           return [do_object_operation $txtt angled]
         }
@@ -3596,7 +3596,7 @@ namespace eval vim {
         return 1
       }
       "format" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
       }
     }
 
@@ -3612,7 +3612,7 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list firstchar -dir next -num [get_number $txtt]]]
+      return [do_operation $txtt [list firstchar -num [get_number $txtt]]]
     }
 
     return 0
@@ -3626,7 +3626,7 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list firstchar -dir next -num [get_number $txtt]]]
+      return [do_operation $txtt [list firstchar -num [get_number $txtt]]]
     }
 
     return 0
@@ -3641,7 +3641,7 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list firstchar -dir prev -num [get_number $txtt]]]
+      return [do_operation $txtt [list firstchar -num [expr 0 - [get_number $txtt]]]]
     }
 
     return 0
@@ -3680,7 +3680,7 @@ namespace eval vim {
         }
       }
       "swap" {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
       }
     }
 
@@ -3920,9 +3920,9 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list firstchar -dir next -num [expr [get_number $txtt] - 1]]]
+      return [do_operation $txtt [list firstchar -num [expr [get_number $txtt] - 1]]]
     } elseif {$motion($txtt) eq "g"} {
-      return [do_operation $txtt [list lastchar -num [get_number $txtt]]]
+      return [do_operation $txtt [list lastchar -num [expr [get_number $txtt] - 1]]]
     }
 
     return 0
