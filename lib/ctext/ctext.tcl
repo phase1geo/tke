@@ -2279,11 +2279,12 @@ namespace eval ctext {
       }
       array set opts [lrange $args 1 end]
 
-      set index [[lindex $procs 0] $win [$win index {*}$opts(-startpos)] [lrange $args 1 end]]
+      set startpos [$win index {*}$opts(-startpos)]
+      set index    [[lindex $procs 0] $win $startpos [lrange $args 1 end]]
 
       if {$opts(-forceadjust) ne ""} {
         return [$win._t index "$index$opts(-forceadjust)"]
-      } elseif {($index ne $opts(-startpos)) && ($opts(-adjust) ne "")} {
+      } elseif {($index ne $startpos) && ($opts(-adjust) ne "")} {
         return [$win._t index "$index$opts(-adjust)"]
       } else {
         return [$win._t index $index]

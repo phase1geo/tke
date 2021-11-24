@@ -1745,12 +1745,12 @@ namespace eval vim {
     switch $motion($txtt) {
       "a" {
         if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-          return [do_operation $txtt [list $object [get_number $txtt]] cursor -object "a"]
+          return [do_operation $txtt [list ${object}end -num [get_number $txtt] -exclusive 1] cursor -object "a"]
         }
       }
       "i" {
         if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-          return [do_operation $txtt [list $object [get_number $txtt]] cursor -object "i"]
+          return [do_operation $txtt [list ${object}end -num [get_number $txtt] -exclusive 0] cursor -object "i"]
         }
       }
     }
