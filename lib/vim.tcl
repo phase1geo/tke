@@ -1630,6 +1630,17 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Determines the operation cursor based on the current mode and returns it.
+  proc get_operation_cursor {txtt cursor} {
+    if {[set sel [$txtt tag ranges sel]] ne ""} {
+      return [lindex $sel 0]
+    } elseif {$cursor eq ""} {
+      return cursor
+    }
+    return $cursor
+  }
+
+  ######################################################################
   # Performs the current motion-specific operation on the text range specified
   # by startpos/endpos.
   proc do_operation {txtt eposargs {sposargs cursor} args} {
@@ -1645,6 +1656,8 @@ namespace eval vim {
       -object ""
     }
     array set opts $args
+
+    set cursor [get_operation_cursor $txtt $opts(-cursor)]
 
     switch $operator($txtt) {
       "" {
@@ -1684,29 +1697,31 @@ namespace eval vim {
       }
       "yank" {
         $txtt copy $sposargs $eposargs
-        if {$opts(-cursor) ne ""} {
-          $txtt cursor set $opts(-cursor)
-        }
+        $txtt cursor set $cursor
         command_mode $txtt
         return 1
       }
       "swap" {
         $txtt transform $sposargs $eposargs toggle_case
+        $txtt cursor set $cursor
         command_mode $txtt
         return 1
       }
       "upper" {
         $txtt transform $sposargs $eposargs upper_case
+        $txtt cursor set $cursor
         command_mode $txtt
         return 1
       }
       "lower" {
         $txtt transform $sposargs $eposargs lower_case
+        $txtt cursor set $cursor
         command_mode $txtt
         return 1
       }
       "rot13" {
         $txtt transform $sposargs $eposargs rot13
+        $txtt cursor set $cursor
         command_mode $txtt
         return 1
       }
@@ -2108,7 +2123,7 @@ namespace eval vim {
         folding::jump_to [winfo parent $txtt] prev [get_number $txtt]
       }
       "folding:range" {
-        folding::close_range [winfo parent $txtt] [$txtt index [list up -num [get_number $txtt] -column vim::column($txtt)]] insert
+        folding::close_range [winfo parent $txtt] [$txtt index up -num [get_number $txtt] -column vim::column($txtt)] insert
         $txtt cursor set [list "insert-1 display lines"]
       }
       default {
@@ -2712,7 +2727,7 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -adjust +1c] linestart -cursor 0]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -adjust +1c] linestart]
       }
     }
 

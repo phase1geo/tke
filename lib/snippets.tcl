@@ -192,7 +192,7 @@ namespace eval snippets {
       if {![vim::in_vim_mode $txtt]} {
         if {[string is space [$txtt get insert]] || ([lsearch [$txtt tag names insert] __prewhite] != -1)} {
           if {$expandtabs($txtt)} {
-            $txtt insert insert [string repeat " " [indent::get_tabstop $txtt]]
+            $txtt insert cursor [string repeat " " [$txtt get -tabstop]]
             return 1
           }
         } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
@@ -284,7 +284,7 @@ namespace eval snippets {
       set insert [$txtt index insert]
 
       # Insert the text
-      $txtt insert insert {*}$result
+      $txtt insert cursor {*}$result
 
       # Format the text to match indentation
       if {[preferences::get Editor/SnippetFormatAfterInsert]} {
@@ -292,7 +292,8 @@ namespace eval snippets {
         foreach {str tags} $result {
           incr datalen [string length $str]
         }
-        indent::format_text $txtt $insert "$insert+${datalen}c" 0
+        $txtt indent auto cursor [list char -num $datalen]
+        # indent::format_text $txtt $insert "$insert+${datalen}c" 0
       }
 
       # Traverse the inserted snippet

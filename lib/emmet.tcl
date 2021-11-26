@@ -897,7 +897,8 @@ namespace eval emmet {
         $txt delete {*}[lrange $retval 0 1]
 
         # Just use the indentation algorithm
-        indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 0]+${count}l linestart" 0
+        $txt indent -mcursor 0 auto [lindex $retval 0] "[lindex $retval 0]+${count}l linestart"
+        # indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 0]+${count}l linestart" 0
 
       }
 
@@ -1049,7 +1050,7 @@ namespace eval emmet {
       }
     } else {
       set num_start [$txt index numberstart]
-      set num_end   [$txt index [list numberend -adjust "+1c"]]
+      set num_end   [$txt index numberend -adjust "+1c"]
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
@@ -1188,6 +1189,8 @@ namespace eval emmet {
     if {([set retval [ctext::inside_tag $txt -allow010 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
       return
     }
+
+    puts "encode_decode_html_image_to_data_url, retval: $retval, insert: [$txt index insert]"
 
     # Find the URL in the current img tag
     set url ""

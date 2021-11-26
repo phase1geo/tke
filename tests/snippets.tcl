@@ -101,9 +101,6 @@ namespace eval snippets {
     # Get the text widget
     set txt [initialize]
 
-    # Remove the dspace
-    vim::remove_dspace $txt
-
     # Insert some text and select it
     $txt insert end "Some text"
     $txt tag add sel 1.0 1.end

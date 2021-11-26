@@ -3625,7 +3625,7 @@ namespace eval pref_ui {
     variable widgets
 
     # Insert the string
-    $widgets(snippets_text) insert insert $str
+    $widgets(snippets_text) insert cursor $str
 
     # Give the text widget focus.
     focus $widgets(snippets_text).t

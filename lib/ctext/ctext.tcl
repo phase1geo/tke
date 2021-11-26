@@ -314,6 +314,7 @@ namespace eval ctext {
 
     variable data
 
+    # Remove data
     catch { rename $win {} }
     # interp alias {} $win.t {}
     array unset data $win,*
@@ -456,7 +457,7 @@ namespace eval ctext {
     if {[$win._t tag ranges sel] ne ""} {
       $win replace selstart selend "\n"
     } else {
-      $win insert insert "\n"
+      $win insert cursor "\n"
     }
 
     return -code break
@@ -474,7 +475,7 @@ namespace eval ctext {
     if {[$win._t tag ranges sel] ne ""} {
       $win replace selstart selend $char
     } else {
-      $win insert insert $char
+      $win insert cursor $char
     }
 
     return -code break
@@ -2018,6 +2019,33 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Helper method for commands like deletion, replacement and transform
+  # which calculate the ranges to modify, start specification, end
+  # specification and whether multicursors should be added/modified.
+  #
+  # Returns a list with the specified contents:
+  #   - starting index specification
+  #   - ending index specification
+  #   - set multicursor after edit
+  #   - cursor ranges
+  proc get_delete_replace_info {win mcursor cursor startspec endspec} {
+
+    # Figure out the ranges to delete
+    if {[set ranges [$win._t tag ranges sel]] ne ""} {
+      return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] $ranges]
+    } else {
+      if {$startspec eq ""} { set startspec cursor }
+      if {$endspec   eq ""} { set endspec [list char -num 1] }
+      if {$mcursor && ([set ranges [$win._t tag ranges _mcursor]] ne "")} {
+        return [list $startspec $endspec 1 $ranges]
+      } else {
+        return [list $startspec $endspec 0 [list $cursor $cursor+1c]]
+      }
+    }
+
+  }
+
+  ######################################################################
   # Deletes one or more ranges of text and performs syntax highlighting.
   proc command_delete {win args} {
 
@@ -2033,46 +2061,32 @@ namespace eval ctext {
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    set ranges  [list]
-    set do_tags [list]
-    set cursor  [$win._t index insert]
+    set delranges   [list]
+    set ranges      [list]
+    set do_tags     [list]
+    set cursor      [$win._t index insert]
+    set set_mcursor 0
 
-    if {$opts(-mcursor) && ([set cursors [$win._t tag ranges _mcursor]] ne "")} {
-      lassign [lrange $args $i end] startSpec endSpec
-      set istart [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
-      set iend   [expr {[info procs getindex_[lindex $endSpec 0]] ne ""}]
-      foreach {endPos startPos} [lreverse $cursors] {
-        if {$istart} { set startPos [$win index {*}$startSpec -startpos $startPos] }
-        set endPos [$win._t index $startPos+1c]
-        if {$iend}   { set endPos   [$win index {*}$endSpec   -startpos $startPos] }
-        adjust_start_end $win startPos endPos
-        lappend strs [$win._t get $startPos $endPos]
-        handleDeleteAt0        $win $startPos $endPos
-        linemapCheckOnDelete   $win $startPos $endPos
-        comments_chars_deleted $win $startPos $endPos do_tags
-        $win._t delete $startPos $endPos
-        if {[$win._t compare $startPos == "$startPos lineend"] && [$win._t compare $startPos != "$startPos linestart"]} {
-          $win._t tag add _mcursor $startPos-1c
+    lassign [lrange $args $i end] startspec endspec
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
+
+    foreach {endpos startpos} [lreverse $delranges] {
+      set endpos   [$win index {*}$endspec   -startpos $startpos]
+      set startpos [$win index {*}$startspec -startpos $startpos]
+      adjust_start_end $win startpos endpos
+      lappend strs [$win._t get $startpos $endpos]
+      handleDeleteAt0        $win $startpos $endpos
+      linemapCheckOnDelete   $win $startpos $endpos
+      comments_chars_deleted $win $startpos $endpos do_tags
+      $win._t delete $startpos $endpos
+      if {$set_mcursor} {
+        if {[$win._t compare $startpos == "$startpos lineend"] && [$win._t compare $startpos != "$startpos linestart"]} {
+          $win._t tag add _mcursor $startpos-1c
         } else {
-          $win._t tag add _mcursor $startPos
+          $win._t tag add _mcursor $startpos
         }
-        lappend ranges $startPos $endPos
       }
-    } else {
-      lassign [lrange $args $i end] startPos endPos
-      set startPos [$win index {*}$startPos]
-      if {$endPos eq ""} {
-        set endPos [$win._t index "$startPos+1c"]
-      } else {
-        set endPos [$win index {*}$endPos]
-        adjust_start_end $win startPos endPos
-      }
-      lappend strs [$win._t get $startPos $endPos]
-      handleDeleteAt0        $win $startPos $endPos
-      linemapCheckOnDelete   $win $startPos $endPos
-      comments_chars_deleted $win $startPos $endPos do_tags
-      $win._t delete $startPos $endPos
-      lappend ranges $startPos $endPos
+      lappend ranges $startpos $endpos
     }
 
     undo_delete $win $ranges $strs $cursor
@@ -2225,6 +2239,25 @@ namespace eval ctext {
   ######################################################################
   # Conforms the indentation of the specified range to match the indentation
   # of the preceeding text.
+  #
+  # Usage:  $txt indent options subcmd ?start_index end_index?
+  # 
+  # Options:
+  #   -moddata        Data sent with modified event generated from this command
+  #   -mcursor (0|1)  If set, performs indentation for each range relative to the
+  #                       multiple cursor locations; otherwise, performs on
+  #                       range relative to insertion cursor
+  #
+  # Subcommands:
+  #   left        Shifts the text to the left (shift controlled by the -shiftwidth config value)
+  #   right       Shifts the text to the right (shift controlled by the -shiftwidth config value)
+  #   auto        Shifts all lines to conform indentation to code context.
+  #
+  # Parameters:
+  #   start_index    Start of text range to indent relative to a cursor.  Any
+  #                      valid index specification that the index command will allow.
+  #   end_index      End of text range to indent relative to a cursor.  Any valid
+  #                      index specification that the index command will allow.
   proc command_indent {win args} {
 
     variable data
@@ -2292,13 +2325,14 @@ namespace eval ctext {
 
     } else {
 
-      if {![catch { $win._t index $args } rc]} {
+      if {![catch { $win._t index [lindex $args 0] } rc]} {
         return $rc
       } else {
         puts "NEED TO CATCH THIS CASE!"
         puts "args: $args"
         puts [utils::stacktrace]  ;# TEMPORARY
-        return [$win._t index [lindex $args 0]]
+        puts $rc
+        return 1.0
       }
 
     }
@@ -2341,7 +2375,7 @@ namespace eval ctext {
     if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
       set start 1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
-        set startPos [string map [list "insert" [lindex $range 0]] $insertPos]
+        set startPos [string map [list "cursor" [lindex $range 0]] $insertPos]
         $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
         set endPos [$win._t index "$startPos+${chars}c"]
         set start  [$win._t index $endPos+1c]
@@ -2626,7 +2660,7 @@ namespace eval ctext {
     set chars 0
     set items [list]
     set dat   ""
-    foreach {content tags} [lassign [lrange $args $i end] startPos endPos] {
+    foreach {content tags} [lassign [lrange $args $i end] startspec endspec] {
       incr chars [string length $content]
       lappend items $content [list {*}$tags lmargin rmargin __Lang:]
       append dat $content
@@ -2637,41 +2671,21 @@ namespace eval ctext {
     set do_tags [list]
     set cursor  [$win._t index insert]
 
-    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
-      set startSpec $startPos
-      set endSpec   $endPos
-      set sspec     [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
-      set espec     [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
-      set start     1.0
-      while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
-        set startPos [lindex $range 0]
-        if {$sspec} { set startPos [$win index {*}$startSpec -startpos $startPos] }
-        if {$espec} { set endPos   [$win index {*}$endSpec   -startpos $startPos] }
-        adjust_start_end $win startPos endPos
-        lappend dstrs [$win._t get $startPos $endPos]
-        lappend istrs $dat
-        comments_chars_deleted $win $startPos $endPos do_tags
-        set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-        $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
-        set new_endpos  [$win._t index "$startPos+${chars}c"]
-        set start       [$win._t index $new_endpos+1c]
-        handleReplaceInsert $win $startPos $endPos $t
-        lappend uranges $startPos $endPos $new_endpos
-        lappend rranges $startPos $new_endpos
-      }
-    } else {
-      set startPos [$win index {*}$startPos]
-      set endPos   [$win index {*}$endPos]
-      adjust_start_end $win startPos endPos
-      lappend dstrs [$win._t get $startPos $endPos]
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
+
+    foreach {endpos startpos} [lreverse $delranges] {
+      set endpos   [$win index {*}$endspec   -startpos $startpos]
+      set startpos [$win index {*}$startspec -startpos $startpos]
+      adjust_start_end $win startpos endpos
+      lappend dstrs [$win._t get $startpos $endpos]
       lappend istrs $dat
-      comments_chars_deleted $win $startPos $endPos do_tags
-      set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-      $win._t replace $startPos $endPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
-      set new_endpos [$win._t index "$startPos+${chars}c"]
-      handleReplaceInsert $win $startPos $endPos $t
-      lappend uranges $startPos $endPos $new_endpos
-      lappend rranges $startPos $new_endpos
+      comments_chars_deleted $win $startpos $endpos do_tags
+      set t [handleReplaceDeleteAt0 $win $startpos $endpos]
+      $win._t replace $startpos $endpos {*}[string map [list __Lang: [getLangTag $win $startpos]] $items]
+      set new_endpos  [$win._t index "$startpos+${chars}c"]
+      handleReplaceInsert $win $startpos $endpos $t
+      lappend uranges $startpos $endpos $new_endpos
+      lappend rranges $startpos $new_endpos
     }
 
     undo_replace    $win $uranges $dstrs $istrs $cursor
@@ -2682,7 +2696,7 @@ namespace eval ctext {
       # Highlight text and bracket auditing
       switch [highlightAll $win $rranges 1 $do_tags] {
         2       { checkAllBrackets $win }
-        1       { checkAllBrackets $win [$win._t get $startPos $endPos] }
+        1       { checkAllBrackets $win [$win._t get $startpos $endpos] }
         default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
       }
 
@@ -3166,50 +3180,29 @@ namespace eval ctext {
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    lassign [lrange $args $i end] startPos endPos cmd tags
+    lassign [lrange $args $i end] startspec endspec cmd tags
 
     set uranges [list]
     set rranges [list]
     set do_tags [list]
     set cursor  [$win._t index insert]
 
-    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
-      set startSpec $startPos
-      set endSpec   $endPos
-      set sspec     [expr {[info procs getindex_[lindex $startSpec 0]] ne ""}]
-      set espec     [expr {[info procs getindex_[lindex $endSpec   0]] ne ""}]
-      set start     1.0
-      while {[set range [$win._t tag nextrange _mcursor $start]] ne ""} {
-        set startPos [lindex $range 0]
-        if {$sspec} { set startPos [$win index {*}$startSpec -startpos $startPos] }
-        if {$espec} { set endPos   [$win index {*}$endSpec   -startpos $startPos] }
-        set old_str    [$win._t get $startPos $endPos]
-        set new_str    [uplevel #0 [list {*}$cmd $old_str]]
-        lappend dstrs $old_str
-        lappend istrs $new_str
-        comments_chars_deleted $win $startPos $endPos do_tags
-        set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-        $win._t replace $startPos $endPos $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startPos]]
-        set new_endpos [$win._t index "$startPos+[string length $new_str]c"]
-        set start      [$win._t index "$new_endpos+1c"]
-        handleReplaceInsert $win $startPos $endPos $t
-        lappend uranges $startPos $endPos $new_endpos
-        lappend rranges $startPos $new_endpos
-      }
-    } else {
-      set startPos   [$win index {*}$startPos]
-      set endPos     [$win index {*}$endPos]
-      set old_str    [$win._t get $startPos $endPos]
-      set new_str    [uplevel #0 [list {*}$cmd $old_str]]
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
+
+    foreach {endpos startpos} [lreverse $delranges] {
+      set endpos   [$win index {*}$endspec   -startpos $startpos]
+      set startpos [$win index {*}$startspec -startpos $startpos]
+      set old_str  [$win._t get $startpos $endpos]
+      set new_str  [transform_$cmd $old_str]
       lappend dstrs $old_str
       lappend istrs $new_str
-      comments_chars_deleted $win $startPos $endPos do_tags
-      set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-      $win._t replace $startPos $endPos $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startPos]]
-      set new_endpos [$win._t index "$startPos+[string length $new_str]c"]
-      handleReplaceInsert $win $startPos $endPos $t
-      lappend uranges $startPos $endPos $new_endpos
-      lappend rranges $startPos $new_endpos
+      comments_chars_deleted $win $startpos $endpos do_tags
+      set t [handleReplaceDeleteAt0 $win $startpos $endpos]
+      $win._t replace $startpos $endpos $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startpos]]
+      set new_endpos [$win._t index "$startpos+[string length $new_str]c"]
+      handleReplaceInsert $win $startpos $endpos $t
+      lappend uranges $startpos $endpos $new_endpos
+      lappend rranges $startpos $new_endpos
     }
 
     undo_replacelist $win $uranges $dstrs $istrs $cursor
@@ -3218,7 +3211,7 @@ namespace eval ctext {
     if {$opts(-highlight)} {
       switch [highlightAll $win $rranges 1 $do_tags] {
         2       { checkAllBrackets $win }
-        1       { checkAllBrackets $win [$win._t get $startPos $endPos] }
+        1       { checkAllBrackets $win [$win._t get $startpos $endpos] }
         default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
       }
     }

@@ -49,7 +49,7 @@
       } else {
         set char [utils::sym2char $keysym]
         if {![vim::handle_any $txtt [utils::sym2code $keysym] $char $keysym]} {
-          $txtt insert insert $char
+          $txtt insert cursor $char
         }
       }
     }
@@ -285,7 +285,7 @@
       set keysym  [utils::string_to_keysym $char]
       set keycode [utils::sym2code $keysym]
       if {![vim::handle_any $txtt $keycode $char $keysym]} {
-        $txtt insert insert $char
+        $txtt insert cursor $char
       }
     }
 

@@ -51,7 +51,7 @@ namespace eval yank {
       } else {
         set char [utils::sym2char $keysym]
         if {![vim::handle_any $txtt [utils::sym2code $keysym] $char $keysym]} {
-          $txtt insert insert $char
+          $txtt insert cursor $char
         }
       }
     }

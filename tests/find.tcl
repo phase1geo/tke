@@ -49,7 +49,7 @@ namespace eval find {
       } else {
         set char [utils::sym2char $keysym]
         if {![vim::handle_any $txtt [utils::sym2code $keysym] $char $keysym]} {
-          $txtt insert insert $char
+          $txtt insert cursor $char
         }
       }
     }
@@ -89,7 +89,6 @@ namespace eval find {
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
     $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
 
     do_test $txtt 0 {slash} {find "line" method "regexp" case 1 save 0} {2.10 2.14 3.10 3.14 4.10 4.14} {2.10}
 
@@ -114,7 +113,6 @@ namespace eval find {
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
     $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
 
     do_test $txtt 0 {question} {find "this" method "regexp" case 0 save 0} {2.0 2.4 3.0 3.4 4.0 4.4} {4.0}
 
@@ -139,7 +137,6 @@ namespace eval find {
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
     $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
 
     set matches [list 2.0 2.4 3.0 3.4 4.0 4.4]
 

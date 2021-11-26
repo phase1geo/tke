@@ -5180,7 +5180,7 @@ namespace eval gui {
       if {[multicursor::enabled $txt.t]} {
         multicursor::insert $txt.t $data
       } else {
-        $txt insert insert $data
+        $txt insert cursor $data
       }
 
       # If we need to adjust the cursor(s) do it now.
@@ -5227,7 +5227,7 @@ namespace eval gui {
     $win delete 0 end
 
     # Insert the information
-    $win insert insert {*}$data
+    $win insert cursor {*}$data
 
     # Return the state of the entry field
     $win configure -state $state
