@@ -348,9 +348,6 @@ text: text CHAR {
     | text CLOSE_BRACKET {
         set _ "$1$2"
       }
-    | text variable {
-        set _ "$1$2"
-      }
     | CHAR {
         set _ $1
       }
@@ -382,9 +379,6 @@ text: text CHAR {
         set _ $1
       }
     | CLOSE_BRACKET {
-        set _ $1
-      }
-    | variable {
         set _ $1
       }
       ;

@@ -234,7 +234,7 @@ namespace eval edit {
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "lineend"
     } else {
-      set endpos [$txtt index [list lineend -num $num]]+1c
+      set endpos [$txtt index lineend -num $num]+1c
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get insert $endpos]
@@ -358,7 +358,7 @@ namespace eval edit {
   # character on the current line.
   proc delete_to_next_char {txtt char copy {num 1} {exclusive 0}} {
 
-    if {[set index [$txtt index [list findchar -dir next -char $char -num $num -exclusive $exclusive]]] ne "insert"} {
+    if {[set index [$txtt index findchar -dir next -char $char -num $num -exclusive $exclusive]] ne "insert"} {
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get insert $index]
@@ -373,7 +373,7 @@ namespace eval edit {
   # previous character on the current line.
   proc delete_to_prev_char {txtt char copy {num 1} {exclusive 0}} {
 
-    if {[set index [$txt index [list findchar -dir prev -char $char -num $num -exclusive $exclusive]]] ne "insert"} {
+    if {[set index [$txt index findchar -dir prev -char $char -num $num -exclusive $exclusive]] ne "insert"} {
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get $index insert]
@@ -616,7 +616,7 @@ namespace eval edit {
           }
         }
         sentence {
-          set startpos [$txtt index [list $type -dir prev -startpos [lindex $selected 0]]]
+          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
           regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
           regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
           if {$cbetween eq ""} {
@@ -639,7 +639,7 @@ namespace eval edit {
           }
         }
         paragraph {
-          set startpos [$txtt index [list $type -dir prev -startpos [lindex $selected 0]]]
+          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
           regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
           $txtt insert [lindex $selected end] $between$str
           $txtt delete $startpos [lindex $selected 0]
@@ -689,8 +689,8 @@ namespace eval edit {
           }
         }
         sentence {
-          set startpos [$txtt index [list $type -dir prev -startpos [lindex $selected 0]]]
-          set endpos   [$txtt index [list $type -dir next -startpos "[lindex $selected end]+1 display chars"]]
+          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
+          set endpos   [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
           regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
           regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
           regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected end] $endpos] -> astr abetween
@@ -717,7 +717,7 @@ namespace eval edit {
           }
         }
         paragraph {
-          set endpos [$txtt index [list $type -dir next -startpos "[lindex $selected end]+1 display chars"]]
+          set endpos [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
           set str [string trimright [$txtt get [lindex $selected end] $endpos]]
           regexp {(\s*)$} [$txtt get {*}$selected] -> between
           $txtt delete [lindex $selected end] $endpos
@@ -1013,7 +1013,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_indent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
       return 1
     }
 
@@ -1028,7 +1028,7 @@ namespace eval edit {
 
     if {![indent_selected $txtt]} {
       do_indent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
     }
 
   }
@@ -1042,7 +1042,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_unindent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
       return 1
     }
 
@@ -1057,7 +1057,7 @@ namespace eval edit {
 
     if {![unindent_selected $txtt]} {
       do_unindent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [$txtt index [list firstchar -startpos $startpos -num 0]]
+      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
     }
 
   }
@@ -1146,9 +1146,9 @@ namespace eval edit {
 
       # Get the starting position of the selection
       if {[string is space [$txtt get $cursor]]} {
-        set startpos [$txtt index [list spacestart -dir prev -startpos "$cursor+1c"]]
+        set startpos [$txtt index spacestart -dir prev -startpos "$cursor+1c"]
       } else {
-        set startpos [$txtt index [list ${type}start -dir prev -startpos "$cursor+1c"]]
+        set startpos [$txtt index ${type}start -dir prev -startpos "$cursor+1c"]
       }
 
       # Count spaces and non-spaces
@@ -1158,33 +1158,33 @@ namespace eval edit {
           set endpos [$txtt index "$endpos+1c"]
         }
         if {[string is space [$txtt get $endpos]]} {
-          set endpos [$txtt index [list spaceend -dir next -startpos $endpos]]
+          set endpos [$txtt index spaceend -dir next -startpos $endpos]
         } else {
-          set endpos [$txtt index [list ${type}end -dir next -startpos $endpos]]
+          set endpos [$txtt index ${type}end -dir next -startpos $endpos]
         }
       }
 
     } else {
 
-      set endpos [$txtt index [list ${type}end -dir next -num $num -startpos [expr {($type eq "word") ? $cursor : "$cursor-1c"}]]]
+      set endpos [$txtt index ${type}end -dir next -num $num -startpos [expr {($type eq "word") ? $cursor : "$cursor-1c"}]]
 
       # If the cursor is within a space, make the startpos be the start of the space
       if {[string is space [$txtt get $cursor]]} {
-        set startpos [$txtt index [list spacestart -dir prev -startpos "$cursor+1c"]]
+        set startpos [$txtt index spacestart -dir prev -startpos "$cursor+1c"]
 
       # Otherwise, the insertion cursor is within a word, if the character following
       # the end of the word is a space, the start is the start of the word while the end is
       # the whitspace after the word.
       } elseif {[$txtt compare "$endpos+1c" < "$endpos lineend"] && [string is space [$txtt get "$endpos+1c"]]} {
-        set startpos [$txtt index [list ${type}start -dir prev -startpos "$cursor+1c"]]
-        set endpos   [$txtt index [list spaceend -dir next -startpos "$endpos+1c"]]
+        set startpos [$txtt index ${type}start -dir prev -startpos "$cursor+1c"]
+        set endpos   [$txtt index spaceend -dir next -startpos "$endpos+1c"]
 
       # Otherwise, set the start of the selection to the be the start of the preceding
       # whitespace.
       } else {
-        set startpos [$txtt index [list ${type}start -dir prev -startpos "$cursor+1c"]]
+        set startpos [$txtt index ${type}start -dir prev -startpos "$cursor+1c"]
         if {[$txtt compare $startpos > "$startpos linestart"] && [string is space [$txtt get "$startpos-1c"]]} {
-          set startpos [$txtt index [list spacestart -dir prev -startpos "$startpos-1c"]]
+          set startpos [$txtt index spacestart -dir prev -startpos "$startpos-1c"]
         }
       }
 
@@ -1199,9 +1199,9 @@ namespace eval edit {
   proc get_range_WORD {txtt num inner adjust {cursor insert}} {
 
     if {[string is space [$txtt get $cursor]]} {
-      set pos_list [list [$txtt index [list spacestart -dir prev -startpos "$cursor+1c"]] [$txtt index [list spaceend -dir next -adjust "-1c"]]]
+      set pos_list [list [$txtt index spacestart -dir prev -startpos "$cursor+1c"] [$txtt index spaceend -dir next -adjust "-1c"]]
     } else {
-      set pos_list [list [$txtt index [list $start -dir prev -startpos "$cursor+1c"]] [$txtt index [list $end -dir next -num $num]]]
+      set pos_list [list [$txtt index $start -dir prev -startpos "$cursor+1c"] [$txtt index $end -dir next -num $num]]
     }
 
     if {!$inner} {
@@ -1226,7 +1226,7 @@ namespace eval edit {
   # Returns a range the is split by sentences.
   proc get_range_sentences {txtt type num inner adjust {cursor insert}} {
 
-    set pos_list [list [$txtt index [list $type -dir prev -startpos "$cursor+1c"]] [$txtt index [list $type -dir next -num $num]]]
+    set pos_list [list [$txtt index $type -dir prev -startpos "$cursor+1c"] [$txtt index $type -dir next -num $num]]
 
     if {$inner} {
       set str  [$txtt get {*}$pos_list]
@@ -1331,10 +1331,10 @@ namespace eval edit {
 
     } else {
 
-      set pos1 [$txtt index [$txtt index [list {*}$pos1args -startpos $cursor]]]
+      set pos1 [$txtt index {*}$pos1args -startpos $cursor]
 
       if {$pos2args ne ""} {
-        set pos2 [$txtt index [$txtt index [list {*}$pos2args -startpos $cursor]]]
+        set pos2 [$txtt index {*}$pos2args -startpos $cursor]
       } else {
         set pos2 [$txtt index $cursor]
       }
@@ -1351,7 +1351,7 @@ namespace eval edit {
   proc move_cursor {txtt position args} {
 
     # Get the index to move to
-    set index [$txtt index [list $position {*}$args]]
+    set index [$txtt index $position {*}$args]
 
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index

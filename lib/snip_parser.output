@@ -1,0 +1,1407 @@
+Shift/Reduce error in state 19 between rule 7 and token "CHAR", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "NEWLINE", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "TAB", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "DECIMAL", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "/", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "OPEN_PAREN", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "CLOSE_PAREN", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "?", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token ":", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "OPEN_BRACKET", resolved as shift.
+Shift/Reduce error in state 19 between rule 7 and token "CLOSE_BRACKET", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "CHAR", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "NEWLINE", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "TAB", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "DECIMAL", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "/", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "OPEN_PAREN", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "CLOSE_PAREN", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "?", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token ":", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "OPEN_BRACKET", resolved as shift.
+Shift/Reduce error in state 29 between rule 2 and token "CLOSE_BRACKET", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "CHAR", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "NEWLINE", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "TAB", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "DECIMAL", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "?", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "DOLLAR_SIGN", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "LOWER", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "UPPER", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "LOWER_BLOCK", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "UPPER_BLOCK", resolved as shift.
+Shift/Reduce error in state 110 between rule 96 and token "OPEN_PAREN", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "CHAR", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "NEWLINE", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "TAB", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "DECIMAL", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "?", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "DOLLAR_SIGN", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "LOWER", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "UPPER", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "LOWER_BLOCK", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "UPPER_BLOCK", resolved as shift.
+Shift/Reduce error in state 111 between rule 97 and token "OPEN_PAREN", resolved as shift.
+token table:
+id    token      type
+/     /          terminal
+:     :          terminal
+?     ?          terminal
+`     `          terminal
+error error      terminal
+257   DECIMAL    terminal
+258   DOLLAR_SIGN terminal
+259   VARNAME    terminal
+260   CHAR       terminal
+261   LOWER      terminal
+262   UPPER      terminal
+263   LOWER_BLOCK terminal
+264   UPPER_BLOCK terminal
+265   END_BLOCK  terminal
+266   NEWLINE    terminal
+267   TAB        terminal
+268   OPEN_BRACKET terminal
+269   CLOSE_BRACKET terminal
+270   OPEN_PAREN terminal
+271   CLOSE_PAREN terminal
+272   main       non-terminal
+273   snippet    non-terminal
+274   tabstop    non-terminal
+275   transform  non-terminal
+276   variable   non-terminal
+277   varname    non-terminal
+278   pattern    non-terminal
+279   opts       non-terminal
+280   value      non-terminal
+281   text       non-terminal
+282   shell      non-terminal
+283   format     non-terminal
+284   case_fold  non-terminal
+285   cond_insert non-terminal
+286   start'     non-terminal
+
+rule table:
+  0:  start'     -> main
+  1:  main       -> snippet
+  2:  snippet    -> snippet text
+  3:  snippet    -> snippet variable
+  4:  snippet    -> snippet transform
+  5:  snippet    -> snippet tabstop
+  6:  snippet    -> snippet shell
+  7:  snippet    -> text
+  8:  snippet    -> variable
+  9:  snippet    -> transform
+ 10:  snippet    -> tabstop
+ 11:  snippet    -> shell
+ 12:  tabstop    -> DOLLAR_SIGN DECIMAL
+ 13:  tabstop    -> DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET
+ 14:  transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / opts CLOSE_BRACKET
+ 15:  transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / CLOSE_BRACKET
+ 16:  variable   -> DOLLAR_SIGN varname
+ 17:  variable   -> DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET
+ 18:  variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET
+ 19:  variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET
+ 20:  varname    -> VARNAME
+ 21:  pattern    -> pattern CHAR
+ 22:  pattern    -> pattern NEWLINE
+ 23:  pattern    -> pattern TAB
+ 24:  pattern    -> pattern DECIMAL
+ 25:  pattern    -> pattern DOLLAR_SIGN
+ 26:  pattern    -> pattern OPEN_PAREN
+ 27:  pattern    -> pattern CLOSE_PAREN
+ 28:  pattern    -> pattern ?
+ 29:  pattern    -> pattern :
+ 30:  pattern    -> CHAR
+ 31:  pattern    -> NEWLINE
+ 32:  pattern    -> TAB
+ 33:  pattern    -> DECIMAL
+ 34:  pattern    -> DOLLAR_SIGN
+ 35:  pattern    -> OPEN_PAREN
+ 36:  pattern    -> CLOSE_PAREN
+ 37:  pattern    -> ?
+ 38:  pattern    -> :
+ 39:  opts       -> opts CHAR
+ 40:  opts       -> CHAR
+ 41:  value      -> value CHAR
+ 42:  value      -> value NEWLINE
+ 43:  value      -> value TAB
+ 44:  value      -> value DECIMAL
+ 45:  value      -> value /
+ 46:  value      -> value variable
+ 47:  value      -> value shell
+ 48:  value      -> value tabstop
+ 49:  value      -> CHAR
+ 50:  value      -> NEWLINE
+ 51:  value      -> TAB
+ 52:  value      -> DECIMAL
+ 53:  value      -> /
+ 54:  value      -> variable
+ 55:  value      -> shell
+ 56:  value      -> tabstop
+ 57:  text       -> text CHAR
+ 58:  text       -> text NEWLINE
+ 59:  text       -> text TAB
+ 60:  text       -> text DECIMAL
+ 61:  text       -> text /
+ 62:  text       -> text OPEN_PAREN
+ 63:  text       -> text CLOSE_PAREN
+ 64:  text       -> text ?
+ 65:  text       -> text :
+ 66:  text       -> text OPEN_BRACKET
+ 67:  text       -> text CLOSE_BRACKET
+ 68:  text       -> CHAR
+ 69:  text       -> NEWLINE
+ 70:  text       -> TAB
+ 71:  text       -> DECIMAL
+ 72:  text       -> /
+ 73:  text       -> OPEN_PAREN
+ 74:  text       -> CLOSE_PAREN
+ 75:  text       -> ?
+ 76:  text       -> :
+ 77:  text       -> OPEN_BRACKET
+ 78:  text       -> CLOSE_BRACKET
+ 79:  shell      -> ` text `
+ 80:  format     -> format CHAR
+ 81:  format     -> format NEWLINE
+ 82:  format     -> format TAB
+ 83:  format     -> format DECIMAL
+ 84:  format     -> format ?
+ 85:  format     -> format case_fold
+ 86:  format     -> format cond_insert
+ 87:  format     -> format DOLLAR_SIGN DECIMAL
+ 88:  format     -> CHAR
+ 89:  format     -> NEWLINE
+ 90:  format     -> TAB
+ 91:  format     -> DECIMAL
+ 92:  format     -> ?
+ 93:  format     -> case_fold
+ 94:  format     -> cond_insert
+ 95:  format     -> DOLLAR_SIGN DECIMAL
+ 96:  case_fold  -> LOWER format
+ 97:  case_fold  -> UPPER format
+ 98:  case_fold  -> LOWER_BLOCK format END_BLOCK
+ 99:  case_fold  -> UPPER_BLOCK format END_BLOCK
+100:  cond_insert -> OPEN_PAREN ? DECIMAL : format CLOSE_PAREN
+101:  cond_insert -> OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN
+
+lalr(1) table:
+state 0:
+   start'     -> . main, {$}
+   main       -> . snippet, {$}
+   snippet    -> . snippet text, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . snippet variable, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . snippet transform, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . snippet tabstop, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . snippet shell, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . text, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . variable, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . transform, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . tabstop, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> . shell, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CHAR, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text NEWLINE, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text TAB, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text /, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text OPEN_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CLOSE_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text ?, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text :, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text OPEN_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CHAR, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . NEWLINE, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . TAB, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . /, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . OPEN_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CLOSE_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . ?, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . :, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . OPEN_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN varname, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> . DOLLAR_SIGN DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   shell      -> . ` text `, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s1  : => s2  ? => s3  ` => s4  DECIMAL => s5  DOLLAR_SIGN => s6  CHAR => s7  NEWLINE => s8  TAB => s9  OPEN_BRACKET => s10  CLOSE_BRACKET => s11  OPEN_PAREN => s12  CLOSE_PAREN => s13  main => s14  snippet => s15  tabstop => s16  transform => s17  variable => s18  text => s19  shell => s20
+
+state 1:
+   text       -> / ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 2:
+   text       -> : ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 3:
+   text       -> ? ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 4:
+   shell      -> ` . text `, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CHAR, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text NEWLINE, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text TAB, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text DECIMAL, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text /, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text OPEN_PAREN, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CLOSE_PAREN, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text ?, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text :, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text OPEN_BRACKET, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CLOSE_BRACKET, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CHAR, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . NEWLINE, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . TAB, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . DECIMAL, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . /, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . OPEN_PAREN, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CLOSE_PAREN, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . ?, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . :, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . OPEN_BRACKET, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CLOSE_BRACKET, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s1  : => s2  ? => s3  DECIMAL => s5  CHAR => s7  NEWLINE => s8  TAB => s9  OPEN_BRACKET => s10  CLOSE_BRACKET => s11  OPEN_PAREN => s12  CLOSE_PAREN => s13  text => s21
+
+state 5:
+   text       -> DECIMAL ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 6:
+   variable   -> DOLLAR_SIGN . varname, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN . OPEN_BRACKET varname : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN . OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN . OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN . OPEN_BRACKET DECIMAL / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN . OPEN_BRACKET DECIMAL / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> DOLLAR_SIGN . DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> DOLLAR_SIGN . OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   varname    -> . VARNAME, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  DECIMAL => s22  VARNAME => s23  OPEN_BRACKET => s24  varname => s25
+
+state 7:
+   text       -> CHAR ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 8:
+   text       -> NEWLINE ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 9:
+   text       -> TAB ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 10:
+   text       -> OPEN_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 11:
+   text       -> CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 12:
+   text       -> OPEN_PAREN ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 13:
+   text       -> CLOSE_PAREN ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 14:
+   start'     -> main ., {$}
+
+state 15:
+   main       -> snippet ., {$}
+   snippet    -> snippet . text, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> snippet . variable, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> snippet . transform, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> snippet . tabstop, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   snippet    -> snippet . shell, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CHAR, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text NEWLINE, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text TAB, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text /, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text OPEN_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CLOSE_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text ?, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text :, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text OPEN_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . text CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CHAR, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . NEWLINE, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . TAB, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . /, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . OPEN_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CLOSE_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . ?, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . :, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . OPEN_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN varname, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> . DOLLAR_SIGN DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   shell      -> . ` text `, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s1  : => s2  ? => s3  ` => s4  DECIMAL => s5  DOLLAR_SIGN => s6  CHAR => s7  NEWLINE => s8  TAB => s9  OPEN_BRACKET => s10  CLOSE_BRACKET => s11  OPEN_PAREN => s12  CLOSE_PAREN => s13  tabstop => s26  transform => s27  variable => s28  text => s29  shell => s30
+
+state 16:
+   snippet    -> tabstop ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 17:
+   snippet    -> transform ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 18:
+   snippet    -> variable ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 19:
+   snippet    -> text ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CHAR, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . NEWLINE, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . TAB, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . /, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . OPEN_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CLOSE_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . ?, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . :, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . OPEN_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s31  : => s32  ? => s33  DECIMAL => s34  CHAR => s35  NEWLINE => s36  TAB => s37  OPEN_BRACKET => s38  CLOSE_BRACKET => s39  OPEN_PAREN => s40  CLOSE_PAREN => s41
+
+state 20:
+   snippet    -> shell ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 21:
+   shell      -> ` text . `, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CHAR, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . NEWLINE, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . TAB, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . DECIMAL, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . /, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . OPEN_PAREN, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CLOSE_PAREN, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . ?, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . :, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . OPEN_BRACKET, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CLOSE_BRACKET, / DECIMAL CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s31  : => s32  ? => s33  ` => s42  DECIMAL => s34  CHAR => s35  NEWLINE => s36  TAB => s37  OPEN_BRACKET => s38  CLOSE_BRACKET => s39  OPEN_PAREN => s40  CLOSE_PAREN => s41
+
+state 22:
+   tabstop    -> DOLLAR_SIGN DECIMAL ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 23:
+   varname    -> VARNAME ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 24:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET . varname : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET . varname / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET . varname / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET . DECIMAL / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET . DECIMAL / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET . DECIMAL : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   varname    -> . VARNAME, / :
+   transitions:  DECIMAL => s43  VARNAME => s23  varname => s44
+
+state 25:
+   variable   -> DOLLAR_SIGN varname ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 26:
+   snippet    -> snippet tabstop ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 27:
+   snippet    -> snippet transform ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 28:
+   snippet    -> snippet variable ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 29:
+   snippet    -> snippet text ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CHAR, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . NEWLINE, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . TAB, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . DECIMAL, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . /, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . OPEN_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CLOSE_PAREN, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . ?, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . :, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . OPEN_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   text       -> text . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s31  : => s32  ? => s33  DECIMAL => s34  CHAR => s35  NEWLINE => s36  TAB => s37  OPEN_BRACKET => s38  CLOSE_BRACKET => s39  OPEN_PAREN => s40  CLOSE_PAREN => s41
+
+state 30:
+   snippet    -> snippet shell ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 31:
+   text       -> text / ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 32:
+   text       -> text : ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 33:
+   text       -> text ? ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 34:
+   text       -> text DECIMAL ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 35:
+   text       -> text CHAR ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 36:
+   text       -> text NEWLINE ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 37:
+   text       -> text TAB ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 38:
+   text       -> text OPEN_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 39:
+   text       -> text CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 40:
+   text       -> text OPEN_PAREN ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 41:
+   text       -> text CLOSE_PAREN ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 42:
+   shell      -> ` text ` ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 43:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL . / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL . / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET DECIMAL . : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s45  : => s46
+
+state 44:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname . : value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname . / pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname . / pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transitions:  / => s47  : => s48
+
+state 45:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / . pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / . pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   pattern    -> . pattern CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern DOLLAR_SIGN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern OPEN_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern ?, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern :, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . DOLLAR_SIGN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . OPEN_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . ?, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . :, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  : => s49  ? => s50  DECIMAL => s51  DOLLAR_SIGN => s52  CHAR => s53  NEWLINE => s54  TAB => s55  OPEN_PAREN => s56  CLOSE_PAREN => s57  pattern => s58
+
+state 46:
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET DECIMAL : . value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   value      -> . value CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value /, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value variable, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value shell, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value tabstop, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . /, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . variable, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . shell, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . tabstop, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN varname, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   shell      -> . ` text `, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   transitions:  / => s59  ` => s4  DECIMAL => s60  DOLLAR_SIGN => s61  CHAR => s62  NEWLINE => s63  TAB => s64  tabstop => s65  variable => s66  value => s67  shell => s68
+
+state 47:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / . pattern / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / . pattern / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   pattern    -> . pattern CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern DOLLAR_SIGN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern OPEN_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern ?, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . pattern :, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . DOLLAR_SIGN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . OPEN_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . ?, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> . :, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  : => s49  ? => s50  DECIMAL => s51  DOLLAR_SIGN => s52  CHAR => s53  NEWLINE => s54  TAB => s55  OPEN_PAREN => s56  CLOSE_PAREN => s57  pattern => s69
+
+state 48:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname : . value CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   value      -> . value CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value /, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value variable, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value shell, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . value tabstop, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . /, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . variable, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . shell, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> . tabstop, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN varname, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   shell      -> . ` text `, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   transitions:  / => s59  ` => s4  DECIMAL => s60  DOLLAR_SIGN => s61  CHAR => s62  NEWLINE => s63  TAB => s64  tabstop => s65  variable => s66  value => s70  shell => s68
+
+state 49:
+   pattern    -> : ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 50:
+   pattern    -> ? ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 51:
+   pattern    -> DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 52:
+   pattern    -> DOLLAR_SIGN ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 53:
+   pattern    -> CHAR ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 54:
+   pattern    -> NEWLINE ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 55:
+   pattern    -> TAB ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 56:
+   pattern    -> OPEN_PAREN ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 57:
+   pattern    -> CLOSE_PAREN ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 58:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern . / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern . / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   pattern    -> pattern . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . DOLLAR_SIGN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . OPEN_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . ?, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . :, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  / => s71  : => s72  ? => s73  DECIMAL => s74  DOLLAR_SIGN => s75  CHAR => s76  NEWLINE => s77  TAB => s78  OPEN_PAREN => s79  CLOSE_PAREN => s80
+
+state 59:
+   value      -> / ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 60:
+   value      -> DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 61:
+   variable   -> DOLLAR_SIGN . varname, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> DOLLAR_SIGN . OPEN_BRACKET varname : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> DOLLAR_SIGN . OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> DOLLAR_SIGN . OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> DOLLAR_SIGN . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> DOLLAR_SIGN . OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   varname    -> . VARNAME, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   transitions:  DECIMAL => s22  VARNAME => s23  OPEN_BRACKET => s81  varname => s25
+
+state 62:
+   value      -> CHAR ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 63:
+   value      -> NEWLINE ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 64:
+   value      -> TAB ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 65:
+   value      -> tabstop ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 66:
+   value      -> variable ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 67:
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET DECIMAL : value . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   value      -> value . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . /, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . variable, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . shell, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . tabstop, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN varname, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   shell      -> . ` text `, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   transitions:  / => s82  ` => s4  DECIMAL => s83  DOLLAR_SIGN => s61  CHAR => s84  NEWLINE => s85  TAB => s86  CLOSE_BRACKET => s87  tabstop => s88  variable => s89  shell => s90
+
+state 68:
+   value      -> shell ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 69:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern . / format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern . / format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   pattern    -> pattern . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . DOLLAR_SIGN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . OPEN_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . ?, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   pattern    -> pattern . :, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  / => s91  : => s72  ? => s73  DECIMAL => s74  DOLLAR_SIGN => s75  CHAR => s76  NEWLINE => s77  TAB => s78  OPEN_PAREN => s79  CLOSE_PAREN => s80
+
+state 70:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname : value . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   value      -> value . CHAR, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . TAB, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . /, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . variable, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . shell, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   value      -> value . tabstop, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN varname, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> . DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   shell      -> . ` text `, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> . DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   transitions:  / => s82  ` => s4  DECIMAL => s83  DOLLAR_SIGN => s61  CHAR => s84  NEWLINE => s85  TAB => s86  CLOSE_BRACKET => s92  tabstop => s88  variable => s89  shell => s90
+
+state 71:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / . format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / . format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   format     -> . format CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s104  case_fold => s105  cond_insert => s106
+
+state 72:
+   pattern    -> pattern : ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 73:
+   pattern    -> pattern ? ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 74:
+   pattern    -> pattern DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 75:
+   pattern    -> pattern DOLLAR_SIGN ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 76:
+   pattern    -> pattern CHAR ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 77:
+   pattern    -> pattern NEWLINE ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 78:
+   pattern    -> pattern TAB ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 79:
+   pattern    -> pattern OPEN_PAREN ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 80:
+   pattern    -> pattern CLOSE_PAREN ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 81:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET . varname : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET . varname / pattern / format / opts CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET . varname / pattern / format / CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET . DECIMAL : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   varname    -> . VARNAME, / :
+   transitions:  DECIMAL => s107  VARNAME => s23  varname => s44
+
+state 82:
+   value      -> value / ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 83:
+   value      -> value DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 84:
+   value      -> value CHAR ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 85:
+   value      -> value NEWLINE ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 86:
+   value      -> value TAB ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 87:
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET DECIMAL : value CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 88:
+   value      -> value tabstop ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 89:
+   value      -> value variable ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 90:
+   value      -> value shell ., / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+
+state 91:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / . format / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / . format / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   format     -> . format CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s108  case_fold => s105  cond_insert => s106
+
+state 92:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname : value CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 93:
+   format     -> ? ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 94:
+   format     -> DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 95:
+   format     -> DOLLAR_SIGN . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  DECIMAL => s109
+
+state 96:
+   format     -> CHAR ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 97:
+   case_fold  -> LOWER . format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s110  case_fold => s105  cond_insert => s106
+
+state 98:
+   case_fold  -> UPPER . format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s111  case_fold => s105  cond_insert => s106
+
+state 99:
+   case_fold  -> LOWER_BLOCK . format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s112  case_fold => s105  cond_insert => s106
+
+state 100:
+   case_fold  -> UPPER_BLOCK . format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . format DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s113  case_fold => s105  cond_insert => s106
+
+state 101:
+   format     -> NEWLINE ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 102:
+   format     -> TAB ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 103:
+   cond_insert -> OPEN_PAREN . ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> OPEN_PAREN . ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  ? => s114
+
+state 104:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format . / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format . / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   format     -> format . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  / => s115  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  case_fold => s122  cond_insert => s123
+
+state 105:
+   format     -> case_fold ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 106:
+   format     -> cond_insert ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 107:
+   tabstop    -> DOLLAR_SIGN OPEN_BRACKET DECIMAL . : value CLOSE_BRACKET, / DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB CLOSE_BRACKET `
+   transitions:  : => s46
+
+state 108:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format . / opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format . / CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   format     -> format . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  / => s124  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  case_fold => s122  cond_insert => s123
+
+state 109:
+   format     -> DOLLAR_SIGN DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 110:
+   case_fold  -> LOWER format ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  case_fold => s122  cond_insert => s123
+
+state 111:
+   case_fold  -> UPPER format ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . CHAR, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . NEWLINE, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . TAB, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . ?, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . case_fold, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . cond_insert, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . DOLLAR_SIGN DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER format, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  case_fold => s122  cond_insert => s123
+
+state 112:
+   case_fold  -> LOWER_BLOCK format . END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  END_BLOCK => s125  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  case_fold => s122  cond_insert => s123
+
+state 113:
+   case_fold  -> UPPER_BLOCK format . END_BLOCK, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   format     -> format . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN ?
+   transitions:  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  END_BLOCK => s126  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  case_fold => s122  cond_insert => s123
+
+state 114:
+   cond_insert -> OPEN_PAREN ? . DECIMAL : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> OPEN_PAREN ? . DECIMAL : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  DECIMAL => s127
+
+state 115:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / . opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   opts       -> . opts CHAR, CHAR CLOSE_BRACKET
+   opts       -> . CHAR, CHAR CLOSE_BRACKET
+   transitions:  CHAR => s128  CLOSE_BRACKET => s129  opts => s130
+
+state 116:
+   format     -> format ? ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 117:
+   format     -> format DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 118:
+   format     -> format DOLLAR_SIGN . DECIMAL, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  DECIMAL => s131
+
+state 119:
+   format     -> format CHAR ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 120:
+   format     -> format NEWLINE ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 121:
+   format     -> format TAB ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 122:
+   format     -> format case_fold ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 123:
+   format     -> format cond_insert ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 124:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / . opts CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   opts       -> . opts CHAR, CHAR CLOSE_BRACKET
+   opts       -> . CHAR, CHAR CLOSE_BRACKET
+   transitions:  CHAR => s128  CLOSE_BRACKET => s132  opts => s133
+
+state 125:
+   case_fold  -> LOWER_BLOCK format END_BLOCK ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 126:
+   case_fold  -> UPPER_BLOCK format END_BLOCK ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 127:
+   cond_insert -> OPEN_PAREN ? DECIMAL . : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> OPEN_PAREN ? DECIMAL . : format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  : => s134
+
+state 128:
+   opts       -> CHAR ., CHAR CLOSE_BRACKET
+
+state 129:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 130:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / opts . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   opts       -> opts . CHAR, CHAR CLOSE_BRACKET
+   transitions:  CHAR => s135  CLOSE_BRACKET => s136
+
+state 131:
+   format     -> format DOLLAR_SIGN DECIMAL ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 132:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 133:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts . CLOSE_BRACKET, / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+   opts       -> opts . CHAR, CHAR CLOSE_BRACKET
+   transitions:  CHAR => s135  CLOSE_BRACKET => s137
+
+state 134:
+   cond_insert -> OPEN_PAREN ? DECIMAL : . format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> OPEN_PAREN ? DECIMAL : . format : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s138  case_fold => s105  cond_insert => s106
+
+state 135:
+   opts       -> opts CHAR ., CHAR CLOSE_BRACKET
+
+state 136:
+   transform  -> DOLLAR_SIGN OPEN_BRACKET DECIMAL / pattern / format / opts CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 137:
+   variable   -> DOLLAR_SIGN OPEN_BRACKET varname / pattern / format / opts CLOSE_BRACKET ., / {$} DECIMAL DOLLAR_SIGN CHAR NEWLINE TAB OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN : ? `
+
+state 138:
+   cond_insert -> OPEN_PAREN ? DECIMAL : format . CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> OPEN_PAREN ? DECIMAL : format . : format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   transitions:  : => s139  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  CLOSE_PAREN => s140  case_fold => s122  cond_insert => s123
+
+state 139:
+   cond_insert -> OPEN_PAREN ? DECIMAL : format : . format CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> . format CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . format DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   transitions:  ? => s93  DECIMAL => s94  DOLLAR_SIGN => s95  CHAR => s96  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s101  TAB => s102  OPEN_PAREN => s103  format => s141  case_fold => s105  cond_insert => s106
+
+state 140:
+   cond_insert -> OPEN_PAREN ? DECIMAL : format CLOSE_PAREN ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+state 141:
+   cond_insert -> OPEN_PAREN ? DECIMAL : format : format . CLOSE_PAREN, / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+   format     -> format . CHAR, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . NEWLINE, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . TAB, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . ?, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . case_fold, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . cond_insert, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   format     -> format . DOLLAR_SIGN DECIMAL, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . LOWER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . UPPER format, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . LOWER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   case_fold  -> . UPPER_BLOCK format END_BLOCK, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   cond_insert -> . OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN, DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN ?
+   transitions:  ? => s116  DECIMAL => s117  DOLLAR_SIGN => s118  CHAR => s119  LOWER => s97  UPPER => s98  LOWER_BLOCK => s99  UPPER_BLOCK => s100  NEWLINE => s120  TAB => s121  OPEN_PAREN => s103  CLOSE_PAREN => s142  case_fold => s122  cond_insert => s123
+
+state 142:
+   cond_insert -> OPEN_PAREN ? DECIMAL : format : format CLOSE_PAREN ., / DECIMAL DOLLAR_SIGN CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB OPEN_PAREN CLOSE_PAREN : ?
+
+generated lalr(1) parse table:
+state  /     :     ?     `     error DECIM DOLLA VARNA CHAR  LOWER UPPER LOWER UPPER END_B NEWLI TAB   OPEN_ CLOSE OPEN_ CLOSE main  snipp tabst trans varia varna patte opts  value text  shell forma case_ cond_ $    
+   0   sh1   sh2   sh3   sh4         sh5   sh6         sh7                                 sh8   sh9   sh10  sh11  sh12  sh13  go14  go15  go16  go17  go18                          go19  go20                         
+   1   re72  re72  re72  re72        re72  re72        re72                                re72  re72  re72  re72  re72  re72                                                                                      re72 
+   2   re76  re76  re76  re76        re76  re76        re76                                re76  re76  re76  re76  re76  re76                                                                                      re76 
+   3   re75  re75  re75  re75        re75  re75        re75                                re75  re75  re75  re75  re75  re75                                                                                      re75 
+   4   sh1   sh2   sh3               sh5               sh7                                 sh8   sh9   sh10  sh11  sh12  sh13                                                        go21                               
+   5   re71  re71  re71  re71        re71  re71        re71                                re71  re71  re71  re71  re71  re71                                                                                      re71 
+   6                                 sh22        sh23                                                  sh24                                                  go25                                                       
+   7   re68  re68  re68  re68        re68  re68        re68                                re68  re68  re68  re68  re68  re68                                                                                      re68 
+   8   re69  re69  re69  re69        re69  re69        re69                                re69  re69  re69  re69  re69  re69                                                                                      re69 
+   9   re70  re70  re70  re70        re70  re70        re70                                re70  re70  re70  re70  re70  re70                                                                                      re70 
+  10   re77  re77  re77  re77        re77  re77        re77                                re77  re77  re77  re77  re77  re77                                                                                      re77 
+  11   re78  re78  re78  re78        re78  re78        re78                                re78  re78  re78  re78  re78  re78                                                                                      re78 
+  12   re73  re73  re73  re73        re73  re73        re73                                re73  re73  re73  re73  re73  re73                                                                                      re73 
+  13   re74  re74  re74  re74        re74  re74        re74                                re74  re74  re74  re74  re74  re74                                                                                      re74 
+  14                                                                                                                                                                                                               accept
+  15   sh1   sh2   sh3   sh4         sh5   sh6         sh7                                 sh8   sh9   sh10  sh11  sh12  sh13              go26  go27  go28                          go29  go30                    re1  
+  16   re10  re10  re10  re10        re10  re10        re10                                re10  re10  re10  re10  re10  re10                                                                                      re10 
+  17   re9   re9   re9   re9         re9   re9         re9                                 re9   re9   re9   re9   re9   re9                                                                                       re9  
+  18   re8   re8   re8   re8         re8   re8         re8                                 re8   re8   re8   re8   re8   re8                                                                                       re8  
+  19   sh31  sh32  sh33  re7         sh34  re7         sh35                                sh36  sh37  sh38  sh39  sh40  sh41                                                                                      re7  
+  20   re11  re11  re11  re11        re11  re11        re11                                re11  re11  re11  re11  re11  re11                                                                                      re11 
+  21   sh31  sh32  sh33  sh42        sh34              sh35                                sh36  sh37  sh38  sh39  sh40  sh41                                                                                           
+  22   re12  re12  re12  re12        re12  re12        re12                                re12  re12  re12  re12  re12  re12                                                                                      re12 
+  23   re20  re20  re20  re20        re20  re20        re20                                re20  re20  re20  re20  re20  re20                                                                                      re20 
+  24                                 sh43        sh23                                                                                                        go44                                                       
+  25   re16  re16  re16  re16        re16  re16        re16                                re16  re16  re16  re16  re16  re16                                                                                      re16 
+  26   re5   re5   re5   re5         re5   re5         re5                                 re5   re5   re5   re5   re5   re5                                                                                       re5  
+  27   re4   re4   re4   re4         re4   re4         re4                                 re4   re4   re4   re4   re4   re4                                                                                       re4  
+  28   re3   re3   re3   re3         re3   re3         re3                                 re3   re3   re3   re3   re3   re3                                                                                       re3  
+  29   sh31  sh32  sh33  re2         sh34  re2         sh35                                sh36  sh37  sh38  sh39  sh40  sh41                                                                                      re2  
+  30   re6   re6   re6   re6         re6   re6         re6                                 re6   re6   re6   re6   re6   re6                                                                                       re6  
+  31   re61  re61  re61  re61        re61  re61        re61                                re61  re61  re61  re61  re61  re61                                                                                      re61 
+  32   re65  re65  re65  re65        re65  re65        re65                                re65  re65  re65  re65  re65  re65                                                                                      re65 
+  33   re64  re64  re64  re64        re64  re64        re64                                re64  re64  re64  re64  re64  re64                                                                                      re64 
+  34   re60  re60  re60  re60        re60  re60        re60                                re60  re60  re60  re60  re60  re60                                                                                      re60 
+  35   re57  re57  re57  re57        re57  re57        re57                                re57  re57  re57  re57  re57  re57                                                                                      re57 
+  36   re58  re58  re58  re58        re58  re58        re58                                re58  re58  re58  re58  re58  re58                                                                                      re58 
+  37   re59  re59  re59  re59        re59  re59        re59                                re59  re59  re59  re59  re59  re59                                                                                      re59 
+  38   re66  re66  re66  re66        re66  re66        re66                                re66  re66  re66  re66  re66  re66                                                                                      re66 
+  39   re67  re67  re67  re67        re67  re67        re67                                re67  re67  re67  re67  re67  re67                                                                                      re67 
+  40   re62  re62  re62  re62        re62  re62        re62                                re62  re62  re62  re62  re62  re62                                                                                      re62 
+  41   re63  re63  re63  re63        re63  re63        re63                                re63  re63  re63  re63  re63  re63                                                                                      re63 
+  42   re79  re79  re79  re79        re79  re79        re79                                re79  re79  re79  re79  re79  re79                                                                                      re79 
+  43   sh45  sh46                                                                                                                                                                                                       
+  44   sh47  sh48                                                                                                                                                                                                       
+  45         sh49  sh50              sh51  sh52        sh53                                sh54  sh55              sh56  sh57                                      go58                                                 
+  46   sh59              sh4         sh60  sh61        sh62                                sh63  sh64                                      go65        go66                    go67        go68                         
+  47         sh49  sh50              sh51  sh52        sh53                                sh54  sh55              sh56  sh57                                      go69                                                 
+  48   sh59              sh4         sh60  sh61        sh62                                sh63  sh64                                      go65        go66                    go70        go68                         
+  49   re38  re38  re38              re38  re38        re38                                re38  re38              re38  re38                                                                                           
+  50   re37  re37  re37              re37  re37        re37                                re37  re37              re37  re37                                                                                           
+  51   re33  re33  re33              re33  re33        re33                                re33  re33              re33  re33                                                                                           
+  52   re34  re34  re34              re34  re34        re34                                re34  re34              re34  re34                                                                                           
+  53   re30  re30  re30              re30  re30        re30                                re30  re30              re30  re30                                                                                           
+  54   re31  re31  re31              re31  re31        re31                                re31  re31              re31  re31                                                                                           
+  55   re32  re32  re32              re32  re32        re32                                re32  re32              re32  re32                                                                                           
+  56   re35  re35  re35              re35  re35        re35                                re35  re35              re35  re35                                                                                           
+  57   re36  re36  re36              re36  re36        re36                                re36  re36              re36  re36                                                                                           
+  58   sh71  sh72  sh73              sh74  sh75        sh76                                sh77  sh78              sh79  sh80                                                                                           
+  59   re53              re53        re53  re53        re53                                re53  re53        re53                                                                                                       
+  60   re52              re52        re52  re52        re52                                re52  re52        re52                                                                                                       
+  61                                 sh22        sh23                                                  sh81                                                  go25                                                       
+  62   re49              re49        re49  re49        re49                                re49  re49        re49                                                                                                       
+  63   re50              re50        re50  re50        re50                                re50  re50        re50                                                                                                       
+  64   re51              re51        re51  re51        re51                                re51  re51        re51                                                                                                       
+  65   re56              re56        re56  re56        re56                                re56  re56        re56                                                                                                       
+  66   re54              re54        re54  re54        re54                                re54  re54        re54                                                                                                       
+  67   sh82              sh4         sh83  sh61        sh84                                sh85  sh86        sh87                          go88        go89                                go90                         
+  68   re55              re55        re55  re55        re55                                re55  re55        re55                                                                                                       
+  69   sh91  sh72  sh73              sh74  sh75        sh76                                sh77  sh78              sh79  sh80                                                                                           
+  70   sh82              sh4         sh83  sh61        sh84                                sh85  sh86        sh92                          go88        go89                                go90                         
+  71               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go104 go105 go106      
+  72   re29  re29  re29              re29  re29        re29                                re29  re29              re29  re29                                                                                           
+  73   re28  re28  re28              re28  re28        re28                                re28  re28              re28  re28                                                                                           
+  74   re24  re24  re24              re24  re24        re24                                re24  re24              re24  re24                                                                                           
+  75   re25  re25  re25              re25  re25        re25                                re25  re25              re25  re25                                                                                           
+  76   re21  re21  re21              re21  re21        re21                                re21  re21              re21  re21                                                                                           
+  77   re22  re22  re22              re22  re22        re22                                re22  re22              re22  re22                                                                                           
+  78   re23  re23  re23              re23  re23        re23                                re23  re23              re23  re23                                                                                           
+  79   re26  re26  re26              re26  re26        re26                                re26  re26              re26  re26                                                                                           
+  80   re27  re27  re27              re27  re27        re27                                re27  re27              re27  re27                                                                                           
+  81                                 sh107       sh23                                                                                                        go44                                                       
+  82   re45              re45        re45  re45        re45                                re45  re45        re45                                                                                                       
+  83   re44              re44        re44  re44        re44                                re44  re44        re44                                                                                                       
+  84   re41              re41        re41  re41        re41                                re41  re41        re41                                                                                                       
+  85   re42              re42        re42  re42        re42                                re42  re42        re42                                                                                                       
+  86   re43              re43        re43  re43        re43                                re43  re43        re43                                                                                                       
+  87   re13  re13  re13  re13        re13  re13        re13                                re13  re13  re13  re13  re13  re13                                                                                      re13 
+  88   re48              re48        re48  re48        re48                                re48  re48        re48                                                                                                       
+  89   re46              re46        re46  re46        re46                                re46  re46        re46                                                                                                       
+  90   re47              re47        re47  re47        re47                                re47  re47        re47                                                                                                       
+  91               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go108 go105 go106      
+  92   re17  re17  re17  re17        re17  re17        re17                                re17  re17  re17  re17  re17  re17                                                                                      re17 
+  93   re92  re92  re92              re92  re92        re92  re92  re92  re92  re92  re92  re92  re92              re92  re92                                                                                           
+  94   re91  re91  re91              re91  re91        re91  re91  re91  re91  re91  re91  re91  re91              re91  re91                                                                                           
+  95                                 sh109                                                                                                                                                                              
+  96   re88  re88  re88              re88  re88        re88  re88  re88  re88  re88  re88  re88  re88              re88  re88                                                                                           
+  97               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go110 go105 go106      
+  98               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go111 go105 go106      
+  99               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go112 go105 go106      
+ 100               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go113 go105 go106      
+ 101   re89  re89  re89              re89  re89        re89  re89  re89  re89  re89  re89  re89  re89              re89  re89                                                                                           
+ 102   re90  re90  re90              re90  re90        re90  re90  re90  re90  re90  re90  re90  re90              re90  re90                                                                                           
+ 103               sh114                                                                                                                                                                                                
+ 104   sh115       sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100       sh120 sh121             sh103                                                                               go122 go123      
+ 105   re93  re93  re93              re93  re93        re93  re93  re93  re93  re93  re93  re93  re93              re93  re93                                                                                           
+ 106   re94  re94  re94              re94  re94        re94  re94  re94  re94  re94  re94  re94  re94              re94  re94                                                                                           
+ 107         sh46                                                                                                                                                                                                       
+ 108   sh124       sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100       sh120 sh121             sh103                                                                               go122 go123      
+ 109   re95  re95  re95              re95  re95        re95  re95  re95  re95  re95  re95  re95  re95              re95  re95                                                                                           
+ 110   re96  re96  sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100 re96  sh120 sh121             sh103 re96                                                                          go122 go123      
+ 111   re97  re97  sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100 re97  sh120 sh121             sh103 re97                                                                          go122 go123      
+ 112               sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100 sh125 sh120 sh121             sh103                                                                               go122 go123      
+ 113               sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100 sh126 sh120 sh121             sh103                                                                               go122 go123      
+ 114                                 sh127                                                                                                                                                                              
+ 115                                                   sh128                                                 sh129                                                       go130                                          
+ 116   re84  re84  re84              re84  re84        re84  re84  re84  re84  re84  re84  re84  re84              re84  re84                                                                                           
+ 117   re83  re83  re83              re83  re83        re83  re83  re83  re83  re83  re83  re83  re83              re83  re83                                                                                           
+ 118                                 sh131                                                                                                                                                                              
+ 119   re80  re80  re80              re80  re80        re80  re80  re80  re80  re80  re80  re80  re80              re80  re80                                                                                           
+ 120   re81  re81  re81              re81  re81        re81  re81  re81  re81  re81  re81  re81  re81              re81  re81                                                                                           
+ 121   re82  re82  re82              re82  re82        re82  re82  re82  re82  re82  re82  re82  re82              re82  re82                                                                                           
+ 122   re85  re85  re85              re85  re85        re85  re85  re85  re85  re85  re85  re85  re85              re85  re85                                                                                           
+ 123   re86  re86  re86              re86  re86        re86  re86  re86  re86  re86  re86  re86  re86              re86  re86                                                                                           
+ 124                                                   sh128                                                 sh132                                                       go133                                          
+ 125   re98  re98  re98              re98  re98        re98  re98  re98  re98  re98  re98  re98  re98              re98  re98                                                                                           
+ 126   re99  re99  re99              re99  re99        re99  re99  re99  re99  re99  re99  re99  re99              re99  re99                                                                                           
+ 127         sh134                                                                                                                                                                                                      
+ 128                                                   re40                                                  re40                                                                                                       
+ 129   re15  re15  re15  re15        re15  re15        re15                                re15  re15  re15  re15  re15  re15                                                                                      re15 
+ 130                                                   sh135                                                 sh136                                                                                                      
+ 131   re87  re87  re87              re87  re87        re87  re87  re87  re87  re87  re87  re87  re87              re87  re87                                                                                           
+ 132   re19  re19  re19  re19        re19  re19        re19                                re19  re19  re19  re19  re19  re19                                                                                      re19 
+ 133                                                   sh135                                                 sh137                                                                                                      
+ 134               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go138 go105 go106      
+ 135                                                   re39                                                  re39                                                                                                       
+ 136   re14  re14  re14  re14        re14  re14        re14                                re14  re14  re14  re14  re14  re14                                                                                      re14 
+ 137   re18  re18  re18  re18        re18  re18        re18                                re18  re18  re18  re18  re18  re18                                                                                      re18 
+ 138         sh139 sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100       sh120 sh121             sh103 sh140                                                                         go122 go123      
+ 139               sh93              sh94  sh95        sh96  sh97  sh98  sh99  sh100       sh101 sh102             sh103                                                                         go141 go105 go106      
+ 140   re100 re100 re100             re100 re100       re100 re100 re100 re100 re100 re100 re100 re100             re100 re100                                                                                          
+ 141               sh116             sh117 sh118       sh119 sh97  sh98  sh99  sh100       sh120 sh121             sh103 sh142                                                                         go122 go123      
+ 142   re101 re101 re101             re101 re101       re101 re101 re101 re101 re101 re101 re101 re101             re101 re101                                                                                          

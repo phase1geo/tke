@@ -2071,8 +2071,8 @@ namespace eval ctext {
     lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
 
     foreach {endpos startpos} [lreverse $delranges] {
-      set endpos   [$win index {*}$endspec   -startpos $startpos]
       set startpos [$win index {*}$startspec -startpos $startpos]
+      set endpos   [$win index {*}$endspec   -startpos $startpos]
       adjust_start_end $win startpos endpos
       lappend strs [$win._t get $startpos $endpos]
       handleDeleteAt0        $win $startpos $endpos
@@ -2674,8 +2674,8 @@ namespace eval ctext {
     lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
 
     foreach {endpos startpos} [lreverse $delranges] {
-      set endpos   [$win index {*}$endspec   -startpos $startpos]
       set startpos [$win index {*}$startspec -startpos $startpos]
+      set endpos   [$win index {*}$endspec   -startpos $startpos]
       adjust_start_end $win startpos endpos
       lappend dstrs [$win._t get $startpos $endpos]
       lappend istrs $dat
@@ -3190,8 +3190,8 @@ namespace eval ctext {
     lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
 
     foreach {endpos startpos} [lreverse $delranges] {
-      set endpos   [$win index {*}$endspec   -startpos $startpos]
       set startpos [$win index {*}$startspec -startpos $startpos]
+      set endpos   [$win index {*}$endspec   -startpos $startpos]
       set old_str  [$win._t get $startpos $endpos]
       set new_str  [transform_$cmd $old_str]
       lappend dstrs $old_str
