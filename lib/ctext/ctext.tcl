@@ -2281,13 +2281,12 @@ namespace eval ctext {
 
     set ranges      [list]
     set undo_append 0
+    set cursor      [$win._t index insert]
 
-    if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
-      foreach {spos epos} [$win._t tag ranges _mcursor] {
-        indent_shift_$subcmd $win [$win index {*}$sspec -startpos $spos] [$win index {*}$espec -startpos $epos] 1 ranges undo_append
-      }
-    } else {
-      indent_shift_$subcmd $win [$win index {*}$sspec] [$win index {*}$espec] 0 ranges undo_append
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $sspec $espec] sspec espec set_mcursor delranges
+
+    foreach {epos spos} [lreverse $delranges] {
+      indent_shift_$subcmd $win [$win index {*}$sspec -startpos $spos] [$win index {*}$espec -startpos $spos] $set_mcursor ranges undo_append
     }
 
     # Create a separator

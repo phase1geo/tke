@@ -1390,13 +1390,15 @@ namespace eval edit {
   proc format {txtt type} {
 
     # Get the range of lines to modify
-    if {[set ranges [$txtt tag ranges sel]] eq ""} {
-      if {[multicursor::enabled $txtt]} {
-        foreach {start end} [$txtt tag ranges mcursor] {
-          if {[string trim [$txtt get "$start wordstart" "$start wordend"]] ne ""} {
-            lappend ranges [$txtt index "$start wordstart"] [$txtt index "$start wordend"]
+    if {[set ranges [$txtt tag ranges sel]] ne ""} {
+      $txtt tag remove sel 1.0 end
+    } else {
+      if {[$txtt cursor enabled]} {
+        foreach cursor [$txtt cursor get] {
+          if {[string trim [$txtt get "$cursor wordstart" "$cursor wordend"]] ne ""} {
+            lappend ranges [$txtt index "$cursor wordstart"] [$txtt index "$cursor wordend"]
           } else {
-            lappend ranges $start $start
+            lappend ranges $cursor $cursor
           }
         }
       } else {
@@ -1407,6 +1409,8 @@ namespace eval edit {
         }
       }
     }
+
+    # I'm not sure if ranges is really necessary here as the insert, delete, replace can do this calculation for us.
 
     if {[set ranges_len [llength $ranges]] > 0} {
 
@@ -1438,7 +1442,7 @@ namespace eval edit {
         set textpos [string first \{TEXT\} $pattern]
 
         # Remove any multicursors
-        multicursor::disable $txtt
+        $txtt cursor disable
 
         $txtt edit separator
 
@@ -1452,13 +1456,13 @@ namespace eval edit {
                 $txtt replace "$start linestart" "$start lineend" $newstr
                 if {$oldstr eq ""} {
                   if {($ranges_len == 2) && [$txtt compare $start+1l >= $end]} {
-                    $txtt mark set insert "$start linestart+${textpos}c"
+                    $txtt cursor set "$start linestart+${textpos}c"
                   } else {
-                    multicursor::add_cursor $txtt "$start linestart+${textpos}c"
+                    $txtt cursor add "$start linestart+${textpos}c"
                   }
                 }
                 if {[string first \n $newstr]} {
-                  indent::format_text $txtt "$start linestart" "$start linestart+[string length $newstr]c" 0
+                  $txtt indent auto "$start linestart" "$start linestart+[string length $newstr]c"
                 }
                 set last  $start
                 set start [$txtt index "$start+1l"]
@@ -1472,13 +1476,13 @@ namespace eval edit {
             $txtt replace $start $end $newstr
             if {$oldstr eq ""} {
               if {$ranges_len == 2} {
-                $txtt mark set insert "$start+${textpos}c"
+                $txtt cursor set "$start+${textpos}c"
               } else {
-                multicursor::add_cursor $txtt [$txtt index "$start+${textpos}c"]
+                $txtt cursor add [$txtt index "$start+${textpos}c"]
               }
             }
             if {[string first \n $newstr]} {
-              indent::format_text $txtt $start "$start+[string length $newstr]c" 0
+              $txtt indent auto $start "$start+[string length $newstr]c" 0
             }
           }
         }
