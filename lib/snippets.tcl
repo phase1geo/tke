@@ -196,7 +196,7 @@ namespace eval snippets {
             return 1
           }
         } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
-          ::tk::TextSetCursor $txtt $index
+          $txtt cursor set $index
           return 1
         }
       }
@@ -438,19 +438,18 @@ namespace eval snippets {
 
     if {[info exists tabpoints($txtt)]} {
 
+      # Remove the selection
+      $txtt tag remove sel 1.0 end
+
       # Update any mirrored tab points
       if {[info exists tabstart($txtt)]} {
         set index [expr $tabpoints($txtt) - 1]
         set tabvals($txtt,$index) [$txtt get $tabstart($txtt) insert]
         foreach {endpos startpos} [lreverse [$txtt tag ranges snippet_mirror_$index]] {
           set str [parse_snippet $txtt [$txtt get $startpos $endpos]]
-          $txtt delete -highlight 0 $startpos $endpos
-          $txtt insert $startpos {*}$str
+          $txtt replace -highlight 0 $startpos $endpos {*}$str
         }
       }
-
-      # Remove the selection
-      $txtt tag remove sel 1.0 end
 
       # Find the current tab point tag
       if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {

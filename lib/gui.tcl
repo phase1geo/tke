@@ -1622,7 +1622,7 @@ namespace eval gui {
 
     if {[files::get_file_num] == 1} {
       get_info {} current fname buffer txt
-      if {($fname eq "Untitled") && $buffer && ([ctext::get_cleaned_content $txt first last {}] eq "")} {
+      if {($fname eq "Untitled") && $buffer && ([ctext::get_cleaned_content $txt first [list last -adjust "-1c"] {}] eq "")} {
         return 1
       }
     }
@@ -6119,7 +6119,7 @@ namespace eval gui {
     snippets::clear_tabstops $txt.t
 
     # Clean up the text from Vim
-    set str [ctext::get_cleaned_content $txt first last {}]
+    set str [ctext::get_cleaned_content $txt first [list last -adjust "-1c"] {}]
 
     if {[preferences::get Editor/RemoveTrailingWhitespace]} {
       regsub -all -lineanchor -- $trailing_ws_re $str {} str

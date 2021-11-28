@@ -2325,7 +2325,10 @@ namespace eval ctext {
 
     } else {
 
-      if {![catch { $win._t index [lindex $args 0] } rc]} {
+      set index [join $args]
+      regexp {^(.*)-(startpos|adjust|forceadjust)} $index -> index
+
+      if {![catch { $win._t index $index } rc]} {
         return $rc
       } else {
         puts "NEED TO CATCH THIS CASE!"
@@ -5797,12 +5800,7 @@ namespace eval ctext {
   # Transforms a last character specification into a text index.
   proc getindex_last {win startpos optlist} {
 
-    array set opts {
-      -num 0
-    }
-    array set opts $optlist
-
-    return "[$win._t index {end-1c linestart}]+$opts(-num)c"
+    return "end"
 
   }
 

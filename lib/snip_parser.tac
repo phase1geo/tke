@@ -383,8 +383,22 @@ text: text CHAR {
       }
       ;
 
-shell: '`' text '`' {
+shell: '`' shell_text '`' {
          set _ [expr {![catch "exec $2" rc] ? $rc : ""}]
+       }
+       ;
+
+shell_text: shell_text text {
+         set _ "$1$2"
+       }
+     | shell_text variable {
+         set _ "$1$2"
+       }
+     | text {
+         set _ $1
+       }
+     | variable {
+         set _ $1
        }
        ;
 
