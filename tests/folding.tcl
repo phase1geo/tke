@@ -59,9 +59,9 @@ namespace eval folding {
       foreach method [list manual indent syntax indent manual syntax] {
 
         switch $method {
-          manual { indent::set_indent_mode $txt OFF }
-          indent { indent::set_indent_mode $txt IND }
-          syntax { indent::set_indent_mode $txt IND+ }
+          manual { $txt configure -indentmode OFF }
+          indent { $txt configure -indentmode IND }
+          syntax { $txt configure -indentmode IND+ }
         }
 
         # Verify that we are disabled
@@ -85,17 +85,18 @@ namespace eval folding {
     set txt [initialize]
 
     # Insert text that will contain foldable text
-    $txt insert end "\n"
-    $txt insert end "if {a} {\n"
-    $txt insert end "  set b 0\n"
-    $txt insert end "}\n"
-    $txt insert end "\n"
-    $txt insert end "if {c} {\n"
-    $txt insert end "  set d 1\n"
-    $txt insert end "}"
+    $txt insert end {
+if {a} {
+  set b 0
+}
+
+if {c} {
+  set d 1
+}}
 
     # Enable code folding
-    folding::add_folds $txt 1.0 end
+    # folding::add_folds $txt 1.0 end
+    puts [$txt get 1.0 end-1c]
 
     # Check to see that a fold only detected on the correct lines
     set opened_lines [list none open none end none open none end]
@@ -150,12 +151,12 @@ namespace eval folding {
     set txt [initialize]
 
     # Insert code that contains a nested fold
-    $txt insert end "\n"
-    $txt insert end "if {a} {\n"
-    $txt insert end "  if {b} {\n"
-    $txt insert end "    set c 0\n"
-    $txt insert end "  }\n"
-    $txt insert end "}\n"
+    $txt insert end {
+if {a} {
+  if {b} {
+    set c 0
+  }
+}}
 
     # Make sure that syntax folding is enabled
     folding::add_folds $txt 1.0 end
@@ -209,10 +210,10 @@ namespace eval folding {
     set txt [initialize]
 
     # Insert some text
-    $txt insert end "\n"
-    $txt insert end "for {set i 0} {i < 10} {incr i} {\n"
-    $txt insert end "  puts i\n"
-    $txt insert end "}\n"
+    $txt insert end {
+for {set i 0} {i < 10} {incr i} {
+  puts i
+}}
 
     # Enable code folding
     folding::add_folds $txt 1.0 end
@@ -257,7 +258,7 @@ namespace eval folding {
     }
 
     # Set the folding mode to manual
-    indent::set_indent_mode $txt OFF
+    $txt configure -indentmode OFF
 
     foreach type [list line range all] {
 
@@ -313,7 +314,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode $txt OFF
+    $txt configure -indentmode OFF
     folding::close_range $txt 7.0 9.0
     folding::close_range $txt 2.0 5.0
 
@@ -385,7 +386,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode $txt OFF
+    $txt configure -indentmode OFF
     folding::close_range $txt 2.0 5.0
     folding::close_range $txt 7.0 9.0
 
@@ -439,11 +440,11 @@ namespace eval folding {
     # Create the text widget
     set txt [initialize]
 
+    $txt configure -indentmode OFF
+
     for {set i 0} {$i < 10} {incr i} {
       $txt insert end "This is line $i\n"
     }
-
-    indent::set_indent_mode $txt OFF
 
     $txt mark set insert 5.0
     folding::close_range $txt 2.0 9.0
@@ -481,31 +482,34 @@ namespace eval folding {
     # Set the current syntax to Tcl
     syntax::set_language $txt None
 
+    # Disable auto-indentation
+    $txt configure -indentmode IND
+
     # Verify that the folding method is indent
     if {[folding::get_method $txt] ne "indent"} {
       cleanup "Folding method is not indent when it should be"
     }
 
     # Insert text
-    $txt insert end "\n"
-    $txt insert end "This is a line\n"
-    $txt insert end "This is also a line\n"
-    $txt insert end "  Item 1\n"
-    $txt insert end "  Item 2\n"
-    $txt insert end "    Sub-item A\n"
-    $txt insert end "    Sub-item B\n"
-    $txt insert end "  Item 3\n"
-    $txt insert end "\n"
-    $txt insert end "This is another line\n"
-    $txt insert end "  Item 4\n"
-    $txt insert end "This is the last line"
+    $txt insert end {
+This is a line
+This is also a line
+  Item 1
+  Item 2
+    Sub-item A
+    Sub-item B
+  Item 3
+
+This is another line
+  Item 4
+This is the last line}
 
     set states [list none none open none open none none end none eopen none end]
 
     set i 1
     foreach state $states {
       if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected 1 ([folding::fold_state $txt $i])"
+        cleanup "Fold state on line $i ([folding::fold_state $txt $i]) did not match expected 0 ([lindex $states [expr $i - 1]])"
       }
       incr i
     }
@@ -519,7 +523,7 @@ namespace eval folding {
       set i 1
       foreach state $states {
         if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
-          cleanup "Fold state on line $i did not match expected $j ([folding::fold_state $txt $i])"
+          cleanup "Fold state on line $i ([folding::fold_state $txt $i]) did not match expected $j ([lindex $states [expr $i - 1]])"
         }
         incr i
       }
@@ -600,7 +604,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     # Put the folding mode into manual
-    indent::set_indent_mode [winfo parent $txtt] OFF
+    $txtt configure -indentmode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
     $txtt mark set insert 2.0
@@ -640,7 +644,7 @@ namespace eval folding {
     set txtt [initialize].t
 
     # Put the folding mode into manual
-    indent::set_indent_mode [winfo parent $txtt] OFF
+    $txtt configure -indentmode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
     $txtt mark set insert 2.0
@@ -661,7 +665,7 @@ namespace eval folding {
     # Initialize
     set txtt [initialize].t
 
-    indent::set_indent_mode [winfo parent $txtt] OFF
+    $txtt configure -indentmode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6"
     $txtt mark set insert 3.0
@@ -684,7 +688,7 @@ namespace eval folding {
     # Initialize
     set txtt [initialize].t
 
-    indent::set_indent_mode [winfo parent $txtt] OFF
+    $txtt configure -indentmode OFF
 
     $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6\nThis is line 7\nThis is line 8"
     $txtt mark set insert 3.0
@@ -898,4 +902,4 @@ namespace eval folding {
 
   }
 
-}
+  }

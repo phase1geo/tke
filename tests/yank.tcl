@@ -468,6 +468,8 @@ namespace eval yank {
     clipboard clear
     clipboard append "  This is a line\n"
 
+    $txtt configure -indentmode OFF
+
     do_paste_test $txtt 4 p     3.2 "\nThis is a line\n  This is a line"
     do_paste_test $txtt 5 {2 p} 3.2 "\nThis is a line\n  This is a line\n  This is a line"
     do_paste_test $txtt 6 P     2.2 "\n  This is a line\nThis is a line"
