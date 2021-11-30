@@ -2609,7 +2609,7 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -adjust +1c] linestart -cursor "firstchar -num 0"]
+        return [do_operation $txtt [list linestart -num [get_number $txtt]] linestart -cursor "firstchar -num 0"]
       }
       "folding" {
         folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2727,7 +2727,7 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -adjust +1c] linestart]
+        return [do_operation $txtt [list linestart -num [get_number $txtt]] linestart]
       }
     }
 
@@ -2787,7 +2787,7 @@ namespace eval vim {
       $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt paste -num $num "insert+1c"
-      $txtt cursor set [list char -num [string length $clip]]
+      $txtt cursor set [list char -num [expr [string length $clip] * $num]]
     }
 
     # Create a separator
@@ -2831,12 +2831,13 @@ namespace eval vim {
     set clip [clipboard get]
 
     if {[set nl_index [string last \n $clip]] != -1} {
-      if {[expr ([string length $clip] - 1) == $nl_index]} {
-        $txtt paste -num $num -post "\b\n" linestart
+      set cursor [$txtt index cursor]
+      if {$nl_index == ([string length $clip] - 1)} {
+        $txtt paste -num $num linestart
       } else {
         $txtt paste -num $num -post "\n" linestart
       }
-      $txtt cursor move [list linestart -num -1]
+      $txtt cursor move [list linestart -num 0 -startpos $cursor]
       $txtt cursor move [list firstchar -num 0]
     } else {
       $txtt paste -num $num insert

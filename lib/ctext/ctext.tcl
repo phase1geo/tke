@@ -2316,7 +2316,7 @@ namespace eval ctext {
 
       if {$opts(-forceadjust) ne ""} {
         return [$win._t index "$index$opts(-forceadjust)"]
-      } elseif {($index ne $startpos) && ($opts(-adjust) ne "")} {
+      } elseif {[$win._t compare $index != $startpos] && ($opts(-adjust) ne "")} {
         return [$win._t index "$index$opts(-adjust)"]
       } else {
         return [$win._t index $index]
@@ -5921,6 +5921,7 @@ namespace eval ctext {
   #   -exclusive bool       If true, returns the found index position + 1 character closer to the startpos;
   #                         otherwise, returns the index of the found character.
   # If no matching character can be found, returns the index of the insertion character.
+  # Searching is limited to the current line only.
   proc getindex_findchar {win startpos optlist} {
 
     array set opts {
