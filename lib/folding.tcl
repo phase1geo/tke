@@ -56,10 +56,10 @@ namespace eval folding {
     variable enable
 
     if {[info exists enable($txt)] && $enable($txt)} {
-      switch [indent::get_indent_mode $txt] {
+      switch [$txt cget -indentmode] {
         "OFF"   { return "manual" }
         "IND"   { return "indent" }
-        "IND+"  { return [expr {[indent::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
+        "IND+"  { return [expr {[ctext::indent_is_auto_available $txt] ? "syntax" : "indent"}] }
         default { return "none" }
       }
     } else {
@@ -242,8 +242,8 @@ namespace eval folding {
 
     switch [get_method $txt] {
       syntax {
-        set indent_cnt   [indent::get_tag_count $txt.t indent   $line.0 $line.end]
-        set unindent_cnt [indent::get_tag_count $txt.t unindent $line.0 $line.end]
+        set indent_cnt   [ctext::indent_get_tag_count $txt indent   $line.0 $line.end]
+        set unindent_cnt [ctext::indent_get_tag_count $txt unindent $line.0 $line.end]
       }
       indent {
         if {[$txt syntax contains prewhite $line.0]} {

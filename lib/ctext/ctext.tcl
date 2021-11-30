@@ -6930,6 +6930,16 @@ namespace eval ctext {
   ######################################################################
   
   ######################################################################
+  # Returns true if auto indentation is available for the primary language.
+  proc indent_is_auto_available {win} {
+
+    variable data
+
+    return [expr {[info exists data($win,config,indentation,,indent)] && ($data($win,config,indentation,,indent) ne "")}]
+
+  }
+
+  ######################################################################
   # Returns true if the reindent symbol is not the first in the parent statement.
   proc indent_check_reindent_for_unindent {win index} {
 
