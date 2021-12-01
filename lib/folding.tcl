@@ -226,7 +226,7 @@ namespace eval folding {
 
     # Add the folding indicators
     for {set i $startline} {$i <= $endline} {incr i} {
-      lappend lines([check_fold $txt $i]) $i
+      lappend lines([check_fold_$method $txt $i]) $i
     }
 
     $txt gutter set folding open $lines(open) end $lines(end) eopen $lines(eopen)
@@ -235,39 +235,38 @@ namespace eval folding {
 
   ######################################################################
   # Returns true if a fold point has been detected at the given index.
-  proc check_fold {txt line} {
-
-    set indent_cnt   0
-    set unindent_cnt 0
-
-    switch [get_method $txt] {
-      syntax {
-        set indent_cnt   [ctext::indent_get_tag_count $txt indent   $line.0 $line.end]
-        set unindent_cnt [ctext::indent_get_tag_count $txt unindent $line.0 $line.end]
-      }
-      indent {
-        if {[$txt syntax contains prewhite $line.0]} {
-          set prev 0
-          set curr 0
-          set next 0
-          catch { set prev [$txt count -chars {*}[$txt syntax prevrange prewhite $line.0]] }
-          catch { set curr [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0]] }
-          catch { set next [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0+1c]] }
-          set indent_cnt   [expr $curr < $next]
-          set unindent_cnt [expr $curr < $prev]
-          if {$indent_cnt && $unindent_cnt} {
-            return "eopen"
-          }
-        }
-      }
-      marker {
-        set indent_cnt   [llength [$txt search -all -regexp -- {\{\{\{\d*} $line.0 $line.end]]
-        set unindent_cnt [llength [$txt search -all -regexp -- {\}\}\}}    $line.0 $line.end]]
-      }
-    }
-
+  proc check_fold_syntax {txt line} {
+    set indent_cnt   [ctext::indent_get_tag_count $txt indent   $line.0 $line.end]
+    set unindent_cnt [ctext::indent_get_tag_count $txt unindent $line.0 $line.end]
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
+  }
 
+  proc check_fold_indent {txt line} {
+    if {[$txt syntax contains prewhite $line.0]} {
+      set prev 0
+      set curr 0
+      set next 0
+      catch { set prev [$txt count -chars {*}[$txt syntax prevrange prewhite $line.0]] }
+      catch { set curr [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0]] }
+      catch { set next [$txt count -chars {*}[$txt syntax nextrange prewhite $line.0+1c]] }
+      set indent_cnt   [expr $curr < $next]
+      set unindent_cnt [expr $curr < $prev]
+      if {$indent_cnt && $unindent_cnt} {
+        return "eopen"
+      }
+      return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
+    }
+    return ""
+  }
+
+  proc check_fold_marker {txt line} {
+    set indent_cnt   [llength [$txt search -all -regexp -- {\{\{\{\d*} $line.0 $line.end]]
+    set unindent_cnt [llength [$txt search -all -regexp -- {\}\}\}}    $line.0 $line.end]]
+    return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
+  }
+
+  proc check_fold_none {txt line} {
+    return ""
   }
 
   ######################################################################

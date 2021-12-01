@@ -51,6 +51,7 @@ namespace eval gui {
   variable search_method    "regexp"
   variable fif_method       "regexp"
   variable panel_focus      ""
+  variable current_indent   "IND+"
 
   array set widgets         {}
   array set tab_tip         {}
@@ -363,7 +364,7 @@ namespace eval gui {
     ttk::separator .if.s2 -orient vertical
     set widgets(info_encode) [ttk::button .if.enc -style BButton -command [list gui::handle_menu_popup .if.enc [gui::create_encoding_menu .if.enc]]]
     ttk::separator .if.s3 -orient vertical
-    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_menu_popup .if.ind [indent::create_menu .if.ind]]]
+    set widgets(info_indent) [ttk::button .if.ind -style BButton -command [list gui::handle_menu_popup .if.ind [gui::create_indent_menu .if.ind]]]
     ttk::separator .if.s4 -orient vertical
     set widgets(info_syntax) [ttk::button .if.syn -style BButton -command [list gui::handle_menu_popup .if.syn [syntax::create_menu .if.syn]]]
     ttk::label     .if.sp -text " "
@@ -1228,7 +1229,7 @@ namespace eval gui {
               -xview $finfo(xview) -yview $finfo(yview) -cursor $finfo(cursor) -lang $finfo(language)]
             get_info $tab tab txt
             if {[info exists finfo(indent)]} {
-              indent::set_indent_mode $txt $finfo(indent)
+              $txt configure -indentmode $finfo(indent)
             }
             if {[info exists finfo(encode)]} {
               set_encoding $tab $finfo(encode)
@@ -6029,6 +6030,52 @@ namespace eval gui {
 
     # Update the encode button
     $widgets(info_encode) configure -text [string toupper $encode]
+
+  }
+
+  ######################################################################
+  # Creates the indentation menu shown at the bottom right portion of the
+  # window.
+  proc create_indent_menu {w} {
+
+    # Create the menubutton menu
+    set mnu [menu ${w}Menu -tearoff 0]
+
+    # Populate the menu with the available indentation values
+    foreach {lbl mode} [list [msgcat::mc "No Indent"] "OFF" [msgcat::mc "Auto-Indent"] "IND" [msgcat::mc "Smart Indent"] "IND+"] {
+      $mnu add radiobutton -label $lbl -variable gui::current_indent \
+        -value $mode -command [list gui::set_current_indent_mode $mode]
+    }
+
+    # Register the menu
+    theme::register_widget $mnu menus
+
+    return $mnu
+
+  }
+
+  ######################################################################
+  # Sets the indentation mode of the current tab to be the value of mode
+  # which can have one of the following values:  OFF, IND or IND+
+  proc set_current_indent_mode {mode} {
+
+    variable widgets
+    variable current_indent
+
+    set txt [gui::current_txt]
+
+    # Set the current mode
+    $txt configure -indentmode $mode
+    set current_indent $mode
+
+    # Set the text widget's indent mode
+    folding::add_folds $txt 1.0 end
+
+    # Update the menu button
+    $widgets(info_indent) configure -text $mode
+
+    # Set the focus back to the text widget
+    catch { set_txt_focus [last_txt_focus] }
 
   }
 

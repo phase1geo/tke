@@ -532,7 +532,7 @@ namespace eval vim {
 
     # If the indentation mode will change, set it to the new value
     if {$curr ne $newval($curr,$type,$value)} {
-      indent::set_indent_mode $txt $newval($curr,$type,$value)
+      $txt configure -indentmode $newval($curr,$type,$value)
     }
 
   }

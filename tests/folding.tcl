@@ -94,10 +94,6 @@ if {c} {
   set d 1
 }}
 
-    # Enable code folding
-    # folding::add_folds $txt 1.0 end
-    puts [$txt get 1.0 end-1c]
-
     # Check to see that a fold only detected on the correct lines
     set opened_lines [list none open none end none open none end]
 
@@ -158,9 +154,6 @@ if {a} {
   }
 }}
 
-    # Make sure that syntax folding is enabled
-    folding::add_folds $txt 1.0 end
-
     # Verify that the code folding states are correct
     set states [list none open open none end end]
 
@@ -214,9 +207,6 @@ if {a} {
 for {set i 0} {i < 10} {incr i} {
   puts i
 }}
-
-    # Enable code folding
-    folding::add_folds $txt 1.0 end
 
     if {[folding::fold_state $txt 2] ne "open"} {
       cleanup "Folding state of line 2 is not open ([folding::fold_state $txt 2])"

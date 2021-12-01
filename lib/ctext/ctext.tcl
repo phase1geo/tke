@@ -7320,7 +7320,7 @@ namespace eval ctext {
     set count 0
 
     # Count all tags that are not within comments or are escaped
-    while {[set range [$win._t tag nextrange __$tag $start $end]] ne ""} {
+    while {[set range [$win tag nextrange __$tag $start $end]] ne ""} {
       incr count
       set start [lindex $range 1]
     }
