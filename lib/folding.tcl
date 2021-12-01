@@ -234,13 +234,15 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Returns true if a fold point has been detected at the given index.
+  # Returns the fold tag when we are in "syntax" code folding mode.
   proc check_fold_syntax {txt line} {
     set indent_cnt   [ctext::indent_get_tag_count $txt indent   $line.0 $line.end]
     set unindent_cnt [ctext::indent_get_tag_count $txt unindent $line.0 $line.end]
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
   }
 
+  ######################################################################
+  # Returns the fold tag when we are in "indent" code folding mode.
   proc check_fold_indent {txt line} {
     if {[$txt syntax contains prewhite $line.0]} {
       set prev 0
@@ -259,12 +261,16 @@ namespace eval folding {
     return ""
   }
 
+  ######################################################################
+  # Returns the fold tag when we are in "marker" code folding mode.
   proc check_fold_marker {txt line} {
     set indent_cnt   [llength [$txt search -all -regexp -- {\{\{\{\d*} $line.0 $line.end]]
     set unindent_cnt [llength [$txt search -all -regexp -- {\}\}\}}    $line.0 $line.end]]
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
   }
 
+  ######################################################################
+  # Returns the fold tag when we are in "none" code folding mode.
   proc check_fold_none {txt line} {
     return ""
   }

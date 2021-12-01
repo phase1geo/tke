@@ -543,7 +543,7 @@ namespace eval ctext {
     lappend argTable {1 true yes} -blockcursor {
       set data($win,config,-blockcursor) 1
       if {[$win._t compare "insert linestart" == "insert lineend"]} {
-        $win._t insert insert " " _dspace
+        insert_dspace $win insert
         $win._t mark set insert "insert linestart"
       }
       update_cursor $win
@@ -5527,7 +5527,7 @@ namespace eval ctext {
     }
 
     if {[$win._t compare "$index linestart" == "$index lineend"]} {
-      $win._t insert $index " " _dspace
+      insert_dspace $win $index
       $win._t mark set insert $index
 
     # If our cursor is going to fall of the end of the line, move it back by one character
@@ -5552,6 +5552,7 @@ namespace eval ctext {
     # mcursor doesn't look dumb.
     if {[$win._t compare "$index linestart" == "$index lineend"]} {
       $win._t insert $index " " [list _dspace _mcursor]
+      handleInsertAt0 $win $index "$index lineend"
 
     # Make sure that lineend is never the insertion point
     } elseif {[$win._t compare $index == "$index lineend"]} {
@@ -5613,12 +5614,12 @@ namespace eval ctext {
     }
 
     # Remove any existing dspace characters
-    remove_dspace $win
+    remove_dspaces $win
 
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$win._t compare "insert linestart" == "insert lineend"]} {
-      $win._t insert insert " " _dspace
+      insert_dspace $win insert
       $win._t mark set insert "insert-1c"
 
     # Make sure that lineend is never the insertion point
@@ -5629,14 +5630,37 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Inserts a dspace at the given index.
+  proc insert_dspace {win index} {
+
+    set index [$win._t index $index]
+
+    $win._t insert $index " " _dspace
+    handleInsertAt0 $win $index "$index+1c"
+
+  }
+
+  ######################################################################
+  # Removes the dspace at the given index.
+  proc remove_dspace {win index} {
+
+    if {[$win compare $index == "$index linestart"]} {
+      handleDeleteAt0 $win $index "$index+1c"
+    }
+
+    $win._t delete $index "$index+1c"
+
+  }
+
+  ######################################################################
   # Removes dspace characters.
-  proc remove_dspace {win} {
+  proc remove_dspaces {win} {
 
     set mcursors [lmap {startpos endpos} [$win._t tag ranges _mcursor] {list $startpos $endpos}]
 
     foreach {startpos endpos} [$win._t tag ranges _dspace] {
       if {[lsearch -index 0 $mcursors $startpos] == -1} {
-        $win._t delete $startpos $endpos
+        remove_dspace $win $startpos
       }
     }
 
