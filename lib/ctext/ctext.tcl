@@ -1242,9 +1242,12 @@ namespace eval ctext {
   ######################################################################
   # Adjusts the start and end indices such that start is less than or
   # equal to end.
-  proc adjust_start_end {win pstart pend} {
+  proc adjust_start_end {win pstart pend {adjust_end 0}} {
     upvar $pstart startpos
     upvar $pend   endpos
+    if {$adjust_end && [$win._t compare $endpos == end]} {
+      set endpos [$win._t index end-1c]
+    }
     if {[$win._t compare $endpos < $startpos]} {
       lassign [list $endpos $startpos] startpos endpos
     }
@@ -2070,9 +2073,9 @@ namespace eval ctext {
     lassign [lrange $args $i end] startspec endspec
     lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
 
-    foreach {endpos startpos} [lreverse $delranges] {
-      set startpos [$win index {*}$startspec -startpos $startpos]
-      set endpos   [$win index {*}$endspec   -startpos $startpos]
+    foreach {epos spos} [lreverse $delranges] {
+      set startpos [$win index {*}$startspec -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos $spos]
       adjust_start_end $win startpos endpos
       lappend strs [$win._t get $startpos $endpos]
       handleDeleteAt0        $win $startpos $endpos
@@ -2675,10 +2678,10 @@ namespace eval ctext {
 
     lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
 
-    foreach {endpos startpos} [lreverse $delranges] {
-      set startpos [$win index {*}$startspec -startpos $startpos]
-      set endpos   [$win index {*}$endspec   -startpos $startpos]
-      adjust_start_end $win startpos endpos
+    foreach {epos spos} [lreverse $delranges] {
+      set startpos [$win index {*}$startspec -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos $spos]
+      adjust_start_end $win startpos endpos 1
       lappend dstrs [$win._t get $startpos $endpos]
       lappend istrs $dat
       comments_chars_deleted $win $startpos $endpos do_tags
@@ -2757,7 +2760,7 @@ namespace eval ctext {
         lappend istrs $str
         comments_chars_deleted $win $startPos $endPos do_tags
         set t [handleReplaceDeleteAt0 $win $startPos $endPos]
-        $win._t replace $startPos $endPos $str [list {*}$tags lmargin rmargin [getLangTag $win $startPos]]
+        $win._t replace $startPos $endPos {*}[list $str [list {*}$tags lmargin rmargin [getLangTag $win $startPos]]]
         set new_endpos [$win._t index "$startPos+[string length $str]c"]
         set start      [$win._t index $new_endpos+1c]
         incr cindex
@@ -3191,16 +3194,17 @@ namespace eval ctext {
 
     lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
 
-    foreach {endpos startpos} [lreverse $delranges] {
-      set startpos [$win index {*}$startspec -startpos $startpos]
-      set endpos   [$win index {*}$endspec   -startpos $startpos]
+    foreach {epos spos} [lreverse $delranges] {
+      set startpos [$win index {*}$startspec -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos $spos]
+      adjust_start_end $win startpos endpos 1
       set old_str  [$win._t get $startpos $endpos]
       set new_str  [transform_$cmd $old_str]
       lappend dstrs $old_str
       lappend istrs $new_str
       comments_chars_deleted $win $startpos $endpos do_tags
       set t [handleReplaceDeleteAt0 $win $startpos $endpos]
-      $win._t replace $startpos $endpos $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startpos]]
+      $win._t replace $startpos $endpos {*}[list $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startpos]]]
       set new_endpos [$win._t index "$startpos+[string length $new_str]c"]
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
@@ -6716,7 +6720,7 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Returns the next or previous starting position for selected text.
+  # Returns the next or previous end position for selected text.
   proc getindex_selend {win startpos optlist} {
 
     array set opts {

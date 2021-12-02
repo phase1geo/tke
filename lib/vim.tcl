@@ -1680,9 +1680,7 @@ namespace eval vim {
           $txtt copy $sposargs $eposargs
         }
         $txtt delete $sposargs $eposargs
-        if {$opts(-cursor) ne ""} {
-          $txtt cursor set $opts(-cursor)
-        }
+        $txtt cursor set $opts(-cursor)
         command_mode $txtt
         return 1
       }
@@ -1950,11 +1948,10 @@ namespace eval vim {
           gui::search "prev"
           set search_dir($txtt) "prev"
         } elseif {$motion($txtt) eq "g"} {
-          if {[edit::transform_to_rot13_selected $txtt]} {
-            command_mode $txtt
-          } else {
-            set_operator $txtt "rot13" {g question}
-            set motion($txtt)   ""
+          set_operator $txtt "rot13" {g question}
+          set motion($txtt)   ""
+          if {[$txtt tag ranges sel] ne ""} {
+            return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
           }
           return 1
         }
@@ -2714,15 +2711,9 @@ namespace eval vim {
 
     switch $operator($txtt) {
       "" {
+        set_operator $txtt "yank" {y}
         if {[set ranges [$txtt tag ranges sel]] ne ""} {
-          clipboard clear
-          foreach {start end} $ranges {
-            clipboard append [$txtt get $start $end]
-          }
-          ::tk::TextSetCursor $txtt $start
-          command_mode $txtt
-        } else {
-          set_operator $txtt "yank" {y}
+          return [do_operation $txtt [list linestart -num [get_number $txtt]] linestart]
         }
         return 1
       }
@@ -2898,11 +2889,10 @@ namespace eval vim {
         if {$motion($txtt) eq ""} {
           undo $txtt
         } elseif {$motion($txtt) eq "g"} {
-          if {[edit::transform_to_lower_case_selected $txtt]} {
-            command_mode $txtt
-          } else {
-            set_operator $txtt "lower" {g u}
-            set motion($txtt) ""
+          set_operator $txtt "lower" {g u}
+          set motion($txtt) ""
+          if {[$txtt tag ranges sel] ne ""} {
+            return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
           }
           return 1
         }
@@ -2926,11 +2916,10 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {$motion($txtt) eq "g"} {
-          if {[edit::transform_to_upper_case_selected $txtt]} {
-            command_mode $txtt
-          } else {
-            set_operator $txtt "upper" {g U}
-            set motion($txtt) ""
+          set_operator $txtt "upper" {g U}
+          set motion($txtt) ""
+          if {[$txtt tag ranges sel] ne ""} {
+            return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
           }
           return 1
         }
@@ -3602,12 +3591,9 @@ namespace eval vim {
 
     switch $operator($txtt) {
       "" {
-        if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-          $txtt indent auto selstart selend
-          ::tk::TextSetCursor $txtt [$txtt index firstchar -startpos $startpos]]
-          command_mode $txtt
-        } else {
-          set_operator $txtt "format" {equal}
+        set_operator $txtt "format" {equal}
+        if {[$txtt tag ranges sel] ne ""} {
+          return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
         }
         return 1
       }
@@ -3684,13 +3670,12 @@ namespace eval vim {
       "" {
         if {$motion($txtt) eq ""} {
           set_operator $txtt "swap" {asciitilde}
-          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] cursor -cursor [list char -dir next -num [get_number $txtt]]]
+          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] cursor]
         } elseif {$motion($txtt) eq "g"} {
-          if {[edit::transform_toggle_case_selected $txtt]} {
-            command_mode $txtt
-          } else {
-            set_operator $txtt "swap" {g asciitilde}
-            set motion($txtt) ""
+          set_operator $txtt "swap" {g asciitilde}
+          set motion($txtt) ""
+          if {[$txtt tag ranges sel] ne ""} {
+            return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
           }
           return 1
         }
