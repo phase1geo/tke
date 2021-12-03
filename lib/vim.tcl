@@ -1632,12 +1632,15 @@ namespace eval vim {
   ######################################################################
   # Determines the operation cursor based on the current mode and returns it.
   proc get_operation_cursor {txtt cursor} {
+    variable motion
     if {[set sel [$txtt tag ranges sel]] ne ""} {
-      return [lindex $sel 0]
+      return [list [lindex $sel 0] [list -cursor cursor]]
     } elseif {$cursor eq ""} {
-      return cursor
+      return [list cursor [list]]
+    } elseif {[lindex $motion($txtt) end] eq "V"} {
+      return [list $cursor [list]]
     }
-    return $cursor
+    return [list $cursor [list -cursor $cursor]]
   }
 
   ######################################################################
@@ -1657,7 +1660,7 @@ namespace eval vim {
     }
     array set opts $args
 
-    set cursor [get_operation_cursor $txtt $opts(-cursor)]
+    lassign [get_operation_cursor $txtt $opts(-cursor)] cursor tcursor
 
     switch $operator($txtt) {
       "" {
@@ -1700,26 +1703,25 @@ namespace eval vim {
         return 1
       }
       "swap" {
-        $txtt transform $sposargs $eposargs toggle_case
-        $txtt cursor set $cursor
+        $txtt transform {*}$tcursor $sposargs $eposargs toggle_case
+        if {$tcursor eq ""} {
+          $txtt cursor set $cursor
+        }
         command_mode $txtt
         return 1
       }
       "upper" {
-        $txtt transform $sposargs $eposargs upper_case
-        $txtt cursor set $cursor
+        $txtt transform {*}$tcursor $sposargs $eposargs upper_case
         command_mode $txtt
         return 1
       }
       "lower" {
-        $txtt transform $sposargs $eposargs lower_case
-        $txtt cursor set $cursor
+        $txtt transform {*}$tcursor $sposargs $eposargs lower_case
         command_mode $txtt
         return 1
       }
       "rot13" {
-        $txtt transform $sposargs $eposargs rot13
-        $txtt cursor set $cursor
+        $txtt transform {*}$tcursor $sposargs $eposargs rot13
         command_mode $txtt
         return 1
       }
@@ -2170,7 +2172,7 @@ namespace eval vim {
       }
     }
 
-    return [do_operation $txtt $endargs $startargs]
+    return [do_operation $txtt $endargs $startargs -cursor cursor]
 
   }
 
@@ -2383,12 +2385,11 @@ namespace eval vim {
 
     # Move the insertion cursor left one character
     set startargs  cursor
-    set cursorargs [list left -num [get_number $txtt]]
+    set cursorargs cursor ;# [list left -num [get_number $txtt]]
     switch [lindex $motion($txtt) end] {
       "V" {
         set startargs  "linestart"
         set endargs    "lineend"
-        # set cursorargs "none"
       }
       "v" {
         set startargs right

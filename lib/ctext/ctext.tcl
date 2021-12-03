@@ -1951,11 +1951,7 @@ namespace eval ctext {
         return [expr [llength [$win._t tag ranges _mcursor]] / 2]
       }
       get {
-        set indices [list]
-        foreach {startpos endpos} [$win._t tag ranges _mcursor] {
-          lappend indices $startpos
-        }
-        return $indices
+        return [lmap {spos epos} [$win._t tag ranges _mcursor] {set spos}]
       }
       remove {
         foreach index [lrange $args 1 end] {
@@ -1979,6 +1975,25 @@ namespace eval ctext {
           return 1
         } else {
           set_cursor $win [$win index {*}[lindex $args 1]]
+          return 0
+        }
+      }
+      replace {
+        if {[llength $args] != 3} {
+          return -code error "Incorrect number of arguments to ctext cursor replace command"
+        }
+        if {[info procs getindex_[lindex $args 1 0]] eq ""} {
+          return -code error "ctext cursor replace command must be called with a relative index"
+        }
+        if {[$win._t tag ranges _mcursor] ne ""} {
+          clear_mcursors $win
+          foreach startpos [lindex $args 2] {
+            set_mcursor $win [$win index {*}[lindex $args 1] -startpos $startpos] $startpos
+            set data($win,mcursor_anchor) $startpos
+          }
+          return 1
+        } else {
+          set_cursor $win [$win index {*}[lindex $args 1] -startpos [lindex $args 2]] [lindex $args 2]
           return 0
         }
       }
@@ -2030,19 +2045,19 @@ namespace eval ctext {
   #   - starting index specification
   #   - ending index specification
   #   - set multicursor after edit
-  #   - cursor ranges
+  #   - cursor list
   proc get_delete_replace_info {win mcursor cursor startspec endspec} {
 
     # Figure out the ranges to delete
     if {[set ranges [$win._t tag ranges sel]] ne ""} {
-      return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] $ranges]
+      return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] [lmap {spos epos} $ranges {set spos}]]
     } else {
       if {$startspec eq ""} { set startspec cursor }
       if {$endspec   eq ""} { set endspec [list char -num 1] }
       if {$mcursor && ([set ranges [$win._t tag ranges _mcursor]] ne "")} {
-        return [list $startspec $endspec 1 $ranges]
+        return [list $startspec $endspec 1 [lmap {spos epos} $ranges {set spos}]]
       } else {
-        return [list $startspec $endspec 0 [list $cursor $cursor+1c]]
+        return [list $startspec $endspec 0 $cursor]
       }
     }
 
@@ -2064,16 +2079,16 @@ namespace eval ctext {
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    set delranges   [list]
+    set cursors     [list]
     set ranges      [list]
     set do_tags     [list]
     set cursor      [$win._t index insert]
     set set_mcursor 0
 
     lassign [lrange $args $i end] startspec endspec
-    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor cursors
 
-    foreach {epos spos} [lreverse $delranges] {
+    foreach spos [lreverse $cursors] {
       set startpos [$win index {*}$startspec -startpos $spos]
       set endpos   [$win index {*}$endspec   -startpos $spos]
       adjust_start_end $win startpos endpos
@@ -2285,10 +2300,11 @@ namespace eval ctext {
     set ranges      [list]
     set undo_append 0
     set cursor      [$win._t index insert]
+    set cursors     [list]
 
-    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $sspec $espec] sspec espec set_mcursor delranges
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $sspec $espec] sspec espec set_mcursor cursors
 
-    foreach {epos spos} [lreverse $delranges] {
+    foreach spos [lreverse $cursors] {
       indent_shift_$subcmd $win [$win index {*}$sspec -startpos $spos] [$win index {*}$espec -startpos $spos] $set_mcursor ranges undo_append
     }
 
@@ -2658,6 +2674,7 @@ namespace eval ctext {
       -moddata   {}
       -highlight 1
       -mcursor   1
+      -cursor    ""
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2675,10 +2692,11 @@ namespace eval ctext {
     set rranges [list]
     set do_tags [list]
     set cursor  [$win._t index insert]
+    set cursors [list]
 
-    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor cursors
 
-    foreach {epos spos} [lreverse $delranges] {
+    foreach spos [lreverse $cursors] {
       set startpos [$win index {*}$startspec -startpos $spos]
       set endpos   [$win index {*}$endspec   -startpos $spos]
       adjust_start_end $win startpos endpos 1
@@ -2691,6 +2709,10 @@ namespace eval ctext {
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
       lappend rranges $startpos $new_endpos
+    }
+
+    if {$opts(-cursor) ne ""} {
+      $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
     }
 
     undo_replace    $win $uranges $dstrs $istrs $cursor
@@ -3182,6 +3204,7 @@ namespace eval ctext {
       -moddata   {}
       -highlight 1
       -mcursor   1
+      -cursor    ""
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -3191,10 +3214,11 @@ namespace eval ctext {
     set rranges [list]
     set do_tags [list]
     set cursor  [$win._t index insert]
+    set cursors [list]
 
-    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor delranges
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor cursors
 
-    foreach {epos spos} [lreverse $delranges] {
+    foreach spos [lreverse $cursors] {
       set startpos [$win index {*}$startspec -startpos $spos]
       set endpos   [$win index {*}$endspec   -startpos $spos]
       adjust_start_end $win startpos endpos 1
@@ -3209,6 +3233,10 @@ namespace eval ctext {
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
       lappend rranges $startpos $new_endpos
+    }
+
+    if {$opts(-cursor) ne ""} {
+      $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
     }
 
     undo_replacelist $win $uranges $dstrs $istrs $cursor

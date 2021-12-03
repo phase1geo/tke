@@ -74,7 +74,7 @@ namespace eval transform {
 
     enter $txtt $cmdlist
     if {[$txtt get 1.0 end-1c] ne $value} {
-      cleanup "$id transform is not correct ([$txtt get 1.0 end-1c])"
+      cleanup "$id transform is not correct ([string map {\n .\n} [$txtt get 1.0 end-1c]])"
     }
     if {$vim::mode($txtt) ne "command"} {
       cleanup "$id not in command mode"
