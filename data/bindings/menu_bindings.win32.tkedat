@@ -16,7 +16,7 @@
 
 # Edit menu bindings
 {Edit/Undo}                               Ctrl-Z
-{Edit/Redo}                               Ctrl-R
+{Edit/Redo}                               Shift-Ctrl-Z
 {Edit/Cut}                                Ctrl-X
 {Edit/Copy}                               Ctrl-C
 {Edit/Paste}                              Ctrl-V

@@ -15,7 +15,7 @@
 
 # Edit menu bindings
 {Edit/Undo}                               Cmd-Z
-{Edit/Redo}                               Cmd-R
+{Edit/Redo}                               Shift-Cmd-Z
 {Edit/Cut}                                Cmd-X
 {Edit/Copy}                               Cmd-C
 {Edit/Paste}                              Cmd-V

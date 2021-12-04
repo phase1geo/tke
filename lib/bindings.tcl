@@ -452,7 +452,11 @@ namespace eval bindings {
         if {$alt} {
           append sequence "Mod2-"
         }
-        append sequence [string tolower $value]
+        if {$shift} {
+          append sequence $value
+        } else {
+          append sequence [string tolower $value]
+        }
       } else {
         append sequence $value
       }
@@ -463,6 +467,8 @@ namespace eval bindings {
     }
 
     append sequence ">"
+
+    puts "accelerator: ($accelerator), sequence: $sequence"
 
     return $sequence
 
