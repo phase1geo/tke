@@ -2439,7 +2439,7 @@ namespace eval menus {
 
     # Get the line number from the user
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Line Number"]] linenum] && [string is integer $linenum]} {
-      edit::jump_to_line [gui::current_txt].t $linenum.0
+      [gui::current_txt].t cursor set $linenum.0
     }
 
   }

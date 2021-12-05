@@ -192,8 +192,8 @@ namespace eval selectmode {
     $txtt tag remove sel 1.0 end
 
     # Make sure that selection mode is correct when text is preselected
-    $txtt tag add sel 1.0 1.4
     $txtt cursor set 1.4
+    $txtt tag add sel 1.0 1.4
     select::set_select_mode $txtt 1
     do_test $txtt 12 {}     {1.0 1.4} 0 char
     do_test $txtt 13 Escape {}        0 none
@@ -340,8 +340,8 @@ namespace eval selectmode {
     do_test $txtt 2  {2 l} {1.0 1.14}  0 word
     do_test $txtt 3  {4 l} {1.0 2.7}   0 word
     do_test $txtt 4  h     {1.0 2.4}   0 word
-    do_test $txtt 5  {2 h} {1.0 1.19}  0 word
-    do_test $txtt 6  {3 h} {1.0 1.7}   0 word
+    do_test $txtt 5  {2 h} {1.0 1.20}  0 word
+    do_test $txtt 6  {4 h} {1.0 1.7}   0 word
     do_test $txtt 7  L     {1.5 1.9}   0 word
     do_test $txtt 8  {2 L} {1.10 1.19} 0 word
     do_test $txtt 9  H     {1.8 1.14}  0 word

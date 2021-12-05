@@ -298,7 +298,7 @@ namespace eval vim {
 
           # Jump to line
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
-            edit::jump_to_line $txt.t [get_linenum $txt $value]
+            $txt cursor set [get_linenum $txt $value]
 
           # Add multicursors to a range of lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
@@ -1631,21 +1631,25 @@ namespace eval vim {
 
   ######################################################################
   # Determines the operation cursor based on the current mode and returns it.
-  proc get_operation_cursor {txtt cursor} {
+  proc get_operation_cursors {txtt precursor postcursor} {
     variable motion
     if {[set sel [$txtt tag ranges sel]] ne ""} {
-      return [list [lindex $sel 0] [list -cursor cursor]]
-    } elseif {$cursor eq ""} {
-      return [list cursor [list]]
-    } elseif {[lindex $motion($txtt) end] eq "V"} {
-      return [list $cursor [list]]
+      set precursor  [list -cursor cursor]
+      set postcursor [lindex $sel 0]
+    } elseif {$precursor ne ""} {
+      set precursor [list -cursor $precursor]
     }
-    return [list $cursor [list -cursor $cursor]]
+    return [list $precursor $postcursor]
   }
 
   ######################################################################
   # Performs the current motion-specific operation on the text range specified
   # by startpos/endpos.
+  #
+  # Options:
+  #   -precursor  cursorspec  Sets the cursor based on the starting position(s) before the operation
+  #   -postcursor cursorpsec  Sets the cursor based on the cursor position after the operation
+  #   -object     (a|i)       i=inclusive, e=exclusive
   proc do_operation {txtt eposargs {sposargs cursor} args} {
 
     variable mode
@@ -1655,12 +1659,13 @@ namespace eval vim {
     variable number
 
     array set opts {
-      -cursor ""
-      -object ""
+      -precursor  ""
+      -postcursor ""
+      -object     ""
     }
     array set opts $args
 
-    lassign [get_operation_cursor $txtt $opts(-cursor)] cursor tcursor
+    lassign [get_operation_cursors $txtt $opts(-precursor) $opts(-postcursor)] precursor postcursor
 
     switch $operator($txtt) {
       "" {
@@ -1683,7 +1688,7 @@ namespace eval vim {
           $txtt copy $sposargs $eposargs
         }
         $txtt delete $sposargs $eposargs
-        $txtt cursor set $opts(-cursor)
+        $txtt cursor set $opts(-postcursor)
         command_mode $txtt
         return 1
       }
@@ -1698,30 +1703,41 @@ namespace eval vim {
       }
       "yank" {
         $txtt copy $sposargs $eposargs
-        $txtt cursor set $cursor
+        if {$postcursor ne ""} {
+          $txtt cursor set $postcursor
+        }
         command_mode $txtt
         return 1
       }
       "swap" {
-        $txtt transform {*}$tcursor $sposargs $eposargs toggle_case
-        if {$tcursor eq ""} {
-          $txtt cursor set $cursor
+        $txtt transform {*}$precursor $sposargs $eposargs toggle_case
+        if {($precursor eq "") && ($postcursor ne "")} {
+          $txtt cursor set $postcursor
         }
         command_mode $txtt
         return 1
       }
       "upper" {
-        $txtt transform {*}$tcursor $sposargs $eposargs upper_case
+        $txtt transform {*}$precursor $sposargs $eposargs upper_case
+        if {($precursor eq "") && ($postcursor ne "")} {
+          $txtt cursor set $postcursor
+        }
         command_mode $txtt
         return 1
       }
       "lower" {
-        $txtt transform {*}$tcursor $sposargs $eposargs lower_case
+        $txtt transform {*}$precursor $sposargs $eposargs lower_case
+        if {($precursor eq "") && ($postcursor ne "")} {
+          $txtt cursor set $postcursor
+        }
         command_mode $txtt
         return 1
       }
       "rot13" {
-        $txtt transform {*}$tcursor $sposargs $eposargs rot13
+        $txtt transform {*}$precursor $sposargs $eposargs rot13
+        if {($precursor eq "") && ($postcursor ne "")} {
+          $txtt cursor set $postcursor
+        }
         command_mode $txtt
         return 1
       }
@@ -1807,15 +1823,15 @@ namespace eval vim {
     variable operator
 
     # Determine where to put the cursor
-    set cursorargs "none"
+    set postcursor ""
     if {$dir eq "prev"} {
-      set cursorargs [list findchar -dir prev -char $char -num [get_number $txtt] -exclusive $excl]
+      set postcursor [list findchar -dir prev -char $char -num [get_number $txtt] -exclusive $excl]
     }
 
     if {($operator($txtt) eq "") || ($dir eq "prev")} {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] cursor -cursor $cursorargs]
+      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] cursor -precursor cursor -postcursor $postcursor]
     } else {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl -adjust "+1 display chars"]]
+      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl -adjust "+1 display chars"] cursor -precursor cursor]
     }
 
   }
@@ -1959,7 +1975,7 @@ namespace eval vim {
         }
       }
       "rot13" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -postcursor linestart]
       }
     }
 
@@ -2172,7 +2188,7 @@ namespace eval vim {
       }
     }
 
-    return [do_operation $txtt $endargs $startargs -cursor cursor]
+    return [do_operation $txtt $endargs $startargs -precursor cursor]
 
   }
 
@@ -2385,7 +2401,8 @@ namespace eval vim {
 
     # Move the insertion cursor left one character
     set startargs  cursor
-    set cursorargs cursor ;# [list left -num [get_number $txtt]]
+    # set cursorargs [list -precursor cursor]
+    set cursorargs [list -postcursor [list left -num [get_number $txtt]]]
     switch [lindex $motion($txtt) end] {
       "V" {
         set startargs  "linestart"
@@ -2400,7 +2417,7 @@ namespace eval vim {
       }
     }
 
-    return [do_operation $txtt $endargs $startargs -cursor $cursorargs]
+    return [do_operation $txtt $endargs $startargs {*}$cursorargs]
 
   }
 
@@ -2607,7 +2624,7 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        return [do_operation $txtt [list linestart -num [get_number $txtt]] linestart -cursor "firstchar -num 0"]
+        return [do_operation $txtt [list linestart -num [get_number $txtt]] linestart -postcursor "firstchar -num 0"]
       }
       "folding" {
         folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2899,7 +2916,7 @@ namespace eval vim {
         }
       }
       "lower" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -postcursor linestart]
       }
     }
 
@@ -2926,7 +2943,7 @@ namespace eval vim {
         }
       }
       "upper" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -postcursor linestart]
       }
     }
 
@@ -3676,13 +3693,13 @@ namespace eval vim {
           set_operator $txtt "swap" {g asciitilde}
           set motion($txtt) ""
           if {[$txtt tag ranges sel] ne ""} {
-            return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
+            return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -postcursor linestart]
           }
           return 1
         }
       }
       "swap" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor linestart]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -postcursor linestart]
       }
     }
 
@@ -3821,7 +3838,7 @@ namespace eval vim {
       }
     }
 
-    return [do_operation $txtt $endargs $startargs]
+    return [do_operation $txtt $endargs $startargs -precursor cursor]
 
   }
 
@@ -3859,7 +3876,7 @@ namespace eval vim {
       }
     }
 
-    return [do_operation $txtt $endargs $startargs -cursor $cursorargs]
+    return [do_operation $txtt $endargs $startargs -postcursor $cursorargs]
 
   }
 

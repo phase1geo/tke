@@ -468,8 +468,6 @@ namespace eval bindings {
 
     append sequence ">"
 
-    puts "accelerator: ($accelerator), sequence: $sequence"
-
     return $sequence
 
   }

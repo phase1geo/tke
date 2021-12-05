@@ -1130,15 +1130,6 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Jumps to the given line number.
-  proc jump_to_line {txt linenum} {
-
-    # Set the insertion cursor to the given line number
-    ::tk::TextSetCursor $txt $linenum
-
-  }
-
-  ######################################################################
   # Handles word/WORD range motions.
   proc get_range_word {txtt type num inner adjust {cursor insert}} {
 
