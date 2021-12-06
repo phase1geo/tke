@@ -1246,6 +1246,7 @@ namespace eval vim {
       foreach {start end} [$txtt tag ranges mcursor] {
         lappend select_anchors($txtt) $start
       }
+      $txtt configure -multimove 1
     } else {
       set select_anchors($txtt) [$txtt index insert]
     }
@@ -1670,7 +1671,11 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {[$txtt cget -multimove]} {
-          $txtt cursor move $eposargs
+          if {[in_visual_mode $txtt]} {
+            $txtt cursor select $eposargs
+          } else {
+            $txtt cursor move $eposargs
+          }
         } elseif {$opts(-object) ne ""} {
           if {$sposargs ne "cursor"} {
             $txtt cursor set $sposargs
