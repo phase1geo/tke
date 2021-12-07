@@ -86,20 +86,20 @@ namespace eval select {
 
     bind select <<Selection>>                   [list select::handle_selection %W]
     bind select <FocusOut>                      [list select::handle_focusout %W]
-    bind select <Key>                           "if {\[select::handle_any %W %K\]} break"
-    bind select <Return>                        "if {\[select::handle_return %W\]} break"
-    bind select <Escape>                        "if {\[select::handle_escape %W\]} break"
-    bind select <BackSpace>                     "if {\[select::handle_backspace %W\]} break"
-    bind select <Delete>                        "if {\[select::handle_delete %W\]} break"
-    bind select <Double-Button-1>               "if {\[select::handle_double_click %W %x %y\]} break"
-    bind select <Triple-Button-1>               "if {\[select::handle_triple_click %W %x %y\]} break"
-    bind select <$alt-ButtonPress-1>            "if {\[select::handle_single_press %W %x %y\]} break"
-    bind select <$alt-ButtonRelease-1>          "if {\[select::handle_single_release %W %x %y\]} break"
-    bind select <$alt-B1-Motion>                "if {\[select::handle_alt_motion %W %x %y\]} break"
-    bind select <Control-Double-Button-1>       "if {\[select::handle_control_double_click %W %x %y\]} break"
-    bind select <Control-Triple-Button-1>       "if {\[select::handle_control_triple_click %W %x %y\]} break"
-    bind select <Shift-Control-Double-Button-1> "if {\[select::handle_shift_control_double_click %W %x %y\]} break"
-    bind select <Shift-Control-Triple-Button-1> "if {\[select::handle_shift_control_triple_click %W %x %y\]} break"
+    bind select <Key>                           [list select::handle_any %W %K]
+    bind select <Return>                        [list select::handle_return %W]
+    bind select <Escape>                        [list select::handle_escape %W]
+    bind select <BackSpace>                     [list select::handle_backspace %W]
+    bind select <Delete>                        [list select::handle_delete %W]
+    bind select <Double-Button-1>               [list select::handle_double_click %W %x %y]
+    bind select <Triple-Button-1>               [list select::handle_triple_click %W %x %y]
+    bind select <$alt-ButtonPress-1>            [list select::handle_single_press %W %x %y]
+    bind select <$alt-ButtonRelease-1>          [list select::handle_single_release %W %x %y]
+    bind select <$alt-B1-Motion>                [list select::handle_alt_motion %W %x %y]
+    bind select <Control-Double-Button-1>       [list select::handle_control_double_click %W %x %y]
+    bind select <Control-Triple-Button-1>       [list select::handle_control_triple_click %W %x %y]
+    bind select <Shift-Control-Double-Button-1> [list select::handle_shift_control_double_click %W %x %y]
+    bind select <Shift-Control-Triple-Button-1> [list select::handle_shift_control_triple_click %W %x %y]
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
@@ -824,7 +824,7 @@ namespace eval select {
     variable data
 
     if {$data($txtt,mode) == 0} {
-      return 0
+      return -code continue
     }
 
     # Disable selection mode
@@ -836,7 +836,7 @@ namespace eval select {
     # Hide the help window if it is displayed
     hide_help
 
-    return 1
+    return -code break
 
   }
 
@@ -848,7 +848,7 @@ namespace eval select {
     variable data
 
     if {$data($txtt,mode) == 0} {
-      return 0
+      return -code continue
     }
 
     # This is only necessary for BIST testing on MacOS, but it should not hurt
@@ -859,7 +859,7 @@ namespace eval select {
     # Clear the selection
     $txtt tag remove sel 1.0 end
 
-    return 1
+    return -code break
 
   }
 
@@ -871,7 +871,7 @@ namespace eval select {
     variable data
 
     if {$data($txtt,mode) == 0} {
-      return 0
+      return -code continue
     }
 
     # Delete the text
@@ -884,7 +884,7 @@ namespace eval select {
     # Hide the help window
     hide_help
 
-    return 1
+    return -code break
 
   }
 
@@ -896,7 +896,7 @@ namespace eval select {
     variable data
 
     if {$data($txtt,mode) == 0} {
-      return 0
+      return -code continue
     }
 
     # Delete the text
@@ -909,7 +909,7 @@ namespace eval select {
     # Hide the help window
     hide_help
 
-    return 1
+    return -code break
 
   }
 
@@ -982,6 +982,8 @@ namespace eval select {
 
     variable data
 
+    puts "In select::handle_single_press"
+
     # Change the anchor end
     set data($txtt,anchorend) 0
 
@@ -991,7 +993,7 @@ namespace eval select {
     # Set the insertion cursor
     $txtt mark set insert $data($txtt,anchor)
 
-    return 0
+    return -code continue
 
   }
 
@@ -999,7 +1001,7 @@ namespace eval select {
   # Handle a single click event release event.
   proc handle_single_release {txtt x y} {
 
-    return 1
+    return -code break
 
   }
 
@@ -1010,7 +1012,7 @@ namespace eval select {
     # Set the selection type to inner word
     set_type $txtt word
 
-    return 0
+    return -code continue
 
   }
 
@@ -1025,7 +1027,7 @@ namespace eval select {
     # Update the selection
     update_selection $txtt init -startpos [$txtt index @$x,$y]
 
-    return 1
+    return -code break
 
   }
 
@@ -1081,7 +1083,7 @@ namespace eval select {
 
     }
 
-    return 1
+    return -code break
 
   }
 
@@ -1093,7 +1095,7 @@ namespace eval select {
     # Set the selection type to inner line
     set_type $txtt line
 
-    return 0
+    return -code continue
 
   }
 
@@ -1108,7 +1110,7 @@ namespace eval select {
     # Update the selection
     update_selection $txtt init -startpos [$txtt index @$x,$y]
 
-    return 1
+    return -code break
 
   }
 
@@ -1123,7 +1125,7 @@ namespace eval select {
     # Update the selection
     update_selection $txtt init -startpos [$txtt index @$x,$y]
 
-    return 1
+    return -code break
 
   }
 
@@ -1171,7 +1173,7 @@ namespace eval select {
 
     handle_block_selection $txtt $data($txtt,anchor) [$txtt index @$x,$y]
 
-    return 1
+    return -code break
 
   }
 
@@ -1182,7 +1184,7 @@ namespace eval select {
     variable data
 
     if {$data($txtt,mode) == 0} {
-      return 0
+      return -code continue
     }
 
     # Check to see if the selection window exists
@@ -1204,7 +1206,7 @@ namespace eval select {
       hide_help
     }
 
-    return 1
+    return -code break
 
   }
 

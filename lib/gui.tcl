@@ -1042,8 +1042,6 @@ namespace eval gui {
     variable widgets
     variable last_opened
 
-    puts "In save_session"
-
     # Gather content to save
     set content(Geometry)                [::window_geometry .]
     set content(Fullscreen)              [wm attributes . -fullscreen]
@@ -1123,7 +1121,6 @@ namespace eval gui {
       }
 
       # Set the current tab for the pane (if one exists)
-      puts "current_tab: $current_tab"
       if {$current_tab ne ""} {
         lappend content(CurrentTabs) $current_tab
       }
@@ -3972,7 +3969,7 @@ namespace eval gui {
   # multicursor mode.
   proc insert_numbers {txt} {
 
-    if {[multicursor::enabled $txt]} {
+    if {[$txt cursor enabled]} {
 
       set var1 ""
 
@@ -3980,7 +3977,7 @@ namespace eval gui {
       if {[get_user_response [msgcat::mc "Starting number:"] var1]} {
 
         # Insert the numbers (if not successful, output an error to the user)
-        if {![multicursor::insert_numbers $txt $var1]} {
+        if {![$txt cursor enumerate $var1]} {
           set_info_message [msgcat::mc "Unable to successfully parse number string"]
         }
 
@@ -4577,7 +4574,6 @@ namespace eval gui {
     if {!$opts(-diff)} {
       # indent::add_bindings      $txt
       vim::set_vim_mode         $txt
-      # multicursor::add_bindings $txt
       completer::add_bindings   $txt
     }
     select::add $txt $tab.sb
@@ -4698,7 +4694,6 @@ namespace eval gui {
     # Add the text bindings
     # indent::add_bindings          $txt2
     vim::set_vim_mode             $txt2
-    # multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
     plugins::handle_text_bindings $txt2 {}
     make_drop_target              $txt2 text
@@ -5178,16 +5173,7 @@ namespace eval gui {
       format_dropped_data $txt data cursor
 
       # Insert the data
-      if {[multicursor::enabled $txt.t]} {
-        multicursor::insert $txt.t $data
-      } else {
-        $txt insert cursor $data
-      }
-
-      # If we need to adjust the cursor(s) do it now.
-      if {$cursor != 0} {
-        # TBD
-      }
+      $txt insert cursor $data
 
     # Otherwise, insert the content of the file(s) after the insertion line
     } elseif {![::check_file_for_import $data] && ![utils::is_binary $data]} {
@@ -5200,11 +5186,7 @@ namespace eval gui {
           }
         }
       }
-      if {[multicursor::enabled $txt.t]} {
-        multicursor::insert $txt.t $str
-      } else {
-        $txt insert "insert lineend" $str
-      }
+      $txt insert "insert lineend" $str
     }
 
   }

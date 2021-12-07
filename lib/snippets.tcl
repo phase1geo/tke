@@ -161,9 +161,9 @@ namespace eval snippets {
     set expandtabs($txt.t) [expr [syntax::get_tabs_allowed $txt] ? 0 : 1]
 
     # Bind whitespace
-    bind snippet$txt <Key-space> "if {\[snippets::check_snippet %W %K\]} { break }"
-    bind snippet$txt <Return>    "if {\[snippets::check_snippet %W %K\]} { break }"
-    bind snippet$txt <Tab>       "if {\[snippets::handle_tab %W\]} { break }"
+    bind snippet$txt <Key-space> [list snippets::check_snippet %W %K break]
+    bind snippet$txt <Return>    [list snippets::check_snippet %W %K break]
+    bind snippet$txt <Tab>       [list snippets::handle_tab %W break]
 
     set all_index [lsearch -exact [bindtags $txt.t] all]
     bindtags $txt.t [linsert [bindtags $txt.t] $all_index snippet$txt]
@@ -184,7 +184,7 @@ namespace eval snippets {
 
   ######################################################################
   # Handles a tab key event.
-  proc handle_tab {txtt} {
+  proc handle_tab {txtt {retcode ok}} {
 
     variable expandtabs
 
@@ -193,15 +193,15 @@ namespace eval snippets {
         if {[string is space [$txtt get insert]] || ([lsearch [$txtt tag names insert] __prewhite] != -1)} {
           if {$expandtabs($txtt)} {
             $txtt insert cursor [string repeat " " [$txtt get -tabstop]]
-            return 1
+            return -code break
           }
         } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
           $txtt cursor set $index
-          return 1
+          return -code break
         }
       }
     } else {
-      return 1
+      return -code $retcode 1
     }
 
     return 0
@@ -212,7 +212,7 @@ namespace eval snippets {
   # Checks the text widget to see if a snippet name was just typed in
   # the text widget.  If it was, delete the string and replace it with
   # the snippet string.
-  proc check_snippet {txtt keysym} {
+  proc check_snippet {txtt keysym {retcode ok}} {
 
     variable snippets
     variable tabpoints
@@ -231,7 +231,11 @@ namespace eval snippets {
     # If the snippet exists, perform the replacement.
     foreach type [list $lang user] {
       if {[info exists snippets($type,$last_word)]} {
-        return [insert_snippet $txtt $snippets($type,$last_word) -delrange [list "insert-1c wordstart" "insert-1c wordend"]]
+        if {[insert_snippet $txtt $snippets($type,$last_word) -delrange [list "insert-1c wordstart" "insert-1c wordend"]]} {
+          return -code $retcode 1
+        } else {
+          return 0
+        }
       }
     }
 

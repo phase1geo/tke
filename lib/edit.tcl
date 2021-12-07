@@ -48,7 +48,7 @@ namespace eval edit {
     vim::edit_mode $txtt
 
     # Create the new line
-    if {[multicursor::enabled $txtt]} {
+    if {[$txtt cursor enabled]} {
       multicursor::move $txtt up
     } elseif {[$txtt compare "insert linestart" == 1.0]} {
       $txtt insert "insert linestart" "\n"
@@ -73,7 +73,7 @@ namespace eval edit {
     set insert [$txtt index insert]
 
     # Add the line(s)
-    if {[multicursor::enabled $txtt]} {
+    if {[$txtt cursor enabled]} {
       multicursor::move $txtt down
     } else {
       ::tk::TextSetCursor $txtt "insert lineend"
@@ -229,158 +229,88 @@ namespace eval edit {
   ######################################################################
   # Delete from the current cursor to the end of the line
   proc delete_to_end {txtt copy {num 1}} {
-
-    # Delete from the current cursor to the end of the line
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "lineend"
-    } else {
-      set endpos [$txtt index lineend -num $num]+1c
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get insert $endpos]
-      }
-      $txtt delete insert $endpos
+    set espec [list lineend -num $num -adjust +1c]
+    if {$copy} {
+      $txtt copy cursor $espec
     }
-
+    $txtt delete cursor $espec
   }
 
   ######################################################################
   # Delete from the start of the current line to just before the current cursor.
   proc delete_from_start {txtt copy} {
-
-    # Delete from the beginning of the line to just before the current cursor
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "linestart"
-    } else {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get "insert linestart" insert]
-      }
-      $txtt delete "insert linestart" insert
+    set sspec [list linestart -num $num]
+    if {$copy} {
+      $txtt copy $sspec cursor
     }
-
+    $txtt delete $sspec cursor
   }
 
   ######################################################################
   # Delete from the start of the firstchar to just before the current cursor.
   proc delete_to_firstchar {txtt copy} {
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt firstchar
-    } else {
-      set firstchar [$txtt index firstchar]
-      if {[$txtt compare $firstchar < insert]} {
-        if {$copy} {
-          clipboard clear
-          clipboard append [$txtt get $firstchar insert]
-        }
-        $txtt delete $firstchar insert
-      } elseif {[$txtt compare $firstchar > insert]} {
-        if {$copy} {
-          clipboard clear
-          clipboard append [$txtt get insert $firstchar]
-        }
-        $txtt delete insert $firstchar
-      }
+    if {$copy} {
+      $txtt copy cursor firstchar
     }
-
+    $txtt delete cursor firstchar
   }
 
   ######################################################################
   # Delete all consecutive numbers from cursor to end of line.
   proc delete_next_numbers {txtt copy} {
-
-    variable patterns
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(nnumber)
-    } elseif {[regexp $patterns(nnumber) [$txtt get insert "insert lineend"] match]} {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get insert "insert+[string length $match]c"]
-      }
-      $txtt delete insert "insert+[string length $match]c"
+    if {$copy} {
+      $txtt copy cursor numberend
     }
-
+    $txtt delete cursor numberend
   }
 
   ######################################################################
   # Deletes all consecutive numbers from the insertion toward the start of
   # the current line.
   proc delete_prev_numbers {txtt copy} {
-
-    variable patterns
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(pnumber)
-    } elseif {[regexp $patterns(pnumber) [$txtt get "insert linestart" insert] match]} {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get "insert-[string length $match]c" insert]
-      }
-      $txtt delete "insert-[string length $match]c" insert
+    if {$copy} {
+      $txtt copy numberstart cursor
     }
-
+    $txtt delete numberstart cursor
   }
 
   ######################################################################
   # Deletes all consecutive whitespace starting from cursor to the end of
   # the line.
   proc delete_next_space {txtt} {
-
-    variable patterns
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(nspace)
-    } elseif {[regexp $patterns(nspace) [$txtt get insert "insert lineend"] match]} {
-      $txtt delete insert "insert+[string length $match]c"
+    if {$copy} {
+      $txtt copy cursor spaceend
     }
-
+    $txtt delete cursor spaceend
   }
 
   ######################################################################
   # Deletes all consecutive whitespace starting from cursor to the start
   # of the line.
   proc delete_prev_space {txtt} {
-
-    variable patterns
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt pattern $patterns(pspace)
-    } elseif {[regexp $patterns(pspace) [$txtt get "insert linestart" insert] match]} {
-      $txtt delete "insert-[string length $match]c" insert
-    }
-
+    $txtt delete spacestart cursor
   }
 
   ######################################################################
   # Deletes from the current insert postion to (and including) the next
   # character on the current line.
   proc delete_to_next_char {txtt char copy {num 1} {exclusive 0}} {
-
-    if {[set index [$txtt index findchar -dir next -char $char -num $num -exclusive $exclusive]] ne "insert"} {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get insert $index]
-      }
-      $txtt delete insert $index
+    set espec [list findchar -dir next -char $char -num $num -exclusive $exclusive]
+    if {$copy} {
+      $txtt copy cursor $espec
     }
-
+    $txtt delete cursor $espec
   }
 
   ######################################################################
   # Deletes from the current insert position to (and including) the
   # previous character on the current line.
   proc delete_to_prev_char {txtt char copy {num 1} {exclusive 0}} {
-
-    if {[set index [$txt index findchar -dir prev -char $char -num $num -exclusive $exclusive]] ne "insert"} {
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get $index insert]
-      }
-      $txtt delete $index insert
+    set sspec [list findchar -dir prev -char $char -num $num -exclusive $exclusive]
+    if {$copy} {
+      $txtt copy $sspec cursor
     }
-
+    $txtt delete $sspec cursor
   }
 
   ######################################################################
@@ -1100,7 +1030,7 @@ namespace eval edit {
     set txt [gui::current_txt]
 
     # Align multicursors only
-    multicursor::align $txt
+    $txt cursor align
 
   }
 
@@ -1113,7 +1043,7 @@ namespace eval edit {
     set txt [gui::current_txt]
 
     # Align multicursors
-    multicursor::align_with_text $txt
+    $txt cursor align_with_text
 
   }
 

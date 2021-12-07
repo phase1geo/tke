@@ -939,7 +939,7 @@ namespace eval vim {
     variable findchar
 
     # Change the cursor to the block cursor
-    $txt configure -blockcursor true -insertwidth 1
+    $txt configure -blockcursor true -insertwidth 1 -multimove 0
 
     # Put ourselves into start mode
     set mode($txt.t)             "command"
@@ -954,16 +954,16 @@ namespace eval vim {
     set findchar($txt.t)         [list]
 
     # Add bindings
-    bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
-    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A %K\]} { break }"
-    bind vim$txt <Control-Button-1>      "vim::nil"
-    bind vim$txt <Shift-Button-1>        "vim::nil"
-    bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"
-    bind vim$txt <Double-Shift-Button-1> "vim::nil"
-    bind vim$txt <Double-Button-1>       "vim::handle_double_button1 %W %x %y; break"
-    bind vim$txt <Triple-Button-1>       "vim::nil"
-    bind vim$txt <Triple-Shift-Button-1> "vim::nil"
-    bind vim$txt <B1-Motion>             "vim::handle_motion %W %x %y; break"
+    bind vim$txt <Escape>                [list vim::handle_escape %W break]
+    bind vim$txt <Key>                   [list vim::handle_any %W %k %A %K break]
+    bind vim$txt <Control-Button-1>      [list vim::nil]
+    bind vim$txt <Shift-Button-1>        [list vim::nil]
+    # bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"
+    bind vim$txt <Double-Shift-Button-1> [list vim::nil]
+    # bind vim$txt <Double-Button-1>       "vim::handle_double_button1 %W %x %y; break"
+    bind vim$txt <Triple-Button-1>       [list vim::nil]
+    bind vim$txt <Triple-Shift-Button-1> [list vim::nil]
+    # bind vim$txt <B1-Motion>             "vim::handle_motion %W %x %y; break"
 
     # Insert the vim binding just after all
     set all_index [lsearch [bindtags $txt.t] all]
@@ -1078,7 +1078,7 @@ namespace eval vim {
     bind $txt <<Modified>> ""
 
     # Change the cursor to the insertion cursor and turn autoseparators on
-    $txt configure -blockcursor false -autoseparators 1 -insertwidth [preferences::get Appearance/CursorWidth]
+    $txt configure -blockcursor false -autoseparators 1 -multimove 1 -insertwidth [preferences::get Appearance/CursorWidth]
 
   }
 
@@ -1132,7 +1132,7 @@ namespace eval vim {
     disable_multimove $txtt
 
     # Set the blockcursor to false
-    $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
+    $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth] -multimove 1
 
   }
 
@@ -1172,7 +1172,7 @@ namespace eval vim {
     }
 
     # Set the blockcursor to true
-    $txtt configure -blockcursor true -insertwidth 1
+    $txtt configure -blockcursor true -insertwidth 1 -multimove 0
 
     # Set the current mode to the command mode
     set mode($txtt) "command"
@@ -1435,7 +1435,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles the escape-key when in Vim mode.
-  proc handle_escape {txtt} {
+  proc handle_escape {txtt {retcode ok}} {
 
     variable mode
     variable recording
@@ -1473,7 +1473,7 @@ namespace eval vim {
       $txtt cursor disable
     }
 
-    return 1
+    return -code $retcode 1
 
   }
 
@@ -1487,7 +1487,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles any single printable character.
-  proc handle_any {txtt keycode char keysym} {
+  proc handle_any {txtt keycode char keysym {retcode ok}} {
 
     variable mode
     variable operator
@@ -1503,7 +1503,7 @@ namespace eval vim {
               ([string compare -length 7 $keysym "Control"] == 0) || \
               ([string compare -length 3 $keysym "Alt"]     == 0) || \
               ($keysym eq "??")} {
-      return 1
+      return 0
     }
 
     # Record the character
@@ -1518,9 +1518,9 @@ namespace eval vim {
 
     # If we are handling a motion based on a character, handle it
     if {[handle_find_motion $txtt $char]} {
-      return 1
+      return -code $retcode 1
     } elseif {[handle_between_motion $txtt $char]} {
-      return 1
+      return -code $retcode 1
     }
 
     # If the keysym is neither j or k, clear the column
@@ -1531,16 +1531,16 @@ namespace eval vim {
     # Handle the command
     if {[info procs handle_$keysym] ne ""} {
       if {![catch { handle_$keysym $txtt } rc] && $rc} {
-        return 1
+        return -code $retcode 1
       }
     } elseif {[string is integer $keysym] && [handle_number $txtt $char]} {
-      return 1
+      return -code $retcode 1
     }
 
     # Reset the state
     reset_state $txtt 1
 
-    return 1
+    return -code $retcode 1
 
   }
 
@@ -3215,7 +3215,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "command" mode, puts the mode into "visual char" mode.
+  # If we are in "command" mode, sets the mode to "visual char" mode.
   proc handle_v {txtt} {
 
     variable mode
@@ -3253,7 +3253,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "command" mode, puts the mode into "visual line" mode.
+  # If we are in "command" mode, sets the mode to "visual line" mode.
   proc handle_V {txtt} {
 
     variable mode

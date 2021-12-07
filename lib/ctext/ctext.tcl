@@ -233,16 +233,22 @@ namespace eval ctext {
     bind Ctext  <<Undo>>                       { ctext::undo [ctext::get_win %W] }
     bind Ctext  <<Redo>>                       { ctext::redo [ctext::get_win %W] }
     bind Ctext  <Escape>                       { ctext::event:Escape [ctext::get_win %W] }
-    bind Ctext  <Key-Up>                       { ctext::event:KeyUp [ctext::get_win %W] }
-    bind Ctext  <Key-Down>                     { ctext::event:KeyDown [ctext::get_win %W] }
-    bind Ctext  <Key-Left>                     { ctext::event:KeyLeft [ctext::get_win %W] }
-    bind Ctext  <Key-Right>                    { ctext::event:KeyRight [ctext::get_win %W] }
-    bind Ctext  <Key-Home>                     { ctext::event:KeyHome [ctext::get_win %W] }
-    bind Ctext  <Key-End>                      { ctext::event:KeyEnd [ctext::get_win %W] }
+    bind Ctext  <Key-Up>                       { ctext::event:KeyUp [ctext::get_win %W] 0 }
+    bind Ctext  <Key-Down>                     { ctext::event:KeyDown [ctext::get_win %W] 0 }
+    bind Ctext  <Key-Left>                     { ctext::event:KeyLeft [ctext::get_win %W] 0 }
+    bind Ctext  <Key-Right>                    { ctext::event:KeyRight [ctext::get_win %W] 0 }
+    bind Ctext  <Key-Home>                     { ctext::event:KeyHome [ctext::get_win %W] 0 }
+    bind Ctext  <Key-End>                      { ctext::event:KeyEnd [ctext::get_win %W] 0 }
+    bind Ctext  <Shift-Key-Up>                 { ctext::event:KeyUp [ctext::get_win %W] 1 }
+    bind Ctext  <Shift-Key-Down>               { ctext::event:KeyDown [ctext::get_win %W] 1 }
+    bind Ctext  <Shift-Key-Left>               { ctext::event:KeyLeft [ctext::get_win %W] 1 }
+    bind Ctext  <Shift-Key-Right>              { ctext::event:KeyRight [ctext::get_win %W] 1 }
+    bind Ctext  <Shift-Key-Home>               { ctext::event:KeyHome [ctext::get_win %W] 1 }
+    bind Ctext  <Shift-Key-End>                { ctext::event:KeyEnd [ctext::get_win %W] 1 }
     bind Ctext  <Key-Delete>                   { ctext::event:Delete [ctext::get_win %W] }
     bind Ctext  <Key-BackSpace>                { ctext::event:Backspace [ctext::get_win %W] }
     bind Ctext  <Return>                       { ctext::event:Return [ctext::get_win %W] }
-    bind Ctext  <Key>                          { ctext::event:KeyPress [ctext::get_win %W] %A }
+    bind Ctext  <Key>                          { ctext::event:KeyPress [ctext::get_win %W] %A %K }
     bind Ctext  <Button-1>                     { [ctext::get_win %W] cursor disable }
     bind Ctext  <$alt_key-Button-1>            { [ctext::get_win %W] cursor add @%x,%y }
     bind Ctext  <$alt_key-Button-$right_click> { [ctext::get_win %W] cursor addcolumn @%x,%y }
@@ -260,11 +266,13 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Returns the window associated with the binding.
   proc get_win {w} {
     if {[string range $w end-1 end] eq ".t"} {
-      return -code continue
+      return [string range $w 0 end-2]
     }
-    return $w
+    return -code continue
   }
 
   proc event:keyevent {} {}
@@ -355,9 +363,9 @@ namespace eval ctext {
 
   ######################################################################
   # Moves cursor(s) up by one line.
-  proc event:KeyUp {win} {
+  proc event:KeyUp {win shift} {
 
-    $win cursor move up
+    $win cursor [expr {$shift ? "select" : $move"}] up
 
     return -code break
 
@@ -365,9 +373,9 @@ namespace eval ctext {
 
   ######################################################################
   # Moves cursor(s) down by one line.
-  proc event:KeyDown {win} {
+  proc event:KeyDown {win shift} {
 
-    $win cursor move down
+    $win cursor [expr {$shift ? "select" : "move"}] down
 
     return -code break
 
@@ -375,9 +383,9 @@ namespace eval ctext {
 
   ######################################################################
   # Moves cursor(s) left by one character.
-  proc event:KeyLeft {win} {
+  proc event:KeyLeft {win shift} {
 
-    $win cursor move left
+    $win cursor [expr {$shift ? "select" : "move"}] left
 
     return -code break
 
@@ -385,9 +393,9 @@ namespace eval ctext {
 
   ######################################################################
   # Moves cursor(s) right by one character.
-  proc event:KeyRight {win} {
+  proc event:KeyRight {win shift} {
 
-    $win cursor move right
+    $win cursor [expr {$shift ? "select" : "move"}] right
 
     return -code break
 
@@ -395,9 +403,9 @@ namespace eval ctext {
 
   ######################################################################
   # Moves cursor(s) to the beginning of its current line.
-  proc event:KeyHome {win} {
+  proc event:KeyHome {win shift} {
 
-    $win cursor move linestart
+    $win cursor [expr {$shift ? "select" : "move"}] linestart
 
     return -code break
 
@@ -405,9 +413,9 @@ namespace eval ctext {
 
   ######################################################################
   # Moves cursor(s) to the end of its current line.
-  proc event:KeyEnd {win} {
+  proc event:KeyEnd {win shift} {
 
-    $win cursor move lineend
+    $win cursor [expr {$shift ? "select" : "move"}] lineend
 
     return -code break
 
@@ -475,7 +483,7 @@ namespace eval ctext {
 
   ######################################################################
   # Handles a keypress of the given character.
-  proc event:KeyPress {win char} {
+  proc event:KeyPress {win char keysym} {
 
     if {($char eq "") || ([$win._t cget -state] eq "disabled")} {
       return
@@ -2060,6 +2068,9 @@ namespace eval ctext {
             align $win
           }
         }
+      }
+      enumerate {
+        return [insert_numbers $win [lindex $args 1]]
       }
       default {
         return -code error "Illegal ctext mcursor command ([lindex $args 0])"
@@ -5823,6 +5834,91 @@ namespace eval ctext {
     append str [$win._t get {*}$opts $startpos $endpos]
 
     return $str
+
+  }
+
+  ######################################################################
+  # Inserts numbers at each multicursor location with the given number
+  # string information.
+  proc insert_numbers {win numstr} {
+
+    # If the number string is a decimal number without a preceding 'd' character, add it now
+    if {[set d_added [regexp {^[0-9]+([+-]\d*)?$} $numstr]]} {
+      set numstr "d$numstr"
+    }
+
+    # Parse the number string to verify that it's valid
+    if {[regexp -nocase {^(.*)(b[0-1]*|d[0-9]*|o[0-7]*|[xh][0-9a-fA-F]*)([+-]\d*)?$} $numstr -> prefix numstr increment]} {
+
+      # Get the last number
+      set num_mcursors [$win cursor num]
+
+      # Get the number portion of the number string.  If one does not exist,
+      # default the number to 0.
+      if {[set num [string range $numstr 1 end]] eq ""} {
+        set num 0
+      }
+
+      # Initialize the value of increment if it was not specified by the user explicitly
+      if {$increment eq ""} {
+        set increment "+1"
+      } elseif {$increment eq "+"} {
+        set increment "+1"
+      } elseif {$increment eq "-"} {
+        set increment "-1"
+      }
+
+      # Calculate the num and increment values
+      if {[string index $increment 0] eq "+"} {
+        set increment [string range $increment 1 end]
+        set num       [expr $num + (($num_mcursors - 1) * $increment)]
+        set increment "-$increment"
+      } else {
+        set increment [string range $increment 1 end]
+        set num       [expr $num - (($num_mcursors - 1) * $increment)]
+        set increment "+$increment"
+      }
+
+      # Handle the value insertions
+      set insertlist [list]
+      switch [string tolower [string index $numstr 0]] {
+        b {
+          for {set i 0} {$i < $num_cursors} {incr i} {
+            set binRep [binary format c $num]
+            binary scan $binRep B* binStr
+            lappend insertlist [format "%s%s%s" $prefix [string trimleft [string range $binStr 0 end-1] 0] [string index $binStr end]]
+            incr num $increment
+          }
+        }
+        d {
+          for {set i 0} {$i < $num_cursors} {incr i} {
+            lappend insertlist [format "%s%d" $prefix $num]
+            incr num $increment
+          }
+        }
+        o {
+          for {set i 0} {$i < $num_cursors} {incr i} {
+            lappend insertlist [format "%s%o" $prefix $num]
+            incr num $increment
+          }
+        }
+        h -
+        x {
+          for {set i 0} {$i < $num_cursors} {incr i} {
+            lappend insertlist [format "%s%x" $prefix $num]
+            incr num $increment
+          }
+        }
+      }
+
+      # Insert the values at each multicursor location
+      $win insertlist $insertlist
+
+      return 1
+
+    }
+
+    return 0
 
   }
 

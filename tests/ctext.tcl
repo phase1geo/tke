@@ -872,7 +872,7 @@ namespace eval ctext {
     clipboard clear
     clipboard append "\nset foobar \"good\""
 
-    ctext::remove_dspace $txt
+    ctext::remove_dspaces $txt
 
     $txt paste
 
