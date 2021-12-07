@@ -1551,6 +1551,9 @@ namespace eval ctext {
       set ranges [$win._t tag ranges hl]
       $win._t tag delete hl
 
+      # Remove any dspaces
+      remove_dspaces $win
+
       # Perform the highlight
       if {[llength $ranges] > 0} {
         if {[highlightAll $win $ranges $insert $do_tags]} {
@@ -1567,7 +1570,7 @@ namespace eval ctext {
       set data($win,undo,${from}buf) [lreplace $data($win,undo,${from}buf) end end]
 
       # Update the cursor and indicate the the buffer has changed
-      ::tk::TextSetCursor $win.t $last_cursor
+      $win cursor set $last_cursor
       modified $win 1 [list $from $ranges ""]
 
     }
@@ -6428,6 +6431,7 @@ namespace eval ctext {
       while {1} {
 
         set line [$win._t get -displaychars $curr_row.0 $curr_row.end]
+        incr curr_col -1
 
         while {1} {
           if {[regexp -indices -start [expr $curr_col + 1] -- {(\w+|\s+|[^\w\s]+)} $line index]} {
@@ -6436,7 +6440,7 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$win._t index "$curr_row.0 + $curr_col display chars"]
+            return [$win._t index "$curr_row.0 + [expr $curr_col + ($opts(-exclusive) ? 0 : 1)] display chars"]
           }
         }
 
@@ -6831,10 +6835,15 @@ namespace eval ctext {
   # Transforms a numberend specification into a text index.
   proc getindex_numberend {win startpos optlist} {
 
+    array set opts {
+      -exclusive 0
+    }
+    array set opts $optlist
+
     set pattern {^([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]+)}
 
     if {[regexp $pattern [$win._t get $startpos "$startpos lineend"] match]} {
-      return "$startpos+[expr [string length $match] - 1]c"
+      return "$startpos+[expr [string length $match] - $opts(-exclusive)]c"
     }
 
     return $startpos
@@ -6859,11 +6868,18 @@ namespace eval ctext {
   # Transforms a spaceend specification into a text index.
   proc getindex_spaceend {win startpos optlist} {
 
+    array set opts {
+      -exclusive 0
+    }
+    array set opts $optlist
+
     set pattern {^[ \t]+}
 
     if {[regexp $pattern [$win._t get $startpos "$startpos lineend"] match]} {
-      set index "$startpos+[expr [string length $match] - 1]c"
+      return "$startpos+[expr [string length $match] - $opts(-exclusive)]c"
     }
+
+    return $startpos
 
   }
 

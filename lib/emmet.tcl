@@ -61,8 +61,9 @@ namespace eval emmet {
   }
 
   ######################################################################
-  # Returns a three element list containing the snippet text, starting and ending
-  # position of that text.
+  # Returns a four element list containing the snippet text, starting
+  # and ending position of that text and the space string that should
+  # precede the expanded text.
   proc get_snippet_text_pos {} {
 
     variable data
@@ -1044,13 +1045,13 @@ namespace eval emmet {
     # Get the range of the number
     if {[$txt get insert] eq "-"} {
       set num_start "insert"
-      set num_end   [$txt index numberend -startpos "insert+1c" -adjust "+1c"]
+      set num_end   [$txt index numberend -startpos "insert+1c" -exclusive 0]
       if {[$txt compare $num_end == "insert+1c"]} {
         return
       }
     } else {
       set num_start [$txt index numberstart]
-      set num_end   [$txt index numberend -adjust "+1c"]
+      set num_end   [$txt index numberend -exclusive 0]
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
@@ -1090,7 +1091,7 @@ namespace eval emmet {
       $txt replace $num_start $num_end $number
 
       # Set the cursor
-      ::tk::TextSetCursor $txt.t $cursor
+      $txt cursor set $cursor
 
       # Create an undo separator
       $txt edit separator
@@ -1117,7 +1118,7 @@ namespace eval emmet {
         set startpos [$txt index "insert-[string length $pre_match]c"]
         set endpos   [$txt index "insert+[string length $post_match]c"]
         $txt replace $startpos $endpos $rc
-        ::tk::TextSetCursor $txt $startpos
+        $txt cursor set $startpos
         $txt edit separator
       }
 
@@ -1189,8 +1190,6 @@ namespace eval emmet {
     if {([set retval [ctext::inside_tag $txt -allow010 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
       return
     }
-
-    puts "encode_decode_html_image_to_data_url, retval: $retval, insert: [$txt index insert]"
 
     # Find the URL in the current img tag
     set url ""

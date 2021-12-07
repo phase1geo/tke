@@ -2549,10 +2549,10 @@ namespace eval vim {
             if {[string is space [$txtt get insert]]} {
               return [do_operation $txtt [list wordstart -dir next -num $num -exclusive 1]]
             } else {
-              return [do_operation $txtt [list wordend -dir next -num $num -exclusive 0 -adjust +1c]]
+              return [do_operation $txtt [list wordend -dir next -num $num -exclusive 0]]
             }
           }
-          default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
+          default { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
         }
       }
       default {
@@ -3290,7 +3290,7 @@ namespace eval vim {
           if {$operator($txtt) eq ""} {
             $txtt cursor add [$txtt index insert]
           } else {
-            return [do_operation $txtt [list spaceend -adjust "+1c"]]
+            return [do_operation $txtt spaceend]
           }
         }
       }

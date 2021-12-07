@@ -18,6 +18,9 @@ namespace eval emmet {
     # Set the current syntax to HTML
     syntax::set_language $txt HTML
 
+    # Get out of Vim mode if we are in it
+    catch { vim::remove_bindings $txt }
+
     return $txt
 
   }
@@ -1902,7 +1905,7 @@ XX
 
     $txt cursor set 6.0
     emmet::evaluate_math_expression
-    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n\nNothing 2*3"} {
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n \nNothing 2*3"} {
       cleanup "Empty line did not work properly ([$txt get 1.0 end-1c])"
     }
 
