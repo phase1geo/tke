@@ -811,7 +811,6 @@ namespace eval vim {
     if {[in_visual_mode $txtt]} {
       if {[set cursors [$txtt cursor get]] eq ""} {
         $txtt cursor set [set index [$txtt index $index]]
-        puts "HERE!!!! index: $index"
         adjust_select $txtt 0 $index
       } else {
         $txtt cursor set $index
