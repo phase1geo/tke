@@ -790,7 +790,7 @@ namespace eval motion {
     $txtt tag add foobar 3.2 3.end
     $txtt cursor set 2.7
 
-    do_test $txtt 15 G 3.1
+    do_test $txtt 15 G 3.0
 
     $txtt tag remove foobar 1.0 end
     $txtt insert 1.0 "here"
@@ -850,7 +850,7 @@ namespace eval motion {
 
     do_sel_test $txtt 15 {2 G}    {2.0 2.1}
     do_sel_test $txtt 16 Down     {2.0 3.1}
-    do_sel_test $txtt 17 G        {2.0 4.14}
+    do_sel_test $txtt 17 G        {2.0 4.0}
 
     do_sel_test $txtt 18 {2 G}            {2.0 2.1}
     do_sel_test $txtt 19 e                {2.0 2.4}

@@ -6306,8 +6306,12 @@ namespace eval ctext {
       set index [$win._t index "$index-1 display lines"]
     }
 
-    if {[lsearch [$win._t tag names "$index linestart"] __prewhite] != -1} {
+    set tags [$win._t tag names "$index linestart"]
+
+    if {[lsearch $tags __prewhite] != -1} {
       return [lindex [$win._t tag nextrange __prewhite "$index linestart"] 1]-1c
+    } elseif {[lsearch $tags _dspace] != -1} {
+      return $index
     } else {
       return "$index lineend"
     }
@@ -6610,11 +6614,14 @@ namespace eval ctext {
   proc getindex_lineend {win startpos optlist} {
 
     array set opts {
-      -num 0
+      -num       0
+      -exclusive 0
     }
     array set opts $optlist
 
-    return [$win._t index "$startpos+$opts(-num) display lines lineend"]
+    set adjust [expr {$opts(-exclusive) ? " -1c" : ""}]
+
+    return [$win._t index "$startpos+$opts(-num) display lines lineend$adjust"]
 
   }
 

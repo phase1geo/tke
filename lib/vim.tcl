@@ -811,6 +811,7 @@ namespace eval vim {
     if {[in_visual_mode $txtt]} {
       if {[set cursors [$txtt cursor get]] eq ""} {
         $txtt cursor set [set index [$txtt index $index]]
+        puts "HERE!!!! index: $index"
         adjust_select $txtt 0 $index
       } else {
         $txtt cursor set $index
@@ -1911,7 +1912,7 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]]]
+      return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -exclusive 1]]
     } elseif {$motion($txtt) eq "g"} {
       return [do_operation $txtt [list dispend -num [expr [get_number $txtt] - 1]]]
     }
@@ -3962,13 +3963,13 @@ namespace eval vim {
 
     if {$operator($txtt) eq ""} {
       if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 1]]
+        return [do_operation $txtt [list wordend -startpos char -dir next -num [get_number $txtt] -exclusive 1]]
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
       }
     } else {
       if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+        return [do_operation $txtt [list wordend -startpos char -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1] right]
       }
