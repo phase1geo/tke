@@ -1650,7 +1650,7 @@ namespace eval vim {
   # Options:
   #   -precursor  cursorspec  Sets the cursor based on the starting position(s) before the operation
   #   -postcursor cursorpsec  Sets the cursor based on the cursor position after the operation
-  #   -object     (a|i)       i=inclusive, e=exclusive
+  #   -object     (0|1)       Specifies if we are operating on an object
   proc do_operation {txtt eposargs {sposargs cursor} args} {
 
     variable mode
@@ -1662,10 +1662,11 @@ namespace eval vim {
     array set opts {
       -precursor  ""
       -postcursor ""
-      -object     ""
+      -object     0
     }
     array set opts $args
 
+    set object [expr {$opts(-object) ne ""}]
     lassign [get_operation_cursors $txtt $opts(-precursor) $opts(-postcursor)] precursor postcursor
 
     switch $operator($txtt) {
@@ -1676,7 +1677,7 @@ namespace eval vim {
           } else {
             $txtt cursor move $eposargs
           }
-        } elseif {$opts(-object) ne ""} {
+        } elseif {$opts(-object)} {
           if {$sposargs ne "cursor"} {
             $txtt cursor set $sposargs
             visual_mode $txtt char
@@ -1692,13 +1693,14 @@ namespace eval vim {
         if {[string range [lindex $eposargs 0] 0 5] ne "space"} {
           $txtt copy $sposargs $eposargs
         }
-        $txtt delete $sposargs $eposargs
+        $txtt delete -object $object $sposargs $eposargs
+        # $txtt delete -indent 0 -object $object $sposargs $eposargs   ;# We might want this since we are not in edit mode
         $txtt cursor set $opts(-postcursor)
         command_mode $txtt
         return 1
       }
       "change" {
-        $txtt delete $sposargs $eposargs
+        $txtt delete -indent 0 -object $object $sposargs $eposargs
         edit_mode $txtt
         set operator($txtt)   ""
         set motion($txtt)     ""
@@ -1707,7 +1709,7 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        $txtt copy $sposargs $eposargs
+        $txtt copy -object $object $sposargs $eposargs
         if {$postcursor ne ""} {
           $txtt cursor set $postcursor
         }
@@ -1715,7 +1717,7 @@ namespace eval vim {
         return 1
       }
       "swap" {
-        $txtt transform {*}$precursor $sposargs $eposargs toggle_case
+        $txtt transform -object $object {*}$precursor $sposargs $eposargs toggle_case
         if {($precursor eq "") && ($postcursor ne "")} {
           $txtt cursor set $postcursor
         }
@@ -1723,7 +1725,7 @@ namespace eval vim {
         return 1
       }
       "upper" {
-        $txtt transform {*}$precursor $sposargs $eposargs upper_case
+        $txtt transform -object $object {*}$precursor $sposargs $eposargs upper_case
         if {($precursor eq "") && ($postcursor ne "")} {
           $txtt cursor set $postcursor
         }
@@ -1731,7 +1733,7 @@ namespace eval vim {
         return 1
       }
       "lower" {
-        $txtt transform {*}$precursor $sposargs $eposargs lower_case
+        $txtt transform -object $object {*}$precursor $sposargs $eposargs lower_case
         if {($precursor eq "") && ($postcursor ne "")} {
           $txtt cursor set $postcursor
         }
@@ -1739,7 +1741,7 @@ namespace eval vim {
         return 1
       }
       "rot13" {
-        $txtt transform {*}$precursor $sposargs $eposargs rot13
+        $txtt transform -object $object {*}$precursor $sposargs $eposargs rot13
         if {($precursor eq "") && ($postcursor ne "")} {
           $txtt cursor set $postcursor
         }
@@ -1779,14 +1781,16 @@ namespace eval vim {
 
     # Execute the operation
     switch $motion($txtt) {
-      "a" {
+      "a" {   ;# Inclusive
         if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-          return [do_operation $txtt [list ${object}end -num [get_number $txtt] -exclusive 1] cursor -object "a"]
+          set num [get_number $txtt]
+          return [do_operation $txtt [list blockend -type $object -num $num -adjust +1c] [list blockstart -type $object -num $num] -object 1]
         }
       }
-      "i" {
+      "i" {   ;# Exclusive
         if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-          return [do_operation $txtt [list ${object}end -num [get_number $txtt] -exclusive 0] cursor -object "i"]
+          set num [get_number $txtt]
+          return [do_operation $txtt [list blockend -type $object -num $num] [list blockstart -type $object -num $num -adjust "+1c"] -object 1]
         }
       }
     }
@@ -1836,7 +1840,7 @@ namespace eval vim {
     if {($operator($txtt) eq "") || ($dir eq "prev")} {
       return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] cursor -precursor cursor -postcursor $postcursor]
     } else {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl -adjust "+1 display chars"] cursor -precursor cursor]
+      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] cursor -precursor cursor]
     }
 
   }
@@ -1908,10 +1912,15 @@ namespace eval vim {
   # text from the insertion marker to the end of the line.
   proc handle_dollar {txtt} {
 
+    variable operator
     variable motion
 
     if {$motion($txtt) eq ""} {
-      return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -exclusive 1]]
+      if {$operator($txtt) eq ""} {
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1] -exclusive 1]]
+      } else {
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]]]
+      }
     } elseif {$motion($txtt) eq "g"} {
       return [do_operation $txtt [list dispend -num [expr [get_number $txtt] - 1]]]
     }
@@ -3425,7 +3434,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If any text is selected, curly brackets are placed around all
+  # If any text is selected, square brackets are placed around all
   # selections.  If the insertion cursor is within a completed
   # bracket sequence, the right-most bracket of the sequence is moved one
   # word to the end; otherwise, the current word is placed within

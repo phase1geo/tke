@@ -1832,27 +1832,16 @@ namespace eval ctext {
   # If text is currently selected, clears the clipboard and adds the
   # selected text to the clipboard; otherwise, clears the clipboard and
   # adds the contents of the current line to the clipboard.
-  proc do_copy {win args} {
+  proc do_copy {win object startspec endspec} {
 
     variable data
 
-    # Handle the arguments
-    switch [llength $args] {
-      0 {
-        set sposargs [list linestart -num 0]
-        set eposargs [list linestart -num 1]
-      }
-      1 {
-        set sposargs cursor
-        set eposargs [lindex $args 0]
-      }
-      2 {
-        set sposargs [lindex $args 0]
-        set eposargs [lindex $args 1]
-      }
-      default {
-        return -code error "Illegal argument list to copy/cut command ($args)"
-      }
+    if {$startspec eq ""} {
+      set startspec [list linestart -num 0]
+      set endspec   [list linestart -num 1]
+    } elseif {$endspec eq ""} {
+      set endspec   $startspec
+      set startspec cursor
     }
 
     # Clear the clipboard
@@ -1863,7 +1852,7 @@ namespace eval ctext {
       set cursors [expr {[$win cursor enabled] ? [$win cursor get] : [$win._t index insert]}]
       foreach cursor $cursors {
         set startpos [$win index {*}$sposargs -startpos $cursor]
-        set endpos   [$win index {*}$eposargs -startpos $cursor]
+        set endpos   [$win index {*}$eposargs -startpos [lindex [list $cursor $startpos] $object]]
         adjust_start_end $win startpos endpos
         if {[lindex $ranges end] ne $endpos} {
           lappend ranges $startpos $endpos
@@ -1907,7 +1896,17 @@ namespace eval ctext {
   # Performs a copy to clipboard operation.
   proc command_copy {win args} {
 
-    do_copy $win {*}$args
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -object 0
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] startspec endspec
+
+    do_copy $win $opts(-object) $startspec $endspec
 
   }
 
@@ -2091,8 +2090,18 @@ namespace eval ctext {
 
     variable data
 
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -object 0
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] startspec endspec
+
     # Perform the copy
-    set ranges [do_copy $win {*}$args]
+    set ranges [do_copy $win $opts(-object) $startspec $endspec]
 
     # Delete the text
     foreach {endpos startpos} [lreverse $ranges] {
@@ -2118,7 +2127,7 @@ namespace eval ctext {
       return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] [lmap {spos epos} $ranges {set spos}]]
     } else {
       if {$startspec eq ""} { set startspec cursor }
-      if {$endspec   eq ""} { set endspec [list char -num 1] }
+      if {$endspec   eq ""} { set endspec [list {*}$startspec -adjust +1c] }
       if {$mcursor && ([set ranges [$win._t tag ranges _mcursor]] ne "")} {
         return [list $startspec $endspec 1 [lmap {spos epos} $ranges {set spos}]]
       } else {
@@ -2141,6 +2150,8 @@ namespace eval ctext {
       -moddata   {}
       -highlight 1
       -mcursor   1
+      -indent    1
+      -object    0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2155,7 +2166,7 @@ namespace eval ctext {
 
     foreach spos [lreverse $cursors] {
       set startpos [$win index {*}$startspec -startpos $spos]
-      set endpos   [$win index {*}$endspec   -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
       adjust_start_end $win startpos endpos
       lappend strs [$win._t get $startpos $endpos]
       handleDeleteAt0        $win $startpos $endpos
@@ -2182,8 +2193,10 @@ namespace eval ctext {
         checkAllBrackets $win [string cat {*}$strs]
       }
 
-      foreach {epos spos} [lreverse $ranges] {
-        indent_backspace $win $spos
+      if {$opts(-indent)} {
+        foreach {epos spos} [lreverse $ranges] {
+          indent_backspace $win $spos
+        }
       }
 
     }
@@ -2740,6 +2753,7 @@ namespace eval ctext {
       -highlight 1
       -mcursor   1
       -cursor    ""
+      -object    0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2763,7 +2777,7 @@ namespace eval ctext {
 
     foreach spos [lreverse $cursors] {
       set startpos [$win index {*}$startspec -startpos $spos]
-      set endpos   [$win index {*}$endspec   -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
       adjust_start_end $win startpos endpos 1
       lappend dstrs [$win._t get $startpos $endpos]
       lappend istrs $dat
@@ -3270,6 +3284,7 @@ namespace eval ctext {
       -highlight 1
       -mcursor   1
       -cursor    ""
+      -object    0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -3285,7 +3300,7 @@ namespace eval ctext {
 
     foreach spos [lreverse $cursors] {
       set startpos [$win index {*}$startspec -startpos $spos]
-      set endpos   [$win index {*}$endspec   -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
       adjust_start_end $win startpos endpos 1
       set old_str  [$win._t get $startpos $endpos]
       set new_str  [transform_$cmd $old_str]
@@ -6188,8 +6203,8 @@ namespace eval ctext {
       set indices [$win._t search -all -- $opts(-char) "$startpos+1c" "$startpos lineend"]
       if {[set index [lindex $indices [expr $opts(-num) - 1]]] eq ""} {
         return "insert"
-      } elseif {$opts(-exclusive)} {
-        return "$index-1c"
+      } elseif {!$opts(-exclusive)} {
+        return "$index+1c"
       }
     } else {
       set indices [$win._t search -all -- $opts(-char) "$startpos linestart" insert]
@@ -6978,6 +6993,90 @@ namespace eval ctext {
     }
 
     return [lindex $range 1]
+
+  }
+
+  ######################################################################
+  # Returns the index for the previous start of a block of text.
+  #
+  # Options:
+  #   - type <value>   where <value> can be any one of the possible values:
+  #                      - square (open square bracket)
+  #                      - curly  (open curly bracket)
+  #                      - paren  (open parenthesis)
+  #                      - angled (open angled bracket)
+  proc getindex_blockstart {win startpos optlist} {
+
+    array set opts {
+      -num  1
+      -type "curly"
+    }
+    array set opts $optlist
+
+    set number $opts(-num)
+    set type   $opts(-type)
+    set start  $startpos
+
+    if {[lsearch {square curly paren angled} $type] == -1} {
+      return $start
+    }
+
+    # Search backwards
+    if {[lsearch [$win._t tag names $start] __${type}L] != -1} {
+      set startpos "$start+1c"
+    }
+
+    while {[set index [getMatchBracket $win ${type}L $startpos]] ne ""} {
+      if {[incr number -1] == 0} {
+        return $index
+      } else {
+        set start $index
+      }
+    }
+
+    return $startpos
+
+  }
+
+  ######################################################################
+  # Returns the index for the next end of a block of text.
+  #
+  # Options:
+  #   - type <value>   where <value> can be any one of the possible values:
+  #                      - square (open square bracket)
+  #                      - curly  (open curly bracket)
+  #                      - paren  (open parenthesis)
+  #                      - angled (open angled bracket)
+  proc getindex_blockend {win startpos optlist} {
+
+    array set opts {
+      -num  1
+      -type "curly"
+    }
+    array set opts $optlist
+
+    set number $opts(-num)
+    set type   $opts(-type)
+    set start  $startpos
+
+    if {[lsearch {square curly paren angled} $type] == -1} {
+      return $start
+    }
+
+    # Search backwards
+    if {[lsearch [$win._t tag names $start] __${type}R] != -1} {
+      set start "$start-1c"
+    }
+
+    while {[set index [getMatchBracket $win ${type}R $start]] ne ""} {
+      if {[incr number -1] == 0} {
+        return $index
+      } else {
+        set start $index
+      }
+    }
+
+    return $startpos
 
   }
 

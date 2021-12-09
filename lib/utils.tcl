@@ -1186,6 +1186,12 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Outputs the given string such that blank space is shown
+  proc ostr {str} {
+    return [string map {\n .\n} $str]
+  }
+
 }
 
 # We will override the mouse events defined within htmllib
