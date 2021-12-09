@@ -1250,7 +1250,7 @@ namespace eval ctext {
   # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
   proc isEscaped {win index} {
 
-    set names [$win tag names $index-1c]
+    set names [$win._t tag names $index-1c]
 
     return [expr {[string map {__escape {}} $names] ne $names}]
 
@@ -1851,8 +1851,8 @@ namespace eval ctext {
     if {[set ranges [$win._t tag ranges sel]] eq ""} {
       set cursors [expr {[$win cursor enabled] ? [$win cursor get] : [$win._t index insert]}]
       foreach cursor $cursors {
-        set startpos [$win index {*}$sposargs -startpos $cursor]
-        set endpos   [$win index {*}$eposargs -startpos [lindex [list $cursor $startpos] $object]]
+        set startpos [$win index {*}$startspec -startpos $cursor]
+        set endpos   [$win index {*}$endspec   -startpos [lindex [list $cursor $startpos] $object]]
         adjust_start_end $win startpos endpos
         if {[lindex $ranges end] ne $endpos} {
           lappend ranges $startpos $endpos
@@ -2127,7 +2127,13 @@ namespace eval ctext {
       return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] [lmap {spos epos} $ranges {set spos}]]
     } else {
       if {$startspec eq ""} { set startspec cursor }
-      if {$endspec   eq ""} { set endspec [list {*}$startspec -adjust +1c] }
+      if {$endspec   eq ""} {
+        if {[info procs getindex_[lindex $startspec 0]] ne ""} {
+          set endspec [list {*}$startspec -adjust +1c]
+        } else {
+          set endspec "$startspec+1c"
+        }
+      }
       if {$mcursor && ([set ranges [$win._t tag ranges _mcursor]] ne "")} {
         return [list $startspec $endspec 1 [lmap {spos epos} $ranges {set spos}]]
       } else {
@@ -3799,7 +3805,7 @@ namespace eval ctext {
       set otype [string range $stype 0 end-1]L
 
       lassign [$win tag nextrange __$stype "$index+1c"] sfirst slast
-      lassign [$win tag prevrange __$otype $index]      ofirst olast
+      lassign [$win tag nextrange __$otype $index]      ofirst olast
       set ofirst "$index+1c"
 
       if {($olast eq "") || [$win compare $olast < $index]} {
