@@ -1666,7 +1666,7 @@ namespace eval vim {
     }
     array set opts $args
 
-    set object [expr {$opts(-object) ne ""}]
+    set object $opts(-object)
     lassign [get_operation_cursors $txtt $opts(-precursor) $opts(-postcursor)] precursor postcursor
 
     switch $operator($txtt) {
