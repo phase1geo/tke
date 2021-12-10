@@ -1536,7 +1536,11 @@ namespace eval ctext {
           $win._t delete $spos $epos
           $win._t tag add hl "$spos linestart" "$spos lineend"
         } else {
-          $win._t insert $spos $str
+          if {[$win._t compare $spos >= end]} {
+            $win._t insert end "\n[string range $str 0 end-1]"
+          } else {
+            $win._t insert $spos $str
+          }
           $win._t tag add hl "$spos linestart" "$epos lineend"
           append changed $str
           comments_do_tag $win [list $spos $epos] do_tags
@@ -1844,18 +1848,17 @@ namespace eval ctext {
       set startspec cursor
     }
 
-    # Clear the clipboard
-    clipboard clear -display $win.t
-
     # Collect the text ranges to get
     if {[set ranges [$win._t tag ranges sel]] eq ""} {
       set cursors [expr {[$win cursor enabled] ? [$win cursor get] : [$win._t index insert]}]
       foreach cursor $cursors {
         set startpos [$win index {*}$startspec -startpos $cursor]
         set endpos   [$win index {*}$endspec   -startpos [lindex [list $cursor $startpos] $object]]
-        adjust_start_end $win startpos endpos
-        if {[lindex $ranges end] ne $endpos} {
-          lappend ranges $startpos $endpos
+        if {$startpos ne $endpos} {
+          adjust_start_end $win startpos endpos
+          if {[lindex $ranges end] ne $endpos} {
+            lappend ranges $startpos $endpos
+          }
         }
       }
     }
@@ -1884,6 +1887,9 @@ namespace eval ctext {
       incr charpos [expr [string length $str] + 1]
       lappend contents $str
     }
+
+    # Clear the clipboard
+    clipboard clear -display $win.t
 
     # Get the contents of the clipboard
     clipboard append -displayof $win.t [set data($win,copy_value) [join $contents \n]]
