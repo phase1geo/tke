@@ -6646,7 +6646,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    set adjust [expr {$opts(-exclusive) ? " -1c" : ""}]
+    set adjust [expr {$opts(-exclusive) ? " -1 display char" : ""}]
 
     return [$win._t index "$startpos+$opts(-num) display lines lineend$adjust"]
 

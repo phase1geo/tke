@@ -1692,7 +1692,7 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        if {[string range [lindex $eposargs 0] 0 5] ne "space"} {
+        if {[string range [lindex $eposargs 0] 0 4] ne "space"} {
           $txtt copy $sposargs $eposargs
         }
         $txtt delete -object $object $sposargs $eposargs
@@ -1841,10 +1841,14 @@ namespace eval vim {
       set postcursor [list findchar -dir prev -char $char -num [get_number $txtt] -exclusive $excl]
     }
 
-    if {($operator($txtt) eq "") || ($dir eq "prev")} {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] cursor -precursor cursor -postcursor $postcursor]
+    set spec [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl]
+
+    if {$dir eq "prev"} {
+      return [do_operation $txtt $spec cursor -precursor cursor -postcursor $postcursor]
+    } elseif {$operator($txtt) eq ""} {
+      return [do_operation $txtt [list {*}$spec -adjust -1c] cursor -precursor cursor -postcursor $postcursor]
     } else {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] cursor -precursor cursor]
+      return [do_operation $txtt $spec cursor -precursor cursor]
     }
 
   }
