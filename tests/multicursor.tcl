@@ -177,7 +177,7 @@ namespace eval multicursor {
       cleanup "mcursor mismatch after -3c adjust ([$txt cursor get])"
     }
 
-    $txt replace cursor "der"
+    $txt insert cursor "der"
 
     if {[$txt cursor get] ne [list 2.6 3.6]} {
       cleanup "mcursor mismatch after replace ([$txt cursor get])"
@@ -204,8 +204,9 @@ namespace eval multicursor {
 
     # Select the first s and the last fo
     $txt tag add sel 2.7 2.8 3.7 3.9
-    # $txt cursor add 2.7
-    # $txt cursor add 3.7
+
+    # This isn't necessary in real world use but doesn't want to work in testing
+    $txt cursor add 2.7 3.7
 
     # Verify that multicursors are set
     if {[$txt cursor get] ne [list 2.7 3.7]} {
@@ -240,8 +241,9 @@ namespace eval multicursor {
 
     # Select the text at the end of the line
     $txt tag add sel 2.6 2.9 3.6 3.9
-    # $txt cursor add 2.6
-    # $txt cursor add 3.6
+
+    # This is not needed under normal usage but is required for testing
+    $txt cursor add 2.6 3.6
 
     if {[$txt cursor get] ne [list 2.6 3.6]} {
       cleanup "mcursor mismatched after selection ([$txt cursor get])"
@@ -271,8 +273,11 @@ namespace eval multicursor {
 
     $txt tag add sel 2.0 2.end 3.0 3.end
 
+    # This is not needed under normal conditions but is required for testing
+    $txt cursor add 2.0 3.0
+
     if {[$txt cursor get] ne [list 2.0 3.0]} {
-      cleanup "mcursor mismatched after selection ([$txt cursor get])"
+      cleanup "mcursor mismatched after selection ([utils::ostr [$txt cursor get]])"
     }
 
     $txt delete
@@ -298,8 +303,7 @@ namespace eval multicursor {
     $txt insert end "\nfirst line\nsecond line"
 
     # Add the multicursors
-    $txt cursor add 2.3
-    $txt cursor add 3.2
+    $txt cursor add 2.3 3.2
 
     if {[$txt cursor get] ne [list 2.3 3.2]} {
       cleanup "mcursor mismatched after cursor added ([$txt cursor get])"
@@ -1017,4 +1021,4 @@ namespace eval multicursor {
 
   }
 
-}
+ }

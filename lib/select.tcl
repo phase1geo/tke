@@ -982,8 +982,6 @@ namespace eval select {
 
     variable data
 
-    puts "In select::handle_single_press"
-
     # Change the anchor end
     set data($txtt,anchorend) 0
 

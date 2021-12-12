@@ -219,39 +219,39 @@ namespace eval ctext {
     }
     $win.t tag configure _mcursor -underline 1
 
-    bind Ctext  <Configure>                    { ctext::doConfigure [ctext::get_win %W] }
-    bind Ctext  <<CursorChanged>>              { ctext::linemapUpdate [ctext::get_win %W] }
+    bind Ctext  <Configure>                    { ctext::event:DoConfigure %W }
+    bind Ctext  <<CursorChanged>>              { ctext::event:CursorChanged %W }
     bind $win.l <Button-$right_click>          [list ctext::linemapToggleMark $win %x %y]
     bind $win.l <MouseWheel>                   [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                            [list event generate $win.t <4>]
     bind $win.l <5>                            [list event generate $win.t <5>]
-    bind Ctext  <Destroy>                      { ctext::event:Destroy [ctext::get_win %W] }
-    bind Ctext  <<Selection>>                  { ctext::event:Selection [ctext::get_win %W] }
-    bind Ctext  <<Copy>>                       { ctext::event:Copy [ctext::get_win %W] }
-    bind Ctext  <<Cut>>                        { ctext::event:Cut [ctext::get_win %W] }
-    bind Ctext  <<Paste>>                      { ctext::event:Paste [ctext::get_win %W] }
-    bind Ctext  <<Undo>>                       { ctext::undo [ctext::get_win %W] }
-    bind Ctext  <<Redo>>                       { ctext::redo [ctext::get_win %W] }
-    bind Ctext  <Escape>                       { ctext::event:Escape [ctext::get_win %W] }
-    bind Ctext  <Key-Up>                       { ctext::event:KeyUp [ctext::get_win %W] 0 }
-    bind Ctext  <Key-Down>                     { ctext::event:KeyDown [ctext::get_win %W] 0 }
-    bind Ctext  <Key-Left>                     { ctext::event:KeyLeft [ctext::get_win %W] 0 }
-    bind Ctext  <Key-Right>                    { ctext::event:KeyRight [ctext::get_win %W] 0 }
-    bind Ctext  <Key-Home>                     { ctext::event:KeyHome [ctext::get_win %W] 0 }
-    bind Ctext  <Key-End>                      { ctext::event:KeyEnd [ctext::get_win %W] 0 }
-    bind Ctext  <Shift-Key-Up>                 { ctext::event:KeyUp [ctext::get_win %W] 1 }
-    bind Ctext  <Shift-Key-Down>               { ctext::event:KeyDown [ctext::get_win %W] 1 }
-    bind Ctext  <Shift-Key-Left>               { ctext::event:KeyLeft [ctext::get_win %W] 1 }
-    bind Ctext  <Shift-Key-Right>              { ctext::event:KeyRight [ctext::get_win %W] 1 }
-    bind Ctext  <Shift-Key-Home>               { ctext::event:KeyHome [ctext::get_win %W] 1 }
-    bind Ctext  <Shift-Key-End>                { ctext::event:KeyEnd [ctext::get_win %W] 1 }
-    bind Ctext  <Key-Delete>                   { ctext::event:Delete [ctext::get_win %W] }
-    bind Ctext  <Key-BackSpace>                { ctext::event:Backspace [ctext::get_win %W] }
-    bind Ctext  <Return>                       { ctext::event:Return [ctext::get_win %W] }
-    bind Ctext  <Key>                          { ctext::event:KeyPress [ctext::get_win %W] %A %K }
-    bind Ctext  <Button-1>                     { [ctext::get_win %W] cursor disable }
-    bind Ctext  <$alt_key-Button-1>            { [ctext::get_win %W] cursor add @%x,%y }
-    bind Ctext  <$alt_key-Button-$right_click> { [ctext::get_win %W] cursor addcolumn @%x,%y }
+    bind Ctext  <Destroy>                      { ctext::event:Destroy %W }
+    bind Ctext  <<Selection>>                  { ctext::event:Selection %W }
+    bind Ctext  <<Copy>>                       { ctext::event:Copy %W }
+    bind Ctext  <<Cut>>                        { ctext::event:Cut %W }
+    bind Ctext  <<Paste>>                      { ctext::event:Paste %W }
+    bind Ctext  <<Undo>>                       { ctext::event:Undo %W }
+    bind Ctext  <<Redo>>                       { ctext::event:Redo %W }
+    bind Ctext  <Escape>                       { ctext::event:Escape %W }
+    bind Ctext  <Key-Up>                       { ctext::event:KeyUp %W 0 }
+    bind Ctext  <Key-Down>                     { ctext::event:KeyDown %W 0 }
+    bind Ctext  <Key-Left>                     { ctext::event:KeyLeft %W 0 }
+    bind Ctext  <Key-Right>                    { ctext::event:KeyRight %W 0 }
+    bind Ctext  <Key-Home>                     { ctext::event:KeyHome %W 0 }
+    bind Ctext  <Key-End>                      { ctext::event:KeyEnd %W 0 }
+    bind Ctext  <Shift-Key-Up>                 { ctext::event:KeyUp %W 1 }
+    bind Ctext  <Shift-Key-Down>               { ctext::event:KeyDown %W 1 }
+    bind Ctext  <Shift-Key-Left>               { ctext::event:KeyLeft %W 1 }
+    bind Ctext  <Shift-Key-Right>              { ctext::event:KeyRight %W 1 }
+    bind Ctext  <Shift-Key-Home>               { ctext::event:KeyHome %W 1 }
+    bind Ctext  <Shift-Key-End>                { ctext::event:KeyEnd %W 1 }
+    bind Ctext  <Key-Delete>                   { ctext::event:Delete %W }
+    bind Ctext  <Key-BackSpace>                { ctext::event:Backspace %W }
+    bind Ctext  <Return>                       { ctext::event:Return %W }
+    bind Ctext  <Key>                          { ctext::event:KeyPress %W %A %K }
+    bind Ctext  <Button-1>                     { ctext::event:Button1 %W }
+    bind Ctext  <$alt_key-Button-1>            { ctext::event:AltButton1 %W %x %y }
+    bind Ctext  <$alt_key-Button-$right_click> { ctext::event:AltButton3 %W %x %y }
 
     foreach mod [list Shift Control $alt_key Command] {
       foreach key [list Up Down Left Right Home End] {
@@ -269,23 +269,47 @@ namespace eval ctext {
   ######################################################################
   # Returns the window associated with the binding.
   proc get_win {w} {
-    if {[string range $w end-1 end] eq ".t"} {
+    if {([winfo class $w] eq "Text") && ([string range $w end-1 end] eq ".t")} {
       return [string range $w 0 end-2]
     }
-    return -code continue
+    return ""
   }
 
   proc event:keyevent {} {}
+
+  ######################################################################
+  # Called whenever the window changes.
+  proc event:DoConfigure {win} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
+    # Update the linemap
+    linemapUpdate $win
+
+    # Update the rmargin
+    adjust_rmargin $win
+
+  }
+
+  ######################################################################
+  # Called whenever the cursor.
+  proc event:CursorChanged {win} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
+    linemapUpdate $win
+
+  }
 
   ######################################################################
   # Handles a horizontal scroll event.
   proc event:xscroll {win clientData args} {
 
     variable data
-
-    if {$clientData == ""} {
-      return
-    }
 
     uplevel \#0 $clientData $args
 
@@ -315,6 +339,10 @@ namespace eval ctext {
   # Handles a vertical scroll event.
   proc event:yscroll {win clientData args} {
 
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
     linemapUpdate $win
 
     if {$clientData == ""} {
@@ -331,6 +359,10 @@ namespace eval ctext {
 
     variable data
 
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
     # Remove data
     catch { rename $win {} }
     # interp alias {} $win.t {}
@@ -343,6 +375,10 @@ namespace eval ctext {
   proc event:Selection {win} {
 
     variable data
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
 
     if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
       clear_mcursors $win
@@ -357,6 +393,10 @@ namespace eval ctext {
   # Handles a press of the Escape key.
   proc event:Escape {win} {
 
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
     $win cursor disable
 
   }
@@ -364,6 +404,10 @@ namespace eval ctext {
   ######################################################################
   # Moves cursor(s) up by one line.
   proc event:KeyUp {win shift} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
 
     $win cursor [expr {$shift ? "select" : $move"}] up
 
@@ -375,6 +419,10 @@ namespace eval ctext {
   # Moves cursor(s) down by one line.
   proc event:KeyDown {win shift} {
 
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
     $win cursor [expr {$shift ? "select" : "move"}] down
 
     return -code break
@@ -384,6 +432,10 @@ namespace eval ctext {
   ######################################################################
   # Moves cursor(s) left by one character.
   proc event:KeyLeft {win shift} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
 
     $win cursor [expr {$shift ? "select" : "move"}] left
 
@@ -395,6 +447,10 @@ namespace eval ctext {
   # Moves cursor(s) right by one character.
   proc event:KeyRight {win shift} {
 
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
     $win cursor [expr {$shift ? "select" : "move"}] right
 
     return -code break
@@ -404,6 +460,10 @@ namespace eval ctext {
   ######################################################################
   # Moves cursor(s) to the beginning of its current line.
   proc event:KeyHome {win shift} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
 
     $win cursor [expr {$shift ? "select" : "move"}] linestart
 
@@ -415,6 +475,10 @@ namespace eval ctext {
   # Moves cursor(s) to the end of its current line.
   proc event:KeyEnd {win shift} {
 
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+
     $win cursor [expr {$shift ? "select" : "move"}] lineend
 
     return -code break
@@ -425,8 +489,8 @@ namespace eval ctext {
   # Handles a press of the Delete key.
   proc event:Delete {win} {
 
-    if {[$win._t cget -state] eq "disabled"} {
-      return
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
     }
 
     if {[set selected [$win._t tag ranges sel]] ne ""} {
@@ -446,8 +510,8 @@ namespace eval ctext {
   # Handles a press of a BackSpace key.
   proc event:Backspace {win} {
 
-    if {[$win._t cget -state] eq "disabled"} {
-      return
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
     }
 
     if {[set selected [$win._t tag ranges sel]] ne ""} {
@@ -467,8 +531,8 @@ namespace eval ctext {
   # Handles a press of the Return key.
   proc event:Return {win} {
 
-    if {[$win._t cget -state] eq "disabled"} {
-      return
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
     }
 
     if {[$win._t tag ranges sel] ne ""} {
@@ -485,8 +549,8 @@ namespace eval ctext {
   # Handles a keypress of the given character.
   proc event:KeyPress {win char keysym} {
 
-    if {($char eq "") || ([$win._t cget -state] eq "disabled")} {
-      return
+    if {([set win [get_win $win]] eq "") || ($char eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
     }
      
     if {[$win._t tag ranges sel] ne ""} {
@@ -500,8 +564,48 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Called whenever the user clicks on the left mouse button.
+  proc event:Button1 {win} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+     
+    $win cursor disable
+
+  }
+
+  ######################################################################
+  # Called whenever the user Alt-clicks on the left mouse button.
+  proc event:AltButton1 {win x y} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+     
+    $win cursor add @$x,$y
+
+  }
+
+  ######################################################################
+  # Called whenever the user Alt-clicks on the left mouse button.
+  proc event:AltButton3 {win x y} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
+     
+    $win cursor addcolumn @$x,$y
+
+  }
+
+  ######################################################################
   # Handles the copy virtual event.
   proc event:Copy {win} {
+
+    if {[set win [get_win $win]] eq ""} {
+      return -code ok
+    }
 
     $win copy
 
@@ -513,6 +617,10 @@ namespace eval ctext {
   # Handles the cut virtual event.
   proc event:Cut {win} {
 
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
+    }
+     
     $win cut
 
     return -code break
@@ -523,9 +631,37 @@ namespace eval ctext {
   # Handles the paste virtual event.
   proc event:Paste {win} {
 
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
+    }
+     
     $win paste
 
     return -code break
+
+  }
+
+  ######################################################################
+  # Handles undo event to this widget.
+  proc event:Undo {win} {
+
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
+    }
+     
+    ctext::undo $win
+
+  }
+
+  ######################################################################
+  # Handles redo event to this widget.
+  proc event:Redo {win} {
+
+    if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
+      return -code ok
+    }
+     
+    ctext::redo $win
 
   }
 
@@ -2192,8 +2328,11 @@ namespace eval ctext {
           $win._t tag add _mcursor $startpos
         }
       }
-      lappend ranges $startpos $endpos
+      lappend ranges $endpos $startpos
     }
+
+    set ranges [lreverse $ranges]
+    set strs   [lreverse $strs]
 
     undo_delete $win $ranges $strs $cursor
 
@@ -2481,9 +2620,11 @@ namespace eval ctext {
     set ranges  [list]
     set cursor  [$win._t index insert]
     set do_tags [list]
+    set mode    "cursor"
 
     # Insert the text
     if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
+      set mode "multicursor"
       set start 1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
         set startPos [string map [list "cursor" [lindex $range 0]] $insertPos]
@@ -2506,7 +2647,9 @@ namespace eval ctext {
     }
 
     # Delete any dspace characters
-    catch { $win._t delete {*}[$win._t tag ranges _dspace] }
+    if {$mode eq "cursor"} {
+      catch { $win._t delete {*}[$win._t tag ranges _dspace] }
+    }
 
     undo_insert     $win $ranges $dat $cursor
     comments_do_tag $win $ranges do_tags
@@ -2799,8 +2942,12 @@ namespace eval ctext {
       set new_endpos  [$win._t index "$startpos+${chars}c"]
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
-      lappend rranges $startpos $new_endpos
+      lappend rranges $new_endpos $startpos
     }
+
+    set rranges [lreverse $rranges]
+    set dstrs   [lreverse $dstrs]
+    set istrs   [lreverse $istrs]
 
     if {$opts(-cursor) ne ""} {
       $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
@@ -3324,8 +3471,12 @@ namespace eval ctext {
       set new_endpos [$win._t index "$startpos+[string length $new_str]c"]
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
-      lappend rranges $startpos $new_endpos
+      lappend rranges $new_endpos $startpos
     }
+
+    set rranges [lreverse $rranges]
+    set dstrs   [lreverse $dstrs]
+    set istrs   [lreverse $istrs]
 
     if {$opts(-cursor) ne ""} {
       $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
@@ -5512,16 +5663,6 @@ namespace eval ctext {
 
   }
 
-  proc doConfigure {win} {
-
-    # Update the linemap
-    linemapUpdate $win
-
-    # Update the rmargin
-    adjust_rmargin $win
-
-  }
-
   proc set_warnwidth {win {adjust 0}} {
 
     variable data
@@ -6358,7 +6499,9 @@ namespace eval ctext {
       set index [$win._t index "$index-1 display lines"]
     }
 
-    return "[lindex [split $line .] 0].0+[string length [string trimright [$win._t get $line.0 $line.end]]]c"
+    set line [lindex [split $index .] 0]
+
+    return "$line.0+[expr [string length [string trimright [$win._t get $line.0 $line.end]]] - 1]c"
 
   }
 

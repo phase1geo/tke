@@ -850,7 +850,7 @@ namespace eval motion {
 
     do_sel_test $txtt 15 {2 G}    {2.0 2.1}
     do_sel_test $txtt 16 Down     {2.0 3.1}
-    do_sel_test $txtt 17 G        {2.0 4.0}
+    do_sel_test $txtt 17 G        {2.0 4.1}
 
     do_sel_test $txtt 18 {2 G}            {2.0 2.1}
     do_sel_test $txtt 19 e                {2.0 2.4}
@@ -941,7 +941,7 @@ namespace eval motion {
 
     do_sel_test $txtt 15 {2 G}    {}
     do_sel_test $txtt 16 Down     {2.0 3.0}
-    do_sel_test $txtt 17 G        {2.0 4.13}
+    do_sel_test $txtt 17 G        {2.0 4.0}
 
     do_sel_test $txtt 18 {2 G}            {}
     do_sel_test $txtt 19 e                {2.0 2.3}
