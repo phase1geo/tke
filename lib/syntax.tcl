@@ -517,7 +517,6 @@ namespace eval syntax {
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
-        completer::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
 
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_tokens
@@ -622,7 +621,6 @@ namespace eval syntax {
 
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)
-      completer::set_auto_match_chars $txt.t $language $lang_array(matchcharsallowed)
 
       # Set the snippets for the current text widget
       snippets::set_language $language

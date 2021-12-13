@@ -15,7 +15,6 @@ NAGELFAR_FILES = version.tcl \
                  edit.tcl \
                  gui.tcl \
                  sidebar.tcl \
-                 indent.tcl \
                  menus.tcl \
                  launcher.tcl \
                  plugins.tcl \
@@ -23,7 +22,6 @@ NAGELFAR_FILES = version.tcl \
                  snip_parser.tcl \
                  format_parser.tcl \
                  snippets.tcl \
-                 completer.tcl \
                  bindings.tcl \
                  bgproc.tcl \
                  multicursor.tcl \

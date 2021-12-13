@@ -31,6 +31,19 @@ namespace eval ctext {
   array set tag_other_map {"100" "001" "001" "100"}
   array set tag_dir_map   {"100" "next" "001" "prev"}
   array set tag_index_map {"100" 1 "001" 0}
+  array set complete_chars {
+    \[ {0 square left  \]}
+    \] {0 square right}
+    \{ {0 curly  left  \}}
+    \} {0 curly  right}
+    (  {0 paren  left  )}
+    )  {0 paren  right}
+    <  {0 angled left  >}
+    >  {0 angled right}
+    \" {1 double}
+    '  {1 single}
+    `  {1 btick}
+  }
 
   variable temporary {}
   variable alt_key     Alt
@@ -105,6 +118,7 @@ namespace eval ctext {
     set data($win,config,-matchchar_fg)            $data($win,config,-bg)
     set data($win,config,-matchaudit)              0
     set data($win,config,-matchaudit_bg)           "red"
+    set data($win,config,-completematch)           1
     set data($win,config,-theme)                   [list]
     set data($win,config,-hidemeta)                0
     set data($win,config,-shiftwidth)              2
@@ -133,7 +147,7 @@ namespace eval ctext {
     -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
     -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit \
     -matchaudit_bg -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
-    -linemap_separator -linemap_separator_color -casesensitive -peer -theme -hidemeta \
+    -linemap_separator -linemap_separator_color -casesensitive -peer -theme -hidemeta -completematch \
     -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin \
     -blockcursor -blockbackground -multimove -insertwidth -insertbackground -shiftwidth -tabstop -indentmode]
 
@@ -1119,6 +1133,14 @@ namespace eval ctext {
         return -code error "Indent mode is not OFF, IND or IND+"
       }
       set data($win,config,-indentmode) $value
+    }
+
+    lappend argTable {1 true yes} -completematch {
+      set data($win,config,-completematch) 1
+    }
+
+    lappend argTable {0 false no} -completematch {
+      set data($win,config,-completematch) 0
     }
 
     set data($win,config,argTable) $argTable
@@ -2617,10 +2639,12 @@ namespace eval ctext {
       append dat $content
     }
 
-    set ranges  [list]
-    set cursor  [$win._t index insert]
-    set do_tags [list]
-    set mode    "cursor"
+    set ranges   [list]
+    set cursor   [$win._t index insert]
+    set do_tags  [list]
+    set mode     "cursor"
+    set adjust   0
+    set acursors [list]
 
     # Insert the text
     if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
@@ -2631,8 +2655,9 @@ namespace eval ctext {
       set start 1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
         set startPos [string map [list "cursor" [lindex $range 0]] $insertPos]
-        $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $items]
-        set endPos [$win._t index "$startPos+${chars}c"]
+        lassign [complete_add $win $insPos $items $chars adjust acursors] istr ichars
+        $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $istr]
+        set endPos [$win._t index "$startPos+${ichars}c"]
         set start  [$win._t index $endPos+1c]
         handleInsertAt0 $win $startPos $endPos
         lappend ranges $startPos $endPos
@@ -2643,8 +2668,9 @@ namespace eval ctext {
       } else {
         set insPos [set insertPos [$win index {*}$insertPos]]
       }
-      $win._t insert $insertPos {*}[string map [list __Lang: [getLangTag $win $insertPos]] $items]
-      set endPos [$win._t index "$insPos+${chars}c"]
+      lassign [complete_add $win $insPos $items $chars adjust acursors] istr ichars
+      $win._t insert $insertPos {*}[string map [list __Lang: [getLangTag $win $insertPos]] $istr]
+      set endPos [$win._t index "$insPos+${ichars}c"]
       handleInsertAt0 $win $insertPos $endPos
       lappend ranges $insPos $endPos
     }
@@ -2652,6 +2678,11 @@ namespace eval ctext {
     # Delete any dspace characters
     if {$mode eq "cursor"} {
       catch { $win._t delete {*}[$win._t tag ranges _dspace] }
+    }
+
+    # Adjust the cursor(s) if we need to do this
+    if {$adjust} {
+      complete_adjust_cursors $win $acursors
     }
 
     undo_insert     $win $ranges $dat $cursor
@@ -8009,6 +8040,130 @@ namespace eval ctext {
       # Adjust the startpos
       set curpos [$win._t index "$curpos+1l linestart"]
 
+    }
+
+  }
+
+  ######################################################################
+  # COMPLETION                                                         #
+  ######################################################################
+  
+  ######################################################################
+  # Sets the auto-match characters based on the current language.
+  proc set_auto_match_chars {win lang matchchars} {
+
+    variable data
+    variable lang_match_chars
+    variable pref_complete
+
+    # Save the language-specific match characters
+    set lang_match_chars($win,$lang) $matchchars
+
+    # Initialize the complete array for the given text widget
+    array set data [list \
+      $win,complete,$lang,square       0 \
+      $win,complete,$lang,curly        0 \
+      $win,complete,$lang,angled       0 \
+      $win,complete,$lang,paren        0 \
+      $win,complete,$lang,double       0 \
+      $win,complete,$lang,single       0 \
+      $win,complete,$lang,btick        0 \
+    ]
+
+    # Combine the language-specific match chars with preference chars
+    foreach match_char $lang_match_chars($txtt,$lang) {
+      if {$pref_complete($match_char)} {
+        set data($in,complete,$lang,$match_char) 1
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Returns true if a closing character should be automatically added.
+  # This is called when an opening character is detected.
+  proc complete_add_closing {win index} {
+
+    # Get the character at the insertion cursor
+    set ch [$win._t get $index]
+
+    return [expr {[string is space $ch] || ($ch eq "\}") || ($ch eq "\)") || ($ch eq ">") || ($ch eq "]")}]
+
+  }
+
+  ######################################################################
+  # Handles an inserted bracket.
+  #
+  # Arguments:
+  #   index - Index that the bracket could be inserted at
+  #   type  - Type of bracket to insert
+  #             Valid values:  square, curly, angled, paren
+  #
+  # Updates the given insertion string and appends to the specified
+  # list of cursors that will adjust cursors after the insertion is
+  # done.
+  proc complete_add {win index items chars padjust pcursors} {
+
+    variable data
+    variable complete_chars
+
+    upvar $padjust  adjust
+    upvar $pcursors cursors
+
+    set char [lindex $items 0]
+
+    if {!$data($win,config,-completematch) || (([llength $items] == 2) && ![info exists complete_chars($char)])} {
+      return [list $items $chars]
+    }
+
+    lassign $complete_chars($char) quote type side closing
+
+    if {[info exists data($win,config,matchChar,[getLang $win "$index-1c"],$type)]} {
+      if {$quote} {
+        if {[$win is in$type $index]} {
+          if {([$win._t get $index] eq $char) && ![$win is escaped $index]} {
+            set adjust 1
+            lappend cursors "$index+1c"
+            return [list [list "" [list]] $chars]
+          }
+        } elseif {![$win is in$type end-1c] && ![$win is incommentstring "$index-1c"]} {
+          set adjust 1
+          lappend cursors "$index+1c"
+          return [list [list "$char$char" [lindex $items 1]] [incr chars]]
+        }
+      } elseif {![$win is incomment "$index-1c"] && ![$win is escaped $index]} {
+        if {$side eq "right"} {
+          if {[lsearch [$win._t tag names $index] __${type}R] != -1} {
+            set adjust 1
+            lappend cursors "$index+1c"
+            return [list [list "" [list]] $chars]
+          }
+        } elseif {[complete_add_closing $win $index]} {
+          set adjust 1
+          lappend cursors "$index+1c"
+          return [list [list "$char$closing" [lindex $items 1]] [incr chars]]
+        }
+      }
+    }
+
+    lappend cursors ""
+    return [list $items $chars]
+
+  }
+
+  ######################################################################
+  # Updates the cursors if we inserted completion characters.
+  proc complete_adjust_cursors {win cursors} {
+
+    if {[set mcursors [$win._t tag ranges _mcursor]] ne ""} {
+      foreach {mstart mend} $mcursors cursor $cursors {
+        if {$cursor ne ""} {
+          $win._t tag remove _mcursor $mstart
+          $win._t tag add _mcursor $cursor
+        }
+      }
+    } elseif {[lindex $cursors 0] ne ""} {
+      $win._t mark set insert [lindex $cursors 0]
     }
 
   }

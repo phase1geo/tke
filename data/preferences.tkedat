@@ -187,17 +187,10 @@
 
 {Editor/EnableAutoIndent}    {1}
 
-# Contains a list of characters that the editor will automatically match when its matching
+# Specifies if the editor will automatically match when its matching
 # opening character is inserted.  The valid values are as follows:
-#   square - Inserts a matching square bracket ([])
-#   curly  - Inserts a matching curly bracket ({})
-#   angled - Inserts a matching angled bracket (<>)
-#   paren  - Inserts a matching parenthesis (())
-#   double - Inserts a matching double-quote (")
-#   single - Inserts a matching single-quote (')
-#   btick  - Inserts a matching backtick (`)
 
-{Editor/AutoMatchChars}      {square curly angled paren double single btick}
+{Editor/AutoMatchChar}      {1}
 
 # If set to a value of 1, causes the character that matches the current character to be highlighted.
 

@@ -63,6 +63,8 @@ namespace eval gui {
   array set be_ignore       {}
   array set undo_count      {}
 
+  trace add variable preferences::prefs(Editor/AutoMatchChar) write gui::handle_auto_match_char
+
   #######################
   #  PUBLIC PROCEDURES  #
   #######################
@@ -4041,6 +4043,17 @@ namespace eval gui {
   ########################
 
   ######################################################################
+  # Updates the automatic matching character preferences of all text widgets
+  # whenever the user changes the preference value.
+  proc handle_auto_match_char {name1 name2 op} {
+
+    foreach txt [get_all_texts] {
+      $txt configure -completematch $preferences::prefs(Editor/AutoMatchChar)
+    }
+
+  }
+
+  ######################################################################
   # Gets the various pieces of tos information from the given from.
   # The valid values for from and tos (list) is the following:
   #
@@ -4388,6 +4401,7 @@ namespace eval gui {
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
+      -completematch [preferences::get Editor/EnableAutoMatchChar] \
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange \
       -linemap_relief flat -linemap_minwidth $numberwidth -linemap_separator 1 \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
@@ -4572,9 +4586,7 @@ namespace eval gui {
 
     # Add the text bindings
     if {!$opts(-diff)} {
-      # indent::add_bindings      $txt
-      vim::set_vim_mode         $txt
-      completer::add_bindings   $txt
+      vim::set_vim_mode $txt
     }
     select::add $txt $tab.sb
     plugins::handle_text_bindings $txt $opts(-tags)
@@ -4650,6 +4662,7 @@ namespace eval gui {
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
+      -completematch [preferences::get Editor/EnableAutoMatchChar] \
       -linemap [preferences::get View/ShowLineNumbers] -linemap_separator 1 \
       -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange -peer $txt \
       -linemap_align [preferences::get Editor/LineNumberAlignment] \
@@ -4692,9 +4705,7 @@ namespace eval gui {
     vim::bind_command_entry $txt2 $tab.ve
 
     # Add the text bindings
-    # indent::add_bindings          $txt2
     vim::set_vim_mode             $txt2
-    completer::add_bindings       $txt2
     plugins::handle_text_bindings $txt2 {}
     make_drop_target              $txt2 text
 

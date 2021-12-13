@@ -2370,70 +2370,25 @@ namespace eval pref_ui {
     grid $w.sf.eoll  -row 7 -column 0 -sticky news -padx 2 -pady 2
     grid $w.sf.eolmb -row 7 -column 1 -sticky news -padx 2 -pady 2
 
-    ttk::labelframe $w.mcf -text [set wstr [msgcat::mc "Auto-match Characters"]]
-    ttk::checkbutton $w.mcf.sr -text [format " %s" [msgcat::mc "Square bracket"]] -variable pref_ui::match_chars(square) -command [list pref_ui::set_match_chars]
-    ttk::checkbutton $w.mcf.cu -text [format " %s" [msgcat::mc "Curly bracket"]]  -variable pref_ui::match_chars(curly)  -command [list pref_ui::set_match_chars]
-    ttk::checkbutton $w.mcf.an -text [format " %s" [msgcat::mc "Angled bracket"]] -variable pref_ui::match_chars(angled) -command [list pref_ui::set_match_chars]
-    ttk::checkbutton $w.mcf.pa -text [format " %s" [msgcat::mc "Parenthesis"]]    -variable pref_ui::match_chars(paren)  -command [list pref_ui::set_match_chars]
-    ttk::checkbutton $w.mcf.dq -text [format " %s" [msgcat::mc "Double-quote"]]   -variable pref_ui::match_chars(double) -command [list pref_ui::set_match_chars]
-    ttk::checkbutton $w.mcf.sq -text [format " %s" [msgcat::mc "Single-quote"]]   -variable pref_ui::match_chars(single) -command [list pref_ui::set_match_chars]
-    ttk::checkbutton $w.mcf.bt -text [format " %s" [msgcat::mc "Backtick"]]       -variable pref_ui::match_chars(btick)  -command [list pref_ui::set_match_chars]
-
-    register $w.mcf.sr $wstr Editor/AutoMatchChars
-
-    grid columnconfigure $w.mcf 1 -weight 1
-    grid columnconfigure $w.mcf 3 -weight 1
-    grid columnconfigure $w.mcf 5 -weight 1
-    grid $w.mcf.sr -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.mcf.cu -row 0 -column 2 -sticky news -padx 2 -pady 2
-    grid $w.mcf.an -row 0 -column 4 -sticky news -padx 2 -pady 2
-    grid $w.mcf.pa -row 0 -column 6 -sticky news -padx 2 -pady 2
-    grid $w.mcf.dq -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.mcf.sq -row 1 -column 2 -sticky news -padx 2 -pady 2
-    grid $w.mcf.bt -row 1 -column 4 -sticky news -padx 2 -pady 2
-
     ttk::frame $w.cf
-    make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                              Editor/VimMode
-    make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                      Editor/EnableAutoIndent
-    make_cb $w.cf.hmc  [msgcat::mc "Automatically highlight matching bracket"]     Editor/HighlightMatchingChar
-    make_cb $w.cf.hmmb [msgcat::mc "Automatically highlight mismatching brackets"] Editor/HighlightMismatchingChar
-    make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]           Editor/RemoveTrailingWhitespace
-    make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]               Editor/RelativeLineNumbers
+    make_cb $w.cf.amc  [msgcat::mc "Enable automatic matching bracket/quote insertion"] Editor/EnableAutoMatchChar
+    make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                                   Editor/VimMode
+    make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                           Editor/EnableAutoIndent
+    make_cb $w.cf.hmc  [msgcat::mc "Automatically highlight matching bracket"]          Editor/HighlightMatchingChar
+    make_cb $w.cf.hmmb [msgcat::mc "Automatically highlight mismatching brackets"]      Editor/HighlightMismatchingChar
+    make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]                Editor/RemoveTrailingWhitespace
+    make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]                    Editor/RelativeLineNumbers
 
     pack $w.sf  -fill x -padx 2 -pady 2
-    make_spacer $w
-    pack $w.mcf -fill x -padx 2 -pady 2
     make_spacer $w
     pack $w.cf  -fill x -padx 2 -pady 2
 
     # Set the UI state to match preference
-    foreach char [list square curly angled paren double single btick] {
-      set match_chars($char) [expr {[lsearch $prefs(Editor/AutoMatchChars) $char] != -1}]
-    }
-
     foreach char [list space tab return] {
       set snip_compl($char) [expr {[lsearch $prefs(Editor/SnippetCompleters) $char] != -1}]
     }
 
     set_eol_translation
-
-  }
-
-  ######################################################################
-  # Set the matching chars to the Editor/AutoMatchChars preference value.
-  proc set_match_chars {} {
-
-    variable match_chars
-    variable prefs
-
-    set mchars [list]
-    foreach char [list square curly angled paren double single btick] {
-      if {$match_chars($char)} {
-        lappend mchars $char
-      }
-    }
-
-    set prefs(Editor/AutoMatchChars) $mchars
 
   }
 
