@@ -2096,7 +2096,7 @@ namespace eval ctext {
       }
       set {
         if {([llength [lindex $args 1]] == 1) || \
-            ([info procs getindex_[lindex $args 1 0]] ne "") || \
+            ([get_spec_proc [lindex $args 1]] ne "") || \
             ([lsearch [list linestart lineend display wordstart wordend] [lindex $args 1 1]] != -1)} {
           set_cursor $win [$win index {*}[lindex $args 1]]
         } else {
@@ -2138,7 +2138,7 @@ namespace eval ctext {
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext cursor move command"
         }
-        if {[info procs getindex_[lindex $args 1 0]] eq ""} {
+        if {[get_spec_proc [lindex $args 1]] eq ""} {
           return -code error "ctext cursor move command must be called with a relative index"
         }
         if {[move_mcursors $win [lindex $args 1] starts]} {
@@ -2155,7 +2155,7 @@ namespace eval ctext {
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext cursor select command"
         }
-        if {[info procs getindex_[lindex $args 1 0]] eq ""} {
+        if {[get_spec_proc [lindex $args 1]] eq ""} {
           return -code error "ctext cursor select command must be called with a relative index"
         }
         set anchors $data($win,select_anchors)
@@ -2185,7 +2185,7 @@ namespace eval ctext {
         if {[llength $args] != 3} {
           return -code error "Incorrect number of arguments to ctext cursor replace command"
         }
-        if {[info procs getindex_[lindex $args 1 0]] eq ""} {
+        if {[get_spec_proc [lindex $args 1]] eq ""} {
           return -code error "ctext cursor replace command must be called with a relative index"
         }
         if {[$win._t tag ranges _mcursor] ne ""} {
@@ -2270,7 +2270,7 @@ namespace eval ctext {
     } else {
       if {$startspec eq ""} { set startspec cursor }
       if {$endspec   eq ""} {
-        if {[info procs getindex_[lindex $startspec 0]] ne ""} {
+        if {[get_spec_proc $startspec] ne ""} {
           set endspec [list {*}$startspec -adjust +1c]
         } else {
           set endspec "$startspec+1c"
@@ -2550,7 +2550,7 @@ namespace eval ctext {
   # Returns the index associated with the given value.
   proc command_index {win args} {
 
-    if {[set procs [info procs getindex_[lindex $args 0]]] ne ""} {
+    if {[set spec_proc [get_spec_proc $args]] ne ""} {
 
       array set opts {
         -startpos    "insert"
@@ -2560,7 +2560,7 @@ namespace eval ctext {
       array set opts [lrange $args 1 end]
 
       set startpos [$win index {*}$opts(-startpos)]
-      set index    [[lindex $procs 0] $win $startpos [lrange $args 1 end]]
+      set index    [$spec_proc $win $startpos [lrange $args 1 end]]
 
       if {$opts(-forceadjust) ne ""} {
         return [$win._t index "$index$opts(-forceadjust)"]
@@ -2624,6 +2624,9 @@ namespace eval ctext {
 
     # Insert the text
     if {$opts(-mcursor) && ([$win._t tag ranges _mcursor] ne "")} {
+      if {[get_spec_proc $insertPos] eq ""} {
+        return -code error "Insert command must use a valid insertion specification index in multicursor mode"
+      }
       set mode "multicursor"
       set start 1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
@@ -6096,6 +6099,16 @@ namespace eval ctext {
   ######################################################################
   # INDICES TRANSFORMATIONS                                            #
   ######################################################################
+
+  ######################################################################
+  # Returns the procedure associated with the given index specification.
+  # If this method returns the empty list, the given index is not a
+  # specification.
+  proc get_spec_proc {spec} {
+
+    return [lindex [info procs getindex_[lindex $spec 0]] 0]
+
+  }
 
   ######################################################################
   # Returns the starting cursor position without modification.

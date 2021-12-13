@@ -110,7 +110,6 @@ namespace eval completer {
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Ctext]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] postcomp$txt]
     bindtags $txt.t [linsert [bindtags $txt.t] $text_index precomp$txt]
 
     # Make sure that the complete array is initialized for the text widget
@@ -167,15 +166,15 @@ namespace eval completer {
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor move char
           return 1
         }
       } else {
-        set ins [$txtt index insert]
+        # set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt insert -highlight 0 insert "\]"
+          $txtt insert -highlight 0 cursor "\]"
         }
-        ::tk::TextSetCursor $txtt $ins
+        # ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -194,15 +193,15 @@ namespace eval completer {
         ![$txtt is escaped insert]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt curly]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
+          $txtt cursor move char
           return 1
         }
       } else {
-        set ins [$txtt index insert]
+        # set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt insert -highlight 0 insert "\}"
+          $txtt insert -highlight 0 cursor "\}"
         }
-        ::tk::TextSetCursor $txtt $ins
+        # ::tk::TextSetCursor $txtt $ins
       }
     }
 
@@ -227,7 +226,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt insert -highlight 0 insert ">"
+          $txtt insert -highlight 0 cursor ">"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -254,7 +253,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {[add_closing $txtt]} {
-          $txtt insert -highlight 0 insert ")"
+          $txtt insert -highlight 0 cursor ")"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -281,7 +280,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt insert -highlight 0 insert "\""
+          $txtt insert -highlight 0 cursor "\""
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -308,7 +307,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt insert -highlight 0 insert "'"
+          $txtt insert -highlight 0 cursor "'"
         }
         ::tk::TextSetCursor $txtt $ins
       }
@@ -335,7 +334,7 @@ namespace eval completer {
       } else {
         set ins [$txtt index insert]
         if {![$txtt is incommentstring "insert-1c"]} {
-          $txtt insert -highlight 0 insert "`"
+          $txtt insert -highlight 0 cursor "`"
         }
         ::tk::TextSetCursor $txtt $ins
       }
