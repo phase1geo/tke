@@ -183,6 +183,8 @@ namespace eval logger {
     # Add the file to the editor
     gui::add_file end [file join $logdir debug.[pid].log] -readonly 1 -sidebar 0 -lazy $opts(-lazy) -remember 0
 
+    return 1
+
   }
 
   ######################################################################

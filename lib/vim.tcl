@@ -75,6 +75,8 @@ namespace eval vim {
       set_vim_mode [winfo parent $txtt]
     }
 
+    return 1
+
   }
 
   ######################################################################

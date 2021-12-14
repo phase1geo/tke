@@ -862,6 +862,8 @@ namespace eval edit {
     # Create a separator
     $txt edit separator
 
+    return 1
+
   }
 
   ######################################################################

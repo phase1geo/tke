@@ -233,6 +233,10 @@ namespace eval ctext {
     }
     $win.t tag configure _mcursor -underline 1
 
+    # Make sure that all text contains lmargin and rmargin
+    $win.t tag add lmargin 1.0 end
+    $win.t tag add rmargin 1.0 end
+
     bind Ctext  <Configure>                    { ctext::event:DoConfigure %W }
     bind Ctext  <<CursorChanged>>              { ctext::event:CursorChanged %W }
     bind $win.l <Button-$right_click>          [list ctext::linemapToggleMark $win %x %y]
@@ -423,7 +427,7 @@ namespace eval ctext {
       return -code ok
     }
 
-    $win cursor [expr {$shift ? "select" : $move"}] up
+    $win cursor [expr {$shift ? "select" : "move"}] up
 
     return -code break
 
@@ -2174,12 +2178,15 @@ namespace eval ctext {
         }
       }
       select {
+        puts "HERE A"
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext cursor select command"
         }
+        puts "HERE B"
         if {[get_spec_proc [lindex $args 1]] eq ""} {
           return -code error "ctext cursor select command must be called with a relative index"
         }
+        puts "HERE C"
         set anchors $data($win,select_anchors)
         if {[move_mcursors $win [lindex $args 1] starts]} {
           set selranges [list]
@@ -2194,12 +2201,15 @@ namespace eval ctext {
           set data($win,select_anchors) $anchors
           return 1
         } else {
+          catch {
           set index   [$win index {*}[lindex $args 1]]
           # set anchors $data($win,select_anchors)
           set_cursor $win $index
           $win._t tag remove sel 1.0 end
           $win._t tag add sel [lindex $anchors 0] $index
           # set data($win,select_anchors) $anchors
+          } rc
+          puts "rc: $rc"
           return 0
         }
       }
@@ -2612,6 +2622,44 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Creates the items that will be inserted into ctext.
+  #
+  # pcount - Returns the number of characters being inserted in total.
+  # pdat   - Returns the inserted text without tags
+  # args   - list of chars ?taglist chars taglist...? options passed
+  #          to the insert/replace/transform procedures
+  proc get_insert_items {win pcount pdat char_taglist} {
+
+    upvar $pcount count
+    upvar $pdat   dat
+
+    set count 0
+    set items [list]
+    set dat   ""
+
+    foreach {content tags} $char_taglist {
+      incr count [string length $content]
+      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
+      append dat $content
+    }
+
+    if {([llength $char_taglist] % 2) == 0} {
+      return $items
+    } else {
+      return [lrange $items 0 end-1]
+    }
+
+  }
+
+  ######################################################################
+  # Returns the chars ?taglist chars taglist...? list to be inserted/replaced.
+  proc insert_items {win index items} {
+
+    return [string map [list __Lang: [getLangTag $win $index]] $items]
+
+  } 
+
+  ######################################################################
   # Inserts text at the given cursor or at multicursors (if set) and
   # performs highlighting on that text.  Additionally, updates the undo
   # buffer.
@@ -2630,15 +2678,7 @@ namespace eval ctext {
     array set opts [lrange $args 0 [expr $i - 1]]
 
     # Get the number of characters being inserted and adjust the tags
-    set chars 0
-    set items [list]
-    set dat   ""
-    foreach {content tags} [lassign [lrange $args $i end] insertPos] {
-      incr chars [string length $content]
-      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
-      append dat $content
-    }
-
+    set items    [get_insert_items $win chars dat [lassign [lrange $args $i end] insertPos]]
     set ranges   [list]
     set cursor   [$win._t index insert]
     set do_tags  [list]
@@ -2655,8 +2695,8 @@ namespace eval ctext {
       set start 1.0
       while {[set range [$win._t tag nextrange _mcursor $start]] ne [list]} {
         set startPos [string map [list "cursor" [lindex $range 0]] $insertPos]
-        lassign [complete_add $win $insPos $items $chars adjust acursors] istr ichars
-        $win._t insert $startPos {*}[string map [list __Lang: [getLangTag $win $startPos]] $istr]
+        lassign [complete_add $win $startPos $items $chars adjust acursors] istr ichars
+        $win._t insert $startPos {*}[insert_items $win $startPos $istr]
         set endPos [$win._t index "$startPos+${ichars}c"]
         set start  [$win._t index $endPos+1c]
         handleInsertAt0 $win $startPos $endPos
@@ -2669,7 +2709,7 @@ namespace eval ctext {
         set insPos [set insertPos [$win index {*}$insertPos]]
       }
       lassign [complete_add $win $insPos $items $chars adjust acursors] istr ichars
-      $win._t insert $insertPos {*}[string map [list __Lang: [getLangTag $win $insertPos]] $istr]
+      $win._t insert $insertPos {*}[insert_items $win $insertPos $istr]
       set endPos [$win._t index "$insPos+${ichars}c"]
       handleInsertAt0 $win $insertPos $endPos
       lappend ranges $insPos $endPos
@@ -2947,15 +2987,7 @@ namespace eval ctext {
     array set opts [lrange $args 0 [expr $i - 1]]
 
     # Get the number of characters being inserted and adjust the tags
-    set chars 0
-    set items [list]
-    set dat   ""
-    foreach {content tags} [lassign [lrange $args $i end] startspec endspec] {
-      incr chars [string length $content]
-      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
-      append dat $content
-    }
-
+    set items   [get_insert_items $win chars dat [lassign [lrange $args $i end] startspec endspec]]
     set uranges [list]
     set rranges [list]
     set do_tags [list]
@@ -3179,7 +3211,7 @@ namespace eval ctext {
 
   ######################################################################
   # This command helps process any syntax highlighting functionality of
-  # this widget.
+  # this" widget.
   proc command_syntax {win args} {
 
     variable data
@@ -3481,7 +3513,14 @@ namespace eval ctext {
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
-    lassign [lrange $args $i end] startspec endspec cmd tags
+    if {[llength [set arglist [lrange $args $i end]]] == 3} {
+      lassign [lrange $arglist startspec endspec cmd
+      set no_tags 1
+    } else {
+      lassign [lrange $arglist startspec endspec cmd tags
+      lappend tags rmargin lmargin __Lang:
+      set no_tags 0
+    }
 
     set uranges [list]
     set rranges [list]
@@ -3501,7 +3540,11 @@ namespace eval ctext {
       lappend istrs $new_str
       comments_chars_deleted $win $startpos $endpos do_tags
       set t [handleReplaceDeleteAt0 $win $startpos $endpos]
-      $win._t replace $startpos $endpos {*}[list $new_str [list {*}$tags rmargin lmargin [getLangTag $win $startpos]]]
+      if {$no_tags} {
+        $win._t replace $startpos $endpos $new_str
+      } else {
+        $win._t replace $startpos $endpos $new_str [insert_items $win $startpos $tags]
+      }
       set new_endpos [$win._t index "$startpos+[string length $new_str]c"]
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
@@ -7768,10 +7811,10 @@ namespace eval ctext {
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[lsearch [$win._t tag names "$endpos-1c"] __unindent*] != -1} {
-        $win insert -highlight 0 -update 0 insert "$indent_space\n"
+        $win insert -highlight 0 -update 0 cursor "$indent_space\n"
         set startpos [$win._t index $startpos+1l]
         set endpos   [$win._t index $endpos+1l]
-        set restore_insert [$win._t index insert-1c]
+        set restore_insert [$win._t index $index-1c]
         if {$data($win,config,-indentmode) eq "IND+"} {
           set indent_space [string range $indent_space $data($win,config,-shiftwidth) end]
         }
@@ -8112,7 +8155,7 @@ namespace eval ctext {
 
     set char [lindex $items 0]
 
-    if {!$data($win,config,-completematch) || (([llength $items] == 2) && ![info exists complete_chars($char)])} {
+    if {!$data($win,config,-completematch) || ([llength $items] > 2) || ![info exists complete_chars($char)]} {
       return [list $items $chars]
     }
 

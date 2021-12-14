@@ -306,6 +306,8 @@ namespace eval themes {
     # Tell the user that the export was successful
     gui::set_info_message [msgcat::mc "Batch custom theme export completed successfully"]
 
+    return 1
+
   }
 
   ######################################################################

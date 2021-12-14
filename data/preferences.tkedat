@@ -188,9 +188,9 @@
 {Editor/EnableAutoIndent}    {1}
 
 # Specifies if the editor will automatically match when its matching
-# opening character is inserted.  The valid values are as follows:
+# opening character is inserted.
 
-{Editor/AutoMatchChar}      {1}
+{Editor/EnableAutoMatchChar} {1}
 
 # If set to a value of 1, causes the character that matches the current character to be highlighted.
 

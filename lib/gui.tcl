@@ -63,7 +63,7 @@ namespace eval gui {
   array set be_ignore       {}
   array set undo_count      {}
 
-  trace add variable preferences::prefs(Editor/AutoMatchChar) write gui::handle_auto_match_char
+  trace add variable preferences::prefs(Editor/EnableAutoMatchChar) write gui::handle_auto_match_char
 
   #######################
   #  PUBLIC PROCEDURES  #
@@ -2097,7 +2097,7 @@ namespace eval gui {
     # Update the file
     update_file $fileindex
 
-
+    return 1
 
   }
 
@@ -2171,6 +2171,8 @@ namespace eval gui {
 
     # Get the file index of the current file
     files::set_info [get_info {} current fileindex] fileindex eol $value
+    
+    return 1
 
   }
 
@@ -2417,6 +2419,8 @@ namespace eval gui {
 
     # Make sure that the title is consistent
     set_title
+
+    return 1
 
   }
 
@@ -2923,6 +2927,8 @@ namespace eval gui {
     # Perform the undo operation from Vim perspective
     vim::undo $txt.t
 
+    return 1
+
   }
 
   ######################################################################
@@ -2945,6 +2951,8 @@ namespace eval gui {
 
     # Perform the redo operation from Vim perspective
     vim::redo $txt.t
+
+    return 1
 
   }
 
@@ -2969,6 +2977,8 @@ namespace eval gui {
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
 
+    return 1
+
   }
 
   ##############################################################################
@@ -2980,6 +2990,8 @@ namespace eval gui {
 
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
+
+    return 1
 
   }
 
@@ -3045,6 +3057,8 @@ namespace eval gui {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -3102,6 +3116,8 @@ namespace eval gui {
       $txt configure -state disabled
 
     }
+
+    return 1
 
   }
 
@@ -3964,6 +3980,8 @@ namespace eval gui {
     wm geometry .aboutwin ${x}x${y}
     wm deiconify .aboutwin
 
+    return 1
+
   }
 
   ######################################################################
@@ -4048,7 +4066,7 @@ namespace eval gui {
   proc handle_auto_match_char {name1 name2 op} {
 
     foreach txt [get_all_texts] {
-      $txt configure -completematch $preferences::prefs(Editor/AutoMatchChar)
+      $txt configure -completematch $preferences::prefs(Editor/EnableAutoMatchChar)
     }
 
   }

@@ -255,17 +255,27 @@ namespace eval bindings {
           set binding [join [concat {*}$value] -]
           set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
-          bind all [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
+          bind all [accelerator_to_sequence $binding] [list menus::invoke $mnu $menu_index]
         }
       }
     }
 
     # Add bindings to entry, combobox and spinboxes
     foreach win [list TEntry TCombobox TSpinbox] {
-      bind $win <Control-c> "event generate %W <<Copy>>;  break"
-      bind $win <Control-x> "event generate %W <<Cut>>;   break"
-      bind $win <Control-v> "event generate %W <<Paste>>; break"
+      bind $win <Control-c> [list bindings::generate_edit_op %W Copy]
+      bind $win <Control-x> [list bindings::generate_edit_op %W Cut]
+      bind $win <Control-v> [list bindings::generate_edit_op %W Paste]
     }
+
+  }
+
+  ######################################################################
+  # Handles a cut, copy or paste event to any entry widget that is listening.
+  proc generate_edit_op {w op} {
+
+    event generate $w <<$op>>
+
+    return -code break
 
   }
 

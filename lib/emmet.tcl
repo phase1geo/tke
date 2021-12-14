@@ -139,6 +139,8 @@ namespace eval emmet {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -146,6 +148,8 @@ namespace eval emmet {
   proc edit_abbreviations {} {
 
     pref_ui::create "" "" emmet "Node Aliases"
+
+    return 1
 
   }
 
@@ -354,6 +358,8 @@ namespace eval emmet {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -390,6 +396,8 @@ namespace eval emmet {
       }
       incr others -1
     }
+
+    return 1
 
   }
 
@@ -431,6 +439,8 @@ namespace eval emmet {
     # Select the current range
     $txt tag add sel {*}$node_range
 
+    return 1
+
   }
 
   ######################################################################
@@ -464,6 +474,8 @@ namespace eval emmet {
       balance_outward
 
     }
+
+    return 1
 
   }
 
@@ -601,6 +613,8 @@ namespace eval emmet {
       }
 
     }
+
+    return 1
 
   }
 
@@ -769,6 +783,8 @@ namespace eval emmet {
       select_html_item $txt $dir
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -830,6 +846,8 @@ namespace eval emmet {
       toggle_html_comment $txt
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -851,6 +869,8 @@ namespace eval emmet {
       $txt replace $index [lindex $retval 1] "></[lindex $retval 2]>"
 
     }
+
+    return 1
 
   }
 
@@ -921,6 +941,8 @@ namespace eval emmet {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -945,6 +967,8 @@ namespace eval emmet {
       }
 
     }
+
+    return 1
 
   }
 
@@ -1033,6 +1057,8 @@ namespace eval emmet {
       update_html_image_size $txt
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -1047,13 +1073,13 @@ namespace eval emmet {
       set num_start "insert"
       set num_end   [$txt index numberend -startpos "insert+1c" -exclusive 0]
       if {[$txt compare $num_end == "insert+1c"]} {
-        return
+        return 0
       }
     } else {
       set num_start [$txt index numberstart]
       set num_end   [$txt index numberend -exclusive 0]
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
-        return
+        return 0
       }
       if {([$txt get "$num_start-1c"] eq "-") && ![$txt is escaped "$num_start-1c"]} {
         set num_start "$num_start-1c"
@@ -1096,7 +1122,11 @@ namespace eval emmet {
       # Create an undo separator
       $txt edit separator
 
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -1123,6 +1153,8 @@ namespace eval emmet {
       }
 
     }
+
+    return 1
 
   }
 
@@ -1231,6 +1263,8 @@ namespace eval emmet {
       encode_decode_html_image_to_data_url $txt {*}$args
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -1238,6 +1272,8 @@ namespace eval emmet {
   proc view_reference {} {
 
     utils::open_file_externally "https://docs.emmet.io" 1
+
+    return 1
 
   }
 

@@ -103,7 +103,11 @@ namespace eval menus {
     }
 
     # Next, invoke the menu
-    $mnu invoke $index
+    if {[$mnu invoke $index]} {
+      return -code break
+    }
+
+    return -code ok
 
   }
 
@@ -163,32 +167,32 @@ namespace eval menus {
 
         set mb ".menubar.tools"
         $mb add separator
-        $mb add command -label [msgcat::mc "Export Custom Themes"] -command [list themes::export_custom]
+        $mb add command -label [msgcat::mc "Export Custom Themes"] -command [list themes::export_custom]  ;# done
         $mb add separator
-        $mb add command -label [msgcat::mc "Start Profiling"]            -underline 0 -command [list menus::start_profiling_command $mb]
-        $mb add command -label [msgcat::mc "Stop Profiling"]             -underline 1 -command [list menus::stop_profiling_command $mb 1] -state disabled
-        $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command [list menus::show_last_profiling_report]
+        $mb add command -label [msgcat::mc "Start Profiling"]            -underline 0 -command [list menus::start_profiling_command $mb]  ;# done
+        $mb add command -label [msgcat::mc "Stop Profiling"]             -underline 1 -command [list menus::stop_profiling_command $mb 1] -state disabled ;# done
+        $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command [list menus::show_last_profiling_report]  ;# done
         $mb add separator
-        $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"
+        $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"  ;# done
         if {[preferences::get View/ShowConsole]} {
-          $mb add command -label [msgcat::mc "Hide Tcl Console"] -underline 5 -command [list menus::hide_console_view $mb]
+          $mb add command -label [msgcat::mc "Hide Tcl Console"] -underline 5 -command [list menus::hide_console_view $mb]  ;# done
         } else {
-          $mb add command -label [msgcat::mc "Show Tcl Console"] -underline 5 -command [list menus::show_console_view $mb]
+          $mb add command -label [msgcat::mc "Show Tcl Console"] -underline 5 -command [list menus::show_console_view $mb]  ;# done
         }
         $mb add separator
-        $mb add command -label [format "%s %s" [msgcat::mc "Run"] "BIST"] -underline 4 -command "menus::run_bist"
+        $mb add command -label [format "%s %s" [msgcat::mc "Run"] "BIST"] -underline 4 -command "menus::run_bist"  ;# done
         $mb add separator
-        $mb add command -label [format "%s %s" [msgcat::mc "Restart"] "TKE"] -underline 0 -command "menus::restart_command"
+        $mb add command -label [format "%s %s" [msgcat::mc "Restart"] "TKE"] -underline 0 -command "menus::restart_command"  ;# done
 
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Export Custom Themes"]]           [list themes::export_custom]
-        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Start profiling"]]                [list menus::start_profiling_command $mb]
-        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]]                 [list menus::stop_profiling_command $mb 1]
-        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]]     [list menus::show_last_profiling_report]
-        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show diagnostic logfile"]]        [list logger::view_log]
-        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show Tcl console"]]               [list menus::show_console_view $mb]
-        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Hide Tcl console"]]               [list menus::hide_console_view $mb]
-        launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]]    [list menus::run_bist]
-        launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] [list menus::restart_command]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Start profiling"]]                [list menus::start_profiling_command $mb]  ;# done
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]]                 [list menus::stop_profiling_command $mb 1]  ;# done
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]]     [list menus::show_last_profiling_report]  ;# done
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show diagnostic logfile"]]        [list logger::view_log]  ;# done
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show Tcl console"]]               [list menus::show_console_view $mb]  ;# done
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Hide Tcl console"]]               [list menus::hide_console_view $mb]  ;# done
+        launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]]    [list menus::run_bist]  ;# done
+        launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] [list menus::restart_command]  ;# done
 
         # If profiling was enabled at startup, disable start and enable stop
         if {$::cl_profile} {
@@ -198,19 +202,19 @@ namespace eval menus {
 
         set mb ".menubar.plugins"
         $mb insert 3 separator
-        $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command [list menus::main_only plugins::create_new_plugin]
-        $mb insert 6 command -label [format "%s..." [msgcat::mc "Export"]] -underline 0 -command [list menus::main_only plugins::export]
-        $mb insert 7 command -label [msgcat::mc "Show plugins directory in sidebar"]    -command [list menus::main_only plugins::show_iplugins]
+        $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command [list menus::main_only plugins::create_new_plugin]  ;# done
+        $mb insert 6 command -label [format "%s..." [msgcat::mc "Export"]] -underline 0 -command [list menus::main_only plugins::export]  ;# done
+        $mb insert 7 command -label [msgcat::mc "Show plugins directory in sidebar"]    -command [list menus::main_only plugins::show_iplugins]  ;# done
 
-        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]]     [list menus::main_only plugins::create_new_plugin]
-        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] [list menus::main_only plugins::export]
-        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Show plugin source directory in sidebar"]] [list menus::main_only plugins::show_iplugins]]
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]]     [list menus::main_only plugins::create_new_plugin]  ;# done
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Export current plugin"]] [list menus::main_only plugins::export]  ;# done
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Show plugin source directory in sidebar"]] [list menus::main_only plugins::show_iplugins]]  ;# done
 
         set mb ".menubar.help"
         $mb insert 2 separator
-        $mb insert 3 command -label [msgcat::mc "Plugin Developer Guide"] -underline 0 -command [list menus::main_only menus::help_devel_guide]
+        $mb insert 3 command -label [msgcat::mc "Plugin Developer Guide"] -underline 0 -command [list menus::main_only menus::help_devel_guide]  ;# done
 
-        launcher::register [make_menu_cmd "Help" [msgcat::mc "Show plugin developer guide"]] [list menus::main_only menus::help_devel_guide]
+        launcher::register [make_menu_cmd "Help" [msgcat::mc "Show plugin developer guide"]] [list menus::main_only menus::help_devel_guide]  ;# done
 
       } elseif {$last_devel_mode ne ""} {
 
@@ -289,7 +293,7 @@ namespace eval menus {
       windowlist::windowMenu $mb
 
       # Add the launcher command to show the about window
-      launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] gui::show_about
+      launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] gui::show_about  ;# done
 
     }
 
@@ -362,25 +366,25 @@ namespace eval menus {
 
     $mb delete 0 end
 
-    $mb add command -label [msgcat::mc "New Window"] -underline 4 -command [list menus::main_only menus::new_window_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "New window"]] [list menus::main_only menus::new_window_command]
+    $mb add command -label [msgcat::mc "New Window"] -underline 4 -command [list menus::main_only menus::new_window_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "New window"]] [list menus::main_only menus::new_window_command]  ;# done
 
-    $mb add command -label [msgcat::mc "New File"] -underline 0 -command [list menus::main_only menus::new_file_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "New file"]] [list menus::main_only menus::new_file_command]
+    $mb add command -label [msgcat::mc "New File"] -underline 0 -command [list menus::main_only menus::new_file_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "New file"]] [list menus::main_only menus::new_file_command]  ;# done
 
     $mb add command -label [format "%s..." [msgcat::mc "New From Template"]] -underline 9 -command [list menus::main_only templates::show_templates load_abs]
     launcher::register [make_menu_cmd "File" [msgcat::mc "New file from template"]] [list menus::main_only templates::show_templates load_abs]
 
     $mb add separator
 
-    $mb add command -label [format "%s..." [msgcat::mc "Open File"]] -underline 0 -command [list menus::main_only menus::open_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Open file"]] [list menus::main_only menus::open_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Open File"]] -underline 0 -command [list menus::main_only menus::open_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open file"]] [list menus::main_only menus::open_command]  ;# done
 
-    $mb add command -label [format "%s..." [msgcat::mc "Open Directory"]] -underline 5 -command [list menus::main_only menus::open_dir_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Open directory"]] [list menus::main_only menus::open_dir_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Open Directory"]] -underline 5 -command [list menus::main_only menus::open_dir_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open directory"]] [list menus::main_only menus::open_dir_command]  ;# done
 
-    $mb add command -label [format "%s..." [msgcat::mc "Open Remote"]] -underline 0 -command [list menus::main_only menus::open_remote_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Open remote file or directory"]] [list menus::main_only menus::open_remote_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Open Remote"]] -underline 0 -command [list menus::main_only menus::open_remote_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open remote file or directory"]] [list menus::main_only menus::open_remote_command]  ;# done
 
     $mb add cascade -label [msgcat::mc "Open Recent"] -menu [make_menu $mb.recent -tearoff false -postcommand [list menus::file_recent_posting $mb.recent]]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Open Recent"]] [list menus::launcher]
@@ -388,44 +392,44 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [make_menu $mb.favorites -tearoff false -postcommand [list menus::file_favorites_posting $mb.favorites]]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Open Favorite"]] [list favorites::launcher]
 
-    $mb add command -label [msgcat::mc "Reopen File"] -underline 0 -command [list menus::main_only gui::update_current]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Reopen current file"]] [list menus::main_only gui::update_current]
+    $mb add command -label [msgcat::mc "Reopen File"] -underline 0 -command [list menus::main_only gui::update_current]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Reopen current file"]] [list menus::main_only gui::update_current]  ;# done
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Change Working Directory"] -underline 0 -command [list menus::main_only menus::change_working_directory]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Change working directory"]] [list menus::main_only menus::change_working_directory]
+    $mb add command -label [msgcat::mc "Change Working Directory"] -underline 0 -command [list menus::main_only menus::change_working_directory]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Change working directory"]] [list menus::main_only menus::change_working_directory]  ;# done
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command [list menus::text_only menus::show_file_diff]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Show file difference"]] [list menus::text_only menus::show_file_diff]
+    $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command [list menus::text_only menus::show_file_diff]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Show file difference"]] [list menus::text_only menus::show_file_diff]  ;# done
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Save"] -underline 0 -command [list menus::text_only menus::save_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file"]] [list menus::text_only menus::save_command]
+    $mb add command -label [msgcat::mc "Save"] -underline 0 -command [list menus::text_only menus::save_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file"]] [list menus::text_only menus::save_command]  ;# done
 
-    $mb add command -label [format "%s..." [msgcat::mc "Save As"]] -underline 5 -command [list menus::text_only menus::save_as_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as"]] [list menus::text_only menus::save_as_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Save As"]] -underline 5 -command [list menus::text_only menus::save_as_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as"]] [list menus::text_only menus::save_as_command]  ;# done
 
-    $mb add command -label [format "%s..." [msgcat::mc "Save As Remote"]] -command [list menus::text_only menus::save_as_remote_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as remote file"]] [list menus::text_only menus::save_as_remote_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Save As Remote"]] -command [list menus::text_only menus::save_as_remote_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as remote file"]] [list menus::text_only menus::save_as_remote_command]  ;# done
 
-    $mb add command -label [format "%s..." [msgcat::mc "Save As Template"]] -command [list menus::text_only templates::save_as]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as template"]] [list menus::text_only templates::save_as]
+    $mb add command -label [format "%s..." [msgcat::mc "Save As Template"]] -command [list menus::text_only templates::save_as]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as template"]] [list menus::text_only templates::save_as]  ;# done
 
-    $mb add command -label [format "%s..." [msgcat::mc "Save Selection As"]] -underline 7 -command [list menus::text_only menus::save_selection_as_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Save selected lines"]] [list menus::text_only menus::save_selection_as_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Save Selection As"]] -underline 7 -command [list menus::text_only menus::save_selection_as_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save selected lines"]] [list menus::text_only menus::save_selection_as_command]  ;# done
 
-    $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list menus::main_only gui::save_all]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Save all files"]] [list menus::main_only gui::save_all]
+    $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list menus::main_only gui::save_all]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save all files"]] [list menus::main_only gui::save_all]  ;# done
 
     $mb add separator
 
     # Populate the export menu
-    $mb add command -label [format "%s..." [msgcat::mc "Export"]] -command [list menus::text_only menus::export_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Export file contents"]] [list menus::text_only menus::export_command]
+    $mb add command -label [format "%s..." [msgcat::mc "Export"]] -command [list menus::text_only menus::export_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Export file contents"]] [list menus::text_only menus::export_command]  ;# done
 
     $mb add separator
 
@@ -434,32 +438,32 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Rename"] -underline 4 -command [list menus::text_only menus::rename_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Rename current file"]] [list menus::text_only menus::rename_command]
+    $mb add command -label [msgcat::mc "Rename"] -underline 4 -command [list menus::text_only menus::rename_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Rename current file"]] [list menus::text_only menus::rename_command]  ;# done
 
-    $mb add command -label [msgcat::mc "Duplicate"] -underline 1 -command [list menus::text_only menus::duplicate_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Duplicate current file"]] [list menus::text_only menus::duplicate_command]
+    $mb add command -label [msgcat::mc "Duplicate"] -underline 1 -command [list menus::text_only menus::duplicate_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Duplicate current file"]] [list menus::text_only menus::duplicate_command]  ;# done
 
-    $mb add command -label [msgcat::mc "Delete"] -underline 0 -command [list menus::text_only menus::delete_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Delete current file"]] [list menus::text_only menus::delete_command]
-
-    $mb add separator
-
-    $mb add command -label [msgcat::mc "Lock"] -underline 0 -command [list menus::text_only menus::lock_command $mb]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Lock file"]] [list menus::text_only menus::lock_command $mb]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Unlock file"]] [list menus::text_only menus::unlock_command $mb]
-
-    $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command [list menus::text_only menus::favorite_command $mb]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Favorite file"]] [list menus::text_only menus::favorite_command $mb]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Unfavorite file"]] [list menus::text_only menus::unfavorite_command $mb]
+    $mb add command -label [msgcat::mc "Delete"] -underline 0 -command [list menus::text_only menus::delete_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Delete current file"]] [list menus::text_only menus::delete_command]  ;# done
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Close"] -underline 0 -command [list menus::text_only menus::close_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Close current tab"]] [list menus::text_only menus::close_command]
+    $mb add command -label [msgcat::mc "Lock"] -underline 0 -command [list menus::text_only menus::lock_command $mb]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Lock file"]] [list menus::text_only menus::lock_command $mb]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Unlock file"]] [list menus::text_only menus::unlock_command $mb]  ;# done
 
-    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command [list menus::main_only menus::close_all_command]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Close all tabs"]] [list menus::main_only menus::close_all_command]
+    $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command [list menus::text_only menus::favorite_command $mb]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Favorite file"]] [list menus::text_only menus::favorite_command $mb]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Unfavorite file"]] [list menus::text_only menus::unfavorite_command $mb]  ;# done
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Close"] -underline 0 -command [list menus::text_only menus::close_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Close current tab"]] [list menus::text_only menus::close_command]  ;# done
+
+    $mb add command -label [msgcat::mc "Close All"] -underline 6 -command [list menus::main_only menus::close_all_command]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Close all tabs"]] [list menus::main_only menus::close_all_command]  ;# done
 
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
@@ -469,14 +473,14 @@ namespace eval menus {
     launcher::register [make_menu_cmd "File" [msgcat::mc "Quit application"]] [list menus::exit_command]
 
     # Populate the end-of-line menu
-    $mb.eolPopup add radiobutton -label "Windows" -variable menus::line_ending -value "crlf" -command [list menus::text_only gui::set_current_eol_translation crlf]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CRLF for Windows"]] [list menus::text_only gui::set_current_eol_translation crlf]
+    $mb.eolPopup add radiobutton -label "Windows" -variable menus::line_ending -value "crlf" -command [list menus::text_only gui::set_current_eol_translation crlf]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CRLF for Windows"]] [list menus::text_only gui::set_current_eol_translation crlf]  ;# done
 
-    $mb.eolPopup add radiobutton -label "Unix"    -variable menus::line_ending -value "lf"   -command [list menus::text_only gui::set_current_eol_translation lf]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to LF for Unix"]] [list menus::text_only gui::set_current_eol_translation lf]
+    $mb.eolPopup add radiobutton -label "Unix"    -variable menus::line_ending -value "lf"   -command [list menus::text_only gui::set_current_eol_translation lf]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to LF for Unix"]] [list menus::text_only gui::set_current_eol_translation lf]  ;# done
 
-    $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"] -variable menus::line_ending -value "cr"   -command [list menus::text_only gui::set_current_eol_translation cr]
-    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CR for Classic Mac"]] [list menus::text_only gui::set_current_eol_translation cr]
+    $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"] -variable menus::line_ending -value "cr"   -command [list menus::text_only gui::set_current_eol_translation cr]  ;# done
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CR for Classic Mac"]] [list menus::text_only gui::set_current_eol_translation cr]  ;# done
 
   }
 
@@ -621,7 +625,7 @@ namespace eval menus {
     }
 
     # Add "Clear All" menu option
-    $mb add command -label [msgcat::mc "Clear All"] -command [list menus::main_only menus::clear_last_opened]
+    $mb add command -label [msgcat::mc "Clear All"] -command [list menus::main_only menus::clear_last_opened]  ;# done
 
   }
 
@@ -631,6 +635,8 @@ namespace eval menus {
 
     sidebar::clear_last_opened
     gui::clear_last_opened
+
+    return 1
 
   }
 
@@ -683,6 +689,8 @@ namespace eval menus {
       exec -ignorestderr [info nameofexecutable] $::argv0 -- -n &
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -691,6 +699,8 @@ namespace eval menus {
 
     gui::add_new_file end -sidebar 1
 
+    return 1
+
   }
 
   ######################################################################
@@ -698,6 +708,8 @@ namespace eval menus {
   proc new_file_from_template {} {
 
     templates::show_templates load_abs
+
+    return 1
 
   }
 
@@ -714,6 +726,8 @@ namespace eval menus {
       }
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -726,6 +740,8 @@ namespace eval menus {
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       sidebar::add_directory $odir -select 1
     }
+
+    return 1
 
   }
 
@@ -745,6 +761,8 @@ namespace eval menus {
       }
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -754,6 +772,8 @@ namespace eval menus {
     if {[set dir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory] -mustexist 1]] ne ""} {
       gui::change_working_directory $dir
     }
+
+    return 1
 
   }
 
@@ -767,6 +787,8 @@ namespace eval menus {
     # Display the current file as a difference
     gui::add_file end $fname -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
 
+    return 1
+
   }
 
   ######################################################################
@@ -774,6 +796,8 @@ namespace eval menus {
   proc save_command {} {
 
     gui::save_current -force 1
+
+    return 1
 
   }
 
@@ -785,6 +809,8 @@ namespace eval menus {
     if {[set sfile [gui::prompt_for_save]] ne ""} {
       gui::save_current -force 1 -save_as $sfile
     }
+
+    return 1
 
   }
 
@@ -799,6 +825,8 @@ namespace eval menus {
     if {$sfile ne ""} {
       gui::save_current -force 1 -save_as $sfile -remote $connection
     }
+
+    return 1
 
   }
 
@@ -816,6 +844,8 @@ namespace eval menus {
       edit::save_selection $txt [$txt index sel.first] [$txt index sel.last] 1 $sfile
 
     }
+
+    return 1
 
   }
 
@@ -859,6 +889,8 @@ namespace eval menus {
     # Let the user know that the operation has completed
     gui::set_info_message [msgcat::mc "Export complete"]
 
+    return 1
+
   }
 
   ######################################################################
@@ -895,6 +927,8 @@ namespace eval menus {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -917,6 +951,8 @@ namespace eval menus {
     if {[set sidebar_index [sidebar::get_index [file dirname $dup_fname] $remote]] ne ""} {
       sidebar::update_directory $sidebar_index
     }
+
+    return 1
 
   }
 
@@ -944,6 +980,8 @@ namespace eval menus {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -963,6 +1001,8 @@ namespace eval menus {
       sidebar::update_directory $sidebar_index
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -977,6 +1017,8 @@ namespace eval menus {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -990,6 +1032,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Unlock"] -label [msgcat::mc "Lock"] -command [list menus::text_only menus::lock_command $mb]
 
     }
+
+    return 1
 
   }
 
@@ -1013,6 +1057,8 @@ namespace eval menus {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -1034,6 +1080,8 @@ namespace eval menus {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -1042,6 +1090,8 @@ namespace eval menus {
 
     gui::close_current
 
+    return 1
+
   }
 
   ######################################################################
@@ -1049,6 +1099,8 @@ namespace eval menus {
   proc close_all_command {} {
 
     gui::close_all -force 1
+
+    return 1
 
   }
 
@@ -1109,43 +1161,43 @@ namespace eval menus {
   proc add_edit {mb} {
 
     # Add edit menu commands
-    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command [list menus::text_only gui::undo]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Undo"]] [list menus::text_only gui::undo]
+    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command [list menus::text_only gui::undo]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Undo"]] [list menus::text_only gui::undo]  ;# done
 
-    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command [list menus::text_only gui::redo]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Redo"]] [list menus::text_only gui::redo]
+    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command [list menus::text_only gui::redo]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Redo"]] [list menus::text_only gui::redo]  ;# done
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command [list menus::text_only gui::cut]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Cut text"]] [list menus::text_only gui::cut]
+    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command [list menus::text_only gui::cut]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Cut text"]] [list menus::text_only gui::cut]  ;# done
 
-    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command [list menus::text_only gui::copy]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Copy text"]] [list menus::text_only gui::copy]
+    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command [list menus::text_only gui::copy]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Copy text"]] [list menus::text_only gui::copy]  ;# done
 
-    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command [list menus::text_only gui::paste]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste text from clipboard"]] [list menus::text_only gui::paste]
+    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command [list menus::text_only gui::paste]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste text from clipboard"]] [list menus::text_only gui::paste]  ;# done
 
-    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list menus::text_only gui::paste_and_format]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list menus::text_only gui::paste_and_format]
+    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list menus::text_only gui::paste_and_format]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list menus::text_only gui::paste_and_format]  ;# done
 
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Select"] -underline 0 -menu [make_menu $mb.selectPopup -tearoff 0 -postcommand [list menus::edit_select_posting $mb.selectPopup]]
 
-    $mb add command -label [msgcat::mc "Select Mode"] -underline 7 -command [list menus::text_only menus::select_mode]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enter selection mode"]] [list menus::text_only menus::select_mode]
+    $mb add command -label [msgcat::mc "Select Mode"] -underline 7 -command [list menus::text_only menus::select_mode]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enter selection mode"]] [list menus::text_only menus::select_mode]  ;# done
 
     $mb add separator
 
-    $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Editor/VimMode) -command [list menus::main_only vim::set_vim_mode_all]
+    $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Editor/VimMode) -command [list menus::main_only vim::set_vim_mode_all]  ;# done
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enable Vim mode"]]  [list menus::main_only vim::set_vim_mode_all 1]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Disable Vim mode"]] [list menus::main_only vim::set_vim_mode_all 0]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list menus::text_only edit::comment_toggle]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle comment"]] [list menus::text_only edit::comment_toggle]
+    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list menus::text_only edit::comment_toggle]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle comment"]] [list menus::text_only edit::comment_toggle]  ;# done
 
     $mb add cascade -label [msgcat::mc "Indentation"] -underline 0 -menu [make_menu $mb.indentPopup -tearoff 0 -postcommand [list menus::edit_indent_posting $mb.indentPopup]]
     $mb add cascade -label [msgcat::mc "Cursor"]      -underline 1 -menu [make_menu $mb.cursorPopup -tearoff 0 -postcommand [list menus::edit_cursor_posting $mb.cursorPopup]]
@@ -1170,46 +1222,46 @@ namespace eval menus {
     # Populate selection menu
     #########################
 
-    $mb.selectPopup add command -label [msgcat::mc "All"] -underline 0 -command [list menus::text_only select::quick_select all]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list menus::text_only select::quick_select all]
+    $mb.selectPopup add command -label [msgcat::mc "All"] -underline 0 -command [list menus::text_only select::quick_select all]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list menus::text_only select::quick_select all]  ;# done
 
-    $mb.selectPopup add command -label [msgcat::mc "Current Line"] -underline 8 -command [list menus::text_only select::quick_select line]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current line"]] [list menus::text_only select::quick_select line]
+    $mb.selectPopup add command -label [msgcat::mc "Current Line"] -underline 8 -command [list menus::text_only select::quick_select line]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current line"]] [list menus::text_only select::quick_select line]  ;# done
 
-    $mb.selectPopup add command -label [msgcat::mc "Current Word"] -underline 8 -command [list menus::text_only select::quick_select word]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current word"]] [list menus::text_only select::quick_select word]
+    $mb.selectPopup add command -label [msgcat::mc "Current Word"] -underline 8 -command [list menus::text_only select::quick_select word]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current word"]] [list menus::text_only select::quick_select word]  ;# done
 
-    $mb.selectPopup add command -label [msgcat::mc "Current Sentence"] -underline 8 -command [list menus::text_only select::quick_select sentence]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current sentence"]] [list menus::text_only select::quick_select sentence]
+    $mb.selectPopup add command -label [msgcat::mc "Current Sentence"] -underline 8 -command [list menus::text_only select::quick_select sentence]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current sentence"]] [list menus::text_only select::quick_select sentence]  ;# done
 
-    $mb.selectPopup add command -label [msgcat::mc "Current Paragraph"] -underline 8 -command [list menus::text_only select::quick_select paragraph]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current paragraph"]] [list menus::text_only select::quick_select paragraph]
+    $mb.selectPopup add command -label [msgcat::mc "Current Paragraph"] -underline 8 -command [list menus::text_only select::quick_select paragraph]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current paragraph"]] [list menus::text_only select::quick_select paragraph]  ;# done
 
-    $mb.selectPopup add command -label [msgcat::mc "Current Bounded Text"] -underline 8 -command [list menus::text_only select::quick_select bracket]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current bracketed text, strings or comment block"]] [list menus::text_only select::quick_select bracket]
+    $mb.selectPopup add command -label [msgcat::mc "Current Bounded Text"] -underline 8 -command [list menus::text_only select::quick_select bracket]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current bracketed text, strings or comment block"]] [list menus::text_only select::quick_select bracket]  ;# done
 
     $mb.selectPopup add separator
 
-    $mb.selectPopup add command -label [msgcat::mc "Add Next Line"] -underline 4 -command [list menus::text_only select::quick_add_line next]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Add next line to selection"]] [list menus::text_only select::quick_add_line next]
+    $mb.selectPopup add command -label [msgcat::mc "Add Next Line"] -underline 4 -command [list menus::text_only select::quick_add_line next]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Add next line to selection"]] [list menus::text_only select::quick_add_line next]  ;# done
 
-    $mb.selectPopup add command -label [msgcat::mc "Add Previous Line"] -underline 5 -command [list menus::text_only select::quick_add_line prev]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Add previous line to selection"]] [list menus::text_only select::quick_add_line prev]
+    $mb.selectPopup add command -label [msgcat::mc "Add Previous Line"] -underline 5 -command [list menus::text_only select::quick_add_line prev]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Add previous line to selection"]] [list menus::text_only select::quick_add_line prev]  ;# done
 
     ###########################
     # Populate indentation menu
     ###########################
 
-    $mb.indentPopup add command -label [msgcat::mc "Indent"] -underline 0 -command [list menus::text_only menus::indent_command]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Indent selected text"]] [list menus::text_only menus::indent_command]
+    $mb.indentPopup add command -label [msgcat::mc "Indent"] -underline 0 -command [list menus::text_only menus::indent_command]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Indent selected text"]] [list menus::text_only menus::indent_command]  ;# done
 
-    $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list menus::text_only menus::unindent_command]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Unindent selected text"]] [list menus::text_only menus::unindent_command]
+    $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list menus::text_only menus::unindent_command]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Unindent selected text"]] [list menus::text_only menus::unindent_command]  ;# done
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add command -label [msgcat::mc "Format Text"] -command [list menus::text_only gui::format_text]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Format indentation for text"]] [list menus::text_only gui::format_text]
+    $mb.indentPopup add command -label [msgcat::mc "Format Text"] -command [list menus::text_only gui::format_text]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Format indentation for text"]] [list menus::text_only gui::format_text]  ;# done
 
     $mb.indentPopup add separator
 
@@ -1484,96 +1536,96 @@ namespace eval menus {
     # Populate Emmet menu
     #####################
 
-    $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list menus::text_only emmet::expand_abbreviation]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list menus::text_only emmet::expand_abbreviation]
+    $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list menus::text_only emmet::expand_abbreviation]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list menus::text_only emmet::expand_abbreviation]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Wrap With Abbreviation"] -command [list menus::text_only emmet::wrap_with_abbreviation]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Wrap tag with Emmet abbreviation"]] [list menus::text_only emmet::wrap_with_abbreviation]
-
-    $mb.emmetPopup add separator
-
-    $mb.emmetPopup add command -label [msgcat::mc "Balance Outward"] -command [list menus::text_only emmet::balance_outward]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Balance tag pair moving outward"]] [list menus::text_only emmet::balance_outward]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Balance Inward"] -command [list menus::text_only emmet::balance_inward]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Balance tag pair moving inward"]] [list menus::text_only emmet::balance_inward]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Go to Matching Pair"] -command [list menus::text_only emmet::go_to_matching_pair]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to matching tag pair"]] [list menus::text_only emmet::go_to_matching_pair]
+    $mb.emmetPopup add command -label [msgcat::mc "Wrap With Abbreviation"] -command [list menus::text_only emmet::wrap_with_abbreviation]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Wrap tag with Emmet abbreviation"]] [list menus::text_only emmet::wrap_with_abbreviation]  ;# done
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "Toggle Comment"] -command [list menus::text_only emmet::toggle_comment]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle tag/rule comment"]] [list menus::text_only emmet::toggle_comment]
+    $mb.emmetPopup add command -label [msgcat::mc "Balance Outward"] -command [list menus::text_only emmet::balance_outward]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Balance tag pair moving outward"]] [list menus::text_only emmet::balance_outward]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Split/Join Tag"] -command [list menus::text_only emmet::split_join_tag]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Split/Join tag"]] [list menus::text_only emmet::split_join_tag]
+    $mb.emmetPopup add command -label [msgcat::mc "Balance Inward"] -command [list menus::text_only emmet::balance_inward]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Balance tag pair moving inward"]] [list menus::text_only emmet::balance_inward]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Remove Tag"] -command [list menus::text_only emmet::remove_tag]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Remove tag"]] [list menus::text_only emmet::remove_tag]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Merge Lines"] -command [list menus::text_only emmet::merge_lines]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Merge Lines"]] [list menus::text_only emmet::merge_lines]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Update Image Size"] -command [list menus::text_only emmet::update_image_size]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Update img tag width and height attributes"]] [list menus::text_only emmet::update_image_size]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Encode/Decode Image to Data:URL"] -command [list menus::text_only emmet::encode_decode_image_to_data_url]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Encode/Decode image to data:URL"]] [list menus::text_only emmet::encode_decode_image_to_data_url]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Reflect CSS Value"] -command [list menus::text_only emmet_css::reflect_css_value]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reflect current CSS value"]] [list menus::text_only emmet_css::reflect_css_value]
+    $mb.emmetPopup add command -label [msgcat::mc "Go to Matching Pair"] -command [list menus::text_only emmet::go_to_matching_pair]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to matching tag pair"]] [list menus::text_only emmet::go_to_matching_pair]  ;# done
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list menus::text_only emmet::go_to_edit_point next]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to next edit point"]] [list menus::text_only emmet::go_to_edit_point next]
+    $mb.emmetPopup add command -label [msgcat::mc "Toggle Comment"] -command [list menus::text_only emmet::toggle_comment]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle tag/rule comment"]] [list menus::text_only emmet::toggle_comment]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Previous Edit Point"] -command [list menus::text_only emmet::go_to_edit_point prev]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to previous edit point"]] [list menus::text_only emmet::go_to_edit_point prev]
+    $mb.emmetPopup add command -label [msgcat::mc "Split/Join Tag"] -command [list menus::text_only emmet::split_join_tag]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Split/Join tag"]] [list menus::text_only emmet::split_join_tag]  ;# done
 
-    $mb.emmetPopup add separator
+    $mb.emmetPopup add command -label [msgcat::mc "Remove Tag"] -command [list menus::text_only emmet::remove_tag]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Remove tag"]] [list menus::text_only emmet::remove_tag]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list menus::text_only emmet::select_item next]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select next tag item"]] [list menus::text_only emmet::select_item next]
+    $mb.emmetPopup add command -label [msgcat::mc "Merge Lines"] -command [list menus::text_only emmet::merge_lines]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Merge Lines"]] [list menus::text_only emmet::merge_lines]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Select Previous Item"] -command [list menus::text_only emmet::select_item prev]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select previous tag item"]] [list menus::text_only emmet::select_item prev]
+    $mb.emmetPopup add command -label [msgcat::mc "Update Image Size"] -command [list menus::text_only emmet::update_image_size]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Update img tag width and height attributes"]] [list menus::text_only emmet::update_image_size]  ;# done
 
-    $mb.emmetPopup add separator
+    $mb.emmetPopup add command -label [msgcat::mc "Encode/Decode Image to Data:URL"] -command [list menus::text_only emmet::encode_decode_image_to_data_url]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Encode/Decode image to data:URL"]] [list menus::text_only emmet::encode_decode_image_to_data_url]  ;# done
 
-    $mb.emmetPopup add command -label [msgcat::mc "Evaluate Math Expression"] -command [list menus::text_only emmet::evaluate_math_expression]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Evaluate the current math expression"]] [list menus::text_only emmet::evaluate_math_expression]
-
-    $mb.emmetPopup add separator
-
-    $mb.emmetPopup add command -label [msgcat::mc "Increment by 10"] -command [list menus::text_only emmet::change_number 10]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 10"]] [list menus::text_only emmet::change_number 10]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Increment by 1"] -command [list menus::text_only emmet::change_number 1]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 1"]] [list menus::text_only emmet::change_number 1]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Increment by 0.1"] -command [list menus::text_only emmet::change_number 0.1]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 0.1"]] [list menus::text_only emmet::change_number 0.1]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 10"] -command [list menus::text_only emmet::change_number -10]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 10"]] [list menus::text_only emmet::change_number -10]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 1"] -command [list menus::text_only emmet::change_number -1]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 1"]] [list menus::text_only emmet::change_number -1]
-
-    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 0.1"] -command [list menus::text_only emmet::change_number -0.1]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 0.1"]] [list menus::text_only emmet::change_number -0.1]
+    $mb.emmetPopup add command -label [msgcat::mc "Reflect CSS Value"] -command [list menus::text_only emmet_css::reflect_css_value]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reflect current CSS value"]] [list menus::text_only emmet_css::reflect_css_value]  ;# done
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list menus::main_only emmet::edit_abbreviations]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list menus::main_only emmet::edit_abbreviations]
+    $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list menus::text_only emmet::go_to_edit_point next]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to next edit point"]] [list menus::text_only emmet::go_to_edit_point next]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Previous Edit Point"] -command [list menus::text_only emmet::go_to_edit_point prev]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to previous edit point"]] [list menus::text_only emmet::go_to_edit_point prev]  ;# done
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "View Emmet Reference Guide"] -command [list menus::main_only emmet::view_reference]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View the Emmet reference guide"]] [list menus::main_only emmet::view_reference]
+    $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list menus::text_only emmet::select_item next]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select next tag item"]] [list menus::text_only emmet::select_item next]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Select Previous Item"] -command [list menus::text_only emmet::select_item prev]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select previous tag item"]] [list menus::text_only emmet::select_item prev]  ;# done
+
+    $mb.emmetPopup add separator
+
+    $mb.emmetPopup add command -label [msgcat::mc "Evaluate Math Expression"] -command [list menus::text_only emmet::evaluate_math_expression]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Evaluate the current math expression"]] [list menus::text_only emmet::evaluate_math_expression]  ;# done
+
+    $mb.emmetPopup add separator
+
+    $mb.emmetPopup add command -label [msgcat::mc "Increment by 10"] -command [list menus::text_only emmet::change_number 10]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 10"]] [list menus::text_only emmet::change_number 10]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Increment by 1"] -command [list menus::text_only emmet::change_number 1]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 1"]] [list menus::text_only emmet::change_number 1]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Increment by 0.1"] -command [list menus::text_only emmet::change_number 0.1]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 0.1"]] [list menus::text_only emmet::change_number 0.1]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 10"] -command [list menus::text_only emmet::change_number -10]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 10"]] [list menus::text_only emmet::change_number -10]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 1"] -command [list menus::text_only emmet::change_number -1]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 1"]] [list menus::text_only emmet::change_number -1]  ;# done
+
+    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 0.1"] -command [list menus::text_only emmet::change_number -0.1]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 0.1"]] [list menus::text_only emmet::change_number -0.1]  ;# done
+
+    $mb.emmetPopup add separator
+
+    $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list menus::main_only emmet::edit_abbreviations]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list menus::main_only emmet::edit_abbreviations]  ;# done
+
+    $mb.emmetPopup add separator
+
+    $mb.emmetPopup add command -label [msgcat::mc "View Emmet Reference Guide"] -command [list menus::main_only emmet::view_reference]  ;# done
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View the Emmet reference guide"]] [list menus::main_only emmet::view_reference]  ;# done
 
   }
 
@@ -1955,6 +2007,8 @@ namespace eval menus {
 
     select::set_select_mode [gui::current_txt].t 1
 
+    return 1
+
   }
 
   ######################################################################
@@ -1963,6 +2017,8 @@ namespace eval menus {
 
     edit::indent [gui::current_txt].t
 
+    return 1
+
   }
 
   ######################################################################
@@ -1970,6 +2026,8 @@ namespace eval menus {
   proc unindent_command {} {
 
     edit::unindent [gui::current_txt].t
+
+    return 1
 
   }
 
@@ -2847,6 +2905,8 @@ namespace eval menus {
       gui::show_console_view
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -2857,6 +2917,8 @@ namespace eval menus {
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Tcl Console"] -label [msgcat::mc "Show Tcl Console"] -command [list menus::main_only menus::show_console_view $mb]}]} {
       gui::hide_console_view
     }
+
+    return 1
 
   }
 
@@ -3139,9 +3201,9 @@ namespace eval menus {
       # Handle the state of the Show/Hide Console entry (if it exists)
       if {[winfo exists .tkcon]} {
         if {[winfo ismapped .tkcon]} {
-          catch { $mb entryconfigure [msgcat::mc "Show Tcl Console"] -label [msgcat::mc "Hide Tcl Console"] -command [list menus::main_only menus::hide_console_view $mb] }
+          catch { $mb entryconfigure [msgcat::mc "Show Tcl Console"] -label [msgcat::mc "Hide Tcl Console"] -command [list menus::main_only menus::hide_console_view $mb] }  ;# done
         } else {
-          catch { $mb entryconfigure [msgcat::mc "Hide Tcl Console"] -label [msgcat::mc "Show Tcl Console"] -command [list menus::main_only menus::show_console_view $mb]}
+          catch { $mb entryconfigure [msgcat::mc "Hide Tcl Console"] -label [msgcat::mc "Show Tcl Console"] -command [list menus::main_only menus::show_console_view $mb]}  ;# done
         }
       }
 
@@ -3174,7 +3236,11 @@ namespace eval menus {
       # Indicate that profiling has started in the information bar
       gui::set_info_message [msgcat::mc "Profiling started"]
 
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -3211,7 +3277,11 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Stop Profiling"]  -state disabled
       $mb entryconfigure [msgcat::mc "Start Profiling"] -state normal
 
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -3225,6 +3295,8 @@ namespace eval menus {
     if {[file exists $profile_report]} {
       gui::add_file end $profile_report -lock 1 -sidebar 0
     }
+
+    return 1
 
   }
 
@@ -3309,6 +3381,8 @@ namespace eval menus {
 
     # Run bist
     bist::create
+
+    return 1
 
   }
 
@@ -3519,8 +3593,8 @@ namespace eval menus {
 
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
-      $mb add command -label [format "%s %s" [msgcat::mc "About"] "TKE"] -underline 0 -command [list gui::show_about]
-      launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
+      $mb add command -label [format "%s %s" [msgcat::mc "About"] "TKE"] -underline 0 -command [list gui::show_about]  ;# done
+      launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]  ;# done
     }
 
     # Create search popup menu
@@ -3595,6 +3669,8 @@ namespace eval menus {
   proc help_devel_guide {} {
 
     utils::open_file_externally [file join $::tke_dir doc DeveloperGuide.html] 1
+
+    return 1
 
   }
 

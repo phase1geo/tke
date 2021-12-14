@@ -899,6 +899,8 @@ namespace eval plugins {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -1764,6 +1766,8 @@ namespace eval plugins {
 
     sidebar::add_directory [file join $::tke_home iplugins] -record 0
 
+    return 1
+
   }
 
   ######################################################################
@@ -1798,6 +1802,8 @@ namespace eval plugins {
 
     # Perform the export
     plugmgr::export_win $plugdir
+
+    return 1
 
   }
 

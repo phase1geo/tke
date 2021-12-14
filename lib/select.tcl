@@ -1929,6 +1929,8 @@ namespace eval select {
     # Perform the selection
     update_selection $txtt init -startpos insert
 
+    return 1
+
   }
 
   ######################################################################
@@ -1948,6 +1950,8 @@ namespace eval select {
 
     # Add the given line
     update_selection $txtt $dir -startpos insert
+
+    return 1
 
   }
 
