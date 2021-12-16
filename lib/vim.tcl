@@ -306,7 +306,7 @@ namespace eval vim {
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
-            multicursor::search_and_add_cursors $txt $from $to $search
+            $txt cursor add {*}[$txt search -regexp -all $exp $from $to]
 
           # Handle code fold opening in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
@@ -527,15 +527,7 @@ namespace eval vim {
       {IND+,IND+,1} {IND+}
     }
 
-    set txt [gui::current_txt]
-
-    # Get the current mode
-    set curr [indent::get_indent_mode $txt]
-
-    # If the indentation mode will change, set it to the new value
-    if {$curr ne $newval($curr,$type,$value)} {
-      $txt configure -indentmode $newval($curr,$type,$value)
-    }
+    [gui::current_txt] configure -indentmode $newval($curr,$type,$value)
 
   }
 
@@ -771,7 +763,7 @@ namespace eval vim {
   proc do_set_tabstop {val} {
 
     if {[string is integer $val]} {
-      indent::set_tabstop [gui::current_txt].t $val
+      [gui::current_txt] configure -tabstop $val
     } else {
       gui::set_info_message [msgcat::mc "Tabstop value is not an integer"]
     }

@@ -432,6 +432,8 @@ namespace eval search {
 
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -747,6 +749,8 @@ namespace eval search {
         utils::open_file_externally $url 0
       }
     }
+
+    return 1
 
   }
 

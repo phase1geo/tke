@@ -247,6 +247,8 @@ namespace eval plugins {
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
 
+    return 1
+
   }
 
   ######################################################################
@@ -439,6 +441,8 @@ namespace eval plugins {
 
     # Display the launcher in PLUGIN: mode
     launcher::launch "`PLUGIN:" 1
+
+    return 1
 
   }
 
@@ -643,6 +647,8 @@ namespace eval plugins {
     # Display the launcher in PLUGIN: mode
     launcher::launch "`PLUGIN:"
 
+    return 1
+
   }
 
   ######################################################################
@@ -722,6 +728,8 @@ namespace eval plugins {
 
     # Display the launcher in PLUGIN: mode
     launcher::launch "`PLUGIN:" 1
+
+    return 1
 
   }
 
@@ -1886,6 +1894,8 @@ namespace eval plugins {
         gui::set_info_message [msgcat::mc "Plugin import completed successfully"]
       }
     }
+
+    return 1
 
   }
 

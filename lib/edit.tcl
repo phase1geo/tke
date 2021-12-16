@@ -444,74 +444,23 @@ namespace eval edit {
   ######################################################################
   # If a selection occurs, joins the selected lines; otherwise, joins the
   # number of specified lines.
-  # TBD - Needs work
   proc transform_join_lines {txtt {num 1}} {
 
-    # Specifies if at least one line was deleted in the join
-    set deleted 0
+    if {[set cursors [$txtt cursor get]] eq ""} {
+      lappend lineends [$txtt index lineend]
+    } else {
+      foreach index $cursors {
+        lappend lineends [$txtt index lineend -startpos $index]
+      }
+    }
 
     # Create a separator
     $txtt edit separator
 
-    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
+    $txtt transform lineend [list linestart -num $num] join_lines
+    $txtt cursor replace [list cursor -adjust "+1c"] $lineends
 
-      # Clear the selection
-      $txtt tag remove sel 1.0 end
-
-      set lastpos ""
-      foreach {endpos startpos} [lreverse $selected] {
-        set lines [$txtt count -lines $startpos $endpos]
-        for {set i 0} {$i < $lines} {incr i} {
-          set line    [string trimleft [$txtt get "$startpos+1l linestart" "$startpos+1l lineend"]]
-          $txtt delete "$startpos lineend" "$startpos+1l lineend"
-          if {![string is space [$txtt get "$startpos lineend-1c"]]} {
-            set line " $line"
-          }
-          if {$line ne ""} {
-            $txtt insert "$startpos lineend" $line
-          }
-        }
-        set deleted [expr $deleted || ($lines > 0)]
-        if {$lastpos ne ""} {
-          set line    [string trimleft [$txtt get "$lastpos linestart" "$lastpos lineend"]]
-          $txtt delete "$lastpos-1l lineend" "$lastpos lineend"
-          if {![string is space [$txtt get "$startpos lineend-1c"]]} {
-            set line " $line"
-          }
-          $txtt insert "$startpos lineend" $line
-        }
-        set lastpos $startpos
-      }
-
-      set index [$txtt index "$startpos lineend-[string length $line]c"]
-
-    } elseif {[$txtt compare "insert+1l" < end]} {
-
-      for {set i 0} {$i < $num} {incr i} {
-        set line    [string trimleft [$txtt get "insert+1l linestart" "insert+1l lineend"]]
-        $txtt delete "insert lineend" "insert+1l lineend"
-        if {![string is space [$txtt get "insert lineend-1c"]]} {
-          set line " $line"
-        }
-        if {$line ne ""} {
-          $txtt insert "insert lineend" $line
-        }
-      }
-
-      set deleted [expr $num > 0]
-      set index   [$txtt index "insert lineend-[string length $line]c"]
-
-    }
-
-    if {$deleted} {
-
-      # Set the insertion cursor and make it viewable
-      ::tk::TextSetCursor $txtt $index
-
-      # Create a separator
-      $txtt edit separator
-
-    }
+    $txtt edit separator
 
   }
 
@@ -527,75 +476,64 @@ namespace eval edit {
   # Moves selected lines or the current line up by one line.
   proc transform_bubble_up {txtt} {
 
-    # Create undo separator
+    $txtt edit separator
+    $txtt transform [list linestart -num -1] lineend bubble_up
     $txtt edit separator
 
     # If lines are selected, move all selected lines up one line
-    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-
-      switch [set type [select::get_type $txtt]] {
-        none -
-        line {
-          foreach {end_range start_range} [lreverse $selected] {
-            set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
-            $txtt delete "$start_range-1l linestart" "$start_range linestart"
-            if {[$txtt compare "$end_range linestart" == end]} {
-              set str "\n[string trimright $str]"
-            }
-            $txtt insert "$end_range linestart" $str
-          }
-        }
-        sentence {
-          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
-          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
-          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
-          if {$cbetween eq ""} {
-            set cbetween "  "
-          }
-          if {[newline_count $pbetween] >= 2} {
-            set wo_ws [string trimright [set full [$txtt get [lindex $selected 0] [lindex $selected end]]]]
-            set eos   [$txtt index "[lindex $selected 0]+[string length $wo_ws]c"]
-            $txtt delete  $eos [lindex $selected end]
-            $txtt insert  $eos $pbetween sel
-            $txtt replace "[lindex $selected 0]-[string length $pbetween]c" [lindex $selected 0] "  "
-          } elseif {[newline_count $cbetween] >= 2} {
-            set index [$txtt index "[lindex $selected end]-[string length $cbetween]c"]
-            $txtt insert $index $pbetween$pstr
-            $txtt tag remove sel "$index+[string length $pbetween]c" [lindex $selected end]
-            $txtt delete $startpos [lindex $selected 0]
-          } else {
-            $txtt insert [lindex $selected end] $pstr$pbetween
-            $txtt delete $startpos [lindex $selected 0]
-          }
-        }
-        paragraph {
-          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
-          regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
-          $txtt insert [lindex $selected end] $between$str
-          $txtt delete $startpos [lindex $selected 0]
-        }
-        node {
-          if {[set range [select::node_prev_sibling $txtt [lindex $selected 0]]] ne ""} {
-            set str     [$txtt get {*}$range]
-            set between [$txtt get [lindex $range 1] [lindex $selected 0]]
-            $txtt insert [lindex $selected end] $between$str
-            $txtt delete [lindex $range 0] [lindex $selected 0]
-          }
-        }
-      }
-
-    # Otherwise, move the current line up by one line
-    } else {
-      set str [$txtt get "insert-1l linestart" "insert linestart"]
-      $txtt delete "insert-1l linestart" "insert linestart"
-      if {[$txtt compare "insert+1l linestart" == end]} {
-        set str "\n[string trimright $str]"
-      }
-      $txtt insert "insert+1l linestart" $str
-    }
-
-    # Create undo separator
-    $txtt edit separator
+#    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
+#
+#      switch [set type [select::get_type $txtt]] {
+#        none -
+#        line {
+#          foreach {end_range start_range} [lreverse $selected] {
+#            set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
+#            $txtt delete "$start_range-1l linestart" "$start_range linestart"
+#            if {[$txtt compare "$end_range linestart" == end]} {
+#              set str "\n[string trimright $str]"
+#            }
+#            $txtt insert "$end_range linestart" $str
+#          }
+#        }
+#        sentence {
+#          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
+#          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
+#          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
+#          if {$cbetween eq ""} {
+#            set cbetween "  "
+#          }
+#          if {[newline_count $pbetween] >= 2} {
+#            set wo_ws [string trimright [set full [$txtt get [lindex $selected 0] [lindex $selected end]]]]
+#            set eos   [$txtt index "[lindex $selected 0]+[string length $wo_ws]c"]
+#            $txtt delete  $eos [lindex $selected end]
+#            $txtt insert  $eos $pbetween sel
+#            $txtt replace "[lindex $selected 0]-[string length $pbetween]c" [lindex $selected 0] "  "
+#          } elseif {[newline_count $cbetween] >= 2} {
+#            set index [$txtt index "[lindex $selected end]-[string length $cbetween]c"]
+#            $txtt insert $index $pbetween$pstr
+#            $txtt tag remove sel "$index+[string length $pbetween]c" [lindex $selected end]
+#            $txtt delete $startpos [lindex $selected 0]
+#          } else {
+#            $txtt insert [lindex $selected end] $pstr$pbetween
+#            $txtt delete $startpos [lindex $selected 0]
+#          }
+#        }
+#        paragraph {
+#          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
+#          regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
+#          $txtt insert [lindex $selected end] $between$str
+#          $txtt delete $startpos [lindex $selected 0]
+#        }
+#        node {
+#          if {[set range [select::node_prev_sibling $txtt [lindex $selected 0]]] ne ""} {
+#            set str     [$txtt get {*}$range]
+#            set between [$txtt get [lindex $range 1] [lindex $selected 0]]
+#            $txtt insert [lindex $selected end] $between$str
+#            $txtt delete [lindex $range 0] [lindex $selected 0]
+#          }
+#        }
+#      }
+#    }
 
   }
 
@@ -603,75 +541,67 @@ namespace eval edit {
   # Moves selected lines or the current line down by one line.
   proc transform_bubble_down {txtt} {
 
-    # Create undo separator
+    $txtt edit separator
+    $txtt transform [list linestart -num -1] lineend bubble_down
     $txtt edit separator
 
     # If lines are selected, move all selected lines down one line
-    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-
-      switch [set type [select::get_type $txtt]] {
-        none -
-        line {
-          foreach {end_range start_range} [lreverse $selected] {
-            set str [$txtt get "$end_range+1l linestart" "$end_range+2l linestart"]
-            $txtt delete "$end_range lineend" "$end_range+1l lineend"
-            $txtt insert "$start_range linestart" $str
-          }
-        }
-        sentence {
-          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
-          set endpos   [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
-          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
-          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
-          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected end] $endpos] -> astr abetween
-          if {[newline_count $cbetween] >= 2} {
-            set index [$txtt index "[lindex $selected 0]+[string length $cstr]c"]
-            $txtt tag remove sel $index [lindex $selected end]
-            if {$astr eq ""} {
-              $txtt insert [lindex $selected end] $cstr sel
-            } else {
-              $txtt insert [lindex $selected end] "$cstr  " sel
-            }
-            $txtt delete "[lindex $selected 0]-[string length $pbetween]c" $index
-          } elseif {[newline_count $abetween] >= 2} {
-            set index [$txtt index "[lindex $selected end]+[string length $astr]c"]
-            $txtt tag add sel $index $endpos
-            $txtt insert $index $cbetween {} $cstr sel
-            $txtt delete [lindex $selected 0] [lindex $selected end]
-          } elseif {$abetween eq ""} {
-            $txtt delete "[lindex $selected end]-[string length $cbetween]c" $endpos
-            $txtt insert [lindex $selected 0] $astr$cbetween
-          } else {
-            $txtt delete [lindex $selected end] $endpos
-            $txtt insert [lindex $selected 0] $astr$cbetween
-          }
-        }
-        paragraph {
-          set endpos [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
-          set str [string trimright [$txtt get [lindex $selected end] $endpos]]
-          regexp {(\s*)$} [$txtt get {*}$selected] -> between
-          $txtt delete [lindex $selected end] $endpos
-          $txtt insert [lindex $selected 0] $str$between
-        }
-        node {
-          if {[set range [select::node_next_sibling $txtt "[lindex $selected end]-1c"]] ne ""} {
-            set str     [$txtt get {*}$range]
-            set between [$txtt get [lindex $selected end] [lindex $range 0]]
-            $txtt delete [lindex $selected end] [lindex $range end]
-            $txtt insert [lindex $selected 0] $str$between
-          }
-        }
-      }
-
-    # Otherwise, move the current line down by one line
-    } else {
-      set str [$txtt get "insert+1l linestart" "insert+2l linestart"]
-      $txtt delete "insert lineend" "insert+1l lineend"
-      $txtt insert "insert linestart" $str
-    }
-
-    # Create undo separator
-    $txtt edit separator
+#    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
+#
+#      switch [set type [select::get_type $txtt]] {
+#        none -
+#        line {
+#          foreach {end_range start_range} [lreverse $selected] {
+#            set str [$txtt get "$end_range+1l linestart" "$end_range+2l linestart"]
+#            $txtt delete "$end_range lineend" "$end_range+1l lineend"
+#            $txtt insert "$start_range linestart" $str
+#          }
+#        }
+#        sentence {
+#          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
+#          set endpos   [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+#          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
+#          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
+#          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected end] $endpos] -> astr abetween
+#          if {[newline_count $cbetween] >= 2} {
+#            set index [$txtt index "[lindex $selected 0]+[string length $cstr]c"]
+#            $txtt tag remove sel $index [lindex $selected end]
+#            if {$astr eq ""} {
+#              $txtt insert [lindex $selected end] $cstr sel
+#            } else {
+#              $txtt insert [lindex $selected end] "$cstr  " sel
+#            }
+#            $txtt delete "[lindex $selected 0]-[string length $pbetween]c" $index
+#          } elseif {[newline_count $abetween] >= 2} {
+#            set index [$txtt index "[lindex $selected end]+[string length $astr]c"]
+#            $txtt tag add sel $index $endpos
+#            $txtt insert $index $cbetween {} $cstr sel
+#            $txtt delete [lindex $selected 0] [lindex $selected end]
+#          } elseif {$abetween eq ""} {
+#            $txtt delete "[lindex $selected end]-[string length $cbetween]c" $endpos
+#            $txtt insert [lindex $selected 0] $astr$cbetween
+#          } else {
+#            $txtt delete [lindex $selected end] $endpos
+#            $txtt insert [lindex $selected 0] $astr$cbetween
+#          }
+#        }
+#        paragraph {
+#          set endpos [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+#          set str [string trimright [$txtt get [lindex $selected end] $endpos]]
+#          regexp {(\s*)$} [$txtt get {*}$selected] -> between
+#          $txtt delete [lindex $selected end] $endpos
+#          $txtt insert [lindex $selected 0] $str$between
+#        }
+#        node {
+#          if {[set range [select::node_next_sibling $txtt "[lindex $selected end]-1c"]] ne ""} {
+#            set str     [$txtt get {*}$range]
+#            set between [$txtt get [lindex $selected end] [lindex $range 0]]
+#            $txtt delete [lindex $selected end] [lindex $range end]
+#            $txtt insert [lindex $selected 0] $str$between
+#          }
+#        }
+#      }
+#    }
 
   }
 
@@ -1010,6 +940,8 @@ namespace eval edit {
     # Replace the line with the given text
     $txt replace "insert linestart" "insert lineend" $rc
 
+    return 1
+
   }
 
   ######################################################################
@@ -1034,6 +966,8 @@ namespace eval edit {
     # Align multicursors only
     $txt cursor align
 
+    return 1
+
   }
 
   ######################################################################
@@ -1047,6 +981,8 @@ namespace eval edit {
     # Align multicursors
     $txt cursor align_with_text
 
+    return 1
+
   }
 
   ######################################################################
@@ -1058,6 +994,8 @@ namespace eval edit {
 
     # Perform the insertion
     gui::insert_numbers $txt
+
+    return 1
 
   }
 

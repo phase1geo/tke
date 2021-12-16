@@ -37,6 +37,8 @@ namespace eval templates {
     # Create the template directory
     set data(templates) [glob -nocomplain -tails -directory $data(templates_dir) *]
 
+    return 1
+
   }
 
   ######################################################################
@@ -218,6 +220,8 @@ namespace eval templates {
 
     # Display the launcher in SNIPPET: mode
     launcher::launch "`TEMPLATE:" 1
+
+    return 1
 
   }
 

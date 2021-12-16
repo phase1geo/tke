@@ -1276,6 +1276,8 @@ namespace eval gui {
     # Select the next tab
     set_current_tab $tabbar [lindex [$tabbar tabs -shown] $tabindex]
 
+    return 1
+
   }
 
   ######################################################################
@@ -1293,6 +1295,8 @@ namespace eval gui {
     # Select the previous tab
     set_current_tab $tabbar [lindex [$tabbar tabs -shown] $tabindex]
 
+    return 1
+
   }
 
   ######################################################################
@@ -1304,6 +1308,8 @@ namespace eval gui {
 
     # Select the last tab
     set_current_tab $tabbar [lindex [$tabbar tabs -shown] [$tabbar index last]]
+
+    return 1
 
   }
 
@@ -1321,6 +1327,8 @@ namespace eval gui {
       get_info {} current tabbar tab
       set_current_tab $tabbar $tab
     }
+
+    return 1
 
   }
 
@@ -1348,6 +1356,8 @@ namespace eval gui {
   proc align_panes {} {
 
     align_lines [get_info 0 paneindex txt] [get_info 1 paneindex txt] insert insert 1
+
+    return 1
 
   }
 
@@ -2746,6 +2756,8 @@ namespace eval gui {
     # Get the current tabbar and tab
     hide_tab [get_info {} current tab]
 
+    return 1
+
   }
 
   ######################################################################
@@ -2769,6 +2781,8 @@ namespace eval gui {
       hide_tab $tab
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -2791,6 +2805,8 @@ namespace eval gui {
     foreach tab [files::get_tabs] {
       show_tab $tab
     }
+
+    return 1
 
   }
 
@@ -2824,6 +2840,8 @@ namespace eval gui {
       $tabbar select $tab
 
     }
+
+    return 1
 
   }
 
@@ -2896,6 +2914,8 @@ namespace eval gui {
     # Set the tab image for the moved file
     set_tab_image $tab
 
+    return 1
+
   }
 
   ######################################################################
@@ -2914,6 +2934,8 @@ namespace eval gui {
       move_to_pane
 
     }
+
+    return 1
 
   }
 
@@ -3231,6 +3253,8 @@ namespace eval gui {
 
     # Set the unfocussed insertion cursor to hollow
     catch { $txt configure -insertunfocussed hollow }
+
+    return 1
 
   }
 
@@ -4022,6 +4046,8 @@ namespace eval gui {
       show_split_pane $tab
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -4035,6 +4061,8 @@ namespace eval gui {
     } else {
       show_birdseye $tab
     }
+
+    return 1
 
   }
 
@@ -5606,6 +5634,8 @@ namespace eval gui {
       }
     }
 
+    return 1
+
   }
 
   ######################################################################
@@ -5625,6 +5655,8 @@ namespace eval gui {
     # Update the tab's marker view
     update_tab_markers $tab
 
+    return 1
+
   }
 
   ######################################################################
@@ -5641,6 +5673,8 @@ namespace eval gui {
 
     # Update the marker display
     update_tab_markers $tab
+
+    return 1
 
   }
 
@@ -5659,6 +5693,8 @@ namespace eval gui {
     foreach txt [get_all_texts] {
       remove_txt_markers $txt
     }
+
+    return 1
 
   }
 
@@ -5731,7 +5767,7 @@ namespace eval gui {
 
     # If we are escaped or in a comment/string, we should not match
     if {[$txt is escaped insert] || [$txt is incommentstring insert]} {
-      return
+      return 0
     }
 
     # If the current character is a matchable character, change the
@@ -5755,6 +5791,8 @@ namespace eval gui {
     if {($index ne "") && ($index != -1)} {
       ::tk::TextSetCursor $txt.t $index
     }
+
+    return 1
 
   }
 
@@ -6087,6 +6125,8 @@ namespace eval gui {
 
     # Set the focus back to the text widget
     catch { set_txt_focus [last_txt_focus] }
+
+    return 1
 
   }
 

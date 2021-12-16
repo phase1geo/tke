@@ -182,6 +182,8 @@ namespace eval cliphist {
     # Display the launcher in CLIPHIST: mode
     launcher::launch "`CLIPHIST:" 1
 
+    return 1
+
   }
 
   ######################################################################

@@ -524,6 +524,8 @@ namespace eval snippets {
     # Display the launcher in SNIPPET: mode
     launcher::launch "`SNIPPET:" 1
 
+    return 1
+
   }
 
   ######################################################################

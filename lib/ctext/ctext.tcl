@@ -233,10 +233,6 @@ namespace eval ctext {
     }
     $win.t tag configure _mcursor -underline 1
 
-    # Make sure that all text contains lmargin and rmargin
-    $win.t tag add lmargin 1.0 end
-    $win.t tag add rmargin 1.0 end
-
     bind Ctext  <Configure>                    { ctext::event:DoConfigure %W }
     bind Ctext  <<CursorChanged>>              { ctext::event:CursorChanged %W }
     bind $win.l <Button-$right_click>          [list ctext::linemapToggleMark $win %x %y]
@@ -1636,6 +1632,7 @@ namespace eval ctext {
     }
 
   }
+
   ######################################################################
   # Adds a separator to the undo buffer if valid to do so.
   proc undo_add_separator {win} {
@@ -1706,7 +1703,6 @@ namespace eval ctext {
           $win._t tag add hl "$spos linestart" "$epos lineend"
           append changed $str
           comments_do_tag $win [list $spos $epos] do_tags
-          set_rmargin $win $spos $epos
           set insert 1
         }
         lappend tochanges [list $inv($type) $spos $epos $str $cursor $mcursor]
@@ -2178,15 +2174,12 @@ namespace eval ctext {
         }
       }
       select {
-        puts "HERE A"
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext cursor select command"
         }
-        puts "HERE B"
         if {[get_spec_proc [lindex $args 1]] eq ""} {
           return -code error "ctext cursor select command must be called with a relative index"
         }
-        puts "HERE C"
         set anchors $data($win,select_anchors)
         if {[move_mcursors $win [lindex $args 1] starts]} {
           set selranges [list]
@@ -2201,15 +2194,12 @@ namespace eval ctext {
           set data($win,select_anchors) $anchors
           return 1
         } else {
-          catch {
           set index   [$win index {*}[lindex $args 1]]
           # set anchors $data($win,select_anchors)
           set_cursor $win $index
           $win._t tag remove sel 1.0 end
           $win._t tag add sel [lindex $anchors 0] $index
           # set data($win,select_anchors) $anchors
-          } rc
-          puts "rc: $rc"
           return 0
         }
       }
@@ -2384,6 +2374,7 @@ namespace eval ctext {
 
     }
 
+    add_initial_tags $win
     modified $win 1 [list delete $ranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
@@ -3044,6 +3035,7 @@ namespace eval ctext {
 
     }
 
+    add_initial_tags $win
     modified $win 1 [list replace $rranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
 
@@ -3118,6 +3110,7 @@ namespace eval ctext {
 
       }
 
+      add_initial_tags $win
       modified $win 1 [list replace $rranges $opts(-moddata)]
       event generate $win.t <<CursorChanged>>
 
@@ -3496,7 +3489,45 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Joins all lines in the specified string.
+  proc transform_join_lines {str} {
+
+    return [string map {\n { }} $str]
+
+  }
+
+  ######################################################################
+  # Moves the bottom line above the lines above it.
+  proc transform_bubble_up {str} {
+
+    set lines [split $str \n]
+
+    if {([llength $lines] > 1) && ([lindex $lines end] ne "")} {
+      return [join [linsert [lrange $lines 0 end-1] 0 [lindex $lines end]] \n]
+    }
+
+    return $str
+
+  }
+
+  ######################################################################
+  # Moves the uppermost line below the lines below it.
+  proc transform_bubble_down {str} {
+
+    set lines [split $str \n]
+
+    if {([llength $lines] > 1) && ([lindex $lines 0] ne "")} {
+      return [join [linsert [lrange $lines 1 end] end [lindex $lines 0]] \n]
+    }
+
+    return $str
+
+  }
+
+  ######################################################################
   # Performs a text transformation on the given text range.
+  #
+  # Usage:  <txt> transform <options> <startspec> <endspec> <cmd> ?<tags>?
   proc command_transform {win args} {
 
     variable data
@@ -3514,10 +3545,10 @@ namespace eval ctext {
     array set opts [lrange $args 0 [expr $i - 1]]
 
     if {[llength [set arglist [lrange $args $i end]]] == 3} {
-      lassign [lrange $arglist startspec endspec cmd
+      lassign [lrange $arglist $i end] startspec endspec cmd
       set no_tags 1
     } else {
-      lassign [lrange $arglist startspec endspec cmd tags
+      lassign [lrange $arglist $i end] startspec endspec cmd tags
       lappend tags rmargin lmargin __Lang:
       set no_tags 0
     }
@@ -3552,8 +3583,9 @@ namespace eval ctext {
     }
 
     set rranges [lreverse $rranges]
-    set dstrs   [lreverse $dstrs]
-    set istrs   [lreverse $istrs]
+#    set uranges [lreverse $uranges]
+#    set dstrs   [lreverse $dstrs]
+#    set istrs   [lreverse $istrs]
 
     if {$opts(-cursor) ne ""} {
       $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
@@ -5758,10 +5790,12 @@ namespace eval ctext {
 
   }
 
-  proc set_rmargin {win startpos endpos} {
+  proc add_initial_tags {win} {
 
-    $win tag add rmargin $startpos $endpos
-    $win tag add lmargin $startpos $endpos
+    if {[$win.t compare 1.0 == "end-1c"]} {
+      $win.t tag add rmargin 1.0 end
+      $win.t tag add lmargin 1.0 end
+    }
 
   }
 
@@ -8229,6 +8263,7 @@ proc ctext {win args} {
   ctext::update_linemap_separator $win
   ctext::modified                 $win 0
   ctext::buildArgParseTable       $win
+  ctext::add_initial_tags         $win
   ctext::adjust_rmargin           $win
 
   return $win
