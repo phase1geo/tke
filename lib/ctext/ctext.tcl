@@ -3545,10 +3545,10 @@ namespace eval ctext {
     array set opts [lrange $args 0 [expr $i - 1]]
 
     if {[llength [set arglist [lrange $args $i end]]] == 3} {
-      lassign [lrange $arglist $i end] startspec endspec cmd
+      lassign $arglist startspec endspec cmd
       set no_tags 1
     } else {
-      lassign [lrange $arglist $i end] startspec endspec cmd tags
+      lassign $arglist startspec endspec cmd tags
       lappend tags rmargin lmargin __Lang:
       set no_tags 0
     }
