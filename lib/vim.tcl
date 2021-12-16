@@ -1508,7 +1508,7 @@ namespace eval vim {
     # If the current character needs to be used by the current mode, handle it now
     if {[info procs do_mode_$mode($txtt)] ne ""} {
       if {![catch { do_mode_$mode($txtt) $txtt $keysym $char } rc]} {
-        return $rc
+        return -code [expr {($rc == 0) ? "ok" : $retcode}] $rc
       }
     }
 
@@ -1622,7 +1622,7 @@ namespace eval vim {
   # Perform text replacement.
   proc do_replace {txtt char} {
 
-    $txtt replace insert "insert+1c" $char
+    $txtt replace cursor [list cursor -forceadjust "+1c"] $char
 
   }
 

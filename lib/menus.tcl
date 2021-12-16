@@ -2139,7 +2139,7 @@ namespace eval menus {
 
     set txtt [gui::current_txt].t
 
-    $txtt transform cursor char toggle_case
+    $txtt transform cursor [list cursor -forceadjust "+1c"] toggle_case
 
     return 1
 
@@ -2151,7 +2151,7 @@ namespace eval menus {
 
     set txtt [gui::current_txt].t
 
-    $txtt transform cursor char lower_case
+    $txtt transform cursor [list cursor -forceadjust "+1c"] lower_case
 
     return 1
 
@@ -2163,7 +2163,7 @@ namespace eval menus {
 
     set txtt [gui::current_txt].t
 
-    $txtt transform cursor char upper_case
+    $txtt transform cursor [list cursor -forceadjust "+1c"] upper_case
 
     return 1
 
@@ -2175,7 +2175,7 @@ namespace eval menus {
 
     set txtt [gui::current_txt].t
 
-    $txtt transform cursor char title_case
+    $txtt transform cursor [list cursor -forceadjust "+1c"] title_case
 
     return 1
 

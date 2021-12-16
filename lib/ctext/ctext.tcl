@@ -6358,6 +6358,7 @@ namespace eval ctext {
     if {$opts(-dir) eq "next"} {
 
       while {($num > 0) && [$win._t compare $startpos < end-2c]} {
+        set le [$win._t index "$startpos lineend"]
         if {[set line_chars [$win._t count -displaychars $startpos "$startpos lineend"]] == 0} {
           set startpos [$win._t index "$startpos+1 display lines"]
           set startpos "$startpos linestart"
