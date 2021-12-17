@@ -4677,6 +4677,14 @@ namespace eval gui {
       show_birdseye $tab
     }
 
+#    set i 0
+#    foreach w [bindtags $txt.t] {
+#      foreach t [bind $w] {
+#        bind $w $t [list puts [incr i]]
+#        puts "w: $w, t: $t, c: [bind $w $t]"
+#      }
+#    }
+
     return $tab
 
   }

@@ -103,7 +103,7 @@ namespace eval menus {
     }
 
     # Next, invoke the menu
-    if {[$mnu invoke $index]} {
+    if {([$mnu entrycget $index -state] ne "disabled") && [$mnu invoke $index]} {
       return -code break
     }
 
@@ -131,9 +131,11 @@ namespace eval menus {
     if {[set has_focus [focus]] ne ""} {
       gui::get_info {} current txt txt2
       if {($has_focus eq "$txt.t") || ($has_focus eq "$txt2.t")} {
-        uplevel #0 [list $cmd {*}$args]
+        return [uplevel #0 [list $cmd {*}$args]]
       }
     }
+
+    return 0
 
   }
 
@@ -143,8 +145,10 @@ namespace eval menus {
   proc main_only {cmd args} {
 
     if {[focus] ne ""} {
-      uplevel #0 [list $cmd {*}$args]
+      return [uplevel #0 [list $cmd {*}$args]]
     }
+
+    return 0
 
   }
 
