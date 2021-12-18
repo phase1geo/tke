@@ -2290,13 +2290,9 @@ namespace eval ctext {
     if {[set ranges [$win._t tag ranges sel]] ne ""} {
       return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] [lmap {spos epos} $ranges {set spos}]]
     } else {
-      if {$startspec eq ""} { set startspec cursor }
-      if {$endspec   eq ""} {
-        if {[get_spec_proc $startspec] ne ""} {
-          set endspec [list {*}$startspec -adjust +1c]
-        } else {
-          set endspec "$startspec+1c"
-        }
+      if {$endspec eq ""} {
+        set endspec   [expr {($startspec eq "") ? [list cursor -adjust "+1c"] : $startspec}]
+        set startspec cursor
       }
       if {$mcursor && ([set ranges [$win._t tag ranges _mcursor]] ne "")} {
         return [list $startspec $endspec 1 [lmap {spos epos} $ranges {set spos}]]
@@ -2343,12 +2339,9 @@ namespace eval ctext {
       linemapCheckOnDelete   $win $startpos $endpos
       comments_chars_deleted $win $startpos $endpos do_tags
       $win._t delete $startpos $endpos
+      puts "startpos: $startpos, endpos: $endpos, old_str: [lindex $strs end], new_str: [$win._t get 2.0 end-1c]"
       if {$set_mcursor} {
-        if {[$win._t compare $startpos == "$startpos lineend"] && [$win._t compare $startpos != "$startpos linestart"]} {
-          $win._t tag add _mcursor $startpos-1c
-        } else {
-          $win._t tag add _mcursor $startpos
-        }
+        set_mcursor $win $startpos
       }
       lappend ranges $endpos $startpos
     }
@@ -6732,6 +6725,7 @@ namespace eval ctext {
         while {1} {
           if {[regexp -indices -start [expr $curr_col + 1] -- {(\w+|\s+|[^\w\s]+)} $line index]} {
             set curr_col [lindex $index 1]
+            puts "curr_col: $curr_col"
           } else {
             break
           }

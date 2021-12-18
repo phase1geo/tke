@@ -283,7 +283,7 @@ namespace eval multicursor {
     $txt delete
 
     if {[$txt get 2.0 end-1c] ne " \n "} {
-      cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"
+      cleanup "text mismatched after deletion ([utils::ostr [$txt get 2.0 end-1c]])"
     }
     if {[$txt cursor get] ne [list 2.0 3.0]} {
       cleanup "mcursor mismatched after deletion ([$txt cursor get])"
@@ -337,7 +337,7 @@ namespace eval multicursor {
     $txt cursor add 3.0
 
     # Verify that only the first word is deleted
-    $txt delete [list wordend -adjust +1c]
+    $txt delete wordend
 
     if {[$txt get 2.0 end-1c] ne "th is good\n is not good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
@@ -390,7 +390,7 @@ namespace eval multicursor {
     $txt cursor add 2.6
     $txt cursor add 3.0
 
-    $txt delete [list wordend -num 2]
+    $txt delete [list wordend -num 2 -exclusive 1]
 
     if {[$txt get 2.0 end-1c] ne "this is not good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
@@ -1021,4 +1021,4 @@ namespace eval multicursor {
 
   }
 
- }
+}
