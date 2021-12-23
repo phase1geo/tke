@@ -395,9 +395,9 @@ namespace eval ctext {
     }
 
     if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
-      clear_mcursors $win
+      clear_mcursors $win 0
       foreach {start end} $sel {
-        set_mcursor $win $start
+        set_mcursor $win $end
       }
     }
 
@@ -2109,7 +2109,11 @@ namespace eval ctext {
         }
       }
       enabled {
-        return [expr {[$win._t tag ranges _mcursor] ne ""}]
+        if {[llength $args] == 2} {
+          return [expr {[lsearch [$win._t tag names [$win index {*}[lindex $args 1]]] _mcursor] != -1}]
+        } else {
+          return [expr {[$win._t tag ranges _mcursor] ne ""}]
+        }
       }
       disable {
         clear_mcursors $win
@@ -2163,15 +2167,16 @@ namespace eval ctext {
         if {[get_spec_proc [lindex $args 1]] eq ""} {
           return -code error "ctext cursor move command must be called with a relative index"
         }
-        if {[move_mcursors $win [lindex $args 1] starts]} {
+        set ret [move_mcursors $win [lindex $args 1] starts]
+        if {$ret == 1} {
           set data($win,select_anchors) [lsort -dictionary $starts]
           return 1
-        } else {
+        } elseif {$ret == 0} {
           set index [$win index {*}[lindex $args 1]]
           set_cursor $win $index
           # set data($win,select_anchors) $index
-          return 0
         }
+        return 0
       }
       select {
         if {[llength $args] != 2} {
@@ -2181,27 +2186,23 @@ namespace eval ctext {
           return -code error "ctext cursor select command must be called with a relative index"
         }
         set anchors $data($win,select_anchors)
-        if {[move_mcursors $win [lindex $args 1] starts]} {
+        set ret [move_mcursors $win [lindex $args 1] starts]
+        if {$ret == 1} {
           set selranges [list]
           foreach anchor $anchors {mstart mend} [$win._t tag ranges _mcursor] {
-            if {[$win._t compare $anchor < $mstart]} {
-              lappend selranges $anchor $mstart
-            } else {
-              lappend selranges $mstart $anchor
-            }
+            adjust_start_end $win anchor mstart
+            lappend selranges $anchor $mstart+1c
           }
           $win._t tag add sel {*}$selranges
           set data($win,select_anchors) $anchors
           return 1
-        } else {
-          set index   [$win index {*}[lindex $args 1]]
-          # set anchors $data($win,select_anchors)
+        } elseif {$ret == 0} {
+          set index [$win index {*}[lindex $args 1]]
           set_cursor $win $index
           $win._t tag remove sel 1.0 end
           $win._t tag add sel [lindex $anchors 0] $index
-          # set data($win,select_anchors) $anchors
-          return 0
         }
+        return 0
       }
       replace {
         if {[llength $args] != 3} {
@@ -2291,8 +2292,15 @@ namespace eval ctext {
       return [list cursor [list selend -dir next] [expr [llength $ranges] > 2] [lmap {spos epos} $ranges {set spos}]]
     } else {
       if {$endspec eq ""} {
-        set endspec   [expr {($startspec eq "") ? [list cursor -adjust "+1c"] : $startspec}]
-        set startspec cursor
+        if {$startspec eq ""} {
+          set endspec   [list cursor -adjust "+1c"]
+          set startspec cursor
+        } elseif {[get_spec_proc $startspec] eq ""} {
+          set endspec $startspec+1c
+        } else {
+          set endspec $startspec
+          set startspec cursor
+        }
       }
       if {$mcursor && ([set ranges [$win._t tag ranges _mcursor]] ne "")} {
         return [list $startspec $endspec 1 [lmap {spos epos} $ranges {set spos}]]
@@ -2339,7 +2347,6 @@ namespace eval ctext {
       linemapCheckOnDelete   $win $startpos $endpos
       comments_chars_deleted $win $startpos $endpos do_tags
       $win._t delete $startpos $endpos
-      puts "startpos: $startpos, endpos: $endpos, old_str: [lindex $strs end], new_str: [$win._t get 2.0 end-1c]"
       if {$set_mcursor} {
         set_mcursor $win $startpos
       }
@@ -5972,7 +5979,7 @@ namespace eval ctext {
 
   ######################################################################
   # Clears all of the mcursors in the editing buffer.
-  proc clear_mcursors {win} {
+  proc clear_mcursors {win {reset 1}} {
 
     variable data
 
@@ -5982,7 +5989,9 @@ namespace eval ctext {
 
     # Clear the mcursor anchor and reset anchors
     set data($win,mcursor_anchor) ""
-    set data($win,select_anchors) [list]
+    if {$reset} {
+      set data($win,select_anchors) [list]
+    }
 
   }
 
@@ -6015,6 +6024,118 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns a list index specifying which mcursor index should be used
+  # for testing mcursor movement.
+  proc get_mcursor_index {win type args} {
+
+    array set opts {
+      -dir next
+    }
+    array set opts $args
+
+    array set line {
+      left        prev
+      right       next
+      char        dir
+      findchar    dir
+      firstchar   rel
+      lastchar    rel
+      column      rel
+      linestart   prev
+      lineend     next
+      dispstart   prev
+      dispmid     rel
+      dispend     next
+      numberstart prev
+      numberend   next
+      spacestart  prev
+      spaceend    next
+    }
+
+    array set lines {
+      up          prev
+      down        next
+      first       prev
+      last        next
+      char        dir
+      dchar       dir
+      achar       dir
+      betweenchar dir
+      wordstart   prev
+      wordend     next
+      WORDstart   prev
+      WORDend     next
+      sentence    dir
+      paragraph   dir
+      tagstart    prev
+      tagend      next
+      selstart    prev
+      selend      next
+      blockstart  prev
+      blockend    next
+    }
+
+    if {[info exists line($type)]} {
+      set mcursors [$win._t tag ranges _mcursor]
+      set closest  [list 100000000 -1]
+      set i        0
+      switch [expr {($line($type) eq "dir") ? $opts(-dir) : $line($type)}] {
+        prev {
+          foreach {start end} $mcursors {
+            set count [$win._t count -chars "$start linestart" $start]
+            if {$count < [lindex $closest 0]} {
+              set closest [list $count $i]
+            }
+            incr i 2
+          }
+        }
+        next {
+          foreach {start end} $mcursors {
+            set count [$win._t count -chars $start "$start lineend"]
+            if {$count < [lindex $closest 0]} {
+              set closest [list $count $i]
+            }
+            incr i 2
+          }
+        }
+      }
+      return [lindex $closest 1]
+    } elseif {[info exists lines($type)]} {
+      switch [expr {($lines($type) eq "dir") ? $opts(-dir) : $lines($type)}] {
+        prev { return 0 }
+        next { return end-1 }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Returns the number that will be allowed for the given multicursor movement.
+  proc check_mcursor_movement {win cursor type args} {
+
+    array set opts {
+      -num 1
+    }
+    array set opts $args
+
+    set num $opts(-num)
+    set opts(-num) 1
+
+    if {[set procname [get_spec_proc $type]] ne ""} {
+      for {set i 0} {$i < $num} {incr i} {
+        set next_cursor [$win._t index [$procname $win $cursor [array get opts]]]
+        if {($next_cursor eq $cursor) || [$win._t compare $next_cursor == "$cursor lineend"]} {
+          return $i
+        }
+        set cursor $next_cursor
+      }
+    }
+
+    return $num
+
+  }
+
+  ######################################################################
   # Moves the multicursors by the given specification.  Returns a list
   # of starting cursor positions prior to the move if the move was
   # successful; otherwise, returns an empty list.
@@ -6025,18 +6146,34 @@ namespace eval ctext {
     upvar $pstarts starts
 
     if {([set mcursors [$win._t tag ranges _mcursor]] ne "") && $data($win,config,-multimove)} {
-      foreach {startpos endpos} $mcursors {
-        lappend cursors [$win index {*}$movespec -startpos $startpos]
-        lappend starts  $startpos
-      }
-      if {[llength $cursors] == [llength [lsort -unique $cursors]]} {
-        clear_mcursors $win
-        $win._t tag remove sel 1.0 end
-        foreach cursor $cursors start $starts {
-          set_mcursor $win $cursor $start
+
+      array set opts [lrange $movespec 1 end]
+
+      set cursor [lindex $mcursors [get_mcursor_index $win {*}$movespec]]
+      set opts(-num) [check_mcursor_movement $win $cursor {*}$movespec]
+
+      if {$opts(-num) == 0} {
+        return -1
+
+      # Gather the list of cursors
+      } else {
+        set mindex 0
+        foreach {startpos endpos} $mcursors {
+          lappend cursors [$win index {*}$movespec -mindex $mindex -startpos $startpos]
+          lappend starts  $startpos
+          incr mindex
         }
       }
+
+      # Set the cursors
+      clear_mcursors $win 0
+      $win._t tag remove sel 1.0 end
+      foreach cursor $cursors start $starts {
+        set_mcursor $win $cursor $start
+      }
+
       return 1
+
     }
 
     return 0
@@ -6257,24 +6394,49 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Transforms an up index specification into a text index.
-  proc getindex_up {win startpos optlist} {
+  # Called by any getindex_* calls that need to handle a colum option.
+  # We will adjust the column option variable and calculate the column
+  # to use in the getindex_* procedure.  This method should not be called
+  # from outside ctext.
+  proc adjust_column {win startpos optlist} {
 
     array set opts {
-      -num    1
       -column ""
+      -mindex ""
     }
     array set opts $optlist
 
-    # If the user has specified a column variable, store the current column in that variable
     if {$opts(-column) ne ""} {
-      if {[set col [set $opts(-column)]] eq ""} {
-        set $opts(-column) [set col [lindex [split $startpos .] 1]]
+      if {$opts(-mindex) eq ""} {
+        if {[set col [lindex [set $opts(-column)] 0]] eq ""} {
+          set col [lindex [split $startpos .] 1]
+          lset $opts(-column) 0 $col
+        }
+      } else {
+        if {[set col [lindex [set $opts(-column)] 1 $opts(-mindex)]] eq ""} {
+          set col [lindex [split $startpos .] 1]
+          lset $opts(-column) 1 $opts(-mindex) $col
+        }
       }
     } else {
       set col [lindex [split $startpos .] 1]
     }
 
+    return $col
+
+  }
+
+  ######################################################################
+  # Transforms an up index specification into a text index.
+  proc getindex_up {win startpos optlist} {
+
+    array set opts {
+      -num 1
+    }
+    array set opts $optlist
+
+    # If the user has specified a column variable, store the current column in that variable
+    set col   [adjust_column $win $startpos $optlist]
     set index $startpos
 
     for {set i 0} {$i < $opts(-num)} {incr i} {
@@ -6290,19 +6452,11 @@ namespace eval ctext {
   proc getindex_down {win startpos optlist} {
 
     array set opts {
-      -num    1
-      -column ""
+      -num 1
     }
     array set opts $optlist
 
-    if {$opts(-column) ne ""} {
-      if {[set col [set $opts(-column)]] eq ""} {
-        set $opts(-column) [set col [lindex [split $startpos .] 1]]
-      }
-    } else {
-      set col [lindex [split $startpos .] 1]
-    }
-
+    set col   [adjust_column $win $startpos $optlist]
     set index $startpos
 
     for {set i 0} {$i < $opts(-num)} {incr i} {
@@ -6440,7 +6594,7 @@ namespace eval ctext {
       }
       return $lnum.$col
     } else {
-      set col   [expr $col - $opts(-num)]
+      set col [expr $col - $opts(-num)]
       return [expr {($col < 0) ? $lnum.0 : $lnum.$col}]
     }
 
@@ -6720,18 +6874,18 @@ namespace eval ctext {
       while {1} {
 
         set line [$win._t get -displaychars $curr_row.0 $curr_row.end]
-        incr curr_col -1
+        set add  $opts(-exclusive)
 
         while {1} {
-          if {[regexp -indices -start [expr $curr_col + 1] -- {(\w+|\s+|[^\w\s]+)} $line index]} {
+          if {[regexp -indices -start [expr $curr_col + $add] -- {(\w+|\s+|[^\w\s]+)} $line index]} {
             set curr_col [lindex $index 1]
-            puts "curr_col: $curr_col"
           } else {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
             return [$win._t index "$curr_row.0 + [expr $curr_col + ($opts(-exclusive) ? 0 : 1)] display chars"]
           }
+          set add 1
         }
 
         lassign [split [$win._t index "$curr_row.end + 1 display chars"] .] curr_row curr_col

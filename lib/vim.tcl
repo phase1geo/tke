@@ -32,7 +32,7 @@ namespace eval vim {
   array set command_entries {}
   array set mode            {}
   array set search_dir      {}
-  array set column          {}
+  array set columns         {}
   array set select_anchors  {}
   array set last_selection  {}
   array set modeline        {}
@@ -924,7 +924,7 @@ namespace eval vim {
     variable number
     variable multiplier
     variable search_dir
-    variable column
+    variable columns
     variable select_anchors
     variable modeline
     variable recording
@@ -940,7 +940,7 @@ namespace eval vim {
     set number($txt.t)           ""
     set multiplier($txt.t)       ""
     set search_dir($txt.t)       "next"
-    set column($txt.t)           ""
+    set columns($txt.t)          [list "" [list]]
     set select_anchors($txt.t)   [list]
     set modeline($txt.t)         1
     set operator($txt.t)         ""
@@ -980,7 +980,7 @@ namespace eval vim {
     variable number
     variable multiplier
     variable search_dir
-    variable column
+    variable columns
     variable select_anchors
     variable modeline
     variable findchar
@@ -990,7 +990,7 @@ namespace eval vim {
     unset -nocomplain number($txt.t)
     unset -nocomplain multiplier($txt.t)
     unset -nocomplain search_dir($txt.t)
-    unset -nocomplain column($txt.t)
+    unset -nocomplain columns($txt.t)
     unset -nocomplain select_anchors($txt.t)
     unset -nocomplain modeline($txt.t)
     unset -nocomplain findchar($txt.t)
@@ -1044,11 +1044,8 @@ namespace eval vim {
 
     # Add the selection
     set anchor [utils::text_anchor $W]
-    if {[$W compare $anchor < $current]} {
-      $W tag add sel $anchor $current
-    } else {
-      $W tag add sel $current $anchor
-    }
+    adjust_start_end $W anchor current
+    $W tag add sel $anchor $current
 
     focus $W
 
@@ -1436,6 +1433,8 @@ namespace eval vim {
     variable mode
     variable recording
 
+    set multimove [$txtt cget -multimove]
+
     if {$mode($txtt) ne "command"} {
 
       # Add to the recording if we are doing so
@@ -1461,7 +1460,7 @@ namespace eval vim {
     }
 
     # If we are in multimove mode, disable it
-    if {[$txtt cget -multimove]} {
+    if {$multimove} {
       disable_multimove $txtt
 
     # Otherwise, get out of multicursor mode
@@ -1487,7 +1486,7 @@ namespace eval vim {
 
     variable mode
     variable operator
-    variable column
+    variable columns
     variable recording
 
     # Lookup the keysym
@@ -1519,9 +1518,9 @@ namespace eval vim {
       return -code $retcode 1
     }
 
-    # If the keysym is neither j or k, clear the column
+    # If the keysym is neither j or k, clear the columns
     if {($keysym ne "j") && ($keysym ne "k")} {
-      set column($txtt) ""
+      set columns($txtt) [list "" [list]]
     }
 
     # Handle the command
@@ -2100,7 +2099,7 @@ namespace eval vim {
   # If we are in "command" mode, move the insertion cursor down one line.
   proc handle_j {txtt} {
 
-    variable column
+    variable columns
     variable operator
 
     # Move the insertion cursor down one line
@@ -2112,7 +2111,7 @@ namespace eval vim {
         folding::close_range [winfo parent $txtt] insert "insert+[get_number $txtt] display lines"
       }
       default {
-        return [do_operation $txtt [list down -num [get_number $txtt] -column vim::column($txtt)]]
+        return [do_operation $txtt [list down -num [get_number $txtt] -column vim::columns($txtt)]]
       }
     }
 
@@ -2143,7 +2142,7 @@ namespace eval vim {
   # If we are in "command" mode, move the insertion cursor up one line.
   proc handle_k {txtt} {
 
-    variable column
+    variable columns
     variable operator
 
     set num [get_number $txtt]
@@ -2154,11 +2153,11 @@ namespace eval vim {
         folding::jump_to [winfo parent $txtt] prev [get_number $txtt]
       }
       "folding:range" {
-        folding::close_range [winfo parent $txtt] [$txtt index up -num [get_number $txtt] -column vim::column($txtt)] insert
+        folding::close_range [winfo parent $txtt] [$txtt index up -num [get_number $txtt] -column vim::columns($txtt)] insert
         $txtt cursor set [list "insert-1 display lines"]
       }
       default {
-        return [do_operation $txtt [list up -num [get_number $txtt] -column vim::column($txtt)]]
+        return [do_operation $txtt [list up -num [get_number $txtt] -column vim::columns($txtt)]]
       }
     }
 
@@ -3304,7 +3303,11 @@ namespace eval vim {
       "" {
         if {$mode($txtt) eq "command"} {
           if {$operator($txtt) eq ""} {
-            $txtt cursor add [$txtt index insert]
+            if {[$txtt cursor enabled cursor]} {
+              $txtt cursor remove [$txtt index insert]
+            } else {
+              $txtt cursor add [$txtt index insert]
+            }
           } else {
             return [do_operation $txtt spaceend]
           }
@@ -3983,13 +3986,13 @@ namespace eval vim {
 
     if {$operator($txtt) eq ""} {
       if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list wordend -startpos char -dir next -num [get_number $txtt] -exclusive 1]]
+        return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 1]]
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
       }
     } else {
       if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list wordend -startpos char -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+        return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 0]]
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1] right]
       }

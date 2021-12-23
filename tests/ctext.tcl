@@ -699,6 +699,7 @@ namespace eval ctext {
     set txt [initialize]
 
     $txt insert end "\nThis is some text"
+    $txt cursor set 2.0
 
     if {[$txt get 2.0 2.end] ne "This is some text"} {
       cleanup "Default text does not match expected"
@@ -706,12 +707,12 @@ namespace eval ctext {
 
     $txt delete -highlight 0 2.0
     if {[$txt get 2.0 2.end] ne "his is some text"} {
-      cleanup "Single character deletion did not work"
+      cleanup "Single character deletion did not work ([$txt get 2.0 2.end])"
     }
 
     $txt delete -highlight 0 2.0 2.2
     if {[$txt get 2.0 2.end] ne "s is some text"} {
-      cleanup "Character range deletion did not work"
+      cleanup "Character range deletion did not work ([$txt get 2.0 2.end])"
     }
 
     cleanup
