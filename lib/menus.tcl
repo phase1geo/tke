@@ -1730,7 +1730,7 @@ namespace eval menus {
 
     # Set the indentation mode for the current editor
     if {[set txt [gui::current_txt]] ne ""} {
-      set indent_mode [indent::get_indent_mode $txt]
+      set indent_mode [$txt cget -indentmode]
       set state       "normal"
     }
 

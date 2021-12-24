@@ -54,7 +54,8 @@ NAGELFAR_FILES = version.tcl \
 
 commit:
 	$(TCLSH) commit.tcl
-	hg commit
+	cd ..; git add .
+	git commit
 
 snippets: snip_lexer.tcl snip_parser.tcl format_lexer.tcl format_parser.tcl
 

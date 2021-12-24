@@ -1098,7 +1098,7 @@ namespace eval gui {
 
         set finfo(tab)         $tabindex
         set finfo(language)    [syntax::get_language $txt]
-        set finfo(indent)      [indent::get_indent_mode $txt]
+        set finfo(indent)      [$txt cget -indentmode]
         set finfo(modified)    0
         set finfo(cursor)      [$txt index insert]
         set finfo(xview)       [lindex [$txt xview] 0]
@@ -1999,7 +1999,7 @@ namespace eval gui {
     $txt configure -highlight $highlightable
 
     # Update the auto-indentation value
-    indent::update_auto_indent $txt.t $widgets(info_indent)
+    update_auto_indent $txt
 
   }
 
@@ -3073,7 +3073,7 @@ namespace eval gui {
       if {[paste]} {
 
         # Have the indent namespace format the clipboard contents
-        indent::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
+        [current_txt] indent auto $insertpos "$insertpos+${cliplen}c"
 
       }
 
@@ -3117,15 +3117,7 @@ namespace eval gui {
     }
 
     # If any text is selected, format it
-    if {[llength [set selected [$txt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-        indent::format_text $txt.t $startpos $endpos
-      }
-
-    # Otherwise, select the full file
-    } else {
-      indent::format_text $txt.t 1.0 end
-    }
+    $txt indent auto
 
     # If the file is locked or readonly, clear the modified state and reset the text state
     # back to disabled
@@ -5504,7 +5496,7 @@ namespace eval gui {
     update_encode_button
 
     # Update the indentation indicator
-    indent::update_button $widgets(info_indent)
+    update_indent_button
 
     # Set the syntax menubutton to the current language
     syntax::update_button $widgets(info_syntax)
@@ -5991,18 +5983,6 @@ namespace eval gui {
   }
 
   ######################################################################
-  # This is called by the indent namespace to update the indentation
-  # widget when the indent value changes internally (due to changing
-  # the current language.
-  proc update_indent_button {} {
-
-    variable widgets
-
-    indent::update_button $widgets(info_indent)
-
-  }
-
-  ######################################################################
   # Creates the encoding menu.
   proc create_encoding_menu {w} {
 
@@ -6112,6 +6092,23 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Updates the menubutton to match the current mode.
+  proc update_indent_button {} {
+
+    variable widgets
+    variable current_indent
+
+    set txt [current_txt]
+
+    # Configure the menubutton
+    $widgets(info_indent) configure -text [set current_indent [$txt cget -indentmode]]
+
+    # Update the selectable state of the button
+    $widgets(info_indent)Menu entryconfigure [msgcat::mc "Smart Indent"] -state [expr {[ctext::indent_is_auto_available $txt] ? "normal" : "disabled"}]
+
+  }
+
+  ######################################################################
   # Sets the indentation mode of the current tab to be the value of mode
   # which can have one of the following values:  OFF, IND or IND+
   proc set_current_indent_mode {mode} {
@@ -6135,6 +6132,28 @@ namespace eval gui {
     catch { set_txt_focus [last_txt_focus] }
 
     return 1
+
+  }
+
+  ######################################################################
+  # This will be caused if the associated file is not able to be automatically
+  # indented due to syntax highlighting being disabled.
+  proc update_auto_indent {txt} {
+
+    variable data
+    variable current_indent
+    variable widgets
+
+    set auto_enable [expr [$txt cget -highlight] && [ctext::indent_is_auto_available $txt]]
+    set state       [expr {$auto_enable ? "normal" : "disabled"}]
+
+    if {!$auto_enable && ([$txt cget -indentmode] eq "IND+")} {
+      $txt configure -indentmode "IND"
+    }
+
+    set current_indent [$txt cget -indentmode]
+
+    $widgets(info_indent)Menu entryconfigure [msgcat::mc "Smart Indent"] -state $state
 
   }
 

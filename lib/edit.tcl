@@ -44,21 +44,11 @@ namespace eval edit {
   # Inserts the line above the current line in the given editor.
   proc insert_line_above_current {txtt} {
 
-    # If we are operating in Vim mode,
+    # If we are operating in Vim mode, switch to edit mode
     vim::edit_mode $txtt
 
-    # Create the new line
-    if {[$txtt cursor enabled]} {
-      multicursor::move $txtt up
-    } elseif {[$txtt compare "insert linestart" == 1.0]} {
-      $txtt insert "insert linestart" "\n"
-      ::tk::TextSetCursor $txtt "insert-1l"
-    } else {
-      ::tk::TextSetCursor $txtt "insert-1l lineend"
-      $txtt insert "insert lineend" "\n"
-    }
-
-    indent::newline $txtt insert 1
+    $txtt insert linestart "\n"
+    $txtt cursor move up
 
   }
 
@@ -69,22 +59,8 @@ namespace eval edit {
     # If we are operating in Vim mode, switch to edit mode
     vim::edit_mode $txtt
 
-    # Get the current insertion point
-    set insert [$txtt index insert]
-
-    # Add the line(s)
-    if {[$txtt cursor enabled]} {
-      multicursor::move $txtt down
-    } else {
-      ::tk::TextSetCursor $txtt "insert lineend"
-      $txtt insert "insert lineend" "\n"
-    }
-
-    # Make sure the inserted text is seen
-    $txtt see insert
-
-    # Perform the proper indentation
-    indent::newline $txtt insert 1
+    $txtt insert lineend "\n"
+    $txtt cursor move down
 
   }
 
@@ -114,44 +90,15 @@ namespace eval edit {
     # If we have selected text, perform the deletion
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
 
-      # Allow multicursors to be handled, if enabled
-      if {![multicursor::delete $txtt selected]} {
-
-        if {$line} {
-
-          # Save the selected text to the clipboard
-          clipboard clear
-          foreach {start end} $selected {
-            clipboard append [$txtt get "$start linestart" "$end lineend"]
-          }
-
-          # Set the cursor to the first character of the selection prior to deletion
-          $txtt mark set insert [lindex $selected 0]
-
-          # Delete the text
-          foreach {end start} [lreverse $selected] {
-            $txtt delete "$start linestart" "$end lineend"
-          }
-
-        } else {
-
-          # Save the selected text to the clipboard
-          clipboard clear
-          foreach {start end} $selected {
-            clipboard append [$txtt get $start $end]
-          }
-
-          # Set the cursor to the first character of the selection prior to deletion
-          $txtt mark set insert [lindex $selected 0]
-
-          # Delete the text
-          foreach {end start} [lreverse $selected] {
-            $txtt delete $start $end
-          }
-
+      # Select all lines, if called to
+      if {$line} {
+        foreach {start end} $selected {
+          $txtt tag add sel "$start linestart" "$end lineend"
         }
-
       }
+
+      # Delete the selected text
+      $txtt delete
 
       return 1
 
@@ -840,7 +787,7 @@ namespace eval edit {
   proc do_indent {txtt startpos endpos} {
 
     # Get the indent spacing
-    set indent_str [string repeat " " [indent::get_shiftwidth $txtt]]
+    set indent_str [string repeat " " [$txtt cget -shiftwidth]]
 
     while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
       $txtt insert "$startpos linestart" $indent_str
@@ -854,7 +801,7 @@ namespace eval edit {
   proc do_unindent {txtt startpos endpos} {
 
     # Get the indent spacing
-    set unindent_str [string repeat " " [indent::get_shiftwidth $txtt]]
+    set unindent_str [string repeat " " [$txtt cget -shiftwidth]]
     set unindent_len [string length $unindent_str]
 
     while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
@@ -1234,15 +1181,8 @@ namespace eval edit {
   # Moves multicursors in the modifier direction for the given text widget.
   proc move_cursors {txtt modifier} {
 
-    variable columns
-
-    # Clear the selection
-    $txtt tag remove sel 1.0 end
-
-    set columns ""
-
     # Adjust the cursors
-    multicursor::move $txtt [list $modifier -column edit::columns]
+    $txtt cursor move $modifier
 
   }
 
@@ -1366,12 +1306,12 @@ namespace eval edit {
 
     # Get the range of lines to check
     if {[set ranges [$txtt tag ranges sel]] eq ""} {
-      if {[multicursor::enabled $txtt]} {
+      if {[$txtt cursor enabled]} {
         set last ""
-        foreach {start end} [$txtt tag ranges mcursor] {
-          if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
-            lappend ranges [$txtt index "$start linestart"] [$txtt index "$start lineend"]
-            set last $start
+        foreach mcursor [$txtt cursor get] {
+          if {($last eq "") || [$txtt compare "$mcursor linestart" != "$last linestart"]} {
+            lappend ranges [$txtt index "$mcursor linestart"] [$txtt index "$mcursor lineend"]
+            set last $mcursor
           }
         }
       } else {

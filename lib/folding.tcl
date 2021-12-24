@@ -201,7 +201,12 @@ namespace eval folding {
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
 
-    set method [get_method $txt]
+    set method    [get_method $txt]
+    set startline [lindex [split [$txt index $startpos] .] 0]
+    set endline   [lindex [split [$txt index $endpos]   .] 0]
+
+    # Clear the folding gutter in
+    $txt gutter clear folding $startline $endline
 
     # If we are doing manual code folding, don't go any further
     if {$method eq "manual"} {
@@ -215,14 +220,9 @@ namespace eval folding {
       }
     }
 
-    set startline    [lindex [split [$txt index $startpos] .] 0]
-    set endline      [lindex [split [$txt index $endpos]   .] 0]
     set lines(open)  [list]
     set lines(end)   [list]
     set lines(eopen) [list]
-
-    # Clear the folding gutter in
-    $txt gutter clear folding $startline $endline
 
     # Add the folding indicators
     for {set i $startline} {$i <= $endline} {incr i} {

@@ -297,7 +297,6 @@ namespace eval snippets {
           incr datalen [string length $str]
         }
         $txtt indent auto cursor [list char -num $datalen]
-        # indent::format_text $txtt $insert "$insert+${datalen}c" 0
       }
 
       # Traverse the inserted snippet

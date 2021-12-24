@@ -119,7 +119,6 @@ source [file join $tke_dir lib preferences.tcl]
 source [file join $tke_dir lib edit.tcl]
 source [file join $tke_dir lib gui.tcl]
 source [file join $tke_dir lib sidebar.tcl]
-source [file join $tke_dir lib indent.tcl]
 source [file join $tke_dir lib menus.tcl]
 source [file join $tke_dir lib launcher.tcl]
 source [file join $tke_dir lib plugins.tcl]
@@ -129,7 +128,6 @@ source [file join $tke_dir lib format_parser.tcl]
 source [file join $tke_dir lib snippets.tcl]
 source [file join $tke_dir lib bindings.tcl]
 source [file join $tke_dir lib bgproc.tcl]
-source [file join $tke_dir lib multicursor.tcl]
 source [file join $tke_dir lib cliphist.tcl]
 source [file join $tke_dir lib vim.tcl]
 source [file join $tke_dir lib syntax.tcl]
@@ -207,9 +205,9 @@ proc usage {} {
 proc version {} {
 
   if {$::version_point == 0} {
-    puts "$::version_major.$::version_minor ($::version_hgid)"
+    puts "$::version_major.$::version_minor ($::version_id)"
   } else {
-    puts "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
+    puts "$::version_major.$::version_minor.$::version_point ($::version_id)"
   }
 
   exit

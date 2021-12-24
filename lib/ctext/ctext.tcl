@@ -1132,6 +1132,9 @@ namespace eval ctext {
       if {[lsearch {OFF IND IND+} $value] == -1} {
         return -code error "Indent mode is not OFF, IND or IND+"
       }
+      if {($value eq "IND+") && ![indent_is_auto_available $win]} {
+        return -code error "Indent mode cannot be set to IND+ when auto-indentation is not available for the current language"
+      }
       set data($win,config,-indentmode) $value
     }
 
@@ -3221,6 +3224,12 @@ namespace eval ctext {
       addblockcomments { addBlockCommentPatterns       $win {*}$args }
       addstrings       { addStringPatterns             $win {*}$args }
       addembedlang     { addEmbedLangPattern           $win {*}$args }
+      addindent        { addIndentationPattern         $win indent {*}$args }
+      addunindent      { addIndentationPattern         $win unindent {*}$args }
+      addreindent      {
+        addIndentationPattern $win reindentStart [lindex $args 0] [lindex $args 1]
+        addIndentationPattern $win reindent      [lindex $args 0] [lindex $args 2]
+      }
       search           { highlightSearch               $win {*}$args }
       delete           {
         switch [lindex $args 0] {
@@ -4514,6 +4523,20 @@ namespace eval ctext {
 
   }
 
+  proc addIndentationPattern {win type lang indentations} {
+
+    variable data
+
+    if {[llength $indentations] > 0} {
+      set data($win,config,indentation,$lang,$type) [join $indentations |]
+      $win._t tag configure __$type
+      $win._t tag lower __$type _invisible
+    } else {
+      unset -nocomplain data($win,config,indentation,$lang,$type)
+    }
+
+  }
+
   proc highlightAll {win ranges ins {do_tag ""}} {
 
     variable data
@@ -4868,20 +4891,6 @@ namespace eval ctext {
       }
       catch { $win._t tag remove __Lang=$lang 1.0 end }
       catch { $win._t tag add __Lang=$lang {*}$indices }
-    }
-
-  }
-
-  proc setIndentation {twin lang indentations type} {
-
-    variable data
-
-    if {[llength $indentations] > 0} {
-      set data($twin,config,indentation,$lang,$type) [join $indentations |]
-      $twin tag configure __$type
-      $twin tag lower __$type _invisible
-    } else {
-      catch { unset data($twin,config,indentation,$lang,$type) }
     }
 
   }

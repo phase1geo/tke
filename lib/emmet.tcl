@@ -919,7 +919,6 @@ namespace eval emmet {
 
         # Just use the indentation algorithm
         $txt indent -mcursor 0 auto [lindex $retval 0] "[lindex $retval 0]+${count}l linestart"
-        # indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 0]+${count}l linestart" 0
 
       }
 

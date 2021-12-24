@@ -416,6 +416,24 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Set indentation mode.
+  proc set_indent_mode {txt} {
+
+    if {[preferences::get Editor/EnableAutoIndent]} {
+      if {[ctext::indent_is_auto_available $txt] && [$txt cget -highlight]} {
+        gui::set_current_indent_mode "IND+"
+      } else {
+        gui::set_current_indent_mode "IND"
+      }
+    } else {
+      gui::set_current_indent_mode "OFF"
+    }
+
+    gui::update_indent_button
+
+  }
+
+  ######################################################################
   # Sets the language of the given text widget to the given language.
   # Options:
   #   -highlight (0 | 1)   Specifies whether syntax highlighting should be performed
@@ -436,11 +454,11 @@ namespace eval syntax {
       $txt syntax addblockcomments {} {}
       $txt syntax addlinecomments  {} {}
       $txt syntax addstrings       {} {}
+      $txt syntax addindent        {} {}
+      $txt syntax addunindent      {} {}
+      $txt syntax addreindent      {} {} {}
       ctext::setAutoMatchChars $txt {} {}
     }
-
-    # Set default indent/unindent strings
-    indent::set_indent_expressions $txt.t {} {} {}
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -491,29 +509,27 @@ namespace eval syntax {
         set_language_section $txt readmeta       $lang_array(readmeta) ""
         set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix $lang_ns
 
-        # Add the comments, strings and indentations
-        ctext::clearCommentStringPatterns $txt
-        $txt syntax addblockcomments {} $lang_array(bcomments)
-        $txt syntax addlinecomments  {} $lang_array(lcomments)
-        $txt syntax addstrings       {} $lang_array(strings)
-        ctext::setIndentation $txt {} $lang_array(indent)   indent
-        ctext::setIndentation $txt {} $lang_array(unindent) unindent
-
         set reindentStarts [list]
         set reindents      [list]
         foreach reindent $lang_array(reindent) {
           lappend reindentStarts [lindex $reindent 0]
           lappend reindents      {*}[lrange $reindent 1 end]
         }
-        ctext::setIndentation $txt {} $reindentStarts reindentStart
-        ctext::setIndentation $txt {} $reindents      reindent
+
+        # Add the comments, strings and indentations
+        ctext::clearCommentStringPatterns $txt
+        $txt syntax addblockcomments {} $lang_array(bcomments)
+        $txt syntax addlinecomments  {} $lang_array(lcomments)
+        $txt syntax addstrings       {} $lang_array(strings)
+        $txt syntax addindent        {} $lang_array(indent)
+        $txt syntax addunindent      {} $lang_array(unindent)
+        $txt syntax addreindent      {} $reindentStarts $reindents
+
+        set_indent_mode $txt
 
         # Add the FIXME
         # $txt syntax addclass fixme -fgtheme miscellaneous1
         # $txt syntax addwords class fixme FIXME
-
-        # Set the indent/unindent regular expressions
-        indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
@@ -597,27 +613,23 @@ namespace eval syntax {
       set_language_section $txt numbers    $lang_array(numbers) $language
       set_language_section $txt precompile $lang_array(precompile) $language
 
-      # Add the comments, strings and indentations
-      $txt syntax addblockcomments $language $lang_array(bcomments)
-      $txt syntax addlinecomments  $language $lang_array(lcomments)
-      $txt syntax addstrings       $language $lang_array(strings)
-      ctext::setIndentation $txt $language [list {*}$embed_starts {*}$lang_array(indent)]   indent
-      ctext::setIndentation $txt $language [list {*}$embed_ends   {*}$lang_array(unindent)] unindent
-
       set reindentStarts [list]
       set reindents      [list]
       foreach reindent $lang_array(reindent) {
         lappend reindentStarts [lindex $reindent 0]
         lappend reindents      {*}[lrange $reindent 1 end]
       }
-      ctext::setIndentation $txt $language $reindentStarts reindentStart
-      ctext::setIndentation $txt $language $reindents      reindent
+
+      # Add the comments, strings and indentations
+      $txt syntax addblockcomments $language $lang_array(bcomments)
+      $txt syntax addlinecomments  $language $lang_array(lcomments)
+      $txt syntax addstrings       $language $lang_array(strings)
+      $txt syntax addindent        $language $lang_array(indent)
+      $txt syntax addunindent      $language $lang_array(unindent)
+      $txt syntax addreindent      $language $reindentStarts $reindents
 
       # Add the FIXME
       # $txt syntax addwords class fixme FIXME $language
-
-      # Set the indent/unindent regular expressions
-      indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
 
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)

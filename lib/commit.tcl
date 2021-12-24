@@ -25,7 +25,7 @@
 source "version.tcl"
 
 # Get the global ID and local ID
-set id [exec hg id -n]
+set id [exec git rev-parse HEAD]
 
 if {[catch "open version.tcl w" rc]} {
   error $rc
@@ -34,7 +34,7 @@ if {[catch "open version.tcl w" rc]} {
   puts $rc "set version_major \"$version_major\""
   puts $rc "set version_minor \"$version_minor\""
   puts $rc "set version_point \"$version_point\""
-  puts $rc "set version_hgid  \"[string range $id 0 end-1]\""
+  puts $rc "set version_id    \"[string range $id end-6 end-1]\""
   close $rc
 }
 
