@@ -342,7 +342,7 @@ namespace eval select {
           block   { set trange [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
           line    -
           lineto  {
-            set trange [edit::get_range $txtt linestart lineend "" 0]
+            set trange [edit::get_range $txtt linestart lineend ""]
             if {$data($txtt,type) eq "lineto"} {
               lset trange $data($txtt,anchorend) $data($txtt,anchor)
             }
@@ -351,11 +351,11 @@ namespace eval select {
             if {[string is space [$txtt get insert]]} {
               $txtt mark set insert [$txtt index wordstart -dir [expr {($data($txtt,anchorend) == 0) ? "prev" : "next"}]]
             }
-            set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
+            set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] i]
           }
           sentence -
           paragraph {
-            set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
+            set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] o]
           }
           node      { set trange [node_current [winfo parent $txtt] insert] }
           all       -
@@ -378,7 +378,7 @@ namespace eval select {
           }
           single    -
           double    -
-          btick     { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0] }
+          btick     { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}]] }
           default   { set trange [bracket_current $txtt $data($txtt,type) insert] }
         }
         if {[lsearch [list char line lineto word sentence paragraph] $data($txtt,type)] != -1} {
@@ -1780,9 +1780,9 @@ namespace eval select {
   proc bracket_current {txtt type startpos} {
 
     if {[$txtt is $type $startpos]} {
-      return [edit::get_range $txtt [list $type 1] [list] o 0 $startpos]
+      return [edit::get_range $txtt [list $type 1] [list] o $startpos]
     } else {
-      return [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]
+      return [edit::get_range $txtt [list $type 1] [list] i $startpos]
     }
 
   }
@@ -1797,14 +1797,14 @@ namespace eval select {
         if {[$txtt is $type left $startpos-1c]} {
           return [list $startpos [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos-1c]]
         } else {
-          return [edit::get_range $txtt [list $type 1] [list] i 0 "$startpos-1c"]
+          return [edit::get_range $txtt [list $type 1] [list] i "$startpos-1c"]
         }
       } elseif {[$txtt is $type left $startpos-1c]} {
         return [list [$txtt index $startpos-1c] [ctext::getMatchBracket [winfo parent $txtt] ${type}R $startpos-1c]+1c]
       }
     }
 
-    if {[set trange [edit::get_range $txtt [list $type 1] [list] o 0 "$startpos-1c"]] eq [list "" ""]} {
+    if {[set trange [edit::get_range $txtt [list $type 1] [list] o "$startpos-1c"]] eq [list "" ""]} {
       return ""
     }
 
