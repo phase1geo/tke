@@ -6109,27 +6109,38 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Sets the indentation mode of the current tab to be the value of mode
-  # which can have one of the following values:  OFF, IND or IND+
-  proc set_current_indent_mode {mode} {
+  # Sets the indentation mode of the given text widget and updates UI state
+  proc set_indent_mode {txt mode} {
 
     variable widgets
     variable current_indent
 
-    set txt [gui::current_txt]
-
     # Set the current mode
     $txt configure -indentmode $mode
-    set current_indent $mode
 
     # Set the text widget's indent mode
     folding::add_folds $txt 1.0 end
 
-    # Update the menu button
-    $widgets(info_indent) configure -text $mode
+    if {$txt eq [current_txt]} {
 
-    # Set the focus back to the text widget
-    catch { set_txt_focus [last_txt_focus] }
+      set current_indent $mode
+
+      # Update the menu button
+      $widgets(info_indent) configure -text $mode
+
+      # Set the focus back to the text widget
+      catch { set_txt_focus [last_txt_focus] }
+
+    }
+
+  }
+
+  ######################################################################
+  # Sets the indentation mode of the current tab to be the value of mode
+  # which can have one of the following values:  OFF, IND or IND+
+  proc set_current_indent_mode {mode} {
+
+    set_indent_mode [current_txt] $mode
 
     return 1
 

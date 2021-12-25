@@ -7103,8 +7103,9 @@ namespace eval ctext {
   proc getindex_sentence {win startpos optlist} {
 
     array set opts {
-      -num 1
-      -dir "next"
+      -num       1
+      -dir       "next"
+      -exclusive 0
     }
     array set opts $optlist
 
@@ -7148,7 +7149,7 @@ namespace eval ctext {
       }
 
       while {[set index [$win._t search -forwards -count lengths -regexp -- $pattern $startpos $endpos]] ne ""} {
-        set startpos [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
+        set startpos [$win._t index "$index+[expr [lindex $lengths 0] - $opts(-exclusive)]c"]
         if {[incr num -1] == 0} {
           return $startpos
         }
@@ -7187,8 +7188,9 @@ namespace eval ctext {
   proc getindex_paragraph {win startpos optlist} {
 
     array set opts {
-      -num 1
-      -dir "next"
+      -num       1
+      -dir       "next"
+      -exclusive 0
     }
     array set opts $optlist
 
@@ -7210,7 +7212,7 @@ namespace eval ctext {
         set start [$win._t index "$start+1 display lines"]
       }
 
-      return [$win._t index end-1c]
+      return [$win._t index end-$opts(-exclusive)c]
 
     } else {
 

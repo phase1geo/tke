@@ -1064,7 +1064,7 @@ namespace eval edit {
         if {($right eq "") || [$txtt compare $right < $cursor]} {
           return [list "" ""]
         } else {
-          return [expr {$inner ? [list [$txt index "$index+1c"] [$txt index "$right-1c"]] : [list $index [$txt index $right]]}]
+          return [expr {$inner ? [list [$txt index "$index+1c"] [$txt index $right]] : [list $index [$txt index "$right+1c"]]}]
         }
       } else {
         set startpos $index

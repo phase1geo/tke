@@ -421,12 +421,12 @@ namespace eval syntax {
 
     if {[preferences::get Editor/EnableAutoIndent]} {
       if {[ctext::indent_is_auto_available $txt] && [$txt cget -highlight]} {
-        gui::set_current_indent_mode "IND+"
+        gui::set_indent_mode $txt "IND+"
       } else {
-        gui::set_current_indent_mode "IND"
+        gui::set_indent_mode $txt "IND"
       }
     } else {
-      gui::set_current_indent_mode "OFF"
+      gui::set_indent_mode $txt "OFF"
     }
 
     gui::update_indent_button

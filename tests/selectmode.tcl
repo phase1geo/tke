@@ -41,6 +41,8 @@ namespace eval selectmode {
   # Emulates a keystroke.
   proc enter {txtt keysyms} {
 
+    puts "keysyms: $keysyms"
+
     foreach keysym $keysyms {
       if {[lsearch [list Return Escape BackSpace Delete] $keysym] != -1} {
         select::handle_[string tolower $keysym] $txtt
@@ -218,30 +220,30 @@ namespace eval selectmode {
 
     do_test $txtt 0  {} {1.5 1.7}  0 word
     do_test $txtt 1  c  {1.5 1.7}  0 char
-    do_test $txtt 2  w  {1.5 1.9}  0 word
+    do_test $txtt 2  w  {1.5 1.7}  0 word
     do_test $txtt 3  E  {1.5 1.16} 0 lineto
-    do_test $txtt 4  w  {1.5 2.4}  0 word
-    do_test $txtt 5  E  {1.5 2.16} 0 lineto
-    do_test $txtt 6  c  {1.5 2.16} 0 char
-    do_test $txtt 7  e  {1.5 2.16} 0 line
-    do_test $txtt 8  E  {1.5 2.16} 0 lineto
-    do_test $txtt 9  e  {1.5 2.16} 0 line
-    do_test $txtt 10 w  {1.5 3.11} 0 word
-    do_test $txtt 11 e  {1.5 3.12} 0 line
-    do_test $txtt 12 c  {1.5 3.12} 0 char
-    do_test $txtt 13 s  {1.5 3.12} 0 sentence
-    do_test $txtt 14 w  {1.5 3.12} 0 word
-    do_test $txtt 15 s  {1.5 3.12} 0 sentence
-    do_test $txtt 16 c  {1.5 3.12} 0 char
-    do_test $txtt 17 E  {1.5 3.12} 0 lineto
-    do_test $txtt 18 p  {1.5 3.12} 0 paragraph
-    do_test $txtt 19 s  {1.5 3.12} 0 sentence
-    do_test $txtt 20 p  {1.5 3.12} 0 paragraph
-    do_test $txtt 21 e  {1.5 3.12} 0 line
-    do_test $txtt 22 p  {1.5 3.12} 0 paragraph
-    do_test $txtt 23 w  {1.5 3.12} 0 word
-    do_test $txtt 24 p  {1.5 3.12} 0 paragraph
-    do_test $txtt 25 c  {1.5 3.12} 0 char
+    do_test $txtt 4  w  {1.5 1.16} 0 word
+    do_test $txtt 5  E  {1.5 1.16} 0 lineto
+    do_test $txtt 6  c  {1.5 1.16} 0 char
+    do_test $txtt 7  e  {1.0 1.16} 0 line
+    do_test $txtt 8  E  {1.0 1.16} 0 lineto
+    do_test $txtt 9  e  {1.0 1.16} 0 line
+    do_test $txtt 10 w  {1.0 1.16} 0 word
+    do_test $txtt 11 e  {1.0 1.16} 0 line
+    do_test $txtt 12 c  {1.0 1.16} 0 char
+    do_test $txtt 13 s  {1.0 2.7}  0 sentence
+    do_test $txtt 14 w  {1.0 2.7}  0 word
+    do_test $txtt 15 s  {1.0 2.7}  0 sentence
+    do_test $txtt 16 c  {1.0 2.7}  0 char
+    do_test $txtt 17 E  {1.0 2.16} 0 lineto
+    do_test $txtt 18 p  {1.0 3.12} 0 paragraph
+    do_test $txtt 19 s  {1.0 3.12} 0 sentence
+    do_test $txtt 20 p  {1.0 3.12} 0 paragraph
+    do_test $txtt 21 e  {1.0 3.12} 0 line
+    do_test $txtt 22 p  {1.0 3.12} 0 paragraph
+    do_test $txtt 23 w  {1.0 3.12} 0 word
+    do_test $txtt 24 p  {1.0 3.12} 0 paragraph
+    do_test $txtt 25 c  {1.0 3.12} 0 char
 
     do_test $txtt 26 Escape {} 0 none
 

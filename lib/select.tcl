@@ -86,7 +86,7 @@ namespace eval select {
 
     bind select <<Selection>>                   [list select::handle_selection %W]
     bind select <FocusOut>                      [list select::handle_focusout %W]
-    bind select <Key>                           [list select::handle_any %W %K]
+    bind select <Key>                           [list select::handle_any %W %K break]
     bind select <Return>                        [list select::handle_return %W]
     bind select <Escape>                        [list select::handle_escape %W]
     bind select <BackSpace>                     [list select::handle_backspace %W]
@@ -1177,7 +1177,7 @@ namespace eval select {
 
   ######################################################################
   # Handles any other entered keys when in selection mode.
-  proc handle_any {txtt keysym} {
+  proc handle_any {txtt keysym {retcode ok}} {
 
     variable data
 
@@ -1204,7 +1204,7 @@ namespace eval select {
       hide_help
     }
 
-    return -code break
+    return -code $retcode
 
   }
 
