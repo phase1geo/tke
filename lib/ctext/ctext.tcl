@@ -6777,9 +6777,14 @@ namespace eval ctext {
       set index [$win._t index "$index-1 display lines"]
     }
 
-    set line [lindex [split $index .] 0]
+    set line    [lindex [split $index .] 0]
+    set linelen [string length [string trimright [$win._t get $line.0 $line.end]]]
 
-    return "$line.0+[expr [string length [string trimright [$win._t get $line.0 $line.end]]] - 1]c"
+    if {$linelen == 0} {
+      return $line.0
+    } else {
+      return "$line.0+[expr $linelen - 1]c"
+    }
 
   }
 
@@ -7099,7 +7104,8 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Transforms a sentence specification into a text index.
+  # Transforms a sentence specification into a text index.  Returns the index
+  # of the first non-whitespace character in the next or previous senstence.
   proc getindex_sentence {win startpos optlist} {
 
     array set opts {
@@ -8152,7 +8158,8 @@ namespace eval ctext {
     set cursor     [$win._t index insert]
 
     while {[$win._t compare $startpos <= $endpos]} {
-      $win._t insert $startpos $indent_str [list lmargin rmargin __prewhite [getLangTag $win $startpos]]
+      set tags [$win._t tag names $startpos]
+      $win._t insert $startpos $indent_str $tags ;# [list lmargin rmargin __prewhite [getLangTag $win $startpos]]
       set epos [$win._t index "$startpos+${shiftwidth}c"]
       handleInsertAt0 $win $startpos $epos
       undo_add_change $win [list i $startpos $epos $indent_str $cursor $mcursor] $undo_append
@@ -8265,9 +8272,10 @@ namespace eval ctext {
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
+        set tags [$win._t tag names $curpos]
         set epos [$win._t index "$curpos+[string length $whitespace]c"]
         set t [handleReplaceDeleteAt0 $win $curpos $epos]
-        $win._t replace $curpos $epos $indent_space [list lmargin rmargin __prewhite [getLangTag $win $curpos]]
+        $win._t replace $curpos $epos $indent_space $tags   ;# [list lmargin rmargin __prewhite [getLangTag $win $curpos]]
         handleReplaceInsert $win $curpos $epos $t
         undo_add_change $win [list d $curpos $epos $whitespace $cursor $mcursor] $undo_append
         undo_add_change $win [list i $curpos [$win._t index "$curpos+[string length $indent_space]c"] $indent_space $cursor $mcursor] 1

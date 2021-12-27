@@ -1103,8 +1103,9 @@ namespace eval motion {
     }
 
     enter $txtt {2 j equal equal}
-    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too"} {
-      cleanup "Equal failed ([ostr [$txtt get 1.0 end-1c]])"
+    set comp "\n  This is good\n    \n  This is good too"
+    if {[$txtt get 1.0 end-1c] ne $comp} {
+      cleanup "Equal failed ([ostr [$txtt get 1.0 end-1c]])([ostr $comp])"
     }
 
     $txtt insert end "\n      This is cool"

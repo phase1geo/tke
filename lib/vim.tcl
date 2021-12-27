@@ -1667,11 +1667,7 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {[$txtt cget -multimove]} {
-          if {[in_visual_mode $txtt]} {
-            $txtt cursor select $eposargs
-          } else {
-            $txtt cursor move $eposargs
-          }
+          $txtt cursor [expr {[in_visual_mode $txtt] ? "select" : "move"}] $eposargs
         } elseif {$opts(-object)} {
           if {$sposargs ne "cursor"} {
             $txtt cursor set $sposargs
@@ -1746,6 +1742,7 @@ namespace eval vim {
         return 1
       }
       "format" {
+        puts "auto indent sposargs: $sposargs, eposargs: $eposargs, insert: [$txtt index insert]"
         $txtt indent auto $sposargs $eposargs
         $txtt cursor move [list firstchar -num 0]
         command_mode $txtt
@@ -3491,10 +3488,11 @@ namespace eval vim {
   proc handle_braceright {txtt} {
 
     variable motion
+    variable operator
 
     switch $motion($txtt) {
       "" {
-        return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt]]]
+        return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt] -exclusive [expr {($operator($txtt) eq "") ? 1 : 0}]]]
       }
       default {
         return [do_object_operation $txtt curly]
@@ -3533,10 +3531,11 @@ namespace eval vim {
   proc handle_parenright {txtt} {
 
     variable motion
+    variable operator
 
     switch $motion($txtt) {
       "" {
-        return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]]]
+        return [do_operation $txtt [list sentence -dir next -num [get_number $txtt] -exclusive [expr {($operator($txtt) eq "") ? 1 : 0}]]]
       }
       default {
         return [do_object_operation $txtt paren]
