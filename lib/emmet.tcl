@@ -246,90 +246,6 @@ namespace eval emmet {
   }
 
   ######################################################################
-  # Gets the tag that begins before the current insertion cursor.  The
-  # value of -dir must be "next or "prev".  The value of -type must be
-  # "100" (start), "001" (end), "010" (both) or "*" (any).  The value of
-  # name is the tag name to search for (if specified).
-  #
-  # Returns a list of 6 elements if a tag was found that matches:
-  #  - starting tag position
-  #  - ending tag position
-  #  - tag name
-  #  - type of tag found (10=start, 01=end or 11=both)
-  #  - number of starting tags encountered that did not match
-  #  - number of ending tags encountered that did not match
-  proc get_tag {txt args} {
-
-    array set opts {
-      -dir   "next"
-      -type  "*"
-      -name  "*"
-      -start "insert"
-    }
-    array set opts $args
-
-    # Initialize counts
-    set missed [list]
-
-    # Get the tag
-    if {$opts(-dir) eq "prev"} {
-      if {[set start [lindex [$txt syntax prevrange angledL $opts(-start)] 0]] eq ""} {
-        return ""
-      } elseif {[set end [lindex [$txt syntax nextrange angledR $start] 1]] eq ""} {
-        return ""
-      }
-    } else {
-      if {[set end [lindex [$txt syntax nextrange angledR $opts(-start)] 1]] eq ""} {
-        return ""
-      } elseif {[set start [lindex [$txt syntax prevrange angledL $end] 0]] eq ""} {
-        return ""
-      }
-    }
-
-    while {1} {
-
-      # Get the tag elements
-      if {[$txt get "$start+1c"] eq "/"} {
-        set found_type "001"
-        set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+2c" "$end-1c"]]
-      } else {
-        if {[$txt get "$end-2c"] eq "/"} {
-          set found_type "010"
-          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-2c"]]
-        } else {
-          set found_type "100"
-          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-1c"]]
-        }
-      }
-
-      # If we have found what we are looking for, return now
-      if {[string match $opts(-type) $found_type] && [string match $opts(-name) $found_name]} {
-        return [list $start $end $found_name $found_type $missed]
-      }
-
-      # Update counts
-      lappend missed "$found_name,$found_type"
-
-      # Otherwise, get the next tag
-      if {$opts(-dir) eq "prev"} {
-        if {[set end [lindex [$txt syntax prevrange angledR $start] 1]] eq ""} {
-          return ""
-        } elseif {[set start [lindex [$txt syntax prevrange angledL $end] 0]] eq ""} {
-          return ""
-        }
-      } else {
-        if {[set start [lindex [$txt syntax nextrange angledL $end] 0]] eq ""} {
-          return ""
-        } elseif {[set end [lindex [$txt syntax nextrange angledR $start] 1]] eq ""} {
-          return ""
-        }
-      }
-
-    }
-
-  }
-
-  ######################################################################
   # Wraps the current tag with a user-specified Emmet abbreviation.
   proc wrap_with_abbreviation {args} {
 
@@ -596,7 +512,7 @@ namespace eval emmet {
             return
           }
         }
-        if {[set prev_tag [ctext:ctext:::get_tag $txt -dir prev -start [lindex $retval 0]]] ne ""} {
+        if {[set prev_tag [ctext::get_tag $txt -dir prev -start [lindex $retval 0]]] ne ""} {
           if {[$txt compare [lindex $prev_tag 1] == [lindex $retval 0]] && \
               [$txt compare insert != [lindex $retval 0]]} {
             ::tk::TextSetCursor $txt [lindex $retval 0]
@@ -915,10 +831,10 @@ namespace eval emmet {
 
         # Delete the tags
         $txt delete {*}[lrange $retval 2 3]
-        $txt delete {*}[lrange $retval 0 1]
+        $txt delete -undoappend 1 {*}[lrange $retval 0 1]
 
         # Just use the indentation algorithm
-        $txt indent -mcursor 0 auto [lindex $retval 0] "[lindex $retval 0]+${count}l linestart"
+        $txt indent -undoappend 1 -mcursor 0 auto [lindex $retval 0] "[lindex $retval 0]+${count}l linestart"
 
       }
 
@@ -959,11 +875,11 @@ namespace eval emmet {
 
       for {set i 0} {$i < $lines} {incr i} {
         set line [string trimleft [$txt get "$startpos+1l linestart" "$startpos+1l lineend"]]
-        $txt delete "$startpos lineend" "$startpos+1l lineend"
-        if {$line ne ""} {
-          $txt insert "$startpos lineend" $line
-        }
+        $txt replace -undoappend [expr $i > 0] "$startpos lineend" "$startpos+1l lineend" $line
       }
+
+      # Add a separator
+      $txt edit separator
 
     }
 

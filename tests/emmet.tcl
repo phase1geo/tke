@@ -1201,11 +1201,10 @@ namespace eval emmet {
     emmet::wrap_with_abbreviation -test "body>dir"
 
     set actual [$txt get 1.0 end-1c]
-    set expect \
-{<body>
+    set expect {
+<body>
   <dir><p>Hello</p></dir>
-</body>
-}
+</body>}
 
     if {$actual ne $expect} {
       cleanup "abbreviation not wrapped correctly ($actual)"
@@ -1463,8 +1462,9 @@ namespace eval emmet {
 <div>
 XX
 </div>}]
+    $txt cursor set 1.0
 
-    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.31 4.35 7.1 7.1] {
+    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.31 4.35 7.2 7.2] {
       emmet::go_to_edit_point next
       if {[$txt index insert] ne $cursor} {
         cleanup "next cursor is incorrect $cursor ([$txt index insert])"
@@ -1472,7 +1472,7 @@ XX
     }
 
     $txt cursor set 8.0
-    foreach cursor [list 7.1 4.35 4.31 4.6 3.21 3.17 3.15 3.6 3.6] {
+    foreach cursor [list 7.2 4.35 4.31 4.6 3.21 3.17 3.15 3.6 3.6] {
       emmet::go_to_edit_point prev
       if {[$txt index insert] ne $cursor} {
         cleanup "prev cursor is incorrect $cursor ([$txt index insert])"
@@ -1536,8 +1536,7 @@ XX
     }
 
     foreach test [list {4.2 4.3 4.4} {4.3 4.3 4.4} {4.4 4.5 4.29} {4.5 4.5 4.29} {4.6 4.5 4.29} {4.11 4.11 4.28} {4.28 4.30 4.59}] {
-      $txt tag remove 1.0 end
-      $txt cursor set [lindex $test 0]
+      $txt mark set insert [lindex $test 0]
       emmet::select_item next
       if {[$txt tag ranges sel] ne [lrange $test 1 2]} {
         cleanup "next select item incorrect [lindex $test 0] ([$txt tag ranges sel])"
@@ -1548,8 +1547,7 @@ XX
     }
 
     foreach test [list {4.29 4.11 4.28} {4.28 4.5 4.29}] {
-      $txt tag remove 1.0 end
-      $txt cursor set [lindex $test 0]
+      $txt mark set insert [lindex $test 0]
       emmet::select_item prev
       if {[$txt tag ranges sel] ne [lrange $test 1 2]} {
         cleanup "prev select item incorrect [lindex $test 0] ([$txt tag ranges sel])"
@@ -1628,8 +1626,8 @@ XX
     # Attempt to comment nothing and make sure that nothing happens
     $txt cursor set 1.0
     emmet::toggle_comment
-    if {[$txt get 1.0 end-1c] ne " \n[string range $body_value 1 end]"} {
-      cleanup "blank space was not left alone ([$txt get 1.0 end-1c])"
+    if {[$txt get 1.0 end-1c] ne $body_value} {
+      cleanup "blank space was not left alone ([utils::ostr [$txt get 1.0 end-1c]])"
     }
     if {[$txt index insert] ne "1.0"} {
       cleanup "cursor was not left on blank space ([$txt index insert])"
@@ -1665,7 +1663,7 @@ XX
     # Make sure that nothing happens if we attempt to split/join when we are not within a node.
     $txt cursor set 1.0
     emmet::split_join_tag
-    if {[$txt get 1.0 end-1c] ne " \n<example></example>"} {
+    if {[$txt get 1.0 end-1c] ne "\n<example></example>"} {
       cleanup "Tag was joined when cursor is not within node/tag ([$txt get 1.0 end-1c])"
     }
 
@@ -1700,7 +1698,7 @@ XX
 
     gui::undo
     if {[$txt get 1.0 end-1c] ne $value} {
-      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+      cleanup "A tag undo incorrectly ([$txt get 1.0 end-1c])"
     }
 
     $txt cursor set 4.0
@@ -1711,7 +1709,7 @@ XX
 
     gui::undo
     if {[$txt get 1.0 end-1c] ne $value} {
-      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+      cleanup "B tag undo incorrectly ([$txt get 1.0 end-1c])"
     }
 
     # Make sure that a single blank node can be removed properly
@@ -1723,7 +1721,7 @@ XX
 
     gui::undo
     if {[$txt get 1.0 end-1c] ne $value} {
-      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+      cleanup "C tag undo incorrectly ([$txt get 1.0 end-1c])"
     }
 
     # Delete inner <p>
@@ -1735,7 +1733,7 @@ XX
 
     gui::undo
     if {[$txt get 1.0 end-1c] ne $value} {
-      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+      cleanup "D tag undo incorrectly ([$txt get 1.0 end-1c])"
     }
 
     # Delete combo tag
@@ -1747,7 +1745,7 @@ XX
 
     gui::undo
     if {[$txt get 1.0 end-1c] ne $value} {
-      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+      cleanup "E tag undo incorrectly ([$txt get 1.0 end-1c])"
     }
 
     # Delete combo tag that contains other stuff on the line
@@ -1759,13 +1757,13 @@ XX
 
     gui::undo
     if {[$txt get 1.0 end-1c] ne $value} {
-      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+      cleanup "F tag undo incorrectly ([$txt get 1.0 end-1c])"
     }
 
     # Attempt to delete empty space
     $txt cursor set 1.0
     emmet::remove_tag
-    if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
+    if {[$txt get 1.0 end-1c] ne $value} {
       cleanup "deleting tag when we are not within a tag/node did not work ([$txt get 1.0 end-1c])"
     }
 
@@ -1813,7 +1811,7 @@ XX
     # Verify that merging a line that is not within a node does nothing
     $txt cursor set 1.0
     emmet::merge_lines
-    if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
+    if {[$txt get 1.0 end-1c] ne $value} {
       cleanup "merge lines when not in a node changed text ([$txt get 1.0 end-1c])"
     }
 
@@ -1862,7 +1860,7 @@ XX
     $txt cursor set 1.0
 
     emmet::update_image_size
-    if {[$txt get 1.0 end-1c] ne " \n[string range [lindex $tags 0 0] 1 end]"} {
+    if {[$txt get 1.0 end-1c] ne [lindex $tags 0 0]} {
       cleanup "image update did not work properly ([$txt get 1.0 end-1c])"
     }
 
@@ -1905,7 +1903,7 @@ XX
 
     $txt cursor set 6.0
     emmet::evaluate_math_expression
-    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n \nNothing 2*3"} {
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n\nNothing 2*3"} {
       cleanup "Empty line did not work properly ([$txt get 1.0 end-1c])"
     }
 
@@ -2060,7 +2058,7 @@ XX
     # Verify that nothing happens when we are not in an image tag
     $txt cursor set 1.0
     emmet::encode_decode_image_to_data_url
-    if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
+    if {[$txt get 1.0 end-1c] ne $value} {
       cleanup "text changed even though we were not on an image tag ([$txt get 1.0 end-1c])"
     }
 

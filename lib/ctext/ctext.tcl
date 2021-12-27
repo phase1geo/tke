@@ -1533,7 +1533,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given insertion undo information to the undo buffer.
-  proc undo_insert {win ranges str cursor} {
+  proc undo_insert {win ranges str cursor undo_append} {
 
     variable data
 
@@ -1543,7 +1543,7 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 2]
 
-    undo_add_change $win [list i {*}[lrange $ranges 0 1] $str $cursor $mcursor] 0
+    undo_add_change $win [list i {*}[lrange $ranges 0 1] $str $cursor $mcursor] $undo_append
 
     # Handle multiple cursors if we have any
     foreach {spos epos} [lrange $ranges 2 end] {
@@ -1554,7 +1554,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given insertion list undo information to the undo buffer.
-  proc undo_insertlist {win ranges strs cursor} {
+  proc undo_insertlist {win ranges strs cursor undo_append} {
 
     variable data
 
@@ -1564,7 +1564,7 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 2]
 
-    undo_add_change $win [list i {*}[lrange $ranges 0 1] [lindex $strs 0] $cursor $mcursor] 0
+    undo_add_change $win [list i {*}[lrange $ranges 0 1] [lindex $strs 0] $cursor $mcursor] $undo_append
 
     foreach {spos epos} [lrange $ranges 2 end] str [lrange $strs 1 end] {
       undo_add_change $win [list i $spos $epos $str $cursor $mcursor] 1
@@ -1574,7 +1574,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given delete undo information to the undo buffer.
-  proc undo_delete {win ranges strs cursor} {
+  proc undo_delete {win ranges strs cursor undo_append} {
 
     variable data
 
@@ -1584,7 +1584,7 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 2]
 
-    undo_add_change $win [list d {*}[lrange $ranges 0 1] [lindex $strs 0] $cursor $mcursor] 0
+    undo_add_change $win [list d {*}[lrange $ranges 0 1] [lindex $strs 0] $cursor $mcursor] $undo_append
 
     foreach {spos epos} [lrange $ranges 2 end] str [lrange $strs 1 end] {
       undo_add_change $win [list d $spos $epos $str $cursor $mcursor] 1
@@ -1594,7 +1594,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given replace undo information to the undo buffer.
-  proc undo_replace {win ranges dstrs istr cursor} {
+  proc undo_replace {win ranges dstrs istr cursor undo_append} {
 
     variable data
 
@@ -1604,7 +1604,7 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 3]
 
-    undo_add_change $win [list d [lindex $ranges 0] [lindex $ranges 1] [lindex $dstrs 0] $cursor $mcursor] 0
+    undo_add_change $win [list d [lindex $ranges 0] [lindex $ranges 1] [lindex $dstrs 0] $cursor $mcursor] $undo_append
     undo_add_change $win [list i [lindex $ranges 0] [lindex $ranges 2] $istr $cursor $mcursor] 1
 
     foreach {spos eposd eposi} [lrange $ranges 3 end] dstr [lrange $dstrs 1 end] {
@@ -1616,7 +1616,7 @@ namespace eval ctext {
 
   ######################################################################
   # Adds the given replace undo information to the undo buffer.
-  proc undo_replacelist {win ranges dstrs istrs cursor} {
+  proc undo_replacelist {win ranges dstrs istrs cursor undo_append} {
 
     variable data
 
@@ -1626,7 +1626,7 @@ namespace eval ctext {
 
     set mcursor [expr [llength $ranges] > 3]
 
-    undo_add_change $win [list d [lindex $ranges 0] [lindex $ranges 1] [lindex $dstrs 0] $cursor $mcursor] 0
+    undo_add_change $win [list d [lindex $ranges 0] [lindex $ranges 1] [lindex $dstrs 0] $cursor $mcursor] $undo_append
     undo_add_change $win [list i [lindex $ranges 0] [lindex $ranges 2] [lindex $istrs 0] $cursor $mcursor] 1
 
     foreach {spos eposd eposi} [lrange $ranges 3 end] dstr [lrange $dstrs 1 end] istr [lrange $istrs 1 end] {
@@ -2324,11 +2324,12 @@ namespace eval ctext {
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
     array set opts {
-      -moddata   {}
-      -highlight 1
-      -mcursor   1
-      -indent    1
-      -object    0
+      -moddata    {}
+      -highlight  1
+      -mcursor    1
+      -indent     1
+      -object     0
+      -undoappend 0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2359,7 +2360,7 @@ namespace eval ctext {
     set ranges [lreverse $ranges]
     set strs   [lreverse $strs]
 
-    undo_delete $win $ranges $strs $cursor
+    undo_delete $win $ranges $strs $cursor $opts(-undoappend)
 
     if {$opts(-highlight)} {
 
@@ -2539,8 +2540,9 @@ namespace eval ctext {
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
     array set opts {
-      -moddata {}
-      -mcursor 1
+      -moddata    {}
+      -mcursor    1
+      -undoappend 0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2553,7 +2555,7 @@ namespace eval ctext {
     }
 
     set ranges      [list]
-    set undo_append 0
+    set undo_append $opts(-undoappend)
     set cursor      [$win._t index insert]
     set cursors     [list]
 
@@ -2665,9 +2667,10 @@ namespace eval ctext {
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
     array set opts {
-      -moddata   {}
-      -highlight 1
-      -mcursor   1
+      -moddata    {}
+      -highlight  1
+      -mcursor    1
+      -undoappend 0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2719,7 +2722,7 @@ namespace eval ctext {
       complete_adjust_cursors $win $acursors
     }
 
-    undo_insert     $win $ranges $dat $cursor
+    undo_insert     $win $ranges $dat $cursor $opts(-undoappend)
     comments_do_tag $win $ranges do_tags
 
     if {$opts(-highlight)} {
@@ -2761,8 +2764,9 @@ namespace eval ctext {
       while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
       array set opts {
-        -moddata   {}
-        -highlight 1
+        -moddata    {}
+        -highlight  1
+        -undoappend 0
       }
       array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2795,7 +2799,7 @@ namespace eval ctext {
       # Delete any dspace characters
       catch { $win._t delete {*}[$win._t tag ranges _dspace] }
 
-      undo_insertlist $win $ranges $strs $cursor
+      undo_insertlist $win $ranges $strs $cursor $opts(-undoappend)
       comments_do_tag $win $ranges do_tags
 
       if {$opts(-highlight)} {
@@ -2972,11 +2976,12 @@ namespace eval ctext {
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
     array set opts {
-      -moddata   {}
-      -highlight 1
-      -mcursor   1
-      -cursor    ""
-      -object    0
+      -moddata    {}
+      -highlight  1
+      -mcursor    1
+      -cursor     ""
+      -object     0
+      -undoappend 0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -3013,7 +3018,7 @@ namespace eval ctext {
       $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
     }
 
-    undo_replace    $win $uranges $dstrs $istrs $cursor
+    undo_replace    $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
     comments_do_tag $win $rranges do_tags
 
     if {$opts(-highlight)} {
@@ -3057,8 +3062,9 @@ namespace eval ctext {
       while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
       array set opts {
-        -moddata   {}
-        -highlight 1
+        -moddata    {}
+        -highlight  1
+        -undoappend 0
       }
       array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -3090,7 +3096,7 @@ namespace eval ctext {
         lappend rranges $startPos $new_endpos
       }
 
-      undo_replacelist $win $uranges $dstrs $istrs $cursor
+      undo_replacelist $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
       comments_do_tag $win $rranges do_tags
 
       if {$opts(-highlight)} {
@@ -3545,11 +3551,12 @@ namespace eval ctext {
     while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
     array set opts {
-      -moddata   {}
-      -highlight 1
-      -mcursor   1
-      -cursor    ""
-      -object    0
+      -moddata    {}
+      -highlight  1
+      -mcursor    1
+      -cursor     ""
+      -object     0
+      -undoappend 0
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -3600,7 +3607,7 @@ namespace eval ctext {
       $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
     }
 
-    undo_replacelist $win $uranges $dstrs $istrs $cursor
+    undo_replacelist $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
     comments_do_tag $win $rranges do_tags
 
     if {$opts(-highlight)} {
@@ -6033,14 +6040,39 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns the number that will be allowed for the given multicursor movement.
+  proc check_mcursor_movement {win cursor type optlist} {
+
+    array set opts {
+      -num 1
+    }
+    array set opts $optlist
+
+    set num $opts(-num)
+    set opts(-num) 1
+
+    for {set i 0} {$i < $num} {incr i} {
+      set next_cursor [$win._t index [getindex_$type $win $cursor [array get opts]]]
+      if {($next_cursor eq $cursor) || [$win._t compare $next_cursor == "$cursor lineend"]} {
+        return -1  ;# $i
+      }
+      set cursor $next_cursor
+    }
+
+    return $num
+
+  }
+
+  ######################################################################
   # Returns a list index specifying which mcursor index should be used
   # for testing mcursor movement.
-  proc get_mcursor_index {win type args} {
+  proc get_movement_num {win type optlist} {
 
     array set opts {
       -dir next
+      -num 1
     }
-    array set opts $args
+    array set opts $optlist
 
     array set line {
       left        prev
@@ -6084,63 +6116,24 @@ namespace eval ctext {
       blockend    next
     }
 
+    set mcursors [$win cursor get]
+
     if {[info exists line($type)]} {
-      set mcursors [$win._t tag ranges _mcursor]
-      set closest  [list 100000000 -1]
-      set i        0
-      switch [expr {($line($type) eq "dir") ? $opts(-dir) : $line($type)}] {
-        prev {
-          foreach {start end} $mcursors {
-            set count [$win._t count -chars "$start linestart" $start]
-            if {$count < [lindex $closest 0]} {
-              set closest [list $count $i]
-            }
-            incr i 2
-          }
-        }
-        next {
-          foreach {start end} $mcursors {
-            set count [$win._t count -chars $start "$start lineend"]
-            if {$count < [lindex $closest 0]} {
-              set closest [list $count $i]
-            }
-            incr i 2
-          }
+      set closest $opts(-num)
+      set dir     [expr {($line($type) eq "dir") ? $opts(-dir) : $line($type)}]
+      foreach mcursor $mcursors {
+        set num [check_mcursor_movement $win $mcursor $type $optlist]
+        if {$num < $closest} {
+          set closest $num
         }
       }
-      return [lindex $closest 1]
+      return $closest
     } elseif {[info exists lines($type)]} {
       switch [expr {($lines($type) eq "dir") ? $opts(-dir) : $lines($type)}] {
-        prev { return 0 }
-        next { return end-1 }
+        prev { return [check_mcursor_movement $win [lindex $mcursors 0]   $type $optlist] }
+        next { return [check_mcursor_movement $win [lindex $mcursors end] $type $optlist] }
       }
     }
-
-  }
-
-  ######################################################################
-  # Returns the number that will be allowed for the given multicursor movement.
-  proc check_mcursor_movement {win cursor type args} {
-
-    array set opts {
-      -num 1
-    }
-    array set opts $args
-
-    set num $opts(-num)
-    set opts(-num) 1
-
-    if {[set procname [get_spec_proc $type]] ne ""} {
-      for {set i 0} {$i < $num} {incr i} {
-        set next_cursor [$win._t index [$procname $win $cursor [array get opts]]]
-        if {($next_cursor eq $cursor) || [$win._t compare $next_cursor == "$cursor lineend"]} {
-          return $i
-        }
-        set cursor $next_cursor
-      }
-    }
-
-    return $num
 
   }
 
@@ -6156,19 +6149,16 @@ namespace eval ctext {
 
     if {([set mcursors [$win._t tag ranges _mcursor]] ne "") && $data($win,config,-multimove)} {
 
-      array set opts [lrange $movespec 1 end]
+      array set opts [lassign $movespec type]
 
-      set cursor [lindex $mcursors [get_mcursor_index $win {*}$movespec]]
-      set opts(-num) [check_mcursor_movement $win $cursor {*}$movespec]
-
-      if {$opts(-num) == 0} {
+      if {([get_spec_proc $type] eq "") || ([set opts(-num) [get_movement_num $win $type [array get opts]]] == -1)} {
         return -1
 
       # Gather the list of cursors
       } else {
         set mindex 0
         foreach {startpos endpos} $mcursors {
-          lappend cursors [$win index {*}$movespec -mindex $mindex -startpos $startpos]
+          lappend cursors [$win index $type {*}[array get opts] -mindex $mindex -startpos $startpos]
           lappend starts  $startpos
           incr mindex
         }
