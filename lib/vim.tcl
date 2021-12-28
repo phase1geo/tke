@@ -1742,7 +1742,6 @@ namespace eval vim {
         return 1
       }
       "format" {
-        puts "auto indent sposargs: $sposargs, eposargs: $eposargs, insert: [$txtt index insert]"
         $txtt indent auto $sposargs $eposargs
         $txtt cursor move [list firstchar -num 0]
         command_mode $txtt

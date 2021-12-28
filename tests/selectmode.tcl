@@ -41,8 +41,6 @@ namespace eval selectmode {
   # Emulates a keystroke.
   proc enter {txtt keysyms} {
 
-    puts "keysyms: $keysyms"
-
     foreach keysym $keysyms {
       if {[lsearch [list Return Escape BackSpace Delete] $keysym] != -1} {
         select::handle_[string tolower $keysym] $txtt

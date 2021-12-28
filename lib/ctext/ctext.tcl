@@ -6043,9 +6043,7 @@ namespace eval ctext {
   # Returns the number that will be allowed for the given multicursor movement.
   proc check_mcursor_movement {win cursor type optlist} {
 
-    array set opts {
-      -num 1
-    }
+    array set opts [list -num 1]
     array set opts $optlist
 
     set num $opts(-num)
@@ -6068,59 +6066,59 @@ namespace eval ctext {
   # for testing mcursor movement.
   proc get_movement_num {win type optlist} {
 
-    array set opts {
-      -dir next
-      -num 1
-    }
-    array set opts $optlist
-
     array set line {
-      left        prev
-      right       next
-      char        dir
-      findchar    dir
-      firstchar   rel
-      lastchar    rel
-      column      rel
-      linestart   prev
-      lineend     next
-      dispstart   prev
-      dispmid     rel
-      dispend     next
-      numberstart prev
-      numberend   next
-      spacestart  prev
-      spaceend    next
+      left        {prev 1}
+      right       {next 1}
+      char        {dir  1}
+      findchar    {dir  1}
+      firstchar   {rel  0}
+      lastchar    {rel  0}
+      column      {rel  1}
+      linestart   {prev 0}
+      lineend     {next 1}
+      dispstart   {prev 1}
+      dispmid     {rel  1}
+      dispend     {next 1}
+      numberstart {prev 1}
+      numberend   {next 1}
+      spacestart  {prev 1}
+      spaceend    {next 1}
     }
 
     array set lines {
-      up          prev
-      down        next
-      first       prev
-      last        next
-      char        dir
-      dchar       dir
-      achar       dir
-      betweenchar dir
-      wordstart   prev
-      wordend     next
-      WORDstart   prev
-      WORDend     next
-      sentence    dir
-      paragraph   dir
-      tagstart    prev
-      tagend      next
-      selstart    prev
-      selend      next
-      blockstart  prev
-      blockend    next
+      up          {prev 1}
+      down        {next 1}
+      first       {prev 1}
+      last        {next 1}
+      char        {dir  1}
+      dchar       {dir  1}
+      achar       {dir  1}
+      betweenchar {dir  1}
+      wordstart   {prev 1}
+      wordend     {next 1}
+      WORDstart   {prev 1}
+      WORDend     {next 1}
+      sentence    {dir  1}
+      paragraph   {dir  1}
+      tagstart    {prev 1}
+      tagend      {next 1}
+      selstart    {prev 1}
+      selend      {next 1}
+      blockstart  {prev 1}
+      blockend    {next 1}
     }
 
     set mcursors [$win cursor get]
 
     if {[info exists line($type)]} {
+
+      lassign $line($type) dir num
+
+      array set opts [list -dir next -num $num]
+      array set opts $optlist
+
       set closest $opts(-num)
-      set dir     [expr {($line($type) eq "dir") ? $opts(-dir) : $line($type)}]
+      # set dir     [expr {($line($type) eq "dir") ? $opts(-dir) : $line($type)}]
       foreach mcursor $mcursors {
         set num [check_mcursor_movement $win $mcursor $type $optlist]
         if {$num < $closest} {
@@ -6128,11 +6126,19 @@ namespace eval ctext {
         }
       }
       return $closest
+
     } elseif {[info exists lines($type)]} {
-      switch [expr {($lines($type) eq "dir") ? $opts(-dir) : $lines($type)}] {
+
+      lassign $lines($type) dir num
+
+      array set opts [list -dir next -num $num]
+      array set opts $optlist
+
+      switch [expr {($dir eq "dir") ? $opts(-dir) : $dir}] {
         prev { return [check_mcursor_movement $win [lindex $mcursors 0]   $type $optlist] }
         next { return [check_mcursor_movement $win [lindex $mcursors end] $type $optlist] }
       }
+
     }
 
   }

@@ -821,9 +821,9 @@ namespace eval multicursor {
 
     do_test $txtt 5 b         [list 3.0 3.17]
     do_test $txtt 6 {2 b}     [list 2.8 3.8]
-    do_test $txtt 7 {4 b}     [list 1.0 2.8]
+    do_test $txtt 7 {4 b}     [list 2.8 3.8]
 
-    do_test $txtt 8 Escape [list 1.0 2.8]
+    do_test $txtt 8 Escape [list 2.8 3.8]
     do_test $txtt 9 Escape [list]
 
     $txtt cursor set 2.0
@@ -859,9 +859,9 @@ namespace eval multicursor {
 
     do_test $txtt 4 BackSpace       [list 2.13 3.13]
     do_test $txtt 5 {1 2 BackSpace} [list 2.1 3.1]
-    do_test $txtt 6 {1 0 BackSpace} [list 1.0 2.5]
+    do_test $txtt 6 {1 0 BackSpace} [list 2.1 3.1]
 
-    do_test $txtt 8 Escape [list 1.0 2.5]
+    do_test $txtt 8 Escape [list 2.1 3.1]
     do_test $txtt 9 Escape [list]
 
     $txtt cursor set 2.2
@@ -946,7 +946,9 @@ namespace eval multicursor {
       }
 
       # Restore mcursors
-      $txtt cursor set {*}$start_mcursors
+      puts "Setting mcursors: $start_mcursors"
+      $txtt cursor add {*}$start_mcursors
+      puts "After mcursors: [$txtt cursor get]"
 
     }
 
@@ -966,6 +968,7 @@ namespace eval multicursor {
     do_op_test $txtt 0 {d l} "\nhis is a line\nhis is a line" {2.0 3.0}
 
     # Verify x deletion
+    puts "mcursors: [$txtt cursor get]"
     do_op_test $txtt 1 {2 x} "\nis is a line\nis is a line" {2.0 3.0}
 
     # Verify Delete deletion
@@ -981,8 +984,8 @@ namespace eval multicursor {
     $txtt cursor add 2.0 3.0
     do_op_test $txtt 4 {y l} "\nThis is a line\nThis is a line" {2.0 3.0}
 
-    # TBD - Multicursor yank is not fully supported yet
-    if {[clipboard get] ne "T"} {
+    # Multicursor yank is not fully supported yet
+    if {[clipboard get] ne "T\nT"} {
       cleanup "4 yank text is incorrect ([clipboard get])"
     }
 
