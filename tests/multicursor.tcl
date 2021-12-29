@@ -919,7 +919,7 @@ namespace eval multicursor {
     enter $txtt $cmdlist
 
     if {[$txtt get 1.0 end-1c] ne $value} {
-      cleanup "$id text does not match ([$txtt get 1.0 end-1c])"
+      cleanup "$id text does not match ([utils::ostr [$txtt get 1.0 end-1c]])"
     }
     if {[$txtt cursor get] ne $mcursors} {
       cleanup "$id mcursors do not match ([$txtt cursor get])"
@@ -946,9 +946,7 @@ namespace eval multicursor {
       }
 
       # Restore mcursors
-      puts "Setting mcursors: $start_mcursors"
       $txtt cursor add {*}$start_mcursors
-      puts "After mcursors: [$txtt cursor get]"
 
     }
 
@@ -968,7 +966,6 @@ namespace eval multicursor {
     do_op_test $txtt 0 {d l} "\nhis is a line\nhis is a line" {2.0 3.0}
 
     # Verify x deletion
-    puts "mcursors: [$txtt cursor get]"
     do_op_test $txtt 1 {2 x} "\nis is a line\nis is a line" {2.0 3.0}
 
     # Verify Delete deletion
@@ -989,6 +986,8 @@ namespace eval multicursor {
       cleanup "4 yank text is incorrect ([clipboard get])"
     }
 
+    puts "insert: [$txtt index insert]"
+
     # Verify case toggle
     do_op_test $txtt 5 asciitilde "\nthis is a line\nthis is a line" {2.0 3.0}
 
@@ -1008,8 +1007,8 @@ namespace eval multicursor {
     do_op_test $txtt 10 {greater greater} "\n  This is a line\n  This is a line" {2.2 3.2}
 
     # Verify lshift
-    $txtt insert 2.0 "  "
-    $txtt insert 3.0 "  "
+    $txtt insert -mcursor 0 2.0 "  "
+    $txtt insert -mcursor 0 3.0 "  "
     $txtt edit separator
     do_op_test $txtt 11 {less less} "\nThis is a line\nThis is a line" {2.0 3.0}
 
@@ -1017,6 +1016,8 @@ namespace eval multicursor {
     $txtt cursor add 2.1 3.2
 
     # Verify X deletion
+    puts [$txtt get 1.0 end-1c]
+    puts [$txtt cursor get]
     do_op_test $txtt 13 {X} "\n This is a line\n This is a line" {2.0 3.1}
 
     # Cleanup

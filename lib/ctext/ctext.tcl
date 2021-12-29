@@ -528,14 +528,7 @@ namespace eval ctext {
       return -code ok
     }
 
-    if {[set selected [$win._t tag ranges sel]] ne ""} {
-      foreach {epos spos} [lreverse $selected] {
-        $win delete -highlight 0 $spos $epos
-      }
-      $win syntax highlight {*}$selected
-    } else {
-      $win delete [list dchar -dir prev] insert
-    }
+    $win delete -indent 1 [list dchar -dir prev] insert
 
     return -code break
 
@@ -2068,13 +2061,62 @@ namespace eval ctext {
 
     array set opts {
       -object 0
+      -cursor {}
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
     lassign [lrange $args $i end] startspec endspec
 
-    do_copy $win $opts(-object) $startspec $endspec
+    set ranges [do_copy $win $opts(-object) $startspec $endspec]
 
+    # Move the cursor if necessary
+    if {[llength $opts(-cursor)] == 2} {
+      replace_cursors $win [$win cursor enabled] {*}$opts(-cursor) $ranges
+    }
+
+  }
+
+  ######################################################################
+  # Procedure that is potentially called by insert, delete, replace, transform
+  # commands after the operation has taken place to replace the cursors (if
+  # they still exist) and reset them given the cursorspec and the list of
+  # original cursor positions.  The mcursor input should be set the calling
+  # command worked on multicursors (1) or not (0).  This method is similar to
+  # the `win cursor replace ...` command with the exception that multicursor
+  # mode is determined by the input parameter instead of assuming that the
+  # cursors already exist.
+  proc replace_cursors {win mcursor type cursorspec cursors} {
+    if {$mcursor} {
+      clear_mcursors $win
+      switch $type {
+        0 {
+          foreach {spos epos} $cursors {
+            set_mcursor $win [$win index {*}$cursorspec -startpos $spos] $spos
+          }
+        }
+        1 {
+          foreach {spos epos} $cursors {
+            set_mcursor $win [$win index {*}$cursorspec -startpos $epos] $spos
+          }
+        }
+        2 {
+          foreach cur [$win cursor get] {
+            set_mcursor $win [$win index {*}$cursorspec -startpos $cur] $cur
+          }
+        }
+      }
+      set data($win,select_anchors) [lsort -dictionary $cursors]
+    } elseif {[llength $cursors] == 2} {
+      switch $type {
+        0 -
+        1 {
+          set_cursor $win [$win index {*}$cursorspec -startpos [lindex $cursors $type]] [lindex $cursors 0]
+        }
+        2 {
+          set_cursor $win [$win index {*}$cursorspec] [$win._t index insert]
+        }
+      }
+    }
   }
 
   ######################################################################
@@ -2263,6 +2305,7 @@ namespace eval ctext {
 
     array set opts {
       -object 0
+      -cursor {}
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2273,7 +2316,7 @@ namespace eval ctext {
 
     # Delete the text
     foreach {endpos startpos} [lreverse $ranges] {
-      $win delete -mcursor 0 $startpos $endpos
+      $win delete -mcursor 0 -cursor $opts(-cursor) $startpos $endpos
     }
 
   }
@@ -2327,7 +2370,7 @@ namespace eval ctext {
       -moddata    {}
       -highlight  1
       -mcursor    1
-      -indent     1
+      -indent     0
       -object     0
       -undoappend 0
     }
@@ -2565,6 +2608,11 @@ namespace eval ctext {
       indent_shift_$subcmd $win [$win index {*}$sspec -startpos $spos] [$win index {*}$espec -startpos $spos] $set_mcursor ranges undo_append
     }
 
+    # Add the __prewhite tag to all of the affected ranges in a right or auto shift operation
+    if {([lsearch {right auto} $subcmd] != -1) && ($ranges ne "")} {
+      $win._t tag add __prewhite {*}$ranges
+    }
+
     # Create a separator
     undo_add_separator $win
 
@@ -2671,6 +2719,7 @@ namespace eval ctext {
       -highlight  1
       -mcursor    1
       -undoappend 0
+      -indentend  1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -2736,8 +2785,14 @@ namespace eval ctext {
 
       # Handle the indentation
       if {[string index $dat end] eq "\n"} {
-        foreach {epos spos} [lreverse $ranges] {
-          indent_newline $win $epos
+        if {$opts(-indentend)} {
+          foreach {epos spos} [lreverse $ranges] {
+            indent_newline $win $epos
+          }
+        } else {
+          foreach {epos spos} [lreverse $ranges] {
+            indent_newline $win $spos
+          }
         }
       } else {
         foreach {epos spos} [lreverse $ranges] {
@@ -2979,7 +3034,7 @@ namespace eval ctext {
       -moddata    {}
       -highlight  1
       -mcursor    1
-      -cursor     ""
+      -cursor     {}
       -object     0
       -undoappend 0
     }
@@ -3014,8 +3069,8 @@ namespace eval ctext {
     set dstrs   [lreverse $dstrs]
     set istrs   [lreverse $istrs]
 
-    if {$opts(-cursor) ne ""} {
-      $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
+    if {[llength $opts(-cursor)] == 2} {
+      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
     }
 
     undo_replace    $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
@@ -3554,7 +3609,7 @@ namespace eval ctext {
       -moddata    {}
       -highlight  1
       -mcursor    1
-      -cursor     ""
+      -cursor     {}
       -object     0
       -undoappend 0
     }
@@ -3603,8 +3658,8 @@ namespace eval ctext {
 #    set dstrs   [lreverse $dstrs]
 #    set istrs   [lreverse $istrs]
 
-    if {$opts(-cursor) ne ""} {
-      $win cursor replace $opts(-cursor) [lmap {spos epos} $rranges {set spos}]
+    if {[llength $opts(-cursor)] == 2} {
+      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
     }
 
     undo_replacelist $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
@@ -6630,8 +6685,8 @@ namespace eval ctext {
       set indices [$win._t search -all -- $opts(-char) "$startpos+1c" "$startpos lineend"]
       if {[set index [lindex $indices [expr $opts(-num) - 1]]] eq ""} {
         return "insert"
-      } elseif {!$opts(-exclusive)} {
-        return "$index+1c"
+      } elseif {$opts(-exclusive)} {
+        return "$index-1c"
       }
     } else {
       set indices [$win._t search -all -- $opts(-char) "$startpos linestart" insert]
@@ -8154,9 +8209,9 @@ namespace eval ctext {
     set cursor     [$win._t index insert]
 
     while {[$win._t compare $startpos <= $endpos]} {
-      set tags [$win._t tag names $startpos]
-      $win._t insert $startpos $indent_str $tags ;# [list lmargin rmargin __prewhite [getLangTag $win $startpos]]
+      $win._t insert $startpos $indent_str
       set epos [$win._t index "$startpos+${shiftwidth}c"]
+      $win._t tag add __prewhite $startpos $epos
       handleInsertAt0 $win $startpos $epos
       undo_add_change $win [list i $startpos $epos $indent_str $cursor $mcursor] $undo_append
       set undo_append 1
@@ -8268,13 +8323,16 @@ namespace eval ctext {
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
-        set tags [$win._t tag names $curpos]
         set epos [$win._t index "$curpos+[string length $whitespace]c"]
         set t [handleReplaceDeleteAt0 $win $curpos $epos]
-        $win._t replace $curpos $epos $indent_space $tags   ;# [list lmargin rmargin __prewhite [getLangTag $win $curpos]]
+        $win._t replace $curpos $epos $indent_space
         handleReplaceInsert $win $curpos $epos $t
         undo_add_change $win [list d $curpos $epos $whitespace $cursor $mcursor] $undo_append
-        undo_add_change $win [list i $curpos [$win._t index "$curpos+[string length $indent_space]c"] $indent_space $cursor $mcursor] 1
+        if {$indent_space ne ""} {
+          set eins [$win._t index "$curpos+[string length $indent_space]c"]
+          $win._t tag add __prewhite $curpos $eins
+          undo_add_change $win [list i $curpos $eins $indent_space $cursor $mcursor] 1
+        }
         set undo_append 1
       }
 

@@ -47,8 +47,8 @@ namespace eval edit {
     # If we are operating in Vim mode, switch to edit mode
     vim::edit_mode $txtt
 
-    $txtt insert linestart "\n"
-    $txtt cursor move up
+    $txtt insert -indentend 0 linestart "\n"
+    $txtt cursor move [list lineend -num -1]
 
   }
 
@@ -59,8 +59,8 @@ namespace eval edit {
     # If we are operating in Vim mode, switch to edit mode
     vim::edit_mode $txtt
 
+    $txtt cursor move lineend
     $txtt insert lineend "\n"
-    $txtt cursor move down
 
   }
 

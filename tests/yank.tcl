@@ -84,7 +84,7 @@ namespace eval yank {
 
     enter $txtt $cmdlist
     if {[$txtt get 1.0 end-1c] ne $start} {
-      cleanup "$id yank changed text ([$txtt get 1.0 end-1c])"
+      cleanup "$id yank changed text ([utils::ostr [$txtt get 1.0 end-1c]])"
     }
     if {$vim::mode($txtt) ne "command"} {
       cleanup "$id not in command mode"
@@ -109,10 +109,10 @@ namespace eval yank {
     }
     if {[catch {clipboard get} contents]} {
       if {$cb ne ""} {
-        cleanup "$id clipboard not correct ($contents)"
+        cleanup "$id clipboard not correct ([utils::ostr $contents])"
       }
     } elseif {$contents ne $cb} {
-      cleanup "$id clipboard not correct ($contents)"
+      cleanup "$id clipboard not correct ([utils::ostr $contents])"
     }
 
   }

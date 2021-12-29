@@ -2343,7 +2343,7 @@ namespace eval gui {
 
     # If there is a save command, run it now
     if {$save_cmd ne ""} {
-      eval {*}$save_cmd $fileindex
+      after idle [list {*}$save_cmd $fileindex]
 
     # Otherwise, if the file type is TclPlugin, automatically reload the plugin
     } elseif {[lsearch [list PluginTcl PluginHeader] $lang] != -1} {
@@ -4668,14 +4668,6 @@ namespace eval gui {
     if {[preferences::get View/ShowBirdsEyeView]} {
       show_birdseye $tab
     }
-
-#    set i 0
-#    foreach w [bindtags $txt.t] {
-#      foreach t [bind $w] {
-#        bind $w $t [list puts [incr i]]
-#        puts "w: $w, t: $t, c: [bind $w $t]"
-#      }
-#    }
 
     return $tab
 
