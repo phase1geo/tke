@@ -1621,7 +1621,7 @@ namespace eval vim {
   # Perform text replacement.
   proc do_replace {txtt char} {
 
-    $txtt replace cursor [list cursor -forceadjust "+1c"] $char
+    $txtt replace cursor [list cursor -adjust "+1c"] $char
 
   }
 
@@ -2065,6 +2065,9 @@ namespace eval vim {
       "folding:range" {
         folding::close_range [winfo parent $txtt] insert "insert+[get_number $txtt] display lines"
       }
+      "delete" {
+        return [do_operation $txtt [list linestart -num [expr [get_number $txtt] + 1]] linestart]
+      }
       default {
         return [do_operation $txtt [list down -num [get_number $txtt] -column vim::columns($txtt)]]
       }
@@ -2079,14 +2082,12 @@ namespace eval vim {
   # previous line.
   proc handle_J {txtt} {
 
-    variable mode
     variable operator
+    variable motion
 
-    if {$mode($txtt) eq "command"} {
-      if {$operator($txtt) eq ""} {
-        edit::transform_join_lines $txtt [get_number $txtt]
-        record $txtt J
-      }
+    if {$operator($txtt) eq ""} {
+      edit::transform_join_lines $txtt [expr {$motion($txtt) eq "g"}] [get_number $txtt]
+      record $txtt J
     }
 
     return 0
@@ -2144,21 +2145,21 @@ namespace eval vim {
     variable motion
 
     # Move the insertion cursor right one character
-    set startargs cursor
+    set sspec cursor
     switch [lindex $motion($txtt) end] {
       "V" {
-        set startargs linestart
-        set endargs   lineend
+        set sspec linestart
+        set espec   lineend
       }
       "v" {
-        set endargs [list right -num [expr [get_number $txtt] + 1]]
+        set espec [list right -num [expr [get_number $txtt] + 1]]
       }
       default {
-        set endargs [list right -num [get_number $txtt]]
+        set espec [list right -num [get_number $txtt]]
       }
     }
 
-    return [do_operation $txtt $endargs $startargs -cursor {0 cursor}]
+    return [do_operation $txtt $espec $sspec -cursor {0 cursor}]
 
   }
 
@@ -2373,28 +2374,28 @@ namespace eval vim {
     set spec [list left -num [get_number $txtt]]
 
     # Move the insertion cursor left one character
-    set startargs cursor
+    set sspec cursor
     switch [lindex $motion($txtt) end] {
       "V" {
-        set startargs "linestart"
-        set endargs   "lineend"
+        set sspec "linestart"
+        set espec   "lineend"
       }
       "v" {
-        set startargs right
-        set endargs   $spec
+        set sspec right
+        set espec   $spec
       }
       default {
-        set endargs $spec
+        set espec $spec
       }
     }
 
     if {$operator($txtt) eq "delete"} {
-      set cursorargs [list]
+      set cspec [list]
     } else {
-      set cursorargs [list -cursor [list 2 $spec]]
+      set cspec [list -cursor [list 2 $spec]]
     }
 
-    return [do_operation $txtt $endargs $startargs {*}$cursorargs]
+    return [do_operation $txtt $espec $sspec {*}$cspec]
 
   }
 
@@ -2469,7 +2470,6 @@ namespace eval vim {
         }
       }
       "change" {
-        puts "Deleting line"
         return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
       }
       "folding" {
@@ -3683,7 +3683,7 @@ namespace eval vim {
         }
       }
       "swap" {
-        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor {1 linestart}]
+        return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart -cursor {0 linestart}]
       }
     }
 
@@ -3799,33 +3799,31 @@ namespace eval vim {
     variable operator
     variable motion
 
-    set mspec [list char -dir next -num [expr [get_number $txtt] + 1]]
-    set ospec [list dchar -dir next -num [expr [get_number $txtt] + 1]]
-
     # Move the insertion cursor right one character
-    set startargs cursor
+    set sspec cursor
+    set cspec [list 2 cursor]
     switch [lindex $motion($txtt) end] {
       "V" {
-        set startargs "linestart"
-        set endargs   "lineend"
+        set sspec "linestart"
+        set espec "lineend"
       }
       "v" {
         if {$operator($txtt) eq ""} {
-          set endargs [list char -dir next -num [expr [get_number $txtt] + 1]]
+          set espec [list char -dir next -num [expr [get_number $txtt] + 1]]
         } else {
-          set endargs [list dchar -dir next -num [expr [get_number $txtt] + 1]]
+          set espec [list dchar -dir next -num [expr [get_number $txtt] + 1]]
         }
       }
       default {
         if {$operator($txtt) eq ""} {
-          set endargs [list char -dir next -num [get_number $txtt]]
+          set espec [list char -dir next -num [get_number $txtt]]
         } else {
-          set endargs [list dchar -dir next -num [get_number $txtt]]
+          set espec [list dchar -dir next -num [get_number $txtt]]
         }
       }
     }
 
-    return [do_operation $txtt $endargs $startargs]
+    return [do_operation $txtt $espec $sspec -cursor $cspec]
 
   }
 
@@ -3841,29 +3839,29 @@ namespace eval vim {
     set ospec [list dchar -dir prev -num [get_number $txtt]]
 
     # Move the insertion cursor left one character
-    set startargs  cursor
+    set sspec  cursor
     switch [lindex $motion($txtt) end] {
       "V" {
-        set startargs  "linestart"
-        set endargs    "lineend"
-        # set cursorargs "none"
+        set sspec  "linestart"
+        set espec    "lineend"
+        # set cspec "none"
       }
       "v" {
-        set startargs "right"
-        set endargs   [expr {($operator($txtt) eq "") ? $mspec : $ospec}]
+        set sspec "right"
+        set espec   [expr {($operator($txtt) eq "") ? $mspec : $ospec}]
       }
       default {
-        set endargs [expr {($operator($txtt) eq "") ? $mspec : $ospec}]
+        set espec [expr {($operator($txtt) eq "") ? $mspec : $ospec}]
       }
     }
 
     if {$operator($txtt) ne "delete"} {
-      set cursorargs [list 2 [expr {($operator($txtt) eq "") ? $mspec : $ospec}]]
+      set cspec [list 2 [expr {($operator($txtt) eq "") ? $mspec : $ospec}]]
     } else {
-      set cursorargs ""
+      set cspec ""
     }
 
-    return [do_operation $txtt $endargs $startargs -cursor $cursorargs]
+    return [do_operation $txtt $espec $sspec -cursor $cspec]
 
   }
 

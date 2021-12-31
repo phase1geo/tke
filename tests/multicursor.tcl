@@ -986,8 +986,6 @@ namespace eval multicursor {
       cleanup "4 yank text is incorrect ([clipboard get])"
     }
 
-    puts "insert: [$txtt index insert]"
-
     # Verify case toggle
     do_op_test $txtt 5 asciitilde "\nthis is a line\nthis is a line" {2.0 3.0}
 

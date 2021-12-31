@@ -389,9 +389,17 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Transform function.
+  proc join_lines_simple {str} {
+
+    return [string map {\n { }} $str]
+
+  }
+
+  ######################################################################
   # If a selection occurs, joins the selected lines; otherwise, joins the
   # number of specified lines.
-  proc transform_join_lines {txtt {num 1}} {
+  proc transform_join_lines {txtt {simple 0} {num 1}} {
 
     if {[set cursors [$txtt cursor get]] eq ""} {
       lappend lineends [$txtt index lineend]
@@ -401,12 +409,9 @@ namespace eval edit {
       }
     }
 
-    # Create a separator
     $txtt edit separator
-
-    $txtt transform lineend [list linestart -num $num] join_lines
-    $txtt cursor replace [list cursor -adjust "+1c"] $lineends
-
+    $txtt transform lastchar [list firstchar -num [expr ($num == 1) ? 1 : ($num - 1)]] [expr {$simple ? "edit::join_lines_simple" : "join_lines"}]
+    $txtt cursor replace wordstart $lineends
     $txtt edit separator
 
   }

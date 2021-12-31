@@ -2636,11 +2636,12 @@ namespace eval ctext {
       array set opts [lrange $args 1 end]
 
       set startpos [$win index {*}$opts(-startpos)]
-      set index    [$spec_proc $win $startpos [lrange $args 1 end]]
+
+      lassign [$spec_proc $win $startpos [lrange $args 1 end]] found index
 
       if {$opts(-forceadjust) ne ""} {
         return [$win._t index "$index$opts(-forceadjust)"]
-      } elseif {[$win._t compare $index != $startpos] && ($opts(-adjust) ne "")} {
+      } elseif {([$win._t compare $index != $startpos] || $found) && ($opts(-adjust) ne "")} {
         return [$win._t index "$index$opts(-adjust)"]
       } else {
         return [$win._t index $index]
@@ -3562,7 +3563,7 @@ namespace eval ctext {
   # Joins all lines in the specified string.
   proc transform_join_lines {str} {
 
-    return [string map {\n { }} $str]
+    return [regsub -all {\n\s*} $str { }]
 
   }
 
@@ -3624,6 +3625,11 @@ namespace eval ctext {
       set no_tags 0
     }
 
+    # If the command is a built-in type, make it so
+    if {[info procs transform_$cmd] ne ""} {
+      set cmd transform_$cmd
+    }
+
     set uranges [list]
     set rranges [list]
     set do_tags [list]
@@ -3637,7 +3643,7 @@ namespace eval ctext {
       set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
       adjust_start_end $win startpos endpos 1
       set old_str  [$win._t get $startpos $endpos]
-      set new_str  [transform_$cmd $old_str]
+      set new_str  [{*}$cmd $old_str]
       lappend dstrs $old_str
       lappend istrs $new_str
       comments_chars_deleted $win $startpos $endpos do_tags
@@ -6105,8 +6111,8 @@ namespace eval ctext {
     set opts(-num) 1
 
     for {set i 0} {$i < $num} {incr i} {
-      set next_cursor [$win._t index [getindex_$type $win $cursor [array get opts]]]
-      if {($next_cursor eq $cursor) || [$win._t compare $next_cursor == "$cursor lineend"]} {
+      lassign [$win._t index [getindex_$type $win $cursor [array get opts]]] found next_cursor
+      if {($next_cursor eq $cursor) || !$found || [$win._t compare $next_cursor == "$cursor lineend"]} {
         return -1  ;# $i
       }
       set cursor $next_cursor
@@ -6412,7 +6418,7 @@ namespace eval ctext {
   # Returns the starting cursor position without modification.
   proc getindex_cursor {win startpos optlist} {
 
-    return $startpos
+    return [list 1 $startpos]
 
   }
 
@@ -6426,9 +6432,9 @@ namespace eval ctext {
     array set opts $optlist
 
     if {[$win._t compare "$startpos display linestart" > "$startpos-$opts(-num) display chars"]} {
-      return "$startpos display linestart"
+      return [list 0 "$startpos display linestart"]
     } else {
-      return "$startpos-$opts(-num) display chars"
+      return [list 1 "$startpos-$opts(-num) display chars"]
     }
 
   }
@@ -6444,11 +6450,11 @@ namespace eval ctext {
     array set opts $optlist
 
     if {[lsearch [$win._t tag names $startpos] _dspace] != -1} {
-      return $startpos
+      return [list 0 $startpos]
     } elseif {[$win._t compare "$startpos display lineend" < "$startpos+$opts(-num) display chars"] && !$opts(-allowend)} {
-      return "$startpos display lineend"
+      return [list 0 "$startpos display lineend"]
     } else {
-      return "$startpos+$opts(-num) display chars"
+      return [list 1 "$startpos+$opts(-num) display chars"]
     }
 
   }
@@ -6503,7 +6509,7 @@ namespace eval ctext {
       set index [$win._t index "$index linestart-1 display lines"]
     }
 
-    return [lindex [split $index .] 0].$col
+    return [list 1 [lindex [split $index .] 0].$col]
 
   }
 
@@ -6526,7 +6532,7 @@ namespace eval ctext {
       }
     }
 
-    return [lindex [split $index .] 0].$col
+    return [list 1 [lindex [split $index .] 0].$col]
 
   }
 
@@ -6535,9 +6541,9 @@ namespace eval ctext {
   proc getindex_first {win startpos optlist} {
 
     if {[$win._t get -displaychars 1.0] eq ""} {
-      return "1.0+1 display chars"
+      return [list 1 "1.0+1 display chars"]
     } else {
-      return "1.0"
+      return [list 1 "1.0"]
     }
 
   }
@@ -6546,7 +6552,7 @@ namespace eval ctext {
   # Transforms a last character specification into a text index.
   proc getindex_last {win startpos optlist} {
 
-    return "end"
+    return [list 1 "end"]
 
   }
 
@@ -6580,7 +6586,7 @@ namespace eval ctext {
         }
       }
 
-      return $startpos
+      return [list 1 $startpos]
 
     } else {
 
@@ -6602,7 +6608,7 @@ namespace eval ctext {
         set first 0
       }
 
-      return $startpos
+      return [list 1 $startpos]
 
     }
 
@@ -6619,9 +6625,9 @@ namespace eval ctext {
     array set opts $optlist
 
     if {$opts(-dir) eq "next"} {
-      return "$startpos+$opts(-num) display chars"
+      return [list 1 "$startpos+$opts(-num) display chars"]
     } else {
-      return "$startpos-$opts(-num) display chars"
+      return [list 1 "$startpos-$opts(-num) display chars"]
     }
 
   }
@@ -6652,10 +6658,10 @@ namespace eval ctext {
           $win._t insert "$startpos lineend" " " _dspace
         }
       }
-      return $lnum.$col
+      return [list 1 $lnum.$col]
     } else {
       set col [expr $col - $opts(-num)]
-      return [expr {($col < 0) ? $lnum.0 : $lnum.$col}]
+      return [list 1 [expr {($col < 0) ? $lnum.0 : $lnum.$col}]]
     }
 
   }
@@ -6684,20 +6690,20 @@ namespace eval ctext {
     if {$opts(-dir) eq "next"} {
       set indices [$win._t search -all -- $opts(-char) "$startpos+1c" "$startpos lineend"]
       if {[set index [lindex $indices [expr $opts(-num) - 1]]] eq ""} {
-        return "insert"
+        return [list 0 "insert"]
       } elseif {$opts(-exclusive)} {
-        return "$index-1c"
+        return [list 1 "$index-1c"]
       }
     } else {
       set indices [$win._t search -all -- $opts(-char) "$startpos linestart" insert]
       if {[set index [lindex $indices end-[expr $opts(-num) - 1]]] eq ""} {
-        return "insert"
+        return [list 0 "insert"]
       } elseif {$opts(-exclusive)} {
-        return "$index+1c"
+        return [list 1 "$index+1c"]
       }
     }
 
-    return $index
+    return [list 1 $index]
 
   }
 
@@ -6783,9 +6789,9 @@ namespace eval ctext {
     }
 
     if {$index == -1} {
-      return [expr {($dir eq "prev") ? 1.0 : "end-1c"}]
+      return [list 0 [expr {($dir eq "prev") ? 1.0 : "end-1c"}]]
     } else {
-      return [expr {($dir eq "prev") ? "$index+1c" : $index}]
+      return [list 1 [expr {($dir eq "prev") ? "$index+1c" : $index}]]
     }
 
   }
@@ -6806,11 +6812,11 @@ namespace eval ctext {
     set tags [$win._t tag names "$index linestart"]
 
     if {[lsearch $tags __prewhite] != -1} {
-      return [lindex [$win._t tag nextrange __prewhite "$index linestart"] 1]-1c
+      return [list 1 [lindex [$win._t tag nextrange __prewhite "$index linestart"] 1]-1c]
     } elseif {[lsearch $tags _dspace] != -1} {
-      return $index
+      return [list 0 $index]
     } else {
-      return "$index lineend"
+      return [list 1 "$index lineend"]
     }
 
   }
@@ -6832,9 +6838,9 @@ namespace eval ctext {
     set linelen [string length [string trimright [$win._t get $line.0 $line.end]]]
 
     if {$linelen == 0} {
-      return $line.0
+      return [list 0 $line.0]
     } else {
-      return "$line.0+[expr $linelen - 1]c"
+      return [list 1 "$line.0+[expr $linelen - 1]c"]
     }
 
   }
@@ -6873,16 +6879,16 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$win._t index "$curr_row.0 + $curr_col display chars"]
+            return [list 1 [$win._t index "$curr_row.0 + $curr_col display chars"]]
           }
         }
 
         lassign [split [$win._t index "$curr_row.end + 1 display chars"] .] curr_row curr_col
 
         if {![$win._t compare $curr_row.$curr_col < end]} {
-          return [$win._t index "end-1 display chars"]
+          return [list 0 [$win._t index "end-1 display chars"]]
         } elseif {(![string is space [$win._t index $curr_row.$curr_col]] || [$win._t compare $curr_row.0 == $curr_row.end]) && ([incr num -1] == 0)} {
-          return [$win._t index "$curr_row.0 + $curr_col display chars"]
+          return [list 1 [$win._t index "$curr_row.0 + $curr_col display chars"]]
         }
 
       }
@@ -6900,16 +6906,16 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$win._t index "$curr_row.0 + $curr_col display chars"]
+            return [list 1 [$win._t index "$curr_row.0 + $curr_col display chars"]]
           }
         }
 
         lassign [split [$win._t index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
 
         if {![$win._t compare $curr_row.$curr_col > 1.0]} {
-          return "1.0"
+          return [list 0 "1.0"]
         } elseif {(![string is space [string index $line $curr_col]] || ($curr_col == 0)) && ([incr num -1] == 0)} {
-          return [$win._t index "$curr_row.0 + $curr_col display chars"]
+          return [list 1 [$win._t index "$curr_row.0 + $curr_col display chars"]]
         }
 
       }
@@ -6948,7 +6954,7 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$win._t index "$curr_row.0 + [expr $curr_col + ($opts(-exclusive) ? 0 : 1)] display chars"]
+            return [list 1 [$win._t index "$curr_row.0 + [expr $curr_col + ($opts(-exclusive) ? 0 : 1)] display chars"]]
           }
           set add 1
         }
@@ -6956,7 +6962,7 @@ namespace eval ctext {
         lassign [split [$win._t index "$curr_row.end + 1 display chars"] .] curr_row curr_col
 
         if {![$win._t compare $curr_row.$curr_col < end]} {
-          return [$win._t index "end-1 display chars"]
+          return [list 0 [$win._t index "end-1 display chars"]]
         }
 
       }
@@ -6979,16 +6985,16 @@ namespace eval ctext {
             break
           }
           if {![string is space [string index $line $curr_col]] && ([incr num -1] == 0)} {
-            return [$win._t index "$curr_row.0 + $curr_col display chars"]
+            return [list 1 [$win._t index "$curr_row.0 + $curr_col display chars"]]
           }
         }
 
         lassign [split [$win._t index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
 
         if {![$win._t compare $curr_row.$curr_col > 1.0]} {
-          return "1.0"
+          return [list 0 "1.0"]
         } elseif {![string is space [$win._t index $curr_row.$curr_col]] && ([incr num -1] == 0)} {
-          return [$win._t index "$curr_row.0 + $curr_col display chars"]
+          return [list 1 [$win._t index "$curr_row.0 + $curr_col display chars"]]
         }
 
       }
@@ -7023,12 +7029,12 @@ namespace eval ctext {
 
     while {[set index [$win._t search $diropt -regexp -- {\s\S|\n\n} $start $endpos]] ne ""} {
       if {[incr num -1] == 0} {
-        return [$win._t index $index+1c]
+        return [list 1 [$win._t index $index+1c]]
       }
       set start "$index$suffix"
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
 
   }
@@ -7060,17 +7066,17 @@ namespace eval ctext {
     while {[set index [$win._t search $diropt -regexp -- {\S\s|\n\n} $start $endpos]] ne ""} {
       if {[$win._t get $index] eq "\n"} {
         if {[incr num -1] == 0} {
-          return [$win._t index $index+1c]
+          return [list 1 [$win._t index $index+1c]]
         }
       } else {
         if {[incr num -1] == 0} {
-          return [$win._t index $index]
+          return [list 1 [$win._t index $index]]
         }
       }
       set start "$index$suffix"
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
@@ -7083,7 +7089,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    return [lindex [split $startpos .] 0].[expr $opts(-num) - 1]
+    return [list 1 [lindex [split $startpos .] 0].[expr $opts(-num) - 1]]
 
   }
 
@@ -7110,7 +7116,7 @@ namespace eval ctext {
     array set opts $optlist
 
     # set index [$win._t index "$startpos+$opts(-num) display lines linestart"]
-    return [$win._t index "$startpos linestart +$opts(-num) display lines"]
+    return [list 1 [$win._t index "$startpos linestart +$opts(-num) display lines"]]
 
   }
 
@@ -7126,7 +7132,7 @@ namespace eval ctext {
 
     set adjust [expr {$opts(-exclusive) ? " -1 display char" : ""}]
 
-    return [$win._t index "$startpos+$opts(-num) display lines lineend$adjust"]
+    return [list 1 [$win._t index "$startpos+$opts(-num) display lines lineend$adjust"]]
 
   }
 
@@ -7134,7 +7140,7 @@ namespace eval ctext {
   # Transforms a dispstart specification into a text index.
   proc getindex_dispstart {win startpos optlist} {
 
-    return "@0,[lindex [$win._t bbox $startpos] 1]"
+    return [list 1 "@0,[lindex [$win._t bbox $startpos] 1]"]
 
   }
 
@@ -7142,7 +7148,7 @@ namespace eval ctext {
   # Transforms a dispmid specification into a text index.
   proc getindex_dispmid {win startpos optlist} {
 
-    return "@[expr [winfo width $win] / 2],[lindex [$win._t bbox $startpos] 1]"
+    return [list 1 "@[expr [winfo width $win] / 2],[lindex [$win._t bbox $startpos] 1]"]
 
   }
 
@@ -7150,7 +7156,7 @@ namespace eval ctext {
   # Transforms a dispend specification into a text index.
   proc getindex_dispend {win startpos optlist} {
 
-    return "@[winfo width $win],[lindex [$win._t bbox $startpos] 0]"
+    return [list 1 "@[winfo width $win],[lindex [$win._t bbox $startpos] 0]"]
 
   }
 
@@ -7195,7 +7201,7 @@ namespace eval ctext {
       # return the index.
       if {($index eq "") && ([set index [$win._t search -forwards -count lengths -regexp -- {\S} $beginpos $endpos]] ne "")} {
         if {[$win._t compare $index > $startpos] && ([incr num -1] == 0)} {
-          return $index
+          return [list 1 $index]
         }
         set index ""
       }
@@ -7208,11 +7214,11 @@ namespace eval ctext {
       while {[set index [$win._t search -forwards -count lengths -regexp -- $pattern $startpos $endpos]] ne ""} {
         set startpos [$win._t index "$index+[expr [lindex $lengths 0] - $opts(-exclusive)]c"]
         if {[incr num -1] == 0} {
-          return $startpos
+          return [list 1 $startpos]
         }
       }
 
-      return $endpos
+      return [list 0 $endpos]
 
     } else {
 
@@ -7224,16 +7230,16 @@ namespace eval ctext {
       while {[set index [$win._t search -backwards -count lengths -regexp -- $pattern $startpos-1c $beginpos]] ne ""} {
         set startpos $index
         if {[incr num -1] == 0} {
-          return [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]
+          return [list 1 [$win._t index "$index+[expr [lindex $lengths 0] - 1]c"]]
         }
       }
 
       if {([incr num -1] == 0) && \
           ([set index [$win._t search -forwards -regexp -- {\S} $beginpos $endpos]] ne "") && \
           ([$win._t compare $index < $startpos])} {
-        return $index
+        return [list 1 $index]
       } else {
-        return $beginpos
+        return [list 1 $beginpos]
       }
 
     }
@@ -7262,14 +7268,14 @@ namespace eval ctext {
             ([lsearch [$win._t tag names $start] _dspace] != -1)} {
           set nl 1
         } elseif {$nl && ([incr num -1] == 0)} {
-          return "$start linestart"
+          return [list 1 "$start linestart"]
         } else {
           set nl 0
         }
         set start [$win._t index "$start+1 display lines"]
       }
 
-      return [$win._t index end-$opts(-exclusive)c]
+      return [list 1 [$win._t index end-$opts(-exclusive)c]]
 
     } else {
 
@@ -7288,7 +7294,7 @@ namespace eval ctext {
             ([lsearch [$win._t tag names $start] _dspace] == -1)} {
           set nl 0
         } elseif {!$nl && ([incr num -1] == 0)} {
-          return [$win._t index "$start+1 display lines linestart"]
+          return [list 1 [$win._t index "$start+1 display lines linestart"]]
         } else {
           set nl 1
         }
@@ -7299,9 +7305,9 @@ namespace eval ctext {
       if {(([$win._t get "$start linestart" "$start lineend"] eq "") || \
            ([lsearch [$win._t tag names $start] _dspace] != -1)) && !$nl && \
           ([incr num -1] == 0)} {
-        return [$win._t index "$start+1 display lines linestart"]
+        return [list 1 [$win._t index "$start+1 display lines linestart"]]
       } else {
-        return 1.0
+        return [list 0 1.0]
       }
 
     }
@@ -7312,7 +7318,7 @@ namespace eval ctext {
   # Transforms a screentop specification into a text index.
   proc getindex_screentop {win startpos optlist} {
 
-    return "@0,0"
+    return [list 1 "@0,0"]
 
   }
 
@@ -7320,7 +7326,7 @@ namespace eval ctext {
   # Transforms a screenmid specification into a text index.
   proc getindex_screenmid {win startpos optlist} {
 
-    return "@0,[expr [winfo height $win] / 2]"
+    return [list 1 "@0,[expr [winfo height $win] / 2]"]
 
   }
 
@@ -7328,7 +7334,7 @@ namespace eval ctext {
   # Transforms a screenbot specification into a text index.
   proc getindex_screenbot {win startpos optlist} {
 
-    return "@0,[winfo height $win]"
+    return [list 1 "@0,[winfo height $win]"]
 
   }
 
@@ -7339,10 +7345,10 @@ namespace eval ctext {
     set pattern {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]*)$}
 
     if {[regexp $pattern [$win._t get "$startpos linestart" $startpos] match]} {
-      return "$startpos-[string length $match]c"
+      return [list 1 "$startpos-[string length $match]c"]
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
@@ -7358,10 +7364,10 @@ namespace eval ctext {
     set pattern {^([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]+)}
 
     if {[regexp $pattern [$win._t get $startpos "$startpos lineend"] match]} {
-      return "$startpos+[expr [string length $match] - $opts(-exclusive)]c"
+      return [list 1 "$startpos+[expr [string length $match] - $opts(-exclusive)]c"]
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
@@ -7372,10 +7378,10 @@ namespace eval ctext {
     set pattern {[ \t]+$}
 
     if {[regexp $pattern [$win._t get "$startpos linestart" $startpos] match]} {
-      return "$startpos-[string length $match]c"
+      return [list 1 "$startpos-[string length $match]c"]
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
@@ -7391,10 +7397,10 @@ namespace eval ctext {
     set pattern {^[ \t]+}
 
     if {[regexp $pattern [$win._t get $startpos "$startpos lineend"] match]} {
-      return "$startpos+[expr [string length $match] - $opts(-exclusive)]c"
+      return [list 1 "$startpos+[expr [string length $match] - $opts(-exclusive)]c"]
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
@@ -7417,11 +7423,13 @@ namespace eval ctext {
 
     while {[set ranges [get_node_range $win -startpos $start]] ne ""} {
       if {[incr num -1] == 0} {
-        return [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
+        return [list 1 [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]]
       } else {
         set start [$win._t index "[lindex $ranges 0]-1c"]
       }
     }
+
+    return [list 0 $startpos]
 
   }
 
@@ -7443,11 +7451,13 @@ namespace eval ctext {
 
     while {[set ranges [get_node_range $win -startpos $start]] ne ""} {
       if {[incr num -1] == 0} {
-        return [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
+        return [list 1 [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]]
       } else {
         set start [$win._t index "[lindex $ranges 0]-1c"]
       }
     }
+
+    return [list 0 $startpos]
 
   }
 
@@ -7466,7 +7476,7 @@ namespace eval ctext {
       set range [$win._t tag nextrange sel $startpos]
     }
 
-    return [lindex $range 0]
+    return [list 1 [lindex $range 0]]
 
   }
 
@@ -7485,7 +7495,7 @@ namespace eval ctext {
       set range [$win._t tag nextrange sel $startpos]
     }
 
-    return [lindex $range 1]
+    return [list 1 [lindex $range 1]]
 
   }
 
@@ -7511,7 +7521,7 @@ namespace eval ctext {
     set start  $startpos
 
     if {[lsearch {square curly paren angled} $type] == -1} {
-      return $start
+      return [list 0 $start]
     }
 
     # Search backwards
@@ -7521,13 +7531,13 @@ namespace eval ctext {
 
     while {[set index [getMatchBracket $win ${type}L $startpos]] ne ""} {
       if {[incr number -1] == 0} {
-        return $index
+        return [list 1 $index]
       } else {
         set start $index
       }
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
@@ -7553,7 +7563,7 @@ namespace eval ctext {
     set start  $startpos
 
     if {[lsearch {square curly paren angled} $type] == -1} {
-      return $start
+      return [list 0 $start]
     }
 
     # Search backwards
@@ -7563,13 +7573,13 @@ namespace eval ctext {
 
     while {[set index [getMatchBracket $win ${type}R $start]] ne ""} {
       if {[incr number -1] == 0} {
-        return $index
+        return [list 1 $index]
       } else {
         set start $index
       }
     }
 
-    return $startpos
+    return [list 0 $startpos]
 
   }
 
