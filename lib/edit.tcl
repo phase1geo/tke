@@ -399,7 +399,7 @@ namespace eval edit {
   ######################################################################
   # If a selection occurs, joins the selected lines; otherwise, joins the
   # number of specified lines.
-  proc transform_join_lines {txtt {simple 0} {num 1}} {
+  proc transform_join_lines {txtt simple num} {
 
     if {[set cursors [$txtt cursor get]] eq ""} {
       lappend lineends [$txtt index lineend]

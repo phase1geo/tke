@@ -298,6 +298,16 @@ namespace eval vim {
             }
             cliphist::add_from_clipboard
 
+          # Join line(s)
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)j(oin)?(!)?} $value -> from to dummy simple]} {
+            set from    [$txt index lastchar  -startpos [get_linenum $txt $from]]
+            set to      [$txt index firstchar -startpos [get_linenum $txt $to]]
+            $txt edit separator
+            $txt cursor disable
+            $txt transform $from $to [expr {($simple ne "") ? "edit::join_lines_simple" : "join_lines"}]
+            $txt cursor set [$txt index firstchar -startpos $from]
+            $txt edit separator
+
           # Jump to line
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
             $txt cursor set [get_linenum $txt $value]
