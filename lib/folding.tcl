@@ -848,7 +848,7 @@ namespace eval folding {
 
     # If foldenable is 0, return immediately
     if {![get_vim_foldenable $txt]} {
-      return $retval
+      return
     }
 
     # Get a sorted list of open/close tags and locate our current position

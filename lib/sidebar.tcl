@@ -23,6 +23,19 @@
 #          sidebar.
 ######################################################################
 
+rename ttk::treeview::Toggle ttk::treeview::ToggleOrig
+
+# We need to customize the Toggle procedure in treeview to get around
+# issue where clicking on the disclosure triangle of a row will open
+# without first requiring the user to open it using the keyboard.
+proc ttk::treeview::Toggle {w item} {
+  if {[$w item $item -open]} {
+    CloseItem $w $item
+  } else {
+    OpenItem $w $item
+  }
+}
+
 namespace eval sidebar {
 
   variable last_opened      {}
