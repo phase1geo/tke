@@ -1834,15 +1834,20 @@ namespace eval vim {
     variable motion
     variable number
     variable multiplier
+    variable operator
 
-    if {($multiplier($txtt) eq "") && ($num eq "0")} {
+    if {($multiplier($txtt) eq "") && ($number($txtt) eq "") && ($num eq "0")} {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt linestart]
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt dispstart]
       }
     } else {
-      append multiplier($txtt) $num
+      if {$operator($txtt) eq ""} {
+        append number($txtt) $num
+      } else {
+        append multiplier($txtt) $num
+      }
       return 1
     }
 
