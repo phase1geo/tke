@@ -6085,12 +6085,14 @@ namespace eval gui {
 
   ######################################################################
   # Updates the menubutton to match the current mode.
-  proc update_indent_button {} {
+  proc update_indent_button {{txt ""}} {
 
     variable widgets
     variable current_indent
 
-    set txt [current_txt]
+    if {$txt eq ""} {
+      set txt [current_txt]
+    }
 
     # Configure the menubutton
     $widgets(info_indent) configure -text [set current_indent [$txt cget -indentmode]]

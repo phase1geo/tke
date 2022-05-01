@@ -429,7 +429,7 @@ namespace eval syntax {
       gui::set_indent_mode $txt "OFF"
     }
 
-    gui::update_indent_button
+    gui::update_indent_button $txt
 
   }
 
