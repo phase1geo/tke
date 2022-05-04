@@ -2685,7 +2685,7 @@ namespace eval ctext {
 
     foreach {content tags} $char_taglist {
       incr count [string length $content]
-      lappend items $content [list {*}$tags lmargin rmargin ]
+      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
       append dat $content
     }
 
@@ -2701,7 +2701,7 @@ namespace eval ctext {
   # Returns the chars ?taglist chars taglist...? list to be inserted/replaced.
   proc insert_items {win index items} {
 
-    return [string map [list  [getLangTag $win $index]] $items]
+    return [string map [list __Lang: [getLangTag $win $index]] $items]
 
   }
 
@@ -3060,7 +3060,7 @@ namespace eval ctext {
       lappend istrs $dat
       comments_chars_deleted $win $startpos $endpos do_tags
       set t [handleReplaceDeleteAt0 $win $startpos $endpos]
-      $win._t replace $startpos $endpos {*}[string map [list  [getLangTag $win $startpos]] $items]
+      $win._t replace $startpos $endpos {*}[string map [list __Lang: [getLangTag $win $startpos]] $items]
       set new_endpos  [$win._t index "$startpos+${chars}c"]
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
@@ -3622,7 +3622,7 @@ namespace eval ctext {
       set no_tags 1
     } else {
       lassign $arglist startspec endspec cmd tags
-      lappend tags rmargin lmargin
+      lappend tags rmargin lmargin __Lang:
       set no_tags 0
     }
 
@@ -8076,7 +8076,7 @@ namespace eval ctext {
         $win insert -highlight 0 -update 0 cursor "$indent_space\n"
         set startpos [$win._t index $startpos+1l]
         set endpos   [$win._t index $endpos+1l]
-        set restore_insert [$win._t index $index-1c]
+        set restore_insert [$win._t index insert-1c]
         if {$data($win,config,-indentmode) eq "IND+"} {
           set indent_space [string range $indent_space $data($win,config,-shiftwidth) end]
         }
