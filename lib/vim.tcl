@@ -1281,6 +1281,56 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Adjusts motion for the given endpoint given the current mode and
+  # operator.  The value of endpoint must be 'start' or 'end'.  The value
+  # of motion_type must be 'linewise', 'blockwise', 'inclusive' or 'exclusive'.
+  proc adjust_motion {txtt endpoint motion_type motion num args} {
+
+    variable mode
+    variable operator
+
+    set orig_motion_type $motion_type
+
+    # Adjust the motion type based on the current mode
+    switch $motion($txtt) {
+      "V" {
+        set motion_type "linewise"
+      }
+      "v" {
+        switch $motion_type {
+          "linewise"  -
+          "inclusive" {
+            set motion_type "exclusive"
+          }
+          "exclusive" {
+            set motion_type "inclusive"
+          }
+        }
+      }
+      "Cv" {
+        set motion_type "blockwise"
+      }
+    }
+
+    if {$endpoint eq "start"} {
+      if {$motion_type eq "linewise"} {
+        return [list linestart]
+      } else {
+        return [list $motion -num $num]
+      }
+    } else {
+      switch $motion_type {
+        "linewise"  { return [list lineend -num $num {*}$args] }
+        "blockwise" -
+        "exclusive" { return [list $motion -num $num -adjust -1c {*}$args] }
+        "inclusive" { return [list $motion -num $num {*}$args] }
+        default     { return [list $motion -num $num {*}$args] }
+      }
+    }
+
+  }
+
+  ######################################################################
   # Starts recording keystrokes.
   proc record_start {txtt {keysyms {}} {reg ""}} {
 
@@ -1772,6 +1822,7 @@ namespace eval vim {
   ######################################################################
   # Checks the current mode and if we are in a find character motion,
   # handle the action.
+  # FOOBAR (f/t) inclusive (F/T) exclusive
   proc handle_find_motion {txtt char} {
 
     variable motion
@@ -1838,8 +1889,10 @@ namespace eval vim {
 
     if {($multiplier($txtt) eq "") && ($number($txtt) eq "") && ($num eq "0")} {
       if {$motion($txtt) eq ""} {
+        # FOOBAR
         return [do_operation $txtt linestart]
       } elseif {$motion($txtt) eq "g"} {
+        # FOOBAR exclusive
         return [do_operation $txtt dispstart]
       }
     } else {
@@ -1893,7 +1946,7 @@ namespace eval vim {
         return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]]]
       }
     } elseif {$motion($txtt) eq "g"} {
-      return [do_operation $txtt [list dispend -num [expr [get_number $txtt] - 1]]]
+      return [do_operation $txtt [adjust_motion $txtt end inclusive dispend [expr [get_number $txtt] - 1]]]
     }
 
     return 0
@@ -1910,8 +1963,10 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
+      # FOOBAR exclusive
       return [do_operation $txtt [list firstchar -num 0]]
     } elseif {$motion($txtt) eq "g"} {
+      # FOOBAR exclusive
       return [do_operation $txtt dispfirst]
     }
 
@@ -2004,6 +2059,7 @@ namespace eval vim {
     if {$multiplier($txtt) eq ""} {
       gui::show_match_pair
     } else {
+      # FOOBAR linewise
       set lines [lindex [split [$txtt index end] .] 0]
       set line  [expr int( ($multiplier($txtt) * $lines + 99) / 100 )]
       return [do_operation $txtt [list linenum -num $line]]
@@ -2067,6 +2123,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "command" mode, move the insertion cursor down one line.
+  # FOOBAR linewise
   proc handle_j {txtt} {
 
     variable columns
@@ -2111,6 +2168,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "command" mode, move the insertion cursor up one line.
+  # FOOBAR linewise
   proc handle_k {txtt} {
 
     variable columns
@@ -2155,6 +2213,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" mode, move the insertion cursor right one
   # character.
+  # FOOBAR
   proc handle_l {txtt} {
 
     variable motion
@@ -2164,7 +2223,7 @@ namespace eval vim {
     switch [lindex $motion($txtt) end] {
       "V" {
         set sspec linestart
-        set espec   lineend
+        set espec lineend
       }
       "v" {
         set espec [list right -num [expr [get_number $txtt] + 1]]
@@ -2181,6 +2240,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" mode, jump the insertion cursor to the bottom
   # line.
+  # FOOBAR linewise
   proc handle_L {txtt} {
 
     variable motion
@@ -2288,6 +2348,7 @@ namespace eval vim {
         return 1
       }
       default {
+        # FOOBAR when in visual mode, make characterwise
         return [do_object_operation $txtt tag]
       }
     }
@@ -2381,6 +2442,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" mode, move the insertion cursor left one
   # character.
+  # FOOBAR
   proc handle_h {txtt} {
 
     variable motion
@@ -2410,12 +2472,15 @@ namespace eval vim {
       set cspec [list -cursor [list 2 $spec]]
     }
 
+    set espec [adjust_motion $txtt FOOBAR]
+
     return [do_operation $txtt $espec $sspec {*}$cspec]
 
   }
 
   ######################################################################
   # If we are just in "command" mode, jump to the top line of the editor.
+  # FOOBAR linewise
   proc handle_H {txtt} {
 
     variable motion
@@ -2437,6 +2502,7 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
+        # FOOBAR exclusive
         return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt] -exclusive 1]]
       }
       default {
@@ -2456,9 +2522,11 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
+        # FOOBAR exclusive
         return [do_operation $txtt [list WORDstart -dir prev -num [get_number $txtt] -exclusive 1]]
       }
       default {
+        # FOOBAR When in visual make characterwise
         return [do_object_operation $txtt curly]
       }
     }
@@ -2523,6 +2591,8 @@ namespace eval vim {
   ######################################################################
   # If we are in "change" mode, delete the current word and change to edit
   # mode.
+  # FOOBAR exclusive (if operator is "change" and non-blank, act line 'e')
+  #    If last word moved over is at end of line, end of that word is end of operated text
   proc handle_w {txtt} {
 
     variable operator
@@ -2544,6 +2614,7 @@ namespace eval vim {
         }
       }
       default {
+        # FOOBAR Leading/trailing space is included (forces visual characterwise mode when in visual linewise)
         return [do_object_operation $txtt word]
       }
     }
@@ -2555,6 +2626,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "change" mode, delete the current WORD and change to edit
   # mode.
+  # FOOBAR exclusive (if operator is "change" and non-blank, act line 'E')
   proc handle_W {txtt} {
 
     variable operator
@@ -2576,6 +2648,7 @@ namespace eval vim {
         }
       }
       default {
+        # FOOBAR Leading/trailing space is included (forces visual characterwise mode when in visual linewise)
         return [do_object_operation $txtt WORD]
       }
     }
@@ -2586,6 +2659,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "command" mode, go to the last line.
+  # FOOBAR linewise
   proc handle_G {txtt} {
 
     variable multiplier
@@ -2811,6 +2885,7 @@ namespace eval vim {
         record $txtt p
       }
       default {
+        # FOOBAR Leading/trailing space is included (forces visual linewise mode when in visual)
         return [do_object_operation $txtt paragraph]
       }
     }
@@ -3082,6 +3157,7 @@ namespace eval vim {
     if {[$txtt cursor enabled]} {
       multimove_mode $txtt
     } elseif {$motion($txtt) eq "g"} {
+      # FOOBAR exclusive
       return [do_operation $txtt dispmid]
     }
 
@@ -3287,6 +3363,7 @@ namespace eval vim {
         }
       }
       default {
+        # FOOBAR Leading/trailing space is included (forces visual characterwise mode when in visual linewise)
         return [do_object_operation $txtt sentence]
       }
     }
@@ -3396,6 +3473,7 @@ namespace eval vim {
   # double-quotes.
   proc handle_quotedbl {txtt} {
 
+    # FOOBAR In visual mode, do characterwise
     return [do_object_operation $txtt double]
 
   }
@@ -3404,6 +3482,7 @@ namespace eval vim {
   # Handles single-quote object selection.
   proc handle_quoteright {txtt} {
 
+    # FOOBAR In visual mode, do characterwise
     return [do_object_operation $txtt single]
 
   }
@@ -3412,6 +3491,7 @@ namespace eval vim {
   # Handle a` and i` Vim motions.
   proc handle_quoteleft {txtt} {
 
+    # FOOBAR In visual mode, do characterwise
     return [do_object_operation $txtt btick]
 
   }
@@ -3422,6 +3502,7 @@ namespace eval vim {
   # bracket sequence, the right-most bracket of the sequence is moved one
   # word to the end; otherwise, the current word is placed within
   # curly brackets.
+  # FOOBAR Leading/trailing space is included (forces visual characterwise mode when in visual)
   proc handle_bracketleft {txtt} {
 
     return [do_object_operation $txtt square]
@@ -3430,6 +3511,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles a] or i] Vim command.
+  # FOOBAR Leading/trailing space is included (forces visual characterwise mode when in visual)
   proc handle_bracketright {txtt} {
 
     return [do_object_operation $txtt square]
@@ -3448,9 +3530,11 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
+        # FOOBAR exclusive
         return [do_operation $txtt [list paragraph -dir prev -num [get_number $txtt]]]
       }
       default {
+        # FOOBAR when in visual mode force to characterwise
         return [do_object_operation $txtt curly]
       }
     }
@@ -3468,9 +3552,11 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
+        # FOOBAR exclusive
         return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt] -exclusive [expr {($operator($txtt) eq "") ? 1 : 0}]]]
       }
       default {
+        # FOOBAR when in visual mode force to characterwise
         return [do_object_operation $txtt curly]
       }
     }
@@ -3491,9 +3577,11 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
+        # FOOBAR exclusive
         return [do_operation $txtt [list sentence -dir prev -num [get_number $txtt]]]
       }
       default {
+        # FOOBAR when in visual mode - characterwise
         return [do_object_operation $txtt paren]
       }
     }
@@ -3511,9 +3599,11 @@ namespace eval vim {
 
     switch $motion($txtt) {
       "" {
+        # FOOBAR exclusive
         return [do_operation $txtt [list sentence -dir next -num [get_number $txtt] -exclusive [expr {($operator($txtt) eq "") ? 1 : 0}]]]
       }
       default {
+        # FOOBAR when in visual mode - characterwise
         return [do_object_operation $txtt paren]
       }
     }
@@ -3547,6 +3637,7 @@ namespace eval vim {
           }
           return 1
         } else {
+          # FOOBAR when in visual mode, make characterwise
           return [do_object_operation $txtt angled]
         }
       }
@@ -3554,6 +3645,7 @@ namespace eval vim {
         if {($operator($txtt) eq "lshift") && ($motion($txtt) eq "")} {
           return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
         } else {
+          # FOOBAR when in visual mode, make characterwise
           return [do_object_operation $txtt angled]
         }
       }
@@ -3581,6 +3673,7 @@ namespace eval vim {
           }
           return 1
         } else {
+          # FOOBAR when in visual mode, make characterwise
           return [do_object_operation $txtt angled]
         }
       }
@@ -3588,6 +3681,7 @@ namespace eval vim {
         if {($operator($txtt) eq "rshift") && ($motion($txtt) eq "")} {
           return [do_operation $txtt [list lineend -num [expr [get_number $txtt] - 1]] linestart]
         } else {
+          # FOOBAR when in visual mode, make characterwise
           return [do_object_operation $txtt angled]
         }
       }
@@ -3626,6 +3720,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the next line.
+  # FOOBAR linewise
   proc handle_Return {txtt} {
 
     variable motion
@@ -3640,6 +3735,7 @@ namespace eval vim {
 
   ######################################################################
   # Synonymous with the handle_Return command.
+  # FOOBAR linewise
   proc handle_plus {txtt} {
 
     variable motion
@@ -3655,6 +3751,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the previous line.
+  # FOOBAR linewise
   proc handle_minus {txtt} {
 
     variable motion
@@ -3670,6 +3767,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" or "visual" mode, move the cursor to the given
   # column of the current line.
+  # FOOBAR exclusive
   proc handle_bar {txtt} {
 
     return [do_operation $txtt [list column -num [get_number $txtt]]]
@@ -3709,6 +3807,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "command" mode, move the cursor to the start of the middle
   # line.
+  # FOOBAR linewise
   proc handle_M {txtt} {
 
     variable operator
@@ -3808,6 +3907,7 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'l' command so we'll just call the
   # handle_l procedure instead of replicating the code.
+  # FOOBAR
   proc handle_space {txtt} {
 
     variable mode
@@ -3845,6 +3945,7 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'h' command so we'll just call the
   # handle_h procedure instead of replicating the code.
+  # FOOBAR
   proc handle_BackSpace {txtt} {
 
     variable operator
@@ -3883,6 +3984,7 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'l' command so we'll just call the
   # handle_l procedure instead of replicating the code.
+  # FOOBAR
   proc handle_Right {txtt} {
 
     return [handle_l $txtt]
@@ -3892,6 +3994,7 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'h' command so we'll just call the
   # handle_h procedure instead of replicating the code.
+  # FOOBAR
   proc handle_Left {txtt} {
 
     return [handle_h $txtt]
@@ -3901,6 +4004,7 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'k' command so we'll just call the
   # handle_k procedure instead of replicating the code.
+  # FOOBAR linewise
   proc handle_Up {txtt} {
 
     return [handle_k $txtt]
@@ -3910,6 +4014,7 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'j' command so we'll just call the
   # handle_j procedure instead of replicating the code.
+  # FOOBAR linewise
   proc handle_Down {txtt} {
 
     return [handle_j $txtt]
@@ -3939,8 +4044,10 @@ namespace eval vim {
     variable motion
 
     if {$motion($txtt) eq ""} {
+      # FOOBAR linewise (count - 1)
       return [do_operation $txtt [list firstchar -num [expr [get_number $txtt] - 1]]]
     } elseif {$motion($txtt) eq "g"} {
+      # FOOBAR - inclusive
       return [do_operation $txtt [list lastchar -num [expr [get_number $txtt] - 1]]]
     }
 
@@ -3957,8 +4064,10 @@ namespace eval vim {
 
     if {$operator($txtt) eq ""} {
       if {$motion($txtt) eq ""} {
+        # FOOBAR inclusive
         return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 1]]
       } elseif {$motion($txtt) eq "g"} {
+        # FOOBAR inclusive
         return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
       }
     } else {
@@ -3983,8 +4092,10 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {$motion($txtt) eq ""} {
+          # FOOBAR inclusive
           return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt] -exclusive 1]]
         } elseif {$motion($txtt) eq "g"} {
+          # FOOBAR inclusive
           return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -exclusive 1]]
         }
       }

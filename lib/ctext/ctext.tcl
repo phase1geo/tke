@@ -559,7 +559,7 @@ namespace eval ctext {
     if {([set win [get_win $win]] eq "") || ($char eq "") || ([$win._t cget -state] eq "disabled")} {
       return -code ok
     }
-     
+
     if {[$win._t tag ranges sel] ne ""} {
       $win replace selstart selend $char
     } else {
@@ -577,7 +577,7 @@ namespace eval ctext {
     if {[set win [get_win $win]] eq ""} {
       return -code ok
     }
-     
+
     $win cursor disable
 
   }
@@ -589,7 +589,7 @@ namespace eval ctext {
     if {[set win [get_win $win]] eq ""} {
       return -code ok
     }
-     
+
     $win cursor add @$x,$y
 
   }
@@ -601,7 +601,7 @@ namespace eval ctext {
     if {[set win [get_win $win]] eq ""} {
       return -code ok
     }
-     
+
     $win cursor addcolumn @$x,$y
 
   }
@@ -627,7 +627,7 @@ namespace eval ctext {
     if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
       return -code ok
     }
-     
+
     $win cut
 
     return -code break
@@ -641,7 +641,7 @@ namespace eval ctext {
     if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
       return -code ok
     }
-     
+
     $win paste
 
     return -code break
@@ -655,7 +655,7 @@ namespace eval ctext {
     if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
       return -code ok
     }
-     
+
     ctext::undo $win
 
   }
@@ -667,7 +667,7 @@ namespace eval ctext {
     if {([set win [get_win $win]] eq "") || ([$win._t cget -state] eq "disabled")} {
       return -code ok
     }
-     
+
     ctext::redo $win
 
   }
@@ -1427,7 +1427,7 @@ namespace eval ctext {
   ######################################################################
   # UNDO/REDO FUNCTIONALITY
   ######################################################################
-  
+
   ######################################################################
   # Displays the given undo/redo buffer to standard output (used for
   # debugging purposes only).
@@ -2558,7 +2558,7 @@ namespace eval ctext {
   # of the preceeding text.
   #
   # Usage:  $txt indent options subcmd ?start_index end_index?
-  # 
+  #
   # Options:
   #   -moddata        Data sent with modified event generated from this command
   #   -mcursor (0|1)  If set, performs indentation for each range relative to the
@@ -2632,6 +2632,7 @@ namespace eval ctext {
         -startpos    "insert"
         -adjust      ""
         -forceadjust ""
+        -exclusive   0
       }
       array set opts [lrange $args 1 end]
 
@@ -2684,7 +2685,7 @@ namespace eval ctext {
 
     foreach {content tags} $char_taglist {
       incr count [string length $content]
-      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
+      lappend items $content [list {*}$tags lmargin rmargin ]
       append dat $content
     }
 
@@ -2700,9 +2701,9 @@ namespace eval ctext {
   # Returns the chars ?taglist chars taglist...? list to be inserted/replaced.
   proc insert_items {win index items} {
 
-    return [string map [list __Lang: [getLangTag $win $index]] $items]
+    return [string map [list  [getLangTag $win $index]] $items]
 
-  } 
+  }
 
   ######################################################################
   # Inserts text at the given cursor or at multicursors (if set) and
@@ -3059,7 +3060,7 @@ namespace eval ctext {
       lappend istrs $dat
       comments_chars_deleted $win $startpos $endpos do_tags
       set t [handleReplaceDeleteAt0 $win $startpos $endpos]
-      $win._t replace $startpos $endpos {*}[string map [list __Lang: [getLangTag $win $startpos]] $items]
+      $win._t replace $startpos $endpos {*}[string map [list  [getLangTag $win $startpos]] $items]
       set new_endpos  [$win._t index "$startpos+${chars}c"]
       handleReplaceInsert $win $startpos $endpos $t
       lappend uranges $startpos $endpos $new_endpos
@@ -3621,7 +3622,7 @@ namespace eval ctext {
       set no_tags 1
     } else {
       lassign $arglist startspec endspec cmd tags
-      lappend tags rmargin lmargin __Lang:
+      lappend tags rmargin lmargin
       set no_tags 0
     }
 
@@ -6444,8 +6445,8 @@ namespace eval ctext {
   proc getindex_right {win startpos optlist} {
 
     array set opts {
-      -num      1
-      -allowend 0
+      -num       1
+      -allowend  0
     }
     array set opts $optlist
 
@@ -7801,7 +7802,7 @@ namespace eval ctext {
   ######################################################################
   # INDENTATION                                                        #
   ######################################################################
-  
+
   ######################################################################
   # Returns true if auto indentation is available for the primary language.
   proc indent_is_auto_available {win} {
@@ -8356,7 +8357,7 @@ namespace eval ctext {
   ######################################################################
   # COMPLETION                                                         #
   ######################################################################
-  
+
   ######################################################################
   # Sets the auto-match characters based on the current language.
   proc set_auto_match_chars {win lang matchchars} {
