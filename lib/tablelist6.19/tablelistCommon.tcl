@@ -1,35 +1,20 @@
 #==============================================================================
 # Main Tablelist and Tablelist_tile package module.
 #
-# Copyright (c) 2000-2018  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
+# Copyright (c) 2000-2022  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
 #==============================================================================
 
 namespace eval ::tablelist {
     #
-    # Gets the scaling percentage (100, 125, 150, or 200).
-    #
-    proc scalingPercentage {} {
-	set factor [tk scaling]
-	if {$factor < 1.50} {
-	    return 100 
-	} elseif {$factor < 1.83} {
-	    return 125 
-	} elseif {$factor < 2.33} {
-	    return 150 
-	} else {
-	    return 200
-	}
-    }
-
-    #
     # Public variables:
     #
-    variable version	6.3
+    variable version	6.19
     variable library
-
-    set library [DIR]
-
-    variable scalingpct	[scalingPercentage]
+    if {$::tcl_version >= 8.4} {
+	set library	[file dirname [file normalize [info script]]]
+    } else {
+	set library	[file dirname [info script]] ;# no "file normalize" yet
+    }
 
     #
     # Creates a new tablelist widget:
@@ -79,7 +64,7 @@ proc ::tablelist::restoreUsingTile {origVal varName index op} {
     variable usingTile $origVal
     switch $op {
 	w {
-	    return -code error "it is not allowed to use both Tablelist and\
+	    return -code error "it is not supported to use both Tablelist and\
 				Tablelist_tile in the same application"
 	}
 	u {
@@ -89,11 +74,37 @@ proc ::tablelist::restoreUsingTile {origVal varName index op} {
     }
 }
 
-interp alias {} ::tk::frame {} ::frame
-interp alias {} ::tk::label {} ::label
+proc ::tablelist::createTkAliases {} {
+    foreach cmd {frame label} {
+	if {[llength [info commands ::tk::$cmd]] == 0} {
+	    interp alias {} ::tk::$cmd {} ::$cmd
+	}
+    }
+}
+::tablelist::createTkAliases
 
 #
 # Everything else needed is lazily loaded on demand, via the dispatcher
 # set up in the subdirectory "scripts" (see the file "tclIndex").
 #
 lappend auto_path [file join $::tablelist::library scripts]
+
+#
+# Load the packages mwutil, scaleutil, and scaleutilmisc from the directory
+# "scripts/utils".  Take into account that mwutil is also included in
+# Mentry and Scrollutil, and scaleutil is also included in Scrollutil.
+#
+proc ::tablelist::loadUtils {} {
+    if {[catch {package present mwutil} version] == 0 && $version < 2.19} {
+	package forget mwutil
+    }
+    package require mwutil 2.19
+
+    if {[catch {package present scaleutil} version] == 0 && $version < 1.9} {
+	package forget scaleutil
+    }
+    package require scaleutil 1.9
+
+    package require scaleutilmisc 1.3
+}
+::tablelist::loadUtils

@@ -7,7 +7,7 @@
 #   - Private procedures implementing the interactive cell editing
 #   - Private procedures used in bindings related to interactive cell editing
 #
-# Copyright (c) 2003-2018  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
+# Copyright (c) 2003-2022  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
 #==============================================================================
 
 #
@@ -96,7 +96,7 @@ namespace eval tablelist {
 	    $name-putListCmd	"" \
 	    $name-getListCmd	"" \
 	    $name-selectCmd	"" \
-	    $name-invokeCmd	"event generate %W <Button-1>" \
+	    $name-invokeCmd	"event generate %W <<Invoke>>" \
 	    $name-fontOpt	-font \
 	    $name-useFormat	1 \
 	    $name-useReqWidth	0 \
@@ -130,7 +130,7 @@ namespace eval tablelist {
 	    $name-reservedKeys	{Left Right Up Down} \
 	]
     }
-    addTkCoreWidgets 
+    addTkCoreWidgets
 
     #
     # Register the tile widgets ttk::entry, ttk::spinbox, ttk::combobox,
@@ -229,7 +229,7 @@ namespace eval tablelist {
 	    $name-putListCmd	"" \
 	    $name-getListCmd	"" \
 	    $name-selectCmd	"" \
-	    $name-invokeCmd	"event generate %W <Button-1>" \
+	    $name-invokeCmd	"event generate %W <<Invoke>>" \
 	    $name-fontOpt	"" \
 	    $name-useFormat	1 \
 	    $name-useReqWidth	0 \
@@ -244,7 +244,7 @@ namespace eval tablelist {
 	}
     }
     if {$::tk_version >= 8.4 && [llength [package versions tile]] > 0} {
-	addTileWidgets 
+	addTileWidgets
     }
 }
 
@@ -296,7 +296,7 @@ proc tablelist::addBWidgetSpinBox {{name SpinBox}} {
 
     variable editWin
     array set editWin [list \
-	$name-creationCmd	"SpinBox %W -editable 1 -width 0" \
+	$name-creationCmd	"createBWidgetSpinBox %W" \
 	$name-putValueCmd	"%W configure -text %T" \
 	$name-getValueCmd	"%W cget -text" \
 	$name-putTextCmd	"%W configure -text %T" \
@@ -447,6 +447,38 @@ proc tablelist::addIncrDateTimeWidget {widgetType args} {
 	$name-isEntryLike	1 \
 	$name-reservedKeys	{Left Right Up Down} \
     ]
+    switch $widgetType {
+	dateentry {
+	    set editWin($name-creationCmd) "createIncrDateentry %W"
+
+	    #
+	    # Patch the iwidgets::Dateentry::_releaseGrab method
+	    #
+	    itcl::body iwidgets::Dateentry::_releaseGrab {} {
+		focus $itk_component(date)	;# added; the rest is unchanged
+		grab release $itk_component(popup)
+		$itk_component(iconbutton) configure -relief raised
+		destroy $itk_component(popup)
+		bind $itk_component(iconbutton) <Button-1> \
+		     [itcl::code $this _popup]
+	    }
+	}
+	timeentry {
+	    set editWin($name-creationCmd) "createIncrTimeentry %W"
+
+	    #
+	    # Patch the iwidgets::Timeentry::_releaseGrab method
+	    #
+	    itcl::body iwidgets::Timeentry::_releaseGrab {} {
+		focus $itk_component(time)	;# added; the rest is unchanged
+		grab release $itk_component(popup)
+		$itk_component(iconbutton) configure -relief raised
+		destroy $itk_component(popup)
+		bind $itk_component(iconbutton) <Button-1> \
+		     [itcl::code $this _popup]
+	    }
+	}
+    }
     if {$useClicks} {
 	lappend editWin($name-getValueCmd) -clicks
 	set editWin($name-useFormat) 0
@@ -1081,7 +1113,7 @@ proc tablelist::checkEditWinName name {
 # editing in a tablelist widget.
 #------------------------------------------------------------------------------
 proc tablelist::createCheckbutton {w args} {
-    makeCheckbutton $w
+    makeCkbtn $w
 
     foreach {opt val} $args {
 	switch -- $opt {
@@ -1128,6 +1160,7 @@ proc tablelist::createMenubutton {w args} {
     if {[string compare $winSys "x11"] == 0} {
 	$menu configure -background $data(-background) \
 			-foreground $data(-foreground) \
+			-selectcolor $data(-foreground) \
 			-activebackground $data(-selectbackground) \
 			-activeforeground $data(-selectforeground) \
 			-activeborderwidth $data(-selectborderwidth)
@@ -1189,7 +1222,7 @@ proc tablelist::createTileEntry {w args} {
     if {$::tk_version < 8.5 || [regexp {^8\.5a[1-5]$} $::tk_patchLevel]} {
 	package require tile 0.6
     }
-    createTileAliases 
+    createTileAliases
 
     #
     # The style of the tile entry widget should have -borderwidth
@@ -1197,9 +1230,10 @@ proc tablelist::createTileEntry {w args} {
     # -borderwidth 2 setting, set the padding to another value.
     #
     set win [getTablelistPath $w]
-    switch -- [getCurrentTheme] {
+    variable currentTheme
+    switch -- $currentTheme {
 	aqua {
-	    set padding {0 0 0 -1}
+	    set padding 0
 	}
 
 	tileqt {
@@ -1240,17 +1274,18 @@ proc tablelist::createTileSpinbox {w args} {
     if {$::tk_version < 8.5 || [regexp {^8\.5a[1-5]$} $::tk_patchLevel]} {
 	package require tile 0.8.3
     }
-    createTileAliases 
+    createTileAliases
 
     #
-    # The style of the tile entry widget should have -borderwidth
+    # The style of the tile spinbox widget should have -borderwidth
     # 2 and -padding 1.  For those themes that don't honor the
     # -borderwidth 2 setting, set the padding to another value.
     #
     set win [getTablelistPath $w]
-    switch -- [getCurrentTheme] {
+    variable currentTheme
+    switch -- $currentTheme {
 	aqua {
-	    set padding {0 0 0 -1}
+	    set padding 0
 	}
 
 	tileqt {
@@ -1298,11 +1333,12 @@ proc tablelist::createTileCombobox {w args} {
     if {$::tk_version < 8.5 || [regexp {^8\.5a[1-5]$} $::tk_patchLevel]} {
 	package require tile 0.6
     }
-    createTileAliases 
+    createTileAliases
 
     set win [getTablelistPath $w]
-    if {[string compare [getCurrentTheme] "aqua"] == 0} {
-	styleConfig Tablelist.TCombobox -borderwidth 2 -padding {0 0 0 -1}
+    variable currentTheme
+    if {[string compare $currentTheme "aqua"] == 0} {
+	styleConfig Tablelist.TCombobox -borderwidth 2 -padding 0
     } else {
 	styleConfig Tablelist.TCombobox -borderwidth 2 -padding 1
     }
@@ -1311,6 +1347,12 @@ proc tablelist::createTileCombobox {w args} {
 
     foreach {opt val} $args {
 	$w configure $opt $val
+    }
+
+    foreach event {<Map> <Unmap>} {
+	bind [ttk::combobox::PopdownWindow $w] $event {
+	    tablelist::invokeMotionHandler [tablelist::getTablelistPath %W]
+	}
     }
 }
 
@@ -1321,7 +1363,7 @@ proc tablelist::createTileCombobox {w args} {
 # editing in a tablelist widget.
 #------------------------------------------------------------------------------
 proc tablelist::createTileCheckbutton {w args} {
-    makeTileCheckbutton $w
+    makeTtkCkbtn $w
 
     foreach {opt val} $args {
 	switch -- $opt {
@@ -1344,7 +1386,7 @@ proc tablelist::createTileMenubutton {w args} {
     if {$::tk_version < 8.5 || [regexp {^8\.5a[1-5]$} $::tk_patchLevel]} {
 	package require tile 0.6
     }
-    createTileAliases 
+    createTileAliases
 
     styleConfig Tablelist.TMenubutton -anchor w -justify left -padding 1 \
 				      -relief raised
@@ -1371,15 +1413,35 @@ proc tablelist::createTileMenubutton {w args} {
 
     set menu $w.menu
     menu $menu -tearoff 0 -postcommand [list tablelist::postMenuCmd $w]
+    foreach event {<Map> <Unmap>} {
+	bind $menu $event {
+	    tablelist::invokeMotionHandler [tablelist::getTablelistPath %W]
+	}
+    }
+    bind $menu <Map> {+ focus %W }
     if {[string compare $winSys "x11"] == 0} {
 	$menu configure -background $data(-background) \
 			-foreground $data(-foreground) \
+			-selectcolor $data(-foreground) \
 			-activebackground $data(-selectbackground) \
 			-activeforeground $data(-selectforeground) \
 			-activeborderwidth $data(-selectborderwidth)
     }
 
     $w configure -menu $menu
+}
+
+#------------------------------------------------------------------------------
+# tablelist::createBWidgetSpinBox
+#
+# Creates a BWidget SpinBox widget of the given path name for interactive cell
+# editing in a tablelist widget.
+#------------------------------------------------------------------------------
+proc tablelist::createBWidgetSpinBox {w args} {
+    eval [list SpinBox $w -editable 1 -width 0] $args
+
+    variable scalingpct
+    scaleutilmisc::scaleBWidgetSpinBox $w $scalingpct
 }
 
 #------------------------------------------------------------------------------
@@ -1390,7 +1452,9 @@ proc tablelist::createTileMenubutton {w args} {
 #------------------------------------------------------------------------------
 proc tablelist::createBWidgetComboBox {w args} {
     eval [list ComboBox $w -editable 1 -width 0] $args
-    ComboBox::_create_popup $w
+
+    variable scalingpct
+    scaleutilmisc::scaleBWidgetComboBox $w $scalingpct
 
     foreach event {<Map> <Unmap>} {
 	bind $w.shell.listb $event {
@@ -1400,13 +1464,43 @@ proc tablelist::createBWidgetComboBox {w args} {
 }
 
 #------------------------------------------------------------------------------
+# tablelist::createIncrDateentry
+#
+# Creates an [incr Widgets] dateentry of the given path name for interactive
+# cell editing in a tablelist widget.
+#------------------------------------------------------------------------------
+proc tablelist::createIncrDateentry {w args} {
+    eval [list iwidgets::dateentry $w] $args
+
+    variable scalingpct
+    scaleutilmisc::scaleIncrDateentry $w $scalingpct
+}
+
+#------------------------------------------------------------------------------
+# tablelist::createIncrTimeentry
+#
+# Creates an [incr Widgets] timeentry of the given path name for interactive
+# cell editing in a tablelist widget.
+#------------------------------------------------------------------------------
+proc tablelist::createIncrTimeentry {w args} {
+    eval [list iwidgets::timeentry $w] $args
+
+    variable scalingpct
+    scaleutilmisc::scaleIncrTimeentry $w $scalingpct
+}
+
+#------------------------------------------------------------------------------
 # tablelist::createIncrCombobox
 #
 # Creates an [incr Widgets] combobox of the given path name for interactive
 # cell editing in a tablelist widget.
 #------------------------------------------------------------------------------
 proc tablelist::createIncrCombobox {w args} {
-    eval [list iwidgets::combobox $w -dropdown 1 -editable 1 -width 0] $args
+    eval [list iwidgets::combobox $w -dropdown 1 -editable 1 -grab global \
+	  -width 0] $args
+
+    variable scalingpct
+    scaleutilmisc::scaleIncrCombobox $w $scalingpct
 
     foreach event {<Map> <Unmap>} {
 	bind [$w component list] $event {+
@@ -1428,7 +1522,11 @@ proc tablelist::createIncrCombobox {w args} {
 # editing in a tablelist widget.
 #------------------------------------------------------------------------------
 proc tablelist::createOakleyCombobox {w args} {
-    eval [list combobox::combobox $w -editable 1 -width 0] $args
+    eval [list combobox::combobox $w -editable 1 -elementborderwidth 1 \
+	  -width 0] $args
+
+    variable scalingpct
+    scaleutilmisc::scaleOakleyComboboxArrow $scalingpct
 
     foreach event {<Map> <Unmap>} {
 	bind $w.top.list $event {
@@ -1483,9 +1581,11 @@ proc tablelist::doEditCell {win row col restore {cmd ""} {charPos -1}} {
     seeCell $win $row $col
     set netRowHeight [lindex [bboxSubCmd $win $row] 3]
     set frameHeight [expr {$netRowHeight + 6}]	;# because of the -pady -3 below
+    set frameWidth 7				;# because of the -padx -3 below
     set f $data(bodyFrm)
     tk::frame $f -borderwidth 0 -container 0 -height $frameHeight \
-		 -highlightthickness 0 -relief flat -takefocus 0
+		 -highlightthickness 0 -relief flat -takefocus 0 \
+		 -width $frameWidth
     catch {$f configure -padx 0 -pady 0}
     bindtags $f [lreplace [bindtags $f] 1 1 $data(editwinTag) TablelistEdit]
     set name [getEditWindow $win $row $col]
@@ -1537,7 +1637,7 @@ proc tablelist::doEditCell {win row col restore {cmd ""} {charPos -1}} {
 	array set tablelist::ns${tablelist::W}::data \
 	      {editKey ""  editRow -1  editCol -1  inEditWin 0  prevCell -1,-1}
 	if {[catch {tk::CancelRepeat}] != 0} {
-	    tkCancelRepeat 
+	    tkCancelRepeat
 	}
 	if {[catch {ttk::CancelRepeat}] != 0} {
 	    catch {tile::CancelRepeat}
@@ -1581,9 +1681,10 @@ proc tablelist::doEditCell {win row col restore {cmd ""} {charPos -1}} {
     $b mark set editMark $editIdx
 
     #
-    # Insert the binding tags $data(editwinTag) and TablelistEdit
-    # into the list of binding tags of some components
-    # of w, just before the respective path names
+    # Insert the binding tags $data(editwinTag) and TablelistEdit into the list
+    # of binding tags of some components of w, just before the respective path
+    # names.  In addition, insert the binding tag TablelistEditBreak into the
+    # same lists of binding tags, just after the respective widget class names
     #
     if {$isMentry} {
 	set compList [$w entries]
@@ -1596,7 +1697,17 @@ proc tablelist::doEditCell {win row col restore {cmd ""} {charPos -1}} {
 	set bindTags [bindtags $comp]
 	set idx [lsearch -exact $bindTags $comp]
 	bindtags $comp [linsert $bindTags $idx $data(editwinTag) TablelistEdit]
+
+	set bindTags [bindtags $comp]
+	set idx [lsearch -exact $bindTags [winfo class $comp]]
+	bindtags $comp [linsert $bindTags [incr idx] TablelistEditBreak]
     }
+
+    #
+    # Set the -exportselection option to 0 after saving its original value
+    #
+    set data(exportselOrig) $data(-exportselection)
+    doConfig $win -exportselection 0
 
     #
     # Restore or initialize some of the edit window's data
@@ -1732,64 +1843,7 @@ proc tablelist::doEditCell {win row col restore {cmd ""} {charPos -1}} {
     }
 
     if {$data(-autofinishediting)} {
-	#
-	# Make sure that selecting a combobox or menu
-	# entry will automatically finish the editing
-	#
-	switch $class {
-	    TCombobox {
-		bind $w <<ComboboxSelected>> \
-		    {+ [tablelist::getTablelistPath %W] finishediting}
-	    }
-
-	    ComboBox {					;# BWidget
-		set cmd [$w cget -modifycmd]
-		$w configure -modifycmd [format {
-		    eval [list %s]
-		    after 0 [list %s finishediting]
-		} $cmd $win]
-	    }
-
-	    Combobox {					;# IWidgets or Oakley
-		if {[catch {$w cget -selectioncommand} cmd] == 0} {  ;# IWidgets
-		    set cmd [$w cget -selectioncommand]
-		    $w configure -selectioncommand [format {
-			eval [list %s]
-			after 0 [list %s finishediting]
-		    } $cmd $win]
-		} elseif {[catch {$w cget -command} cmd] == 0} {     ;# Oakley
-		    if {[string length $cmd] == 0} {
-			proc ::tablelist::comboboxCmd {w val} [format {
-			    after 0 [list %s finishediting]
-			} $win]
-		    } else {
-			proc ::tablelist::comboboxCmd {w val} [format {
-			    eval [list %s $w $val]
-			    after 0 [list %s finishediting]
-			} $cmd $win]
-		    }
-		    $w configure -command ::tablelist::comboboxCmd
-		}
-	    }
-
-	    Menubutton -
-	    TMenubutton {
-		set menu [$w cget -menu]
-		set last [$menu index last]
-		if {[string compare $last "none"] != 0} {
-		    for {set idx 0} {$idx <= $last} {incr idx} {
-			if {[regexp {^(command|checkbutton|radiobutton)$} \
-			     [$menu type $idx]]} {
-			    set cmd [$menu entrycget $idx -command]
-			    $menu entryconfigure $idx -command [format {
-				eval [list %s]
-				after 0 [list %s finishediting]
-			    } $cmd $win]
-			}
-		    }
-		}
-	    }
-	}
+	configAutoFinishEditing $win $w
     }
 
     #
@@ -1888,6 +1942,11 @@ proc tablelist::doCancelEditing win {
     set userData [list $row $col]
     genVirtualEvent $win <<TablelistCellRestored>> $userData
 
+    #
+    # Restore the value of the -exportselection option
+    #
+    doConfig $win -exportselection $data(exportselOrig)
+
     updateViewWhenIdle $win
     return ""
 }
@@ -1900,7 +1959,14 @@ proc tablelist::doCancelEditing win {
 # just edited after destroying the edit window if the latter's content was not
 # rejected.  Returns 1 on normal termination and 0 otherwise.
 #------------------------------------------------------------------------------
-proc tablelist::doFinishEditing win {
+proc tablelist::doFinishEditing {win {destroy 1}} {
+    #
+    # This might be an "after 500" callback; check whether the window exists
+    #
+    if {[destroyed $win]} {
+	return 0
+    }
+
     upvar ::tablelist::ns${win}::data data
     if {[set row $data(editRow)] < 0} {
 	return 1
@@ -1940,7 +2006,6 @@ proc tablelist::doFinishEditing win {
     #
     if {$data(rejected)} {
 	if {[winfo exists $data(bodyFrm)]} {
-	    seeCell $win $row $col
 	    if {[string compare [winfo class $w] "Mentry"] != 0} {
 		focus $data(editFocus)
 	    }
@@ -1952,27 +2017,39 @@ proc tablelist::doFinishEditing win {
 	set result 0
     } else {
 	if {[winfo exists $data(bodyFrm)]} {
-	    destroy $data(bodyFrm)
-	    set key [lindex $item end]
-	    foreach opt {-window -image} {
-		if {[info exists data($key,$col$opt)]} {
-		    doCellConfig $row $col $win $opt $data($key,$col$opt)
-		    break
+	    if {$destroy} {
+		destroy $data(bodyFrm)
+		set key [lindex $item end]
+		foreach opt {-window -image} {
+		    if {[info exists data($key,$col$opt)]} {
+			doCellConfig $row $col $win $opt $data($key,$col$opt)
+			break
+		    }
 		}
 	    }
+
 	    doCellConfig $row $col $win -text $text
 	    set result 1
+
+	    #
+	    # Restore the value of the -exportselection option
+	    #
+	    doConfig $win -exportselection $data(exportselOrig)
 	} else {
 	    set result 0
 	}
 
-	focus $data(body)
+	if {$destroy} {
+	    focus $data(body)
+	    updateViewWhenIdle $win
+	}
 
-	set userData [list $row $col]
-	genVirtualEvent $win <<TablelistCellUpdated>> $userData
+	if {[string compare $text $data(origEditText)] != 0} {
+	    set userData [list $row $col]
+	    genVirtualEvent $win <<TablelistCellUpdated>> $userData
+	}
     }
 
-    updateViewWhenIdle $win
     return $result
 }
 
@@ -2016,6 +2093,10 @@ proc tablelist::adjustTextHeight {w args} {
     if {[winfo exists $path]} {
 	[winfo parent $path] configure -height [winfo reqheight $path]
     }
+
+    set win [getTablelistPath $path]
+    upvar ::tablelist::ns${win}::data data
+    seeRow $win $data(editRow)
 }
 
 #------------------------------------------------------------------------------
@@ -2090,6 +2171,69 @@ proc tablelist::setMentryCursor {w number} {
 }
 
 #------------------------------------------------------------------------------
+# tablelist::configAutoFinishEditing
+#
+# Makes sure that selecting an entry of the combobox or menu widget w used for
+# interactive cell editing in the tablelist widget win will automatically
+# finish the editing.
+#------------------------------------------------------------------------------
+proc tablelist::configAutoFinishEditing {win w} {
+    switch [winfo class $w] {
+	TCombobox {
+	    bind $w <<ComboboxSelected>> \
+		{+ [tablelist::getTablelistPath %W] finishediting}
+	}
+
+	ComboBox {					;# BWidget
+	    set cmd [$w cget -modifycmd]
+	    $w configure -modifycmd [format {
+		eval [list %s]
+		after 0 [list %s finishediting]
+	    } $cmd $win]
+	}
+
+	Combobox {					;# IWidgets or Oakley
+	    if {[catch {$w cget -selectioncommand} cmd] == 0} {	;# IWidgets
+		$w configure -selectioncommand [format {
+		    eval [list %s]
+		    after 0 [list %s finishediting]
+		} $cmd $win]
+	    } elseif {[catch {$w cget -command} cmd] == 0} {	;# Oakley
+		if {[string length $cmd] == 0} {
+		    proc ::tablelist::comboboxCmd {w val} [format {
+			after 0 [list %s finishediting]
+		    } $win]
+		} else {
+		    proc ::tablelist::comboboxCmd {w val} [format {
+			eval [list %s $w $val]
+			after 0 [list %s finishediting]
+		    } $cmd $win]
+		}
+		$w configure -command ::tablelist::comboboxCmd
+	    }
+	}
+
+	Menubutton -
+	TMenubutton {
+	    set menu [$w cget -menu]
+	    set last [$menu index last]
+	    if {[string compare $last "none"] != 0} {
+		for {set idx 0} {$idx <= $last} {incr idx} {
+		    if {[regexp {^(command|checkbutton|radiobutton)$} \
+			 [$menu type $idx]]} {
+			set cmd [$menu entrycget $idx -command]
+			$menu entryconfigure $idx -command [format {
+			    eval [list %s]
+			    after 0 [list %s finishediting]
+			} $cmd $win]
+		    }
+		}
+	    }
+	}
+    }
+}
+
+#------------------------------------------------------------------------------
 # tablelist::adjustEditWindow
 #
 # Adjusts the width and the horizontal padding of the frame containing the edit
@@ -2128,6 +2272,30 @@ proc tablelist::adjustEditWindow {win pixels} {
 	setImgLabelWidth $data(body) editAuxMark $auxWidth
     }
 
+    switch [winfo class $data(bodyFrmEd)] {
+	Text -
+	Ctext { set amount 4 }
+	TEntry {
+	    variable currentTheme
+	    if {[string compare $currentTheme "aqua"] == 0} {
+		variable newAquaSupport
+		set amount [expr {$newAquaSupport ? 7 : 5}]
+	    } else {
+		set amount 3
+	    }
+	}
+	Mentry {
+	    variable currentTheme
+	    if {$::mentry::usingTile &&
+		[string compare $currentTheme "aqua"] == 0} {
+		set amount 5
+	    } else {
+		set amount 3
+	    }
+	}
+	default { set amount 3 }
+    }
+
     #
     # Compute an appropriate width and horizontal
     # padding for the frame containing the edit window
@@ -2138,23 +2306,13 @@ proc tablelist::adjustEditWindow {win pixels} {
 	[set reqWidth [winfo reqwidth $data(bodyFrmEd)]] <=
 	$pixels + 2*$data(charWidth)} {
 	set width $reqWidth
-	set padX [expr {$reqWidth <= $pixels ? -3 : ($pixels - $reqWidth) / 2}]
+	set padX [expr {$reqWidth <= $pixels ?
+			-$amount : ($pixels - $reqWidth) / 2}]
     } else {
 	if {$editWin($name-usePadX)} {
 	    set amount $data(charWidth)
-	} else {
-	    switch -- $name {
-		text { set amount 4 }
-		ttk::entry {
-		    if {[string compare [getCurrentTheme] "aqua"] == 0} {
-			set amount 5
-		    } else {
-			set amount 3
-		    }
-		}
-		default { set amount 3 }
-	    }
 	}
+
 	set width [expr {$pixels + 2*$amount}]
 	set padX -$amount
     }
@@ -2252,6 +2410,7 @@ proc tablelist::saveEditData win {
 proc tablelist::saveEditConfigOpts w {
     regexp {^(.+)\.body\.f\.(e.*)$} $w dummy win tail
     upvar ::tablelist::ns${win}::data data
+    set isMentry [expr {[string compare [winfo class $w] "Mentry"] == 0}]
 
     foreach configSet [$w configure] {
 	if {[llength $configSet] != 2} {
@@ -2259,7 +2418,10 @@ proc tablelist::saveEditConfigOpts w {
 	    set current [lindex $configSet 4]
 	    if {[string compare $default $current] != 0} {
 		set opt [lindex $configSet 0]
-		set data($tail$opt) $current
+		if {[string compare $opt "-class"] != 0 &&
+		    !(!$isMentry && [string compare $opt "-body"] == 0)} {
+		    set data($tail$opt) $current
+		}
 	    }
 	}
     }
@@ -2384,13 +2546,10 @@ proc tablelist::restoreEditData win {
 proc tablelist::restoreEditConfigOpts w {
     regexp {^(.+)\.body\.f\.(e.*)$} $w dummy win tail
     upvar ::tablelist::ns${win}::data data
-    set isMentry [expr {[string compare [winfo class $w] "Mentry"] == 0}]
 
     foreach name [array names data $tail-*] {
 	set opt [string range $name [string last "-" $name] end]
-	if {!$isMentry || [string compare $opt "-body"] != 0} {
-	    $w configure $opt $data($name)
-	}
+	$w configure $opt $data($name)
 	unset data($name)
     }
 
@@ -2461,8 +2620,6 @@ proc tablelist::defineTablelistEdit {} {
 	    set tablelist::priv(y) ""
 	    after cancel $tablelist::priv(afterId)
 	    set tablelist::priv(afterId) ""
-	    set tablelist::priv(justReleased) 1
-	    after 100 [list set tablelist::priv(justReleased) 0]
 	    set tablelist::priv(releasedInEditWin) 1
 	    if {!$tablelist::priv(clickedInEditWin)} {
 		if {$tablelist::priv(justClicked)} {
@@ -2526,15 +2683,15 @@ proc tablelist::defineTablelistEdit {} {
 	    tablelist::goToNextPrevCell %W -1 0 0
 	}
     }
-    foreach direction {Left Right} amount {-1 1} {
-	bind TablelistEdit <$direction> [format {
+    foreach dir {Left Right} amount {-1 1} {
+	bind TablelistEdit <$dir> [format {
 	    if {![tablelist::isKeyReserved %%W %%K]} {
 		tablelist::goLeftRight %%W %d
 	    }
 	} $amount]
     }
-    foreach direction {Up Down} amount {-1 1} {
-	bind TablelistEdit <$direction> [format {
+    foreach dir {Up Down} amount {-1 1} {
+	bind TablelistEdit <$dir> [format {
 	    if {![tablelist::isKeyReserved %%W %%K]} {
 		tablelist::goUpDown %%W %d
 	    }
@@ -2603,32 +2760,150 @@ proc tablelist::defineTablelistEdit {} {
 
     #
     # Define some bindings for the binding tag TablelistEdit that
-    # propagate the mousewheel events to the tablelist's body
+    # redirect the mouse wheel events to the containing scrollable
+    # frame (if any) or propagate them to the tablelist's body
     #
     catch {
 	bind TablelistEdit <MouseWheel> {
-	    if {![tablelist::hasMouseWheelBindings %W] &&
-		![tablelist::isComboTopMapped %W]} {
-		tablelist::genMouseWheelEvent \
-		    [[tablelist::getTablelistPath %W] bodypath] %D
+	    if {[tablelist::hasMouseWheelBindings %W y]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		set tablelist::w [$tablelist::W cget -ymousewheelwindow]
+		if {[winfo exists $tablelist::w] &&
+		    ![mwutil::hasFocus $tablelist::W]} {
+		    mwutil::genMouseWheelEvent $tablelist::w \
+			<MouseWheel> %X %Y %D
+		    break
+		}
+	    } elseif {![tablelist::isComboTopMapped %W] &&
+		      ![tablelist::isMenuPosted %W]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		mwutil::genMouseWheelEvent [$tablelist::W bodypath] \
+		    <MouseWheel> %X %Y %D
 	    }
 	}
+	bind TablelistEditBreak <MouseWheel> { break }
+
 	bind TablelistEdit <Option-MouseWheel> {
-	    if {![tablelist::hasMouseWheelBindings %W] &&
-		![tablelist::isComboTopMapped %W]} {
-		tablelist::genOptionMouseWheelEvent \
-		    [[tablelist::getTablelistPath %W] bodypath] %D
+	    if {[tablelist::hasMouseWheelBindings %W y]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		set tablelist::w [$tablelist::W cget -ymousewheelwindow]
+		if {[winfo exists $tablelist::w] &&
+		    ![mwutil::hasFocus $tablelist::W]} {
+		    mwutil::genMouseWheelEvent $tablelist::w \
+			<Option-MouseWheel> %X %Y %D
+		    break
+		}
+	    } elseif {![tablelist::isComboTopMapped %W] &&
+		      ![tablelist::isMenuPosted %W]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		mwutil::genMouseWheelEvent [$tablelist::W bodypath] \
+		    <Option-MouseWheel> %X %Y %D
 	    }
 	}
+	bind TablelistEditBreak <Option-MouseWheel> { break }
     }
-    foreach detail {4 5} {
-	bind TablelistEdit <Button-$detail> [format {
-	    if {![tablelist::hasMouseWheelBindings %%W] &&
-		![tablelist::isComboTopMapped %%W]} {
-		event generate \
-		    [[tablelist::getTablelistPath %%W] bodypath] <Button-%s>
+    catch {
+	bind TablelistEdit <Shift-MouseWheel> {
+	    if {[tablelist::hasMouseWheelBindings %W x]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		set tablelist::w [$tablelist::W cget -xmousewheelwindow]
+		if {[winfo exists $tablelist::w] &&
+		    ![mwutil::hasFocus $tablelist::W]} {
+		    mwutil::genMouseWheelEvent $tablelist::w \
+			<Shift-MouseWheel> %X %Y %D
+		    break
+		}
+	    } elseif {![tablelist::isComboTopMapped %W] &&
+		      ![tablelist::isMenuPosted %W]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		mwutil::genMouseWheelEvent [$tablelist::W bodypath] \
+		    <Shift-MouseWheel> %X %Y %D
 	    }
-	} $detail]
+	}
+	bind TablelistEditBreak <Shift-MouseWheel> { break }
+
+	bind TablelistEdit <Shift-Option-MouseWheel> {
+	    if {[tablelist::hasMouseWheelBindings %W x]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		set tablelist::w [$tablelist::W cget -xmousewheelwindow]
+		if {[winfo exists $tablelist::w] &&
+		    ![mwutil::hasFocus $tablelist::W]} {
+		    mwutil::genMouseWheelEvent $tablelist::w \
+			<Shift-Option-MouseWheel> %X %Y %D
+		    break
+		}
+	    } elseif {![tablelist::isComboTopMapped %W] &&
+		      ![tablelist::isMenuPosted %W]} {
+		set tablelist::W [tablelist::getTablelistPath %W]
+		mwutil::genMouseWheelEvent [$tablelist::W bodypath] \
+		    <Shift-Option-MouseWheel> %X %Y %D
+	    }
+	}
+	bind TablelistEditBreak <Shift-Option-MouseWheel> { break }
+    }
+    if {[string compare $winSys "x11"] == 0} {
+	foreach detail {4 5} {
+	    bind TablelistEdit <Button-$detail> [format {
+		if {[tablelist::hasMouseWheelBindings %%W y]} {
+		    set tablelist::W [tablelist::getTablelistPath %%W]
+		    set tablelist::w [$tablelist::W cget -ymousewheelwindow]
+		    if {[winfo exists $tablelist::w] &&
+			![mwutil::hasFocus $tablelist::W]} {
+			event generate $tablelist::w <Button-%s> \
+			    -rootx %%X -rooty %%Y
+			break
+		    }
+		} elseif {![tablelist::isComboTopMapped %%W] &&
+			  ![tablelist::isMenuPosted %%W]} {
+		    set tablelist::W [tablelist::getTablelistPath %%W]
+		    event generate [$tablelist::W bodypath] <Button-%s> \
+			-rootx %%X -rooty %%Y
+		}
+	    } $detail $detail]
+	    bind TablelistEditBreak <Button-$detail> { break }
+
+	    bind TablelistEdit <Shift-Button-$detail> [format {
+		if {[tablelist::hasMouseWheelBindings %%W x]} {
+		    set tablelist::W [tablelist::getTablelistPath %%W]
+		    set tablelist::w [$tablelist::W cget -xmousewheelwindow]
+		    if {[winfo exists $tablelist::w] &&
+			![mwutil::hasFocus $tablelist::W]} {
+			event generate $tablelist::w <Shift-Button-%s> \
+			    -rootx %%X -rooty %%Y
+			break
+		    }
+		} elseif {![tablelist::isComboTopMapped %%W] &&
+			  ![tablelist::isMenuPosted %%W]} {
+		    set tablelist::W [tablelist::getTablelistPath %%W]
+		    event generate [$tablelist::W bodypath] <Shift-Button-%s> \
+			-rootx %%X -rooty %%Y
+		}
+	    } $detail $detail]
+	    bind TablelistEditBreak <Shift-Button-$detail> { break }
+	}
+
+	if {[string compare $::tk_patchLevel "8.7a3"] == 0} {
+	    foreach detail {6 7} {
+		bind TablelistEdit <Button-$detail> [format {
+		    if {[tablelist::hasMouseWheelBindings %%W x]} {
+			set tablelist::W [tablelist::getTablelistPath %%W]
+			set tablelist::w [$tablelist::W cget -xmousewheelwindow]
+			if {[winfo exists $tablelist::w] &&
+			    ![mwutil::hasFocus $tablelist::W]} {
+			    event generate $tablelist::w <Button-%s> \
+				-rootx %%X -rooty %%Y
+			    break
+			}
+		    } elseif {![tablelist::isComboTopMapped %%W] &&
+			      ![tablelist::isMenuPosted %%W]} {
+			set tablelist::W [tablelist::getTablelistPath %%W]
+			event generate [$tablelist::W bodypath] <Button-%s> \
+			    -rootx %%X -rooty %%Y
+		    }
+		} $detail $detail]
+		bind TablelistEditBreak <Button-$detail> { break }
+	    }
+	}
     }
 }
 
@@ -2650,12 +2925,12 @@ proc tablelist::insertChar {w str} {
 	return -code break ""
     } elseif {[regexp {^(T?Entry|TCombobox|T?Spinbox)$} $class]} {
 	if {[string match "T*" $class]} {
-	    if {[string length [info procs "::ttk::entry::Insert"]] != 0} {
+	    if {[llength [info procs "::ttk::entry::Insert"]] != 0} {
 		ttk::entry::Insert $w $str
 	    } else {
 		tile::entry::Insert $w $str
 	    }
-	} elseif {[string length [info procs "::tk::EntryInsert"]] != 0} {
+	} elseif {[llength [info procs "::tk::EntryInsert"]] != 0} {
 	    tk::EntryInsert $w $str
 	} else {
 	    tkEntryInsert $w $str
@@ -2902,30 +3177,6 @@ proc tablelist::goToPriorNextPage {w amount} {
 }
 
 #------------------------------------------------------------------------------
-# tablelist::genMouseWheelEvent
-#
-# Generates a <MouseWheel> event with the given delta on the widget w.
-#------------------------------------------------------------------------------
-proc tablelist::genMouseWheelEvent {w delta} {
-    set focus [focus -displayof $w]
-    focus $w
-    event generate $w <MouseWheel> -delta $delta
-    focus $focus
-}
-
-#------------------------------------------------------------------------------
-# tablelist::genOptionMouseWheelEvent
-#
-# Generates an <Option-MouseWheel> event with the given delta on the widget w.
-#------------------------------------------------------------------------------
-proc tablelist::genOptionMouseWheelEvent {w delta} {
-    set focus [focus -displayof $w]
-    focus $w
-    event generate $w <Option-MouseWheel> -delta $delta
-    focus $focus
-}
-
-#------------------------------------------------------------------------------
 # tablelist::isKeyReserved
 #
 # Checks whether the given keysym is used in the standard binding scripts
@@ -2945,18 +3196,22 @@ proc tablelist::isKeyReserved {w keySym} {
 # tablelist::hasMouseWheelBindings
 #
 # Checks whether the given widget, which is assumed to be the edit window or
-# one of its descendants, has mouse wheel bindings.
+# one of its descendants, has mouse wheel bindings for the given axis (x or y).
 #------------------------------------------------------------------------------
-proc tablelist::hasMouseWheelBindings w {
-    if {[regexp {^(Text|Ctext|TCombobox|TSpinbox)$} [winfo class $w]]} {
-	return 1
+proc tablelist::hasMouseWheelBindings {w axis} {
+    if {[string compare $axis "x"] == 0} {
+	return [regexp {^(Text|Ctext)$} [winfo class $w]]
     } else {
-	set bindTags [bindtags $w]
-	return [expr {([lsearch -exact $bindTags "MentryDateTime"] >= 0 ||
-		       [lsearch -exact $bindTags "MentryMeridian"] >= 0 ||
-		       [lsearch -exact $bindTags "MentryIPAddr"] >= 0 ||
-		       [lsearch -exact $bindTags "MentryIPv6Addr"] >= 0) &&
-		      ($mentry::version >= 3.2)}]
+	if {[regexp {^(Text|Ctext|TCombobox|TSpinbox)$} [winfo class $w]]} {
+	    return 1
+	} else {
+	    set bindTags [bindtags $w]
+	    return [expr {([lsearch -exact $bindTags "MentryDateTime"] >= 0 ||
+			   [lsearch -exact $bindTags "MentryMeridian"] >= 0 ||
+			   [lsearch -exact $bindTags "MentryIPAddr"] >= 0 ||
+			   [lsearch -exact $bindTags "MentryIPv6Addr"] >= 0) &&
+			  ($mentry::version >= 3.2)}]
+	}
     }
 }
 
@@ -2973,6 +3228,23 @@ proc tablelist::isComboTopMapped w {
     set par [winfo parent $w]
     if {[string compare [winfo class $par] "Combobox"] == 0 &&
 	[winfo exists $par.top] && [winfo ismapped $par.top]} {
+	return 1
+    } else {
+	return 0
+    }
+}
+
+#------------------------------------------------------------------------------
+# tablelist::isMenuPosted
+#
+# Checks whether the given widget is a menubutton having its menu posted.  This
+# is needed in our binding scripts for mouse wheel events to make sure that
+# they won't generate an endless loop, because of the global grab set on the
+# menu when the latter is posted.
+#------------------------------------------------------------------------------
+proc tablelist::isMenuPosted w {
+    if {[string compare [winfo class $w] "Menubutton"] == 0 &&
+	[winfo ismapped [$w cget -menu]]} {
 	return 1
     } else {
 	return 0

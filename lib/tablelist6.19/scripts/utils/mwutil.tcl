@@ -5,7 +5,7 @@
 #   - Namespace initialization
 #   - Public utility procedures
 #
-# Copyright (c) 2000-2018  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
+# Copyright (c) 2000-2022  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
 #==============================================================================
 
 package require Tk 8
@@ -19,8 +19,13 @@ namespace eval mwutil {
     #
     # Public variables:
     #
-    variable version	2.10
-    variable library	[file dirname [info script]]
+    variable version	2.19
+    variable library
+    if {$::tcl_version >= 8.4} {
+	set library	[file dirname [file normalize [info script]]]
+    } else {
+	set library	[file dirname [info script]] ;# no "file normalize" yet
+    }
 
     #
     # Public procedures:
@@ -29,7 +34,9 @@ namespace eval mwutil {
 			defineKeyNav processTraversal focusNext focusPrev \
 			configureWidget fullConfigOpt fullOpt enumOpts \
 			configureSubCmd attribSubCmd hasattribSubCmd \
-			unsetattribSubCmd getScrollInfo
+			unsetattribSubCmd getScrollInfo getScrollInfo2 \
+			isScrollable scrollByUnits genMouseWheelEvent \
+			containsPointer hasFocus windowingSystem currentTheme
 
     #
     # Make modified versions of the procedures tk_focusNext and
@@ -44,13 +51,13 @@ namespace eval mwutil {
 	#
 	# Build the procedures focusNext and focusPrev
 	#
-	foreach direction {Next Prev} {
-	    set procBody [info body tk_focus$direction]
+	foreach dir {Next Prev} {
+	    set procBody [info body tk_focus$dir]
 	    regsub -all {winfo children} $procBody {getChildren $class} procBody
-	    proc focus$direction {w class} $procBody
+	    proc focus$dir {w class} $procBody
 	}
     }
-    makeFocusProcs 
+    makeFocusProcs
 
     #
     # Invoked in the procedures focusNext and focusPrev defined above:
@@ -63,6 +70,8 @@ namespace eval mwutil {
 	}
     }
 }
+
+package provide mwutil $mwutil::version
 
 #
 # Public utility procedures
@@ -140,7 +149,7 @@ proc mwutil::defineKeyNav class {
 #
 # Processes the given traversal event for the mega-widget of the specified
 # class containing the widget w if that mega-widget is not the only widget
-# receiving the focus during keyboard traversal within its top-level widget.
+# receiving the focus during keyboard traversal within its toplevel widget.
 #------------------------------------------------------------------------------
 proc mwutil::processTraversal {w class event} {
     set win [getAncestorByClass $w $class]
@@ -152,9 +161,9 @@ proc mwutil::processTraversal {w class event} {
     }
 
     if {[string compare $target $win] != 0} {
-	set focus [focus]
-	if {[string length $focus] != 0} {
-	    event generate $focus <<TraverseOut>>
+	set focusWin [focus -displayof $win]
+	if {[string length $focusWin] != 0} {
+	    event generate $focusWin <<TraverseOut>>
 	}
 
 	focus $target
@@ -179,7 +188,7 @@ proc mwutil::configureWidget {win configSpecsName configCmd cgetCmd \
     # Process the command-line arguments
     #
     set cmdLineOpts {}
-    set savedVals {}
+    set savedOptValPairs {}
     set failed 0
     set count [llength $optValPairs]
     foreach {opt val} $optValPairs {
@@ -194,7 +203,7 @@ proc mwutil::configureWidget {win configSpecsName configCmd cgetCmd \
 	}
 	set opt $result
 	lappend cmdLineOpts $opt
-	lappend savedVals [eval $cgetCmd [list $win $opt]]
+	lappend savedOptValPairs $opt [eval $cgetCmd [list $win $opt]]
 	if {[catch {eval $configCmd [list $win $opt $val]} result] != 0} {
 	    set failed 1
 	    break
@@ -206,7 +215,7 @@ proc mwutil::configureWidget {win configSpecsName configCmd cgetCmd \
 	#
 	# Restore the saved values
 	#
-	foreach opt $cmdLineOpts val $savedVals {
+	foreach {opt val} $savedOptValPairs {
 	    eval $configCmd [list $win $opt $val]
 	}
 
@@ -498,7 +507,9 @@ proc mwutil::getScrollInfo argList {
 	    wrongNumArgs "scroll number units|pages"
 	}
 
-	set number [format "%d" [lindex $argList 1]]
+	set number [lindex $argList 1]
+	format "%f" $number   ;# floating-point number check with error message
+	set number [expr {int($number > 0 ? ceil($number) : floor($number))}]
 	set what [lindex $argList 2]
 	if {[string first $what "units"] == 0} {
 	    return [list scroll $number units]
@@ -509,5 +520,170 @@ proc mwutil::getScrollInfo argList {
 	}
     } else {
 	return -code error "unknown option \"$opt\": must be moveto or scroll"
+    }
+}
+
+#------------------------------------------------------------------------------
+# mwutil::getScrollInfo2
+#
+# Parses a list of arguments of the form "moveto <fraction>" or "scroll
+# <number> units|pages" and returns the corresponding list consisting of two or
+# three properly formatted elements.
+#------------------------------------------------------------------------------
+proc mwutil::getScrollInfo2 {cmd argList} {
+    set argCount [llength $argList]
+    set opt [lindex $argList 0]
+
+    if {[string first $opt "moveto"] == 0} {
+	if {$argCount != 2} {
+	    wrongNumArgs "$cmd moveto fraction"
+	}
+
+	set fraction [lindex $argList 1]
+	format "%f" $fraction ;# floating-point number check with error message
+	return [list moveto $fraction]
+    } elseif {[string first $opt "scroll"] == 0} {
+	if {$argCount != 3} {
+	    wrongNumArgs "$cmd scroll number units|pages"
+	}
+
+	set number [lindex $argList 1]
+	format "%f" $number   ;# floating-point number check with error message
+	set number [expr {int($number > 0 ? ceil($number) : floor($number))}]
+	set what [lindex $argList 2]
+	if {[string first $what "units"] == 0} {
+	    return [list scroll $number units]
+	} elseif {[string first $what "pages"] == 0} {
+	    return [list scroll $number pages]
+	} else {
+	    return -code error "bad argument \"$what\": must be units or pages"
+	}
+    } else {
+	return -code error "unknown option \"$opt\": must be moveto or scroll"
+    }
+}
+
+#------------------------------------------------------------------------------
+# mwutil::isScrollable
+#
+# Returns a boolean value indicating whether the widget w is scrollable along a
+# given axis (x or y).
+#------------------------------------------------------------------------------
+proc mwutil::isScrollable {w axis} {
+    set viewCmd ${axis}view
+    return [expr {
+	[catch {$w cget -${axis}scrollcommand}] == 0 &&
+	[catch {$w $viewCmd} view] == 0 &&
+	[catch {$w $viewCmd moveto [lindex $view 0]}] == 0 &&
+	[catch {$w $viewCmd scroll 0 units}] == 0 &&
+	[catch {$w $viewCmd scroll 0 pages}] == 0
+    }]
+}
+
+#------------------------------------------------------------------------------
+# mwutil::scrollByUnits
+#
+# Scrolls the widget w along a given axis (x or y) by units.  The number of
+# units is obtained by converting the fraction built from the last two
+# arguments to an integer, rounded away from 0.
+#------------------------------------------------------------------------------
+proc mwutil::scrollByUnits {w axis delta divisor} {
+    set number [expr {$delta/$divisor}]
+    set number [expr {int($number > 0 ? ceil($number) : floor($number))}]
+    $w ${axis}view scroll $number units
+}
+
+#------------------------------------------------------------------------------
+# mwutil::genMouseWheelEvent
+#
+# Generates a mouse wheel event with the given root coordinates and delta on
+# the widget w.
+#------------------------------------------------------------------------------
+proc mwutil::genMouseWheelEvent {w event rootX rootY delta} {
+    set needsFocus [expr {($::tk_version < 8.6 ||
+	[package vcompare $::tk_patchLevel "8.6b2"] < 0) &&
+	[string compare $::tcl_platform(platform) "windows"] == 0}]
+
+    if {$needsFocus} {
+	set focusWin [focus -displayof $w]
+	focus $w
+    }
+
+    event generate $w $event -rootx $rootX -rooty $rootY -delta $delta
+
+    if {$needsFocus} {
+	focus $focusWin
+    }
+}
+
+#------------------------------------------------------------------------------
+# mwutil::containsPointer
+#
+# Returns a boolean value indicating whether the widget w contains the mouse
+# pointer.
+#------------------------------------------------------------------------------
+proc mwutil::containsPointer w {
+    if {![winfo viewable $w]} {
+	return 0
+    }
+
+    foreach {ptrX ptrY} [winfo pointerxy $w] {}
+    set wX [winfo rootx $w]
+    set wY [winfo rooty $w]
+    return [expr {
+	$ptrX >= $wX && $ptrX < $wX + [winfo width  $w] &&
+	$ptrY >= $wY && $ptrY < $wY + [winfo height $w]
+    }]
+}
+
+#------------------------------------------------------------------------------
+# mwutil::hasFocus
+#
+# Returns a boolean value indicating whether the focus window is (a descendant
+# of) the widget w and has the same toplevel.
+#------------------------------------------------------------------------------
+proc mwutil::hasFocus w {
+    set focusWin [focus -displayof $w]
+    if {[string length $focusWin] == 0} {
+	return 0
+    }
+
+    return [expr {
+	([string compare $w "."] == 0 || [string first $w. $focusWin.] == 0) &&
+	[string compare [winfo toplevel $w] [winfo toplevel $focusWin]] == 0
+    }]
+}
+
+#------------------------------------------------------------------------------
+# mwutil::windowingSystem
+#
+# Returns the windowing system ("x11", "win32", "classic", or "aqua").
+#------------------------------------------------------------------------------
+proc mwutil::windowingSystem {} {
+    if {[catch {tk windowingsystem} winSys] != 0} {
+	switch $::tcl_platform(platform) {
+	    unix	{ set winSys x11 }
+	    windows	{ set winSys win32 }
+	    macintosh	{ set winSys classic }
+	}
+    }
+
+    return $winSys
+}
+
+#------------------------------------------------------------------------------
+# mwutil::currentTheme
+#
+# Returns the current tile theme.
+#------------------------------------------------------------------------------
+proc mwutil::currentTheme {} {
+    if {[catch {ttk::style theme use} result] == 0} {
+	return $result
+    } elseif {[info exists ::ttk::currentTheme]} {
+	return $::ttk::currentTheme
+    } elseif {[info exists ::tile::currentTheme]} {
+	return $::tile::currentTheme
+    } else {
+	return ""
     }
 }

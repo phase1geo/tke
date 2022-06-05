@@ -7,7 +7,7 @@
 #   - Public procedures related to sorting
 #   - Private procedures implementing the sorting
 #
-# Copyright (c) 2000-2018  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
+# Copyright (c) 2000-2022  Csaba Nemethi (E-mail: csaba.nemethi@t-online.de)
 #==============================================================================
 
 #
@@ -283,7 +283,13 @@ proc tablelist::sortItems {win parentKey sortColList sortOrderList} {
 
 	set canvasWidth $data(arrowWidth)
 	if {[llength $data(arrowColList)] > 1} {
-	    incr canvasWidth 6
+	    variable scalingpct
+	    if {$scalingpct > 150} {
+		variable centerArrows
+		incr canvasWidth [expr {$centerArrows ? 7 : 9}]
+	    } else {
+		incr canvasWidth 6
+	    }
 	}
 	foreach col $data(arrowColList) {
 	    #
@@ -353,14 +359,21 @@ proc tablelist::sortItems {win parentKey sortColList sortOrderList} {
     condUpdateListVar $win
 
     #
+    # Remove the tags elidedRow and hiddenRow from all lines between
+    # 1 and $lastDescLine.  For the lines between $firstDescLine and
+    # $lastDescLine this is needed because of the sorting, and for the
+    # others because it improves the performance quite significantly.
+    #
+    variable pu
+    set w $data(body)
+    $w tag remove elidedRow 1.0 $lastDescLine.end+1$pu
+    $w tag remove hiddenRow 1.0 $lastDescLine.end+1$pu
+
+    #
     # Delete the items from the body text widget and insert the sorted ones.
     # Interestingly, for a large number of items it is much more efficient
     # to empty each line individually than to invoke a global delete command.
     #
-    variable pu
-    set w $data(body)
-    $w tag remove elidedRow $firstDescLine.0 $lastDescLine.end+1$pu
-    $w tag remove hiddenRow $firstDescLine.0 $lastDescLine.end+1$pu
     for {set line $firstDescLine} {$line <= $lastDescLine} {incr line} {
 	$w delete $line.0 $line.end
     }
@@ -534,6 +547,25 @@ proc tablelist::sortItems {win parentKey sortColList sortOrderList} {
 	    }
 	}
 
+	#
+	# Restore the tags elidedRow and hiddenRow for this row if needed
+	#
+	if {[info exists data($key-elide)]} {
+	    $w tag add elidedRow $line.0 $line.end+1$pu
+	}
+	if {[info exists data($key-hide)]} {
+	    $w tag add hiddenRow $line.0 $line.end+1$pu
+	}
+    }
+
+    #
+    # Restore the tags elidedRow and hiddenRow
+    # for the rows between 0 and $parentRow, too
+    #
+    for {set row 0; set line 1} {$row <= $parentRow} \
+	{set row $line; incr line} {
+	set item [lindex $data(itemList) $row]
+	set key [lindex $item end]
 	if {[info exists data($key-elide)]} {
 	    $w tag add elidedRow $line.0 $line.end+1$pu
 	}
@@ -639,7 +671,7 @@ proc tablelist::sortItems {win parentKey sortColList sortOrderList} {
 proc tablelist::sortChildren {win parentKey sortCmd itemListName} {
     upvar $itemListName itemList ::tablelist::ns${win}::data data
 
-    set childKeyList $data($parentKey-children)
+    set childKeyList $data($parentKey-childList)
     if {[llength $childKeyList] == 0} {
 	return ""
     }
@@ -656,11 +688,11 @@ proc tablelist::sortChildren {win parentKey sortCmd itemListName} {
     #
     # Update the lists and invoke the procedure recursively for the children
     #
-    set data($parentKey-children) {}
+    set data($parentKey-childList) {}
     foreach item $childItemList {
 	lappend itemList $item
 	set childKey [lindex $item end]
-	lappend data($parentKey-children) $childKey
+	lappend data($parentKey-childList) $childKey
 
 	sortChildren $win $childKey $sortCmd itemList
     }
