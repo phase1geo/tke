@@ -136,6 +136,10 @@ proc set_auto_path {} {
 
 ######################################################################
 
+# Save paths to freewrap wrappers
+set lin_path [file join freewrap674 linux64 freewrap]
+set win_path [file join freewrap674 win64 freewrap.exe]
+
 # Set the main TKE directory
 set tke_dir [file normalize [file join [pwd] ..]]
 
@@ -154,32 +158,49 @@ if {[file exists tke.exe]} {
   file delete -force tke.exe
 }
 
-puts -nonewline "Running freewrap...  "
-flush stdout
+puts "Running freewrap...  "
 
 if {$::tcl_platform(platform) eq "windows"} {
 
-  # Generate the TKE executable using freewrap
-  if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
-    puts "Success!"
+  # Generate the Windows TKE executable using freewrap
+  if {![catch { exec -ignorestderr $win_path [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
+    puts "Windows Executable:  Success!"
   } else {
-    puts "Failed!"
+    puts "Windows Executable:  Failed!"
+    puts $rc
+  }
+
+  # Generate the Linux TKE exectuable using freewrap
+  if {![catch { exec -ignorestderr $win_path [file join $tke_dir lib tke.tcl] -debug -w $lin_path -f freewrap.files -1 } rc]} {
+    puts "Linux Executable:  Success!"
+  } else {
+    puts "Linux Executable:  Failed!"
     puts $rc
   }
 
 } else {
 
-  # Generate the TKE executable using freewrap in non-Windows environment
-  if {![catch { exec -ignorestderr [file join freewrap664 linux64 freewrap] [file join $tke_dir lib tke.tcl] -debug -w [file join freewrap664 win32 freewrap.exe] -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
-    puts "Success!"
+  # Generate the Windows TKE executable using freewrap in non-Windows environment
+  if {![catch { exec -ignorestderr $lin_path [file join $tke_dir lib tke.tcl] -debug -w $win_path -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
+    puts "Windows Executable:  Success!"
   } else {
-    puts "Failed!"
+    puts "Windows Executable:  Failed!"
+    puts $rc
+  }
+
+  # Generate the Linux TKE executable using freewrap in non-Windows environment
+  if {![catch { exec -ignorestderr $lin_path [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -1 } rc]} {
+    puts "Linux Executable:  Success!"
+  } else {
+    puts "Linux Executable:  Failed!"
     puts $rc
   }
 
 }
 
-puts "Moving tke.exe to $release_dir"
+puts "Moving tke.exe and tke to $release_dir"
 
-# Move the zipped file to the releases directory
+# Move the zipped files to the releases directory
 file rename -force tke.exe [file join $release_dir tke.exe]
+file rename -force tke [file join $release_dir tke]
+

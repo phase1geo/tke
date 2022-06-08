@@ -2223,6 +2223,22 @@ namespace eval ctext {
         }
         return 0
       }
+      selectend {
+        if {[llength $data($win,select_anchors)] > 0} {
+          if {[$win._t compare [lindex [$win._t tag ranges _mcursor] 0] < [lindex $data($win,select_anchors) 0]]} {
+            return "start"
+          } else {
+            return "end"
+          }
+        } elseif {[set sel [$win._t tag ranges sel]] ne ""} {
+          if {[$win._t compare insert == [lindex $sel 0]]} {
+            return "start"
+          } else {
+            return "end"
+          }
+        }
+        return "none"
+      }
       select {
         if {[llength $args] != 2} {
           return -code error "Incorrect number of arguments to ctext cursor select command"
@@ -6112,7 +6128,7 @@ namespace eval ctext {
     set opts(-num) 1
 
     for {set i 0} {$i < $num} {incr i} {
-      lassign [$win._t index [getindex_$type $win $cursor [array get opts]]] found next_cursor
+      lassign [getindex_$type $win $cursor [array get opts]] found next_cursor
       if {($next_cursor eq $cursor) || !$found || [$win._t compare $next_cursor == "$cursor lineend"]} {
         return -1  ;# $i
       }
