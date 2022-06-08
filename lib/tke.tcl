@@ -56,6 +56,7 @@ wm withdraw .
 
 set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib tablelist6.19] \
+                    [file join $tke_dir lib tablelist6.19 scripts utils] \
                     [file join $tke_dir lib ptwidgets1.2] \
                     [file join $tke_dir lib specl] \
                     [file join $tke_dir lib webdav] \
@@ -69,7 +70,7 @@ switch -glob $tcl_platform(os) {
     package require Tclx
   }
   Linux* {
-    package require Tclx
+    catch { package require Tclx }
   }
   *Win* {
     set auto_path [list [file join $tke_dir lib win tkdnd2.8-64] [file join $tke_dir lib win expect] {*}$auto_path]
@@ -305,10 +306,9 @@ proc check_file_for_import {fname} {
 
 }
 
-if {$tcl_platform(platform) eq "windows"} {
-
+catch {
   ######################################################################
-  # Since we don't use the TclX platform on Windows, we need to supply
+  # If we don't use the TclX platform, we need to supply
   # our own version of the lassign procedure.
   proc lassign {items args} {
 
@@ -322,6 +322,9 @@ if {$tcl_platform(platform) eq "windows"} {
     return [lrange $items $i end]
 
   }
+}
+
+if {$tcl_platform(platform) eq "windows"} {
 
   ######################################################################
   # Returns the window geometry for windows.
@@ -417,9 +420,11 @@ if {$tcl_platform(platform) eq "windows"} {
 
   }
 
-  # Set signal handlers on non-Windows platforms
-  signal trap TERM handle_signal
-  signal trap INT  handle_signal
+  # Set signal handlers on platforms that support them
+  catch {
+    signal trap TERM handle_signal
+    signal trap INT  handle_signal
+  }
 
 }
 
