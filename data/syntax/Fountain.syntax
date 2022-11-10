@@ -31,12 +31,12 @@ advanced {
   HighlightClass underline     {-fontopts underline}
   HighlightClass meta          {-fgtheme meta -meta 1}
   HighlightClass heading       {-fgtheme miscellaneous2 -fontopts h1}
-  HighlightClass section1      {-fgtheme punctuation    -fontopts h1}
-  HighlightClass section2      {-fgtheme punctuation    -fontopts h2}
-  HighlightClass section3      {-fgtheme punctuation    -fontopts h3}
-  HighlightClass section4      {-fgtheme punctuation    -fontopts h4}
-  HighlightClass section5      {-fgtheme punctuation    -fontopts h5}
-  HighlightClass section6      {-fgtheme punctuation    -fontopts h6}
+  HighlightClass section1      {-fgtheme strings -fontopts h1}
+  HighlightClass section2      {-fgtheme strings -fontopts h2}
+  HighlightClass section3      {-fgtheme strings -fontopts h3}
+  HighlightClass section4      {-fgtheme strings -fontopts h4}
+  HighlightClass section5      {-fgtheme strings -fontopts h5}
+  HighlightClass section6      {-fgtheme strings -fontopts h6}
   HighlightClass number        {-fgtheme numbers}
   HighlightClass lyrics        {-fgtheme miscellaneous3}
   HighlightClass parenthetical {-fgtheme miscellaneous1}
@@ -53,7 +53,6 @@ advanced {
   HighlightRegexp {^(#{1,6}).*$}                                      section
   HighlightRegexp {^(=)(.*)$}                                         synopses
   HighlightRegexp {(>).+?(<)}                                         center
-  HighlightRegexp {^\s*\S}                                            check_character
 
   HighlightProc scene_heading {
     array set vars $varlist
@@ -75,22 +74,10 @@ advanced {
     return [list [list parenthetical {*}$vars(0)] ""]
   } HighlightEndProc
 
-    HighlightProc character {
+  HighlightProc character {
     array set vars $varlist
     if {[string trim [$txt get "$row.0-1l linestart" "$row.0-1l lineend"]] eq ""} {
-      if {[string trim [$txt get "$row.0+1l linestart" "$row.0+1l lineend"]] ne ""} {
-        return [list [list character {*}$vars(0)] ""]
-      } else {
-        $txt tag add _pcharacter $row.[lindex $vars(0) 0] $row.[expr [lindex $vars(0) 1] + 1]
-      }
-    }
-    return ""
-  } HighlightEndProc
-
-  HighlightProc check_character {
-    if {[set epos [lassign [$txt tag prevrange _pcharacter $startpos "$row.0-1l linestart"] spos]] ne ""} {
-      $txt tag remove _pcharacter $spos $epos
-      return [list [list character [lindex [split $spos .] 1] [expr [lindex [split $epos .] 1] - 1]] ""]
+      return [list [list character {*}$vars(0)] ""]
     }
     return ""
   } HighlightEndProc
@@ -100,8 +87,8 @@ advanced {
     return [list [list bold        {*}$vars(2) \
                        boldmarkers {*}$vars(1) \
                        boldmarkers {*}$vars(4) \
-                       grey        {*}$vars(1) \
-                       grey        {*}$vars(4)] ""]
+                       meta        {*}$vars(1) \
+                       meta        {*}$vars(4)] ""]
   } HighlightEndProc
 
   HighlightProc italics {
@@ -109,8 +96,8 @@ advanced {
     if {([lsearch [$txt tag names $row.[lindex $vars(0) 0] _boldmarkers] == -1) && \
         ([lsearch [$txt tag names $row.[lindex $vars(4) 0] _boldmarkers] == -1)} {
       return [list [list italics {*}$vars(2) \
-                         grey    {*}$vars(1) \
-                         grey    {*}$vars(4)] ""]
+                         meta    {*}$vars(1) \
+                         meta    {*}$vars(4)] ""]
     } else {
       return [list [list] [lindex $vars(2) 0]]
     }
@@ -119,31 +106,31 @@ advanced {
   HighlightProc underline {
     array set vars $varlist
     return [list [list underline {*}$vars(2) \
-                       grey      {*}$vars(1) \
-                       grey      {*}$vars(4)] ""]
+                       meta      {*}$vars(1) \
+                       meta      {*}$vars(4)] ""]
   } HighlightEndProc
 
   HighlightProc section {
     array set vars $varlist
     set num [string range $str {*}$vars(1)]
     return [list [list section$num {*}$vars(2) \
-                       grey        {*}$vars(1)] ""]
+                       meta        {*}$vars(1)] ""]
   } HighlightEndProc
 
-    HighlightProc synopses {
+  HighlightProc synopses {
     array set vars $varlist
     if {[string range $str end-3 end] eq "==="} {
-      return [list [list grey {*}$vars(0)] ""]
+      return [list [list meta {*}$vars(0)] ""]
     } else {
       return [list [list section6 {*}$vars(2) \
-                         grey     {*}$vars(1)] ""]
+                         meta     {*}$vars(1)] ""]
     }
   } HighlightEndProc
 
   HighlightProc center {
     array set vars $varlist
-    return [list [list grey {*}$vars(1) \
-                       grey {*}$vars(2)] ""]
+    return [list [list meta {*}$vars(1) \
+                       meta {*}$vars(2)] ""]
   } HighlightEndProc
 }
 
