@@ -394,12 +394,12 @@ namespace eval ctext {
       return -code ok
     }
 
-    if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
-      clear_mcursors $win 0
-      foreach {start end} $sel {
-        set_mcursor $win $end
-      }
-    }
+#    if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
+#      clear_mcursors $win 0
+#      foreach {start end} $sel {
+#        set_mcursor $win $end
+#      }
+#    }
 
   }
 
@@ -2255,10 +2255,31 @@ namespace eval ctext {
             lappend selranges $anchor $mstart+1c
           }
           $win._t tag add sel {*}$selranges
-          set data($win,select_anchors) $anchors
+          set data($win,select_anchors) [lsort -dictionary $anchors]
           return 1
         } elseif {$ret == 0} {
           set index [$win index {*}[lindex $args 1]]
+          set_cursor $win $index
+          $win._t tag remove sel 1.0 end
+          $win._t tag add sel [lindex $anchors 0] $index
+        }
+        return 0
+      }
+      selectline {
+        set anchors $data($win,select_anchors)
+        set data($win,select_anchors) [list]
+        set ret [move_mcursors $win lineend starts]
+        if {$ret == 1} {
+          set selranges [list]
+          foreach anchor $anchors {mstart mend} [$win._t tag ranges _mcursor] {
+            adjust_start_end $win anchor mstart
+            lappend selranges "$anchor linestart" "$mstart lineend"
+            lappend data($win,select_anchors) [$win._t index "$anchor linestart"]
+          }
+          $win._t tag add sel {*}$selranges
+          return 1
+        } elseif {$ret == 0} {
+          set index [$win index lineend]
           set_cursor $win $index
           $win._t tag remove sel 1.0 end
           $win._t tag add sel [lindex $anchors 0] $index
@@ -2701,7 +2722,7 @@ namespace eval ctext {
 
     foreach {content tags} $char_taglist {
       incr count [string length $content]
-      lappend items $content [list {*}$tags lmargin rmargin __Lang:]
+      lappend items $content [list {*}$tags lmargin rmargin ]
       append dat $content
     }
 
@@ -2904,6 +2925,7 @@ namespace eval ctext {
 
   ######################################################################
   # Answers questions about a given index
+  # Usage:  <ctext> is <type> <option?> <index>
   proc command_is {win args} {
 
     if {[llength $args] < 2} {
@@ -3301,6 +3323,7 @@ namespace eval ctext {
       addcharstart     { addHighlightWithOnlyCharStart $win {*}$args }
       addlinecomments  { addLineCommentPatterns        $win {*}$args }
       addblockcomments { addBlockCommentPatterns       $win {*}$args }
+      addinsertcomment { addInsertComment              $win {*}$args }
       addstrings       { addStringPatterns             $win {*}$args }
       addembedlang     { addEmbedLangPattern           $win {*}$args }
       addindent        { addIndentationPattern         $win indent {*}$args }
@@ -3309,7 +3332,16 @@ namespace eval ctext {
         addIndentationPattern $win reindentStart [lindex $args 0] [lindex $args 1]
         addIndentationPattern $win reindent      [lindex $args 0] [lindex $args 2]
       }
-      search           { highlightSearch               $win {*}$args }
+      words         { return [getHighlightKeywords    $win {*}$args] }
+      linecomments  { return [getLineCommentPatterns  $win {*}$args] }
+      blockcomments { return [getBlockCommentPatterns $win {*}$args] }
+      insertcomment { return [getInsertComment        $win {*}$args] }
+      strings       { return [getStringPatterns       $win {*}$args] }
+      indent        { return [getIndentationPattern   $win indent {*}$args] }
+      unindent      { return [getIndentationPattern   $win unindent {*}$args] }
+      reindent      { return [list [getIndentationPattern $win reindentStart {*}$args] \
+                                      [getIndentationPattern $win reindent {*}$args]] }
+      search           { highlightSearch         $win {*}$args }
       delete           {
         switch [lindex $args 0] {
           class   -
@@ -3523,7 +3555,7 @@ namespace eval ctext {
 
   ######################################################################
   # Toggles the case of each character in the passed string.
-  proc transform_toggle_case {str} {
+  proc transform_toggle_case {win pos str} {
 
     set newstr ""
 
@@ -3537,7 +3569,7 @@ namespace eval ctext {
 
   ######################################################################
   # Converts the case to title case.
-  proc transform_title_case {str} {
+  proc transform_title_case {win pos str} {
 
     set start 0
     while {[regexp -indices -start $start -- {\w+} $str word]} {
@@ -3552,7 +3584,7 @@ namespace eval ctext {
 
   ######################################################################
   # Converts the given string to lower case.
-  proc transform_lower_case {str} {
+  proc transform_lower_case {win pos str} {
 
     return [string tolower $str]
 
@@ -3560,7 +3592,7 @@ namespace eval ctext {
 
   ######################################################################
   # Converts the given string to upper case.
-  proc transform_upper_case {str} {
+  proc transform_upper_case {win pos str} {
 
     return [string toupper $str]
 
@@ -3568,7 +3600,7 @@ namespace eval ctext {
 
   ######################################################################
   # Converts the text to rot13.
-  proc transform_rot13 {str} {
+  proc transform_rot13 {win pos str} {
 
     variable rot13_map
 
@@ -3578,7 +3610,7 @@ namespace eval ctext {
 
   ######################################################################
   # Joins all lines in the specified string.
-  proc transform_join_lines {str} {
+  proc transform_join_lines {win pos str} {
 
     return [regsub -all {\n\s*} $str { }]
 
@@ -3586,7 +3618,7 @@ namespace eval ctext {
 
   ######################################################################
   # Moves the bottom line above the lines above it.
-  proc transform_bubble_up {str} {
+  proc transform_bubble_up {win pos str} {
 
     set lines [split $str \n]
 
@@ -3600,7 +3632,7 @@ namespace eval ctext {
 
   ######################################################################
   # Moves the uppermost line below the lines below it.
-  proc transform_bubble_down {str} {
+  proc transform_bubble_down {win pos str} {
 
     set lines [split $str \n]
 
@@ -3609,6 +3641,84 @@ namespace eval ctext {
     }
 
     return $str
+
+  }
+
+  proc transform_comment {win pos str} {
+
+    variable data
+
+    set newlines [list]
+    set comment  [lindex [getInsertComment $win [getLang $win $pos]] 0]
+
+    foreach line [split $str \n] {
+      lappend newlines "$comment $line" 
+    }
+    
+    return [join $newlines \n]
+
+  }
+
+  proc transform_uncomment_line {win pos str} {
+
+    set comment  [lindex [getLineCommentPatterns $win [getLang $win $pos]] 0]
+    set re       "$comment\\s?(.*\$)"
+    set newlines [list]
+
+    foreach line [split $str \n] {
+      if {[regexp $re $line -> comment rest]} {
+        if {[regexp {^(\s*)\S} $comment -> prewhite]} {
+          lappend newlines "$prewhite$rest"
+        } else {
+          lappend newlines $rest
+        }
+      } else {
+        lappend newlines $line
+      }
+    }
+
+    return [join $newlines \n]
+
+  }
+
+  proc transform_uncomment_block {win pos str} {
+
+    set comment [lindex [getBlockCommentPatterns $win [getLang $win $pos]] 0]
+    set re      "[lindex $comment 0]\\s?(.*)[lindex $comment 1]"
+
+    if {[regexp $re $str -> rest]} {
+      if {[string index $rest end] eq " "} {
+        return [string range $rest 0 end-1]
+      } else {
+        return $rest
+      }
+    }
+
+    return $str
+
+  }
+
+  proc transform_uncomment {win pos str} {
+
+    if {[$win is inlinecomment $pos]} {
+      return [transform_uncomment_line $win $pos $str]
+    } elseif {[$win is inblockcomment $pos]} {
+      return [transform_uncomment_block $win $pos $str]
+    }
+
+    return $str
+
+  }
+
+  proc transform_comment_toggle {win pos str} {
+
+    if {[$win is inlinecomment $pos]} {
+      return [transform_uncomment_line $win $pos $str]
+    } elseif {[$win is inblockcomment $pos]} {
+      return [transform_uncomment_block $win $pos $str]
+    } else {
+      return [transform_comment $win $pos $str]
+    }
 
   }
 
@@ -3638,7 +3748,7 @@ namespace eval ctext {
       set no_tags 1
     } else {
       lassign $arglist startspec endspec cmd tags
-      lappend tags rmargin lmargin __Lang:
+      lappend tags rmargin lmargin
       set no_tags 0
     }
 
@@ -3660,7 +3770,7 @@ namespace eval ctext {
       set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
       adjust_start_end $win startpos endpos 1
       set old_str  [$win._t get $startpos $endpos]
-      set new_str  [{*}$cmd $old_str]
+      set new_str  [{*}$cmd $win $startpos $old_str]
       lappend dstrs $old_str
       lappend istrs $new_str
       comments_chars_deleted $win $startpos $endpos do_tags
@@ -4466,6 +4576,30 @@ namespace eval ctext {
 
   }
 
+  proc getBlockCommentPatterns {win lang} {
+
+    variable data
+
+    set starts [list]
+    set ends   [list]
+
+    foreach {type dummy pattern} $data($win,config,csl_patterns,$lang) {
+      if {$type eq "__cCommentStart:$lang"} {
+        lappend starts $pattern
+      } elseif {$type eq "__cCommentEnd:$lang"} {
+        lappend ends $pattern
+      }
+    }
+
+    set patterns [list]
+    foreach start $starts end $ends {
+      lappend patterns [list $start $end]
+    }
+
+    return $patterns
+
+  }
+
   proc addLineCommentPatterns {win lang patterns} {
 
     variable data
@@ -4491,6 +4625,42 @@ namespace eval ctext {
     } else {
       catch { $win tag delete {*}[array names tags] }
     }
+
+  }
+
+  proc getLineCommentPatterns {win lang} {
+
+    variable data
+
+    set patterns [list]
+
+    foreach {type dummy pattern} $data($win,config,csl_patterns,$lang) {
+      if {$type eq "__lCommentStart:$lang"} {
+        lappend patterns $pattern
+      }
+    }
+
+    return $patterns
+
+  }
+
+  proc addInsertComment {win lang comment} {
+
+    variable data
+
+    set data($win,$lang,icomment) $comment
+
+  }
+
+  proc getInsertComment {win lang} {
+
+    variable data
+
+    if {[info exists data($win,$lang,icomment)]} {
+      return $data($win,$lang,icomment)
+    }
+
+    return ""
 
   }
 
@@ -4580,6 +4750,26 @@ namespace eval ctext {
 
   }
 
+  proc getStringPatterns {win type lang} {
+
+    variable data
+
+    if {[string range $type 0 5] eq "triple"} {
+      set prefix [string toupper [string index $type 6]]
+    } else {
+      set prefix [string index $type 0]
+    }
+
+    foreach {type dummy patterns} $data($win,config,csl_patterns,$lang) {
+      if {type eq "__${prefix}Quote:$lang"} {
+        return [split $patterns |]
+      }
+    }
+
+    return [list]
+
+  }
+
   proc addEmbedLangPattern {win lang patterns} {
 
     variable data
@@ -4619,6 +4809,18 @@ namespace eval ctext {
     } else {
       unset -nocomplain data($win,config,indentation,$lang,$type)
     }
+
+  }
+
+  proc getIndentationPattern {win type lang} {
+
+    variable data
+
+    if {[info exists data($win,config,indentation,$lang,$type)]} {
+      return [split $data($win,config.indentation,$lang,$type) |]
+    }
+
+    return [list]
 
   }
 
@@ -5275,6 +5477,27 @@ namespace eval ctext {
     foreach word $keywords {
       set data($win,highlight,wkeyword,$type,$lang,$word) $value
     }
+
+  }
+
+  proc getHighlightKeywords {win type value {lang ""}} {
+
+    variable data
+
+    if {$type eq "class"} {
+      checkHighlightClass $win $value
+      set value __$value
+    }
+
+    set words [list]
+
+    foreach {key val} [array get data $win,highlight,wkeyword,$type,$lang,*] {
+      if {$val eq $value} {
+        lappend words [lindex [split $key ,] end]
+      }
+    }
+
+    return $words
 
   }
 
