@@ -2192,7 +2192,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     $txtt edit separator
-    $txtt transform lineend [list linestart -num $num] join
+    $txtt transform lineend linestart join
     $txtt edit separator
 
     return 1
@@ -2206,7 +2206,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     $txtt edit separator
-    $txtt transform lineend [list linestart -num $num] bubble_up
+    $txtt transform lineend linestart bubble_up
     $txtt edit separator
 
     return 1
@@ -2220,7 +2220,7 @@ namespace eval menus {
     set txtt [gui::current_txt].t
 
     $txtt edit separator
-    $txtt transform lineend [list linestart -num $num] bubble_down
+    $txtt transform lineend linestart bubble_down
     $txtt edit separator
 
     return 1

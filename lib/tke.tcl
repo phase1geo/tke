@@ -597,5 +597,6 @@ if {[catch {
 } rc]} {
   puts "rc: $rc"
   puts $::errorInfo
+  puts "---"
   bgerror $rc
 }

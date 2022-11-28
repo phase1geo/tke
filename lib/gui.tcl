@@ -2181,7 +2181,7 @@ namespace eval gui {
 
     # Get the file index of the current file
     files::set_info [get_info {} current fileindex] fileindex eol $value
-    
+
     return 1
 
   }
@@ -3850,9 +3850,9 @@ namespace eval gui {
 
     # Generate the version string
     if {$::version_point == 0} {
-      set version_str "$::version_major.$::version_minor ($::version_hgid)"
+      set version_str "$::version_major.$::version_minor ($::version_id)"
     } else {
-      set version_str "$::version_major.$::version_minor.$::version_point ($::version_hgid)"
+      set version_str "$::version_major.$::version_minor.$::version_point ($::version_id)"
     }
 
     if {[preferences::get General/UpdateReleaseType] eq "devel"} {
@@ -3955,7 +3955,7 @@ namespace eval gui {
         .aboutwin.f.credits configure -text [msgcat::mc "Credits"]
       }
     }
-    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 19]
+    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 22]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2
@@ -6525,4 +6525,4 @@ namespace eval gui {
 
   }
 
-}
+  }

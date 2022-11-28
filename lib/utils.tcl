@@ -1320,3 +1320,10 @@ proc HMset_image {win handle src} {
 
 }
 
+rename ::event ::event_orig
+proc ::event {args} {
+  if {([lindex $args 0] eq "generate") && ([lindex $args 2] eq "<<Selection>>")} {
+    puts [utils::stacktrace]
+  }
+  ::event_orig {*}$args
+}

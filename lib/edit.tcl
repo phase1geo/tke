@@ -322,13 +322,7 @@ namespace eval edit {
   # Perform a case toggle operation.
   proc transform_toggle_case {txtt startpos endpos {cursorpos insert}} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt transform $startpos $endpos ctext::transform_toggle_case
-      }
-    } else {
-      $txtt transform $startpos $endpos ctext::transform_toggle_case
-    }
+    $txtt transform $startpos $endpos ctext::transform_toggle_case
 
   }
 
@@ -336,13 +330,7 @@ namespace eval edit {
   # Perform a lowercase conversion.
   proc transform_to_lower_case {txtt startpos endpos {cursorpos insert}} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt transform $startpos $endpos ctext::transform_lower_case
-      }
-    } else {
-      $txtt transform $startpos $endpos ctext::transform_lower_case
-    }
+    $txtt transform $startpos $endpos ctext::transform_lower_case
 
   }
 
@@ -350,13 +338,7 @@ namespace eval edit {
   # Perform an uppercase conversion.
   proc transform_to_upper_case {txtt startpos endpos} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt transform $startpos $endpos ctext::transform_upper_case
-      }
-    } else {
-      $txtt transform $startpos $endpos ctext::transform_upper_case
-    }
+    $txtt transform $startpos $endpos ctext::transform_upper_case
 
   }
 
@@ -364,13 +346,7 @@ namespace eval edit {
   # Transforms all text in the given range to rot13.
   proc transform_to_rot13 {txtt startpos endpos} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt transform $startpos $endpos ctext::transform_rot13
-      }
-    } else {
-      $txtt transform $startpos $endpos ctext::transform_rot13
-    }
+    $txtt transform $startpos $endpos ctext::transform_rot13
 
   }
 
@@ -378,13 +354,7 @@ namespace eval edit {
   # Perform a title case conversion.
   proc transform_to_title_case {txtt startpos endpos} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt transform "wordstart -startpos $startpos" $endpos ctext::transform_title_case
-      }
-    } else {
-      $txtt transform "wordstart" "wordend" ctext::transform_title_case
-    }
+    $txtt transform "wordstart" "wordend" ctext::transform_title_case
 
   }
 
@@ -432,61 +402,6 @@ namespace eval edit {
     $txtt transform [list linestart -num -1] lineend bubble_up
     $txtt edit separator
 
-    # If lines are selected, move all selected lines up one line
-#    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-#
-#      switch [set type [select::get_type $txtt]] {
-#        none -
-#        line {
-#          foreach {end_range start_range} [lreverse $selected] {
-#            set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
-#            $txtt delete "$start_range-1l linestart" "$start_range linestart"
-#            if {[$txtt compare "$end_range linestart" == end]} {
-#              set str "\n[string trimright $str]"
-#            }
-#            $txtt insert "$end_range linestart" $str
-#          }
-#        }
-#        sentence {
-#          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
-#          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
-#          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
-#          if {$cbetween eq ""} {
-#            set cbetween "  "
-#          }
-#          if {[newline_count $pbetween] >= 2} {
-#            set wo_ws [string trimright [set full [$txtt get [lindex $selected 0] [lindex $selected end]]]]
-#            set eos   [$txtt index "[lindex $selected 0]+[string length $wo_ws]c"]
-#            $txtt delete  $eos [lindex $selected end]
-#            $txtt insert  $eos $pbetween sel
-#            $txtt replace "[lindex $selected 0]-[string length $pbetween]c" [lindex $selected 0] "  "
-#          } elseif {[newline_count $cbetween] >= 2} {
-#            set index [$txtt index "[lindex $selected end]-[string length $cbetween]c"]
-#            $txtt insert $index $pbetween$pstr
-#            $txtt tag remove sel "$index+[string length $pbetween]c" [lindex $selected end]
-#            $txtt delete $startpos [lindex $selected 0]
-#          } else {
-#            $txtt insert [lindex $selected end] $pstr$pbetween
-#            $txtt delete $startpos [lindex $selected 0]
-#          }
-#        }
-#        paragraph {
-#          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
-#          regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
-#          $txtt insert [lindex $selected end] $between$str
-#          $txtt delete $startpos [lindex $selected 0]
-#        }
-#        node {
-#          if {[set range [select::node_prev_sibling $txtt [lindex $selected 0]]] ne ""} {
-#            set str     [$txtt get {*}$range]
-#            set between [$txtt get [lindex $range 1] [lindex $selected 0]]
-#            $txtt insert [lindex $selected end] $between$str
-#            $txtt delete [lindex $range 0] [lindex $selected 0]
-#          }
-#        }
-#      }
-#    }
-
   }
 
   ######################################################################
@@ -496,64 +411,6 @@ namespace eval edit {
     $txtt edit separator
     $txtt transform [list linestart -num -1] lineend bubble_down
     $txtt edit separator
-
-    # If lines are selected, move all selected lines down one line
-#    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-#
-#      switch [set type [select::get_type $txtt]] {
-#        none -
-#        line {
-#          foreach {end_range start_range} [lreverse $selected] {
-#            set str [$txtt get "$end_range+1l linestart" "$end_range+2l linestart"]
-#            $txtt delete "$end_range lineend" "$end_range+1l lineend"
-#            $txtt insert "$start_range linestart" $str
-#          }
-#        }
-#        sentence {
-#          set startpos [$txtt index $type -dir prev -startpos [lindex $selected 0]]
-#          set endpos   [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
-#          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
-#          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
-#          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected end] $endpos] -> astr abetween
-#          if {[newline_count $cbetween] >= 2} {
-#            set index [$txtt index "[lindex $selected 0]+[string length $cstr]c"]
-#            $txtt tag remove sel $index [lindex $selected end]
-#            if {$astr eq ""} {
-#              $txtt insert [lindex $selected end] $cstr sel
-#            } else {
-#              $txtt insert [lindex $selected end] "$cstr  " sel
-#            }
-#            $txtt delete "[lindex $selected 0]-[string length $pbetween]c" $index
-#          } elseif {[newline_count $abetween] >= 2} {
-#            set index [$txtt index "[lindex $selected end]+[string length $astr]c"]
-#            $txtt tag add sel $index $endpos
-#            $txtt insert $index $cbetween {} $cstr sel
-#            $txtt delete [lindex $selected 0] [lindex $selected end]
-#          } elseif {$abetween eq ""} {
-#            $txtt delete "[lindex $selected end]-[string length $cbetween]c" $endpos
-#            $txtt insert [lindex $selected 0] $astr$cbetween
-#          } else {
-#            $txtt delete [lindex $selected end] $endpos
-#            $txtt insert [lindex $selected 0] $astr$cbetween
-#          }
-#        }
-#        paragraph {
-#          set endpos [$txtt index $type -dir next -startpos "[lindex $selected end]+1 display chars"]
-#          set str [string trimright [$txtt get [lindex $selected end] $endpos]]
-#          regexp {(\s*)$} [$txtt get {*}$selected] -> between
-#          $txtt delete [lindex $selected end] $endpos
-#          $txtt insert [lindex $selected 0] $str$between
-#        }
-#        node {
-#          if {[set range [select::node_next_sibling $txtt "[lindex $selected end]-1c"]] ne ""} {
-#            set str     [$txtt get {*}$range]
-#            set between [$txtt get [lindex $selected end] [lindex $range 0]]
-#            $txtt delete [lindex $selected end] [lindex $range end]
-#            $txtt insert [lindex $selected 0] $str$between
-#          }
-#        }
-#      }
-#    }
 
   }
 
@@ -583,166 +440,35 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Comments out the currently selected text.
-  proc comment_text {txt} {
-
-    # Create a separator
-    $txt edit separator
-
-    # Get the selection ranges
-    set selected [$txt tag ranges sel]
-
-    # Get the comment syntax
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
-
-    # Insert comment lines/blocks
-    foreach {endpos startpos} [lreverse $selected] {
-      if {[llength $icomment] == 1} {
-        set i 0
-        foreach line [split [$txt get $startpos $endpos] \n] {
-          if {$i == 0} {
-            $txt insert $startpos "[lindex $icomment 0]"
-            $txt tag add sel $startpos "$startpos lineend"
-          } else {
-            $txt insert "$startpos+${i}l linestart" "[lindex $icomment 0]"
-          }
-          incr i
-        }
-      } else {
-        $txt insert $endpos   "[lindex $icomment 1]"
-        $txt insert $startpos "[lindex $icomment 0]"
-        if {[lindex [split $startpos .] 0] == [lindex [split $endpos .] 0]} {
-          set endpos "$endpos+[expr [string length [lindex $icomment 0]] + [string length [lindex $icomment 1]]]c"
-        } else {
-          set endpos "$endpos+[string length [lindex $icomment 1]]c"
-        }
-        $txt tag add sel $startpos $endpos
-      }
-    }
-
-    # Create a separator
-    $txt edit separator
-
-  }
-
-  ######################################################################
   # Comments out the currently selected text in the current text widget.
-  proc comment {} {
+  proc comment {{txtt ""}} {
+
+    if {$txtt eq ""} {
+      set txtt [gui::current_txt].t
+    }
 
     # Get the current text widget
-    comment_text [gui::current_txt]
+    $txtt transform -cursor {0 firstchar} linestart lineend ctext::transform_comment
 
-  }
+    # Make sure that we get out of the current Vim mode
+    vim::command_mode $txtt
 
-  ######################################################################
-  # Uncomments out the currently selected text in the specified text
-  # widget.
-  proc uncomment_text {txt} {
-
-    # Create a separator
-    $txt edit separator
-
-    # Get the selection ranges
-    set selected [$txt tag ranges sel]
-
-    # Get the comment syntax
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
-
-    # Get the comment syntax to remove
-    set comments [join [eval concat $lcomments $bcomments] |]
-
-    # Strip out comment syntax
-    foreach {endpos startpos} [lreverse $selected] {
-      set linestart $startpos
-      foreach line [split [$txt get $startpos $endpos] \n] {
-        if {[regexp -indices -- "($comments)+?" $line -> com]} {
-          set delstart [$txt index "$linestart+[lindex $com 0]c"]
-          set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
-          $txt delete $delstart $delend
-        }
-        set linestart [$txt index "$linestart+1l linestart"]
-        incr i
-      }
-    }
-
-    # Create a separator
-    $txt edit separator
+    return 1
 
   }
 
   ######################################################################
   # Uncomments out the currently selected text in the current text widget.
-  proc uncomment {} {
+  proc uncomment {{txtt ""}} {
 
-    # Get the current text widget
-    uncomment_text [gui::current_txt]
-
-  }
-
-  ######################################################################
-  # Handles commenting/uncommenting either the currently selected code
-  # or the current cursor.
-  proc comment_toggle_text {txt} {
-
-    # Create a separator
-    $txt edit separator
-
-    # Get various comments
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
-
-    # Get the current selection
-    set selected 1
-    if {[llength [set ranges [$txt tag ranges sel]]] == 0} {
-      if {[llength [set mcursors [$txt tag ranges mcursor]]] > 0} {
-        foreach {startpos endpos} $mcursors {
-          lappend ranges [$txt index "$startpos linestart"] [$txt index "$startpos lineend"]
-        }
-      } elseif {[lsearch [$txt tag names insert] __cComment] != -1} {
-        lassign [$txt tag prevrange __cComment insert] startpos endpos
-        if {[regexp "^[lindex $bcomments 0 0](.*)[lindex $bcomments 0 1]\$" [$txt get $startpos $endpos] -> str]} {
-          $txt replace $startpos $endpos $str
-          $txt edit separator
-        }
-        return
-      } else {
-        set ranges [list [$txt index "insert linestart"] [$txt index "insert lineend"]]
-      }
-      set selected 0
+    if {$txtt eq ""} {
+      set txtt [gui::current_txt].t
     }
 
-    # Iterate through each range
-    foreach {endpos startpos} [lreverse $ranges] {
-      if {![do_uncomment $txt $startpos $endpos]} {
-        if {[llength $icomment] == 1} {
-          set i 0
-          foreach line [split [$txt get $startpos $endpos] \n] {
-            if {$i == 0} {
-              $txt insert $startpos "[lindex $icomment 0]"
-              if {$selected} {
-                $txt tag add sel $startpos "$startpos lineend"
-              }
-            } else {
-              $txt insert "$startpos+${i}l linestart" "[lindex $icomment 0]"
-            }
-            incr i
-          }
-        } else {
-          $txt insert $endpos   "[lindex $icomment 1]"
-          $txt insert $startpos "[lindex $icomment 0]"
-          if {$selected} {
-            if {[lindex [split $startpos .] 0] == [lindex [split $endpos .] 0]} {
-              set endpos "$endpos+[expr [string length [lindex $icomment 0]] + [string length [lindex $icomment 1]]]c"
-            } else {
-              set endpos "$endpos+[string length [lindex $icomment 1]]c"
-            }
-            $txt tag add sel $startpos $endpos
-          }
-        }
-      }
-    }
+    $ttxt transform -cursor {0 firstchar} linestart lineend ctext::transform_uncomment
 
-    # Create a separator
-    $txt edit separator
+    # Make sure that we get out of the current Vim mode
+    vim::command_mode $txtt
 
     return 1
 
@@ -751,39 +477,18 @@ namespace eval edit {
   ######################################################################
   # Toggles the toggle status of the currently selected lines in the current
   # text widget.
-  proc comment_toggle {} {
+  proc comment_toggle {{txtt ""}} {
 
-    # Get the current text widget
-    comment_toggle_text [gui::current_txt]
-
-  }
-
-  ######################################################################
-  # Determines if the given range can be uncommented.  If so, performs
-  # the uncomment and returns 1; otherwise, returns 0.
-  proc do_uncomment {txt startpos endpos} {
-
-    set retval 0
-
-    # Get the comment syntax
-    lassign [syntax::get_comments $txt] icomment lcomments bcomments
-
-    # Get the comment syntax to remove
-    set comments [join [eval concat $lcomments $bcomments] |]
-
-    set linestart $startpos
-    foreach line [split [$txt get $startpos $endpos] \n] {
-      if {[regexp -indices -- "($comments)+?" $line -> com]} {
-        set delstart [$txt index "$linestart+[lindex $com 0]c"]
-        set delend   [$txt index "$linestart+[expr [lindex $com 1] + 1]c"]
-        $txt delete $delstart $delend
-        set retval 1
-      }
-      set linestart [$txt index "$linestart+1l linestart"]
-      incr i
+    if {$txtt eq ""} {
+      set txtt [gui::current_txt].t
     }
 
-    return $retval
+    $txtt transform -cursor {0 firstchar} linestart lineend ctext::transform_comment_toggle
+
+    # Make sure that we get out of the current Vim mode
+    vim::command_mode $txtt
+
+    return 1
 
   }
 
@@ -1356,4 +1061,4 @@ namespace eval edit {
 
   }
 
-}
+      }

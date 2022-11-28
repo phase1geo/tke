@@ -682,7 +682,7 @@ namespace eval api {
     #  \param txt  Text widget to comment.
     proc comment {interp pname txt} {
 
-      edit::comment_text [winfo parent $txt]
+      edit::comment $txt
 
     }
 
@@ -692,7 +692,7 @@ namespace eval api {
     #  \param txt  Text widget to uncomment.
     proc uncomment {interp pname txt} {
 
-      edit::uncomment_text [winfo parent $txt]
+      edit::uncomment_text $txt
 
     }
 
@@ -702,7 +702,7 @@ namespace eval api {
     #  \param txt  Text widget to change.
     proc toggle_comment {interp pname txt} {
 
-      edit::comment_toggle_text [winfo parent $txt]
+      edit::comment_toggle $txt
 
     }
 

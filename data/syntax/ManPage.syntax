@@ -13,7 +13,7 @@ tabsallowed
 casesensitive
 {0}
 
-icomment {{\.\\"}}
+icomment {{."}}
 
 lcomments {{\.\\"}}
 

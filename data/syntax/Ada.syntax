@@ -30,8 +30,6 @@ icomment {{--}}
 
 lcomments {{^[ \t]*--}}
 
-bcomments {}
-
 strings {double}
 
 keywords

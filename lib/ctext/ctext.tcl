@@ -2086,6 +2086,7 @@ namespace eval ctext {
   # mode is determined by the input parameter instead of assuming that the
   # cursors already exist.
   proc replace_cursors {win mcursor type cursorspec cursors} {
+
     if {$mcursor} {
       clear_mcursors $win
       switch $type {
@@ -2117,6 +2118,7 @@ namespace eval ctext {
         }
       }
     }
+
   }
 
   ######################################################################
@@ -3109,10 +3111,6 @@ namespace eval ctext {
     set dstrs   [lreverse $dstrs]
     set istrs   [lreverse $istrs]
 
-    if {[llength $opts(-cursor)] == 2} {
-      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
-    }
-
     undo_replace    $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
     comments_do_tag $win $rranges do_tags
 
@@ -3136,6 +3134,10 @@ namespace eval ctext {
         }
       }
 
+    }
+
+    if {[llength $opts(-cursor)] == 2} {
+      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
     }
 
     add_initial_tags $win
@@ -3649,29 +3651,43 @@ namespace eval ctext {
     variable data
 
     set newlines [list]
-    set comment  [lindex [getInsertComment $win [getLang $win $pos]] 0]
+    set icomment [getInsertComment $win [getLang $win $pos]]
 
-    foreach line [split $str \n] {
-      lappend newlines "$comment $line" 
+    if {[regexp {^(\s*)(.*)$} $str -> pre rest]} {
+      set str $rest
+    }
+
+    if {[lindex $icomment 0] ne ""} {
+      foreach line [split $str \n] {
+        lappend newlines "$pre[lindex $icomment 0] $line" 
+      }
+    } else {
+      lappend newlines "$pre[lindex $icomment 1 0]"
+      lappend newlines "$pre$str"
+      lappend newlines "$pre[lindex $icomment 1 1]"
     }
     
     return [join $newlines \n]
 
   }
 
+  proc get_insert_block_comment {win index} {
+    if {[set ranges [commentCharRanges $win $index]] ne ""} {
+      return [list [$win._t get {*}[lrange $ranges 0 1]] [$win._t get {*}[lrange $ranges 2 3]]]
+    }
+    return [list "" ""]
+  }
+
   proc transform_uncomment_line {win pos str} {
 
-    set comment  [lindex [getLineCommentPatterns $win [getLang $win $pos]] 0]
-    set re       "$comment\\s?(.*\$)"
+    set lang     [getLang $win $pos]
+    set comment  [lindex [getLineCommentPatterns $win $lang] 0]
+    set re       "^(\\s*)$comment\\s?(.*\$)"
     set newlines [list]
 
     foreach line [split $str \n] {
-      if {[regexp $re $line -> comment rest]} {
-        if {[regexp {^(\s*)\S} $comment -> prewhite]} {
-          lappend newlines "$prewhite$rest"
-        } else {
-          lappend newlines $rest
-        }
+      if {[regexp $re $line -> pre comment rest]} {
+        lappend newlines "$pre$rest"
       } else {
         lappend newlines $line
       }
@@ -3683,26 +3699,49 @@ namespace eval ctext {
 
   proc transform_uncomment_block {win pos str} {
 
-    set comment [lindex [getBlockCommentPatterns $win [getLang $win $pos]] 0]
-    set re      "[lindex $comment 0]\\s?(.*)[lindex $comment 1]"
+    set lang     [getLang $win $pos]
+    set comment  [lindex [getBlockCommentPatterns $win $lang] 0]
+    set icomment [get_insert_block_comment $win $pos]
+    puts "icomment: $icomment"
+    # set icomment [lindex [getInsertComment $win $lang] 1]
+    set re1      "^[lindex $comment 0]\\s?(.*)\$"
+    set re2      "^(.*)\\s?[lindex $comment 1](.*)\$"
 
-    if {[regexp $re $str -> rest]} {
-      if {[string index $rest end] eq " "} {
-        return [string range $rest 0 end-1]
+    if {[regexp $re1 $str -> com rest]} {
+      if {[regexp $re2 $rest -> rest2 com post]} {
+        if {[string index $post 0] eq "\n"} {
+          return "$rest2[string range $post 1 end]"
+        } else {
+          return "$rest2$post"
+        }
       } else {
-        return $rest
+        return "$rest\n[lindex $icomment 0]"
       }
+    } elseif {[regexp $re2 $str -> rest com post]} {
+      if {[string index $post 0] eq "\n"} {
+        return "[lindex $icomment 1]\n$rest[string range $post 1 end]"
+      } else {
+        return "[lindex $icomment 1]\n$rest$post"
+      }
+    } elseif {[string index $str end] eq "\n"} {
+      return "[lindex $icomment 1]\n$str[lindex $icomment 0]\n"
+    } else {
+      return "[lindex $icomment 1]\n$str\n[lindex $icomment 0]"
     }
-
-    return $str
 
   }
 
   proc transform_uncomment {win pos str} {
 
-    if {[$win is inlinecomment $pos]} {
+    set com_pos [$win index firstchar -startpos $pos]
+
+    if {[$win._t compare $pos > $com_pos]} {
+      set com_pos $pos
+    }
+
+    if {[$win is inlinecomment $firstchar]} {
       return [transform_uncomment_line $win $pos $str]
-    } elseif {[$win is inblockcomment $pos]} {
+    } elseif {[$win is inblockcomment $firstchar]} {
       return [transform_uncomment_block $win $pos $str]
     }
 
@@ -3712,9 +3751,15 @@ namespace eval ctext {
 
   proc transform_comment_toggle {win pos str} {
 
-    if {[$win is inlinecomment $pos]} {
+    set com_pos [$win index firstchar -startpos $pos]
+
+    if {[$win._t compare $pos > $com_pos]} {
+      set com_pos $pos
+    }
+
+    if {[$win is inlinecomment $com_pos]} {
       return [transform_uncomment_line $win $pos $str]
-    } elseif {[$win is inblockcomment $pos]} {
+    } elseif {[$win is inblockcomment $com_pos]} {
       return [transform_uncomment_block $win $pos $str]
     } else {
       return [transform_comment $win $pos $str]
@@ -3791,10 +3836,6 @@ namespace eval ctext {
 #    set dstrs   [lreverse $dstrs]
 #    set istrs   [lreverse $istrs]
 
-    if {[llength $opts(-cursor)] == 2} {
-      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
-    }
-
     undo_replacelist $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
     comments_do_tag $win $rranges do_tags
 
@@ -3804,6 +3845,10 @@ namespace eval ctext {
         1       { checkAllBrackets $win [$win._t get $startpos $endpos] }
         default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
       }
+    }
+
+    if {[llength $opts(-cursor)] == 2} {
+      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
     }
 
     modified $win 1 [list transform $rranges $opts(-moddata)]
@@ -7397,6 +7442,72 @@ namespace eval ctext {
   proc getindex_dispend {win startpos optlist} {
 
     return [list 1 "@[winfo width $win],[lindex [$win._t bbox $startpos] 0]"]
+
+  }
+
+  ######################################################################
+  # Transforms the start of a line or block comment into a text index.
+  proc getindex_commentstart {win startpos optlist} {
+
+    array set opts {
+      -num  0
+      -dir  "next"
+      -type any
+    }
+    array set opts $optlist
+
+    switch $opts(-type) {
+      line    { set tags [list __comstr1l] }
+      block   { set tags [list __comstr1c0 __comstr1c1] }
+      default { set tags [list __comstr1l __comstr1c0 __comstr1c1] }
+    }
+
+    set ranges $startpos
+    foreach tag $tags {
+      lappend ranges {*}[$win._t tag ranges $tag]
+    }
+    set ranges [lsort -dictionary -unique $ranges]
+    set length [llength $ranges]
+    set found  [lsearch $ranges $startpos]
+    set adjust [expr $opts(-num) * 2]
+
+    if {$opts(-dir) eq "prev"} {
+      set adjust [expr 0 - $adjust]
+    }
+
+    # If startpos is not a start or end
+    if {($length % 2) == 1} {
+      if {($found % 2) == 0} {  ;# In between start/end
+        incr adjust -1
+      } else {
+        incr adjust
+      }
+    } elseif {($found % 2) == 1} {  ;# On end
+      incr adjust -1
+    }
+
+    set index [expr $found + $adjust]
+
+    if {($index >= 0) && ($index < $length)} {
+      return [list 1 [lindex $ranges $index]]
+    } else {
+      FOOBAR
+    }
+
+  }
+
+  ######################################################################
+  # Transforms the end of a line or block comment into a text index.
+  proc getindex_commentend {win startpos optlist} {
+
+    array set opts {
+      -num  1
+      -dir  "next"
+      -type any
+    }
+    array set opts $optlist
+
+    FOOBAR
 
   }
 

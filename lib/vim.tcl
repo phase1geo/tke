@@ -1284,10 +1284,11 @@ namespace eval vim {
   # Adjusts motion for the given endpoint given the current mode and
   # operator.  The value of endpoint must be 'start' or 'end'.  The value
   # of motion_type must be 'linewise', 'blockwise', 'inclusive' or 'exclusive'.
-  proc adjust_motion {txtt endpoint motion_type motion num args} {
+  proc adjust_motion {txtt endpoint motion_type the_motion num args} {
 
     variable mode
     variable operator
+    variable motion
 
     set orig_motion_type $motion_type
 
@@ -1312,19 +1313,21 @@ namespace eval vim {
       }
     }
 
+    set selectend [$txtt cursor selectend]
+
     if {$endpoint eq "start"} {
       if {$motion_type eq "linewise"} {
         return [list linestart]
       } else {
-        return [list $motion -num $num]
+        return [list $the_motion -num $num]
       }
     } else {
       switch $motion_type {
         "linewise"  { return [list lineend -num $num {*}$args] }
         "blockwise" -
-        "exclusive" { return [list $motion -num $num -adjust -1c {*}$args] }
-        "inclusive" { return [list $motion -num $num {*}$args] }
-        default     { return [list $motion -num $num {*}$args] }
+        "exclusive" { return [list $the_motion -num $num -adjust -1c {*}$args] }
+        "inclusive" { return [list $the_motion -num $num {*}$args] }
+        default     { return [list $the_motion -num $num {*}$args] }
       }
     }
 
@@ -1711,7 +1714,9 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {[$txtt cget -multimove]} {
+          puts "multicursor mode, in_visual_mode: [in_visual_mode $txtt], eposargs: $eposargs"
           $txtt cursor [expr {[in_visual_mode $txtt] ? "select" : "move"}] $eposargs
+          puts "A mcursors: [$txtt cursor get]"
         } elseif {$opts(-object)} {
           if {$sposargs ne "cursor"} {
             $txtt cursor set $sposargs
@@ -1722,6 +1727,7 @@ namespace eval vim {
           set_cursor $txtt [$txtt index {*}$eposargs]
         }
         reset_state $txtt 0
+        puts "B mcursors: [$txtt cursor get]"
         return 1
       }
       "delete" {
@@ -2218,22 +2224,11 @@ namespace eval vim {
 
     variable motion
 
-    # Move the insertion cursor right one character
+    # Move the insertion cursor left one character
     set sspec cursor
-    switch [lindex $motion($txtt) end] {
-      "V" {
-        set sspec linestart
-        set espec lineend
-      }
-      "v" {
-        set espec [list right -num [expr [get_number $txtt] + 1]]
-      }
-      default {
-        set espec [list right -num [get_number $txtt]]
-      }
-    }
+    set espec [adjust_motion $txtt start exclusive right [get_number $txtt]]
 
-    return [do_operation $txtt $espec $sspec -cursor {0 cursor}]
+    return [do_operation $txtt $espec $sspec]
 
   }
 
@@ -2445,36 +2440,11 @@ namespace eval vim {
   # FOOBAR
   proc handle_h {txtt} {
 
-    variable motion
-    variable operator
-
-    set spec [list left -num [get_number $txtt]]
-
     # Move the insertion cursor left one character
     set sspec cursor
-    switch [lindex $motion($txtt) end] {
-      "V" {
-        set sspec "linestart"
-        set espec   "lineend"
-      }
-      "v" {
-        set sspec right
-        set espec   $spec
-      }
-      default {
-        set espec $spec
-      }
-    }
+    set espec [adjust_motion $txtt start exclusive left [get_number $txtt]]
 
-    if {$operator($txtt) eq "delete"} {
-      set cspec [list]
-    } else {
-      set cspec [list -cursor [list 2 $spec]]
-    }
-
-    set espec [adjust_motion $txtt FOOBAR]
-
-    return [do_operation $txtt $espec $sspec {*}$cspec]
+    return [do_operation $txtt $espec $sspec]
 
   }
 
@@ -3058,8 +3028,8 @@ namespace eval vim {
   # If we are in "command" mode, deletes the previous character.
   proc handle_X {txtt} {
 
-    if {[$txtt is selected cursor]} {
-      $txtt delete [list selstart -dir prev] [list selend -dir prev]
+    if {[in_visual_mode $txtt]} {
+      $txtt delete [list linestart -dir prev] [list lineend -dir prev]
       command_mode $txtt
       return 1
     } else {

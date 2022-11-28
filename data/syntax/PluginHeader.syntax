@@ -10,7 +10,7 @@ indent
 unindent
 {\}}
 
-icomment {{^\s*#}}
+icomment {{#}}
 
 lcomments {{^\s*#}}
 

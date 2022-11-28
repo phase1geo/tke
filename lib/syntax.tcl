@@ -520,6 +520,7 @@ namespace eval syntax {
         ctext::clearCommentStringPatterns $txt
         $txt syntax addblockcomments {} $lang_array(bcomments)
         $txt syntax addlinecomments  {} $lang_array(lcomments)
+        $txt syntax addinsertcomment {} $lang_array(icomment)
         $txt syntax addstrings       {} $lang_array(strings)
         $txt syntax addindent        {} $lang_array(indent)
         $txt syntax addunindent      {} $lang_array(unindent)
