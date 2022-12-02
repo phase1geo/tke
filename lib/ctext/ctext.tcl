@@ -3646,6 +3646,8 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Puts all strings within a line comment according to the current language.
   proc transform_comment {win pos str} {
 
     variable data
@@ -3653,24 +3655,32 @@ namespace eval ctext {
     set newlines [list]
     set icomment [getInsertComment $win [getLang $win $pos]]
 
+    puts "In transform_comment, icomment: $icomment"
+
     if {[regexp {^(\s*)(.*)$} $str -> pre rest]} {
       set str $rest
     }
 
-    if {[lindex $icomment 0] ne ""} {
-      foreach line [split $str \n] {
-        lappend newlines "$pre[lindex $icomment 0] $line" 
+    switch [llength $icomment] {
+      1 {
+        foreach line [split $str \n] {
+          lappend newlines "$pre[lindex $icomment 0] $line" 
+        }
       }
-    } else {
-      lappend newlines "$pre[lindex $icomment 1 0]"
-      lappend newlines "$pre$str"
-      lappend newlines "$pre[lindex $icomment 1 1]"
+      2 {
+        lappend newlines "$pre[lindex $icomment 0]"
+        lappend newlines "$pre$str"
+        lappend newlines "$pre[lindex $icomment 1]"
+      }
     }
     
     return [join $newlines \n]
 
   }
 
+  ######################################################################
+  # Based on the current comment context, looks up the starting and ending
+  # comment characters for the current block comment.
   proc get_insert_block_comment {win index} {
     if {[set ranges [commentCharRanges $win $index]] ne ""} {
       return [list [$win._t get {*}[lrange $ranges 0 1]] [$win._t get {*}[lrange $ranges 2 3]]]
@@ -3678,6 +3688,8 @@ namespace eval ctext {
     return [list "" ""]
   }
 
+  ######################################################################
+  # Uncomments the lines that are within a line comment.
   proc transform_uncomment_line {win pos str} {
 
     set lang     [getLang $win $pos]
@@ -3697,6 +3709,8 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Uncomments the given string that is within a block comment.
   proc transform_uncomment_block {win pos str} {
 
     set lang     [getLang $win $pos]
@@ -3731,6 +3745,9 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Uncomments the given string based on whether the string is within a
+  # line or block comment.
   proc transform_uncomment {win pos str} {
 
     set com_pos [$win index firstchar -startpos $pos]
@@ -3749,6 +3766,8 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Toggles the comment status of the given string.
   proc transform_comment_toggle {win pos str} {
 
     set com_pos [$win index firstchar -startpos $pos]
