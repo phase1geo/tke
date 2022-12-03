@@ -2126,7 +2126,17 @@ namespace eval menus {
   # Joins selected lines or the line beneath the current lines.
   proc edit_transform_join_lines {} {
 
+<<<<<<< Updated upstream
     edit::transform_join_lines [gui::current_txt].t
+=======
+    set txtt [gui::current_txt].t
+
+    $txtt edit separator
+    $txtt transform lineend linestart join_lines
+    $txtt edit separator
+
+    return 1
+>>>>>>> Stashed changes
 
   }
 

@@ -567,6 +567,7 @@ namespace eval edit {
   # Perform a case toggle operation.
   proc transform_toggle_case {txtt startpos endpos {cursorpos insert}} {
 
+<<<<<<< Updated upstream
     if {![transform_toggle_case_selected $txtt]} {
       convert_case_toggle $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
@@ -588,6 +589,11 @@ namespace eval edit {
     }
 
     return 0
+=======
+    vim::command_mode $txtt
+
+    $txtt transform $startpos $endpos toggle_case
+>>>>>>> Stashed changes
 
   }
 
@@ -595,6 +601,7 @@ namespace eval edit {
   # Perform a lowercase conversion.
   proc transform_to_lower_case {txtt startpos endpos {cursorpos insert}} {
 
+<<<<<<< Updated upstream
     if {![transform_to_lower_case_selected $txtt]} {
       convert_to_lower_case $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
@@ -616,6 +623,12 @@ namespace eval edit {
     }
 
     return 0
+=======
+    $txtt transform $startpos $endpos lower_case
+
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+>>>>>>> Stashed changes
 
   }
 
@@ -623,10 +636,17 @@ namespace eval edit {
   # Perform an uppercase conversion.
   proc transform_to_upper_case {txtt startpos endpos {cursorpos insert}} {
 
+<<<<<<< Updated upstream
     if {![transform_to_upper_case_selected $txtt]} {
       convert_to_upper_case $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
     }
+=======
+    $txtt transform $startpos $endpos upper_case
+
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+>>>>>>> Stashed changes
 
   }
 
@@ -643,7 +663,14 @@ namespace eval edit {
       return 1
     }
 
+<<<<<<< Updated upstream
     return 0
+=======
+    $txtt transform $startpos $endpos rot13
+
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+>>>>>>> Stashed changes
 
   }
 
@@ -651,10 +678,17 @@ namespace eval edit {
   # Transforms all text in the given range to rot13.
   proc transform_to_rot13 {txtt startpos endpos {cursorpos insert}} {
 
+<<<<<<< Updated upstream
     if {![transform_to_rot13_selected $txtt]} {
       convert_to_rot13 $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
     }
+=======
+    $txtt transform "wordstart" "wordend" title_case
+
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+>>>>>>> Stashed changes
 
   }
 
@@ -747,6 +781,9 @@ namespace eval edit {
 
     }
 
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+
   }
 
   ######################################################################
@@ -761,6 +798,7 @@ namespace eval edit {
   # Moves selected lines or the current line up by one line.
   proc transform_bubble_up {txtt} {
 
+<<<<<<< Updated upstream
     # Create undo separator
     $txtt edit separator
 
@@ -830,6 +868,9 @@ namespace eval edit {
 
     # Create undo separator
     $txtt edit separator
+=======
+    vim::run_editor_command $txtt "$txtt transform [list linestart -num -1] lineend bubble_up"
+>>>>>>> Stashed changes
 
   }
 
@@ -837,6 +878,7 @@ namespace eval edit {
   # Moves selected lines or the current line down by one line.
   proc transform_bubble_down {txtt} {
 
+<<<<<<< Updated upstream
     # Create undo separator
     $txtt edit separator
 
@@ -906,6 +948,9 @@ namespace eval edit {
 
     # Create undo separator
     $txtt edit separator
+=======
+    vim::run_editor_command $txtt "$txtt transform [list linestart -num -1] lineend bubble_down"
+>>>>>>> Stashed changes
 
   }
 
@@ -1415,6 +1460,7 @@ namespace eval edit {
 
         lassign [split [$txt index "$curr_row.0 - 1 display chars"] .] curr_row curr_col
 
+<<<<<<< Updated upstream
         if {![$txt compare $curr_row.$curr_col > 1.0]} {
           return "1.0"
         } elseif {(![string is space [string index $line $curr_col]] || ($curr_col == 0)) && ([incr num -1] == 0)} {
@@ -1422,6 +1468,10 @@ namespace eval edit {
         }
 
       }
+=======
+    # Get the current text widget
+    vim::run_editor_command $txtt "$txtt transform -cursor {0 firstchar} linestart lineend comment"
+>>>>>>> Stashed changes
 
     }
 
@@ -1436,9 +1486,13 @@ namespace eval edit {
 
     lassign [split [$txt index $start] .] curr_row curr_col
 
+<<<<<<< Updated upstream
     if {$dir eq "next"} {
 
       while {1} {
+=======
+    vim::run_editor_command $txtt "$ttxt transform -cursor {0 firstchar} linestart lineend uncomment"
+>>>>>>> Stashed changes
 
         set line [$txt get -displaychars $curr_row.0 $curr_row.end]
 
@@ -1459,9 +1513,13 @@ namespace eval edit {
           return [$txt index "end-1 display chars"]
         }
 
+<<<<<<< Updated upstream
       }
 
     } else {
+=======
+    vim::run_editor_command $txtt "$txtt transform -cursor {0 firstchar} linestart lineend comment_toggle"
+>>>>>>> Stashed changes
 
       while {1} {
 
@@ -1527,6 +1585,7 @@ namespace eval edit {
   }
 
   ######################################################################
+<<<<<<< Updated upstream
   # Returns the index of the end of a Vim WORD (any character that is
   # succeeded by whitespace, the last character of a line or an empty line.
   proc get_WORDend {txtt dir {num 1} {start insert} {exclusive 0}} {
@@ -1628,6 +1687,13 @@ namespace eval edit {
     } else {
       return [expr {($dir eq "prev") ? "$index+1c" : $index}]
     }
+=======
+  # Indents the selected text of the current text widget by one
+  # indentation level.
+  proc indent {txtt {startpos "insert"} {endpos "insert"}} {
+
+    vim::run_editor_command $txtt "$txtt indent right"
+>>>>>>> Stashed changes
 
   }
 
@@ -1651,12 +1717,16 @@ namespace eval edit {
         set index ""
       }
 
+<<<<<<< Updated upstream
     # If the end of the found sentence is within a comment block, set the beginning position
     # to the end of that comment and clear the index.
     } elseif {($index ne "") && ([set comment [ctext::commentCharRanges [winfo parent $txtt] $index]] ne "")} {
       set beginpos [lindex $comment end]
       set index    ""
     }
+=======
+    vim::run_editor_command $txtt "$txtt indent left"
+>>>>>>> Stashed changes
 
     if {$dir eq "next"} {
 

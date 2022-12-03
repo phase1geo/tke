@@ -52,6 +52,23 @@ namespace eval vim {
   trace variable preferences::prefs(Editor/VimModelines) w [list vim::handle_vim_modelines]
 
   ######################################################################
+  # Runs the given command such that consistency with Vim mode is maintained.
+  proc run_editor_command {txtt cmd} {
+
+    # Execute the command
+    uplevel #0 $cmd
+
+    # After the edit command, add a separator
+    $txtt edit separator
+
+    # Make sure that the mode is returned to command mode
+    if {[preferences::get Editor/VimMode]} {
+      command_mode $txtt
+    }
+
+  }
+
+  ######################################################################
   # Handles any value changes to the Editor/VimModlines preference value.
   proc handle_vim_modelines {name1 name2 op} {
 
@@ -3653,8 +3670,8 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {$motion($txtt) eq ""} {
-          if {[edit::unindent_selected $txtt]} {
-            command_mode $txtt
+          if {[$txtt tag ranges sel] ne ""} {
+            edit::unindent $txtt
           } else {
             set_operator $txtt "lshift" {less}
           }
@@ -3687,8 +3704,8 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {$motion($txtt) eq ""} {
-          if {[edit::indent_selected $txtt]} {
-            command_mode $txtt
+          if {[$txtt tag ranges sel] ne ""} {
+            edit::indent $txtt]} {
           } else {
             set_operator $txtt "rshift" {greater}
           }
