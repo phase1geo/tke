@@ -1,9 +1,9 @@
 name           {highlight_matches}
 display_name   {Highlight Matching Strings}
 author         {Alex Plotnikov}
-website        {http://aplsimple.ucoz.ru#e_menu}
-email          {aplsimple@mail.ru}
-version        {1.1}
+website        {https://aplsimple.github.io}
+email          {aplsimple@gmail.com}
+version        {2.1}
 include        {yes}
 trust_required {no}
 category       {editing}

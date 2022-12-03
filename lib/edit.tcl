@@ -340,6 +340,10 @@ namespace eval edit {
 
     $txtt transform $startpos $endpos ctext::transform_upper_case
 
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+>>>>>>> Stashed changes
+
   }
 
   ######################################################################
@@ -355,6 +359,10 @@ namespace eval edit {
   proc transform_to_title_case {txtt startpos endpos} {
 
     $txtt transform "wordstart" "wordend" ctext::transform_title_case
+
+    # Make sure that we are back in command mode if Vim is enabled
+    vim::command_mode $txtt
+>>>>>>> Stashed changes
 
   }
 
@@ -401,6 +409,9 @@ namespace eval edit {
     $txtt edit separator
     $txtt transform [list linestart -num -1] lineend bubble_up
     $txtt edit separator
+=======
+    vim::run_editor_command $txtt "$txtt transform [list linestart -num -1] lineend bubble_up"
+>>>>>>> Stashed changes
 
   }
 
@@ -411,6 +422,9 @@ namespace eval edit {
     $txtt edit separator
     $txtt transform [list linestart -num -1] lineend bubble_down
     $txtt edit separator
+=======
+    vim::run_editor_command $txtt "$txtt transform [list linestart -num -1] lineend bubble_down"
+>>>>>>> Stashed changes
 
   }
 

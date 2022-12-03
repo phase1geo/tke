@@ -9,6 +9,7 @@ This plugin allows the user to perform the following operations:
   3) Indent/unindent the current line or the lines of selection.
   4) Normalize the Tcl script's indention
   5) Comment/uncomment the TCL coded line or the lines of selection.
+  6) Run a selected text as TCL code to get its result at the cursor.
 
 The first operation allows to erase one or few lines quickly.
 
@@ -21,6 +22,8 @@ The 5th operation is useful while editing Tcl code. Tcl is famous for its peculi
 The 5th operation allows you to get rid of the troubles while commenting Tcl code lines.
 
 Also, the 5th operation can help you find out what braces are unpaired in your TCL code.
+
+The 6th operation is useful when you need to run a Tcl code taken from a current edited file and insert its result at the cursor's position.
 
 All these operations can be applied to the current line or to the selected text.
 

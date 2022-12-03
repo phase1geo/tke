@@ -2358,6 +2358,9 @@ namespace eval ctext {
       $win delete -mcursor 0 -cursor $opts(-cursor) $startpos $endpos
     }
 
+    # Add a separator
+    command_edit $win separator
+
   }
 
   ######################################################################
@@ -3934,6 +3937,331 @@ namespace eval ctext {
 
   proc command_gutter {win args} {
 
+<<<<<<< Updated upstream
+=======
+  }
+
+  ######################################################################
+  # Joins all lines in the specified string.
+  proc transform_join_lines {win pos str} {
+
+    return [regsub -all {\n\s*} $str { }]
+
+  }
+
+  ######################################################################
+  # Moves the bottom line above the lines above it.
+  proc transform_bubble_up {win pos str} {
+
+    set lines [split $str \n]
+
+    if {([llength $lines] > 1) && ([lindex $lines end] ne "")} {
+      return [join [linsert [lrange $lines 0 end-1] 0 [lindex $lines end]] \n]
+    }
+
+    return $str
+
+  }
+
+  ######################################################################
+  # Moves the uppermost line below the lines below it.
+  proc transform_bubble_down {win pos str} {
+
+    set lines [split $str \n]
+
+    if {([llength $lines] > 1) && ([lindex $lines 0] ne "")} {
+      return [join [linsert [lrange $lines 1 end] end [lindex $lines 0]] \n]
+    }
+
+    return $str
+
+  }
+
+  ######################################################################
+  # Puts all strings within a line comment according to the current language.
+  proc transform_comment {win pos str} {
+
+    variable data
+
+    set newlines [list]
+    set icomment [getInsertComment $win [getLang $win $pos]]
+
+    if {[regexp {^(\s*)(.*)$} $str -> pre rest]} {
+      set str $rest
+    }
+
+    switch [llength $icomment] {
+      1 {
+        foreach line [split $str \n] {
+          lappend newlines "$pre[lindex $icomment 0] $line" 
+        }
+      }
+      2 {
+        lappend newlines "$pre[lindex $icomment 0]"
+        lappend newlines "$pre$str"
+        lappend newlines "$pre[lindex $icomment 1]"
+      }
+    }
+    
+    return [join $newlines \n]
+
+  }
+
+  ######################################################################
+  # Based on the current comment context, looks up the starting and ending
+  # comment characters for the current block comment.
+  proc get_insert_block_comment {win index} {
+    if {[set ranges [commentCharRanges $win $index]] ne ""} {
+      return [list [$win._t get {*}[lrange $ranges 0 1]] [$win._t get {*}[lrange $ranges 2 3]]]
+    }
+    return [list "" ""]
+  }
+
+  ######################################################################
+  # Uncomments the lines that are within a line comment.
+  proc transform_uncomment_line {win pos str} {
+
+    set lang     [getLang $win $pos]
+    set comment  [lindex [getLineCommentPatterns $win $lang] 0]
+    set re       "^(\\s*)$comment\\s?(.*\$)"
+    set newlines [list]
+
+    foreach line [split $str \n] {
+      if {[regexp $re $line -> pre comment rest]} {
+        lappend newlines "$pre$rest"
+      } else {
+        lappend newlines $line
+      }
+    }
+
+    return [join $newlines \n]
+
+  }
+
+  ######################################################################
+  # Uncomments the given string that is within a block comment.
+  proc transform_uncomment_block {win pos str} {
+
+    set lang     [getLang $win $pos]
+    set comment  [lindex [getBlockCommentPatterns $win $lang] 0]
+    set icomment [get_insert_block_comment $win $pos]
+    set re1      "^[lindex $comment 0]\\s?(.*)\$"
+    set re2      "^(.*)\\s?[lindex $comment 1](.*)\$"
+
+    if {[regexp $re1 $str -> com rest]} {
+      if {[regexp $re2 $rest -> rest2 com post]} {
+        if {[string index $post 0] eq "\n"} {
+          return "$rest2[string range $post 1 end]"
+        } else {
+          return "$rest2$post"
+        }
+      } else {
+        return "$rest\n[lindex $icomment 0]"
+      }
+    } elseif {[regexp $re2 $str -> rest com post]} {
+      if {[string index $post 0] eq "\n"} {
+        return "[lindex $icomment 1]\n$rest[string range $post 1 end]"
+      } else {
+        return "[lindex $icomment 1]\n$rest$post"
+      }
+    } elseif {[string index $str end] eq "\n"} {
+      return "[lindex $icomment 1]\n$str[lindex $icomment 0]\n"
+    } else {
+      return "[lindex $icomment 1]\n$str\n[lindex $icomment 0]"
+    }
+
+  }
+
+  ######################################################################
+  # Uncomments the given string based on whether the string is within a
+  # line or block comment.
+  proc transform_uncomment {win pos str} {
+
+    set com_pos [$win index firstchar -startpos $pos]
+
+    if {[$win._t compare $pos > $com_pos]} {
+      set com_pos $pos
+    }
+
+    if {[$win is inlinecomment $firstchar]} {
+      return [transform_uncomment_line $win $pos $str]
+    } elseif {[$win is inblockcomment $firstchar]} {
+      return [transform_uncomment_block $win $pos $str]
+    }
+
+    return $str
+
+  }
+
+  ######################################################################
+  # Toggles the comment status of the given string.
+  proc transform_comment_toggle {win pos str} {
+
+    set com_pos [$win index firstchar -startpos $pos]
+
+    if {[$win._t compare $pos > $com_pos]} {
+      set com_pos $pos
+    }
+
+    if {[$win is inlinecomment $com_pos]} {
+      return [transform_uncomment_line $win $pos $str]
+    } elseif {[$win is inblockcomment $com_pos]} {
+      return [transform_uncomment_block $win $pos $str]
+    } else {
+      return [transform_comment $win $pos $str]
+    }
+
+  }
+
+  ######################################################################
+  # Performs a text transformation on the given text range.
+  #
+  # Usage:  <txt> transform <options> <startspec> <endspec> <cmd> ?<tags>?
+  proc command_transform {win args} {
+
+    variable data
+
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -moddata    {}
+      -highlight  1
+      -mcursor    1
+      -cursor     {}
+      -object     0
+      -undoappend 0
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    if {[llength [set arglist [lrange $args $i end]]] == 3} {
+      lassign $arglist startspec endspec cmd
+      set no_tags 1
+    } else {
+      lassign $arglist startspec endspec cmd tags
+      lappend tags rmargin lmargin
+      set no_tags 0
+    }
+
+    # If the command is a built-in type, make it so
+    if {[info procs transform_$cmd] ne ""} {
+      set cmd transform_$cmd
+    }
+
+    set uranges [list]
+    set rranges [list]
+    set do_tags [list]
+    set cursor  [$win._t index insert]
+    set cursors [list]
+
+    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor cursors
+
+    foreach spos [lreverse $cursors] {
+      set startpos [$win index {*}$startspec -startpos $spos]
+      set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
+      adjust_start_end $win startpos endpos 1
+      set old_str  [$win._t get $startpos $endpos]
+      set new_str  [{*}$cmd $win $startpos $old_str]
+      lappend dstrs $old_str
+      lappend istrs $new_str
+      comments_chars_deleted $win $startpos $endpos do_tags
+      set t [handleReplaceDeleteAt0 $win $startpos $endpos]
+      if {$no_tags} {
+        $win._t replace $startpos $endpos $new_str
+      } else {
+        $win._t replace $startpos $endpos $new_str [insert_items $win $startpos $tags]
+      }
+      set new_endpos [$win._t index "$startpos+[string length $new_str]c"]
+      handleReplaceInsert $win $startpos $endpos $t
+      lappend uranges $startpos $endpos $new_endpos
+      lappend rranges $new_endpos $startpos
+    }
+
+    set rranges [lreverse $rranges]
+#    set uranges [lreverse $uranges]
+#    set dstrs   [lreverse $dstrs]
+#    set istrs   [lreverse $istrs]
+
+    undo_replacelist $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
+    comments_do_tag $win $rranges do_tags
+
+    if {$opts(-highlight)} {
+      switch [highlightAll $win $rranges 1 $do_tags] {
+        2       { checkAllBrackets $win }
+        1       { checkAllBrackets $win [$win._t get $startpos $endpos] }
+        default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
+      }
+    }
+
+    if {[llength $opts(-cursor)] == 2} {
+      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
+    }
+
+    modified $win 1 [list transform $rranges $opts(-moddata)]
+    event generate $win.t <<CursorChanged>>
+
+  }
+
+  ######################################################################
+  # Performs the edit command.
+  proc command_edit {win args} {
+
+    variable data
+
+    switch [lindex $args 0] {
+      modified {
+        switch [llength $args] {
+          1 {
+            return $data($win,config,modified)
+          }
+          2 {
+            set value [lindex $args 1]
+            set data($win,config,modified) $value
+          }
+          default {
+            return -code error "invalid arg(s) to $win edit modified: $args"
+          }
+        }
+      }
+      undo {
+        undo $win
+      }
+      redo {
+        redo $win
+      }
+      canundo  -
+      undoable {
+        return [expr [llength $data($win,undo,undobuf)] > 0]
+      }
+      canredo  -
+      redoable {
+        return [expr [llength $data($win,undo,redobuf)] > 0]
+      }
+      separator {
+        undo_add_separator $win
+      }
+      undocount {
+        return [expr [llength $data($win,undo,undobuf)] + [info exists data($win,undo,uncommitted)]]
+      }
+      reset {
+        unset -nocomplain data($win,undo,uncommitted)
+        set data($win,undo,undobuf)    [list]
+        set data($win,undo,redobuf)    [list]
+        set data($win,config,modified) false
+      }
+      cursorhist {
+        return [undo_get_cursor_hist $win]
+      }
+      default {
+        return [uplevel 1 [linsert $args 0 $win._t $cmd]]
+      }
+    }
+
+  }
+
+  proc command_gutter {win args} {
+
+>>>>>>> Stashed changes
     variable data
 
     set args [lassign $args subcmd]

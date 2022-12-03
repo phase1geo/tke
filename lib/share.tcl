@@ -139,7 +139,7 @@ namespace eval share {
           set share_item [file join $share_dir $item]
           if {[file exists $share_item]} {
             if {[file exists $home_item] && [file isdirectory $home_item]} {
-              file delete -force $tname
+              file delete -force $home_item
             }
             file copy -force $share_item $::tke_home
           }

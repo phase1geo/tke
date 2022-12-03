@@ -20,3 +20,8 @@
     R: git commit -am '%s' R: %q "Committing changes" "Do you really want to commit with message\n'%s' ?"
     R: git commit -am '%s' R: cd %PD
     S: git commit -am '%s' S: git commit -am "%s"
+
+[OPTIONS]
+in=1.0
+c=5
+pos=26.3

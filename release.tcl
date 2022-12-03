@@ -55,7 +55,7 @@ proc usage {} {
   puts "Note:  If you need to recreate a tag, perform the following prior"
   puts "       to calling this script:"
   puts ""
-  puts "       hg tag --remove <tag>"
+  puts "       git tag -d <tag>"
   puts ""
 
   exit
@@ -64,7 +64,7 @@ proc usage {} {
 
 proc get_latest_major_minor_point {release_type} {
 
-  if {![catch "exec -ignorestderr hg tags" rc]} {
+  if {![catch "exec -ignorestderr git tag --sort=creatordate" rc]} {
     set last_major 0
     set last_minor 0
     set last_point 0
@@ -73,9 +73,11 @@ proc get_latest_major_minor_point {release_type} {
         if {$major > $last_major} {
           set last_major $major
           set last_minor $minor
+          set last_point 0
         } elseif {($major == $last_major) && ($minor > $last_minor)} {
           set last_major $major
           set last_minor $minor
+          set last_point 0
         }
       } elseif {[regexp {^(devel|stable)-(\d+)\.(\d+)\.(\d+)$} [lindex $line 0] -> type major minor point]} {
         if {$type ne $release_type} {
@@ -108,13 +110,13 @@ proc generate_changelog {tag} {
   puts -nonewline "Generating ChangeLog...  "; flush stdout
 
   if {$tag eq ""} {
-    if {[catch { exec -ignorestderr hg log -v --style changelog -r "branch(default)" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr git log --decorate master > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
     }
   } else {
-    if {[catch { exec -ignorestderr hg log -v --style changelog -r "tag('$tag'):" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr git log --decorate $tag.. > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
@@ -135,7 +137,7 @@ proc update_version_files {major minor point} {
     puts $rc "set version_major \"$major\""
     puts $rc "set version_minor \"$minor\""
     puts $rc "set version_point \"$point\""
-    puts $rc "set version_hgid  \"[expr $::version_hgid + 1]\""
+    puts $rc "set version_hgid  \"$::version_hgid\""
 
     close $rc
 
@@ -164,8 +166,11 @@ proc create_archive {tag type} {
   # Calculate release directory name
   set release_dir [file normalize [file join ~ projects releases tke-$version]]
 
+  # We will need to create the directory if it doesn't already exist
+  file mkdir $release_dir
+
   # Create archive
-  if {[catch { exec -ignorestderr hg archive -r $tag $release_dir } rc]} {
+  if {[catch { exec -ignorestderr git archive $tag | tar xvf - --directory $release_dir } rc]} {
     puts "failed!"
     puts "  $rc"
     return -code error "Unable to generate archive"
@@ -193,7 +198,7 @@ proc generate_linux_tarball {tag} {
   puts -nonewline "Preparing Linux release directory...  "; flush stdout
 
   # Delete unnecessary directories and files
-  foreach item [list MacOSX Win release.tcl .hgignore .hgtags .hg_archival.txt .DS_Store] {
+  foreach item [list MacOSX Win release.tcl .gitignore .hgignore .hgtags .hg_archival.txt .DS_Store] {
     set relitem [file join $release_dir $item]
     if {[file exists $relitem]} {
       if {[catch { file delete -force $relitem } rc]} {
@@ -352,7 +357,7 @@ catch {
   set stable_point_rel 0
 
   # Parse command-line options
-  set i 1
+  set i 0
   while {$i < $argc} {
     switch [lindex $argv $i] {
       -v      { puts "$version_major.$version_minor"; exit }
@@ -446,14 +451,14 @@ catch {
 
     # Commit the ChangeLog change
     puts -nonewline "Committing and pushing ChangeLog...  "; flush stdout
-    if {[catch { exec -ignorestderr hg commit -m "ChangeLog for $next_tag release" } rc]} {
+    if {[catch { exec -ignorestderr git commit -am "ChangeLog for $next_tag release" } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to commit ChangeLog"
     }
 
     # Push the ChangeLog change to master
-    if {[catch { exec -ignorestderr hg push } rc]} {
+    if {[catch { exec -ignorestderr git push } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to push changelist"
@@ -462,10 +467,16 @@ catch {
 
     # Tag the new release
     puts -nonewline "Tagging repository with $next_tag...  "; flush stdout
-    if {[catch { exec -ignorestderr hg tag $next_tag } rc]} {
+    if {[catch { exec -ignorestderr git tag $next_tag } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to tag repository to $next_tag"
+    }
+
+    if {[catch { exec -ignorestderr git push origin $next_tag } rc]} {
+      puts "failed!"
+      puts "  $rc"
+      return -code error "Unable to push changelist"
     }
     puts "done."
 

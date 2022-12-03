@@ -1,10 +1,10 @@
 name           {doctest}
 display_name   {Doctest a la Python}
 author         {Alex Plotnikov}
-website        {http://aplsimple.ucoz.ru#e_menu}
-email          {aplsimple@mail.ru}
-version        {1.0}
+website        {https://aplsimple.github.io}
+email          {aplsimple@gmail.com}
+version        {1.4.1}
 include        {yes}
 trust_required {yes}
 category       {debug & test}
-description    {Enables doctesting of TCL scripts à la Python doctest.}
+description    {Enables doctesting of TCL scripts a la Python doctest.}

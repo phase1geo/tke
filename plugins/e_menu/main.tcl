@@ -7,7 +7,14 @@ namespace eval e_menu {
 
   variable datadir [api::get_plugin_data_directory]
 
-  proc d {args} { tk_messageBox -title INFO -icon info -message "$args" }
+  variable do_save_file 1
+  variable do_no_CS 0
+  variable do_CS -2
+  variable opt1 "EMENU_do_save_file"
+  variable opt2 "EMENU_no_CS"
+  variable opt3 "EMENU_CS"
+
+  proc d {args} { tk_messageBox -title INFO -message "$args" }
 
   proc get_txt {} {
 
@@ -28,12 +35,14 @@ namespace eval e_menu {
 
   proc get_selection {} {
 
+    set truesel 0
     set txt [get_txt]
-    if {$txt == ""} {return [list "" 0 0]}
+    if {$txt == ""} {return [list "" 0 0 0]}
     set err [catch {$txt tag ranges sel} sel]
     if {!$err && [llength $sel]==2} {
       lassign $sel pos pos2           ;# single selection
       set sel [$txt get $pos $pos2]
+      set truesel 1
     } else {
       if {$err || [string trim $sel]==""} {
         set pos  [$txt index "insert wordstart"]
@@ -50,6 +59,7 @@ namespace eval e_menu {
         foreach {pos pos2} $sel {     ;# multiple selections: find current one
           if {[$txt compare $pos >= insert] ||
           [$txt compare $pos <= insert] && [$txt compare insert <= $pos2]} {
+            set truesel 1 ;# found
             break
           }
         }
@@ -59,19 +69,24 @@ namespace eval e_menu {
     if {[string length $sel] == 0} {
       set pos 0
     }
-    return [list $sel $pos $pos2]
+    return [list $sel $pos $pos2 $truesel]
 
   }
 
   #====== Save the selected text to a temporary file
 
   proc save_to_tmp {sel} {
-    set tmpname [file join [api::get_home_directory] "sel_tcl.tmp"]
+    set tmpname [file join [api::get_home_directory] "menus/~~~.tmp"]
+    if {$sel eq ""} {
+      catch {file delete $tmpname}
+      return
+    }
     try {
       set tmpfile [open $tmpname w]
       puts -nonewline $tmpfile $sel
       close $tmpfile
     } on error {r} {
+      d "Error:\ncannot create $tmpname:\n$r"
       set tmpname ""
     }
     return $tmpname
@@ -93,36 +108,6 @@ namespace eval e_menu {
       set fname [string map {/ \\\\} $fname]
     }
     return $fname
-
-  }
-
-  #====== Get options y0-y9 from #ARGS0... through #ARGS9...
-  #
-  # These #ARGS's are the comments of current edited file.
-  # E.g. if we have the comments such as:
-  #   #ARGS0
-  #   #ARGS1 par1 par2
-  #   #ARGS2 par3
-  # then we would have the options of e_menu:
-  #   "y0="
-  #   "y1=par1 par2"
-  #   "y2=par3"
-
-  proc y_options {} {
-
-    set txt [get_txt]
-    set res [list "" "" "" "" "" "" "" "" "" ""]
-    if {$txt == ""} {return $res}
-    foreach st [split [$txt get 1.0 end] \n] {
-      set st [string trim $st]
-      if {[string match {#ARGS[0-9]*} $st]} {
-        set ind [string index $st 5]
-        set y_opt "y$ind=[string trim [string range $st 7 end]]"
-        set y_opt [string map {\" \'} $y_opt]
-        set res [lreplace $res $ind $ind $y_opt]
-      }
-    }
-    return $res
 
   }
 
@@ -154,16 +139,20 @@ namespace eval e_menu {
 
     variable plugdir
     variable datadir
+    variable do_save_file
+    variable do_no_CS
+    variable do_CS
     if {![init_e_menu]} return
-    set h_opt [set s_opt [set f_opt [set d_opt [set D_opt ""]]]]
-    set s0_opt [set s1_opt [set s2_opt ""]]
-    set z1_opt [set z2_opt [set z3_opt  [set z4_opt ""]]]
+    set h_opt [set s_opt [set f_opt [set d_opt [set PD_opt [set F_opt ""]]]]]
+    set z1_opt [set TF_opt [set z3_opt  [set z4_opt  [set z5_opt ""]]]]
+    set z6_opt [set z7_opt [set ts_opt [set PN_opt ""]]]
     set offline_help_dir "$plugdir/www.tcl.tk/man/tcl8.6"
     if {[file exists $offline_help_dir]} {
       set h_opt "h=$offline_help_dir"
     } else {
       # try 2nd location of offline help ~/DOC/www.tcl.tk
-      if {[catch {set offline_help_dir "$::env(HOME)/DOC/www.tcl.tk/man/tcl8.6"}]} {
+      catch {set z5_opt $::env(HOME)}
+      if {[catch {set offline_help_dir "$z5_opt/DOC/www.tcl.tk/man/tcl8.6"}]} {
         set offline_help_dir "$datadir/www.tcl.tk/man/tcl8.6"
       }
       if {[file exists $offline_help_dir]} {
@@ -172,15 +161,20 @@ namespace eval e_menu {
     }
     set file_index [api::file::current_index]
     if {$file_index != -1} {
-      lassign [get_selection] sel
+      lassign [get_selection] sel - - truesel
+      if {$truesel} {
+        set ts_opt "ts=1"  ;# a real selection, not just a word under a caret
+      }
+      if {[string trim $sel \ \{\}\n] eq ""} {save_to_tmp ""}
       foreach s [split $sel \n] {
         set s_opt [string trimright $s]
         if {$s_opt!=""} {
-          set s_opt [string map {\" \\\" \{ \\\{ \( "\\\\(" \
-          \> "" \< ""} "s=$s_opt"]  ;# s= 1st line of the selection
+          ;# only 1st non-empty line of the selection is for s= argument
+          ;# all selection is saved to a temporary file of TF= argument
+          set s_opt [string map { \> "" \< ""} "s=$s_opt"]
           set tmpname [save_to_tmp $sel]
           if {$tmpname!=""} {
-            set z2_opt "z2=$tmpname"     ;# z2= temp.file of the selection
+            set TF_opt "TF=$tmpname"     ;# TF= temp.file of the selection
           }
           break
         }
@@ -192,52 +186,70 @@ namespace eval e_menu {
         set dir_name [fn $dir_name]
         set f_opt "f=$file_name"
         set d_opt "d=$dir_name"
-        set D_opt "PD=$dir_name"
-        set s0_opt "s0=[file tail $file_name]"
-        set s1_opt "s1=[file tail $dir_name]"
-        set s2_opt "s2=[file extension $file_name]"
+        set PD_opt "PD=$dir_name"
       } else {
         set d_opt "d=[pwd]"
-        set D_opt "PD=[pwd]"
+        set PD_opt "PD=[pwd]"
+      }
+      # here we try to use env.miscellaneous1 E_MENU_PD and E_MENU_PN
+      # and z3/z4 stripped of special symbols (though obsolete can be useful)
+      catch {
+        set PDname $::env(E_MENU_PD)
+        set PD_opt "PD=$PDname"
+        set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $PDname]"
       }
       catch {
-        #
-        # here we use env.variables E_MENU_PD and E_MENU_PN
-        #
-        # z3=all projects dir stripped of special symbols (to use in fossil menus)
-        set z3_opt "z3=[string map {/ _ \\ _ { } _ . _} $::env(E_MENU_PD)]"
-        # z4=prjname seen as E_MENU_PN env.variable
-        set z4_opt "z4=$::env(E_MENU_PN)"
+        set PNname $::env(E_MENU_PN)
+        set PN_opt "PN=$PNname"
+        set z4_opt "z4=[string map {/ _ \\ _ { } _ . _} $PNname]"
       }
+      if {$file_index>0} {
+        catch {set z6_opt z6=[api::file::get_info [expr $file_index-1] fname]}
+      }
+      catch {set z7_opt z7=[api::file::get_info [expr $file_index+1] fname]}
     }
     set z1_opt "z1=$plugdir"
-    set fg "fg=[api::get_default_foreground]"
-    set bg "bg=[api::get_default_background]"
-    set fE "fE=#aeaeae"
+    # here we try and set colors of TKE's current color scheme
+    # (defaults are taken from MildDark theme, huh)
+    set fgact [api::theme::get_value tabs -activeforeground]
+    set fg "fg=[api::theme::get_value tabs -inactiveforeground]"
+    set bg "bg=[api::theme::get_value tabs -inactivebackground]"
+    set fI "fI=$fgact"
+    set bI "bI=[api::theme::get_value tabs -activebackground]"
+    set fE "fE=#d2d2d2"
     catch {set fE "fE=[[get_txt] cget -foreground]"}
-    set bE "bE=#161717"
+    set bE "bE=#181919"
     catch {set bE "bE=[[get_txt] cget -background]"}
-    set cc "cc=#888888"
+    set fS "fS=#280000"
+    catch {set fS "fS=[[get_txt] cget -selectforeground]"}
+    set bS "bS=#ff5577"
+    catch {set bS "bS=[[get_txt] cget -selectbackground]"}
+    set cc "cc=#00a0f0"
     catch {set cc "cc=[[get_txt] cget -insertbackground]"}
-    set y_opts [y_options]
-    # args for calling the current module
-    # taken from #ARGS[0-9] e.g.
-    #ARGS1 arg1 "spaced arg2" etc.
-    set s3_opt "s3="
-    foreach y $y_opts {
-      if {$y!=""} {
-        set s3_opt "s3=[string range $y 3 end]"
-        break
-      }
+    set ht "ht=[api::theme::get_value syntax marker]"
+    set hh "hh=$fgact"
+    set fM "fM=-" ;# not used yet
+    set bM "bM=[[get_txt] cget -background]"
+    set z5_opt "z5=$z5_opt"
+    # l= option is a current edited line's number (maybe useful in commands)
+    set l_opt l=[expr {int([[get_txt] index "insert linestart"])}]
+    # try and save the edited file if necessary
+    do_pref_load
+    if {$do_save_file} {
+      catch {api::menu::invoke "File/Save"}
     }
-    if {$s3_opt=="s3=" && $s_opt!=""} {
-      set s3_opt "s3=[string range $s_opt 2 end]"
+    set cs ""
+    if {$do_no_CS || $do_CS ne "-2"} {  ;# no color schemes
+      lassign {} fg bg fE bE fS bS fI bI ht hh cc gr fM bM
+      set cs "c=$do_CS"
     }
+    # at last we try to call e_menu
     if {[catch {
-        exec tclsh $plugdir/e_menu.tcl "md=$datadir/menus" "m=menu.mnu" \
-          fs=10 w=40 wc=1 $fg $bg $fE $bE $cc $h_opt $s_opt $f_opt $d_opt \
-          $s0_opt $s1_opt $s2_opt $s3_opt $z1_opt $z2_opt $z3_opt $z4_opt \
-          $D_opt {*}$y_opts &
+        exec tclsh "$plugdir/e_menu.tcl" "md=$datadir/menus" m=menu.mnu \
+          $fg $bg $fE $bE $fS $bS $fI $bI $ht $hh $cc gr=grey $fM $bM \
+          $h_opt $s_opt $f_opt $d_opt $PD_opt $TF_opt \
+          $z1_opt $z3_opt $z4_opt $z5_opt $z6_opt $z7_opt \
+          $l_opt $ts_opt $PN_opt {*}$cs &
       } e]} {
       api::show_error "\nError of run:\n
         tclsh $plugdir/e_menu.tcl\n
@@ -245,6 +257,82 @@ namespace eval e_menu {
         ----------------------\n$e"
     }
     return
+  }
+
+  #====== Procedures to load/set the plugin's preferences
+
+  proc do_pref_load {} {
+
+    variable do_save_file
+    variable do_no_CS
+    variable do_CS
+    variable opt1
+    variable opt2
+    variable opt3
+    if {[catch "api::preferences::get_value $opt1" do_save_file] } {
+      set do_save_file 1
+    }
+    if {[catch "api::preferences::get_value $opt2" do_no_CS] } {
+      set do_no_CS 0
+    }
+    if {[catch "api::preferences::get_value $opt3" do_CS] } {
+      set do_CS -2
+    }
+    get_do_settings $do_save_file $do_no_CS $do_CS
+    return [list $opt1 $do_save_file $opt2 $do_no_CS $opt3 $do_CS]
+
+  }
+
+  proc do_pref_ui {w} {
+
+    variable opt1
+    variable opt2
+    variable opt3
+    pack [ttk::labelframe $w.sf -text "
+To save the edited file before running an external command
+is a sort of insurance against data losses.
+
+Also, this makes the current edited buffer
+be accessible to SCM (and similar) commands.
+
+To use TKE's colors, switch off \"no TKE's colors\" and set \"-2\" for e_menu's CS.
+"] -fill x
+    api::preferences::widget checkbutton $w.sf "$opt1" \
+      "Do save the edited file"
+    api::preferences::widget checkbutton $w.sf "$opt2" "No TKE's colors"
+    api::preferences::widget spinbox $w.sf "$opt3" \
+      "Used instead, e_menu's CS " -from -2 -to 47 -increment 1
+    return
+
+  }
+
+  proc get_do_settings {opt1 opt2 opt3} {
+
+    variable do_save_file
+    variable do_no_CS
+    variable do_CS
+    set res 1
+    set do_save_file [string trim $opt1]
+    if {$do_save_file ne ""} {
+      if { [catch {set do_save_file [expr int($do_save_file)]}] } {
+        set do_save_file 1
+        set res 0
+      }
+    } else {
+      set do_save_file 1
+    }
+    set do_no_CS [string trim $opt2]
+    if {$do_no_CS ne ""} {
+      if { [catch {set do_no_CS [expr int($do_no_CS)]}] } {
+        set do_no_CS 1
+        set res 0
+      }
+    } else {
+      set do_no_CS 0
+    }
+    set do_CS $opt3
+    return $res
+
   }
 
   #====== Procedures to register the plugin
@@ -261,4 +349,6 @@ namespace eval e_menu {
 
 api::register e_menu {
   {menu command {E_menu - User Menus} e_menu::do_e_menu e_menu::handle_state}
+  {on_pref_load e_menu::do_pref_load}
+  {on_pref_ui e_menu::do_pref_ui}
 }

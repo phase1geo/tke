@@ -7,6 +7,8 @@ namespace eval highlight_matches {
   variable rows_to_span ""
   variable opt1 "HLM_rows_to_span"
   variable prompt "(0 means NONE, blank or -1 means ALL):"
+  variable HILI ""
+  variable hili [list]
 
   ###################################################################
   # Get current text command
@@ -56,23 +58,6 @@ namespace eval highlight_matches {
     return [expr {*}$span].$col
 
   }
-
-#?   #====== Setup the plugin by entering the rows to be spanned
-#?
-#?   proc do_setup {} {
-#?
-#?     variable rows_to_span
-#?     variable prompt
-#?     if {[api::get_user_input "Nearby rows to span $prompt" rows_to_span 0]} {
-#?       set rts [string trim $rows_to_span]
-#?       if {![get_rows_to_span $rts]} {
-#?         api::show_error "\"$rts\" seems to be not a proper number.
-#?           \nGood choices would be \"55\", \"99\" etc."
-#?       }
-#?     }
-#?
-#?   }
-#?
 
   ###################################################################
   # Get current word or selection
@@ -146,6 +131,9 @@ namespace eval highlight_matches {
     if {[string length "$pos"]} {
       api::edit::move_cursor $txt left -startpos $pos -num 0
       $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
+    } else {
+      set mess "  Not found:  [string range $sel 0 40] ..."
+      api::show_info $mess -clear_delay [expr 1000+[string length $mess]*20]
     }
     return
 
@@ -157,6 +145,8 @@ namespace eval highlight_matches {
   proc highlight_operate {w fromto {frommenu 0}} {
 
     variable rows_to_span
+    variable HILI
+    variable hili
     if {![handle_highlight_state]} return
     lassign [get_selection] sel pos
     set lenList {}
@@ -165,8 +155,28 @@ namespace eval highlight_matches {
     set mmes "$mlen matches of \"$sel\""
     api::show_info "$mmes to be highlighted... PLEASE WAIT..."
     update
-    foreach pos $posList len $lenList {
-      $w tag add sel $pos [$w index "$pos + $len chars"]
+    foreach pos2 $posList len $lenList {
+      set pos3 [$w index "$pos2 + $len chars"]
+      if {$pos2 == $pos} {
+        lappend matches2 $pos2 $pos3
+      } else {
+        lappend matches1 $pos2 $pos3
+      }
+    }
+    catch {
+      if {$w ni $hili} {
+        if {$HILI eq ""} {
+          set HILI "hilited"
+          bind all "<KeyPress>" {+ after idle ::highlight_matches::unhighlight}
+        }
+        $w tag configure $HILI -foreground #280000 -background #f88eca
+        $w tag configure ${HILI}2 -foreground #280000 -background #ff6587
+        lappend hili $w
+      }
+      $w tag remove $HILI 1.0 end
+      $w tag remove ${HILI}2 1.0 end
+      $w tag add $HILI {*}$matches1
+      $w tag add ${HILI}2 {*}$matches2
     }
     if {$rows_to_span=="-1" || $rows_to_span=="" || $frommenu} {
       set scan ""
@@ -176,6 +186,22 @@ namespace eval highlight_matches {
     set mess "  $mmes highlighted  $scan"
     api::show_info $mess -clear_delay [expr 5000+[string length $mess]*50]
     return
+
+  }
+
+  ###################################################################
+  # UnHighlight all
+
+  proc unhighlight {} {
+
+    variable HILI
+    variable hili
+    set w [get_txt]
+    if {[set ih [lsearch -exact $hili $w]]>-1} {
+      $w tag remove $HILI 1.0 end
+      $w tag remove ${HILI}2 1.0 end
+      set hili [lreplace $hili $ih $ih]
+    }
 
   }
 
@@ -236,12 +262,6 @@ namespace eval highlight_matches {
 
   }
 
-#?   proc handle_options_state {} {
-#?
-#?     return 1
-#?
-#?   }
-
   proc do_pref_load {} {
 
     variable rows_to_span
@@ -283,13 +303,15 @@ $prompt
 api::register highlight_matches {
 
   {text_binding posttext himatch all highlight_matches::do_matches}
-  {menu command {Highlight Matches/Highlight} \
+  {menu command {Highlight Matches/Do Highlight} \
       highlight_matches::highlight_from_menu \
       highlight_matches::handle_highlight_state}
+  {menu command {Highlight Matches/Undo Highlight} \
+      highlight_matches::unhighlight  highlight_matches::handle_seek_state}
   {menu separator {Highlight Matches}}
-  {menu command {Highlight Matches/Jump Backward} \
+  {menu command {Highlight Matches/Jump Back} \
       {highlight_matches::do_seek 0}  highlight_matches::handle_seek_state}
-  {menu command {Highlight Matches/Jump Forward} \
+  {menu command {Highlight Matches/Jump Forth} \
       {highlight_matches::do_seek 1}  highlight_matches::handle_seek_state}
   {menu separator {Highlight Matches}}
   {menu command {Highlight Matches/Jump to First} \
@@ -301,8 +323,4 @@ api::register highlight_matches {
   {on_focusin highlight_matches::do_focusin}
 
 }
-
-#?   {menu separator {Highlight Matches}}
-#?   {menu command {Highlight Matches/Options...} \
-#?       highlight_matches::do_setup  highlight_matches::handle_options_state}
 

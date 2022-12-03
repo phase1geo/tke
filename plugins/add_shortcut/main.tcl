@@ -11,7 +11,7 @@
 namespace eval add_shortcut {
 
   # for debugging
-#  proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"; return 1}
+  proc d {args} {tk_messageBox -title "INFO" -icon info -message "$args"; return 1}
 
   variable listIt {}
   variable adshdir [file join [api::get_plugin_source_directory] adsh]
@@ -273,11 +273,9 @@ namespace eval add_shortcut {
       if {[set comm [IF $comm]]!=""} {
         switch $typ {
           "MENU" { ;# call the TKE menu item
-#?             if {[api::menu::exists $comm] && [api::menu::enabled $comm]} {
             if {![catch {api::menu::invoke $comm} err]} {
               set err ""
             }
-#?             }
           }
           "EVENT" { ;# generate the event for TKE
             if {![catch {event generate [focus] $comm} err]} {
@@ -402,7 +400,8 @@ namespace eval add_shortcut {
     variable adshdir
     variable inifile
     do_restore _
-    if {$version!=$CURRENTVERSION} {
+    lassign [split $version .] v1 v2
+    if {"$v1$v2"<15} {
       # total updating ini-file
       if {[tk_messageBox -title "Updating to version $CURRENTVERSION" \
         -icon warning -message "$inifile
@@ -422,15 +421,18 @@ $inifile.bak" -type okcancel]=="ok"} {
     }
     set fg [api::get_default_foreground]
     set bg [api::get_default_background]
-    if {[catch { exec tclsh [file join $adshdir adsh.tcl] $version $inifile $fg $bg &} e]} {
-#?       ;# non-zero result (here "abnormal exit" means "Save" pressed)
-#?       do_restore _
-#?       update_shortcuts
-#?     } {
-#?       api::show_error "\nError of run:\n
-#?         tclsh [file join $adshdir adsh.tcl]\n
-#?         with arguments:\n$inifile\n$fg\n$bg\n
-#?         ----------------------\n$e"
+    set fE "#aeaeae"
+    catch {set fE [[get_txt] cget -foreground]}
+    set bE #161717
+    catch {set bE [[get_txt] cget -background]}
+    set fS "fS=#ffffff"
+    catch {set fS [[get_txt] cget -selectforeground]}
+    set bS "bS=#0000ff"
+    catch {set bS [[get_txt] cget -selectbackground]}
+    set cc #888888
+    catch {set cc [[get_txt] cget -insertbackground]}
+    if {[catch { exec tclsh [file join $adshdir adsh.tcl] $CURRENTVERSION $inifile $fg $bg $fE $bE $fS $bS $cc &} e]} {
+      #d $e ;# no actions taken here though
     }
     return
 

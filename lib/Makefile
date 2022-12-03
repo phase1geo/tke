@@ -24,7 +24,6 @@ NAGELFAR_FILES = version.tcl \
                  snippets.tcl \
                  bindings.tcl \
                  bgproc.tcl \
-                 multicursor.tcl \
                  cliphist.tcl \
                  vim.tcl \
                  syntax.tcl \
@@ -48,7 +47,8 @@ NAGELFAR_FILES = version.tcl \
                  remote.tcl \
                  socksend.tcl \
                  ftp_wrapper.tcl \
-                 files.tcl
+                 files.tcl \
+								 ctext/ctext.tcl
 
 .PHONY: commit snippets emmet snip_parser.tcl format_parser.tcl static
 
@@ -80,4 +80,4 @@ emmet_parser.tcl: emmet_parser.tac
 	$(TCLSH) $(TACCLE) -d -p emmet_ emmet_parser.tac
 
 static:
-	nagelfar -gui $(NAGELFAR_FILES) &
+	nagelfar.tcl -gui $(NAGELFAR_FILES) &
