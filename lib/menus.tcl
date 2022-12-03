@@ -2141,9 +2141,7 @@ namespace eval menus {
   # Perform a case toggle operation.
   proc edit_transform_toggle_case {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt transform cursor [list cursor -forceadjust "+1c"] toggle_case
+    edit::transform_toggle_case [gui::current_txt].t cursor [list cursor -forceadjust "+1c"]
 
     return 1
 
@@ -2153,9 +2151,7 @@ namespace eval menus {
   # Perform a lowercase conversion.
   proc edit_transform_to_lower_case {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt transform cursor [list cursor -forceadjust "+1c"] lower_case
+    edit::transform_to_lower_case [gui::current_txt].t cursor [list cursor -forceadjust "+1c"]
 
     return 1
 
@@ -2165,9 +2161,7 @@ namespace eval menus {
   # Perform an uppercase conversion.
   proc edit_transform_to_upper_case {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt transform cursor [list cursor -forceadjust "+1c"] upper_case
+    edit::transform_to_upper_case [gui::current_txt].t cursor [list cursor -forceadjust "+1c"]
 
     return 1
 
@@ -2177,9 +2171,7 @@ namespace eval menus {
   # Perform a title case conversion.
   proc edit_transform_to_title_case {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt transform cursor [list cursor -forceadjust "+1c"] title_case
+    edit::transform_to_title_case [gui::current_txt].t cursor [list cursor -forceadjust "+1c"]
 
     return 1
 
@@ -2189,11 +2181,7 @@ namespace eval menus {
   # Joins selected lines or the line beneath the current lines.
   proc edit_transform_join_lines {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt edit separator
-    $txtt transform lineend linestart join
-    $txtt edit separator
+    edit::transform_join_lines [gui::current_txt].t 1 1
 
     return 1
 
@@ -2203,11 +2191,7 @@ namespace eval menus {
   # Moves selected lines or the current line up by one line.
   proc edit_transform_bubble_up {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt edit separator
-    $txtt transform lineend linestart bubble_up
-    $txtt edit separator
+    edit::transform_bubble_up [gui::current_txt].t
 
     return 1
 
@@ -2217,11 +2201,7 @@ namespace eval menus {
   # Moves selected lines or the current line down by one line.
   proc edit_transform_bubble_down {} {
 
-    set txtt [gui::current_txt].t
-
-    $txtt edit separator
-    $txtt transform lineend linestart bubble_down
-    $txtt edit separator
+    edit::transform_bubble_down [gui::current_txt].t
 
     return 1
 

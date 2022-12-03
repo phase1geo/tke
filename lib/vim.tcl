@@ -55,6 +55,7 @@ namespace eval vim {
   proc run_editor_command {txtt cmd} {
 
     # Execute the command
+    puts $cmd
     uplevel #0 $cmd
 
     # After the edit command, add a separator

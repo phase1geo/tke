@@ -224,7 +224,7 @@ namespace eval edit {
   ######################################################################
   # Deletes all consecutive whitespace starting from cursor to the end of
   # the line.
-  proc delete_next_space {txtt} {
+  proc delete_next_space {txtt copy} {
     if {$copy} {
       $txtt copy cursor spaceend
     }
@@ -234,7 +234,10 @@ namespace eval edit {
   ######################################################################
   # Deletes all consecutive whitespace starting from cursor to the start
   # of the line.
-  proc delete_prev_space {txtt} {
+  proc delete_prev_space {txtt copy} {
+    if {$copy} {
+      $txtt copy spacestart cursor
+    }
     $txtt delete spacestart cursor
   }
 
@@ -321,57 +324,37 @@ namespace eval edit {
   ######################################################################
   # Perform a case toggle operation.
   proc transform_toggle_case {txtt startpos endpos {cursorpos insert}} {
-
-    $txtt transform $startpos $endpos ctext::transform_toggle_case
-
+    vim::run_editor_command $txtt [list $txtt transform $startpos $endpos ctext::transform_toggle_case]
   }
 
   ######################################################################
   # Perform a lowercase conversion.
   proc transform_to_lower_case {txtt startpos endpos {cursorpos insert}} {
-
-    $txtt transform $startpos $endpos ctext::transform_lower_case
-
+    vim::run_editor_command $txtt [list $txtt transform $startpos $endpos lower_case]
   }
 
   ######################################################################
   # Perform an uppercase conversion.
   proc transform_to_upper_case {txtt startpos endpos} {
-
-    $txtt transform $startpos $endpos ctext::transform_upper_case
-
-    # Make sure that we are back in command mode if Vim is enabled
-    vim::command_mode $txtt
->>>>>>> Stashed changes
-
+    vim::run_editor_command $txtt [list $txtt transform $startpos $endpos upper_case]
   }
 
   ######################################################################
   # Transforms all text in the given range to rot13.
   proc transform_to_rot13 {txtt startpos endpos} {
-
-    $txtt transform $startpos $endpos ctext::transform_rot13
-
+    vim::run_editor_command $txtt [list $txtt transform $startpos $endpos rot13]
   }
 
   ######################################################################
   # Perform a title case conversion.
   proc transform_to_title_case {txtt startpos endpos} {
-
-    $txtt transform "wordstart" "wordend" ctext::transform_title_case
-
-    # Make sure that we are back in command mode if Vim is enabled
-    vim::command_mode $txtt
->>>>>>> Stashed changes
-
+    vim::run_editor_command $txtt [list $txtt transform $startpos $endpos title_case]
   }
 
   ######################################################################
   # Transform function.
   proc join_lines_simple {str} {
-
     return [string map {\n { }} $str]
-
   }
 
   ######################################################################
@@ -395,37 +378,15 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Returns the number of newlines contained in the given string.
-  proc newline_count {str} {
-
-    return [expr {[string length $str] - [string length [string map {\n {}} $str]]}]
-
-  }
-
-  ######################################################################
   # Moves selected lines or the current line up by one line.
   proc transform_bubble_up {txtt} {
-
-    $txtt edit separator
-    $txtt transform [list linestart -num -1] lineend bubble_up
-    $txtt edit separator
-=======
-    vim::run_editor_command $txtt "$txtt transform [list linestart -num -1] lineend bubble_up"
->>>>>>> Stashed changes
-
+    vim::run_editor_command $txtt [list $txtt transform -cursor {0 firstchar} [list linestart -num -1] lineend bubble_up]
   }
 
   ######################################################################
   # Moves selected lines or the current line down by one line.
   proc transform_bubble_down {txtt} {
-
-    $txtt edit separator
-    $txtt transform [list linestart -num -1] lineend bubble_down
-    $txtt edit separator
-=======
-    vim::run_editor_command $txtt "$txtt transform [list linestart -num -1] lineend bubble_down"
->>>>>>> Stashed changes
-
+    vim::run_editor_command $txtt [list $txtt transform -cursor {0 {firstchar -num 1}} linestart [list lineend -num 1] bubble_down]
   }
 
   ######################################################################
@@ -462,10 +423,7 @@ namespace eval edit {
     }
 
     # Get the current text widget
-    $txtt transform -cursor {0 firstchar} linestart lineend ctext::transform_comment
-
-    # Make sure that we get out of the current Vim mode
-    vim::command_mode $txtt
+    vim::run_editor_command $txtt [list $txtt transform -cursor {0 firstchar} linestart lineend comment]
 
     return 1
 
@@ -479,10 +437,7 @@ namespace eval edit {
       set txtt [gui::current_txt].t
     }
 
-    $ttxt transform -cursor {0 firstchar} linestart lineend ctext::transform_uncomment
-
-    # Make sure that we get out of the current Vim mode
-    vim::command_mode $txtt
+    vim::run_editor_command $txtt [list $ttxt transform -cursor {0 firstchar} linestart lineend uncomment]
 
     return 1
 
@@ -497,60 +452,9 @@ namespace eval edit {
       set txtt [gui::current_txt].t
     }
 
-    $txtt transform -cursor {0 firstchar} linestart lineend ctext::transform_comment_toggle
-
-    # Make sure that we get out of the current Vim mode
-    vim::command_mode $txtt
+    vim::run_editor_command $txtt [list $txtt transform -cursor {0 firstchar} linestart lineend comment_toggle]
 
     return 1
-
-  }
-
-  ######################################################################
-  # Perform indentation on a specified range.
-  proc do_indent {txtt startpos endpos} {
-
-    # Get the indent spacing
-    set indent_str [string repeat " " [$txtt cget -shiftwidth]]
-
-    while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-      $txtt insert "$startpos linestart" $indent_str
-      set startpos [$txtt index "$startpos linestart+1l"]
-    }
-
-  }
-
-  ######################################################################
-  # Perform unindentation on a specified range.
-  proc do_unindent {txtt startpos endpos} {
-
-    # Get the indent spacing
-    set unindent_str [string repeat " " [$txtt cget -shiftwidth]]
-    set unindent_len [string length $unindent_str]
-
-    while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-      if {[regexp "^$unindent_str" [$txtt get "$startpos linestart" "$startpos lineend"]]} {
-        $txtt delete "$startpos linestart" "$startpos linestart+${unindent_len}c"
-      }
-      set startpos [$txtt index "$startpos linestart+1l"]
-    }
-
-  }
-
-  ######################################################################
-  # If text is selected, performs one level of indentation.  Returns 1 if
-  # text was selected; otherwise, returns 0.
-  proc indent_selected {txtt} {
-
-    if {[llength [set range [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $range] {
-        do_indent $txtt $startpos $endpos
-      }
-      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
-      return 1
-    }
-
-    return 0
 
   }
 
@@ -558,41 +462,14 @@ namespace eval edit {
   # Indents the selected text of the current text widget by one
   # indentation level.
   proc indent {txtt {startpos "insert"} {endpos "insert"}} {
-
-    if {![indent_selected $txtt]} {
-      do_indent $txtt $startpos $endpos
-      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
-    }
-
-  }
-
-  ######################################################################
-  # If text is selected, unindents the selected lines by one level and
-  # return a value of 1; otherwise, return a value of 0.
-  proc unindent_selected {txtt} {
-
-    if {[llength [set range [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $range] {
-        do_unindent $txtt $startpos $endpos
-      }
-      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
-      return 1
-    }
-
-    return 0
-
+    vim::run_editor_command $txtt [list $txtt indent right $startpos $endpos]
   }
 
   ######################################################################
   # Unindents the selected text of the current text widget by one
   # indentation level.
   proc unindent {txtt {startpos "insert"} {endpos "insert"}} {
-
-    if {![unindent_selected $txtt]} {
-      do_unindent $txtt $startpos $endpos
-      $txtt cursor set [$txtt index firstchar -startpos $startpos -num 0]
-    }
-
+    vim::run_editor_command $txtt [list $txtt indent left $startpos $endpos]
   }
 
   ######################################################################

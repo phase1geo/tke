@@ -1862,14 +1862,13 @@ namespace eval ctext {
       insert      { return [command_insert      $win {*}$args] }
       insertlist  { return [command_insertlist  $win {*}$args] }
       is          { return [command_is          $win {*}$args] }
-      replace     { return [command_replace     $win {*}$args] }
-      replacelist { return [command_replacelist $win {*}$args] }
       paste       { return [command_paste       $win {*}$args] }
       peer        { return [command_peer        $win {*}$args] }
+      replace     { return [command_replace     $win {*}$args] }
+      replacelist { return [command_replacelist $win {*}$args] }
       syntax      { return [command_syntax      $win {*}$args] }
       tag         { return [command_tag         $win {*}$args] }
       transform   { return [command_transform   $win {*}$args] }
-      language    { return [command_language    $win {*}$args] }
       default     { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
     }
 
@@ -2596,6 +2595,350 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs the edit command.
+  proc command_edit {win args} {
+
+    variable data
+
+    switch [lindex $args 0] {
+      modified {
+        switch [llength $args] {
+          1 {
+            return $data($win,config,modified)
+          }
+          2 {
+            set value [lindex $args 1]
+            set data($win,config,modified) $value
+          }
+          default {
+            return -code error "invalid arg(s) to $win edit modified: $args"
+          }
+        }
+      }
+      undo {
+        undo $win
+      }
+      redo {
+        redo $win
+      }
+      canundo  -
+      undoable {
+        return [expr [llength $data($win,undo,undobuf)] > 0]
+      }
+      canredo  -
+      redoable {
+        return [expr [llength $data($win,undo,redobuf)] > 0]
+      }
+      separator {
+        undo_add_separator $win
+      }
+      undocount {
+        return [expr [llength $data($win,undo,undobuf)] + [info exists data($win,undo,uncommitted)]]
+      }
+      reset {
+        unset -nocomplain data($win,undo,uncommitted)
+        set data($win,undo,undobuf)    [list]
+        set data($win,undo,redobuf)    [list]
+        set data($win,config,modified) false
+      }
+      cursorhist {
+        return [undo_get_cursor_hist $win]
+      }
+      default {
+        return [uplevel 1 [linsert $args 0 $win._t $cmd]]
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Commands to query and control the gutter area.
+  proc command_gutter {win args} {
+
+    variable data
+
+    set args [lassign $args subcmd]
+    switch -glob $subcmd {
+      create {
+        set value_list  [lassign $args gutter_name]
+        set gutter_tags [list]
+        foreach {name opts} $value_list {
+          array set sym_opts $opts
+          set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
+          set gutter_tag "gutter:$gutter_name:$name:$sym"
+          if {[info exists sym_opts(-fg)]} {
+            set data($win,gutterfg,$gutter_tag) $sym_opts(-fg)
+          }
+          if {[info exists sym_opts(-onenter)]} {
+            $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
+          }
+          if {[info exists sym_opts(-onleave)]} {
+            $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onleave)]
+          }
+          if {[info exists sym_opts(-onclick)]} {
+            $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
+          }
+          if {[info exists sym_opts(-onshiftclick)]} {
+            $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onshiftclick)]
+          }
+          if {[info exists sym_opts(-oncontrolclick)]} {
+            $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-oncontrolclick)]
+          }
+          lappend gutter_tags $gutter_tag
+          array unset sym_opts
+        }
+        lappend data($win,config,gutters) [list $gutter_name $gutter_tags 0]
+        linemapUpdate $win 1
+      }
+      destroy {
+        set gutter_name [lindex $args 0]
+        if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+          $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
+          set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
+          array unset data $win,gutterfg,gutter:$gutter_name:*
+          linemapUpdate $win 1
+        }
+      }
+      hide {
+        set gutter_name [lindex $args 0]
+        if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+          if {[llength $args] == 1} {
+            return [lindex $data($win,config,gutters) $index 2]
+          } else {
+            lset data($win,config,gutters) $index 2 [lindex $args 1]
+            linemapUpdate $win 1
+          }
+        } elseif {[llength $args] == 1} {
+          return -code error "Unable to find gutter name ($gutter_name)"
+        }
+      }
+      del* {
+        lassign $args gutter_name sym_list
+        set update_needed 0
+        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
+          return -code error "Unable to find gutter name ($gutter_name)"
+        }
+        foreach symname $sym_list {
+          set gutters [lindex $data($win,config,gutters) $gutter_index 1]
+          if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
+            $win._t tag delete [lindex $gutters $index]
+            set gutters [lreplace $gutters $index $index]
+            array unset data $win,gutterfg,gutter:$gutter_name:$symname:*
+            lset data($win,config,gutters) $gutter_index 1 $gutters
+            set update_needed 1
+          }
+        }
+        if {$update_needed} {
+          linemapUpdate $win 1
+        }
+      }
+      set {
+        set args [lassign $args gutter_name]
+        set update_needed 0
+        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+          foreach {name line_nums} $args {
+            if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
+              foreach line_num $line_nums {
+                if {[set curr_tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+                  if {$curr_tag ne $gutter_tag} {
+                    $win._t tag delete $curr_tag
+                    $win._t tag add $gutter_tag $line_num.0
+                    set update_needed 1
+                  }
+                } else {
+                  $win._t tag add $gutter_tag $line_num.0
+                  set update_needed 1
+                }
+              }
+            }
+          }
+        }
+        if {$update_needed} {
+          linemapUpdate $win 1
+        }
+      }
+      get {
+        if {[llength $args] == 1} {
+          set gutter_name [lindex $args 0]
+          set symbols     [list]
+          if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
+              set lines [list]
+              foreach {first last} [$win._t tag ranges $gutter_tag] {
+                lappend lines [lindex [split $first .] 0]
+              }
+              lappend symbols [lindex [split $gutter_tag :] 2] $lines
+            }
+          }
+          return $symbols
+        } elseif {[llength $args] == 2} {
+          set gutter_name [lindex $args 0]
+          if {[string is integer [lindex $args 1]]} {
+            set line_num [lindex $args 1]
+            if {[set tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
+              return [lindex [split $tag :] 2]
+            } else {
+              return ""
+            }
+          } else {
+            set lines [list]
+            if {[set tag [lsearch -inline -glob [$win._t tag names] gutter:$gutter_name:[lindex $args 1]:*]] ne ""} {
+              foreach {first last} [$win._t tag ranges $tag] {
+                lappend lines [lindex [split $first .] 0]
+              }
+            }
+            return $lines
+          }
+        }
+      }
+      clear {
+        set last [lassign $args gutter_name first]
+        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+          if {$last eq ""} {
+            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
+              $win._t tag remove $gutter_tag $first.0
+            }
+          } else {
+            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
+              $win._t tag remove $gutter_tag $first.0 [$win._t index $last.0+1c]
+            }
+          }
+          linemapUpdate $win 1
+        }
+      }
+      cget {
+        lassign $args gutter_name sym_name opt
+        if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
+          return -code error "Unable to find gutter name ($gutter_name)"
+        }
+        if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] eq ""} {
+          return -code error "Unknown symbol ($sym_name) specified"
+        }
+        switch $opt {
+          -symbol         { return [lindex [split $gutter_tag :] 3] }
+          -fg             { return [expr {[info exists data($win,gutterfg,$gutter_tag)] ? $data($win,gutterfg,$gutter_tag) : ""}] }
+          -onenter        { return [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1] }
+          -onleave        { return [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1] }
+          -onclick        { return [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1] }
+          -onshiftclick   { return [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1] }
+          -oncontrolclick { return [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1] }
+          default         {
+            return -code error "Unknown gutter option ($opt) specified"
+          }
+        }
+      }
+      conf* {
+        set args [lassign $args gutter_name]
+        if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
+          return -code error "Unable to find gutter name ($gutter_name)"
+        }
+        if {[llength $args] < 2} {
+          if {[llength $args] == 0} {
+            set match_tag "gutter:$gutter_name:*"
+          } else {
+            set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
+          }
+          foreach gutter_tag [lsearch -inline -all -glob [lindex $data($win,config,gutters) $index 1] $match_tag] {
+            lassign [split $gutter_tag :] dummy1 dummy2 symname sym
+            set symopts [list]
+            if {$sym ne ""} {
+              lappend symopts -symbol $sym
+            }
+            if {[info exists data($win,gutterfg,$gutter_tag)]} {
+              lappend symopts -fg $data($win,gutterfg,$gutter_tag)
+            }
+            if {[set cmd [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
+              lappend symopts -onenter $cmd
+            }
+            if {[set cmd [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
+              lappend symopts -onleave $cmd
+            }
+            if {[set cmd [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
+              lappend symopts -onclick $cmd
+            }
+            if {[set cmd [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1]] ne ""} {
+              lappend symopts -onshiftclick $cmd
+            }
+            if {[set cmd [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1]] ne ""} {
+              lappend symopts -oncontrolclick $cmd
+            }
+            lappend gutters $symname $symopts
+          }
+          return $gutters
+        } else {
+          set args          [lassign $args symname]
+          set update_needed 0
+          if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] eq ""} {
+            return -code error "Unable to find gutter symbol name ($symname)"
+          }
+          foreach {opt value} $args {
+            switch -glob $opt {
+              -sym* {
+                set ranges [$win._t tag ranges $gutter_tag]
+                set opts   [$win._t tag configure $gutter_tag]
+                $win._t tag delete $gutter_tag
+                set gutter_tag "gutter:$gutter_name:$symname:$value"
+                $win._t tag configure $gutter_tag {*}$opts
+                $win._t tag add       $gutter_tag {*}$ranges
+                set update_needed 1
+              }
+              -fg {
+                if {$value ne ""} {
+                  set data($win,gutterfg,$gutter_tag) $value
+                } else {
+                  array unset data $win,gutterfg,$gutter_tag
+                }
+                set update_needed 1
+              }
+              -onenter {
+                $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
+              }
+              -onleave {
+                $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $value]
+              }
+              -onclick {
+                $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+              }
+              -onshiftclick {
+                $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+              }
+              -oncontrolclick {
+                $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+              }
+              default {
+                return -code error "Unknown gutter option ($opt) specified"
+              }
+            }
+          }
+          if {$update_needed} {
+            linemapUpdate $win 1
+          }
+        }
+      }
+      names {
+        set names [list]
+        foreach gutter $data($win,config,gutters) {
+          lappend names [lindex $gutter 0]
+        }
+        return $names
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Executes the given command for a gutter item based on its location.
+  proc execute_gutter_cmd {win y cmd} {
+
+    # Get the line of the text widget
+    set line [lindex [split [$win.t index @0,$y] .] 0]
+
+    # Execute the command
+    uplevel #0 [list {*}$cmd $win $line]
+
+  }
+
+  ######################################################################
   # Conforms the indentation of the specified range to match the indentation
   # of the preceeding text.
   #
@@ -3067,6 +3410,90 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Handles a paste operation.  If the -post option is set to "\b", the
+  # clipboard will remove the last character.
+  proc command_paste {win args} {
+
+    variable data
+
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+    array set opts {
+      -pre  ""
+      -post ""
+      -num  1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+
+    lassign [lrange $args $i end] insertpos
+
+    if {$insertpos eq ""} {
+      set insertpos "insert"
+    }
+
+    # Get the contents of the clipboard
+    set clip [clipboard get]
+
+    # If we need to remove the last character, do that now
+    if {[string index $opts(-post) 0] eq "\b"} {
+      set opts(-post) [string range $opts(-post) 1 end]
+      set clip [string range $clip 0 end-1]
+    }
+
+    # Formulate the text to paste
+    set clip [string repeat "$opts(-pre)$clip$opts(-post)" $opts(-num)]
+
+    if {[set cursors [llength [$win._t tag ranges _mcursor]]] > 0} {
+
+      set lines [split [string trim $clip] \n]
+
+      # If the number of mcursors match the number of lines, do a list insert
+      if {$cursors == [llength $lines]} {
+        command_insertlist $win {*}[array get opts] $lines
+      } else {
+        command_insert $win {*}[array get opts] $insertpos $clip
+      }
+
+    } else {
+
+      # Insert the clipboard contents at the given insertion cursor
+      command_insert $win {*}[array get opts] $insertpos $clip
+
+      # Add the multicursors if we copied the multicursors
+      if {[info exists data($win,copy_value)] && ($data($win,copy_value) eq $clip)} {
+        foreach offset $data($win,copy_offsets) {
+          $win._t tag add _mcursor "$insertpos+${offset}c"
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Supports the text peer names command, making sure that the returned
+  # name does not contain any hidden path information.
+  proc command_peer {win args} {
+
+    variable data
+
+    switch [lindex $args 0] {
+      names {
+        set names [list]
+        foreach name [$win._t peer names] {
+          lappend names [winfo parent $name]
+        }
+        return $names
+      }
+      default {
+        return -code error "unknown peer subcommand: [lindex $args 0]"
+      }
+    }
+
+  }
+
+  ######################################################################
   # Replaces the specified text range with the given string.
   proc command_replace {win args} {
 
@@ -3223,90 +3650,6 @@ namespace eval ctext {
       modified $win 1 [list replace $rranges $opts(-moddata)]
       event generate $win.t <<CursorChanged>>
 
-    }
-
-  }
-
-  ######################################################################
-  # Handles a paste operation.  If the -post option is set to "\b", the
-  # clipboard will remove the last character.
-  proc command_paste {win args} {
-
-    variable data
-
-    set i 0
-    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
-
-    array set opts {
-      -pre  ""
-      -post ""
-      -num  1
-    }
-    array set opts [lrange $args 0 [expr $i - 1]]
-
-    lassign [lrange $args $i end] insertpos
-
-    if {$insertpos eq ""} {
-      set insertpos "insert"
-    }
-
-    # Get the contents of the clipboard
-    set clip [clipboard get]
-
-    # If we need to remove the last character, do that now
-    if {[string index $opts(-post) 0] eq "\b"} {
-      set opts(-post) [string range $opts(-post) 1 end]
-      set clip [string range $clip 0 end-1]
-    }
-
-    # Formulate the text to paste
-    set clip [string repeat "$opts(-pre)$clip$opts(-post)" $opts(-num)]
-
-    if {[set cursors [llength [$win._t tag ranges _mcursor]]] > 0} {
-
-      set lines [split [string trim $clip] \n]
-
-      # If the number of mcursors match the number of lines, do a list insert
-      if {$cursors == [llength $lines]} {
-        command_insertlist $win {*}[array get opts] $lines
-      } else {
-        command_insert $win {*}[array get opts] $insertpos $clip
-      }
-
-    } else {
-
-      # Insert the clipboard contents at the given insertion cursor
-      command_insert $win {*}[array get opts] $insertpos $clip
-
-      # Add the multicursors if we copied the multicursors
-      if {[info exists data($win,copy_value)] && ($data($win,copy_value) eq $clip)} {
-        foreach offset $data($win,copy_offsets) {
-          $win._t tag add _mcursor "$insertpos+${offset}c"
-        }
-      }
-
-    }
-
-  }
-
-  ######################################################################
-  # Supports the text peer names command, making sure that the returned
-  # name does not contain any hidden path information.
-  proc command_peer {win args} {
-
-    variable data
-
-    switch [lindex $args 0] {
-      names {
-        set names [list]
-        foreach name [$win._t peer names] {
-          lappend names [winfo parent $name]
-        }
-        return $names
-      }
-      default {
-        return -code error "unknown peer subcommand: [lindex $args 0]"
-      }
     }
 
   }
@@ -3573,49 +3916,8 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Converts the case to title case.
-  proc transform_title_case {win pos str} {
-
-    set start 0
-    while {[regexp -indices -start $start -- {\w+} $str word]} {
-      lassign $word s e
-      set str   [string replace $str $s $e [string totitle [string range $str $s $e]]]
-      set start [expr $e + 1]
-    }
-
-    return $str
-
-  }
-
-  ######################################################################
-  # Converts the given string to lower case.
-  proc transform_lower_case {win pos str} {
-
-    return [string tolower $str]
-
-  }
-
-  ######################################################################
-  # Converts the given string to upper case.
-  proc transform_upper_case {win pos str} {
-
-    return [string toupper $str]
-
-  }
-
-  ######################################################################
-  # Converts the text to rot13.
-  proc transform_rot13 {win pos str} {
-
-    variable rot13_map
-
-    return [string map $rot13_map $str]
-
-  }
-
-  ######################################################################
   # Joins all lines in the specified string.
-  proc transform_join_lines {win pos str} {
+  proc transform_join_lines {win pos str opts} {
 
     return [regsub -all {\n\s*} $str { }]
 
@@ -3623,7 +3925,7 @@ namespace eval ctext {
 
   ######################################################################
   # Moves the bottom line above the lines above it.
-  proc transform_bubble_up {win pos str} {
+  proc transform_bubble_up {win pos str opts} {
 
     set lines [split $str \n]
 
@@ -3637,7 +3939,7 @@ namespace eval ctext {
 
   ######################################################################
   # Moves the uppermost line below the lines below it.
-  proc transform_bubble_down {win pos str} {
+  proc transform_bubble_down {win pos str opts} {
 
     set lines [split $str \n]
 
@@ -3651,335 +3953,7 @@ namespace eval ctext {
 
   ######################################################################
   # Puts all strings within a line comment according to the current language.
-  proc transform_comment {win pos str} {
-
-    variable data
-
-    set newlines [list]
-    set icomment [getInsertComment $win [getLang $win $pos]]
-
-    puts "In transform_comment, icomment: $icomment"
-
-    if {[regexp {^(\s*)(.*)$} $str -> pre rest]} {
-      set str $rest
-    }
-
-    switch [llength $icomment] {
-      1 {
-        foreach line [split $str \n] {
-          lappend newlines "$pre[lindex $icomment 0] $line" 
-        }
-      }
-      2 {
-        lappend newlines "$pre[lindex $icomment 0]"
-        lappend newlines "$pre$str"
-        lappend newlines "$pre[lindex $icomment 1]"
-      }
-    }
-    
-    return [join $newlines \n]
-
-  }
-
-  ######################################################################
-  # Based on the current comment context, looks up the starting and ending
-  # comment characters for the current block comment.
-  proc get_insert_block_comment {win index} {
-    if {[set ranges [commentCharRanges $win $index]] ne ""} {
-      return [list [$win._t get {*}[lrange $ranges 0 1]] [$win._t get {*}[lrange $ranges 2 3]]]
-    }
-    return [list "" ""]
-  }
-
-  ######################################################################
-  # Uncomments the lines that are within a line comment.
-  proc transform_uncomment_line {win pos str} {
-
-    set lang     [getLang $win $pos]
-    set comment  [lindex [getLineCommentPatterns $win $lang] 0]
-    set re       "^(\\s*)$comment\\s?(.*\$)"
-    set newlines [list]
-
-    foreach line [split $str \n] {
-      if {[regexp $re $line -> pre comment rest]} {
-        lappend newlines "$pre$rest"
-      } else {
-        lappend newlines $line
-      }
-    }
-
-    return [join $newlines \n]
-
-  }
-
-  ######################################################################
-  # Uncomments the given string that is within a block comment.
-  proc transform_uncomment_block {win pos str} {
-
-    set lang     [getLang $win $pos]
-    set comment  [lindex [getBlockCommentPatterns $win $lang] 0]
-    set icomment [get_insert_block_comment $win $pos]
-    puts "icomment: $icomment"
-    # set icomment [lindex [getInsertComment $win $lang] 1]
-    set re1      "^[lindex $comment 0]\\s?(.*)\$"
-    set re2      "^(.*)\\s?[lindex $comment 1](.*)\$"
-
-    if {[regexp $re1 $str -> com rest]} {
-      if {[regexp $re2 $rest -> rest2 com post]} {
-        if {[string index $post 0] eq "\n"} {
-          return "$rest2[string range $post 1 end]"
-        } else {
-          return "$rest2$post"
-        }
-      } else {
-        return "$rest\n[lindex $icomment 0]"
-      }
-    } elseif {[regexp $re2 $str -> rest com post]} {
-      if {[string index $post 0] eq "\n"} {
-        return "[lindex $icomment 1]\n$rest[string range $post 1 end]"
-      } else {
-        return "[lindex $icomment 1]\n$rest$post"
-      }
-    } elseif {[string index $str end] eq "\n"} {
-      return "[lindex $icomment 1]\n$str[lindex $icomment 0]\n"
-    } else {
-      return "[lindex $icomment 1]\n$str\n[lindex $icomment 0]"
-    }
-
-  }
-
-  ######################################################################
-  # Uncomments the given string based on whether the string is within a
-  # line or block comment.
-  proc transform_uncomment {win pos str} {
-
-    set com_pos [$win index firstchar -startpos $pos]
-
-    if {[$win._t compare $pos > $com_pos]} {
-      set com_pos $pos
-    }
-
-    if {[$win is inlinecomment $firstchar]} {
-      return [transform_uncomment_line $win $pos $str]
-    } elseif {[$win is inblockcomment $firstchar]} {
-      return [transform_uncomment_block $win $pos $str]
-    }
-
-    return $str
-
-  }
-
-  ######################################################################
-  # Toggles the comment status of the given string.
-  proc transform_comment_toggle {win pos str} {
-
-    set com_pos [$win index firstchar -startpos $pos]
-
-    if {[$win._t compare $pos > $com_pos]} {
-      set com_pos $pos
-    }
-
-    if {[$win is inlinecomment $com_pos]} {
-      return [transform_uncomment_line $win $pos $str]
-    } elseif {[$win is inblockcomment $com_pos]} {
-      return [transform_uncomment_block $win $pos $str]
-    } else {
-      return [transform_comment $win $pos $str]
-    }
-
-  }
-
-  ######################################################################
-  # Performs a text transformation on the given text range.
-  #
-  # Usage:  <txt> transform <options> <startspec> <endspec> <cmd> ?<tags>?
-  proc command_transform {win args} {
-
-    variable data
-
-    set i 0
-    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
-
-    array set opts {
-      -moddata    {}
-      -highlight  1
-      -mcursor    1
-      -cursor     {}
-      -object     0
-      -undoappend 0
-    }
-    array set opts [lrange $args 0 [expr $i - 1]]
-
-    if {[llength [set arglist [lrange $args $i end]]] == 3} {
-      lassign $arglist startspec endspec cmd
-      set no_tags 1
-    } else {
-      lassign $arglist startspec endspec cmd tags
-      lappend tags rmargin lmargin
-      set no_tags 0
-    }
-
-    # If the command is a built-in type, make it so
-    if {[info procs transform_$cmd] ne ""} {
-      set cmd transform_$cmd
-    }
-
-    set uranges [list]
-    set rranges [list]
-    set do_tags [list]
-    set cursor  [$win._t index insert]
-    set cursors [list]
-
-    lassign [get_delete_replace_info $win $opts(-mcursor) $cursor $startspec $endspec] startspec endspec set_mcursor cursors
-
-    foreach spos [lreverse $cursors] {
-      set startpos [$win index {*}$startspec -startpos $spos]
-      set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
-      adjust_start_end $win startpos endpos 1
-      set old_str  [$win._t get $startpos $endpos]
-      set new_str  [{*}$cmd $win $startpos $old_str]
-      lappend dstrs $old_str
-      lappend istrs $new_str
-      comments_chars_deleted $win $startpos $endpos do_tags
-      set t [handleReplaceDeleteAt0 $win $startpos $endpos]
-      if {$no_tags} {
-        $win._t replace $startpos $endpos $new_str
-      } else {
-        $win._t replace $startpos $endpos $new_str [insert_items $win $startpos $tags]
-      }
-      set new_endpos [$win._t index "$startpos+[string length $new_str]c"]
-      handleReplaceInsert $win $startpos $endpos $t
-      lappend uranges $startpos $endpos $new_endpos
-      lappend rranges $new_endpos $startpos
-    }
-
-    set rranges [lreverse $rranges]
-#    set uranges [lreverse $uranges]
-#    set dstrs   [lreverse $dstrs]
-#    set istrs   [lreverse $istrs]
-
-    undo_replacelist $win $uranges $dstrs $istrs $cursor $opts(-undoappend)
-    comments_do_tag $win $rranges do_tags
-
-    if {$opts(-highlight)} {
-      switch [highlightAll $win $rranges 1 $do_tags] {
-        2       { checkAllBrackets $win }
-        1       { checkAllBrackets $win [$win._t get $startpos $endpos] }
-        default { checkAllBrackets $win [string cat {*}$dstrs {*}$istrs] }
-      }
-    }
-
-    if {[llength $opts(-cursor)] == 2} {
-      replace_cursors $win $set_mcursor {*}$opts(-cursor) $rranges
-    }
-
-    modified $win 1 [list transform $rranges $opts(-moddata)]
-    event generate $win.t <<CursorChanged>>
-
-  }
-
-  ######################################################################
-  # Performs the edit command.
-  proc command_edit {win args} {
-
-    variable data
-
-    switch [lindex $args 0] {
-      modified {
-        switch [llength $args] {
-          1 {
-            return $data($win,config,modified)
-          }
-          2 {
-            set value [lindex $args 1]
-            set data($win,config,modified) $value
-          }
-          default {
-            return -code error "invalid arg(s) to $win edit modified: $args"
-          }
-        }
-      }
-      undo {
-        undo $win
-      }
-      redo {
-        redo $win
-      }
-      canundo  -
-      undoable {
-        return [expr [llength $data($win,undo,undobuf)] > 0]
-      }
-      canredo  -
-      redoable {
-        return [expr [llength $data($win,undo,redobuf)] > 0]
-      }
-      separator {
-        undo_add_separator $win
-      }
-      undocount {
-        return [expr [llength $data($win,undo,undobuf)] + [info exists data($win,undo,uncommitted)]]
-      }
-      reset {
-        unset -nocomplain data($win,undo,uncommitted)
-        set data($win,undo,undobuf)    [list]
-        set data($win,undo,redobuf)    [list]
-        set data($win,config,modified) false
-      }
-      cursorhist {
-        return [undo_get_cursor_hist $win]
-      }
-      default {
-        return [uplevel 1 [linsert $args 0 $win._t $cmd]]
-      }
-    }
-
-  }
-
-  proc command_gutter {win args} {
-
-<<<<<<< Updated upstream
-=======
-  }
-
-  ######################################################################
-  # Joins all lines in the specified string.
-  proc transform_join_lines {win pos str} {
-
-    return [regsub -all {\n\s*} $str { }]
-
-  }
-
-  ######################################################################
-  # Moves the bottom line above the lines above it.
-  proc transform_bubble_up {win pos str} {
-
-    set lines [split $str \n]
-
-    if {([llength $lines] > 1) && ([lindex $lines end] ne "")} {
-      return [join [linsert [lrange $lines 0 end-1] 0 [lindex $lines end]] \n]
-    }
-
-    return $str
-
-  }
-
-  ######################################################################
-  # Moves the uppermost line below the lines below it.
-  proc transform_bubble_down {win pos str} {
-
-    set lines [split $str \n]
-
-    if {([llength $lines] > 1) && ([lindex $lines 0] ne "")} {
-      return [join [linsert [lrange $lines 1 end] end [lindex $lines 0]] \n]
-    }
-
-    return $str
-
-  }
-
-  ######################################################################
-  # Puts all strings within a line comment according to the current language.
-  proc transform_comment {win pos str} {
+  proc transform_comment {win pos str opts} {
 
     variable data
 
@@ -4019,7 +3993,7 @@ namespace eval ctext {
 
   ######################################################################
   # Uncomments the lines that are within a line comment.
-  proc transform_uncomment_line {win pos str} {
+  proc transform_uncomment_line {win pos str opts} {
 
     set lang     [getLang $win $pos]
     set comment  [lindex [getLineCommentPatterns $win $lang] 0]
@@ -4040,7 +4014,7 @@ namespace eval ctext {
 
   ######################################################################
   # Uncomments the given string that is within a block comment.
-  proc transform_uncomment_block {win pos str} {
+  proc transform_uncomment_block {win pos str opts} {
 
     set lang     [getLang $win $pos]
     set comment  [lindex [getBlockCommentPatterns $win $lang] 0]
@@ -4075,7 +4049,7 @@ namespace eval ctext {
   ######################################################################
   # Uncomments the given string based on whether the string is within a
   # line or block comment.
-  proc transform_uncomment {win pos str} {
+  proc transform_uncomment {win pos str opts} {
 
     set com_pos [$win index firstchar -startpos $pos]
 
@@ -4084,9 +4058,9 @@ namespace eval ctext {
     }
 
     if {[$win is inlinecomment $firstchar]} {
-      return [transform_uncomment_line $win $pos $str]
+      return [transform_uncomment_line $win $pos $str $opts]
     } elseif {[$win is inblockcomment $firstchar]} {
-      return [transform_uncomment_block $win $pos $str]
+      return [transform_uncomment_block $win $pos $str $opts]
     }
 
     return $str
@@ -4095,7 +4069,7 @@ namespace eval ctext {
 
   ######################################################################
   # Toggles the comment status of the given string.
-  proc transform_comment_toggle {win pos str} {
+  proc transform_comment_toggle {win pos str opts} {
 
     set com_pos [$win index firstchar -startpos $pos]
 
@@ -4104,11 +4078,11 @@ namespace eval ctext {
     }
 
     if {[$win is inlinecomment $com_pos]} {
-      return [transform_uncomment_line $win $pos $str]
+      return [transform_uncomment_line $win $pos $str $opts]
     } elseif {[$win is inblockcomment $com_pos]} {
-      return [transform_uncomment_block $win $pos $str]
+      return [transform_uncomment_block $win $pos $str $opts]
     } else {
-      return [transform_comment $win $pos $str]
+      return [transform_comment $win $pos $str $opts]
     }
 
   }
@@ -4131,6 +4105,7 @@ namespace eval ctext {
       -cursor     {}
       -object     0
       -undoappend 0
+      -opts       {}
     }
     array set opts [lrange $args 0 [expr $i - 1]]
 
@@ -4161,7 +4136,7 @@ namespace eval ctext {
       set endpos   [$win index {*}$endspec   -startpos [lindex [list $spos $startpos] $opts(-object)]]
       adjust_start_end $win startpos endpos 1
       set old_str  [$win._t get $startpos $endpos]
-      set new_str  [{*}$cmd $win $startpos $old_str]
+      set new_str  [{*}$cmd $win $startpos $old_str $opts(-opts)]
       lappend dstrs $old_str
       lappend istrs $new_str
       comments_chars_deleted $win $startpos $endpos do_tags
@@ -4199,347 +4174,6 @@ namespace eval ctext {
 
     modified $win 1 [list transform $rranges $opts(-moddata)]
     event generate $win.t <<CursorChanged>>
-
-  }
-
-  ######################################################################
-  # Performs the edit command.
-  proc command_edit {win args} {
-
-    variable data
-
-    switch [lindex $args 0] {
-      modified {
-        switch [llength $args] {
-          1 {
-            return $data($win,config,modified)
-          }
-          2 {
-            set value [lindex $args 1]
-            set data($win,config,modified) $value
-          }
-          default {
-            return -code error "invalid arg(s) to $win edit modified: $args"
-          }
-        }
-      }
-      undo {
-        undo $win
-      }
-      redo {
-        redo $win
-      }
-      canundo  -
-      undoable {
-        return [expr [llength $data($win,undo,undobuf)] > 0]
-      }
-      canredo  -
-      redoable {
-        return [expr [llength $data($win,undo,redobuf)] > 0]
-      }
-      separator {
-        undo_add_separator $win
-      }
-      undocount {
-        return [expr [llength $data($win,undo,undobuf)] + [info exists data($win,undo,uncommitted)]]
-      }
-      reset {
-        unset -nocomplain data($win,undo,uncommitted)
-        set data($win,undo,undobuf)    [list]
-        set data($win,undo,redobuf)    [list]
-        set data($win,config,modified) false
-      }
-      cursorhist {
-        return [undo_get_cursor_hist $win]
-      }
-      default {
-        return [uplevel 1 [linsert $args 0 $win._t $cmd]]
-      }
-    }
-
-  }
-
-  proc command_gutter {win args} {
-
->>>>>>> Stashed changes
-    variable data
-
-    set args [lassign $args subcmd]
-    switch -glob $subcmd {
-      create {
-        set value_list  [lassign $args gutter_name]
-        set gutter_tags [list]
-        foreach {name opts} $value_list {
-          array set sym_opts $opts
-          set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
-          set gutter_tag "gutter:$gutter_name:$name:$sym"
-          if {[info exists sym_opts(-fg)]} {
-            set data($win,gutterfg,$gutter_tag) $sym_opts(-fg)
-          }
-          if {[info exists sym_opts(-onenter)]} {
-            $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
-          }
-          if {[info exists sym_opts(-onleave)]} {
-            $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onleave)]
-          }
-          if {[info exists sym_opts(-onclick)]} {
-            $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
-          }
-          if {[info exists sym_opts(-onshiftclick)]} {
-            $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onshiftclick)]
-          }
-          if {[info exists sym_opts(-oncontrolclick)]} {
-            $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-oncontrolclick)]
-          }
-          lappend gutter_tags $gutter_tag
-          array unset sym_opts
-        }
-        lappend data($win,config,gutters) [list $gutter_name $gutter_tags 0]
-        linemapUpdate $win 1
-      }
-      destroy {
-        set gutter_name [lindex $args 0]
-        if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
-          set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
-          array unset data $win,gutterfg,gutter:$gutter_name:*
-          linemapUpdate $win 1
-        }
-      }
-      hide {
-        set gutter_name [lindex $args 0]
-        if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          if {[llength $args] == 1} {
-            return [lindex $data($win,config,gutters) $index 2]
-          } else {
-            lset data($win,config,gutters) $index 2 [lindex $args 1]
-            linemapUpdate $win 1
-          }
-        } elseif {[llength $args] == 1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
-      }
-      del* {
-        lassign $args gutter_name sym_list
-        set update_needed 0
-        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
-        foreach symname $sym_list {
-          set gutters [lindex $data($win,config,gutters) $gutter_index 1]
-          if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
-            $win._t tag delete [lindex $gutters $index]
-            set gutters [lreplace $gutters $index $index]
-            array unset data $win,gutterfg,gutter:$gutter_name:$symname:*
-            lset data($win,config,gutters) $gutter_index 1 $gutters
-            set update_needed 1
-          }
-        }
-        if {$update_needed} {
-          linemapUpdate $win 1
-        }
-      }
-      set {
-        set args [lassign $args gutter_name]
-        set update_needed 0
-        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          foreach {name line_nums} $args {
-            if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $gutter_index 1] gutter:$gutter_name:$name:*]] ne ""} {
-              foreach line_num $line_nums {
-                if {[set curr_tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-                  if {$curr_tag ne $gutter_tag} {
-                    $win._t tag delete $curr_tag
-                    $win._t tag add $gutter_tag $line_num.0
-                    set update_needed 1
-                  }
-                } else {
-                  $win._t tag add $gutter_tag $line_num.0
-                  set update_needed 1
-                }
-              }
-            }
-          }
-        }
-        if {$update_needed} {
-          linemapUpdate $win 1
-        }
-      }
-      get {
-        if {[llength $args] == 1} {
-          set gutter_name [lindex $args 0]
-          set symbols     [list]
-          if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
-              set lines [list]
-              foreach {first last} [$win._t tag ranges $gutter_tag] {
-                lappend lines [lindex [split $first .] 0]
-              }
-              lappend symbols [lindex [split $gutter_tag :] 2] $lines
-            }
-          }
-          return $symbols
-        } elseif {[llength $args] == 2} {
-          set gutter_name [lindex $args 0]
-          if {[string is integer [lindex $args 1]]} {
-            set line_num [lindex $args 1]
-            if {[set tag [lsearch -inline -glob [$win._t tag names $line_num.0] gutter:$gutter_name:*]] ne ""} {
-              return [lindex [split $tag :] 2]
-            } else {
-              return ""
-            }
-          } else {
-            set lines [list]
-            if {[set tag [lsearch -inline -glob [$win._t tag names] gutter:$gutter_name:[lindex $args 1]:*]] ne ""} {
-              foreach {first last} [$win._t tag ranges $tag] {
-                lappend lines [lindex [split $first .] 0]
-              }
-            }
-            return $lines
-          }
-        }
-      }
-      clear {
-        set last [lassign $args gutter_name first]
-        if {[set gutter_index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
-          if {$last eq ""} {
-            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
-              $win._t tag remove $gutter_tag $first.0
-            }
-          } else {
-            foreach gutter_tag [lindex $data($win,config,gutters) $gutter_index 1] {
-              $win._t tag remove $gutter_tag $first.0 [$win._t index $last.0+1c]
-            }
-          }
-          linemapUpdate $win 1
-        }
-      }
-      cget {
-        lassign $args gutter_name sym_name opt
-        if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
-        if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] eq ""} {
-          return -code error "Unknown symbol ($sym_name) specified"
-        }
-        switch $opt {
-          -symbol         { return [lindex [split $gutter_tag :] 3] }
-          -fg             { return [expr {[info exists data($win,gutterfg,$gutter_tag)] ? $data($win,gutterfg,$gutter_tag) : ""}] }
-          -onenter        { return [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1] }
-          -onleave        { return [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1] }
-          -onclick        { return [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1] }
-          -onshiftclick   { return [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1] }
-          -oncontrolclick { return [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1] }
-          default         {
-            return -code error "Unknown gutter option ($opt) specified"
-          }
-        }
-      }
-      conf* {
-        set args [lassign $args gutter_name]
-        if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
-          return -code error "Unable to find gutter name ($gutter_name)"
-        }
-        if {[llength $args] < 2} {
-          if {[llength $args] == 0} {
-            set match_tag "gutter:$gutter_name:*"
-          } else {
-            set match_tag "gutter:$gutter_name:[lindex $args 0]:*"
-          }
-          foreach gutter_tag [lsearch -inline -all -glob [lindex $data($win,config,gutters) $index 1] $match_tag] {
-            lassign [split $gutter_tag :] dummy1 dummy2 symname sym
-            set symopts [list]
-            if {$sym ne ""} {
-              lappend symopts -symbol $sym
-            }
-            if {[info exists data($win,gutterfg,$gutter_tag)]} {
-              lappend symopts -fg $data($win,gutterfg,$gutter_tag)
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
-              lappend symopts -onenter $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
-              lappend symopts -onleave $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
-              lappend symopts -onclick $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1]] ne ""} {
-              lappend symopts -onshiftclick $cmd
-            }
-            if {[set cmd [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1]] ne ""} {
-              lappend symopts -oncontrolclick $cmd
-            }
-            lappend gutters $symname $symopts
-          }
-          return $gutters
-        } else {
-          set args          [lassign $args symname]
-          set update_needed 0
-          if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] eq ""} {
-            return -code error "Unable to find gutter symbol name ($symname)"
-          }
-          foreach {opt value} $args {
-            switch -glob $opt {
-              -sym* {
-                set ranges [$win._t tag ranges $gutter_tag]
-                set opts   [$win._t tag configure $gutter_tag]
-                $win._t tag delete $gutter_tag
-                set gutter_tag "gutter:$gutter_name:$symname:$value"
-                $win._t tag configure $gutter_tag {*}$opts
-                $win._t tag add       $gutter_tag {*}$ranges
-                set update_needed 1
-              }
-              -fg {
-                if {$value ne ""} {
-                  set data($win,gutterfg,$gutter_tag) $value
-                } else {
-                  array unset data $win,gutterfg,$gutter_tag
-                }
-                set update_needed 1
-              }
-              -onenter {
-                $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -onleave {
-                $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -onclick {
-                $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -onshiftclick {
-                $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              -oncontrolclick {
-                $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
-              }
-              default {
-                return -code error "Unknown gutter option ($opt) specified"
-              }
-            }
-          }
-          if {$update_needed} {
-            linemapUpdate $win 1
-          }
-        }
-      }
-      names {
-        set names [list]
-        foreach gutter $data($win,config,gutters) {
-          lappend names [lindex $gutter 0]
-        }
-        return $names
-      }
-    }
-
-  }
-
-  proc execute_gutter_cmd {win y cmd} {
-
-    # Get the line of the text widget
-    set line [lindex [split [$win.t index @0,$y] .] 0]
-
-    # Execute the command
-    uplevel #0 [list {*}$cmd $win $line]
 
   }
 
