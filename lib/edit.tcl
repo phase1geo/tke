@@ -353,7 +353,7 @@ namespace eval edit {
 
   ######################################################################
   # Transform function.
-  proc join_lines_simple {str} {
+  proc join_lines_simple {txtt pos str args} {
     return [string map {\n { }} $str]
   }
 
@@ -362,18 +362,13 @@ namespace eval edit {
   # number of specified lines.
   proc transform_join_lines {txtt simple num} {
 
-    if {[set cursors [$txtt cursor get]] eq ""} {
-      lappend lineends [$txtt index lineend]
-    } else {
-      foreach index $cursors {
-        lappend lineends [$txtt index lineend -startpos $index]
-      }
-    }
+    set num [expr ($num == 1) ? 1 : ($num - 1)]
+    set op  [expr {$simple ? "edit::join_lines_simple" : "join_lines"}]
 
-    $txtt edit separator
-    $txtt transform lastchar [list firstchar -num [expr ($num == 1) ? 1 : ($num - 1)]] [expr {$simple ? "edit::join_lines_simple" : "join_lines"}]
-    $txtt cursor replace wordstart $lineends
-    $txtt edit separator
+    # TODO
+    # We need to change the cursor to be placed after the second to last line joined
+    # This is going to require some changes to ctext
+    vim::run_editor_command $txtt [list $txtt transform -cursor {0 {cursor -forceadjust "+1c"}} lastchar [list firstchar -num $num] $op]
 
   }
 
@@ -486,7 +481,7 @@ namespace eval edit {
     catch { exec -ignorestderr {*}$cmd } rc
 
     # Replace the line with the given text
-    $txt replace "insert linestart" "insert lineend" $rc
+    $txt replace linestart lineend $rc
 
     return 1
 
