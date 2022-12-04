@@ -55,7 +55,6 @@ namespace eval vim {
   proc run_editor_command {txtt cmd} {
 
     # Execute the command
-    puts $cmd
     uplevel #0 $cmd
 
     # After the edit command, add a separator
@@ -1732,9 +1731,7 @@ namespace eval vim {
     switch $operator($txtt) {
       "" {
         if {[$txtt cget -multimove]} {
-          puts "multicursor mode, in_visual_mode: [in_visual_mode $txtt], eposargs: $eposargs"
           $txtt cursor [expr {[in_visual_mode $txtt] ? "select" : "move"}] $eposargs
-          puts "A mcursors: [$txtt cursor get]"
         } elseif {$opts(-object)} {
           if {$sposargs ne "cursor"} {
             $txtt cursor set $sposargs
@@ -1745,7 +1742,6 @@ namespace eval vim {
           set_cursor $txtt [$txtt index {*}$eposargs]
         }
         reset_state $txtt 0
-        puts "B mcursors: [$txtt cursor get]"
         return 1
       }
       "delete" {
