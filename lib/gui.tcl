@@ -3528,7 +3528,7 @@ namespace eval gui {
       }
 
       # If the status bar is supposed to be hidden, show it now
-      if {![winfo ismapped $widgets(info)]} {
+      if {![winfo ismapped $widgets(info)] && ([string trim $msg] ne "")} {
         show_status_view
         set hide_info 1
       } else {
