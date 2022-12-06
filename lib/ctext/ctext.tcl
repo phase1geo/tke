@@ -5916,14 +5916,18 @@ namespace eval ctext {
     variable data
 
     set yview [$win yview]
+    set cline [lindex [split [$win index insert] .] 0]
     set lasty [lindex [$win dlineinfo end-1c] 1]
 
     if {[info exists data($win,yview)] && ($data($win,yview) eq $yview) && \
+        (($data($win,linemap_type) eq "absolute") ||
+         [info exists data($win,cline)] && ($data($win,cline) eq $cline)) && \
         [info exists data($win,lasty)] && ($data($win,lasty) eq $lasty)} {
       return 0
     }
 
     set data($win,yview) $yview
+    set data($win,cline) $cline
     set data($win,lasty) $lasty
 
     return 1
@@ -6053,17 +6057,20 @@ namespace eval ctext {
     set font    $data($win,config,-font)
     set gutterx [expr (($linenum_width + 1) * $data($win,fontwidth)) + 1]
     set descent $data($win,fontdescent)
-    set fmt     [expr {($data($win,config,-linemap_align) eq "left") ? "%-*s" : "%*s"}]
+    set fmt1    [expr {($data($win,config,-linemap_align) eq "left") ? "%-*s" : "%*s"}]
+    set fmt2    [expr {($data($win,config,-linemap_align) eq "left") ? "%*s" : "%-*s"}]
 
     if {$abs} {
       set curr 0
+      set fmt2 $fmt1
     }
 
     for {set line $first} {$line <= $last} {incr line} {
       if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
       lassign [$win._t dlineinfo $line.0] x y w h b
       set ltags   [$win.t tag names $line.0]
-      set linenum [expr abs( $line - $curr )]
+      set linenum [expr ($line == $curr) ? $line : abs( $line - $curr )]
+      set fmt     [expr {($line == $curr) ? $fmt1 : $fmt2}]
       set marked  [expr {[lsearch -glob $ltags lmark*] != -1}]
       set fill    [expr {$marked ? $lmark : $normal}]
       set y       [expr $y + $b + $descent]
