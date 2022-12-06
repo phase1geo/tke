@@ -5920,7 +5920,7 @@ namespace eval ctext {
     set lasty [lindex [$win dlineinfo end-1c] 1]
 
     if {[info exists data($win,yview)] && ($data($win,yview) eq $yview) && \
-        (($data($win,linemap_type) eq "absolute") ||
+        (($data($win,config,-linemap_type) eq "absolute") ||
          [info exists data($win,cline)] && ($data($win,cline) eq $cline)) && \
         [info exists data($win,lasty)] && ($data($win,lasty) eq $lasty)} {
       return 0
