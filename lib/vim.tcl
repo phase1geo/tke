@@ -3769,7 +3769,7 @@ namespace eval vim {
       "" {
         if {$motion($txtt) eq ""} {
           set_operator $txtt "swap" {asciitilde}
-          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] cursor -cursor {1 cursor}]
+          return [do_operation $txtt [list dchar -dir next -num [get_number $txtt]] cursor -cursor {1 cursor}]
         } elseif {$motion($txtt) eq "g"} {
           set_operator $txtt "swap" {g asciitilde}
           set motion($txtt) ""

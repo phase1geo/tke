@@ -232,6 +232,8 @@ namespace eval ctext {
       $win.t tag lower matchchar sel
     }
     $win.t tag configure _mcursor -underline 1
+    $win.t tag configure _bcursor -foreground [$win.t cget -background]
+    $win.t tag raise _bcursor sel
 
     bind Ctext  <Configure>                    { ctext::event:DoConfigure %W }
     bind Ctext  <<CursorChanged>>              { ctext::event:CursorChanged %W }
@@ -311,8 +313,24 @@ namespace eval ctext {
   # Called whenever the cursor.
   proc event:CursorChanged {win} {
 
+    variable data
+
     if {[set win [get_win $win]] eq ""} {
       return -code ok
+    }
+
+    if {[is_block_cursor $win]} {
+      catch { $win._t tag remove _bcursor {*}[$win._t tag ranges _bcursor] } rc
+      puts "------"
+      $win._t tag configure _bcursor -background [$win._t cget -background]
+      foreach name [$win._t tag names [$win._t index insert]] {
+        if {[set fg [$win._t tag cget $name -foreground]] ne ""} {
+          puts "Setting _bcursor background to $fg"
+          $win._t tag configure _bcursor -background $fg
+          break
+        }
+      }
+      $win._t tag add _bcursor [$win._t index insert]
     }
 
     linemapUpdate $win
@@ -3903,7 +3921,7 @@ namespace eval ctext {
 
   ######################################################################
   # Toggles the case of each character in the passed string.
-  proc transform_toggle_case {win pos str} {
+  proc transform_toggle_case {win pos str opts} {
 
     set newstr ""
 
@@ -6193,14 +6211,13 @@ namespace eval ctext {
     if {([$win._t tag ranges _mcursor] eq "") || ($data($win,config,-multimove) == 0)} {
 
       # Make the insertion cursor come back
-      $win._t configure -blockcursor $data($win,config,-blockcursor) \
-                        -insertwidth $data($win,config,-insertwidth)
-
+      # $win._t configure -blockcursor $data($win,config,-blockcursor) -insertwidth $data($win,config,-insertwidth)
       # Set the insertion background
       if {$data($win,config,-blockcursor)} {
-        $win._t configure -insertbackground $data($win,config,-blockbackground)
+        # $win._t configure -insertbackground $data($win,config,-blockbackground) -insertwidth 0
+        $win._t configure -insertwidth 0
       } else {
-        $win._t configure -insertbackground $data($win,config,-insertbackground)
+        $win._t configure -insertbackground $data($win,config,-insertbackground) -insertwidth $data($win,config,-insertwidth)
       }
 
       # Remove the background color
@@ -6223,7 +6240,9 @@ namespace eval ctext {
   # mode.
   proc is_block_cursor {win} {
 
-    return [expr {[$win._t cget -blockcursor] || ([$win._t tag ranges _mcursor] ne "")}]
+    variable data
+
+    return [expr {$data($win,config,-blockcursor) || ([$win._t tag ranges _mcursor] ne "")}]
 
   }
 
@@ -6843,8 +6862,7 @@ namespace eval ctext {
 
     if {$opts(-dir) eq "next"} {
 
-      while {($num > 0) && [$win._t compare $startpos < end-2c]} {
-        set le [$win._t index "$startpos lineend"]
+      while {($num > 0) && [$win._t compare $startpos < end-1c]} {
         if {[set line_chars [$win._t count -displaychars $startpos "$startpos lineend"]] == 0} {
           set startpos [$win._t index "$startpos+1 display lines"]
           set startpos "$startpos linestart"

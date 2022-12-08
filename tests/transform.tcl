@@ -74,7 +74,7 @@ namespace eval transform {
 
     enter $txtt $cmdlist
     if {[$txtt get 1.0 end-1c] ne $value} {
-      cleanup "$id transform is not correct ([string map {\n .\n} [$txtt get 1.0 end-1c]])"
+      cleanup "$id transform is not correct ([string map {\n .\n} [$txtt get 1.0 end-1c]])([string map {\n .\n} $value])"
     }
     if {$vim::mode($txtt) ne "command"} {
       cleanup "$id not in command mode"
@@ -89,7 +89,7 @@ namespace eval transform {
       cleanup "$id recording mode is not none ($vim::recording(mode))"
     }
     if {$vim::recording(num) ne $record_num} {
-      cleanup "$id recording num is incorrect ($vim::recording(num))"
+      cleanup "$id recording num is incorrect ($vim::recording(num))($record_num)"
     }
     if {$vim::recording(events) ne $record_events} {
       cleanup "$id recording events are incorrect ($vim::recording(events))"
@@ -909,4 +909,4 @@ namespace eval transform {
 
   }
 
-}
+  }
