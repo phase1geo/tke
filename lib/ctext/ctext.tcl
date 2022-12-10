@@ -143,7 +143,7 @@ namespace eval ctext {
     set data($win,select_anchors)                  [list]
     set data($win,mcursor_anchor)                  ""
 
-    set data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
+    set data($win,config,ctextFlags) [list -foreground -background -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
     -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
     -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit \
     -matchaudit_bg -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -linemap_align \
@@ -232,8 +232,7 @@ namespace eval ctext {
       $win.t tag lower matchchar sel
     }
     $win.t tag configure _mcursor -underline 1
-    $win.t tag configure _bcursor -foreground [$win.t cget -background]
-    $win.t tag raise _bcursor sel
+    $win.t tag configure _bcursor -foreground $data($win,config,-bg)
 
     bind Ctext  <Configure>                    { ctext::event:DoConfigure %W }
     bind Ctext  <<CursorChanged>>              { ctext::event:CursorChanged %W }
@@ -313,26 +312,11 @@ namespace eval ctext {
   # Called whenever the cursor.
   proc event:CursorChanged {win} {
 
-    variable data
-
     if {[set win [get_win $win]] eq ""} {
       return -code ok
     }
 
-    if {[is_block_cursor $win]} {
-      catch { $win._t tag remove _bcursor {*}[$win._t tag ranges _bcursor] } rc
-      puts "------"
-      $win._t tag configure _bcursor -background [$win._t cget -background]
-      foreach name [$win._t tag names [$win._t index insert]] {
-        if {[set fg [$win._t tag cget $name -foreground]] ne ""} {
-          puts "Setting _bcursor background to $fg"
-          $win._t tag configure _bcursor -background $fg
-          break
-        }
-      }
-      $win._t tag add _bcursor [$win._t index insert]
-    }
-
+    update_bcursor $win
     linemapUpdate $win
 
   }
@@ -700,6 +684,26 @@ namespace eval ctext {
 
   }
 
+  ######################################################################
+  # Updates the block cursor if it is currently set.
+  proc update_bcursor {win} {
+
+    variable data
+
+    if {[is_block_cursor $win]} {
+      catch { $win._t tag remove _bcursor {*}[$win._t tag ranges _bcursor] } rc
+      $win._t tag configure _bcursor -background $data($win,config,-fg)
+      foreach name [lreverse [$win._t tag names [$win._t index insert]]] {
+        if {[set fg [$win._t tag cget $name -foreground]] ne ""} {
+          $win._t tag configure _bcursor -background $fg
+          break
+        }
+      }
+      $win._t tag add _bcursor [$win._t index insert]
+    }
+
+  }
+
   # This stores the arg table within the config array for each instance.
   # It's used by the configure instance command.
   proc buildArgParseTable win {
@@ -712,9 +716,20 @@ namespace eval ctext {
       if {[catch { winfo rgb $win $value } res]} {
         return -code error $res
       }
-      set data($win,config,-background) $value
-      $win.t configure -bg $value
+      set data($win,config,-bg) $value
+      $win._t configure -bg $value
+      $win._t tag configure _bcursor -foreground $value
       update_linemap_separator $win
+      break
+    }
+
+    lappend argTable any -foreground {
+      if {[catch { winfo rgb $win $value } res]} {
+        return -code error $res
+      }
+      set data($win,config,-fg) $value
+      $win._t configure -fg $value
+      update_bcursor $win
       break
     }
 
@@ -1181,7 +1196,7 @@ namespace eval ctext {
       auto {
         catch {
           set lm [winfo rgb $win $data($win,config,-linemapbg)]
-          set bg [winfo rgb $win $data($win,config,-background)]
+          set bg [winfo rgb $win $data($win,config,-bg)]
           if {$lm ne $bg} {
             grid $win.f
           } else {
