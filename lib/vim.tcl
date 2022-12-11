@@ -1247,7 +1247,7 @@ namespace eval vim {
       if {$last_selection($txtt) ne ""} {
         lassign $last_selection($txtt) vmode sel
         set mode($txtt) $vmode
-        ::tk::TextSetCursor $txtt "[lindex $sel 1]-1c"
+        $txtt cursor set "[lindex $sel 1]-1c"
         $txtt tag remove sel 1.0
         $txtt tag add sel {*}$sel
       }
@@ -2131,7 +2131,7 @@ namespace eval vim {
     variable operator
 
     if {$operator($txtt) eq ""} {
-      ::tk::TextSetCursor $txtt "insert linestart"
+      $txtt cursor set "insert linestart"
       edit_mode $txtt
       record_start $txtt "I"
       return 1
@@ -2756,7 +2756,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          ::tk::TextSetCursor $txtt "insert lineend"
+          $txtt cursor set "insert lineend"
           edit_mode $txtt
           record_start $txtt "A"
           return 1

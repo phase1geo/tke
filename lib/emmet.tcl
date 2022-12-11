@@ -307,7 +307,7 @@ namespace eval emmet {
         return
       }
       if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
-        ::tk::TextSetCursor $txt [lindex $retval 0]
+        $txt cursor set [lindex $retval 0]
         return
       }
       incr others -1
@@ -350,7 +350,7 @@ namespace eval emmet {
     }
 
     # Set the cursor position
-    ::tk::TextSetCursor $txt [lindex $node_range 0]
+    $txt cursor set [lindex $node_range 0]
 
     # Select the current range
     $txt tag add sel {*}$node_range
@@ -371,7 +371,7 @@ namespace eval emmet {
     if {[llength [$txt tag ranges sel]] == 2} {
       if {([ctext::inside_tag $txt] eq "") || ([set tag_range [ctext::get_inner [ctext::get_node_range $txt]]] eq "")} {
         if {([set retval [ctext::get_tag $txt -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
-          ::tk::TextSetCursor $txt [lindex $retval 0]
+          $txt cursor set [lindex $retval 0]
           if {[set tag_range [ctext::get_outer [ctext::get_node_range $txt]]] eq ""} {
             return
           }
@@ -381,7 +381,7 @@ namespace eval emmet {
       }
 
       # Set the cursor and the selection
-      ::tk::TextSetCursor $txt [lindex $tag_range 0]
+      $txt cursor set [lindex $tag_range 0]
       $txt tag add sel {*}$tag_range
 
     # Otherwise, perform an outward balance to make the selection
@@ -472,7 +472,7 @@ namespace eval emmet {
       } else {
         set endpos [expr {($dir eq "next") ? [lindex $retval 0] : [lindex $retval 1]}]
         if {[set index [get_blank_line $txt $dir insert $endpos]] ne ""} {
-          ::tk::TextSetCursor $txt "$index lineend"
+          $txt cursor set "$index lineend"
           return
         }
       }
@@ -484,16 +484,16 @@ namespace eval emmet {
       while {1} {
         foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
           if {($attr_value eq "") && [$txt compare $attr_value_start > insert]} {
-            ::tk::TextSetCursor $txt $attr_value_start
+            $txt cursor set $attr_value_start
             return
           }
         }
         if {[set next_tag [ctext::get_tag $txt -dir next -start [lindex $retval 1]]] ne ""} {
           if {[$txt compare [lindex $retval 1] == [lindex $next_tag 0]]} {
-            ::tk::TextSetCursor $txt [lindex $next_tag 0]
+            $txt cursor set [lindex $next_tag 0]
             return
           } elseif {[set index [get_blank_line $txt next [lindex $retval 1] [lindex $next_tag 0]]] ne ""} {
-            ::tk::TextSetCursor $txt "$index lineend"
+            $txt cursor set "$index lineend"
             return
           } else {
             set retval $next_tag
@@ -508,17 +508,17 @@ namespace eval emmet {
       while {1} {
         foreach {attr_value_start attr_value attr_name_start attr_name} [lreverse [get_tag_attributes $txt $retval]] {
           if {($attr_value eq "") && [$txt compare $attr_value_start < insert]} {
-            ::tk::TextSetCursor $txt $attr_value_start
+            $txt cursor set $attr_value_start
             return
           }
         }
         if {[set prev_tag [ctext::get_tag $txt -dir prev -start [lindex $retval 0]]] ne ""} {
           if {[$txt compare [lindex $prev_tag 1] == [lindex $retval 0]] && \
               [$txt compare insert != [lindex $retval 0]]} {
-            ::tk::TextSetCursor $txt [lindex $retval 0]
+            $txt cursor set [lindex $retval 0]
             return
           } elseif {[set index [get_blank_line $txt prev [lindex $retval 0] [lindex $prev_tag 1]]] ne ""} {
-            ::tk::TextSetCursor $txt "$index lineend"
+            $txt cursor set "$index lineend"
             return
           } else {
             set retval $prev_tag
@@ -555,7 +555,7 @@ namespace eval emmet {
       set value_start [$txt index "$attr_value_start+[lindex $match 0]c"]
       set value_end   [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
       if {$select} {
-        ::tk::TextSetCursor $txt $value_end
+        $txt cursor set $value_end
         $txt tag add sel $value_start $value_end
         return 1
       } elseif {$selected eq [list $value_start $value_end]} {
@@ -572,7 +572,7 @@ namespace eval emmet {
     if {$select} {
       return 0
     } else {
-      ::tk::TextSetCursor $txt $attr_value_end
+      $txt cursor set $attr_value_end
       $txt tag add sel $attr_value_start $attr_value_end
       return 1
     }
@@ -604,7 +604,7 @@ namespace eval emmet {
 
         # Select the tag name if it is the next item
         if {[$txt compare $startpos < $end_name]} {
-          ::tk::TextSetCursor $txt $end_name
+          $txt cursor set $end_name
           $txt tag add sel "[lindex $retval 0]+1c" $end_name
           return
 
@@ -616,11 +616,11 @@ namespace eval emmet {
               continue
             }
             if {[$txt compare $startpos < $attr_value_start]} {
-              ::tk::TextSetCursor $txt $attr_end
+              $txt cursor set $attr_end
               $txt tag add sel $attr_name_start $attr_end
               return
             } elseif {(($selected eq [list $attr_name_start $attr_end]) && ($attr_value ne "")) || ($selected eq "")} {
-              ::tk::TextSetCursor $txt "$attr_end-1c"
+              $txt cursor set "$attr_end-1c"
               $txt tag add sel $attr_value_start "$attr_end-1c"
               return
             } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start ]} {
@@ -647,13 +647,13 @@ namespace eval emmet {
           }
           if {($selected eq [list $attr_value_start [$txt index $attr_end-1c]]) || \
               (($attr_value eq "") && [$txt compare $startpos > $attr_name_start])} {
-            ::tk::TextSetCursor $txt $attr_end
+            $txt cursor set $attr_end
             $txt tag add sel $attr_name_start $attr_end
             return
           } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start]} {
             return
           } elseif {[$txt compare $startpos > $attr_value_start] && ($attr_value ne "")} {
-            ::tk::TextSetCursor $txt "$attr_end-1c"
+            $txt cursor set "$attr_end-1c"
             $txt tag add sel $attr_value_start "$attr_end-1c"
             return
           }
@@ -667,7 +667,7 @@ namespace eval emmet {
         # the tag name
         if {(($selected ne [list $start_name $end_name]) && [$txt compare $startpos > [lindex $retval 0]]) || \
             (($attr_name_start ne "") && ($selected eq [list $attr_name_start $attr_end]))} {
-          ::tk::TextSetCursor $txt $end_name
+          $txt cursor set $end_name
           $txt tag add sel $start_name $end_name
           return
         }

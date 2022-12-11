@@ -507,7 +507,7 @@ namespace eval edit {
     set txt [gui::current_txt]
 
     # Align multicursors only
-    $txt cursor align
+    $txt cursor align -text 0
 
     return 1
 
@@ -522,7 +522,7 @@ namespace eval edit {
     set txt [gui::current_txt]
 
     # Align multicursors
-    $txt cursor align_with_text
+    $txt cursor align -text 1
 
     return 1
 
@@ -757,7 +757,7 @@ namespace eval edit {
     set index [$txtt index $position {*}$args]
 
     # Set the insertion position and make it visible
-    ::tk::TextSetCursor $txtt $index
+    $txtt cursor set $index
 
   }
 

@@ -1943,7 +1943,7 @@ namespace eval gui {
       files::set_info $tab tab modified 0
 
       # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt.t $cursor
+      $txt cursor set $cursor
 
       # Set the yview
       $txt xview moveto $xview
@@ -2079,7 +2079,7 @@ namespace eval gui {
       files::set_info $file_index fileindex modified 0
 
       # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt.t $insert_index
+      $txt cursor set $insert_index
 
       # If a diff command was specified, run and parse it now
       if {$diff} {
@@ -5726,7 +5726,7 @@ namespace eval gui {
     folding::show_line $txt.t [lindex [split $pos .] 0]
 
     # Make the line viewable
-    ::tk::TextSetCursor $txt.t $pos
+    $txt cursor set $pos
 
   }
 
@@ -5745,7 +5745,7 @@ namespace eval gui {
     folding::show_line $txt.t [lindex [split $pos .] 0]
 
     # Make the line viewable
-    ::tk::TextSetCursor $txt.t $pos
+    $txt cursor set $pos
 
   }
 
@@ -5781,7 +5781,7 @@ namespace eval gui {
 
     # Change the insertion cursor to the matching character
     if {($index ne "") && ($index != -1)} {
-      ::tk::TextSetCursor $txt.t $index
+      $txt cursor set $index
     }
 
     return 1
@@ -6302,7 +6302,7 @@ namespace eval gui {
     if {$index != $cursor_hist($txt,index)} {
       if {$jump} {
         set cursor_hist($txt,index) $index
-        ::tk::TextSetCursor $txt.t [lindex $cursor_hist($txt,hist) $index]
+        $txt cursor set [lindex $cursor_hist($txt,hist) $index]
       }
       return 1
     }

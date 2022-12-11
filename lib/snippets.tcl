@@ -457,17 +457,17 @@ namespace eval snippets {
       # Find the current tab point tag
       if {[llength [set range [$txtt tag ranges snippet_sel_$tabpoints($txtt)]]] == 2} {
         $txtt tag delete snippet_sel_$tabpoints($txtt)
-        ::tk::TextSetCursor $txtt [lindex $range 1]
+        $txtt cursor set [lindex $range 1]
         $txtt tag add sel {*}$range
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_$tabpoints($txtt)]]] == 2} {
         $txtt delete -highlight 0 {*}$range
-        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt cursor set [lindex $range 0]
         $txtt tag delete snippet_mark_$tabpoints($txtt)
         set tabstart($txtt) [lindex $range 0]
       } elseif {[llength [set range [$txtt tag ranges snippet_mark_0]]] == 2} {
         $txtt delete -highlight 0 {*}$range
-        ::tk::TextSetCursor $txtt [lindex $range 0]
+        $txtt cursor set [lindex $range 0]
         $txtt tag delete snippet_mark_0
         set tabstart($txtt) [lindex $range 0]
       }

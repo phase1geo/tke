@@ -112,7 +112,7 @@ lassign [my GetLinePosition $txt $lfrom.0] linestart lineend
 set duptext [$txt get $linestart $lineend]
 $txt delete $linestart $lineend
 $txt insert $lto.0 $duptext
-::tk::TextSetCursor $txt [NewRow $pos $to]
+$txt cursor set [NewRow $pos $to]
 if {$issel} {$txt tag add sel [NewRow $pos1 $to] [NewRow $pos2 $to]}
 if {[lsearch [$txt tag names] tagCOM*]>-1} {catch {::hl_tcl::my::Modified $txt insert $lto.0 $lto.end}}
 if {$dobreak} {return -code break}}
@@ -128,7 +128,7 @@ catch {set seltxt [$txt get $pos $pos2]
 if {[set sttrim [string trim $seltxt]] ne ""} {if {$forword} {set seltxt $sttrim}}}}
 return $seltxt}
 method InitFindInText { {ctrlf 0} {txt {}} } {if {$txt eq ""} {set txt [my TexM]}
-if {$ctrlf} {::tk::TextSetCursor $txt [$txt index "insert -1 char"]}
+if {$ctrlf} {$txt cursor set [$txt index "insert -1 char"]}
 if {[set seltxt [my selectedWordText $txt]] ne ""} {set ${_pdg(ns)}PD::fnd $seltxt}
 return}
 method findInText {{donext 0} {txt ""} {varFind ""}} {if {$txt eq ""} {if {![info exists ${_pdg(ns)}PD::fnd]} return
@@ -143,7 +143,7 @@ set pos [$txt search -- $sel $pos end]
 } else {set pos ""
 my set_HighlightedString ""}
 if {![string length "$pos"]} {set pos [$txt search -- $sel 1.0 end]}
-if {[string length "$pos"]} {::tk::TextSetCursor $txt $pos
+if {[string length "$pos"]} {$txt set cursor $pos
 $txt tag add sel $pos [$txt index "$pos + [string length $sel] chars"]
 focus $txt
 } else {bell -nice}

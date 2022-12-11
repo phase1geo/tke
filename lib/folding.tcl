@@ -868,7 +868,7 @@ namespace eval folding {
           return
         }
       }
-      ::tk::TextSetCursor $txt [lindex $data $index].0
+      $txt cursor set [lindex $data $index].0
     }
 
   }

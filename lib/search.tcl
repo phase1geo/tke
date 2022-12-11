@@ -185,7 +185,7 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      ::tk::TextSetCursor $txt.t $startpos
+      $txt cursor set $startpos
       $txt syntax add search_curr $startpos $endpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"] -win $txt
@@ -218,7 +218,7 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      ::tk::TextSetCursor $txt.t $startpos
+      $txt cursor set $startpos
       $txt syntax add search_curr $startpos $endpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to end of file"] -win $txt
@@ -496,7 +496,7 @@ namespace eval search {
 
     # Make sure that the beginning of the inserted text is in view
     $txt see end
-    ::tk::TextSetCursor $txt $last_line
+    $txt cursor set $last_line
 
     # Change the state back to disabled
     $txt configure -state disabled
@@ -582,8 +582,7 @@ namespace eval search {
     gui::add_file end [string trim $fname]
 
     # Jump to the line and set the cursor to the beginning of the line
-    set txt [gui::current_txt]
-    ::tk::TextSetCursor $txt $linenum.0
+    [gui::current_txt] cursor set $linenum.0
 
   }
 

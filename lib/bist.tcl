@@ -769,7 +769,7 @@ namespace eval bist {
 
     # Insert the test
     $txt insert $endpos "\n\n  proc $name {} {\n    \n  }"
-    ::tk::TextSetCursor $txt $endpos+4c
+    $txt cursor set $endpos+4c
 
     # Save the file
     gui::save_current
@@ -827,7 +827,7 @@ namespace eval bist {
 
     # Find the test in the file
     if {[set index [$txt search -regexp -- "proc\\s+$tname\\M" 1.0]] ne ""} {
-      ::tk::TextSetCursor $txt $index
+      $txt cursor set $index
     }
 
   }

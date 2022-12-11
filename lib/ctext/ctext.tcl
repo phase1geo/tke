@@ -4,20 +4,21 @@ package require Tk
 package provide ctext 5.0
 
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
-rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
-proc ::tk::TextSetCursor {w pos args} {
-  set ins [$w index insert]
-  ::tk::TextSetCursorOrig $w $pos
-  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
-}
+#rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
+#proc ::tk::TextSetCursor {w pos args} {
+#  set ins [$w index insert]
+#  ::tk::TextSetCursorOrig $w $pos
+#  puts "Setting insert to $pos"
+#  # event generate $w <<CursorChanged>> -data [list $ins {*}$args]
+#}
 
 # Override the tk::TextButton1 to add a <<CursorChanged>> event
 rename ::tk::TextButton1 ::tk::TextSetButton1Orig
-proc ::tk::TextButton1 {w x y args} {
-  set ins [$w index insert]
-  ::tk::TextSetButton1Orig $w $x $y
-  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
-}
+#proc ::tk::TextButton1 {w x y args} {
+#  set ins [$w index insert]
+#  ::tk::TextSetButton1Orig $w $x $y
+#  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
+#}
 
 namespace eval ctext {
 
@@ -264,7 +265,7 @@ namespace eval ctext {
     bind Ctext  <Key-BackSpace>                { ctext::event:Backspace %W }
     bind Ctext  <Return>                       { ctext::event:Return %W }
     bind Ctext  <Key>                          { ctext::event:KeyPress %W %A %K }
-    bind Ctext  <Button-1>                     { ctext::event:Button1 %W }
+    bind Ctext  <Button-1>                     { ctext::event:Button1 %W %x %y }
     bind Ctext  <$alt_key-Button-1>            { ctext::event:AltButton1 %W %x %y }
     bind Ctext  <$alt_key-Button-$right_click> { ctext::event:AltButton3 %W %x %y }
 
@@ -316,8 +317,7 @@ namespace eval ctext {
       return -code ok
     }
 
-    update_bcursor $win
-    linemapUpdate $win
+    # linemapUpdate $win
 
   }
 
@@ -396,6 +396,8 @@ namespace eval ctext {
       return -code ok
     }
 
+    $win cursor select FOOBAR
+    update_bcursor $win
 #    if {[llength [set sel [$win._t tag ranges sel]]] > 2} {
 #      clear_mcursors $win 0
 #      foreach {start end} $sel {
@@ -574,13 +576,14 @@ namespace eval ctext {
 
   ######################################################################
   # Called whenever the user clicks on the left mouse button.
-  proc event:Button1 {win} {
+  proc event:Button1 {win x y} {
 
     if {[set win [get_win $win]] eq ""} {
       return -code ok
     }
 
-    $win cursor disable
+    $win cursor set [$win index @$x,$y]
+    # $win cursor disable
 
   }
 
@@ -2157,207 +2160,420 @@ namespace eval ctext {
   # Allows the users to interact with multicursor support within the widget.
   proc command_cursor {win args} {
 
+    set args [lassign $args subcmd]
+
+    switch $subcmd {
+      add        { cursor_add $win {*}$args }
+      addcolumn  { cursor_add_column $win {*}$args }
+      enabled    { return [cursor_enabled $win {*}$args] }
+      disable    { cursor_disable $win }
+      set        { cursor_set $win {*}$args }
+      num        { return [expr [llength [$win._t tag ranges _mcursor]] / 2] }
+      get        { return [lmap {spos epos} [$win._t tag ranges _mcursor] {set spos}] }
+      remove     { cursor_remove $win {*}$args }
+      move       { return [cursor_move $win {*}$args] }
+      selectend  { return [cursor_select_end $win] }
+      select     { return [cursor_select $win {*}$args] }
+      selectline { return [cursor_select_line $win] }
+      replace    { return [cursor_replace $win] }
+      align      { cursor_align $win {*}$args }
+      enumerate  { return [insert_numbers $win [lindex $args 1]] }
+      default {
+        return -code error "Illegal ctext mcursor command ($subcmd)"
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Adds a cursor to the list of multicursors.
+  #
+  # Usage: <txt> cursor add <indexspec> ?<indexspec>+?
+  proc cursor_add {win args} {
+
     variable data
 
-    switch [lindex $args 0] {
-      add {
-        foreach index [lrange $args 1 end] {
-          set_mcursor $win [set index [$win index {*}$index]]
-          lappend data($win,select_anchors) $index
+    foreach index $args {
+      set_mcursor $win [set index [$win index {*}$index]]
+      lappend data($win,select_anchors) $index
+    }
+
+    set data($win,select_anchors) [lsort -dictionary $data($win,select_anchors)]
+
+    update_cursor $win
+
+  }
+
+  ######################################################################
+  # Adds a column of cursors from the current anchor to the line indicated
+  # by the first index argument:
+  #
+  # Usage:  <txt> cursor addcolumn <indexspec>
+  proc cursor_add_column {win args} {
+
+    variable data
+
+    if {[llength $args] != 1} {
+      return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
+    }
+
+    if {$data($win,mcursor_anchor) ne ""} {
+      set index [$win index {*}[lindex $args 0]]
+      lassign [split $data($win,mcursor_anchor) .] anchor_row col
+      set row [lindex [split $index .] 0]
+      if {$row < $anchor_row} {
+        for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
+          set_mcursor $win $i.$col
         }
-        set data($win,select_anchors) [lsort -dictionary $data($win,select_anchors)]
-        update_cursor $win
+      } else {
+        for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
+          set_mcursor $win $i.$col
+        }
       }
-      addcolumn {
-        if {[llength $args] != 2} {
-          return -code error "Incorrect number of arguments to ctext mcursor addcolumn"
-        }
-        if {$data($win,mcursor_anchor) ne ""} {
-          set index [$win index {*}[lindex $args 1]]
-          lassign [split $data($win,mcursor_anchor) .] anchor_row col
-          set row [lindex [split $index .] 0]
-          if {$row < $anchor_row} {
-            for {set i [expr $anchor_row - 1]} {$i >= $row} {incr i -1} {
-              set_mcursor $win $i.$col
-            }
+    }
+
+  }
+
+  ######################################################################
+  # Returns the status of multicursors being enabled.
+  #
+  # Usage:
+  #   <txt> cursor enabled              (Returns true if multicursors exist in txt)
+  #   <txt> cursor enabled <indexspec>  (Returns true if a multicursor exists on the given index)
+  proc cursor_enabled {win args} {
+
+    if {[llength $args] == 1} {
+      return [expr {[lsearch [$win._t tag names [$win index {*}[lindex $args 0]]] _mcursor] != -1}]
+    } else {
+      return [expr {[$win._t tag ranges _mcursor] ne ""}]
+    }
+
+  }
+
+  ######################################################################
+  # Disables (clears) the multicursors.
+  #
+  # Usage:  <txt> cursor disable
+  proc cursor_disable {win} {
+
+    clear_mcursors $win
+    update_cursor  $win
+
+  }
+
+  ######################################################################
+  # If a single index is provided, sets the insertion cursor to the given index.
+  # If more than one index is provided, clears the current multicursors (if enabled)
+  # and sets the multicursors to the provided indices.
+  #
+  # Usage:
+  #   <txt> cursor set <indexspec> ?<indexpec>*?
+  proc cursor_set {win args} {
+
+    if {([llength $args] == 1) || \
+        ([get_spec_proc [lindex $args 0]] ne "") || \
+        ([lsearch [list linestart lineend display wordstart wordend] [lindex $args 1 1]] != -1)} {
+      set_cursor $win [$win index {*}[lindex $args 0]]
+    } else {
+      clear_mcursors $win
+      foreach index $args {
+        set_mcursor $win [$win index {*}$index]
+      }
+    }
+
+    update_cursor $win
+
+  }
+
+  ######################################################################
+  # Removes one or more multicursors from the set of multicursors.
+  #
+  # Usage:  <txt> cursor remove <indexspec>+
+  proc cursor_remove {win args} {
+
+    variable data
+
+    set mcursors [lmap {spos epos} [$win._t tag ranges _mcursor] {set spos}]
+    set selects  [$win._t tag ranges sel]
+
+    foreach index $args {
+      set cursor [$win index {*}$index]
+      if {[set sindex [lsearch $mcursors $cursor]] != -1} {
+        clear_mcursor $win $cursor
+        $win._t tag remove sel $data($win,select_anchors) [lindex $mcursors $sindex]
+        set data($win,select_anchors) [lreplace $data($win,select_anchors) $sindex $sindex]
+        if {$data($win,mcursor_anchor) == $index} {
+          set mcursors [lreplace $mcursors $sindex $sindex]
+          if {$mcursors eq ""} {
+            set data($win,mcursor_anchor) [$win._t index insert]
           } else {
-            for {set i [expr $anchor_row + 1]} {$i <= $row} {incr i} {
-              set_mcursor $win $i.$col
-            }
+            set data($win,mcursor_anchor) [lindex $mcursors end]
           }
         }
       }
-      enabled {
-        if {[llength $args] == 2} {
-          return [expr {[lsearch [$win._t tag names [$win index {*}[lindex $args 1]]] _mcursor] != -1}]
-        } else {
-          return [expr {[$win._t tag ranges _mcursor] ne ""}]
-        }
+    }
+
+    update_cursor $win
+
+  }
+
+  ######################################################################
+  # Moves all of the multicursors according the provided indexspec.
+  #
+  # Usage:  <txt> cursor move <indexspec>
+  #
+  # Returns 1 if the move was successful; otherwise, returns 0 to indicate that moving
+  # the multicursors would result in an error.
+  proc cursor_move {win args} {
+
+    variable data
+
+    if {[llength $args] != 1} {
+      return -code error "Incorrect number of arguments to ctext cursor move command"
+    }
+    if {[get_spec_proc [lindex $args 0]] eq ""} {
+      return -code error "ctext cursor move command must be called with a relative index"
+    }
+
+    set ret [move_mcursors $win [lindex $args 0] starts]
+    if {$ret == 1} {
+      set data($win,select_anchors) [lsort -dictionary $starts]
+      return 1
+    } elseif {$ret == 0} {
+      set index [$win index {*}[lindex $args 0]]
+      set_cursor $win $index
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Returns the "start" if the multicursors are located at the start of their respective
+  # selection.  Returns "end" if the multicursors are located at the end of their respective
+  # selection.  Returns "none" if no multicursor selection is enabled.
+  #
+  # Usage:  <txt> cursor selectend
+  proc cursor_select_end {win} {
+
+    variable data
+
+    if {[llength $data($win,select_anchors)] > 0} {
+      if {[$win._t compare [lindex [$win._t tag ranges _mcursor] 0] < [lindex $data($win,select_anchors) 0]]} {
+        return "start"
+      } else {
+        return "end"
       }
-      disable {
-        clear_mcursors $win
-        # set data($win,select_anchors) [$win._t index insert]
-        update_cursor  $win
+    } elseif {[set sel [$win._t tag ranges sel]] ne ""} {
+      if {[$win._t compare insert == [lindex $sel 0]]} {
+        return "start"
+      } else {
+        return "end"
       }
-      set {
-        if {([llength [lindex $args 1]] == 1) || \
-            ([get_spec_proc [lindex $args 1]] ne "") || \
-            ([lsearch [list linestart lineend display wordstart wordend] [lindex $args 1 1]] != -1)} {
-          set_cursor $win [$win index {*}[lindex $args 1]]
-        } else {
-          clear_mcursors $win
-          foreach index [lindex $args 1] {
-            set_mcursor $win [$win index {*}$index]
-          }
-        }
-        update_cursor $win
+    }
+
+    return "none"
+
+  }
+
+  ######################################################################
+  # Moves the mcursors by the given indexspec, updating the selection for each multicursor.
+  # If multicursors do not exist, moves the insertion cursor and updates the selection.
+  #
+  # Usage:  <txt> cursor select <indexspec>
+  #
+  # Returns 1 if the cursors were able to be moved successfully; otherwise, returns 0.
+  proc cursor_select {win args} {
+
+    variable data
+
+    if {[llength $args] != 1} {
+      return -code error "Incorrect number of arguments to ctext cursor select command"
+    }
+    if {[get_spec_proc [lindex $args 0]] eq ""} {
+      return -code error "ctext cursor select command must be called with a relative index"
+    }
+
+    set anchors $data($win,select_anchors)
+    set ret [move_mcursors $win [lindex $args 0] starts]
+
+    if {$ret == 1} {
+      set selranges [list]
+      foreach anchor $anchors {mstart mend} [$win._t tag ranges _mcursor] {
+        adjust_start_end $win anchor mstart
+        lappend selranges $anchor $mstart+1c
       }
-      num {
-        return [expr [llength [$win._t tag ranges _mcursor]] / 2]
+      $win._t tag add sel {*}$selranges
+      set data($win,select_anchors) [lsort -dictionary $anchors]
+      return 1
+    } elseif {$ret == 0} {
+      set index [$win index {*}[lindex $args 0]]
+      set_cursor $win $index
+      $win._t tag remove sel 1.0 end
+      $win._t tag add sel [lindex $anchors 0] $index
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Selects the entire line that all multicursors exist on.  If no multicursors are enabled,
+  # selects the line of the insertion cursor.  Places cursor(s) at the end of their
+  # respective selection.
+  #
+  # Usage:  <txt> cursor selectline
+  #
+  # Returns 1 if the cursor move is successful; otherwise, returns 0.
+  proc cursor_select_line {win} {
+
+    variable data
+
+    set anchors $data($win,select_anchors)
+    set data($win,select_anchors) [list]
+    set ret [move_mcursors $win lineend starts]
+
+    if {$ret == 1} {
+      set selranges [list]
+      foreach anchor $anchors {mstart mend} [$win._t tag ranges _mcursor] {
+        adjust_start_end $win anchor mstart
+        lappend selranges "$anchor linestart" "$mstart lineend"
+        lappend data($win,select_anchors) [$win._t index "$anchor linestart"]
       }
-      get {
-        return [lmap {spos epos} [$win._t tag ranges _mcursor] {set spos}]
+      $win._t tag add sel {*}$selranges
+      return 1
+    } elseif {$ret == 0} {
+      set index [$win index lineend]
+      set_cursor $win $index
+      $win._t tag remove sel 1.0 end
+      $win._t tag add sel [lindex $anchors 0] $index
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Aligns the multicursors to the same column.  If the -text option is
+  # set to 1, moves the text starting at the multlcursor to the end of the line (default);
+  # otherwise, only the cursors are moved leaving the text intact.
+  #
+  # Usage:
+  #   <txt> cursor align ?-text (0|1)?
+  proc cursor_align {win args} {
+
+    if {[set mcursor [$win._t tag ranges _mcursor]] eq ""} {
+      return
+    }
+
+    array set opts {
+      -text 1
+    }
+    array set opts $args
+
+    if {$opts(-text)} {
+      align_cursors_and_text $win
+    } else {
+      align_cursors $win
+    }
+
+  }
+
+  ######################################################################
+  # Aligns the multicursors to the same column as the multicursor that is
+  # closest to the start of its line.
+  proc align_cursors {win} {
+
+    catch {
+
+    set last_row -1
+    set min_col  1000000
+    set rows     [list]
+
+    # Find the cursor that is closest to the start of its line
+    foreach {start end} [$win._t tag ranges _mcursor] {
+      lassign [split $start .] row col
+      if {$row ne $last_row} {
+        set last_row $row
+        if {$col < $min_col} {
+          set min_col $col
+        }
+        lappend rows $row
       }
-      remove {
-        set mcursors [lmap {spos epos} [$win._t tag ranges _mcursor] {set spos}]
-        set selects  [$win._t tag ranges sel]
-        foreach index [lrange $args 1 end] {
-          set cursor [$win index {*}$index]
-          if {[set sindex [lsearch $mcursors $cursor]] != -1} {
-            clear_mcursor $win $cursor
-            $win._t tag remove sel $data($win,select_anchors) [lindex $mcursors $sindex]
-            set data($win,select_anchors) [lreplace $data($win,select_anchors) $sindex $sindex]
-            if {$data($win,mcursor_anchor) == $index} {
-              set mcursors [lreplace $mcursors $sindex $sindex]
-              if {$mcursors eq ""} {
-                set data($win,mcursor_anchor) [$win._t index insert]
-              } else {
-                set data($win,mcursor_anchor) [lindex $mcursors end]
-              }
-            }
-          }
-        }
-        update_cursor $win
+    }
+
+    if {[llength $rows] > 0} {
+      foreach row $rows {
+        lappend cursors $row.$min_col
       }
-      move {
-        if {[llength $args] != 2} {
-          return -code error "Incorrect number of arguments to ctext cursor move command"
+      cursor_set $win {*}$cursors
+    }
+
+  } rc
+  puts "align_cursors, rc: $rc"
+
+  }
+
+  ######################################################################
+  # Aligns all multicursors to the multicursor closest to the end of its line,
+  # inserting space characters between the original multicursor location and
+  # its end position.
+  proc align_cursors_and_text {win} {
+
+    set last_row -1
+    set max_col  0
+    set cursors  [list]
+    set contents [list]
+
+    # Find the cursor position to align to and the cursors to align
+    foreach {start end} [$win._t tag ranges _mcursor] {
+      lassign [split $start .] row col
+      if {$row ne $last_row} {
+        set last_row $row
+        if {$col > $max_col} {
+          set max_col $col
         }
-        if {[get_spec_proc [lindex $args 1]] eq ""} {
-          return -code error "ctext cursor move command must be called with a relative index"
-        }
-        set ret [move_mcursors $win [lindex $args 1] starts]
-        if {$ret == 1} {
-          set data($win,select_anchors) [lsort -dictionary $starts]
-          return 1
-        } elseif {$ret == 0} {
-          set index [$win index {*}[lindex $args 1]]
-          set_cursor $win $index
-          # set data($win,select_anchors) $index
-        }
-        return 0
+        lappend cursors $col
       }
-      selectend {
-        if {[llength $data($win,select_anchors)] > 0} {
-          if {[$win._t compare [lindex [$win._t tag ranges _mcursor] 0] < [lindex $data($win,select_anchors) 0]]} {
-            return "start"
-          } else {
-            return "end"
-          }
-        } elseif {[set sel [$win._t tag ranges sel]] ne ""} {
-          if {[$win._t compare insert == [lindex $sel 0]]} {
-            return "start"
-          } else {
-            return "end"
-          }
-        }
-        return "none"
+    }
+
+    # Insert spaces to align all columns
+    foreach cursor $cursors {
+      lappend contents [list [string repeat " " [expr $max_col - $cursor]] ""]
+    }
+
+    # Insert the contents
+    $win insertlist {*}$contents
+
+  }
+
+  ######################################################################
+  # Moves the multicursors to a new location based on indexspec, clearing the
+  # selection and selection anchors.  If multicursors are not enabled, replaces
+  # the insertion cursor with the new, relative location.
+  #
+  # Usage:  <txt> cursor replace <indexspec> <anchor index>+
+  proc cursor_replace {win args} {
+
+    variable data
+
+    if {[llength $args] != 2} {
+      return -code error "Incorrect number of arguments to ctext cursor replace command"
+    }
+    if {[get_spec_proc [lindex $args 0]] eq ""} {
+      return -code error "ctext cursor replace command must be called with a relative index"
+    }
+
+    if {[$win._t tag ranges _mcursor] ne ""} {
+      clear_mcursors $win
+      foreach startpos [lindex $args 1] {
+        set_mcursor $win [$win index {*}[lindex $args 0] -startpos $startpos] $startpos
       }
-      select {
-        if {[llength $args] != 2} {
-          return -code error "Incorrect number of arguments to ctext cursor select command"
-        }
-        if {[get_spec_proc [lindex $args 1]] eq ""} {
-          return -code error "ctext cursor select command must be called with a relative index"
-        }
-        set anchors $data($win,select_anchors)
-        set ret [move_mcursors $win [lindex $args 1] starts]
-        if {$ret == 1} {
-          set selranges [list]
-          foreach anchor $anchors {mstart mend} [$win._t tag ranges _mcursor] {
-            adjust_start_end $win anchor mstart
-            lappend selranges $anchor $mstart+1c
-          }
-          $win._t tag add sel {*}$selranges
-          set data($win,select_anchors) [lsort -dictionary $anchors]
-          return 1
-        } elseif {$ret == 0} {
-          set index [$win index {*}[lindex $args 1]]
-          set_cursor $win $index
-          $win._t tag remove sel 1.0 end
-          $win._t tag add sel [lindex $anchors 0] $index
-        }
-        return 0
-      }
-      selectline {
-        set anchors $data($win,select_anchors)
-        set data($win,select_anchors) [list]
-        set ret [move_mcursors $win lineend starts]
-        if {$ret == 1} {
-          set selranges [list]
-          foreach anchor $anchors {mstart mend} [$win._t tag ranges _mcursor] {
-            adjust_start_end $win anchor mstart
-            lappend selranges "$anchor linestart" "$mstart lineend"
-            lappend data($win,select_anchors) [$win._t index "$anchor linestart"]
-          }
-          $win._t tag add sel {*}$selranges
-          return 1
-        } elseif {$ret == 0} {
-          set index [$win index lineend]
-          set_cursor $win $index
-          $win._t tag remove sel 1.0 end
-          $win._t tag add sel [lindex $anchors 0] $index
-        }
-        return 0
-      }
-      replace {
-        if {[llength $args] != 3} {
-          return -code error "Incorrect number of arguments to ctext cursor replace command"
-        }
-        if {[get_spec_proc [lindex $args 1]] eq ""} {
-          return -code error "ctext cursor replace command must be called with a relative index"
-        }
-        if {[$win._t tag ranges _mcursor] ne ""} {
-          clear_mcursors $win
-          foreach startpos [lindex $args 2] {
-            set_mcursor $win [$win index {*}[lindex $args 1] -startpos $startpos] $startpos
-          }
-          set data($win,select_anchors) [lsort -dictionary [lindex $args 2]]
-          return 1
-        } else {
-          set_cursor $win [$win index {*}[lindex $args 1] -startpos [lindex $args 2]] [lindex $args 2]
-          return 0
-        }
-      }
-      align {
-        if {[set mcursor [$win._t tag ranges _mcursor]] ne ""} {
-          array set opts {
-            -text 1
-          }
-          array set opts [lrange $args 1 end]
-          if {$opts(-text)} {
-            align_with_text $win
-          } else {
-            align $win
-          }
-        }
-      }
-      enumerate {
-        return [insert_numbers $win [lindex $args 1]]
-      }
-      default {
-        return -code error "Illegal ctext mcursor command ([lindex $args 0])"
-      }
+      set data($win,select_anchors) [lsort -dictionary [lindex $args 1]]
+      return 1
+    } else {
+      set_cursor $win [$win index {*}[lindex $args 0] -startpos [lindex $args 1]] [lindex $args 1]
+      return 0
     }
 
   }
@@ -3229,6 +3445,8 @@ namespace eval ctext {
 
   ######################################################################
   # Inserts different strings at each multicursor location.
+  #
+  # Usage:  <txt> insertlist ?<options>? {<content> ?<tags>?}+
   proc command_insertlist {win args} {
 
     variable data
@@ -6284,21 +6502,17 @@ namespace eval ctext {
     $win._t see $index
 
     # If we are in block cursor mode, make sure the insertion cursor doesn't look stupid
-    if {![is_block_cursor $win]} {
-      return
+    if {[is_block_cursor $win]} {
+      if {[$win._t compare "$index linestart" == "$index lineend"]} {
+        insert_dspace $win $index
+        $win._t mark set insert $index
+
+      # If our cursor is going to fall of the end of the line, move it back by one character
+      } elseif {[$win._t compare $index == "$index lineend"]} {
+        $win._t mark set insert "$index-1 display chars"
+      }
+      update_bcursor $win
     }
-
-    if {[$win._t compare "$index linestart" == "$index lineend"]} {
-      insert_dspace $win $index
-      $win._t mark set insert $index
-
-    # If our cursor is going to fall of the end of the line, move it back by one character
-    } elseif {[$win._t compare $index == "$index lineend"]} {
-      $win._t mark set insert "$index-1 display chars"
-    }
-
-    # Update the selection anchors
-    # set data($win,select_anchors) $index
 
     # Make sure that the linemap is updated appropriately
     linemapUpdate $win

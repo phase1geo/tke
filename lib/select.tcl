@@ -125,7 +125,7 @@ namespace eval select {
       set index [expr {$anchorend ? 0 : "end"}]
 
       # Clear the current selection and set the cursor
-      ::tk::TextSetCursor $txtt [lindex $ranges $index]
+      $txtt cursor set [lindex $ranges $index]
 
       # Add the selection
       $txtt tag add sel {*}$ranges
@@ -694,7 +694,7 @@ namespace eval select {
     set data($txtt,dont_close) 1
     set index                  [expr {($data($txtt,anchorend) == 0) ? 0 : "end"}]
     set data($txtt,anchor)     [lindex $range $index]
-    ::tk::TextSetCursor $txtt $cursor
+    $txtt cursor set $cursor
     foreach {startpos endpos} $range {
       $txtt tag add sel $startpos $endpos
     }
