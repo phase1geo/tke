@@ -517,7 +517,7 @@ namespace eval ctext {
       }
       $win syntax highlight {*}$selected
     } else {
-      $win delete insert [list dchar -dir next]
+      $win delete cursor [list dchar -dir next]
     }
 
     return -code break
@@ -532,7 +532,7 @@ namespace eval ctext {
       return -code ok
     }
 
-    $win delete -indent 1 [list dchar -dir prev] insert
+    $win delete -indent 1 [list dchar -dir prev] cursor
 
     return -code break
 
@@ -2484,8 +2484,6 @@ namespace eval ctext {
   # closest to the start of its line.
   proc align_cursors {win} {
 
-    catch {
-
     set last_row -1
     set min_col  1000000
     set rows     [list]
@@ -2509,9 +2507,6 @@ namespace eval ctext {
       cursor_set $win {*}$cursors
     }
 
-  } rc
-  puts "align_cursors, rc: $rc"
-
   }
 
   ######################################################################
@@ -2533,13 +2528,19 @@ namespace eval ctext {
         if {$col > $max_col} {
           set max_col $col
         }
-        lappend cursors $col
+        lappend cursors $col 0
+      } else {
+        lappend cursors $col 1
       }
     }
 
     # Insert spaces to align all columns
-    foreach cursor $cursors {
-      lappend contents [list [string repeat " " [expr $max_col - $cursor]] ""]
+    foreach {cursor empty} $cursors {
+      if {$empty} {
+        lappend contents [list "" ""]
+      } else {
+        lappend contents [list [string repeat " " [expr $max_col - $cursor]] ""]
+      }
     }
 
     # Insert the contents
@@ -3463,7 +3464,7 @@ namespace eval ctext {
       }
       array set opts [lrange $args 0 [expr $i - 1]]
 
-      lassign [lrange $args $i end] contents
+      set contents [lrange $args $i end]
 
       set ranges  [list]
       set strs    [list]
