@@ -1355,11 +1355,11 @@ namespace eval vim {
   proc record_start {txtt {keysyms {}} {reg ""}} {
 
     variable recording
-    variable multiplier
+    variable number
 
     if {$recording(mode) eq "none"} {
       set recording(mode)   "record"
-      set recording(num)    $multiplier($txtt)
+      set recording(num)    $number($txtt)
       set recording(events) $keysyms
       if {($recording(curr_reg) eq "") && ($reg ne "")} {
         set recording($reg,events) [list]
@@ -1391,11 +1391,11 @@ namespace eval vim {
   proc record {txtt keysyms {reg ""}} {
 
     variable recording
-    variable multiplier
+    variable number
 
     if {$recording(mode) eq "none"} {
       set recording(events) $keysyms
-      set recording(num)    $multiplier($txtt)
+      set recording(num)    $number($txtt)
       if {$recording(curr_reg) ne ""} {
         lappend recording($reg,events) {*}$recording(events)
       }
@@ -1430,7 +1430,7 @@ namespace eval vim {
   proc playback {txtt {reg ""}} {
 
     variable recording
-    variable multiplier
+    variable number
 
     # Set the record mode to playback
     set recording(mode) "playback"
@@ -1438,10 +1438,10 @@ namespace eval vim {
     if {$reg eq ""} {
 
       # Sets the number to use prior to the sequence
-      set num [expr {($multiplier($txtt) ne "") ? $multiplier($txtt) : $recording(num)}]
+      set num [expr {($number($txtt) ne "") ? $number($txtt) : $recording(num)}]
 
-      # Clear the multiplier
-      set multiplier($txtt) ""
+      # Clear the number
+      set number($txtt) ""
 
       # Add the numerical value
       foreach event [split $num {}] {
@@ -2074,14 +2074,14 @@ namespace eval vim {
   # matching left/right partner, display the partner.
   proc handle_percent {txtt} {
 
-    variable multiplier
+    variable number
 
-    if {$multiplier($txtt) eq ""} {
+    if {$number($txtt) eq ""} {
       gui::show_match_pair
     } else {
       # FOOBAR linewise
       set lines [lindex [split [$txtt index end] .] 0]
-      set line  [expr int( ($multiplier($txtt) * $lines + 99) / 100 )]
+      set line  [expr int( ($number($txtt) * $lines + 99) / 100 )]
       return [do_operation $txtt [list linenum -num $line]]
     }
 
@@ -2646,12 +2646,12 @@ namespace eval vim {
   # FOOBAR linewise
   proc handle_G {txtt} {
 
-    variable multiplier
+    variable number
 
-    if {$multiplier($txtt) eq ""} {
+    if {$number($txtt) eq ""} {
       return [do_operation $txtt [list firstchar -startpos last]]
     } else {
-      return [do_operation $txtt [list linenum -num $multiplier($txtt)]]
+      return [do_operation $txtt [list linenum -num $number($txtt)]]
     }
 
     return 0

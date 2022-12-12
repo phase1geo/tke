@@ -74,8 +74,8 @@ namespace eval ctext {
 
     set tmp [text .__ctextTemp]
 
-    set data($win,config,-fg)                     [$tmp cget -foreground]
-    set data($win,config,-bg)                     [$tmp cget -background]
+    set data($win,config,-foreground)             [$tmp cget -foreground]
+    set data($win,config,-background)             [$tmp cget -background]
     set data($win,config,-font)                   [$tmp cget -font]
     set data($win,config,-relief)                 [$tmp cget -relief]
     set data($win,config,-insertwidth)            [$tmp cget -insertwidth]
@@ -87,8 +87,8 @@ namespace eval ctext {
     set data($win,config,-yscrollcommand)          ""
     set data($win,config,-highlightcolor)          "yellow"
     set data($win,config,-linemap)                 1
-    set data($win,config,-linemapfg)               $data($win,config,-fg)
-    set data($win,config,-linemapbg)               $data($win,config,-bg)
+    set data($win,config,-linemapfg)               $data($win,config,-foreground)
+    set data($win,config,-linemapbg)               $data($win,config,-background)
     set data($win,config,-linemap_mark_command)    {}
     set data($win,config,-linemap_markable)        1
     set data($win,config,-linemap_mark_color)      orange
@@ -115,8 +115,8 @@ namespace eval ctext {
     set data($win,config,-folding)                 0
     set data($win,config,-delimiters)              $REs(words)
     set data($win,config,-matchchar)               0
-    set data($win,config,-matchchar_bg)            $data($win,config,-fg)
-    set data($win,config,-matchchar_fg)            $data($win,config,-bg)
+    set data($win,config,-matchchar_bg)            $data($win,config,-foreground)
+    set data($win,config,-matchchar_fg)            $data($win,config,-background)
     set data($win,config,-matchaudit)              0
     set data($win,config,-matchaudit_bg)           "red"
     set data($win,config,-completematch)           1
@@ -159,13 +159,6 @@ namespace eval ctext {
 
     set data($win,fontwidth)   [font measure $data($win,config,-font) -displayof . "0"]
     set data($win,fontdescent) [font metrics $data($win,config,-font) -displayof . -descent]
-
-    foreach flag {foreground background} short {fg bg} {
-      if {[info exists data($win,config,-$flag)] == 1} {
-        set data($win,config,-$short) $data($win,config,-$flag)
-        unset data($win,config,-$flag)
-      }
-    }
 
     # Now remove flags that will confuse text and those that need
     # modification:
@@ -233,7 +226,7 @@ namespace eval ctext {
       $win.t tag lower matchchar sel
     }
     $win.t tag configure _mcursor -underline 1
-    $win.t tag configure _bcursor -foreground $data($win,config,-bg)
+    $win.t tag configure _bcursor -foreground $data($win,config,-background)
 
     bind Ctext  <Configure>                    { ctext::event:DoConfigure %W }
     bind Ctext  <<CursorChanged>>              { ctext::event:CursorChanged %W }
@@ -695,7 +688,7 @@ namespace eval ctext {
 
     if {[is_block_cursor $win]} {
       catch { $win._t tag remove _bcursor {*}[$win._t tag ranges _bcursor] } rc
-      $win._t tag configure _bcursor -background $data($win,config,-fg)
+      $win._t tag configure _bcursor -background $data($win,config,-foreground)
       foreach name [lreverse [$win._t tag names [$win._t index insert]]] {
         if {[set fg [$win._t tag cget $name -foreground]] ne ""} {
           $win._t tag configure _bcursor -background $fg
@@ -719,7 +712,7 @@ namespace eval ctext {
       if {[catch { winfo rgb $win $value } res]} {
         return -code error $res
       }
-      set data($win,config,-bg) $value
+      set data($win,config,-background) $value
       $win._t configure -bg $value
       $win._t tag configure _bcursor -foreground $value
       update_linemap_separator $win
@@ -730,7 +723,7 @@ namespace eval ctext {
       if {[catch { winfo rgb $win $value } res]} {
         return -code error $res
       }
-      set data($win,config,-fg) $value
+      set data($win,config,-foreground) $value
       $win._t configure -fg $value
       update_bcursor $win
       break
@@ -1199,7 +1192,7 @@ namespace eval ctext {
       auto {
         catch {
           set lm [winfo rgb $win $data($win,config,-linemapbg)]
-          set bg [winfo rgb $win $data($win,config,-bg)]
+          set bg [winfo rgb $win $data($win,config,-background)]
           if {$lm ne $bg} {
             grid $win.f
           } else {
@@ -4150,6 +4143,40 @@ namespace eval ctext {
         return [$win._t tag $subcmd {*}$args]
       }
     }
+
+  }
+
+  ######################################################################
+  # Sets the case to lower
+  proc transform_lower_case {win pos str opts} {
+
+    return [string tolower $str]
+
+  }
+
+  ######################################################################
+  # Sets the case to upper
+  proc transform_upper_case {win pos str opts} {
+
+    return [string toupper $str]
+
+  }
+
+  ######################################################################
+  # Sets the case to title case
+  proc transform_title_case {win pos str opts} {
+
+    return [string totitle $str]
+
+  }
+
+  ######################################################################
+  # Performs a rot13 transform of the given string
+  proc transform_rot13 {win pos str opts} {
+
+    variable rot13_map
+
+    return [string map $rot13_map $str]
 
   }
 
@@ -7623,7 +7650,7 @@ namespace eval ctext {
     }
     array set opts $optlist
 
-    return [$win index firstchar -num 0 -startpos $opts(-num).0]
+    return [list 1 [$win index firstchar -num 0 -startpos $opts(-num).0]]
 
   }
 
