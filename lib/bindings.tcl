@@ -386,7 +386,7 @@ namespace eval bindings {
 
     # If we are on a Mac, adjust the mapping
     if {[tk windowingsystem] eq "aqua"} {
-      unset mapping(Alt)
+      set mapping(Alt) "Option-"
       array set alt_mapping {
         1  "Key-exclamdown"
         3  "Key-sterling"
