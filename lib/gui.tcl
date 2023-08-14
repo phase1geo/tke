@@ -1108,7 +1108,7 @@ namespace eval gui {
 
         # Add markers
         set finfo(markers) [list]
-        foreach {mname mtxt pos} [markers::get_markers $tab] {
+        foreach {mname mtxt pos} [markers::get_markers $tab {line tag}] {
           lappend finfo(markers) $mname [lindex [split $pos .] 0]
         }
 

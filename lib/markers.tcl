@@ -117,8 +117,22 @@ namespace eval markers {
   }
 
   ######################################################################
+  # Deletes all markers associated with the given tab.
+  proc delete_by_tab {tab {include_types {line char tag}}} {
+
+    variable markers
+
+    foreach {key data} [array names markers $tab,*] {
+      if {[lsearch $include_types [lindex $data 1]] != -1} {
+        unset markers($key)
+      }
+    }
+
+  }
+
+  ######################################################################
   # Returns all of the marker names.
-  proc get_markers {{tab "*"}} {
+  proc get_markers {{tab "*"} {include_types {line char tag}}} {
 
     variable markers
 
@@ -126,7 +140,7 @@ namespace eval markers {
 
     # Get the list of all names
     foreach key [array names markers $tab,*] {
-      if {[set index [get_index_by_key $key]] ne ""} {
+      if {[set index [get_index_by_key $key $include_types]] ne ""} {
         set name [join [lassign [split $key ,] tab] ,]
         lappend data $name $tab $index
       }
@@ -138,18 +152,24 @@ namespace eval markers {
 
   ######################################################################
   # Returns the index of the given marker key.
-  proc get_index_by_key {key {tab ""}} {
+  proc get_index_by_key {key {include_types {line char tag}}} {
 
     variable markers
 
     lassign $markers($key) type value
 
+    if {[lsearch $include_types $type] == -1} {
+      return ""
+    }
+
     gui::get_info [lindex [split $key ,] 0] tab txt
 
     if {$type eq "line"} {
+      return $value.0
+    } elseif {$type eq "char"} {
       return $value
     } elseif {[set index [lindex [$txt tag ranges $value] 0]] ne ""} {
-      return [lindex [split $index .] 0]
+      return [lindex [split $index .] 0].0
     } else {
       return ""
     }
@@ -165,7 +185,7 @@ namespace eval markers {
     set key "$tab,$name"
 
     if {[info exists markers($key)]} {
-      return [get_index_by_key $key].0
+      return [get_index_by_key $key]
     } else {
       return ""
     }
@@ -186,7 +206,7 @@ namespace eval markers {
 
     foreach key [array names markers $tab,*] {
       if {[set start_line [get_index_by_key $key]] ne ""} {
-        lappend pos [expr $start_line.0 / $lines] [expr $start_line.0 / $lines] $color
+        lappend pos [expr $start_line / $lines] [expr $start_line / $lines] $color
       }
     }
 
@@ -201,7 +221,7 @@ namespace eval markers {
     variable markers
 
     foreach key [array names markers $tab,*] {
-      if {$line eq [get_index_by_key $key]} {
+      if {$line eq [lindex [split [get_index_by_key $key] .] 0]} {
         return 1
       }
     }

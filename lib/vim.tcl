@@ -167,6 +167,7 @@ namespace eval vim {
         set record ", REC\[ $recording(curr_reg) \]"
       }
       if {[info exists mode($txt.t)]} {
+        puts "In mode $mode($txt.t)"
         switch $mode($txt.t) {
           "edit"         { return [format "%s%s" [msgcat::mc "INSERT MODE"] $record] }
           "visual:char"  { return [format "%s%s" [msgcat::mc "VISUAL MODE"] $record] }
@@ -1022,6 +1023,10 @@ namespace eval vim {
     unset -nocomplain modeline($txt.t)
     unset -nocomplain findchar($txt.t)
 
+    # Remove all of the markers associated with this tab
+    set tab [gui::get_info txt $txt tab]
+    markers::delete_by_tab $tab {char}
+
   }
 
   ######################################################################
@@ -1604,6 +1609,7 @@ namespace eval vim {
     }
 
     # Handle the command
+    puts "Calling handle_$keysym"
     if {[info procs handle_$keysym] ne ""} {
       if {![catch { handle_$keysym $txtt } rc] && $rc} {
         return -code $retcode 1
@@ -1694,6 +1700,85 @@ namespace eval vim {
     }
 
     return -code error "Unexpected playback register"
+
+  }
+
+  ######################################################################
+  # Called by handle_any when the current mode is mark.  Creates a marker
+  # for the given character.
+  proc do_mode_mark {txtt keysym char} {
+
+    # Set the mode to command
+    command_mode $txtt
+
+    # Create the marker within the current file
+    if {[regexp {[a-z]} $char]} {
+      set tab [gui::get_info {} current tab]
+      markers::add $tab char [$txtt index insert] $char
+
+    # Create the marker between files
+    } elseif {[regexp {[A-Z]} $char]} {
+      foreach {name tab pos} [markers::get_markers * {char}] {
+        if {$name eq $char} {
+          markers::add $tab char [$txtt index insert] $char
+          return
+        }
+      }
+
+      set tab [gui::get_info {} current tab]
+      markers::add $tab char [$txtt index insert] $char
+    }
+
+  }
+
+  ######################################################################
+  # Comman method used to either jump to a given mark or perform an
+  # operation (if operator is not null).
+  proc gotomark {txtt type char} {
+
+    variable operator
+
+    if {[regexp {[a-zA-Z]} $char]} {
+      set tab   [gui::get_info {} current tab]
+      set index [markers::get_index $tab $char]
+      if {$type eq "line"} {
+        set index [$txtt index firstchar -startpos $index]
+      }
+    }
+
+    # If we could not find this mark, exit
+    if {$index eq ""} {
+      command_mode $txtt
+      return 0
+
+    # Otherwise, if we are not executing an operator, set the cursor and exit
+    } elseif {$operator($txtt) eq ""} {
+      set_cursor $txtt $index
+      command_mode $txtt
+      return 1
+
+    # Otherwise, if we are executing an operation, go ahead and execute it now
+    } else {
+      return [do_operation $txtt [list cursor -startpos $index]]
+    }
+
+  }
+
+  ######################################################################
+  # Jumps to the mark specified by the given character.
+  proc do_mode_gotomark_char {txtt keysym char} {
+
+    return [gotomark $txtt char $char]
+
+  }
+
+  ######################################################################
+  # Jumps to the mark specified by the given character.
+  proc do_mode_gotomark_line {txtt keysym char} {
+
+    puts "In do_mode_gotomark_line, char: $char"
+
+    return [gotomark $txtt line $char]
 
   }
 
@@ -3136,6 +3221,8 @@ namespace eval vim {
   # the multicursors instead of the standard cursor.
   proc handle_m {txtt} {
 
+    variable mode
+    variable operator
     variable motion
 
     if {[$txtt cursor enabled]} {
@@ -3143,6 +3230,13 @@ namespace eval vim {
     } elseif {$motion($txtt) eq "g"} {
       # FOOBAR exclusive
       return [do_operation $txtt dispmid]
+    } elseif {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          set mode($txtt) "mark"
+          return 1
+        }
+      }
     }
 
     return 0
@@ -3464,19 +3558,39 @@ namespace eval vim {
 
   ######################################################################
   # Handles single-quote object selection.
-  proc handle_quoteright {txtt} {
+  proc handle_apostrophe {txtt} {
 
-    # FOOBAR In visual mode, do characterwise
-    return [do_object_operation $txtt single]
+    variable mode
+    variable motion
+
+    puts "In handle_quoteright, motion: $motion($txtt)"
+
+    if {$motion($txtt) eq ""} {
+      set mode($txtt) "gotomark_line"
+      return 1
+    } else {
+      # FOOBAR In visual mode, do characterwise
+      return [do_object_operation $txtt single]
+    }
 
   }
 
   ######################################################################
   # Handle a` and i` Vim motions.
-  proc handle_quoteleft {txtt} {
+  proc handle_grave {txtt} {
 
-    # FOOBAR In visual mode, do characterwise
-    return [do_object_operation $txtt btick]
+    variable mode
+    variable motion
+
+    puts "In handle_quoteleft, motion: $motion($txtt)"
+
+    if {$motion($txtt) eq ""} {
+      set mode($txtt) "gotomark_char"
+      return 1
+    } else {
+      # FOOBAR In visual mode, do characterwise
+      return [do_object_operation $txtt btick]
+    }
 
   }
 
