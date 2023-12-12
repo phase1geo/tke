@@ -269,6 +269,10 @@ namespace eval sessions {
 
     variable current_name
 
+    # Clear the UI
+    gui::close_all
+    sidebar::clear
+
     # Clear the current name
     set current_name ""
 
