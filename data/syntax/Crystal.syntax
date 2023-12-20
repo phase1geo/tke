@@ -1,0 +1,113 @@
+filepatterns
+{*.cr}
+
+vimsyntax
+{}
+
+reference {
+  {{Language Reference} https://crystal-lang.org/reference/1.10/syntax_and_semantics/index.html}
+}
+
+embedded {}
+
+delimiters
+{}
+
+matchcharsallowed
+{square curly paren single double}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent {}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+strings {single double btick}
+
+keywords
+{
+  __LINE__ __END_LINE__ __FILE__ __DIR__
+  abstract alias annotation as
+  begin break
+  case class
+  def do
+  else elsif end ensure enum extend
+  for fun
+  if in include instance_sizeof is_a
+  lib
+  macro module
+  next
+  of offsetof out
+  pointerof protected private
+  require rescue responds_to return
+  self sizeof struct super
+  then type typeof
+  union unless uninitialized until
+  verbatim
+  when while with
+  yield
+}
+ 
+symbols
+{
+  HighlightKeywords {
+    def
+  } syntax::get_syntax_symbol
+}
+
+functions {}
+
+variables {}
+
+numbers {
+  HighlightRegexp {\m(nil|true|false|[0-9_]+([iu](8|16|32|64|128))?|0b[0-1]+|0o[0-7]+|0x[0-9a-fA-F]+|[0-9_]*\.[0-9_]*(f(32|64))?)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}\(\)\^/+*?@=_&!\~<>:;%,\.\|-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    getter
+    loop
+    print property puts
+    raise rand record
+  } {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    Extern ThreadLocal AlwaysInline NoInline Packed ReturnsTwice CallConvention Raises Flags Link
+  } {}
+}
+
+miscellaneous3 {
+}
+
+highlighter {}
+
+meta {}
+
+advanced {}
+
+formatting {}
