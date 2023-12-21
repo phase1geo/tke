@@ -1,0 +1,111 @@
+filepatterns
+{*.racket}
+
+vimsyntax
+{}
+
+reference {}
+
+embedded
+{
+  {Tcl {{HighlightProc HighlightEndProc} {TclBegin TclEnd}}}
+}
+
+delimiters
+{}
+
+matchcharsallowed
+{paren angled square}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+indent
+{\\(}
+
+unindent
+{\\)}
+
+reindent {}
+
+icomment {{;}}
+
+lcomments {{;}}
+
+strings {double}
+
+keywords
+{
+  abs acos add1 and angle append argmax asin atan
+  begin begin0 bitwise block boolean box
+  case ceiling complex cond conjugate cons cos cosh
+  define denominator derived display displayln do
+  else eq equal eqv error eval even exact exp expt
+  first fixnum flonum floor fold foldr for force
+  gcd
+  hash hasheq hasheqv hashalw
+  if immutable implies inexact infinite init-rest integer ior
+  lambda last lcm list listof lists let local log loop
+  magnitude map max mcons member min module modulo
+  nan nand natural new nor not number numerator
+  odd or
+  parameterize pi positive printf product provide
+  quasiquote quote quotient
+  random rational rationalize read real recur remainder require round
+  sequence set sgn shared shift sin sinh sort sqr sqrt string struct sub1 substring sum
+  tan tanh truncate
+  unbox unless unquote
+  values vector void
+  when
+  xor
+  zero
+}
+ 
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[\(\)<>=!:`',@]} {}
+}
+
+precompile {
+  HighlightKeywords {
+    HighlightClass HighlightKeywords HighlightRegexp HighlightCharStart
+    HighlightProc HighlightEndProc TclBegin TclEnd
+  } {}
+}
+
+miscellaneous1 {
+  HighlightRegexp {#:\w+} {}
+}
+
+miscellaneous2 {
+  HighlightRegexp {#\w+} {}
+}
+
+miscellaneous3 {
+  HighlightKeywords {
+    bold italics underline strikethrough highlight superscript subscript code
+    header1 header2 header3 header4 header5 header6 unordered ordered checkbox
+    link image
+  }
+}
+
+highlighter {}
+
+meta {}
+
+advanced {}
+
+formatting {}
