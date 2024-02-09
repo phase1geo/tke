@@ -429,8 +429,12 @@ namespace eval sidebar {
 
     variable widgets
 
+    # Remove everything in the sidebar
     $widgets(tl) delete [$widgets(tl) children {}]
 
+    # We don't need to show the information panel
+    close_info_panel ""
+    
   }
 
   ######################################################################
