@@ -4697,7 +4697,7 @@ namespace eval ctext {
       if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
       lassign [$win._t dlineinfo $line.0] x y w h b
       set ltags   [$win.t tag names $line.0]
-      set linenum [expr abs( $line - $curr )]
+      set linenum [expr ($line eq $curr) ? $line : abs( $line - $curr )]
       set marked  [expr {[lsearch -glob $ltags lmark*] != -1}]
       set fill    [expr {$marked ? $lmark : $normal}]
       set y       [expr $y + $b + $descent]
